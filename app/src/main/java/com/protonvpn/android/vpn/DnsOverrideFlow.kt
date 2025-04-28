@@ -21,6 +21,7 @@ package com.protonvpn.android.vpn
 
 import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.mapState
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
@@ -57,17 +58,21 @@ class DnsOverrideFlow(
     ) : this(
         combine(
             isPrivateDnsActiveFlow,
-            settingsForConnection.getFlowForCurrentConnection().map { it.connectionSettings.customDns.effectiveEnabled }
-        ) { privateDns, customDns ->
-            when {
-                privateDns -> DnsOverride.SystemPrivateDns
-                customDns -> DnsOverride.CustomDns
-                else -> DnsOverride.None
-            }
-        }
+            settingsForConnection.getFlowForCurrentConnection().map { it.connectionSettings },
+            ::getDnsOverride
+        )
     )
 
     override suspend fun collect(collector: FlowCollector<DnsOverride>) {
         flow.collect(collector)
+    }
+}
+
+fun getDnsOverride(isPrivateDnsActive: Boolean, effectiveSettings: LocalUserSettings): DnsOverride {
+    val isCustomDnsActive = effectiveSettings.customDns.effectiveEnabled
+    return when {
+        isPrivateDnsActive -> DnsOverride.SystemPrivateDns
+        isCustomDnsActive -> DnsOverride.CustomDns
+        else -> DnsOverride.None
     }
 }

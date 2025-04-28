@@ -302,7 +302,7 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
     private val netshield = SettingsViewModel.SettingViewState.NetShield(
         netShieldEnabled = true,
         isRestricted = isFree,
-        overrideProfilePrimaryLabel = overrideInfo?.primaryLabel,
+        profileOverrideInfo = overrideInfo,
         dnsOverride = if (isPrivateDnsActive) DnsOverride.SystemPrivateDns else DnsOverride.None
     )
     private val vpnAccelerator = SettingsViewModel.SettingViewState.VpnAccelerator(true, isFree)

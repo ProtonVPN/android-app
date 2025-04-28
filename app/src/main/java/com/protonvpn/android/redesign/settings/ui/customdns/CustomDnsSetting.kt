@@ -327,7 +327,9 @@ fun CustomDnsScreen(
                     EmptyState(
                         dnsDescription = dnsViewState.descriptionRes,
                         onLearnMore = onLearnMore,
-                        modifier = largeScreenModifier.weight(1f)
+                        modifier = largeScreenModifier
+                            .weight(1f)
+                            .fillMaxWidth()
                     )
                 }
             }

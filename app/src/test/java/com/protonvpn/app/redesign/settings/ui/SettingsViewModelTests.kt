@@ -29,14 +29,19 @@ import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.managed.ManagedConfig
+import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.ProfilesDao
+import com.protonvpn.android.profiles.data.toProfile
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.settings.ui.SettingValue
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
@@ -44,8 +49,8 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.vpn.DnsOverride
-import com.protonvpn.android.vpn.DnsOverrideFlow
+import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
+import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
@@ -56,6 +61,9 @@ import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser
+import com.protonvpn.test.shared.createProfileEntity
+import com.protonvpn.test.shared.createServer
+import com.protonvpn.test.shared.createSettingsOverrides
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -64,7 +72,6 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -81,6 +88,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
@@ -102,8 +110,6 @@ class SettingsViewModelTests {
     private lateinit var mockInstalledAppsProvider: InstalledAppsProvider
 
     @RelaxedMockK
-    private lateinit var mockGetQuickIntent: GetConnectIntentViewState
-    @RelaxedMockK
     private lateinit var mockRecentManager: RecentsManager
     @RelaxedMockK
     private lateinit var isFido2Enabled: IsFido2Enabled
@@ -114,6 +120,7 @@ class SettingsViewModelTests {
     @RelaxedMockK
     private lateinit var mockWidgetManager: WidgetManager
 
+    private lateinit var isPrivateDnsActive: MutableStateFlow<Boolean>
     private lateinit var effectiveSettings: EffectiveCurrentUserSettings
     private lateinit var settingsForConnection: SettingsForConnection
     private lateinit var settingsManager: CurrentUserLocalSettingsManager
@@ -164,7 +171,12 @@ class SettingsViewModelTests {
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         settingsForConnection = SettingsForConnection(effectiveSettings, mockProfilesDao, vpnStatusProviderUI)
 
-        val dnsOverride = MutableStateFlow<DnsOverride>(DnsOverride.None)
+        val getConnectIntentViewState = GetConnectIntentViewState(
+            serverManager = mockk(),
+            translator = mockk(),
+            getProfileById = mockProfilesDao::getProfileById,
+        )
+        isPrivateDnsActive = MutableStateFlow(false)
         settingsViewModel = SettingsViewModel(
             currentUser,
             mockObserveUserSettings,
@@ -173,7 +185,7 @@ class SettingsViewModelTests {
             vpnStatusProviderUI,
             mockRecentManager,
             mockInstalledAppsProvider,
-            mockGetQuickIntent,
+            getConnectIntentViewState,
             mockAppIconManager,
             ManagedConfig(MutableStateFlow(null)),
             isFido2Enabled,
@@ -182,7 +194,7 @@ class SettingsViewModelTests {
             prefs,
             isIPv6FeatureFlagEnabled,
             isCustomDnsEnabled,
-            DnsOverrideFlow(dnsOverride),
+            IsPrivateDnsActiveFlow(isPrivateDnsActive),
         )
     }
 
@@ -228,6 +240,58 @@ class SettingsViewModelTests {
         testUserProvider.vpnUser = businessEssentialUser
         val state = settingsViewModel.viewState.first()
         assertNull(state.netShield)
+    }
+
+    @Test
+    fun `netshield conflict shown when custom DNS enabled in profile`() = testScope.runTest {
+        val intent = ConnectIntent.FastestInCountry(
+            country = CountryId.fastest,
+            features = emptySet(),
+            profileId = 1L,
+            settingsOverrides = createSettingsOverrides(
+                netShield = NetShieldProtocol.ENABLED_EXTENDED,
+                customDns = CustomDnsSettings(toggleEnabled = true, rawDnsList = listOf("1.1.1.1")),
+            )
+        )
+        val profile = createProfileEntity(1L, name = "Profile 1", connectIntent = intent).toProfile()
+        coEvery { mockProfilesDao.getProfileById(1L) } returns profile
+        every { mockProfilesDao.getProfileByIdFlow(1L) } returns flowOf(profile)
+        val connectionParams = createConnectionParams(intent)
+
+        isPrivateDnsActive.value = false
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
+
+        val state = settingsViewModel.viewState.first()
+        assertIs<SettingValue.SettingOverrideValue>(state.netShield?.settingValueView)
+        assertEquals(
+            "Profile 1",
+            state.netShield?.settingValueView?.connectIntentPrimaryLabel?.name
+        )
+        assertEquals(R.string.netshield_state_unavailable, state.netShield?.settingValueView?.subtitleRes)
+    }
+
+    @Test
+    fun `netshield conflict shows no profile override when Private DNS is active`() = testScope.runTest {
+        val intent = ConnectIntent.FastestInCountry(
+            country = CountryId.fastest,
+            features = emptySet(),
+            profileId = 1L,
+            settingsOverrides = createSettingsOverrides(
+                netShield = NetShieldProtocol.ENABLED_EXTENDED,
+                customDns = CustomDnsSettings(toggleEnabled = true, rawDnsList = listOf("1.1.1.1")),
+            )
+        )
+        val profile = createProfileEntity(1L, name = "Profile 1", connectIntent = intent).toProfile()
+        coEvery { mockProfilesDao.getProfileById(1L) } returns profile
+        every { mockProfilesDao.getProfileByIdFlow(1L) } returns flowOf(profile)
+        val connectionParams = createConnectionParams(intent)
+
+        isPrivateDnsActive.value = true
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
+
+        val state = settingsViewModel.viewState.first()
+        assertIs<SettingValue.SettingStringRes>(state.netShield?.settingValueView)
+        assertEquals(R.string.netshield_state_unavailable, state.netShield?.settingValueView?.subtitleRes)
     }
 
     @Test
@@ -285,5 +349,15 @@ class SettingsViewModelTests {
         assertEquals(expectedTitle, settingState.titleRes)
         assertEquals(expectedSettingValue, settingState.settingValueView)
         assertEquals(expectedIsRestricted, settingState.isRestricted)
+    }
+
+    private fun createConnectionParams(intent: ConnectIntent): ConnectionParams {
+        val server = createServer()
+        return ConnectionParams(
+            connectIntent = intent,
+            server = server,
+            connectingDomain = server.connectingDomains.first(),
+            protocol = null,
+        )
     }
 }

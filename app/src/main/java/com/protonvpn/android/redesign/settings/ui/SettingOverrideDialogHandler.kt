@@ -241,7 +241,7 @@ fun PreviewOverrideLabel() {
         ProfileOverrideView(
             profileOverrideInfo = SettingsViewModel.ProfileOverrideInfo(
                 connectIntentLabel,
-                "profile"
+                "profile",
             )
         )
         Spacer(Modifier.height(16.dp))

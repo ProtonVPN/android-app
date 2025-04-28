@@ -47,7 +47,7 @@ fun NetshieldSettingPage() {
             netShield = SettingsViewModel.SettingViewState.NetShield(
                 netShieldEnabled = true,
                 isRestricted = false,
-                overrideProfilePrimaryLabel = null,
+                profileOverrideInfo = null,
                 dnsOverride = DnsOverride.None,
             ),
         )
@@ -69,7 +69,7 @@ fun NetshieldPrivateDnsSettingPage() {
             netShield = SettingsViewModel.SettingViewState.NetShield(
                 netShieldEnabled = true,
                 isRestricted = false,
-                overrideProfilePrimaryLabel = null,
+                profileOverrideInfo = null,
                 dnsOverride = DnsOverride.SystemPrivateDns,
             ),
         )
@@ -91,7 +91,7 @@ fun NetshieldCustomDnsSettingPage() {
             netShield = SettingsViewModel.SettingViewState.NetShield(
                 netShieldEnabled = true,
                 isRestricted = false,
-                overrideProfilePrimaryLabel = null,
+                profileOverrideInfo = null,
                 dnsOverride = DnsOverride.CustomDns,
             ),
         )
