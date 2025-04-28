@@ -115,7 +115,7 @@ detekt analysis:
 export archive name:
   stage: prepare
   tags:
-    - shared-medium
+    - shared-large
   script:
     - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
     - echo ${ARCHIVES_BASE_NAME}
