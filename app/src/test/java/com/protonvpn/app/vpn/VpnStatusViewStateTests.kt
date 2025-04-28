@@ -24,7 +24,6 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.netshield.NetShieldViewState
-import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.StatusBanner
@@ -39,6 +38,7 @@ import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -70,8 +70,6 @@ class VpnStatusViewStateFlowTest {
 
     @MockK
     private lateinit var vpnConnectionManager: VpnConnectionManager
-    @MockK
-    private lateinit var mockProfilesDao: ProfilesDao
 
     private lateinit var testUserProvider: TestCurrentUserProvider
     private lateinit var testScope: TestScope
@@ -118,7 +116,7 @@ class VpnStatusViewStateFlowTest {
         dnsOverrideFlow = MutableStateFlow(DnsOverride.None)
         val effectiveUserSettings =
             EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
-        val settingsForConnection = SettingsForConnection(effectiveUserSettings, mockProfilesDao, vpnStatusProviderUi)
+        val settingsForConnection = SettingsForConnection(effectiveUserSettings, FakeGetProfileById(), vpnStatusProviderUi)
         vpnStatusViewStateFlow = VpnStatusViewStateFlow(
             vpnStatusProviderUi,
             serverListUpdaterPrefs,
