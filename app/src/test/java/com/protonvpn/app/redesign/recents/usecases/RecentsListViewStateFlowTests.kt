@@ -57,6 +57,7 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -78,7 +79,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -121,7 +121,7 @@ class RecentsListViewStateFlowTests {
         createServer("4", exitCountry = "pl", entryCountry = "ch", isSecureCore = true, tier = 2)
 
     private lateinit var viewStateFlow: RecentsListViewStateFlow
-    private lateinit var profiles: MutableMap<Long, Profile>
+    private lateinit var profiles: FakeGetProfileById
 
     @Before
     fun setup() {
@@ -134,7 +134,6 @@ class RecentsListViewStateFlowTests {
         testScope = TestScope(testDispatcher)
         Dispatchers.setMain(testDispatcher) // Remove this when ServerManager no longer uses asLiveData().
         val currentUser = CurrentUser(currentUserProvider)
-        val clock = { testCoroutineScheduler.currentTime }
         val bgScope = testScope.backgroundScope
 
         vpnStateMonitor = VpnStateMonitor()
@@ -162,10 +161,10 @@ class RecentsListViewStateFlowTests {
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
         val getIntentAvailability = GetIntentAvailability(serverManager2, supportsProtocol)
         val translator = Translator(testScope.backgroundScope, serverManager)
-        profiles = mutableMapOf<Long, Profile>()
+        profiles = FakeGetProfileById()
         viewStateFlow = RecentsListViewStateFlow(
             mockRecentsManager,
-            GetConnectIntentViewState(serverManager2, translator, getProfileById = { profiles[it] }),
+            GetConnectIntentViewState(serverManager2, translator, getProfileById = profiles),
             serverManager2,
             effectiveUserSettings,
             getIntentAvailability,
@@ -361,7 +360,7 @@ class RecentsListViewStateFlowTests {
 
     @Test
     fun profileNameIsShownInConnectionCard() = testScope.runTest {
-        profiles[ProfileRecent.profile.info.id] = ProfileRecent.profile
+        profiles.set(ProfileRecent.profile)
         coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(ProfileRecent)
         coEvery { mockRecentsManager.getRecentById(any()) } answers { ProfileRecent }
 

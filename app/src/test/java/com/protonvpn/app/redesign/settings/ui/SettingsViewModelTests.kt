@@ -55,6 +55,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
+import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.mocks.FakeIsCustomDnsEnabled
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
@@ -114,14 +115,13 @@ class SettingsViewModelTests {
     @RelaxedMockK
     private lateinit var isFido2Enabled: IsFido2Enabled
     @RelaxedMockK
-    private lateinit var mockProfilesDao: ProfilesDao
-    @RelaxedMockK
     private lateinit var observeRegisteredSecurityKeys: ObserveRegisteredSecurityKeys
     @RelaxedMockK
     private lateinit var mockWidgetManager: WidgetManager
 
-    private lateinit var isPrivateDnsActive: MutableStateFlow<Boolean>
     private lateinit var effectiveSettings: EffectiveCurrentUserSettings
+    private lateinit var isPrivateDnsActive: MutableStateFlow<Boolean>
+    private lateinit var getProfileById: FakeGetProfileById
     private lateinit var settingsForConnection: SettingsForConnection
     private lateinit var settingsManager: CurrentUserLocalSettingsManager
     private lateinit var testScope: TestScope
@@ -169,12 +169,13 @@ class SettingsViewModelTests {
         )
         vpnStateMonitor = VpnStateMonitor()
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
-        settingsForConnection = SettingsForConnection(effectiveSettings, mockProfilesDao, vpnStatusProviderUI)
+        getProfileById = FakeGetProfileById()
+        settingsForConnection = SettingsForConnection(effectiveSettings, getProfileById, vpnStatusProviderUI)
 
         val getConnectIntentViewState = GetConnectIntentViewState(
             serverManager = mockk(),
             translator = mockk(),
-            getProfileById = mockProfilesDao::getProfileById,
+            getProfileById = getProfileById,
         )
         isPrivateDnsActive = MutableStateFlow(false)
         settingsViewModel = SettingsViewModel(
@@ -254,8 +255,7 @@ class SettingsViewModelTests {
             )
         )
         val profile = createProfileEntity(1L, name = "Profile 1", connectIntent = intent).toProfile()
-        coEvery { mockProfilesDao.getProfileById(1L) } returns profile
-        every { mockProfilesDao.getProfileByIdFlow(1L) } returns flowOf(profile)
+        getProfileById.set(profile)
         val connectionParams = createConnectionParams(intent)
 
         isPrivateDnsActive.value = false
@@ -282,8 +282,7 @@ class SettingsViewModelTests {
             )
         )
         val profile = createProfileEntity(1L, name = "Profile 1", connectIntent = intent).toProfile()
-        coEvery { mockProfilesDao.getProfileById(1L) } returns profile
-        every { mockProfilesDao.getProfileByIdFlow(1L) } returns flowOf(profile)
+        getProfileById.set(profile)
         val connectionParams = createConnectionParams(intent)
 
         isPrivateDnsActive.value = true

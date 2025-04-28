@@ -33,7 +33,6 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.netshield.NetShieldStats
-import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
@@ -52,6 +51,7 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.mocks.FakeVpnPermissionDelegate
 import com.protonvpn.mocks.FakeVpnUiDelegate
 import com.protonvpn.mocks.TestProtonLogger
@@ -102,8 +102,6 @@ class GuestHoleVpnConnectionManagerTests {
     private lateinit var mockWakeLock: PowerManager.WakeLock
     @MockK
     private lateinit var mockVpnErrorHandler: VpnConnectionErrorHandler
-    @MockK
-    private lateinit var mockProfilesDao: ProfilesDao
 
     private lateinit var guestHole: GuestHole
     private lateinit var serverManager: ServerManager
@@ -149,7 +147,7 @@ class GuestHoleVpnConnectionManagerTests {
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = fakeVpnPermissionDelegate,
             getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags())),
-            settingsForConnection = SettingsForConnection(effectiveSettings, mockProfilesDao, vpnStatusUiProvider),
+            settingsForConnection = SettingsForConnection(effectiveSettings, FakeGetProfileById(), vpnStatusUiProvider),
             backendProvider = mockBackendProvider,
             networkManager = networkManager,
             vpnErrorHandler = mockVpnErrorHandler,

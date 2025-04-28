@@ -46,6 +46,7 @@ import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.profiles.data.profileSettingsOverrides
+import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.ProtocolSelectionData
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
@@ -317,7 +318,8 @@ class VpnConnectionTestsIntegration {
             builtInGuestHoles = MockedServers.serverList.filter { supportsProtocol(it, GuestHole.PROTOCOL) }
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
-        manager = VpnConnectionManager(permissionDelegate, getFeatureFlags, SettingsForConnection(userSettings, profilesDao, vpnStatusProviderUI),
+        val settingsForConnection = SettingsForConnection(userSettings, GetProfileByIdImpl(profilesDao), vpnStatusProviderUI)
+        manager = VpnConnectionManager(permissionDelegate, getFeatureFlags, settingsForConnection,
             backendProvider, networkManager, vpnErrorHandler, monitor, mockVpnBackgroundUiDelegate,
             serverManager2, certificateRepository, scope.backgroundScope, clock, mockk(relaxed = true),
             currentUser, supportsProtocol, mockk(relaxed = true), vpnConnectionTelemetry, mockk(relaxed = true),
@@ -1032,7 +1034,7 @@ class VpnConnectionTestsIntegration {
             networkManager,
             NetworkCapabilitiesFlow(networkCapabilitiesFlow),
             certificateRepository,
-            SettingsForConnection(userSettings, profileDao, vpnStatusProviderUI),
+            SettingsForConnection(userSettings, GetProfileByIdImpl(profileDao), vpnStatusProviderUI),
             protocol,
             mockLocalAgentUnreachableTracker,
             currentUser,

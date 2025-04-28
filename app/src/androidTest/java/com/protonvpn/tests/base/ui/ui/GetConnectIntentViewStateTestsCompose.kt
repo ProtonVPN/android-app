@@ -40,6 +40,7 @@ import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.testRules.setVpnContent
 import io.mockk.MockKAnnotations
@@ -102,7 +103,7 @@ class GetConnectIntentViewStateTestsCompose : FusionComposeTest() {
     private val switzerland = CountryId("ch")
     private val poland = CountryId("pl")
 
-    private lateinit var profiles: MutableMap<Long, Profile>
+    private lateinit var profiles: FakeGetProfileById
 
     @Before
     fun setup() {
@@ -116,8 +117,8 @@ class GetConnectIntentViewStateTestsCompose : FusionComposeTest() {
         every { mockTranslator.getCity(any()) } answers { firstArg() }
         every { mockTranslator.getState(any()) } answers { firstArg() }
 
-        profiles = mutableMapOf()
-        getConnectIntentViewState = GetConnectIntentViewState(mockServerManager, mockTranslator, getProfileById = { profiles[it] })
+        profiles = FakeGetProfileById()
+        getConnectIntentViewState = GetConnectIntentViewState(mockServerManager, mockTranslator, profiles)
     }
 
     @Test
@@ -481,7 +482,7 @@ class GetConnectIntentViewStateTestsCompose : FusionComposeTest() {
             userId = UserId("dummy id"),
             autoOpen = ProfileAutoOpen.None(""),
         )
-        profiles += profile.info.id to profile
+        profiles.set(profile)
         setConnectIntentRowComposable(profile.connectIntent, isFreeUser = false)
     }
 

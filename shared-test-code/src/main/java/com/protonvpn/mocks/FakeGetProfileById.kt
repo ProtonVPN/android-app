@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Proton AG
+ * Copyright (c) 2025. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,21 +17,25 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.profiles.usecases
+package com.protonvpn.mocks
 
 import com.protonvpn.android.profiles.data.Profile
-import com.protonvpn.android.profiles.data.ProfilesDao
-import dagger.Reusable
+import com.protonvpn.android.profiles.usecases.GetProfileById
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 
-interface GetProfileById {
-    suspend operator fun invoke(id: Long): Profile?
-    fun observe(id: Long): Flow<Profile?>
-}
+class FakeGetProfileById : GetProfileById {
 
-@Reusable
-class GetProfileByIdImpl @Inject constructor(private val profilesDao: ProfilesDao) : GetProfileById {
-    override suspend fun invoke(id: Long): Profile? = profilesDao.getProfileById(id)
-    override fun observe(id: Long): Flow<Profile?> = profilesDao.getProfileByIdFlow(id)
+    private val profiles = MutableStateFlow<List<Profile>>(emptyList())
+
+    fun set(vararg profiles: Profile) {
+        this.profiles.value = profiles.toList()
+    }
+
+    override suspend fun invoke(id: Long): Profile? = profiles.value.findById(id)
+
+    override fun observe(id: Long): Flow<Profile?> = profiles.map { profiles -> profiles.findById(id) }
+
+    private fun List<Profile>.findById(id: Long) = find { it.info.id == id }
 }

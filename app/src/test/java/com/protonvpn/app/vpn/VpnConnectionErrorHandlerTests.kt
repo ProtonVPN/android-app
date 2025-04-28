@@ -39,7 +39,6 @@ import com.protonvpn.android.models.vpn.ServerEntryInfo
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -67,6 +66,7 @@ import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -130,7 +130,6 @@ class VpnConnectionErrorHandlerTests {
     @RelaxedMockK private lateinit var userPlanManager: UserPlanManager
     @MockK private lateinit var appConfig: AppConfig
     @MockK private lateinit var serverManager2: ServerManager2
-    @MockK private lateinit var mockProfilesDao: ProfilesDao
     @RelaxedMockK private lateinit var serverListUpdater: ServerListUpdater
     @RelaxedMockK private lateinit var networkManager: NetworkManager
     @RelaxedMockK private lateinit var vpnBackendProvider: VpnBackendProvider
@@ -198,7 +197,7 @@ class VpnConnectionErrorHandlerTests {
         val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, userSettingsFlow)
         getOnlineServersForIntent = GetOnlineServersForIntent(serverManager2, supportsProtocol)
         handler = VpnConnectionErrorHandler(testScope.backgroundScope, api, appConfig,
-            SettingsForConnection(userSettings, mockProfilesDao, vpnStatusProviderUI), userPlanManager, serverManager2, vpnStateMonitor, serverListUpdater,
+            SettingsForConnection(userSettings, FakeGetProfileById(), vpnStatusProviderUI), userPlanManager, serverManager2, vpnStateMonitor, serverListUpdater,
             networkManager, vpnBackendProvider, currentUser, getConnectingDomain, getOnlineServersForIntent, testScope::currentTime, errorUIManager)
     }
 

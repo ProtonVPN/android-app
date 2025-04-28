@@ -20,7 +20,7 @@
 package com.protonvpn.android.redesign.vpn.usecases
 
 import com.protonvpn.android.profiles.data.Profile
-import com.protonvpn.android.profiles.data.ProfilesDao
+import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -41,7 +41,7 @@ import javax.inject.Singleton
 @Reusable
 class SettingsForConnection @Inject constructor(
     private val settings: EffectiveCurrentUserSettings,
-    private val profilesDao: ProfilesDao,
+    private val getProfileById: GetProfileById,
     vpnStatusProviderUI: VpnStatusProviderUI,
 ) {
     suspend fun getFor(intent: AnyConnectIntent?) : LocalUserSettings =
@@ -69,7 +69,7 @@ class SettingsForConnection @Inject constructor(
                 }
             } else {
                 combine(
-                    profilesDao.getProfileByIdFlow(profileId),
+                    getProfileById.observe(profileId),
                     settings.effectiveSettings
                 ) { profile, effectiveSettings ->
                     CurrentConnectionSettings(
