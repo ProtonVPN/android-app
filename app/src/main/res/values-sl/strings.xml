@@ -89,7 +89,7 @@
     <string name="done">KONČANO</string>
     <string name="add">Dodaj</string>
     <string name="copy_to_clipboard">Kopiraj</string>
-    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="copied_to_clipboard">Kopirano v odložišče</string>
     <string name="got_it">Razumem</string>
     <string name="something_went_wrong">Nekaj je šlo narobe</string>
     <string name="try_again">Poskusite ponovno</string>
@@ -128,19 +128,19 @@
     <string name="inputIpAddressErrorInvalid">Neveljaven IP naslov</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NOVO</string>
-    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Izključeni naslovi IP (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Vključeni naslovi IP (%1$d)</string>
     <string name="settingsExcludedApps">Excluded apps</string>
     <string name="settingsExcludedAppsEmpty">Dodajte aplikacije, ki jih želite izključiti iz prometa VPN.</string>
     <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
-    <string name="settingsExcludedAppsSelectedHeader">Excluded apps (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Izključene applikacije (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Vključene applikacije (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Vse druge sistemske aplikacije (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">All other apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Pokaži sistemske aplikacije</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Pokaži sistemske aplikacije</string>
-    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Te aplikacije so izključene iz vaše povezave VPN.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
@@ -148,7 +148,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Add to excluded apps</string>
+    <string name="accessibility_action_add_excluded_app">Dodaj med izvzete applikacije</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -162,7 +162,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Add to included apps</string>
+    <string name="accessibility_action_add_included_app">Dodaj med vključene aplikacije</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -171,9 +171,9 @@
     -->
     <string name="accessibility_action_remove_included_app">Remove from included apps</string>
     <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
-    <string name="accessibility_action_item_delete">Delete</string>
-    <string name="accessibility_action_item_move_up">Move up</string>
-    <string name="accessibility_action_item_move_down">Move down</string>
+    <string name="accessibility_action_item_delete">Izbriši</string>
+    <string name="accessibility_action_item_move_up">Premakni gor</string>
+    <string name="accessibility_action_item_move_down">Premakni navzdol</string>
     <string name="tileConnected">Povezano: %1$s</string>
     <string name="openUrlError">%1$s ni bilo mogoče odpreti. Na vaši napravi ni zaznati spletnega brskalnika.</string>
     <string name="loaderErrorTimeout">Povezava je potekla, prosimo poskusite znova.</string>
@@ -222,7 +222,7 @@
     <string name="learn_more">Izvedi več</string>
     <string name="netshield_state_on" comment="Describes state, not action">Vključeno</string>
     <string name="netshield_state_off" comment="Describes state, not action">Izključeno</string>
-    <string name="netshield_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Ni na voljo</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Vključeno</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Izključeno</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">Vključeno</string>
@@ -231,9 +231,9 @@
     <string name="lan_state_off" comment="Describes state, not action">Izključeno</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Vključeno</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Izključeno</string>
-    <string name="custom_dns_state_on" comment="Describes state, not action">On</string>
-    <string name="custom_dns_state_off" comment="Describes state, not action">Off</string>
-    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Vključeno</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Izključeno</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Ni na voljo</string>
     <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_description">Blokirajte oglase, sledilnike in zlonamerno programsko opremo na spletnih mestih in v aplikacijah</string>
     <string name="netshield_what_data_means">Kaj pomenijo podatki NetShield</string>
@@ -437,7 +437,7 @@
     <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
     <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
     <string name="upgrade_unlimited_vpn_any_location">Izberite poljubno lokacijo</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Še večje hitrosti VPN</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
         <item quantity="one">Zaščitite %1$d napravo hkrati</item>
         <item quantity="two">Zaščitite %1$d napravi hkrati</item>
@@ -479,7 +479,7 @@
     </plurals>
     <string name="upgrade_unlimited_calendar_sharing">Deljenje koledarja</string>
     <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
-    <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
+    <string name="upgrade_unlimited_drive_encryption">Šifrirana shramba za datoteke</string>
     <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
     <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
     <string name="upgrade_unlimited_drive_sharing_security">Napredna varnost deljenja</string>
@@ -582,7 +582,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ta tehnologija omogoča Proton VPN, da zagotavlja višjo hitrost in varnost v državah, kjer je storitev otežena.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Server load</string>
+    <string name="server_load_title">Obremenitev strežnika</string>
     <string name="activity_information_learn_more">Več informacij</string>
     <string name="server_load_low">Nizko</string>
     <string name="server_load_medium">Srednje</string>
@@ -606,7 +606,7 @@
     <string name="dynamic_report_step1">Korak 1 od 3</string>
     <string name="dynamic_report_step2">Korak 2 od 3</string>
     <string name="dynamic_report_step3">Korak 3 od 3</string>
-    <string name="dynamic_report_your_issue_headline">What’s the issue?</string>
+    <string name="dynamic_report_your_issue_headline">Kaj je težava?</string>
     <string name="update_screen_title">Posodobi Proton VPN</string>
     <string name="update_screen_description">Verjetneje boste imeli težave na starejših različicah Proton VPN.</string>
     <string name="dialog_create_account_title">Za nadaljevanje ustvarite račun</string>
@@ -637,12 +637,12 @@
     <string name="fastest_country_description">Najboljši strežnik glede na vašo lokacijo</string>
     <string name="settings_last_connection_title">Zadnja povezava</string>
     <string name="settings_last_connection_description">Vaša nazadnje uporabljena povezava</string>
-    <string name="settings_change_icon_title">App icon</string>
+    <string name="settings_change_icon_title">Ikona applikacije</string>
     <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
     <string name="settings_change_icon_confirmation_title">Change app icon?</string>
     <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
-    <string name="settings_change_icon_header_discreet">Discreet app icon</string>
+    <string name="settings_change_icon_header_discreet">Diskretna ikona applikacije</string>
     <string name="settings_widget_title">Pripomoček</string>
     <string name="settings_widget_selection_title">Try the Proton VPN widget</string>
     <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
@@ -715,9 +715,9 @@
     <string name="not_wanted_country_title">Ni država, ki ste jo želeli?</string>
     <string name="not_wanted_country_description">Nadgradite, da izberete kateri koli strežnik</string>
     <string name="whats_new_title">Novosti</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_title">Profili so nazaj</string>
     <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_title">Predstavljamo gradnike</string>
     <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
     <string name="whats_new_add_widget_button">Dodaj gradnik</string>
     <string name="welcome_plus_title">Dobrodošli pri Proton Plus</string>
@@ -1065,7 +1065,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN pospeševalnik</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Advanced settings</string>
+    <string name="settings_advanced_settings_title">Napredne nastavitve</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">Splošno</string>
     <!-- tag(Redesign_2023) -->
@@ -1075,11 +1075,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Podpora</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Center za pomoč</string>
+    <string name="settings_help_center_title">Support center</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">Report an issue</string>
+    <string name="settings_report_issue_title">Prijavi težavo</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Debug logs</string>
+    <string name="settings_debug_logs_title">Dnevniki odpravljanja napak</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Izboljšajte Proton</string>
     <!-- tag(Redesign_2023) -->
@@ -1153,11 +1153,11 @@
     <string name="accessibility_show_ip">Prikaži IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Nazaj</string>
-    <string name="accessibility_close">Close</string>
+    <string name="accessibility_close">Zapri</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Moj IP</string>
-    <string name="connection_details_my_ipv4">My IPv4</string>
-    <string name="connection_details_my_ipv6">My IPv6</string>
+    <string name="connection_details_my_ipv4">Moj IPv4</string>
+    <string name="connection_details_my_ipv6">Moj IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
@@ -1209,7 +1209,7 @@
     <string name="connection_details_download">Prenos</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">Hitrost VPN</string>
-    <string name="connection_details_section_ip">IP address</string>
+    <string name="connection_details_section_ip">IP naslov</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Kaj je hitrost VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1232,7 +1232,7 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Povežite se s katerim koli strežnikom Plus in začnite pretakati</string>
     <string name="info_dialog_profiles_title">Profili</string>
-    <string name="info_dialog_ipaddress_title">IP address</string>
+    <string name="info_dialog_ipaddress_title">IP naslov</string>
     <string name="info_dialog_ipv6_traffic_title">IPv6 traffic</string>
     <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
@@ -1369,7 +1369,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="create_profile_title">Ustvari profil</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
-    <string name="edit_profile_title">Edit %1$s</string>
+    <string name="edit_profile_title">Uredi %1$s</string>
     <string name="edit_profile_dialog_action">Urejanje profila</string>
     <string name="create_profile_name_hint">Ime profila</string>
     <string name="create_profile_name_error_empty">Vnesite ime profila</string>
@@ -1399,14 +1399,14 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_custom_dns_title">Custom DNS</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Add new DNS server</string>
-    <string name="settings_add_dns_new_entry_button">Add</string>
+    <string name="settings_add_dns_new_entry_button">Dodaj</string>
     <string name="settings_add_dns_description">Enter the server’s IPv4 or IPv6 address</string>
     <string name="settings_add_dns_invalid_input">Enter a valid IPv4 or IPv6 address</string>
     <string name="settings_add_dns_empty_input">Enter an IPv4 or IPv6 address</string>
     <string name="settings_add_dns_duplicate_input">Server already added</string>
     <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
     <!-- %1$d - Corresponds to number of servers added -->
-    <string name="settings_dns_list_title">Servers (%1$d)</string>
+    <string name="settings_dns_list_title">Strežniki (%1$d)</string>
     <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
     <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
@@ -1494,7 +1494,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14, …</string>
     <string name="error_fetching_prices">Napaka pri pridobivanju cen.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
+    <string name="tv_settings_split_tunneling_description">Prilagodite svojo povezavo tako, da določite, katere aplikacije so zaščitene s storitvijo VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
     <!-- Temporary strings for auto-login feature -->
@@ -1508,7 +1508,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="profile_needs_reconnect">To bo znova zagnalo vašo povezavo.</string>
     <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
-    <string name="initial_profile_name_work_school">Work/School</string>
+    <string name="initial_profile_name_work_school">Služba/šola</string>
     <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
     <string name="initial_profile_name_gaming">Igranje</string>
     <string name="initial_profile_name_max_security">Max security</string>
@@ -1534,7 +1534,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="create_profile_fastest_city">Najhitrejši</string>
     <string name="create_profile_fastest_state">Najhitrejši</string>
     <string name="create_profile_fastest_server">Najhitrejši</string>
-    <string name="create_profile_pick_middle_country_title">Middle country</string>
+    <string name="create_profile_pick_middle_country_title">Srednja država</string>
     <string name="profiles_zero_state_title">Create your first profile</string>
     <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
     <string name="profiles_button_create_profile">Ustvari profil</string>
@@ -1548,7 +1548,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
-    <string name="profile_icon_accessibility">Icon %1$d</string>
+    <string name="profile_icon_accessibility">Ikona %1$d</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Barva %1$d</string>
@@ -1558,20 +1558,20 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="create_profile_connect_and_go_label">Connect and Go</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Novo</string>
-    <string name="create_profile_auto_open_url_input_label">Website URL</string>
+    <string name="create_profile_auto_open_url_input_label">URL spletne strani</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Izključeno</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_on">Vključeno</string>
     <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
-    <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
+    <string name="profile_auto_open_error_invalid_url">Vnesite veljaven URL</string>
     <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
     <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
     <string name="nps_additional_comment_optional">Neobvezno</string>
     <string name="nps_rating_low_values_explain">0 is very unlikely</string>
     <string name="nps_rating_high_values_explain">10 is very likely</string>
     <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">Vaš odgovor mora vsebovati največ 250 znakov.</string>
     <string name="nps_button_submit_title">Share anonymously</string>
     <string name="widget_preview_switzerland">Švica</string>
     <string name="widget_preview_spain">Španija</string>
@@ -1585,13 +1585,13 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_advanced_ipv6_title">IPv6</string>
     <string name="settings_advanced_ipv6_description">Tunnels IPv6 traffic through the VPN. Can enhance compatibility with IPv6 networks.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">To use this address, you need to allow IPv6 connections through the VPN tunnel.</string>
-    <string name="setting_ipv6_disabled_dialog_action_enable">Enable IPv6</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Omogoči IPv6</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is disabled</string>
     <string name="settings_ipv6_enabled_toast">IPv6 enabled</string>
     <string name="info_dialog_ipv6_traffic_benefits1">Ensures access to IPv6-only websites and services</string>
     <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>
     <string name="info_dialog_ipv6_traffic_drawbacks1">May not work well with older networks or apps</string>
     <string name="info_dialog_ipv6_traffic_drawbacks2">Some networks handle IPv6 traffic unpredictably</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks_title">Drawbacks</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Slabosti</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
 </resources>
