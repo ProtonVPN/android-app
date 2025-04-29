@@ -1006,7 +1006,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Gefilterde apps</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill switch</string>
+    <string name="settings_kill_switch_title">IP-beveiliging</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">Verbinding</string>
     <!-- tag(Redesign_2023) -->

@@ -1024,7 +1024,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Support</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Hilfecenter</string>
+    <string name="settings_help_center_title">Hilfezentrum</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Problem melden</string>
     <!-- tag(Redesign_2023) -->
@@ -1165,7 +1165,7 @@
     <string name="info_dialog_p2p_title">P2P</string>
     <string name="info_dialog_secure_core_description">Secure Core verbindet dich mit deinem Zielserver über einen zweiten, maximal sicheren VPN-Server.\n\nDieses höhere Schutzniveau kann zu höheren Latenzzeiten und langsameren Geschwindigkeiten führen.</string>
     <string name="info_secure_core_standard_header">Standard-VPN-Verbindung</string>
-    <string name="info_secure_core_secure_header">Secure Core-VPN-Verbindung</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN-Verbindung</string>
     <string name="info_dialog_tor_description">Verbinde dich mit einem Tor-Server, um mit einem beliebigen Browser auf versteckte Dienste und Onion-Seiten zuzugreifen.</string>
     <string name="info_dialog_button_learn_more_tor">Wie man auf das Tor-Netzwerk zugreift</string>
     <string name="info_dialog_button_learn_more_p2p">Wie man P2P mit Hilfe von Torrent durchführt</string>
