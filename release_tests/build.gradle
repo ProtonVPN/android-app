@@ -24,13 +24,15 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+def debugKeystorePath = file(new File(rootDir, "app/${System.getenv("DEBUG_KEYSTORE_FILE")}"))
+
 android {
     namespace "com.protonvpn.android.release_tests"
     compileSdk 34
 
     signingConfigs {
         release {
-            storeFile file('/root/.android/debug.keystore')
+            storeFile file(debugKeystorePath)
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
