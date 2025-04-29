@@ -44,6 +44,7 @@ import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.ServersCountResponse
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
+import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -355,6 +356,11 @@ class ServerListUpdater @Inject constructor(
                     serverManager.allServers.updateTier(result.serverList, VpnUser.FREE_TIER, retainIDs)
                 else
                     result.serverList
+
+                DebugUtils.debugAssert("Country with no continent") {
+                    newList.all { CountryTools.oldMapLocations[it.flag]?.continent != null }
+                }
+
                 serverManager.setServers(newList, lang, retainIDs = retainIDs)
             } else {
                 serverManager.updateTimestamp()
