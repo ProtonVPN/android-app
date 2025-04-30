@@ -18,15 +18,18 @@
  */
 package com.protonvpn.android.netshield
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -44,6 +47,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,6 +55,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SettingsFeatureToggle
+import com.protonvpn.android.base.ui.theme.NoTrim
 import com.protonvpn.android.base.ui.volumeBytesToString
 import com.protonvpn.android.redesign.settings.ui.DnsConflictBanner
 import com.protonvpn.android.vpn.DnsOverride
@@ -257,27 +262,41 @@ fun NetShieldBottomSettings(
             ) {
                 Text(
                     text = stringResource(id = R.string.netshield_what_data_means),
-                    style = ProtonTheme.typography.body1Regular,
+                    style = ProtonTheme.typography.body2Medium,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
-                StatsDescriptionRows(modifier = Modifier.fillMaxWidth())
+                StatsDescriptionRows()
             }
         }
+
+        Text(
+            stringResource(R.string.netshield_setting_warning),
+            style = ProtonTheme.typography.body2Regular,
+            color = ProtonTheme.colors.textWeak
+        )
+
+        Spacer(Modifier.height(16.dp))
     }
 }
 
 @Composable
-private fun StatsDescriptionRows(modifier: Modifier) {
-    Column(modifier = modifier) {
-        StatsDescriptionRow(
+private fun StatsDescriptionRows(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        StatsDescription(
+            iconId = R.drawable.netshield_icon_ads,
             titleId = R.string.netshield_ads_title,
             detailsId = R.string.netshield_ads_details
         )
-        StatsDescriptionRow(
+        StatsDescription(
+            iconId = R.drawable.netshield_icon_trackers,
             titleId = R.string.netshield_trackers_title,
             detailsId = R.string.netshield_trackers_details
         )
-        StatsDescriptionRow(
+        StatsDescription(
+            iconId = R.drawable.netshield_icon_data,
             titleId = R.string.netshield_data_title,
             detailsId = R.string.netshield_data_details
         )
@@ -285,23 +304,33 @@ private fun StatsDescriptionRows(modifier: Modifier) {
 }
 
 @Composable
-private fun StatsDescriptionRow(titleId: Int, detailsId: Int) {
-    Row(modifier = Modifier
-        .semantics(mergeDescendants = true) {}
-        .padding(8.dp)
+private fun StatsDescription(
+    @DrawableRes iconId: Int,
+    @StringRes titleId: Int,
+    @StringRes detailsId: Int,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .semantics(mergeDescendants = true) {},
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.Top,
     ) {
-        Box(modifier = Modifier.weight(0.7f, fill = true)) {
+        Image(
+            painterResource(iconId),
+            contentDescription = null
+        )
+        Column {
             Text(
                 text = stringResource(id = titleId),
-                style = ProtonTheme.typography.body2Medium,
+                style = ProtonTheme.typography.body2Medium.copy(lineHeightStyle = LineHeightStyle.NoTrim),
+            )
+            Text(
+                text = stringResource(id = detailsId),
+                style = ProtonTheme.typography.body2Regular.copy(lineHeightStyle = LineHeightStyle.NoTrim),
+                color = ProtonTheme.colors.textWeak,
             )
         }
-        Text(
-            text = stringResource(id = detailsId),
-            style = ProtonTheme.typography.body2Regular,
-            color = ProtonTheme.colors.textWeak,
-            modifier = Modifier.weight(2f)
-        )
     }
 }
 

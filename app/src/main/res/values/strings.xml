@@ -248,9 +248,9 @@
     <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_title" translatable="false">NetShield</string>
     <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
-    <string name="netshield_what_data_means">What NetShield data means</string>
+    <string name="netshield_what_data_means">NetShield statistics explained</string>
     <string name="netshield_ads_title">Ads</string>
-    <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
+    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
     <string name="netshield_trackers_title">Trackers</string>
     <string name="netshield_trackers_details">Cookies and other trackers that store and share information about your internet activity</string>
     <string name="netshield_data_title">Data</string>

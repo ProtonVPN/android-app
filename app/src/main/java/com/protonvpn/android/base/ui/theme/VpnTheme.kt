@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.protonvpn.android.base.ui.LocalLocale
@@ -68,3 +69,6 @@ fun VpnTheme(isDark: Boolean = isNightMode(), content: @Composable () -> Unit) {
         }
     }
 }
+
+val LineHeightStyle.Companion.NoTrim: LineHeightStyle
+    get() = LineHeightStyle(LineHeightStyle.Alignment.Proportional, LineHeightStyle.Trim.None)
