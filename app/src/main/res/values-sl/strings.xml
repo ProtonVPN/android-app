@@ -130,18 +130,18 @@
     <string name="settings_new_label_badge">NOVO</string>
     <string name="settingsExcludedIPAddressesListHeader">Izključeni naslovi IP (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Vključeni naslovi IP (%1$d)</string>
-    <string name="settingsExcludedApps">Excluded apps</string>
+    <string name="settingsExcludedApps">Izvzete aplikacije</string>
     <string name="settingsExcludedAppsEmpty">Dodajte aplikacije, ki jih želite izključiti iz prometa VPN.</string>
-    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
+    <string name="settingsIncludedAppsEmpty">Dodajte applikacije, ki bodo vključene v promet VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Izključene applikacije (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Vključene applikacije (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Vse druge običajne aplikacije (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Vse druge sistemske aplikacije (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableHeader">All other apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Vse druge aplikacije (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Pokaži sistemske aplikacije</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Pokaži sistemske aplikacije</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Te aplikacije so izključene iz vaše povezave VPN.</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Samo te applikacije se povežejo prek VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -155,7 +155,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Remove from excluded apps</string>
+    <string name="accessibility_action_remove_excluded_app">Odstrani iz izvzetih aplikacij</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -169,8 +169,8 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Remove from included apps</string>
-    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
+    <string name="accessibility_action_remove_included_app">Odstrani iz vključenih aplikacij</string>
+    <string name="accessibility_action_copy_to_clipboard">Kopiraj v odložišče</string>
     <string name="accessibility_action_item_delete">Izbriši</string>
     <string name="accessibility_action_item_move_up">Premakni gor</string>
     <string name="accessibility_action_item_move_down">Premakni navzdol</string>
@@ -196,8 +196,8 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[V primeru, da je Proton blokiran, dovolite aplikaciji, da preizkusi alternativne poti za doseganje strežnikov Proton. <a href="%1$s">Več o tem</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokada s strani države</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaša država morda blokira dostop do Protona. Poskusite uporabiti <a href=\'%1$s\'>Tor</a> za dostop do Protona.]]></string>
-    <string name="settingsKillSwitchEnableTitle">How to enable kill switch</string>
-    <string name="settingsKillSwitchEnableStep1">1. Open your device settings</string>
+    <string name="settingsKillSwitchEnableTitle">Kako omogočiti kill switch</string>
+    <string name="settingsKillSwitchEnableStep1">1. Odprite nastavitve naprave</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. Poiščite Proton VPN in tapnite %1$s</string>
     <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
@@ -572,13 +572,13 @@
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">Pridobi %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">Ponudba dobrodošlice. Samodejno se obnovi po ceni %1$s/mesec</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_annual">Ponudba dobrodošlice. Samodejno se obnovi po ceni %1$s/leto</string>
+    <string name="payment_auto_renew_message_monthly">Naročnina se samodejno obnovi po ceni %1$s/mesec</string>
+    <string name="payment_auto_renew_message_annual">Naročnina se samodejno obnovi po ceni %1$s/leto</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Naročnina se samodejno obnovi mesečno</string>
+    <string name="payment_welcome_price_message_annual_fallback">Naročnina se samodejno obnovi letno</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ta tehnologija omogoča Proton VPN, da zagotavlja višjo hitrost in varnost v državah, kjer je storitev otežena.</string>
     <string name="tor_title">Tor</string>
@@ -632,24 +632,24 @@
         <item quantity="few">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
         <item quantity="other">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
     </plurals>
-    <string name="select_default_connection">Select your default connection</string>
+    <string name="select_default_connection">Izberite svojo privzeto povezavo</string>
     <string name="settings_default_connection_title">Privzeta povezava</string>
     <string name="fastest_country_description">Najboljši strežnik glede na vašo lokacijo</string>
     <string name="settings_last_connection_title">Zadnja povezava</string>
     <string name="settings_last_connection_description">Vaša nazadnje uporabljena povezava</string>
     <string name="settings_change_icon_title">Ikona applikacije</string>
-    <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
-    <string name="settings_change_icon_confirmation_title">Change app icon?</string>
-    <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
+    <string name="settings_change_icon_details">Prilagodite videz aplikacije Proton VPN na svoji napravi. Zakaj?</string>
+    <string name="settings_change_icon_confirmation_title">Želite zamenjati ikono aplikacije?</string>
+    <string name="settings_change_icon_confirmation_details">S tem se bo aplikacija Proton VPN zaprla. Za ponovni zagon Proton VPN samo pritisnite novo ikono aplikacije.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Diskretna ikona applikacije</string>
     <string name="settings_widget_title">Pripomoček</string>
-    <string name="settings_widget_selection_title">Try the Proton VPN widget</string>
+    <string name="settings_widget_selection_title">Preizkusite gradnik Proton VPN</string>
     <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="setting_widget_selection_additional_description">Če želite dodati gradnik, pritisnite in pridržite kjer koli na začetnem zaslonu, nato pa v meniju gradnikov izberite %1$s.</string>
     <string name="settings_widget_selection_button_title">Dodaj gradnik</string>
-    <string name="setting_widget_try_title">Try the Proton VPN widget</string>
+    <string name="setting_widget_try_title">Preizkusite gradnik Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Opusti pasico</string>
@@ -716,9 +716,9 @@
     <string name="not_wanted_country_description">Nadgradite, da izberete kateri koli strežnik</string>
     <string name="whats_new_title">Novosti</string>
     <string name="whats_new_profiles_title">Profili so nazaj</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_profiles_description">Ustvarite in shranite povezave po meri z vašo izbrano lokacijo, strežnikom in protokolom.</string>
     <string name="whats_new_widget_title">Predstavljamo gradnike</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
+    <string name="whats_new_widget_description">Zdaj si lahko ogledate in upravljate svoj VPN, ne da bi zapustili začetni zaslon.</string>
     <string name="whats_new_add_widget_button">Dodaj gradnik</string>
     <string name="welcome_plus_title">Dobrodošli pri Proton Plus</string>
     <string name="welcome_plus_description">Uživajte v dodatnih funkcijah zasebnosti, okrepljeni zmogljivosti in prilagoditvi VPN naslednje stopnje.</string>
@@ -859,7 +859,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Najhitrejša država</string>
-    <string name="fastest_country_excluding_my_country">Fastest country (excluding my country)</string>
+    <string name="fastest_country_excluding_my_country">Najhitrejša država (brez moje države)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Najhitrejši brezplačni strežnik</string>
     <!-- tag(Redesign_2023)
@@ -1075,7 +1075,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Podpora</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Support center</string>
+    <string name="settings_help_center_title">Center za pomoč</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Prijavi težavo</string>
     <!-- tag(Redesign_2023) -->
@@ -1220,7 +1220,7 @@
     <string name="info_dialog_tor_description">Povežite se s strežnikom Tor za dostop do skritih storitev in Tor spletnih mest s katerim koli brskalnikom.</string>
     <string name="info_dialog_button_learn_more_tor">Kako dostopati do omrežja Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Kako uporabljati torrente s P2P</string>
-    <string name="info_dialog_button_learn_more_ipaddress">What is an IP address?</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Kaj je naslov IP?</string>
     <string name="info_dialog_button_learn_more_streaming">Potrebujete pomoč glede pretakanja?</string>
     <string name="info_dialog_streaming_title">Pretakanje</string>
     <string name="info_dialog_streaming_description">Pretočni strežniki so zasnovani za hitro in varno predvajanje televizije in filmov.</string>
@@ -1233,7 +1233,7 @@
     <string name="info_dialog_how_to_stream_step_3">Povežite se s katerim koli strežnikom Plus in začnite pretakati</string>
     <string name="info_dialog_profiles_title">Profili</string>
     <string name="info_dialog_ipaddress_title">IP naslov</string>
-    <string name="info_dialog_ipv6_traffic_title">IPv6 traffic</string>
+    <string name="info_dialog_ipv6_traffic_title">Promet IPv6</string>
     <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
     <string name="info_dialog_ipv6_traffic_description">The Internet Protocol (IP) assigns addresses to devices and routes internet traffic. IPv6 is the latest version, offering more addresses and better connectivity, but it is not yet universally adopted.</string>
@@ -1402,8 +1402,8 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_add_dns_new_entry_button">Dodaj</string>
     <string name="settings_add_dns_description">Enter the server’s IPv4 or IPv6 address</string>
     <string name="settings_add_dns_invalid_input">Enter a valid IPv4 or IPv6 address</string>
-    <string name="settings_add_dns_empty_input">Enter an IPv4 or IPv6 address</string>
-    <string name="settings_add_dns_duplicate_input">Server already added</string>
+    <string name="settings_add_dns_empty_input">Vnesite naslov IPv4 ali IPv6</string>
+    <string name="settings_add_dns_duplicate_input">Strežnik je že dodan</string>
     <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
     <!-- %1$d - Corresponds to number of servers added -->
     <string name="settings_dns_list_title">Strežniki (%1$d)</string>
