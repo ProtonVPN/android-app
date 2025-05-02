@@ -130,11 +130,11 @@
     <string name="settings_new_label_badge">신규</string>
     <string name="settingsExcludedIPAddressesListHeader">제외된 IP 주소 (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">포함된 IP 주소 (%1$d)</string>
-    <string name="settingsExcludedApps">Excluded apps</string>
+    <string name="settingsExcludedApps">제외된 앱</string>
     <string name="settingsExcludedAppsEmpty">VPN 트래픽에서 제외하고 싶은 앱을 추가하세요.</string>
     <string name="settingsIncludedAppsEmpty">VPN 트래픽에 포함시킬 앱을 추가해 주세요.</string>
-    <string name="settingsExcludedAppsSelectedHeader">Excluded apps (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">제외된 앱 (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">포함된 앱 (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">전체 기타 일반 앱 (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">전체 기타 시스템 앱 (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">전체 기타 앱 (%1$d)</string>
@@ -148,28 +148,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Add to excluded apps</string>
+    <string name="accessibility_action_add_excluded_app">제외된 앱에 추가</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Remove from excluded apps</string>
+    <string name="accessibility_action_remove_excluded_app">제외된 앱에서 삭제</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Add to included apps</string>
+    <string name="accessibility_action_add_included_app">포함된 앱에 추가</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Remove from included apps</string>
+    <string name="accessibility_action_remove_included_app">포함된 앱에서 삭제</string>
     <string name="accessibility_action_copy_to_clipboard">클립보드로 복사</string>
     <string name="accessibility_action_item_delete">삭제</string>
     <string name="accessibility_action_item_move_up">위로 이동</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">충돌 보고서는 버그를 수정하고 방화벽을 감지하며 VPN 차단을 방지하는 데 도움이 됩니다.</string>
     <string name="settingsTelemetryScreenTitle">사용 통계</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[이 통계에는 회원님의 IP 주소가 담기지 않으며 식별에 사용할 수 없습니다. 제 3자에게 공유하지도 않습니다. <a href="%1$s">더 알아보기</a>]]></string>
-    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. %1$s</string>
+    <string name="netshield_settings_description_not_html">웹 사이트와 앱들의 광고, 멀웨어 및 트래커들로부터 보호 받으세요. %1$s</string>
     <string name="settings_icon_change_description">비밀 아이콘으로 Proton VPN 앱을 위장하세요.
 알림은 여전히 기본 Proton VPN 이름 및 아이콘으로 표시됩니다. %1$s</string>
     <string name="settings_icon_change_learn_more">더 알아보기</string>
