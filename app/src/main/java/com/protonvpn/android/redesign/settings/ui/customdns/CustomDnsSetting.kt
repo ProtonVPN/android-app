@@ -491,7 +491,6 @@ private fun CustomDnsContent(
                             )
                         }
                     )
-                    // TODO(VPNAND-2125): this kind of logic belongs in the UI state or even viewmodel.
                     val onMoveUp = remember(index, currentDnsList, item, onDnsChange) {
                         { moveItemUp(currentDnsList, index, item, onDnsChange) }.takeIf { index > 0 }
                     }
@@ -614,6 +613,9 @@ private fun customAccessibilityActions(
     }
 }
 
+// In theory moveItemUp and -Down belong in ViewModel where they could be tested with unit tests.
+// However this code is used with two different ViewModels so we prefer to have a single implementation here - it's
+// simple.
 private fun moveItemUp(list: List<String>, index: Int, item: String, onDnsChange: (List<String>) -> Unit) {
     val newList = list.toMutableList().apply {
         removeAt(index)
