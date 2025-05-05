@@ -21,6 +21,8 @@ package com.protonvpn.android.models.vpn.usecase
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.utils.Constants
@@ -88,7 +90,9 @@ class ComputeAllowedIPs @Inject constructor(
                 excludedIps += splitTunneling.excludedIps.map { it.toIPAddress() }
 
             if (userSettings.lanConnections)
-                excludedIps += provideLocalNetworks(ipV6Enabled).map { it.toIPAddress() }
+                excludedIps += provideLocalNetworks(ipV6Enabled).map { it.toIPAddress() }.apply {
+                    ProtonLogger.logCustom(LogCategory.CONN, "Excluded local networks: $this")
+                }
 
             val allowedIPsV4 = excludeFrom(FULL_RANGE_IP_V4, excludedIps)
             val allowedIPsV6 =

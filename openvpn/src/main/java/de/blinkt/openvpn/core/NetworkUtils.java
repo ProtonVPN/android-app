@@ -45,6 +45,9 @@ public class NetworkUtils {
                 if ((ipaddress instanceof Inet4Address && !ipv6) || (ipaddress instanceof Inet6Address && ipv6)) {
                     if (IPUtilsKt.isPrivateOnlyAddress(la.toString()))
                         candidateNets.add(la.toString());
+                    else {
+                        VpnStatus.logInfo("Ignoring LAN (public range): " + la);
+                    }
                 }
             }
 
