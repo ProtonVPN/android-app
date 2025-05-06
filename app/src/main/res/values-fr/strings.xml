@@ -687,8 +687,8 @@
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">%1$d appareil</item>
-        <item quantity="other">Jusqu\'à %1$d appareils en même temps</item>
+        <item quantity="one">Jusqu’à %1$d appareil à la fois</item>
+        <item quantity="other">Jusqu’à %1$d appareils à la fois</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
