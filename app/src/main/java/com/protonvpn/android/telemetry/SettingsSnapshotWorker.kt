@@ -77,6 +77,7 @@ class SettingsSnapshotWorker @AssistedInject constructor(
                         this["is_system_custom_dns_enabled"] = isPrivateDnsActive.toTelemetry()
                     }
                     this["is_ipv6_enabled"] = settings.ipV6Enabled.toTelemetry()
+                    this["lan_mode"] = lanModeToTelemetry(settings.lanConnections, settings.lanConnectionsAllowDirect)
                     commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
                 }
                 TelemetryEventData(
@@ -125,6 +126,13 @@ class SettingsSnapshotWorker @AssistedInject constructor(
     }
 
     private fun String.toTelemetryAddressFamily() = if (isIPv6()) "ipv6" else "ipv4"
+
+    private fun lanModeToTelemetry(lanConnections: Boolean, lanConnectionsAllowDirect: Boolean): String =
+        when {
+            !lanConnections -> "off"
+            !lanConnectionsAllowDirect -> "standard"
+            else -> "direct"
+        }
 
     companion object {
         const val MEASUREMENT_GROUP = "vpn.any.settings"
