@@ -124,7 +124,7 @@
     <string name="loaderErrorNoInternet">Tidak ada koneksi internet</string>
     <string name="loaderErrorGeneric">Ada yang salah</string>
     <string name="inputIpAddressLabel">Alamat IP</string>
-    <string name="inputIpAddressHelp">Masukkan alamat IPv4 aatau IPv6 server</string>
+    <string name="inputIpAddressHelp">Masukkan alamat IPv4 atau IPv6 server</string>
     <string name="inputIpAddressErrorInvalid">Alamat IP tidak valid</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">BARU</string>
@@ -148,7 +148,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Tambahkan ke aplikasi yang dikecualikan</string>
+    <string name="accessibility_action_add_excluded_app">Tambah ke aplikasi yang dikecualikan</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -162,7 +162,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Tambahkan ke aplikasi yang disertakan</string>
+    <string name="accessibility_action_add_included_app">Tambah ke aplikasi yang disertakan</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Laporan crash membantu kami dalam memperbaiki bug, mendeteksi firewall, dan menghindari pemblokiran VPN.</string>
     <string name="settingsTelemetryScreenTitle">Statistik pemakaian</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Statistik ini tidak mengandung alamat IP Anda dan tidak dapat digunakan untuk mengenali diri Anda. Kami tidak akan pernah membagikan statistik ini kepada pihak ketiga mana pun. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
-    <string name="netshield_settings_description_not_html">Lindungi diri Anda dari iklan, malware, dan pelacak di situs web dan aplikasi. %1$s</string>
+    <string name="netshield_settings_description_not_html">Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi. %1$s</string>
     <string name="settings_icon_change_description">Samarkan Proton VPN dengan ikon aplikasi yang tidak mencolok. Notifikasi yang masuk akan tetap menampilkan nama dan ikon Proton VPN bawaan. %1$s</string>
     <string name="settings_icon_change_learn_more">Pelajari lebih lanjut</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
@@ -285,7 +285,7 @@
     <string name="tv_login_timer_label">Kode ini akan kedaluwarsa dalam:</string>
     <string name="tv_login_refresh">Muat ulang</string>
     <string name="tv_login_title_loading">Memuat…</string>
-    <string name="tv_login_title_refresh">Sesi Anda telah kedaluwarsa. Muat ulang halaman untuk memulai proses dari awal.</string>
+    <string name="tv_login_title_refresh">Sesi Anda telah kedaluwarsa. Klik muat ulang untuk memulai kembali.</string>
     <string name="tv_upgrade_title">Mulai streaming dengan Plus</string>
     <string name="back">Kembali</string>
     <string name="tv_upgrade_url_details"><![CDATA[Kunjungi <b>%1$s</b> untuk meningkatkan ke Proton VPN Plus sekarang juga.]]></string>
@@ -311,7 +311,7 @@
     <string name="tv_server_list">Daftar server</string>
     <string name="tv_server_list_action_unavailable">Tidak tersedia</string>
     <string name="notification_subscription_expired_title">Paket langganan Proton VPN Anda telah berakhir</string>
-    <string name="notification_subscription_expired_content">Kami telah menurunkan paket Anda, namun kami menghubungkan ulang Anda ke server tercepat yang tersedia di paket tesebut.</string>
+    <string name="notification_subscription_expired_content">Kami terpaksa menurunkan paket Anda, namun kami telah menghubungkan ulang Anda ke server tercepat yang tersedia pada paket ini.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Paket langganan Anda telah diturunkan.</string>
     <string name="notification_delinquent_title">Akun Proton VPN Anda memiliki tagihan yang belum dilunasi</string>
     <string name="notification_delinquent_content">Silakan luangkan waktu sejenak untuk memperbarui informasi tagihan Anda agar langganan Anda tetap aktif.</string>
@@ -533,7 +533,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Teknologi ini memungkinkan Proton VPN untuk menyediakan layanan yang lebih cepat dan lebih aman pada negara dengan pembatasan internet yang ketat.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Beban server</string>
+    <string name="server_load_title">Muatan server</string>
     <string name="activity_information_learn_more">Pelajari Lebih Lanjut</string>
     <string name="server_load_low">Rendah</string>
     <string name="server_load_medium">Sedang</string>
@@ -557,7 +557,7 @@
     <string name="dynamic_report_step1">Langkah 1 dari 3</string>
     <string name="dynamic_report_step2">Langkah 2 dari 3</string>
     <string name="dynamic_report_step3">Langkah 3 dari 3</string>
-    <string name="dynamic_report_your_issue_headline">Apa masalahnya?</string>
+    <string name="dynamic_report_your_issue_headline">Masalah apa yang Anda hadapi?</string>
     <string name="update_screen_title">Perbarui Proton VPN</string>
     <string name="update_screen_description">Anda akan cenderung lebih rentan terhadap berbagai masalah apabila Anda menggunakan Proton VPN versi lama.</string>
     <string name="dialog_create_account_title">Buat akun untuk melanjutkan</string>
@@ -999,11 +999,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Dukungan</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Support center</string>
+    <string name="settings_help_center_title">Pusat bantuan</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Laporkan masalah</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Log awakutu</string>
+    <string name="settings_debug_logs_title">Log debug</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Tingkatkan Proton</string>
     <!-- tag(Redesign_2023) -->
