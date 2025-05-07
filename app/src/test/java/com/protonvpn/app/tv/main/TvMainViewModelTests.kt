@@ -38,6 +38,7 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
+import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.QuickConnectCard
@@ -122,16 +123,18 @@ class TvMainViewModelTests {
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
         val isCustomDnsEnabled = FakeIsCustomDnsEnabled(true)
         val isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
+        val isLightThemeFeatureFlagEnabled = FakeIsLightThemeFeatureFlagEnabled(true)
         val userSettingsManager =
             CurrentUserLocalSettingsManager(LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()))
         val userSettingsFlow = EffectiveCurrentUserSettingsFlow(
-            userSettingsManager,
-            mockCurrentUser,
-            mockk(relaxed = true),
-            RestrictionsConfig(testScope, flowOf(Restrictions(false, mockk()))),
-            isIPv6FeatureFlagEnabled,
-            isCustomDnsEnabled,
-            isDirectLanConnectionsFeatureFlagEnabled,
+            localUserSettings = userSettingsManager,
+            currentUser = mockCurrentUser,
+            isTv = mockk(relaxed = true),
+            restrictions = RestrictionsConfig(testScope, flowOf(Restrictions(false, mockk()))),
+            isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
+            isCustomDnsEnabled = isCustomDnsEnabled,
+            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
+            isLightThemeFeatureFlagEnabled = isLightThemeFeatureFlagEnabled,
         ).stateIn(bgScope, SharingStarted.Eagerly, LocalUserSettings.Default)
         userSettingsCached = EffectiveCurrentUserSettingsCached(userSettingsFlow)
 

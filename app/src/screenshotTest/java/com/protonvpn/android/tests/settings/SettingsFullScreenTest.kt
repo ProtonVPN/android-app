@@ -38,6 +38,7 @@ import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsScreen
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.settings.data.SplitTunnelingMode
+import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.accountmanager.presentation.compose.viewmodel.AccountSettingsViewState
@@ -67,6 +68,7 @@ fun SettingsCredentialless() {
             onNetShieldClick = {},
             onReportBugClick = {},
             onSplitTunnelUpgrade = {},
+            onThemeClick = {},
             onIconChangeClick = {},
             onSplitTunnelClick = {},
             onAlwaysOnClick = {},
@@ -274,6 +276,7 @@ fun SettingsPaidProfileConnected() {
             onNetShieldClick = {},
             onReportBugClick = {},
             onSplitTunnelUpgrade = {},
+            onThemeClick = {},
             onIconChangeClick = {},
             onSplitTunnelClick = {},
             onAlwaysOnClick = {},
@@ -299,16 +302,16 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
         ProfileColor.Color1
     ), "name") else null
 
-    private val netshield = SettingsViewModel.SettingViewState.NetShield(
+    private val netshield = SettingViewState.NetShield(
         netShieldEnabled = true,
         isRestricted = isFree,
         profileOverrideInfo = overrideInfo,
         dnsOverride = if (isPrivateDnsActive) DnsOverride.SystemPrivateDns else DnsOverride.None
     )
-    private val vpnAccelerator = SettingsViewModel.SettingViewState.VpnAccelerator(true, isFree)
-    private val protocol = SettingsViewModel.SettingViewState.Protocol(ProtocolSelection.SMART, overrideInfo?.primaryLabel)
-    private val altRouting = SettingsViewModel.SettingViewState.AltRouting(true)
-    private val customDns = SettingsViewModel.SettingViewState.CustomDns(
+    private val vpnAccelerator = SettingViewState.VpnAccelerator(true, isFree)
+    private val protocol = SettingViewState.Protocol(ProtocolSelection.SMART, overrideInfo?.primaryLabel)
+    private val altRouting = SettingViewState.AltRouting(true)
+    private val customDns = SettingViewState.CustomDns(
         true,
         listOf("1.1.1.1", "8.8.8.8", "2001:db8:3333:4444:5555:6666:7777:8888"),
         overrideInfo?.primaryLabel,
@@ -316,10 +319,11 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
         isPrivateDnsActive = isPrivateDnsActive,
     )
     private val lanConnections =
-        SettingsViewModel.SettingViewState.LanConnections(true, false, isFree, overrideInfo?.primaryLabel)
+        SettingViewState.LanConnections(true, false, isFree, overrideInfo?.primaryLabel)
     private val natType =
-        SettingsViewModel.SettingViewState.Nat(NatType.Strict, isFree, overrideInfo?.primaryLabel)
-    private val ipV6 = SettingsViewModel.SettingViewState.IPv6(enabled = true)
+        SettingViewState.Nat(NatType.Strict, isFree, overrideInfo?.primaryLabel)
+    private val ipV6 = SettingViewState.IPv6(enabled = true)
+    private val theme = SettingViewState.Theme(ThemeType.Dark)
 
     val settingsViewState = SettingsViewModel.SettingsViewState(
         profileOverrideInfo = overrideInfo,
@@ -337,7 +341,8 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
         isWidgetDiscovered = false,
         ipV6 = ipV6,
         customDns = customDns,
-        showDebugTools = false
+        showDebugTools = false,
+        theme = theme
     )
 
     val credentiallessAccountViewState =

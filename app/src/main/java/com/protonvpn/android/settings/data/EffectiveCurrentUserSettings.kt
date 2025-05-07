@@ -26,6 +26,8 @@ import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
+import com.protonvpn.android.theme.IsLightThemeFeatureFlagEnabled
+import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
@@ -77,7 +79,7 @@ class EffectiveCurrentUserSettings(
 }
 
 @Singleton
-class EffectiveCurrentUserSettingsFlow constructor(
+class EffectiveCurrentUserSettingsFlow(
     rawCurrentUserSettingsFlow: Flow<LocalUserSettings>,
     currentUser: CurrentUser,
     isTv: IsTvCheck,
@@ -85,19 +87,27 @@ class EffectiveCurrentUserSettingsFlow constructor(
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
     isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
+    isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
 ) : Flow<LocalUserSettings> {
 
     private data class Flags(
         val isIPv6Enabled: Boolean,
         val isCustomDnsEnabled: Boolean,
-        val isDirectLanConnectionsEnabled: Boolean
+        val isDirectLanConnectionsEnabled: Boolean,
+        val isLightThemeEnabled: Boolean,
     )
     private val flagsFlow = combine(
         isIPv6FeatureFlagEnabled.observe(),
         isCustomDnsFeatureFlagEnabled.observe(),
-        isDirectLanConnectionsFeatureFlagEnabled.observe()
-    ) { ipV6FeatureFlagEnabled, customDnsFeatureFlagEnabled, isDirectLanConnectionsFeatureFlagEnabled ->
-        Flags(ipV6FeatureFlagEnabled, customDnsFeatureFlagEnabled, isDirectLanConnectionsFeatureFlagEnabled)
+        isDirectLanConnectionsFeatureFlagEnabled.observe(),
+        isLightThemeFeatureFlagEnabled.observe(),
+    ) { ipV6Enabled, customDnsEnabled, isDirectLanConnectionsEnabled, isLightThemeEnabled ->
+        Flags(
+            isIPv6Enabled = ipV6Enabled,
+            isCustomDnsEnabled = customDnsEnabled,
+            isDirectLanConnectionsEnabled = isDirectLanConnectionsEnabled,
+            isLightThemeEnabled = isLightThemeEnabled
+        )
     }
 
     private val effectiveSettings: Flow<LocalUserSettings> = combine(
@@ -125,7 +135,7 @@ class EffectiveCurrentUserSettingsFlow constructor(
                 settings.customDns
             else
                 CustomDnsSettings(false),
-            telemetry = settings.telemetry,
+            theme = if (flags.isLightThemeEnabled) settings.theme else ThemeType.Dark,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
             ipV6Enabled = settings.ipV6Enabled && flags.isIPv6Enabled && !isTv()
@@ -140,10 +150,18 @@ class EffectiveCurrentUserSettingsFlow constructor(
         restrictions: RestrictionsConfig,
         isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
         isCustomDnsEnabled: IsCustomDnsFeatureFlagEnabled,
-        isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled
-    ) : this(localUserSettings.rawCurrentUserSettingsFlow, currentUser, isTv,
-             restrictions.restrictionFlow, isIPv6FeatureFlagEnabled, isCustomDnsEnabled,
-             isDirectLanConnectionsFeatureFlagEnabled)
+        isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
+        isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
+    ) : this(
+        rawCurrentUserSettingsFlow = localUserSettings.rawCurrentUserSettingsFlow,
+        currentUser = currentUser,
+        isTv = isTv,
+        restrictionFlow = restrictions.restrictionFlow,
+        isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
+        isCustomDnsFeatureFlagEnabled = isCustomDnsEnabled,
+        isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
+        isLightThemeFeatureFlagEnabled = isLightThemeFeatureFlagEnabled,
+    )
 
     override suspend fun collect(collector: FlowCollector<LocalUserSettings>) = effectiveSettings.collect(collector)
 }

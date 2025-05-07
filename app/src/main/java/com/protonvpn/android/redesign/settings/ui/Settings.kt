@@ -200,6 +200,9 @@ fun SettingsRoute(
                 onHelpFightClick = {
                     context.startActivity(Intent(context, SettingsTelemetryActivity::class.java))
                 },
+                onThemeClick = {
+                    onNavigateToSubSetting(SubSettingsScreen.Type.Theme)
+                },
                 onIconChangeClick = {
                     onNavigateToSubSetting(SubSettingsScreen.Type.IconChange)
                 },
@@ -241,6 +244,7 @@ fun SettingsView(
     onAdvancedSettingsClick: () -> Unit,
     onNotificationsClick: () -> Unit,
     onIconChangeClick: () -> Unit,
+    onThemeClick: () -> Unit,
     onWidgetClick: () -> Unit,
     onOnHelpCenterClick: () -> Unit,
     onReportBugClick: () -> Unit,
@@ -330,6 +334,14 @@ fun SettingsView(
                         icon = CoreR.drawable.ic_proton_bell,
                         title = stringResource(id = R.string.settings_notifications_title),
                         onClick = onNotificationsClick,
+                    )
+                }
+                if (viewState.theme != null) {
+                    SettingRowWithIcon(
+                        icon = CoreR.drawable.ic_proton_circle_half_filled,
+                        title = stringResource(R.string.settings_theme_title),
+                        onClick = onThemeClick,
+                        settingValue = viewState.theme.settingValueView,
                     )
                 }
                 SettingRowWithIcon(

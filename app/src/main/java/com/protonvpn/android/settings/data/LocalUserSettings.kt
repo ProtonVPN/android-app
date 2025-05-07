@@ -24,6 +24,7 @@ import androidx.room.ColumnInfo
 import com.protonvpn.android.logging.itemCountToLog
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.userstorage.UUIDSerializer
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.parcelize.Parcelize
@@ -99,6 +100,7 @@ data class LocalUserSettings(
     val randomizedNat: Boolean = true,
     val splitTunneling: SplitTunnelingSettings = SplitTunnelingSettings(),
     val telemetry: Boolean = true,
+    val theme: ThemeType = ThemeType.Dark,
     val vpnAccelerator: Boolean = true,
     val ipV6Enabled: Boolean = true,
     val customDns: CustomDnsSettings = CustomDnsSettings(false)
@@ -128,6 +130,7 @@ fun LocalUserSettings.toLogList(): List<String> {
         "IPv6 enabled: ${ipV6Enabled.toLog()}",
         "Custom DNS enabled: ${customDns.toggleEnabled.toLog()}",
         "Custom DNS list: ${customDns.rawDnsList.itemCountToLog()}",
+        "UI theme: $theme",
     )
     return regularSettings
 }

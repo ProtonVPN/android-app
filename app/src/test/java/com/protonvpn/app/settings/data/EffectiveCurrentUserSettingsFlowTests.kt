@@ -26,6 +26,7 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
+import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.mocks.FakeIsCustomDnsEnabled
@@ -80,15 +81,17 @@ class EffectiveCurrentUserSettingsFlowTests {
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
         val isCustomDnsEnabled = FakeIsCustomDnsEnabled(true)
         val isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
+        val isLightModeEnabled = FakeIsLightThemeFeatureFlagEnabled(true)
         val currentUser = CurrentUser(testUserProvider)
         effectiveSettingsFlow = EffectiveCurrentUserSettingsFlow(
-            rawSettingsFlow,
-            currentUser,
-            mockIsTv,
-            restrictionFlow,
-            isIPv6FeatureFlagEnabled,
-            isCustomDnsEnabled,
-            isDirectLanConnectionsFeatureFlagEnabled,
+            rawCurrentUserSettingsFlow = rawSettingsFlow,
+            currentUser = currentUser,
+            isTv = mockIsTv,
+            restrictionFlow = restrictionFlow,
+            isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
+            isCustomDnsFeatureFlagEnabled = isCustomDnsEnabled,
+            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
+            isLightThemeFeatureFlagEnabled = isLightModeEnabled,
         )
     }
 

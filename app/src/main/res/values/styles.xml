@@ -210,8 +210,8 @@
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.ProtonVpnBottomSheet</item>
     </style>
 
-    <!-- Force dark splash screen even if system uses light mode -->
-    <style name="ProtonTheme.Splash.Vpn.Dark">
+    <!-- Force dark splash screen even if system uses light mode - only on older devices -->
+    <style name="ProtonTheme.Splash.Vpn.DarkPreferred">
         <!-- baltic_sea corresponds to shade_0 in dark mode -->
         <item name="windowSplashScreenBackground">@color/baltic_sea</item>
         <item name="postSplashScreenTheme">@style/ProtonTheme.Vpn.Mobile</item>

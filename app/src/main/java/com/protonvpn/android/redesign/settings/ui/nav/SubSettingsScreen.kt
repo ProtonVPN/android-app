@@ -44,6 +44,7 @@ object SubSettingsScreen : Screen<SubSettingsScreen.Type, RootNav>("subSettingsS
         NetShield,
         Protocol,
         SplitTunneling,
+        Theme,
         VpnAccelerator,
         Widget
         // Not here! Keep them alphabetically sorted.

@@ -55,7 +55,7 @@
 
         <activity
             android:name=".redesign.app.ui.MainActivity"
-            android:theme="@style/ProtonTheme.Splash.Vpn.Dark"
+            android:theme="@style/ProtonTheme.Splash.Vpn.DarkPreferred"
             android:exported="false"
             android:enabled="false"
             android:launchMode="singleTask"

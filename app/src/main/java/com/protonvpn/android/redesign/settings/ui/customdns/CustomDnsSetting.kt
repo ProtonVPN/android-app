@@ -339,7 +339,7 @@ fun CustomDnsScreen(
 
 @Composable
 private fun EmptyState(
-    @StringRes dnsDescription: Int,
+    @StringRes dnsDescription: Int?,
     onLearnMore: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -361,16 +361,18 @@ private fun EmptyState(
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         Spacer(Modifier.height(8.dp))
-        AnnotatedClickableText(
-            fullText = stringResource(dnsDescription),
-            annotatedPart = stringResource(R.string.learn_more),
-            onAnnotatedClick = onLearnMore,
-            style = ProtonTheme.typography.body2Regular,
-            annotatedStyle = ProtonTheme.typography.body2Medium,
-            color = ProtonTheme.colors.textWeak,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
+        if (dnsDescription != null) {
+            AnnotatedClickableText(
+                fullText = stringResource(dnsDescription),
+                annotatedPart = stringResource(R.string.learn_more),
+                onAnnotatedClick = onLearnMore,
+                style = ProtonTheme.typography.body2Regular,
+                annotatedStyle = ProtonTheme.typography.body2Medium,
+                color = ProtonTheme.colors.textWeak,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+        }
         Spacer(Modifier.height(24.dp))
     }
 }
