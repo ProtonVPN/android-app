@@ -322,6 +322,15 @@ fun SubSettingsRoute(
                 DefaultConnectionSetting(onClose)
             }
 
+            SubSettingsScreen.Type.Theme -> {
+                val setting = viewModel.theme.collectAsStateWithLifecycle(initialValue = null).value
+                ThemeSettings(
+                    selectedTheme = setting,
+                    onSelected = settingsChangeViewModel::onThemeUpdated,
+                    onClose = onClose
+                )
+            }
+
             SubSettingsScreen.Type.IconChange -> {
                 IconSelectionSetting(
                     activeIcon = viewModel.getCurrentAppIcon(),

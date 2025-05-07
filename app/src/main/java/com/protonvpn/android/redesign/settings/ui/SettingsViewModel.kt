@@ -40,6 +40,9 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.settings.data.SplitTunnelingMode
+import com.protonvpn.android.theme.IsLightThemeFeatureFlagEnabled
+import com.protonvpn.android.theme.ThemeType
+import com.protonvpn.android.theme.label
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.ui.settings.CustomAppIconData
@@ -58,11 +61,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import me.proton.core.auth.domain.feature.IsFido2Enabled
 import me.proton.core.auth.fido.domain.entity.Fido2RegisteredKey
@@ -94,6 +99,7 @@ class SettingsViewModel @Inject constructor(
     private val appFeaturePrefs: AppFeaturesPrefs,
     private val isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
+    private val isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
     val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
 ) : ViewModel() {
@@ -103,7 +109,7 @@ class SettingsViewModel @Inject constructor(
         val isRestricted: Boolean,
         @StringRes val titleRes: Int,
         val settingValueView: SettingValue?,
-        @StringRes val descriptionRes: Int,
+        @StringRes val descriptionRes: Int?,
         @StringRes val annotationRes: Int? = null,
         @DrawableRes open val iconRes: Int? = null,
     ) {
@@ -285,6 +291,16 @@ class SettingsViewModel @Inject constructor(
             descriptionRes = R.string.settings_advanced_nat_type_description,
             annotationRes = R.string.learn_more
         )
+
+        class Theme(
+            value: ThemeType,
+        ) : SettingViewState<ThemeType>(
+            value = value,
+            titleRes = R.string.settings_theme_title,
+            settingValueView = SettingValue.SettingStringRes(value.label()),
+            isRestricted = false,
+            descriptionRes = null,
+        )
     }
 
     data class ProfileOverrideInfo(
@@ -307,6 +323,7 @@ class SettingsViewModel @Inject constructor(
         val buildInfo: String?,
         val showSignOut: Boolean,
         val showDebugTools: Boolean,
+        val theme: SettingViewState.Theme?,
         val isWidgetDiscovered: Boolean,
         val accountScreenEnabled: Boolean,
         val versionName: String,
@@ -331,7 +348,8 @@ class SettingsViewModel @Inject constructor(
             appFeaturePrefs.isWidgetDiscoveredFlow,
             isIPv6FeatureFlagEnabled.observe(),
             isPrivateDnsActiveFlow,
-        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled, isPrivateDnsActive ->
+            isLightThemeFeatureFlagEnabled.observe()
+        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled, isPrivateDnsActive, isLightThemeEnabled ->
             val isFree = user?.vpnUser?.isFreeUser == true
             val isCredentialLess = user?.user?.isCredentialLess() == true
             val settings = connectionSettings.connectionSettings
@@ -407,8 +425,9 @@ class SettingsViewModel @Inject constructor(
                         null,
                 versionName = BuildConfig.VERSION_NAME,
                 ipV6 = if (isIPv6FeatureFlagEnabled) SettingViewState.IPv6(enabled = settings.ipV6Enabled) else null,
+                theme = if (isLightThemeEnabled) SettingViewState.Theme(settings.theme) else null,
             )
-        }
+        }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(1_000), replay = 1)
 
     val vpnAccelerator = viewState.map { it.vpnAccelerator }.distinctUntilChanged()
     val netShield = viewState.map { it.netShield }.distinctUntilChanged()
@@ -421,6 +440,7 @@ class SettingsViewModel @Inject constructor(
     val protocol = viewState.map { it.protocol }.distinctUntilChanged()
     val customDns = viewState.map { it.customDns }.distinctUntilChanged()
     val splitTunneling = viewState.map { it.splitTunneling }.distinctUntilChanged()
+    val theme = viewState.map { it.theme?.value }.distinctUntilChanged()
 
     data class AdvancedSettingsViewState(
         val altRouting: SettingViewState.AltRouting,

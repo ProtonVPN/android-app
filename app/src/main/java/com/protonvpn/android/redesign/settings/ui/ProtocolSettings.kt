@@ -54,23 +54,25 @@ fun ProtocolSettings(
         )
 
         val footerPadding = Modifier.padding(top = 12.dp, bottom = 24.dp, start = 16.dp, end = 16.dp)
-        if (protocolViewState.annotationRes != null) {
-            AnnotatedClickableText(
-                fullText = protocolViewState.descriptionText(),
-                annotatedPart = stringResource(protocolViewState.annotationRes),
-                onAnnotatedClick = onLearnMore,
-                style = ProtonTheme.typography.body2Regular,
-                annotatedStyle = ProtonTheme.typography.body2Medium,
-                color = ProtonTheme.colors.textWeak,
-                modifier = footerPadding,
-            )
-        } else {
-            Text(
-                text = protocolViewState.descriptionText(),
-                style = ProtonTheme.typography.body2Regular,
-                color = ProtonTheme.colors.textWeak,
-                modifier = footerPadding,
-            )
+        protocolViewState.descriptionText()?.let { descriptionText ->
+            if (protocolViewState.annotationRes != null) {
+                AnnotatedClickableText(
+                    fullText = descriptionText,
+                    annotatedPart = stringResource(protocolViewState.annotationRes),
+                    onAnnotatedClick = onLearnMore,
+                    style = ProtonTheme.typography.body2Regular,
+                    annotatedStyle = ProtonTheme.typography.body2Medium,
+                    color = ProtonTheme.colors.textWeak,
+                    modifier = footerPadding,
+                )
+            } else {
+                Text(
+                    text = descriptionText,
+                    style = ProtonTheme.typography.body2Regular,
+                    color = ProtonTheme.colors.textWeak,
+                    modifier = footerPadding,
+                )
+            }
         }
     }
 }

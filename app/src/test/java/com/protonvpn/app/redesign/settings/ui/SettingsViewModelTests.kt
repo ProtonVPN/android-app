@@ -42,6 +42,7 @@ import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
+import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
@@ -156,11 +157,19 @@ class SettingsViewModelTests {
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
         val isCustomDnsEnabled = FakeIsCustomDnsEnabled(true)
         val isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
+        val isLightThemEnabled = FakeIsLightThemeFeatureFlagEnabled(true)
         settingsManager = CurrentUserLocalSettingsManager(
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()),
         )
         val effectiveCurrentUserSettingsFlow = EffectiveCurrentUserSettingsFlow(
-            settingsManager.rawCurrentUserSettingsFlow, currentUser, mockIsTvCheck, restrictionsFlow, isIPv6FeatureFlagEnabled, isCustomDnsEnabled, isDirectLanConnectionsFeatureFlagEnabled
+            rawCurrentUserSettingsFlow = settingsManager.rawCurrentUserSettingsFlow,
+            currentUser = currentUser,
+            isTv = mockIsTvCheck,
+            restrictionFlow = restrictionsFlow,
+            isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
+            isCustomDnsFeatureFlagEnabled = isCustomDnsEnabled,
+            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
+            isLightThemeFeatureFlagEnabled = isLightThemEnabled,
         )
         effectiveSettings = EffectiveCurrentUserSettings(
             testScope.backgroundScope, effectiveCurrentUserSettingsFlow
@@ -179,24 +188,25 @@ class SettingsViewModelTests {
         )
         isPrivateDnsActive = MutableStateFlow(false)
         settingsViewModel = SettingsViewModel(
-            currentUser,
-            mockObserveUserSettings,
-            mockBuildConfigInfo,
-            settingsForConnection,
-            vpnStatusProviderUI,
-            mockRecentManager,
-            mockInstalledAppsProvider,
-            getConnectIntentViewState,
-            mockAppIconManager,
-            ManagedConfig(MutableStateFlow(null)),
-            isFido2Enabled,
-            observeRegisteredSecurityKeys,
-            mockWidgetManager,
-            prefs,
-            isIPv6FeatureFlagEnabled,
-            isCustomDnsEnabled,
-            IsPrivateDnsActiveFlow(isPrivateDnsActive),
-            FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
+            currentUser = currentUser,
+            accountUserSettings = mockObserveUserSettings,
+            buildConfigInfo = mockBuildConfigInfo,
+            settingsForConnection = settingsForConnection,
+            vpnStatusProviderUI = vpnStatusProviderUI,
+            recentsManager = mockRecentManager,
+            installedAppsProvider = mockInstalledAppsProvider,
+            getConnectIntentViewState = getConnectIntentViewState,
+            appIconManager = mockAppIconManager,
+            managedConfig = ManagedConfig(MutableStateFlow(null)),
+            isFido2Enabled = isFido2Enabled,
+            observeRegisteredSecurityKeys = observeRegisteredSecurityKeys,
+            appWidgetManager = mockWidgetManager,
+            appFeaturePrefs = prefs,
+            isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
+            isCustomDnsFeatureFlagEnabled = isCustomDnsEnabled,
+            isLightThemeFeatureFlagEnabled = isLightThemEnabled,
+            isPrivateDnsActiveFlow = IsPrivateDnsActiveFlow(isPrivateDnsActive),
+            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled
         )
     }
 

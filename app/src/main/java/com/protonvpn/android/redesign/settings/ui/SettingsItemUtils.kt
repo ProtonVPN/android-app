@@ -55,12 +55,9 @@ fun SettingsToggleItem(
 }
 
 @Composable
-fun <T> SettingsViewModel.SettingViewState<T>.descriptionText() =
-    if (annotationRes != null) {
-        stringResource(
-            id = descriptionRes,
-            stringResource(id = annotationRes)
-        )
-    } else {
-        stringResource(id = descriptionRes)
+fun <T> SettingsViewModel.SettingViewState<T>.descriptionText(): String? =
+    when {
+        descriptionRes == null -> null
+        annotationRes != null -> stringResource(id = descriptionRes, stringResource(id = annotationRes))
+        else -> stringResource(id = descriptionRes)
     }

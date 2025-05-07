@@ -136,22 +136,24 @@ fun LazyListScope.addFeatureSettingItems(
         imageRes = imageRes,
         title = { stringResource(setting.titleRes) },
         description = {
-            CompositionLocalProvider(
-                LocalTextStyle provides ProtonTheme.typography.body2Regular,
-                LocalContentColor provides ProtonTheme.colors.textWeak
-            ) {
-                // TODO: refactor how we handle the embedded links, current Compose version should have better tools.
-                SettingDescription(
-                    setting.descriptionText(),
-                    setting.annotationRes?.let {
-                        ClickableTextAnnotation(
-                            annotatedPart = stringResource(it),
-                            onAnnotatedClick = onLearnMore,
-                            onAnnotatedOutsideClick = {}
-                        )
-                    },
-                    modifier = itemModifier.padding(top = 8.dp)
-                )
+            setting.descriptionText()?.let { descriptionText ->
+                CompositionLocalProvider(
+                    LocalTextStyle provides ProtonTheme.typography.body2Regular,
+                    LocalContentColor provides ProtonTheme.colors.textWeak
+                ) {
+                    // TODO: refactor how we handle the embedded links, current Compose version should have better tools.
+                    SettingDescription(
+                        descriptionText,
+                        setting.annotationRes?.let {
+                            ClickableTextAnnotation(
+                                annotatedPart = stringResource(it),
+                                onAnnotatedClick = onLearnMore,
+                                onAnnotatedOutsideClick = {}
+                            )
+                        },
+                        modifier = itemModifier.padding(top = 8.dp)
+                    )
+                }
             }
         },
         itemModifier = itemModifier
@@ -169,22 +171,24 @@ fun LazyListScope.addFeatureSettingItems(
         imageRes = imageRes,
         title = { stringResource(setting.titleRes) },
         description = {
-            CompositionLocalProvider(
-                LocalTextStyle provides ProtonTheme.typography.body2Regular,
-                LocalContentColor provides ProtonTheme.colors.textWeak
-            ) {
-                // TODO: refactor how we handle the embedded links, current Compose version should have better tools.
-                SettingDescription(
-                    setting.descriptionText(),
-                    setting.annotationRes?.let {
-                        ClickableTextAnnotation(
-                            annotatedPart = stringResource(it),
-                            onAnnotatedClick = onLearnMore,
-                            onAnnotatedOutsideClick = {}
-                        )
-                    },
-                    modifier = itemModifier.padding(top = 8.dp)
-                )
+            setting.descriptionText()?.let { descriptionText ->
+                CompositionLocalProvider(
+                    LocalTextStyle provides ProtonTheme.typography.body2Regular,
+                    LocalContentColor provides ProtonTheme.colors.textWeak
+                ) {
+                    // TODO: refactor how we handle the embedded links, current Compose version should have better tools.
+                    SettingDescription(
+                        descriptionText,
+                        setting.annotationRes?.let {
+                            ClickableTextAnnotation(
+                                annotatedPart = stringResource(it),
+                                onAnnotatedClick = onLearnMore,
+                                onAnnotatedOutsideClick = {}
+                            )
+                        },
+                        modifier = itemModifier.padding(top = 8.dp)
+                    )
+                }
             }
         },
         itemModifier = itemModifier,

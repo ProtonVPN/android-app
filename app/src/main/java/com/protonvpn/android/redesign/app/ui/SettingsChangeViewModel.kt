@@ -25,6 +25,7 @@ import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.SplitTunnelingMode
+import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnUiDelegate
@@ -133,6 +134,10 @@ class SettingsChangeViewModel @Inject constructor(
         viewModelScope.launch {
             reconnectionCheck(uiDelegate, DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected)
         }
+    }
+
+    fun onThemeUpdated(newTheme: ThemeType) {
+        viewModelScope.launch { userSettingsManager.update { current -> current.copy(theme = newTheme) } }
     }
 
     fun onReconnectClicked(uiDelegate: VpnUiDelegate, dontShowAgain: Boolean, type: DontShowAgainStore.Type) =

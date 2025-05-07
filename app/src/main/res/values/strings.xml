@@ -1401,6 +1401,10 @@
     <string name="settings_split_tunneling_already_excluded">Already excluded</string>
     <string name="settings_split_tunneling_already_included">Already included</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Remove IP address from the list?</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_value_auto">Device theme</string>
+    <string name="settings_theme_value_light">Light</string>
+    <string name="settings_theme_value_dark">Dark</string>
     <string name="settings_dialog_reconnect">New settings will apply next time you connect.</string>
     <string name="settings_needs_reconnect_banner">New settings will apply next time you connect.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>

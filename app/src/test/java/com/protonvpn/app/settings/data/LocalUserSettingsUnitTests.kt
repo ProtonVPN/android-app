@@ -26,6 +26,7 @@ import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
+import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
@@ -65,6 +66,7 @@ class LocalUserSettingsUnitTests {
                     "includedApps": []
                 },
                 "telemetry": true,
+                "theme": "Dark",
                 "vpnAccelerator": true,
                 "ipV6Enabled": true,
                 "customDns": {
@@ -115,6 +117,7 @@ class LocalUserSettingsUnitTests {
                     "includedApps": []
                 },
                 "telemetry": false,
+                "theme": "System",
                 "vpnAccelerator": false,
                 "ipV6Enabled": false,
                 "customDns": {
@@ -142,6 +145,7 @@ class LocalUserSettingsUnitTests {
                 includedIps = listOf("2.2.2.2"),
             ),
             telemetry = false,
+            theme = ThemeType.System,
             vpnAccelerator = false,
             ipV6Enabled = false,
             customDns = CustomDnsSettings(

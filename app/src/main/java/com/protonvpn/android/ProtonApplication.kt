@@ -51,6 +51,7 @@ import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
 import com.protonvpn.android.redesign.upgrade.usecase.PurchasesEnabledUpdater
 import com.protonvpn.android.servers.UpdateServersOnStartAndLocaleChange
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
+import com.protonvpn.android.theme.UpdateAndroidAppTheme
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.onboarding.ReviewTracker
 import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess
@@ -126,6 +127,7 @@ open class ProtonApplication : Application() {
         val settingChangesLogger: SettingChangesLogger?
         val notificationPermissionManager: NotificationPermissionManager?
         val showUpgradeSuccess: ShowUpgradeSuccess?
+        val updateAndroidAppTheme: UpdateAndroidAppTheme
         val updateProfileLastConnected: UpdateProfileLastConnected
         val updateServersOnLocaleChange: UpdateServersOnStartAndLocaleChange?
         val updateSettingsOnVpnUserChange: UpdateSettingsOnVpnUserChange?
@@ -158,8 +160,6 @@ open class ProtonApplication : Application() {
 
             initNotificationChannel(this)
 
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-
             // Initialize go-libraries early
             Seq.touch()
 
@@ -169,6 +169,8 @@ open class ProtonApplication : Application() {
 
     fun initDependencies() {
         val dependencies = EntryPointAccessors.fromApplication(this, DependencyEntryPoints::class.java)
+
+        dependencies.updateAndroidAppTheme.start() // Set UI theme early.
 
         // Start the EventLoop for all logged in Users.
         dependencies.coreEventManagerStarter.start()
