@@ -84,7 +84,7 @@ build amazon release:
   rules: *amazon_build_rules
   allow_failure: true
   tags:
-    - xlarge-k8s
+    - android-xlarge
   script:
     - >
       ./gradlew openvpn:assembleRelease \
@@ -98,7 +98,7 @@ build google play bundle:
   stage: build
   rules: *bundle_build_rules
   tags:
-    - xlarge-k8s
+    - android-xlarge
   script:
     # Build openvpn first, otherwise ovpnassets are not copied to app's assets.
     - >
@@ -113,7 +113,7 @@ build vanilla release:
   stage: build
   rules: *vanilla_build_rules
   tags:
-    - xlarge-k8s
+    - android-xlarge
   script:
     - ./gradlew openvpn:assembleRelease assembleProductionVanillaDirectRelease
   artifacts:
@@ -126,7 +126,7 @@ build payments black google dev:
   rules: *payments_black_build_rules
   allow_failure: true
   tags:
-    - xlarge-k8s
+    - android-xlarge
   script:
     - >
       ./gradlew openvpn:assembleRelease \
@@ -218,7 +218,7 @@ sync-app:
 publish-apk-internal:
   stage: publish
   tags:
-    - xlarge-k8s
+    - android-xlarge
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
