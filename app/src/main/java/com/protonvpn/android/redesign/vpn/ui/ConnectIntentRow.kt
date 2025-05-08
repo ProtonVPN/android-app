@@ -68,7 +68,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.redesign.CountryId
@@ -349,10 +349,10 @@ private fun SeparatorBullet(
     )
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun ConnectIntentRowPreviewCountry() {
-    VpnTheme {
+    ProtonVpnPreview {
         Row {
             ConnectIntentLabels(
                 primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
@@ -365,10 +365,10 @@ private fun ConnectIntentRowPreviewCountry() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun ConnectIntentRowPreviewGateway() {
-    VpnTheme {
+    ProtonVpnPreview {
         Row {
             ConnectIntentLabels(
                 primaryLabel = ConnectIntentPrimaryLabel.Gateway(gatewayName = "Dev VPN", null),
@@ -381,10 +381,10 @@ private fun ConnectIntentRowPreviewGateway() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun ConnectIntentRowFastestFreeServer() {
-    VpnTheme {
+    ProtonVpnPreview {
         Row {
             ConnectIntentLabels(
                 primaryLabel = ConnectIntentPrimaryLabel.Fastest(null, isSecureCore = false, isFree = true),
@@ -400,7 +400,7 @@ private fun ConnectIntentRowFastestFreeServer() {
 @Preview(widthDp = 130)
 @Composable
 private fun ServerDetailsRowWrappingPreview() {
-    VpnTheme {
+    ProtonVpnPreview {
         Surface(color = ProtonTheme.colors.backgroundSecondary) {
             ServerDetailsRow(
                 detailsText = AnnotatedString("Zurich"),

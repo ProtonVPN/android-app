@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.redesign.settings.ui.NatType
@@ -156,10 +156,10 @@ fun ProfileFeaturesAndSettings(
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun PreviewFeaturesAndSettings() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         ProfileFeaturesAndSettings(
             state = SettingsScreenState(
                 netShield = true,

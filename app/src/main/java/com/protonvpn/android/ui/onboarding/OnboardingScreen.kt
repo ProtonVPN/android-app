@@ -38,19 +38,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.VpnSolidButton
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.base.ui.upsellGradientEnd
 import com.protonvpn.android.redesign.base.ui.upsellGradientStart
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.ProtonTypography
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultSmallNorm
 import me.proton.core.compose.theme.defaultWeak
@@ -153,18 +148,10 @@ private fun UpsellBanner(modifier: Modifier) {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun OnboardingScreenPreview() {
-    VpnTheme(isDark = false) {
-        OnboardingScreen({}) {}
-    }
-}
-
-@Preview
-@Composable
-private fun OnboardingScreenPreviewDark() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         OnboardingScreen({}) {}
     }
 }

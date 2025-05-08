@@ -29,7 +29,9 @@ import com.protonvpn.android.redesign.settings.ui.LanSetting
 import com.protonvpn.android.redesign.settings.ui.NetShieldSetting
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
 import com.protonvpn.android.redesign.settings.ui.SplitTunnelingSubSetting
+import com.protonvpn.android.redesign.settings.ui.ThemeSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
+import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.vpn.DnsOverride
 
 @ProtonVpnTestPreview
@@ -152,5 +154,13 @@ fun KillSwitchPage() {
             onLearnMore = {},
             onOpenVpnSettings = {}
         )
+    }
+}
+
+@ProtonVpnTestPreview
+@Composable
+fun ThemePage() {
+    ProtonVpnPreview {
+        ThemeSettings(ThemeType.Dark, {}, {})
     }
 }

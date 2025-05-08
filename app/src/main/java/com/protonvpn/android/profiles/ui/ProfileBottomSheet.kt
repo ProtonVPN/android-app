@@ -255,7 +255,7 @@ private fun StaticProfileConnectIntentRow(
     )
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun ProfileBottomSheetPreview() {
     ProtonVpnPreview {

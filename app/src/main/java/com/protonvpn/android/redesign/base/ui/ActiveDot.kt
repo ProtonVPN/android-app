@@ -38,9 +38,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
@@ -89,10 +88,10 @@ private fun PingAnimation(
     )
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun ActiveDotPreview() {
-    VpnTheme {
+    ProtonVpnPreview {
         ActiveDot()
     }
 }

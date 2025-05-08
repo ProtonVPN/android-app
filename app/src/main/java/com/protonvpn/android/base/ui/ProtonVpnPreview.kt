@@ -19,15 +19,23 @@
 
 package com.protonvpn.android.base.ui
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.content.res.Configuration.UI_MODE_TYPE_NORMAL
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.compose.theme.isNightMode
+
+@Preview(name = "Default")
+@Preview(name = "Dark", uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL)
+annotation class ProtonVpnPreview
 
 @Composable
 fun ProtonVpnPreview(
-    isDark: Boolean = true,
+    isDark: Boolean = isNightMode(),
     addSurface: Boolean = true,
     surfaceColor: @Composable () -> Color = { ProtonTheme.colors.backgroundNorm },
     content: @Composable () -> Unit

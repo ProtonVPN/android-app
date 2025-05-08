@@ -49,7 +49,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.theme.ProtonDimens
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
@@ -395,11 +394,7 @@ private fun PreviewProtonSolidButton() {
     }
 }
 
-@Preview(
-    widthDp = 640,
-    showBackground = true,
-    backgroundColor = android.graphics.Color.WHITE.toLong()
-)
+@Preview(widthDp = 640)
 @Suppress("unused")
 @Composable
 private fun PreviewProtonOutlinedButton() {
@@ -415,11 +410,7 @@ private fun PreviewProtonOutlinedButton() {
     }
 }
 
-@Preview(
-    widthDp = 640,
-    showBackground = true,
-    backgroundColor = android.graphics.Color.WHITE.toLong()
-)
+@Preview(widthDp = 640)
 @Suppress("unused")
 @Composable
 private fun PreviewProtonTextButton() {
@@ -435,11 +426,7 @@ private fun PreviewProtonTextButton() {
     }
 }
 
-@Preview(
-    widthDp = 640,
-    showBackground = true,
-    backgroundColor = android.graphics.Color.WHITE.toLong()
-)
+@Preview(widthDp = 640)
 @Suppress("unused")
 @Composable
 private fun PreviewProtonSecondaryButton() {
@@ -458,7 +445,7 @@ private fun PreviewProtonSecondaryButton() {
 private inline fun PreviewHelper(
     crossinline button: @Composable (enabled: Boolean, contained: Boolean, loading: Boolean) -> Unit,
 ) {
-    VpnTheme {
+    ProtonVpnPreview {
         Column(Modifier.padding(10.dp)) {
             PreviewRowHelper(
                 enabled = true,

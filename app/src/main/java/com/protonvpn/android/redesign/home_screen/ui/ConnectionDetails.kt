@@ -63,7 +63,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -96,7 +95,6 @@ import com.protonvpn.android.base.ui.TopAppBarBackIcon
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.speedBytesToString
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
@@ -984,7 +982,7 @@ private fun ExitIpAddressText(
     )
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun ConnectionDetailsPreview() {
     ProtonVpnPreview {
@@ -1009,13 +1007,12 @@ fun ConnectionDetailsPreview() {
         )
         ConnectionDetailsConnected(viewState, {})
     }
-
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun ConnectionStatsPreview() {
-    VpnTheme {
+    ProtonVpnPreview {
         ConnectionStats(
             sessionTime = getSessionTime(sessionTimeInSeconds = 2500),
             exitCountry = CountryId.sweden,
@@ -1030,62 +1027,65 @@ fun ConnectionStatsPreview() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun ServerFeaturesPreview() {
-    ServerFeatures(
-        features = ConnectionDetailsViewModel.ServerFeatures(
-            hasTor = true,
-            hasP2P = true,
-            hasSecureCore = true,
-            smartRouting = ConnectionDetailsViewModel.SmartRouting(CountryId.switzerland, CountryId.sweden),
-            streamingServices = listOf(
-                StreamingService("Netflix", ""),
-                StreamingService("BBC iPlayer", ""),
-                StreamingService("Amazon Prime", ""),
-                StreamingService("DisneyPlus", ""),
-                StreamingService("ESPN", ""),
-                StreamingService("HULU", ""),
-                StreamingService("CBS", ""),
-            )
+    ProtonVpnPreview {
+        ServerFeatures(
+            features = ConnectionDetailsViewModel.ServerFeatures(
+                hasTor = true,
+                hasP2P = true,
+                hasSecureCore = true,
+                smartRouting = ConnectionDetailsViewModel.SmartRouting(CountryId.switzerland, CountryId.sweden),
+                streamingServices = listOf(
+                    StreamingService("Netflix", ""),
+                    StreamingService("BBC iPlayer", ""),
+                    StreamingService("Amazon Prime", ""),
+                    StreamingService("DisneyPlus", ""),
+                    StreamingService("ESPN", ""),
+                    StreamingService("HULU", ""),
+                    StreamingService("CBS", ""),
+                )
+            ),
+            onInfoOpen = {}
         )
-    ) {
-
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun FeaturePreview() {
-    Column {
-        FeatureComposable(
-            title = "P2P",
-            details = "Very long text to indicate multiple lines. Very long text to indicate multiple lines. Very long text to indicate multiple lines.",
-            iconId = CoreR.drawable.ic_proton_brand_tor,
-            onClick = {}
-        )
+    ProtonVpnPreview {
+        Column {
+            FeatureComposable(
+                title = "P2P",
+                details = "Very long text to indicate multiple lines. Very long text to indicate multiple lines. Very long text to indicate multiple lines.",
+                iconId = CoreR.drawable.ic_proton_brand_tor,
+                onClick = {}
+            )
 
-        FeatureComposable(
-            title = stringResource(id = R.string.connection_feature_streaming_title),
-            details = stringResource(id = R.string.connection_feature_streaming_description),
-            iconId = CoreR.drawable.ic_proton_play,
-            additionalInformation = {
-                Text(
-                    text = "Additional composable here",
-                    style = ProtonTheme.typography.body2Medium,
-                    color = ProtonTheme.colors.textNorm,
-                )
-            },
-            onClick = {},
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
+            FeatureComposable(
+                title = stringResource(id = R.string.connection_feature_streaming_title),
+                details = stringResource(id = R.string.connection_feature_streaming_description),
+                iconId = CoreR.drawable.ic_proton_play,
+                additionalInformation = {
+                    Text(
+                        text = "Additional composable here",
+                        style = ProtonTheme.typography.body2Medium,
+                        color = ProtonTheme.colors.textNorm,
+                    )
+                },
+                onClick = {},
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+        }
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun IpViewPreview() {
-    VpnTheme {
+    ProtonVpnPreview {
         IpView("192.120.0.1", IpPair(ipV4 = "1.4.3.2", ipV6 = "2001:abcd:1234:5678:0000:0000:0000:0001"))
     }
 }

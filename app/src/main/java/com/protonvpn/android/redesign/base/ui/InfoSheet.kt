@@ -712,7 +712,7 @@ class InfoTypePreviewProvider : PreviewParameterProvider<InfoType> {
     )
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun Previews(
     @PreviewParameter(InfoTypePreviewProvider::class) info: InfoType

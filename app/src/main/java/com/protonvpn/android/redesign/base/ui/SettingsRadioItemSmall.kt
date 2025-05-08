@@ -33,10 +33,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -95,18 +94,16 @@ fun SettingsRadioItemSmall(
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun RadioButtonPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            SettingsRadioItemSmall(
-                title = "Radio option",
-                description = "Long radio button description. Long radio button description. Long radio button description.",
-                selected = true,
-                onSelected = {},
-                horizontalContentPadding = 16.dp,
-            )
-        }
+    ProtonVpnPreview {
+        SettingsRadioItemSmall(
+            title = "Radio option",
+            description = "Long radio button description. Long radio button description. Long radio button description.",
+            selected = true,
+            onSelected = {},
+            horizontalContentPadding = 16.dp,
+        )
     }
 }

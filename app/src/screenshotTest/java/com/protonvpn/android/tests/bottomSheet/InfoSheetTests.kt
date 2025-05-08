@@ -24,12 +24,13 @@ package com.protonvpn.android.tests.bottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.base.ui.InfoSheetContent
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.InfoTypePreviewProvider
 
-@Preview
+@ProtonVpnTestPreview
 @Composable
 private fun Previews(
     @PreviewParameter(InfoTypePreviewProvider::class) info: InfoType

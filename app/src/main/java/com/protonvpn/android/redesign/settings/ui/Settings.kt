@@ -21,7 +21,6 @@ package com.protonvpn.android.redesign.settings.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Build
 import android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
 import android.provider.Settings.EXTRA_APP_PACKAGE
@@ -63,6 +62,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.LabelBadge
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
@@ -662,10 +662,10 @@ private fun SettingValueView(
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun SettingRowWithIconPreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         SettingRowWithIcon(
             icon = R.drawable.vpn_plus_badge,
             title = "Netshield",
@@ -675,10 +675,10 @@ fun SettingRowWithIconPreview() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun SettingRowWithOverridePreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         SettingRowWithIcon(
             icon = R.drawable.vpn_plus_badge,
             title = "Netshield",
@@ -698,10 +698,10 @@ fun SettingRowWithOverridePreview() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun SettingRowWithComposablesPreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         SettingRow(
             leadingComposable = {
                 Text("A")
@@ -718,10 +718,10 @@ fun SettingRowWithComposablesPreview() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun CategoryPreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         Column {
             Category(title = stringResource(id = R.string.settings_category_features)) {
                 SettingRow(
@@ -735,7 +735,8 @@ fun CategoryPreview() {
                         ) {
                             Text(
                                 text = "AG",
-                                style = ProtonTheme.typography.defaultNorm
+                                style = ProtonTheme.typography.body1Regular,
+                                color = Color.White,
                             )
                         }
                     },
@@ -772,10 +773,10 @@ fun CategoryPreview() {
     }
 }
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@ProtonVpnPreview
 @Composable
 fun AccountCategoryLoggedInPreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         Column {
             AccountCategory(
                 state = AccountSettingsViewState.LoggedIn(
@@ -793,10 +794,10 @@ fun AccountCategoryLoggedInPreview() {
     }
 }
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@ProtonVpnPreview
 @Composable
 fun AccountCategoryCredentialLessPreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         Column {
             AccountCategory(
                 state = AccountSettingsViewState.CredentialLess(UserId("userId")),

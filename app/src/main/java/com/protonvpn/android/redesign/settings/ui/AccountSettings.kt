@@ -101,7 +101,7 @@ fun AccountSettings(
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun PreviewAccountSettings() {
     ProtonVpnPreview {

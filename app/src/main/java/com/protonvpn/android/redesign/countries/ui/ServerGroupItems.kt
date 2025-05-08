@@ -59,11 +59,9 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
@@ -455,7 +453,7 @@ fun ServerGroupHeader(
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun ServerGroupItemRowWithOpenPreview() {
     ProtonVpnPreview {
@@ -476,10 +474,10 @@ private fun ServerGroupItemRowWithOpenPreview() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun SectionHeaderPreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         ServerGroupHeader(
             item = ServerGroupUiItem.Header(
                 labelRes = R.string.country_filter_all_list_header,
@@ -520,11 +518,11 @@ fun ServerItemPreview(
     )
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun CountryItemPreviews() {
-    VpnTheme(isDark = true) {
-        Column(modifier = Modifier.background(ProtonTheme.colors.backgroundNorm)) {
+    ProtonVpnPreview {
+        Column {
             CountryItemPreview()
             CountryItemPreview(entry = CountryId("is"), connected = true)
             CountryItemPreview(entry = CountryId("se"), inMaintenance = true)
@@ -534,11 +532,11 @@ fun CountryItemPreviews() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun CityItemPreviews() {
-    VpnTheme(isDark = true) {
-        Column(modifier = Modifier.background(ProtonTheme.colors.backgroundNorm)) {
+    ProtonVpnPreview {
+        Column {
             CityItemPreview(connected = true)
             CityItemPreview(inMaintenance = true)
             CityItemPreview(available = false)
@@ -546,11 +544,11 @@ fun CityItemPreviews() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun ServerItemPreviews() {
-    VpnTheme(isDark = true) {
-        Column(modifier = Modifier.background(ProtonTheme.colors.backgroundNorm)) {
+    ProtonVpnPreview {
+        Column {
             ServerItemPreview(load = 80)
             ServerItemPreview(load = 100)
             ServerItemPreview(inMaintenance = true)
@@ -559,11 +557,11 @@ fun ServerItemPreviews() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun GatewayItemPreviews() {
-    VpnTheme(isDark = true) {
-        Column(modifier = Modifier.background(ProtonTheme.colors.backgroundNorm)) {
+    ProtonVpnPreview {
+        Column {
             ServerGroupItem(
                 item = ServerGroupUiItem.ServerGroup(
                     data = ServerGroupItemData.Gateway(
