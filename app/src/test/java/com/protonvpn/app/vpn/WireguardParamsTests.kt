@@ -21,6 +21,7 @@ package com.protonvpn.app.vpn
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
+import com.protonvpn.android.models.vpn.DIRECT_CONNECTIONS_EXCLUDED_APPS
 import com.protonvpn.android.models.vpn.usecase.ComputeAllowedIPs
 import com.protonvpn.android.models.vpn.usecase.ProvideLocalNetworks
 import com.protonvpn.android.models.vpn.usecase.toIPAddress
@@ -192,6 +193,49 @@ class WireguardParamsTests {
     }
 
     @Test
+    fun `direct connection apps excluded from split tunneling`() = runTest {
+        val settings = LocalUserSettings(splitTunneling = splitTunnelingExcludeOnly1App, lanConnectionsAllowDirect = true)
+        val config = getTunnelConfigInTest(settings)
+        with (config.`interface`) {
+            assertTrue(includedApplications.isEmpty())
+            assertEquals(
+                DIRECT_CONNECTIONS_EXCLUDED_APPS.toSet() + splitTunnelingExcludeOnly1App.excludedApps.toSet(),
+                excludedApplications.toSet()
+            )
+        }
+    }
+
+    @Test
+    fun `direct connection apps excluded from split tunneling when split tunneling disabled`() = runTest {
+        val settings = LocalUserSettings(splitTunneling = splitTunnelingDisabled, lanConnectionsAllowDirect = true)
+        val config = getTunnelConfigInTest(settings)
+        with (config.`interface`) {
+            assertTrue(includedApplications.isEmpty())
+            assertEquals(DIRECT_CONNECTIONS_EXCLUDED_APPS.toSet(), excludedApplications)
+        }
+    }
+
+    @Test
+    fun `direct connection apps excluded in included mode without apps`() = runTest {
+        val settings = LocalUserSettings(splitTunneling = splitTunnelingIncludeOnly1Ip, lanConnectionsAllowDirect = true)
+        val config = getTunnelConfigInTest(settings)
+        with (config.`interface`) {
+            assertTrue(includedApplications.isEmpty())
+            assertEquals(DIRECT_CONNECTIONS_EXCLUDED_APPS.toSet(), excludedApplications)
+        }
+    }
+
+    @Test
+    fun `direct connection apps excluded in exclude mode without apps`() = runTest {
+        val settings = LocalUserSettings(splitTunneling = splitTunnelingIncludeOnly1Ip, lanConnectionsAllowDirect = true)
+        val config = getTunnelConfigInTest(settings)
+        with (config.`interface`) {
+            assertTrue(includedApplications.isEmpty())
+            assertEquals(DIRECT_CONNECTIONS_EXCLUDED_APPS.toSet(), excludedApplications)
+        }
+    }
+
+    @Test
     fun `Guest Hole - only VPN app goes via the tunnel (split tunneling settings ignored)`() = runTest {
         suspend fun test(splitTunneling: SplitTunnelingSettings) {
             val config = getTunnelConfigInTest(LocalUserSettings(splitTunneling = splitTunneling))
@@ -217,7 +261,7 @@ class WireguardParamsTests {
         userSettings = settings,
         sessionId = null,
         certificateRepository = mockCertRepository,
-        computeAllowedIPs = ComputeAllowedIPs(ProvideLocalNetworks { _, _ -> localNetworks }),
+        computeAllowedIPs = ComputeAllowedIPs(ProvideLocalNetworks { localNetworks }),
     )
 
     private fun createConnectionParams(connectIntent: AnyConnectIntent, ipV6Server: Boolean = true) =

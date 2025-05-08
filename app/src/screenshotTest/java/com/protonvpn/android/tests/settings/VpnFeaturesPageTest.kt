@@ -22,17 +22,17 @@
 package com.protonvpn.android.tests.settings
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.settings.ui.KillSwitchInfo
+import com.protonvpn.android.redesign.settings.ui.LanSetting
 import com.protonvpn.android.redesign.settings.ui.NetShieldSetting
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
 import com.protonvpn.android.redesign.settings.ui.SplitTunnelingSubSetting
 import com.protonvpn.android.settings.data.SplitTunnelingMode
-import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.vpn.DnsOverride
 
-@Preview
+@ProtonVpnTestPreview
 @Composable
 fun NetshieldSettingPage() {
     ProtonVpnPreview {
@@ -54,7 +54,25 @@ fun NetshieldSettingPage() {
     }
 }
 
-@Preview
+@ProtonVpnTestPreview
+@Composable
+fun LanSettingPage() {
+    ProtonVpnPreview {
+        LanSetting(
+            onClose = {},
+            onToggleLan = {},
+            onToggleAllowDirectConnection = {},
+            lan = SettingsViewModel.SettingViewState.LanConnections(
+                value = true,
+                allowDirectConnections = false,
+                isFreeUser = false,
+                overrideProfilePrimaryLabel = null
+            )
+        )
+    }
+}
+
+@ProtonVpnTestPreview
 @Composable
 fun NetshieldPrivateDnsSettingPage() {
     ProtonVpnPreview {
@@ -76,7 +94,7 @@ fun NetshieldPrivateDnsSettingPage() {
     }
 }
 
-@Preview
+@ProtonVpnTestPreview
 @Composable
 fun NetshieldCustomDnsSettingPage() {
     ProtonVpnPreview {
@@ -98,7 +116,7 @@ fun NetshieldCustomDnsSettingPage() {
     }
 }
 
-@Preview
+@ProtonVpnTestPreview
 @Composable
 fun SplitTunnelingPage() {
     ProtonVpnPreview {
@@ -125,7 +143,7 @@ fun SplitTunnelingPage() {
     }
 }
 
-@Preview
+@ProtonVpnTestPreview
 @Composable
 fun KillSwitchPage() {
     ProtonVpnPreview {
