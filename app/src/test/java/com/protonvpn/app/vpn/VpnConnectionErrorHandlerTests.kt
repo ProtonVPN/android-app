@@ -67,6 +67,8 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeGetProfileById
+import com.protonvpn.mocks.FakeIsCustomDnsEnabled
+import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -196,8 +198,10 @@ class VpnConnectionErrorHandlerTests {
         userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, userSettingsFlow)
         getOnlineServersForIntent = GetOnlineServersForIntent(serverManager2, supportsProtocol)
+        val settingsForConnection = SettingsForConnection(userSettings, FakeGetProfileById(),
+            FakeIsLanDirectConnectionsFeatureFlagEnabled(true), FakeIsCustomDnsEnabled(true), vpnStatusProviderUI)
         handler = VpnConnectionErrorHandler(testScope.backgroundScope, api, appConfig,
-            SettingsForConnection(userSettings, FakeGetProfileById(), vpnStatusProviderUI), userPlanManager, serverManager2, vpnStateMonitor, serverListUpdater,
+            settingsForConnection, userPlanManager, serverManager2, vpnStateMonitor, serverListUpdater,
             networkManager, vpnBackendProvider, currentUser, getConnectingDomain, getOnlineServersForIntent, testScope::currentTime, errorUIManager)
     }
 

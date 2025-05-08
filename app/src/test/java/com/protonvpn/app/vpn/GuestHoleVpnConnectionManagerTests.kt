@@ -52,6 +52,8 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeGetProfileById
+import com.protonvpn.mocks.FakeIsCustomDnsEnabled
+import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.mocks.FakeVpnPermissionDelegate
 import com.protonvpn.mocks.FakeVpnUiDelegate
 import com.protonvpn.mocks.TestProtonLogger
@@ -147,11 +149,8 @@ class GuestHoleVpnConnectionManagerTests {
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = fakeVpnPermissionDelegate,
             getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags())),
-            settingsForConnection = SettingsForConnection(
-                effectiveSettings,
-                FakeGetProfileById(),
-
-                vpnStatusUiProvider,
+            settingsForConnection = SettingsForConnection(effectiveSettings, FakeGetProfileById(),
+                FakeIsLanDirectConnectionsFeatureFlagEnabled(true), FakeIsCustomDnsEnabled(true), vpnStatusUiProvider,
             ),
             backendProvider = mockBackendProvider,
             networkManager = networkManager,
