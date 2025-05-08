@@ -19,10 +19,12 @@
 
 package com.protonvpn.android.models.vpn
 
+import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
 
+@VisibleForTesting
 val DIRECT_CONNECTIONS_EXCLUDED_APPS = listOf(
     "com.google.android.projection.gearhead", // Android Auto
 )
@@ -55,7 +57,8 @@ fun applyAppsSplitTunneling(
             isEnabled && mode == SplitTunnelingMode.EXCLUDE_ONLY && excludedApps.isNotEmpty() ->
                 configurator.excludeApplications(excludedApps + directConnectionsExcludedApps - myPackageName)
 
-            !isEnabled && allowDirectLanConnections ->
+            // When split tunneling disabled or include enabled without included apps
+            allowDirectLanConnections ->
                 configurator.excludeApplications(directConnectionsExcludedApps)
         }
     }

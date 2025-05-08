@@ -147,7 +147,12 @@ class GuestHoleVpnConnectionManagerTests {
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = fakeVpnPermissionDelegate,
             getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags())),
-            settingsForConnection = SettingsForConnection(effectiveSettings, FakeGetProfileById(), vpnStatusUiProvider),
+            settingsForConnection = SettingsForConnection(
+                effectiveSettings,
+                FakeGetProfileById(),
+
+                vpnStatusUiProvider,
+            ),
             backendProvider = mockBackendProvider,
             networkManager = networkManager,
             vpnErrorHandler = mockVpnErrorHandler,

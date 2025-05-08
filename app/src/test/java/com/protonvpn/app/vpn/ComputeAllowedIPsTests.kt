@@ -52,7 +52,7 @@ class ComputeAllowedIPsTests {
     @Before
     fun setup() {
         localNetworks = emptyList()
-        computeAllowedIPs = ComputeAllowedIPs(ProvideLocalNetworks { _, _ -> localNetworks })
+        computeAllowedIPs = ComputeAllowedIPs(ProvideLocalNetworks { localNetworks })
     }
 
     @Test
@@ -196,6 +196,37 @@ class ComputeAllowedIPsTests {
             computeStringSet(lanConnections = true)
         )
         assertEquals(setOf("0.0.0.0/0", "::/0"), computeStringSet(lanConnections = false))
+    }
+
+    @Test
+    fun `full private ranges are used when LAN direct connections are on`() {
+        localNetworks = listOf("100.0.0.0/8", "192.168.5.0/24").map { it.toIPAddress() }
+        val v4private = setOf(
+            "10.0.0.0/8",
+            "172.16.0.0/12",
+            "192.168.0.0/16",
+            "169.254.0.0/16",
+            "224.0.0.0/4",
+            "255.255.255.255/32"
+        ).map { it.toIPAddress() }.toSet()
+        val v6private = setOf(
+            "fc00::/7",
+            "fe80::/10",
+            "ff00::/8"
+        ).map { it.toIPAddress() }.toSet()
+
+        assertEquals(
+            v4private + v6private,
+            computeAllowedIPs.getLocalRanges(ipV6Enabled = true, allowDirectConnections = true).toSet(),
+        )
+        assertEquals(
+            v4private,
+            computeAllowedIPs.getLocalRanges(ipV6Enabled = false, allowDirectConnections = true).toSet(),
+        )
+        assertEquals(
+            localNetworks.toSet(),
+            computeAllowedIPs.getLocalRanges(ipV6Enabled = true, allowDirectConnections = false).toSet(),
+        )
     }
 
     private fun splitInclude(vararg ips: String) = SplitTunnelingSettings(
