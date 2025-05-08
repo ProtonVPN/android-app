@@ -171,7 +171,9 @@ class SettingsViewModelTests {
         vpnStateMonitor = VpnStateMonitor()
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         getProfileById = FakeGetProfileById()
-        settingsForConnection = SettingsForConnection(effectiveSettings, getProfileById, vpnStatusProviderUI)
+        settingsForConnection = SettingsForConnection(effectiveSettings, getProfileById,
+            FakeIsLanDirectConnectionsFeatureFlagEnabled(true), FakeIsCustomDnsEnabled(true),
+            vpnStatusProviderUI)
 
         val getConnectIntentViewState = GetConnectIntentViewState(
             serverManager = mockk(),

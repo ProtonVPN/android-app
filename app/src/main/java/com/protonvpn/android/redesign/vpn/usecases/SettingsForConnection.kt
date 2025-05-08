@@ -26,7 +26,9 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import dagger.Reusable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -35,6 +37,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -42,6 +45,8 @@ import javax.inject.Singleton
 class SettingsForConnection @Inject constructor(
     private val settings: EffectiveCurrentUserSettings,
     private val getProfileById: GetProfileById,
+    private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
+    private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
     vpnStatusProviderUI: VpnStatusProviderUI,
 ) {
     suspend fun getFor(intent: AnyConnectIntent?) : LocalUserSettings =
@@ -64,7 +69,7 @@ class SettingsForConnection @Inject constructor(
                 settings.effectiveSettings.map { effectiveSettings ->
                     CurrentConnectionSettings(
                         associatedProfile = null,
-                        connectionSettings = effectiveSettings.applyOverrides(connectIntent?.settingsOverrides)
+                        connectionSettings = effectiveSettings.applyEffectiveOverrides(connectIntent?.settingsOverrides)
                     )
                 }
             } else {
@@ -74,11 +79,21 @@ class SettingsForConnection @Inject constructor(
                 ) { profile, effectiveSettings ->
                     CurrentConnectionSettings(
                         associatedProfile = profile,
-                        connectionSettings = effectiveSettings.applyOverrides(profile?.connectIntent?.settingsOverrides)
+                        connectionSettings = effectiveSettings.applyEffectiveOverrides(profile?.connectIntent?.settingsOverrides)
                     )
                 }
             }
         }
+
+    private suspend fun LocalUserSettings.applyEffectiveOverrides(
+        overrides: SettingsOverrides?
+    ): LocalUserSettings {
+        return applyEffectiveOverrides(
+            overrides,
+            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled(),
+            isCustomDnsFeatureFlagEnabled = isCustomDnsFeatureFlagEnabled()
+        )
+    }
 
     data class CurrentConnectionSettings(
         val associatedProfile: Profile?,
@@ -91,18 +106,41 @@ class SettingsForConnection @Inject constructor(
 )
 @Singleton
 class SettingsForConnectionCached @Inject constructor(
-    private val effectiveCurrentUserSettingsCached: EffectiveCurrentUserSettingsCached
+    private val effectiveCurrentUserSettingsCached: EffectiveCurrentUserSettingsCached,
+    private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
+    private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
 ) {
-    fun getFor(intent: AnyConnectIntent) : LocalUserSettings =
-        effectiveCurrentUserSettingsCached.value.applyOverrides(intent.settingsOverrides)
+    fun getFor(intent: AnyConnectIntent) : LocalUserSettings = runBlocking {
+        effectiveCurrentUserSettingsCached.value.applyEffectiveOverrides(
+            intent.settingsOverrides,
+            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled(),
+            isCustomDnsFeatureFlagEnabled = isCustomDnsFeatureFlagEnabled()
+        )
+    }
+}
+
+private fun LocalUserSettings.applyEffectiveOverrides(
+    overrides: SettingsOverrides?,
+    isCustomDnsFeatureFlagEnabled: Boolean,
+    isDirectLanConnectionsFeatureFlagEnabled: Boolean
+): LocalUserSettings {
+    return applyOverrides(
+        overrides?.copy(
+            customDns = if (isCustomDnsFeatureFlagEnabled) overrides.customDns else null,
+            lanConnectionsAllowDirect =
+                if (isDirectLanConnectionsFeatureFlagEnabled) overrides.lanConnectionsAllowDirect
+                else null
+        )
+    )
 }
 
 fun LocalUserSettings.applyOverrides(overrides: SettingsOverrides?) : LocalUserSettings {
     if (overrides == null) return this
+    val lan = overrides.lanConnections ?: lanConnections
     return copy(
         netShield = overrides.netShield ?: netShield,
-        lanConnections = overrides.lanConnections ?: lanConnections,
-        lanConnectionsAllowDirect = overrides.lanConnectionsAllowDirect ?: lanConnectionsAllowDirect,
+        lanConnections = lan,
+        lanConnectionsAllowDirect = lan && overrides.lanConnectionsAllowDirect ?: lanConnectionsAllowDirect,
         randomizedNat = overrides.randomizedNat ?: randomizedNat,
         protocol = overrides.protocol ?: protocol,
         customDns = overrides.customDns ?: customDns
