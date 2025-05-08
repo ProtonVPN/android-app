@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
@@ -37,50 +38,29 @@ import com.protonvpn.android.redesign.base.ui.ProfileConnectIntentIcon
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import me.proton.core.compose.theme.isNightMode
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@ProtonVpnTestPreview
+@Preview(name = "RTL", locale = "fa")
 @Composable
-fun ConnectIntentIconMediumDark() {
-    ProtonVpnPreview(isDark = isNightMode()) {
+fun ConnectIntentIconMedium() {
+    ProtonVpnPreview {
         ConnectIntentIcons(ConnectIntentIconSize.MEDIUM)
     }
 }
 
-@Preview(locale = "fa")
+@ProtonVpnTestPreview
+@Preview(name = "RTL", locale = "fa")
 @Composable
-fun ConnectIntentIconMediumRtlLight() {
-    ProtonVpnPreview(isDark = isNightMode()) {
-        ConnectIntentIcons(ConnectIntentIconSize.MEDIUM)
-    }
-}
-
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun ConnectIntentIconSmallDark() {
-    ProtonVpnPreview(isDark = isNightMode()) {
+fun ConnectIntentIconSmall() {
+    ProtonVpnPreview {
         ConnectIntentIcons(ConnectIntentIconSize.SMALL)
     }
 }
 
+@ProtonVpnTestPreview
 @Preview(locale = "fa")
 @Composable
-fun ConnectIntentIconSmallRtlLight() {
-    ProtonVpnPreview(isDark = isNightMode()) {
-        ConnectIntentIcons(ConnectIntentIconSize.SMALL)
-    }
-}
-
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun ConnectIntentIconLargeDark() {
-    ProtonVpnPreview(isDark = isNightMode()) {
-        ConnectIntentIcons(ConnectIntentIconSize.LARGE)
-    }
-}
-
-@Preview(locale = "fa")
-@Composable
-fun ConnectIntentIconLargeRtlLight() {
-    ProtonVpnPreview(isDark = isNightMode()) {
+fun ConnectIntentIconLarge() {
+    ProtonVpnPreview {
         ConnectIntentIcons(ConnectIntentIconSize.LARGE)
     }
 }

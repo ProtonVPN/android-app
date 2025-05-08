@@ -31,10 +31,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionUnspecified
@@ -72,10 +71,10 @@ private fun ServerFeature.labelRes() = when (this) {
     ServerFeature.P2P -> R.string.server_feature_label_p2p
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun FeatureTagPreview() {
-    VpnTheme {
+    ProtonVpnPreview {
         FeatureTag(ServerFeature.Tor)
     }
 }

@@ -55,7 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonTextButton
-import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
 import me.proton.core.compose.theme.headlineNorm
@@ -205,65 +205,39 @@ fun ProtonDialogCheckbox(
     }
 }
 
+@ProtonVpnPreview
 @Composable
 fun PreviewProtonAlert() {
-    ProtonAlert(
-        title = "Title",
-        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
-            "tempor incididunt ut labore et dolore magna aliqua.",
-        confirmLabel = "Confirm",
-        onConfirm = {},
-        dismissLabel = "Dismiss",
-        onDismissButton = {},
-        checkBox = "Check me",
-        checkBoxInitialValue = false
-    )
+    ProtonVpnPreview {
+        ProtonAlert(
+            title = "Title",
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
+                "tempor incididunt ut labore et dolore magna aliqua.",
+            confirmLabel = "Confirm",
+            onConfirm = {},
+            dismissLabel = "Dismiss",
+            onDismissButton = {},
+            checkBox = "Check me",
+            checkBoxInitialValue = false
+        )
+    }
 }
 
+@ProtonVpnPreview
 @Composable
 fun PreviewAlertWithImageDetails() {
-    ProtonAlert(
-        title = "Title",
-        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
+    ProtonVpnPreview {
+        ProtonAlert(
+            title = "Title",
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
                 "tempor incididunt ut labore et dolore magna aliqua.",
-        detailsImage = R.drawable.app_icon_preview_notes,
-        confirmLabel = "Confirm",
-        onConfirm = {},
-        dismissLabel = "Dismiss",
-        onDismissButton = {},
-        checkBox = "Check me",
-        checkBoxInitialValue = false,
-    )
-}
-
-@Preview
-@Composable
-fun PreviewProtonAlertLight() {
-    VpnTheme(isDark = false) {
-        PreviewProtonAlert()
-    }
-}
-
-@Preview
-@Composable
-fun PreviewProtonAlertDark() {
-    VpnTheme(isDark = true) {
-        PreviewProtonAlert()
-    }
-}
-
-@Preview
-@Composable
-fun PreviewAlertWithImageDetailsLight() {
-    VpnTheme(isDark = false) {
-        PreviewAlertWithImageDetails()
-    }
-}
-
-@Preview
-@Composable
-fun PreviewAlertWithImageDetailsDark() {
-    VpnTheme(isDark = true) {
-        PreviewAlertWithImageDetails()
+            detailsImage = R.drawable.app_icon_preview_notes,
+            confirmLabel = "Confirm",
+            onConfirm = {},
+            dismissLabel = "Dismiss",
+            onDismissButton = {},
+            checkBox = "Check me",
+            checkBoxInitialValue = false,
+        )
     }
 }

@@ -46,12 +46,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.PlaceholderRect
 import com.protonvpn.android.base.ui.ProtonSolidButton
-import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.base.ui.vpnGreen
 import com.protonvpn.android.utils.Constants
 import me.proton.core.compose.theme.ProtonDimens
@@ -347,10 +346,10 @@ private fun WithMinHeightOf(
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xff000000)
+@ProtonVpnPreview
 @Composable
 private fun PreviewPlan() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         PaymentPanel(
             viewState = ViewState.PlanReady(
                 "VPN Plus",
@@ -378,10 +377,10 @@ private fun PreviewPlan() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun PreviewLoadingPlans() {
-    VpnTheme(isDark = false) {
+    ProtonVpnPreview {
         PaymentPanel(viewState = ViewState.LoadingPlans, null, {}, {}, {}, {}, {})
     }
 }

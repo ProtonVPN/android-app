@@ -34,9 +34,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallStrongUnspecified
 import me.proton.core.compose.theme.defaultSmallUnspecified
@@ -124,22 +123,12 @@ private val previewSnackbarData = object : SnackbarData {
     override fun performAction() = Unit
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun ProtonSnackbarAllFieldsPreview() {
-    VpnTheme {
+    ProtonVpnPreview {
         ProtonSnackbar(
             snackbarData = previewSnackbarData,
-        )
-    }
-}
-
-@Preview
-@Composable
-fun ProtonSnackbarAllFieldsPreviewDark() {
-    VpnTheme(isDark = true) {
-        ProtonSnackbar(
-            snackbarData = previewSnackbarData
         )
     }
 }

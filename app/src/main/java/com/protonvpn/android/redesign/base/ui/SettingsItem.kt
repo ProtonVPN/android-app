@@ -40,12 +40,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonSwitch
-import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.settings.ui.OverrideSettingLabel
 import com.protonvpn.android.redesign.settings.ui.SettingValue
 import me.proton.core.compose.component.VerticalSpacer
@@ -269,10 +268,10 @@ private fun IconNeedsUpgrade(
     )
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun SettingTogglePreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         Surface {
             SettingsToggleItem(
                 name = "Toggle option",
@@ -285,10 +284,10 @@ fun SettingTogglePreview() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun SettingToggleInfoPreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         Surface {
             SettingsToggleItem(
                 name = "Toggle option with a long description that wraps",
@@ -302,10 +301,10 @@ fun SettingToggleInfoPreview() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun SettingValuePreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         Surface {
             SettingsValueItem(
                 name = "Setting name",

@@ -337,7 +337,7 @@ private fun ReconnectDialog(
     )
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun PreviewSignOutDialog() {
     ProtonVpnPreview {

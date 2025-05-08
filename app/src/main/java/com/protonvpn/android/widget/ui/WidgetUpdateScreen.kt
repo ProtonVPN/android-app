@@ -34,17 +34,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.TextWithStyle
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnTextButton
 import com.protonvpn.android.base.ui.textMultiStyle
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.settings.ui.SubSetting
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -165,18 +164,18 @@ private fun WidgetLottieAnimation(
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun WidgetSettingsScreenPreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         WidgetAddScreen(onClose = {})
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun WidgetOnboardingBottomSheetPreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         OnboardingWidgetBottomSheetContent(
             onClose = {},
             onAddWidget = {}
@@ -184,10 +183,10 @@ fun WidgetOnboardingBottomSheetPreview() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun WidgetOnboardingBottomSheetNonNativePreview() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview {
         OnboardingWidgetBottomSheetContent(
             onClose = {},
             onAddWidget = null

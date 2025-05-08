@@ -93,7 +93,7 @@ fun AutoLoginErrorView(message: String?, onRetry: () -> Unit) {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun PreviewAutoLoginView() {
     ProtonVpnPreview {
@@ -101,7 +101,7 @@ fun PreviewAutoLoginView() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 fun PreviewAutoLoginErrorView() {
     ProtonVpnPreview {

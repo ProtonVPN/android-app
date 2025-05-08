@@ -23,6 +23,8 @@ package com.protonvpn.android.tests.settings
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.protonvpn.android.annotations.ProtonVpnTestPreview
+import com.protonvpn.android.annotations.ProtonVpnTestPreviewLong
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
@@ -44,8 +46,8 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.accountmanager.presentation.compose.viewmodel.AccountSettingsViewState
 import me.proton.core.domain.entity.UserId
 
+@ProtonVpnTestPreviewLong
 @Composable
-@Preview(heightDp = 1625)
 fun SettingsCredentialless() {
     val settings = SettingsData(true)
 
@@ -82,179 +84,8 @@ fun SettingsCredentialless() {
     }
 }
 
+@ProtonVpnTestPreviewLong
 @Composable
-@Preview()
-fun AdvancedSettingsNotConnectedPaid() {
-    val settingsPaid = SettingsData(false, false)
-    ProtonVpnPreview(addSurface = true) {
-        AdvancedSettings(
-            onClose = {},
-            profileOverrideInfo = settingsPaid.overrideInfo,
-            altRouting = settingsPaid.settingsViewState.altRouting,
-            allowLan = settingsPaid.settingsViewState.lanConnections,
-            natType = settingsPaid.settingsViewState.natType,
-            onAltRoutingChange = {},
-            onNavigateToLan = {},
-            onNatTypeRestricted = {},
-            onNatTypeLearnMore = {},
-            onAllowLanRestricted = {},
-            onNavigateToNatType = {},
-            ipV6 = settingsPaid.settingsViewState.ipV6,
-            onIPv6Toggle = {},
-            onIPv6InfoClick = {},
-            customDns = settingsPaid.settingsViewState.customDns,
-            onCustomDnsLearnMore = {},
-            onCustomDnsRestricted = {},
-            onNavigateToCustomDns = {},
-        )
-    }
-}
-
-@Composable
-@Preview()
-fun CustomDnsEmptyState() {
-    ProtonVpnPreview(addSurface = true) {
-        CustomDnsScreen(
-            onClose = {},
-            onDnsChange = {},
-            onDnsToggled = {},
-            onLearnMore = {},
-            onPrivateDnsLearnMore = {},
-            onOpenPrivateDnsSettings = {},
-            onItemRemoved = {},
-            viewState = CustomDnsViewState.DnsListState(
-                dnsViewState = SettingViewState.CustomDns(
-                    enabled = true,
-                    customDns = emptyList(),
-                    overrideProfilePrimaryLabel = null,
-                    isFreeUser = false,
-                    isPrivateDnsActive = false
-                ),
-            )
-        )
-    }
-}
-
-@Composable
-@Preview()
-fun CustomDnsState() {
-    val settingsPaid = SettingsData(false, true)
-    ProtonVpnPreview(addSurface = true) {
-        CustomDnsScreen(
-            onClose = {},
-            onDnsChange = {},
-            onDnsToggled = {},
-            onLearnMore = {},
-            onPrivateDnsLearnMore = {},
-            onOpenPrivateDnsSettings = {},
-            onItemRemoved = {},
-            viewState = CustomDnsViewState.DnsListState(
-                dnsViewState = settingsPaid.settingsViewState.customDns!!
-            )
-        )
-    }
-}
-
-@Composable
-@Preview()
-fun CustomDnsStatePrivateDns() {
-    val settingsPaid = SettingsData(false, true, isPrivateDnsActive = true)
-    ProtonVpnPreview(addSurface = true) {
-        CustomDnsScreen(
-            onClose = {},
-            onDnsChange = {},
-            onDnsToggled = {},
-            onLearnMore = {},
-            onPrivateDnsLearnMore = {},
-            onOpenPrivateDnsSettings = {},
-            onItemRemoved = {},
-            viewState = CustomDnsViewState.DnsListState(
-                dnsViewState = settingsPaid.settingsViewState.customDns!!
-            ),
-        )
-    }
-}
-
-@Preview
-@Composable
-fun AdvancedSettingsProfileConnected() {
-    val settingsPaid = SettingsData(false, true)
-    ProtonVpnPreview(addSurface = true) {
-        AdvancedSettings(
-            onClose = {},
-            profileOverrideInfo = settingsPaid.overrideInfo,
-            altRouting = settingsPaid.settingsViewState.altRouting,
-            allowLan = settingsPaid.settingsViewState.lanConnections,
-            natType = settingsPaid.settingsViewState.natType,
-            onAltRoutingChange = {},
-            onNavigateToLan = {},
-            onNatTypeRestricted = {},
-            onNatTypeLearnMore = {},
-            onAllowLanRestricted = {},
-            onNavigateToNatType = {},
-            ipV6 = settingsPaid.settingsViewState.ipV6,
-            onIPv6Toggle = {},
-            onIPv6InfoClick = {},
-            customDns = settingsPaid.settingsViewState.customDns,
-            onCustomDnsLearnMore = {},
-            onCustomDnsRestricted = {},
-            onNavigateToCustomDns = {},
-        )
-    }
-}
-
-@Preview
-@Composable
-fun AdvancedSettingsFree() {
-    val settingsPaid = SettingsData(true, false)
-    ProtonVpnPreview(addSurface = true) {
-        AdvancedSettings(
-            onClose = {},
-            profileOverrideInfo = settingsPaid.overrideInfo,
-            altRouting = settingsPaid.settingsViewState.altRouting,
-            allowLan = settingsPaid.settingsViewState.lanConnections,
-            natType = settingsPaid.settingsViewState.natType,
-            onAltRoutingChange = {},
-            onNavigateToLan = {},
-            onNatTypeRestricted = {},
-            onNatTypeLearnMore = {},
-            onAllowLanRestricted = {},
-            onNavigateToNatType = {},
-            customDns = settingsPaid.settingsViewState.customDns,
-            onCustomDnsLearnMore = {},
-            onCustomDnsRestricted = {},
-            onNavigateToCustomDns = {},
-            ipV6 = settingsPaid.settingsViewState.ipV6,
-            onIPv6Toggle = {},
-            onIPv6InfoClick = {},
-        )
-    }
-}
-
-@Preview
-@Composable
-fun AddNewDnsScreenPreview() {
-    ProtonVpnPreview(addSurface = true) {
-        AddNewDnsScreen(
-            null,
-            {}, {}, {}
-        )
-    }
-}
-
-@Preview
-@Composable
-fun AddNewDnsScreenErrorPreview() {
-    ProtonVpnPreview(addSurface = true) {
-        AddNewDnsScreen(
-            AddDnsError.InvalidInput,
-            {}, {}, {}
-        )
-    }
-}
-
-@Composable
-@Preview(heightDp = 1625)
 fun SettingsPaidProfileConnected() {
     val settingsPaid = SettingsData(false, true)
     ProtonVpnPreview(addSurface = false) {
@@ -286,6 +117,177 @@ fun SettingsPaidProfileConnected() {
             onAdvancedSettingsClick = {},
             onWidgetClick = {},
             onDebugToolsClick = {}
+        )
+    }
+}
+
+@ProtonVpnTestPreview
+@Composable
+fun AdvancedSettingsNotConnectedPaid() {
+    val settingsPaid = SettingsData(false, false)
+    ProtonVpnPreview(addSurface = true) {
+        AdvancedSettings(
+            onClose = {},
+            profileOverrideInfo = settingsPaid.overrideInfo,
+            altRouting = settingsPaid.settingsViewState.altRouting,
+            allowLan = settingsPaid.settingsViewState.lanConnections,
+            natType = settingsPaid.settingsViewState.natType,
+            onAltRoutingChange = {},
+            onNavigateToLan = {},
+            onNatTypeRestricted = {},
+            onNatTypeLearnMore = {},
+            onAllowLanRestricted = {},
+            onNavigateToNatType = {},
+            ipV6 = settingsPaid.settingsViewState.ipV6,
+            onIPv6Toggle = {},
+            onIPv6InfoClick = {},
+            customDns = settingsPaid.settingsViewState.customDns,
+            onCustomDnsLearnMore = {},
+            onCustomDnsRestricted = {},
+            onNavigateToCustomDns = {},
+        )
+    }
+}
+
+@ProtonVpnTestPreview
+@Composable
+fun CustomDnsEmptyState() {
+    ProtonVpnPreview(addSurface = true) {
+        CustomDnsScreen(
+            onClose = {},
+            onDnsChange = {},
+            onDnsToggled = {},
+            onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
+            onItemRemoved = {},
+            viewState = CustomDnsViewState.DnsListState(
+                dnsViewState = SettingViewState.CustomDns(
+                    enabled = true,
+                    customDns = emptyList(),
+                    overrideProfilePrimaryLabel = null,
+                    isFreeUser = false,
+                    isPrivateDnsActive = false
+                ),
+            )
+        )
+    }
+}
+
+@ProtonVpnTestPreview
+@Composable
+fun CustomDnsState() {
+    val settingsPaid = SettingsData(false, true)
+    ProtonVpnPreview(addSurface = true) {
+        CustomDnsScreen(
+            onClose = {},
+            onDnsChange = {},
+            onDnsToggled = {},
+            onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
+            onItemRemoved = {},
+            viewState = CustomDnsViewState.DnsListState(
+                dnsViewState = settingsPaid.settingsViewState.customDns!!
+            )
+        )
+    }
+}
+
+@ProtonVpnTestPreview
+@Composable
+fun CustomDnsStatePrivateDns() {
+    val settingsPaid = SettingsData(false, true, isPrivateDnsActive = true)
+    ProtonVpnPreview(addSurface = true) {
+        CustomDnsScreen(
+            onClose = {},
+            onDnsChange = {},
+            onDnsToggled = {},
+            onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
+            onItemRemoved = {},
+            viewState = CustomDnsViewState.DnsListState(
+                dnsViewState = settingsPaid.settingsViewState.customDns!!
+            ),
+        )
+    }
+}
+
+@ProtonVpnTestPreview
+@Composable
+fun AdvancedSettingsProfileConnected() {
+    val settingsPaid = SettingsData(false, true)
+    ProtonVpnPreview(addSurface = true) {
+        AdvancedSettings(
+            onClose = {},
+            profileOverrideInfo = settingsPaid.overrideInfo,
+            altRouting = settingsPaid.settingsViewState.altRouting,
+            allowLan = settingsPaid.settingsViewState.lanConnections,
+            natType = settingsPaid.settingsViewState.natType,
+            onAltRoutingChange = {},
+            onNavigateToLan = {},
+            onNatTypeRestricted = {},
+            onNatTypeLearnMore = {},
+            onAllowLanRestricted = {},
+            onNavigateToNatType = {},
+            ipV6 = settingsPaid.settingsViewState.ipV6,
+            onIPv6Toggle = {},
+            onIPv6InfoClick = {},
+            customDns = settingsPaid.settingsViewState.customDns,
+            onCustomDnsLearnMore = {},
+            onCustomDnsRestricted = {},
+            onNavigateToCustomDns = {},
+        )
+    }
+}
+
+@ProtonVpnTestPreview
+@Composable
+fun AdvancedSettingsFree() {
+    val settingsPaid = SettingsData(true, false)
+    ProtonVpnPreview(addSurface = true) {
+        AdvancedSettings(
+            onClose = {},
+            profileOverrideInfo = settingsPaid.overrideInfo,
+            altRouting = settingsPaid.settingsViewState.altRouting,
+            allowLan = settingsPaid.settingsViewState.lanConnections,
+            natType = settingsPaid.settingsViewState.natType,
+            onAltRoutingChange = {},
+            onNavigateToLan = {},
+            onNatTypeRestricted = {},
+            onNatTypeLearnMore = {},
+            onAllowLanRestricted = {},
+            onNavigateToNatType = {},
+            customDns = settingsPaid.settingsViewState.customDns,
+            onCustomDnsLearnMore = {},
+            onCustomDnsRestricted = {},
+            onNavigateToCustomDns = {},
+            ipV6 = settingsPaid.settingsViewState.ipV6,
+            onIPv6Toggle = {},
+            onIPv6InfoClick = {},
+        )
+    }
+}
+
+@ProtonVpnTestPreview
+@Composable
+fun AddNewDnsScreenPreview() {
+    ProtonVpnPreview(addSurface = true) {
+        AddNewDnsScreen(
+            null,
+            {}, {}, {}
+        )
+    }
+}
+
+@ProtonVpnTestPreview
+@Composable
+fun AddNewDnsScreenErrorPreview() {
+    ProtonVpnPreview(addSurface = true) {
+        AddNewDnsScreen(
+            AddDnsError.InvalidInput,
+            {}, {}, {}
         )
     }
 }

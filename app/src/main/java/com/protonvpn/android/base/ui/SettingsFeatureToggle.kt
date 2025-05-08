@@ -60,7 +60,7 @@ fun SettingsFeatureToggle(
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun SettingsFeatureTogglePreview() {
     ProtonVpnPreview {

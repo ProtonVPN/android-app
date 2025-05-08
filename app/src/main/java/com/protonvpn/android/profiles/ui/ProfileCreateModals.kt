@@ -73,7 +73,6 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.LabelBadge
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
@@ -1093,233 +1092,207 @@ fun BaseItemPickerDialog(
     )
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun AutoOpenModalPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            AutoOpenModal(ProfileAutoOpen.None(""), {}, {})
-        }
+    ProtonVpnPreview {
+        AutoOpenModal(ProfileAutoOpen.None(""), {}, {})
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun ProfileTypeItemPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            ProfileTypeItem(currentValue = ProfileType.Standard, emptyList(), {})
-        }
+    ProtonVpnPreview {
+        ProfileTypeItem(currentValue = ProfileType.Standard, emptyList(), {})
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun PickProfileTypePreview() {
-    Surface {
-        VpnTheme(isDark = true) {
-            PickProfileType(
-                ProfileType.Standard,
-                ProfileType.entries,
-                {},
-                {}
-            )
-        }
+    ProtonVpnPreview {
+        PickProfileType(
+            ProfileType.Standard,
+            ProfileType.entries,
+            {},
+            {}
+        )
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun ProfileCountryItemPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            ProfileCountryItem(
-                false,
-                TypeAndLocationScreenState.CountryItem(CountryId.fastestExcludingMyCountry, false),
-                null,
-                emptyList(),
-                emptyList(),
-                {}, {}
-            )
-        }
+    ProtonVpnPreview {
+        ProfileCountryItem(
+            false,
+            TypeAndLocationScreenState.CountryItem(CountryId.fastestExcludingMyCountry, false),
+            null,
+            emptyList(),
+            emptyList(),
+            {}, {}
+        )
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun ProfileCountryItemSCPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            ProfileCountryItem(
-                true,
-                TypeAndLocationScreenState.CountryItem(CountryId("PL"), true),
-                TypeAndLocationScreenState.CountryItem(CountryId.switzerland, false),
-                emptyList(),
-                emptyList(),
-                {}, {}
-            )
-        }
+    ProtonVpnPreview {
+        ProfileCountryItem(
+            true,
+            TypeAndLocationScreenState.CountryItem(CountryId("PL"), true),
+            TypeAndLocationScreenState.CountryItem(CountryId.switzerland, false),
+            emptyList(),
+            emptyList(),
+            {}, {}
+        )
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun PickCountryDialogPreview() {
-    Surface {
-        VpnTheme(isDark = true) {
-            PickCountry(
-                isVia = false,
-                isSecureCore = false,
-                TypeAndLocationScreenState.CountryItem(CountryId("PL"), true),
-                listOf(
-                    TypeAndLocationScreenState.CountryItem(CountryId("DE"), true),
-                    TypeAndLocationScreenState.CountryItem(CountryId("PL"), false),
-                    TypeAndLocationScreenState.CountryItem(CountryId("US"), true),
-                ),
-                {},
-                {}
-            )
-        }
+    ProtonVpnPreview {
+        PickCountry(
+            isVia = false,
+            isSecureCore = false,
+            TypeAndLocationScreenState.CountryItem(CountryId("PL"), true),
+            listOf(
+                TypeAndLocationScreenState.CountryItem(CountryId("DE"), true),
+                TypeAndLocationScreenState.CountryItem(CountryId("PL"), false),
+                TypeAndLocationScreenState.CountryItem(CountryId("US"), true),
+            ),
+            {},
+            {}
+        )
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun PickViaCountryDialogPreview() {
-    Surface {
-        VpnTheme(isDark = true) {
-            PickCountry(
-                isVia = true,
-                isSecureCore = false,
-                TypeAndLocationScreenState.CountryItem(CountryId("PL"), true),
-                listOf(
-                    TypeAndLocationScreenState.CountryItem(CountryId.sweden, true),
-                    TypeAndLocationScreenState.CountryItem(CountryId.switzerland, true),
-                ),
-                {},
-                {}
-            )
-        }
+    ProtonVpnPreview {
+        PickCountry(
+            isVia = true,
+            isSecureCore = false,
+            TypeAndLocationScreenState.CountryItem(CountryId("PL"), true),
+            listOf(
+                TypeAndLocationScreenState.CountryItem(CountryId.sweden, true),
+                TypeAndLocationScreenState.CountryItem(CountryId.switzerland, true),
+            ),
+            {},
+            {}
+        )
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun ProfileCityOrStateItemPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            ProfileCityOrStateItem(
+    ProtonVpnPreview {
+        ProfileCityOrStateItem(
+            TypeAndLocationScreenState.CityOrStateItem(
+                "New York",
+                CityStateId("NY", isState = false),
+                true
+            ),
+            emptyList(),
+            {}
+        )
+    }
+}
+
+@ProtonVpnPreview
+@Composable
+private fun PickCityStatePreview() {
+    ProtonVpnPreview {
+        PickCityOrState(
+            isState = false,
+            selectedCityState = TypeAndLocationScreenState.CityOrStateItem(
+                "New York",
+                CityStateId("NY", isState = false),
+                true
+            ),
+            allCityStates = listOf(
+                TypeAndLocationScreenState.CityOrStateItem(null, CityStateId("", isState = false), true),
                 TypeAndLocationScreenState.CityOrStateItem(
                     "New York",
                     CityStateId("NY", isState = false),
                     true
                 ),
-                emptyList(),
-                {}
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun PickCityStatePreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            PickCityOrState(
-                isState = false,
-                selectedCityState = TypeAndLocationScreenState.CityOrStateItem(
-                    "New York",
-                    CityStateId("NY", isState = false),
+                TypeAndLocationScreenState.CityOrStateItem(
+                    "Los Angeles",
+                    CityStateId("CA", isState = false),
                     true
                 ),
-                allCityStates = listOf(
-                    TypeAndLocationScreenState.CityOrStateItem(null, CityStateId("", isState = false), true),
-                    TypeAndLocationScreenState.CityOrStateItem(
-                        "New York",
-                        CityStateId("NY", isState = false),
-                        true
-                    ),
-                    TypeAndLocationScreenState.CityOrStateItem(
-                        "Los Angeles",
-                        CityStateId("CA", isState = false),
-                        true
-                    ),
-                    TypeAndLocationScreenState.CityOrStateItem(
-                        "Chicago",
-                        CityStateId("IL", isState = false),
-                        true
-                    ),
+                TypeAndLocationScreenState.CityOrStateItem(
+                    "Chicago",
+                    CityStateId("IL", isState = false),
+                    true
                 ),
-                {},
-                {}
-            )
-        }
+            ),
+            {},
+            {}
+        )
     }
 }
 
 @Preview
 @Composable
 private fun ProfileServerOrGatewayItemPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            ProfileServerItem(
-                TypeAndLocationScreenState.ServerItem("US-TX#1", "1", null, true),
-                emptyList(),
-                {}
-            )
-        }
+    ProtonVpnPreview {
+        ProfileServerItem(
+            TypeAndLocationScreenState.ServerItem("US-TX#1", "1", null, true),
+            emptyList(),
+            {}
+        )
     }
 }
 
 @Preview
 @Composable
 private fun PickServerPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            PickServer(
+    ProtonVpnPreview {
+        PickServer(
+            TypeAndLocationScreenState.ServerItem("US-TX#1", "1", null, false),
+            listOf(
+                TypeAndLocationScreenState.ServerItem(null, "0", null, false),
                 TypeAndLocationScreenState.ServerItem("US-TX#1", "1", null, false),
-                listOf(
-                    TypeAndLocationScreenState.ServerItem(null, "0", null, false),
-                    TypeAndLocationScreenState.ServerItem("US-TX#1", "1", null, false),
-                    TypeAndLocationScreenState.ServerItem("US-TX#2", "2", null, true),
-                ),
-                {},
-                {}
-            )
-        }
+                TypeAndLocationScreenState.ServerItem("US-TX#2", "2", null, true),
+            ),
+            {},
+            {}
+        )
     }
 }
 
 @Preview
 @Composable
 private fun ProfileNetShieldItemPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            ProfileNetShieldItem(
-                value = true,
-                onNetShieldChange = {},
-                onDisableCustomDns = {},
-                onDisablePrivateDns = {},
-                onCustomDnsLearnMore = {},
-                onPrivateDnsLearnMore = {},
-                dnsOverride = DnsOverride.None,
-            )
-        }
+    ProtonVpnPreview {
+        ProfileNetShieldItem(
+            value = true,
+            onNetShieldChange = {},
+            onDisableCustomDns = {},
+            onDisablePrivateDns = {},
+            onCustomDnsLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            dnsOverride = DnsOverride.None,
+        )
     }
 }
 
 @Preview
 @Composable
 private fun PickNetShieldPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            PickNetShield(
-                selected = true,
-                {},
-                {}
-            )
-        }
+    ProtonVpnPreview {
+        PickNetShield(
+            selected = true,
+            {},
+            {}
+        )
     }
 }
 
@@ -1334,26 +1307,22 @@ private fun ProfileLanConnectionsItemPreview() {
 @Preview
 @Composable
 private fun ProfileProtocolItemPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            ProfileProtocolItem(
-                ProtocolSelection.SMART,
-                {}
-            )
-        }
+    ProtonVpnPreview {
+        ProfileProtocolItem(
+            ProtocolSelection.SMART,
+            {}
+        )
     }
 }
 
 @Preview
 @Composable
 private fun PickProtocolPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            PickProtocol(
-                ProtocolSelection.SMART,
-                {},
-                {}
-            )
-        }
+    ProtonVpnPreview {
+        PickProtocol(
+            ProtocolSelection.SMART,
+            {},
+            {}
+        )
     }
 }

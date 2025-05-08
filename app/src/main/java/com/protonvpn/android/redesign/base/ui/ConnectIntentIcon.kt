@@ -606,34 +606,19 @@ private val previewIcons = listOf(
         ConnectIntentIconState.Profile(CoreR.drawable.flag_ao, false, ProfileIcon.Icon7, ProfileColor.Color6),
     )
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@ProtonVpnPreview
 @Composable
-private fun ProfileIconViewDarkPreview() {
+private fun ProfileIconViewPreview() {
     ProtonVpnPreview {
         ProfileIconsPreviewHelper()
     }
 }
 
-@Preview(locale = "fa")
+@ProtonVpnPreview
+@Preview(name = "RTL", locale = "fa")
 @Composable
-private fun ProfileIconViewLightRtlPreview() {
-    ProtonVpnPreview(isDark = false) {
-        ProfileIconsPreviewHelper()
-    }
-}
-
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-private fun FlagPreviewDark() {
+private fun FlagPreview() {
     ProtonVpnPreview {
-        FlagsPreviewHelper()
-    }
-}
-
-@Preview(locale = "fa")
-@Composable
-private fun FlagPreviewRtlLight() {
-    ProtonVpnPreview(isDark = false) {
         FlagsPreviewHelper()
     }
 }

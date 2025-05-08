@@ -334,7 +334,7 @@ private fun StatsDescription(
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun NetShieldBottomPreview() {
     ProtonVpnPreview {
@@ -346,7 +346,7 @@ private fun NetShieldBottomPreview() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun NetShieldBottomSheetPreview() {
     ProtonVpnPreview {
@@ -357,7 +357,7 @@ private fun NetShieldBottomSheetPreview() {
         )
     }
 }
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun NetShieldOnPreview() {
     ProtonVpnPreview {
@@ -375,7 +375,7 @@ private fun NetShieldOnPreview() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun NetShieldOffPreview() {
     ProtonVpnPreview {
@@ -392,7 +392,7 @@ private fun NetShieldOffPreview() {
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun NetShieldUnavailablePreview() {
     ProtonVpnPreview {

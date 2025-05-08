@@ -51,11 +51,10 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionUnspecified
@@ -289,14 +288,11 @@ private inline fun cursorColor(textStyle: TextStyle, isError: Boolean) = remembe
     }
 )
 
-@Preview(
-    showBackground = true,
-    backgroundColor = 0xffffffff
-)
+@ProtonVpnPreview
 @Composable
 private fun PreviewProtonOutlinedTextField() {
     var enteredText by remember { mutableStateOf(TextFieldValue("Input Text")) }
-    VpnTheme {
+    ProtonVpnPreview {
         ProtonOutlinedTextField(
             value = enteredText,
             labelText = "Username or e-mail",

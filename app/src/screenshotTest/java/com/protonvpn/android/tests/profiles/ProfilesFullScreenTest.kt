@@ -24,6 +24,7 @@ package com.protonvpn.android.tests.profiles
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
@@ -40,7 +41,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewStateProfile
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlin.random.Random
 
-@Preview
+@ProtonVpnTestPreview
 @Composable
 fun FullScreenProfileList() {
     ProtonVpnPreview {
@@ -54,7 +55,7 @@ fun FullScreenProfileList() {
     }
 }
 
-@Preview
+@ProtonVpnTestPreview
 @Composable
 fun FullScreenProfileListZeroState() {
     ProtonVpnPreview {
