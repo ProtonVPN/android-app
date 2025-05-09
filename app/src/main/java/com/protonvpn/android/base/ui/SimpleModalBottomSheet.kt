@@ -20,6 +20,7 @@
 package com.protonvpn.android.base.ui
 
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.material3.BottomSheetDefaults.DragHandle
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -40,10 +41,11 @@ fun SimpleModalBottomSheet(
     content: @Composable ColumnScope.() -> Unit,
 ) {
      ModalBottomSheet(
-        onDismissRequest = onDismissRequest,
-        containerColor = ProtonTheme.colors.backgroundNorm,
-        modifier = modifier,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        content = content,
+         onDismissRequest = onDismissRequest,
+         containerColor = ProtonTheme.colors.backgroundNorm,
+         modifier = modifier,
+         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+         dragHandle = { DragHandle(color = ProtonTheme.colors.iconHint) },
+         content = content,
     )
 }
