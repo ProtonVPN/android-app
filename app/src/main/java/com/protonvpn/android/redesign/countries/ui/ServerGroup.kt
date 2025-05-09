@@ -48,6 +48,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -287,40 +288,42 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier)
     ) {
         items(
             items = buttonActions,
-            itemContent = { filterButton ->
-                Button(
-                    onClick = filterButton.onClick,
-                    modifier = Modifier
-                        .heightIn(min = ButtonDefaults.MinHeight)
-                        .alpha(if (filterButton.isEmpty && !filterButton.isSelected) 0.5f else 1f),
-                    elevation = ButtonDefaults.protonElevation(),
-                    shape = ProtonTheme.shapes.medium,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (filterButton.isSelected) ProtonTheme.colors.brandNorm else ProtonTheme.colors.interactionWeakNorm,
-                    ),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-                ) {
-                    val iconRes = when (filterButton.filter) {
-                        ServerFilterType.All -> null
-                        ServerFilterType.SecureCore -> CoreR.drawable.ic_proton_lock_layers
-                        ServerFilterType.P2P -> CoreR.drawable.ic_proton_arrow_right_arrow_left
-                        ServerFilterType.Tor -> CoreR.drawable.ic_proton_brand_tor
-                    }
-                    iconRes?.let {
-                        Icon(
-                            painter = painterResource(id = it),
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                    }
-                    Text(
-                        text = stringResource(id = filterButton.label),
-                        style = ProtonTheme.typography.defaultSmallUnspecified
+        ) { filterButton ->
+            Button(
+                onClick = filterButton.onClick,
+                modifier = Modifier
+                    .heightIn(min = ButtonDefaults.MinHeight)
+                    .alpha(if (filterButton.isEmpty && !filterButton.isSelected) 0.5f else 1f),
+                elevation = ButtonDefaults.protonElevation(),
+                shape = ProtonTheme.shapes.medium,
+                colors = with(ProtonTheme.colors) {
+                    ButtonDefaults.buttonColors(
+                        contentColor = if (filterButton.isSelected) Color.White else textNorm,
+                        containerColor = if (filterButton.isSelected) brandNorm else interactionWeakNorm,
                     )
+                },
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                val iconRes = when (filterButton.filter) {
+                    ServerFilterType.All -> null
+                    ServerFilterType.SecureCore -> CoreR.drawable.ic_proton_lock_layers
+                    ServerFilterType.P2P -> CoreR.drawable.ic_proton_arrow_right_arrow_left
+                    ServerFilterType.Tor -> CoreR.drawable.ic_proton_brand_tor
                 }
+                iconRes?.let {
+                    Icon(
+                        painter = painterResource(id = it),
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                }
+                Text(
+                    text = stringResource(id = filterButton.label),
+                    style = ProtonTheme.typography.defaultSmallUnspecified
+                )
             }
-        )
+        }
     }
 }
 

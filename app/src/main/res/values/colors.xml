@@ -60,4 +60,5 @@
     <color name="tvGridItemOverlay">#774b4b56</color>
     <color name="tvDialogBackground">#292733</color>
 
+    <fraction name="upsellDialogGradientAlphaFraction">50%</fraction>
 </resources>
