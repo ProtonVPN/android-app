@@ -42,10 +42,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -78,6 +76,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.netshield.NetShieldActions
 import com.protonvpn.android.netshield.NetShieldBottomCustomDns
 import com.protonvpn.android.netshield.NetShieldBottomPrivateDns
@@ -304,7 +303,6 @@ private fun VpnConnectedView(
     netShieldActions: NetShieldActions,
     transitionValue: () -> Float
 ) {
-    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var isModalVisible by remember { mutableStateOf(false) }
     Surface(
         color = ProtonTheme.colors.backgroundSecondary.copy(alpha = 0.86F),
@@ -350,9 +348,7 @@ private fun VpnConnectedView(
     }
     if (isModalVisible && banner is StatusBanner.NetShieldBanner) {
         val context = LocalContext.current
-        ModalBottomSheet(
-            sheetState = bottomSheetState,
-            containerColor = ProtonTheme.colors.backgroundNorm,
+        SimpleModalBottomSheet(
             content = {
                 when (banner.netShieldState) {
                     is NetShieldViewState.Available -> NetShieldBottomSettings(
@@ -371,8 +367,6 @@ private fun VpnConnectedView(
                             onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
                         )
                     }
-
-
                 }
 
             },
