@@ -26,6 +26,7 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
@@ -37,7 +38,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -50,7 +50,7 @@ class SettingsForConnection @Inject constructor(
     vpnStatusProviderUI: VpnStatusProviderUI,
 ) {
     suspend fun getFor(intent: AnyConnectIntent?) : LocalUserSettings =
-        settings.effectiveSettings.first().applyOverrides(intent?.settingsOverrides)
+        settings.effectiveSettings.first().applyEffectiveOverrides(intent?.settingsOverrides)
 
     private val connectedIntentFlow = vpnStatusProviderUI.uiStatus
         .map { it.connectIntent }
@@ -107,14 +107,19 @@ class SettingsForConnection @Inject constructor(
 @Singleton
 class SettingsForConnectionCached @Inject constructor(
     private val effectiveCurrentUserSettingsCached: EffectiveCurrentUserSettingsCached,
-    private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
-    private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
 ) {
-    fun getFor(intent: AnyConnectIntent) : LocalUserSettings = runBlocking {
-        effectiveCurrentUserSettingsCached.value.applyEffectiveOverrides(
+    fun getFor(
+        intent: AnyConnectIntent,
+        isDirectLanConnectionsFeatureFlagEnabled: Boolean?,
+        isCustomDnsFeatureFlagEnabled: Boolean?,
+    ) : LocalUserSettings {
+        DebugUtils.debugAssert {
+            isDirectLanConnectionsFeatureFlagEnabled != null && isCustomDnsFeatureFlagEnabled != null
+        }
+        return effectiveCurrentUserSettingsCached.value.applyEffectiveOverrides(
             intent.settingsOverrides,
-            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled(),
-            isCustomDnsFeatureFlagEnabled = isCustomDnsFeatureFlagEnabled()
+            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled == true,
+            isCustomDnsFeatureFlagEnabled = isCustomDnsFeatureFlagEnabled == true
         )
     }
 }

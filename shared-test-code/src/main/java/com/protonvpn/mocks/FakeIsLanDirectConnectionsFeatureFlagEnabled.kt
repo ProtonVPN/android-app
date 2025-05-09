@@ -21,6 +21,11 @@ package com.protonvpn.mocks
 
 import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
-class FakeIsLanDirectConnectionsFeatureFlagEnabled(enabled: Boolean)
-    : IsDirectLanConnectionsFeatureFlagEnabled, FakeVpnFeatureFlag(enabled)
+class FakeIsLanDirectConnectionsFeatureFlagEnabled(enabled: Flow<Boolean>)
+    : IsDirectLanConnectionsFeatureFlagEnabled, FakeVpnFeatureFlag(enabled) {
+
+    constructor(enabled: Boolean): this(flowOf(enabled))
+}

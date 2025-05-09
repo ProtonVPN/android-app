@@ -21,5 +21,11 @@ package com.protonvpn.mocks
 
 import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
-class FakeIsCustomDnsEnabled(enabled: Boolean) : IsCustomDnsFeatureFlagEnabled, FakeVpnFeatureFlag(enabled)
+class FakeIsCustomDnsEnabled(enabled: Flow<Boolean>)
+    : IsCustomDnsFeatureFlagEnabled, FakeVpnFeatureFlag(enabled) {
+
+    constructor(enabled: Boolean) : this(flowOf(enabled))
+}

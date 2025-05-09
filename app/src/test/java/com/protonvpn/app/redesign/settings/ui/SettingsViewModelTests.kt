@@ -23,15 +23,12 @@ import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.ChangeServerConfig
-import com.protonvpn.android.appconfig.FeatureFlags
-import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.netshield.NetShieldProtocol
-import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.profiles.data.toProfile
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
@@ -199,6 +196,7 @@ class SettingsViewModelTests {
             isIPv6FeatureFlagEnabled,
             isCustomDnsEnabled,
             IsPrivateDnsActiveFlow(isPrivateDnsActive),
+            FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
         )
     }
 
