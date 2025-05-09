@@ -56,14 +56,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.LabelBadge
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
@@ -481,7 +479,6 @@ private fun ColumnScope.FeatureCategory(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             SettingRowWithIcon(
                 icon = R.drawable.ic_kill_switch,
-                iconTint = false,
                 title = stringResource(id = R.string.settings_kill_switch_title),
                 onClick = onAlwaysOnClick
             )

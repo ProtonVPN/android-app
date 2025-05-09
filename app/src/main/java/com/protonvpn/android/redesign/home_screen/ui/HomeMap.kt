@@ -67,7 +67,7 @@ fun HomeMap(
     val mapConfig = MapRendererConfig(
         background = ProtonTheme.colors.backgroundNorm.toArgb(),
         country = ProtonTheme.colors.shade15.toArgb(),
-        border = ProtonTheme.colors.separatorNorm.toArgb(),
+        border = ProtonTheme.colors.shade50.toArgb(),
         selected = ProtonTheme.colors.shade40.toArgb(),
         connecting = ProtonTheme.colors.shade40.toArgb(),
         connected = ProtonTheme.colors.shade40.toArgb(),

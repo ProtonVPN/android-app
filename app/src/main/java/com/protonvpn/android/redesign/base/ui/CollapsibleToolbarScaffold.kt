@@ -98,14 +98,7 @@ fun CollapsibleToolbarScaffold(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     content: @Composable (PaddingValues) -> Unit
 ) {
-    val isCollapsed = remember { derivedStateOf { scrollBehavior.state.collapsedFraction > 0.5 } }
-
-    val topAppBarElementColor = if (isCollapsed.value) {
-        MaterialTheme.colorScheme.onSurface
-    } else {
-        MaterialTheme.colorScheme.onPrimary
-    }
-
+    val topAppBarElementColor = ProtonTheme.colors.textNorm
     val expandedColor = ProtonTheme.colors.backgroundNorm
     val collapsedColor = ProtonTheme.colors.backgroundSecondary
     val topAppBarColor by remember {

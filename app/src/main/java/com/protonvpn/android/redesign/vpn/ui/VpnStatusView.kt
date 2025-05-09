@@ -152,7 +152,7 @@ private fun ProtonColors.getOverlayGradientTop(state: VpnStatusViewState): Color
     is VpnStatusViewState.Connected -> if (isDark) vpnGreen.copy(alpha = 0.5f) else vpnGreen.copy(alpha = 0.2f)
     is VpnStatusViewState.Connecting, is VpnStatusViewState.WaitingForNetwork -> Color.White.copy(alpha = 0.5f)
     is VpnStatusViewState.Disabled ->
-        if (isDark) notificationError.copy(alpha = 0.5f) else notificationError.copy(alpha = 0.12f)
+        if (isDark) notificationError.copy(alpha = 0.5f) else notificationError.copy(alpha = 0.24f)
     is VpnStatusViewState.Loading -> Color.Transparent
 }
 
