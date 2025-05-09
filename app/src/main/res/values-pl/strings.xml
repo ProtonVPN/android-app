@@ -236,7 +236,7 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Niedostępny</string>
     <string name="custom_dns_item_removed_snackbar">Element został usunięty</string>
     <string name="netshield_free_description">Zablokuj reklamy, elementy śledzące i złośliwe oprogramowanie na stronach internetowych oraz w aplikacjach</string>
-    <string name="netshield_what_data_means">Co oznaczają dane NetShield</string>
+    <string name="netshield_what_data_means">Wyjaśnienie statystyk NetShield</string>
     <string name="netshield_ads_title">Reklamy</string>
     <string name="netshield_ads_details">Reklamy i niewidoczne elementy śledzące</string>
     <string name="netshield_trackers_title">Elementy śledzące</string>

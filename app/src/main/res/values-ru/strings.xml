@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Недоступна</string>
     <string name="custom_dns_item_removed_snackbar">Элемент удален</string>
     <string name="netshield_free_description">Блокирует рекламу, трекеры и вредоносные программы на веб-сайтах и в приложениях</string>
-    <string name="netshield_what_data_means">Что означают данные NetShield</string>
+    <string name="netshield_what_data_means">NetShield statistics explained</string>
     <string name="netshield_ads_title">Реклама</string>
-    <string name="netshield_ads_details">Реклама и невидимые рекламные трекеры</string>
+    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
     <string name="netshield_trackers_title">Трекеры</string>
     <string name="netshield_trackers_details">Файлы cookie и другие трекеры, которые хранят и передают информацию о вашей активности в Интернете</string>
     <string name="netshield_data_title">Данные</string>

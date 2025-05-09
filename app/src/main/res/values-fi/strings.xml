@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Ei käytettävissä</string>
     <string name="custom_dns_item_removed_snackbar">Kohde poistettiin</string>
     <string name="netshield_free_description">Estä mainoksia, seurantoja ja haittaohjelmia verkkosivustoilla ja sovelluksissa</string>
-    <string name="netshield_what_data_means">Mitä NetShieldin tiedonsiirto tarkoittaa</string>
+    <string name="netshield_what_data_means">NetShield statistics explained</string>
     <string name="netshield_ads_title">Mainokset</string>
-    <string name="netshield_ads_details">Mainokset ja näkymättömät mainosseurannat</string>
+    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
     <string name="netshield_trackers_title">Seurannat</string>
     <string name="netshield_trackers_details">Evästeet ja muut seurannat, jotka tallentavat ja jakavat tietoja internetin käytöstäsi</string>
     <string name="netshield_data_title">Tiedonsiirto</string>

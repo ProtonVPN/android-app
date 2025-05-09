@@ -89,7 +89,7 @@
     <string name="done">完成</string>
     <string name="add">加入</string>
     <string name="copy_to_clipboard">複製</string>
-    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="copied_to_clipboard">已複製到剪貼簿</string>
     <string name="got_it">了解</string>
     <string name="something_went_wrong">發生錯誤</string>
     <string name="try_again">再試一次</string>
@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
     <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_description">封鎖網站與應用程式中的廣告、追蹤器與惡意程式</string>
-    <string name="netshield_what_data_means">NetShield資料的意義</string>
+    <string name="netshield_what_data_means">NetShield statistics explained</string>
     <string name="netshield_ads_title">廣告</string>
-    <string name="netshield_ads_details">廣告與無形的廣告追蹤器</string>
+    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
     <string name="netshield_trackers_title">追蹤器</string>
     <string name="netshield_trackers_details">儲存並分享有關您的網際網路活動資訊之 Cookie 與其他追蹤器</string>
     <string name="netshield_data_title">資料</string>

@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Niet beschikbaar</string>
     <string name="custom_dns_item_removed_snackbar">Item verwijderd</string>
     <string name="netshield_free_description">Blokkeer advertenties, trackers en malware op websites en apps</string>
-    <string name="netshield_what_data_means">Wat NetShield data betekent</string>
+    <string name="netshield_what_data_means">Uitleg van NetShield-statistieken</string>
     <string name="netshield_ads_title">Advertenties</string>
-    <string name="netshield_ads_details">Advertenties en onzichtbare adtrackers</string>
+    <string name="netshield_ads_details">Advertenties en onzichtbare advertentie trackers</string>
     <string name="netshield_trackers_title">Trackers</string>
     <string name="netshield_trackers_details">Cookies en andere trackers die informatie opslaan en delen over uw internetactiviteit</string>
     <string name="netshield_data_title">Gegevens</string>

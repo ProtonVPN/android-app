@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Tidak tersedia</string>
     <string name="custom_dns_item_removed_snackbar">Item dihapus</string>
     <string name="netshield_free_description">Blokir iklan, pelacak, dan malware pada berbagai situs web dan aplikasi</string>
-    <string name="netshield_what_data_means">Makna dari data NetShield</string>
+    <string name="netshield_what_data_means">Penjelasan statistik NetShield</string>
     <string name="netshield_ads_title">Iklan</string>
-    <string name="netshield_ads_details">Iklan dan pelacak iklan tersembunyi</string>
+    <string name="netshield_ads_details">Iklan dan pelacak tak kasat mata</string>
     <string name="netshield_trackers_title">Pelacak</string>
     <string name="netshield_trackers_details">Cookie dan pelacak lainnya yang menyimpan dan membagikan informasi seputar aktivitas internet Anda</string>
     <string name="netshield_data_title">Data</string>

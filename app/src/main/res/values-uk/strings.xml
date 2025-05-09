@@ -236,7 +236,7 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Недоступно</string>
     <string name="custom_dns_item_removed_snackbar">Елемент вилучено</string>
     <string name="netshield_free_description">Блокуйте рекламу, стеження і зловмисні програми на вебсайтах і в програмах</string>
-    <string name="netshield_what_data_means">Що означають дані NetShield</string>
+    <string name="netshield_what_data_means">Пояснення статистики NetShield</string>
     <string name="netshield_ads_title">Реклама</string>
     <string name="netshield_ads_details">Рекламні оголошення та невидимі рекламні вистежувачі</string>
     <string name="netshield_trackers_title">Вистежувачі</string>
@@ -1416,8 +1416,8 @@
     <string name="settings_advanced_allow_lan_description">Дає можливість під\'єднуватися до принтерів, гучномовців та інших пристроїв у локальній мережі вашого пристрою.</string>
     <string name="settings_advanced_nat_type_title">NAT Type</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Виберіть тип перекладу мережевої адреси для свого з\'єднання. %1$s</string>
-    <string name="settings_advanced_nat_type_description_no_learn">Виберіть тип перекладу мережевої адреси для свого з\'єднання.</string>
+    <string name="settings_advanced_nat_type_description">Виберіть тип трансляції мережевої адреси для свого з\'єднання. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Виберіть тип трансляції мережевої адреси для свого з\'єднання.</string>
     <string name="settings_advanced_nat_type_strict">Суворий (тип 3)</string>
     <string name="settings_advanced_nat_type_strict_short">Тип 3</string>
     <string name="settings_advanced_nat_type_moderate">Середній (тип 2)</string>

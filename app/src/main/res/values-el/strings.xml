@@ -236,7 +236,7 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Μη διαθέσιμο</string>
     <string name="custom_dns_item_removed_snackbar">Το στοιχείο αφαιρέθηκε</string>
     <string name="netshield_free_description">Αποκλεισμός διαφημίσεων, ιχνηλατών και κακόβουλων προγραμμάτων σε ιστότοπους και εφαρμογές</string>
-    <string name="netshield_what_data_means">Τι σημαίνουν τα δεδομένα NetShield</string>
+    <string name="netshield_what_data_means">Επεξήγηση στατιστικών NetShield</string>
     <string name="netshield_ads_title">Διαφημίσεις</string>
     <string name="netshield_ads_details">Διαφημίσεις και αόρατοι ιχνηλάτες διαφημίσεων</string>
     <string name="netshield_trackers_title">Ιχνηλάτες</string>

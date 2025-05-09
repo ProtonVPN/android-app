@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Nicht verfügbar</string>
     <string name="custom_dns_item_removed_snackbar">Eintrag entfernt</string>
     <string name="netshield_free_description">Blockiere Werbung, Tracker und Malware auf Websites und Apps.</string>
-    <string name="netshield_what_data_means">Was die NetShield-Daten bedeuten</string>
+    <string name="netshield_what_data_means">Erläuterungen zu NetShield-Statistiken</string>
     <string name="netshield_ads_title">Werbung</string>
-    <string name="netshield_ads_details">Werbung und unsichtbare Werbe-Tracker</string>
+    <string name="netshield_ads_details">Werbung und unsichtbare Werbetracker</string>
     <string name="netshield_trackers_title">Tracker</string>
     <string name="netshield_trackers_details">Cookies und andere Tracker, die Informationen über deine Internetaktivitäten speichern und weitergeben.</string>
     <string name="netshield_data_title">Daten</string>

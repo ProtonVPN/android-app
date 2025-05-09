@@ -236,7 +236,7 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Otillgänglig</string>
     <string name="custom_dns_item_removed_snackbar">Objekt borttaget</string>
     <string name="netshield_free_description">Blockera annonser, spårare och skadlig kod på webbplatser och appar</string>
-    <string name="netshield_what_data_means">Vad NetShield-data betyder</string>
+    <string name="netshield_what_data_means">Förklaring av NetShield-statistik</string>
     <string name="netshield_ads_title">Annonser</string>
     <string name="netshield_ads_details">Annonser och osynliga annonsspårare</string>
     <string name="netshield_trackers_title">Spårare</string>
