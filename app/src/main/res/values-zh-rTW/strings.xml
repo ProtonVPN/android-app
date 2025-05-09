@@ -703,7 +703,7 @@
     <string name="no_logs_banner_title">驗證無紀錄的VPN</string>
     <string name="no_logs_banner_description">您的 VPN 活動，受瑞士隱私法律保障。我們永不追蹤您的線上活動或與第三方分享您的資訊。</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
-    <string name="bottom_nav_home">住家</string>
+    <string name="bottom_nav_home">首頁</string>
     <string name="bottom_nav_gateways">預設閘道</string>
     <string name="bottom_nav_profiles">配置</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
