@@ -236,7 +236,7 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Nedostupné</string>
     <string name="custom_dns_item_removed_snackbar">Položka odebrána</string>
     <string name="netshield_free_description">Blokujte reklamy, sledovací prvky a malware na webových stránkách a v aplikacích</string>
-    <string name="netshield_what_data_means">Co data NetShield znamenají</string>
+    <string name="netshield_what_data_means">Vysvětlení statistik NetShield</string>
     <string name="netshield_ads_title">Reklamy</string>
     <string name="netshield_ads_details">Reklamy a skryté sledovací prvky reklam</string>
     <string name="netshield_trackers_title">Sledovací prvky</string>

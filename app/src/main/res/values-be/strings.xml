@@ -236,7 +236,7 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Недаступна</string>
     <string name="custom_dns_item_removed_snackbar">Элемент выдалены</string>
     <string name="netshield_free_description">Блакіроўка рэкламы, праграм сачэння і шкодных праграм на вэб-сайтах і ў праграмах</string>
-    <string name="netshield_what_data_means">Што азначаюць даныя NetShield</string>
+    <string name="netshield_what_data_means">Тлумачэнне статыстыкі NetShield</string>
     <string name="netshield_ads_title">Рэклама</string>
     <string name="netshield_ads_details">Рэклама і нябачныя праграмы сачэння</string>
     <string name="netshield_trackers_title">Праграмы сачэння</string>

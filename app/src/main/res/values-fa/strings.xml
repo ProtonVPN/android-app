@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
     <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_description">تبلیغات، ردیاب‌ها، و بدافزارها را در وب‌سایت‌ها و برنامه‌ها مسدود می‌کند</string>
-    <string name="netshield_what_data_means">داده‌های NetShield به چه معنا هستند</string>
+    <string name="netshield_what_data_means">NetShield statistics explained</string>
     <string name="netshield_ads_title">تبلیغات</string>
-    <string name="netshield_ads_details">تبلیغات و ردیاب‌های مخفی آن‌ها</string>
+    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
     <string name="netshield_trackers_title">ردیاب‌ها</string>
     <string name="netshield_trackers_details">کوکی‌ها و سایر ردیاب‌ها که اطلاعاتی در مورد فعالیت‌های اینترنتی شما ذخیره و اشتراک گذاری می‌کنند</string>
     <string name="netshield_data_title">داده‌ها</string>

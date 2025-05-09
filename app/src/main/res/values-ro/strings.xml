@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Indisponibil</string>
     <string name="custom_dns_item_removed_snackbar">Articolul a fost șters.</string>
     <string name="netshield_free_description">Blocați reclame, urmăritori și malware pe pagini web și aplicații</string>
-    <string name="netshield_what_data_means">Ce înseamnă datele NetShield</string>
+    <string name="netshield_what_data_means">Statisticile NetShield explicate</string>
     <string name="netshield_ads_title">Reclame</string>
-    <string name="netshield_ads_details">Reclame și instrumente invizibile de urmărire</string>
+    <string name="netshield_ads_details">Reclame și instrumente invizibile de urmărire a reclamelor</string>
     <string name="netshield_trackers_title">Instrumente de urmărire</string>
     <string name="netshield_trackers_details">Cookie-uri și alte instrumente de urmărire care stochează și partajează informații despre activitatea dvs. pe internet.</string>
     <string name="netshield_data_title">Date</string>

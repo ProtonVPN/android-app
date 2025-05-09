@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">使用不可</string>
     <string name="custom_dns_item_removed_snackbar">アイテムが削除されました</string>
     <string name="netshield_free_description">ウェブサイトとアプリの広告、トラッカー、マルウェアをブロック</string>
-    <string name="netshield_what_data_means">NetShield のデータの意味</string>
+    <string name="netshield_what_data_means">NetShield statistics explained</string>
     <string name="netshield_ads_title">広告</string>
-    <string name="netshield_ads_details">広告と見えない広告トラッカー</string>
+    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
     <string name="netshield_trackers_title">トラッカー</string>
     <string name="netshield_trackers_details">あなたのインターネット活動に関する情報を保存・共有するクッキーやその他のトラッカー</string>
     <string name="netshield_data_title">データ</string>

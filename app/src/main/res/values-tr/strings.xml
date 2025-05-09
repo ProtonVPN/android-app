@@ -236,7 +236,7 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Kullanılamıyor</string>
     <string name="custom_dns_item_removed_snackbar">Öge silindi</string>
     <string name="netshield_free_description">Siteler ile uygulamalarda bulunabilecek reklamları, izleyicileri ve kötü amaçlı yazılımları engelleyin</string>
-    <string name="netshield_what_data_means">NetShield verilerinin anlamı nedir</string>
+    <string name="netshield_what_data_means">NetShield istatistikleri açıklanmıştır</string>
     <string name="netshield_ads_title">Reklamlar</string>
     <string name="netshield_ads_details">Reklamlar ve görünmez reklam izleyiciler</string>
     <string name="netshield_trackers_title">İzleyiciler</string>

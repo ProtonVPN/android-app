@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
     <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_description">დაბლოკეთ რეკლამები, ტრეკერები და საზიანო პროგრამები ვებგვერდებზე და აპებში</string>
-    <string name="netshield_what_data_means">რას ნიშნავს NetShield-ის მონაცემები</string>
+    <string name="netshield_what_data_means">NetShield statistics explained</string>
     <string name="netshield_ads_title">რეკლამა</string>
-    <string name="netshield_ads_details">რეკლამა და უჩინარი ტრეკერები</string>
+    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
     <string name="netshield_trackers_title">ტრეკერები</string>
     <string name="netshield_trackers_details">ქუქიები და სხვა ტრეკერები, რომლებიც იმახსოვრებენ და აზიარებენ თქვენს აქტივობას ინტერნეტში</string>
     <string name="netshield_data_title">მონაცემები</string>

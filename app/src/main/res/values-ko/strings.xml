@@ -237,9 +237,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">사용할 수 없음</string>
     <string name="custom_dns_item_removed_snackbar">항목이 삭제되었습니다</string>
     <string name="netshield_free_description">웹사이트 및 앱에서 광고, 트래커와 멀웨어를 차단하세요</string>
-    <string name="netshield_what_data_means">NetShield 데이터의 의미</string>
+    <string name="netshield_what_data_means">NetShield statistics explained</string>
     <string name="netshield_ads_title">광고</string>
-    <string name="netshield_ads_details">광고와 보이지 않는 광고 트래커</string>
+    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
     <string name="netshield_trackers_title">트래커</string>
     <string name="netshield_trackers_details">인터넷 활동에 대한 정보를 저장하고 공유하는 쿠키와 기타 트래커</string>
     <string name="netshield_data_title">데이터</string>

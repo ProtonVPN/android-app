@@ -236,7 +236,7 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Indisponível</string>
     <string name="custom_dns_item_removed_snackbar">O item foi removido.</string>
     <string name="netshield_free_description">Bloqueia anúncios, rastreadores e malware em sítios web e aplicações</string>
-    <string name="netshield_what_data_means">O que significam os dados do NetShield</string>
+    <string name="netshield_what_data_means">Estatísticas do NetShield explicadas</string>
     <string name="netshield_ads_title">Anúncios</string>
     <string name="netshield_ads_details">Anúncios e rastreadores de anúncios invisíveis</string>
     <string name="netshield_trackers_title">Rastreadores</string>
@@ -1024,7 +1024,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Apoio ao cliente</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Support center</string>
+    <string name="settings_help_center_title">Centro de ajuda</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Reportar um problema</string>
     <!-- tag(Redesign_2023) -->
