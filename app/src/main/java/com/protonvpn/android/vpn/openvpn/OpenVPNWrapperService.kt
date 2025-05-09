@@ -51,6 +51,7 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
     @Inject lateinit var currentUser: CurrentUser
     @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
     @Inject lateinit var computeAllowedIPs: ComputeAllowedIPs
+    @Inject lateinit var connectionFeatureFlagCache: ConnectionFeatureFlagCache
 
     private val connectionParamsUuid = ConnectionParamsUuidServiceHelper()
 
@@ -77,7 +78,12 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
             val certificate = (certificateResult as? CertificateRepository.CertificateResult.Success)?.let {
                 CertificateData(it.privateKeyPem, it.certificate)
             }
-            connectionParams.openVpnProfile(packageName, settingsForConnection.getFor(it.connectIntent), certificate, computeAllowedIPs)
+            val settings = settingsForConnection.getFor(
+                it.connectIntent,
+                isDirectLanConnectionsFeatureFlagEnabled = connectionFeatureFlagCache.isDirectLanConnectionsEnabledCached,
+                isCustomDnsFeatureFlagEnabled = connectionFeatureFlagCache.isCustomDnsEnabledCached,
+            )
+            connectionParams.openVpnProfile(packageName, settings, certificate, computeAllowedIPs)
         }
     }
 
