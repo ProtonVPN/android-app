@@ -20,19 +20,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fillViewport="true">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
             android:gravity="center_horizontal|center_vertical"
+            android:minWidth="800dp"
             android:orientation="vertical">
 
             <ImageView
@@ -82,18 +85,20 @@
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonUpgrade"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:layout_marginBottom="8dp"
+        android:minWidth="600dp"
         android:text="@string/upgrade" />
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonBack"
         style="@style/ProtonButton.Borderless.Text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:layout_marginBottom="24dp"
+        android:minWidth="600dp"
         android:text="@string/no_thanks" />
 </LinearLayout>
