@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,6 +47,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
+import com.protonvpn.android.base.ui.ProtonRadio
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.Constants
@@ -198,7 +198,7 @@ fun AppIconElement(
             style = ProtonTheme.typography.body2Regular,
             color = ProtonTheme.colors.textWeak
         )
-        RadioButton(selected = isSelected, onClick = onClick)
+        ProtonRadio(selected = isSelected, onClick = onClick)
     }
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Proton AG
+ * Copyright (c) 2025. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -20,29 +20,26 @@
 package com.protonvpn.android.base.ui
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchColors
-import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonColors
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import me.proton.core.compose.theme.ProtonTheme
 
-private val SwitchDefaults.protonColors @Composable get() = SwitchDefaults.colors(
-    uncheckedBorderColor = ProtonTheme.colors.shade50,
-    uncheckedTrackColor = ProtonTheme.colors.shade50,
-    uncheckedThumbColor = ProtonTheme.colors.shade80,
+private val RadioButtonDefaults.protonColors @Composable get() = RadioButtonDefaults.colors(
+    selectedColor = ProtonTheme.colors.interactionNorm,
+    unselectedColor = ProtonTheme.colors.iconHint,
 )
 
 @Composable
-fun ProtonSwitch(
-    checked: Boolean,
-    onCheckedChange: ((Boolean) -> Unit)?,
+fun ProtonRadio(
+    selected: Boolean,
+    onClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
-    thumbContent: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
-    colors: SwitchColors = SwitchDefaults.protonColors,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    colors: RadioButtonColors = RadioButtonDefaults.protonColors,
+    interactionSource: MutableInteractionSource? = null
 ) {
-    Switch(checked, onCheckedChange, modifier, thumbContent, enabled, colors, interactionSource)
+    RadioButton(selected, onClick, modifier, enabled, colors, interactionSource)
 }

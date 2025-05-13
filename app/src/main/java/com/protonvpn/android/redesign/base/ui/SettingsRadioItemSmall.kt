@@ -25,8 +25,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.protonvpn.android.base.ui.ProtonRadio
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
@@ -55,23 +54,23 @@ fun SettingsRadioItemSmall(
         modifier = modifier
             .selectable(selected, onClick = onSelected)
             .padding(vertical = 12.dp, horizontal = horizontalContentPadding),
-        verticalAlignment = Alignment.Companion.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
         if (leadingContent != null) {
             leadingContent()
         }
         Column(
-            modifier = Modifier.Companion.weight(1f)
+            modifier = Modifier.weight(1f)
         ) {
-            Row(verticalAlignment = Alignment.Companion.CenterVertically) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     title,
                     style = ProtonTheme.typography.body2Regular,
                     color = titleColor,
-                    modifier = Modifier.Companion.weight(1f, fill = false)
+                    modifier = Modifier.weight(1f, fill = false)
                 )
                 if (trailingTitleContent != null) {
-                    Spacer(Modifier.Companion.width(8.dp))
+                    Spacer(Modifier.width(8.dp))
                     trailingTitleContent()
                 }
             }
@@ -84,10 +83,10 @@ fun SettingsRadioItemSmall(
                 )
             }
         }
-        RadioButton(
+        ProtonRadio(
             selected = selected,
             onClick = null,
-            modifier = Modifier.Companion
+            modifier = Modifier
                 .clearAndSetSemantics {}
                 .padding(start = 8.dp)
         )
