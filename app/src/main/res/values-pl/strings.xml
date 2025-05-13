@@ -1592,4 +1592,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">Niektóre sieci obsługują ruch IPv6 w sposób nieprzewidywalny</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Wady</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Zalety</string>
+    <string name="settings_lan_allow_direct_connection_title">Zezwalaj na bezpośrednie połączenie z urządzeniami</string>
+    <string name="settings_lan_allow_direct_connection_description">Połącz się z telewizorami, Android Auto i innymi urządzeniami, które tworzą własną sieć. Aby zapewnić maksymalne bezpieczeństwo, włącz tę funkcję tylko podczas łączenia się z tymi urządzeniami.</string>
 </resources>

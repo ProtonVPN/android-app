@@ -1484,4 +1484,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">一部のネットワークは IPv6 トラフィックを予期せず処理します</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">短所</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">長所</string>
+    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
+    <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
 </resources>
