@@ -1520,4 +1520,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">Algumas redes gerem o tráfego IPv6 de forma imprevisível.</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Desvantagens</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Vantagens</string>
+    <string name="settings_lan_allow_direct_connection_title">Permitir ligações diretas de dispositivos</string>
+    <string name="settings_lan_allow_direct_connection_description">Ligue a Smart TV, Android Auto e outros dispositivos que criam a sua própria rede. Para máxima segurança, apenas ative ao ligar a estes dispositivos.</string>
 </resources>

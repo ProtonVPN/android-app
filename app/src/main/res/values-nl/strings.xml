@@ -1520,4 +1520,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">Sommige netwerken gaan onvoorspelbaar om met IPv6 verkeer</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Nadelen</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Voordelen</string>
+    <string name="settings_lan_allow_direct_connection_title">Directe apparaatverbindingen toestaan</string>
+    <string name="settings_lan_allow_direct_connection_description">Verbinden met Smart-tv\'s, Android Auto en andere apparaten die hun eigen netwerk creëren. Voor maximale beveiliging schakelt u dit alleen in wanneer u verbinding maakt met deze apparaten.</string>
 </resources>

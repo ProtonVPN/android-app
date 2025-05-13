@@ -1556,4 +1556,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">Unele rețele gestionează traficul IPv6 impredictibil</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Dezavantaje</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Avantaje</string>
+    <string name="settings_lan_allow_direct_connection_title">Permitere conexiuni directe între dispozitive</string>
+    <string name="settings_lan_allow_direct_connection_description">Conectați-vă la televizoare Smart, Android Auto și alte dispozitive care își creează propria rețea. Pentru securitate maximă, activați doar când vă conectați la aceste dispozitive.</string>
 </resources>

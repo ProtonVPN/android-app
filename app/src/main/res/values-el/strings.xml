@@ -28,8 +28,8 @@
     <string name="login">Σύνδεση</string>
     <string name="menuActionSignOut">Αποσύνδεση</string>
     <string name="connectionAllocationHelpTitle">Ευχαριστούμε για την αναβάθμιση</string>
-    <string name="connectionAllocationHelpDescription1">Για να ξεκινήσετε το ταξίδι σας με το Proton VPN παρακαλούμε αναθέστε τις συνδέσεις VPN στον λογαριασμός σας ή σε δεύτερους συνδεδεμένους λογαριασμούς.</string>
-    <string name="connectionAllocationHelpDescription2">Αυτό το βήμα θα πάρει μόνο λίγα λεπτά. Μετά θα μπορείτε να συνδέεστε, προστατεύοντας όλες τις συσκευές σας.</string>
+    <string name="connectionAllocationHelpDescription1">Για να ξεκινήσετε το ταξίδι σας με το Proton VPN παρακαλούμε όπως αναθέσετε τις συνδέσεις VPN στον λογαριασμός σας ή σε οποιονδήποτε άλλο συνδεδεμένο λογαριασμό.</string>
+    <string name="connectionAllocationHelpDescription2">Αυτό το βήμα θα πάρει μόλις λίγα λεπτά. Μετά από αυτό θα μπορείτε να συνδεθείτε και να προστατεύσετε όλες τις συσκευές σας.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Αυτήν τη στιγμή δεν υπάρχει ενεργοποιημένη σύνδεση VPN για αυτόν τον λογαριασμό. Για να ξεκινήσετε το ταξίδι σας με το Proton VPN, επικοινωνήστε με τον διαχειριστή σας. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Ενεργοποίηση συνδέσεων VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Προσπαθήστε ξανά</string>
@@ -248,8 +248,8 @@
         <item quantity="other">Διαφημίσεις αποκλείστηκαν</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Ο ιχνηλάτης σταματήθηκε</item>
-        <item quantity="other">Οι ιχνηλάτες σταματήθηκαν</item>
+        <item quantity="one">Ιχνηλάτης σταμάτησε</item>
+        <item quantity="other">Ιχνηλάτες σταμάτησαν</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Δεδομένα εξοικονομήθηκαν</string>
     <string name="netshield_setting_warning">Ορισμένοι ιστότοποι ενδέχεται να μη φορτώνουν σωστά όταν αποκλείονται διαφημίσεις και ιχνηλάτες.</string>
@@ -1520,4 +1520,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">Ορισμένα δίκτυα χειρίζονται την κυκλοφορία IPv6 απρόβλεπτα</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Μειονεκτήματα</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Πλεονεκτήματα</string>
+    <string name="settings_lan_allow_direct_connection_title">Να επιτρέπεται η άμεση σύνδεση συσκευών</string>
+    <string name="settings_lan_allow_direct_connection_description">Συνδεθείτε σε Smart TVs, Android Auto και άλλες συσκευές που δημιουργούν το δικό τους δίκτυο. Για μέγιστη ασφάλεια, ενεργοποιείτε το μόνο όταν συνδέεστε με αυτές τις συσκευές.</string>
 </resources>

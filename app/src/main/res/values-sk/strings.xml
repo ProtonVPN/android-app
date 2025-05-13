@@ -1592,4 +1592,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">Niektoré siete spracúvajú prevádzku IPv6 nepredvídateľne</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Nevýhody</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Výhody</string>
+    <string name="settings_lan_allow_direct_connection_title">Povoliť priame pripojenia zariadení</string>
+    <string name="settings_lan_allow_direct_connection_description">Pripojenie k inteligentným televízorom, systému Android Auto a ďalším zariadeniam, ktoré vytvárajú vlastnú sieť. V záujme maximálneho zabezpečenia povoľte túto funkciu len pri pripájaní k týmto zariadeniam.</string>
 </resources>

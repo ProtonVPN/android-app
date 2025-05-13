@@ -1520,4 +1520,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">Noen nettverk håndterer IPv6-trafikk uforutsigbart</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Ulemper</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Fordeler</string>
+    <string name="settings_lan_allow_direct_connection_title">Tillat direkte enhetstilkoblinger</string>
+    <string name="settings_lan_allow_direct_connection_description">Koble til smart-TV-er, Android Auto og andre enheter som oppretter sitt eget nettverk. For maksimal sikkerhet, bare aktiver når du kobler til disse enhetene.</string>
 </resources>

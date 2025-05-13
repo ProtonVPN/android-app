@@ -1486,4 +1486,6 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="info_dialog_ipv6_traffic_drawbacks2">일부 네트워크가 IPv6 트래픽을 예측할 수 없이 처리합니다</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">단점</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">이점</string>
+    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
+    <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
 </resources>

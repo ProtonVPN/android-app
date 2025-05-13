@@ -170,9 +170,9 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Remove from included apps</string>
-    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
-    <string name="accessibility_action_item_delete">Delete</string>
-    <string name="accessibility_action_item_move_up">Move up</string>
+    <string name="accessibility_action_copy_to_clipboard">複製到剪貼簿</string>
+    <string name="accessibility_action_item_delete">刪除</string>
+    <string name="accessibility_action_item_move_up">向上移</string>
     <string name="accessibility_action_item_move_down">Move down</string>
     <string name="tileConnected">已連線 %1$s</string>
     <string name="openUrlError">無法開啟 %1$s。裝置上未偵測到網頁瀏覽器。</string>
@@ -222,7 +222,7 @@
     <string name="learn_more">瞭解更多</string>
     <string name="netshield_state_on" comment="Describes state, not action">開</string>
     <string name="netshield_state_off" comment="Describes state, not action">關閉</string>
-    <string name="netshield_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">不可用</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">開</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">關閉</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">開</string>
@@ -232,9 +232,9 @@
     <string name="alt_routing_state_on" comment="Describes state, not action">開</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">關閉</string>
     <string name="custom_dns_state_on" comment="Describes state, not action">On</string>
-    <string name="custom_dns_state_off" comment="Describes state, not action">Off</string>
-    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
-    <string name="custom_dns_item_removed_snackbar">Item removed</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">關閉</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">不可用</string>
+    <string name="custom_dns_item_removed_snackbar">項目已移除</string>
     <string name="netshield_free_description">封鎖網站與應用程式中的廣告、追蹤器與惡意程式</string>
     <string name="netshield_what_data_means">NetShield statistics explained</string>
     <string name="netshield_ads_title">廣告</string>
@@ -533,7 +533,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">這項技術讓 Proton VPN 可在難以提供服務的國家提供較高的速度與安全性。</string>
     <string name="tor_title">洋蔥路由器</string>
-    <string name="server_load_title">Server load</string>
+    <string name="server_load_title">伺服器負載:</string>
     <string name="activity_information_learn_more">瞭解詳情</string>
     <string name="server_load_low">低</string>
     <string name="server_load_medium">中</string>
@@ -557,7 +557,7 @@
     <string name="dynamic_report_step1">步驟3之1</string>
     <string name="dynamic_report_step2">步驟3之2</string>
     <string name="dynamic_report_step3">步驟3之3</string>
-    <string name="dynamic_report_your_issue_headline">What’s the issue?</string>
+    <string name="dynamic_report_your_issue_headline">發生什麼事了？</string>
     <string name="update_screen_title">更新 Proton VPN</string>
     <string name="update_screen_description">您的問題可能是因為使用舊版的 Proton VPN。</string>
     <string name="dialog_create_account_title">建立一個帳號以繼續</string>
@@ -989,7 +989,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN 加速器</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Advanced settings</string>
+    <string name="settings_advanced_settings_title">進階設定值</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">一般</string>
     <!-- tag(Redesign_2023) -->
@@ -1001,7 +1001,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Support center</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">Report an issue</string>
+    <string name="settings_report_issue_title">回報問題</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_debug_logs_title">Debug logs</string>
     <!-- tag(Redesign_2023) -->
@@ -1259,7 +1259,7 @@
     <string name="create_profile_title">建立設定檔</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
-    <string name="edit_profile_title">Edit %1$s</string>
+    <string name="edit_profile_title">編輯 %1$s</string>
     <string name="edit_profile_dialog_action">編輯個人資料</string>
     <string name="create_profile_name_hint">設定檔名稱</string>
     <string name="create_profile_name_error_empty">輸入設定檔名稱</string>
@@ -1289,14 +1289,14 @@
     <string name="settings_custom_dns_title">Custom DNS</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Add new DNS server</string>
-    <string name="settings_add_dns_new_entry_button">Add</string>
+    <string name="settings_add_dns_new_entry_button">加入</string>
     <string name="settings_add_dns_description">Enter the server’s IPv4 or IPv6 address</string>
     <string name="settings_add_dns_invalid_input">Enter a valid IPv4 or IPv6 address</string>
     <string name="settings_add_dns_empty_input">Enter an IPv4 or IPv6 address</string>
     <string name="settings_add_dns_duplicate_input">Server already added</string>
     <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
     <!-- %1$d - Corresponds to number of servers added -->
-    <string name="settings_dns_list_title">Servers (%1$d)</string>
+    <string name="settings_dns_list_title">伺服器 (%1$d)</string>
     <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
     <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
@@ -1351,10 +1351,10 @@
     <string name="settings_needs_reconnect_banner">新的設定將於下次連線時套用。</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working. Learn more</string>
-    <string name="private_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield 無法使用</string>
     <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
-    <string name="private_dns_conflict_banner_network_settings_button">Network settings</string>
-    <string name="custom_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
+    <string name="private_dns_conflict_banner_network_settings_button">網路 設定值</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield 無法使用</string>
     <string name="custom_dns_conflict_banner_netshield_description">Custom DNS is enabled which prevents NetShield from working. Learn more</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Turn off custom DNS</string>
     <string name="info_secure_core_standard_high_privacy">高隱私</string>
@@ -1448,7 +1448,7 @@
     <string name="create_profile_connect_and_go_label">Connect and Go</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">新版</string>
-    <string name="create_profile_auto_open_url_input_label">Website URL</string>
+    <string name="create_profile_auto_open_url_input_label">網站 網址</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">關閉</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
@@ -1475,13 +1475,15 @@
     <string name="settings_advanced_ipv6_title">IPv6</string>
     <string name="settings_advanced_ipv6_description">Tunnels IPv6 traffic through the VPN. Can enhance compatibility with IPv6 networks.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">To use this address, you need to allow IPv6 connections through the VPN tunnel.</string>
-    <string name="setting_ipv6_disabled_dialog_action_enable">Enable IPv6</string>
-    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is disabled</string>
-    <string name="settings_ipv6_enabled_toast">IPv6 enabled</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">啟用 IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 已停用</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 啟用</string>
     <string name="info_dialog_ipv6_traffic_benefits1">Ensures access to IPv6-only websites and services</string>
     <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>
     <string name="info_dialog_ipv6_traffic_drawbacks1">May not work well with older networks or apps</string>
     <string name="info_dialog_ipv6_traffic_drawbacks2">Some networks handle IPv6 traffic unpredictably</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Drawbacks</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
+    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
+    <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
 </resources>
