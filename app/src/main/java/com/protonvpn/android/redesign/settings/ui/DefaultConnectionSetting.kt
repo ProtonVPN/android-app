@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -41,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.ProtonRadio
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
@@ -138,11 +138,13 @@ private fun DefaultSelectionRow(
 ) {
     ConnectIntentBlankRow(
         leadingComposable = leadingIcon,
-        trailingComposable = { RadioButton(
-            selected = isSelected,
-            onClick = onSelected,
-            modifier = Modifier.clearAndSetSemantics { }
-        ) },
+        trailingComposable = {
+            ProtonRadio(
+                selected = isSelected,
+                onClick = onSelected,
+                modifier = Modifier.clearAndSetSemantics { }
+            )
+        },
         title = title,
         subTitle = subTitle,
         serverFeatures = serverFeatures,

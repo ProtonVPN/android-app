@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -46,6 +45,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.ProtonRadio
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.theme.NoTrim
 import com.protonvpn.android.theme.ThemeType
@@ -121,7 +121,7 @@ private fun ThemeRadioItem(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-        RadioButton(
+        ProtonRadio(
             selected = selected,
             onClick = null,
             modifier = Modifier.clearAndSetSemantics {}
