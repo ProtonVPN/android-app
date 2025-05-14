@@ -31,6 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import me.proton.core.crypto.common.context.CryptoContext
+import me.proton.core.domain.arch.ErrorMessageContext
 import me.proton.core.network.data.ApiManagerFactory
 import me.proton.core.network.data.NetworkManager
 import me.proton.core.network.data.NetworkPrefs
@@ -62,6 +63,7 @@ import me.proton.core.network.domain.server.ServerTimeManager
 import me.proton.core.network.domain.serverconnection.DohAlternativesListener
 import me.proton.core.network.domain.session.SessionListener
 import me.proton.core.network.domain.session.SessionProvider
+import me.proton.core.network.presentation.util.ErrorMessageContextImpl
 import me.proton.core.util.kotlin.CoroutineScopeProvider
 import okhttp3.Cache
 import okhttp3.HttpUrl
@@ -169,6 +171,9 @@ public interface CoreNetworkBindsModule {
 
     @Binds
     public fun bindServerTimeListener(manager: ServerTimeManager): ServerTimeListener
+
+    @Binds
+    public fun bindErrorMessageContext(impl: ErrorMessageContextImpl): ErrorMessageContext
 }
 
 @Module
