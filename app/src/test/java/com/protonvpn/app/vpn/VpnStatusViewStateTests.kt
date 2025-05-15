@@ -18,7 +18,6 @@
  */
 package com.protonvpn.app.vpn
 
-import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
@@ -33,7 +32,6 @@ import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
-import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
@@ -83,14 +81,11 @@ class VpnStatusViewStateFlowTest {
     private lateinit var statusFlow: MutableStateFlow<VpnStatusProviderUI.Status>
     private lateinit var netShieldStatsFlow: MutableStateFlow<NetShieldStats>
     private lateinit var changeServerFlow: MutableStateFlow<ChangeServerViewState?>
-    private lateinit var promoBannerFlow: MutableStateFlow<PromoOfferBannerState?>
+    private lateinit var hasPromoBannerFlow: MutableStateFlow<Boolean>
     private lateinit var dnsOverrideFlow: MutableStateFlow<DnsOverride>
 
     private val freeUser = TestUser.freeUser.vpnUser
     private val plusUser = TestUser.plusUser.vpnUser
-    private val promoBanner = PromoOfferBannerState(
-        "", "", ApiNotificationOfferButton(), false, null, "id", null
-    )
 
     @Before
     fun setup() {
@@ -114,7 +109,7 @@ class VpnStatusViewStateFlowTest {
         val currentUser = CurrentUser(testUserProvider)
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
         changeServerFlow = MutableStateFlow(null)
-        promoBannerFlow = MutableStateFlow(null)
+        hasPromoBannerFlow = MutableStateFlow(false)
         dnsOverrideFlow = MutableStateFlow(DnsOverride.None)
         val effectiveUserSettings =
             EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
@@ -127,7 +122,7 @@ class VpnStatusViewStateFlowTest {
             settingsForConnection,
             currentUser,
             changeServerFlow,
-            promoBannerFlow,
+            hasPromoBannerFlow,
             dnsOverrideFlow,
         )
     }
@@ -197,7 +192,7 @@ class VpnStatusViewStateFlowTest {
         statusFlow.value = VpnStatusProviderUI.Status(VpnState.Connected, connectionParams)
         testUserProvider.vpnUser = freeUser
         assertEquals(VpnStatusViewState.Connected(false, StatusBanner.UpgradePlus), vpnStatusViewStateFlow.first())
-        promoBannerFlow.value = promoBanner
+        hasPromoBannerFlow.value = true
         assertEquals(VpnStatusViewState.Connected(false, null), vpnStatusViewStateFlow.first())
     }
 
@@ -207,14 +202,14 @@ class VpnStatusViewStateFlowTest {
         testUserProvider.vpnUser = freeUser
         changeServerFlow.value = ChangeServerViewState.Locked(10, 10, false)
         assertEquals(VpnStatusViewState.Connected(false, StatusBanner.UnwantedCountry), vpnStatusViewStateFlow.first())
-        promoBannerFlow.value = promoBanner
+        hasPromoBannerFlow.value = true
         assertEquals(VpnStatusViewState.Connected(false, null), vpnStatusViewStateFlow.first())
     }
 
     @Test
     fun `when promo banner is present then NetShield state is shown for paid users`() = runTest{
         statusFlow.value = VpnStatusProviderUI.Status(VpnState.Connected, connectionParams)
-        promoBannerFlow.value = promoBanner
+        hasPromoBannerFlow.value = true
         val vpnStatusViewState = vpnStatusViewStateFlow.first()
         assertIs<VpnStatusViewState.Connected>(vpnStatusViewState)
         assertIs<StatusBanner.NetShieldBanner>(vpnStatusViewState.banner)

@@ -20,9 +20,12 @@
 package com.protonvpn.android.ui.promooffers
 
 import android.content.Context
+import android.content.res.Configuration
 import com.bumptech.glide.Glide
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.ApiNotificationOfferFullScreenImage
+import com.protonvpn.android.appconfig.ApiNotificationOfferImageSource
+import com.protonvpn.android.utils.isNightMode
 
 object PromoOfferImage {
 
@@ -46,12 +49,17 @@ object PromoOfferImage {
 
     fun getFullScreenImageUrl(
         context: Context, fullScreenImage: ApiNotificationOfferFullScreenImage
-    ): String? = getFullScreenImageUrl(getFullScreenImageMaxSizePx(context).width, fullScreenImage)
+    ): String? =
+        getFullScreenImageUrl(
+            getFullScreenImageMaxSizePx(context).width,
+            context.resources.configuration.isNightMode(),
+            fullScreenImage
+        )
 
     fun getFullScreenImageUrl(
-        pixelWidth: Int, fullScreenImage: ApiNotificationOfferFullScreenImage
+        pixelWidth: Int, isNightMode: Boolean, fullScreenImage: ApiNotificationOfferFullScreenImage
     ): String? {
-        val supportedFormats = SupportedFormats.values().map { it.toString() }
+        val supportedFormats = SupportedFormats.entries.map { it.toString() }
         val firstSupported = fullScreenImage.source
             .firstOrNull { it.type.uppercase() in supportedFormats }
         val imageSpec = if (firstSupported?.width != null) {
@@ -64,7 +72,7 @@ object PromoOfferImage {
         } else {
             firstSupported
         }
-        return imageSpec?.url
+        return if (isNightMode) imageSpec?.url else imageSpec?.urlLight
     }
 
     fun getFullScreenImageMaxSizePx(context: Context) = with(context.resources) {
@@ -78,6 +86,7 @@ object PromoOfferImage {
             Size(shorterDimensionPx, longerDimensionPx)
         }
     }
+
 
     // Avoid android.util.Size for the sake of unit tests.
     data class Size(val width: Int, val height: Int)

@@ -30,6 +30,7 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
@@ -139,6 +140,9 @@ object AndroidUtils {
         return File(dir, "$name.xml")
     }
 }
+
+fun Configuration.isNightMode(): Boolean =
+    uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 
 fun Context.openUrl(url: String) = openUrl(Uri.parse(url))
 

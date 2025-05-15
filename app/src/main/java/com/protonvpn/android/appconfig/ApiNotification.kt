@@ -104,6 +104,7 @@ data class ApiNotificationOfferFullScreenImage(
 @Serializable
 data class ApiNotificationOfferImageSource(
     @SerialName("URL") val url: String,
+    @SerialName("URLLight") val urlLight: String? = null,
     @SerialName("Type") val type: String,
     @SerialName("Width") val width: Int? = null
 )

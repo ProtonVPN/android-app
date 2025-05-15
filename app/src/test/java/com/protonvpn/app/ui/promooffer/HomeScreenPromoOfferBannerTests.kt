@@ -68,15 +68,24 @@ class HomeScreenPromoOfferBannerTests {
     @Test
     fun `when a banner notification is active it is emitted`() = runTest {
         val action = ApiNotificationOfferButton(url = "action url")
-        val banner = mockFullScreenImagePanel("image url", "alternative text", button = action)
+        val banner = mockFullScreenImagePanel(
+            darkModeImageUrl = "dark url",
+            lightThemeImageUrl = "light url",
+            "alternative text",
+            button = action
+        )
         val offer = mockOffer("id", type = ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER, panel = banner)
         activeNotifications.value = listOf(offer)
 
-        val uiBanner = homeScreenBannerFlow.first()
-        val expected = PromoOfferBannerState(
-            "image url", "alternative text", action, isDismissible = false, endTimestamp = null, notificationId = "id", reference = null
+        val uiBannerDark = homeScreenBannerFlow(isNighMode = true).first()
+        val uiBannerLight = homeScreenBannerFlow(isNighMode = false).first()
+        val expectedDark = PromoOfferBannerState(
+            "dark url", "alternative text", action, isDismissible = false, endTimestamp = null, notificationId = "id", reference = null
         )
-        assertEquals(expected, uiBanner)
+        val expectedLight = expectedDark.copy(imageUrl = "light url")
+
+        assertEquals(expectedDark, uiBannerDark)
+        assertEquals(expectedLight, uiBannerLight)
     }
 
     @Test
@@ -88,27 +97,27 @@ class HomeScreenPromoOfferBannerTests {
         val offerNoPanel = mockOffer("id3", type = ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER)
 
         activeNotifications.value = listOf(offerNoPanel, offerNoActionUrl)
-        assertNull(homeScreenBannerFlow.first())
+        assertNull(homeScreenBannerFlow(isNighMode = true).first())
     }
 
     @Test
     fun `notifications of other types are ignored`() = runTest {
         val action = ApiNotificationOfferButton(url = "action url")
-        val banner = mockFullScreenImagePanel("image url", "alternative text", button = action)
+        val banner = mockFullScreenImagePanel("image url", "image url", "alternative text", button = action)
         val popupOffer = mockOffer("id", type = ApiNotificationTypes.TYPE_ONE_TIME_POPUP, panel = banner)
 
         activeNotifications.value = listOf(popupOffer)
-        assertNull(homeScreenBannerFlow.first())
+        assertNull(homeScreenBannerFlow(isNighMode = true).first())
     }
 
     @Test
     fun `dismissing an offer hides it`() = runTest {
         val action = ApiNotificationOfferButton(url = "action url")
-        val banner = mockFullScreenImagePanel("image url", "alternative text", button = action)
+        val banner = mockFullScreenImagePanel("image url", "image_url", "alternative text", button = action)
         val offer = mockOffer("id", type = ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER, panel = banner)
         activeNotifications.value = listOf(offer)
 
-        val bannerStates = runWhileCollecting(homeScreenBannerFlow) {
+        val bannerStates = runWhileCollecting(homeScreenBannerFlow(isNighMode = true)) {
             runCurrent()
             promoOffersPrefs.addVisitedOffer("id")
             runCurrent()

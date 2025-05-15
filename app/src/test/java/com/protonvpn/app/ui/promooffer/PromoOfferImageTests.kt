@@ -39,8 +39,22 @@ class PromoOfferImageTests {
                 ]
             }
         """.trimIndent())
-        val selectedImage = PromoOfferImage.getFullScreenImageUrl(150, fullScreenImage)
+        val selectedImage = PromoOfferImage.getFullScreenImageUrl(150, isNightMode = true, fullScreenImage)
         assertEquals("200", selectedImage)
+    }
+
+    @Test
+    fun `take the smallest image if all are wider than requested width`() {
+        val fullScreenImage = Json.decodeFromString<ApiNotificationOfferFullScreenImage>("""
+            {
+                "Source": [
+                  { "Width": 200, "URL": "200", "Type": "PNG" },
+                  { "Width": 100, "URL": "100", "Type": "PNG" }
+                ]
+            }
+        """.trimIndent())
+        val selectedImage = PromoOfferImage.getFullScreenImageUrl(50, isNightMode = true, fullScreenImage)
+        assertEquals("100", selectedImage)
     }
 
     @Test
@@ -53,7 +67,7 @@ class PromoOfferImageTests {
                 ]
             }
         """.trimIndent())
-        val selectedImage = PromoOfferImage.getFullScreenImageUrl(300, fullScreenImage)
+        val selectedImage = PromoOfferImage.getFullScreenImageUrl(300, isNightMode = true, fullScreenImage)
         assertEquals("200", selectedImage)
     }
 
@@ -69,7 +83,7 @@ class PromoOfferImageTests {
                 ]
             }
         """.trimIndent())
-        val selectedImage = PromoOfferImage.getFullScreenImageUrl(300, fullScreenImage)
+        val selectedImage = PromoOfferImage.getFullScreenImageUrl(300, isNightMode = true, fullScreenImage)
         assertEquals("200.png", selectedImage)
     }
 
@@ -83,7 +97,22 @@ class PromoOfferImageTests {
                 ]
             }
         """.trimIndent())
-        val selectedImage = PromoOfferImage.getFullScreenImageUrl(300, fullScreenImage)
+        val selectedImage = PromoOfferImage.getFullScreenImageUrl(300, isNightMode = true, fullScreenImage)
         assertEquals("image.lottie", selectedImage)
+    }
+
+    @Test
+    fun `light mode URL is parsed`() {
+        val fullScreenImage = Json.decodeFromString<ApiNotificationOfferFullScreenImage>("""
+            {
+                "Source": [
+                  { "Width": 200, "URL": "200 dark", "URLLight": "200 light", "Type": "PNG" }
+                ]
+           }
+        """.trimIndent())
+        val lightModeUrl = PromoOfferImage.getFullScreenImageUrl(300, isNightMode = false, fullScreenImage)
+        val darkModeUrl = PromoOfferImage.getFullScreenImageUrl(300, isNightMode = true, fullScreenImage)
+        assertEquals("200 light", lightModeUrl)
+        assertEquals("200 dark", darkModeUrl)
     }
 }

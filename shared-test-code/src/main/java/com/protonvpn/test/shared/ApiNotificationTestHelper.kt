@@ -59,15 +59,18 @@ object ApiNotificationTestHelper {
         )
 
     fun mockFullScreenImagePanel(
-        imageUrl: String?,
+        darkModeImageUrl: String?,
+        lightThemeImageUrl: String?,
         alternativeText: String = "",
         button: ApiNotificationOfferButton? = null,
         showCountdown: Boolean = false,
         isDismissible: Boolean = false,
     ): ApiNotificationOfferPanel {
-        val images =
-            if (imageUrl != null) listOf(ApiNotificationOfferImageSource(imageUrl, "png"))
-            else emptyList()
+        val images = if (darkModeImageUrl != null) {
+            listOf(ApiNotificationOfferImageSource(darkModeImageUrl, lightThemeImageUrl, "png"))
+        } else {
+            emptyList()
+        }
         return ApiNotificationOfferPanel(
             fullScreenImage = ApiNotificationOfferFullScreenImage(images, alternativeText),
             button = button,

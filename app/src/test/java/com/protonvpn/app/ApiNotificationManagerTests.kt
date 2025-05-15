@@ -31,6 +31,7 @@ import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.ImagePrefetcher
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.ui.promooffers.PromoOfferImage
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
@@ -83,7 +84,7 @@ class ApiNotificationManagerTests {
     @RelaxedMockK
     private lateinit var mockContext: Context
     @MockK
-    private lateinit var mockImagePrefercher: ImagePrefetcher
+    private lateinit var mockImagePrefetcher: ImagePrefetcher
     @MockK
     private lateinit var mockUserPlanManager: UserPlanManager
     @MockK
@@ -131,7 +132,7 @@ class ApiNotificationManagerTests {
 
         every { mockAppConfig.appConfigUpdateEvent } returns MutableSharedFlow()
         every { mockAppConfig.appConfigFlow } returns appConfigFlow
-        every { mockImagePrefercher.prefetch(any()) } returns true
+        every { mockImagePrefetcher.prefetch(any()) } returns true
 
         infoChangeFlow = MutableSharedFlow()
         every { mockUserPlanManager.infoChangeFlow } returns infoChangeFlow
@@ -192,30 +193,44 @@ class ApiNotificationManagerTests {
 
     @Test
     fun `when image prefetch fails notification is filtered out`() = testScope.runTest {
+        setupImagePrefetchTest()
+
+        assertEquals(listOf("success"), notificationManager.activeListFlow.first().map { it.id })
+    }
+
+    @Test
+    fun `when image prefetch fails notification is filtered out (light mode disabled)`() = testScope.runTest {
+        notificationManager = createNotificationsManager(isLightThemeEnabled = false)
+        setupImagePrefetchTest()
+
+        assertEquals(listOf("success", "failureLight"), notificationManager.activeListFlow.first().map { it.id })
+    }
+
+    private suspend fun setupImagePrefetchTest() {
         mockResponse(
-            mockOffer("success", -1, 1, iconUrl = "urlSuccess", panel = mockFullScreenImagePanel("urlSuccess")),
-            mockOffer("failure", -1, 1, iconUrl = "urlSuccess", panel = mockFullScreenImagePanel("urlFailure"))
+            mockOffer("success", -1, 1, iconUrl = "urlSuccess", panel = mockFullScreenImagePanel("urlSuccess", "urlSuccess")),
+            mockOffer("failureBoth", -1, 1, iconUrl = "urlSuccess", panel = mockFullScreenImagePanel("urlFailure", "urlFailure")),
+            mockOffer("failureDark", -1, 1, iconUrl = "urlSuccess", panel = mockFullScreenImagePanel("urlFailure", "urlSuccess")),
+            mockOffer("failureLight", -1, 1, iconUrl = "urlSuccess", panel = mockFullScreenImagePanel("urlSuccess", "urlFailure"))
         )
 
-        every { mockImagePrefercher.prefetch(any()) } returns false
-        every { mockImagePrefercher.prefetch("urlSuccess") } returns true
+        every { mockImagePrefetcher.prefetch(any()) } returns false
+        every { mockImagePrefetcher.prefetch("urlSuccess") } returns true
 
         notificationManager.updateNotifications()
-
-        Assert.assertEquals(listOf("success"), notificationManager.activeListFlow.first().map { it.id })
     }
 
     @Test
     fun `when there are no images no prefetch is triggered`() = testScope.runTest {
         mockResponse(
-            mockOffer("success", -1, 1, iconUrl = "", panel = mockFullScreenImagePanel(null)),
+            mockOffer("success", -1, 1, iconUrl = "", panel = mockFullScreenImagePanel(null, null)),
         )
         notificationManager.updateNotifications()
 
-        coEvery { mockImagePrefercher.prefetch(any()) } returns false
+        coEvery { mockImagePrefetcher.prefetch(any()) } returns false
 
         Assert.assertEquals(listOf("success"), notificationManager.activeListFlow.first().map { it.id })
-        coVerify { mockImagePrefercher wasNot called }
+        coVerify { mockImagePrefetcher wasNot called }
     }
 
     @Test
@@ -224,11 +239,11 @@ class ApiNotificationManagerTests {
             mockOffer("id", -1, 1, iconUrl = "url")
         )
         notificationManager.updateNotifications()
-        verify(exactly = 1) { mockImagePrefercher.prefetch("url") }
+        verify(exactly = 1) { mockImagePrefetcher.prefetch("url") }
         notificationManager.activeListFlow.first()
-        verify(exactly = 2) { mockImagePrefercher.prefetch("url") }
+        verify(exactly = 2) { mockImagePrefetcher.prefetch("url") }
         notificationManager.activeListFlow.first()
-        verify(exactly = 3) { mockImagePrefercher.prefetch("url") }
+        verify(exactly = 3) { mockImagePrefetcher.prefetch("url") }
     }
 
     @Test
@@ -266,7 +281,7 @@ class ApiNotificationManagerTests {
         assertEquals(expectedNotificationIds, notificationIds)
     }
 
-    private fun createNotificationsManager() =
+    private fun createNotificationsManager(isLightThemeEnabled: Boolean = true) =
         ApiNotificationManager(
             mockContext,
             testScope.backgroundScope,
@@ -276,9 +291,10 @@ class ApiNotificationManagerTests {
             mockApi,
             currentUser,
             mockUserPlanManager,
-            mockImagePrefercher,
+            mockImagePrefetcher,
             mockPeriodicUpdateManager,
+            FakeIsLightThemeFeatureFlagEnabled(isLightThemeEnabled),
             flowOf(true),
-            flowOf(true)
+            flowOf(true),
         )
 }

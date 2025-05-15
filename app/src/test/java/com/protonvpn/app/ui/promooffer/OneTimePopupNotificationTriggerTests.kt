@@ -190,5 +190,5 @@ class OneTimePopupNotificationTriggerTests {
     private fun createTestNotification(
         id: String,
         type: Int = ApiNotificationTypes.TYPE_ONE_TIME_POPUP
-    ): ApiNotification = mockOffer(id, type = type, panel = mockFullScreenImagePanel(""))
+    ): ApiNotification = mockOffer(id, type = type, panel = mockFullScreenImagePanel("", ""))
 }

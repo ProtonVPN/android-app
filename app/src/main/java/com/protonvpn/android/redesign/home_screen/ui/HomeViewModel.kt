@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.home_screen.ui
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Parcelable
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -55,6 +56,7 @@ import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.ui.promooffers.PromoOfferButtonActions
 import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
 import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.utils.isNightMode
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -115,7 +117,7 @@ class HomeViewModel @Inject constructor(
     serverListUpdaterPrefs: ServerListUpdaterPrefs,
     private val vpnErrorUIManager: VpnErrorUIManager,
     upsellCarouselStateFlow: UpsellCarouselStateFlow,
-    bottomPromoBannerFlow: HomeScreenPromoBannerFlow,
+    private val bottomPromoBannerFlow: HomeScreenPromoBannerFlow,
     prominentPromoBannerFlow: HomeScreenProminentBannerFlow,
     private val promoOfferButtonActions: PromoOfferButtonActions,
     private val promoOffersPrefs: PromoOffersPrefs,
@@ -146,9 +148,6 @@ class HomeViewModel @Inject constructor(
 
     val recentsViewState = recentsListViewStateFlow
         .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
-
-    val bottomPromoBannerStateFlow: StateFlow<PromoOfferBannerState?> = bottomPromoBannerFlow
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     val prominentPromoBannerStateFlow: StateFlow<ProminentBannerState?> = prominentPromoBannerFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
@@ -184,6 +183,10 @@ class HomeViewModel @Inject constructor(
     val snackbarErrorFlow = vpnErrorUIManager.snackErrorFlow
 
     suspend fun consumeErrorMessage() = vpnErrorUIManager.consumeErrorMessage()
+
+    fun getBottomPromoBannerStateFlow(isNightMode: Boolean): StateFlow<PromoOfferBannerState?> =
+        bottomPromoBannerFlow(isNightMode)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     fun setNetShieldProtocol(netShieldProtocol: NetShieldProtocol) {
         viewModelScope.launch {
