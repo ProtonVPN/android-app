@@ -58,6 +58,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -106,6 +107,7 @@ import com.protonvpn.android.ui.promooffers.PromoOfferBanner
 import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.ui.promooffers.PromoOfferProminentBanner
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.isNightMode
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -143,7 +145,9 @@ fun HomeRoute(
         homeViewModel.changeServerViewState.collectAsStateWithLifecycle(null).value
     val upsellCarouselState = homeViewModel.upsellCarouselState.collectAsStateWithLifecycle().value
     val bottomPromoBannerState =
-        homeViewModel.bottomPromoBannerStateFlow.collectAsStateWithLifecycle().value
+        homeViewModel.getBottomPromoBannerStateFlow(LocalConfiguration.current.isNightMode())
+            .collectAsStateWithLifecycle()
+            .value
     val prominentPromoBannerState =
         homeViewModel.prominentPromoBannerStateFlow.collectAsStateWithLifecycle().value
     val snackError = homeViewModel.snackbarErrorFlow.collectAsStateWithLifecycle().value

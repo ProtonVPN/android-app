@@ -50,7 +50,7 @@ class VpnStatusViewStateFlow(
     settingsForConnection: SettingsForConnection,
     currentUser: CurrentUser,
     changeServerViewStateFlow: Flow<ChangeServerViewState?>,
-    homeScreenPromoBannerFlow: Flow<PromoOfferBannerState?>,
+    hasPromoBannerFlow: Flow<Boolean>,
     dnsOverrideFlow: Flow<DnsOverride>,
 ) : Flow<VpnStatusViewState> {
 
@@ -71,7 +71,7 @@ class VpnStatusViewStateFlow(
         settingsForConnection,
         currentUser,
         changeServerViewStateFlow as Flow<ChangeServerViewState?>,
-        homeScreenPromoBannerFlow as Flow<PromoOfferBannerState?>,
+        homeScreenPromoBannerFlow.hasBannerFlow(),
         dnsOverrideFlow as Flow<DnsOverride>
     )
 
@@ -88,7 +88,7 @@ class VpnStatusViewStateFlow(
             vpnConnectionManager.netShieldStats,
             currentUser.vpnUserFlow,
             changeServerViewStateFlow,
-            homeScreenPromoBannerFlow.map { it != null },
+            hasPromoBannerFlow,
             dnsOverrideFlow,
         ) { stats, user, changeServer, hasPromoBanner, dnsOverride ->
             val availability = user.getNetShieldAvailability()

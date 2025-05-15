@@ -25,7 +25,6 @@ import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import java.util.concurrent.TimeUnit
@@ -45,7 +44,7 @@ data class PromoOfferBannerState(
 class HomeScreenPromoBannerFlow @Inject constructor(
     apiNotificationManager: ApiNotificationManager,
     promoOffersPrefs: PromoOffersPrefs,
-): Flow<PromoOfferBannerState?> {
+) {
 
     private val activeNotificationsFlow = combine(
         apiNotificationManager.activeListFlow,
@@ -56,31 +55,34 @@ class HomeScreenPromoBannerFlow @Inject constructor(
         }
     }
 
-    private val bannerFlow = activeNotificationsFlow
-        .map { notification ->
-            notification?.let { createPromoOfferBanner(it) }
+    operator fun invoke(isNighMode: Boolean): Flow<PromoOfferBannerState?> =
+        activeNotificationsFlow.map { notification ->
+            notification?.let { createPromoOfferBanner(it, isNighMode) }
         }
 
-    private fun createPromoOfferBanner(notification: ApiNotification): PromoOfferBannerState? =
+    // Once the light theme FF is enabled we can assume that there are always both image variants present.
+    // Therefore it's ok to call invoke always for night mode in this function.
+    fun hasBannerFlow(): Flow<Boolean> = invoke(isNighMode = true).map { it != null }
+
+    private fun createPromoOfferBanner(notification: ApiNotification, isNighMode: Boolean): PromoOfferBannerState? {
         if (notification.offer?.panel?.button?.url?.isNotEmpty() == true &&
             notification.offer.panel.fullScreenImage?.source?.isNotEmpty() == true
         ) {
             val fullScreenImage = notification.offer.panel.fullScreenImage
             val imageSource = fullScreenImage.source.first()
-            PromoOfferBannerState(
-                imageSource.url,
-                fullScreenImage.alternativeText,
-                notification.offer.panel.button,
-                notification.offer.panel.isDismissible,
-                TimeUnit.SECONDS.toMillis(notification.endTime).takeIf { notification.offer.panel.showCountdown },
-                notification.id,
-                notification.reference,
-            )
-        } else {
-            null
+            val imageUrl = if (isNighMode) imageSource.url else imageSource.urlLight
+            if (imageUrl != null) {
+                return PromoOfferBannerState(
+                    imageUrl,
+                    fullScreenImage.alternativeText,
+                    notification.offer.panel.button,
+                    notification.offer.panel.isDismissible,
+                    TimeUnit.SECONDS.toMillis(notification.endTime).takeIf { notification.offer.panel.showCountdown },
+                    notification.id,
+                    notification.reference,
+                )
+            }
         }
-
-    override suspend fun collect(collector: FlowCollector<PromoOfferBannerState?>) {
-        bannerFlow.collect(collector)
+        return null
     }
 }
