@@ -1383,6 +1383,10 @@
     <string name="settings_split_tunneling_already_excluded">Al uitgesloten</string>
     <string name="settings_split_tunneling_already_included">Al inbegrepen</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">IP-adres uit de lijst verwijderen?</string>
+    <string name="settings_theme_title">Thema</string>
+    <string name="settings_theme_value_auto">Apparaatthema</string>
+    <string name="settings_theme_value_light">Licht</string>
+    <string name="settings_theme_value_dark">Donker</string>
     <string name="settings_dialog_reconnect">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
     <string name="settings_needs_reconnect_banner">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Aangepaste DNS is niet beschikbaar</string>

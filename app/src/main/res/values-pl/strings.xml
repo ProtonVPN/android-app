@@ -1455,6 +1455,10 @@
     <string name="settings_split_tunneling_already_excluded">Już wykluczony</string>
     <string name="settings_split_tunneling_already_included">Już uwzględniony</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Usunąć adres IP z listy?</string>
+    <string name="settings_theme_title">Motyw</string>
+    <string name="settings_theme_value_auto">Motyw urządzenia</string>
+    <string name="settings_theme_value_light">Jasny</string>
+    <string name="settings_theme_value_dark">Ciemny</string>
     <string name="settings_dialog_reconnect">Nowe ustawienia zostaną zastosowane przy kolejnym połączeniu.</string>
     <string name="settings_needs_reconnect_banner">Nowe ustawienia zostaną zastosowane przy kolejnym połączeniu.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Niestandardowy serwer DNS jest niedostępny</string>

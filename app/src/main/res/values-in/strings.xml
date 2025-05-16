@@ -1347,6 +1347,10 @@
     <string name="settings_split_tunneling_already_excluded">Telah dikecualikan</string>
     <string name="settings_split_tunneling_already_included">Telah disertakan</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Hapus alamat IP dari daftar?</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_theme_value_auto">Tema perangkat</string>
+    <string name="settings_theme_value_light">Terang</string>
+    <string name="settings_theme_value_dark">Gelap</string>
     <string name="settings_dialog_reconnect">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
     <string name="settings_needs_reconnect_banner">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">DNS khusus tidak tersedia</string>
@@ -1484,6 +1488,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">Jaringan tertentu dapat menangani lalu lintas IPv6 secara tidak terduga</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Kekurangan</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Kelebihan</string>
-    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
-    <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
+    <string name="settings_lan_allow_direct_connection_title">Izinkan koneksi perangkat langsung</string>
+    <string name="settings_lan_allow_direct_connection_description">Sambungkan ke TV Pintar, Android Auto, dan perangkat lain yang membuat jaringannya sendiri. Untuk keamanan maksimum, aktifkan hanya saat menyambungkan ke perangkat ini.</string>
 </resources>

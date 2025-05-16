@@ -1383,6 +1383,10 @@
     <string name="settings_split_tunneling_already_excluded">On jo rajoitettu</string>
     <string name="settings_split_tunneling_already_included">On jo sisällytetty</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Poistetaanko IP-osoite listalta?</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_value_auto">Device theme</string>
+    <string name="settings_theme_value_light">Light</string>
+    <string name="settings_theme_value_dark">Dark</string>
     <string name="settings_dialog_reconnect">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
     <string name="settings_needs_reconnect_banner">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>

@@ -28,11 +28,11 @@
     <string name="login">Σύνδεση</string>
     <string name="menuActionSignOut">Αποσύνδεση</string>
     <string name="connectionAllocationHelpTitle">Ευχαριστούμε για την αναβάθμιση</string>
-    <string name="connectionAllocationHelpDescription1">Για να ξεκινήσετε το ταξίδι σας με το Proton VPN παρακαλούμε όπως αναθέσετε τις συνδέσεις VPN στον λογαριασμός σας ή σε οποιονδήποτε άλλο συνδεδεμένο λογαριασμό.</string>
+    <string name="connectionAllocationHelpDescription1">Για να ξεκινήσετε το ταξίδι σας με το Proton VPN, παρακαλούμε αναθέστε συνδέσεις VPN στον λογαριασμό σας ή σε οποιονδήποτε άλλο υπο-λογαριασμό.</string>
     <string name="connectionAllocationHelpDescription2">Αυτό το βήμα θα πάρει μόλις λίγα λεπτά. Μετά από αυτό θα μπορείτε να συνδεθείτε και να προστατεύσετε όλες τις συσκευές σας.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Αυτήν τη στιγμή δεν υπάρχει ενεργοποιημένη σύνδεση VPN για αυτόν τον λογαριασμό. Για να ξεκινήσετε το ταξίδι σας με το Proton VPN, επικοινωνήστε με τον διαχειριστή σας. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Ενεργοποίηση συνδέσεων VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Προσπαθήστε ξανά</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Συνδεθείτε ξανά</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">ΟΚ</string>
     <string name="dialogLearnMore">Μάθετε περισσότερα</string>
@@ -117,7 +117,7 @@
     <string name="error_server_not_set">Ο διακομιστής δεν είναι πλέον διαθέσιμος</string>
     <string name="bugReportErrorEmptyEmail">Το Email δεν μπορεί να είναι κενό</string>
     <string name="bugReportErrorInvalidEmail">Μη έγκυρη διεύθυνση email</string>
-    <string name="bugReportLabelVpnLogsTitle">Συμπεριλάβετε τις καταχωρήσεις λαθών</string>
+    <string name="bugReportLabelVpnLogsTitle">Συμπεριλάβετε τις καταγραφές σφαλμάτων</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Με αυτό αποστέλλονται οι καταχωρήσεις λαθών του λογισμικού (δεν καταχωρείται η δραστηριότητά σας) για να μας βοηθήσετε να επιλύσουμε το πρόβλημά σας</string>
     <string name="profileFastest">Γρηγορότερο</string>
     <string name="profileRandom">Τυχαίο</string>
@@ -131,7 +131,7 @@
     <string name="settingsExcludedIPAddressesListHeader">Εξαιρούμενες διευθύνσεις IP (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Συμπεριλαμβανόμενες διευθύνσεις IP (%1$d)</string>
     <string name="settingsExcludedApps">Εξαιρούμενες εφαρμογές</string>
-    <string name="settingsExcludedAppsEmpty">Προσθέστε τις εφαρμογές που θέλετε να εξαιρέσετε από την ροή δεδομένων του δικτύου VPN.</string>
+    <string name="settingsExcludedAppsEmpty">Προσθέστε τις εφαρμογές που θέλετε να εξαιρέσετε από την κίνηση του δικτύου VPN.</string>
     <string name="settingsIncludedAppsEmpty">Προσθέστε εφαρμογές που θα συμπεριληφθούν στην κίνηση VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Εξαιρούμενες εφαρμογές (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Περιλαμβανόμενες εφαρμογές (%1$d)</string>
@@ -1383,6 +1383,10 @@
     <string name="settings_split_tunneling_already_excluded">Έχει ήδη αποκλειστεί</string>
     <string name="settings_split_tunneling_already_included">Περιλαμβάνεται ήδη</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Κατάργηση IP Διευθύνσης από τη λίστα;</string>
+    <string name="settings_theme_title">Θέμα</string>
+    <string name="settings_theme_value_auto">Θέμα συσκευής</string>
+    <string name="settings_theme_value_light">Φωτεινό</string>
+    <string name="settings_theme_value_dark">Σκοτεινό</string>
     <string name="settings_dialog_reconnect">Οι νέες ρυθμίσεις θα εφαρμοστούν την επόμενη φορά που θα συνδεθείτε.</string>
     <string name="settings_needs_reconnect_banner">Οι νέες ρυθμίσεις θα εφαρμοστούν την επόμενη φορά που θα συνδεθείτε.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Το προσαρμοσμένο DNS δεν είναι διαθέσιμο</string>

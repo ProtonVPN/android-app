@@ -1457,6 +1457,10 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_split_tunneling_already_excluded">Že izključeno</string>
     <string name="settings_split_tunneling_already_included">Already included</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Želite odstraniti naslov IP s seznama?</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_value_auto">Device theme</string>
+    <string name="settings_theme_value_light">Light</string>
+    <string name="settings_theme_value_dark">Dark</string>
     <string name="settings_dialog_reconnect">Nove nastavitve bodo veljale ob naslednji povezavi.</string>
     <string name="settings_needs_reconnect_banner">Nove nastavitve bodo veljale ob naslednji povezavi.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">DNS po meri ni na voljo</string>

@@ -1383,6 +1383,10 @@
     <string name="settings_split_tunneling_already_excluded">Allerede ekskludert</string>
     <string name="settings_split_tunneling_already_included">Allerede inkludert</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Fjerne IP-adressen fra listen?</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_value_auto">Device theme</string>
+    <string name="settings_theme_value_light">Light</string>
+    <string name="settings_theme_value_dark">Dark</string>
     <string name="settings_dialog_reconnect">Nye innstillinger vil gjelde neste gang du kobler til.</string>
     <string name="settings_needs_reconnect_banner">Nye innstillinger vil gjelde neste gang du kobler til.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Tilpasset DNS er utilgjengelig</string>

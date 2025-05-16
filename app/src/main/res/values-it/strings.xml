@@ -1383,6 +1383,10 @@
     <string name="settings_split_tunneling_already_excluded">Già escluso</string>
     <string name="settings_split_tunneling_already_included">Già incluso</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Vuoi rimuovere questo indirizzo IP dalla lista?</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_theme_value_auto">Tema del dispositivo</string>
+    <string name="settings_theme_value_light">Chiaro</string>
+    <string name="settings_theme_value_dark">Scuro</string>
     <string name="settings_dialog_reconnect">Le nuove impostazioni verranno applicate la prossima volta che ti connetti alla VPN.</string>
     <string name="settings_needs_reconnect_banner">Le nuove impostazioni verranno applicate la prossima volta che ti connetti alla VPN.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Il DNS personalizzato non è disponibile</string>
