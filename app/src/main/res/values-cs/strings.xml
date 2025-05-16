@@ -1455,6 +1455,10 @@
     <string name="settings_split_tunneling_already_excluded">Již vyloučeno</string>
     <string name="settings_split_tunneling_already_included">Již zahrnuto</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Odebrat IP adresu ze seznamu?</string>
+    <string name="settings_theme_title">Motiv</string>
+    <string name="settings_theme_value_auto">Motiv zařízení</string>
+    <string name="settings_theme_value_light">Světlý</string>
+    <string name="settings_theme_value_dark">Tmavý</string>
     <string name="settings_dialog_reconnect">Nové nastavení se projeví při příštím připojení.</string>
     <string name="settings_needs_reconnect_banner">Nové nastavení se projeví při příštím připojení.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Vlastní DNS je nedostupný</string>

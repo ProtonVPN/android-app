@@ -236,7 +236,7 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Kullanılamıyor</string>
     <string name="custom_dns_item_removed_snackbar">Öge silindi</string>
     <string name="netshield_free_description">Siteler ile uygulamalarda bulunabilecek reklamları, izleyicileri ve kötü amaçlı yazılımları engelleyin</string>
-    <string name="netshield_what_data_means">NetShield istatistikleri açıklanmıştır</string>
+    <string name="netshield_what_data_means">NetShield istatistiklerinin açıklaması</string>
     <string name="netshield_ads_title">Reklamlar</string>
     <string name="netshield_ads_details">Reklamlar ve görünmez reklam izleyiciler</string>
     <string name="netshield_trackers_title">İzleyiciler</string>
@@ -1383,6 +1383,10 @@
     <string name="settings_split_tunneling_already_excluded">Zaten katılmamış</string>
     <string name="settings_split_tunneling_already_included">Zaten katılmış</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">IP adresi listeden kaldırılsın mı?</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_theme_value_auto">Aygıt teması</string>
+    <string name="settings_theme_value_light">Açık</string>
+    <string name="settings_theme_value_dark">Koyu</string>
     <string name="settings_dialog_reconnect">Yeni ayarlar kurulacak bir sonraki bağlantıya uygulanacak.</string>
     <string name="settings_needs_reconnect_banner">Yeni ayarlar kurulacak bir sonraki bağlantıya uygulanacak.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Özel DNS kullanılamıyor</string>
@@ -1520,6 +1524,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">Bazı ağlar IPv6 trafiğini öngörülemeyen şekilde işler</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Kötü yanları</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">İyi yanları</string>
-    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
-    <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
+    <string name="settings_lan_allow_direct_connection_title">Doğrudan aygıt bağlantılarına izin verilsin</string>
+    <string name="settings_lan_allow_direct_connection_description">Akıllı TV, Android Auto ve kendi ağınızdaki diğer aygıtlara bağlanın. En yüksek güvenlik için, yalnızca bu aygıtlara bağlanırken etkinleştirin.</string>
 </resources>

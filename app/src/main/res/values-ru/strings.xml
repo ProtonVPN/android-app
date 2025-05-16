@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Недоступна</string>
     <string name="custom_dns_item_removed_snackbar">Элемент удален</string>
     <string name="netshield_free_description">Блокирует рекламу, трекеры и вредоносные программы на веб-сайтах и в приложениях</string>
-    <string name="netshield_what_data_means">NetShield statistics explained</string>
+    <string name="netshield_what_data_means">Объяснение статистики NetShield</string>
     <string name="netshield_ads_title">Реклама</string>
-    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
+    <string name="netshield_ads_details">Реклама и невидимые рекламные трекеры</string>
     <string name="netshield_trackers_title">Трекеры</string>
     <string name="netshield_trackers_details">Файлы cookie и другие трекеры, которые хранят и передают информацию о вашей активности в Интернете</string>
     <string name="netshield_data_title">Данные</string>
@@ -1455,6 +1455,10 @@
     <string name="settings_split_tunneling_already_excluded">Уже исключено</string>
     <string name="settings_split_tunneling_already_included">Уже добавлено</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Удалить IP-адреса из списка?</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_value_auto">Device theme</string>
+    <string name="settings_theme_value_light">Light</string>
+    <string name="settings_theme_value_dark">Dark</string>
     <string name="settings_dialog_reconnect">Новые настройки будут применены при следующем подключении.</string>
     <string name="settings_needs_reconnect_banner">Новые настройки будут применены при следующем подключении.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Пользовательская DNS недоступна</string>
@@ -1593,6 +1597,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">Некоторые сети непредсказуемо обрабатывают трафик IPv6</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Недостатки</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Преимущества</string>
-    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
-    <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
+    <string name="settings_lan_allow_direct_connection_title">Разрешить прямые подключения устройств</string>
+    <string name="settings_lan_allow_direct_connection_description">Подключайтесь к Smart TV, Android Auto и другим устройствам, создающим собственную сеть. Для обеспечения максимальной защищенности всегда включайте эту функцию при подключении к этим устройствам.</string>
 </resources>

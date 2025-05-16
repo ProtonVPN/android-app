@@ -1455,6 +1455,10 @@
     <string name="settings_split_tunneling_already_excluded">Уже виключено</string>
     <string name="settings_split_tunneling_already_included">Уже включено</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Вилучити IP-адресу зі списку?</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_value_auto">Device theme</string>
+    <string name="settings_theme_value_light">Light</string>
+    <string name="settings_theme_value_dark">Dark</string>
     <string name="settings_dialog_reconnect">Нові налаштування застосуються при наступному з\'єднанні.</string>
     <string name="settings_needs_reconnect_banner">Нові налаштування застосуються при наступному з\'єднанні.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Власний DNS недоступний</string>

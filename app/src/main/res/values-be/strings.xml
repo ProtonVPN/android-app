@@ -1455,6 +1455,10 @@
     <string name="settings_split_tunneling_already_excluded">Ужо выключана</string>
     <string name="settings_split_tunneling_already_included">Ужо ўключаны</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Выдаліць IP-адрас са спіса?</string>
+    <string name="settings_theme_title">Тэма</string>
+    <string name="settings_theme_value_auto">Тэма прылады</string>
+    <string name="settings_theme_value_light">Светлая</string>
+    <string name="settings_theme_value_dark">Цёмная</string>
     <string name="settings_dialog_reconnect">Новыя налады будуць ужыты пры наступным падключэнні.</string>
     <string name="settings_needs_reconnect_banner">Новыя налады будуць ужыты пры наступным падключэнні.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Карыстальніцкі DNS недаступны</string>

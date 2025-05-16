@@ -1383,6 +1383,10 @@
     <string name="settings_split_tunneling_already_excluded">قبلاً جدا شده است</string>
     <string name="settings_split_tunneling_already_included">Already included</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">حذف نشانی IP از لیست؟</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_value_auto">Device theme</string>
+    <string name="settings_theme_value_light">Light</string>
+    <string name="settings_theme_value_dark">Dark</string>
     <string name="settings_dialog_reconnect">تنظیمات جدید هنگام اتصال بعدی شما اعمال خواهند شد.</string>
     <string name="settings_needs_reconnect_banner">تنظیمات جدید هنگام اتصال بعدی شما اعمال خواهند شد.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>

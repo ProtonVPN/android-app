@@ -1419,6 +1419,10 @@
     <string name="settings_split_tunneling_already_excluded">Deja exclus</string>
     <string name="settings_split_tunneling_already_included">Deja inclusă</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Eliminați adresa IP din listă?</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_theme_value_auto">Temă dispozitiv</string>
+    <string name="settings_theme_value_light">Albă</string>
+    <string name="settings_theme_value_dark">Neagră</string>
     <string name="settings_dialog_reconnect">Noile setări vor fi aplicate la următoarea conectare.</string>
     <string name="settings_needs_reconnect_banner">Noile setări vor fi aplicate la următoarea conectare.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">DNS-ul personal nu este disponibil</string>

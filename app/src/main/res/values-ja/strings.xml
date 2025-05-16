@@ -1347,6 +1347,10 @@
     <string name="settings_split_tunneling_already_excluded">既に除外されています</string>
     <string name="settings_split_tunneling_already_included">すでに含まれています</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">リストから IP アドレスを削除しますか?</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_value_auto">Device theme</string>
+    <string name="settings_theme_value_light">Light</string>
+    <string name="settings_theme_value_dark">Dark</string>
     <string name="settings_dialog_reconnect">新しい設定は次の接続から適用されます。</string>
     <string name="settings_needs_reconnect_banner">新しい設定は次の接続から適用されます。</string>
     <string name="private_dns_conflict_banner_custom_dns_title">カスタム DNS は利用できません</string>

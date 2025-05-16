@@ -1347,6 +1347,10 @@
     <string name="settings_split_tunneling_already_excluded">已經被排除</string>
     <string name="settings_split_tunneling_already_included">已經包含</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">要從清單中移除 IP 位址嗎？</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_value_auto">Device theme</string>
+    <string name="settings_theme_value_light">Light</string>
+    <string name="settings_theme_value_dark">Dark</string>
     <string name="settings_dialog_reconnect">新的設定將於下次連線時套用。</string>
     <string name="settings_needs_reconnect_banner">新的設定將於下次連線時套用。</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
