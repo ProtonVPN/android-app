@@ -43,6 +43,7 @@
     <application
         android:name=".ProtonApplicationHilt"
         android:allowBackup="false"
+        android:memtagMode="async"
         android:banner="@drawable/tv_banner"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
