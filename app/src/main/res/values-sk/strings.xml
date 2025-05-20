@@ -1455,10 +1455,10 @@
     <string name="settings_split_tunneling_already_excluded">Už je vylúčené</string>
     <string name="settings_split_tunneling_already_included">Už je zahrnutá</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Odstrániť IP adresu zo zoznamu?</string>
-    <string name="settings_theme_title">Theme</string>
-    <string name="settings_theme_value_auto">Device theme</string>
-    <string name="settings_theme_value_light">Light</string>
-    <string name="settings_theme_value_dark">Dark</string>
+    <string name="settings_theme_title">Motív</string>
+    <string name="settings_theme_value_auto">Motív zariadenia</string>
+    <string name="settings_theme_value_light">Svetlý</string>
+    <string name="settings_theme_value_dark">Tmavý</string>
     <string name="settings_dialog_reconnect">Nové nastavenia sa aplikujú pri ďalšom pripojení.</string>
     <string name="settings_needs_reconnect_banner">Nové nastavenia sa aplikujú pri ďalšom pripojení.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Vlastné DNS je nodstupné</string>

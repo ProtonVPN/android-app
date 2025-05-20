@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">使用不可</string>
     <string name="custom_dns_item_removed_snackbar">アイテムが削除されました</string>
     <string name="netshield_free_description">ウェブサイトとアプリの広告、トラッカー、マルウェアをブロック</string>
-    <string name="netshield_what_data_means">NetShield statistics explained</string>
+    <string name="netshield_what_data_means">NetShield統計について</string>
     <string name="netshield_ads_title">広告</string>
-    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
+    <string name="netshield_ads_details">広告と見えない広告トラッカー</string>
     <string name="netshield_trackers_title">トラッカー</string>
     <string name="netshield_trackers_details">あなたのインターネット活動に関する情報を保存・共有するクッキーやその他のトラッカー</string>
     <string name="netshield_data_title">データ</string>
@@ -1347,10 +1347,10 @@
     <string name="settings_split_tunneling_already_excluded">既に除外されています</string>
     <string name="settings_split_tunneling_already_included">すでに含まれています</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">リストから IP アドレスを削除しますか?</string>
-    <string name="settings_theme_title">Theme</string>
-    <string name="settings_theme_value_auto">Device theme</string>
-    <string name="settings_theme_value_light">Light</string>
-    <string name="settings_theme_value_dark">Dark</string>
+    <string name="settings_theme_title">テーマ</string>
+    <string name="settings_theme_value_auto">デバイスのテーマ</string>
+    <string name="settings_theme_value_light">ライト</string>
+    <string name="settings_theme_value_dark">ダーク</string>
     <string name="settings_dialog_reconnect">新しい設定は次の接続から適用されます。</string>
     <string name="settings_needs_reconnect_banner">新しい設定は次の接続から適用されます。</string>
     <string name="private_dns_conflict_banner_custom_dns_title">カスタム DNS は利用できません</string>
@@ -1488,6 +1488,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">一部のネットワークは IPv6 トラフィックを予期せず処理します</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">短所</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">長所</string>
-    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
-    <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
+    <string name="settings_lan_allow_direct_connection_title">直接のデバイス接続を許可</string>
+    <string name="settings_lan_allow_direct_connection_description">スマート TV、Android Auto、独自のネットワークを作成するその他のデバイスに接続します。最大限のセキュリティのために、これらのデバイスに接続する場合にのみ有効にしてください。</string>
 </resources>
