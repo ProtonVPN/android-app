@@ -89,7 +89,7 @@
     <string name="done">VALMIS</string>
     <string name="add">LISÄÄ</string>
     <string name="copy_to_clipboard">Kopioi</string>
-    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
     <string name="got_it">Selvä</string>
     <string name="something_went_wrong">Jotain meni pieleen</string>
     <string name="try_again">Yritä uudelleen</string>
@@ -130,10 +130,10 @@
     <string name="settings_new_label_badge">UUSI</string>
     <string name="settingsExcludedIPAddressesListHeader">Poissuljetut IP-osoitteet (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Sisällytetyt IP-osoitteet (%1$d)</string>
-    <string name="settingsExcludedApps">Excluded apps</string>
+    <string name="settingsExcludedApps">Poissuljetut sovellukset</string>
     <string name="settingsExcludedAppsEmpty">Lisää VPN-tietoliikenteen ulkopuolelle rajoitettavia sovelluksia.</string>
     <string name="settingsIncludedAppsEmpty">Lisää VPN-tietoliikenteeseen sisällytettäviä sovelluksia.</string>
-    <string name="settingsExcludedAppsSelectedHeader">Excluded apps (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Poissuljetut sovellukset (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Kaikki muut tavalliset sovellukset (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Kaikki muut järjestelmäsovellukset (%1$d)</string>
@@ -148,29 +148,29 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Add to excluded apps</string>
+    <string name="accessibility_action_add_excluded_app">Lisää poissuljettuihin sovelluksiin</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Remove from excluded apps</string>
+    <string name="accessibility_action_remove_excluded_app">Poista poissuljetuista sovelluksista</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Add to included apps</string>
+    <string name="accessibility_action_add_included_app">Lisää sisällytettyihin sovelluksiin</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Remove from included apps</string>
-    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
+    <string name="accessibility_action_remove_included_app">Poista sisällytetyistä sovelluksista</string>
+    <string name="accessibility_action_copy_to_clipboard">Kopioi leikepöydälle</string>
     <string name="accessibility_action_item_delete">Poista</string>
     <string name="accessibility_action_item_move_up">Siirrä ylös</string>
     <string name="accessibility_action_item_move_down">Siirrä alas</string>
@@ -196,7 +196,7 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Mikäli Protonia ei tavoiteta, salli sovelluksen pyrkiä tavoittamaan Protonin palvelimet vaihtoehtoisten reittien välityksellä. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hallinnollinen esto</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Maasi hallinto saattaa estää pääsyn Protoniin. Yritä tavoittaa Proton <a href=\'%1$s\'>Tor-verkon</a> välityksellä.]]></string>
-    <string name="settingsKillSwitchEnableTitle">How to enable kill switch</string>
+    <string name="settingsKillSwitchEnableTitle">Miten tappokytkin otetaan käyttöön</string>
     <string name="settingsKillSwitchEnableStep1">1. Avaa laitteesi asetukset</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. Etsi Proton VPN ja napauta %1$s</string>
@@ -236,9 +236,9 @@
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Ei käytettävissä</string>
     <string name="custom_dns_item_removed_snackbar">Kohde poistettiin</string>
     <string name="netshield_free_description">Estä mainoksia, seurantoja ja haittaohjelmia verkkosivustoilla ja sovelluksissa</string>
-    <string name="netshield_what_data_means">NetShield statistics explained</string>
+    <string name="netshield_what_data_means">NetShield-tilastojen selitys</string>
     <string name="netshield_ads_title">Mainokset</string>
-    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
+    <string name="netshield_ads_details">Mainokset ja näkymättömät mainosseurannat</string>
     <string name="netshield_trackers_title">Seurannat</string>
     <string name="netshield_trackers_details">Evästeet ja muut seurannat, jotka tallentavat ja jakavat tietoja internetin käytöstäsi</string>
     <string name="netshield_data_title">Tiedonsiirto</string>
@@ -549,7 +549,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Tämän tekniikan ansiosta Proton VPN voi tarjota paremman nopeuden ja suojauksen vaikeasti palveltavissa maissa.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Server load</string>
+    <string name="server_load_title">Palvelimen kuormitus</string>
     <string name="activity_information_learn_more">Lue lisää</string>
     <string name="server_load_low">Matala</string>
     <string name="server_load_medium">Keskitasoinen</string>
@@ -573,7 +573,7 @@
     <string name="dynamic_report_step1">Vaihe 1/3</string>
     <string name="dynamic_report_step2">Vaihe 2/3</string>
     <string name="dynamic_report_step3">Vaihe 3/3</string>
-    <string name="dynamic_report_your_issue_headline">What’s the issue?</string>
+    <string name="dynamic_report_your_issue_headline">Mikä on ongelmana?</string>
     <string name="update_screen_title">Päivitä Proton VPN</string>
     <string name="update_screen_description">Ongelmia esiintyy todennäköisesti useammin vanhemmissa Proton VPN -versioissa.</string>
     <string name="dialog_create_account_title">Jatka luomalla tili</string>
@@ -1006,7 +1006,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Jaettu tunnelointi</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill switch</string>
+    <string name="settings_kill_switch_title">Tappokytkin</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">Yhteys</string>
     <!-- tag(Redesign_2023) -->
@@ -1014,7 +1014,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Advanced settings</string>
+    <string name="settings_advanced_settings_title">Lisäasetukset</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">Yleiset</string>
     <!-- tag(Redesign_2023) -->
@@ -1024,11 +1024,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Tuki</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Support center</string>
+    <string name="settings_help_center_title">Tukikeskus</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">Report an issue</string>
+    <string name="settings_report_issue_title">Ilmoita ongelmasta</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Debug logs</string>
+    <string name="settings_debug_logs_title">Vianselvityslokit</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Paranna Protonia</string>
     <!-- tag(Redesign_2023) -->
@@ -1169,7 +1169,7 @@
     <string name="info_dialog_tor_description">Yhdistä Tor-palvelimeen ja käytä piilotettuja palveluita ja onion-sivustoja millä tahansa selaimella.</string>
     <string name="info_dialog_button_learn_more_tor">Miten Tor-verkkoa käytetään</string>
     <string name="info_dialog_button_learn_more_p2p">Miten torrentoit P2P:llä</string>
-    <string name="info_dialog_button_learn_more_ipaddress">What is an IP address?</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Mikä on IP-osoite?</string>
     <string name="info_dialog_button_learn_more_streaming">Tarvitseko apua suoratoiston kanssa?</string>
     <string name="info_dialog_streaming_title">Suoratoisto</string>
     <string name="info_dialog_streaming_description">Suoratoistopalvelimet on suunniteltu nopeaan ja turvalliseen sarjojen ja elokuvien toistoon.</string>
@@ -1182,7 +1182,7 @@
     <string name="info_dialog_how_to_stream_step_3">Yhdistä mihin tahansa Plus-palvelimeen ja aloita suoratoistaminen</string>
     <string name="info_dialog_profiles_title">Profiilit</string>
     <string name="info_dialog_ipaddress_title">IP-osoite</string>
-    <string name="info_dialog_ipv6_traffic_title">IPv6-liikenne</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6-tietoliikenne</string>
     <string name="info_dialog_profiles_description">Profiilit ovat mukautettuja VPN-yhteyksiä, jotka voit räätälöidä tarpeidesi mukaan ja tallentaa nopeaa käyttöä varten.\n\nAseta haluamasi sijainti ja optimoi asetuksesi turvallisuutta, suorituskykyä, pelaamista tai mitä tahansa muuta tarkoitusta varten.</string>
     <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
     <string name="info_dialog_ipv6_traffic_description">The Internet Protocol (IP) assigns addresses to devices and routes internet traffic. IPv6 is the latest version, offering more addresses and better connectivity, but it is not yet universally adopted.</string>
@@ -1302,7 +1302,7 @@
     <string name="create_profile_name_error_too_long">Profiilin nimen on oltava alle 30 merkkiä</string>
     <string name="create_profile_type_and_location_title">Valitse yhteystyyppi ja -sijainti</string>
     <string name="create_profile_features_and_settings_title">Ominaisuudet ja asetukset</string>
-    <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
+    <string name="configure_profile_features_and_settings_title">Määritä profiiliasetukset</string>
     <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
@@ -1324,19 +1324,19 @@
     <string name="settings_account_button_delete_account">Poista tili</string>
     <string name="settings_custom_dns_title">Mukautettu DNS</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
-    <string name="settings_add_dns_title">Add new DNS server</string>
+    <string name="settings_add_dns_title">Lisää uusi DNS-palvelin</string>
     <string name="settings_add_dns_new_entry_button">Lisää</string>
     <string name="settings_add_dns_description">Syötä palvelimen IPv4- tai IPv6-osoite</string>
     <string name="settings_add_dns_invalid_input">Syötä kelvollinen IPv4- tai IPv6-osoite</string>
-    <string name="settings_add_dns_empty_input">Enter an IPv4 or IPv6 address</string>
-    <string name="settings_add_dns_duplicate_input">Server already added</string>
+    <string name="settings_add_dns_empty_input">Syötä IPv4- tai IPv6-osoite</string>
+    <string name="settings_add_dns_duplicate_input">Palvelin on jo lisätty</string>
     <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
     <!-- %1$d - Corresponds to number of servers added -->
-    <string name="settings_dns_list_title">Servers (%1$d)</string>
+    <string name="settings_dns_list_title">Palvelimet (%1$d)</string>
     <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
     <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Muutokset tulevat voimaan, kun yhdistät uudelleen</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield will be unavailable</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield ei ole käytettävissä</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield can not filter out ads, trackers and malware when custom DNS is used. Learn more</string>
     <string name="settings_advanced_alternative_routing_title">Vaihtoehtoinen reititys</string>
     <string name="settings_advanced_alternative_routing_description">Jos Proton-palvelut on estetty verkkorajoitusten takia, yritämme käyttää vaihtoehtoista verkkoreititystä, jotta voit silti muodostaa yhteyden sivustoihimme.</string>
@@ -1383,20 +1383,20 @@
     <string name="settings_split_tunneling_already_excluded">On jo rajoitettu</string>
     <string name="settings_split_tunneling_already_included">On jo sisällytetty</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Poistetaanko IP-osoite listalta?</string>
-    <string name="settings_theme_title">Theme</string>
-    <string name="settings_theme_value_auto">Device theme</string>
-    <string name="settings_theme_value_light">Light</string>
-    <string name="settings_theme_value_dark">Dark</string>
+    <string name="settings_theme_title">Teema</string>
+    <string name="settings_theme_value_auto">Laitteen teema</string>
+    <string name="settings_theme_value_light">Vaalea</string>
+    <string name="settings_theme_value_dark">Tumma</string>
     <string name="settings_dialog_reconnect">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
     <string name="settings_needs_reconnect_banner">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
-    <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
-    <string name="private_dns_conflict_banner_custom_dns_description">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working. Learn more</string>
-    <string name="private_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
-    <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
-    <string name="private_dns_conflict_banner_network_settings_button">Network settings</string>
-    <string name="custom_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
-    <string name="custom_dns_conflict_banner_netshield_description">Custom DNS is enabled which prevents NetShield from working. Learn more</string>
-    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Turn off custom DNS</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Mukautettu DNS ei ole käytettävissä</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Laitteesi käyttää kolmannen osapuolen DNS:ää, joka estää Proton VPN:n mukautetun DNS:än toiminnan. Lue lisää</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield ei ole käytettävissä</string>
+    <string name="private_dns_conflict_banner_netshield_description">Laitteesi käyttää kolmannen osapuolen DNS:ää, joka estää NetShieldin toiminnan. Lue lisää</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Verkkoasetukset</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield ei ole käytettävissä</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Mukautettu DNS on käytössä, mikä estää NetShieldin toiminnan. Lue lisää</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Poista mukautettu DNS käytöstä</string>
     <string name="info_secure_core_standard_high_privacy">Korkeampi yksityisyys</string>
     <string name="info_secure_core_standard_lower_latency">Matalampi viive</string>
     <string name="info_secure_core_advanced_privacy">Edistynyt yksityisyys</string>
@@ -1513,17 +1513,17 @@
     <string name="widget_sign_in">Kirjaudu sisään</string>
     <string name="widget_toast_added_message">Widgetti lisättiin aloitusnäytölle</string>
     <string name="settings_advanced_ipv6_title">IPv6</string>
-    <string name="settings_advanced_ipv6_description">Tunnels IPv6 traffic through the VPN. Can enhance compatibility with IPv6 networks.</string>
-    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">To use this address, you need to allow IPv6 connections through the VPN tunnel.</string>
+    <string name="settings_advanced_ipv6_description">Tunneloi IPv6-tietoliikenteen VPN:n kautta. Voi parantaa yhteensopivuutta IPv6-verkkojen kanssa.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Tämän osoitteen käyttämiseksi sinun tulee sallia IPv6-yhteydet VPN-tunnelin kautta.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Ota IPv6 käyttöön</string>
-    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is disabled</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 on poistettu käytöstä</string>
     <string name="settings_ipv6_enabled_toast">IPv6 käytössä</string>
     <string name="info_dialog_ipv6_traffic_benefits1">Varmistaa pääsyn IPv6:ta vaativille verkkosivustoille ja palveluille</string>
     <string name="info_dialog_ipv6_traffic_benefits2">Ehkäisee ongelmia IPv6:een tukeutuvissa verkoissa</string>
     <string name="info_dialog_ipv6_traffic_drawbacks1">Ei välttämättä toimi hyvin vanhempien verkkojen tai sovellusten kanssa</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks2">Some networks handle IPv6 traffic unpredictably</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Jotkin verkot käsittelevät IPv6-tietoliikennettä arvaamattomasti.</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Haitat</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Edut</string>
-    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
-    <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
+    <string name="settings_lan_allow_direct_connection_title">Salli suorat laiteyhteydet</string>
+    <string name="settings_lan_allow_direct_connection_description">Yhdistä älytelevisioihin, Android Autoon ja muihin oman verkkonsa luoviin laitteisiin. Parhaan turvallisuuden takaamiseksi ota tämä toiminto käyttöön vain silloin, kun yhdistät näihin laitteisiin.</string>
 </resources>

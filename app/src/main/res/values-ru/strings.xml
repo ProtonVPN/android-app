@@ -1455,10 +1455,10 @@
     <string name="settings_split_tunneling_already_excluded">Уже исключено</string>
     <string name="settings_split_tunneling_already_included">Уже добавлено</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Удалить IP-адреса из списка?</string>
-    <string name="settings_theme_title">Theme</string>
-    <string name="settings_theme_value_auto">Device theme</string>
-    <string name="settings_theme_value_light">Light</string>
-    <string name="settings_theme_value_dark">Dark</string>
+    <string name="settings_theme_title">Тема</string>
+    <string name="settings_theme_value_auto">Тема устройства</string>
+    <string name="settings_theme_value_light">Светлая</string>
+    <string name="settings_theme_value_dark">Темная</string>
     <string name="settings_dialog_reconnect">Новые настройки будут применены при следующем подключении.</string>
     <string name="settings_needs_reconnect_banner">Новые настройки будут применены при следующем подключении.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Пользовательская DNS недоступна</string>

@@ -470,7 +470,7 @@
     <string name="upgrade_unlimited_mail_dark_web">Spremljanje temnega spleta</string>
     <string name="upgrade_unlimited_mail_aliases">Neomejeno število vzdevkov hide-my-email</string>
     <string name="upgrade_unlimited_mail_autoreply">Samodejni odgovor</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Načrtovano pošiljanje</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
         <item quantity="one">%1$d osebni koledar</item>
         <item quantity="two">%1$d osebna koledarja</item>
@@ -1455,12 +1455,12 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Brez</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s in dodatno še %3$d</string>
     <string name="settings_split_tunneling_already_excluded">Že izključeno</string>
-    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_already_included">Že vključeno</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Želite odstraniti naslov IP s seznama?</string>
-    <string name="settings_theme_title">Theme</string>
-    <string name="settings_theme_value_auto">Device theme</string>
-    <string name="settings_theme_value_light">Light</string>
-    <string name="settings_theme_value_dark">Dark</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_theme_value_auto">Tema naprave</string>
+    <string name="settings_theme_value_light">Svetla</string>
+    <string name="settings_theme_value_dark">Temna</string>
     <string name="settings_dialog_reconnect">Nove nastavitve bodo veljale ob naslednji povezavi.</string>
     <string name="settings_needs_reconnect_banner">Nove nastavitve bodo veljale ob naslednji povezavi.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">DNS po meri ni na voljo</string>
@@ -1513,7 +1513,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="profile_overrides_setting">Te nastavitve so povezane z <b>%1$s</b> in jih je mogoče upravljati samo v razdelku Profili.</string>
     <string name="initial_profile_name_streaming_us">Pretakanje ZDA</string>
     <string name="initial_profile_name_work_school">Služba/šola</string>
-    <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
+    <string name="initial_profile_name_anti_censorship">Proti cenzuri</string>
     <string name="initial_profile_name_gaming">Igranje</string>
     <string name="initial_profile_name_max_security">Najvišja varnost</string>
     <string name="create_profile_pick_country_title">Država</string>
@@ -1542,7 +1542,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="profiles_zero_state_title">Ustvarite svoj prvi profil</string>
     <string name="profiles_zero_state_description">Profili so shranjene povezave z vašo izbrano lokacijo, strežnikom in protokolom.</string>
     <string name="profiles_button_create_profile">Ustvari profil</string>
-    <string name="profile_deleted_snackbar_message">Profile deleted</string>
+    <string name="profile_deleted_snackbar_message">Profil je izbrisan</string>
     <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
     <string name="profile_connected_dialog_title">Upravljajte %1$s v profilih</string>
     <string name="undo">Razveljavi</string>
@@ -1590,7 +1590,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_advanced_ipv6_description">Tunnels IPv6 traffic through the VPN. Can enhance compatibility with IPv6 networks.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">To use this address, you need to allow IPv6 connections through the VPN tunnel.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Omogoči IPv6</string>
-    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is disabled</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 onemogočeno</string>
     <string name="settings_ipv6_enabled_toast">IPv6 omogočen</string>
     <string name="info_dialog_ipv6_traffic_benefits1">Ensures access to IPv6-only websites and services</string>
     <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>

@@ -1383,10 +1383,10 @@
     <string name="settings_split_tunneling_already_excluded">Já excluído</string>
     <string name="settings_split_tunneling_already_included">Já incluído</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Remover endereço IP da lista?</string>
-    <string name="settings_theme_title">Theme</string>
-    <string name="settings_theme_value_auto">Device theme</string>
-    <string name="settings_theme_value_light">Light</string>
-    <string name="settings_theme_value_dark">Dark</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_theme_value_auto">Tema do dispositivo</string>
+    <string name="settings_theme_value_light">Claro</string>
+    <string name="settings_theme_value_dark">Escuro</string>
     <string name="settings_dialog_reconnect">As novas definições serão aplicadas na próxima vez que estabelecer ligação.</string>
     <string name="settings_needs_reconnect_banner">As novas definições serão aplicadas na próxima vez que estabelecer ligação.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">O DNS personalizado não está disponível.</string>
