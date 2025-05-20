@@ -31,13 +31,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityCongratsPlanBinding
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
-import com.protonvpn.android.utils.edgeToEdge
+import com.protonvpn.android.utils.applySystemBarInsets
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -51,6 +52,7 @@ class CongratsPlanActivity : BaseActivityV2() {
     private val binding by viewBinding(ActivityCongratsPlanBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdgeVpn()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         val planName = intent.getStringExtra(EXTRA_NEW_PLAN)
@@ -103,11 +105,9 @@ class CongratsPlanActivity : BaseActivityV2() {
     }
 
     private fun setupEdgeToEdge() = with(binding) {
-        edgeToEdge(root) { view, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        applySystemBarInsets(root) { _, insets ->
             fragmentContent.updatePadding(top = 24.toPx() + insets.top)
-            view.updatePadding(bottom = 16.toPx() + insets.bottom)
-            WindowInsetsCompat.CONSUMED
+            root.updatePadding(bottom = 16.toPx() + insets.bottom)
         }
     }
 

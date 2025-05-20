@@ -53,7 +53,7 @@ fun BottomBarView(
     showProfiles: Boolean,
     selectedTarget: MainTarget? = MainTarget.Home,
     notificationDots: Set<MainTarget> = emptySet(),
-    navigateTo: (MainTarget) -> Unit
+    navigateTo: (MainTarget) -> Unit,
 ) {
     val bgColor = ProtonTheme.colors.backgroundSecondary
     val indicatorColor = ProtonTheme.colors.textAccent
@@ -71,7 +71,7 @@ fun BottomBarView(
             val isSelected = target == selectedTarget
             val label = stringResource(id = target.labelRes())
             val notificationBadge: @Composable BoxScope.() -> Unit = if (notificationDots.contains(target)) {
-                { VpnBadgeDot(borderColor = ProtonTheme.colors.backgroundSecondary) }
+                { VpnBadgeDot(borderColor = bgColor) }
             } else {
                 {}
             }

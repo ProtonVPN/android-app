@@ -22,9 +22,13 @@ package com.protonvpn.android.redesign.main_screen.ui.nav
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -185,9 +189,9 @@ class MainNav(
 object MainScreen : ScreenNoArg<RootNav>("main") {
     @Composable
     private fun MainScreenNavigation(
-        modifier: Modifier,
         mainNav: MainNav,
         settingsChangeViewModel: SettingsChangeViewModel,
+        modifier: Modifier = Modifier,
     ) {
         val bottomTarget = mainNav.currentBottomBarTargetAsState()
         val activity = LocalActivity.current as ComponentActivity
@@ -200,7 +204,6 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
             else -> EnumSet.noneOf(MainTarget::class.java)
         }
         Scaffold(
-            contentWindowInsets = WindowInsets.navigationBars,
             bottomBar = {
                 BottomBarView(
                     selectedTarget = bottomTarget,
@@ -209,11 +212,13 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
                     notificationDots = notificationDots,
                     navigateTo = mainNav::navigate
                 )
-            }
+            },
+            modifier = modifier,
+            contentWindowInsets = WindowInsets.systemBars.only(WindowInsetsSides.Horizontal)
         ) { paddingValues ->
             mainNav.NavHost(
                 settingsChangeViewModel,
-                modifier
+                Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
             )
@@ -224,6 +229,6 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
         mainNav: MainNav,
         settingsChangeViewModel: SettingsChangeViewModel,
     ) = addToGraph(this) {
-        MainScreenNavigation(Modifier, mainNav, settingsChangeViewModel)
+        MainScreenNavigation(mainNav, settingsChangeViewModel)
     }
 }

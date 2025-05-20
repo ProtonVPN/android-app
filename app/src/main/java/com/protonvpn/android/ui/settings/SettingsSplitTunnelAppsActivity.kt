@@ -29,6 +29,7 @@ import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemSplitTunnelAppsEmptyBinding
 import com.protonvpn.android.databinding.ItemSplitTunnelAppsLoadSystemAppsBinding
@@ -36,6 +37,7 @@ import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.SaveableSettingsActivity
 import com.protonvpn.android.utils.BindableItemEx
+import com.protonvpn.android.utils.applySystemBarInsets
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -56,9 +58,12 @@ class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTu
     private lateinit var mode: SplitTunnelingMode
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdgeVpn()
         super.onCreate(savedInstanceState)
         val binding = ActivityRecyclerWithToolbarBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applySystemBarInsets(binding.root)
+
         mode = requireNotNull(intent.getSerializableExtraCompat<SplitTunnelingMode>(SPLIT_TUNNELING_MODE_KEY))
         title = when (mode) {
             SplitTunnelingMode.INCLUDE_ONLY -> getString(R.string.settings_split_tunneling_included_apps)
