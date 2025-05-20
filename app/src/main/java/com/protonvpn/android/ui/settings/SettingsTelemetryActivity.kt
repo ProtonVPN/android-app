@@ -22,12 +22,12 @@ package com.protonvpn.android.ui.settings
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commitNow
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityTelemetrySettingsBinding
 import com.protonvpn.android.databinding.FragmentTelemetrySettingsBinding
@@ -38,6 +38,7 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.SentryIntegration
+import com.protonvpn.android.utils.applySystemBarInsets
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
@@ -51,8 +52,10 @@ class SettingsTelemetryActivity : BaseActivityV2() {
     private val binding by viewBinding(ActivityTelemetrySettingsBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdgeVpn()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        applySystemBarInsets(binding.root)
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
         if (savedInstanceState == null) {

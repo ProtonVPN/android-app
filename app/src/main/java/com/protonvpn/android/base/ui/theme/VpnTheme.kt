@@ -20,12 +20,16 @@
 package com.protonvpn.android.base.ui.theme
 
 import android.app.Activity
+import android.graphics.Color
+import android.os.Build
+import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
@@ -46,18 +50,6 @@ import me.proton.core.presentation.utils.currentLocale
 fun VpnTheme(isDark: Boolean = isNightMode(), content: @Composable () -> Unit) {
     ProtonTheme(isDark = isDark) {
         ProtonTheme3(isDark = isDark) {
-            val view = LocalView.current
-            // Apply colors to system bars if the theme is used in an activity (don't apply when in fragments).
-            if (!view.isInEditMode && view.context is Activity) {
-                val bottomBarColor = ProtonTheme.colors.backgroundSecondary
-                val systemUiController = rememberSystemUiController()
-                SideEffect {
-                    val window = (view.context as Activity).window
-                    window.navigationBarColor = bottomBarColor.toArgb()
-                    WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !isDark
-                    systemUiController.setStatusBarColor(color = Color.Transparent, darkIcons = !isDark)
-                }
-            }
             CompositionLocalProvider(
                 LocalContentColor provides ProtonTheme.colors.textNorm,
                 LocalTextStyle provides ProtonTheme.typography.defaultUnspecified,
@@ -72,3 +64,13 @@ fun VpnTheme(isDark: Boolean = isNightMode(), content: @Composable () -> Unit) {
 
 val LineHeightStyle.Companion.NoTrim: LineHeightStyle
     get() = LineHeightStyle(LineHeightStyle.Alignment.Proportional, LineHeightStyle.Trim.None)
+
+fun ComponentActivity.enableEdgeToEdgeVpn() {
+    enableEdgeToEdge(
+        statusBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
+        navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
+    )
+    if (Build.VERSION.SDK_INT >= 29) {
+        window.isNavigationBarContrastEnforced = false
+    }
+}

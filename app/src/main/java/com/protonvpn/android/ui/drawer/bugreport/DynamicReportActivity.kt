@@ -30,11 +30,13 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.ActivityDynamicReportBinding
 import com.protonvpn.android.databinding.DialogCreateAccountButtonsBinding
 import com.protonvpn.android.utils.ViewUtils.viewBinding
+import com.protonvpn.android.utils.applySystemBarInsets
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -46,11 +48,13 @@ class DynamicReportActivity : BaseActivityV2() {
     private val viewModel: ReportBugActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdgeVpn() // Should not affect TV.
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         if (isTv()) {
             binding.layoutAppbar.toolbar.visibility = GONE
         } else {
+            applySystemBarInsets(binding.root)
             initToolbarWithUpEnabled(binding.layoutAppbar.toolbar)
         }
         binding.loadingContainer.setRetryListener { binding.loadingContainer.switchToEmpty() }

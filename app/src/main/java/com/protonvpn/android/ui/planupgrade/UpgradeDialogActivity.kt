@@ -61,6 +61,7 @@ import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
 import com.protonvpn.android.telemetry.UpgradeSource
@@ -69,7 +70,7 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
-import com.protonvpn.android.utils.edgeToEdge
+import com.protonvpn.android.utils.applySystemBarInsets
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -88,9 +89,12 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
     private lateinit var backgroundGradient: GradientDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdgeVpn()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setupEdgeToEdge()
+        applySystemBarInsets(binding.root) { v, insets ->
+            v.updatePadding(top = insets.top, bottom = 16.toPx() + insets.bottom)
+        }
         setupGradientBackground()
 
         viewModel.setupOrchestrators(this)
@@ -168,14 +172,6 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
         supportFragmentManager.commitNow {
             setReorderingAllowed(true)
             replace<PaymentPanelFragment>(R.id.payment_panel_fragment)
-        }
-    }
-
-    private fun setupEdgeToEdge() = with(binding) {
-        edgeToEdge(root) { _, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            root.updatePadding(bottom = 16.toPx() + insets.bottom)
-            windowInsets
         }
     }
 

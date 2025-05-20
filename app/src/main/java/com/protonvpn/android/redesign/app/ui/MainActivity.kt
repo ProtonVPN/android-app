@@ -58,6 +58,7 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
 import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
+import com.protonvpn.android.ui.login.TroubleshootActivity
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.ui.onboarding.OnboardingActivity

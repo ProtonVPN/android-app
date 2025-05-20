@@ -23,7 +23,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.Rect
 import android.os.Build
 import android.util.TypedValue
@@ -38,10 +37,11 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.OnApplyWindowInsetsListener
+import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
+import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
@@ -193,10 +193,15 @@ fun TextView.setTextOrGoneIfNullOrEmpty(newText: CharSequence?) {
     }
 }
 
-fun Activity.edgeToEdge(view: View, windowInsetsListener: OnApplyWindowInsetsListener) {
-    WindowCompat.setDecorFitsSystemWindows(window, false)
-    window.statusBarColor = Color.TRANSPARENT
-    ViewCompat.setOnApplyWindowInsetsListener(view, windowInsetsListener)
+fun applySystemBarInsets(
+    view: View,
+    applyPadding: (View, Insets) -> Unit = { v, insets -> v.updatePadding(top = insets.top, bottom = insets.bottom) }
+) {
+    ViewCompat.setOnApplyWindowInsetsListener(view) { v, windowInsets ->
+        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        applyPadding(v, insets)
+        windowInsets.inset(insets)
+    }
 }
 
 fun NestedScrollView.scrollToShowView(child: View) {

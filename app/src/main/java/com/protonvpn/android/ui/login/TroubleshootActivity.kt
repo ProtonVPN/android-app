@@ -28,12 +28,14 @@ import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.core.content.withStyledAttributes
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityTroubleshootBinding
 import com.protonvpn.android.databinding.ItemTroubleshootingInfoBinding
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.applySystemBarInsets
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,9 +44,11 @@ class TroubleshootActivity : BaseActivityV2() {
     private val viewModel: TroubleshootViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdgeVpn()
         super.onCreate(savedInstanceState)
         val binding = ActivityTroubleshootBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applySystemBarInsets(binding.root)
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
         with(binding.content) {
