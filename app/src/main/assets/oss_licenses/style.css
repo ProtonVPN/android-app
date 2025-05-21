@@ -63,16 +63,4 @@ h1 {
 
 a {
     text-decoration: none;
-    color: #8A6EFF;
-}
-
-a.icon {
-    display: inline;
-    margin-left: 0.5em;
-}
-
-a.icon img {
-    position: relative;
-    top: -2px;
-    vertical-align: middle;
 }

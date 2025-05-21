@@ -24,6 +24,7 @@ import android.webkit.WebView
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityLicensesBinding
 import com.protonvpn.android.utils.getThemeColor
+import com.protonvpn.android.utils.isNightMode
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.compose.R as CoreR
 
@@ -42,6 +43,7 @@ class OssLicensesActivity : BaseActivityV2() {
     private fun initWebView(webView: WebView) = with(webView) {
         setBackgroundColor(getThemeColor(CoreR.attr.proton_background_norm))
         settings.javaScriptEnabled = true
-        loadUrl("file:///android_asset/oss_licenses/oss_licenses_dark.html")
+        val htmlFileSuffix = if (resources.configuration.isNightMode()) "dark" else "light"
+        loadUrl("file:///android_asset/oss_licenses/oss_licenses_${htmlFileSuffix}.html")
     }
 }

@@ -1,20 +1,28 @@
 body {
-    background: #17181C;
-    color: white;
+    background: #1C1B24; /* background-norm */
+    color: white; /* text-norm */
 }
 
 .row {
-    border-bottom: 1px solid #303239;
+    border-bottom: 1px solid #3B3747; /* separator */
 }
 
 .label {
-    color: #9CA0AA;
+    color: #A7A4B5; /* text-weak */
 }
 
 .licensesLabel {
-    color: #9CA0AA;
+    color: #A7A4B5; /* text-weak */
 }
 
 a {
-    color: #8A6EFF;
+    color: #8A6EFF; /* text-accent */
+}
+
+a.icon:after {
+    content: url("ic-arrow-out-square-dark.svg");
+    width: 24px;
+    height: 24px;
+    margin-inline-start: 8px;
+    vertical-align: middle;
 }
