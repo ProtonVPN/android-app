@@ -127,8 +127,8 @@ licenseReport {
     copyJsonReportToAssets = false
 }
 
-def sentryDsn = System.getenv("PROTONVPN_SENTRY_DSN") ? sentryDsn : ""
-def accountSentryDsn = System.getenv("ACCOUNT_SENTRY_DSN") ?: ""
+def sentryDsn = System.getenv("PROTONVPN_SENTRY_DSN") ?: project.hasProperty('sentryDsn') ? sentryDsn : ""
+def accountSentryDsn = System.getenv("ACCOUNT_SENTRY_DSN") ?: project.hasProperty('accountSentryDsn') ? accountSentryDsn : ""
 def preferencesSalt = System.getenv("DEPRECATED_PREF_SALT") ?: "Salt"
 def preferencesKey = System.getenv("DEPRECATED_PREF_KEY") ?: "Key"
 def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath') ? serviceAccountFilePath : "service_account.json"
