@@ -23,7 +23,9 @@ import android.os.Bundle
 import android.webkit.WebView
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityLicensesBinding
+import com.protonvpn.android.utils.getThemeColor
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.presentation.compose.R as CoreR
 
 @AndroidEntryPoint
 class OssLicensesActivity : BaseActivityV2() {
@@ -38,8 +40,8 @@ class OssLicensesActivity : BaseActivityV2() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun initWebView(webView: WebView) = with(webView) {
-        setBackgroundColor(0)
+        setBackgroundColor(getThemeColor(CoreR.attr.proton_background_norm))
         settings.javaScriptEnabled = true
-        loadUrl("file:///android_asset/oss_licenses.html")
+        loadUrl("file:///android_asset/oss_licenses/oss_licenses_dark.html")
     }
 }
