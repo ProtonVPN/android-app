@@ -106,12 +106,9 @@ function processDependencies(dependencies) {
         elem.appendChild(header);
 
         if (dependency.url !== null) {
-            var icon = document.createElement('img');
-            icon.src = 'ic-arrow-out-square.svg'
             var link = document.createElement('a');
             link.className = 'icon';
             link.href = dependency.url;
-            link.appendChild(icon);
             header.appendChild(link);
         }
 

@@ -1,0 +1,28 @@
+body {
+    background: #FFFFFF; /* background-norm */
+    color: #17181C; /* text-norm */
+}
+
+.row {
+    border-bottom: 1px solid #EAE7E4; /* separator */
+}
+
+.label {
+    color: #706D6B; /* text-weak */
+}
+
+.licensesLabel {
+    color: #706D6B; /* text-weak */
+}
+
+a {
+    color: #6D4AFF; /* text-accent */
+}
+
+a.icon:after {
+    content: url("ic-arrow-out-square-light.svg");
+    width: 24px;
+    height: 24px;
+    margin-inline-start: 8px;
+    vertical-align: middle;
+}
