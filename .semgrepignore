@@ -1,3 +1,7 @@
 /.gradle/
 /.sec/
 /openvpn/
+
+# oss_licenses is embedded in the app, it has JS for generating 3rd party licenses HTML
+# from a JSON data file. No external input.
+/app/src/main/assets/oss_licenses

@@ -1,0 +1,20 @@
+body {
+    background: #17181C;
+    color: white;
+}
+
+.row {
+    border-bottom: 1px solid #303239;
+}
+
+.label {
+    color: #9CA0AA;
+}
+
+.licensesLabel {
+    color: #9CA0AA;
+}
+
+a {
+    color: #8A6EFF;
+}

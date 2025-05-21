@@ -114,7 +114,7 @@ tasks.register("updateLicensesJson") {
     dependsOn 'licenseProductionGooglePlayStoreReleaseReport'
     doLast {
         File json = new File("$project.projectDir/build/reports/licenses/licenseProductionGooglePlayStoreReleaseReport.json")
-        File out = new File("$project.projectDir/src/main/assets/open_source_licenses.js")
+        File out = new File("$project.projectDir/src/main/assets/oss_licenses/generated_licenses.js")
         out.text = 'dependencies = ' + json.text
     }
 }

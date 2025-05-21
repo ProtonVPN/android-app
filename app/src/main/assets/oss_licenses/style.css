@@ -1,0 +1,78 @@
+body {
+    margin: 0px;
+}
+
+.container {
+    font-weight: bold;
+    word-wrap: break-word;
+}
+
+h1 {
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.25px;
+    margin: 0px 16px;
+    padding-top: 24px;
+    padding-bottom: 0px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    font-size: small;
+    padding: 12px 16px;
+
+    //styleName: Body 2 / body-2-regular;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.25px;
+}
+
+.label {
+    min-width: 5em;
+}
+
+.licenses {
+    padding: 12px 16px;
+
+    // styleName: Caption / caption-regular;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.4000000059604645px;
+    text-align: left;
+}
+
+.licensesLabel {
+    // styleName: Body 2 / body-2-regular;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.25px;
+}
+
+a {
+    text-decoration: none;
+    color: #8A6EFF;
+}
+
+a.icon {
+    display: inline;
+    margin-left: 0.5em;
+}
+
+a.icon img {
+    position: relative;
+    top: -2px;
+    vertical-align: middle;
+}
