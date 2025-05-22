@@ -43,7 +43,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
@@ -242,7 +241,8 @@ private fun CycleComposable(
                     )
                     .padding(horizontal = 4.dp, vertical = 2.dp),
                 text = "$it%",
-                style = ProtonTheme.typography.captionStrongUnspecified.copy(color = Color.Black)
+                style = ProtonTheme.typography.captionStrongUnspecified,
+                color = ProtonTheme.colors.textInverted,
             )
         }
         Spacer(modifier = Modifier.weight(1f))
