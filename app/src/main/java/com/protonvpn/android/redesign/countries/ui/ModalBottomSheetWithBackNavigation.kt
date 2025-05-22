@@ -25,6 +25,9 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.only
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.BottomSheetDefaults.DragHandle
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -54,13 +57,14 @@ import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun ModalBottomSheetWithBackNavigation(
-    modifier: Modifier,
+    onClose: () -> Unit,
+    modifier: Modifier = Modifier,
     containerColor: Color = BottomSheetDefaults.ContainerColor,
     sheetState: SheetState = rememberModalBottomSheetState(),
     scope: CoroutineScope = rememberCoroutineScope(),
     onNavigateBack: suspend (suspend () -> Unit) -> Unit,
-    onClose: () -> Unit,
-    content: @Composable ColumnScope.() -> Unit
+    contentWindowInsets: @Composable () -> WindowInsets = { BottomSheetDefaults.windowInsets },
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     BackHandler {
         scope.launch {
@@ -90,8 +94,8 @@ fun ModalBottomSheetWithBackNavigation(
         properties = ModalBottomSheetProperties(
             shouldDismissOnBackPress = false,
             securePolicy = SecureFlagPolicy.Inherit,
-            isFocusable = true,
         ),
+        contentWindowInsets = contentWindowInsets,
         content = content
     )
 

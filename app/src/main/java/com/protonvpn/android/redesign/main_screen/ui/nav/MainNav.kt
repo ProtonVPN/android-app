@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -210,7 +211,7 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
                     showGateways = showGateways,
                     showProfiles = showProfiles,
                     notificationDots = notificationDots,
-                    navigateTo = mainNav::navigate
+                    navigateTo = mainNav::navigate,
                 )
             },
             modifier = modifier,
@@ -220,7 +221,8 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
                 settingsChangeViewModel,
                 Modifier
                     .fillMaxSize()
-                    .padding(paddingValues),
+                    .padding(paddingValues)
+                    .consumeWindowInsets(NavigationBarDefaults.windowInsets) // Bottom bar.
             )
         }
     }
