@@ -35,6 +35,8 @@ import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.api.data.DebugApiPrefs
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.ChangeServerConfigFlow
+import com.protonvpn.android.appconfig.DefaultChangeServerConfigFlow
 import com.protonvpn.android.appconfig.DefaultUserCountryProvider
 import com.protonvpn.android.appconfig.GlideImagePrefetcher
 import com.protonvpn.android.appconfig.ImagePrefetcher
@@ -392,6 +394,9 @@ object AppModule {
         @Singleton
         @Binds
         fun provideVpnConnect(impl: VpnConnectionManager): VpnConnect
+
+        @Binds
+        fun bindChangeServerConfigFlow(impl: DefaultChangeServerConfigFlow): ChangeServerConfigFlow
 
         @Binds
         fun bindIsDirectLanConnectionsFeatureFlagEnabled(

@@ -23,9 +23,6 @@ import android.telephony.TelephonyManager
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.appconfig.ChangeServerConfig
-import com.protonvpn.android.appconfig.Restrictions
-import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
@@ -59,7 +56,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -121,7 +117,6 @@ class ServerListUpdaterTests {
     private lateinit var mockPeriodicUpdateManager: PeriodicUpdateManager
 
     private lateinit var remoteConfig: ServerListUpdaterRemoteConfig
-    private lateinit var restrictionsFlow: MutableStateFlow<Restrictions>
     private lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
     private lateinit var testScope: TestScope
     private lateinit var vpnStateMonitor: VpnStateMonitor
@@ -155,7 +150,6 @@ class ServerListUpdaterTests {
             )
         )
         runWhileGettingServerList = {}
-        restrictionsFlow = MutableStateFlow(Restrictions(false, ChangeServerConfig(100, 4, 60)))
         coEvery { guestHole.runWithGuestHoleFallback(any<suspend () -> Any?>()) } coAnswers { firstArg<suspend () -> Any?>()() }
         coEvery { mockCurrentUser.isLoggedIn() } returns true
         coEvery { mockCurrentUser.eventVpnLogin } returns emptyFlow()
@@ -208,7 +202,6 @@ class ServerListUpdaterTests {
             emptyFlow(),
             emptyFlow(),
             remoteConfig,
-            RestrictionsConfig(testScope.backgroundScope, restrictionsFlow),
             testScope::currentTime,
             FakeServerListTruncationEnabled(truncationEnabled),
             GetTruncationMustHaveIDs { _, _ -> mustHaveIDs }
@@ -356,22 +349,6 @@ class ServerListUpdaterTests {
         // Updating tier 0 with empty list removes all tier 0 servers
         assertEquals(FULL_LIST.filter { it.tier != 0 }, FULL_LIST.updateTier(emptyList(), 0, emptySet()))
         assertTrue(FULL_LIST.updateTier(FREE_LIST_MODIFIED, 0, emptySet()).isModifiedList())
-    }
-
-    @Test
-    fun `servers updated for free user on restrictions change`() = testScope.runTest {
-        coEvery { mockCurrentUser.vpnUser() } returns TestUser.plusUser.vpnUser
-        restrictionsFlow.value = Restrictions(true, ChangeServerConfig(100, 4, 60))
-        // No update for plus user.
-        coVerify(exactly = 0) {
-            mockPeriodicUpdateManager.executeNow<Any, Any>(match { it.id == "server_list" })
-        }
-
-        coEvery { mockCurrentUser.vpnUser() } returns TestUser.freeUser.vpnUser
-        restrictionsFlow.value = Restrictions(false, ChangeServerConfig(100, 4, 60))
-        coVerify(exactly = 1) {
-            mockPeriodicUpdateManager.executeNow<Any, Any>(match { it.id == "server_list" })
-        }
     }
 
     private fun List<Server>.isModifiedList() =

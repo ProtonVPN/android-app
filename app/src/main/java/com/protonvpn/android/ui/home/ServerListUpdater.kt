@@ -22,7 +22,6 @@ import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
 import com.protonvpn.android.appconfig.periodicupdates.IsLoggedIn
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
@@ -107,7 +106,6 @@ class ServerListUpdater @Inject constructor(
     @IsLoggedIn private val loggedIn: Flow<Boolean>,
     @IsInForeground private val inForeground: Flow<Boolean>,
     private val remoteConfig: ServerListUpdaterRemoteConfig,
-    private val restrictionsConfig: RestrictionsConfig,
     @WallClock private val wallClock: () -> Long,
     private val truncationFeatureFlagEnabled: ServerListTruncationEnabled,
     private val getTruncationMustHaveIDs: GetTruncationMustHaveIDs,
@@ -184,13 +182,6 @@ class ServerListUpdater @Inject constructor(
         userPlanManager.planChangeFlow
             .onEach {
                 updateServerList(forceFreshUpdate = true)
-            }
-            .launchIn(scope)
-        restrictionsConfig.restrictionFlow
-            .drop(1) // Skip initial value, observe only updates.
-            .onEach {
-                if (currentUser.vpnUser()?.isFreeUser == true)
-                    periodicUpdateManager.executeNow(serverListUpdate)
             }
             .launchIn(scope)
     }

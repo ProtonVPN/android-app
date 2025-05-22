@@ -19,7 +19,6 @@
 
 package com.protonvpn.app.settings.data
 
-import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
@@ -36,7 +35,6 @@ import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -58,7 +56,6 @@ class EffectiveCurrentUserSettingsFlowTests {
     private lateinit var mockIsTv: IsTvCheck
 
     private lateinit var rawSettingsFlow: MutableStateFlow<LocalUserSettings>
-    private lateinit var restrictionFlow: MutableStateFlow<Restrictions>
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
 
@@ -74,7 +71,6 @@ class EffectiveCurrentUserSettingsFlowTests {
 
         testUserProvider = TestCurrentUserProvider(plusUser)
         rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
-        restrictionFlow = MutableStateFlow(Restrictions(false, mockk()))
 
         every { mockIsTv.invoke() } returns false
 
@@ -87,7 +83,6 @@ class EffectiveCurrentUserSettingsFlowTests {
             rawCurrentUserSettingsFlow = rawSettingsFlow,
             currentUser = currentUser,
             isTv = mockIsTv,
-            restrictionFlow = restrictionFlow,
             isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
             isCustomDnsFeatureFlagEnabled = isCustomDnsEnabled,
             isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
@@ -102,7 +97,7 @@ class EffectiveCurrentUserSettingsFlowTests {
         assertTrue(effectiveSettings().lanConnections)
 
         // Even when restricted
-        restrictionFlow.value = restrictionFlow.value.copy(lan = true)
+        testUserProvider.vpnUser = freeUser
         assertTrue(effectiveSettings().lanConnections)
     }
 
@@ -110,7 +105,7 @@ class EffectiveCurrentUserSettingsFlowTests {
     fun `LAN connection is disabled when restricted`() = testScope.runTest {
         rawSettingsFlow.update { it.copy(lanConnections = true) }
         assertTrue(effectiveSettings().lanConnections)
-        restrictionFlow.value = restrictionFlow.value.copy(lan = true)
+        testUserProvider.vpnUser = freeUser
         assertFalse(effectiveSettings().lanConnections)
     }
 
@@ -163,7 +158,7 @@ class EffectiveCurrentUserSettingsFlowTests {
     fun `VPN Accelerator enabled when restricted`() = testScope.runTest {
         rawSettingsFlow.update { it.copy(vpnAccelerator = false) }
         assertFalse(effectiveSettings().vpnAccelerator)
-        restrictionFlow.value = restrictionFlow.value.copy(vpnAccelerator = true)
+        testUserProvider.vpnUser = freeUser
         assertTrue(effectiveSettings().vpnAccelerator)
     }
 
@@ -177,7 +172,7 @@ class EffectiveCurrentUserSettingsFlowTests {
         )
         rawSettingsFlow.update { it.copy(splitTunneling = splitTunnel) }
         assertEquals(splitTunnel, effectiveSettings().splitTunneling)
-        restrictionFlow.value = restrictionFlow.value.copy(splitTunneling = true)
+        testUserProvider.vpnUser = freeUser
         assertEquals(SplitTunnelingSettings(), effectiveSettings().splitTunneling)
     }
 
@@ -186,7 +181,7 @@ class EffectiveCurrentUserSettingsFlowTests {
     fun `Quick Connect ignored when restricted, except on TV`() = testScope.runTest {
         val profileId = UUID.randomUUID()
         rawSettingsFlow.update { it.copy(defaultProfileId = profileId ) }
-        restrictionFlow.value = restrictionFlow.value.copy(quickConnect = true)
+        testUserProvider.vpnUser = freeUser
 
         assertEquals(null, effectiveSettings().defaultProfileId)
 

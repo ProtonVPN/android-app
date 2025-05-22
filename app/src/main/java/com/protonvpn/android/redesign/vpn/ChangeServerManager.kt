@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.redesign.vpn
 
-import com.protonvpn.android.appconfig.RestrictionsConfig
+import com.protonvpn.android.appconfig.ChangeServerConfigFlow
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
@@ -56,7 +56,7 @@ private const val ALLOW_CHANGE_SERVER_CONNECT_DELAY_MS = 6_000L
 class ChangeServerManager @Inject constructor(
     private val mainScope: CoroutineScope,
     vpnStatusProviderUI: VpnStatusProviderUI,
-    private val restrictConfig: RestrictionsConfig,
+    private val changeServerConfigFlow: ChangeServerConfigFlow,
     private val vpnConnectionManager: VpnConnectionManager,
     private val serverManager: ServerManager2,
     private val changeServerPrefs: ChangeServerPrefs,
@@ -64,7 +64,6 @@ class ChangeServerManager @Inject constructor(
     private val userSettings: EffectiveCurrentUserSettings,
     @WallClock private val wallClock: () -> Long
 ) {
-
     private val changeInProgress = MutableStateFlow(false)
     val isChangingServer: StateFlow<Boolean> get() = changeInProgress
 
@@ -110,7 +109,7 @@ class ChangeServerManager @Inject constructor(
             if (!hasTroubleConnecting.value) {
                 val currentCount = changeServerPrefs.changeCounter + 1
                 changeServerPrefs.changeCounter =
-                    if (currentCount > restrictConfig.changeServerConfig().maxAttemptCount) 0 else currentCount
+                    if (currentCount > changeServerConfigFlow.first().maxAttemptCount) 0 else currentCount
                 changeServerPrefs.lastChangeTimestamp = wallClock()
             }
         }

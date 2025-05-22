@@ -115,7 +115,7 @@ class UpgradeTelemetry @Inject constructor(
         commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY, CommonDimensions.Key.VPN_STATUS,
             CommonDimensions.Key.USER_TIER, CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED)
         put("modal_source", upgradeSource.reportedName)
-        put("new_free_plan_ui", if (getFeatureFlags.value.showNewFreePlan) "yes" else "no")
+        put("new_free_plan_ui", "yes") // Used to be a feature flag.
         put("reference", reference ?: NO_VALUE)
 
         if (user != null && vpnUser != null) {

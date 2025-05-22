@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.redesign.vpn.ui
 
-import com.protonvpn.android.appconfig.RestrictionsConfig
+import com.protonvpn.android.appconfig.ChangeServerConfigFlow
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.redesign.vpn.ChangeServerManager
@@ -55,7 +55,7 @@ sealed class ChangeServerViewState {
 
 @Reusable
 class ChangeServerViewStateFlow @Inject constructor(
-    private val restrictConfig: RestrictionsConfig,
+    changeServerConfigFlow: ChangeServerConfigFlow,
     private val changeServerPrefs: ChangeServerPrefs,
     vpnStateProviderUI: VpnStatusProviderUI,
     changeServerManager: ChangeServerManager,
@@ -69,10 +69,9 @@ class ChangeServerViewStateFlow @Inject constructor(
         changeServerPrefs.lastChangeTimestampFlow,
         changeServerPrefs.changeCounterFlow,
         tickFlow(1.seconds, clock),
-        restrictConfig.restrictionFlow
-    ) { lastChangeTimestamp, actionCounter, timestamp, restrictions ->
+        changeServerConfigFlow
+    ) { lastChangeTimestamp, actionCounter, timestamp, changeServerConfig ->
         val elapsedSeconds = (timestamp - lastChangeTimestamp) / 1000
-        val changeServerConfig = restrictions.changeServerConfig
         val delayInSeconds =
             if (changeServerPrefs.changeCounter == changeServerConfig.maxAttemptCount)
                 changeServerConfig.longDelayInSeconds

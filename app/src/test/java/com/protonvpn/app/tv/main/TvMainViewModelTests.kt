@@ -24,8 +24,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.GetFeatureFlags
-import com.protonvpn.android.appconfig.Restrictions
-import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.SavedProfilesV3
@@ -70,7 +68,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
@@ -130,7 +127,6 @@ class TvMainViewModelTests {
             localUserSettings = userSettingsManager,
             currentUser = mockCurrentUser,
             isTv = mockk(relaxed = true),
-            restrictions = RestrictionsConfig(testScope, flowOf(Restrictions(false, mockk()))),
             isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
             isCustomDnsEnabled = isCustomDnsEnabled,
             isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,

@@ -19,8 +19,6 @@
 
 package com.protonvpn.android.settings.data
 
-import com.protonvpn.android.appconfig.Restrictions
-import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.netshield.NetShieldAvailability
@@ -83,7 +81,6 @@ class EffectiveCurrentUserSettingsFlow(
     rawCurrentUserSettingsFlow: Flow<LocalUserSettings>,
     currentUser: CurrentUser,
     isTv: IsTvCheck,
-    restrictionFlow: Flow<Restrictions>,
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
     isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
@@ -113,16 +110,17 @@ class EffectiveCurrentUserSettingsFlow(
     private val effectiveSettings: Flow<LocalUserSettings> = combine(
         rawCurrentUserSettingsFlow,
         currentUser.vpnUserFlow,
-        restrictionFlow,
         flagsFlow,
-    ) { settings, vpnUser, restrictions, flags ->
-        val effectiveVpnAccelerator = restrictions.vpnAccelerator || settings.vpnAccelerator
+    ) { settings, vpnUser, flags ->
+        val isUserPlusOrAbove = vpnUser?.isUserPlusOrAbove == true
+        val effectiveVpnAccelerator = !isUserPlusOrAbove || settings.vpnAccelerator
         val netShieldAvailable = vpnUser.getNetShieldAvailability() == NetShieldAvailability.AVAILABLE
-        val effectiveSplitTunneling = if (restrictions.splitTunneling)
-            SplitTunnelingSettings(isEnabled = false) else settings.splitTunneling
-        val lanConnections = isTv() || (!restrictions.lan && settings.lanConnections)
+        val effectiveSplitTunneling =
+            if (isUserPlusOrAbove) settings.splitTunneling
+            else SplitTunnelingSettings(isEnabled = false)
+        val lanConnections = isTv() || (isUserPlusOrAbove && settings.lanConnections)
         settings.copy(
-            defaultProfileId = if (!restrictions.quickConnect || isTv()) settings.defaultProfileId else null,
+            defaultProfileId = if (isUserPlusOrAbove || isTv()) settings.defaultProfileId else null,
             lanConnections = lanConnections,
             lanConnectionsAllowDirect =
                 lanConnections && settings.lanConnectionsAllowDirect && flags.isDirectLanConnectionsEnabled,
@@ -131,7 +129,7 @@ class EffectiveCurrentUserSettingsFlow(
             } else {
                 NetShieldProtocol.DISABLED
             },
-            customDns = if (flags.isCustomDnsEnabled && vpnUser?.isUserPlusOrAbove == true)
+            customDns = if (flags.isCustomDnsEnabled && isUserPlusOrAbove)
                 settings.customDns
             else
                 CustomDnsSettings(false),
@@ -147,7 +145,6 @@ class EffectiveCurrentUserSettingsFlow(
         localUserSettings: CurrentUserLocalSettingsManager,
         currentUser: CurrentUser,
         isTv: IsTvCheck,
-        restrictions: RestrictionsConfig,
         isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
         isCustomDnsEnabled: IsCustomDnsFeatureFlagEnabled,
         isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
@@ -156,7 +153,6 @@ class EffectiveCurrentUserSettingsFlow(
         rawCurrentUserSettingsFlow = localUserSettings.rawCurrentUserSettingsFlow,
         currentUser = currentUser,
         isTv = isTv,
-        restrictionFlow = restrictions.restrictionFlow,
         isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
         isCustomDnsFeatureFlagEnabled = isCustomDnsEnabled,
         isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,

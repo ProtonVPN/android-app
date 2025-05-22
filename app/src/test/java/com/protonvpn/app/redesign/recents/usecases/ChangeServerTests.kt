@@ -21,8 +21,6 @@ package com.protonvpn.app.redesign.recents.usecases
 
 import app.cash.turbine.test
 import com.protonvpn.android.appconfig.ChangeServerConfig
-import com.protonvpn.android.appconfig.Restrictions
-import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.redesign.CountryId
@@ -39,6 +37,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
+import com.protonvpn.mocks.FakeChangeServerConfigFlow
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -81,7 +80,6 @@ class ChangeServerTests {
 
     private lateinit var changeServerPrefs: ChangeServerPrefs
     private lateinit var currentUser: CurrentUser
-    private lateinit var restrictionsConfig: RestrictionsConfig
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
     private lateinit var vpnStateMonitor: VpnStateMonitor
@@ -106,8 +104,7 @@ class ChangeServerTests {
         vpnStateMonitor = VpnStateMonitor()
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
 
-        restrictionsConfig =
-            RestrictionsConfig(testScope.backgroundScope, flowOf(Restrictions(true, changeServerConfig)))
+        val changeServerConfigFlow = FakeChangeServerConfigFlow(flowOf(changeServerConfig))
         val effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, flowOf(LocalUserSettings()))
 
         coEvery { mockServerManager.getRandomServer(any(), any()) } returns server
@@ -121,7 +118,7 @@ class ChangeServerTests {
         changeServerManager = ChangeServerManager(
             testScope.backgroundScope,
             vpnStatusProviderUI,
-            restrictionsConfig,
+            changeServerConfigFlow,
             mockVpnConnectionManager,
             mockServerManager,
             changeServerPrefs,
@@ -130,7 +127,7 @@ class ChangeServerTests {
             testScope::currentTime,
         )
         changeServerViewStateFlow = ChangeServerViewStateFlow(
-            restrictionsConfig,
+            changeServerConfigFlow,
             changeServerPrefs,
             vpnStatusProviderUI,
             changeServerManager,

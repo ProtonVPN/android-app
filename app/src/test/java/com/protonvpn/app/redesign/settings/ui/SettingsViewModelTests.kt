@@ -23,7 +23,6 @@ import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.ChangeServerConfig
-import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.managed.ManagedConfig
@@ -148,12 +147,6 @@ class SettingsViewModelTests {
         testUserProvider = TestCurrentUserProvider(plusUser, accountUser)
         val currentUser = CurrentUser(testUserProvider)
         val changeServerConfig = ChangeServerConfig(30, 3, 60)
-        val restrictionsFlow = currentUser.vpnUserFlow.mapLatest { vpnUser ->
-            Restrictions(
-                restrict = vpnUser?.isFreeUser == true,
-                changeServerConfig
-            )
-        }
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
         val isCustomDnsEnabled = FakeIsCustomDnsEnabled(true)
         val isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
@@ -165,7 +158,6 @@ class SettingsViewModelTests {
             rawCurrentUserSettingsFlow = settingsManager.rawCurrentUserSettingsFlow,
             currentUser = currentUser,
             isTv = mockIsTvCheck,
-            restrictionFlow = restrictionsFlow,
             isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
             isCustomDnsFeatureFlagEnabled = isCustomDnsEnabled,
             isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
