@@ -50,7 +50,6 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
-import com.protonvpn.mocks.FakeIsCustomDnsEnabled
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
@@ -118,7 +117,6 @@ class TvMainViewModelTests {
         every { mockCurrentUser.vpnUserCached() } answers { vpnUserFlow.value }
 
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
-        val isCustomDnsEnabled = FakeIsCustomDnsEnabled(true)
         val isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
         val isLightThemeFeatureFlagEnabled = FakeIsLightThemeFeatureFlagEnabled(true)
         val userSettingsManager =
@@ -128,7 +126,6 @@ class TvMainViewModelTests {
             currentUser = mockCurrentUser,
             isTv = mockk(relaxed = true),
             isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
-            isCustomDnsEnabled = isCustomDnsEnabled,
             isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
             isLightThemeFeatureFlagEnabled = isLightThemeFeatureFlagEnabled,
         ).stateIn(bgScope, SharingStarted.Eagerly, LocalUserSettings.Default)

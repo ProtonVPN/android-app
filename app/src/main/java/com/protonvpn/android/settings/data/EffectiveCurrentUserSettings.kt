@@ -28,7 +28,6 @@ import com.protonvpn.android.theme.IsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.SyncStateFlow
-import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import kotlinx.coroutines.CoroutineScope
@@ -82,26 +81,22 @@ class EffectiveCurrentUserSettingsFlow(
     currentUser: CurrentUser,
     isTv: IsTvCheck,
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
-    isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
     isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
 ) : Flow<LocalUserSettings> {
 
     private data class Flags(
         val isIPv6Enabled: Boolean,
-        val isCustomDnsEnabled: Boolean,
         val isDirectLanConnectionsEnabled: Boolean,
         val isLightThemeEnabled: Boolean,
     )
     private val flagsFlow = combine(
         isIPv6FeatureFlagEnabled.observe(),
-        isCustomDnsFeatureFlagEnabled.observe(),
         isDirectLanConnectionsFeatureFlagEnabled.observe(),
         isLightThemeFeatureFlagEnabled.observe(),
-    ) { ipV6Enabled, customDnsEnabled, isDirectLanConnectionsEnabled, isLightThemeEnabled ->
+    ) { ipV6Enabled, isDirectLanConnectionsEnabled, isLightThemeEnabled ->
         Flags(
             isIPv6Enabled = ipV6Enabled,
-            isCustomDnsEnabled = customDnsEnabled,
             isDirectLanConnectionsEnabled = isDirectLanConnectionsEnabled,
             isLightThemeEnabled = isLightThemeEnabled
         )
@@ -129,10 +124,7 @@ class EffectiveCurrentUserSettingsFlow(
             } else {
                 NetShieldProtocol.DISABLED
             },
-            customDns = if (flags.isCustomDnsEnabled && isUserPlusOrAbove)
-                settings.customDns
-            else
-                CustomDnsSettings(false),
+            customDns = if (isUserPlusOrAbove) settings.customDns else CustomDnsSettings(false),
             theme = if (flags.isLightThemeEnabled) settings.theme else ThemeType.Dark,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
@@ -146,7 +138,6 @@ class EffectiveCurrentUserSettingsFlow(
         currentUser: CurrentUser,
         isTv: IsTvCheck,
         isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
-        isCustomDnsEnabled: IsCustomDnsFeatureFlagEnabled,
         isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
         isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
     ) : this(
@@ -154,7 +145,6 @@ class EffectiveCurrentUserSettingsFlow(
         currentUser = currentUser,
         isTv = isTv,
         isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
-        isCustomDnsFeatureFlagEnabled = isCustomDnsEnabled,
         isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
         isLightThemeFeatureFlagEnabled = isLightThemeFeatureFlagEnabled,
     )

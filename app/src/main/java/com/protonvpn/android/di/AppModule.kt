@@ -82,8 +82,6 @@ import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.SharedPreferencesProvider
-import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
-import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabledImpl
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnect
@@ -252,9 +250,6 @@ object AppModuleProd {
         @Singleton
         @Binds
         fun provideCurrentUserProvider(provider: DefaultCurrentUserProvider): CurrentUserProvider
-
-        @Binds
-        fun bindCustomDnsEnabled(impl: IsCustomDnsFeatureFlagEnabledImpl): IsCustomDnsFeatureFlagEnabled
     }
 }
 

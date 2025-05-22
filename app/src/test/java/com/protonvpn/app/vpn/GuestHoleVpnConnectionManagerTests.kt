@@ -52,7 +52,6 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeGetProfileById
-import com.protonvpn.mocks.FakeIsCustomDnsEnabled
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.mocks.FakeVpnPermissionDelegate
 import com.protonvpn.mocks.FakeVpnUiDelegate
@@ -146,12 +145,16 @@ class GuestHoleVpnConnectionManagerTests {
 
         vpnStateMonitor = VpnStateMonitor()
         val vpnStatusUiProvider = VpnStatusProviderUI(bgScope, vpnStateMonitor)
+        val settingsForConnection = SettingsForConnection(
+            settings = effectiveSettings,
+            getProfileById = FakeGetProfileById(),
+            isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
+            vpnStatusProviderUI = vpnStatusUiProvider,
+        )
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = fakeVpnPermissionDelegate,
             getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags())),
-            settingsForConnection = SettingsForConnection(effectiveSettings, FakeGetProfileById(),
-                FakeIsLanDirectConnectionsFeatureFlagEnabled(true), FakeIsCustomDnsEnabled(true), vpnStatusUiProvider,
-            ),
+            settingsForConnection = settingsForConnection,
             backendProvider = mockBackendProvider,
             networkManager = networkManager,
             vpnErrorHandler = mockVpnErrorHandler,

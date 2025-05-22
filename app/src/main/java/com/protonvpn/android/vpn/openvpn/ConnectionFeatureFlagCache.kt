@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.vpn.openvpn
 
-import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -26,16 +25,11 @@ import javax.inject.Singleton
 @Singleton
 class ConnectionFeatureFlagCache @Inject constructor(
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
-    private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
 ) {
     var isDirectLanConnectionsEnabledCached: Boolean? = null
         private set
 
-    var isCustomDnsEnabledCached: Boolean? = null
-        private set
-
     suspend fun update() {
         isDirectLanConnectionsEnabledCached = isDirectLanConnectionsFeatureFlagEnabled()
-        isCustomDnsEnabledCached = isCustomDnsFeatureFlagEnabled()
     }
 }

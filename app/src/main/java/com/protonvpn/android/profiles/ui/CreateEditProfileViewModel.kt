@@ -53,7 +53,6 @@ import com.protonvpn.android.utils.mapState
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DnsOverride
-import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnect
@@ -81,7 +80,6 @@ import me.proton.core.presentation.R as CoreR
 
 private fun defaultSettingScreenState(
     isAutoOpenNew: Boolean,
-    customDnsFeatureFlagEnabled: Boolean,
     lanDirectConnectionsFeatureFlagEnabled: Boolean,
     isPrivateDnsEnabled: Boolean,
 ) = SettingsScreenState(
@@ -91,7 +89,7 @@ private fun defaultSettingScreenState(
     lanConnections = true,
     lanConnectionsAllowDirect = if (lanDirectConnectionsFeatureFlagEnabled) false else null,
     autoOpen = ProfileAutoOpen.None(""),
-    customDnsSettings = if (customDnsFeatureFlagEnabled) CustomDnsSettings(false) else null,
+    customDnsSettings = CustomDnsSettings(false),
     isAutoOpenNew = isAutoOpenNew,
     isPrivateDnsActive = isPrivateDnsEnabled,
 )
@@ -245,7 +243,6 @@ class CreateEditProfileViewModel @Inject constructor(
     private val shouldAskForReconnection: ShouldAskForProfileReconnection,
     private val uiStateStorage: UiStateStorage,
     private val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
-    private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     private val transientMustHaves: TransientMustHaves,
 ) : ViewModel() {
@@ -421,7 +418,6 @@ class CreateEditProfileViewModel @Inject constructor(
         typeAndLocationScreenSavedState = standardTypeDefault()
         settingsScreenState = defaultSettingScreenState(
             isAutoOpenNew.first(),
-            customDnsFeatureFlagEnabled = isCustomDnsFeatureFlagEnabled(),
             lanDirectConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled(),
             isPrivateDnsEnabled = isPrivateDnsActive
         )
@@ -446,11 +442,9 @@ class CreateEditProfileViewModel @Inject constructor(
 
     private suspend fun getSettingsScreenState(profile: Profile) : SettingsScreenState {
         val intent = profile.connectIntent
-        val customDnsFeatureFlagEnabled = isCustomDnsFeatureFlagEnabled()
         val directLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled()
         val defaultSettingScreenState = defaultSettingScreenState(
             isAutoOpenNew = isAutoOpenNew.first(),
-            customDnsFeatureFlagEnabled = customDnsFeatureFlagEnabled,
             lanDirectConnectionsFeatureFlagEnabled = directLanConnectionsFeatureFlagEnabled,
             isPrivateDnsEnabled = isPrivateDnsActive
         )
@@ -458,10 +452,6 @@ class CreateEditProfileViewModel @Inject constructor(
         val lanConnectionsAllowDirect = if (directLanConnectionsFeatureFlagEnabled) {
             intent.settingsOverrides?.lanConnectionsAllowDirect
                 ?: defaultSettingScreenState.lanConnectionsAllowDirect
-        } else null
-
-        val customDnsSetting = if (customDnsFeatureFlagEnabled) {
-            intent.settingsOverrides?.customDns ?: defaultSettingScreenState.customDnsSettings
         } else null
 
         return SettingsScreenState(
@@ -472,7 +462,7 @@ class CreateEditProfileViewModel @Inject constructor(
             lanConnections = intent.settingsOverrides?.lanConnections ?: defaultSettingScreenState.lanConnections,
             lanConnectionsAllowDirect = lanConnectionsAllowDirect,
             autoOpen = profile.autoOpen,
-            customDnsSettings = customDnsSetting,
+            customDnsSettings = intent.settingsOverrides?.customDns ?: defaultSettingScreenState.customDnsSettings,
             isAutoOpenNew = isAutoOpenNew.first(),
         )
     }

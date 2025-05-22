@@ -28,7 +28,6 @@ import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
-import com.protonvpn.mocks.FakeIsCustomDnsEnabled
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -75,7 +74,6 @@ class EffectiveCurrentUserSettingsFlowTests {
         every { mockIsTv.invoke() } returns false
 
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
-        val isCustomDnsEnabled = FakeIsCustomDnsEnabled(true)
         val isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
         val isLightModeEnabled = FakeIsLightThemeFeatureFlagEnabled(true)
         val currentUser = CurrentUser(testUserProvider)
@@ -84,7 +82,6 @@ class EffectiveCurrentUserSettingsFlowTests {
             currentUser = currentUser,
             isTv = mockIsTv,
             isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
-            isCustomDnsFeatureFlagEnabled = isCustomDnsEnabled,
             isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
             isLightThemeFeatureFlagEnabled = isLightModeEnabled,
         )

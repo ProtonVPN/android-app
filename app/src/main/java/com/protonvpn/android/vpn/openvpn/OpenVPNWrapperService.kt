@@ -81,7 +81,6 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
             val settings = settingsForConnection.getFor(
                 it.connectIntent,
                 isDirectLanConnectionsFeatureFlagEnabled = connectionFeatureFlagCache.isDirectLanConnectionsEnabledCached,
-                isCustomDnsFeatureFlagEnabled = connectionFeatureFlagCache.isCustomDnsEnabledCached,
             )
             connectionParams.openVpnProfile(packageName, settings, certificate, computeAllowedIPs)
         }

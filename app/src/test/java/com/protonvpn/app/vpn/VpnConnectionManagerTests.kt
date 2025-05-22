@@ -31,7 +31,6 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
@@ -58,7 +57,6 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.mocks.FakeGetProfileById
-import com.protonvpn.mocks.FakeIsCustomDnsEnabled
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.mocks.FakeVpnUiDelegate
 import com.protonvpn.mocks.createInMemoryServerManager
@@ -202,10 +200,15 @@ class VpnConnectionManagerTests {
     private fun createManager() {
         val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, flowOf(LocalUserSettings.Default))
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
+        val settingsForConnection = SettingsForConnection(
+            settings = userSettings,
+            getProfileById = FakeGetProfileById(),
+            isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
+            vpnStatusProviderUI = vpnStatusProviderUI
+        )
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = mockk(relaxed = true),
-            settingsForConnection = SettingsForConnection(userSettings, FakeGetProfileById(),
-                FakeIsLanDirectConnectionsFeatureFlagEnabled(true), FakeIsCustomDnsEnabled(true), vpnStatusProviderUI),
+            settingsForConnection = settingsForConnection,
             getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags())),
             backendProvider = mockBackendProvider,
             networkManager = mockNetworkManager,

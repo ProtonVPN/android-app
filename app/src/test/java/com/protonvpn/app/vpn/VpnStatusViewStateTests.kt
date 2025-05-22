@@ -37,7 +37,6 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeGetProfileById
-import com.protonvpn.mocks.FakeIsCustomDnsEnabled
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -113,8 +112,12 @@ class VpnStatusViewStateFlowTest {
         dnsOverrideFlow = MutableStateFlow(DnsOverride.None)
         val effectiveUserSettings =
             EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
-        val settingsForConnection = SettingsForConnection(effectiveUserSettings, FakeGetProfileById(),
-            FakeIsLanDirectConnectionsFeatureFlagEnabled(true), FakeIsCustomDnsEnabled(true), vpnStatusProviderUi)
+        val settingsForConnection = SettingsForConnection(
+            settings = effectiveUserSettings,
+            getProfileById = FakeGetProfileById(),
+            isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
+            vpnStatusProviderUI = vpnStatusProviderUi
+        )
         vpnStatusViewStateFlow = VpnStatusViewStateFlow(
             vpnStatusProviderUi,
             serverListUpdaterPrefs,

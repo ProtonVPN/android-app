@@ -395,7 +395,6 @@
     <string name="upgrade_split_tunneling_title">Get the best of both worlds</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Unlock advanced VPN customization</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Access devices on your <b>local area network (LAN)</b> with VPN Plus.]]></string>
     <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Access all countries</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

@@ -27,7 +27,6 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.DebugUtils
-import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import dagger.Reusable
@@ -46,7 +45,6 @@ class SettingsForConnection @Inject constructor(
     private val settings: EffectiveCurrentUserSettings,
     private val getProfileById: GetProfileById,
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
-    private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
     vpnStatusProviderUI: VpnStatusProviderUI,
 ) {
     suspend fun getFor(intent: AnyConnectIntent?) : LocalUserSettings =
@@ -91,7 +89,6 @@ class SettingsForConnection @Inject constructor(
         return applyEffectiveOverrides(
             overrides,
             isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled(),
-            isCustomDnsFeatureFlagEnabled = isCustomDnsFeatureFlagEnabled()
         )
     }
 
@@ -111,27 +108,23 @@ class SettingsForConnectionCached @Inject constructor(
     fun getFor(
         intent: AnyConnectIntent,
         isDirectLanConnectionsFeatureFlagEnabled: Boolean?,
-        isCustomDnsFeatureFlagEnabled: Boolean?,
     ) : LocalUserSettings {
         DebugUtils.debugAssert {
-            isDirectLanConnectionsFeatureFlagEnabled != null && isCustomDnsFeatureFlagEnabled != null
+            isDirectLanConnectionsFeatureFlagEnabled != null
         }
         return effectiveCurrentUserSettingsCached.value.applyEffectiveOverrides(
             intent.settingsOverrides,
             isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled == true,
-            isCustomDnsFeatureFlagEnabled = isCustomDnsFeatureFlagEnabled == true
         )
     }
 }
 
 private fun LocalUserSettings.applyEffectiveOverrides(
     overrides: SettingsOverrides?,
-    isCustomDnsFeatureFlagEnabled: Boolean,
     isDirectLanConnectionsFeatureFlagEnabled: Boolean
 ): LocalUserSettings {
     return applyOverrides(
         overrides?.copy(
-            customDns = if (isCustomDnsFeatureFlagEnabled) overrides.customDns else null,
             lanConnectionsAllowDirect =
                 if (isDirectLanConnectionsFeatureFlagEnabled) overrides.lanConnectionsAllowDirect
                 else null

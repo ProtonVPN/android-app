@@ -34,7 +34,6 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeGetProfileById
-import com.protonvpn.mocks.FakeIsCustomDnsEnabled
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,7 +52,6 @@ class SettingsForConnectionTests {
     private lateinit var profileById: FakeGetProfileById
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private val lanEnabledFF = MutableStateFlow(true)
-    private val customDnsEnabledFF = MutableStateFlow(true)
 
     private lateinit var settingsForConnection: SettingsForConnection
 
@@ -69,7 +67,6 @@ class SettingsForConnectionTests {
             EffectiveCurrentUserSettings(testScope.backgroundScope, effectiveSettingsFlow),
             profileById,
             FakeIsLanDirectConnectionsFeatureFlagEnabled(lanEnabledFF),
-            FakeIsCustomDnsEnabled(customDnsEnabledFF),
             VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         )
     }
@@ -118,13 +115,12 @@ class SettingsForConnectionTests {
         val overrides = SettingsOverrides(
             lanConnections = true,
             lanConnectionsAllowDirect = true,
-            customDns = CustomDnsSettings(true),
+            customDns = CustomDnsSettings(),
             protocolData = null,
             netShield = null,
             randomizedNat = null,
         )
         lanEnabledFF.value = false
-        customDnsEnabledFF.value = false
         assertEquals(
             LocalUserSettings.Default.copy(lanConnections = true),
             settingsForConnection.getFor(ConnectIntent.Fastest.copy(settingsOverrides = overrides))

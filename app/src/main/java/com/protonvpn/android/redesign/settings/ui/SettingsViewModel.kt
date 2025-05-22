@@ -49,7 +49,6 @@ import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.combine
 import com.protonvpn.android.vpn.DnsOverride
-import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -98,7 +97,6 @@ class SettingsViewModel @Inject constructor(
     private val appWidgetManager: WidgetManager,
     private val appFeaturePrefs: AppFeaturesPrefs,
     private val isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
-    private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
     private val isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
     val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
@@ -413,16 +411,13 @@ class SettingsViewModel @Inject constructor(
                 accountScreenEnabled = !managedConfig.isManaged,
                 isWidgetDiscovered = isWidgetDiscovered,
                 customDns =
-                    if (isCustomDnsFeatureFlagEnabled())
-                        SettingViewState.CustomDns(
-                            enabled = settings.customDns.effectiveEnabled,
-                            customDns = settings.customDns.rawDnsList,
-                            overrideProfilePrimaryLabel = profileOverrideInfo?.primaryLabel,
-                            isFreeUser = isFree,
-                            isPrivateDnsActive = isPrivateDnsActive,
-                        )
-                    else
-                        null,
+                    SettingViewState.CustomDns(
+                        enabled = settings.customDns.effectiveEnabled,
+                        customDns = settings.customDns.rawDnsList,
+                        overrideProfilePrimaryLabel = profileOverrideInfo?.primaryLabel,
+                        isFreeUser = isFree,
+                        isPrivateDnsActive = isPrivateDnsActive,
+                    ),
                 versionName = BuildConfig.VERSION_NAME,
                 ipV6 = if (isIPv6FeatureFlagEnabled) SettingViewState.IPv6(enabled = settings.ipV6Enabled) else null,
                 theme = if (isLightThemeEnabled) SettingViewState.Theme(settings.theme) else null,
