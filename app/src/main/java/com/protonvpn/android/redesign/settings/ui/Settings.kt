@@ -515,8 +515,7 @@ private fun ColumnScope.AccountCategory(
                     title = label,
                     onClick = onLogOut
                 )
-            },
-            onLogOut = { _ -> onSignOutClick() }
+            }
         )
     }
 }

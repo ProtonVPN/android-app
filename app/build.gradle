@@ -891,6 +891,7 @@ dependencies {
     implementation "me.proton.core:configuration-data:$core_version"
     implementation "me.proton.core:biometric:$core_version"
     implementation "me.proton.core:device-migration:$core_version"
+    implementation "me.proton.core:pass-validator:$core_version"
     debugImplementation "me.proton.core:configuration-dagger-content-resolver:$core_version"
     releaseImplementation "me.proton.core:configuration-dagger-staticdefaults:$core_version"
 
