@@ -198,7 +198,6 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
         val activity = LocalActivity.current as ComponentActivity
         val activityViewModel: MainActivityViewModel = hiltViewModel(viewModelStoreOwner = activity)
         val showGateways = activityViewModel.showGatewaysFlow.collectAsStateWithLifecycle().value ?: false
-        val showProfiles = activityViewModel.showProfilesFlow.collectAsStateWithLifecycle().value ?: false
         val showProfilesDot by activityViewModel.autoShowInfoSheet.collectAsStateWithLifecycle(false)
         val notificationDots = when {
             showProfilesDot -> EnumSet.of(MainTarget.Profiles)
@@ -209,7 +208,6 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
                 BottomBarView(
                     selectedTarget = bottomTarget,
                     showGateways = showGateways,
-                    showProfiles = showProfiles,
                     notificationDots = notificationDots,
                     navigateTo = mainNav::navigate,
                 )

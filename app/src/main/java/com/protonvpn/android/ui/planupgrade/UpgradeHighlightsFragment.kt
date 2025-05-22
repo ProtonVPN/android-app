@@ -91,7 +91,7 @@ import me.proton.core.presentation.R as CoreR
 private fun carouselItem(fragmentFactory: () -> Fragment, backgroundGradientOverride: Triple<Int, Int, Int>? = null) =
     UpgradeHighlightsCarouselFragment.CarouselItem(fragmentFactory, backgroundGradientOverride)
 
-private fun vpnPlusCarouselFragments(hasProfiles: Boolean, hasCustomDns: Boolean) = buildList {
+private fun vpnPlusCarouselFragments(hasCustomDns: Boolean) = buildList {
     add(carouselItem(::UpgradePlusCountriesHighlightsFragment))
     add(carouselItem(::UpgradeVpnAcceleratorHighlightsFragment))
     add(carouselItem(::UpgradeStreamingHighlightsFragment))
@@ -101,9 +101,7 @@ private fun vpnPlusCarouselFragments(hasProfiles: Boolean, hasCustomDns: Boolean
     add(carouselItem(::UpgradeDevicesHighlightsFragment))
     add(carouselItem(::UpgradeTorHighlightsFragment))
     add(carouselItem(::UpgradeSplitTunnelingHighlightsFragment))
-    if (hasProfiles) {
-        add(carouselItem(::UpgradeProfilesHighlightsFragment))
-    }
+    add(carouselItem(::UpgradeProfilesHighlightsFragment))
     if (hasCustomDns) {
         // Note: when removing the Custom DNS feature flag simplify the UpgradeAdvancedCustomizationHighlightsFragment
         // class hierarchy.
@@ -113,7 +111,7 @@ private fun vpnPlusCarouselFragments(hasProfiles: Boolean, hasCustomDns: Boolean
     }
 }
 
-private fun unlimitedCarouselFragments(hasProfiles: Boolean, hasCustomDns: Boolean) = listOf(
+private fun unlimitedCarouselFragments(hasCustomDns: Boolean) = listOf(
     carouselItem(::UpgradeUnlimitedAllAppsFragment, UnlimitedPlanBenefits.defaultGradient),
 ) + UnlimitedPlanBenefits.apps.map { app -> carouselItem({ UpgradeUnlimitedAppFragment(app) }, app.backgroundGradient) }
 
@@ -195,7 +193,7 @@ abstract class UpgradeHighlightsFragment : Fragment(R.layout.fragment_upgrade_hi
 
 @AndroidEntryPoint
 abstract class UpgradeHighlightsCarouselFragment(
-    private val carouselFragments: (hasProfiles: Boolean, hasCustomDns: Boolean) -> List<CarouselItem>,
+    private val carouselFragments: (hasCustomDns: Boolean) -> List<CarouselItem>,
 ) : Fragment(R.layout.fragment_upgrade_highlights_carousel) {
 
     class CarouselItem(
@@ -217,9 +215,8 @@ abstract class UpgradeHighlightsCarouselFragment(
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            val hasProfiles = viewModel.hasProfiles()
             val hasCustomDns = viewModel.hasCustomDns()
-            val carousel = carouselFragments(hasProfiles, hasCustomDns)
+            val carousel = carouselFragments(hasCustomDns)
             val slideAdapter = SlideAdapter(this@UpgradeHighlightsCarouselFragment, carousel.map { it.fragmentFactory })
             with(binding.viewPager) {
                 visibility = View.INVISIBLE
@@ -326,8 +323,8 @@ abstract class UpgradeHighlightsCarouselFragment(
 
 @AndroidEntryPoint
 class UpgradeHighlightsOnboardingFragment : UpgradeHighlightsCarouselFragment(
-    { hasProfiles, hasCustomDns ->
-        listOf(CarouselItem(::UpgradeVpnPlusHighlightsFragment)) + vpnPlusCarouselFragments(hasProfiles, hasCustomDns)
+    { hasCustomDns ->
+        listOf(CarouselItem(::UpgradeVpnPlusHighlightsFragment)) + vpnPlusCarouselFragments(hasCustomDns)
     }
 )
 

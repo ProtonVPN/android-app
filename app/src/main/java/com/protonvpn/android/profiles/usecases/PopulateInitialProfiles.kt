@@ -36,11 +36,11 @@ import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onEach
 import me.proton.core.domain.entity.UserId
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -52,20 +52,20 @@ class PopulateInitialProfiles @Inject constructor(
     private val profilesDao: ProfilesDao,
     private val currentUser: CurrentUser,
     private val uiStateStorage: UiStateStorage,
-    private val newProfilesMvpEnabled: NewProfilesMvpEnabled,
 ) {
     fun start() {
-        combine(
-            newProfilesMvpEnabled.observe(),
-            currentUser.vpnUserFlow.mapNotNull { it?.userId }.distinctUntilChanged()
-        ) { ffEnabled, userId ->
-            if (ffEnabled && !uiStateStorage.state.first().hasPopulatedDefaultProfiles) {
-                profilesDao.prepopulate(userId) {
-                    createInitialProfiles(userId)
+        currentUser.vpnUserFlow
+            .mapNotNull { it?.userId }
+            .distinctUntilChanged()
+            .onEach { userId ->
+                if (!uiStateStorage.state.first().hasPopulatedDefaultProfiles) {
+                    profilesDao.prepopulate(userId) {
+                        createInitialProfiles(userId)
+                    }
+                    uiStateStorage.update { it.copy(hasPopulatedDefaultProfiles = true) }
                 }
-                uiStateStorage.update { it.copy(hasPopulatedDefaultProfiles = true) }
             }
-        }.launchIn(mainScope)
+            .launchIn(mainScope)
     }
 
     private fun createInitialProfiles(userId: UserId): List<ProfileEntity> {

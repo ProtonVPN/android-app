@@ -82,7 +82,7 @@ private class Page(
     val content: @Composable PageScope.(Modifier) -> Unit,
 )
 
-private fun createPages(includeProfilesCard: Boolean) = buildList {
+private fun createPages() = buildList {
     add(
         Page(
             UpgradePlusCountriesHighlightsFragment::class,
@@ -137,7 +137,7 @@ private fun createPages(includeProfilesCard: Boolean) = buildList {
             UpgradeSource.HOME_CAROUSEL_SPLIT_TUNNELING,
         ) { modifier -> UpsellCardSplitTunneling(modifier) }
     )
-    if (includeProfilesCard) add(
+    add(
         Page(
             UpgradeProfilesHighlightsFragment::class,
             UpgradeSource.HOME_CAROUSEL_PROFILES,
@@ -162,7 +162,7 @@ fun HomeUpsellCarousel(
         PageScope(state.roundedServerCount, state.countryCount)
     }
     var minHeight by remember { mutableFloatStateOf(0F) }
-    val pages = remember(state.includeProfilesCard) { createPages(state.includeProfilesCard) }
+    val pages = remember { createPages() }
     HorizontalPager(
         state = rememberPagerState { pages.size },
         contentPadding = PaddingValues(horizontal = horizontalMargin),
@@ -381,7 +381,6 @@ private fun PreviewHomeUpsellCarousel() {
             UpsellCarouselState(
                 roundedServerCount = 1500,
                 countryCount = 20,
-                includeProfilesCard = true
             ),
             horizontalMargin = 16.dp,
             onOpenUpgradeScreen = { _, _ -> },

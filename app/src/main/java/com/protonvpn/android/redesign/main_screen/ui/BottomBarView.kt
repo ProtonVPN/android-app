@@ -50,7 +50,6 @@ import me.proton.core.presentation.R as CoreR
 fun BottomBarView(
     modifier: Modifier = Modifier,
     showGateways: Boolean,
-    showProfiles: Boolean,
     selectedTarget: MainTarget? = MainTarget.Home,
     notificationDots: Set<MainTarget> = emptySet(),
     navigateTo: (MainTarget) -> Unit,
@@ -64,8 +63,7 @@ fun BottomBarView(
         tonalElevation = 0.dp,
     ) {
         MainTarget.entries.forEach { target ->
-            if (target == MainTarget.Gateways && !showGateways ||
-                    target == MainTarget.Profiles && !showProfiles)
+            if (target == MainTarget.Gateways && !showGateways)
                 return@forEach
 
             val isSelected = target == selectedTarget
@@ -141,7 +139,6 @@ fun BottomBarPreviewDark() {
         BottomBarView(
             selectedTarget = MainTarget.Home,
             showGateways = true,
-            showProfiles = true,
             notificationDots = EnumSet.of(MainTarget.Profiles, MainTarget.Settings),
             navigateTo = {}
         )

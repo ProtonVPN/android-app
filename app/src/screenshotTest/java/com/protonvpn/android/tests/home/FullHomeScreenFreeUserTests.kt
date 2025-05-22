@@ -55,7 +55,7 @@ fun FullHomeScreenDisconnected() {
             // Map state is not loaded properly in preview
             mapState = null,
             dialogState = null,
-            upsellCarouselState = UpsellCarouselState(1500, 1600, true),
+            upsellCarouselState = UpsellCarouselState(1500, 1600),
             elapsedRealtimeClock = SystemClock::elapsedRealtime,
             onDismissDialog = {},
             onNetshieldValueChanged = {},
@@ -82,7 +82,7 @@ fun FullHomeScreenConnected() {
             // Map state is not loaded properly in preview
             mapState = null,
             dialogState = null,
-            upsellCarouselState = UpsellCarouselState(1500, 1600, true),
+            upsellCarouselState = UpsellCarouselState(1500, 1600),
             elapsedRealtimeClock = SystemClock::elapsedRealtime,
             onDismissDialog = {},
             onNetshieldValueChanged = {},
