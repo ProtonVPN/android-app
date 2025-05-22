@@ -23,7 +23,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -48,8 +47,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.PagerIndicatorDots
-import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.utils.Constants
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR

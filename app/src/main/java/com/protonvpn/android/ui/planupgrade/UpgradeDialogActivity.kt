@@ -48,7 +48,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.alpha
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -154,11 +153,16 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
         finish()
     }
 
-    protected fun setGradientColors(top: Int, mid: Int, bottom: Int) {
+    protected fun setGradientColors(top: Int, mid: Int, bottom: Int,  fixedAlpha: Boolean = false) {
         val alphaFraction: Float = resources.getFraction(R.fraction.upsellDialogGradientAlphaFraction, 1, 1)
-        backgroundGradient.colors = intArrayOf(top, mid, bottom, 0x00000000.toInt(), 0x00000000.toInt()).map {
-            ColorUtils.setAlphaComponent(it, (it.alpha * alphaFraction).roundToInt())
-        }.toIntArray()
+        val gradientColors = intArrayOf(top, mid, bottom, 0x00000000.toInt(), 0x00000000.toInt())
+        backgroundGradient.colors = if (fixedAlpha) {
+            gradientColors
+        } else {
+            gradientColors.map {
+                ColorUtils.setAlphaComponent(it, (it.alpha * alphaFraction).roundToInt())
+            }.toIntArray()
+        }
         backgroundGradient.invalidateSelf()
     }
 
@@ -183,7 +187,7 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
     }
 
     private fun setDefaultGradient() {
-        setGradientColors(0xFF2E737B.toInt(), 0x802E737B.toInt(), 0x002E737B)
+        setGradientColors(0x6611D8CC.toInt(), 0x334092E6.toInt(), 0x006E4BFF, fixedAlpha = true)
     }
 }
 
