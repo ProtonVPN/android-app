@@ -361,42 +361,30 @@ object AppModule {
     interface Bindings {
 
         @Binds
-        fun provideAutoLogin(autoLogin: AutoLoginImpl): AutoLogin
+        fun bindAutoLogin(autoLogin: AutoLoginImpl): AutoLogin
 
         @Binds
-        fun provideCommonDimensions(provider: DefaultCommonDimensions): CommonDimensions
+        fun bindChangeServerConfigFlow(impl: DefaultChangeServerConfigFlow): ChangeServerConfigFlow
 
         @Binds
-        fun provideGetProfileById(getProfileById: GetProfileByIdImpl): GetProfileById
+        fun bindCommonDimensions(provider: DefaultCommonDimensions): CommonDimensions
+
+        @Binds
+        fun bindFeatureFlagContextProvider(provider: VpnFeatureFlagContextProvider): FeatureFlagContextProvider
+
+        @Binds
+        fun bindGetProfileById(getProfileById: GetProfileByIdImpl): GetProfileById
+
+        @Binds
+        fun bindGetTruncationMustHaveIDs(impl: GetTruncationMustHaveIDsImpl): GetTruncationMustHaveIDs
 
         @Singleton
         @Binds
-        fun provideGuestHoleFallbackListener(guestHole: GuestHole): DohAlternativesListener
+        fun bindGuestHoleFallbackListener(guestHole: GuestHole): DohAlternativesListener
 
         @Singleton
         @Binds
         fun bindImagePrefetcher(glide: GlideImagePrefetcher): ImagePrefetcher
-
-        @Binds
-        fun provideFeatureFlagContextProvider(provider: VpnFeatureFlagContextProvider): FeatureFlagContextProvider
-
-        @Singleton
-        @Binds
-        fun provideServerListViewModelDataAdapter(impl: ServerListViewModelDataAdapterLegacy): ServerListViewModelDataAdapter
-
-        @Singleton
-        @Binds
-        fun provideSearchViewModelDataAdapter(impl: SearchViewModelDataAdapterLegacy): SearchViewModelDataAdapter
-
-        @Binds
-        fun provideTelemetryReporter(impl: DefaultTelemetryReporter): TelemetryReporter
-
-        @Singleton
-        @Binds
-        fun provideVpnConnect(impl: VpnConnectionManager): VpnConnect
-
-        @Binds
-        fun bindChangeServerConfigFlow(impl: DefaultChangeServerConfigFlow): ChangeServerConfigFlow
 
         @Binds
         fun bindIsDirectLanConnectionsFeatureFlagEnabled(
@@ -410,17 +398,29 @@ object AppModule {
         fun bindIsLightThemeEnabled(impl: IsLightThemeFeatureFlagEnabledImpl): IsLightThemeFeatureFlagEnabled
 
         @Binds
-        fun bindServerNameTopStrategyEnabled(impl: ServerNameTopStrategyEnabledImpl): ServerNameTopStrategyEnabled
+        fun bindProvideLocalNetworks(impl: ProvideLocalNetworksImpl): ProvideLocalNetworks
+
+        @Singleton
+        @Binds
+        fun bindSearchViewModelDataAdapter(impl: SearchViewModelDataAdapterLegacy): SearchViewModelDataAdapter
+
+        @Singleton
+        @Binds
+        fun bindServerListViewModelDataAdapter(impl: ServerListViewModelDataAdapterLegacy): ServerListViewModelDataAdapter
 
         @Binds
         fun bindServerListTruncationEnabled(impl: ServerListTruncationEnabledImpl): ServerListTruncationEnabled
 
         @Binds
-        fun bindGetTruncationMustHaveIDs(impl: GetTruncationMustHaveIDsImpl): GetTruncationMustHaveIDs
+        fun bindServerNameTopStrategyEnabled(impl: ServerNameTopStrategyEnabledImpl): ServerNameTopStrategyEnabled
 
         @Binds
-        fun bindProvideLocalNetworks(impl: ProvideLocalNetworksImpl): ProvideLocalNetworks
+        fun bindTelemetryReporter(impl: DefaultTelemetryReporter): TelemetryReporter
 
-        // Alphabetically.
+        @Singleton
+        @Binds
+        fun bindVpnConnect(impl: VpnConnectionManager): VpnConnect
+
+        // Alphabetically☝️
     }
 }
