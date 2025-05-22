@@ -30,6 +30,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -110,6 +111,8 @@ fun ServerGroupsBottomSheet(
     ModalBottomSheetWithBackNavigation(
         modifier = modifier,
         containerColor = headerAreaColor,
+        // The content needs extend under the navigation bar to cover headerAreaColor.
+        contentWindowInsets = { WindowInsets(0, 0, 0, 0) },
         onNavigateBack = onNavigateBackWithClearState,
         onClose = onCloseWithClearState,
         sheetState = sheetState,
@@ -123,7 +126,6 @@ fun ServerGroupsBottomSheet(
             onNavigateBack = { scope.launch { onNavigateBackWithClearState {} } },
             navigateToUpsell = navigateToUpsell,
             infoSheetState = infoSheetState,
-            modifier = Modifier
         )
     }
 }
@@ -136,10 +138,10 @@ val ServerGroupsSubScreenState.rememberStateKey get() = when (this) {
 
 @Composable
 private fun BottomSheetScreen(
-    modifier: Modifier = Modifier,
     screen: ServerGroupsSubScreenState,
     listState: LazyListState,
     infoSheetState: InfoSheetState,
+    modifier: Modifier = Modifier,
     onItemOpen: (ServerGroupUiItem.ServerGroup) -> Unit,
     onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
     navigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
