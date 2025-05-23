@@ -382,7 +382,7 @@ private fun ConnectIntentIconDrawScope.flag(
 
 @Composable
 private fun secureCoreArcColor(isFastest: Boolean) =
-    if (isFastest) ProtonTheme.colors.vpnGreen
+    if (isFastest) ProtonTheme.colors.vpnGreen.copy(alpha = 0.3f)
     else ProtonTheme.colors.textHint
 
 @Composable
