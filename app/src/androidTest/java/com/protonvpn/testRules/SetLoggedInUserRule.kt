@@ -22,7 +22,6 @@ package com.protonvpn.testRules
 import androidx.test.espresso.Espresso
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.testsHelper.TestSetup
 import com.protonvpn.testsHelper.UserDataHelper
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description

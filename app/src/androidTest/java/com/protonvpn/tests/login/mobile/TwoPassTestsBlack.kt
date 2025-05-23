@@ -25,15 +25,16 @@ import com.protonvpn.robots.mobile.HomeRobot
 import com.protonvpn.interfaces.verify
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
-import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import me.proton.core.auth.test.flow.SignInFlow
 import me.proton.core.auth.test.robot.AddAccountRobot
+import me.proton.core.test.quark.Quark
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
 /**
  * [TwoPassTestsBlack] contains UI tests for TwoPass flows.
@@ -45,11 +46,13 @@ class TwoPassTestsBlack {
     @get:Rule
     val rule = realBackendComposeRule()
 
+    @Inject lateinit var quark: Quark
+
     private val user = TestUser.twopass
 
     @Before
     fun setUp() {
-        TestSetup.quark?.jailUnban()
+        quark.jailUnban()
     }
 
     @Test

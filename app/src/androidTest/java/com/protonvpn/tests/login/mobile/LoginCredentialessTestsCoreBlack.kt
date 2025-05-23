@@ -33,7 +33,6 @@ import com.protonvpn.robots.mobile.HumanVerificationRobot
 import com.protonvpn.robots.mobile.OnboardingRobot
 import com.protonvpn.robots.mobile.SignupRobot
 import com.protonvpn.testRules.CommonRuleChains.realBackendRule
-import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.test.MinimalSignInGuestTests
 import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
@@ -71,7 +70,8 @@ class LoginCredentialessTestsCoreBlack : MinimalSignInGuestTests {
     @Inject
     lateinit var isCredentialLessEnabled: FakeIsCredentialLessEnabled
 
-    override val quark: Quark get() = TestSetup.quark
+    @Inject
+    override lateinit var quark: Quark
 
     @Test
     override fun credentialLessToRegularAccount() {

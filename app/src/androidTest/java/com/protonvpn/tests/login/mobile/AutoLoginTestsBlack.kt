@@ -29,7 +29,6 @@ import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.robots.mobile.LoginRobotVpn
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
-import com.protonvpn.testsHelper.TestSetup
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,10 +36,12 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.proton.core.test.android.robots.auth.AddAccountRobot
+import me.proton.core.test.quark.Quark
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @RunWith(AndroidJUnit4::class)
@@ -55,12 +56,15 @@ class AutoLoginTestsBlack {
             ManagedConfig(autoLoginConfig)
     }
 
+    @Inject
+    lateinit var quark: Quark
+
     @get:Rule
     val rule = realBackendComposeRule()
 
     @Before
     fun setUp() {
-        TestSetup.quark.jailUnban()
+        quark.jailUnban()
     }
 
     @Test

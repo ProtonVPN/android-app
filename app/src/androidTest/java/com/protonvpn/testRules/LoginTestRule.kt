@@ -24,9 +24,12 @@ import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.testsHelper.TestSetup
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
 import me.proton.core.auth.presentation.testing.ProtonTestEntryPoint
+import me.proton.core.test.quark.Quark
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import kotlin.system.measureTimeMillis
@@ -36,17 +39,23 @@ class LoginTestRule(
     private val password: String
 ) : TestWatcher() {
 
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface Dependencies : ProtonTestEntryPoint {
+        val quark: Quark
+    }
+
     constructor(testUser: TestUser) : this(testUser.email, testUser.password)
 
     override fun starting(description: Description?) {
         super.starting(description)
-        val entryPoint: ProtonTestEntryPoint = EntryPointAccessors.fromApplication(
+        val dependencies: Dependencies = EntryPointAccessors.fromApplication(
             ApplicationProvider.getApplicationContext<Application>(),
-            ProtonTestEntryPoint::class.java
+            Dependencies::class.java
         )
         val loginTimeMs = measureTimeMillis {
-            TestSetup.quark.jailUnban()
-            entryPoint.loginTestHelper.login(username, password)
+            dependencies.quark.jailUnban()
+            dependencies.loginTestHelper.login(username, password)
         }
         Log.d("LoginTestRule", "login took ${loginTimeMs}ms")
     }

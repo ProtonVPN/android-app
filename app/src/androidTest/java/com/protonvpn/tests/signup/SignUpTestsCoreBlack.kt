@@ -31,7 +31,6 @@ import com.protonvpn.robots.mobile.OnboardingRobot
 import com.protonvpn.robots.mobile.SignupRobot
 import com.protonvpn.interfaces.verify
 import com.protonvpn.testRules.CommonRuleChains.realBackendRule
-import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.test.MinimalSignUpExternalTests
 import me.proton.core.auth.test.robot.signup.CongratsRobot
@@ -40,6 +39,7 @@ import me.proton.core.auth.test.robot.signup.SignUpRobot
 import me.proton.core.auth.test.robot.signup.SignupInternal
 import me.proton.core.auth.test.rule.AcceptExternalRule
 import me.proton.core.network.domain.client.ExtraHeaderProvider
+import me.proton.core.test.quark.Quark
 import me.proton.core.util.kotlin.random
 import me.proton.test.fusion.FusionConfig
 import org.junit.Before
@@ -62,10 +62,12 @@ class SignupTests : MinimalSignUpExternalTests {
 
     @Inject
     lateinit var extraHeaderProvider: ExtraHeaderProvider
+    @Inject
+    lateinit var quark: Quark
 
     @Before
     fun setUp() {
-        TestSetup.quark.jailUnban()
+        quark.jailUnban()
     }
 
     private val isCongratsDisplayed = false

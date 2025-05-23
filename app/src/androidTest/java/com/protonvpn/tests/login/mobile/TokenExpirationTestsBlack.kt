@@ -28,10 +28,10 @@ import com.protonvpn.interfaces.verify
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testRules.LoginTestRule
-import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
 import me.proton.core.accountmanager.data.SessionManagerImpl
+import me.proton.core.test.quark.Quark
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -47,11 +47,12 @@ class TokenExpirationTestsBlack {
         .around(LoginTestRule(TestUser.plusUser))
 
     @Inject lateinit var currentUser: CurrentUser
+    @Inject lateinit var quark: Quark
 
     @Before
     fun setUp() {
         assertNotNull(
-            TestSetup.quark,
+            quark,
             "Quark can be null. Make sure this test is not being run on production."
         )
     }
@@ -59,13 +60,13 @@ class TokenExpirationTestsBlack {
     @Test
     fun sessionAndRefreshTokenExpiration() = runTest(timeout = Timeouts.TWENTY_SECONDS) {
         SessionManagerImpl.reset(currentUser.sessionId())
-        TestSetup.quark!!.expireSession(TestUser.plusUser.email, true)
+        quark.expireSession(TestUser.plusUser.email, true)
         LoginRobotVpn.verify { loginScreenIsDisplayed() }
     }
 
     @Test
     fun sessionExpirationCheckIfNotLoggedOut() = runTest(timeout = Timeouts.TWENTY_SECONDS) {
         SessionManagerImpl.reset(currentUser.sessionId())
-        TestSetup.quark!!.expireSession(TestUser.plusUser.email)
+        quark.expireSession(TestUser.plusUser.email)
     }
 }

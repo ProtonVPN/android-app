@@ -29,6 +29,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import me.proton.core.configuration.EnvironmentConfiguration
+import me.proton.core.test.quark.Quark
 import javax.inject.Singleton
 
 @Module
@@ -38,6 +40,13 @@ object AndroidTestScopeAppModule {
     @Provides
     @Singleton
     fun provideMainScope(): CoroutineScope = MainScope()
+
+    @Provides
+    fun provideQuark(environmentConfiguration: EnvironmentConfiguration): Quark =
+        Quark.fromDefaultResources(
+            host = environmentConfiguration.host,
+            proxyToken = environmentConfiguration.proxyToken
+        )
 
     @Module
     @InstallIn(SingletonComponent::class)

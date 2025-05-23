@@ -33,12 +33,13 @@ import com.protonvpn.robots.mobile.LoginRobotVpn
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testsHelper.AtlasEnvVarHelper
-import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.serialization.SerializationException
 import me.proton.core.auth.test.robot.login.LoginLegacyRobot
 import me.proton.core.auth.test.robot.login.LoginRobot
+import me.proton.core.configuration.EnvironmentConfiguration
 import me.proton.core.test.android.robots.auth.AddAccountRobot
+import me.proton.core.test.quark.Quark
 import me.proton.core.test.quark.data.User
 import org.junit.Before
 import org.junit.Rule
@@ -46,7 +47,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.net.URLDecoder
 import java.net.URLEncoder
-
+import javax.inject.Inject
 
 /**
  * [LoginTestsBlack] contains UI tests for Login flow
@@ -60,11 +61,14 @@ class LoginTestsBlack {
     @get:Rule
     val rule = realBackendComposeRule()
 
+    @Inject
+    lateinit var quark: Quark
+
     private lateinit var addAccountRobot: AddAccountRobot
 
     @Before
     fun setUp() {
-        TestSetup.quark.jailUnban()
+        quark.jailUnban()
         addAccountRobot = AddAccountRobot()
         AddAccountRobot().signIn()
     }
@@ -123,7 +127,7 @@ class LoginTestsBlack {
             password = URLEncoder.encode(BuildConfig.SPECIAL_CHAR_PASSWORD, "utf-8")
         )
         try {
-            TestSetup.quark?.userCreate(specialCharsUser)
+            quark.userCreate(specialCharsUser)
         } catch (e: SerializationException) {
             // The test environment returns a non-JSON response when the user already exists.
             // TODO: remove once the test environment is fixed.
