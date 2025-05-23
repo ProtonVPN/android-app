@@ -370,7 +370,7 @@
         <item quantity="one">Protect %1$d device at once</item>
         <item quantity="other">Protect %1$d devices at once</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
+    <string name="upgrade_devices_text">Proton VPN is available on 8 different platforms.</string>
     <string name="upgrade_plus_title">Upgrade your privacy</string>
     <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
     <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
