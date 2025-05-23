@@ -431,7 +431,7 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odklenite %1$s v %2$s z <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Vse premium storitve Proton. Ena preprosta naročnina.</string>
+    <string name="upgrade_unlimited_all_apps_title">Vse premijske storitve Proton. Ena preprosta naročnina.</string>
     <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
     <string name="upgrade_unlimited_more">In več</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Odkleni vse države</string>
@@ -494,7 +494,7 @@
     </plurals>
     <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
     <string name="upgrade_unlimited_pass_aliases">Neomejeno število vzdevkov hide-my-email</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Neomejeno število kreditnih kartic</string>
+    <string name="upgrade_unlimited_pass_credit_cards">Neomejeno število plačilnih kartic</string>
     <string name="upgrade_unlimited_pass_devices">Neomejeno število naprav</string>
     <plurals name="upgrade_unlimited_pass_users">
         <item quantity="one">Share with up to %1$d other</item>
@@ -952,7 +952,7 @@
         <item quantity="few">Samodejno izbrano iz %1$d držav</item>
         <item quantity="other">Samodejno izbrano iz %1$d držav</item>
     </plurals>
-    <string name="connection_info_auto_selected_free_countries_plain">Samodejno izbrano iz prostih držav</string>
+    <string name="connection_info_auto_selected_free_countries_plain">Samodejno izbrano iz brezplačnih držav</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1373,7 +1373,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="edit_profile_dialog_action">Urejanje profila</string>
     <string name="create_profile_name_hint">Ime profila</string>
     <string name="create_profile_name_error_empty">Vnesite ime profila</string>
-    <string name="create_profile_name_error_too_long">Ime profila mora imeti največ 30 znakov</string>
+    <string name="create_profile_name_error_too_long">Ime profila ima lahko največ 30 znakov</string>
     <string name="create_profile_type_and_location_title">Izberite vrsto povezave in lokacijo</string>
     <string name="create_profile_features_and_settings_title">Funkcije in nastavitve</string>
     <string name="configure_profile_features_and_settings_title">Configure profile settings</string>

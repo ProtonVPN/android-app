@@ -57,7 +57,7 @@
     <string name="restrictedMaintenanceTitle">Dalam pemeliharaan</string>
     <string name="restrictedMaintenanceDescription">Server yang Anda coba sambungkan sedang dalam pemeliharaan. Mohon coba server lainnya.</string>
     <string name="errorUserDelinquent"><![CDATA[Akun Anda saat ini memiliki faktur yang tertunggak. Silakan lunasi seluruh tagihan yang belum lunas pada&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Anda telah mencapai jumlah sambungan serentak yang diizinkan bagi akun Anda. Silakan tingkatkan paket Proton VPN Anda untuk memperoleh lebih banyak sambungan.</string>
+    <string name="errorMaxSessions">Anda telah mencapai jumlah koneksi serentak yang diizinkan bagi akun Anda. Silakan tingkatkan paket Proton VPN Anda untuk memperoleh lebih banyak koneksi.</string>
     <string name="listItemMaintenance">Dalam pemeliharaan</string>
     <string name="insufficientPermissionsTitle">Tindakan pengguna dibutuhkan</string>
     <string name="insufficientPermissionsDetails">Koneksi VPN tidak dapat dikukuhkan secara otomatis. Silakan hubungkan VPN secara manual satu kali untuk memberikan izin.</string>
@@ -252,7 +252,7 @@
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data yang disimpan</string>
     <string name="netshield_setting_warning">Beberapa situs web mungkin tidak akan dapat termuat dengan benar pada saat iklan dan pelacak diblokir.</string>
     <string name="dialogDontShowAgain">Jangan tampilkan lagi</string>
-    <string name="guestHoleNotificationContent">Cobalah untuk mengatasi masalah-masalah jaringan yang ada. Tindakan ini dapat melancarkan koneksi Proton VPN Anda.</string>
+    <string name="guestHoleNotificationContent">Cobalah untuk mengatasi masalah jaringan yang ada. Hal ini akan membantu Anda untuk mengakses Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Koneksi VPN tidak dapat dikukuhkan karena terdapat konflik antar aplikasi dual-app (semisal Dual Messenger) dan Split Tunneling. Silakan nonaktifkan salah satu aplikasi ini dan nyalakan ulang perangkat Anda.</string>
     <string name="errorTorrentNotAllowed">P2P tidak diizinkan pada server ini</string>
     <string name="error_profile_fallback_unavailable">Koneksi gagal. Pilihan server Anda tidak tersedia untuk profil ini.</string>
@@ -1290,7 +1290,7 @@
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Tambah server DNS baru</string>
     <string name="settings_add_dns_new_entry_button">Tambah</string>
-    <string name="settings_add_dns_description">Masukkan alamat IPv4 aatau IPv6 server</string>
+    <string name="settings_add_dns_description">Masukkan alamat IPv4 atau IPv6 server</string>
     <string name="settings_add_dns_invalid_input">Masukkan alamat IPv4 aatau IPv6 yang valid</string>
     <string name="settings_add_dns_empty_input">Masukkan alamat IPv4 aatau IPv6</string>
     <string name="settings_add_dns_duplicate_input">Server telah ditambahkan</string>
@@ -1459,7 +1459,7 @@
     <string name="profile_auto_open_on">Aktif</string>
     <string name="create_profile_auto_open_description">Membuka situs web yang Anda tentukan secara otomatis pada saat Anda terhubung ke profil ini.</string>
     <string name="profile_auto_open_error_invalid_url">Masukkan URL yang valid</string>
-    <string name="nps_how_likely_question">Seberapa mungkin Anda menyarankan Proton VPN kepada teman atau kolega?</string>
+    <string name="nps_how_likely_question">Seberapa terdorongkah Anda untuk menyarankan Proton VPN kepada teman atau kolega Anda?</string>
     <string name="nps_additional_comment_title">Beri tahu kami mengapa Anda memberikan penilaian tersebut</string>
     <string name="nps_additional_comment_optional">Opsional</string>
     <string name="nps_rating_low_values_explain">0 adalah sangat tidak mungkin</string>

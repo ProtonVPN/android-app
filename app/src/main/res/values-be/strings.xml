@@ -84,8 +84,8 @@
     <string name="report_bug_message_label">Паведамленне</string>
     <string name="report_bug_message_hint">Апішыце праблему і раскажыце нам, як вы знайшлі яе</string>
     <string name="send_report">Адправіць справаздачу</string>
-    <string name="discardChanges">Адхіліць незахаваныя змены?</string>
-    <string name="discard">Адхіліць</string>
+    <string name="discardChanges">Скасаваць незахаваныя змены?</string>
+    <string name="discard">Скасаваць</string>
     <string name="done">ГАТОВА</string>
     <string name="add">ДАДАЦЬ</string>
     <string name="copy_to_clipboard">Капіяваць</string>
