@@ -28,7 +28,7 @@
     <string name="login">Σύνδεση</string>
     <string name="menuActionSignOut">Αποσύνδεση</string>
     <string name="connectionAllocationHelpTitle">Ευχαριστούμε για την αναβάθμιση</string>
-    <string name="connectionAllocationHelpDescription1">Για να ξεκινήσετε το ταξίδι σας με το Proton VPN, παρακαλούμε αναθέστε συνδέσεις VPN στον λογαριασμό σας ή σε οποιονδήποτε άλλο υπο-λογαριασμό.</string>
+    <string name="connectionAllocationHelpDescription1">Για να ξεκινήσετε το ταξίδι σας με το Proton VPN, παρακαλούμε αναθέστε συνδέσεις VPN στον λογαριασμό σας ή σε οποιονδήποτε άλλον υπο-λογαριασμό.</string>
     <string name="connectionAllocationHelpDescription2">Αυτό το βήμα θα πάρει μόλις λίγα λεπτά. Μετά από αυτό θα μπορείτε να συνδεθείτε και να προστατεύσετε όλες τις συσκευές σας.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Αυτήν τη στιγμή δεν υπάρχει ενεργοποιημένη σύνδεση VPN για αυτόν τον λογαριασμό. Για να ξεκινήσετε το ταξίδι σας με το Proton VPN, επικοινωνήστε με τον διαχειριστή σας. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Ενεργοποίηση συνδέσεων VPN</string>
