@@ -207,7 +207,7 @@
     <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Nastavitve</string>
     <string name="settingsKillSwitchLearnMoreButton">Kaj je kill switch?</string>
-    <string name="settingsKillSwitchWarningMain">When kill switch is on, you won’t be able to connect to:</string>
+    <string name="settingsKillSwitchWarningMain">Ko je kill switch vklopljen, se ne boste mogli povezati z:</string>
     <string name="settingsKillSwitchWarningPoint1">Websites and apps excluded from your VPN connection through split tunneling</string>
     <string name="settingsKillSwitchWarningPoint2">Naprave v vašem lokalnem omrežju (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Delite anonimne podatke o uporabi</string>
@@ -432,7 +432,7 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odklenite %1$s v %2$s z <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">Vse premijske storitve Proton. Ena preprosta naročnina.</string>
-    <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
+    <string name="upgrade_unlimited_all_apps_description">Zagotovite si popolno zasebno pokritost s Proton Unlimited.</string>
     <string name="upgrade_unlimited_more">In več</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Odkleni vse države</string>
     <string name="upgrade_unlimited_vpn_all_features">Vse druge funkcije VPN Plus</string>
@@ -480,7 +480,7 @@
     <string name="upgrade_unlimited_calendar_sharing">Deljenje koledarja</string>
     <string name="upgrade_unlimited_calendar_invites">Pošiljanje in prejemanje povabil</string>
     <string name="upgrade_unlimited_drive_encryption">Šifrirana shramba za datoteke</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d GB skupne shrambe za fotografije, datoteke in pošto</string>
     <string name="upgrade_unlimited_drive_link_share">Deli fotografije in datoteke prek povezave</string>
     <string name="upgrade_unlimited_drive_sharing_security">Napredna varnost deljenja</string>
     <string name="upgrade_unlimited_drive_version_history">Zgodovina različic</string>
@@ -511,7 +511,7 @@
          When the plan selection control is focused, and the first plan name is "VPN Plus"
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
-    <string name="upgrade_plan_selection_content_description">Upgrade options</string>
+    <string name="upgrade_plan_selection_content_description">Možnosti nadgradnje</string>
     <string name="upsell_card_countries_title">Pokritost po vsem svetu</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -1376,7 +1376,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="create_profile_name_error_too_long">Ime profila ima lahko največ 30 znakov</string>
     <string name="create_profile_type_and_location_title">Izberite vrsto povezave in lokacijo</string>
     <string name="create_profile_features_and_settings_title">Funkcije in nastavitve</string>
-    <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
+    <string name="configure_profile_features_and_settings_title">Nastavi nastavitve profila</string>
     <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
@@ -1410,7 +1410,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
     <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield will be unavailable</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield ne bo na voljo.</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield ne more filtrirati oglasov, sledilnikov in zlonamerne programske opreme, ko je uporabljen DNS po meri. Izvedi več</string>
     <string name="settings_advanced_alternative_routing_title">Alternativno usmerjanje</string>
     <string name="settings_advanced_alternative_routing_description">Če so storitve Proton blokirane zaradi omrežnih omejitev, bomo poskušali uporabiti alternativno omrežno usmerjanje, da vas povežemo z našimi spletnimi mesti.</string>
@@ -1499,7 +1499,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="error_fetching_prices">Napaka pri pridobivanju cen.</string>
     <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Prilagodite svojo povezavo tako, da določite, katere aplikacije so zaščitene s storitvijo VPN.</string>
-    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Izbrane aplikacije so izključene iz povezave VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Samo izbrane aplikacije se povežejo prek VPN, ves ostali promet je nezaščiten.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Uredi</string>
@@ -1574,7 +1574,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="nps_additional_comment_optional">Neobvezno</string>
     <string name="nps_rating_low_values_explain">0 is very unlikely</string>
     <string name="nps_rating_high_values_explain">10 is very likely</string>
-    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_toast_submit_message">Hvala! Vaše povratne informacije nam pomagajo izboljšati Proton VPN.</string>
     <string name="nps_submit_error_char_limit">Vaš odgovor mora vsebovati največ 250 znakov.</string>
     <string name="nps_button_submit_title">Deli anonimno</string>
     <string name="widget_preview_switzerland">Švica</string>
@@ -1592,12 +1592,12 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Omogoči IPv6</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 onemogočeno</string>
     <string name="settings_ipv6_enabled_toast">IPv6 omogočen</string>
-    <string name="info_dialog_ipv6_traffic_benefits1">Ensures access to IPv6-only websites and services</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Omogoča dostop do spletnih strani in storitev samo za IPv6.</string>
     <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>
     <string name="info_dialog_ipv6_traffic_drawbacks1">May not work well with older networks or apps</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks2">Some networks handle IPv6 traffic unpredictably</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Nekatera omrežja obravnavajo promet IPv6 nepredvidljivo.</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Slabosti</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Prednosti</string>
-    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
+    <string name="settings_lan_allow_direct_connection_title">Omogoči neposredne povezave naprav</string>
     <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
 </resources>

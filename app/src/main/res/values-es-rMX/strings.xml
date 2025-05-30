@@ -105,7 +105,7 @@
     <string name="noVpnPermissionGrantPemrissionMessage">Android necesita su permiso para conectarse a Proton VPN. Concédalo tocando \"OK\" cuando aparezca la ventana de \"Solicitud de conexión\" de Android.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Desactivar Siempre-activa para otras aplicaciones</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android no soporta múltiples aplicaciones VPN. Desactive la opción siempre-activa para cualquier aplicación VPN que no sea Proton VPN.</string>
-    <string name="noVpnPermissionProtonAppLabel">Aplicación ProtonVPN</string>
+    <string name="noVpnPermissionProtonAppLabel">Aplicación Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Otras aplicaciones de VPN</string>
     <string name="noVpnPermissionOpenSettings">Abrir ajustes de VPN de Android</string>
     <string name="noNotificationPermissionGrantTitle">No se deje sorprender…</string>

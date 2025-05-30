@@ -358,7 +358,7 @@
         <item quantity="one">%1$d apparaat tegelijk beschermen</item>
         <item quantity="other">%1$d apparaten tegelijk beschermen</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is beschikbaar op 8 verschillende platforms.</string>
+    <string name="upgrade_devices_text">Proton VPN is beschikbaar op 8 verschillende platformen.</string>
     <string name="upgrade_plus_title">Upgrade uw privacy</string>
     <string name="upgrade_plus_message">Krijg geavanceerde privacyfuncties en hogere snelheid met VPN Plus.</string>
     <string name="upgrade_netshield_title">Geniet van advertentievrij browsen</string>

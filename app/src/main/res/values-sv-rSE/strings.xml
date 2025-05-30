@@ -204,7 +204,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">inställningar</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Aktivera "<b>Alltid-på VPN</b>" och "<b>Blockera anslutningar utan VPN</b>"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Inställningar</string>
     <string name="settingsKillSwitchLearnMoreButton">Vad är kill switch?</string>
     <string name="settingsKillSwitchWarningMain">När kill switch är på kommer du inte att kunna ansluta till:</string>
@@ -1330,11 +1330,11 @@
     <string name="settings_add_dns_invalid_input">Ange en giltig IPv4- eller IPv6-adress</string>
     <string name="settings_add_dns_empty_input">Ange giltig IPv4- eller IPv6-adress</string>
     <string name="settings_add_dns_duplicate_input">Server redan tillagd</string>
-    <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
+    <string name="settings_advanced_dns_description">Anslut till VPN med ett självhostat domännamnssystem (DNS) eller ett från tredje part. Lär dig mer</string>
     <!-- %1$d - Corresponds to number of servers added -->
     <string name="settings_dns_list_title">Servrar (%1$d)</string>
     <string name="settings_dns_list_description">Om din anpassad DNS-server inte fungerar kommer standard-VPN DNS att användas.</string>
-    <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
+    <string name="settings_dns_list_description_multiple">Vi kommer att försöka ansluta till dessa servrar i ordning. Om ingen av dem fungerar kommer VPN DNS att användas.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Ändringar tillämpas när du ansluter igen</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield kommer vara otillgänglig</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield kan inte filtrera bort annonser, spårare och skadlig kod när anpassad DNS används. Lär dig mer</string>
@@ -1384,15 +1384,15 @@
     <string name="settings_split_tunneling_already_included">Redan inkluderat</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Ta bort IP-adress från listan?</string>
     <string name="settings_theme_title">Tema</string>
-    <string name="settings_theme_value_auto">Device theme</string>
+    <string name="settings_theme_value_auto">Enhetstema</string>
     <string name="settings_theme_value_light">Ljus</string>
     <string name="settings_theme_value_dark">Mörk</string>
     <string name="settings_dialog_reconnect">Nya inställningar kommer tillämpas nästa gång du ansluter.</string>
     <string name="settings_needs_reconnect_banner">Nya inställningar kommer tillämpas nästa gång du ansluter.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Anpassad DNS är inte tillgänglig</string>
-    <string name="private_dns_conflict_banner_custom_dns_description">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working. Learn more</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Din enhet använder en tredjeparts-DNS som hindrar Proton VPN:s anpassade DNS från att fungera. Lär dig mer</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield är otillgänglig</string>
-    <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
+    <string name="private_dns_conflict_banner_netshield_description">Din enhet använder en DNS från tredje part vilket hindrar NetShield från att fungera. Lär dig mer</string>
     <string name="private_dns_conflict_banner_network_settings_button">Nätverksinställningar</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield är otillgänglig</string>
     <string name="custom_dns_conflict_banner_netshield_description">Anpassad DNS är aktiverad vilket hindrar NetShield från att fungera. Lär dig mer</string>
@@ -1522,8 +1522,8 @@
     <string name="info_dialog_ipv6_traffic_benefits2">Förhindrar problem i nätverk som förlitar sig på IPv6</string>
     <string name="info_dialog_ipv6_traffic_drawbacks1">Kanske inte fungerar bra med äldre nätverk eller appar</string>
     <string name="info_dialog_ipv6_traffic_drawbacks2">Vissa nätverk hanterar IPv6-trafik oförutsägbart</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks_title">Drawbacks</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Nackdelar</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Fördelar</string>
-    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
-    <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
+    <string name="settings_lan_allow_direct_connection_title">Tillåt direkta enhetsanslutningar</string>
+    <string name="settings_lan_allow_direct_connection_description">Anslut till Smart-TV, Android Auto och andra enheter som skapar sitt eget nätverk. För maximal säkerhet, aktivera endast när du ansluter till dessa enheter.</string>
 </resources>

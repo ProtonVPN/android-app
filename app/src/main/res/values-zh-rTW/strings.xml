@@ -352,7 +352,7 @@
     <plurals name="upgrade_devices_title">
         <item quantity="other">同時保護 %1$d 台裝置</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN 可用於 8 個不同的作業平台。</string>
+    <string name="upgrade_devices_text">Proton VPN is available on 8 different platforms.</string>
     <string name="upgrade_plus_title">升級您的隱私</string>
     <string name="upgrade_plus_message">選用 VPN Plus 獲享進階的隱私功能與更快速度。</string>
     <string name="upgrade_netshield_title">享受無廣告的瀏覽體驗</string>

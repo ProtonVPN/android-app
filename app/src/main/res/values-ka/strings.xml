@@ -358,7 +358,7 @@
         <item quantity="one">დაიცავით %1$d მოწყობილობა ერთდროულად</item>
         <item quantity="other">დაიცავით %1$d მოწყობილობა ერთდროულად</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN ხელმისაწვდომია 8 სხვადასხვა პლატფორმაზე.</string>
+    <string name="upgrade_devices_text">Proton VPN is available on 8 different platforms.</string>
     <string name="upgrade_plus_title">გააუმჯობესეთ თქვენი კონფიდენციალობა</string>
     <string name="upgrade_plus_message">მიიღეთ კონფიდენციალობის ფუნქციები და კიდევ უფრო სწრაფი სიჩქარე VPN Plus-თან ერთად.</string>
     <string name="upgrade_netshield_title">ისიამოვნეთ ურელამო ინტერნეტით</string>

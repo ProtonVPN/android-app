@@ -364,7 +364,7 @@
         <item quantity="few">Protejați %1$d dispozitive simultan</item>
         <item quantity="other">Protejați %1$d de dispozitive simultan</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN este disponibil pe 8 platforme simultan.</string>
+    <string name="upgrade_devices_text">Proton VPN este disponibil pe 8 platforme diferite.</string>
     <string name="upgrade_plus_title">Îmbunătățiți-vă confidențialitatea</string>
     <string name="upgrade_plus_message">Obțineți funcții avansate de confidențialitate și viteze maxime cu VPN Plus.</string>
     <string name="upgrade_netshield_title">Bucurați-vă de navigare pe internet fără reclame</string>
