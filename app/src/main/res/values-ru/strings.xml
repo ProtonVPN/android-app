@@ -370,7 +370,7 @@
         <item quantity="many">Защитите %1$d устройств одновременно</item>
         <item quantity="other">Защитите %1$d устройств одновременно</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN доступна на 8 различных платформах.</string>
+    <string name="upgrade_devices_text">Proton VPN is available on 8 different platforms.</string>
     <string name="upgrade_plus_title">Улучшите свою конфиденциальность</string>
     <string name="upgrade_plus_message">Получите расширенные функции приватности и высокую скорость с VPN Plus.</string>
     <string name="upgrade_netshield_title">Пользуйтесь просмотром веб-страниц без рекламы</string>

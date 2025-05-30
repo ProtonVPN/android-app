@@ -1455,10 +1455,10 @@
     <string name="settings_split_tunneling_already_excluded">Уже виключено</string>
     <string name="settings_split_tunneling_already_included">Уже включено</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Вилучити IP-адресу зі списку?</string>
-    <string name="settings_theme_title">Theme</string>
-    <string name="settings_theme_value_auto">Device theme</string>
-    <string name="settings_theme_value_light">Light</string>
-    <string name="settings_theme_value_dark">Dark</string>
+    <string name="settings_theme_title">Тема</string>
+    <string name="settings_theme_value_auto">Тема пристрою</string>
+    <string name="settings_theme_value_light">Світла</string>
+    <string name="settings_theme_value_dark">Темна</string>
     <string name="settings_dialog_reconnect">Нові налаштування застосуються при наступному з\'єднанні.</string>
     <string name="settings_needs_reconnect_banner">Нові налаштування застосуються при наступному з\'єднанні.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Власний DNS недоступний</string>
@@ -1596,6 +1596,6 @@
     <string name="info_dialog_ipv6_traffic_drawbacks2">Деякі мережі обробляють трафік IPv6 непередбачувано</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Недоліки</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Переваги</string>
-    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
-    <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
+    <string name="settings_lan_allow_direct_connection_title">Дозволити прямі з\'єднання пристроїв</string>
+    <string name="settings_lan_allow_direct_connection_description">Під\'єднуйтеся до Smart TV, Android Auto та інших пристроїв, що створюють власну мережу. Для максимальної безпеки вмикайте лише під час з\'єднання з цими пристроями.</string>
 </resources>

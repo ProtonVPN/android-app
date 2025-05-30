@@ -352,7 +352,7 @@
     <plurals name="upgrade_devices_title">
         <item quantity="other">一度に%1$d 台のデバイスを保護</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPNは8つの異なるプラットフォームでご利用いただけます。</string>
+    <string name="upgrade_devices_text">Proton VPN is available on 8 different platforms.</string>
     <string name="upgrade_plus_title">プライバシーをアップグレードする</string>
     <string name="upgrade_plus_message">VPN Plus を使用すると、高度なプライバシー機能と高速性を実現できます。</string>
     <string name="upgrade_netshield_title">広告なしのブラウジングをお楽しみください</string>

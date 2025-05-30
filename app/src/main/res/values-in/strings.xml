@@ -352,7 +352,7 @@
     <plurals name="upgrade_devices_title">
         <item quantity="other">Lindungi %1$d perangkat secara bersamaan</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN tersedia pada 8 platform berbeda.</string>
+    <string name="upgrade_devices_text">Proton VPN tersedia di 8 platform berbeda.</string>
     <string name="upgrade_plus_title">Tingkatkan privasi Anda</string>
     <string name="upgrade_plus_message">Dapatkan berbagai fitur privasi mutakhir dan kecepatan yang lebih tinggi dengan VPN Plus.</string>
     <string name="upgrade_netshield_title">Nikmati penjelajahan tanpa iklan</string>

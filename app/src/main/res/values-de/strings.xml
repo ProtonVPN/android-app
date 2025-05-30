@@ -358,7 +358,7 @@
         <item quantity="one">Schütze %1$d Gerät gleichzeitig</item>
         <item quantity="other">Schütze %1$d Geräte gleichzeitig</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN ist auf 8 verschiedenen Plattformen verfügbar.</string>
+    <string name="upgrade_devices_text">Proton VPN ist auf acht verschiedenen Plattformen verfügbar.</string>
     <string name="upgrade_plus_title">Verbessere deine Privatsphäre</string>
     <string name="upgrade_plus_message">Hol dir erweiterte Datenschutzfunktionen und höhere Geschwindigkeit mit VPN Plus.</string>
     <string name="upgrade_netshield_title">Genieße das Surfen ohne Werbung</string>

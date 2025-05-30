@@ -358,7 +358,7 @@
         <item quantity="one">محافظت یک‌جا از %1$d دستگاه</item>
         <item quantity="other">محافظت یک‌جا از %1$d دستگاه</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN در ۸ پلتفرم مختلف در دسترس است.</string>
+    <string name="upgrade_devices_text">Proton VPN is available on 8 different platforms.</string>
     <string name="upgrade_plus_title">حريم خصوصی خود را ارتقا دهید</string>
     <string name="upgrade_plus_message">با VPN Plus ویژگی‌های حریم خصوصی پیشرفته و سرعت بیشتر بگیرید.</string>
     <string name="upgrade_netshield_title">از مرور بدون تبلیغات لذت ببرید</string>

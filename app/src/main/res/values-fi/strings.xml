@@ -358,14 +358,14 @@
         <item quantity="one">Suojaa samanaikaisesti %1$d laite</item>
         <item quantity="other">Suojaa samanaikaisesti %1$d laitetta</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN on saatavilla 8 eri alustalle.</string>
+    <string name="upgrade_devices_text">Proton VPN on saatavilla kahdeksalla eri alustalla</string>
     <string name="upgrade_plus_title">Paranna yksityisyyttäsi</string>
     <string name="upgrade_plus_message">Hanki edistyneitä yksityisyytäsi tehostavia ominaisuuksia ja korkeampi nopeus VPN Plus -tilauksella.</string>
     <string name="upgrade_netshield_title">Nauti mainosvapaasta selaamisesta</string>
     <string name="upgrade_netshield_message"><![CDATA[Estä mainoksia, seurantoja ja haittaohjelmia <b>NetShieldin</b> avulla.]]></string>
     <string name="upgrade_secure_core_title">Tuplaa salaus</string>
     <string name="upgrade_secure_core_message"><![CDATA[Lisää VPN-yhteyteesi toinen salaustaso <b>Secure Corella</b>.]]></string>
-    <string name="upgrade_p2p_title">Avaa peer-to-peer (P2P) lataukset ja tiedostojaot</string>
+    <string name="upgrade_p2p_title">Avaa peer-to-peer (P2P) lataukset ja tiedostojaot </string>
     <string name="upgrade_p2p_text">Paranna lähetys- ja latausnopeuksiasi samalla kun piilotat IP-osoitteesi.</string>
     <string name="upgrade_profiles_title">Löydä yleisimmät yhteytesi nopeasti</string>
     <string name="upgrade_profiles_text">Avaa profiilit VPN Plussalla</string>
@@ -1164,8 +1164,8 @@
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
     <string name="info_dialog_secure_core_description">Secure Core yhdistää sinut kohdepalvelimeesi toisen, huipputurvallisen VPN-palvelimen välityksellä.\n\nTämä korkeampi suojaustaso voi kasvattaa viivettä ja hidastaa nopeuksia.</string>
-    <string name="info_secure_core_standard_header">Tavallinen VPN-yhteys</string>
-    <string name="info_secure_core_secure_header">Secure Core -VPN-yhteys</string>
+    <string name="info_secure_core_standard_header">Tavallinen VPN -yhteys</string>
+    <string name="info_secure_core_secure_header">Secure Core -VPN -yhteys</string>
     <string name="info_dialog_tor_description">Yhdistä Tor-palvelimeen ja käytä piilotettuja palveluita ja onion-sivustoja millä tahansa selaimella.</string>
     <string name="info_dialog_button_learn_more_tor">Miten Tor-verkkoa käytetään</string>
     <string name="info_dialog_button_learn_more_p2p">Miten torrentoit P2P:llä</string>
