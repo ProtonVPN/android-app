@@ -35,6 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -364,6 +365,7 @@ fun BasicSubSetting(
         SimpleTopAppBar(
             title = { Text(text = title) },
             navigationIcon = { TopAppBarBackIcon(onClose) },
+            backgroundColor = Color.Transparent, // Transparent color for seamless dark/light theme change.
         )
         content()
     }

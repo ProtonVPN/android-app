@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.app.ui
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -87,6 +88,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     private val accountViewModel: AccountViewModel by viewModels()
     private val activityViewModel: MainActivityViewModel by viewModels()
     private val settingsChangeViewModel: SettingsChangeViewModel by viewModels()
+    private lateinit var currentConfiguration: Configuration
 
     @Inject
     lateinit var showUpgradeSuccess: ShowUpgradeSuccess
@@ -134,6 +136,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
             return
         }
 
+        currentConfiguration = resources.configuration
         val splashScreen = installSplashScreen()
         helper.onCreate(accountViewModel)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -264,6 +267,17 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
         super.onNewIntent(intent)
         helper.onNewIntent(accountViewModel)
         processIntent(intent)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val diff = newConfig.diff(currentConfiguration)
+        if (diff and Configuration.UI_MODE_NIGHT_MASK.inv() == 0) {
+            // Night mode handled by Compose UI.
+            currentConfiguration = newConfig
+        } else {
+            recreate()
+        }
     }
 
     fun processIntent(intent: Intent) {
