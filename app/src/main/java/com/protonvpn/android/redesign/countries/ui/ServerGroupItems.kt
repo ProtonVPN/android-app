@@ -95,6 +95,7 @@ private fun ServerGroupItemRow(
     @StringRes rowClickLabel: Int,
     onRowClick: (() -> Unit)?,
     onOpen: (() -> Unit)?,
+    isUnavailable: Boolean,
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit,
 ) {
@@ -118,6 +119,7 @@ private fun ServerGroupItemRow(
                 customActions = customAccessibilityActions
             }
             .thenNotNull(clickable)
+            .unavailableServerAlpha(isUnavailable)
             .padding(start = edgePadding, end = edgePadding.takeIf { onOpen == null } ?: 0.dp)
     ) {
         content()
@@ -163,18 +165,16 @@ fun ServerGroupItem(
         rowClickLabel = item.clickLabel(),
         onRowClick = { onItemClick(item) },
         onOpen = { onItemOpen(item) }.takeIf { item.canOpen },
-        modifier = modifier.heightIn(min = 64.dp)
+        isUnavailable = !item.available || item.data.inMaintenance,
+        modifier = modifier.heightIn(min = 64.dp),
     ) {
-        val alphaModifier = Modifier
-            .unavailableServerAlpha(!item.available || item.data.inMaintenance)
-        item.Icon(alphaModifier.padding(end = 12.dp))
+        item.Icon(Modifier.padding(end = 12.dp))
         Column(
             Modifier
                 .weight(1f)
                 // The row will maintain min height but if text is very large it will expand to accommodate the
                 // contents with this padding.
                 .padding(vertical = 12.dp)
-                .then(alphaModifier)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 val textMatch = item.data.textMatch
@@ -201,7 +201,6 @@ fun ServerGroupItem(
             }
         }
         Box(
-            modifier = alphaModifier,
             contentAlignment = Alignment.CenterEnd,
         ) {
             if (item.data is ServerGroupItemData.Server) {
@@ -464,6 +463,7 @@ private fun ServerGroupItemRowWithOpenPreview() {
                 rowClickLabel = R.string.accessibility_action_connect,
                 onRowClick = {},
                 onOpen = {},
+                isUnavailable = false,
                 modifier = Modifier
                     .heightIn(64.dp)
                     .fillMaxWidth(),
