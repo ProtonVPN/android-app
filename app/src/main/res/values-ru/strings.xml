@@ -234,7 +234,7 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Включен</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Выключен</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Недоступна</string>
-    <string name="custom_dns_item_removed_snackbar">Элемент удален</string>
+    <string name="custom_dns_item_removed_snackbar">Элемент удалён</string>
     <string name="netshield_free_description">Блокирует рекламу, трекеры и вредоносные программы на веб-сайтах и в приложениях</string>
     <string name="netshield_what_data_means">Объяснение статистики NetShield</string>
     <string name="netshield_ads_title">Реклама</string>
@@ -370,7 +370,7 @@
         <item quantity="many">Защитите %1$d устройств одновременно</item>
         <item quantity="other">Защитите %1$d устройств одновременно</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is available on 8 different platforms.</string>
+    <string name="upgrade_devices_text">Proton VPN доступен на 8 различных платформах.</string>
     <string name="upgrade_plus_title">Улучшите свою конфиденциальность</string>
     <string name="upgrade_plus_message">Получите расширенные функции приватности и высокую скорость с VPN Plus.</string>
     <string name="upgrade_netshield_title">Пользуйтесь просмотром веб-страниц без рекламы</string>
@@ -661,7 +661,7 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">Осталось %1$s %2$s</string>
+    <string name="offer_time_left">%1$s %2$s осталось</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
         <item quantity="one">%1$d секунда</item>
@@ -1458,7 +1458,7 @@
     <string name="settings_theme_title">Тема</string>
     <string name="settings_theme_value_auto">Тема устройства</string>
     <string name="settings_theme_value_light">Светлая</string>
-    <string name="settings_theme_value_dark">Темная</string>
+    <string name="settings_theme_value_dark">Тёмная</string>
     <string name="settings_dialog_reconnect">Новые настройки будут применены при следующем подключении.</string>
     <string name="settings_needs_reconnect_banner">Новые настройки будут применены при следующем подключении.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Пользовательская DNS недоступна</string>
@@ -1589,8 +1589,8 @@
     <string name="settings_advanced_ipv6_description">Туннелирует трафик IPv6 через VPN. Может улучшить совместимость с сетями IPv6.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Чтобы использовать этот адрес, вам необходимо разрешить подключения к IPv6 через туннель VPN.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Включить IPv6</string>
-    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 отключен</string>
-    <string name="settings_ipv6_enabled_toast">IPv6 включен</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 отключён</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 включён</string>
     <string name="info_dialog_ipv6_traffic_benefits1">Обеспечивает доступ к веб-сайтам и сервисам, использующим только с IPv6.</string>
     <string name="info_dialog_ipv6_traffic_benefits2">Предотвращает проблемы в сетях, использующих IPv6</string>
     <string name="info_dialog_ipv6_traffic_drawbacks1">Может плохо работать с более старыми сетями или приложениями</string>

@@ -127,7 +127,7 @@
     <string name="inputIpAddressHelp">Syötä palvelimen IPv4- tai IPv6-osoite</string>
     <string name="inputIpAddressErrorInvalid">Virheellinen IP-osoite</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
-    <string name="settings_new_label_badge">UUSI</string>
+    <string name="settings_new_label_badge">UUTTA</string>
     <string name="settingsExcludedIPAddressesListHeader">Poissuljetut IP-osoitteet (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Sisällytetyt IP-osoitteet (%1$d)</string>
     <string name="settingsExcludedApps">Poissuljetut sovellukset</string>
@@ -207,7 +207,7 @@
     <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Asetukset</string>
     <string name="settingsKillSwitchLearnMoreButton">Mikä on tappokytkin?</string>
-    <string name="settingsKillSwitchWarningMain">Kun tappokytkin on käytössä, et voi yhdistää:</string>
+    <string name="settingsKillSwitchWarningMain">Kun tappokytkin on käytössä, et voi yhdistää seuraaviin:</string>
     <string name="settingsKillSwitchWarningPoint1">Websites and apps excluded from your VPN connection through split tunneling</string>
     <string name="settingsKillSwitchWarningPoint2">Lähiverkkosi (LAN) laitteet</string>
     <string name="settingsEnableTelemetryTitle">Jaa anonyymejä käyttötilastoja</string>
@@ -414,8 +414,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Avaa %1$s %2$s <b>VPN Plus</b> -tilauksella.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Kaikki premium Proton-palvelut. Yksi helppo tilaus.</string>
-    <string name="upgrade_unlimited_all_apps_description">Saat täydellisen yksityisyyden suojan Proton Unlimitedilla.</string>
+    <string name="upgrade_unlimited_all_apps_title">Kaikki Protonin premium-palvelut. Yksi helppo tilaus.</string>
+    <string name="upgrade_unlimited_all_apps_description">Hanki täysi yksityisyyden suojaus Proton Unlimitedilla.</string>
     <string name="upgrade_unlimited_more">Ja muuta</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Avaa kaikki maat</string>
     <string name="upgrade_unlimited_vpn_all_features">Kaikki muut VPN Plus -ominaisuudet</string>
@@ -427,15 +427,15 @@
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Turvallinen suoratoisto</string>
     <string name="upgrade_unlimited_vpn_adblocker">Mainos- ja haittaohjelmaesto</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Kaksois-VPN</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">Tuplattu-VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">P2P-tuki</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d oma verkkotunnus</item>
-        <item quantity="other">%1$d omaa verkkotunnusta</item>
+        <item quantity="one">%1$d oma sähköpostiverkkotunnus</item>
+        <item quantity="other">%1$d omaa sähköpostiverkkotunnusta</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
         <item quantity="one">%1$d Mt liite</item>
-        <item quantity="other">%1$d Mt liitteitä</item>
+        <item quantity="other">%1$d Mt liitteet</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
         <item quantity="one">%1$d sähköpostiosoite</item>
@@ -455,7 +455,7 @@
     <string name="upgrade_unlimited_drive_encryption">Salattu tiedostojen tallennustila</string>
     <string name="upgrade_unlimited_drive_storage_size">%1$d Gt tallennustilaa kuville, tiedostoille ja sähköposteille</string>
     <string name="upgrade_unlimited_drive_link_share">Jaa kuvia ja tiedostoja linkin välityksellä</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Edistynyt jakamisen suojaus</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Edistynyt jakosuojaus</string>
     <string name="upgrade_unlimited_drive_version_history">Versiohistoria</string>
     <string name="upgrade_unlimited_pass_manager">Salattu salasanahallinta</string>
     <string name="upgrade_unlimited_pass_logins_aliases">Rajattomasti kirjautumistietoja ja Hide-my-email-aliaksia</string>
@@ -497,7 +497,7 @@
     </plurals>
     <string name="upsell_card_devices_description">Tietoturvaa ja yksityisyyttä kaikilla laitteillasi.</string>
     <string name="upsell_card_netshield_title">NetShield</string>
-    <string name="upsell_card_netshield_description">Estä haittaohjelmia, mainoksia ja seurantoja.</string>
+    <string name="upsell_card_netshield_description">Estä mainoksia, haittaohjelmia ja seurantoja.</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">Lisää VPN-yhteyteesi toinen salauskerros</string>
     <string name="upsell_card_p2p_title">P2P-tuki</string>
@@ -539,9 +539,9 @@
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">Hanki %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Tervetiliaistarjous. Uudistuu automaattisesti hintaan %1$s/kuukausi.</string>
+    <string name="payment_welcome_price_message_monthly">Tervetuliaistarjous. Uudistuu automaattisesti hintaan %1$s/kuukausi.</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Tervetiliaistarjous. Uudistuu automaattisesti hintaan %1$s/vuosi.</string>
+    <string name="payment_welcome_price_message_annual">Tervetuliaistarjous. Uudistuu automaattisesti hintaan %1$s/vuosi.</string>
     <string name="payment_auto_renew_message_monthly">Tilaus uudistuu automaattisesti hintaan %1$s/kuukausi.</string>
     <string name="payment_auto_renew_message_annual">Tilaus uudistuu automaattisesti hintaan %1$s/vuosi.</string>
     <string name="payment_welcome_price_message_monthly_fallback">Tilaus uudistuu automaattisesti kuukausittain</string>
@@ -603,7 +603,7 @@
     <string name="settings_last_connection_title">Edellinen yhteys</string>
     <string name="settings_last_connection_description">Viimeksi käyttämäsi yhteys</string>
     <string name="settings_change_icon_title">Sovelluksen kuvake</string>
-    <string name="settings_change_icon_details">Mukauta miten Proton VPN -sovellus näkyy laitteessasi. Miksi?</string>
+    <string name="settings_change_icon_details">Valitse miten Proton VPN -sovellus näkyy laitteessasi. Miksi?</string>
     <string name="settings_change_icon_confirmation_title">Vaihdetaanko sovelluksen kuvake?</string>
     <string name="settings_change_icon_confirmation_details">Tämän seurauksena Proton VPN suljetaan. Avaa se napauttamalla uutta sovelluskuvaketta.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
@@ -612,7 +612,7 @@
     <string name="settings_widget_selection_title">Kokeile Proton VPN -widgettiä</string>
     <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">Voit lisätä widgetin painamalla ja pitämällä pohjassa mitä tahansa kohtaa aloitusnäytölläsi, ja valitsemalla sitten widget-valikosta %1$s.</string>
+    <string name="setting_widget_selection_additional_description">Lisää widgetti painamalla pitkään mitä tahansa tyhjää kohtaa aloitusnäytölläsi ja etsi sitten widgettivalikosta %1$s.</string>
     <string name="settings_widget_selection_button_title">Lisää widgetti</string>
     <string name="setting_widget_try_title">Kokeile Proton VPN -widgettiä</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -635,7 +635,7 @@
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
-        <item quantity="one">%1$d minuuttia</item>
+        <item quantity="one">%1$d minuutti</item>
         <item quantity="other">%1$d minuuttia</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
@@ -648,7 +648,7 @@
         <item quantity="one">%1$d vuorokausi</item>
         <item quantity="other">%1$d vuorokautta</item>
     </plurals>
-    <string name="server_change_max_reached">Olet saavuttanut tällä erää käytettävissä olevan Free-palvelinvaihtojen enimmäismäärän.</string>
+    <string name="server_change_max_reached">Olet saavuttanut tällä erää käytettävissä olevien Free-palvelinvaihtojen enimmäismäärän.</string>
     <string name="server_change_upsell">Hanki rajattomasti vaihtoja VPN Plussalla</string>
     <string name="server_change_button_title">Vaihda palvelinta</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
@@ -677,8 +677,8 @@
     <string name="whats_new_widget_title">Esittelyssä widgetit</string>
     <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
     <string name="whats_new_add_widget_button">Lisää widgetti</string>
-    <string name="welcome_plus_title">Tervetluoa VPN Plussaan</string>
-    <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja seuraavan tason VPN-mukautuksesta.</string>
+    <string name="welcome_plus_title">Tervetuloa VPN Plussaan</string>
+    <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja uuden tason VPN-mukautuksesta.</string>
     <string name="welcome_plus_feature_security">Edistyneet suojausominaisuudet</string>
     <string name="welcome_unlimited_title">Tervetuloa Proton Unlimitediin</string>
     <string name="welcome_unlimited_description"><![CDATA[Onnittelut! Olet avannut kaikkien Proton-palveluiden premium-tason suojaus- ja suorituskykyominaisuudet, sekä <b>%1$d&#160;Gt</b> kokonaistallennustilaa.<br><br>Nauti Protonin parhaasta yksityisyydestä.]]></string>
@@ -706,8 +706,8 @@
          55 countries
          -->
     <plurals name="welcome_plus_countries">
-        <item quantity="one">%d maasta</item>
-        <item quantity="other">%d maasta</item>
+        <item quantity="one">%d maassa</item>
+        <item quantity="other">%d maassa</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
@@ -810,7 +810,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Nopein maa</string>
-    <string name="fastest_country_excluding_my_country">Nopein maa (kotimaatani lukuun ottamatta)</string>
+    <string name="fastest_country_excluding_my_country">Nopein maa (oma maa pois lukien)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Nopein ilmainen palvelin</string>
     <!-- tag(Redesign_2023)
@@ -1076,7 +1076,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Lataa: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Kuormitus: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1105,10 +1105,10 @@
     <string name="accessibility_close">Sulje</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Oma IP-osoite</string>
-    <string name="connection_details_my_ipv4">Minun Pv4</string>
-    <string name="connection_details_my_ipv6">Minun IPv6</string>
+    <string name="connection_details_my_ipv4">Oma IPv4</string>
+    <string name="connection_details_my_ipv6">Oma IPv6</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_ip">VPN:n IP-osoite</string>
+    <string name="connection_details_vpn_ip">VPN:n IP</string>
     <string name="connection_details_vpn_ip4_6">VPN:n IPv4/IPv6</string>
     <string name="connection_details_vpn_ipv4">VPN:n IPv4</string>
     <string name="connection_details_vpn_ipv6">VPN:n IPv6</string>
@@ -1131,7 +1131,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_question">Mitä palvelimen kuormitus tarkoittaa?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_description">Palvelimen kuormitus osoittaa, kuinka lähellä palvelin on sen enimmäiskapasiteettia. \n\nPalvelimen korkea kuormitus voi hidastaa yhteyttäsi.</string>
+    <string name="connection_details_server_load_description">Palvelimen kuormitus kertoo, miten lähellä enimmäiskapasiteettiaan palvelin on. \n\nKorkea kuormitus voi hidastaa yhteyttäsi.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_title">Matala (1-75 %)</string>
     <!-- tag(Redesign_2023) -->
@@ -1163,23 +1163,23 @@
     <string name="connection_details_vpn_speed_question">Mitä VPN:n nopeus tarkoittaa?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
-    <string name="info_dialog_secure_core_description">Secure Core yhdistää sinut kohdepalvelimeesi toisen, huipputurvallisen VPN-palvelimen välityksellä.\n\nTämä korkeampi suojaustaso voi kasvattaa viivettä ja hidastaa nopeuksia.</string>
-    <string name="info_secure_core_standard_header">Tavallinen VPN -yhteys</string>
-    <string name="info_secure_core_secure_header">Secure Core -VPN -yhteys</string>
+    <string name="info_dialog_secure_core_description">Secure Core yhdistää sinut kohdepalvelimeesi toisen, huipputurvallisen VPN-palvelimen välityksellä.\n\nTämä korkeampi suojaustaso voi kasvattaa viiveitä ja hidastaa nopeuksia.</string>
+    <string name="info_secure_core_standard_header">Tavallinen VPN-yhteys</string>
+    <string name="info_secure_core_secure_header">Secure Core -VPN-yhteys</string>
     <string name="info_dialog_tor_description">Yhdistä Tor-palvelimeen ja käytä piilotettuja palveluita ja onion-sivustoja millä tahansa selaimella.</string>
     <string name="info_dialog_button_learn_more_tor">Miten Tor-verkkoa käytetään</string>
     <string name="info_dialog_button_learn_more_p2p">Miten torrentoit P2P:llä</string>
     <string name="info_dialog_button_learn_more_ipaddress">Mikä on IP-osoite?</string>
-    <string name="info_dialog_button_learn_more_streaming">Tarvitseko apua suoratoiston kanssa?</string>
+    <string name="info_dialog_button_learn_more_streaming">Tarvitseko apua suoratoistossa?</string>
     <string name="info_dialog_streaming_title">Suoratoisto</string>
     <string name="info_dialog_streaming_description">Suoratoistopalvelimet on suunniteltu nopeaan ja turvalliseen sarjojen ja elokuvien toistoon.</string>
-    <string name="info_dialog_how_to_stream">Suoratoisto-ohje:</string>
+    <string name="info_dialog_how_to_stream">Suoratoisto-opas:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Mene puhelimesi asetuksiin ja poista sijaintipalvelut käytöstä</string>
+    <string name="info_dialog_how_to_stream_step_1">Avaa puhelimesi asetukset ja poista sijaintipalvelut käytöstä</string>
     <!-- item 2 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_2">Käynnistä suoratoistopalvelusi uudelleen</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Yhdistä mihin tahansa Plus-palvelimeen ja aloita suoratoistaminen</string>
+    <string name="info_dialog_how_to_stream_step_3">Yhdistä mihin tahansa Plus-palvelimeen ja aloita suoratoisto</string>
     <string name="info_dialog_profiles_title">Profiilit</string>
     <string name="info_dialog_ipaddress_title">IP-osoite</string>
     <string name="info_dialog_ipv6_traffic_title">IPv6-tietoliikenne</string>
@@ -1322,7 +1322,7 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Oma tili</string>
     <string name="settings_account_button_delete_account">Poista tili</string>
-    <string name="settings_custom_dns_title">Mukautettu DNS</string>
+    <string name="settings_custom_dns_title">Vaihtoehtoinen DNS</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Lisää uusi DNS-palvelin</string>
     <string name="settings_add_dns_new_entry_button">Lisää</string>
@@ -1360,13 +1360,13 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Valitsee automaattisesti yhteydellesi sopivimman protokollan.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Uusinta tekniikkaa hyödyntävä turvallisuus- ja suorituskykyprotokolla.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Uusinta tekniikkaa hyödyntävä turvallisuus- ja suorituskykyprotokolla.</string>
+    <string name="settings_protocol_wireguard_udp_description">Huippumoderni suojaus- ja suorituskykyprotokolla.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Huippumoderni suojaus- ja suorituskykyprotokolla.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Vakiintunut, hyvin testattu ja turvallinen. OpenVPN:n virrankulutus ei ole yhtä hyvä kuin joidenkin muiden protokollien.</string>
     <string name="settings_protocol_openvpn_tcp_description">Vakiintunut, hyvin testattu ja turvallinen. OpenVPN on luotettava huonoissakin verkko-olosuhteissa, muttei välttämättä saavuta muiden porotokollien nopeuksia.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Kiertää VPN-estot piilottamalla VPN-yhteytesi sensuureilta. Tämä protokolla on DPI-vastustuskykyinen (Deep Packet Inspection), mutta ei välttämättä yhtä nopea kuin muut protokollat. Stealth on Proton VPN:n yksinoikeus.</string>
+    <string name="settings_protocol_stealth_description">Kiertää VPN-estot piilottamalla VPN-yhteytesi sensuureilta. Tämä protokolla on DPI-vastustuskykyinen (syvä pakettitarkastus), muttei välttämättä yhtä nopea kuin muut protokollat. Stealth on Proton VPN:n oma protokolla.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Suositus</string>
     <string name="settings_split_tunneling_mode_title">Tila</string>
@@ -1389,18 +1389,18 @@
     <string name="settings_theme_value_dark">Tumma</string>
     <string name="settings_dialog_reconnect">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
     <string name="settings_needs_reconnect_banner">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
-    <string name="private_dns_conflict_banner_custom_dns_title">Mukautettu DNS ei ole käytettävissä</string>
-    <string name="private_dns_conflict_banner_custom_dns_description">Laitteesi käyttää kolmannen osapuolen DNS:ää, joka estää Proton VPN:n mukautetun DNS:än toiminnan. Lue lisää</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Vaihtoehtoinen DNS ei ole käytettävissä</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Laitteesi käyttää ulkopuolista DNS:ää, joka estää Proton VPN:n vaihtoehtoisen DNS:än toiminnan. Lue lisää</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield ei ole käytettävissä</string>
     <string name="private_dns_conflict_banner_netshield_description">Laitteesi käyttää kolmannen osapuolen DNS:ää, joka estää NetShieldin toiminnan. Lue lisää</string>
     <string name="private_dns_conflict_banner_network_settings_button">Verkkoasetukset</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield ei ole käytettävissä</string>
-    <string name="custom_dns_conflict_banner_netshield_description">Mukautettu DNS on käytössä, mikä estää NetShieldin toiminnan. Lue lisää</string>
-    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Poista mukautettu DNS käytöstä</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Vaihtoehtoinen DNS on käytössä ja estää NetShieldin toiminnan. Lue lisää</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Poista vaihtoehtoinen DNS käytöstä</string>
     <string name="info_secure_core_standard_high_privacy">Korkeampi yksityisyys</string>
-    <string name="info_secure_core_standard_lower_latency">Matalampi viive</string>
+    <string name="info_secure_core_standard_lower_latency">Matalammat viiveet</string>
     <string name="info_secure_core_advanced_privacy">Edistynyt yksityisyys</string>
-    <string name="info_secure_core_higher_latency">Korkeampi viive</string>
+    <string name="info_secure_core_higher_latency">Korkeammat viiveet</string>
     <string name="info_p2p_what_title">Mitä P2P tarkoittaa?</string>
     <string name="info_p2p_what_description">Peer-to-peer (P2P) -tekniikan avulla voit muodostaa yhteyden ja jakaa tiedostoja suoraan muiden laitteiden kanssa.\n\nP2P-palvelimemme on suunniteltu erityisesti tällaista tiedostojen jakamista varten.</string>
     <string name="info_p2p_torrenting_title">Mitä on torrentointi?</string>
