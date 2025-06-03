@@ -74,7 +74,7 @@ class QuickTileService : TileService() {
 
         val tile = qsTile
         if (tile != null) {
-            tile.icon = Icon.createWithResource(this, R.drawable.ic_vpn_status_information)
+            tile.icon = Icon.createWithResource(this, R.drawable.quick_tile)
             bindToListener()
         }
     }
