@@ -267,7 +267,7 @@
     <string name="netshield_setting_warning">Some websites may not load properly when ads and trackers are blocked.</string>
     <string name="dialogDontShowAgain">Don\'t show again</string>
     <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and Split Tunneling. Please, disable one of those and reboot your device.</string>
+    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
     <string name="errorTorrentNotAllowed">P2P is not allowed on this server</string>
     <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
     <string name="profileProtocolNotAvailable">This profile\'s VPN protocol is currently not available. To connect, try changing the protocol.</string>
@@ -279,7 +279,7 @@
     <string name="nameAfricaAndMiddleEast">Africa &amp; Middle East</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Settings</string>
-    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorite</string>
     <string name="tv_detail_connect_streaming">Stream with Plus</string>
@@ -525,7 +525,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
@@ -1021,7 +1021,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split Tunneling</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
