@@ -31,6 +31,8 @@ import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private const val DEV_SUFFIX = "-dev"
+
 @Singleton
 class VpnApiClient @Inject constructor(
     private val scope: CoroutineScope,
@@ -42,7 +44,7 @@ class VpnApiClient @Inject constructor(
 
     private val clientId get() = if (isTv()) Constants.TV_CLIENT_ID else Constants.MOBILE_CLIENT_ID
     override val appVersionHeader get() =
-        "${clientId}@" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
+        "${clientId}@" + versionName() + BuildConfig.STORE_SUFFIX
     override val enableDebugLogging = BuildConfig.DEBUG || BuildConfig.ALLOW_LOGCAT
     override val shouldUseDoh get() = dohEnabled()
 
@@ -67,6 +69,12 @@ class VpnApiClient @Inject constructor(
             eventForceUpdate.emit(errorMessage)
         }
     }
+
+    private fun versionName(): String =
+        if (!BuildConfig.VERSION_NAME.endsWith(DEV_SUFFIX) && BuildConfig.DEBUG)
+            BuildConfig.VERSION_NAME + DEV_SUFFIX
+        else
+            BuildConfig.VERSION_NAME
 }
 
 private fun String.replaceNonAscii() =
