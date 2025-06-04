@@ -299,8 +299,8 @@
         <!-- nosemgrep: java.android.security.exported_activity -->
         <service
             android:name=".components.QuickTileService"
-            android:icon="@drawable/ic_vpn_status_information"
-            android:label="Quick connect"
+            android:icon="@drawable/quick_tile"
+            android:label="@string/quickConnect"
             android:process=":quick_tile_service"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:exported="true">
