@@ -99,7 +99,7 @@ class ClientConfig : public TunClientFactory
             tun_persist.reset();
     }
 
-    bool supports_proto_v3() override
+    bool supports_epoch_data() override
     {
         return true;
     }

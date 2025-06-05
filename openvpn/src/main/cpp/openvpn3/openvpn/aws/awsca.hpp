@@ -13,6 +13,7 @@
 
 #pragma once
 
+#include <filesystem>
 #include <openvpn/common/fileunix.hpp>
 #include <openvpn/common/stat.hpp>
 
@@ -30,7 +31,8 @@ inline std::string api_ca()
     };
     for (const auto &cert : certs)
     {
-        if (file_exists(cert))
+        std::error_code ec;
+        if (std::filesystem::exists(cert, ec))
             return read_text_unix(cert);
     }
     throw file_unix_error("No CA certificate files found in system paths");

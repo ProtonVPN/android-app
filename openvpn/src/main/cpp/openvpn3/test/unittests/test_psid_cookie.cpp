@@ -79,7 +79,7 @@ class PsidCookieTest : public testing::Test
         : dummy_io_context(1), pcfg(new ProtoContext::ProtoConfig())
     {
         std::string tls_key_fn = UNITTEST_SOURCE_DIR "/input/psid_cookie_tls.key";
-        pcfg->tls_key.parse_from_file(tls_key_fn);
+        pcfg->tls_auth_key.parse_from_file(tls_key_fn);
         pcfg->tls_auth_factory.reset(new CryptoOvpnHMACFactory<SSLLib::CryptoAPI>());
         pcfg->set_tls_auth_digest(CryptoAlgs::lookup("SHA256"));
         pcfg->now = &now;
@@ -128,7 +128,7 @@ TEST_F(PsidCookieTest, check_setup)
     EXPECT_TRUE(start == *pci_dut->now_);
 
     // spot check other aspects of successful pci_dut creation
-    EXPECT_TRUE(pci_dut->pcfg_.tls_key.defined());
+    EXPECT_TRUE(pci_dut->pcfg_.tls_auth_key.defined());
     EXPECT_FALSE(pci_dut->not_tls_auth_mode_);
 }
 

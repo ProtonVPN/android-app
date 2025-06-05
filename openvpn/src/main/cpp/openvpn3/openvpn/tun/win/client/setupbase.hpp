@@ -24,10 +24,11 @@
 #include <openvpn/common/destruct.hpp>
 #include <openvpn/common/stop.hpp>
 #include <openvpn/tun/builder/capture.hpp>
-
+#include <openvpn/tun/client/tunbase.hpp>
 #include <openvpn/tun/win/ringbuffer.hpp>
 
 namespace openvpn::TunWin {
+
 struct SetupBase : public DestructorBase
 {
     typedef RCPtr<SetupBase> Ptr;
@@ -63,6 +64,11 @@ struct SetupBase : public DestructorBase
     virtual Util::TapNameGuidPair get_adapter_state() = 0;
 
     virtual void set_adapter_state(const Util::TapNameGuidPair &state) = 0;
+
+    virtual DWORD vpn_interface_index() const
+    {
+        return INVALID_ADAPTER_INDEX;
+    }
 };
 
 struct SetupFactory : public RC<thread_unsafe_refcount>

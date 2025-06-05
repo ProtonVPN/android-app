@@ -9,7 +9,11 @@
         "lz4",
         "openssl",
         "tap-windows6",
-        "xxhash"
+        "xxhash",
+        {
+            "name": "pkgconf",
+            "host": true
+        }
     ]
 }
 

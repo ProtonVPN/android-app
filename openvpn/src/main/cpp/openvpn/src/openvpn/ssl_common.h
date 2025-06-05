@@ -84,22 +84,25 @@
 #define S_INITIAL         1     /**< Initial \c key_state state after
                                  *   initialization by \c key_state_init()
                                  *   before start of three-way handshake. */
-#define S_PRE_START       2     /**< Waiting for the remote OpenVPN peer
+#define S_PRE_START_SKIP  2     /**< Waiting for the remote OpenVPN peer
                                  *   to acknowledge during the initial
                                  *   three-way handshake. */
-#define S_START           3     /**< Three-way handshake is complete,
+#define S_PRE_START       3     /**< Waiting for the remote OpenVPN peer
+                                 *   to acknowledge during the initial
+                                 *   three-way handshake. */
+#define S_START           4     /**< Three-way handshake is complete,
                                  *   start of key exchange. */
-#define S_SENT_KEY        4     /**< Local OpenVPN process has sent its
+#define S_SENT_KEY        5     /**< Local OpenVPN process has sent its
                                  *   part of the key material. */
-#define S_GOT_KEY         5     /**< Local OpenVPN process has received
+#define S_GOT_KEY         6     /**< Local OpenVPN process has received
                                  *   the remote's part of the key
                                  *   material. */
-#define S_ACTIVE          6     /**< Operational \c key_state state
+#define S_ACTIVE          7     /**< Operational \c key_state state
                                  *   immediately after negotiation has
                                  *   completed while still within the
                                  *   handshake window.  Deferred auth and
                                  *   client connect can still be pending. */
-#define S_GENERATED_KEYS  7     /**< The data channel keys have been generated
+#define S_GENERATED_KEYS  8     /**< The data channel keys have been generated
                                  *  The TLS session is fully authenticated
                                  *  when reaching this state. */
 
@@ -315,7 +318,6 @@ struct tls_options
 
     /* from command line */
     bool single_session;
-    bool disable_occ;
     int mode;
     bool pull;
     /**
@@ -363,10 +365,15 @@ struct tls_options
 
     int replay_window;                 /* --replay-window parm */
     int replay_time;                   /* --replay-window parm */
-    bool tcp_mode;
 
     const char *config_ciphername;
     const char *config_ncp_ciphers;
+
+    /** whether our underlying data channel supports new data channel
+     * features (epoch keys with AEAD tag at the end). This is always true
+     * for the internal implementation but can be false for DCO
+     * implementations */
+    bool data_epoch_supported;
 
     bool tls_crypt_v2;
     const char *tls_crypt_v2_verify_script;
@@ -497,8 +504,6 @@ struct tls_session
      */
     int key_id;
 
-    int limit_next;             /* used for traffic shaping on the control channel */
-
     int verify_maxlevel;
 
     char *common_name;
@@ -625,7 +630,16 @@ struct tls_multi
      * Our locked common name, username, and cert hashes (cannot change during the life of this tls_multi object)
      */
     char *locked_cn;
+
+    /** The locked username is the username we assume the client is using.
+     * Normally the username used for initial authentication unless
+     * overridden by --override-username */
     char *locked_username;
+
+    /** The username that client initially used before being overridden
+     * by --override-user */
+    char *locked_original_username;
+
     struct cert_hash_set *locked_cert_hash_set;
 
     /** Time of last when we updated the cached state of

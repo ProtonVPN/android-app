@@ -80,7 +80,7 @@ inline BufferPtr compress_gzip(BufferPtr src,
         if (status != Z_OK)
             OPENVPN_THROW(zlib_error, "zlib deflateinit2 failed, error=" << status);
         const uLong outcap = ::deflateBound(&zs.s, src->size());
-        auto b = BufferAllocatedRc::Create(outcap + headroom + tailroom, 0);
+        auto b = BufferAllocatedRc::Create(outcap + headroom + tailroom, BufAllocFlags::NO_FLAGS);
         b->init_headroom(headroom);
         zs.s.next_out = b->data();
         zs.s.avail_out = numeric_cast<decltype(zs.s.avail_out)>(outcap);
@@ -128,7 +128,7 @@ inline BufferPtr decompress_gzip(BufferPtr src,
         {
             // use headroom/tailroom on first block to take advantage
             // of BufferList::join() optimization for one-block lists
-            auto b = BufferAllocatedRc::Create(block_size + hr + tr, 0);
+            auto b = BufferAllocatedRc::Create(block_size + hr + tr, BufAllocFlags::NO_FLAGS);
             b->init_headroom(hr);
             const size_t avail = b->remaining(tr);
             zs.s.next_out = b->data();

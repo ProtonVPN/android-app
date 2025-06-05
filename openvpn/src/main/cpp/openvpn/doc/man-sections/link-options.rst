@@ -106,7 +106,13 @@ the local and the remote host.
   is not reliable. It is recommended to set tun-mtu with enough headroom
   instead.
 
---local host|* [port]
+--local args
+
+  Valid syntax:
+  ::
+
+     local host|* [port] [protocol]
+
   Local host name or IP address and port for bind. If specified, OpenVPN will bind
   to this address. If unspecified, OpenVPN will bind to all interfaces.
   '*' can be used as hostname and means 'any host' (OpenVPN will listen on what
@@ -122,7 +128,9 @@ the local and the remote host.
 
 --lport port
   Set default TCP/UDP port number. Cannot be used together with
-  ``--nobind`` option.
+  ``--nobind`` option.  A port number of ``0`` is only honoured to
+  achieve "bind() to a random assigned port number" if a bind-to IP
+  address is specified with ``--local``.
 
 --mark value
   Mark encrypted packets being sent with ``value``. The mark value can be

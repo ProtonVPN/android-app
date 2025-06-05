@@ -455,7 +455,7 @@ class ClientConnect : ClientProto::NotifyCallback,
 
 
     template <typename ErrorClass>
-    void add_error_and_stop(const int error_code, const std::string &fatal_reason)
+    void add_error_and_stop(const Error::Type error_code, const std::string &fatal_reason)
     {
         ClientEvent::Base::Ptr ev = new ErrorClass{fatal_reason};
         client_options->events().add_event(std::move(ev));
@@ -464,7 +464,7 @@ class ClientConnect : ClientProto::NotifyCallback,
     }
 
     template <typename ErrorClass>
-    void add_error_and_stop(const int error_code)
+    void add_error_and_stop(const Error::Type error_code)
     {
         ClientEvent::Base::Ptr ev = new ErrorClass{};
         client_options->events().add_event(std::move(ev));
@@ -618,7 +618,7 @@ class ClientConnect : ClientProto::NotifyCallback,
         }
     }
 
-    void handle_auth_failed(const int error_code, const std::string &reason)
+    void handle_auth_failed(const Error::Type error_code, const std::string &reason)
     {
         if (ChallengeResponse::is_dynamic(reason)) // dynamic challenge/response?
         {

@@ -8,12 +8,17 @@ package de.blinkt.openvpn.core;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.*;
+import android.os.Build;
 import android.provider.Settings;
+import android.text.TextUtils;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Vector;
+
+import de.blinkt.openvpn.R;
 
 public class NetworkUtils {
 
@@ -25,6 +30,7 @@ public class NetworkUtils {
         for (Network network : networks) {
             NetworkInfo ni = conn.getNetworkInfo(network);
             LinkProperties li = conn.getLinkProperties(network);
+
             NetworkCapabilities nc = conn.getNetworkCapabilities(network);
 
             // Ignore network if it has no capabilities
@@ -39,19 +45,20 @@ public class NetworkUtils {
             if (nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
                 continue;
 
-            Vector<String> candidateNets = new Vector<>();
+
             for (LinkAddress la : li.getLinkAddresses()) {
-                InetAddress ipaddress = la.getAddress();
-                if ((ipaddress instanceof Inet4Address && !ipv6) || (ipaddress instanceof Inet6Address && ipv6)) {
-                    if (IPUtilsKt.isPrivateOnlyAddress(la.toString()))
-                        candidateNets.add(la.toString());
-                    else {
-                        VpnStatus.logInfo("Ignoring LAN (public range): " + la);
-                    }
+                if ((la.getAddress() instanceof Inet4Address && !ipv6) ||
+                        (la.getAddress() instanceof Inet6Address && ipv6)) {
+                        //nets.add(la.toString());
+                    NetworkSpace.IpAddress ipaddress;
+                    if (la.getAddress() instanceof Inet6Address)
+                        ipaddress = new NetworkSpace.IpAddress((Inet6Address) la.getAddress(), la.getPrefixLength(), true);
+                    else
+                        ipaddress = new NetworkSpace.IpAddress(new CIDRIP(la.getAddress().getHostAddress(), la.getPrefixLength()), true);
+
+                    nets.add(ipaddress.toString());
                 }
             }
-
-            nets.addAll(candidateNets);
         }
 
         return nets;

@@ -11,8 +11,9 @@
 
 #pragma once
 
-#include <limits>
+#include <chrono>
 #include <cstdint> // for std::uint32_t, uint64_t
+#include <limits>
 
 #include <openvpn/common/platform.hpp>
 #include <openvpn/common/exception.hpp>

@@ -71,9 +71,7 @@ class MacGatewayInfo
         /* setup data to send to routing socket */
         int seq = 0;
 
-        struct rtmsg m_rtmsg
-        {
-        };
+        struct rtmsg m_rtmsg{};
 
         m_rtmsg.m_rtm.rtm_type = RTM_GET;
         m_rtmsg.m_rtm.rtm_flags = RTF_UP;

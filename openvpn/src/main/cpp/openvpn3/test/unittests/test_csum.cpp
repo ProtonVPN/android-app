@@ -31,7 +31,7 @@ std::uint16_t ip_checksum_slow(const void *ip, size_t size)
 TEST(misc, stress_csum)
 {
     RandomAPI::Ptr prng(new MTRand);
-    BufferAllocated buf(256, 0);
+    BufferAllocated buf(256);
 
     for (long i = 0; i < 1000000; ++i)
     {

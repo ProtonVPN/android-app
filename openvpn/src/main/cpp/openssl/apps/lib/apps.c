@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2024 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2025 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -47,6 +47,9 @@
 #include <openssl/core_names.h>
 #include "s_apps.h"
 #include "apps.h"
+
+#include "internal/sockets.h" /* for openssl_fdset() */
+#include "internal/e_os.h"
 
 #ifdef _WIN32
 static int WIN32_rename(const char *from, const char *to);
@@ -189,7 +192,11 @@ int set_nameopt(const char *arg)
 unsigned long get_nameopt(void)
 {
     return
-        nmflag_set ? nmflag : XN_FLAG_SEP_CPLUS_SPC | ASN1_STRFLGS_UTF8_CONVERT;
+        nmflag_set ? nmflag : XN_FLAG_SEP_CPLUS_SPC | XN_FLAG_FN_SN
+                              | ASN1_STRFLGS_ESC_CTRL
+                              | ASN1_STRFLGS_UTF8_CONVERT
+                              | ASN1_STRFLGS_DUMP_UNKNOWN
+                              | ASN1_STRFLGS_DUMP_DER;
 }
 
 void dump_cert_text(BIO *out, X509 *x)
@@ -895,11 +902,15 @@ static const char *format2string(int format)
         return "PEM";
     case FORMAT_ASN1:
         return "DER";
+    case FORMAT_PVK:
+        return "PVK";
+    case FORMAT_MSBLOB:
+        return "MSBLOB";
     }
     return NULL;
 }
 
-/* Set type expectation, but clear it if objects of different types expected. */
+/* Set type expectation, but set to 0 if objects of multiple types expected. */
 #define SET_EXPECT(val) \
     (expect = expect < 0 ? (val) : (expect == (val) ? (val) : 0))
 #define SET_EXPECT1(pvar, val) \
@@ -907,6 +918,7 @@ static const char *format2string(int format)
         *(pvar) = NULL; \
         SET_EXPECT(val); \
     }
+/* Provide (error msg) text for some of the credential types to be loaded. */
 #define FAIL_NAME \
     (ppkey != NULL ? "private key" : ppubkey != NULL ? "public key" :  \
      pparams != NULL ? "key parameters" :                              \
@@ -914,7 +926,9 @@ static const char *format2string(int format)
      pcrl != NULL ? "CRL" : pcrls != NULL ? "CRLs" : NULL)
 /*
  * Load those types of credentials for which the result pointer is not NULL.
- * Reads from stdio if uri is NULL and maybe_stdin is nonzero.
+ * Reads from stdin if 'uri' is NULL and 'maybe_stdin' is nonzero.
+ * 'format' parameter may be FORMAT_PEM, FORMAT_ASN1, or 0 for no hint.
+ * desc may contain more detail on the credential(s) to be loaded for error msg
  * For non-NULL ppkey, pcert, and pcrl the first suitable value found is loaded.
  * If pcerts is non-NULL and *pcerts == NULL then a new cert list is allocated.
  * If pcerts is non-NULL then all available certificates are appended to *pcerts
@@ -942,24 +956,38 @@ int load_key_certs_crls(const char *uri, int format, int maybe_stdin,
     OSSL_PARAM itp[2];
     const OSSL_PARAM *params = NULL;
 
+    /* 'failed' describes type of credential to load for potential error msg */
     if (failed == NULL) {
         if (!quiet)
-            BIO_printf(bio_err, "Internal error: nothing to load from %s\n",
+            BIO_printf(bio_err, "Internal error: nothing was requested to load from %s\n",
                        uri != NULL ? uri : "<stdin>");
         return 0;
     }
+    /* suppress any extraneous errors left over from failed parse attempts */
     ERR_set_mark();
 
     SET_EXPECT1(ppkey, OSSL_STORE_INFO_PKEY);
     SET_EXPECT1(ppubkey, OSSL_STORE_INFO_PUBKEY);
     SET_EXPECT1(pparams, OSSL_STORE_INFO_PARAMS);
     SET_EXPECT1(pcert, OSSL_STORE_INFO_CERT);
+    /*
+     * Up to here, the follwing holds.
+     * If just one of the ppkey, ppubkey, pparams, and pcert function parameters
+     * is nonzero, expect > 0 indicates which type of credential is expected.
+     * If expect == 0, more than one of them is nonzero (multiple types expected).
+     */
+
     if (pcerts != NULL) {
         if (*pcerts == NULL && (*pcerts = sk_X509_new_null()) == NULL) {
             if (!quiet)
                 BIO_printf(bio_err, "Out of memory loading");
             goto end;
         }
+        /*
+         * Adapt the 'expect' variable:
+         * set to OSSL_STORE_INFO_CERT if no other type is expected so far,
+         * otherwise set to 0 (indicating that multiple types are expected).
+         */
         SET_EXPECT(OSSL_STORE_INFO_CERT);
     }
     SET_EXPECT1(pcrl, OSSL_STORE_INFO_CRL);
@@ -969,6 +997,11 @@ int load_key_certs_crls(const char *uri, int format, int maybe_stdin,
                 BIO_printf(bio_err, "Out of memory loading");
             goto end;
         }
+        /*
+         * Adapt the 'expect' variable:
+         * set to OSSL_STORE_INFO_CRL if no other type is expected so far,
+         * otherwise set to 0 (indicating that multiple types are expected).
+         */
         SET_EXPECT(OSSL_STORE_INFO_CRL);
     }
 
@@ -1008,6 +1041,7 @@ int load_key_certs_crls(const char *uri, int format, int maybe_stdin,
             BIO_printf(bio_err, "Could not open file or uri for loading");
         goto end;
     }
+    /* expect == 0 means here multiple types of credentials are to be loaded */
     if (expect > 0 && !OSSL_STORE_expect(ctx, expect)) {
         if (!quiet)
             BIO_printf(bio_err, "Internal error trying to load");
@@ -1015,6 +1049,8 @@ int load_key_certs_crls(const char *uri, int format, int maybe_stdin,
     }
 
     failed = NULL;
+    /* from here, failed != NULL only if actually an error has been detected */
+
     while ((ppkey != NULL || ppubkey != NULL || pparams != NULL
             || pcert != NULL || pcerts != NULL || pcrl != NULL || pcrls != NULL)
            && !OSSL_STORE_eof(ctx)) {
@@ -1084,7 +1120,7 @@ int load_key_certs_crls(const char *uri, int format, int maybe_stdin,
             ncrls += ok;
             break;
         default:
-            /* skip any other type */
+            /* skip any other type; ok stays == 1 */
             break;
         }
         OSSL_STORE_INFO_free(info);
@@ -1098,18 +1134,22 @@ int load_key_certs_crls(const char *uri, int format, int maybe_stdin,
 
  end:
     OSSL_STORE_close(ctx);
-    if (ncerts > 0)
-        pcerts = NULL;
-    if (ncrls > 0)
-        pcrls = NULL;
+
+    /* see if any of the requested types of credentials was not found */
     if (failed == NULL) {
+        if (ncerts > 0)
+            pcerts = NULL;
+        if (ncrls > 0)
+            pcrls = NULL;
         failed = FAIL_NAME;
         if (failed != NULL && !quiet)
             BIO_printf(bio_err, "Could not find");
     }
+
     if (failed != NULL && !quiet) {
         unsigned long err = ERR_peek_last_error();
 
+        /* continue the error message with the type of credential affected */
         if (desc != NULL && strstr(desc, failed) != NULL) {
             BIO_printf(bio_err, " %s", desc);
         } else {
@@ -1718,6 +1758,9 @@ CA_DB *load_index(const char *dbfile, DB_ATTR *db_attr)
     }
 
     retdb->dbfname = OPENSSL_strdup(dbfile);
+    if (retdb->dbfname == NULL)
+        goto err;
+
 #ifndef OPENSSL_NO_POSIX_IO
     retdb->dbst = dbst;
 #endif
@@ -2184,7 +2227,7 @@ int check_cert_attributes(BIO *bio, X509 *x, const char *checkhost,
         if (print)
             BIO_printf(bio, "Hostname %s does%s match certificate\n",
                        checkhost, valid_host == 1 ? "" : " NOT");
-        ret = ret && valid_host;
+        ret = ret && valid_host > 0;
     }
 
     if (checkemail != NULL) {
@@ -2192,7 +2235,7 @@ int check_cert_attributes(BIO *bio, X509 *x, const char *checkhost,
         if (print)
             BIO_printf(bio, "Email %s does%s match certificate\n",
                        checkemail, valid_mail ? "" : " NOT");
-        ret = ret && valid_mail;
+        ret = ret && valid_mail > 0;
     }
 
     if (checkip != NULL) {
@@ -2200,7 +2243,7 @@ int check_cert_attributes(BIO *bio, X509 *x, const char *checkhost,
         if (print)
             BIO_printf(bio, "IP %s does%s match certificate\n",
                        checkip, valid_ip ? "" : " NOT");
-        ret = ret && valid_ip;
+        ret = ret && valid_ip > 0;
     }
 
     return ret;
@@ -2483,18 +2526,24 @@ static STACK_OF(X509_CRL) *crls_http_cb(const X509_STORE_CTX *ctx,
     crldp = X509_get_ext_d2i(x, NID_crl_distribution_points, NULL, NULL);
     crl = load_crl_crldp(crldp);
     sk_DIST_POINT_pop_free(crldp, DIST_POINT_free);
-    if (!crl) {
-        sk_X509_CRL_free(crls);
-        return NULL;
-    }
-    sk_X509_CRL_push(crls, crl);
+
+    if (crl == NULL || !sk_X509_CRL_push(crls, crl))
+        goto error;
+
     /* Try to download delta CRL */
     crldp = X509_get_ext_d2i(x, NID_freshest_crl, NULL, NULL);
     crl = load_crl_crldp(crldp);
     sk_DIST_POINT_pop_free(crldp, DIST_POINT_free);
-    if (crl)
-        sk_X509_CRL_push(crls, crl);
+
+    if (crl != NULL && !sk_X509_CRL_push(crls, crl))
+        goto error;
+
     return crls;
+
+error:
+    X509_CRL_free(crl);
+    sk_X509_CRL_free(crls);
+    return NULL;
 }
 
 void store_setup_crl_download(X509_STORE *st)
@@ -3193,6 +3242,32 @@ BIO *bio_open_default_quiet(const char *filename, char mode, int format)
     return bio_open_default_(filename, mode, format, 1);
 }
 
+int mem_bio_to_file(BIO *in, const char *filename, int format, int private)
+{
+    int rv = 0, ret = 0;
+    BIO *out = NULL;
+    BUF_MEM *mem_buffer = NULL;
+
+    rv = BIO_get_mem_ptr(in, &mem_buffer);
+    if (rv <= 0) {
+        BIO_puts(bio_err, "Error reading mem buffer\n");
+        goto end;
+    }
+    out = bio_open_owner(filename, format, private);
+    if (out == NULL)
+        goto end;
+    rv = BIO_write(out, mem_buffer->data, mem_buffer->length);
+    if (rv < 0 || (size_t)rv != mem_buffer->length)
+        BIO_printf(bio_err, "Error writing to output file: '%s'\n", filename);
+    else
+        ret = 1;
+end:
+    if (!ret)
+        ERR_print_errors(bio_err);
+    BIO_free_all(out);
+    return ret;
+}
+
 void wait_for_async(SSL *s)
 {
     /* On Windows select only works for sockets, so we simply don't wait  */
@@ -3464,6 +3539,7 @@ int opt_legacy_okay(void)
 {
     int provider_options = opt_provider_option_given();
     int libctx = app_get0_libctx() != NULL || app_get0_propq() != NULL;
+
     /*
      * Having a provider option specified or a custom library context or
      * property query, is a sure sign we're not using legacy.

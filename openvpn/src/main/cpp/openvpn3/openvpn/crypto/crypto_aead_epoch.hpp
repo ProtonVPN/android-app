@@ -66,7 +66,7 @@ class Crypto : public CryptoDCInstance
         auto &encrypt_ctx = dce.encrypt();
 
         /* header of the packet. op32 (opcode + peer-id) + 8 byte of epoch + epoch counter */
-        BufferAllocated pkt_header{4 + 8, 0};
+        BufferAllocated pkt_header{4 + 8};
 
         pkt_header.write(op32, 4);
         encrypt_ctx.pid.write_next(pkt_header);
@@ -113,7 +113,7 @@ class Crypto : public CryptoDCInstance
 
         // Reconstruct header since we don't get the continuous memory that we received from wire but already
         // split into op32 and the rest of the packet.
-        BufferAllocated pkt_header{4 + 8, 0};
+        BufferAllocated pkt_header{4 + 8};
         pkt_header.write(op32, 4);
         auto *packet_id = pkt_header.write_alloc(8);
         buf.read(packet_id, 8);

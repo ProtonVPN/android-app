@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2024 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2025 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved
  * Copyright 2005 Nokia. All rights reserved.
  *
@@ -8,6 +8,8 @@
  * in the file LICENSE in the source distribution or at
  * https://www.openssl.org/source/license.html
  */
+
+#include "internal/e_os.h"
 
 #include <ctype.h>
 #include <stdio.h>
@@ -22,6 +24,7 @@
 #include <openssl/async.h>
 #include <openssl/ssl.h>
 #include <openssl/decoder.h>
+#include "internal/sockets.h" /* for openssl_fdset() */
 
 #ifndef OPENSSL_NO_SOCK
 
@@ -206,7 +209,9 @@ static int psk_find_session_cb(SSL *ssl, const unsigned char *identity,
     }
 
     if (psksess != NULL) {
-        SSL_SESSION_up_ref(psksess);
+        if (!SSL_SESSION_up_ref(psksess))
+            return 0;
+
         *sess = psksess;
         return 1;
     }
@@ -1754,9 +1759,9 @@ int s_server_main(int argc, char *argv[])
         goto end;
     }
 #endif
-    if (early_data && (www > 0 || rev)) {
+    if (early_data && rev) {
         BIO_printf(bio_err,
-                   "Can't use -early_data in combination with -www, -WWW, -HTTP, or -rev\n");
+                   "Can't use -early_data in combination with -rev\n");
         goto end;
     }
 
@@ -3153,7 +3158,7 @@ static int www_body(int s, int stype, int prot, unsigned char *context)
     int i, j, k, dot;
     SSL *con;
     const SSL_CIPHER *c;
-    BIO *io, *ssl_bio, *sbio;
+    BIO *io, *ssl_bio, *sbio, *edio;
 #ifdef RENEG
     int total_bytes = 0;
 #endif
@@ -3175,7 +3180,8 @@ static int www_body(int s, int stype, int prot, unsigned char *context)
     p = buf = app_malloc(bufsize + 1, "server www buffer");
     io = BIO_new(BIO_f_buffer());
     ssl_bio = BIO_new(BIO_f_ssl());
-    if ((io == NULL) || (ssl_bio == NULL))
+    edio = BIO_new(BIO_s_mem());
+    if ((io == NULL) || (ssl_bio == NULL) || (edio == NULL))
         goto err;
 
     if (s_nbio) {
@@ -3235,6 +3241,12 @@ static int www_body(int s, int stype, int prot, unsigned char *context)
         goto err;
 
     io = BIO_push(filter, io);
+
+    filter = BIO_new(BIO_f_ebcdic_filter());
+    if (filter == NULL)
+        goto err;
+
+    edio = BIO_push(filter, edio);
 #endif
 
     if (s_debug) {
@@ -3251,8 +3263,35 @@ static int www_body(int s, int stype, int prot, unsigned char *context)
         SSL_set_msg_callback_arg(con, bio_s_msg ? bio_s_msg : bio_s_out);
     }
 
+    if (early_data) {
+        int edret = SSL_READ_EARLY_DATA_ERROR;
+        size_t readbytes;
+
+        while (edret != SSL_READ_EARLY_DATA_FINISH) {
+            for (;;) {
+                edret = SSL_read_early_data(con, buf, bufsize, &readbytes);
+                if (edret != SSL_READ_EARLY_DATA_ERROR)
+                    break;
+
+                switch (SSL_get_error(con, 0)) {
+                case SSL_ERROR_WANT_WRITE:
+                case SSL_ERROR_WANT_ASYNC:
+                case SSL_ERROR_WANT_READ:
+                    /* Just keep trying - busy waiting */
+                    continue;
+                default:
+                    BIO_printf(bio_err, "Error reading early data\n");
+                    ERR_print_errors(bio_err);
+                    goto err;
+                }
+            }
+            if (readbytes > 0)
+                BIO_write(edio, buf, (int)readbytes);
+        }
+    }
+
     for (;;) {
-        i = BIO_gets(io, buf, bufsize + 1);
+        i = BIO_gets(!BIO_eof(edio) ? edio : io, buf, bufsize + 1);
         if (i < 0) {            /* error */
             if (!BIO_should_retry(io) && !SSL_waiting_for_async(con)) {
                 if (!s_quiet)
@@ -3592,6 +3631,7 @@ static int www_body(int s, int stype, int prot, unsigned char *context)
     OPENSSL_free(buf);
     BIO_free(ssl_bio);
     BIO_free_all(io);
+    BIO_free_all(edio);
     return ret;
 }
 

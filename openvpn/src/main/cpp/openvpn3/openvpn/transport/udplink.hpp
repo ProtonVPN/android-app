@@ -209,7 +209,7 @@ class UDPLink : public RC<thread_unsafe_refcount>
         std::unique_ptr<AsioEndpoint> ep;
         if (endpoint)
             ep.reset(new AsioEndpoint(*endpoint));
-        gremlin->send_queue([self = Ptr(this), buf = BufferAllocatedRc(buf, 0), ep = std::move(ep)]() mutable
+        gremlin->send_queue([self = Ptr(this), buf = BufferAllocated(buf), ep = std::move(ep)]() mutable
                             {
 	    if (!self->halt)
 	      self->do_send(buf, ep.get()); });

@@ -59,6 +59,7 @@
 #include <openvpn/tun/win/client/tunsetup.hpp>
 #include <openvpn/win/npinfo.hpp>
 #include <openvpn/win/handlecomm.hpp>
+#include <openvpn/win/cancelable_handle.hpp>
 
 void log_version()
 {
@@ -215,7 +216,7 @@ class MyListener : public WS::Server::Listener
             remote_tap_handle_hex.clear();
             client_process.close();
             client_confirm_event.close();
-            client_destroy_event.close();
+            client_destroy_event.cancel_and_close();
         }
         catch (const std::exception &e)
         {
@@ -310,7 +311,7 @@ class MyListener : public WS::Server::Listener
 
     void set_client_destroy_event(const std::string &event_handle_hex)
     {
-        client_destroy_event.close();
+        client_destroy_event.cancel_and_close();
 
         // Move the remote event HANDLE (already duplicated in remote process)
         // to local process.
@@ -330,21 +331,7 @@ class MyListener : public WS::Server::Listener
         client_destroy_event.assign(event_handle);
 
         // Check if the event is already signaled, or has some other error
-        {
-            const DWORD status = ::WaitForSingleObject(client_destroy_event.native_handle(), 0);
-            const Win::LastError err;
-            switch (status)
-            {
-            case WAIT_TIMEOUT: // expected status
-                break;
-            case WAIT_OBJECT_0:
-                throw Exception("set_client_destroy_event: destroy event is already signaled");
-            case WAIT_ABANDONED:
-                throw Exception("set_client_destroy_event: destroy event is abandoned");
-            default:
-                OPENVPN_THROW_EXCEPTION("set_client_destroy_event: WaitForSingleObject failed: " << err.message());
-            }
-        }
+        client_destroy_event.check_is_already_signalled();
 
         // normal event-based tun close processing
         client_destroy_event.async_wait([self = Ptr(this)](const openvpn_io::error_code &error)
@@ -521,7 +508,7 @@ class MyListener : public WS::Server::Listener
     TunWin::Setup::Ptr tun;
     openvpn_io::windows::object_handle client_process;
     openvpn_io::windows::object_handle client_confirm_event;
-    openvpn_io::windows::object_handle client_destroy_event;
+    CancelableHandle client_destroy_event;
     std::string remote_tap_handle_hex;
     openvpn_io::io_context &io_context_;
 

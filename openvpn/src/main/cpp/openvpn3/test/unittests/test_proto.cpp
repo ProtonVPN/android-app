@@ -344,7 +344,7 @@ class TestProto : public ProtoContextCallbackInterface
     {
     }
 
-    bool supports_proto_v3() override
+    bool supports_epoch_data() override
     {
         return true;
     }
@@ -374,7 +374,7 @@ class TestProto : public ProtoContextCallbackInterface
     {
         proto_context.start();
         const size_t msglen = std::strlen(msg) + 1;
-        BufferAllocated app_buf((unsigned char *)msg, msglen, 0);
+        BufferAllocated app_buf((unsigned char *)msg, msglen, BufAllocFlags::NO_FLAGS);
         copy_progress(app_buf);
         control_send(std::move(app_buf));
         proto_context.flush(true);
@@ -384,7 +384,7 @@ class TestProto : public ProtoContextCallbackInterface
     {
         proto_context.start();
         const size_t msglen = std::strlen(msg) + 1;
-        templ = BufferAllocatedRc::Create((unsigned char *)msg, msglen, 0);
+        templ = BufferAllocatedRc::Create((unsigned char *)msg, msglen, BufAllocFlags::NO_FLAGS);
         proto_context.flush(true);
     }
 
@@ -505,7 +505,7 @@ class TestProto : public ProtoContextCallbackInterface
         if (disable_xmit_)
             return;
         net_bytes_ += net_buf.size();
-        net_out.push_back(BufferAllocatedRc::Create(net_buf, 0));
+        net_out.push_back(BufferAllocatedRc::Create(net_buf, BufAllocFlags::NO_FLAGS));
     }
 
     void control_recv(BufferPtr &&app_bp) override
@@ -887,11 +887,13 @@ static auto create_client_ssl_config(Frame::Ptr frame, ClientRandomAPI::Ptr rng,
     return cc;
 }
 
-static auto create_client_proto_context(ClientSSLAPI::Config::Ptr cc, Frame::Ptr frame, ClientRandomAPI::Ptr rng, MySessionStats::Ptr cli_stats, Time &time)
+static auto create_client_proto_context(ClientSSLAPI::Config::Ptr cc, Frame::Ptr frame, ClientRandomAPI::Ptr rng, MySessionStats::Ptr cli_stats, Time &time, const std::string &tls_crypt_v2_key_fn = "")
 
 {
-    const std::string tls_crypt_v2_client_key = read_text(TEST_KEYCERT_DIR "tls-crypt-v2-client.key");
     const std::string tls_auth_key = read_text(TEST_KEYCERT_DIR "tls-auth.key");
+    const std::string tls_crypt_v2_client_key = tls_crypt_v2_key_fn.empty()
+                                                    ? read_text(TEST_KEYCERT_DIR "tls-crypt-v2-client.key")
+                                                    : read_text(TEST_KEYCERT_DIR + tls_crypt_v2_key_fn);
 
     // client ProtoContext config
     typedef ProtoContext ClientProtoContext;
@@ -916,13 +918,13 @@ static auto create_client_proto_context(ClientSSLAPI::Config::Ptr cc, Frame::Ptr
 
 #ifdef USE_TLS_AUTH
     cp->tls_auth_factory.reset(new CryptoOvpnHMACFactory<ClientCryptoAPI>());
-    cp->tls_key.parse(tls_auth_key);
+    cp->tls_auth_key.parse(tls_auth_key);
     cp->set_tls_auth_digest(CryptoAlgs::lookup(PROTO_DIGEST));
     cp->key_direction = 0;
 #endif
 #ifdef USE_TLS_CRYPT
     cp->tls_crypt_factory.reset(new CryptoTLSCryptFactory<ClientCryptoAPI>());
-    cp->tls_key.parse(tls_auth_key);
+    cp->tls_crypt_key.parse(tls_auth_key);
     cp->set_tls_crypt_algs();
     cp->tls_crypt_ = ProtoContext::ProtoConfig::TLSCrypt::V1;
 #endif
@@ -932,7 +934,7 @@ static auto create_client_proto_context(ClientSSLAPI::Config::Ptr cc, Frame::Ptr
     {
         TLSCryptV2ClientKey tls_crypt_v2_key(cp->tls_crypt_context);
         tls_crypt_v2_key.parse(tls_crypt_v2_client_key);
-        tls_crypt_v2_key.extract_key(cp->tls_key);
+        tls_crypt_v2_key.extract_key(cp->tls_crypt_key);
         tls_crypt_v2_key.extract_wkc(cp->wkc);
     }
     cp->tls_crypt_ = ProtoContext::ProtoConfig::TLSCrypt::V2;
@@ -969,12 +971,16 @@ static auto create_client_proto_context(ClientSSLAPI::Config::Ptr cc, Frame::Ptr
 }
 
 // execute the unit test in one thread
-int test(const int thread_num, bool use_tls_ekm, bool tls_version_mismatch)
+int test(const int thread_num,
+         bool use_tls_ekm,
+         bool tls_version_mismatch,
+         const std::string &tls_crypt_v2_key_fn = "",
+         bool use_tls_auth_with_tls_crypt_v2 = false)
 {
     try
     {
         // frame
-        Frame::Ptr frame(new Frame(Frame::Context(128, 378, 128, 0, 16, 0)));
+        Frame::Ptr frame(new Frame(Frame::Context(128, 378, 128, 0, 16, BufAllocFlags::NO_FLAGS)));
 
         // RNG
         ClientRandomAPI::Ptr prng_cli(new ClientRandomAPI());
@@ -991,13 +997,15 @@ int test(const int thread_num, bool use_tls_ekm, bool tls_version_mismatch)
         const std::string server_key = read_text(TEST_KEYCERT_DIR "server.key");
         const std::string dh_pem = read_text(TEST_KEYCERT_DIR "dh.pem");
         const std::string tls_auth_key = read_text(TEST_KEYCERT_DIR "tls-auth.key");
-        const std::string tls_crypt_v2_server_key = read_text(TEST_KEYCERT_DIR "tls-crypt-v2-server.key");
+        const std::string tls_crypt_v2_server_key = tls_crypt_v2_key_fn.empty()
+                                                        ? read_text(TEST_KEYCERT_DIR "tls-crypt-v2-server.key")
+                                                        : "";
 
         // client config
         ClientSSLAPI::Config::Ptr cc = create_client_ssl_config(frame, prng_cli, tls_version_mismatch);
         MySessionStats::Ptr cli_stats(new MySessionStats);
 
-        auto cp = create_client_proto_context(std::move(cc), frame, prng_cli, cli_stats, time);
+        auto cp = create_client_proto_context(std::move(cc), frame, prng_cli, cli_stats, time, tls_crypt_v2_key_fn);
         if (use_tls_ekm)
             cp->dc.set_key_derivation(CryptoAlgs::KeyDerivation::TLS_EKM);
 
@@ -1040,26 +1048,39 @@ int test(const int thread_num, bool use_tls_ekm, bool tls_version_mismatch)
             sp->dc.set_key_derivation(CryptoAlgs::KeyDerivation::TLS_EKM);
 #ifdef USE_TLS_AUTH
         sp->tls_auth_factory.reset(new CryptoOvpnHMACFactory<ServerCryptoAPI>());
-        sp->tls_key.parse(tls_auth_key);
+        sp->tls_auth_key.parse(tls_auth_key);
         sp->set_tls_auth_digest(CryptoAlgs::lookup(PROTO_DIGEST));
         sp->key_direction = 1;
 #endif
 #if defined(USE_TLS_CRYPT)
         sp->tls_crypt_factory.reset(new CryptoTLSCryptFactory<ClientCryptoAPI>());
-        sp->tls_key.parse(tls_auth_key);
+        sp->tls_crypt_key.parse(tls_auth_key);
         sp->set_tls_crypt_algs();
         cp->tls_crypt_ = ProtoContext::ProtoConfig::TLSCrypt::V1;
 #endif
 #ifdef USE_TLS_CRYPT_V2
         sp->tls_crypt_factory.reset(new CryptoTLSCryptFactory<ClientCryptoAPI>());
+
+        if (tls_crypt_v2_key_fn.empty())
         {
             TLSCryptV2ServerKey tls_crypt_v2_key;
             tls_crypt_v2_key.parse(tls_crypt_v2_server_key);
-            tls_crypt_v2_key.extract_key(sp->tls_key);
+            tls_crypt_v2_key.extract_key(sp->tls_crypt_key);
         }
+
         sp->set_tls_crypt_algs();
         sp->tls_crypt_metadata_factory.reset(new CryptoTLSCryptMetadataFactory());
         sp->tls_crypt_ = ProtoContext::ProtoConfig::TLSCrypt::V2;
+        sp->tls_crypt_v2_serverkey_id = !tls_crypt_v2_key_fn.empty();
+        sp->tls_crypt_v2_serverkey_dir = TEST_KEYCERT_DIR;
+
+        if (use_tls_auth_with_tls_crypt_v2)
+        {
+            sp->tls_auth_factory.reset(new CryptoOvpnHMACFactory<ServerCryptoAPI>());
+            sp->tls_auth_key.parse(tls_auth_key);
+            sp->set_tls_auth_digest(CryptoAlgs::lookup(PROTO_DIGEST));
+            sp->key_direction = 1;
+        }
 #endif
 #if defined(HANDSHAKE_WINDOW)
         sp->handshake_window = Time::Duration::seconds(HANDSHAKE_WINDOW);
@@ -1176,12 +1197,17 @@ int test(const int thread_num, bool use_tls_ekm, bool tls_version_mismatch)
     return 0;
 }
 
-int test_retry(const int thread_num, const int n_retries, bool use_tls_ekm)
+int test_retry(const int thread_num,
+               const int n_retries,
+               bool use_tls_ekm,
+               bool tls_version_mismatch = false,
+               const std::string &tls_crypt_v2_key_fn = "",
+               bool use_tls_auth_with_tls_crypt_v2 = false)
 {
     int ret = 1;
     for (int i = 0; i < n_retries; ++i)
     {
-        ret = test(thread_num, use_tls_ekm, false);
+        ret = test(thread_num, use_tls_ekm, tls_version_mismatch, tls_crypt_v2_key_fn, use_tls_auth_with_tls_crypt_v2);
         if (!ret)
             return 0;
         std::cout << "Retry " << (i + 1) << '/' << n_retries << std::endl;
@@ -1248,6 +1274,26 @@ TEST_F(ProtoUnitTest, base_single_thread_tls_version_mismatch)
 {
     int ret = test(1, false, true);
     EXPECT_NE(ret, 0);
+}
+#endif
+
+#ifdef USE_TLS_CRYPT_V2
+TEST_F(ProtoUnitTest, base_single_thread_tls_crypt_v2_with_embedded_serverkey)
+{
+    int ret = test_retry(1, N_RETRIES, false, false, "tls-crypt-v2-client-with-serverkey.key");
+    EXPECT_EQ(ret, 0);
+}
+
+TEST_F(ProtoUnitTest, base_single_thread_tls_crypt_v2_with_missing_embedded_serverkey)
+{
+    int ret = test(1, false, false, "tls-crypt-v2-client-with-missing-serverkey.key");
+    EXPECT_NE(ret, 0);
+}
+
+TEST_F(ProtoUnitTest, base_single_thread_tls_crypt_v2_with_tls_auth_also_active)
+{
+    int ret = test_retry(1, N_RETRIES, false, false, "tls-crypt-v2-client-with-serverkey.key", true);
+    EXPECT_EQ(ret, 0);
 }
 #endif
 
@@ -1428,7 +1474,7 @@ TEST(proto, client_proto_check_cc_msg)
 {
     asio::io_context io_context;
     ClientRandomAPI::Ptr rng_cli(new ClientRandomAPI());
-    Frame::Ptr frame(new Frame(Frame::Context(128, 378, 128, 0, 16, 0)));
+    Frame::Ptr frame(new Frame(Frame::Context(128, 378, 128, 0, 16, BufAllocFlags::NO_FLAGS)));
     MySessionStats::Ptr cli_stats(new MySessionStats);
     Time time;
 

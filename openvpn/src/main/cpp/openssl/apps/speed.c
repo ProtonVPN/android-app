@@ -26,6 +26,7 @@
 
 /* We need to use some deprecated APIs */
 #define OPENSSL_SUPPRESS_DEPRECATED
+#include "internal/e_os.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -514,13 +515,13 @@ static double sigs_results[MAX_SIG_NUM][3];  /* keygen, sign, verify */
 #define COND(unused_cond) (run && count < (testmode ? 1 : INT_MAX))
 #define COUNT(d) (count)
 
-#define TAG_LEN 16
+#define TAG_LEN 16 /* 16 bytes tag length works for all AEAD modes */
+#define AEAD_IVLEN 12 /* 12 bytes iv length works for all AEAD modes */
 
 static unsigned int mode_op; /* AE Mode of operation */
 static unsigned int aead = 0; /* AEAD flag */
-static unsigned char aead_iv[12]; /* For AEAD modes */
+static unsigned char aead_iv[AEAD_IVLEN]; /* For AEAD modes */
 static unsigned char aad[EVP_AEAD_TLS1_AAD_LEN] = { 0xcc };
-static int aead_ivlen = sizeof(aead_iv);
 
 typedef struct loopargs_st {
     ASYNC_JOB *inprogress_job;
@@ -931,7 +932,7 @@ static int EVP_Update_loop_aead_enc(void *args)
         /* Set length of iv (Doesn't apply to SIV mode) */
         if (mode_op != EVP_CIPH_SIV_MODE) {
             if (!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_AEAD_SET_IVLEN,
-                                     aead_ivlen, NULL)) {
+                                     sizeof(aead_iv), NULL)) {
                 BIO_printf(bio_err, "\nFailed to set iv length\n");
                 dofail();
                 exit(1);
@@ -1003,7 +1004,7 @@ static int EVP_Update_loop_aead_dec(void *args)
         /* Set the length of iv (Doesn't apply to SIV mode) */
         if (mode_op != EVP_CIPH_SIV_MODE) {
             if (!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_AEAD_SET_IVLEN,
-                                     aead_ivlen, NULL)) {
+                                     sizeof(aead_iv), NULL)) {
                 BIO_printf(bio_err, "\nFailed to set iv length\n");
                 dofail();
                 exit(1);
@@ -1816,9 +1817,9 @@ static void collect_kem(EVP_KEM *kem, void *stack)
     STACK_OF(EVP_KEM) *kem_stack = stack;
 
     if (is_kem_fetchable(kem)
-            && sk_EVP_KEM_push(kem_stack, kem) > 0) {
-        EVP_KEM_up_ref(kem);
-    }
+            && EVP_KEM_up_ref(kem)
+            && sk_EVP_KEM_push(kem_stack, kem) <= 0)
+        EVP_KEM_free(kem); /* up-ref successful but push to stack failed */
 }
 
 static int kem_locate(const char *algo, unsigned int *idx)
@@ -1848,8 +1849,9 @@ static void collect_signatures(EVP_SIGNATURE *sig, void *stack)
     STACK_OF(EVP_SIGNATURE) *sig_stack = stack;
 
     if (is_signature_fetchable(sig)
-            && sk_EVP_SIGNATURE_push(sig_stack, sig) > 0)
-        EVP_SIGNATURE_up_ref(sig);
+            && EVP_SIGNATURE_up_ref(sig)
+            && sk_EVP_SIGNATURE_push(sig_stack, sig) <= 0)
+        EVP_SIGNATURE_free(sig); /* up-ref successful but push to stack failed */
 }
 
 static int sig_locate(const char *algo, unsigned int *idx)
@@ -3013,7 +3015,7 @@ int speed_main(int argc, char **argv)
                         if (mode_op != EVP_CIPH_SIV_MODE) {
                             if (!EVP_CIPHER_CTX_ctrl(loopargs[k].ctx,
                                                      EVP_CTRL_AEAD_SET_IVLEN,
-                                                     aead_ivlen, NULL)) {
+                                                     sizeof(aead_iv), NULL)) {
                                 BIO_printf(bio_err, "\nFailed to set iv length\n");
                                 dofail();
                                 exit(1);
@@ -3231,7 +3233,7 @@ int speed_main(int argc, char **argv)
                 && EVP_PKEY_CTX_set_rsa_keygen_bits(genctx, rsa_keys[testnum].bits) > 0
                 && EVP_PKEY_CTX_set1_rsa_keygen_pubexp(genctx, bn) > 0
                 && EVP_PKEY_CTX_set_rsa_keygen_primes(genctx, primes) > 0
-                && EVP_PKEY_keygen(genctx, &rsa_key);
+                && EVP_PKEY_keygen(genctx, &rsa_key) > 0;
             BN_free(bn);
             bn = NULL;
             EVP_PKEY_CTX_free(genctx);

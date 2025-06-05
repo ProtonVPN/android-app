@@ -1184,7 +1184,7 @@ class BestGateway
 
     static ULONG get_iface_metric(std::map<NET_IFINDEX, ULONG> &metric_per_iface, NET_IFINDEX iface, ADDRESS_FAMILY af)
     {
-        if (metric_per_iface.find(iface) == metric_per_iface.end())
+        if (!metric_per_iface.contains(iface))
         {
             MIB_IPINTERFACE_ROW ir{};
             ir.InterfaceIndex = iface;

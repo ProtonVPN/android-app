@@ -75,7 +75,7 @@ class NTLM
         std::memset(md4_hash + 16, 0, 5); // pad to 21 bytes
 
         // decode phase_2_response from base64 to raw data
-        BufferAllocated response(phase_2_response.size(), 0);
+        BufferAllocated response(phase_2_response.size());
         base64->decode(response, phase_2_response);
 
         if (response.size() < 32)

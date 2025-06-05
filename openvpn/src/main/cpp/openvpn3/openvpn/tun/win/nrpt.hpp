@@ -36,6 +36,7 @@
 #include <sstream>
 #include <vector>
 #include <array>
+#include <algorithm>
 
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/string.hpp>
@@ -125,15 +126,17 @@ class Nrpt
     /**
      * Set NRPT exclude rules to accompany a catch all rule. This is done so that
      * local resolution of names is not interfered with in case the VPN resolves
-     * all names. Exclude rules are only installed if the DNS settings came in via
-     * --dns options, to keep backwards compatibility.
+     * all names. Exclude rules are only created when no search domain matches to
+     * local domain to deal with situations where look-ups should go via VPN, but
+     * exclude rules prevent this.
      *
-     * @param process_id    the process id used for the rules
+     * @param process_id      the process id used for the rules
+     * @param search_domains  search domains to compare local domains to
      */
-    static void create_exclude_rules(DWORD process_id)
+    static void create_exclude_rules(DWORD process_id, const std::vector<std::wstring> &search_domains)
     {
         std::uint32_t n = 0;
-        const auto data = collect_exclude_rule_data();
+        const auto data = collect_exclude_rule_data(search_domains);
         for (const auto &exclude : data)
         {
             const auto id = exclude_rule_id(process_id, n++);
@@ -266,11 +269,14 @@ class Nrpt
      *
      * This data is only necessary if all the domains are to be resolved through
      * the VPN. To not break resolving local DNS names, we add so called exclude rules
-     * to the NRPT for as long as the tunnel persists.
+     * to the NRPT for as long as the tunnel persists. If a local domain matches one of
+     * the pushed search domains, skip it, so that look-ups are performed via VPN.
+     *
+     * @param sd  search domains to compare local domains to
      *
      * @return std::vector<ExcludeRuleData> The data collected to create exclude rules from.
      */
-    static std::vector<ExcludeRuleData> collect_exclude_rule_data()
+    static std::vector<ExcludeRuleData> collect_exclude_rule_data(const std::vector<std::wstring> &sd)
     {
         std::vector<ExcludeRuleData> data;
         typename REG::Key itfs(REG::subkey_ipv4_itfs);
@@ -284,7 +290,7 @@ class Nrpt
             }
 
             std::wstring domain = interface_dns_domain<REG>(itf_guid);
-            if (domain.empty())
+            if (domain.empty() || std::find(sd.begin(), sd.end(), domain) != sd.end())
             {
                 continue;
             }
@@ -387,12 +393,14 @@ class Nrpt
     {
       public:
         ActionCreate(DWORD process_id,
-                     const std::vector<std::string> &domains,
+                     const std::vector<std::string> &split_domains,
                      const std::vector<std::string> &dns_servers,
+                     const std::vector<std::wstring> &search_domains,
                      bool dnssec)
             : process_id_(process_id),
-              domains_(domains),
+              split_domains_(split_domains),
               dns_servers_(dns_servers),
+              search_domains_(search_domains),
               dnssec_(dnssec)
         {
         }
@@ -410,17 +418,17 @@ class Nrpt
         {
             // Convert domains into a wide MULTI_SZ string
             std::wstring domains;
-            if (domains_.empty())
+            if (split_domains_.empty())
             {
                 // --dns options did not specify any domains to resolve.
                 domains = L".";
                 domains.push_back(L'\0');
                 domains.push_back(L'\0');
-                create_exclude_rules(process_id_);
+                create_exclude_rules(process_id_, search_domains_);
             }
             else
             {
-                domains = wstring::pack_string_vector(domains_);
+                domains = wstring::pack_string_vector(split_domains_);
             }
 
             const std::string id = rule_id(process_id_);
@@ -439,7 +447,7 @@ class Nrpt
             std::ostringstream os;
             os << "NRPT::ActionCreate"
                << " pid=[" << process_id_ << "]"
-               << " domains=[" << string::join(domains_, ",") << "]"
+               << " domains=[" << string::join(split_domains_, ",") << "]"
                << " dns_servers=[" << string::join(dns_servers_, ",") << "]"
                << " dnssec=[" << dnssec_ << "]";
             return os.str();
@@ -447,8 +455,9 @@ class Nrpt
 
       private:
         DWORD process_id_;
-        const std::vector<std::string> domains_;
+        const std::vector<std::string> split_domains_;
         const std::vector<std::string> dns_servers_;
+        const std::vector<std::wstring> search_domains_;
         const bool dnssec_;
     };
 

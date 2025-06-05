@@ -64,7 +64,7 @@ inline void verify(const OpenSSLPKI::X509 &cert,
         throw Exception("OpenSSLSign::verify: no public key");
 
     // convert signature from base64 to binary
-    BufferAllocated binsig(1024, 0);
+    BufferAllocated binsig(1024);
     try
     {
         base64->decode(binsig, sig);

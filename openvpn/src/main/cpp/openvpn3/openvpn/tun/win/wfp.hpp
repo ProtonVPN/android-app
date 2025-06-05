@@ -153,6 +153,7 @@ class WFP : public RC<thread_unsafe_refcount>
         All,
         AllButLocalDns,
         Dns,
+        DnsButAllowLocal,
     };
 
     class ActionBase;
@@ -374,19 +375,21 @@ class WFP : public RC<thread_unsafe_refcount>
         filter.weight.type = FWP_EMPTY;
         filter.numFilterConditions = 1;
         condition[0] = match_not_loopback;
-        if (block_type == Block::Dns)
+        std::string dns_str;
+        if (block_type == Block::Dns || block_type == Block::DnsButAllowLocal)
         {
             filter.numFilterConditions = 2;
             condition[1] = match_port_53;
+            dns_str = "DNS ";
         }
         add_filter(&filter, NULL, &filterid);
-        log << "block IPv4 requests from other apps" << std::endl;
+        log << "block IPv4 " << dns_str << "requests from other apps" << std::endl;
 
 
         // Filter #4 -- block IPv6 (DNS) requests, except to loopback, from other apps
         filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V6;
         add_filter(&filter, NULL, &filterid);
-        log << "block IPv6 requests from other apps" << std::endl;
+        log << "block IPv6 " << dns_str << "requests from other apps" << std::endl;
 
 
         // Filter #5 -- allow IPv4 traffic from VPN interface
@@ -403,7 +406,7 @@ class WFP : public RC<thread_unsafe_refcount>
         add_filter(&filter, NULL, &filterid);
         log << "allow IPv6 traffic from TAP" << std::endl;
 
-        if (block_type != Block::AllButLocalDns)
+        if (block_type != Block::AllButLocalDns && block_type != Block::DnsButAllowLocal)
         {
             // Filter #7 -- block IPv4 DNS requests to loopback from other apps
             filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V4;

@@ -351,11 +351,11 @@ TEST(AccCertCheckSsl, SslApiBuilder_ssl_handshake)
     auto server = SslApiBuilder(CreateServerConfig(pvt_key_txt,
                                                    cert_txt,
                                                    cert_txt,
-                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, 0))));
+                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, BufAllocFlags::NO_FLAGS))));
     auto client = SslApiBuilder(CreateClientConfig(pvt_key_txt,
                                                    cert_txt,
                                                    cert_txt,
-                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, 0))));
+                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, BufAllocFlags::NO_FLAGS))));
 
     server.get().start_handshake();
     client.get().start_handshake();
@@ -375,11 +375,11 @@ TEST(AccCertCheckSsl, AccHandshaker_ssl_handshake)
     auto server = AccHandshaker(CreateServerConfig(pvt_key_txt,
                                                    cert_txt,
                                                    cert_txt,
-                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, 0))));
+                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, BufAllocFlags::NO_FLAGS))));
     auto client = AccHandshaker(CreateClientConfig(pvt_key_txt,
                                                    cert_txt,
                                                    cert_txt,
-                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, 0))));
+                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, BufAllocFlags::NO_FLAGS))));
 
     try
     {
@@ -396,11 +396,11 @@ TEST(AccCertCheckSsl, AccHandshaker_ssl_handshake_no_cli_ca)
     auto server = AccHandshaker(CreateServerConfig(pvt_key_txt,
                                                    cert_txt,
                                                    cert_txt,
-                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, 0))));
+                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, BufAllocFlags::NO_FLAGS))));
     auto client = AccHandshaker(CreateClientConfig(pvt_key_txt,
                                                    cert_txt,
                                                    "",
-                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, 0))));
+                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, BufAllocFlags::NO_FLAGS))));
 
     try
     {
@@ -417,11 +417,11 @@ TEST(AccCertCheckSsl, AccHandshaker_ssl_handshake_fail)
     auto server = AccHandshaker(CreateServerConfig(fail_pvt_key_txt,
                                                    fail_cert_txt,
                                                    fail_cert_txt,
-                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, 0))));
+                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, BufAllocFlags::NO_FLAGS))));
     auto client = AccHandshaker(CreateClientConfig(pvt_key_txt,
                                                    cert_txt,
                                                    cert_txt,
-                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, 0))));
+                                                   new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, BufAllocFlags::NO_FLAGS))));
 
     try
     {

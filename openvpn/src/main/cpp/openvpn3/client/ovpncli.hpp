@@ -24,6 +24,7 @@
 #include <openvpn/tun/extern/fw.hpp>
 #include <openvpn/pki/epkibase.hpp>
 #include <openvpn/transport/client/extern/fw.hpp>
+#include <openvpn/error/error.hpp>
 
 namespace openvpn {
 class OptionList;
@@ -763,7 +764,7 @@ class OpenVPNClient : public TunBuilderBase,             // expose tun builder v
     void do_connect_async();
     static Status status_from_exception(const std::exception &);
     void parse_extras(const Config &, EvalConfig &);
-    void external_pki_error(const ExternalPKIRequestBase &, const size_t);
+    void external_pki_error(const ExternalPKIRequestBase &, const Error::Type);
     void process_epki_cert_chain(const ExternalPKICertRequest &);
 
     friend class MyClientEvents;

@@ -36,8 +36,8 @@ static void do_test(const bool grow, const bool verbose)
     const int n_iter = 250000;
 #endif
 
-    const Frame::Context fc(256, 512, 256, 0, sizeof(size_t), grow ? BufAllocFlags::GROW : 0);
-    const Frame::Context fc_big(256, 4096, 256, 0, sizeof(size_t), grow ? BufAllocFlags::GROW : 0);
+    const Frame::Context fc(256, 512, 256, 0, sizeof(size_t), grow ? BufAllocFlags::GROW : BufAllocFlags::NO_FLAGS);
+    const Frame::Context fc_big(256, 4096, 256, 0, sizeof(size_t), grow ? BufAllocFlags::GROW : BufAllocFlags::NO_FLAGS);
 
     if (verbose)
     {
@@ -163,7 +163,7 @@ static void validate_size_test()
     const size_t headroom = 16;
     const size_t tailroom = 0;
     const size_t align_block = 16;
-    const Frame::Context fixed(headroom, payload, tailroom, 0, align_block, 0);
+    const Frame::Context fixed(headroom, payload, tailroom, 0, align_block, BufAllocFlags::NO_FLAGS);
     const Frame::Context grow(headroom, payload, tailroom, 0, align_block, BufAllocFlags::GROW);
     validate_size<PKTSTREAM>(fixed, 2048, false); // succeeds
     validate_size<PKTSTREAM>(fixed, 2049, true);  // exceeded payload, throw

@@ -42,7 +42,9 @@
 #include "ssl_verify.h"
 #include "ssl_ncp.h"
 #include "vlan.h"
+#include "auth_token.h"
 #include <inttypes.h>
+#include <string.h>
 
 #include "memdbg.h"
 
@@ -289,7 +291,7 @@ int_compare_function(const void *key1, const void *key2)
  * Main initialization function, init multi_context object.
  */
 void
-multi_init(struct multi_context *m, struct context *t, bool tcp_mode)
+multi_init(struct multi_context *m, struct context *t)
 {
     int dev = DEV_TYPE_UNDEF;
 
@@ -435,13 +437,12 @@ multi_init(struct multi_context *m, struct context *t, bool tcp_mode)
 
     m->instances = calloc(m->max_clients, sizeof(struct multi_instance *));
 
+    m->top.c2.event_set = t->c2.event_set;
+
     /*
-     * Initialize multi-socket TCP I/O wait object
+     * Initialize multi-socket I/O wait object
      */
-    if (tcp_mode)
-    {
-        m->multi_io = multi_io_init(t->options.max_clients, &m->max_clients);
-    }
+    m->multi_io = multi_io_init(t->options.max_clients, &m->max_clients);
     m->tcp_queue_limit = t->options.tcp_queue_limit;
 
     /*
@@ -549,7 +550,10 @@ setenv_stats(struct multi_context *m, struct context *c)
 {
     if (dco_enabled(&m->top.options))
     {
-        dco_get_peer_stats_multi(&m->top.c1.tuntap->dco, m);
+        if (dco_get_peer_stats_multi(&m->top.c1.tuntap->dco, m, false) < 0)
+        {
+            return;
+        }
     }
 
     setenv_counter(c->c2.es, "bytes_received", c->c2.link_read_bytes + c->c2.dco_read_bytes);
@@ -607,6 +611,7 @@ multi_close_instance(struct multi_context *m,
 
     ASSERT(!mi->halt);
     mi->halt = true;
+    bool is_dgram = proto_is_dgram(mi->context.c2.link_sockets[0]->info.proto);
 
     dmsg(D_MULTI_DEBUG, "MULTI: multi_close_instance called");
 
@@ -665,7 +670,7 @@ multi_close_instance(struct multi_context *m,
             mi->did_iroutes = false;
         }
 
-        if (m->multi_io)
+        if (!is_dgram)
         {
             multi_tcp_dereference_instance(m->multi_io, mi);
         }
@@ -751,7 +756,7 @@ multi_uninit(struct multi_context *m)
  */
 struct multi_instance *
 multi_create_instance(struct multi_context *m, const struct mroute_addr *real,
-                      struct link_socket *ls)
+                      struct link_socket *sock)
 {
     struct gc_arena gc = gc_new();
     struct multi_instance *mi;
@@ -774,7 +779,7 @@ multi_create_instance(struct multi_context *m, const struct mroute_addr *real,
         generate_prefix(mi);
     }
 
-    inherit_context_child(&mi->context, &m->top, ls);
+    inherit_context_child(&mi->context, &m->top, sock);
     if (IS_SIG(&mi->context))
     {
         goto err;
@@ -856,7 +861,10 @@ multi_print_status(struct multi_context *m, struct status_output *so, const int 
 
         if (dco_enabled(&m->top.options))
         {
-            dco_get_peer_stats_multi(&m->top.c1.tuntap->dco, m);
+            if (dco_get_peer_stats_multi(&m->top.c1.tuntap->dco, m, true) < 0)
+            {
+                return;
+            }
         }
 
         if (version == 1)
@@ -1763,8 +1771,7 @@ multi_client_connect_mda(struct multi_context *m,
 }
 
 static void
-multi_client_connect_setenv(struct multi_context *m,
-                            struct multi_instance *mi)
+multi_client_connect_setenv(struct multi_instance *mi)
 {
     struct gc_arena gc = gc_new();
 
@@ -1878,9 +1885,15 @@ multi_client_set_protocol_options(struct context *c)
     char *push_cipher = ncp_get_best_cipher(o->ncp_ciphers, peer_info,
                                             tls_multi->remote_ciphername,
                                             &o->gc);
-
     if (push_cipher)
     {
+        /* Enable epoch data key format if supported and AEAD cipher in use */
+        if (tls_multi->session[TM_ACTIVE].opt->data_epoch_supported
+            && (proto & IV_PROTO_DATA_EPOCH) && cipher_kt_mode_aead(push_cipher))
+        {
+            o->imported_protocol_flags |= CO_EPOCH_DATA_KEY_FORMAT;
+        }
+
         o->ciphername = push_cipher;
         return true;
     }
@@ -2553,7 +2566,7 @@ multi_client_connect_early_setup(struct multi_context *m,
     /* do --client-connect setenvs */
     multi_select_virtual_addr(m, mi);
 
-    multi_client_connect_setenv(m, mi);
+    multi_client_connect_setenv(mi);
 }
 
 /**
@@ -2646,7 +2659,7 @@ multi_client_connect_source_ccd(struct multi_context *m,
              */
             multi_select_virtual_addr(m, mi);
 
-            multi_client_connect_setenv(m, mi);
+            multi_client_connect_setenv(mi);
 
             ret = CC_RET_SUCCEEDED;
         }
@@ -2669,6 +2682,66 @@ static const multi_client_connect_handler client_connect_handlers[] = {
     NULL,
 };
 
+/**
+ * Overrides the locked username with the username of --override-username
+ * @param mi the multi instance that should be modified.
+ */
+static bool
+override_locked_username(struct multi_instance *mi)
+{
+    struct tls_multi *multi = mi->context.c2.tls_multi;
+    struct options *options = &mi->context.options;
+    struct tls_session *session = &multi->session[TM_ACTIVE];
+
+    if (!multi->locked_username)
+    {
+        msg(D_MULTI_ERRORS, "MULTI: Ignoring override-username as no "
+            "user/password method is enabled. Enable "
+            "--management-client-auth, --auth-user-pass-verify, or a "
+            "plugin with user/password verify capability.");
+        return false;
+    }
+
+    if (!multi->locked_original_username
+        && strcmp(multi->locked_username, options->override_username) != 0)
+    {
+        /* Check if the username length is acceptable */
+        if (!ssl_verify_username_length(session, options->override_username))
+        {
+            return false;
+        }
+
+        multi->locked_original_username = multi->locked_username;
+        multi->locked_username = strdup(options->override_username);
+
+        /* Override also the common name if username should be set as common
+         * name */
+        if ((session->opt->ssl_flags & SSLF_USERNAME_AS_COMMON_NAME))
+        {
+            set_common_name(session, multi->locked_username);
+            free(multi->locked_cn);
+            multi->locked_cn = NULL;
+            tls_lock_common_name(multi);
+        }
+
+        /* Regenerate the auth-token if enabled */
+        if (multi->auth_token_initial)
+        {
+            struct user_pass up;
+            CLEAR(up);
+            strncpynt(up.username, multi->locked_username,
+                      sizeof(up.username));
+
+            generate_auth_token(&up, multi);
+        }
+
+        msg(D_MULTI_LOW, "MULTI: Note, override-username changes username "
+            "from '%s' to '%s'",
+            multi->locked_original_username,
+            multi->locked_username);
+    }
+    return true;
+}
 /*
  * Called as soon as the SSL/TLS connection is authenticated.
  *
@@ -2770,6 +2843,14 @@ multi_connection_established(struct multi_context *m, struct multi_instance *mi)
         }
 
         (*cur_handler_index)++;
+    }
+
+    if (mi->context.options.override_username)
+    {
+        if (!override_locked_username(mi))
+        {
+            cc_succeeded = false;
+        }
     }
 
     /* Check if we have forbidding options in the current mode */
@@ -2918,7 +2999,6 @@ static void
 multi_bcast(struct multi_context *m,
             const struct buffer *buf,
             const struct multi_instance *sender_instance,
-            const struct mroute_addr *sender_addr,
             uint16_t vid)
 {
     struct hash_iterator hi;
@@ -3133,7 +3213,7 @@ multi_process_post(struct multi_context *m, struct multi_instance *mi, const uns
 
 void
 multi_process_float(struct multi_context *m, struct multi_instance *mi,
-                    struct link_socket *ls)
+                    struct link_socket *sock)
 {
     struct mroute_addr real = {0};
     struct hash *hash = m->hash;
@@ -3189,7 +3269,7 @@ multi_process_float(struct multi_context *m, struct multi_instance *mi,
     mi->context.c2.to_link_addr = &mi->context.c2.from;
 
     /* inherit parent link_socket and link_socket_info */
-    mi->context.c2.link_sockets[0] = ls;
+    mi->context.c2.link_sockets[0] = sock;
     mi->context.c2.link_socket_infos[0]->lsa->actual = m->top.c2.from;
 
     tls_update_remote_addr(mi->context.c2.tls_multi, &mi->context.c2.from);
@@ -3228,7 +3308,8 @@ multi_signal_instance(struct multi_context *m, struct multi_instance *mi, const 
 }
 #endif
 
-#if defined(ENABLE_DCO) && (defined(TARGET_LINUX) || defined(TARGET_FREEBSD))
+#if defined(ENABLE_DCO) \
+    && (defined(TARGET_LINUX) || defined(TARGET_FREEBSD) || defined(TARGET_WIN32))
 static void
 process_incoming_del_peer(struct multi_context *m, struct multi_instance *mi,
                           dco_context_t *dco)
@@ -3339,7 +3420,7 @@ multi_process_incoming_dco(struct multi_context *m)
  */
 bool
 multi_process_incoming_link(struct multi_context *m, struct multi_instance *instance,
-                            const unsigned int mpp_flags, struct link_socket *ls)
+                            const unsigned int mpp_flags, struct link_socket *sock)
 {
     struct gc_arena gc = gc_new();
 
@@ -3360,7 +3441,7 @@ multi_process_incoming_link(struct multi_context *m, struct multi_instance *inst
 #ifdef MULTI_DEBUG_EVENT_LOOP
         printf("TCP/UDP -> TUN [%d]\n", BLEN(&m->top.c2.buf));
 #endif
-        multi_set_pending(m, multi_get_create_instance_udp(m, &floated, ls));
+        multi_set_pending(m, multi_get_create_instance_udp(m, &floated, sock));
     }
     else
     {
@@ -3394,14 +3475,14 @@ multi_process_incoming_link(struct multi_context *m, struct multi_instance *inst
             /* decrypt in instance context */
 
             perf_push(PERF_PROC_IN_LINK);
-            lsi = get_link_socket_info(c);
+            lsi = &sock->info;
             orig_buf = c->c2.buf.data;
             if (process_incoming_link_part1(c, lsi, floated))
             {
                 /* nonzero length means that we have a valid, decrypted packed */
                 if (floated && c->c2.buf.len > 0)
                 {
-                    multi_process_float(m, m->pending, ls);
+                    multi_process_float(m, m->pending, sock);
                 }
 
                 process_incoming_link_part2(c, lsi, orig_buf);
@@ -3445,7 +3526,7 @@ multi_process_incoming_link(struct multi_context *m, struct multi_instance *inst
                     if (mroute_flags & MROUTE_EXTRACT_MCAST)
                     {
                         /* for now, treat multicast as broadcast */
-                        multi_bcast(m, &c->c2.to_tun, m->pending, NULL, 0);
+                        multi_bcast(m, &c->c2.to_tun, m->pending, 0);
                     }
                     else /* possible client to client routing */
                     {
@@ -3497,8 +3578,7 @@ multi_process_incoming_link(struct multi_context *m, struct multi_instance *inst
                         {
                             if (mroute_flags & (MROUTE_EXTRACT_BCAST|MROUTE_EXTRACT_MCAST))
                             {
-                                multi_bcast(m, &c->c2.to_tun, m->pending, NULL,
-                                            vid);
+                                multi_bcast(m, &c->c2.to_tun, m->pending, vid);
                             }
                             else /* try client-to-client routing */
                             {
@@ -3591,7 +3671,7 @@ multi_process_incoming_tun(struct multi_context *m, const unsigned int mpp_flags
             if (mroute_flags & (MROUTE_EXTRACT_BCAST|MROUTE_EXTRACT_MCAST))
             {
                 /* for now, treat multicast as broadcast */
-                multi_bcast(m, &m->top.c2.buf, NULL, NULL, vid);
+                multi_bcast(m, &m->top.c2.buf, NULL, vid);
             }
             else
             {
@@ -3763,7 +3843,7 @@ gremlin_flood_clients(struct multi_context *m)
 
         for (i = 0; i < parm.n_packets; ++i)
         {
-            multi_bcast(m, &buf, NULL, NULL, 0);
+            multi_bcast(m, &buf, NULL, 0);
         }
 
         gc_free(&gc);
@@ -3843,7 +3923,7 @@ multi_push_restart_schedule_exit(struct multi_context *m, bool next_server)
     while ((he = hash_iterator_next(&hi)))
     {
         struct multi_instance *mi = (struct multi_instance *) he->value;
-        if (!mi->halt)
+        if (!mi->halt && proto_is_dgram(mi->context.c2.link_sockets[0]->info.proto))
         {
             send_control_channel_string(&mi->context, next_server ? "RESTART,[N]" : "RESTART", D_PUSH);
             multi_schedule_context_wakeup(m, mi);
@@ -3881,7 +3961,7 @@ multi_process_signal(struct multi_context *m)
         status_close(so);
         return false;
     }
-    else if (proto_is_dgram(m->top.options.ce.proto)
+    else if (has_udp_in_local_list(&m->top.options)
              && is_exit_restart(m->top.sig->signal_received)
              && (m->deferred_shutdown_signal.signal_received == 0)
              && m->top.options.ce.explicit_exit_notification != 0)
@@ -4162,6 +4242,45 @@ multi_assign_peer_id(struct multi_context *m, struct multi_instance *mi)
     ASSERT(mi->context.c2.tls_multi->peer_id < m->max_clients);
 }
 
+/**************************************************************************/
+/**
+ * Main event loop for OpenVPN in point-to-multipoint server mode.
+ * @ingroup eventloop
+ *
+ * @param top - Top-level context structure.
+ */
+static void
+tunnel_server_loop(struct multi_context *multi)
+{
+    int status;
+
+    while (true)
+    {
+        perf_push(PERF_EVENT_LOOP);
+
+        /* wait on tun/socket list */
+        multi_get_timeout(multi, &multi->top.c2.timeval);
+        status = multi_io_wait(multi);
+        MULTI_CHECK_SIG(multi);
+
+        /* check on status of coarse timers */
+        multi_process_per_second_timers(multi);
+
+        /* timeout? */
+        if (status > 0)
+        {
+            /* process the I/O which triggered select */
+            multi_io_process_io(multi);
+            MULTI_CHECK_SIG(multi);
+        }
+        else if (status == 0)
+        {
+            multi_io_action(multi, NULL, TA_TIMEOUT, false);
+        }
+
+        perf_pop();
+    }
+}
 
 /*
  * Top level event loop.
@@ -4171,12 +4290,53 @@ tunnel_server(struct context *top)
 {
     ASSERT(top->options.mode == MODE_SERVER);
 
-    if (proto_is_dgram(top->options.ce.proto))
+    struct multi_context multi;
+
+    top->mode = CM_TOP;
+    context_clear_2(top);
+
+    /* initialize top-tunnel instance */
+    init_instance_handle_signals(top, top->es, CC_HARD_USR1_TO_HUP);
+    if (IS_SIG(top))
     {
-        tunnel_server_udp(top);
+        return;
     }
-    else
+
+    /* initialize global multi_context object */
+    multi_init(&multi, top);
+
+    /* initialize our cloned top object */
+    multi_top_init(&multi, top);
+
+    /* initialize management interface */
+    init_management_callback_multi(&multi);
+
+    /* finished with initialization */
+    initialization_sequence_completed(top, ISC_SERVER); /* --mode server --proto tcp-server */
+
+#ifdef ENABLE_ASYNC_PUSH
+    multi.top.c2.inotify_fd = inotify_init();
+    if (multi.top.c2.inotify_fd < 0)
     {
-        tunnel_server_tcp(top);
+        msg(D_MULTI_ERRORS | M_ERRNO, "MULTI: inotify_init error");
     }
+#endif
+
+    tunnel_server_loop(&multi);
+
+    #ifdef ENABLE_ASYNC_PUSH
+    close(top->c2.inotify_fd);
+#endif
+
+    /* shut down management interface */
+    uninit_management_callback();
+
+    /* save ifconfig-pool */
+    multi_ifconfig_pool_persist(&multi, true);
+
+    /* tear down tunnel instance (unless --persist-tun) */
+    multi_uninit(&multi);
+    multi_top_free(&multi);
+    close_instance(top);
+
 }

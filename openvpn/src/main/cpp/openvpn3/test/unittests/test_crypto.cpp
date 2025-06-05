@@ -13,6 +13,7 @@
 
 #include "test_common.hpp"
 
+#include <openvpn/buffer/buffer.hpp>
 #include <openvpn/ssl/sslchoose.hpp>
 #include <openvpn/crypto/cryptoalgs.hpp>
 #include <openvpn/crypto/crypto_aead.hpp>
@@ -85,7 +86,7 @@ static openvpn::Frame::Context frame_ctx()
     const size_t headroom = 64;
     const size_t tailroom = 64;
     const size_t align_block = 16;
-    const unsigned int buffer_flags = 0;
+    const openvpn::BufferFlags buffer_flags = openvpn::BufAllocFlags::NO_FLAGS;
     return openvpn::Frame::Context{headroom, payload, tailroom, 0, align_block, buffer_flags};
 }
 
@@ -152,7 +153,7 @@ void test_datachannel_crypto(bool use_epoch)
 
     const char *plaintext = "The quick little fox jumps over the bureaucratic hurdles";
 
-    openvpn::BufferAllocated work{2048, 0};
+    openvpn::BufferAllocated work{2048, openvpn::BufAllocFlags::NO_FLAGS};
 
     /* reserve some headroom */
     work.realign(128);
@@ -236,7 +237,7 @@ TEST(crypto, testEpochIterateKey)
 
     const unsigned char op32[]{7, 0, 0, 23};
 
-    openvpn::BufferAllocated work{2048, 0};
+    openvpn::BufferAllocated work{2048};
 
     /* reserve some headroom */
     work.realign(128);

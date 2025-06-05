@@ -655,7 +655,7 @@ init_route_list(struct route_list *rl,
         rl->spec.flags |= RTSA_DEFAULT_METRIC;
     }
 
-    get_default_gateway(&rl->rgi, remote_host, ctx);
+    get_default_gateway(&rl->rgi, remote_host != IPV4_INVALID_ADDR ? remote_host : INADDR_ANY, ctx);
     if (rl->rgi.flags & RGI_ADDR_DEFINED)
     {
         setenv_route_addr(es, "net_gateway", rl->rgi.gateway.addr, -1);
@@ -1078,17 +1078,6 @@ redirect_default_route_to_vpn(struct route_list *rl, const struct tuntap *tt,
 
             if (rl->flags & RG_REROUTE_GW)
             {
-#ifdef TARGET_ANDROID
-                add_route3(0,
-                           0,
-                           rl->spec.remote_endpoint,
-                           tt,
-                           flags,
-                           &rl->rgi,
-                           es,
-                           ctx);
-
-#else  /* ifdef TARGET_ANDROID */
                 if (rl->flags & RG_DEF1)
                 {
                     /* add new default route (1st component) */
@@ -1113,7 +1102,6 @@ redirect_default_route_to_vpn(struct route_list *rl, const struct tuntap *tt,
                     ret = add_route3(0, 0, rl->spec.remote_endpoint, tt,
                                      flags, &rl->rgi, es, ctx) && ret;
                 }
-#endif /* ifdef TARGET_ANDROID */
             }
 
             /* set a flag so we can undo later */
@@ -1230,7 +1218,6 @@ add_routes(struct route_list *rl, struct route_ipv6_list *rl6,
 
         for (r = rl->routes; r; r = r->next)
         {
-            check_subnet_conflict(r->network, r->netmask, "route");
             if (flags & ROUTE_DELETE_FIRST)
             {
                 delete_route(r, tt, flags, &rl->rgi, es, ctx);
@@ -1255,7 +1242,7 @@ add_routes(struct route_list *rl, struct route_ipv6_list *rl6,
         {
             if (flags & ROUTE_DELETE_FIRST)
             {
-                delete_route_ipv6(r, tt, flags, es, ctx);
+                delete_route_ipv6(r, tt, es, ctx);
             }
             ret = add_route_ipv6(r, tt, flags, es, ctx) && ret;
         }
@@ -1292,7 +1279,7 @@ delete_routes(struct route_list *rl, struct route_ipv6_list *rl6,
         struct route_ipv6 *r6;
         for (r6 = rl6->routes_ipv6; r6; r6 = r6->next)
         {
-            delete_route_ipv6(r6, tt, flags, es, ctx);
+            delete_route_ipv6(r6, tt, es, ctx);
         }
         rl6->iflags &= ~RL_ROUTES_ADDED;
     }
@@ -2395,7 +2382,7 @@ done:
 
 void
 delete_route_ipv6(const struct route_ipv6 *r6, const struct tuntap *tt,
-                  unsigned int flags, const struct env_set *es,
+                  const struct env_set *es,
                   openvpn_net_ctx_t *ctx)
 {
     const char *network;

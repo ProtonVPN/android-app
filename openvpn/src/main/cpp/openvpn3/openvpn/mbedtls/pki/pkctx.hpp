@@ -105,7 +105,7 @@ class PKContext : public RC<thread_unsafe_refcount>
     std::string extract() const
     {
         // maximum size of the PEM data is not available at this point
-        BufferAllocated buff(16000, 0);
+        BufferAllocated buff(16000);
 
         int ret = mbedtls_pk_write_key_pem(ctx, buff.data(), buff.max_size());
         if (ret < 0)

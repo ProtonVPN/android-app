@@ -16,7 +16,7 @@ else()
   set(GTEST_LIB gtest_main)
   if(NOT OVPN_GTEST_VERSION)
     # renovate: datasource=github-releases depName=google/googletest
-    set(OVPN_GTEST_VERSION v1.15.0)
+    set(OVPN_GTEST_VERSION v1.16.0)
   endif()
 
   FetchContent_Declare(

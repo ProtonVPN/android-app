@@ -69,6 +69,7 @@ add_executable(coreUnitTests
         test_pktid_data.cpp
         test_prefixlen.cpp
         test_randapi.cpp
+        test_intrinsic_type.cpp
         test_rc.cpp
         test_route.cpp
         test_reliable.cpp
@@ -120,7 +121,7 @@ else ()
 endif ()
 
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-    target_link_libraries(coreUnitTests cap)
+    add_libcap(coreUnitTests)
     target_sources(coreUnitTests PRIVATE test_sitnl.cpp)
 endif ()
 

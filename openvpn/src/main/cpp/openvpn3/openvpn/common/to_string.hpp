@@ -9,10 +9,6 @@
 //    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
 
-// Define openvpn::to_string() to work around the fact that
-// std::to_string() is missing on Android.
-// http://stackoverflow.com/questions/22774009/android-ndk-stdto-string-support
-
 #ifndef OPENVPN_COMMON_TO_STRING_H
 #define OPENVPN_COMMON_TO_STRING_H
 
@@ -22,33 +18,37 @@
 
 #include <openvpn/common/platform.hpp>
 
+/* This file provides an openvpn::to_string function that works for all
+   types where either std::to_string is available or the type can be
+   streamed to an std::ostringstream. This is useful for types that don't
+   have a std::to_string overload. Also useful in cases where std::to_string
+   support is not complete.
+*/
+
 namespace openvpn {
 
-// Convert an arbitrary argument to a string.
+// Use std::to_string where we can
+using std::to_string;
 
-#ifndef OPENVPN_PLATFORM_ANDROID
-// numeric types
-template <typename T,
-          typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
-inline std::string to_string(T value)
-{
-    return std::to_string(value);
-}
-#endif
-
-// non-numeric types
-template <typename T
-#ifndef OPENVPN_PLATFORM_ANDROID
-          ,
-          typename std::enable_if<!std::is_arithmetic<T>::value, int>::type = 0
-#endif
-          >
-inline std::string to_string(const T &value)
+/**
+    @brief Convert a value to a string
+    @tparam T The type of the value to convert
+    @param t The value to convert
+    @return std::string Stringified representation of the value
+    @note This function uses std::ostringstream to convert the value to a string
+    @note This function is enabled only for types that do not have a std::to_string
+          overload as long as the type is ostream insertable.
+*/
+template <typename T>
+    requires(!requires(T a) { std::to_string(a); })
+            && requires(std::ostream &os, const T &t) { os << t; }
+inline std::string to_string(const T &t)
 {
     std::ostringstream os;
-    os << value;
+    os << t;
     return os.str();
 }
+
 } // namespace openvpn
 
 #endif

@@ -78,6 +78,8 @@ struct DnsAddress
     }
 #endif
 
+    bool operator==(const DnsAddress &) const = default;
+
     std::string address;
     unsigned int port = 0;
 };
@@ -120,6 +122,8 @@ struct DnsDomain
 #endif
 
     std::string domain;
+
+    bool operator==(const DnsDomain &) const = default;
 };
 
 /**
@@ -283,6 +287,8 @@ struct DnsServer
     }
 #endif
 
+    bool operator==(const DnsServer &at) const = default;
+
     std::vector<DnsAddress> addresses;
     std::vector<DnsDomain> domains;
     Security dnssec = Security::Unset;
@@ -316,6 +322,7 @@ struct DnsOptions
                 os << "  " << domain.to_string() << '\n';
             }
         }
+        os << "Values from dhcp-options: " << (from_dhcp_options ? "true" : "false") << '\n';
         return os.str();
     }
 
@@ -330,6 +337,7 @@ struct DnsOptions
         }
         root["servers"] = std::move(servers_json);
         json::from_vector(root, search_domains, "search_domains");
+        root["from_dhcp_options"] = Json::Value(from_dhcp_options);
         return root;
     }
 
@@ -344,8 +352,11 @@ struct DnsOptions
             servers[std::stoi(prio)] = std::move(server);
         }
         json::to_vector(root, search_domains, "search_domains", title);
+        json::to_bool(root, from_dhcp_options, "from_dhcp_options", title);
     }
 #endif
+
+    bool operator==(const DnsOptions &at) const = default;
 
     bool from_dhcp_options = false;
     std::vector<DnsDomain> search_domains;

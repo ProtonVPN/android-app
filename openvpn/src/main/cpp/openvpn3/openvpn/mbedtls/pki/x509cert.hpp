@@ -97,7 +97,7 @@ class X509Cert : public RC<thread_unsafe_refcount>
         if (ret != MBEDTLS_ERR_BASE64_BUFFER_TOO_SMALL)
             throw MbedTLSException("X509Cert::extract: can't calculate PEM size");
 
-        BufferAllocated buff(olen, 0);
+        BufferAllocated buff(olen);
 
         ret = mbedtls_pem_write_buffer(begin_cert,
                                        end_cert,

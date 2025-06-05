@@ -81,10 +81,7 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
 
     static Addr from_sockaddr(const sockaddr_in6 *sa)
     {
-        Addr ret;
-        network_to_host_order(&ret.u, reinterpret_cast<const ipv6addr *>(sa->sin6_addr.s6_addr));
-        ret.scope_id_ = sa->sin6_scope_id;
-        return ret;
+        return from_in6_addr(&sa->sin6_addr);
     }
 
     sockaddr_in6 to_sockaddr(const unsigned short port = 0) const

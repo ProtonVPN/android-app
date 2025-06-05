@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2024 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2004-2023 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2004, EdelKey Project. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
@@ -410,6 +410,11 @@ int SRP_VBASE_init(SRP_VBASE *vb, char *verifier_file)
         goto err;
 
     error_code = SRP_ERR_OPEN_FILE;
+
+    if (verifier_file == NULL) {
+        ERR_raise(ERR_LIB_X509, ERR_R_PASSED_NULL_PARAMETER);
+        goto err;
+    }
 
     if (in == NULL || BIO_read_filename(in, verifier_file) <= 0)
         goto err;

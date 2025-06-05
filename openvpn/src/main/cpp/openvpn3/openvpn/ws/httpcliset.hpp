@@ -1007,7 +1007,7 @@ class ClientSet : public RC<thread_unsafe_refcount>
         {
             // find an ID that's not already in use
             const client_t id = next_id++;
-            if (clients.find(id) == clients.end())
+            if (!clients.contains(id))
                 return id;
         }
     }

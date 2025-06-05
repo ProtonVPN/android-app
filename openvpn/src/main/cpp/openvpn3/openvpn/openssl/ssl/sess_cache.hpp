@@ -158,11 +158,8 @@ class OpenSSLSessionCache : public RC<thread_unsafe_refcount>
     }
 
   private:
-    struct SessionSet : public std::set<Session>
-    {
-    };
-
-    typedef std::map<std::string, SessionSet> Map;
+    using SessionSet = std::set<Session>;
+    using Map = std::map<std::string, SessionSet>;
 
     void remove_session(Map::iterator mi, SessionSet &ss, SessionSet::iterator ssi)
     {

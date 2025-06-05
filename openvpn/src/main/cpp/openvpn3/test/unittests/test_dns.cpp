@@ -314,7 +314,22 @@ TEST(Dns, ToStringMinValuesSet)
               "DNS Servers:\n"
               "  Priority: 10\n"
               "  Addresses:\n"
-              "    1::1\n");
+              "    1::1\n"
+              "Values from dhcp-options: false\n");
+}
+
+TEST(Dns, ToStringValuesFromDhcpOptions)
+{
+    OptionList config;
+    config.parse_from_config("dhcp-option DNS6 1::1\n", nullptr);
+    config.update_map();
+    DnsOptionsParser dns(config, false);
+    ASSERT_EQ(dns.to_string(),
+              "DNS Servers:\n"
+              "  Priority: 0\n"
+              "  Addresses:\n"
+              "    1::1\n"
+              "Values from dhcp-options: true\n");
 }
 
 TEST(Dns, ToStringAllValuesSet)
@@ -360,7 +375,8 @@ TEST(Dns, ToStringAllValuesSet)
               "DNS Search Domains:\n"
               "  dom1\n"
               "  dom2\n"
-              "  dom3\n");
+              "  dom3\n"
+              "Values from dhcp-options: false\n");
 }
 
 TEST(Dns, JsonRoundtripMinValuesSet)
@@ -374,6 +390,7 @@ TEST(Dns, JsonRoundtripMinValuesSet)
     builder["indentation"] = "  ";
     ASSERT_EQ(Json::writeString(builder, json),
               "{\n"
+              "  \"from_dhcp_options\" : false,\n"
               "  \"servers\" : \n"
               "  {\n"
               "    \"10\" : \n"
@@ -394,7 +411,44 @@ TEST(Dns, JsonRoundtripMinValuesSet)
               "DNS Servers:\n"
               "  Priority: 10\n"
               "  Addresses:\n"
-              "    1::1\n");
+              "    1::1\n"
+              "Values from dhcp-options: false\n");
+}
+
+TEST(Dns, JsonRoundtripValuesFromDhcpOption)
+{
+    OptionList config;
+    config.parse_from_config("dhcp-option DNS6 1::1\n", nullptr);
+    config.update_map();
+    DnsOptionsParser toJson(config, false);
+    Json::Value json = toJson.to_json();
+    Json::StreamWriterBuilder builder;
+    builder["indentation"] = "  ";
+    ASSERT_EQ(Json::writeString(builder, json),
+              "{\n"
+              "  \"from_dhcp_options\" : true,\n"
+              "  \"servers\" : \n"
+              "  {\n"
+              "    \"0\" : \n"
+              "    {\n"
+              "      \"addresses\" : \n"
+              "      [\n"
+              "        {\n"
+              "          \"address\" : \"1::1\"\n"
+              "        }\n"
+              "      ]\n"
+              "    }\n"
+              "  }\n"
+              "}");
+
+    DnsOptions fromJson;
+    fromJson.from_json(json, "json test");
+    ASSERT_EQ(fromJson.to_string(),
+              "DNS Servers:\n"
+              "  Priority: 0\n"
+              "  Addresses:\n"
+              "    1::1\n"
+              "Values from dhcp-options: true\n");
 }
 
 TEST(Dns, JsonRoundtripAllValuesSet)
@@ -420,6 +474,7 @@ TEST(Dns, JsonRoundtripAllValuesSet)
     builder["indentation"] = "  ";
     ASSERT_EQ(Json::writeString(builder, json),
               "{\n"
+              "  \"from_dhcp_options\" : false,\n"
               "  \"search_domains\" : \n"
               "  [\n"
               "    \"dom1\",\n"
@@ -500,5 +555,6 @@ TEST(Dns, JsonRoundtripAllValuesSet)
               "DNS Search Domains:\n"
               "  dom1\n"
               "  dom2\n"
-              "  dom3\n");
+              "  dom3\n"
+              "Values from dhcp-options: false\n");
 }

@@ -55,7 +55,7 @@ class PsidCookieImpl : public PsidCookie
 
     PsidCookieImpl(ServerProto::Factory *psfp)
         : pcfg_(*psfp->proto_context_config),
-          not_tls_auth_mode_(!pcfg_.tls_auth_enabled()),
+          not_tls_auth_mode_(!pcfg_.tls_auth_enabled() || pcfg_.tls_crypt_enabled() || pcfg_.tls_crypt_v2_enabled()),
           now_(pcfg_.now), handwindow_(pcfg_.handshake_window)
     {
         if (not_tls_auth_mode_)
@@ -69,16 +69,16 @@ class PsidCookieImpl : public PsidCookie
         {
             // key-direction is 0 or 1
             const unsigned int key_dir = pcfg_.key_direction ? OpenVPNStaticKey::INVERSE : OpenVPNStaticKey::NORMAL;
-            ta_hmac_send_->init(pcfg_.tls_key.slice(OpenVPNStaticKey::HMAC
-                                                    | OpenVPNStaticKey::ENCRYPT | key_dir));
-            ta_hmac_recv_->init(pcfg_.tls_key.slice(OpenVPNStaticKey::HMAC
-                                                    | OpenVPNStaticKey::DECRYPT | key_dir));
+            ta_hmac_send_->init(pcfg_.tls_auth_key.slice(OpenVPNStaticKey::HMAC
+                                                         | OpenVPNStaticKey::ENCRYPT | key_dir));
+            ta_hmac_recv_->init(pcfg_.tls_auth_key.slice(OpenVPNStaticKey::HMAC
+                                                         | OpenVPNStaticKey::DECRYPT | key_dir));
         }
         else
         {
             // key-direction bidirectional mode
-            ta_hmac_send_->init(pcfg_.tls_key.slice(OpenVPNStaticKey::HMAC));
-            ta_hmac_recv_->init(pcfg_.tls_key.slice(OpenVPNStaticKey::HMAC));
+            ta_hmac_send_->init(pcfg_.tls_auth_key.slice(OpenVPNStaticKey::HMAC));
+            ta_hmac_recv_->init(pcfg_.tls_auth_key.slice(OpenVPNStaticKey::HMAC));
         }
 
         // initialize psid HMAC context with digest type and key
@@ -317,7 +317,7 @@ class PsidCookieImpl : public PsidCookie
         hmac_ctx_.update(cli_psid_buf.c_data(), SID_SIZE);
 
         // finalize the hmac and package it as the server's ProtoSessionID
-        BufferAllocated hmac_result(SSLLib::CryptoAPI::HMACContext::MAX_HMAC_SIZE, 0);
+        BufferAllocated hmac_result(SSLLib::CryptoAPI::HMACContext::MAX_HMAC_SIZE);
         ProtoSessionID srv_psid;
         hmac_ctx_.final(hmac_result.write_alloc(hmac_ctx_.size()));
         srv_psid.read(hmac_result);

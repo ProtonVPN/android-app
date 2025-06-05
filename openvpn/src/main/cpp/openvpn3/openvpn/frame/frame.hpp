@@ -62,7 +62,7 @@ class Frame : public RC<thread_unsafe_refcount>
             headroom_ = 0;
             payload_ = 0;
             tailroom_ = 0;
-            buffer_flags_ = 0;
+            buffer_flags_ = BufAllocFlags::NO_FLAGS;
             align_adjust_ = 0;
             align_block_ = sizeof(std::size_t);
             adj_headroom_ = 0;
@@ -72,9 +72,9 @@ class Frame : public RC<thread_unsafe_refcount>
         Context(const size_t headroom,
                 const size_t payload,
                 const size_t tailroom,
-                const size_t align_adjust,       // length of leading prefix data before the data that needs to be aligned on a size_t boundary
-                const size_t align_block,        // size of alignment block, usually sizeof(size_t) but sometimes the cipher block size
-                const unsigned int buffer_flags) // flags passed to BufferAllocatedRc constructor
+                const size_t align_adjust,      // length of leading prefix data before the data that needs to be aligned on a size_t boundary
+                const size_t align_block,       // size of alignment block, usually sizeof(size_t) but sometimes the cipher block size
+                const BufferFlags buffer_flags) // flags passed to BufferAllocatedRc constructor
         {
             headroom_ = headroom;
             payload_ = payload;
@@ -106,7 +106,7 @@ class Frame : public RC<thread_unsafe_refcount>
         {
             return adj_capacity_;
         }
-        unsigned int buffer_flags() const
+        BufferFlags buffer_flags() const
         {
             return buffer_flags_;
         }
@@ -237,7 +237,7 @@ class Frame : public RC<thread_unsafe_refcount>
         size_t tailroom_;
         size_t align_adjust_;
         size_t align_block_;
-        unsigned int buffer_flags_;
+        BufferFlags buffer_flags_;
 
         // derived
         size_t adj_headroom_;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2024 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2012-2025 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -13,6 +13,8 @@
 
 /* Packet trace support for OpenSSL */
 #include "internal/nelem.h"
+#include "internal/ssl_unwrap.h"
+#include "internal/quic_trace.h"
 
 typedef struct {
     int num;
@@ -547,6 +549,8 @@ static const ssl_trace_tbl ssl_groups_tbl[] = {
     {258, "ffdhe4096"},
     {259, "ffdhe6144"},
     {260, "ffdhe8192"},
+    {4587, "SecP256r1MLKEM768"},
+    {4588, "X25519MLKEM768"},
     {25497, "X25519Kyber768Draft00"},
     {25498, "SecP256r1Kyber768Draft00"},
     {0xFF01, "arbitrary_explicit_prime_curves"},
@@ -598,7 +602,15 @@ static const ssl_trace_tbl ssl_sigalg_tbl[] = {
     {TLSEXT_SIGALG_gostr34102001_gostr3411, TLSEXT_SIGALG_gostr34102001_gostr3411_name},
     {TLSEXT_SIGALG_ecdsa_brainpoolP256r1_sha256, TLSEXT_SIGALG_ecdsa_brainpoolP256r1_sha256_name},
     {TLSEXT_SIGALG_ecdsa_brainpoolP384r1_sha384, TLSEXT_SIGALG_ecdsa_brainpoolP384r1_sha384_name},
-    {TLSEXT_SIGALG_ecdsa_brainpoolP512r1_sha512, TLSEXT_SIGALG_ecdsa_brainpoolP512r1_sha512_name}
+    {TLSEXT_SIGALG_ecdsa_brainpoolP512r1_sha512, TLSEXT_SIGALG_ecdsa_brainpoolP512r1_sha512_name},
+    /*
+     * Well known groups that we happen to know about, but only come from
+     * provider capability declarations (hence no macros for the
+     * codepoints/names)
+     */
+    {0x0904, "mldsa44"},
+    {0x0905, "mldsa65"},
+    {0x0906, "mldsa87"}
 };
 
 static const ssl_trace_tbl ssl_ctype_tbl[] = {

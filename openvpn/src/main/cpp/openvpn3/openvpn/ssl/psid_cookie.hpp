@@ -11,6 +11,7 @@
 
 
 /**
+ * @file
  * @brief Support deferred server-side state creation when client connects
  *
  * Creating OpenVPN protocol tracking state upon receipt of an initial client HARD_RESET

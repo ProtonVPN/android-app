@@ -163,7 +163,7 @@ TEST(config, duplicate_options_sets)
         {
             /* Use an expection instead of an assert to get the name of the option
              * that is a duplicate */
-            if (!(allOptions.find(optname) == allOptions.end()))
+            if (allOptions.contains(optname))
                 throw std::runtime_error("duplicate element: " + optname);
             allOptions.insert(optname);
         }

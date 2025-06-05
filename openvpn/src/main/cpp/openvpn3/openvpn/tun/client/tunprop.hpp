@@ -27,6 +27,7 @@
 #include <openvpn/client/ipverflags.hpp>
 #include <openvpn/client/dns.hpp>
 #include <openvpn/tun/client/emuexr.hpp>
+#include <openvpn/tun/client/tunbase.hpp>
 #include <openvpn/tun/layer.hpp>
 
 namespace openvpn {
@@ -85,6 +86,7 @@ class TunProp
         IP::Addr vpn_ip6_gw;
         int mtu = 0;
         bool tun_prefix = false;
+        std::uint32_t vpn_interface_index = INVALID_ADAPTER_INDEX;
     };
 
     static void configure_builder(TunBuilderBase *tb,

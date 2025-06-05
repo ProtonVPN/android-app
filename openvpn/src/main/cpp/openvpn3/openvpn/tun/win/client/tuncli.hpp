@@ -150,6 +150,8 @@ class Client : public TunClient
                     // create ASIO wrapper for HANDLE
                     TAPStream *ts = new TAPStream(io_context, th);
 
+                    state->vpn_interface_index = tun_setup->vpn_interface_index();
+
                     // persist tun settings state
                     if (tun_persist->persist_tun_state(ts, {state, nullptr}))
                         OPENVPN_LOG("TunPersist: saving tun context:" << std::endl
@@ -246,6 +248,17 @@ class Client : public TunClient
     int vpn_mtu() const override
     {
         return state->mtu;
+    }
+
+    std::uint32_t vpn_interface_index() const override
+    {
+        if (tun_setup)
+            return tun_setup->vpn_interface_index();
+
+        if (tun_persist && tun_persist->state().state)
+            return tun_persist->state().state->vpn_interface_index;
+
+        return INVALID_ADAPTER_INDEX;
     }
 
     void set_disconnect() override

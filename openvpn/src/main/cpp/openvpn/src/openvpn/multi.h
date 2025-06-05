@@ -204,6 +204,7 @@ struct multi_context {
 
     struct buffer hmac_reply;
     struct link_socket_actual *hmac_reply_dest;
+    struct link_socket *hmac_reply_ls;
 
     /*
      * Timer object for stale route check
@@ -251,11 +252,6 @@ struct multi_route
  * Main event loop for OpenVPN in server mode.
  * @ingroup eventloop
  *
- * This function calls the appropriate main event loop function depending
- * on the transport protocol used:
- *  - \c tunnel_server_udp()
- *  - \c tunnel_server_tcp()
- *
  * @param top          - Top-level context structure.
  */
 void tunnel_server(struct context *top);
@@ -267,7 +263,7 @@ const char *multi_instance_string(const struct multi_instance *mi, bool null, st
  * Called by mtcp.c, mudp.c, or other (to be written) protocol drivers
  */
 
-void multi_init(struct multi_context *m, struct context *t, bool tcp_mode);
+void multi_init(struct multi_context *m, struct context *t);
 
 void multi_uninit(struct multi_context *m);
 
@@ -276,7 +272,7 @@ void multi_top_init(struct multi_context *m, struct context *top);
 void multi_top_free(struct multi_context *m);
 
 struct multi_instance *multi_create_instance(struct multi_context *m, const struct mroute_addr *real,
-                                             struct link_socket *ls);
+                                             struct link_socket *sock);
 
 void multi_close_instance(struct multi_context *m, struct multi_instance *mi, bool shutdown);
 
@@ -291,7 +287,7 @@ bool multi_process_timeout(struct multi_context *m, const unsigned int mpp_flags
  * updates hashtables in multi_context.
  */
 void multi_process_float(struct multi_context *m, struct multi_instance *mi,
-                         struct link_socket *ls);
+                         struct link_socket *sock);
 
 #define MPP_PRE_SELECT             (1<<0)
 #define MPP_CONDITIONAL_PRE_SELECT (1<<1)
@@ -356,10 +352,10 @@ bool multi_process_incoming_dco(struct multi_context *m);
  *                       when using TCP transport. Otherwise NULL, as is
  *                       the case when using UDP transport.
  * @param mpp_flags    - Fast I/O optimization flags.
- * @param ls           - Socket where the packet was received.
+ * @param sock         - Socket where the packet was received.
  */
 bool multi_process_incoming_link(struct multi_context *m, struct multi_instance *instance, const unsigned int mpp_flags,
-                                 struct link_socket *ls);
+                                 struct link_socket *sock);
 
 
 /**

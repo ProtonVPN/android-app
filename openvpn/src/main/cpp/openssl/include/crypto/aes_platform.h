@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2024 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2025 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -242,6 +242,26 @@ void aesni_xts_decrypt(const unsigned char *in,
                        size_t length,
                        const AES_KEY *key1, const AES_KEY *key2,
                        const unsigned char iv[16]);
+
+int aesni_xts_avx512_eligible(void);
+
+void aesni_xts_128_encrypt_avx512(const unsigned char *inp, unsigned char *out,
+                                  size_t len, const AES_KEY *key1,
+                                  const AES_KEY *key2,
+                                  const unsigned char iv[16]);
+void aesni_xts_128_decrypt_avx512(const unsigned char *inp, unsigned char *out,
+                                  size_t len, const AES_KEY *key1,
+                                  const AES_KEY *key2,
+                                  const unsigned char iv[16]);
+
+void aesni_xts_256_encrypt_avx512(const unsigned char *inp, unsigned char *out,
+                                  size_t len, const AES_KEY *key1,
+                                  const AES_KEY *key2,
+                                  const unsigned char iv[16]);
+void aesni_xts_256_decrypt_avx512(const unsigned char *inp, unsigned char *out,
+                                  size_t len, const AES_KEY *key1,
+                                  const AES_KEY *key2,
+                                  const unsigned char iv[16]);
 
 void aesni_ccm64_encrypt_blocks(const unsigned char *in,
                                 unsigned char *out,

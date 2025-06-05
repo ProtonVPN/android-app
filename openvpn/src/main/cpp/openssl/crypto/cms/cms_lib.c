@@ -1,5 +1,5 @@
 /*
- * Copyright 2008-2024 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2008-2025 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -14,10 +14,12 @@
 #include <openssl/bio.h>
 #include <openssl/asn1.h>
 #include <openssl/cms.h>
+#include <openssl/core_names.h>
 #include "internal/sizes.h"
 #include "internal/cryptlib.h"
 #include "crypto/x509.h"
 #include "cms_local.h"
+#include "internal/cms.h"
 
 static STACK_OF(CMS_CertificateChoices)
 **cms_get0_certificate_choices(CMS_ContentInfo *cms);
@@ -406,6 +408,7 @@ BIO *ossl_cms_DigestAlgorithm_init_bio(X509_ALGOR *digestAlgorithm,
     const EVP_MD *digest = NULL;
     EVP_MD *fetched_digest = NULL;
     char alg[OSSL_MAX_NAME_SIZE];
+    size_t xof_len = 0;
 
     X509_ALGOR_get0(&digestoid, NULL, NULL, digestAlgorithm);
     OBJ_obj2txt(alg, sizeof(alg), digestoid, 0);
@@ -429,6 +432,24 @@ BIO *ossl_cms_DigestAlgorithm_init_bio(X509_ALGOR *digestAlgorithm,
     if (mdbio == NULL || BIO_set_md(mdbio, digest) <= 0) {
         ERR_raise(ERR_LIB_CMS, CMS_R_MD_BIO_INIT_ERROR);
         goto err;
+    }
+    if (EVP_MD_xof(digest)) {
+        if (EVP_MD_is_a(digest, SN_shake128))
+            xof_len = 32;
+        else if (EVP_MD_is_a(digest, SN_shake256))
+            xof_len = 64;
+        if (xof_len > 0) {
+            EVP_MD_CTX *mdctx;
+            OSSL_PARAM params[2];
+
+            if (BIO_get_md_ctx(mdbio, &mdctx) <= 0 || mdctx == NULL)
+                goto err;
+            params[0] = OSSL_PARAM_construct_size_t(OSSL_DIGEST_PARAM_XOFLEN,
+                                                    &xof_len);
+            params[1] = OSSL_PARAM_construct_end();
+            if (!EVP_MD_CTX_set_params(mdctx, params))
+                goto err;
+        }
     }
     EVP_MD_free(fetched_digest);
     return mdbio;
@@ -768,4 +789,41 @@ int ossl_cms_set1_keyid(ASN1_OCTET_STRING **pkeyid, X509 *cert)
     ASN1_OCTET_STRING_free(*pkeyid);
     *pkeyid = keyid;
     return 1;
+}
+
+CMS_EnvelopedData *ossl_cms_sign_encrypt(BIO *data, X509 *sign_cert, STACK_OF(X509) *certs,
+                                         EVP_PKEY *sign_key, unsigned int sign_flags,
+                                         STACK_OF(X509) *enc_recip, const EVP_CIPHER *cipher,
+                                         unsigned int enc_flags, OSSL_LIB_CTX *libctx,
+                                         const char *propq)
+{
+    CMS_EnvelopedData *evd = NULL;
+    BIO *privbio = NULL, *signbio = NULL;
+    CMS_ContentInfo *signcms = NULL, *evpcms = NULL;
+
+    if (data == NULL || sign_key == NULL || sign_cert == NULL || enc_recip == NULL) {
+        ERR_raise(ERR_LIB_CMS, ERR_R_PASSED_NULL_PARAMETER);
+        return NULL;
+    }
+    signcms = CMS_sign_ex(sign_cert, sign_key, certs, data, sign_flags, libctx, propq);
+    if (signcms == NULL)
+        goto err;
+
+    signbio = BIO_new(BIO_s_mem());
+    if (signbio == NULL
+        || ASN1_item_i2d_bio(ASN1_ITEM_rptr(CMS_SignedData), signbio, signcms->d.signedData) <= 0)
+        goto err;
+
+    evpcms = CMS_encrypt_ex(enc_recip, signbio, cipher, enc_flags, libctx, propq);
+    if (evpcms == NULL)
+        goto err;
+    evd = CMS_EnvelopedData_dup(evpcms->d.envelopedData);
+
+ err:
+    BIO_free(privbio);
+    BIO_free(signbio);
+    CMS_ContentInfo_free(signcms);
+    CMS_ContentInfo_free(evpcms);
+
+    return evd;
 }

@@ -155,10 +155,7 @@ class PacketIDControlSend
 
     std::string str() const
     {
-        std::string ret;
-        ret = pid_.str();
-        ret += 'L';
-        return ret;
+        return pid_.str() + 'L';
     }
 
   private:
@@ -184,9 +181,7 @@ class PacketIDControlReceiveType
     OPENVPN_SIMPLE_EXCEPTION(packet_id_not_initialized);
 
     // TODO: [OVPN3-933] Consider RAII'ifying this code
-    PacketIDControlReceiveType()
-    {
-    }
+    PacketIDControlReceiveType() = default;
 
     void init(const char *name_arg,
               const int unit_arg,

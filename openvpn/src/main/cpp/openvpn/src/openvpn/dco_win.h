@@ -24,6 +24,8 @@
 
 #if defined(ENABLE_DCO) && defined(_WIN32)
 
+#include <in6addr.h>
+
 #include "buffer.h"
 #include "ovpn_dco_win.h"
 #include "sig.h"
@@ -31,25 +33,55 @@
 typedef OVPN_KEY_SLOT dco_key_slot_t;
 typedef OVPN_CIPHER_ALG dco_cipher_t;
 
+typedef enum {
+    DCO_MODE_UNINIT,
+    DCO_MODE_P2P,
+    DCO_MODE_MP
+} dco_mode_type;
+
 struct dco_context {
     struct tuntap *tt;
+    dco_mode_type ifmode;
+
+    OVPN_NOTIFY_EVENT notif_buf; /**< Buffer for incoming notifications. */
+    OVERLAPPED ov; /**< Used by overlapped I/O for async IOCTL. */
+    int iostate; /**< State of overlapped I/O; see definitions in win32.h. */
+    struct rw_handle rwhandle; /**< Used to hook async I/O to the OpenVPN event loop. */
+    int ov_ret; /**< Win32 error code for overlapped operation, 0 for success */
+
+    int dco_message_peer_id;
+    int dco_message_type;
+    int dco_del_peer_reason;
+
+    uint64_t dco_read_bytes;
+    uint64_t dco_write_bytes;
 };
 
 typedef struct dco_context dco_context_t;
 
-struct tuntap
-create_dco_handle(const char *devname, struct gc_arena *gc);
+void
+dco_mp_start_vpn(HANDLE handle, struct link_socket *sock);
 
 void
-dco_create_socket(HANDLE handle, struct addrinfo *remoteaddr, bool bind_local,
-                  struct addrinfo *bind, int timeout,
-                  struct signal_info *sig_info);
+dco_p2p_new_peer(HANDLE handle, OVERLAPPED *ov, struct link_socket *sock, struct signal_info *sig_info);
 
 void
 dco_start_tun(struct tuntap *tt);
 
 bool
 dco_win_supports_multipeer(void);
+
+void
+dco_win_add_iroute_ipv4(dco_context_t *dco, in_addr_t dst, unsigned int netbits, unsigned int peer_id);
+
+void
+dco_win_add_iroute_ipv6(dco_context_t *dco, struct in6_addr dst, unsigned int netbits, unsigned int peer_id);
+
+void
+dco_win_del_iroute_ipv4(dco_context_t *dco, in_addr_t dst, unsigned int netbits);
+
+void
+dco_win_del_iroute_ipv6(dco_context_t *dco, struct in6_addr dst, unsigned int netbits);
 
 #else /* if defined(ENABLE_DCO) && defined(_WIN32) */
 

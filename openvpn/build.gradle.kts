@@ -1,5 +1,4 @@
 import com.android.build.gradle.api.ApplicationVariant
-import com.android.build.gradle.api.LibraryVariant
 
 /*
  * Copyright (c) 2012-2016 Arne Schwabe
@@ -7,8 +6,8 @@ import com.android.build.gradle.api.LibraryVariant
  */
 
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     id("checkstyle")
 }
 
@@ -22,20 +21,17 @@ android {
     //compileSdkPreview = "UpsideDownCake"
 
     // Also update runcoverity.sh
-    ndkVersion = rootProject.ext.get("compileNdkVersion") as String
+    ndkVersion = "28.0.13004108"
 
     defaultConfig {
         minSdk = 21
-/*
         targetSdk = 35
         //targetSdkPreview = "UpsideDownCake"
-        versionCode = 210
-        versionName = "0.7.55"
-*/
+        versionCode = 216
+        versionName = "0.7.61"
         externalNativeBuild {
             cmake {
                 //arguments+= "-DCMAKE_VERBOSE_MAKEFILE=1"
-                version = "3.18.1"
             }
         }
     }
@@ -45,7 +41,6 @@ android {
 
     externalNativeBuild {
         cmake {
-            version = "3.18.1"
             path = File("${projectDir}/src/main/cpp/CMakeLists.txt")
         }
     }
@@ -55,7 +50,7 @@ android {
             assets.srcDirs("src/main/assets", "build/ovpnassets")
 
         }
-/*
+
         create("ui") {
         }
 
@@ -67,10 +62,8 @@ android {
 
         getByName("release") {
         }
-*/
     }
 
-/*
     signingConfigs {
         create("release") {
             // ~/.gradle/gradle.properties
@@ -107,16 +100,14 @@ android {
         checkOnly += setOf("ImpliedQuantity", "MissingQuantity")
         disable += setOf("MissingTranslation", "UnsafeNativeCodeLocation")
     }
-*/
+
 
     flavorDimensions += listOf("implementation", "ovpnimpl")
 
     productFlavors {
-/*
         create("ui") {
             dimension = "implementation"
         }
-*/
 
         create("skeleton") {
             dimension = "implementation"
@@ -128,16 +119,14 @@ android {
             buildConfigField("boolean", "openvpn3", "true")
         }
 
-/*
         create("ovpn2")
         {
             dimension = "ovpnimpl"
             versionNameSuffix = "-o2"
             buildConfigField("boolean", "openvpn3", "false")
         }
- */
     }
-/*
+
     buildTypes {
         getByName("release") {
             if (project.hasProperty("icsopenvpnDebugSign")) {
@@ -149,7 +138,6 @@ android {
             }
         }
     }
- */
 
     compileOptions {
         targetCompatibility = JavaVersion.VERSION_17
@@ -168,10 +156,6 @@ android {
             isUniversalApk = true
         }
     }
-    buildFeatures {
-        aidl = true
-    }
-    namespace = "de.blinkt.openvpn"
 
     packaging {
         jniLibs {
@@ -179,7 +163,6 @@ android {
         }
     }
 
-/*
     bundle {
         codeTransparency {
             signing {
@@ -204,57 +187,45 @@ android {
             }
         }
     }
- */
 }
 
-abstract class SwigTask : DefaultTask() {
-    @get:OutputDirectory abstract val genDir: DirectoryProperty
-    @get:Inject abstract val exec: ExecOperations
+var swigcmd = "swig"
+// Workaround for macOS(arm64) and macOS(intel) since it otherwise does not find swig and
+// I cannot get the Exec task to respect the PATH environment :(
+if (file("/opt/homebrew/bin/swig").exists())
+    swigcmd = "/opt/homebrew/bin/swig"
+else if (file("/usr/local/bin/swig").exists())
+    swigcmd = "/usr/local/bin/swig"
 
-    @TaskAction
-    fun action() {
-        val genDir = genDir.asFile.get()
-        genDir.mkdirs()
 
-        val swigcmd = getSwigCommand()
-        exec.exec {
-            commandLine(swigcmd, "-outdir", genDir, "-outcurrentdir", "-c++", "-java", "-package", "net.openvpn.ovpn3",
+fun registerGenTask(variantName: String, variantDirName: String): File {
+    val baseDir = File(buildDir, "generated/source/ovpn3swig/${variantDirName}")
+    val genDir = File(baseDir, "net/openvpn/ovpn3")
+
+    tasks.register<Exec>("generateOpenVPN3Swig${variantName}")
+    {
+
+        doFirst {
+            mkdir(genDir)
+        }
+        commandLine(listOf(swigcmd, "-outdir", genDir, "-outcurrentdir", "-c++", "-java", "-package", "net.openvpn.ovpn3",
                 "-Isrc/main/cpp/openvpn3/client", "-Isrc/main/cpp/openvpn3/",
                 "-DOPENVPN_PLATFORM_ANDROID",
                 "-o", "${genDir}/ovpncli_wrap.cxx", "-oh", "${genDir}/ovpncli_wrap.h",
-                "src/main/cpp/openvpn3/client/ovpncli.i")
-        }
-    }
-
-    private fun getSwigCommand(): String {
-        var swigcmd = "swig"
-        // Workaround for macOS(arm64) and macOS(intel) since it otherwise does not find swig and
-        // I cannot get the Exec task to respect the PATH environment :(
-        if (File("/opt/homebrew/bin/swig").exists())
-            swigcmd = "/opt/homebrew/bin/swig"
-        else if (File("/usr/local/bin/swig").exists())
-            swigcmd = "/usr/local/bin/swig"
-        return swigcmd
-    }
-}
-
-fun registerGenTask(variantName: String, variantDirName: String): Provider<Directory> {
-    val baseDir = layout.buildDirectory.dir("generated/source/ovpn3swig/${variantDirName}")
-
-    tasks.register<SwigTask>("generateOpenVPN3Swig${variantName}") {
-        genDir = baseDir.map { it.dir("net/openvpn/ovpn3") }
+                "src/main/cpp/openvpn3/client/ovpncli.i"))
         inputs.files( "src/main/cpp/openvpn3/client/ovpncli.i")
-    }
+        outputs.dir( genDir)
 
+    }
     return baseDir
 }
 
-android.libraryVariants.all(object : Action<LibraryVariant> {
-    override fun execute(variant: LibraryVariant) {
+android.applicationVariants.all(object : Action<ApplicationVariant> {
+    override fun execute(variant: ApplicationVariant) {
         val sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
-        val task = tasks.named("generateOpenVPN3Swig${variant.name}")
+        val task = tasks.named("generateOpenVPN3Swig${variant.name}").get()
 
-        variant.registerJavaGeneratingTask(task, sourceDir.get().asFile)
+        variant.registerJavaGeneratingTask(task, sourceDir)
     }
 })
 
@@ -263,9 +234,7 @@ dependencies {
     // https://maven.google.com/web/index.html
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.core.ktx)
-    implementation("com.github.seancfoley:ipaddress:5.4.0")
 
-/*
     uiImplementation(libs.android.view.material)
     uiImplementation(libs.androidx.activity)
     uiImplementation(libs.androidx.activity.ktx)
@@ -284,7 +253,6 @@ dependencies {
     uiImplementation(libs.kotlin)
     uiImplementation(libs.mpandroidchart)
     uiImplementation(libs.square.okhttp)
- */
 
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.junit)
@@ -293,7 +261,5 @@ dependencies {
     testImplementation(libs.robolectric)
 }
 
-/*
 fun DependencyHandler.uiImplementation(dependencyNotation: Any): Dependency? =
     add("uiImplementation", dependencyNotation)
- */

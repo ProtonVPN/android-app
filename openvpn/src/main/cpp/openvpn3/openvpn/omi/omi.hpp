@@ -920,7 +920,7 @@ class OMICore : public Acceptor::ListenerBase
     {
         if (!is_sock_open() || recv_queued)
             return;
-        BufferPtr buf = BufferAllocatedRc::Create(256, 0);
+        BufferPtr buf = BufferAllocatedRc::Create(256);
         socket->async_receive(buf->mutable_buffer_clamp(),
                               [self = Ptr(this), sock = socket, buf](const openvpn_io::error_code &error, const size_t bytes_recvd)
                               {

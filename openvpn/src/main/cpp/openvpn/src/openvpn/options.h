@@ -98,6 +98,7 @@ struct local_entry
 {
     const char *local;
     const char *port;
+    int proto;
 };
 
 struct connection_entry
@@ -504,6 +505,7 @@ struct options
     const char *client_config_dir;
     bool ccd_exclusive;
     bool disable;
+    const char *override_username;
     int n_bcast_buf;
     int tcp_queue_limit;
     struct iroute *iroutes;
@@ -916,6 +918,8 @@ void options_string_import(struct options *options,
                            struct env_set *es);
 
 bool key_is_external(const struct options *options);
+
+bool has_udp_in_local_list(const struct options *options);
 
 /**
  * Returns whether the current configuration has dco enabled.

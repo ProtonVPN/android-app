@@ -182,7 +182,7 @@ class OptionListContinuation : public OptionList
                 name.erase(name.begin());
             }
 
-            if (updatable_options.find(name) == updatable_options.end())
+            if (!updatable_options.contains(name))
             {
                 if (optional)
                 {
@@ -203,7 +203,7 @@ class OptionListContinuation : public OptionList
             else
             {
                 // if upcoming updated option is not in update list, it should be removed from current options
-                if (update_list.find(name) == update_list.end())
+                if (!update_list.contains(name))
                 {
                     opts_to_remove.insert(name);
                 }
@@ -216,7 +216,7 @@ class OptionListContinuation : public OptionList
         erase(std::remove_if(begin(), end(), [&opts_to_remove](const Option &o)
                              {
             const std::string &name = o.ref(0);
-            return opts_to_remove.find(name) != opts_to_remove.end(); }),
+            return opts_to_remove.contains(name); }),
               end());
 
         // we need to remove only original options, not the ones from ongoing PUSH_UPDATE
@@ -256,7 +256,7 @@ class OptionListContinuation : public OptionList
         "block-ipv4",
         "block-ipv6",
         "block-outside-dns",
-        "dhcp-options",
+        "dhcp-option",
         "dns",
         "ifconfig",
         "ifconfig-ipv6",

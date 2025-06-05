@@ -139,8 +139,11 @@ class Setup : public TunBuilderSetup::Base
         // populate add/remove lists with actions
         tun_config(conf->iface_name, pull, *add_cmds, *remove_cmds, os);
 
-        // execute the add actions
-        add_cmds->execute(os);
+        // execute the add actions and collect marks of failed actions
+        auto failed_actions = add_cmds->execute(os);
+
+        // since we should not undo failed actions, remove them
+        remove_cmds->remove_marked(failed_actions, os);
 
         // now that the add actions have succeeded,
         // enable the remove actions
@@ -217,6 +220,7 @@ class Setup : public TunBuilderSetup::Base
                     g += '%' + iface;
                 add->argv.push_back(g);
             }
+            add->mark = net.to_string();
             create = add;
 
             // for the destroy command, copy the add command but replace "add" with "delete"
@@ -263,6 +267,7 @@ class Setup : public TunBuilderSetup::Base
                 }
                 add->argv.push_back(gateway_str);
             }
+            add->mark = net.to_string();
             create = add;
 
             // for the destroy command, copy the add command but replace "add" with "delete"
@@ -378,7 +383,10 @@ class Setup : public TunBuilderSetup::Base
                     if (!pull.block_ipv6)
                     {
                         if (gw6.flags() & MacGatewayInfo::ADDR_DEFINED)
-                            add_del_route(route.address, route.prefix_length, gw6.gateway_addr_str(), gw6.iface(), R_IPv6 | R_IFACE_HINT, create, destroy);
+                        {
+                            // MacGatewayInfo already includes interface hint so no need to specify R_IFACE_HINT here
+                            add_del_route(route.address, route.prefix_length, gw6.gateway_addr_str(), gw6.iface(), R_IPv6, create, destroy);
+                        }
                         else
                             os << "NOTE: cannot determine gateway for exclude IPv6 routes" << std::endl;
                     }
@@ -439,7 +447,8 @@ class Setup : public TunBuilderSetup::Base
                     if (pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL))
                     {
                         Action::Ptr c, d;
-                        add_del_route(pull.remote_address.address, 128, gw6.gateway_addr_str(), gw6.iface(), R_IPv6 | R_IFACE_HINT, c, d);
+                        // MacGatewayInfo already includes interface hint so no need to specify R_IFACE_HINT here
+                        add_del_route(pull.remote_address.address, 128, gw6.gateway_addr_str(), gw6.iface(), R_IPv6, c, d);
                         create.add(c);
                         destroy.add(d);
                     }
@@ -507,7 +516,8 @@ class Setup : public TunBuilderSetup::Base
             }
             else
             {
-                add_del_route(route, 128, gw.gateway_addr_str(), gw.iface(), R_IPv6 | R_IFACE_HINT, add_cmds, remove_cmds_bypass_gw);
+                // MacGatewayInfo already includes interface hint so no need to specify R_IFACE_HINT here
+                add_del_route(route, 128, gw.gateway_addr_str(), gw.iface(), R_IPv6, add_cmds, remove_cmds_bypass_gw);
             }
         }
     }

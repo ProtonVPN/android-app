@@ -133,6 +133,33 @@ multi_io_init(int maxevents, int *maxclients)
 }
 
 void
+multi_io_set_global_rw_flags(struct multi_context *m, struct multi_instance *mi)
+{
+    if (!mi)
+    {
+        return;
+    }
+
+    mi->socket_set_called = true;
+    if (proto_is_dgram(mi->context.c2.link_sockets[0]->info.proto))
+    {
+        socket_set(mi->context.c2.link_sockets[0],
+                   m->multi_io->es,
+                   EVENT_READ,
+                   &mi->context.c2.link_sockets[0]->ev_arg,
+                   NULL);
+    }
+    else
+    {
+        socket_set(mi->context.c2.link_sockets[0],
+                   m->multi_io->es,
+                   mbuf_defined(mi->tcp_link_out_deferred) ? EVENT_WRITE : EVENT_READ,
+                   &mi->ev_arg,
+                   &mi->tcp_rwflags);
+    }
+}
+
+void
 multi_io_free(struct multi_io *multi_io)
 {
     if (multi_io)
@@ -149,10 +176,18 @@ multi_io_wait(struct multi_context *m)
     int status, i;
     unsigned int *persistent = &m->multi_io->tun_rwflags;
 
-    for (i = 0; i < m->top.c1.link_sockets_num; i++)
+    if (!tuntap_is_dco_win(m->top.c1.tuntap))
     {
-        socket_set_listen_persistent(m->top.c2.link_sockets[i], m->multi_io->es,
-                                     &m->top.c2.link_sockets[i]->ev_arg);
+        for (i = 0; i < m->top.c1.link_sockets_num; i++)
+        {
+            socket_set_listen_persistent(m->top.c2.link_sockets[i], m->multi_io->es,
+                                         &m->top.c2.link_sockets[i]->ev_arg);
+        }
+    }
+
+    if (has_udp_in_local_list(&m->top.options))
+    {
+        get_io_flags_udp(&m->top, m->multi_io, p2mp_iow_flags(m));
     }
 
 #ifdef _WIN32
@@ -170,7 +205,8 @@ multi_io_wait(struct multi_context *m)
     }
 #endif
     tun_set(m->top.c1.tuntap, m->multi_io->es, EVENT_READ, MULTI_IO_TUN, persistent);
-#if defined(TARGET_LINUX) || defined(TARGET_FREEBSD)
+#if defined(ENABLE_DCO) \
+    && (defined(TARGET_LINUX) || defined(TARGET_FREEBSD) || defined(TARGET_WIN32))
     dco_event_set(&m->top.c1.tuntap->dco, m->multi_io->es, MULTI_IO_DCO);
 #endif
 
@@ -333,7 +369,7 @@ multi_io_dispatch(struct multi_context *m, struct multi_instance *mi, const int 
 
         case TA_INITIAL:
             ASSERT(mi);
-            multi_tcp_set_global_rw_flags(m, mi);
+            multi_io_set_global_rw_flags(m, mi);
             multi_process_post(m, mi, mpp_flags);
             break;
 
@@ -383,7 +419,7 @@ multi_io_post(struct multi_context *m, struct multi_instance *mi, const int acti
             }
             else
             {
-                multi_tcp_set_global_rw_flags(m, mi);
+                multi_io_set_global_rw_flags(m, mi);
             }
             break;
 
@@ -442,24 +478,31 @@ multi_io_process_io(struct multi_context *m)
                     }
                     break;
 
-                /* new incoming TCP client attempting to connect? */
                 case EVENT_ARG_LINK_SOCKET:
                     if (!ev_arg->u.sock)
                     {
                         msg(D_MULTI_ERRORS, "MULTI IO: multi_io_proc_io: null socket");
                         break;
                     }
-
+                    /* new incoming TCP client attempting to connect? */
                     if (!proto_is_dgram(ev_arg->u.sock->info.proto))
                     {
                         socket_reset_listen_persistent(ev_arg->u.sock);
                         mi = multi_create_instance_tcp(m, ev_arg->u.sock);
-                        if (mi)
-                        {
-                            multi_io_action(m, mi, TA_INITIAL, false);
-                        }
-                        break;
                     }
+                    else
+                    {
+                        multi_process_io_udp(m, ev_arg->u.sock);
+                        mi = m->pending;
+                    }
+                    /* monitor and/or handle events that are
+                     * triggered in succession by the first one
+                     * before returning to the main loop. */
+                    if (mi)
+                    {
+                        multi_io_action(m, mi, TA_INITIAL, false);
+                    }
+                    break;
             }
         }
         else
@@ -496,7 +539,8 @@ multi_io_process_io(struct multi_context *m)
                     multi_io_action(m, mi, TA_INITIAL, false);
                 }
             }
-#if defined(ENABLE_DCO) && (defined(TARGET_LINUX) || defined(TARGET_FREEBSD))
+#if defined(ENABLE_DCO) \
+            && (defined(TARGET_LINUX) || defined(TARGET_FREEBSD) || defined(TARGET_WIN32))
             /* incoming data on DCO? */
             else if (e->arg == MULTI_IO_DCO)
             {

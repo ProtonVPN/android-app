@@ -70,7 +70,7 @@ class TLSCryptV2ServerKey
 
     std::string render() const
     {
-        BufferAllocated data(32 + 2 * key.size(), 0);
+        BufferAllocated data(32 + 2 * key.size());
 
         if (!SSLLib::PEMAPI::pem_encode(data, key.c_data(), key.size(), tls_crypt_v2_server_key_name))
             throw tls_crypt_v2_server_key_encode_error();
@@ -130,7 +130,7 @@ class TLSCryptV2ClientKey
 
     std::string render() const
     {
-        BufferAllocated data(32 + 2 * (key.size() + wkc.size()), 0);
+        BufferAllocated data(32 + 2 * (key.size() + wkc.size()));
         BufferAllocated in(key, BufAllocFlags::GROW);
         in.append(wkc);
 

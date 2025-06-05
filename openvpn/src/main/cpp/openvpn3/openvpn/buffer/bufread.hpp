@@ -45,7 +45,7 @@ inline BufferList buf_read(const int fd, const std::string &title)
     BufferList buflist;
     while (true)
     {
-        BufferAllocated buf(1024, 0);
+        BufferAllocated buf(1024);
         if (!buf_read(fd, buf, title))
             break;
         buflist.put_consume(buf);

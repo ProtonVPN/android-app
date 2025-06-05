@@ -1065,7 +1065,7 @@ class Listener : public ProxyListener
         {
             // find an ID that's not already in use
             const client_t id = next_id++;
-            if (clients.find(id) == clients.end())
+            if (!clients.contains(id))
                 return id;
         }
     }

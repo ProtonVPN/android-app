@@ -213,6 +213,13 @@ class Client : public TransportClient, AsyncResolvableUDP
                     parent->transport_error(Error::TRANSPORT_ERROR, "EADDRNOTAVAIL: Can't assign requested address");
                 }
 #endif
+#ifdef OPENVPN_PLATFORM_WIN
+                if (err == WSAEINVAL)
+                {
+                    stop();
+                    parent->transport_error(Error::TRANSPORT_ERROR, "WSAEINVAL: An invalid argument was supplied.");
+                }
+#endif
                 return false;
             }
             else

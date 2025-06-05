@@ -231,4 +231,5 @@ bn_GF2m_mul_2x2:
 
 #if __ARM_MAX_ARCH__>=7
 .extern	OPENSSL_armcap_P
+.hidden	OPENSSL_armcap_P
 #endif

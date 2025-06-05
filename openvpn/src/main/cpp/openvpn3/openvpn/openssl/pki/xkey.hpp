@@ -14,6 +14,8 @@
 
 #pragma once
 
+#include <memory>
+
 #include <openssl/evp.h>
 #include <openssl/provider.h>
 
@@ -123,7 +125,7 @@ class XKeyExternalPKIImpl : public std::enable_shared_from_this<XKeyExternalPKII
   public:
     [[nodiscard]] static std::shared_ptr<XKeyExternalPKIImpl> create(SSL_CTX *ssl_ctx, ::X509 *cert, ExternalPKIBase *external_pki, std::string alias)
     {
-        auto ret = std::shared_ptr<XKeyExternalPKIImpl>{new XKeyExternalPKIImpl{external_pki, alias}};
+        auto ret = std::make_shared<XKeyExternalPKIImpl>(external_pki, std::move(alias));
         ret->use_external_key(ssl_ctx, cert);
         return ret;
     }
@@ -137,7 +139,7 @@ class XKeyExternalPKIImpl : public std::enable_shared_from_this<XKeyExternalPKII
     }
 
     XKeyExternalPKIImpl(ExternalPKIBase *external_pki, std::string alias)
-        : external_pki(external_pki), alias(alias)
+        : external_pki(external_pki), alias(std::move(alias))
     {
     }
 

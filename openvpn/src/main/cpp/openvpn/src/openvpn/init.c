@@ -612,6 +612,7 @@ next_connection_entry(struct context *c)
         }
 
         c->options.ce = *ce;
+
 #ifdef ENABLE_MANAGEMENT
         if (ce_defined && management && management_query_remote_enabled(management))
         {
@@ -2005,7 +2006,7 @@ do_open_tun(struct context *c, int *error_flags)
 
         if (dco_enabled(&c->options))
         {
-            ovpn_dco_init(c->mode, &c->c1.tuntap->dco);
+            ovpn_dco_init(c->mode, &c->c1.tuntap->dco, c->options.dev_node);
         }
 
         /* open the tun device */
@@ -2024,6 +2025,8 @@ do_open_tun(struct context *c, int *error_flags)
             do_ifconfig(c->c1.tuntap, c->c1.tuntap->actual_name,
                         c->c2.frame.tun_mtu, c->c2.es, &c->net_ctx);
         }
+
+        run_dns_up_down(true, &c->options, c->c1.tuntap);
 
         /* run the up script */
         run_up_down(c->options.up_script,
@@ -2062,6 +2065,8 @@ do_open_tun(struct context *c, int *error_flags)
 
         /* explicitly set the ifconfig_* env vars */
         do_ifconfig_setenv(c->c1.tuntap, c->c2.es);
+
+        run_dns_up_down(true, &c->options, c->c1.tuntap);
 
         /* run the up script if user specified --up-restart */
         if (c->options.up_restart)
@@ -2150,6 +2155,8 @@ do_close_tun(struct context *c, bool force)
 #ifdef _WIN32
     adapter_index = c->c1.tuntap->adapter_index;
 #endif
+
+    run_dns_up_down(false, &c->options, c->c1.tuntap);
 
     if (force || !(c->sig->signal_received == SIGUSR1 && c->options.persist_tun))
     {
@@ -2681,7 +2688,9 @@ do_deferred_options(struct context *c, const unsigned int found)
 
     if (found & OPT_P_EXPLICIT_NOTIFY)
     {
-        if (!proto_is_udp(c->options.ce.proto) && c->options.ce.explicit_exit_notification)
+        /* Client side, so just check the first link_socket */
+        if (!proto_is_udp(c->c2.link_sockets[0]->info.proto)
+            && c->options.ce.explicit_exit_notification)
         {
             msg(D_PUSH, "OPTIONS IMPORT: --explicit-exit-notify can only be used with --proto udp");
             c->options.ce.explicit_exit_notification = 0;
@@ -2788,6 +2797,19 @@ do_deferred_options(struct context *c, const unsigned int found)
         }
     }
 
+    /* Ensure that for epoch data format is only enabled if also data v2
+     * is enabled */
+    bool epoch_data = (c->options.imported_protocol_flags & CO_EPOCH_DATA_KEY_FORMAT);
+    bool datav2_enabled = (c->options.peer_id >= 0 && c->options.peer_id < MAX_PEER_ID);
+
+    if (epoch_data && !datav2_enabled)
+    {
+        msg(D_PUSH_ERRORS, "OPTIONS ERROR: Epoch key data format tag requires "
+            "data v2 (peer-id) to be enabled.");
+        return false;
+    }
+
+
     if (found & OPT_P_PUSH_MTU)
     {
         /* MTU has changed, check that the pushed MTU is small enough to
@@ -2837,14 +2859,14 @@ socket_restart_pause(struct context *c)
     int sec = 2;
     int backoff = 0;
 
-    switch (c->options.ce.proto)
+    switch (c->mode)
     {
-        case PROTO_TCP_SERVER:
+        case CM_TOP:
             sec = 1;
             break;
 
-        case PROTO_UDP:
-        case PROTO_TCP_CLIENT:
+        case CM_CHILD_UDP:
+        case CM_CHILD_TCP:
             sec = c->options.ce.connect_retry_seconds;
             break;
     }
@@ -2862,7 +2884,7 @@ socket_restart_pause(struct context *c)
     }
 
     /* Slow down reconnection after 5 retries per remote -- for TCP client or UDP tls-client only */
-    if (c->options.ce.proto == PROTO_TCP_CLIENT
+    if (c->mode == CM_CHILD_TCP
         || (c->options.ce.proto == PROTO_UDP && c->options.tls_client))
     {
         backoff = (c->options.unsuccessful_attempts / c->options.connection_list->len) - 4;
@@ -3342,7 +3364,6 @@ do_init_crypto_tls(struct context *c, const unsigned int flags)
     to.server = options->tls_server;
     to.replay_window = options->replay_window;
     to.replay_time = options->replay_time;
-    to.tcp_mode = link_socket_proto_connection_oriented(options->ce.proto);
     to.config_ciphername = c->options.ciphername;
     to.config_ncp_ciphers = c->options.ncp_ciphers;
     to.transition_window = options->transition_window;
@@ -3384,10 +3405,19 @@ do_init_crypto_tls(struct context *c, const unsigned int flags)
         to.push_peer_info_detail = 1;
     }
 
+    /* Check if the DCO drivers support the epoch data format */
+    if (dco_enabled(options))
+    {
+        to.data_epoch_supported = dco_supports_epoch_data(c);
+    }
+    else
+    {
+        to.data_epoch_supported = true;
+    }
 
     /* should we not xmit any packets until we get an initial
      * response from client? */
-    if (to.server && options->ce.proto == PROTO_TCP_SERVER)
+    if (to.server && c->mode == CM_CHILD_TCP)
     {
         to.xmit_hold = true;
     }
@@ -4238,20 +4268,13 @@ do_setup_fast_io(struct context *c)
 #ifdef _WIN32
         msg(M_INFO, "NOTE: --fast-io is disabled since we are running on Windows");
 #else
-        if (!proto_is_udp(c->options.ce.proto))
+        if (c->options.shaper)
         {
-            msg(M_INFO, "NOTE: --fast-io is disabled since we are not using UDP");
+            msg(M_INFO, "NOTE: --fast-io is disabled since we are using --shaper");
         }
         else
         {
-            if (c->options.shaper)
-            {
-                msg(M_INFO, "NOTE: --fast-io is disabled since we are using --shaper");
-            }
-            else
-            {
-                c->c2.fast_io = true;
-            }
+            c->c2.fast_io = true;
         }
 #endif
     }
@@ -4396,7 +4419,7 @@ management_callback_network_change(void *arg, bool samenetwork)
     struct link_socket_info *lsi = get_link_socket_info(c);
     if (lsi && proto_is_tcp(lsi->proto) && !samenetwork)
     {
-      	return -2;
+        return -2;
     }
 
     socketfd = c->c2.link_sockets[0]->sd;
@@ -4667,7 +4690,7 @@ init_instance(struct context *c, const struct env_set *env, const unsigned int f
     }
 
     /* our wait-for-i/o objects, different for posix vs. win32 */
-    if (c->mode == CM_P2P)
+    if (c->mode == CM_P2P || c->mode == CM_TOP)
     {
         do_event_set_init(c, SHAPER_DEFINED(&c->options));
     }
@@ -4929,12 +4952,12 @@ close_instance(struct context *c)
 void
 inherit_context_child(struct context *dest,
                       const struct context *src,
-                      struct link_socket *ls)
+                      struct link_socket *sock)
 {
     CLEAR(*dest);
 
     /* proto_is_dgram will ASSERT(0) if proto is invalid */
-    dest->mode = proto_is_dgram(src->options.ce.proto) ? CM_CHILD_UDP : CM_CHILD_TCP;
+    dest->mode = proto_is_dgram(sock->info.proto) ? CM_CHILD_UDP : CM_CHILD_TCP;
 
     dest->gc = gc_new();
 
@@ -4960,7 +4983,10 @@ inherit_context_child(struct context *dest,
 
     /* options */
     dest->options = src->options;
+    dest->options.ce.proto = sock->info.proto;
     options_detach(&dest->options);
+
+    dest->c2.event_set = src->c2.event_set;
 
     if (dest->mode == CM_CHILD_TCP)
     {
@@ -4968,7 +4994,7 @@ inherit_context_child(struct context *dest,
          * The CM_TOP context does the socket listen(),
          * and the CM_CHILD_TCP context does the accept().
          */
-        dest->c2.accept_from = ls;
+        dest->c2.accept_from = sock;
     }
 
 #ifdef ENABLE_PLUGIN
@@ -4995,11 +5021,11 @@ inherit_context_child(struct context *dest,
         ALLOC_ARRAY_GC(dest->c2.link_sockets, struct link_socket *, 1, &dest->gc);
 
         /* inherit parent link_socket and tuntap */
-        dest->c2.link_sockets[0] = ls;
+        dest->c2.link_sockets[0] = sock;
 
         ALLOC_ARRAY_GC(dest->c2.link_socket_infos, struct link_socket_info *, 1, &dest->gc);
         ALLOC_OBJ_GC(dest->c2.link_socket_infos[0], struct link_socket_info, &dest->gc);
-        *dest->c2.link_socket_infos[0] = ls->info;
+        *dest->c2.link_socket_infos[0] = sock->info;
 
         /* locally override some link_socket_info fields */
         dest->c2.link_socket_infos[0]->lsa = &dest->c1.link_socket_addrs[0];
@@ -5053,10 +5079,7 @@ inherit_context_top(struct context *dest,
     dest->c2.es_owned = false;
 
     dest->c2.event_set = NULL;
-    if (proto_is_dgram(src->options.ce.proto))
-    {
-        do_event_set_init(dest, false);
-    }
+    do_event_set_init(dest, false);
 
 #ifdef USE_COMP
     dest->c2.comp_context = NULL;

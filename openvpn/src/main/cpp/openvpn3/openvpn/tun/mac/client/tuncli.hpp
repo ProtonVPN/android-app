@@ -106,7 +106,7 @@ class ClientConfig : public TunClientFactory
         return new ClientConfig;
     }
 
-    bool supports_proto_v3() override
+    bool supports_epoch_data() override
     {
         return true;
     }
@@ -319,6 +319,25 @@ class Client : public TunClient
     virtual ~Client()
     {
         stop_();
+    }
+
+    void apply_push_update(const OptionList &opt, TransportClient &cli) override
+    {
+        stop_();
+        if (impl)
+        {
+            impl.reset();
+        }
+
+        // this has to be done in post, because we need to wait
+        // for all async tun read requests to complete
+        openvpn_io::post(io_context,
+                         [self = Ptr(this), opt, &cli]
+                         {
+                             OPENVPN_ASYNC_HANDLER;
+                             CryptoDCSettings c{};
+                             self->tun_start(opt, cli, c);
+                         });
     }
 
   private:

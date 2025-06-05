@@ -46,7 +46,7 @@ struct BufferCollection : public COLLECTION<BufferPtr>
         const size_t size = join_size();
 
         // allocate buffer
-        auto big = BufferAllocatedRc::Create(size + headroom + tailroom, 0);
+        auto big = BufferAllocatedRc::Create(size + headroom + tailroom);
         big->init_headroom(headroom);
 
         // second pass -- copy data

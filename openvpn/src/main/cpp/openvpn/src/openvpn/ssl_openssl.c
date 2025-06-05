@@ -1152,6 +1152,7 @@ tls_ctx_load_cert_uri(struct tls_root_ctx *tls_ctx, const char *uri)
         goto end;
     }
     OSSL_STORE_INFO_free(info);
+    info = NULL;
 
     /* iterate through the store and add extra certificates if any to the chain */
     while (!OSSL_STORE_eof(store_ctx))
@@ -1170,6 +1171,7 @@ tls_ctx_load_cert_uri(struct tls_root_ctx *tls_ctx, const char *uri)
             break;
         }
         OSSL_STORE_INFO_free(info);
+        info = NULL;
     }
 
 end:
@@ -2454,20 +2456,17 @@ get_sigtype(int nid)
 static void
 print_peer_signature(SSL *ssl, char *buf, size_t buflen)
 {
-    int peer_sig_nid = NID_undef, peer_sig_type_nid = NID_undef;
-    const char *peer_sig = "unknown";
+    int peer_sig_type_nid = NID_undef;
+    const char *peer_sig_unknown = "unknown";
+    const char *peer_sig = peer_sig_unknown;
     const char *peer_sig_type = "unknown type";
 
-    /* Even though these methods use the deprecated NIDs instead of using
-     * string as new OpenSSL APIs do, there seem to be no API that replaces
-     * it yet */
-#if !defined(LIBRESSL_VERSION_NUMBER) || LIBRESSL_VERSION_NUMBER > 0x3050400fL
-    if (SSL_get_peer_signature_nid(ssl, &peer_sig_nid)
-        && peer_sig_nid != NID_undef)
+    const char *signame = NULL;
+    SSL_get0_peer_signature_name(ssl, &signame);
+    if (signame)
     {
-        peer_sig = OBJ_nid2sn(peer_sig_nid);
+        peer_sig = signame;
     }
-#endif
 
 #if !defined(LIBRESSL_VERSION_NUMBER) \
     || (defined(LIBRESSL_VERSION_NUMBER) && LIBRESSL_VERSION_NUMBER >= 0x3090000fL)
@@ -2480,7 +2479,7 @@ print_peer_signature(SSL *ssl, char *buf, size_t buflen)
     }
 #endif
 
-    if (peer_sig_nid == NID_undef && peer_sig_type_nid == NID_undef)
+    if (peer_sig == peer_sig_unknown && peer_sig_type_nid == NID_undef)
     {
         return;
     }
@@ -2489,7 +2488,21 @@ print_peer_signature(SSL *ssl, char *buf, size_t buflen)
              peer_sig, peer_sig_type);
 }
 
-
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+void
+print_tls_key_agreement_group(SSL *ssl, char *buf, size_t buflen)
+{
+    const char *groupname = SSL_get0_group_name(ssl);
+    if (!groupname)
+    {
+        snprintf(buf, buflen, ", key agreement: (error fetching group)");
+    }
+    else
+    {
+        snprintf(buf, buflen, ", key agreement: %s", groupname);
+    }
+}
+#endif
 
 /* **************************************
  *
@@ -2506,8 +2519,9 @@ print_details(struct key_state_ssl *ks_ssl, const char *prefix)
     char s2[256];
     char s3[256];
     char s4[256];
+    char s5[256];
 
-    s1[0] = s2[0] = s3[0] = s4[0] = 0;
+    s1[0] = s2[0] = s3[0] = s4[0] = s5[0] = 0;
     ciph = SSL_get_current_cipher(ks_ssl->ssl);
     snprintf(s1, sizeof(s1), "%s %s, cipher %s %s",
              prefix,
@@ -2523,8 +2537,11 @@ print_details(struct key_state_ssl *ks_ssl, const char *prefix)
     }
     print_server_tempkey(ks_ssl->ssl, s3, sizeof(s3));
     print_peer_signature(ks_ssl->ssl, s4, sizeof(s4));
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+    print_tls_key_agreement_group(ks_ssl->ssl, s5, sizeof(s5));
+#endif
 
-    msg(D_HANDSHAKE, "%s%s%s%s", s1, s2, s3, s4);
+    msg(D_HANDSHAKE, "%s%s%s%s%s", s1, s2, s3, s4, s5);
 }
 
 void

@@ -549,13 +549,13 @@ class ParseClientConfig
         if (protoConfig->tls_crypt_context)
         {
             os << "<tls-crypt>" << std::endl
-               << protoConfig->tls_key.render() << "</tls-crypt>"
+               << protoConfig->tls_crypt_key.render() << "</tls-crypt>"
                << std::endl;
         }
         else if (protoConfig->tls_auth_context)
         {
             os << "<tls-auth>" << std::endl
-               << protoConfig->tls_key.render() << "</tls-auth>"
+               << protoConfig->tls_auth_key.render() << "</tls-auth>"
                << std::endl;
             os << "key_direction " << protoConfig->key_direction << std::endl;
         }

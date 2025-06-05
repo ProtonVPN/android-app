@@ -75,7 +75,7 @@ void openvpn::ovpn_expand_label(const uint8_t *secret, size_t secret_len, const 
         throw std::runtime_error("HKDF input parameters are too large");
     }
 
-    openvpn::BufferAllocated hkdf_label{hkdf_label_len, 0};
+    openvpn::BufferAllocated hkdf_label{hkdf_label_len};
 
     const std::uint16_t net_out_len = htons(static_cast<std::uint16_t>(out_len));
     hkdf_label.write((const unsigned char *)&net_out_len, sizeof(net_out_len));

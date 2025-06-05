@@ -25,6 +25,7 @@
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/rc.hpp>
 #include <openvpn/common/string.hpp>
+#include <openvpn/common/wstring.hpp>
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/arraysize.hpp>
 #include <openvpn/error/excode.hpp>
@@ -240,7 +241,7 @@ class Setup : public SetupBase
 
         delete_route_timer.cancel();
 
-        vpn_interface_index_ = DWORD(-1);
+        vpn_interface_index_ = INVALID_ADAPTER_INDEX;
     }
 
     virtual ~Setup()
@@ -249,7 +250,7 @@ class Setup : public SetupBase
         destroy(os);
     }
 
-    DWORD vpn_interface_index() const
+    DWORD vpn_interface_index() const override
     {
         return vpn_interface_index_;
     }
@@ -298,21 +299,21 @@ class Setup : public SetupBase
         {
             if (pull.dns_options.servers.empty())
                 return;
-            for (const auto &addr : pull.dns_options.servers.begin()->second.addresses)
-                add(addr, pull);
+            for (const auto &ip : pull.dns_options.servers.begin()->second.addresses)
+                add(ip.address, pull);
         }
 
-        static bool enabled(const DnsAddress &addr,
+        static bool enabled(const std::string &address,
                             const TunBuilderCapture &pull)
         {
-            return IP::Addr(addr.address).is_ipv6() && pull.block_ipv6 ? false : true;
+            return IP::Addr(address).is_ipv6() && pull.block_ipv6 ? false : true;
         }
 
-        int add(const DnsAddress &addr,
+        int add(const std::string &address,
                 const TunBuilderCapture &pull)
         {
-            if (enabled(addr, pull))
-                return indices[IP::Addr(addr.address).is_ipv6() ? 1 : 0]++;
+            if (enabled(address, pull))
+                return indices[IP::Addr(address).is_ipv6() ? 1 : 0]++;
             else
                 return -1;
         }
@@ -329,6 +330,65 @@ class Setup : public SetupBase
       private:
         int indices[2] = {0, 0};
     };
+
+    /**
+     * @brief Set the DNS server addresses with the VPN adapter
+     *
+     * @param create            reference to create ActionList
+     * @param destroy           reference to destroy ActionList
+     * @param itf_index_name    VPN interface index or name string ref
+     * @param addresses         vector of server address strings
+     * @param pull              reference to tunbuilder capture
+     */
+    void set_adapter_dns(ActionList &create,
+                         ActionList &destroy,
+                         const std::string &itf_index_name,
+                         const std::vector<std::string> &addresses,
+                         const TunBuilderCapture &pull)
+    {
+        // Usage: set dnsservers [name=]<string> [source=]dhcp|static
+        //  [[address=]<IP address>|none]
+        //  [[register=]none|primary|both]
+        //  [[validate=]yes|no]
+        // Usage: add dnsservers [name=]<string> [address=]<IPv4 address>
+        //  [[index=]<integer>] [[validate=]yes|no]
+        // Usage: delete dnsservers [name=]<string> [[address=]<IP address>|all] [[validate=]yes|no]
+        //
+        // Usage: set dnsservers [name=]<string> [source=]dhcp|static
+        //  [[address=]<IPv6 address>|none]
+        //  [[register=]none|primary|both]
+        //  [[validate=]yes|no]
+        // Usage: add dnsservers [name=]<string> [address=]<IPv6 address>
+        //  [[index=]<integer>] [[validate=]yes|no]
+        // Usage: delete dnsservers [name=]<string> [[address=]<IPv6 address>|all] [[validate=]yes|no]
+
+        // fix for vista and dnsserver vs win7+ dnsservers
+        std::string dns_servers_cmd = "dnsservers";
+        std::string validate_cmd = " validate=no";
+        if (IsWindowsVistaOrGreater() && !IsWindows7OrGreater())
+        {
+            dns_servers_cmd = "dnsserver";
+            validate_cmd = "";
+        }
+
+        UseDNS dc;
+        for (const auto &address : addresses)
+        {
+            // 0-based index for specific IPv4/IPv6 protocol, or -1 if disabled
+            const int count = dc.add(address, pull);
+            if (count >= 0)
+            {
+                const std::string proto = IP::Addr(address).is_ipv6() ? "ipv6" : "ip";
+                if (count)
+                    create.add(new WinCmd("netsh interface " + proto + " add " + dns_servers_cmd + " " + itf_index_name + ' ' + address + " " + to_string(count + 1) + validate_cmd));
+                else
+                {
+                    create.add(new WinCmd("netsh interface " + proto + " set " + dns_servers_cmd + " " + itf_index_name + " static " + address + " register=primary" + validate_cmd));
+                    destroy.add(new WinCmd("netsh interface " + proto + " delete " + dns_servers_cmd + " " + itf_index_name + " all" + validate_cmd));
+                }
+            }
+        }
+    }
 
     void register_rings(HANDLE handle, RingBuffer::Ptr ring_buffer)
     {
@@ -609,7 +669,8 @@ class Setup : public SetupBase
             {
                 // apply DNS settings from --dns options
                 std::vector<std::string> addresses;
-                std::vector<std::string> domains;
+                std::vector<std::string> split_domains;
+                std::vector<std::wstring> wide_search_domains;
                 std::string search_domains;
                 bool dnssec = false;
 
@@ -635,12 +696,13 @@ class Setup : public SetupBase
                     // DNS server split domain(s)
                     for (const auto &dom : server.domains)
                     {
-                        domains.push_back("." + dom.domain);
+                        split_domains.push_back("." + dom.domain);
                     }
 
                     std::string delimiter;
                     for (const auto &domain : pull.dns_options.search_domains)
                     {
+                        wide_search_domains.emplace_back(wstring::from_utf8(domain.to_string()));
                         search_domains.append(delimiter + domain.to_string());
                         delimiter = ",";
                     }
@@ -655,11 +717,17 @@ class Setup : public SetupBase
                     throw tun_win_setup("no applicable DNS server config found");
                 }
 
-                // To keep local resolvers working, only split rules must be created
-                if (!allow_local_dns_resolvers || !domains.empty())
+                if (!allow_local_dns_resolvers || !split_domains.empty())
                 {
-                    create.add(new NRPT::ActionCreate(pid, domains, addresses, dnssec));
+                    // To keep local resolvers working, only split rules must be created
+                    create.add(new NRPT::ActionCreate(pid, split_domains, addresses, wide_search_domains, dnssec));
                     destroy.add(new NRPT::ActionDelete(pid));
+                }
+                else if (allow_local_dns_resolvers && pull.block_outside_dns)
+                {
+                    // Set pushed DNS servers with the adapter. In case the local resolver
+                    // doesn't work the VPN DNS resolvers will serve as a fallback
+                    set_adapter_dns(create, destroy, tap_index_name, addresses, pull);
                 }
 
                 create.add(new DNS::ActionCreate(tap.name, search_domains));
@@ -671,11 +739,11 @@ class Setup : public SetupBase
 
                 // Use WFP for DNS leak protection unless local traffic is blocked already.
                 // Block DNS on all interfaces except the TAP adapter.
-                if (use_wfp && pull.block_outside_dns && !block_local_traffic
-                    && !allow_local_dns_resolvers && !openvpn_app_path.empty())
+                if (use_wfp && pull.block_outside_dns && !block_local_traffic && !openvpn_app_path.empty())
                 {
-                    create.add(new WFP::ActionBlock(openvpn_app_path, tap.index, WFP::Block::Dns, wfp));
-                    destroy.add(new WFP::ActionUnblock(openvpn_app_path, tap.index, WFP::Block::Dns, wfp));
+                    WFP::Block block_type = (allow_local_dns_resolvers ? WFP::Block::DnsButAllowLocal : WFP::Block::Dns);
+                    create.add(new WFP::ActionBlock(openvpn_app_path, tap.index, block_type, wfp));
+                    destroy.add(new WFP::ActionUnblock(openvpn_app_path, tap.index, block_type, wfp));
                 }
             }
             else
@@ -695,48 +763,10 @@ class Setup : public SetupBase
                 // add DNS servers via netsh
                 if (!(use_nrpt && split_dns) && !l2_post)
                 {
-                    // Usage: set dnsservers [name=]<string> [source=]dhcp|static
-                    //  [[address=]<IP address>|none]
-                    //  [[register=]none|primary|both]
-                    //  [[validate=]yes|no]
-                    // Usage: add dnsservers [name=]<string> [address=]<IPv4 address>
-                    //  [[index=]<integer>] [[validate=]yes|no]
-                    // Usage: delete dnsservers [name=]<string> [[address=]<IP address>|all] [[validate=]yes|no]
-                    //
-                    // Usage: set dnsservers [name=]<string> [source=]dhcp|static
-                    //  [[address=]<IPv6 address>|none]
-                    //  [[register=]none|primary|both]
-                    //  [[validate=]yes|no]
-                    // Usage: add dnsservers [name=]<string> [address=]<IPv6 address>
-                    //  [[index=]<integer>] [[validate=]yes|no]
-                    // Usage: delete dnsservers [name=]<string> [[address=]<IPv6 address>|all] [[validate=]yes|no]
-
-                    // fix for vista and dnsserver vs win7+ dnsservers
-                    std::string dns_servers_cmd = "dnsservers";
-                    std::string validate_cmd = " validate=no";
-                    if (IsWindowsVistaOrGreater() && !IsWindows7OrGreater())
-                    {
-                        dns_servers_cmd = "dnsserver";
-                        validate_cmd = "";
-                    }
-
-                    UseDNS dc;
-                    for (const auto &ip : server.addresses)
-                    {
-                        // 0-based index for specific IPv4/IPv6 protocol, or -1 if disabled
-                        const int count = dc.add(ip, pull);
-                        if (count >= 0)
-                        {
-                            const std::string proto = IP::Addr(ip.address).is_ipv6() ? "ipv6" : "ip";
-                            if (count)
-                                create.add(new WinCmd("netsh interface " + proto + " add " + dns_servers_cmd + " " + tap_index_name + ' ' + ip.address + " " + to_string(count + 1) + validate_cmd));
-                            else
-                            {
-                                create.add(new WinCmd("netsh interface " + proto + " set " + dns_servers_cmd + " " + tap_index_name + " static " + ip.address + " register=primary" + validate_cmd));
-                                destroy.add(new WinCmd("netsh interface " + proto + " delete " + dns_servers_cmd + " " + tap_index_name + " all" + validate_cmd));
-                            }
-                        }
-                    }
+                    std::vector<std::string> addresses;
+                    std::for_each(addresses.begin(), addresses.end(), [&addresses](const std::string &addr)
+                                  { addresses.push_back(addr); });
+                    set_adapter_dns(create, destroy, tap_index_name, addresses, pull);
                 }
 
                 // If NRPT enabled and at least one IPv4 or IPv6 DNS
@@ -775,7 +805,12 @@ class Setup : public SetupBase
                     // To keep local resolvers working, only split rules must be created
                     if (!allow_local_dns_resolvers || !split_domains.empty())
                     {
-                        create.add(new NRPT::ActionCreate(pid, split_domains, dserv, false));
+                        std::vector<std::wstring> wide_search_domains;
+                        for (const auto &domain : pull.dns_options.search_domains)
+                        {
+                            wide_search_domains.emplace_back(wstring::from_utf8(domain.to_string()));
+                        }
+                        create.add(new NRPT::ActionCreate(pid, split_domains, dserv, wide_search_domains, false));
                         destroy.add(new NRPT::ActionDelete(pid));
 
                         // Apply changes to DNS settings
@@ -797,11 +832,12 @@ class Setup : public SetupBase
 
                 // Use WFP for DNS leak protection unless local traffic is blocked already.
                 // Block DNS on all interfaces except the TAP adapter.
-                if (use_wfp && !split_dns && !block_local_traffic && !allow_local_dns_resolvers
+                if (use_wfp && !split_dns && !block_local_traffic
                     && !openvpn_app_path.empty() && (dns.ipv4() || dns.ipv6()))
                 {
-                    create.add(new WFP::ActionBlock(openvpn_app_path, tap.index, WFP::Block::Dns, wfp));
-                    destroy.add(new WFP::ActionUnblock(openvpn_app_path, tap.index, WFP::Block::Dns, wfp));
+                    WFP::Block block_type = (allow_local_dns_resolvers ? WFP::Block::DnsButAllowLocal : WFP::Block::Dns);
+                    create.add(new WFP::ActionBlock(openvpn_app_path, tap.index, block_type, wfp));
+                    destroy.add(new WFP::ActionUnblock(openvpn_app_path, tap.index, block_type, wfp));
                 }
 
                 // flush DNS cache
@@ -918,7 +954,7 @@ class Setup : public SetupBase
     std::unique_ptr<std::thread> l2_thread;
     std::unique_ptr<L2State> l2_state;
 
-    DWORD vpn_interface_index_ = DWORD(-1);
+    DWORD vpn_interface_index_ = INVALID_ADAPTER_INDEX;
     ActionList::Ptr remove_cmds;
 
     AsioTimer delete_route_timer;

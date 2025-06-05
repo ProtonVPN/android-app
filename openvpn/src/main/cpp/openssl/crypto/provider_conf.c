@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2025 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -136,7 +136,7 @@ static int provider_conf_params_internal(OSSL_PROVIDER *prov,
     } else {
         OSSL_TRACE2(CONF, "Provider params: %s = %s\n", name, value);
         if (prov != NULL)
-            ok = ossl_provider_add_parameter(prov, name, value);
+            ok = OSSL_PROVIDER_add_conf_parameter(prov, name, value);
         else
             ok = ossl_provider_info_add_parameter(provinfo, name, value);
     }

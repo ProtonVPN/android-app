@@ -93,7 +93,7 @@ static void *kdf_pbkdf2_new(void *provctx)
 static void kdf_pbkdf2_cleanup(KDF_PBKDF2 *ctx)
 {
     ossl_prov_digest_reset(&ctx->digest);
-#ifdef FIPS_MODULE
+#ifdef OPENSSL_PEDANTIC_ZEROIZATION
     OPENSSL_clear_free(ctx->salt, ctx->salt_len);
 #else
     OPENSSL_free(ctx->salt);
@@ -259,7 +259,7 @@ static int kdf_pbkdf2_set_ctx_params(void *vctx, const OSSL_PARAM params[])
     uint64_t iter, min_iter;
     const EVP_MD *md;
 
-    if (params == NULL)
+    if (ossl_param_is_empty(params))
         return 1;
 
     if (OSSL_PARAM_locate_const(params, OSSL_ALG_PARAM_DIGEST) != NULL) {

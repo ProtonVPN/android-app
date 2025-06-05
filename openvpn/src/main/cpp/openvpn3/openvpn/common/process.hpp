@@ -153,6 +153,7 @@ struct Command : public Action
     {
         Command *ret = new Command;
         ret->argv = argv;
+        ret->mark = mark;
         return ret;
     }
 
@@ -171,6 +172,10 @@ struct Command : public Action
             if (status < 0)
                 os << "Error: command failed to execute" << std::endl;
             os << inout.out;
+
+            /* if route already exists, we got "File exists" in output */
+            if (inout.out.find("File exists") != std::string::npos)
+                throw Exception("Route already exists, new route will be ignored");
 #endif
         }
         else

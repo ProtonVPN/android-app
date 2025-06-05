@@ -26,10 +26,10 @@ inline Frame::Ptr frame_init(const bool align_adjust_3_1,
                              const bool verbose)
 {
     const size_t payload = std::max(tun_mtu_max + 512, size_t(2048));
-    const size_t headroom = 512;
-    const size_t tailroom = 512;
-    const size_t align_block = 16;
-    const unsigned int buffer_flags = 0;
+    constexpr size_t headroom = 512;
+    constexpr size_t tailroom = 512;
+    constexpr size_t align_block = 16;
+    constexpr BufferFlags buffer_flags = BufAllocFlags::NO_FLAGS;
 
     Frame::Ptr frame(new Frame(Frame::Context(headroom, payload, tailroom, 0, align_block, buffer_flags)));
     if (align_adjust_3_1)
@@ -60,10 +60,10 @@ inline Frame::Ptr frame_init(const bool align_adjust_3_1,
 
 inline Frame::Context frame_init_context_simple(const size_t payload)
 {
-    const size_t headroom = 512;
-    const size_t tailroom = 512;
-    const size_t align_block = 16;
-    const unsigned int buffer_flags = 0;
+    constexpr size_t headroom = 512;
+    constexpr size_t tailroom = 512;
+    constexpr size_t align_block = 16;
+    constexpr BufferFlags buffer_flags = BufAllocFlags::NO_FLAGS;
     return Frame::Context(headroom, payload, tailroom, 0, align_block, buffer_flags);
 }
 

@@ -164,13 +164,10 @@ class Service
         service = this;
 
         // convert service name to wide string
-        const std::wstring wname = wstring::from_utf8(config.name);
-
-        // store it in a raw wchar_t array
-        std::unique_ptr<wchar_t[]> wname_raw = wstring::to_wchar_t(wname);
+        std::wstring wname = wstring::from_utf8(config.name);
 
         const SERVICE_TABLE_ENTRYW dispatch_table[] = {
-            {wname_raw.get(), (LPSERVICE_MAIN_FUNCTIONW)svc_main_static},
+            {wname.data(), (LPSERVICE_MAIN_FUNCTIONW)svc_main_static},
             {NULL, NULL}};
 
         // This call returns when the service has stopped.

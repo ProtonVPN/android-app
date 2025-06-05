@@ -26,7 +26,7 @@ namespace openvpn {
 class SafeString
 {
     static constexpr size_t INITIAL_CAPACITY = 32;
-    static constexpr unsigned int BUF_FLAGS = BufAllocFlags::DESTRUCT_ZERO | BufAllocFlags::GROW;
+    static constexpr BufferFlags BUF_FLAGS{BufAllocFlags::DESTRUCT_ZERO | BufAllocFlags::GROW};
 
   public:
     SafeString()

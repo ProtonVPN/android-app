@@ -1,5 +1,5 @@
-export ASIO_VERSION=asio-1-24-0
-export ASIO_CSUM=cbcaaba0f66722787b1a7c33afe1befb3a012b5af3ad7da7ff0f6b8c9b7a8a5b
+export ASIO_VERSION=asio-1-32-0
+export ASIO_CSUM=f1b94b80eeb00bb63a3c8cef5047d4e409df4d8a3fe502305976965827d95672
 
 export LZ4_VERSION=lz4-1.8.3
 export LZ4_CSUM=33af5936ac06536805f9745e0b6d61da606a1f8b4cc5c04dd3cbaca3b9b4fc43

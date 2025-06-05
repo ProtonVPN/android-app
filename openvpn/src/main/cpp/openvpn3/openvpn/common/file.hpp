@@ -55,7 +55,7 @@ inline std::string read_text_simple(const std::string &filename)
 // Read a file (may be text or binary).
 inline BufferPtr read_binary(const std::string &filename,
                              const std::uint64_t max_size = 0,
-                             const unsigned int buffer_flags = 0)
+                             const BufferFlags buffer_flags = BufAllocFlags::NO_FLAGS)
 {
 #if defined(OPENVPN_PLATFORM_WIN)
     Win::UTF16 filenamew(Win::utf16(filename));
@@ -104,7 +104,7 @@ inline BufferPtr read_binary_linear(const std::string &filename,
     std::streamsize total_size = 0;
     while (true)
     {
-        auto b = BufferAllocatedRc::Create(block_size, 0);
+        auto b = BufferAllocatedRc::Create(block_size);
         ifs.read((char *)b->data(), b->remaining());
         const std::streamsize size = ifs.gcount();
         if (size)

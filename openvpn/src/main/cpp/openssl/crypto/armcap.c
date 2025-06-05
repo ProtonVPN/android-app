@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2024 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2011-2025 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -35,7 +35,7 @@ void OPENSSL_cpuid_setup(void)
     OPENSSL_armcap_P |= ARMV7_NEON;
     OPENSSL_armv8_rsa_neonized = 1;
     if (IsProcessorFeaturePresent(PF_ARM_V8_CRYPTO_INSTRUCTIONS_AVAILABLE)) {
-        // These are all covered by one call in Windows
+        /* These are all covered by one call in Windows */
         OPENSSL_armcap_P |= ARMV8_AES;
         OPENSSL_armcap_P |= ARMV8_PMULL;
         OPENSSL_armcap_P |= ARMV8_SHA1;
@@ -300,7 +300,8 @@ void OPENSSL_cpuid_setup(void)
             if ((sysctlbyname("machdep.cpu.brand_string", uarch, &len, NULL, 0) == 0) &&
                ((strncmp(uarch, "Apple M1", 8) == 0) ||
                 (strncmp(uarch, "Apple M2", 8) == 0) ||
-                (strncmp(uarch, "Apple M3", 8) == 0))) {
+                (strncmp(uarch, "Apple M3", 8) == 0) ||
+                (strncmp(uarch, "Apple M4", 8) == 0))) {
                 OPENSSL_armcap_P |= ARMV8_UNROLL8_EOR3;
                 OPENSSL_armcap_P |= ARMV8_HAVE_SHA3_AND_WORTH_USING;
             }

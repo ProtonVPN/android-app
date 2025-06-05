@@ -8,7 +8,7 @@ are expect to implement web based mechanisms according to this specification.
 This document has a three parts: The first focuses web based authentication during
 connection (AUTH_PENDING). The second describes standardised
 endpoints for client applications to retrieve a client profile. And final third section
-describes a simpler REST based interface that OpenVPN Connect Client and Access Server use to
+describes a simpler REST based interface that "OpenVPN Connect Client" and "Access Server" use to
 download profiles to the client with minimal user interaction.
 
 ## OpenVPN web auth protocol during Connect ##
@@ -175,7 +175,7 @@ contains the additional parameters like `deviceID` and indicates `tls-cryptv2` s
 
 To start the web based method the client should load the url
 
-  https://servername/openvpn-api/profile
+    https://servername/openvpn-api/profile
 
 with the following optional parameters:
 
@@ -233,7 +233,7 @@ events.
      keys. `profile` will contain the ovpn profile and title will have a suggested title
      for the new profile:
 
-       {"type": "PROFILE_DOWNLOAD_SUCCESS", "data": {"profile": "<.ovpn profile>", "title": "<title>"}}
+         {"type": "PROFILE_DOWNLOAD_SUCCESS", "data": {"profile": "<.ovpn profile>", "title": "<title>"}}
 
      To allow a client to connect directly after downloading a profile without requiring a
      web authentication on the first the connect, the two optional keys `vpn-session-user`
@@ -241,19 +241,19 @@ events.
      the first connect. These keys are not base64 encoded (unlike in the REST based download)
      since JSON has proper escaping:
 
-       {"type": "PROFILE_DOWNLOAD_SUCCESS", "data": {"profile": "<.ovpn profile content>", "vpn-session-user": "foo\'bar", "vpn-session-token": "AT-123456789"}}
+         {"type": "PROFILE_DOWNLOAD_SUCCESS", "data": {"profile": "<.ovpn profile content>", "vpn-session-user": "foo\'bar", "vpn-session-token": "AT-123456789"}}
 
     The implementation of `vpn-session-token` and `vpn-session-user` is optional but strongly
     recommended to improve user experience.
 
 ### openvpn://import-profile URL ###
 
-To trigger a direct import of a profile in an OpenVPN app an openvpn://import-profile/
+To trigger a direct import of a profile in an OpenVPN app an `openvpn://import-profile/`
 link can be used. The syntax of the link is
 
     openvpn://import-profile/https://server/path/to/profile
 
-The client will try to fetch the profile specified in the https:// URL and offer
+The client will try to fetch the profile specified in the `https://` URL and offer
 the user the option to import the profile. The URL MUST NOT require any additional
 authentication or require user interaction, e.g. by embedding a session ID or a one
 time use token. The client MUST check certificates on a HTTPS connection and offer
@@ -270,7 +270,7 @@ Any other response is invalid. The response MAY contain the  `VPN-Session-User` 
 REST is a simple and more lightweight interface to download profiles.
 This is currently mainly implemented by OpenVPN Access Server API and
 Connect clients but can also be implemented by other server and clients.
-The endpoint is https://servername/rest/methodname
+The endpoint is `https://servername/rest/methodname`.
 
 ### Basic API ###
 
@@ -365,12 +365,12 @@ download method.
 ### Challenge/response authentication ###
 
 The challenge/response protocol for the Rest web api mirrors the approach
-taken by the old (non using AUTH-PENDING,cr-response) challenge/response
+taken by the old (not using `AUTH-PENDING,cr-response`) challenge/response
 of the OpenVPN protocol.
 
 When the server issues a challenge to the authentication
 request. For example suppose we have a user called 'test' and a password
-of 'mypass".  Get the OpenVPN config file:
+of 'mypass'.  Get the OpenVPN config file:
 
     curl -u test:mypass https://ACCESS_SERVER/rest/GetUserlogin
 
@@ -384,7 +384,7 @@ we might get a challenge instead:
     </Error>
 
 
-a challenge is indicated by the "CRV1:" prefix in the `<Message>` (meaning
+a challenge is indicated by the "CRV1:" prefix in the `<%Message>` (meaning
 Challenge Response protocol Version 1).  The CRV1 message is formatted
 as follows:
 

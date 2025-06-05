@@ -1173,7 +1173,7 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
         for (std::vector<Option>::const_iterator i = other.begin(); i != other.end(); ++i)
         {
             const Option &opt = *i;
-            if (!opt.empty() && map().find(opt.ref(0)) == map().end())
+            if (!opt.empty() && !map().contains(opt.ref(0)))
             {
                 push_back(opt);
                 opt.touch();

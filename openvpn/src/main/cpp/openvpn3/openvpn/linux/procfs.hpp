@@ -6,6 +6,7 @@
 
 // #define OPENVPN_PROCFS_DEBUG
 
+#include <filesystem>
 #include <string>
 
 #include <openvpn/common/string.hpp>
@@ -66,7 +67,8 @@ class ProcFS : public Action
 
         for (unsigned int i = 0; i < n_retries && !stop; ++i)
         {
-            if (file_exists(fn))
+            std::error_code ec;
+            if (std::filesystem::exists(fn, ec))
             {
                 try
                 {
@@ -80,7 +82,7 @@ class ProcFS : public Action
 #ifdef OPENVPN_PROCFS_DEBUG
                 sleep_milliseconds(100);
                 std::string text_verify;
-                BufferAllocated buf(256, 0);
+                BufferAllocated buf(256);
                 const int status = read_binary_unix_fast(fn, buf);
                 if (status)
                 {

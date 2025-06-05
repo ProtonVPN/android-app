@@ -44,7 +44,7 @@ class StaticKey
     StaticKey(const key_t &keydata)
         : key_data_(keydata)
     {
-        key_data_.or_flags(BufAllocFlags::DESTRUCT_ZERO);
+        key_data_.add_flags(BufAllocFlags::DESTRUCT_ZERO);
     }
 
     size_t size() const

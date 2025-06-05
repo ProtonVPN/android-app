@@ -11,6 +11,13 @@
 
 #include <algorithm>
 #include <utility>
+#include <string>
+#include <tuple>
+#include <array>
+#include <string_view>
+#include <bitset>
+#include <sstream>
+#include <vector>
 
 #include "openvpn/addr/ip.hpp"
 #include "openvpn/tun/builder/capture.hpp"
@@ -41,6 +48,36 @@ auto atLeastOneFalse() -> Gen<std::array<bool, N>>
             return std::any_of(booleans.begin(), booleans.end(), [](const bool b)
                                { return !b; });
         });
+}
+
+/**
+ * @brief Generates an array of validity flags for component testing
+ *
+ * @tparam N Number of validity flags to generate
+ * @param all_valid If @c true, generates all flags as valid (@c true).
+ *                  If @c false, generates flags with at least one invalid (@c false) value.
+ *
+ * @return Generator producing an array of @p N boolean flags.
+ *         When all_valid is @c true : returns array with all elements set to @c true
+ *         When all_valid is @c false : returns array with at least one element set to @c false
+ *
+ * Example usage:
+ * @code
+ *   // Generate flags for testing URL components (all valid)
+ *   auto [scheme_is_valid, authority_is_valid] = *generateValidityFlags<2>(true);
+ *
+ *   // Generate flags with at least one invalid component
+ *   auto [scheme_is_valid, authority_is_valid] = *generateValidityFlags<2>(false);
+ * @endcode
+ */
+template <size_t N>
+auto generateValidityFlags(const bool all_valid = true) -> Gen<std::array<bool, N>>
+{
+    if (all_valid)
+    {
+        return gen::container<std::array<bool, N>>(gen::just(true));
+    }
+    return atLeastOneFalse<N>();
 }
 
 /**
@@ -330,15 +367,32 @@ inline auto IPv6Address(const bool valid = true) -> Gen<std::string>
                                     std::move(eighth_hextet)});
     };
 
-    return gen::apply(convert_hextets_to_compressed_address,
-                      IPv6HextetValue(hextet_validity[0]),
-                      IPv6HextetValue(hextet_validity[1]),
-                      IPv6HextetValue(hextet_validity[2]),
-                      IPv6HextetValue(hextet_validity[3]),
-                      IPv6HextetValue(hextet_validity[4]),
-                      IPv6HextetValue(hextet_validity[5]),
-                      IPv6HextetValue(hextet_validity[6]),
-                      IPv6HextetValue(hextet_validity[7]));
+    if (valid)
+    {
+        return gen::apply(convert_hextets_to_compressed_address,
+                          IPv6HextetValue(hextet_validity[0]),
+                          IPv6HextetValue(hextet_validity[1]),
+                          IPv6HextetValue(hextet_validity[2]),
+                          IPv6HextetValue(hextet_validity[3]),
+                          IPv6HextetValue(hextet_validity[4]),
+                          IPv6HextetValue(hextet_validity[5]),
+                          IPv6HextetValue(hextet_validity[6]),
+                          IPv6HextetValue(hextet_validity[7]));
+    }
+    return gen::map(gen::tuple(
+                        IPv6HextetValue(hextet_validity[0]),
+                        IPv6HextetValue(hextet_validity[1]),
+                        IPv6HextetValue(hextet_validity[2]),
+                        IPv6HextetValue(hextet_validity[3]),
+                        IPv6HextetValue(hextet_validity[4]),
+                        IPv6HextetValue(hextet_validity[5]),
+                        IPv6HextetValue(hextet_validity[6]),
+                        IPv6HextetValue(hextet_validity[7])),
+                    [](const auto &hextets)
+                    {
+                        const auto [first_hextet, second_hextet, third_hextet, fourth_hextet, fifth_hextet, sixth_hextet, seventh_hextet, eighth_hextet] = hextets;
+                        return first_hextet + ":" + second_hextet + ":" + third_hextet + ":" + fourth_hextet + ":" + fifth_hextet + ":" + sixth_hextet + ":" + seventh_hextet + ":" + eighth_hextet;
+                    });
 }
 
 using RedirectGatewayFlagsValues = openvpn::RedirectGatewayFlags::Flags;
@@ -477,5 +531,151 @@ struct Arbitrary<std::variant<T, Ts...>>
     }
 };
 
+static const std::string ALPHA_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+static const std::string DIGITS = "1234567890";
+
+/**
+ * @brief Generates alphabetic or non-alphabetic characters.
+ * @details Creates a generator that produces either valid alphabetic characters (A-Z, a-z)
+ *          or non-alphabetic characters, depending on the input parameter. When generating
+ *          valid alphabetic characters, it selects from a predefined set of characters.
+ *          For invalid characters, it uses a character generator with a predicate that
+ *          ensures the character is not alphabetic.
+ *
+ * @param valid If @c true (default), generates valid alphabetic characters.
+ *              If @c false, generates non-alphabetic characters.
+ *
+ * @return Gen<char> A generator that produces characters according to the specified criteria:
+ *         - When valid=true: returns a generator for alphabetic characters (A-Z, a-z)
+ *         - When valid=false: returns a generator for non-alphabetic characters
+ */
+inline auto alpha(const bool valid = true) -> Gen<char>
+{
+    if (valid)
+    {
+        return gen::elementOf(std::string_view{ALPHA_CHARACTERS});
+    }
+    return gen::suchThat(gen::character<char>(),
+                         [](const char character)
+                         { return !std::isalpha(character); });
+}
+
+/**
+ * @brief Generates characters based on an allowed character set.
+ * @details Creates a generator that either produces characters from a specified set of allowed characters,
+ *          or characters that are specifically not in that set, depending on the @c valid parameter.
+ *          When @c valid is @c true, it generates only characters from the allowed set.
+ *          When @c valid is @c false, it generates only characters that are not in the allowed set.
+ *
+ * @param allowed_chars A string_view containing the set of allowed characters
+ * @param valid        Boolean flag to determine whether to generate characters from the allowed set (@c true)
+ *                     or characters not in the allowed set (@c false). Defaults to @c true.
+ *
+ * @return Gen<char>   A character generator that produces either valid or invalid characters
+ *                     based on the @p allowed_chars set
+ */
+inline auto from_allowed_chars(const std::string_view &allowed_chars, const bool valid = true) -> Gen<char>
+{
+    if (valid)
+    {
+        return gen::elementOf(allowed_chars);
+    }
+    return gen::suchThat(gen::character<char>(),
+                         [allowed_chars](const char character)
+                         { return allowed_chars.find(character) == std::string::npos; });
+}
+
+/**
+ * @brief Generates strings based on allowed characters.
+ * @details Creates a generator that produces strings either containing only allowed characters
+ *          or containing at least one character not in the allowed set.
+ *          When @c valid is @c true, it generates strings using only allowed characters.
+ *          When @c valid is @c false, it generates strings that contain at least one
+ *          character not present in @p allowed_chars.
+ *
+ * @param allowed_chars A string_view containing the set of allowed characters
+ * @param valid Boolean flag to control generation mode:
+ *              - @c true : generate strings using only allowed characters
+ *              - @c false : generate strings containing at least one invalid character
+ *              (defaults to @c true)
+ *
+ * @return A generator that produces @c std::string values according to the
+ *         specified constraints
+ */
+inline auto string_from_allowed_chars(const std::string_view &allowed_chars, const bool valid = true) -> Gen<std::string>
+{
+    if (valid)
+    {
+        return gen::container<std::string>(from_allowed_chars(allowed_chars));
+    }
+    return gen::suchThat(gen::string<std::string>(), [allowed_chars](const auto &string)
+                         { return std::any_of(string.begin(), string.end(), [allowed_chars](const auto &character)
+                                              { return allowed_chars.find(character) == std::string::npos; }); });
+}
+
+/**
+ * @brief Generates a port number value.
+ * @details Creates a generator that produces either valid or invalid port numbers.
+ * If @c valid is @c true, generates numbers in the valid port range [0, 65535].
+ * If @c valid is @c false, generates numbers outside the valid port range.
+ *
+ * @param valid Boolean flag to determine if valid (@c true) or invalid (@c false) port numbers should be generated.
+ *              Defaults to @c true.
+ * @return Gen<int> A generator that produces port numbers according to the @p valid parameter.
+ */
+inline auto port(const bool valid = true) -> Gen<int>
+{
+    static constexpr int port_upper_bound = 65535;
+    static constexpr int port_lower_bound = 0;
+    if (valid)
+        return gen::inRange(port_lower_bound, port_upper_bound + 1);
+    return gen::suchThat<int>(
+        [](const auto port_number)
+        { return port_number < port_lower_bound || port_number > port_upper_bound; });
+}
+
+/**
+ * @brief Calculates the valid IP prefix range for a given IP address.
+ * @details This function takes an IPv4 address as a string and calculates the minimum
+ *          and maximum valid prefix lengths. It converts the address to its integer
+ *          representation and determines the smallest prefix that can correctly
+ *          represent the network containing this address based on the position of
+ *          the least significant '1' bit.
+ *
+ *          For example:
+ *          - For 192.168.1.0, the range would be {24, 32}
+ *          - For 10.0.0.0, the range would be {7, 32}
+ *
+ * @param ipAddress An IPv4 address in dotted decimal notation (e.g., "192.168.1.0")
+ * @return A tuple containing:
+ *         - First element: The minimum valid prefix length (between 0 and 32)
+ *         - Second element: The maximum valid prefix length (always 32)
+ */
+inline auto calculateIPPrefixRange(const std::string &ipAddress) -> std::tuple<int, int>
+{
+    std::array<unsigned int, 4> addressParts{};
+    std::istringstream addressStream(ipAddress);
+    std::string part;
+    size_t partIndex = 0;
+
+    while (std::getline(addressStream, part, '.'))
+    {
+        addressParts[partIndex++] = std::stoi(part);
+    }
+
+    const uint32_t addressInteger = (addressParts[0] << 24) | (addressParts[1] << 16) | (addressParts[2] << 8) | addressParts[3];
+
+    auto minimumPrefix = 32;
+    for (auto bitPosition = 0; bitPosition < 32; ++bitPosition)
+    {
+        if (addressInteger & (1U << bitPosition))
+        {
+            minimumPrefix = 32 - bitPosition;
+            break;
+        }
+    }
+
+    return {minimumPrefix, openvpn::IPv4::Addr::SIZE};
+}
 } // namespace rc
 #endif // TEST_GENERATORS_HPP

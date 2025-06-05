@@ -95,9 +95,17 @@ xor_key2(struct key2 *key, const struct key2 *other)
 }
 
 bool
-tls_session_generate_dynamic_tls_crypt_key(struct tls_multi *multi,
-                                           struct tls_session *session)
+tls_session_generate_dynamic_tls_crypt_key(struct tls_session *session)
 {
+    struct key2 rengokeys;
+    if (!key_state_export_keying_material(session, EXPORT_DYNAMIC_TLS_CRYPT_LABEL,
+                                          strlen(EXPORT_DYNAMIC_TLS_CRYPT_LABEL),
+                                          rengokeys.keys, sizeof(rengokeys.keys)))
+    {
+        return false;
+    }
+    rengokeys.n = 2;
+
     session->tls_wrap_reneg.opt = session->tls_wrap.opt;
     session->tls_wrap_reneg.mode = TLS_WRAP_CRYPT;
     session->tls_wrap_reneg.cleanup_key_ctx = true;
@@ -108,16 +116,6 @@ tls_session_generate_dynamic_tls_crypt_key(struct tls_multi *multi,
                    session->opt->replay_window,
                    session->opt->replay_time,
                    "TLS_WRAP_RENEG", session->key_id);
-
-
-    struct key2 rengokeys;
-    if (!key_state_export_keying_material(session, EXPORT_DYNAMIC_TLS_CRYPT_LABEL,
-                                          strlen(EXPORT_DYNAMIC_TLS_CRYPT_LABEL),
-                                          rengokeys.keys, sizeof(rengokeys.keys)))
-    {
-        return false;
-    }
-    rengokeys.n = 2;
 
     if (session->tls_wrap.mode == TLS_WRAP_CRYPT
         || session->tls_wrap.mode == TLS_WRAP_AUTH)
@@ -301,7 +299,7 @@ tls_crypt_unwrap(const struct buffer *src, struct buffer *dst,
         struct buffer tmp = *src;
         ASSERT(buf_advance(&tmp, TLS_CRYPT_OFF_PID));
         ASSERT(packet_id_read(&pin, &tmp, true));
-        if (!crypto_check_replay(opt, &pin, error_prefix, &gc))
+        if (!crypto_check_replay(opt, &pin, 0, error_prefix, &gc))
         {
             CRYPT_ERROR("packet replay");
         }
@@ -616,7 +614,8 @@ cleanup:
 bool
 tls_crypt_v2_extract_client_key(struct buffer *buf,
                                 struct tls_wrap_ctx *ctx,
-                                const struct tls_options *opt)
+                                const struct tls_options *opt,
+                                bool initial_packet)
 {
     if (!ctx->tls_crypt_v2_server_key.cipher)
     {
@@ -643,6 +642,27 @@ tls_crypt_v2_extract_client_key(struct buffer *buf,
     {
         msg(D_TLS_ERRORS, "Can not locate tls-crypt-v2 client key");
         return false;
+    }
+
+    if (!initial_packet)
+    {
+        /* This might be a harmless resend of the packet but it is better to
+         * just ignore the WKC part than trying to setup tls-crypt keys again.
+         *
+         * A CONTROL_WKC_V1 packets has a normal packet part and an appended
+         * wrapped control key. These are authenticated individually. We already
+         * set up tls-crypt with the wrapped key, so we are ignoring this part
+         * of the message but we return the normal packet part as the normal
+         * part of the message might have been corrupted earlier and discarded
+         * and this is resend. So return the normal part of the packet,
+         * basically transforming the CONTROL_WKC_V1 into a normal CONTROL_V1
+         * packet*/
+        msg(D_TLS_ERRORS, "control channel security already setup ignoring "
+            "wrapped key part of packet.");
+
+        /* Remove client key from buffer so tls-crypt code can unwrap message */
+        ASSERT(buf_inc_len(buf, -(BLEN(&wrapped_client_key))));
+        return true;
     }
 
     ctx->tls_crypt_v2_metadata = alloc_buf(TLS_CRYPT_V2_MAX_METADATA_LEN);

@@ -24,11 +24,6 @@
 #ifndef _SERVICE_H
 #define _SERVICE_H
 
-/* We do not support non-unicode builds */
-#ifndef UNICODE
-#define UNICODE
-#endif
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -36,11 +31,11 @@
 #include <winsock2.h>
 #include <windows.h>
 #include <stdlib.h>
-#include <tchar.h>
+#include <wchar.h>
 #include "../tapctl/basic.h"
 
-#define APPNAME  TEXT(PACKAGE) TEXT("serv")
-#define SERVICE_DEPENDENCIES  TEXT(TAP_WIN_COMPONENT_ID) TEXT("\0Dhcp\0\0")
+#define APPNAME  _L(PACKAGE) L"serv"
+#define SERVICE_DEPENDENCIES  _L(TAP_WIN_COMPONENT_ID) L"\0Dhcp\0\0"
 
 /*
  * Message handling
@@ -58,37 +53,38 @@ typedef enum {
 
 typedef struct {
     openvpn_service_type type;
-    TCHAR *name;
-    TCHAR *display_name;
-    TCHAR *dependencies;
+    WCHAR *name;
+    WCHAR *display_name;
+    WCHAR *dependencies;
     DWORD start_type;
 } openvpn_service_t;
 
 #define MAX_NAME 256
 typedef struct {
-    TCHAR exe_path[MAX_PATH];
-    TCHAR config_dir[MAX_PATH];
-    TCHAR ext_string[16];
-    TCHAR log_dir[MAX_PATH];
-    TCHAR ovpn_admin_group[MAX_NAME];
+    WCHAR exe_path[MAX_PATH];
+    WCHAR config_dir[MAX_PATH];
+    WCHAR ext_string[16];
+    WCHAR log_dir[MAX_PATH];
+    WCHAR ovpn_admin_group[MAX_NAME];
+    WCHAR ovpn_service_user[MAX_NAME];
     DWORD priority;
     BOOL append;
 } settings_t;
 
 extern openvpn_service_t interactive_service;
-extern LPCTSTR service_instance;
+extern LPCWSTR service_instance;
 
-VOID WINAPI ServiceStartInteractiveOwn(DWORD argc, LPTSTR *argv);
+VOID WINAPI ServiceStartInteractiveOwn(DWORD argc, LPWSTR *argv);
 
-VOID WINAPI ServiceStartInteractive(DWORD argc, LPTSTR *argv);
+VOID WINAPI ServiceStartInteractive(DWORD argc, LPWSTR *argv);
 
 DWORD GetOpenvpnSettings(settings_t *s);
 
 BOOL ReportStatusToSCMgr(SERVICE_STATUS_HANDLE service, SERVICE_STATUS *status);
 
-LPCTSTR GetLastErrorText();
+LPCWSTR GetLastErrorText(void);
 
-DWORD MsgToEventLog(DWORD flags, LPCTSTR lpszMsg, ...);
+DWORD MsgToEventLog(DWORD flags, LPCWSTR lpszMsg, ...);
 
 /**
  * Convert a UTF-8 string to UTF-16

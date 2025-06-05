@@ -85,9 +85,11 @@
 #include <openvpn/client/cliconnect.hpp>
 #include <openvpn/client/cliopthelper.hpp>
 #include <openvpn/options/merge.hpp>
+#include <openvpn/error/error.hpp>
 #include <openvpn/error/excode.hpp>
 #include <openvpn/crypto/selftest.hpp>
 #include <openvpn/client/clievent.hpp>
+#include <openvpn/log/sessionstats.hpp>
 
 // copyright
 #include <openvpn/legal/copyright.hpp>
@@ -111,14 +113,14 @@ class MySessionStats : public SessionStats
 #endif
     }
 
-    static size_t combined_n()
+    static constexpr size_t combined_n()
     {
-        return N_STATS + Error::N_ERRORS;
+        return static_cast<size_t>(N_STATS) + static_cast<size_t>(Error::N_ERRORS);
     }
 
     static std::string combined_name(const size_t index)
     {
-        if (index < N_STATS + Error::N_ERRORS)
+        if (index < combined_n())
         {
             if (index < N_STATS)
                 return stat_name(index);
@@ -131,7 +133,7 @@ class MySessionStats : public SessionStats
 
     count_t combined_value(const size_t index) const
     {
-        if (index < N_STATS + Error::N_ERRORS)
+        if (index < combined_n())
         {
             if (index < N_STATS)
                 return get_stat(index);
@@ -1100,7 +1102,7 @@ OPENVPN_CLIENT_EXPORT Stop *OpenVPNClient::get_async_stop()
     return nullptr;
 }
 
-OPENVPN_CLIENT_EXPORT void OpenVPNClient::external_pki_error(const ExternalPKIRequestBase &req, const size_t err_type)
+OPENVPN_CLIENT_EXPORT void OpenVPNClient::external_pki_error(const ExternalPKIRequestBase &req, const Error::Type err_type)
 {
     if (req.error)
     {
@@ -1182,7 +1184,7 @@ OPENVPN_CLIENT_EXPORT long long OpenVPNClient::stats_value(int index) const
 OPENVPN_CLIENT_EXPORT std::vector<long long> OpenVPNClient::stats_bundle() const
 {
     std::vector<long long> sv;
-    const size_t n = MySessionStats::combined_n();
+    constexpr size_t n = MySessionStats::combined_n();
     sv.reserve(n);
     if (state->is_foreign_thread_access())
     {
@@ -1332,7 +1334,7 @@ static SSLLib::SSLAPI::Config::Ptr setup_certcheck_ssl_config(const std::string 
                                                               const std::optional<const std::string> &ca)
 {
     SSLLib::SSLAPI::Config::Ptr config = new SSLLib::SSLAPI::Config;
-    config->set_frame(new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, 0)));
+    config->set_frame(new Frame(Frame::Context(128, 4096, 4096 - 128, 0, 16, BufAllocFlags::NO_FLAGS)));
     config->set_mode(Mode(Mode::CLIENT));
     config->load_cert(client_cert, extra_certs);
     unsigned int flags = SSLConst::LOG_VERIFY_STATUS;

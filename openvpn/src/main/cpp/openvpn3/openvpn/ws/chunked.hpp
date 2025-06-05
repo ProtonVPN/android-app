@@ -56,7 +56,7 @@ class ChunkedHelper
                     }
                     else
                     {
-                        BufferAllocated content(buf.read_alloc(size), size, 0);
+                        BufferAllocated content(buf.read_alloc(size), size, BufAllocFlags::NO_FLAGS);
                         size = 0;
                         callback.chunked_content_in(content);
                     }
@@ -145,7 +145,7 @@ class ChunkedHelper
         if (!buf || buf->offset() < headroom || buf->remaining() < tailroom)
         {
             // insufficient headroom/tailroom, must realloc
-            Frame::Context fc(headroom, 0, tailroom, 0, sizeof(size_t), 0);
+            Frame::Context fc(headroom, 0, tailroom, 0, sizeof(size_t), BufAllocFlags::NO_FLAGS);
             buf = fc.copy(buf);
         }
 

@@ -16,8 +16,9 @@
 
 #pragma once
 
-#include <string>
 #include <cstdint>
+#include <limits>
+#include <string>
 #include <type_traits>
 
 #include <openvpn/common/size.hpp>

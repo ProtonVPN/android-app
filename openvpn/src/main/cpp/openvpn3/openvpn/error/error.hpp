@@ -18,7 +18,7 @@
 
 namespace openvpn::Error {
 
-enum Type
+enum Type : size_t
 {
     SUCCESS = 0,                          // no error
     NETWORK_RECV_ERROR,                   // errors receiving on network socket

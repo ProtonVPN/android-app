@@ -98,6 +98,7 @@ receive_auth_failed(struct context *c, const struct buffer *buffer)
 
             case AR_INTERACT:
                 ssl_purge_auth(false);
+            /* Intentional [[fallthrough]]; */
 
             case AR_NOINTERACT:
                 /* SOFT-SIGTUSR1 -- Auth failure error */
@@ -225,8 +226,7 @@ receive_exit_message(struct context *c)
 
 
 void
-server_pushed_info(struct context *c, const struct buffer *buffer,
-                   const int adv)
+server_pushed_info(const struct buffer *buffer, const int adv)
 {
     const char *m = "";
     struct buffer buf = *buffer;
@@ -258,7 +258,7 @@ server_pushed_info(struct context *c, const struct buffer *buffer,
 
         gc_free(&gc);
     }
-    #endif
+#endif
     msg(D_PUSH, "Info command was pushed by server ('%s')", m);
 }
 
@@ -595,9 +595,19 @@ prepare_auth_token_push_reply(struct tls_multi *tls_multi, struct gc_arena *gc,
      */
     if (tls_multi->auth_token)
     {
-        push_option_fmt(gc, push_list, M_USAGE,
-                        "auth-token %s",
+        push_option_fmt(gc, push_list, M_USAGE, "auth-token %s",
                         tls_multi->auth_token);
+
+        char *base64user = NULL;
+        int ret = openvpn_base64_encode(tls_multi->locked_username,
+                                        (int)strlen(tls_multi->locked_username),
+                                        &base64user);
+        if (ret < USER_PASS_LEN && ret > 0)
+        {
+            push_option_fmt(gc, push_list, M_USAGE, "auth-token-user %s",
+                            base64user);
+        }
+        free(base64user);
     }
 }
 

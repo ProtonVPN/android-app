@@ -66,7 +66,7 @@ inline auto find(MAP_SET &ms, const KEY &k)
 template <typename MAP_SET, typename KEY>
 inline bool exists(MAP_SET &ms, const KEY &k)
 {
-    return ms.find(k) != ms.end();
+    return ms.contains(k);
 }
 
 // Convert an ordinary, dereferenceable iterator to an MSF::Iter

@@ -881,7 +881,7 @@ class ClientOptions : public RC<thread_unsafe_refcount>
       public:
         void add_failed_opt(const Option &o, const std::string &message, bool fatal_arg)
         {
-            if (options_per_category.find(message) == options_per_category.end())
+            if (!options_per_category.contains(message))
             {
                 options_per_category[message] = {};
             }
@@ -968,11 +968,11 @@ class ClientOptions : public RC<thread_unsafe_refcount>
 
         for (const auto &o : opt)
         {
-            if (!o.meta() && settings_ignoreSilently.find(o.get(0, 0)) != settings_ignoreSilently.end())
+            if (!o.meta() && settings_ignoreSilently.contains(o.get(0, 0)))
             {
                 o.touch();
             }
-            if (o.meta() && ignoreMetaOptions.find(o.get(0, 0)) != ignoreMetaOptions.end())
+            if (o.meta() && ignoreMetaOptions.contains(o.get(0, 0)))
             {
                 o.touch();
             }
@@ -1025,7 +1025,7 @@ class ClientOptions : public RC<thread_unsafe_refcount>
     void showUnusedOptionsByList(const OptionList &optlist, std::unordered_set<std::string> option_set, const std::string &message, bool fatal, OptionErrors &errors)
     {
         auto func = [&option_set](const Option &opt)
-        { return !opt.touched() && option_set.find(opt.get(0, 0)) != option_set.end(); };
+        { return !opt.touched() && option_set.contains(opt.get(0, 0)); };
         showOptionsByFunction(optlist, func, message, fatal, errors);
     }
 

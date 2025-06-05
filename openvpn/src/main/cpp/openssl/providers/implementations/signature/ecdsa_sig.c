@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2024 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2025 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -197,11 +197,13 @@ static int ecdsa_setup_md(PROV_ECDSA_CTX *ctx,
         goto err;
     }
     md_nid = ossl_digest_get_approved_nid(md);
+#ifdef FIPS_MODULE
     if (md_nid == NID_undef) {
         ERR_raise_data(ERR_LIB_PROV, PROV_R_DIGEST_NOT_ALLOWED,
                        "digest=%s", mdname);
         goto err;
     }
+#endif
     /* XOF digests don't work */
     if (EVP_MD_xof(md)) {
         ERR_raise(ERR_LIB_PROV, PROV_R_XOF_DIGESTS_NOT_ALLOWED);
@@ -237,16 +239,22 @@ static int ecdsa_setup_md(PROV_ECDSA_CTX *ctx,
     EVP_MD_free(ctx->md);
 
     ctx->aid_len = 0;
-    if (WPACKET_init_der(&pkt, ctx->aid_buf, sizeof(ctx->aid_buf))
-        && ossl_DER_w_algorithmIdentifier_ECDSA_with_MD(&pkt, -1, ctx->ec,
-                                                        md_nid)
-        && WPACKET_finish(&pkt)) {
-        WPACKET_get_total_written(&pkt, &ctx->aid_len);
-        aid = WPACKET_get_curr(&pkt);
+#ifndef FIPS_MODULE
+    if (md_nid != NID_undef) {
+#else
+    {
+#endif
+        if (WPACKET_init_der(&pkt, ctx->aid_buf, sizeof(ctx->aid_buf))
+            && ossl_DER_w_algorithmIdentifier_ECDSA_with_MD(&pkt, -1, ctx->ec,
+                                                            md_nid)
+            && WPACKET_finish(&pkt)) {
+            WPACKET_get_total_written(&pkt, &ctx->aid_len);
+            aid = WPACKET_get_curr(&pkt);
+        }
+        WPACKET_cleanup(&pkt);
+        if (aid != NULL && ctx->aid_len != 0)
+            memmove(ctx->aid_buf, aid, ctx->aid_len);
     }
-    WPACKET_cleanup(&pkt);
-    if (aid != NULL && ctx->aid_len != 0)
-        memmove(ctx->aid_buf, aid, ctx->aid_len);
 
     ctx->mdctx = NULL;
     ctx->md = md;
@@ -721,16 +729,15 @@ static const OSSL_PARAM *ecdsa_gettable_ctx_params(ossl_unused void *vctx,
     return known_gettable_ctx_params;
 }
 
-/* The common params for ecdsa_set_ctx_params and ecdsa_sigalg_set_ctx_params */
+/**
+ * @brief Set up common params for ecdsa_set_ctx_params and
+ * ecdsa_sigalg_set_ctx_params. The caller is responsible for checking |vctx| is
+ * not NULL and |params| is not empty.
+ */
 static int ecdsa_common_set_ctx_params(void *vctx, const OSSL_PARAM params[])
 {
     PROV_ECDSA_CTX *ctx = (PROV_ECDSA_CTX *)vctx;
     const OSSL_PARAM *p;
-
-    if (ctx == NULL)
-        return 0;
-    if (params == NULL)
-        return 1;
 
     if (!OSSL_FIPS_IND_SET_CTX_PARAM(ctx, OSSL_FIPS_IND_SETTABLE0, params,
                                      OSSL_SIGNATURE_PARAM_FIPS_KEY_CHECK))
@@ -766,11 +773,13 @@ static int ecdsa_set_ctx_params(void *vctx, const OSSL_PARAM params[])
     size_t mdsize = 0;
     int ret;
 
+    if (ctx == NULL)
+        return 0;
+    if (ossl_param_is_empty(params))
+        return 1;
+
     if ((ret = ecdsa_common_set_ctx_params(ctx, params)) <= 0)
         return ret;
-
-    if (params == NULL)
-        return 1;
 
     p = OSSL_PARAM_locate_const(params, OSSL_SIGNATURE_PARAM_DIGEST);
     if (p != NULL) {
@@ -970,11 +979,13 @@ static int ecdsa_sigalg_set_ctx_params(void *vctx, const OSSL_PARAM params[])
     const OSSL_PARAM *p;
     int ret;
 
+    if (ctx == NULL)
+        return 0;
+    if (ossl_param_is_empty(params))
+        return 1;
+
     if ((ret = ecdsa_common_set_ctx_params(ctx, params)) <= 0)
         return ret;
-
-    if (params == NULL)
-        return 1;
 
     if (ctx->operation == EVP_PKEY_OP_VERIFYMSG) {
         p = OSSL_PARAM_locate_const(params, OSSL_SIGNATURE_PARAM_SIGNATURE);

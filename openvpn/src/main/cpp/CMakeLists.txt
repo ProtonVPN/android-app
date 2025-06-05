@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.4.1)
 project("ics-openvpn")
 # Git version string
 
-add_link_options("LINKER:--build-id=none")
-
 include(GetGitRevisionDescription.cmake)
 git_describe(OPENVPN2_GIT "${CMAKE_CURRENT_SOURCE_DIR}/openvpn" "--tags" "--always" "--long")
 git_describe(OPENVPN3_GIT "${CMAKE_CURRENT_SOURCE_DIR}/openvpn3" "--tags" "--always" "--long")
@@ -24,7 +22,7 @@ SET(OPENVPN3OSSL ON)
 SET(SSLLIBTYPE STATIC)
 SET(OPENSSL_PATH "openssl")
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 
 
 #add_subdirectory(lzo)
@@ -136,6 +134,7 @@ set(openvpn_srcs
         src/openvpn/console.c
         src/openvpn/console_builtin.c
         src/openvpn/crypto.c
+        src/openvpn/crypto_epoch.c
         src/openvpn/crypto_openssl.c
         src/openvpn/crypto_mbedtls.c
         src/openvpn/cryptoapi.c

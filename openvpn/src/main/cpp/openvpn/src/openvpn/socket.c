@@ -445,6 +445,22 @@ err:
     throw_signal_soft(SIGHUP, "Preresolving failed");
 }
 
+/**
+ * Small helper function for openvpn_getaddrinfo to print the address
+ * family when resolving fails
+ */
+static const char *
+getaddrinfo_addr_family_name(int af)
+{
+    switch (af)
+    {
+        case AF_INET:  return "[AF_INET]";
+
+        case AF_INET6: return "[AF_INET6]";
+    }
+    return "";
+}
+
 /*
  * Translate IPv4/IPv6 addr or hostname into struct addrinfo
  * If resolve error, try again for resolve_retry_seconds seconds.
@@ -545,11 +561,11 @@ openvpn_getaddrinfo(unsigned int flags,
             print_hostname = "undefined";
         }
 
-        fmt = "RESOLVE: Cannot resolve host address: %s:%s (%s)";
+        fmt = "RESOLVE: Cannot resolve host address: %s:%s%s (%s)";
         if ((flags & GETADDR_MENTION_RESOLVE_RETRY)
             && !resolve_retry_seconds)
         {
-            fmt = "RESOLVE: Cannot resolve host address: %s:%s (%s) "
+            fmt = "RESOLVE: Cannot resolve host address: %s:%s%s (%s)"
                   "(I would have retried this name query if you had "
                   "specified the --resolv-retry option.)";
         }
@@ -639,6 +655,7 @@ openvpn_getaddrinfo(unsigned int flags,
                 fmt,
                 print_hostname,
                 print_servname,
+                getaddrinfo_addr_family_name(ai_family),
                 gai_strerror(status));
 
             if (--resolve_retries <= 0)
@@ -1724,9 +1741,17 @@ resolve_bind_local(struct link_socket *sock, const sa_family_t af)
                 gai_strerror(status));
         }
 
-        /* the resolved 'local entry' might have a different family than what
-         * was globally configured */
-        sock->info.af = sock->info.lsa->bind_local->ai_family;
+        /* the resolved family makes sense only if the host is not ANY,
+         * otherwise getaddrinfo() may return v4 and break connections
+         * to v6 only remotes
+         */
+        if (sock->local_host)
+        {
+            /* the resolved 'local entry' might have a different family than
+             * what was globally configured
+             */
+            sock->info.af = sock->info.lsa->bind_local->ai_family;
+        }
     }
 
     gc_free(&gc);
@@ -1880,11 +1905,36 @@ link_socket_init_phase1(struct context *c, int sock_index, int mode)
     struct options *o = &c->options;
     ASSERT(sock);
 
+    const char *host = o->ce.local_list->array[sock_index]->local;
+    const char *port = o->ce.local_list->array[sock_index]->port;
+    int proto = o->ce.local_list->array[sock_index]->proto;
     const char *remote_host = o->ce.remote;
     const char *remote_port = o->ce.remote_port;
 
-    sock->local_host = o->ce.local_list->array[sock_index]->local;
-    sock->local_port = o->ce.local_list->array[sock_index]->port;
+    if (remote_host)
+    {
+        proto = o->ce.proto;
+    }
+
+    if (c->mode == CM_CHILD_TCP || c->mode == CM_CHILD_UDP)
+    {
+        struct link_socket *tmp_sock = NULL;
+        if (c->mode == CM_CHILD_TCP)
+        {
+            tmp_sock = (struct link_socket *)c->c2.accept_from;
+        }
+        else if (c->mode == CM_CHILD_UDP)
+        {
+            tmp_sock = c->c2.link_sockets[0];
+        }
+
+        host = tmp_sock->local_host;
+        port = tmp_sock->local_port;
+        proto = tmp_sock->info.proto;
+    }
+
+    sock->local_host = host;
+    sock->local_port = port;
     sock->remote_host = remote_host;
     sock->remote_port = remote_port;
     sock->dns_cache = c->c1.dns_cache;
@@ -1912,7 +1962,7 @@ link_socket_init_phase1(struct context *c, int sock_index, int mode)
 
     sock->mark = o->mark;
     sock->bind_dev = o->bind_dev;
-    sock->info.proto = o->ce.proto;
+    sock->info.proto = proto;
     sock->info.af = o->ce.af;
     sock->info.remote_float = o->ce.remote_float;
     sock->info.lsa = &c->c1.link_socket_addrs[sock_index];
@@ -2148,7 +2198,6 @@ phase2_socks_client(struct link_socket *sock, struct signal_info *sig_info)
 
     establish_socks_proxy_udpassoc(sock->socks_proxy,
                                    sock->ctrl_sd,
-                                   sock->sd,
                                    &sock->socks_relay.dest,
                                    sock->server_poll_timeout,
                                    sig_info);
@@ -2177,12 +2226,22 @@ static void
 create_socket_dco_win(struct context *c, struct link_socket *sock,
                       struct signal_info *sig_info)
 {
+    /* in P2P mode we must have remote resolved at this point */
+    struct addrinfo *remoteaddr = sock->info.lsa->current_remote;
+    if ((c->options.mode == MODE_POINT_TO_POINT) && (!remoteaddr))
+    {
+        return;
+    }
+
     if (!c->c1.tuntap)
     {
         struct tuntap *tt;
-        ALLOC_OBJ(tt, struct tuntap);
+        ALLOC_OBJ_CLEAR(tt, struct tuntap);
 
-        *tt = create_dco_handle(c->options.dev_node, &c->gc);
+        tt->backend_driver = DRIVER_DCO;
+
+        const char *device_guid = NULL; /* not used */
+        tun_open_device(tt, c->options.dev_node, &device_guid, &c->gc);
 
         /* Ensure we can "safely" cast the handle to a socket */
         static_assert(sizeof(sock->sd) == sizeof(tt->hand), "HANDLE and SOCKET size differs");
@@ -2190,12 +2249,14 @@ create_socket_dco_win(struct context *c, struct link_socket *sock,
         c->c1.tuntap = tt;
     }
 
-    dco_create_socket(c->c1.tuntap->hand,
-                      sock->info.lsa->current_remote,
-                      sock->bind_local, sock->info.lsa->bind_local,
-                      get_server_poll_remaining_time(sock->server_poll_timeout),
-                      sig_info);
-
+    if (c->options.mode == MODE_SERVER)
+    {
+        dco_mp_start_vpn(c->c1.tuntap->hand, sock);
+    }
+    else
+    {
+        dco_p2p_new_peer(c->c1.tuntap->hand, &c->c1.tuntap->dco_new_peer_ov, sock, sig_info);
+    }
     sock->sockflags |= SF_DCO_WIN;
 
     if (sig_info->signal_received)
@@ -2245,19 +2306,16 @@ link_socket_init_phase2(struct context *c,
     resolve_remote(sock, 2, &remote_dynamic,  sig_info);
 
     /* If a valid remote has been found, create the socket with its addrinfo */
+#if defined(_WIN32)
+    if (dco_enabled(&c->options))
+    {
+        create_socket_dco_win(c, sock, sig_info);
+        goto done;
+    }
+#endif
     if (sock->info.lsa->current_remote)
     {
-#if defined(_WIN32)
-        if (dco_enabled(&c->options))
-        {
-            create_socket_dco_win(c, sock, sig_info);
-            goto done;
-        }
-        else
-#endif
-        {
-            create_socket(sock, sock->info.lsa->current_remote);
-        }
+        create_socket(sock, sock->info.lsa->current_remote);
     }
 
     /* If socket has not already been created create it now */
@@ -2986,10 +3044,6 @@ print_in_port_t(in_port_t port, struct gc_arena *gc)
     return BSTR(&buffer);
 }
 
-#ifndef UINT8_MAX
-#define UINT8_MAX 0xff
-#endif
-
 /* add some offset to an ipv6 address
  * (add in steps of 8 bits, taking overflow into next round)
  */
@@ -3452,7 +3506,7 @@ link_socket_write_tcp(struct link_socket *sock,
 #ifdef _WIN32
     return link_socket_write_win32(sock, buf, to);
 #else
-    return link_socket_write_tcp_posix(sock, buf, to);
+    return link_socket_write_tcp_posix(sock, buf);
 #endif
 }
 
@@ -3787,6 +3841,91 @@ socket_send_queue(struct link_socket *sock, struct buffer *buf, const struct lin
     return sock->writes.iostate;
 }
 
+void
+read_sockaddr_from_overlapped(struct overlapped_io *io, struct sockaddr *dst, int overlapped_ret)
+{
+    if (overlapped_ret >= 0 && io->addr_defined)
+    {
+        /* TODO(jjo): streamline this mess */
+        /* in this func we don't have relevant info about the PF_ of this
+         * endpoint, as link_socket_actual will be zero for the 1st received packet
+         *
+         * Test for inets PF_ possible sizes
+         */
+        switch (io->addrlen)
+        {
+            case sizeof(struct sockaddr_in):
+            case sizeof(struct sockaddr_in6):
+            /* TODO(jjo): for some reason (?) I'm getting 24,28 for AF_INET6
+             * under _WIN32*/
+            case sizeof(struct sockaddr_in6) - 4:
+                break;
+
+            default:
+                bad_address_length(io->addrlen, af_addr_size(io->addr.sin_family));
+        }
+
+        switch (io->addr.sin_family)
+        {
+            case AF_INET:
+                memcpy(dst, &io->addr, sizeof(struct sockaddr_in));
+                break;
+
+            case AF_INET6:
+                memcpy(dst, &io->addr6, sizeof(struct sockaddr_in6));
+                break;
+        }
+    }
+    else
+    {
+        CLEAR(*dst);
+    }
+}
+
+/**
+ * @brief Extracts a sockaddr from a packet payload.
+ *
+ * Reads a sockaddr structure from the start of the packet buffer and writes it to `dst`.
+ *
+ * @param[in] buf Packet buffer containing the payload.
+ * @param[out] dst Destination buffer for the extracted sockaddr.
+ * @return Length of the extracted sockaddr
+ */
+static int
+read_sockaddr_from_packet(struct buffer *buf, struct sockaddr *dst)
+{
+    int sa_len = 0;
+
+    const struct sockaddr *sa = (const struct sockaddr *)BPTR(buf);
+    switch (sa->sa_family)
+    {
+        case AF_INET:
+            sa_len = sizeof(struct sockaddr_in);
+            if (buf_len(buf) < sa_len)
+            {
+                msg(M_FATAL, "ERROR: received incoming packet with too short length of %d -- must be at least %d.", buf_len(buf), sa_len);
+            }
+            memcpy(dst, sa, sa_len);
+            buf_advance(buf, sa_len);
+            break;
+
+        case AF_INET6:
+            sa_len = sizeof(struct sockaddr_in6);
+            if (buf_len(buf) < sa_len)
+            {
+                msg(M_FATAL, "ERROR: received incoming packet with too short length of %d -- must be at least %d.", buf_len(buf), sa_len);
+            }
+            memcpy(dst, sa, sa_len);
+            buf_advance(buf, sa_len);
+            break;
+
+        default:
+            msg(M_FATAL, "ERROR: received incoming packet with invalid address family %d.", sa->sa_family);
+    }
+
+    return sa_len;
+}
+
 /* Returns the number of bytes successfully read */
 int
 sockethandle_finalize(sockethandle_t sh,
@@ -3860,45 +3999,14 @@ sockethandle_finalize(sockethandle_t sh,
             ASSERT(0);
     }
 
-    /* return from address if requested */
+    if (from && ret > 0 && sh.is_handle && sh.prepend_sa)
+    {
+        ret -= read_sockaddr_from_packet(buf, &from->dest.addr.sa);
+    }
+
     if (!sh.is_handle && from)
     {
-        if (ret >= 0 && io->addr_defined)
-        {
-            /* TODO(jjo): streamline this mess */
-            /* in this func we don't have relevant info about the PF_ of this
-             * endpoint, as link_socket_actual will be zero for the 1st received packet
-             *
-             * Test for inets PF_ possible sizes
-             */
-            switch (io->addrlen)
-            {
-                case sizeof(struct sockaddr_in):
-                case sizeof(struct sockaddr_in6):
-                /* TODO(jjo): for some reason (?) I'm getting 24,28 for AF_INET6
-                 * under _WIN32*/
-                case sizeof(struct sockaddr_in6)-4:
-                    break;
-
-                default:
-                    bad_address_length(io->addrlen, af_addr_size(io->addr.sin_family));
-            }
-
-            switch (io->addr.sin_family)
-            {
-                case AF_INET:
-                    from->dest.addr.in4 = io->addr;
-                    break;
-
-                case AF_INET6:
-                    from->dest.addr.in6 = io->addr6;
-                    break;
-            }
-        }
-        else
-        {
-            CLEAR(from->dest.addr);
-        }
+        read_sockaddr_from_overlapped(io, &from->dest.addr.sa, ret);
     }
 
     if (buf)

@@ -116,7 +116,7 @@ enum
 };
 inline BufferPtr read_binary_unix(const std::string &fn,
                                   const std::uint64_t max_size = 0,
-                                  const unsigned int buffer_flags = 0,
+                                  const unsigned int enoent_option = 0,
                                   std::uint64_t *mtime_ns = nullptr)
 {
     // open
@@ -124,7 +124,7 @@ inline BufferPtr read_binary_unix(const std::string &fn,
     if (!fd.defined())
     {
         const int eno = errno;
-        if ((buffer_flags & NULL_ON_ENOENT) && eno == ENOENT)
+        if ((enoent_option & NULL_ON_ENOENT) && eno == ENOENT)
             return BufferPtr();
         throw file_unix_error(fn + " : open for read : " + strerror_str(eno));
     }
@@ -151,7 +151,7 @@ inline BufferPtr read_binary_unix(const std::string &fn,
         throw file_unix_error(fn + " : file too large [" + std::to_string(length) + '/' + std::to_string(max_size) + ']');
 
     // allocate buffer
-    auto bp = BufferAllocatedRc::Create(size_t(length), buffer_flags);
+    auto bp = BufferAllocatedRc::Create(size_t(length));
 
     // read file content into buffer
     while (buf_read(fd(), *bp, fn))
@@ -194,10 +194,10 @@ inline int read_binary_unix_fast(const STRING &fn,
 
 inline std::string read_text_unix(const std::string &filename,
                                   const std::uint64_t max_size = 0,
-                                  const unsigned int buffer_flags = 0,
+                                  const unsigned int enoent_option = 0,
                                   std::uint64_t *mtime_ns = nullptr)
 {
-    BufferPtr bp = read_binary_unix(filename, max_size, buffer_flags, mtime_ns);
+    BufferPtr bp = read_binary_unix(filename, max_size, enoent_option, mtime_ns);
     if (bp)
         return buf_to_string(*bp);
     else

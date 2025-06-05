@@ -62,23 +62,6 @@ inline std::string to_utf8(const std::wstring &wstr)
 }
 
 /**
- * @brief Split a wide character string into a C array of it's letters
- *
- * @param wstr                          The wide string to be split
- * @return std::unique_ptr<wchar_t[]>   Smart pointer to the generated array
- */
-inline std::unique_ptr<wchar_t[]> to_wchar_t(const std::wstring &wstr)
-{
-    const size_t len = wstr.length();
-    std::unique_ptr<wchar_t[]> ret(new wchar_t[len + 1]);
-    size_t i;
-    for (i = 0; i < len; ++i)
-        ret[i] = wstr[i];
-    ret[i] = L'\0';
-    return ret;
-}
-
-/**
  * @brief Convert a UTF-8 string vector to a UTF-16 MULTI_SZ string
  *
  * MULTI_SZ is a format used in the Windows Registry. It's a buffer

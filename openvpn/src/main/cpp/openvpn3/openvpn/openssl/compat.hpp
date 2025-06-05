@@ -111,3 +111,13 @@ EVP_MD_free(const EVP_MD *md)
 }
 
 #endif
+#if OPENSSL_VERSION_NUMBER < 0x30200000L && OPENSSL_VERSION_NUMBER >= 0x30000000L
+static inline const char *
+SSL_get0_group_name(SSL *s)
+{
+    /* int is the return type according the manual page but gcc complains that
+     * this a long to int conversion. So explicitly cast to int */
+    int nid = static_cast<int>(SSL_get_negotiated_group(s));
+    return SSL_group_to_name(s, nid);
+}
+#endif

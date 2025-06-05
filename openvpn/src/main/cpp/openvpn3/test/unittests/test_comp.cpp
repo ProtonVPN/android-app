@@ -52,10 +52,10 @@ using namespace openvpn;
 
 Frame::Ptr frame_init(const size_t payload)
 {
-    const size_t headroom = 512;
-    const size_t tailroom = 512;
-    const size_t align_block = 16;
-    const unsigned int buffer_flags = 0;
+    constexpr size_t headroom = 512;
+    constexpr size_t tailroom = 512;
+    constexpr size_t align_block = 16;
+    constexpr BufferFlags buffer_flags = BufAllocFlags::NO_FLAGS;
 
     Frame::Ptr frame(new Frame(Frame::Context(headroom, payload, tailroom, 0, align_block, buffer_flags)));
     frame->standardize_capacity(~0);

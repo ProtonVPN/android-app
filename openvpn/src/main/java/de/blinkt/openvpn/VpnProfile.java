@@ -46,10 +46,8 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.PSSParameterSpec;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.Vector;
@@ -89,7 +87,6 @@ public class VpnProfile implements Serializable, Cloneable {
     public static final int X509_VERIFY_TLSREMOTE_DN = 2;
     public static final int X509_VERIFY_TLSREMOTE_RDN = 3;
     public static final int X509_VERIFY_TLSREMOTE_RDN_PREFIX = 4;
-    public static final int X509_VERIFY_TLSREMOTE_SAN = 5;
     public static final int AUTH_RETRY_NONE_FORGET = 0;
     public static final int AUTH_RETRY_NOINTERACT = 2;
     public static final boolean mIsOpenVPN22 = false;
@@ -123,7 +120,6 @@ public class VpnProfile implements Serializable, Cloneable {
     public String mIPv4Address;
     public String mIPv6Address;
     public boolean mOverrideDNS = false;
-    public List<String> mCustomDNS = new ArrayList<>();
     public String mSearchDomain = "blinkt.de";
     public boolean mUseDefaultRoute = true;
     public boolean mUsePull = true;
@@ -646,8 +642,11 @@ public class VpnProfile implements Serializable, Cloneable {
         cfg.append(routes);
 
         if (mOverrideDNS || !mUsePull) {
-            for (String dns: mCustomDNS) {
-                cfg.append("dhcp-option DNS ").append(dns).append("\n");
+            if (!TextUtils.isEmpty(mDNS1)) {
+                cfg.append("dhcp-option DNS ").append(mDNS1).append("\n");
+            }
+            if (!TextUtils.isEmpty(mDNS2)) {
+                cfg.append("dhcp-option DNS ").append(mDNS2).append("\n");
             }
             if (!TextUtils.isEmpty(mSearchDomain))
                 cfg.append("dhcp-option DOMAIN ").append(mSearchDomain).append("\n");
@@ -698,11 +697,6 @@ public class VpnProfile implements Serializable, Cloneable {
                         case X509_VERIFY_TLSREMOTE_DN:
                             cfg.append("verify-x509-name ").append(openVpnEscape(mRemoteCN)).append("\n");
                             break;
-
-                        case X509_VERIFY_TLSREMOTE_SAN:
-                            cfg.append("verify-x509-name ").append(openVpnEscape(mRemoteCN)).append(" subject-alt-name\n");
-                            break;
-
                     }
                 if (!TextUtils.isEmpty(mx509UsernameField))
                     cfg.append("x509-username-field ").append(openVpnEscape(mx509UsernameField)).append("\n");

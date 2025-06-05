@@ -35,9 +35,28 @@ export LANG=C
 export LC_ALL=C
 PERL_EXE="perl -C0"
 
-if [ ! -x ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi28-clang++ ]; then
-    echo ANDROID_NDK_HOME not set to a valid directory
-    exit 1
+# Define the Android-NDK SDK/API-Level
+NDK_TOOLCHAIN_SDKINT=28
+# Check if Android-NDK is proper configurated
+if [[ -n $ANDROID_NDK_HOME ]]; then
+	NDK_TOOLCHAIN_PATH=${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/
+elif [[ -n $ANDROID_NDK_ROOT ]]; then
+	NDK_TOOLCHAIN_PATH=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/
+fi
+if [[ -d $NDK_TOOLCHAIN_PATH/darwin-x86_64 ]]; then
+	NDK_TOOLCHAIN_PATH+=darwin-x86_64
+elif [[ -d $NDK_TOOLCHAIN_PATH/linux-x86_64 ]]; then
+	NDK_TOOLCHAIN_PATH+=linux-x86_64
+elif [[ -d $NDK_TOOLCHAIN_PATH/windows-x86_64 ]]; then
+	NDK_TOOLCHAIN_PATH+=windows-x86_64
+fi
+if [[ -x ${NDK_TOOLCHAIN_PATH}/bin/armv7a-linux-androideabi$NDK_TOOLCHAIN_SDKINT-clang++ && \
+	-x ${NDK_TOOLCHAIN_PATH}/bin/aarch64-linux-android$NDK_TOOLCHAIN_SDKINT-clang++ && \
+	-x ${NDK_TOOLCHAIN_PATH}/bin/i686-linux-android$NDK_TOOLCHAIN_SDKINT-clang++ && \
+	-x ${NDK_TOOLCHAIN_PATH}/bin/x86_64-linux-android$NDK_TOOLCHAIN_SDKINT-clang++ ]]; then :
+else
+	echo '$ANDROID_NDK_HOME or $ANDROID_NDK_ROOT is not set to a valid directory!'
+	exit 1
 fi
 
 function die() {
@@ -133,7 +152,7 @@ function default_asm_file () {
 function gen_asm_arm () {
   local OUT
   OUT=$(default_asm_file "$@")
-  CC=${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi28-clang++ $PERL_EXE "$1" void "$OUT" > "$OUT"
+  CC=${NDK_TOOLCHAIN_PATH}/bin/armv7a-linux-androideabi$NDK_TOOLCHAIN_SDKINT-clang++ $PERL_EXE "$1" void -D__ARM_MAX_ARCH__=8 "$OUT" > "$OUT"
 }
 
 # Generate an ARMv8 64-bit assembly file.
@@ -142,13 +161,13 @@ function gen_asm_arm () {
 function gen_asm_arm64 () {
   local OUT
   OUT=$(default_asm_file "$@")
-  CC=${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-androideabi28-clang++ $PERL_EXE "$1" linux64 "$OUT" > "$OUT"
+  CC=${NDK_TOOLCHAIN_PATH}/bin/aarch64-linux-android$NDK_TOOLCHAIN_SDKINT-clang++ $PERL_EXE "$1" linux64 "$OUT" > "$OUT"
 }
 
 function gen_asm_x86 () {
   local OUT
   OUT=$(default_asm_file "$@")
-  CC=${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android28-clang++ $PERL_EXE "$1" elf -fPIC $(print_values_with_prefix -D $OPENSSL_CRYPTO_DEFINES_x86) "$OUT" 
+  CC=${NDK_TOOLCHAIN_PATH}/bin/i686-linux-android$NDK_TOOLCHAIN_SDKINT-clang++ $PERL_EXE "$1" elf -fPIC $(print_values_with_prefix -D $OPENSSL_CRYPTO_DEFINES_x86) "$OUT"
 
   #exit 1
   #> "$OUT"
@@ -157,9 +176,8 @@ function gen_asm_x86 () {
 function gen_asm_x86_64 () {
   local OUT
   OUT=$(default_asm_file "$@")
-  CC=${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android28-clang++ $PERL_EXE "$1" elf "$OUT" > "$OUT"
+  CC=${NDK_TOOLCHAIN_PATH}/bin/x86_64-linux-android$NDK_TOOLCHAIN_SDKINT-clang++ $PERL_EXE "$1" elf "$OUT" > "$OUT"
 }
-
 
 # Filter all items in a list that match a given pattern.
 # $1: space-separated list
@@ -246,28 +264,28 @@ function generate_build_config_headers() {
   local configure_args_stat=''
   local outname=$1
   if [[ $2 == 1 ]] ; then
-      configure_args_stat=CONFIGURE_ARGS_STATIC
+      local configure_args_stat=CONFIGURE_ARGS_STATIC
       outname="static-$1"
   fi
 
   if [[ $1 == trusty ]] ; then
     PERL=/usr/bin/perl run_verbose ./Configure $CONFIGURE_ARGS_TRUSTY
   else
-    PERL=/usr/bin/perl run_verbose ./Configure $CONFIGURE_ARGS ${!configure_args_bits} ${!configure_args_stat}
+    if [[ -z $configure_args_stat ]]; then
+      PERL=/usr/bin/perl run_verbose ./Configure $CONFIGURE_ARGS ${!configure_args_bits}
+    else
+      PERL=/usr/bin/perl run_verbose ./Configure $CONFIGURE_ARGS ${!configure_args_bits} ${!configure_args_stat}
+    fi
   fi
 
-  make include/openssl/configuration.h include/openssl/opensslv.h
-  make include/crypto/bn_conf.h include/openssl/lhash.h include/crypto/dso_conf.h
-  make providers/common/include/prov/der_ec.h providers/common/include/prov/der_ecx.h providers/common/include/prov/der_sm2.h providers/common/include/prov/der_dsa.h providers/common/include/prov/der_rsa.h providers/common/include/prov/der_digests.h providers/common/include/prov/der_wrap.h
-  make providers/common/der/der_digests_gen.c providers/common/der/der_ecx_gen.c providers/common/der/der_ec_gen.c providers/common/der/der_dsa_gen.c  providers/common/der/der_rsa_gen.c providers/common/der/der_sm2_gen.c providers/common/der/der_wrap_gen.c
-  make include/openssl/asn1.h include/openssl/asn1t.h include/openssl/bio.h include/openssl/cmp.h include/openssl/cms.h include/openssl/conf.h include/openssl/configuration.h include/openssl/crmf.h include/openssl/crypto.h include/openssl/ct.h include/openssl/err.h include/openssl/ess.h
-  make include/openssl/fipskey.h include/openssl/ocsp.h include/openssl/opensslv.h include/openssl/pkcs12.h include/openssl/pkcs7.h include/openssl/safestack.h include/openssl/srp.h include/openssl/ssl.h include/openssl/ui.h include/openssl/x509.h include/openssl/x509_vfy.h include/openssl/x509v3.h
-  make include/openssl/core_names.h include/internal/param_names.h crypto/params_idx.c
-  make include/openssl/comp.h include/openssl/x509_acert.h
+  # Search for *.in files to transform them to *.h/*.c files
+  local list_existing_in_files=$(find crypto include providers -name '*.in' | awk '{gsub(/\.in/, ""); print}' | sort -u)
+  echo -e "Found *.in files are:\n$list_existing_in_files\n"
+  for input_in_files in ${list_existing_in_files[@]}; do make $input_in_files || true; done
 
-  rm -f apps/CA.pl.bak openssl/opensslconf.h.bak
   mv -f include/crypto/bn_conf.h include/crypto/bn_conf-$outname.h
-  cp -f include/openssl/configuration.h include/openssl/configuration-$outname.h
+  # Remove "NO_ASM" Config-Defines in Config-Headers caused from "linux-generic32/64" Config-Flags
+  cat include/openssl/configuration.h | awk '/NO_ASM/{skip=1; next} skip{skip--; next} {print}' > include/openssl/configuration-$outname.h
 
   local tmpfile=$(mktemp tmp.XXXXXXXXXX)
   (grep -e -D Makefile | grep -v CONFIGURE_ARGS= | grep -v OPTIONS= | \
@@ -356,7 +374,7 @@ print_values_with_prefix() {
     echo -n " $prefix$src "
   done
 }
- 
+
 # Print the definition of a given variable in a GNU Make build file.
 # $1: Variable name (e.g. common_src_files)
 # $2: prefix for each variable contents
@@ -376,6 +394,7 @@ print_vardef_with_prefix_in_mk() {
   fi
   echo ""
 }
+
 # Print the definition of a given variable in a GNU Make build file.
 # $1: Variable name (e.g. common_src_files)
 # $2+: Variable value (e.g. list of sources)
@@ -551,7 +570,7 @@ function import() {
   gen_asm_arm64 crypto/modes/asm/aes-gcm-armv8-unroll8_64.pl crypto/modes/aes-gcm-armv8-unroll8_64.S
   gen_asm_arm64 crypto/aes/asm/bsaes-armv8.pl
   gen_asm_arm64 crypto/sha/asm/sha1-armv8.pl
-  gen_asm_arm64 crypto/aes/asm/vpaes-armv8.pl 
+  gen_asm_arm64 crypto/aes/asm/vpaes-armv8.pl
   gen_asm_arm64 crypto/sha/asm/sha512-armv8.pl crypto/sha/asm/sha256-armv8.S
   gen_asm_arm64 crypto/sha/asm/sha512-armv8.pl
   gen_asm_arm64 crypto/arm64cpuid.pl
@@ -597,9 +616,7 @@ function import() {
   gen_asm_x86 crypto/sha/asm/keccak1600-mmx.pl
   gen_asm_x86 crypto/chacha/asm/chacha-x86.pl
 
-
   # Generate x86_64 asm
-  
   gen_asm_x86_64 crypto/x86_64cpuid.pl
   gen_asm_x86_64 crypto/sha/asm/sha1-x86_64.pl
   gen_asm_x86_64 crypto/sha/asm/sha1-mb-x86_64.pl
@@ -618,6 +635,8 @@ function import() {
   gen_asm_x86_64 crypto/aes/asm/aesni-sha256-x86_64.pl
   gen_asm_x86_64 crypto/aes/asm/aesni-x86_64.pl
   gen_asm_x86_64 crypto/aes/asm/bsaes-x86_64.pl
+  gen_asm_x86_64 crypto/modes/asm/aes-gcm-avx512.pl
+  gen_asm_x86_64 crypto/aes/asm/aesni-xts-avx512.pl
 
   gen_asm_x86_64 crypto/md5/asm/md5-x86_64.pl
   gen_asm_x86_64 crypto/bn/asm/x86_64-mont.pl
@@ -637,13 +656,15 @@ function import() {
   gen_asm_x86_64 crypto/sha/asm/keccak1600-x86_64.pl
 
   gen_asm_x86_64 crypto/ec/asm/x25519-x86_64.pl
-	gen_asm_x86_64 crypto/bn/asm/rsaz-2k-avx512.pl
-	gen_asm_x86_64 crypto/bn/asm/rsaz-3k-avx512.pl
-	gen_asm_x86_64 crypto/bn/asm/rsaz-4k-avx512.pl
-	gen_asm_x86_64 crypto/modes/asm/aes-gcm-avx512.pl
+  gen_asm_x86_64 crypto/bn/asm/rsaz-2k-avx512.pl
+  gen_asm_x86_64 crypto/bn/asm/rsaz-3k-avx512.pl
+  gen_asm_x86_64 crypto/bn/asm/rsaz-4k-avx512.pl
+  gen_asm_x86_64 crypto/bn/asm/rsaz-2k-avxifma.pl
+  gen_asm_x86_64 crypto/bn/asm/rsaz-3k-avxifma.pl
+  gen_asm_x86_64 crypto/bn/asm/rsaz-4k-avxifma.pl
 
   gen_asm_x86_64 crypto/chacha/asm/chacha-x86_64.pl
-  
+
   cd ..
 
   generate_config_mk Crypto-config-target.mk CRYPTO target

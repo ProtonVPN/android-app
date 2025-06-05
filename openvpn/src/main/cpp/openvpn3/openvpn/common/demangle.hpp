@@ -24,13 +24,9 @@ namespace openvpn {
 inline std::string cxx_demangle(const char *mangled_name)
 {
     int status;
-    std::unique_ptr<char[]> realname;
+    std::unique_ptr<char, decltype(&free)> realname{abi::__cxa_demangle(mangled_name, 0, 0, &status), &free};
 
-    realname.reset(abi::__cxa_demangle(mangled_name, 0, 0, &status));
-    if (!status)
-        return std::string(realname.get());
-    else
-        return "DEMANGLE_ERROR";
+    return status ? "DEMANGLE_ERROR" : realname.get();
 }
 
 } // namespace openvpn

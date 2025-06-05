@@ -95,7 +95,7 @@ class SD_IN : public SD
   private:
     void queue_read()
     {
-        buf.reset(0, 2048, 0);
+        buf.reset(0, 2048, BufAllocFlags::NO_FLAGS);
         sd->async_read_some(buf.mutable_buffer_clamp(),
                             [this](const openvpn_io::error_code &ec, const size_t bytes_recvd)
                             {

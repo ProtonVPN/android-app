@@ -301,7 +301,7 @@ class HTTPBase : public REFCOUNT_BASE
                     if (actual >= 0)
                     {
 #if defined(OPENVPN_DEBUG_HTTP)
-                        BufferAllocated tmp(outbuf->c_data(), actual, 0);
+                        BufferAllocated tmp(outbuf->c_data(), actual, BufAllocFlags::NO_FLAGS);
                         OPENVPN_LOG("OUT: " << buf_to_string(tmp));
 #endif
                         outbuf->advance(actual);

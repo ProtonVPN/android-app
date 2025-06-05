@@ -30,7 +30,7 @@ class SessionStats : public RC<thread_safe_refcount>
     typedef RCPtr<SessionStats> Ptr;
     using inc_callback_t = std::function<void(const count_t value)>;
 
-    enum Stats
+    enum Stats : unsigned int
     {
         // operating stats
         BYTES_IN = 0,    // network bytes in
@@ -69,7 +69,7 @@ class SessionStats : public RC<thread_safe_refcount>
     {
         if (type < N_STATS)
         {
-            stats_[type] += value;
+            stats_[type] = stats_[type] + value;
             if (auto lock = inc_callbacks_[type].lock())
                 std::invoke(*lock, value);
         }
@@ -101,6 +101,7 @@ class SessionStats : public RC<thread_safe_refcount>
             "TUN_PACKETS_OUT",
         };
 
+        static_assert(N_STATS == array_size(names), "stats names array inconsistency");
         if (type < N_STATS)
             return names[type];
         else
@@ -210,14 +211,15 @@ class SessionStats : public RC<thread_safe_refcount>
                 update_last_packet_received(Time::now());
             }
 
-            stats_[BYTES_IN] += data.transport_bytes_in;
-            stats_[BYTES_OUT] += data.transport_bytes_out;
-            stats_[TUN_BYTES_IN] += data.tun_bytes_in;
-            stats_[TUN_BYTES_OUT] += data.tun_bytes_out;
-            stats_[PACKETS_IN] += data.transport_pkts_in;
-            stats_[PACKETS_OUT] += data.transport_pkts_out;
-            stats_[TUN_PACKETS_IN] += data.tun_pkts_in;
-            stats_[TUN_PACKETS_OUT] += data.tun_pkts_out;
+            // Not using += because volatile compound assignment has been deprecated.
+            stats_[BYTES_IN] = stats_[BYTES_IN] + data.transport_bytes_in;
+            stats_[BYTES_OUT] = stats_[BYTES_OUT] + data.transport_bytes_out;
+            stats_[TUN_BYTES_IN] = stats_[TUN_BYTES_IN] + data.tun_bytes_in;
+            stats_[TUN_BYTES_OUT] = stats_[TUN_BYTES_OUT] + data.tun_bytes_out;
+            stats_[PACKETS_IN] = stats_[PACKETS_IN] + data.transport_pkts_in;
+            stats_[PACKETS_OUT] = stats_[PACKETS_OUT] + data.transport_pkts_out;
+            stats_[TUN_PACKETS_IN] = stats_[TUN_PACKETS_IN] + data.tun_pkts_in;
+            stats_[TUN_PACKETS_OUT] = stats_[TUN_PACKETS_OUT] + data.tun_pkts_out;
 
             return true;
         }

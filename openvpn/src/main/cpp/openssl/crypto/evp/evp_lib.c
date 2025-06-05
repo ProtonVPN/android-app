@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2024 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2025 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -371,7 +371,7 @@ int EVP_CIPHER_get_block_size(const EVP_CIPHER *cipher)
 
 int EVP_CIPHER_CTX_get_block_size(const EVP_CIPHER_CTX *ctx)
 {
-    return EVP_CIPHER_get_block_size(ctx->cipher);
+    return (ctx == NULL) ? 0 : EVP_CIPHER_get_block_size(ctx->cipher);
 }
 
 int EVP_CIPHER_impl_ctx_size(const EVP_CIPHER *e)
@@ -1193,6 +1193,7 @@ int EVP_PKEY_CTX_get_group_name(EVP_PKEY_CTX *ctx, char *name, size_t namelen)
         return -1;
     return 1;
 }
+#endif  /* !FIPS_MODULE */
 
 /*
  * evp_pkey_keygen() abstracts from the explicit use of B<EVP_PKEY_CTX>
@@ -1236,21 +1237,15 @@ EVP_PKEY *EVP_PKEY_Q_keygen(OSSL_LIB_CTX *libctx, const char *propq,
         name = va_arg(args, char *);
         params[0] = OSSL_PARAM_construct_utf8_string(OSSL_PKEY_PARAM_GROUP_NAME,
                                                      name, 0);
-    } else if (OPENSSL_strcasecmp(type, "ED25519") != 0
-               && OPENSSL_strcasecmp(type, "X25519") != 0
-               && OPENSSL_strcasecmp(type, "ED448") != 0
-               && OPENSSL_strcasecmp(type, "X448") != 0
-               && OPENSSL_strcasecmp(type, "SM2") != 0) {
-        ERR_raise(ERR_LIB_EVP, ERR_R_PASSED_INVALID_ARGUMENT);
-        goto end;
     }
+
     ret = evp_pkey_keygen(libctx, type, propq, params);
 
- end:
     va_end(args);
     return ret;
 }
 
+#if !defined(FIPS_MODULE)
 int EVP_CIPHER_CTX_set_algor_params(EVP_CIPHER_CTX *ctx, const X509_ALGOR *alg)
 {
     int ret = -1;                /* Assume the worst */

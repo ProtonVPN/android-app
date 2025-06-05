@@ -146,8 +146,7 @@ class Function<R(A...), N, INTERN_ONLY>
 
     struct Methods
     {
-        R(*invoke)
-        (void *, A &&...);
+        R (*invoke)(void *, A &&...);
         void (*move)(void *, void *);
         void (*destruct)(void *);
     };

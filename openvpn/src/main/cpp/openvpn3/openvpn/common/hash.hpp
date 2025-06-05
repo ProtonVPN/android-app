@@ -64,7 +64,7 @@ class Hash64
     template <typename T>
     inline void operator()(const T &obj)
     {
-        static_assert(std::is_pod<T>::value, "Hash64: POD type required");
+        static_assert(std::is_standard_layout_v<T>, "Hash64: standard layout required");
         (*this)(&obj, sizeof(obj));
     }
 

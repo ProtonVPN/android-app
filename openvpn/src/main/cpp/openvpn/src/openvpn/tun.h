@@ -215,6 +215,7 @@ struct tuntap
 
 #ifdef _WIN32
     HANDLE hand;
+    OVERLAPPED dco_new_peer_ov; /* used for async NEW_PEER dco call, which might wait for TCP connect */
     struct overlapped_io reads;
     struct overlapped_io writes;
     struct rw_handle rw_handle;
@@ -354,10 +355,6 @@ const char *dev_type_string(const char *dev, const char *dev_type);
 const char *ifconfig_options_string(const struct tuntap *tt, bool remote, bool disable, struct gc_arena *gc);
 
 bool is_tun_p2p(const struct tuntap *tt);
-
-void check_subnet_conflict(const in_addr_t ip,
-                           const in_addr_t netmask,
-                           const char *prefix);
 
 void warn_on_use_of_common_subnets(openvpn_net_ctx_t *ctx);
 

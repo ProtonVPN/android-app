@@ -66,14 +66,6 @@ TEST_F(WStringTest, ToUtf8)
     EXPECT_TRUE(utf8_shigeru == shigeru);
 }
 
-TEST_F(WStringTest, ToCArray)
-{
-    auto array_ptr = wstring::to_wchar_t(wide_jojo);
-    EXPECT_TRUE(::wcslen(array_ptr.get()) == wide_jojo.size());
-    EXPECT_TRUE(::wcscmp(array_ptr.get(), wide_jojo.c_str()) == 0);
-    EXPECT_TRUE(std::wstring(array_ptr.get()) == wide_jojo);
-}
-
 TEST_F(WStringTest, MultiSzFromVector)
 {
     std::vector<std::string> names{jojo, lev, shigeru};

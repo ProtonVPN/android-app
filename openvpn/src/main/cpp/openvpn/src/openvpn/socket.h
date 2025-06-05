@@ -224,6 +224,7 @@ struct link_socket
 #define SF_HOST_RANDOMIZE (1<<3)
 #define SF_GETADDRINFO_DGRAM (1<<4)
 #define SF_DCO_WIN (1<<5)
+#define SF_PREPEND_SA (1<<6)
     unsigned int sockflags;
     int mark;
     const char *bind_dev;
@@ -287,6 +288,7 @@ typedef struct {
         HANDLE h;
     };
     bool is_handle;
+    bool prepend_sa; /* are incoming packets prepended with sockaddr? */
 } sockethandle_t;
 
 int sockethandle_finalize(sockethandle_t sh,
@@ -1046,6 +1048,7 @@ link_socket_read_udp_win32(struct link_socket *sock,
     {
         *from = sock->info.lsa->actual;
         sh.is_handle = true;
+        sh.prepend_sa = sock->sockflags & SF_PREPEND_SA;
     }
     return sockethandle_finalize(sh, &sock->reads, buf, from);
 }
@@ -1116,6 +1119,20 @@ link_socket_write_win32(struct link_socket *sock,
             err = SocketHandleGetLastError(sh);
         }
     }
+
+    /* dco-win mp requires control packets to be prepended with sockaddr */
+    if (sock->sockflags & SF_PREPEND_SA)
+    {
+        if (to->dest.addr.sa.sa_family == AF_INET)
+        {
+            buf_write_prepend(buf, &to->dest.addr.in4, sizeof(struct sockaddr_in));
+        }
+        else
+        {
+            buf_write_prepend(buf, &to->dest.addr.in6, sizeof(struct sockaddr_in6));
+        }
+    }
+
     socket_send_queue(sock, buf, to);
     if (status < 0)
     {
@@ -1155,8 +1172,7 @@ link_socket_write_udp_posix(struct link_socket *sock,
 
 static inline ssize_t
 link_socket_write_tcp_posix(struct link_socket *sock,
-                            struct buffer *buf,
-                            struct link_socket_actual *to)
+                            struct buffer *buf)
 {
     return send(sock->sd, BPTR(buf), BLEN(buf), MSG_NOSIGNAL);
 }

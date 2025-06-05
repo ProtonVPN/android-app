@@ -28,7 +28,8 @@
                     "value": "ON",
                     "type": "BOOL"
                 },
-                "VCPKG_MANIFEST_DIR": "${sourceDir}/deps/vcpkg_manifests/windows"
+                "VCPKG_MANIFEST_DIR": "${sourceDir}/deps/vcpkg_manifests/windows",
+                "VCPKG_HOST_TRIPLET": "x64-windows"
             },
             "vendor": {
                 "microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -207,7 +208,7 @@
             ]
         },
         {
-            "name": "win-amd64-debug",
+            "name": "win-x64-debug",
             "inherits": [
                 "base",
                 "base-windows",
@@ -225,15 +226,6 @@
             ]
         },
         {
-            "name": "win-amd64_arm64-debug",
-            "inherits": [
-                "base",
-                "base-windows",
-                "arm64",
-                "debug"
-            ]
-        },
-        {
             "name": "win-x86-debug",
             "inherits": [
                 "base",
@@ -243,7 +235,7 @@
             ]
         },
         {
-            "name": "win-amd64-release",
+            "name": "win-x64-release",
             "inherits": [
                 "base",
                 "base-windows",
@@ -253,15 +245,6 @@
         },
         {
             "name": "win-arm64-release",
-            "inherits": [
-                "base",
-                "base-windows",
-                "arm64",
-                "release"
-            ]
-        },
-        {
-            "name": "win-amd64_arm64-release",
             "inherits": [
                 "base",
                 "base-windows",
@@ -337,8 +320,8 @@
             "configuration": "Release"
         },
         {
-            "name": "win-amd64-debug",
-            "configurePreset": "win-amd64-debug",
+            "name": "win-x64-debug",
+            "configurePreset": "win-x64-debug",
             "configuration": "Debug"
         },
         {
@@ -352,17 +335,12 @@
             "configuration": "Debug"
         },
         {
-            "name": "win-amd64-release",
-            "configurePreset": "win-amd64-release",
+            "name": "win-x64-release",
+            "configurePreset": "win-x64-release",
             "configuration": "Release"
         },
         {
             "name": "win-arm64-release",
-            "configurePreset": "win-arm64-release",
-            "configuration": "Release"
-        },
-        {
-            "name": "win-amd64_arm64-release",
             "configurePreset": "win-arm64-release",
             "configuration": "Release"
         },
@@ -399,8 +377,8 @@
     ],
     "testPresets": [
         {
-            "name": "win-amd64-debug",
-            "configurePreset": "win-amd64-debug",
+            "name": "win-x64-debug",
+            "configurePreset": "win-x64-debug",
             "configuration": "Debug"
         },
         {
@@ -409,8 +387,8 @@
             "configuration": "Debug"
         },
         {
-            "name": "win-amd64-release",
-            "configurePreset": "win-amd64-release",
+            "name": "win-x64-release",
+            "configurePreset": "win-x64-release",
             "configuration": "Release"
         },
         {

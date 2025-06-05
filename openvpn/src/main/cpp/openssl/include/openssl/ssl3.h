@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2025 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
@@ -308,6 +308,7 @@ extern "C" {
 # define TLS1_FLAGS_REQUIRED_EXTMS               0x1000
 
 /* 0x2000 is reserved for TLS1_FLAGS_QUIC (internal) */
+/* 0x4000 is reserved for TLS1_FLAGS_QUIC_INTERNAL (internal) */
 
 # define SSL3_MT_HELLO_REQUEST                   0
 # define SSL3_MT_CLIENT_HELLO                    1

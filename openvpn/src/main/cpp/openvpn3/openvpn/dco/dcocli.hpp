@@ -132,7 +132,7 @@ class ClientConfig : public DCO,
         return ctrl;
     }
 
-    bool supports_proto_v3() override
+    bool supports_epoch_data() override
     {
         /* Currently, there is no version of ovpn-dco for Linux or Windows that supports
          * the new features, so we always return false here */

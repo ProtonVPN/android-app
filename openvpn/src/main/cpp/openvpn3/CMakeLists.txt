@@ -25,7 +25,7 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake
                       ${CMAKE_MODULE_PATH})
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD 99)
@@ -46,15 +46,17 @@ add_subdirectory(openvpn/ovpnagent/mac)
 if (ENABLE_DOXYGEN)
     # Exclude some project specific directories
     set(DOXYGEN_EXCLUDE_PATTERNS
+        "${PROJECT_SOURCE_DIR}/README.md"
         "*/vcpkg_installed/*"
         "*/googletest-src/*"
+        "*/rapidcheck-src/*"
         "${PROJECT_SOURCE_DIR}/deps/*"
         "*/test/unittests/comp-testdata/*"
         "*/test/unittests/input/*"
         "*/test/unittests/output/*"
         "*/test/unittests/userpass/*"
         )
-    set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "${PROJECT_SOURCE_DIR}/README.md")
+    set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "${PROJECT_SOURCE_DIR}/doc/developer_guide.md")
 
     configure_doxygen("OpenVPN 3 Core Library" "core" "doxygen/core")
 endif ()

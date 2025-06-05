@@ -19,6 +19,8 @@
 %apply int { asio::detail::socket_type };
 #endif
 
+%apply size_t { openvpn::Error::Type };
+
 // ignore these ClientAPI::OpenVPNClient bases
 %ignore openvpn::ClientAPI::LogReceiver;
 %ignore openvpn::ExternalTun::Factory;

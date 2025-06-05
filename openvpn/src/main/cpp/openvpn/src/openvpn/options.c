@@ -110,9 +110,9 @@ const char title_string[] =
 #ifdef ENABLE_DCO
     " [DCO]"
 #endif
-//#ifdef CONFIGURE_GIT_REVISION
-//    " built on " __DATE__
-//#endif
+#ifdef CONFIGURE_GIT_REVISION
+    " built on " __DATE__
+#endif
 ;
 
 #ifndef ENABLE_SMALL
@@ -451,6 +451,8 @@ static const char usage_message[] =
     "                  Sets up internal routes only.\n"
     "                  Only valid in a client-specific config file.\n"
     "--disable       : Client is disabled.\n"
+    "                  Only valid in a client-specific config file.\n"
+    "--override-username: Overrides the client-specific username to be used.\n"
     "                  Only valid in a client-specific config file.\n"
     "--verify-client-cert [none|optional|require] : perform no, optional or\n"
     "                  mandatory client certificate verification.\n"
@@ -999,10 +1001,6 @@ setenv_connection_entry(struct env_set *es,
                         const struct connection_entry *e,
                         const int i)
 {
-    setenv_str_i(es, "proto", proto2ascii(e->proto, e->af, false), i);
-    /* expected to be for single socket contexts only */
-    setenv_str_i(es, "local", e->local_list->array[0]->local, i);
-    setenv_str_i(es, "local_port", e->local_list->array[0]->port, i);
     setenv_str_i(es, "remote", e->remote, i);
     setenv_str_i(es, "remote_port", e->remote_port, i);
 
@@ -1016,6 +1014,16 @@ setenv_connection_entry(struct env_set *es,
         setenv_str_i(es, "socks_proxy_server", e->socks_proxy_server, i);
         setenv_str_i(es, "socks_proxy_port", e->socks_proxy_port, i);
     }
+}
+
+static void
+setenv_local_entry(struct env_set *es,
+                   const struct local_entry *e,
+                   const int i)
+{
+    setenv_str_i(es, "proto", proto2ascii(e->proto, AF_UNSPEC, false), i);
+    setenv_str_i(es, "local", e->local, i);
+    setenv_str_i(es, "local_port", e->port, i);
 }
 
 void
@@ -1039,6 +1047,14 @@ setenv_settings(struct env_set *es, const struct options *o)
     else
     {
         setenv_connection_entry(es, &o->ce, 1);
+    }
+
+    if (o->ce.local_list)
+    {
+        for (int i = 0; i < o->ce.local_list->len; i++)
+        {
+            setenv_local_entry(es, o->ce.local_list->array[i], i+1);
+        }
     }
 
     if (!o->pull)
@@ -1725,12 +1741,17 @@ cnol_check_alloc(struct options *options)
 static void
 show_connection_entry(const struct connection_entry *o)
 {
-    msg(D_SHOW_PARMS, "  proto = %s", proto2ascii(o->proto, o->af, false));
+    /* Display the global proto only in client mode or with no '--local'*/
+    if (o->local_list->len == 1)
+    {
+        msg(D_SHOW_PARMS, "  proto = %s", proto2ascii(o->proto, o->af, false));
+    }
+
     msg(D_SHOW_PARMS, "  Local Sockets:");
     for (int i = 0; i < o->local_list->len; i++)
     {
-        msg(D_SHOW_PARMS, "    [%s]:%s", o->local_list->array[i]->local,
-            o->local_list->array[i]->port);
+        msg(D_SHOW_PARMS, "    [%s]:%s-%s", o->local_list->array[i]->local,
+            o->local_list->array[i]->port, proto2ascii(o->local_list->array[i]->proto, o->af, false));
     }
     SHOW_STR(remote);
     SHOW_STR(remote_port);
@@ -2118,7 +2139,6 @@ static struct http_proxy_options *
 parse_http_proxy_override(const char *server,
                           const char *port,
                           const char *flags,
-                          const int msglevel,
                           struct gc_arena *gc)
 {
     if (server && port)
@@ -2205,6 +2225,7 @@ alloc_local_entry(struct connection_entry *ce, const int msglevel,
     }
 
     ALLOC_OBJ_CLEAR_GC(e, struct local_entry, gc);
+    e->proto = PROTO_NONE;
     l->array[l->len++] = e;
 
     return e;
@@ -2287,7 +2308,7 @@ alloc_pull_filter_list(struct options *o)
 }
 
 static struct pull_filter *
-alloc_pull_filter(struct options *o, const int msglevel)
+alloc_pull_filter(struct options *o)
 {
     struct pull_filter_list *l = alloc_pull_filter_list(o);
     struct pull_filter *f;
@@ -2348,6 +2369,13 @@ connection_entry_preload_key(const char **key_file, bool *key_inline,
 static void
 check_ca_required(const struct options *options)
 {
+#ifdef ENABLE_CRYPTO_MBEDTLS
+    if (options->ca_path)
+    {
+        msg(M_USAGE, "Parameter --capath cannot be used with the mbed TLS version of OpenVPN.");
+    }
+#endif
+
     if (options->verify_hash_no_ca
         || options->pkcs12_file
         || options->ca_file
@@ -2366,6 +2394,11 @@ check_ca_required(const struct options *options)
                             " and/or peer fingerprint verification (--peer-fingerprint)";
     msg(M_USAGE, "%s", str);
 }
+
+#define MUST_BE_UNDEF(parm, parm_name) \
+    if (options->parm != defaults.parm) { msg(M_USAGE, use_err, parm_name); }
+#define MUST_BE_FALSE(condition, parm_name) \
+    if (condition) { msg(M_USAGE, use_err, parm_name); }
 
 static void
 options_postprocess_verify_ce(const struct options *options,
@@ -2471,7 +2504,7 @@ options_postprocess_verify_ce(const struct options *options,
     {
         struct local_entry *le = ce->local_list->array[i];
 
-        if (proto_is_net(ce->proto)
+        if (proto_is_net(le->proto)
             && string_defined_equal(le->local, ce->remote)
             && string_defined_equal(le->port, ce->remote_port))
         {
@@ -2615,6 +2648,8 @@ options_postprocess_verify_ce(const struct options *options,
      */
     if (options->mode == MODE_SERVER)
     {
+        const char use_err[] = "--%s cannot be used with --mode server.";
+
 #define USAGE_VALID_SERVER_PROTOS "--mode server currently only supports " \
     "--proto values of udp, tcp-server, tcp4-server, or tcp6-server"
 #ifdef TARGET_ANDROID
@@ -2624,10 +2659,7 @@ options_postprocess_verify_ce(const struct options *options,
         {
             msg(M_USAGE, "--mode server only works with --dev tun or --dev tap");
         }
-        if (options->pull)
-        {
-            msg(M_USAGE, "--pull cannot be used with --mode server");
-        }
+        MUST_BE_UNDEF(pull, "pull");
         if (options->pull_filter_list)
         {
             msg(M_WARN, "--pull-filter ignored for --mode server");
@@ -2648,22 +2680,10 @@ options_postprocess_verify_ce(const struct options *options,
         {
             msg(M_USAGE, "--mode server requires --tls-server");
         }
-        if (ce->remote)
-        {
-            msg(M_USAGE, "--remote cannot be used with --mode server");
-        }
-        if (!ce->bind_local)
-        {
-            msg(M_USAGE, "--nobind cannot be used with --mode server");
-        }
-        if (ce->http_proxy_options)
-        {
-            msg(M_USAGE, "--http-proxy cannot be used with --mode server");
-        }
-        if (ce->socks_proxy_server)
-        {
-            msg(M_USAGE, "--socks-proxy cannot be used with --mode server");
-        }
+        MUST_BE_FALSE(ce->remote, "remote");
+        MUST_BE_FALSE(!ce->bind_local, "nobind");
+        MUST_BE_FALSE(ce->http_proxy_options, "http-proxy");
+        MUST_BE_FALSE(ce->socks_proxy_server, "socks-proxy");
         /* <connection> blocks force to have a remote embedded, so we check
          * for the --remote and bail out if it is present
          */
@@ -2673,10 +2693,7 @@ options_postprocess_verify_ce(const struct options *options,
             msg(M_USAGE, "<connection> cannot be used with --mode server");
         }
 
-        if (options->shaper)
-        {
-            msg(M_USAGE, "--shaper cannot be used with --mode server");
-        }
+        MUST_BE_UNDEF(shaper, "shaper");
         if (options->ipchange)
         {
             msg(M_USAGE,
@@ -2699,14 +2716,8 @@ options_postprocess_verify_ce(const struct options *options,
         {
             msg(M_USAGE, "--redirect-gateway cannot be used with --mode server (however --push \"redirect-gateway\" is fine)");
         }
-        if (options->route_delay_defined)
-        {
-            msg(M_USAGE, "--route-delay cannot be used with --mode server");
-        }
-        if (options->up_delay)
-        {
-            msg(M_USAGE, "--up-delay cannot be used with --mode server");
-        }
+        MUST_BE_UNDEF(route_delay_defined, "route-delay");
+        MUST_BE_UNDEF(up_delay, "up-delay");
         if (!options->ifconfig_pool_defined
             && !options->ifconfig_ipv6_pool_defined
             && options->ifconfig_pool_persist_filename)
@@ -2718,10 +2729,7 @@ options_postprocess_verify_ce(const struct options *options,
         {
             msg(M_USAGE, "--ifconfig-ipv6-pool needs --ifconfig-ipv6");
         }
-        if (options->allow_recursive_routing)
-        {
-            msg(M_USAGE, "--allow-recursive-routing cannot be used with --mode server");
-        }
+        MUST_BE_UNDEF(allow_recursive_routing, "allow-recursive-routing");
         if (options->auth_user_pass_file)
         {
             msg(M_USAGE, "--auth-user-pass cannot be used with --mode server (it should be used on the client side only)");
@@ -2743,23 +2751,19 @@ options_postprocess_verify_ce(const struct options *options,
                 options->handshake_window);
 
         }
+        if (!options->auth_user_pass_verify_script
+            && !PLUGIN_OPTION_LIST(options)
+            && !MAN_CLIENT_AUTH_ENABLED(options))
         {
-            const bool ccnr = (options->auth_user_pass_verify_script
-                               || PLUGIN_OPTION_LIST(options)
-                               || MAN_CLIENT_AUTH_ENABLED(options));
-            const char *postfix = "must be used with --management-client-auth, an --auth-user-pass-verify script, or plugin";
-            if ((options->ssl_flags & (SSLF_CLIENT_CERT_NOT_REQUIRED|SSLF_CLIENT_CERT_OPTIONAL)) && !ccnr)
-            {
-                msg(M_USAGE, "--verify-client-cert none|optional %s", postfix);
-            }
-            if ((options->ssl_flags & SSLF_USERNAME_AS_COMMON_NAME) && !ccnr)
-            {
-                msg(M_USAGE, "--username-as-common-name %s", postfix);
-            }
-            if ((options->ssl_flags & SSLF_AUTH_USER_PASS_OPTIONAL) && !ccnr)
-            {
-                msg(M_USAGE, "--auth-user-pass-optional %s", postfix);
-            }
+            const char *use_err = "--%s must be used with --management-client-auth, an --auth-user-pass-verify script, or plugin";
+
+            MUST_BE_FALSE(options->ssl_flags
+                          & (SSLF_CLIENT_CERT_NOT_REQUIRED|SSLF_CLIENT_CERT_OPTIONAL),
+                          "verify-client-cert none|optional");
+            MUST_BE_FALSE(options->ssl_flags & SSLF_USERNAME_AS_COMMON_NAME,
+                          "username-as-common-name");
+            MUST_BE_FALSE(options->ssl_flags & SSLF_AUTH_USER_PASS_OPTIONAL,
+                          "auth-user-pass-optional");
         }
 
         if (options->vlan_tagging && dev != DEV_TYPE_TAP)
@@ -2768,125 +2772,65 @@ options_postprocess_verify_ce(const struct options *options,
         }
         if (!options->vlan_tagging)
         {
-            if (options->vlan_accept != defaults.vlan_accept)
-            {
-                msg(M_USAGE, "--vlan-accept requires --vlan-tagging");
-            }
-            if (options->vlan_pvid != defaults.vlan_pvid)
-            {
-                msg(M_USAGE, "--vlan-pvid requires --vlan-tagging");
-            }
+            const char use_err[] = "--%s requires --vlan-tagging";
+            MUST_BE_UNDEF(vlan_accept, "vlan-accept");
+            MUST_BE_UNDEF(vlan_pvid, "vlan-pvid");
         }
     }
     else
     {
+        const char use_err[] = "--%s requires --mode server";
         /*
          * When not in server mode, err if parameters are
          * specified which require --mode server.
          */
-        if (options->ifconfig_pool_defined || options->ifconfig_pool_persist_filename)
-        {
-            msg(M_USAGE, "--ifconfig-pool/--ifconfig-pool-persist requires --mode server");
-        }
-        if (options->ifconfig_ipv6_pool_defined)
-        {
-            msg(M_USAGE, "--ifconfig-ipv6-pool requires --mode server");
-        }
-        if (options->real_hash_size != defaults.real_hash_size
-            || options->virtual_hash_size != defaults.virtual_hash_size)
-        {
-            msg(M_USAGE, "--hash-size requires --mode server");
-        }
-        if (options->learn_address_script)
-        {
-            msg(M_USAGE, "--learn-address requires --mode server");
-        }
-        if (options->client_connect_script)
-        {
-            msg(M_USAGE, "--client-connect requires --mode server");
-        }
-        if (options->client_crresponse_script)
-        {
-            msg(M_USAGE, "--client-crresponse requires --mode server");
-        }
-        if (options->client_disconnect_script)
-        {
-            msg(M_USAGE, "--client-disconnect requires --mode server");
-        }
-        if (options->client_config_dir || options->ccd_exclusive)
-        {
-            msg(M_USAGE, "--client-config-dir/--ccd-exclusive requires --mode server");
-        }
-        if (options->enable_c2c)
-        {
-            msg(M_USAGE, "--client-to-client requires --mode server");
-        }
-        if (options->duplicate_cn)
-        {
-            msg(M_USAGE, "--duplicate-cn requires --mode server");
-        }
-        if (options->cf_max || options->cf_per)
-        {
-            msg(M_USAGE, "--connect-freq requires --mode server");
-        }
-        if (options->ssl_flags & (SSLF_CLIENT_CERT_NOT_REQUIRED|SSLF_CLIENT_CERT_OPTIONAL))
-        {
-            msg(M_USAGE, "--verify-client-cert requires --mode server");
-        }
-        if (options->ssl_flags & SSLF_USERNAME_AS_COMMON_NAME)
-        {
-            msg(M_USAGE, "--username-as-common-name requires --mode server");
-        }
-        if (options->ssl_flags & SSLF_AUTH_USER_PASS_OPTIONAL)
-        {
-            msg(M_USAGE, "--auth-user-pass-optional requires --mode server");
-        }
-        if (options->ssl_flags & SSLF_OPT_VERIFY)
-        {
-            msg(M_USAGE, "--opt-verify requires --mode server");
-        }
+        MUST_BE_UNDEF(ifconfig_pool_defined, "ifconfig-pool");
+        MUST_BE_UNDEF(ifconfig_pool_persist_filename, "ifconfig-pool-persist");
+        MUST_BE_UNDEF(ifconfig_ipv6_pool_defined, "ifconfig-ipv6-pool");
+        MUST_BE_UNDEF(real_hash_size, "hash-size");
+        MUST_BE_UNDEF(virtual_hash_size, "hash-size");
+        MUST_BE_UNDEF(learn_address_script, "learn-address");
+        MUST_BE_UNDEF(client_connect_script, "client-connect");
+        MUST_BE_UNDEF(client_crresponse_script, "client-crresponse");
+        MUST_BE_UNDEF(client_disconnect_script, "client-disconnect");
+        MUST_BE_UNDEF(client_config_dir, "client-config-dir");
+        MUST_BE_UNDEF(ccd_exclusive, "ccd-exclusive");
+        MUST_BE_UNDEF(enable_c2c, "client-to-client");
+        MUST_BE_UNDEF(duplicate_cn, "duplicate-cn");
+        MUST_BE_UNDEF(cf_max, "connect-freq");
+        MUST_BE_UNDEF(cf_per, "connect-freq");
+        MUST_BE_FALSE(options->ssl_flags
+                      & (SSLF_CLIENT_CERT_NOT_REQUIRED|SSLF_CLIENT_CERT_OPTIONAL),
+                      "verify-client-cert");
+        MUST_BE_FALSE(options->ssl_flags & SSLF_USERNAME_AS_COMMON_NAME, "username-as-common-name");
+        MUST_BE_FALSE(options->ssl_flags & SSLF_AUTH_USER_PASS_OPTIONAL, "auth-user-pass-optional");
+        MUST_BE_FALSE(options->ssl_flags & SSLF_OPT_VERIFY, "opt-verify");
         if (options->server_flags & SF_TCP_NODELAY_HELPER)
         {
             msg(M_WARN, "WARNING: setting tcp-nodelay on the client side will not "
                 "affect the server. To have TCP_NODELAY in both direction use "
                 "tcp-nodelay in the server configuration instead.");
         }
-        if (options->auth_user_pass_verify_script)
-        {
-            msg(M_USAGE, "--auth-user-pass-verify requires --mode server");
-        }
-        if (options->auth_token_generate)
-        {
-            msg(M_USAGE, "--auth-gen-token requires --mode server");
-        }
+        MUST_BE_UNDEF(auth_user_pass_verify_script, "auth-user-pass-verify");
+        MUST_BE_UNDEF(auth_token_generate, "auth-gen-token");
 #if PORT_SHARE
         if (options->port_share_host || options->port_share_port)
         {
             msg(M_USAGE, "--port-share requires TCP server mode (--mode server --proto tcp-server)");
         }
 #endif
-
-        if (options->stale_routes_check_interval)
-        {
-            msg(M_USAGE, "--stale-routes-check requires --mode server");
-        }
-
-        if (options->vlan_tagging)
-        {
-            msg(M_USAGE, "--vlan-tagging requires --mode server");
-        }
-
-        if (options->force_key_material_export)
-        {
-            msg(M_USAGE, "--force-tls-key-material-export requires --mode server");
-        }
+        MUST_BE_UNDEF(stale_routes_check_interval, "stale-routes-check");
+        MUST_BE_UNDEF(vlan_tagging, "vlan-tagging");
+        MUST_BE_UNDEF(vlan_accept, "vlan-accept");
+        MUST_BE_UNDEF(vlan_pvid, "vlan-pvid");
+        MUST_BE_UNDEF(force_key_material_export, "force-key-material-export");
     }
 
     /*
      * SSL/TLS mode sanity checks.
      */
     if (options->tls_server + options->tls_client
-        +(options->shared_secret_file != NULL) > 1)
+        + (options->shared_secret_file != NULL) > 1)
     {
         msg(M_USAGE, "specify only one of --tls-server, --tls-client, or --secret");
     }
@@ -2903,9 +2847,9 @@ options_postprocess_verify_ce(const struct options *options,
             "configuration detected. OpenVPN 2.8 will remove the "
             "functionality to run a VPN without TLS. "
             "See the examples section in the manual page for "
-            "examples of a similar quick setup with peer-fingerprint."
+            "examples of a similar quick setup with peer-fingerprint. "
             "OpenVPN 2.7 allows using this configuration when using "
-            "--allow-deprecated-insecure-static-crypto but you should move"
+            "--allow-deprecated-insecure-static-crypto but you should move "
             "to a proper configuration using TLS as soon as possible."
             );
     }
@@ -2952,112 +2896,60 @@ options_postprocess_verify_ce(const struct options *options,
             {
                 msg(M_USAGE, "Parameter --pkcs11-id or --pkcs11-id-management should be specified.");
             }
-            if (options->cert_file)
-            {
-                msg(M_USAGE, "Parameter --cert cannot be used when --pkcs11-provider is also specified.");
-            }
-            if (options->priv_key_file)
-            {
-                msg(M_USAGE, "Parameter --key cannot be used when --pkcs11-provider is also specified.");
-            }
-            if (options->management_flags & MF_EXTERNAL_KEY)
-            {
-                msg(M_USAGE, "Parameter --management-external-key cannot be used when --pkcs11-provider is also specified.");
-            }
-            if (options->management_flags & MF_EXTERNAL_CERT)
-            {
-                msg(M_USAGE, "Parameter --management-external-cert cannot be used when --pkcs11-provider is also specified.");
-            }
-            if (options->pkcs12_file)
-            {
-                msg(M_USAGE, "Parameter --pkcs12 cannot be used when --pkcs11-provider is also specified.");
-            }
+            const char use_err[] = "Parameter --%s cannot be used when --pkcs11-provider is also specified.";
+            MUST_BE_UNDEF(cert_file, "cert");
+            MUST_BE_UNDEF(priv_key_file, "key");
+            MUST_BE_UNDEF(pkcs12_file, "pkcs12");
+            MUST_BE_FALSE(options->management_flags & MF_EXTERNAL_KEY, "management-external-key");
+            MUST_BE_FALSE(options->management_flags & MF_EXTERNAL_CERT, "management-external-cert");
 #ifdef ENABLE_CRYPTOAPI
-            if (options->cryptoapi_cert)
-            {
-                msg(M_USAGE, "Parameter --cryptoapicert cannot be used when --pkcs11-provider is also specified.");
-            }
+            MUST_BE_UNDEF(cryptoapi_cert, "cryptoapicert");
 #endif
         }
         else
 #endif /* ifdef ENABLE_PKCS11 */
-        if ((options->management_flags & MF_EXTERNAL_KEY) && options->priv_key_file)
-        {
-            msg(M_USAGE, "--key and --management-external-key are mutually exclusive");
-        }
-        else if ((options->management_flags & MF_EXTERNAL_CERT))
-        {
-            if (options->cert_file)
-            {
-                msg(M_USAGE, "--cert and --management-external-cert are mutually exclusive");
-            }
-            else if (!(options->management_flags & MF_EXTERNAL_KEY))
-            {
-                msg(M_USAGE, "--management-external-cert must be used with --management-external-key");
-            }
-        }
-        else
 #ifdef ENABLE_CRYPTOAPI
         if (options->cryptoapi_cert)
         {
-            if (options->cert_file)
-            {
-                msg(M_USAGE, "Parameter --cert cannot be used when --cryptoapicert is also specified.");
-            }
-            if (options->priv_key_file)
-            {
-                msg(M_USAGE, "Parameter --key cannot be used when --cryptoapicert is also specified.");
-            }
-            if (options->pkcs12_file)
-            {
-                msg(M_USAGE, "Parameter --pkcs12 cannot be used when --cryptoapicert is also specified.");
-            }
-            if (options->management_flags & MF_EXTERNAL_KEY)
-            {
-                msg(M_USAGE, "Parameter --management-external-key cannot be used when --cryptoapicert is also specified.");
-            }
-            if (options->management_flags & MF_EXTERNAL_CERT)
-            {
-                msg(M_USAGE, "Parameter --management-external-cert cannot be used when --cryptoapicert is also specified.");
-            }
+            const char use_err[] = "Parameter --%s cannot be used when --cryptoapicert is also specified.";
+            MUST_BE_UNDEF(cert_file, "cert");
+            MUST_BE_UNDEF(priv_key_file, "key");
+            MUST_BE_UNDEF(pkcs12_file, "pkcs12");
+            MUST_BE_FALSE(options->management_flags & MF_EXTERNAL_KEY, "management-external-key");
+            MUST_BE_FALSE(options->management_flags & MF_EXTERNAL_CERT, "management-external-cert");
         }
         else
-#endif /* ifdef ENABLE_CRYPTOAPI */
+#endif
         if (options->pkcs12_file)
         {
 #ifdef ENABLE_CRYPTO_MBEDTLS
             msg(M_USAGE, "Parameter --pkcs12 cannot be used with the mbed TLS version of OpenVPN.");
 #else
-            if (options->ca_path)
-            {
-                msg(M_USAGE, "Parameter --capath cannot be used when --pkcs12 is also specified.");
-            }
-            if (options->cert_file)
-            {
-                msg(M_USAGE, "Parameter --cert cannot be used when --pkcs12 is also specified.");
-            }
-            if (options->priv_key_file)
-            {
-                msg(M_USAGE, "Parameter --key cannot be used when --pkcs12 is also specified.");
-            }
-            if (options->management_flags & MF_EXTERNAL_KEY)
-            {
-                msg(M_USAGE, "Parameter --management-external-key cannot be used when --pkcs12 is also specified.");
-            }
-            if (options->management_flags & MF_EXTERNAL_CERT)
-            {
-                msg(M_USAGE, "Parameter --management-external-cert cannot be used when --pkcs12 is also specified.");
-            }
+            const char use_err[] = "Parameter --%s cannot be used when --pkcs12 is also specified.";
+            MUST_BE_UNDEF(ca_path, "capath");
+            MUST_BE_UNDEF(cert_file, "cert");
+            MUST_BE_UNDEF(priv_key_file, "key");
+            MUST_BE_FALSE(options->management_flags & MF_EXTERNAL_KEY, "management-external-key");
+            MUST_BE_FALSE(options->management_flags & MF_EXTERNAL_CERT, "management-external-cert");
 #endif /* ifdef ENABLE_CRYPTO_MBEDTLS */
         }
-        else
+        else /* cert/key from none of pkcs11, pkcs12, cryptoapi */
         {
-#ifdef ENABLE_CRYPTO_MBEDTLS
-            if (options->ca_path)
+            if ((options->management_flags & MF_EXTERNAL_KEY) && options->priv_key_file)
             {
-                msg(M_USAGE, "Parameter --capath cannot be used with the mbed TLS version of OpenVPN.");
+                msg(M_USAGE, "--key and --management-external-key are mutually exclusive");
             }
-#endif  /* ifdef ENABLE_CRYPTO_MBEDTLS */
+            if ((options->management_flags & MF_EXTERNAL_CERT))
+            {
+                if (options->cert_file)
+                {
+                    msg(M_USAGE, "--cert and --management-external-cert are mutually exclusive");
+                }
+                else if (!(options->management_flags & MF_EXTERNAL_KEY))
+                {
+                    msg(M_USAGE, "--management-external-cert must be used with --management-external-key");
+                }
+            }
             if (pull)
             {
 
@@ -3109,55 +3001,51 @@ options_postprocess_verify_ce(const struct options *options,
          * when in non-TLS mode.
          */
 
-#define MUST_BE_UNDEF(parm) if (options->parm != defaults.parm) {msg(M_USAGE, err, #parm); \
-}
+        const char use_err[] = "Parameter %s can only be specified in TLS-mode, "
+                               "i.e. where --tls-server or --tls-client is also specified.";
 
-        const char err[] = "Parameter %s can only be specified in TLS-mode, i.e. where --tls-server or --tls-client is also specified.";
-
-        MUST_BE_UNDEF(ca_file);
-        MUST_BE_UNDEF(ca_path);
-        MUST_BE_UNDEF(dh_file);
-        MUST_BE_UNDEF(cert_file);
-        MUST_BE_UNDEF(priv_key_file);
+        MUST_BE_UNDEF(ca_file, "ca");
+        MUST_BE_UNDEF(ca_path, "capath");
+        MUST_BE_UNDEF(dh_file, "dh");
+        MUST_BE_UNDEF(cert_file, "cert");
+        MUST_BE_UNDEF(priv_key_file, "key");
 #ifndef ENABLE_CRYPTO_MBEDTLS
-        MUST_BE_UNDEF(pkcs12_file);
+        MUST_BE_UNDEF(pkcs12_file, "pkcs12");
 #endif
-        MUST_BE_UNDEF(cipher_list);
-        MUST_BE_UNDEF(cipher_list_tls13);
-        MUST_BE_UNDEF(tls_cert_profile);
-        MUST_BE_UNDEF(tls_verify);
-        MUST_BE_UNDEF(tls_export_peer_cert_dir);
-        MUST_BE_UNDEF(verify_x509_name);
-        MUST_BE_UNDEF(tls_timeout);
-        MUST_BE_UNDEF(renegotiate_bytes);
-        MUST_BE_UNDEF(renegotiate_packets);
-        MUST_BE_UNDEF(renegotiate_seconds);
-        MUST_BE_UNDEF(handshake_window);
-        MUST_BE_UNDEF(transition_window);
-        MUST_BE_UNDEF(tls_auth_file);
-        MUST_BE_UNDEF(tls_crypt_file);
-        MUST_BE_UNDEF(tls_crypt_v2_file);
-        MUST_BE_UNDEF(single_session);
-        MUST_BE_UNDEF(push_peer_info);
-        MUST_BE_UNDEF(tls_exit);
-        MUST_BE_UNDEF(crl_file);
-        MUST_BE_UNDEF(ns_cert_type);
-        MUST_BE_UNDEF(remote_cert_ku[0]);
-        MUST_BE_UNDEF(remote_cert_eku);
+        MUST_BE_UNDEF(cipher_list, "tls-cipher");
+        MUST_BE_UNDEF(cipher_list_tls13, "tls-ciphersuites");
+        MUST_BE_UNDEF(tls_cert_profile, "tls-cert-profile");
+        MUST_BE_UNDEF(tls_verify, "tls-verify");
+        MUST_BE_UNDEF(tls_export_peer_cert_dir, "tls-export-cert");
+        MUST_BE_UNDEF(verify_x509_name, "verify-x509-name");
+        MUST_BE_UNDEF(tls_timeout, "tls-timeout");
+        MUST_BE_UNDEF(renegotiate_bytes, "reneg-bytes");
+        MUST_BE_UNDEF(renegotiate_packets, "reneg-pkts");
+        MUST_BE_UNDEF(renegotiate_seconds, "reneg-sec");
+        MUST_BE_UNDEF(handshake_window, "hand-window");
+        MUST_BE_UNDEF(transition_window, "tran-window");
+        MUST_BE_UNDEF(tls_auth_file, "tls-auth");
+        MUST_BE_UNDEF(tls_crypt_file, "tls-crypt");
+        MUST_BE_UNDEF(tls_crypt_v2_file, "tls-crypt-v2");
+        MUST_BE_UNDEF(single_session, "single-session");
+        MUST_BE_UNDEF(push_peer_info, "push-peer-info");
+        MUST_BE_UNDEF(tls_exit, "tls-exit");
+        MUST_BE_UNDEF(crl_file, "crl-verify");
+        MUST_BE_UNDEF(ns_cert_type, "ns-cert-type");
+        MUST_BE_UNDEF(remote_cert_ku[0], "remote-cert-ku");
+        MUST_BE_UNDEF(remote_cert_eku, "remote-cert-eku");
 #ifdef ENABLE_PKCS11
-        MUST_BE_UNDEF(pkcs11_providers[0]);
-        MUST_BE_UNDEF(pkcs11_private_mode[0]);
-        MUST_BE_UNDEF(pkcs11_id);
-        MUST_BE_UNDEF(pkcs11_id_management);
+        MUST_BE_UNDEF(pkcs11_providers[0], "pkcs11-providers");
+        MUST_BE_UNDEF(pkcs11_private_mode[0], "pkcs11-private-mode");
+        MUST_BE_UNDEF(pkcs11_id, "pkcs11-id");
+        MUST_BE_UNDEF(pkcs11_id_management, "pkcs11-id-management");
 #endif
 
         if (pull)
         {
-            msg(M_USAGE, err, "--pull");
+            msg(M_USAGE, use_err, "--pull");
         }
     }
-#undef MUST_BE_UNDEF
-
     if (options->auth_user_pass_file && !options->pull)
     {
         msg(M_USAGE, "--auth-user-pass requires --pull");
@@ -3165,6 +3053,9 @@ options_postprocess_verify_ce(const struct options *options,
 
     uninit_options(&defaults);
 }
+
+#undef MUST_BE_UNDEF
+#undef MUST_BE_FALSE
 
 static void
 options_postprocess_mutate_ce(struct options *o, struct connection_entry *ce)
@@ -3176,14 +3067,16 @@ options_postprocess_mutate_ce(struct options *o, struct connection_entry *ce)
         if (ce->proto == PROTO_TCP)
         {
             ce->proto = PROTO_TCP_SERVER;
+            o->ce.proto = ce->proto;
         }
     }
 
-    if (o->client)
+    if (o->mode != MODE_SERVER)
     {
         if (ce->proto == PROTO_TCP)
         {
             ce->proto = PROTO_TCP_CLIENT;
+            o->ce.proto = ce->proto;
         }
     }
 
@@ -3325,12 +3218,18 @@ options_postprocess_mutate_ce(struct options *o, struct connection_entry *ce)
 }
 
 static void
-options_postprocess_mutate_le(struct connection_entry *ce, struct local_entry *le)
+options_postprocess_mutate_le(struct connection_entry *ce, struct local_entry *le, int mode)
 {
     /* use the global port if none is specified */
     if (!le->port)
     {
         le->port = ce->local_port;
+    }
+    /* use the global proto if none is specified and
+     * allow proto bindings on server mode only */
+    if (!le->proto || mode == MODE_POINT_TO_POINT)
+    {
+        le->proto = ce->proto;
     }
 }
 
@@ -3779,7 +3678,19 @@ options_postprocess_mutate(struct options *o, struct env_set *es)
     {
         for (i = 0; i < o->ce.local_list->len; i++)
         {
-            options_postprocess_mutate_le(&o->ce, o->ce.local_list->array[i]);
+            options_postprocess_mutate_le(&o->ce, o->ce.local_list->array[i], o->mode);
+        }
+
+        for (int i = 0; i < o->ce.local_list->len; i++)
+        {
+            if (o->ce.local_list->array[i]->proto == PROTO_TCP)
+            {
+                o->ce.local_list->array[i]->proto = PROTO_TCP_SERVER;
+            }
+            else if (o->ce.local_list->array[i]->proto == PROTO_NONE)
+            {
+                o->ce.local_list->array[i]->proto = o->ce.proto;
+            }
         }
     }
     else
@@ -3789,6 +3700,7 @@ options_postprocess_mutate(struct options *o, struct env_set *es)
         struct local_entry *e = alloc_local_entry(&o->ce, M_USAGE, &o->gc);
         ASSERT(e);
         e->port = o->ce.local_port;
+        e->proto = o->ce.proto;
     }
 
     /* use the same listen list for every outgoing connection */
@@ -6191,7 +6103,7 @@ add_option(struct options *options,
         VERIFY_PERMISSION(OPT_P_UP);
         options->ifconfig_nowarn = true;
     }
-    else if (streq(p[0], "local") && p[1] && !p[3])
+    else if (streq(p[0], "local") && p[1] && !p[4])
     {
         struct local_entry *e;
 
@@ -6211,6 +6123,11 @@ add_option(struct options *options,
         if (p[2])
         {
             e->port = p[2];
+        }
+
+        if (p[3])
+        {
+            e->proto = ascii2proto(p[3]);
         }
     }
     else if (streq(p[0], "remote-random") && !p[1])
@@ -6299,7 +6216,7 @@ add_option(struct options *options,
     else if (streq(p[0], "http-proxy-override") && p[1] && p[2] && !p[4])
     {
         VERIFY_PERMISSION(OPT_P_GENERAL);
-        options->http_proxy_override = parse_http_proxy_override(p[1], p[2], p[3], msglevel, &options->gc);
+        options->http_proxy_override = parse_http_proxy_override(p[1], p[2], p[3], &options->gc);
         if (!options->http_proxy_override)
         {
             goto err;
@@ -6793,7 +6710,12 @@ add_option(struct options *options,
     else if (streq(p[0], "lport") && p[1] && !p[2])
     {
         VERIFY_PERMISSION(OPT_P_GENERAL|OPT_P_CONNECTION);
-        options->ce.local_port_defined = true;
+
+        /* only trigger bind() if port is not 0 (or --local is used) */
+        if (!streq(p[1], "0"))
+        {
+            options->ce.local_port_defined = true;
+        }
         options->ce.local_port = p[1];
     }
     else if (streq(p[0], "rport") && p[1] && !p[2])
@@ -7213,7 +7135,7 @@ add_option(struct options *options,
     {
         struct pull_filter *f;
         VERIFY_PERMISSION(OPT_P_GENERAL)
-        f = alloc_pull_filter(options, msglevel);
+        f = alloc_pull_filter(options);
 
         if (strcmp("accept", p[1]) == 0)
         {
@@ -7273,7 +7195,10 @@ add_option(struct options *options,
             }
             else if (streq(p[j], "def1"))
             {
+#ifndef TARGET_ANDROID
+                /* Android always uses 0.0.0.0/0, so silently ignore the flag */
                 options->routes->flags |= RG_DEF1;
+#endif
             }
             else if (streq(p[j], "bypass-dhcp"))
             {
@@ -7955,6 +7880,23 @@ add_option(struct options *options,
         VERIFY_PERMISSION(OPT_P_INSTANCE);
         options->disable = true;
     }
+    else if (streq(p[0], "override-username") && p[1] && !p[2])
+    {
+        VERIFY_PERMISSION(OPT_P_INSTANCE);
+        if (strlen(p[1]) > USER_PASS_LEN)
+        {
+            msg(msglevel, "override-username exceeds the maximum length of %d "
+                "characters", USER_PASS_LEN);
+
+            /* disable the connection since ignoring the request to
+             * set another username might cause serious problems */
+            options->disable = true;
+        }
+        else
+        {
+            options->override_username = p[1];
+        }
+    }
     else if (streq(p[0], "tcp-nodelay") && !p[1])
     {
         VERIFY_PERMISSION(OPT_P_GENERAL);
@@ -8306,7 +8248,7 @@ add_option(struct options *options,
                 msg(msglevel, "--dhcp-option %s: maximum of %d search entries can be specified",
                     p[1], N_SEARCH_LIST_LEN);
             }
-            o->dhcp_options |= DHCP_OPTIONS_DHCP_REQUIRED;
+            o->dhcp_options |= DHCP_OPTIONS_DHCP_OPTIONAL;
         }
         else if (streq(p[1], "DISABLE-NBT") && !p[2])
         {
@@ -9183,10 +9125,6 @@ add_option(struct options *options,
             {
                 type = VERIFY_X509_SUBJECT_RDN_PREFIX;
             }
-            else if (streq(p[2], "subject-alt-name"))
-            {
-                type = VERIFY_X509_SAN;
-            }
             else
             {
                 msg(msglevel, "unknown X.509 name type: %s", p[2]);
@@ -9399,37 +9337,12 @@ add_option(struct options *options,
 #ifdef ENABLE_X509ALTUSERNAME
     else if (streq(p[0], "x509-username-field") && p[1])
     {
-        /* This option used to automatically upcase the fieldnames passed as the
-         * option arguments, e.g., "ou" became "OU". Now, this "helpfulness" is
-         * fine-tuned by only upcasing Subject field attribute names which consist
-         * of all lower-case characters. Mixed-case attributes such as
-         * "emailAddress" are left as-is. An option parameter having the "ext:"
-         * prefix for matching X.509v3 extended fields will also remain unchanged.
-         */
         VERIFY_PERMISSION(OPT_P_GENERAL);
         for (size_t j = 1; j < MAX_PARMS && p[j] != NULL; ++j)
         {
             char *s = p[j];
 
-            if (strncmp("ext:", s, 4) != 0)
-            {
-                size_t i = 0;
-                while (s[i] && !isupper(s[i]))
-                {
-                    i++;
-                }
-                if (strlen(s) == i)
-                {
-                    while ((*s = toupper(*s)) != '\0')
-                    {
-                        s++;
-                    }
-                    msg(M_WARN, "DEPRECATED FEATURE: automatically upcased the "
-                        "--x509-username-field parameter to '%s'; please update your "
-                        "configuration", p[j]);
-                }
-            }
-            else if (!x509_username_field_ext_supported(s+4))
+            if (strncmp("ext:", s, 4) == 0 && !x509_username_field_ext_supported(s+4))
             {
                 msg(msglevel, "Unsupported x509-username-field extension: %s", s);
             }
@@ -9649,4 +9562,21 @@ add_option(struct options *options,
     }
 err:
     gc_free(&gc);
+}
+
+bool
+has_udp_in_local_list(const struct options *options)
+{
+    if (options->ce.local_list)
+    {
+        for (int i = 0; i < options->ce.local_list->len; i++)
+        {
+            if (proto_is_dgram(options->ce.local_list->array[i]->proto))
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }

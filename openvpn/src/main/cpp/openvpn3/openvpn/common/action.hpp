@@ -17,6 +17,7 @@
 #include <string>
 #include <ostream>
 #include <sstream>
+#include <unordered_set>
 
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/rc.hpp>
@@ -39,6 +40,8 @@ struct Action : public RC<thread_unsafe_refcount>
     }
 #endif
     virtual ~Action() = default;
+
+    std::string mark;
 };
 
 class ActionList : public std::vector<Action::Ptr>, public DestructorBase
@@ -82,22 +85,38 @@ class ActionList : public std::vector<Action::Ptr>, public DestructorBase
         return false;
     }
 
-    virtual void execute(std::ostream &os)
+    /**
+     * @brief Executes a sequence of actions and returns marks of failed actions.
+     *
+     * This method iterates over a collection of actions, executing each one.
+     * If an action throws an exception, it is caught, logged to the provided
+     * output stream, and marked as failed.
+     *
+     * @param os Reference to an output stream for logging execution results.
+     * @return A set of marks for failed actions.
+     */
+    virtual std::unordered_set<std::string> execute(std::ostream &os)
     {
+        std::unordered_set<std::string> failed_actions;
+
         Iter i(size(), reverse_);
         while (i())
         {
             if (is_halt())
-                return;
+                return failed_actions;
+            auto &action = this->at(i.index());
             try
             {
-                (*this)[i.index()]->execute(os);
+                action->execute(os);
             }
             catch (const std::exception &e)
             {
                 os << "action exception: " << e.what() << std::endl;
+                failed_actions.insert(action->mark);
             }
         }
+
+        return failed_actions;
     }
 
     void execute_log()
@@ -141,6 +160,30 @@ class ActionList : public std::vector<Action::Ptr>, public DestructorBase
     bool is_halt() const
     {
         return halt_;
+    }
+
+    /**
+     * @brief Removes actions with specified marks and logs the removals.
+     *
+     * Iterates through the collection and removes all actions whose marks
+     * exist in the provided set of `marks`. Logs each removal to the provided
+     * output stream.
+     *
+     * @param marks A set of marks identifying actions to be removed.
+     * @param os Reference to an output stream for logging removed actions.
+     */
+    void remove_marked(const std::unordered_set<std::string> &marks, std::ostream &os)
+    {
+        erase(std::remove_if(
+                  begin(), end(), [&](const Action::Ptr &a) mutable
+                  {
+                                auto remove = !a->mark.empty() && marks.count(a->mark) > 0;
+                                if (remove)
+                                {
+                                    os << "Action '" << a->to_string() << "' will be removed\n";
+                                }
+                                return remove; }),
+              end());
     }
 
   protected:

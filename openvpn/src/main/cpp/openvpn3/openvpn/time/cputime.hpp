@@ -77,9 +77,7 @@ inline double cpu_time(const bool thread = false)
 {
     try
     {
-        struct rusage usage
-        {
-        };
+        struct rusage usage{};
 
         int ret = 0;
 #if defined(__APPLE__)
