@@ -1,0 +1,2 @@
+What's new
+Improved LAN settings with support for direct device connections. Connect seamlessly to Smart TVs, Android Auto, and other devices on your local network with enhanced security controls.
