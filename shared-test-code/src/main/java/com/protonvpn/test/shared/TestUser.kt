@@ -18,7 +18,6 @@
  */
 package com.protonvpn.test.shared
 
-import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -27,12 +26,10 @@ import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
 import io.mockk.coEvery
 import io.mockk.every
-import me.proton.core.configuration.EnvironmentConfigurationDefaults
 import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.session.SessionId
-import me.proton.core.util.kotlin.takeIfNotBlank
 
-class TestUser private constructor(
+class TestUser(
     val email: String,
     val password: String,
     val openVpnPassword: String,
@@ -52,15 +49,11 @@ class TestUser private constructor(
 
     companion object {
         @JvmStatic val freeUser: TestUser
-            get() = getFreePlanUser()
+            get() = TestUser("free", "dummy", "test", "free", "free", 0, 1)
         val basicUser: TestUser
-            get() = TestUser("Testas2", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas2", "vpnbasic", "vpnbasic", 1, 2)
-        val visionaryBlack: TestUser
-            get() = TestUser("visionary", "a", "test", "visionary", "visionary", 1, 10)
+            get() = TestUser("basic", "dummy", "testas2", "vpnbasic", "vpnbasic", 1, 2)
         @JvmStatic val plusUser: TestUser
-            get() = getPlusPlanUser()
-        val anyPaidUser: TestUser
-            get() = TestUser(getRandomUsername(), BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", "vpnplus", 2, 5)
+            get() = TestUser("plus", "dummy", "test", "vpnplus", "vpnplus", 2, 5)
 
         val sameIdFreeUser: TestUser
             get() = TestUser("Testas", "a", "rand", "free", "free", 0, 1)
@@ -72,8 +65,6 @@ class TestUser private constructor(
             get() = TestUser("twofa", "a", "rand", "vpnplus", "vpnplus", 2, 5)
         val twopass: TestUser
             get() = TestUser("twopasswords", "thisisarandomp45w0rd_*&-/?", "rand", "vpnplus", "vpnplus", 2, 5)
-        val badUser: TestUser
-            get() = TestUser("Testas3", "r4nd0m", "rand", "vpnplus", "vpnplus", 2, 5)
         val businessEssential: TestUser
             get() = TestUser("businessEssential", "", "", "vpnpro2023", "VPN Essential", 2, 2)
         val forkedSessionResponse: ForkedSessionResponse
@@ -88,24 +79,9 @@ class TestUser private constructor(
                 "UserId"
             )
 
-        private fun getFreePlanUser(): TestUser {
-            val blackToken = EnvironmentConfigurationDefaults.proxyToken?.takeIfNotBlank()
-            return if (blackToken != null)
-                TestUser("vpnfree", "12341234", "test", "free", "free", 0, 1)
-            else
-                TestUser("Testas1", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas", "free", "free", 0, 1)
-        }
-
         fun getRandomUsername(): String {
             val usernames = listOf("testas2", "testas3", "testas4")
             return usernames.random()
-        }
-
-        private fun getPlusPlanUser(): TestUser {
-            EnvironmentConfigurationDefaults.proxyToken?.takeIfNotBlank()?.let {
-                return TestUser("vpnplus", "12341234", "test", "vpnplus", "vpnplus", 2, 10)
-            }
-            return TestUser("Testas3", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", "vpnplus", 2, 5)
         }
     }
 }

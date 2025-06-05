@@ -27,7 +27,7 @@ import com.protonvpn.interfaces.verify
 import com.protonvpn.android.managed.AutoLoginConfig
 import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.robots.mobile.LoginRobotVpn
-import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.TestUserEndToEnd
 import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import dagger.Module
 import dagger.Provides
@@ -58,6 +58,8 @@ class AutoLoginTestsBlack {
 
     @Inject
     lateinit var quark: Quark
+    @Inject
+    lateinit var testUserEndToEnd: TestUserEndToEnd
 
     @get:Rule
     val rule = realBackendComposeRule()
@@ -69,53 +71,63 @@ class AutoLoginTestsBlack {
 
     @Test
     fun successfulAutoLogin() {
-        autoLoginConfig.value = AutoLoginConfig(TestUser.plusUser.email, TestUser.plusUser.password)
+        val plusUser = testUserEndToEnd.plusUser
+        autoLoginConfig.value = AutoLoginConfig(plusUser.email, plusUser.password)
         HomeRobot.verify { isLoggedIn() }
     }
 
     @Test
     fun wrongCredentialsAutoLogin() {
-        autoLoginConfig.value = AutoLoginConfig(TestUser.badUser.email, TestUser.badUser.password)
+        val badUser = testUserEndToEnd.badUser
+        autoLoginConfig.value = AutoLoginConfig(badUser.email, badUser.password)
         HomeRobot.verify { autoLoginIncorrectCredentialsIsDisplayed() }
     }
 
     @Test
     fun retryIncorrectLogin() {
-        autoLoginConfig.value = AutoLoginConfig(TestUser.badUser.email, TestUser.badUser.password)
+        val badUser = testUserEndToEnd.badUser
+        val plusUser = testUserEndToEnd.plusUser
+        autoLoginConfig.value = AutoLoginConfig(badUser.email, badUser.password)
         HomeRobot.verify { autoLoginIncorrectCredentialsIsDisplayed() }
 
-        autoLoginConfig.value = AutoLoginConfig(TestUser.plusUser.email, TestUser.plusUser.password)
+        autoLoginConfig.value = AutoLoginConfig(plusUser.email, plusUser.password)
         HomeRobot.verify { isLoggedIn() }
     }
 
     @Test
     fun autoLoggedInUserIsChangedToAnotherOne() {
-        autoLoginConfig.value = AutoLoginConfig(TestUser.plusUser.email, TestUser.plusUser.password)
+        val plusUser = testUserEndToEnd.plusUser
+        val visionaryUser = testUserEndToEnd.visionaryBlack
+        autoLoginConfig.value = AutoLoginConfig(plusUser.email, plusUser.password)
         HomeRobot.verify { isLoggedIn() }
 
-        autoLoginConfig.value = AutoLoginConfig(TestUser.visionaryBlack.email, TestUser.visionaryBlack.password)
+        autoLoginConfig.value = AutoLoginConfig(visionaryUser.email, visionaryUser.password)
         HomeRobot.navigateToSettings()
-            .verify { usernameIsDisplayed(TestUser.visionaryBlack.email) }
+            .verify { usernameIsDisplayed(visionaryUser.email) }
     }
 
     @Test
     fun alreadyLoggedInUserIsChangedToIncorrectCredentialsOne() {
-        autoLoginConfig.value = AutoLoginConfig(TestUser.plusUser.email, TestUser.plusUser.password)
+        val badUser = testUserEndToEnd.badUser
+        val plusUser = testUserEndToEnd.plusUser
+        autoLoginConfig.value = AutoLoginConfig(plusUser.email, plusUser.password)
         HomeRobot.verify { isLoggedIn() }
 
-        autoLoginConfig.value = AutoLoginConfig(TestUser.badUser.email, TestUser.badUser.password)
+        autoLoginConfig.value = AutoLoginConfig(badUser.email, badUser.password)
         HomeRobot.verify { autoLoginIncorrectCredentialsIsDisplayed() }
     }
 
     @Test
     fun manualLoginThenAutoLogin(){
+        val visionaryUser = testUserEndToEnd.visionaryBlack
+        val plusUser = testUserEndToEnd.plusUser
         AddAccountRobot().signIn()
-        LoginRobotVpn.signIn(TestUser.plusUser)
+        LoginRobotVpn.signIn(plusUser)
         HomeRobot.verify { isLoggedIn() }
 
-        autoLoginConfig.value = AutoLoginConfig(TestUser.visionaryBlack.email, TestUser.visionaryBlack.password)
+        autoLoginConfig.value = AutoLoginConfig(visionaryUser.email, visionaryUser.password)
         HomeRobot.navigateToSettings()
-            .verify { usernameIsDisplayed(TestUser.visionaryBlack.email) }
+            .verify { usernameIsDisplayed(visionaryUser.email) }
     }
 
     companion object AutoLogin {

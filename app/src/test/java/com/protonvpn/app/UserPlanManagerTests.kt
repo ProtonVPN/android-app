@@ -112,7 +112,7 @@ class UserPlanManagerTests {
         launch {
             assertTrue(UserPlanManager.InfoChange.VpnCredentials in manager.infoChangeFlow.first())
         }
-        changePlan(TestUser.basicUser.vpnUser, TestUser.badUser.vpnInfoResponse)
+        changePlan(TestUser.basicUser.vpnUser, TestUser.plusUser.vpnInfoResponse)
     }
 
     @Test

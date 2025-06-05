@@ -35,7 +35,7 @@ import com.protonvpn.android.utils.openVpnSettings
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.robots.mobile.LoginRobotVpn
-import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.TestUserEndToEnd
 import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testsHelper.ServerManagerHelper
 import com.protonvpn.testsHelper.UserDataHelper
@@ -54,6 +54,8 @@ class RealConnectionTestsProd {
 
     @Inject
     lateinit var vpnStateMonitor: VpnStateMonitor
+    @Inject
+    lateinit var testUserEndToEnd: TestUserEndToEnd
 
     private val addAccountRobot = AddAccountRobot()
     private lateinit var userDataHelper: UserDataHelper
@@ -128,7 +130,7 @@ class RealConnectionTestsProd {
     private fun realConnection(protocol: ProtocolSelection, expectedProtocolName: Int) {
         userDataHelper.setProtocol(protocol.vpn, protocol.transmission)
         addAccountRobot.signIn()
-        LoginRobotVpn.signIn(TestUser.anyPaidUser)
+        LoginRobotVpn.signIn(testUserEndToEnd.anyPaidUserProd)
         HomeRobot.verify { isLoggedIn() }
         ConnectionRobot.quickConnect()
             .allowVpnPermission()
@@ -145,7 +147,7 @@ class RealConnectionTestsProd {
 
     private fun setupAlwaysOn(){
         addAccountRobot.signIn()
-        LoginRobotVpn.signIn(TestUser.anyPaidUser)
+        LoginRobotVpn.signIn(testUserEndToEnd.anyPaidUserProd)
         HomeRobot.verify { isLoggedIn() }
         ConnectionRobot.quickConnect()
             .allowVpnPermission()

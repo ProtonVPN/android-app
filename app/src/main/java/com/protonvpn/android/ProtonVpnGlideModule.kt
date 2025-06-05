@@ -38,6 +38,11 @@ import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import com.bumptech.glide.load.model.stream.BaseGlideUrlLoader
 import com.bumptech.glide.load.resource.drawable.DrawableResource
 import com.bumptech.glide.module.AppGlideModule
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
+import me.proton.core.configuration.EnvironmentConfiguration
 import me.proton.core.configuration.EnvironmentConfigurationDefaults
 import java.io.IOException
 import java.io.InputStream
@@ -77,11 +82,20 @@ class LottieDrawableResource(drawable: LottieDrawable?) : DrawableResource<Lotti
  * Don't use in production, it might not be fully featured.
  */
 class BlackGlideUrlLoader : BaseGlideUrlLoader<String> {
-    constructor(concreteLoader: ModelLoader<GlideUrl, InputStream>?) : super(concreteLoader)
-    constructor(concreteLoader: ModelLoader<GlideUrl, InputStream>?, modelCache: ModelCache<String, GlideUrl>?) : super(
-        concreteLoader,
-        modelCache
-    )
+
+    private val environmentConfiguration: EnvironmentConfiguration
+
+    constructor(
+        environmentConfiguration: EnvironmentConfiguration,
+        concreteLoader: ModelLoader<GlideUrl, InputStream>?
+    ) : this(environmentConfiguration, concreteLoader, modelCache = null)
+    constructor(
+        environmentConfiguration: EnvironmentConfiguration,
+        concreteLoader: ModelLoader<GlideUrl, InputStream>?,
+        modelCache: ModelCache<String, GlideUrl>?
+    ) : super(concreteLoader, modelCache) {
+        this.environmentConfiguration = environmentConfiguration
+    }
 
     override fun handles(model: String): Boolean = model.startsWith("https://")
 
@@ -94,9 +108,14 @@ class BlackGlideUrlLoader : BaseGlideUrlLoader<String> {
             super.getHeaders(model, width, height, options)
         }
 
-    class Factory : ModelLoaderFactory<String, InputStream> {
+    class Factory(
+        private val environmentConfiguration: EnvironmentConfiguration
+    ) : ModelLoaderFactory<String, InputStream> {
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<String, InputStream> =
-            BlackGlideUrlLoader(multiFactory.build(GlideUrl::class.java, InputStream::class.java))
+            BlackGlideUrlLoader(
+                environmentConfiguration,
+                multiFactory.build(GlideUrl::class.java, InputStream::class.java)
+            )
 
         override fun teardown() = Unit
     }
@@ -105,12 +124,22 @@ class BlackGlideUrlLoader : BaseGlideUrlLoader<String> {
 @GlideModule
 class ProtonVpnGlideModule : AppGlideModule() {
 
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface Dependencies {
+        fun provideEnvironmentConfiguration(): EnvironmentConfiguration
+    }
+
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
+        val deps = EntryPointAccessors.fromApplication<Dependencies>(context)
+
         registry
             .append(InputStream::class.java, LottieDrawable::class.java, StreamLottieDecoder())
 
-        if (EnvironmentConfigurationDefaults.proxyToken.isNotBlank()) {
-            registry.prepend(String::class.java, InputStream::class.java, BlackGlideUrlLoader.Factory())
+        val environmentConfiguration = deps.provideEnvironmentConfiguration()
+        if (environmentConfiguration.proxyToken.isNotBlank()) {
+            val loaderFactory = BlackGlideUrlLoader.Factory(environmentConfiguration)
+            registry.prepend(String::class.java, InputStream::class.java, loaderFactory)
         }
     }
 }

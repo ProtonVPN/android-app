@@ -21,14 +21,18 @@
 
 package com.protonvpn.testsHelper
 
-import com.protonvpn.BuildConfig
-import me.proton.core.configuration.EnvironmentConfigurationDefaults
+import dagger.Reusable
+import me.proton.core.configuration.EnvironmentConfiguration
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import javax.inject.Inject
 
-class AtlasEnvVarHelper {
+@Reusable
+class AtlasEnvVarHelper @Inject constructor(
+    private val environmentConfiguration: EnvironmentConfiguration,
+) {
 
     private val forceCaptchaResponse = """\"{\\\"code\\\": 2000, \\\"result\\\": \\\"captcha\\\"}\""""
 
@@ -55,7 +59,7 @@ class AtlasEnvVarHelper {
     }
 
     private fun postAtlasEnvVariable(jsonBody: String) {
-        val url = "${EnvironmentConfigurationDefaults.baseUrl}/internal/system"
+        val url = "${environmentConfiguration.baseUrl}/internal/system"
 
         val mediaType = "application/json".toMediaType()
 
@@ -65,7 +69,7 @@ class AtlasEnvVarHelper {
             .url(url)
             .post(jsonBody.toRequestBody(mediaType))
             .addHeader("Content-Type", "application/json")
-            .addHeader("x-atlas-secret", EnvironmentConfigurationDefaults.proxyToken)
+            .addHeader("x-atlas-secret", environmentConfiguration.proxyToken)
             .build()
 
         client.newCall(request).execute().use { response ->

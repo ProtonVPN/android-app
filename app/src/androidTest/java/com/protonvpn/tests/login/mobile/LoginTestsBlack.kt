@@ -30,14 +30,13 @@ import com.protonvpn.interfaces.verify
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.robots.mobile.HumanVerificationRobot
 import com.protonvpn.robots.mobile.LoginRobotVpn
-import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.TestUserEndToEnd
 import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testsHelper.AtlasEnvVarHelper
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.serialization.SerializationException
 import me.proton.core.auth.test.robot.login.LoginLegacyRobot
 import me.proton.core.auth.test.robot.login.LoginRobot
-import me.proton.core.configuration.EnvironmentConfiguration
 import me.proton.core.test.android.robots.auth.AddAccountRobot
 import me.proton.core.test.quark.Quark
 import me.proton.core.test.quark.data.User
@@ -62,7 +61,11 @@ class LoginTestsBlack {
     val rule = realBackendComposeRule()
 
     @Inject
+    lateinit var atlasEnvVarHelper: AtlasEnvVarHelper
+    @Inject
     lateinit var quark: Quark
+    @Inject
+    lateinit var testUserEndToEnd: TestUserEndToEnd
 
     private lateinit var addAccountRobot: AddAccountRobot
 
@@ -75,23 +78,23 @@ class LoginTestsBlack {
 
     @Test
     fun loginWithPlusUser() {
-        LoginRobotVpn.signIn(TestUser.plusUser)
+        LoginRobotVpn.signIn(testUserEndToEnd.plusUser)
         HomeRobot.verify { isLoggedIn() }
     }
 
     @Test
     fun loginWithIncorrectCredentials() {
-        LoginRobotVpn.signIn(TestUser.badUser)
+        LoginRobotVpn.signIn(testUserEndToEnd.badUser)
             .verify { incorrectLoginCredentialsIsShown() }
     }
 
     @Test
     fun viewPasswordIsVisible() {
-        LoginLegacyRobot.fillUsername(TestUser.plusUser.email)
-            .fillPassword(TestUser.plusUser.password)
+        LoginLegacyRobot.fillUsername(testUserEndToEnd.plusUser.email)
+            .fillPassword(testUserEndToEnd.plusUser.password)
         LoginRobotVpn
             .viewPassword()
-            .verify { passwordIsVisible(TestUser.plusUser) }
+            .verify { passwordIsVisible(testUserEndToEnd.plusUser) }
     }
 
     @Test
@@ -102,19 +105,19 @@ class LoginTestsBlack {
 
     @Test
     fun rememberMeFunctionality() {
-        LoginRobotVpn.signIn(TestUser.plusUser)
+        LoginRobotVpn.signIn(testUserEndToEnd.plusUser)
         HomeRobot.verify { isLoggedIn() }
             .logout()
         addAccountRobot.signIn()
-            .verify { view.withText(TestUser.plusUser.email).checkDisplayed() }
+            .verify { view.withText(testUserEndToEnd.plusUser.email).checkDisplayed() }
     }
 
     @Test
     //Can't complete captcha on API23 due to animations bug in test framework.
     @SdkSuppress(minSdkVersion = 28)
     fun loginWithHumanVerification() {
-        AtlasEnvVarHelper().withAtlasEnvVar({ forceCaptchaOnLogin() }) {
-            LoginRobotVpn.signIn(TestUser.plusUser)
+        atlasEnvVarHelper.withAtlasEnvVar({ forceCaptchaOnLogin() }) {
+            LoginRobotVpn.signIn(testUserEndToEnd.plusUser)
             HumanVerificationRobot.verifyViaCaptchaSlow()
             HomeRobot.verify { isLoggedIn() }
         }

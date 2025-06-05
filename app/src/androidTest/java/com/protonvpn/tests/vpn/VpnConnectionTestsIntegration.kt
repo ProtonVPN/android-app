@@ -252,7 +252,7 @@ class VpnConnectionTestsIntegration {
         every { appConfig.getFeatureFlags() } answers { featureFlagsFlow.value }
 
         supportsProtocol = SupportsProtocol(createGetSmartProtocols(smartProtocolsConfig.getSmartProtocols()))
-        currentUserProvider = TestCurrentUserProvider(vpnUser = TestUser.badUser.vpnUser)
+        currentUserProvider = TestCurrentUserProvider(vpnUser = TestUser.plusUser.vpnUser)
         val currentUser = CurrentUser(currentUserProvider)
 
         every { mockGhSuppressor.disableGh() } returns false
