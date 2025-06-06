@@ -108,7 +108,7 @@ struct tuntap_options {
 
     int netbios_node_type;   /* NBT 1,2,4,8 (46) */
 
-#define N_DHCP_ADDR 4        /* Max # of addresses allowed for
+#define N_DHCP_ADDR 11       /* Max # of addresses allowed for
                               * DNS, WINS, etc. */
 
     /* DNS (6) */
