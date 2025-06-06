@@ -259,7 +259,7 @@
     <string name="netshield_setting_warning">Niektoré webové lokality sa po zablokovaní reklám a sledovacích zariadení nemusia načítať správne.</string>
     <string name="dialogDontShowAgain">Viac nezobrazovať</string>
     <string name="guestHoleNotificationContent">Snažíme sa obísť problémy so sieťou. Pomôže vám to získať prístup k sieti Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">Nepodarilo sa inicializovať VPN pripojenie z dôvodu konfliktu medzi duálnnymi aplikáciami (napríklad Dual Messenger) a rozeleným tunelovaním. Zakážte jedno z nich a reštartujte zariadenie.</string>
+    <string name="errorTunMultiUserPermission">Nepodarilo sa inicializovať VPN pripojenie z dôvodu konfliktu medzi duálnymi aplikáciami (napríklad Dual Messenger) a rozeleným tunelovaním. Zakážte jedno z nich a reštartujte zariadenie.</string>
     <string name="errorTorrentNotAllowed">P2P nie je na tomto serveri povolené</string>
     <string name="error_profile_fallback_unavailable">Pripojenie zlyhalo. Váš server vybraný v profile nie je k dispozícii.</string>
     <string name="profileProtocolNotAvailable">Protokol VPN tohto profilu nie je v súčasnosti k dispozícii. Ak sa chcete pripojiť, skúste zmeniť protokol.</string>

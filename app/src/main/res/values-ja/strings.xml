@@ -253,7 +253,7 @@
     <string name="netshield_setting_warning">広告やトラッカーがブロックされていると、一部の Web サイトが正しく読み込まれない場合があります。</string>
     <string name="dialogDontShowAgain">次回から表示しない</string>
     <string name="guestHoleNotificationContent">ネットワークの問題の回避を試みてください。これで Proton VPN にアクセスできるかもしれません。</string>
-    <string name="errorTunMultiUserPermission">デュアルアプリ (デュアルメッセンジャーなど) とスプリットトンネルが競合したため VPN を初期化できませんでした。どちらかを無効にし、デバイスを再起動してください。</string>
+    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
     <string name="errorTorrentNotAllowed">このサーバーで P2P は許可されていません</string>
     <string name="error_profile_fallback_unavailable">接続に失敗しました。プロファイルのサーバー選択が利用できません。</string>
     <string name="profileProtocolNotAvailable">このプロフィールの VPN プロトコルは現在利用できません。接続するにはプロトコルを変更してください。</string>
@@ -265,7 +265,7 @@
     <string name="nameAfricaAndMiddleEast">アフリカ &amp; 中東</string>
     <string name="nameOceania">オセアニア</string>
     <string name="tv_row_settings">設定</string>
-    <string name="tv_card_split_tunneling_label">スプリットトンネル</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">プロトコル</string>
     <string name="tv_detail_default_connection_checkbox_short">お気に入り</string>
     <string name="tv_detail_connect_streaming">PLUS でストリーミング</string>
@@ -352,7 +352,7 @@
     <plurals name="upgrade_devices_title">
         <item quantity="other">一度に%1$d 台のデバイスを保護</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is available on 8 different platforms.</string>
+    <string name="upgrade_devices_text">Proton VPNは8つの異なるプラットフォームでご利用いただけます。</string>
     <string name="upgrade_plus_title">プライバシーをアップグレードする</string>
     <string name="upgrade_plus_message">VPN Plus を使用すると、高度なプライバシー機能と高速性を実現できます。</string>
     <string name="upgrade_netshield_title">広告なしのブラウジングをお楽しみください</string>
@@ -494,7 +494,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">さらに高速なブラウジング(最大 %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">スプリットトンネル</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">一度に2つの場所からブラウズ</string>
     <string name="upsell_card_streaming_title">ストリーミング</string>
     <string name="upsell_card_streaming_description">お気に入りの映画やTV番組を見る</string>
@@ -979,7 +979,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">スプリットトンネル</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">キルスイッチ</string>
     <!-- tag(Redesign_2023) -->

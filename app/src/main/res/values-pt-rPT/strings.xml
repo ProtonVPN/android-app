@@ -255,7 +255,7 @@
     <string name="netshield_setting_warning">Alguns websites podem não carregar corretamente quando os anúncios e os rastreadores estão bloqueados.</string>
     <string name="dialogDontShowAgain">Não mostrar novamente</string>
     <string name="guestHoleNotificationContent">A tentar contornar problemas de rede. Isto irá ajudá-lo a aceder ao Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">Não é possível inicializar a ligação VPN devido a um conflito entre aplicação dupla (por exemplo, Dual Messenger) e o tunelamento dividido. Desative um desses e reinicie o dispositivo.</string>
+    <string name="errorTunMultiUserPermission">Não foi possível inicializar a ligação VPN devido a um conflito entre a aplicação dual (por exemplo, Dual Messenger) e o Split Tunneling. Desative uma dessas opções e reinicie o seu dispositivo.</string>
     <string name="errorTorrentNotAllowed">O P2P não é permitido neste servidor.</string>
     <string name="error_profile_fallback_unavailable">Erro na conexão. A sua seleção de servidor para o perfil não está disponível.</string>
     <string name="profileProtocolNotAvailable">O protocolo VPN deste perfil não está atualmente disponível. Para estabelecer ligação, tente alterar o protocolo.</string>
@@ -267,7 +267,7 @@
     <string name="nameAfricaAndMiddleEast">África &amp; Médio Oriente</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Definições</string>
-    <string name="tv_card_split_tunneling_label">Tunelamento dividido</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">Protocolo</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorito</string>
     <string name="tv_detail_connect_streaming">Assista com o Plus</string>
@@ -510,7 +510,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Navegue a velocidades ainda mais elevadas (até %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Tunelamento dividido</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
     <string name="upsell_card_split_tunneling_description">Navegue a partir de dois locais em simultâneo</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Veja os seus filmes e programas de TV favoritos</string>
@@ -1004,7 +1004,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Tunelamento dividido</string>
+    <string name="settings_split_tunneling_title">Split Tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->

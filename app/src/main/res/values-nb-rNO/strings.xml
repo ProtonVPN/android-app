@@ -255,7 +255,7 @@
     <string name="netshield_setting_warning">Noen nettsteder lastes kanskje ikke inn riktig når annonser og sporere er blokkert.</string>
     <string name="dialogDontShowAgain">Ikke vis igjen</string>
     <string name="guestHoleNotificationContent">Prøver å omgå nettverksproblemer. Dette vil hjelpe deg med å få tilgang til Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">Kunne ikke initialisere VPN-tilkobling på grunn av en konflikt mellom dual-app (for eksempel Dual Messenger) og Delt Tunnelering. Deaktiver en av disse og start enheten på nytt.</string>
+    <string name="errorTunMultiUserPermission">Kunne ikke initialisere VPN-tilkobling på grunn av en konflikt mellom dual-app (for eksempel Dual Messenger) og delt tunnelering. Deaktiver en av disse og start enheten på nytt.</string>
     <string name="errorTorrentNotAllowed">P2P er ikke tillatt på denne tjeneren</string>
     <string name="error_profile_fallback_unavailable">Tilkobling mislyktes. Tjenervalget for profilen din er utilgjengelig.</string>
     <string name="profileProtocolNotAvailable">Denne profilens VPN-protokoll er for øyeblikket ikke tilgjengelig. Prøv å endre protokollen for å koble til.</string>

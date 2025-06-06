@@ -257,7 +257,7 @@
     <string name="netshield_setting_warning">Este posibil ca unele site-uri web să nu se încarce corect atunci când anunțurile și instrumentele de urmărire sunt blocate.</string>
     <string name="dialogDontShowAgain">Nu mai arăta</string>
     <string name="guestHoleNotificationContent">Se încearcă evitarea problemelor de rețea. Acest lucru vă va ajuta să accesați Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">Nu s-a putut inițializa conexiunea VPN din cauza unui conflict între două aplicații (de exemplu Dual Messenger) și Divizare trafic. Dezactivați una dintre ele și reporniți dispozitivul.</string>
+    <string name="errorTunMultiUserPermission">Nu s-a putut inițializa conexiunea VPN din cauza unui conflict între două aplicații (de exemplu Dual Messenger) și divizarea traficului. Dezactivați una dintre ele și reporniți dispozitivul.</string>
     <string name="errorTorrentNotAllowed">P2P nu este permis pe acest server</string>
     <string name="error_profile_fallback_unavailable">Conexiune eșuată. Serverul selectat pentru profil nu este disponibil.</string>
     <string name="profileProtocolNotAvailable">Acest profil de protocol VPN nu este momentan disponibil. Pentru conectare, schimbați protocolul.</string>

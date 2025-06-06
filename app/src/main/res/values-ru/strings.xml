@@ -259,7 +259,7 @@
     <string name="netshield_setting_warning">Некоторые веб-сайты могут загружаться некорректно при блокировке рекламы и трекеров.</string>
     <string name="dialogDontShowAgain">Больше не показывать</string>
     <string name="guestHoleNotificationContent">Пытаемся обойти проблемы с сетью. Это поможет вам получить доступ к Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">Не удалось инициализировать VPN соединение из-за конфликта между dual-app (например, Dual Messenger) и Split Tunneling. Пожалуйста, отключите одно из них и перезагрузите Ваше устройство.</string>
+    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
     <string name="errorTorrentNotAllowed">P2P не разрешен на этом сервере</string>
     <string name="error_profile_fallback_unavailable">Не удалось установить соединение. Ваш сервер, выбранный для профиля, недоступен.</string>
     <string name="profileProtocolNotAvailable">Протокол VPN, указанный в профиле, в данный момент недоступен. Чтобы подключиться, измените протокол.</string>
@@ -271,7 +271,7 @@
     <string name="nameAfricaAndMiddleEast">Африка и Ближний и Средний Восток</string>
     <string name="nameOceania">Океания</string>
     <string name="tv_row_settings">Настройки</string>
-    <string name="tv_card_split_tunneling_label">Раздельное туннелирование</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Протокол</string>
     <string name="tv_detail_default_connection_checkbox_short">Избранная</string>
     <string name="tv_detail_connect_streaming">Стримить с Plus</string>
@@ -542,7 +542,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Просматривайте веб-страницы на ещё более высоких скоростях (до %1$d Гбит/с)</string>
-    <string name="upsell_card_split_tunneling_title">Раздельное туннелирование</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">Просматривайте веб-страницы из двух мест одновременно</string>
     <string name="upsell_card_streaming_title">Стриминг</string>
     <string name="upsell_card_streaming_description">Смотрите свои любимые фильмы и телепрограммы</string>
@@ -1054,7 +1054,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Раздельное туннелирование</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->

@@ -255,7 +255,7 @@
     <string name="netshield_setting_warning">Sommige websites worden mogelijk niet correct geladen als advertenties en trackers worden geblokkeerd.</string>
     <string name="dialogDontShowAgain">Niet meer weergeven</string>
     <string name="guestHoleNotificationContent">Proberen om de netwerkproblemen te omzeilen. Dit zal u helpen toegang te verkrijgen tot Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">Kon de VPN-verbinding niet initialiseren vanwege een conflict tussen de dual-app (bijvoorbeeld Dual Messenger) en Split Tunneling. Schakel een van deze uit en herstart uw apparaat.</string>
+    <string name="errorTunMultiUserPermission">Kon de VPN-verbinding niet initialiseren vanwege een conflict tussen de dual-app (bijvoorbeeld Dual Messenger) en split tunneling. Schakel een van deze uit en herstart uw apparaat.</string>
     <string name="errorTorrentNotAllowed">P2P is niet toegestaan op deze server</string>
     <string name="error_profile_fallback_unavailable">Verbinding mislukt. Uw serverkeuze is niet beschikbaar voor het profiel.</string>
     <string name="profileProtocolNotAvailable">Het VPN-protocol van dit profiel is momenteel niet beschikbaar. Probeer het protocol te veranderen om te verbinden.</string>
@@ -1004,7 +1004,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Gefilterde apps</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">IP-beveiliging</string>
     <!-- tag(Redesign_2023) -->

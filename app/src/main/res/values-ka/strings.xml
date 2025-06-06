@@ -255,7 +255,7 @@
     <string name="netshield_setting_warning">ზოგიერთი ვებგვერდი, შეიძლება, სწორად არ ჩაიტვირთოს, თუ რეკლამას და ტრეკერებს დაბლოკავთ.</string>
     <string name="dialogDontShowAgain">აღარ მაჩვენო</string>
     <string name="guestHoleNotificationContent">ქსელის პრობლემის გვერდის ავლის მცდელობა. ეს Proton VPN-თან წვდომაში დაგეხმარებათ.</string>
-    <string name="errorTunMultiUserPermission">VPN შეერთების ინიციალიზაცია შეუძლებელია ორმაგ-აპს (Dual Messenger-ი, მაგალითად) და Split Tunneling-ს შორის. საჭიროა, ერთ-ერთის გამორთვა და მოწყობილობის გადატვირთვა.</string>
+    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
     <string name="errorTorrentNotAllowed">ამ სერვერზე P2P დაუშვებელია</string>
     <string name="error_profile_fallback_unavailable">მიერთება ჩავარდა. თქვენი სერვერის არჩევანი პროფილისთვის ხელმისაწვდომი არაა.</string>
     <string name="profileProtocolNotAvailable">ამ პროფილის VPN პროტოკოლი ამჟამად ხელმიუწვდომელია. დასაკავშირებლად, სცადეთ, პროტოკოლი შეცვალოთ.</string>
@@ -267,7 +267,7 @@
     <string name="nameAfricaAndMiddleEast">აფრიკა და ახლო აღმოსავლეთი</string>
     <string name="nameOceania">ოკეანეთი</string>
     <string name="tv_row_settings">მორგება</string>
-    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">პროტოკოლი</string>
     <string name="tv_detail_default_connection_checkbox_short">რჩეული</string>
     <string name="tv_detail_connect_streaming">Plus-ით სტრიმინგი</string>
@@ -510,7 +510,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">იმუშავეთ კიდევ უფრო სწრაფად (%1$d გბ/წმ-მდე)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">იმუშავეთ ინტერნეტში ერთდროულად ორი ადგილიდან</string>
     <string name="upsell_card_streaming_title">სტრიმინგი</string>
     <string name="upsell_card_streaming_description">უყურეთ თქვენს საყვარელ ფილმებსა და სერიალებს</string>
@@ -1004,7 +1004,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split Tunneling</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->

@@ -255,7 +255,7 @@
     <string name="netshield_setting_warning">بعضی وب‌سایت‌ها ممکن است درست بارگیری نشوند هنگامی که تبلیغات و ردیاب‌ها مسدود هستند.</string>
     <string name="dialogDontShowAgain">دوباره نشان نده</string>
     <string name="guestHoleNotificationContent">در تلاش برای دور زدن مشکلات شبکه. این به شما کمک خواهد کرد که به Proton VPN دسترسی پیدا کنید.</string>
-    <string name="errorTunMultiUserPermission">نتوانست اتصال VPN را مقدماتی کند به دلیل یک درگیری بین برنامه دوتایی ( برای مثال Messenger دوتایی) و Split Tunneling. لطفاً یکی از آنها را غیر فعال کرده و دستگاه خود را reboot کنید.</string>
+    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
     <string name="errorTorrentNotAllowed">روی این سرور P2P اجازه داده نمی‌شود</string>
     <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
     <string name="profileProtocolNotAvailable">در حال حاضر پروتکل VPN این پروفایل موجود نیست. برای اتصال، تغییر پروتکل را امتحان کنید.</string>
@@ -267,7 +267,7 @@
     <string name="nameAfricaAndMiddleEast">آفریقا &amp; خاورمیانه</string>
     <string name="nameOceania">اقیانوسیه</string>
     <string name="tv_row_settings">تنظیمات</string>
-    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">پروتکل</string>
     <string name="tv_detail_default_connection_checkbox_short">مورد علاقه</string>
     <string name="tv_detail_connect_streaming">پخش با Plus</string>
@@ -510,7 +510,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">با حتی سرعت‌های بیشتر مرور کنید (تا %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">همزمان از دو مکان مرور کنید</string>
     <string name="upsell_card_streaming_title">پخش آنلاین</string>
     <string name="upsell_card_streaming_description">فیلم‌ها و برنامه‌های تلویزیونی مورد علاقه‌تان را تماشا کنید</string>
@@ -1004,7 +1004,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split Tunneling</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->

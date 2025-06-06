@@ -254,7 +254,7 @@
     <string name="netshield_setting_warning">일부 웹사이트는 광고 그리고 트래커 차단 중에 제대로 로드되지 않을 수도 있습니다.</string>
     <string name="dialogDontShowAgain">다음부터 표시하지 않음</string>
     <string name="guestHoleNotificationContent">네트워크 문제를 우회하려고 노력하고 있습니다. 이는 Proton VPN에 접근하는데 도움을 줄 것입니다.</string>
-    <string name="errorTunMultiUserPermission">듀얼 앱(예를 들어 듀얼 메신저)과 분할 터널링 사이에 충돌이 생겨 VPN 연결을 구성할 수 없습니다. 둘 중 하나를 비활성화 하고 기기를 재부팅 하세요.</string>
+    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
     <string name="errorTorrentNotAllowed">이 서버에서는 P2P를 사용할 수 없습니다</string>
     <string name="error_profile_fallback_unavailable">연결에 실패했습니다. 프로필에 대한 서버 선택을 사용할 수 없습니다.</string>
     <string name="profileProtocolNotAvailable">이 프로필의 VPN 프로토콜은 현재 사용할 수 없습니다. 연결하려면 다른 프로토콜로 바꿔 보세요.</string>
@@ -266,7 +266,7 @@
     <string name="nameAfricaAndMiddleEast">아프리카 &amp; 중동</string>
     <string name="nameOceania">오세아니아</string>
     <string name="tv_row_settings">설정</string>
-    <string name="tv_card_split_tunneling_label">분할 터널링</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">프로토콜</string>
     <string name="tv_detail_default_connection_checkbox_short">선호</string>
     <string name="tv_detail_connect_streaming">Plus 플랜으로 스트리밍을</string>
@@ -495,7 +495,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">더 빠른 속도로 브라우징 하세요 (최대 %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">분할 터널링</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">한 번에 두 곳의 위치에서 브라우징하세요</string>
     <string name="upsell_card_streaming_title">스트리밍</string>
     <string name="upsell_card_streaming_description">선호하는 영화와 TV 쇼를 시청하세요</string>
@@ -980,7 +980,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">분할 터널링</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">킬 스위치</string>
     <!-- tag(Redesign_2023) -->

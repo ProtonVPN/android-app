@@ -255,7 +255,7 @@
     <string name="netshield_setting_warning">Algunos sitios web podrían no cargarse bien cuando se bloquean los anuncios y rastreadores.</string>
     <string name="dialogDontShowAgain">No volver a mostrar</string>
     <string name="guestHoleNotificationContent">Intentando eludir problemas de red. Esto le ayudará a acceder a Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">No se pudo inicializar la conexión VPN debido a un conflicto entre una aplicación dual (por ejemplo, Dual Messenger) y Tunelización dividida. Desactive una de ellas y reinicie el dispositivo.</string>
+    <string name="errorTunMultiUserPermission">No se pudo inicializar la conexión VPN debido a un conflicto entre una aplicación dual (por ejemplo, Dual Messenger) y tunelización dividida. Desactive una de ellas y reinicie el dispositivo.</string>
     <string name="errorTorrentNotAllowed">P2P no está permitido en este servidor</string>
     <string name="error_profile_fallback_unavailable">Error de conexión. Su selección de servidor para el perfil no está disponible.</string>
     <string name="profileProtocolNotAvailable">El protocolo VPN de este perfil no está disponible. Para conectarse, cambie el protocolo.</string>

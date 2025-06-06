@@ -253,7 +253,7 @@
     <string name="netshield_setting_warning">當廣告與追蹤器被封鎖時，部份網站或未能正確載入。</string>
     <string name="dialogDontShowAgain">不要再顯示</string>
     <string name="guestHoleNotificationContent">嘗試迴避網路問題。這將可以協助您存取 Proton VPN。</string>
-    <string name="errorTunMultiUserPermission">無法初始化 VPN 連線，因為雙重應用程式 (例如 Dual Messenger) 與 Split Tunneling 有所衝突，請二者停用其一，並重新啟動您的裝置。</string>
+    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
     <string name="errorTorrentNotAllowed">此伺服器不允許 P2P</string>
     <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
     <string name="profileProtocolNotAvailable">此設定檔的VPN協定暫不可用，請換個不同的協議以連線。</string>
@@ -265,7 +265,7 @@
     <string name="nameAfricaAndMiddleEast">非洲與中東</string>
     <string name="nameOceania">大洋洲</string>
     <string name="tv_row_settings">設定</string>
-    <string name="tv_card_split_tunneling_label">拆分隧道</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">協定</string>
     <string name="tv_detail_default_connection_checkbox_short">最愛</string>
     <string name="tv_detail_connect_streaming">以 Plus 串流</string>
@@ -494,7 +494,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">享用更快速度的瀏覽 (高達 %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">拆分隧道</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">可同時從兩個位置瀏覽</string>
     <string name="upsell_card_streaming_title">串流</string>
     <string name="upsell_card_streaming_description">觀看您喜愛的電影與電視節目</string>
@@ -979,7 +979,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">拆分隧道</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->

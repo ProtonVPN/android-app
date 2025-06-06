@@ -259,7 +259,7 @@
     <string name="netshield_setting_warning">Nekatere spletne strani se morda ne bodo pravilno naložile, če so oglasi in sledilniki blokirani.</string>
     <string name="dialogDontShowAgain">Ne prikaži več</string>
     <string name="guestHoleNotificationContent">Poskušam zaobiti težave z omrežjem. To vam bo pomagalo dostopati do Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">Povezave VPN ni bilo mogoče zagnati zaradi spora med dvojno aplikacijo (na primer Dual Messenger) in razdeljenim tuneliranjem. Onemogočite enega od teh in znova zaženite napravo.</string>
+    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
     <string name="errorTorrentNotAllowed">P2P na tem strežniku ni dovoljen</string>
     <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
     <string name="profileProtocolNotAvailable">Ta profil protokola VPN trenutno ni na voljo. Če želite vzpostaviti povezavo, spremenite protokol.</string>
@@ -271,7 +271,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Bližnji vzhod</string>
     <string name="nameOceania">Oceanija</string>
     <string name="tv_row_settings">Nastavitve</string>
-    <string name="tv_card_split_tunneling_label">Razdeljeno tuneliranje</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Najljubša</string>
     <string name="tv_detail_connect_streaming">Pretakajte s Plusom</string>
@@ -543,7 +543,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Brskajte pri še večjih hitrostih (do %1$d Gb/s)</string>
-    <string name="upsell_card_split_tunneling_title">Razdeljeno tuneliranje</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">Brskajte z dveh lokacij hkrati</string>
     <string name="upsell_card_streaming_title">Pretakanje</string>
     <string name="upsell_card_streaming_description">Glejte svoje najljubše filme in serije</string>
@@ -1055,7 +1055,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Razdeljeno tuneliranje</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->

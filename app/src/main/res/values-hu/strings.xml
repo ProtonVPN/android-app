@@ -1,0 +1,1529 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_icon_name_classic">Klasszikus</string>
+    <string name="app_icon_name_dark">Sötét</string>
+    <string name="app_icon_name_retro">Retró</string>
+    <string name="app_icon_name_weather">Időjárás</string>
+    <string name="app_icon_name_notes">Jegyzetek</string>
+    <string name="app_icon_name_calculator">Számológép</string>
+    <!-- Strings related to login -->
+    <string name="login">Bejelentkezés</string>
+    <string name="menuActionSignOut">Kijelentkezés</string>
+    <string name="connectionAllocationHelpTitle">Köszönjük, hogy nagyobb csomagra váltott!</string>
+    <string name="connectionAllocationHelpDescription1">A Proton VPN használatának megkezdéséhez, adjon VPN-kapcsolatokat a fiókjához vagy bármely más alfiókhoz.</string>
+    <string name="connectionAllocationHelpDescription2">Ez a lépés csak pár percet vesz igénybe. Ezután bejelentkezhet és megvédheti az összes eszközét.</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Jelenleg nincs VPN-kapcsolat engedélyezve ehhez a fiókhoz. A Proton VPN használatának megkezdéséhez, lépjen kapcsolatba a rendszergazdával. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">VPN-kapcsolatok engedélyezése</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Bejelentkezés újra</string>
+    <!-- tag(Redesign_2023) "OK" button on dialogs -->
+    <string name="ok">OK</string>
+    <string name="dialogLearnMore">További információk</string>
+    <string name="connected">Kapcsolódva</string>
+    <string name="buttonConnect">Kapcsolódás</string>
+    <string name="loaderConnectingTo">Kapcsolódás: %1$s</string>
+    <string name="loaderNotConnected">Nincs kapcsolódva (nem védett)</string>
+    <string name="loaderConnectedTo">Kapcsolódva: %1$s</string>
+    <string name="loaderDisconnecting">Leválasztás</string>
+    <string name="loaderReconnecting">Újracsatlakozás</string>
+    <string name="loaderReconnectNoNetwork">Várakozás a hálózatra</string>
+    <string name="loaderCheckingAvailability">Szerver elérhetőségének ellenőrzése</string>
+    <string name="quickConnect">Gyors kapcsolódás</string>
+    <!-- Displays a percentage value. Please use %% sign for %.
+         Example value: "70%" -->
+    <string name="serverLoad">%1$s%%</string>
+    <string name="cancel">Mégsem</string>
+    <string name="close">Bezárás</string>
+    <string name="drawerReportProblem">Hibabejelentés</string>
+    <string name="action_share">Megosztás</string>
+    <string name="accountFree">Proton Free</string>
+    <string name="restrictedMaintenanceTitle">Karbantartás alatt</string>
+    <string name="restrictedMaintenanceDescription">Ez a szerver karbantartás alatt van. Válasszon egy másikat.</string>
+    <string name="errorUserDelinquent"><![CDATA[Lejárt számlatartozása van. Kérjük, egyenlítse ki a számlát az&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> címen]]></string>
+    <string name="errorMaxSessions">Elérte a csomagban engedélyezett egyidejű csatlakozások maximális számát. Váltson magasabb csomagra, ha egyidejűleg több eszközről szeretné használni a szolgáltatást.</string>
+    <string name="listItemMaintenance">Karbantartás alatt</string>
+    <string name="insufficientPermissionsTitle">Felhasználói beavatkozás szükséges</string>
+    <string name="insufficientPermissionsDetails">Nem sikerült automatikusan létrehozni a VPN-kapcsolatot. Egyszer csatlakozzon manuálisan az engedélyek megadásához.</string>
+    <string name="log_title">Napló</string>
+    <string name="disconnect">Leválasztás</string>
+    <string name="state_connecting">Kapcsolódás…</string>
+    <string name="state_connected">Kapcsolódva</string>
+    <string name="state_disconnecting">Leválasztás…</string>
+    <string name="state_error">Hiba</string>
+    <string name="error_server_list_load_failed">Ellenőrizze a kapcsolatot, és próbálja meg újra.</string>
+    <string name="error_server_unreachable">Nem sikerült csatlakozni a VPN-hez. Ellenőrizze a kapcsolatot, és próbálja meg újra.</string>
+    <string name="error_auth_failed">A felhasználói hitelesítés sikertelen.</string>
+    <string name="error_generic">Meghatározatlan hiba a kapcsolódás közben.</string>
+    <string name="error_generic_with_reason">Nem sikerült a Proton VPN-kapcsolat létrehozása. Kérjük, próbálja újra pár másodperc múlva.<br/><br/> Részletek: %1$s</string>
+    <string name="reconnect">Újrakapcsolódás</string>
+    <string name="reconnect_now">Újrakapcsolódás most</string>
+    <string name="try_reconnecting">Próbáljon meg újra kapcsolódni</string>
+    <string name="connect">Kapcsolódás</string>
+    <string name="upgrade">Váltás nagyobb csomagra</string>
+    <string name="retry">Újra</string>
+    <string name="report_message">Üzenet</string>
+    <string name="report_bug_email_label">Az Ön e-mail címe</string>
+    <string name="report_bug_email_hint">Adja meg e-mail címét</string>
+    <string name="report_bug_message_label">Üzenet</string>
+    <string name="report_bug_message_hint">Írja le a hibát, és azt, hogy hogyan és hol találta meg</string>
+    <string name="send_report">Bejelentés küldése</string>
+    <string name="discardChanges">Elveti a nem mentett módosításokat?</string>
+    <string name="discard">Elvetés</string>
+    <string name="done">KÉSZ</string>
+    <string name="add">EZT</string>
+    <string name="copy_to_clipboard">Másolás</string>
+    <string name="copied_to_clipboard">Vágólapra másolva</string>
+    <string name="got_it">Értem</string>
+    <string name="something_went_wrong">Valamilyen hiba történt</string>
+    <string name="try_again">Próbálja újra</string>
+    <string name="delete">Törlés</string>
+    <string name="remove">Eltávolítás</string>
+    <string name="saveButton">Mentés</string>
+    <string name="ipWithPlaceholder">IP: %1$s</string>
+    <string name="activityLicensesTitle">Harmadik fél licencei</string>
+    <string name="stateFragmentUnknownIp">Ismeretlen</string>
+    <string name="noVpnPermissionMainTitle">A VPN-hez való kapcsolódáshoz művelet szükséges</string>
+    <string name="noVpnPermissionMainMessage">A Proton VPN-hez való kapcsolódáshoz, tegye a következőket:</string>
+    <string name="noVpnPermissionGrantPermissionTitle">VPN engedély megadása</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Az Androidnak szüksége van az engedélyére a Proton VPN-hez való csatlakozáshoz. Adja meg az engedélyt az „OK” gomb megnyomásával, amikor megjelenik az Android „Kapcsolódási kérelem” ablakban.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Más VPN-alkalmazások állandó bekapcsolásának letiltása</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Az Android nem támogat több VPN-alkalmazást. Tiltsa le a mindig bekapcsolt állapotot a Proton VPN-től eltérő VPN-alkalmazások esetében.</string>
+    <string name="noVpnPermissionProtonAppLabel">Proton VPN alkalmazás</string>
+    <string name="noVpnPermissionOtherAppLabel">Egyéb VPN alkalmazások</string>
+    <string name="noVpnPermissionOpenSettings">Android VPN beállítások megnyitása</string>
+    <string name="noNotificationPermissionGrantTitle">Ne bukjon le…</string>
+    <string name="noNotificationPermissionGrantDescription">Engedélyezze az értesítéseket, hogy információhoz jusson a kapcsolat állapotának változásairól.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Értesítések engedélyezése</string>
+    <string name="error_prepare_vpn_description"><![CDATA[Tiltsa le a mindig bekapcsolt VPN-t minden más VPN-alkalmazás számára az Android VPN rendszerbeállításaiban, mivel ez megakadályozza a Proton VPN-t a VPN-kapcsolat létrehozásában. Adja meg a VPN-engedélyeket is, ha megjelenik egy VPN-engedélyeket kérő párbeszédpanel. Előfordulhat, hogy más VPN-alkalmazásokat el is kell távolítani a konfliktusok elkerülése érdekében. Ezt követően kérjük, próbálja meg újra. <a href="%1$s">További információk</a>]]></string>
+    <string name="error_prepare_vpn_settings">Android VPN beállítások megnyitása</string>
+    <string name="error_prepare_vpn_title">Hiba: a VPN nincs engedélyezve</string>
+    <string name="error_server_not_set">A szerver már nem érhető el</string>
+    <string name="bugReportErrorEmptyEmail">Az e-mail mező nem lehet üres</string>
+    <string name="bugReportErrorInvalidEmail">Érvénytelen e-mail cím</string>
+    <string name="bugReportLabelVpnLogsTitle">Hibanaplók csatolása</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Ez elküldi a helyi hibanaplókat (nem naplózzuk a tevékenységet), hogy segítsen nekünk megoldani a problémát.</string>
+    <string name="profileFastest">Leggyorsabb</string>
+    <string name="profileRandom">Véletlenszerű</string>
+    <string name="loaderErrorNoInternet">Nincs internetkapcsolat</string>
+    <string name="loaderErrorGeneric">Valamilyen hiba történt</string>
+    <string name="inputIpAddressLabel">IP cím</string>
+    <string name="inputIpAddressHelp">Adja meg a szerver IPv4 vagy IPv6 címét</string>
+    <string name="inputIpAddressErrorInvalid">Érvénytelen IP cím</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">Új</string>
+    <string name="settingsExcludedIPAddressesListHeader">Kizárt IP címek (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Elfogadott IP címek (%1$d)</string>
+    <string name="settingsExcludedApps">Kihagyott alkalmazások</string>
+    <string name="settingsExcludedAppsEmpty">Adja hozzá a VPN-forgalomból kizárandó alkalmazásokat.</string>
+    <string name="settingsIncludedAppsEmpty">Adjon alkalmazásokat a VPN forgalomhoz.</string>
+    <string name="settingsExcludedAppsSelectedHeader">Kizárt alkalmazások (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Bevont alkalmazások (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Minden más szokásos alkalmazás (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Minden más rendszeralkalmazás (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Minden más alkalmazás (%1$d)</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">Rendszeralkalmazások megjelenítése</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Rendszeralkalmazások megjelenítése</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Ezek az alkalmazások ki vannak zárva a VPN-kapcsolatból.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Csak ezek az alkalmazások kapcsolódnak VPN-en keresztül.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Hozzáadás a kizárt alkalmazásokhoz</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Eltávolítás a kizárt alkalmazásokból</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Hozzáadás a bevont alkalmazásokhoz</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Eltávolítás a bevont alkalmazásokból</string>
+    <string name="accessibility_action_copy_to_clipboard">Másolás vágólapra</string>
+    <string name="accessibility_action_item_delete">Törlés</string>
+    <string name="accessibility_action_item_move_up">Feljebb lépés</string>
+    <string name="accessibility_action_item_move_down">Lejjebb lépés</string>
+    <string name="tileConnected">Kapcsolódva: %1$s</string>
+    <string name="openUrlError">%1$s megnyitása nem sikerült. Nincs webböngésző az eszközön.</string>
+    <string name="loaderErrorTimeout">Kapcsolat időtúllépés, próbálja meg újra.</string>
+    <string name="troubleshootButton">Hibaelhárítás</string>
+    <string name="activityTroubleshootTitle">Hibaelhárítás</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">Lehetséges megoldások</string>
+    <string name="troubleshootNoInternetDescription">Ellenőrizze, hogy az internet-kapcsolat működik-e.</string>
+    <string name="troubleshootNoInternetTitle">Nincs internetkapcsolat</string>
+    <string name="troubleshootIspProblemTitle">Internetszolgáltató (ISP) probléma</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Próbáljon meg egy másik hálózatból csatlakozni a Protonhoz (vagy használjon <a href=\'%1$s\'>Tor</a>-t)]]></string>
+    <string name="troubleshootAntivirusProblemTitle">Ütközés víruskeresővel</string>
+    <string name="troubleshootAntivirusProblemDescription">Ideiglenesen tiltsa le vagy távolítsa el az víruskereső szoftvert.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Proxy/tűzfal ütközés</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Kapcsolja ki a proxy-t vagy a tűzfalat, vagy vegye fel a kapcsolatot a hálózati rendszergazdával.</string>
+    <string name="troubleshootProtonDownTitle">A Proton nem érhető el</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[A <a href=\"%1$s\">Proton állapot</a> oldalon ellenőrizze a rendszer működését.]]></string>
+    <string name="troubleshootContactUsSectionTitle">További segítségre van szüksége? Lépjen velünk kapcsolatba</string>
+    <string name="troubleshootCustomerSupport">Vevőszolgálat</string>
+    <string name="settingsAllowAlternativeRoutingTitle">Alternatív útválasztás</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Ha a Proton blokkolva van, lehetővé teszi az alkalmazás számára, hogy alternatív útvonalakon próbálja elérni a Proton szervereit. <a href="%1$s">További információk</a>.]]></string>
+    <string name="troubleshootGovernmentBlockTitle">Kormányzati korlátozás</string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Az országában a Proton elérése korlátozott lehet. Próbálja meg a <a href=\'%1$s\'>Tor</a> használatával elérni a Protont.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Hogyan lehet engedélyezni a vészkapcsolót</string>
+    <string name="settingsKillSwitchEnableStep1">1. Nyissa meg a készülék beállításait</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Keresse meg a Proton VPN-t és koppintson a %1$s ikonra</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">beállítások</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Engedélyezze a \"<b>Mindig bekapcsolt VPN</b>\" és a \"<b>VPN nélküli kapcsolatok letiltása</b>\" elemeket]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Beállítások</string>
+    <string name="settingsKillSwitchLearnMoreButton">Mi az a vészkapcsoló?</string>
+    <string name="settingsKillSwitchWarningMain">Ha a vészkapcsoló be van kapcsolva, nem tud csatlakozni:</string>
+    <string name="settingsKillSwitchWarningPoint1">A VPN-kapcsolatból az osztott alagúttal kihagyott weboldalak és alkalmazások</string>
+    <string name="settingsKillSwitchWarningPoint2">A helyi hálózaton (LAN) lévő eszközökhöz</string>
+    <string name="settingsEnableTelemetryTitle">Anonim használati statisztikák beküldése</string>
+    <string name="settingsEnableTelemetryDescription">A használati adatok segítenek leküzdeni a VPN korlátozásokat és javítani az alkalmazás teljesítményét.</string>
+    <string name="settingsSendCrashReportsTitle">Névtelen összeomlási jelentések beküldése</string>
+    <string name="settingsSendCrashReportsDescription">Az összeomlási jelentések segítenek a hibák kijavításában, a tűzfalak felismerésében és a VPN korlátozások elkerülésében.</string>
+    <string name="settingsTelemetryScreenTitle">Használati statisztikák</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Ezek a statisztikák nem tartalmazzák az IP-címét, és nem használhatók fel az azonosítására. Soha nem osztjuk meg ezeket harmadik felekkel. <a href="%1$s">További információk</a>]]></string>
+    <string name="netshield_settings_description_not_html">Védekezzen a hirdetések, követők és rosszindulatú szoftverek ellen a weboldalakon és alkalmazásokban. %1$s</string>
+    <string name="settings_icon_change_description">Álcázza a Proton VPN alkalmazást egy diszkrét ikonnal. Az értesítések továbbra is az alapértelmezett Proton VPN nevet és ikont fogják megjeleníteni. %1$s</string>
+    <string name="settings_icon_change_learn_more">További információk</string>
+    <string name="learn_more">További információk</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Be</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Ki</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Nem elérhető</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Be</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Ki</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Be</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Ki</string>
+    <string name="lan_state_on" comment="Describes state, not action">Be</string>
+    <string name="lan_state_off" comment="Describes state, not action">Ki</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Be</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Ki</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Be</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Ki</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Nem elérhető</string>
+    <string name="custom_dns_item_removed_snackbar">Elem eltávolítva</string>
+    <string name="netshield_free_description">Hirdetések, nyomkövetők és rosszindulatú programok blokkolása webhelyeken és alkalmazásokban</string>
+    <string name="netshield_what_data_means">NetShield statisztikák magyarázata</string>
+    <string name="netshield_ads_title">Hirdetések</string>
+    <string name="netshield_ads_details">Hirdetések és láthatatlan hirdetéskövetők</string>
+    <string name="netshield_trackers_title">Követők</string>
+    <string name="netshield_trackers_details">Sütik és egyéb nyomkövető eszközök, amelyek információkat tárolnak és osztanak meg az internetes tevékenységéről</string>
+    <string name="netshield_data_title">Adat</string>
+    <string name="netshield_data_details">A NetShield által blokkolt hirdetésekből, nyomkövetőkből és rosszindulatú programokból származó nem kívánt adatok mennyisége</string>
+    <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
+        <item quantity="one">Reklám blokkolva</item>
+        <item quantity="other">Reklám blokkolva</item>
+    </plurals>
+    <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
+        <item quantity="one">Nyomkövető leállítva</item>
+        <item quantity="other">Nyomkövető leállítva</item>
+    </plurals>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Adat megtakarítva</string>
+    <string name="netshield_setting_warning">Előfordulhat, hogy egyes webhelyek nem töltődnek be megfelelően, ha a hirdetések és a nyomkövetők blokkolva vannak.</string>
+    <string name="dialogDontShowAgain">Ne jelenjen meg újra</string>
+    <string name="guestHoleNotificationContent">Kísérlet a hálózati problémák megkerülésére. Ez segít a Proton VPN elérésében.</string>
+    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
+    <string name="errorTorrentNotAllowed">P2P nem engedélyezett ezen a szerveren</string>
+    <string name="error_profile_fallback_unavailable">A csatlakozás sikertelen. A profilhoz kiválasztott szerver nem érhető el.</string>
+    <string name="profileProtocolNotAvailable">Ennek a profilnak a VPN protokollja jelenleg nem érhető el. A csatlakozáshoz próbálja meg megváltoztatni a protokollt.</string>
+    <string name="stateConnectedTo">Kapcsolódva: %1$s</string>
+    <string name="stateNotConnected">Nincs kapcsolódva</string>
+    <string name="nameEurope">Európa</string>
+    <string name="nameAmerica">Amerika</string>
+    <string name="nameAsia">Ázsia</string>
+    <string name="nameAfricaAndMiddleEast">Afrika és a Közel-Kelet</string>
+    <string name="nameOceania">Óceánia</string>
+    <string name="tv_row_settings">Beállítások</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_protocol_label">Protokoll</string>
+    <string name="tv_detail_default_connection_checkbox_short">Kedvenc</string>
+    <string name="tv_detail_connect_streaming">Videózás a Plus csomaggal</string>
+    <string name="tv_detail_connect">Kapcsolódás</string>
+    <string name="tv_detail_description_streaming_country">Nézze kedvenc videóit. Proton VPN Plus csomaggal több alkalmazáshoz is hozzáférhet.</string>
+    <string name="tv_detail_description_no_streaming_country">A Proton VPN Plus csomaggal még több kedvenc videóadását nézheti.</string>
+    <string name="tv_detail_description_country_not_available">Ez az ország nem elérhető. Szerezzen több videózási lehetőséget a Proton VPN Plus csomaggal.</string>
+    <string name="tv_detail_description_plus">Nézze kedvenc videóit, filmjeit vagy sportműsorait az alkalmazásaival.</string>
+    <string name="tv_login_title_signin">Bejelentkezés a Proton VPN-be</string>
+    <string name="tv_login_title_welcome">Nézze kedvenc videotartalmait</string>
+    <string name="tv_login_welcome_description">Nézzen videótartalmakat több mint 50 országból, többek között a YouTube-ról és a Twitchről. Nézze a Netflixet, az Amazon Prime-ot és a Hulu-t a Proton VPN Plus segítségével.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Szerezze be Proton VPN fiókját a <b>%1$s</b> címen.]]></string>
+    <string name="tv_login_welcome_button">Bejelentkezés</string>
+    <string name="tv_login_step1_description"><![CDATA[Nyissa meg a <b>%1$s</b> oldalt a mobilján vagy a számítógépén]]></string>
+    <string name="tv_login_step2_description">Bejelentkezés a Proton VPN-be</string>
+    <string name="tv_login_step3_description">Írja be a kódot:</string>
+    <string name="tv_login_timer_label">Ez a kód lejár:</string>
+    <string name="tv_login_refresh">Frissítés</string>
+    <string name="tv_login_title_loading">Betöltés…</string>
+    <string name="tv_login_title_refresh">A munkamenete lejárt. Kattintson a frissítésre az újrakezdéshez.</string>
+    <string name="tv_upgrade_title">Kezdje el a videózást a Plusszal</string>
+    <string name="back">Vissza</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Látogasson el a <b>%1$s</b> oldalra, hogy előfizethessen a Proton VPN Plus csomagra.]]></string>
+    <string name="tv_upgrade_description">Szerezzen be egy Proton VPN Plus csomagot, hogy hozzáférjen több mint 500 szerverhez világszerte, amely a Netflix, az Amazon Prime Video, a Disney+ és még sok más videós szolgáltatásokhoz is optimalizált.</string>
+    <string name="tv_vpn_error_dialog_title">VPN kapcsolódás sikertelen</string>
+    <string name="tv_signout_label">Kijelentkezés</string>
+    <string name="tv_signout_dialog_title">Biztos, hogy ki szeretne jelentkezni?</string>
+    <string name="tv_signout_dialog_description_connected">Ez megszakítja a tévé kapcsolatát bármely VPN-kiszolgálóval.</string>
+    <string name="tv_signout_dialog_ok">Kijelentkezés</string>
+    <string name="tv_quick_connect_recommened">Ajánlott</string>
+    <string name="tv_quick_connect_favourite">Kedvenc</string>
+    <string name="tv_country_maintenance_dialog_title">Az ország nem érhető el</string>
+    <string name="tv_country_maintenance_dialog_description">Próbálja meg később, vagy válasszon másik országot.</string>
+    <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+         Example: 76% server load -->
+    <string name="tv_server_list_load">%1$s%% szerverterhelés</string>
+    <string name="tv_recently_used_servers">Legutóbbi szerverek (%1$d)</string>
+    <string name="tv_available_servers">Elérhető szerverek (%1$d)</string>
+    <string name="tv_locked_servers">Lezárt szerverek (%1$d)</string>
+    <string name="tv_other_servers">Más szerverek (%1$d)</string>
+    <string name="tv_server_list">Szerver lista</string>
+    <string name="tv_server_list_action_unavailable">Nem elérhető</string>
+    <string name="notification_subscription_expired_title">A Proton VPN előfizetési csomagja lejárt</string>
+    <string name="notification_subscription_expired_content">Előfizetése kisebb csomagra állt át, és most újrakapcsolódik az ebben a csomagban elérhető leggyorsabb szerverhez.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">Előfizetése kisebb csomagra váltott.</string>
+    <string name="notification_delinquent_title">A VPN fiókján kifizetetlen számlák vannak</string>
+    <string name="notification_delinquent_content">Szánjon egy pillanatot számlázási adatainak frissítésére, hogy előfizetése aktív maradjon.</string>
+    <string name="notification_max_sessions_title">Elérte a használható eszközök maximális számát</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="notification_max_sessions_upsell_content">
+        <item quantity="one">Kérjük válasszon le egy másik eszközt, hogy ezzel kapcsolódhasson, vagy váltson a Plus csomagra, hogy egyszerre akár %1$d eszközzel is csatlakozhasson.</item>
+        <item quantity="other">Kérjük válasszon le egy másik eszközt, hogy ezzel kapcsolódhasson, vagy váltson a Plus csomagra, hogy egyszerre akár %1$d eszközzel is csatlakozhasson.</item>
+    </plurals>
+    <string name="notification_max_sessions_content">Válasszon le egy másik eszközt, hogy ezt csatlakoztathassa.</string>
+    <string name="notification_cancel_to_free">Ön jelenleg az ingyenes csomagot használja. Az Ingyenes szerverek és funkciók érhetők el.</string>
+    <string name="notification_cancel_to_basic">Ön jelenleg a Basic csomagot használja. A Basic &amp; az ingyenes szerverek és funkciók érhetők el.</string>
+    <string name="notification_cancel_to_delinquent">A prémium lehetőségeket a számlák rendezése után tudja majd ismét használni.</string>
+    <string name="reconnect_from_server">Szervertől: </string>
+    <string name="reconnect_to_server">Szerverhez: </string>
+    <string name="no_thanks">Nem, köszönöm</string>
+    <string name="enable">Engedélyezés</string>
+    <string name="notification_smart_protocol_disabled_title">A Smart Protocol jelenleg ki van kapcsolva</string>
+    <string name="notification_smart_protocol_disabled_content">A Proton VPN érzékelte, hogy a jelenlegi hálózata gátolja a VPN-hez csatlakozást. A Smart Protocol engedélyezése megoldhatja ezt a problémát.</string>
+    <string name="upsell_advanced_features">Speciális funkciók: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_streaming_services">Hozzáférés videós szolgáltatásokhoz (Netflix, Disney+ stb.) a világ bármely pontján</string>
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_servers">
+        <item quantity="one">%1$d szerver</item>
+        <item quantity="other">%1$d szerver</item>
+    </plurals>
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_countries">
+        <item quantity="one">%1$d országban</item>
+        <item quantity="other">%1$d országban</item>
+    </plurals>
+    <string name="upsell_upgrade_again">Fizessen elő újra, hogy élvezhesse az összes funkciót:</string>
+    <plurals name="upgrade_devices_title">
+        <item quantity="one">%1$d eszköz egyszerre történő védelme</item>
+        <item quantity="other">%1$d eszköz egyszerre történő védelme</item>
+    </plurals>
+    <string name="upgrade_devices_text">A Proton VPN 8 különböző platformon érhető el.</string>
+    <string name="upgrade_plus_title">Fejlessze az adatvédelmét</string>
+    <string name="upgrade_plus_message">Fejlett adatvédelmi funkciók és nagyobb sebesség a VPN Plus segítségével.</string>
+    <string name="upgrade_netshield_title">Élvezze a reklámmentes böngészést</string>
+    <string name="upgrade_netshield_message"><![CDATA[A <b>NetShield</b> segítségével blokkolhatja a hirdetéseket, nyomkövetőket és rosszindulatú programokat.]]></string>
+    <string name="upgrade_secure_core_title">Duplázza meg a titkosítást</string>
+    <string name="upgrade_secure_core_message"><![CDATA[A <b>Secure Core</b> segítségével a titkosítás egy újabb szintjét adhatja hozzá a VPN-kapcsolatához.]]></string>
+    <string name="upgrade_p2p_title">Peer-to-peer (P2P) letöltések és fájlmegosztás feloldása </string>
+    <string name="upgrade_p2p_text">Javítsa a feltöltési és letöltési sebességet, miközben elrejti IP-címét.</string>
+    <string name="upgrade_profiles_title">Gyors hozzáférés a gyakori kapcsolatokhoz</string>
+    <string name="upgrade_profiles_text">Profilok feloldása VPN Plusszal</string>
+    <string name="upgrade_streaming_title">Lejátszás 4K-ban</string>
+    <string name="upgrade_streaming_text">Élvezze kedvenc filmjeit és tévéműsorait a világ bármely pontjáról.</string>
+    <string name="upgrade_tor_title">Hozzáférés a Tor hálózathoz egyetlen érintéssel</string>
+    <string name="upgrade_tor_text">A rejtett szolgáltatásokhoz és onion oldalakhoz a hagyományos böngészőjével csatlakozhat.</string>
+    <string name="upgrade_vpn_accelerator_title">Még nagyobb sebességgel böngészhet</string>
+    <!--
+        %1$s - speed in Gbps
+        Example:
+        Unlock faster, less crowded servers with speeds of up to 10 Gbps.
+    -->
+    <string name="upgrade_vpn_accelerator_message">Érjen el gyorsabb, kevésbé terhelt szervereket akár %1$d Gbps sebességgel.</string>
+    <string name="upgrade_split_tunneling_title">Mindkét világból a legjobbat</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Ossza fel a forgalmat VPN és nem VPN csatornákra a <b>osztott alagút</b> segítségével.]]></string>
+    <string name="upgrade_customization_title">Haladó VPN testreszabás feloldása</string>
+    <string name="upgrade_lan_access_message"><![CDATA[A VPN Plus segítségével hozzáférhet a <b>helyi hálózaton (LAN)</b> lévő eszközökhöz.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Használjon <b>LAN kapcsolatokat</b>, az <b>egyéni DNS</b>-t és a <b>2. típusú NAT</b>-ot a VPN Plusszal.]]></string>
+    <string name="upgrade_all_countries_title">Hozzáférés minden országhoz</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d biztonságos szerver</item>
+        <item quantity="other">%d biztonságos szerver</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="upgrade_plus_countries">
+        <item quantity="one">%d országban</item>
+        <item quantity="other">%d országban</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_servers_new"
+     %2$s - replaced with "upgrade_plus_countries"
+
+     Example:
+     Unlock 1300+ secure servers in 61 countries with VPN Plus.
+     -->
+    <string name="upgrade_plus_countries_title_new"><![CDATA[%1$s feloldása %2$s a <b>VPN Plus</b> segítségével.]]></string>
+    <string name="mail_app_name" translateable="false">Proton Mail</string>
+    <string name="upgrade_unlimited_all_apps_title">Minden prémium Proton szolgáltatás. Egy egyszerű előfizetés.</string>
+    <string name="upgrade_unlimited_all_apps_description">A Proton Unlimited teljes körű adatvédelmi fedezetet nyújt.</string>
+    <string name="upgrade_unlimited_more">És még több</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">Minden ország feloldása</string>
+    <string name="upgrade_unlimited_vpn_all_features">Minden más VPN Plus funkció</string>
+    <string name="upgrade_unlimited_vpn_any_location">Válasszon tetszőleges helyszínt</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Még nagyobb VPN sebességek</string>
+    <plurals name="upgrade_unlimited_vpn_many_devices">
+        <item quantity="one">%1$d eszköz egyszerre történő védelme</item>
+        <item quantity="other">%1$d eszköz egyszerre történő védelme</item>
+    </plurals>
+    <string name="upgrade_unlimited_vpn_streaming">Biztonságos videónézés</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Hirdetésblokkoló és rosszindulatú programok elleni védelem</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">Kettős VPN</string>
+    <string name="upgrade_unlimited_vpn_p2p">P2P támogatás</string>
+    <plurals name="upgrade_unlimited_mail_custom_domains">
+        <item quantity="one">%1$d saját e-mail domain név</item>
+        <item quantity="other">%1$d saját e-mail domain név</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_attachments">
+        <item quantity="one">%1$d MB melléklet</item>
+        <item quantity="other">%1$d MB melléklet</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_many_addresses">
+        <item quantity="one">%1$d e-mail cím</item>
+        <item quantity="other">%1$d e-mail cím</item>
+    </plurals>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Korlátlan mappa és címke</string>
+    <string name="upgrade_unlimited_mail_dark_web">Dark web figyelés</string>
+    <string name="upgrade_unlimited_mail_aliases">Korlátlan számú hide-my-email álnév</string>
+    <string name="upgrade_unlimited_mail_autoreply">Automatikus válasz</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Ütemezett küldés</string>
+    <plurals name="upgrade_unlimited_calendar_calendars">
+        <item quantity="one">%1$d személyes naptár</item>
+        <item quantity="other">%1$d személyes naptár</item>
+    </plurals>
+    <string name="upgrade_unlimited_calendar_sharing">Naptár megosztás</string>
+    <string name="upgrade_unlimited_calendar_invites">Meghívók küldése és fogadása</string>
+    <string name="upgrade_unlimited_drive_encryption">Titkosított fájltárolás</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d GB teljes tárhely a fényképek, fájlok és levelek számára</string>
+    <string name="upgrade_unlimited_drive_link_share">Fényképek és fájlok megosztása hivatkozáson keresztül</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Fejlett megosztási biztonság</string>
+    <string name="upgrade_unlimited_drive_version_history">Korábbi változatok</string>
+    <string name="upgrade_unlimited_pass_manager">Titkosított jelszókezelő</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Korlátlan bejelentkezés és hide-my-email álnevek</string>
+    <plurals name="upgrade_unlimited_pass_vaults">
+        <item quantity="one">%1$d tároló</item>
+        <item quantity="other">%1$d tároló</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_logins">Korlátlan bejelentkezés</string>
+    <string name="upgrade_unlimited_pass_aliases">Korlátlan hide-my-email álnév</string>
+    <string name="upgrade_unlimited_pass_credit_cards">Korlátlan bankkártya</string>
+    <string name="upgrade_unlimited_pass_devices">Korlátlan számú eszköz</string>
+    <plurals name="upgrade_unlimited_pass_users">
+        <item quantity="one">Megosztás %1$d személlyel</item>
+        <item quantity="other">Megosztás akár %1$d személlyel</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_2fa_auth">Beépített kétlépcsős hitelesítés</string>
+    <string name="upgrade_not_now_button">Most nem</string>
+    <!-- Content description for plan selection list.
+         Only used by accessibility services.
+
+         Example:
+         When the plan selection control is focused, and the first plan name is "VPN Plus"
+         TalkBack will read:
+         "VPN Plus, 1 of 2, in list Upgrade options" -->
+    <string name="upgrade_plan_selection_content_description">Előfizetési lehetőségek</string>
+    <string name="upsell_card_countries_title">Világméretű lefedettség</string>
+    <!-- Parameters:
+        %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">%1$d+ szerverhely %2$s országban</string>
+    <string name="upsell_card_customization_title">És sok további…</string>
+    <string name="upsell_card_customization_description">Még több teljesítmény- és adatvédelmi funkció feloldása</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="one">%1$d eszköz védelme</item>
+        <item quantity="other">%1$d eszköz védelme</item>
+    </plurals>
+    <string name="upsell_card_devices_description">Biztonság és adatvédelem minden eszközén</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">Hirdetések, rosszindulatú programok és nyomkövetők blokkolása</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">Egy további titkosítási réteg hozzáadása a VPN-kapcsolathoz</string>
+    <string name="upsell_card_p2p_title">P2P támogatás</string>
+    <string name="upsell_card_p2p_description">Fájlok letöltése BitTorrent és más fájlmegosztó protokollokon keresztül</string>
+    <string name="upsell_card_profiles_title">Profilok</string>
+    <string name="upsell_card_profiles_description">Egyéni VPN kapcsolatok létrehozása</string>
+    <string name="upsell_card_speed_title">Gyorsabb böngészés</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">Böngészés még nagyobb sebességgel (akár %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_description">Egyszerre két helyről böngészhet</string>
+    <string name="upsell_card_streaming_title">Videózás</string>
+    <string name="upsell_card_streaming_description">Nézze kedvenc filmjeit és tévéműsorait</string>
+    <string name="upsell_card_tor_title">Tor VPN-en</string>
+    <string name="upsell_card_tor_description">Használja a Tor hálózatot a VPN kapcsolatán keresztül, extra adatvédelemért</string>
+    <!-- Format for price per period of time.
+        %1$s - replaced with price and currency (e.g. "$100")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
+
+        Examples:
+        50 PLN /month
+        $100 /year
+    -->
+    <string name="payment_price_with_period">%1$s /%2$s</string>
+    <string name="payment_price_per_month">hónap</string>
+    <string name="payment_price_per_year">év</string>
+    <string name="payment_price_per_2years">2 év</string>
+    <string name="payment_price_cycle_month_label">1 hónap</string>
+    <string name="payment_price_cycle_year_label">1 év</string>
+    <string name="payment_price_cycle_2years_label">2 év</string>
+    <string name="payment_select_your_plan">Válasszon csomagot</string>
+    <!-- Label on a button for purchasing a subscription.
+         Parameter: %1$s - plan name
+         Plan names are not translated.
+
+         Example: "Get VPN Plus", "Get Proton Unlimited". -->
+    <string name="payment_button_get_plan">%1$s beszerzése</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_monthly">Üdvözlő ajánlat. Automatikusan megújul %1$s/hónap áron</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_annual">Üdvözlő ajánlat. Automatikusan megújul %1$s/év áron</string>
+    <string name="payment_auto_renew_message_monthly">Az előfizetés automatikusan megújul %1$s/hónap áron</string>
+    <string name="payment_auto_renew_message_annual">Az előfizetés automatikusan megújul %1$s/év áron</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Az előfizetés havonta automatikusan megújul</string>
+    <string name="payment_welcome_price_message_annual_fallback">Az előfizetés évente automatikusan megújul</string>
+    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_description">Ez a technológia lehetővé teszi, hogy a Proton VPN nagyobb sebességet és biztonságot adjon a nehezen kiszolgálható országokban.</string>
+    <string name="tor_title">Tor</string>
+    <string name="server_load_title">Szerver terheltség</string>
+    <string name="activity_information_learn_more">További információk</string>
+    <string name="server_load_low">Alacsony</string>
+    <string name="server_load_medium">Közepes</string>
+    <string name="server_load_high">Magas</string>
+    <!-- Override Human verification links from core -->
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Üdvözli a Proton VPN</string>
+    <string name="onboarding_welcome_description">Böngésszen privát módon, érjen el blokkolt tartalmakat és élvezze a digitális szabadságot.</string>
+    <string name="onboarding_welcome_action">Kezdés</string>
+    <string name="upgrade_success_get_started_button">Kezdés</string>
+    <string name="dynamic_report_suggestion_didnt_work">Nem működött?</string>
+    <string name="dynamic_report_contact_us">Kapcsolatfelvétel</string>
+    <string name="dynamic_report_tips_description">Ezek a tippek segíthetnek problémája gyorsabban megoldásában.</string>
+    <string name="dynamic_report_tips_title">Gyors javítások</string>
+    <string name="dynamic_report_logs_title">Hibanapló beküldése</string>
+    <string name="dynamic_report_success_title">Köszönjük a visszajelzést</string>
+    <string name="dynamic_report_success_description">Felvesszük önnel a kapcsolatot, amint csak lehet.</string>
+    <string name="dynamic_report_field_mandatory">Ez a mező kötelező</string>
+    <string name="dynamic_report_logs_description">A hibanapló egy olyan fájl, amiből megvizsgálhatjuk, hogy milyen műveleteket végzett el, amelyek a hibához vezettek. Csakis arra fogjuk használni, hogy segítse mérnökeinket a hibák kijavításában.</string>
+    <string name="dynamic_report_logs_missing">A hibanaplók segítenek a probléma felderítésében. Ha nem mellékeli, elképzelhető, hogy nem tudjuk teljes mértékben kivizsgálni.</string>
+    <string name="dynamic_report_step1">1/3. lépés</string>
+    <string name="dynamic_report_step2">2/3. lépés</string>
+    <string name="dynamic_report_step3">3/3. lépés</string>
+    <string name="dynamic_report_your_issue_headline">Mi a probléma?</string>
+    <string name="update_screen_title">Proton VPN frissítése</string>
+    <string name="update_screen_description">A Proton VPN régebbi verzióinál nagyobb valószínűséggel jelentkeznek problémák.</string>
+    <string name="dialog_create_account_title">Hozzon létre egy fiókot a folytatáshoz</string>
+    <string name="dialog_create_account_action_create">Fiók létrehozása</string>
+    <string name="dialog_create_account_action_signin">Bejelentkezés</string>
+    <string name="server_search_menu_title">Keresés</string>
+    <string name="search_empty_result_subtitle">Próbáljon meg egy másik keresést</string>
+    <string name="search_empty_result_title">Nincs találat</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">Ürítés</string>
+    <!-- Example: Want to connect to Italy? -->
+    <string name="upgrade_country_title">Egy adott országhoz szeretne csatlakozni?</string>
+    <string name="upgrade_country_message"><![CDATA[Oldja fel az <b>ország választást</b> a VPN Plusszal.]]></string>
+    <string name="free_connections_info_message">A Proton Free automatikusan a leggyorsabb elérhető szerverhez csatlakozik. Ez általában a legközelebbi szerver lesz.</string>
+    <string name="free_connections_info_server_locations">Ingyenes szerver helyek (%1$d)</string>
+    <string name="free_connections_info_banner_text">Világszintű lefedettség a VPN Plusszal</string>
+    <string name="free_connection_info_title">Free kapcsolatok</string>
+    <string name="search_upsell_banner_title">Videózás bárhonnan</string>
+    <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
+    <plurals name="search_upsell_banner_message">
+        <item quantity="one">Oldja fel a földrajzi korlátozás alá eső tartalmak blokkolását %1$d országból a VPN Plusszal</item>
+        <item quantity="other">Oldja fel a földrajzi korlátozás alá eső tartalmak blokkolását %1$d országból a VPN Plusszal</item>
+    </plurals>
+    <string name="select_default_connection">Válassza ki az alapértelmezett kapcsolatot</string>
+    <string name="settings_default_connection_title">Alapértelmezett kapcsolat</string>
+    <string name="fastest_country_description">A legjobb szerver az Ön tartózkodási helye alapján</string>
+    <string name="settings_last_connection_title">Legutóbbi kapcsolat</string>
+    <string name="settings_last_connection_description">A legutóbb használt kapcsolata</string>
+    <string name="settings_change_icon_title">Alkalmazás ikon</string>
+    <string name="settings_change_icon_details">Testre szabhatja, hogyan jelenjen meg a Proton VPN alkalmazás az eszközén. Miért?</string>
+    <string name="settings_change_icon_confirmation_title">Alkalmazás ikonjának módosítása?</string>
+    <string name="settings_change_icon_confirmation_details">Ez a Proton VPN alkalmazás bezárását eredményezi. Az újraindításához csak koppintson az alkalmazás új ikonjára.</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
+    <string name="settings_change_icon_header_discreet">Diszkrét alkalmazás ikon</string>
+    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_selection_title">Próbálja ki a Proton VPN widgetet</string>
+    <string name="settings_widget_selection_description">A kezdőképernyőről megtekintheti a kapcsolat állapotát, és hozzáférhet kedvenc VPN-kapcsolataihoz.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">A widget hozzáadásához tartsa lenyomva a kezdőképernyő bármelyik pontján, majd válassza a %1$s menüpontot a widget menüből.</string>
+    <string name="settings_widget_selection_button_title">Widget hozzáadása</string>
+    <string name="setting_widget_try_title">Próbálja ki a Proton VPN widgetet</string>
+    <!-- Content description used by accessibility services for a button for dismissing (hiding)
+         a notification banner (usually used for special offers). -->
+    <string name="notification_banner_dismiss_accessibility_label">Banner elvetése</string>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">%1$s %2$s maradt</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="one">%1$d másodperc</item>
+        <item quantity="other">%1$d másodperc</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="one">%1$d perc</item>
+        <item quantity="other">%1$d perc</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="one">%1$d óra</item>
+        <item quantity="other">%1$d óra</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="one">%1$d nap</item>
+        <item quantity="other">%1$d nap</item>
+    </plurals>
+    <string name="server_change_max_reached">Egyelőre elérte az ingyenes szerver váltások maximális számát.</string>
+    <string name="server_change_upsell">Szerezzen a VPN Plus csomaggal korlátlan szerver váltást.</string>
+    <string name="server_change_button_title">Szerver váltása</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services.
+
+        %1$s - replaced with "time_left_minutes"
+        %2$s - replaced with "time_left_seconds"
+        Example:
+        Available in 1 minute 23 seconds.
+      -->
+    <string name="server_change_button_time_left_content_description">Elérhető %1$s %2$s múlva</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services and only if time left is less than 1 minute.
+
+        %1$s - replaced with "time_left_seconds"
+        Example:
+        Available in 23 seconds.
+      -->
+    <string name="server_change_button_time_left_seconds_content_description">Elérhető %1$s múlva</string>
+    <string name="server_change_progress_finished_contend_description">Már elérhető</string>
+    <string name="not_wanted_country_title">Nem az az ország, amit szeretett volna?</string>
+    <string name="not_wanted_country_description">Váltson nagyobb csomagra a tetszőleges szerver kiválasztásához</string>
+    <string name="whats_new_title">Újdonságok</string>
+    <string name="whats_new_profiles_title">A profilok visszatértek</string>
+    <string name="whats_new_profiles_description">Egyéni kapcsolatok létrehozása és mentése a kívánt hellyel, szerverrel és protokollal.</string>
+    <string name="whats_new_widget_title">Widgetek bemutatása</string>
+    <string name="whats_new_widget_description">Mostantól a kezdőképernyő elhagyása nélkül is megtekintheti és kezelheti VPN-t.</string>
+    <string name="whats_new_add_widget_button">Widget hozzáadása</string>
+    <string name="welcome_plus_title">Üdvözli a VPN Plus</string>
+    <string name="welcome_plus_description">Élvezze az extra adatvédelmi funkciókat, a felturbózott teljesítményt és a magas szintű VPN testreszabást.</string>
+    <string name="welcome_plus_feature_security">Fejlett biztonsági funkciók</string>
+    <string name="welcome_unlimited_title">Üdvözli a Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Gratulálunk! Ön feloldotta a prémium biztonsági és teljesítményfunkciókat az összes Proton szolgáltatáshoz, valamint <b>%1$d&#160;GB</b> teljes tárhelyet.<br><br>Élvezze a Proton védelmének legjavát.]]></string>
+    <string name="welcome_generic_title">Gratulálunk</string>
+    <string name="welcome_generic_description">Ön frissítette előfizetését. Élvezze a fejlett adatvédelmi funkciókat és a nagyobb teljesítményt.</string>
+    <!-- Example: Up to 10 devices at once
+         In practice one will never be a value here -->
+    <plurals name="welcome_plus_feature_devices">
+        <item quantity="one">Akár %1$d eszköz egyszerre</item>
+        <item quantity="other">Akár %1$d eszköz egyszerre</item>
+    </plurals>
+    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ new servers
+     -->
+    <plurals name="welcome_plus_servers">
+        <item quantity="one">%d új szerver</item>
+        <item quantity="other">%d+ új szerver</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="welcome_plus_countries">
+        <item quantity="one">%d országban</item>
+        <item quantity="other">%d országban</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "welcome_plus_servers"
+     %2$s - replaced with "welcome_plus_countries"
+
+     Example:
+     1800+ new servers in 68 countries
+     -->
+    <string name="welcome_plus_feature_servers_count">%1$s %2$s</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">külső hivatkozás</string>
+    <string name="no_logs_banner_title">Hitelesített, naplózás nélküli VPN</string>
+    <string name="no_logs_banner_description">Az Ön VPN-tevékenységét a svájci adatvédelmi törvények védik. Soha nem követjük Önt online, és nem osztjuk meg adatait harmadik féllel.</string>
+    <!-- tag(Redesign_2023) Bottom bar label for home screen -->
+    <string name="bottom_nav_home">Otthoni</string>
+    <string name="bottom_nav_gateways">Átjárók</string>
+    <string name="bottom_nav_profiles">Profilok</string>
+    <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
+    <string name="bottom_nav_countries">Országok</string>
+    <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
+    <string name="botton_nav_settings">Beállítások</string>
+    <!-- tag(Redesign_2023)
+         Text added to button labels that open a UI element (e.g. a panel).
+         Only used by accessibility services.
+         Example:
+         a button with label "connection details" and this action label will be read by a screen
+         reader as:
+         "Connection details, button. Double tap to open"
+    -->
+    <string name="accessibility_action_open">megnyitás</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that initiate a VPN connection.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland will be read by a screen reader as:
+         "Switzerland. Double tap to connect"
+        -->
+    <string name="accessibility_action_connect">kapcsolódás</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that redirect the user to upgrade their subscription plan.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland that requires upgrading subscription to become
+         available will be read by a screen reader as:
+         "Unavailable, Switzerland. Double tap to upgrade"
+        -->
+    <string name="accessibility_action_upgrade">nagyobb csomagra váltás</string>
+    <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">keresés</string>
+    <!-- Name of action for opening a screen/panel for an item.
+         The action is listed in a menu of additional actions available to accessibility services.
+
+         Example:
+         - item in a list of countries has a custom action to open list of cities in the country
+         - item in a list of cities has a custom action to open list of servers in the city
+         -->
+    <string name="accessibility_menu_action_open">Megnyitás</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable because servers
+         are in maintenance.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are in maintenance will be read by a
+         screen reader as:
+         "in maintenance, Switzerland"
+     -->
+    <string name="accessibility_item_in_maintenance">karbantartás alatt</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are unavailable will be read by a screen
+         reader as:
+         "unavailable, Switzerland"
+     -->
+    <string name="accessibility_item_unavailable">nem elérhető</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when there is active connection to it.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland when there is a VPN connection to a server in this country
+         will be read by a screen reader as:
+         "Switzerland, connected"
+     -->
+    <string name="accessibility_item_connected">kapcsolódva</string>
+    <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
+    <string name="server_feature_label_p2p">P2P</string>
+    <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
+    <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
+    <string name="fastest_country">Leggyorsabb ország</string>
+    <string name="fastest_country_excluding_my_country">Leggyorsabb ország (kivéve a tartózkodási hely)</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
+    <string name="fastest_free_server">A leggyorsabb ingyenes szerver</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Iceland
+     -->
+    <string name="connection_info_secure_core_full_iceland">%1$s Izlandon keresztül</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Sweden
+     -->
+    <string name="connection_info_secure_core_full_sweden">%1$s Svédországon keresztül</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_switzerland">%1$s Svájcon keresztül</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - exit country name in nominative case
+         %2$s - entry country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_other">%1$s %2$s keresztül</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_iceland">Izlandon keresztül</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_sweden">Svédországon keresztül</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_switzerland">Svájcon keresztül</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">Secure Core-on keresztül</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - entry country name in nominative case
+         Example: via Switzerland
+    -->
+    <string name="connection_info_secure_core_entry_other">ezen keresztül: %1$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         three countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+
+     -->
+    <string name="connection_info_auto_selected_free_countries">[flags] közül automatikusan kiválasztva</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         several countries. Used instead of connection_info_auto_selected_free_countries when there
+         are more than 3 countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+         $1%d - replaced with number of additional countries (beyond the 3 flags).
+
+         Example, if there are 5 countries to select from the text will be:
+         Auto selected from [flags]+2
+         -->
+    <string name="connection_info_auto_selected_free_countries_more">[flags]+%1$d közül automatikusan kiválasztva</string>
+    <!-- tag(Redesign_2023)
+         Accessibility label describing a connection to a free server that is automatically selected
+         from one in several countries. Placed directly below fastest_free_server.
+         This text replaces connection_info_auto_selected_free_servers for screen readers.
+         $1%d - replaced with number of countries.
+         -->
+    <plurals name="connection_info_accessibility_auto_selected_free_countries">
+        <item quantity="one">%1$d ország közül automatikusan kiválasztva</item>
+        <item quantity="other">%1$d ország közül automatikusan kiválasztva</item>
+    </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Az ingyenes országok közül automatikusan kiválasztva.</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         are that of the previous connection.
+
+         Example:
+         Last connected to
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         -->
+    <string name="connection_card_label_last_connected">Legutóbbi kapcsolat</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">Alapértelmezett kapcsolat</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Free kapcsolat</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is being established.
+     -->
+    <string name="connection_card_label_connecting">Kapcsolódás ehhez…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It\'s shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Szerver váltás…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is established and the user
+         is safely browsing as if they were in the location indicated in the connection card.
+
+         Example:
+         Browsing safely from
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         Germany
+     -->
+    <string name="connection_card_label_connected">Biztonságosan böngészhet a</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with details of the current VPN connection.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "connection details, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_connection_details">kapcsolat részletei</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with information about connections in free plan.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "more information about free connections, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_free_connections">további információk az ingyenes kapcsolatokról</string>
+    <!-- tag(Redesign_2023)
+         Displayed above the list of recently made connections.
+     -->
+    <string name="recents_headline">Előzmények</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">VPN Plus felfedezése</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_pin">Rögzítés</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_unpin">Feloldás</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_remove">Eltávolítás</string>
+    <!-- tag(Redesign_2023)
+         State description of a pinned recent item.
+         Only used by accessibility service.
+    -->
+    <string name="recent_action_accessibility_state_pinned">Kitűzött</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_country_servers_in_maintenance">Ebben az országban minden szerver karbantartás alatt áll</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_city_servers_in_maintenance">Ebben a városban minden szerver karbantartás alatt áll</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">Ebben az államban minden szerver karbantartás alatt áll</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_in_maintenance">A szerver karbantartás alatt áll</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_not_available">A szerver nem érhető el</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
+    <string name="message_gateway_in_maintenance">Átjáró karbantartás alatt áll</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out">Kijelentkezés</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_title">Beállítások</string>
+    <string name="gateways_title">Átjárók</string>
+    <string name="countries_title">Országok</string>
+    <string name="profiles_title">Profilok</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_features">Jellemzők</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_netshield_title">NetShield</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_kill_switch_title">Vészkapcsoló</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_connection_category">Kapcsolat</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_protocol_title">Protokoll</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_advanced_settings_title">Speciális beállítások</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_general">Általános</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_account">Fiók</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_notifications_title">Értesítések</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_support">Támogatás</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_help_center_title">Súgóközpont</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_report_issue_title">Hibabejelentés</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_debug_logs_title">Hibakeresési naplók</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_improve_proton">A Proton feljavítása</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_fight_censorship_title">Segítsen a cenzúra elleni harcban</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_rate_us_title">Proton VPN értékelése</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_app_version">Alkalmazásverzió: %1$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_third_party_licenses">Harmadik fél licencei</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_title">Kijelentkezés?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_message">Megszakad a VPN-kapcsolat.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_dont_ask_again">Ne kérdezze meg újra</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_action">Kijelentkezés</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_action_cancel">Mégsem</string>
+    <string name="dialog_action_change_icon">Ikon módosítása</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">Összes</string>
+    <string name="country_filter_cities">Városok</string>
+    <string name="country_filter_states">Államok</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">Minden ország (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus országok (%1$d)</string>
+    <string name="country_filter_countries_list_header">Országok (%1$d)</string>
+    <string name="country_filter_cities_list_header">Városok (%1$d)</string>
+    <string name="country_filter_states_list_header">Államok (%1$d)</string>
+    <string name="country_filter_servers_list_header">Szerverek (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core országok (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P országok (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P városok (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P államok (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor országok (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor szerverek (%1$d)</string>
+    <string name="country_filter_info_label">Információk</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">Terhelés: %1$s%%</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is connected and network is protected
+    -->
+    <string name="vpn_status_connected">Védett</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is not connected and network is not protected
+    -->
+    <string name="vpn_status_disabled">Ön védtelen</string>
+    <!-- tag(Redesign_2023)
+         Text is shown while connection is being established
+    -->
+    <string name="vpn_status_connecting">Védje digitális személyazonosságát</string>
+    <!-- tag(Redesign_2023)
+         Displays Country name and IP of user if he is not connected.
+         First parameter is country, second is IP.
+         Ex: Poland · 192.1.1.1.1
+    -->
+    <string name="vpn_status_disabled_location">%1$s · %2$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_subtitle">Kapcsolat adatai</string>
+    <string name="connection_details_features_title">Jellemzők</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_show_ip">IP megjelenítése</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_back">Vissza</string>
+    <string name="accessibility_close">Bezárás</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_my_ip">Saját IP-cím</string>
+    <string name="connection_details_my_ipv4">Saját IPv4 cím</string>
+    <string name="connection_details_my_ipv6">Saját IPv6 cím</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
+    -->
+    <string name="connection_details_connected_for">Kapcsolódva</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server">Szerver</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_gateway">Átjáró</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_country">Ország</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_city">Város</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
+    -->
+    <string name="connection_details_server_load">Szerver terheltség</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_question">Mit értünk szerverterhelés alatt?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_description">A szerverterhelés megmutatja, hogy egy szerver mennyire van közel a maximális kapacitásához. \n\nA nagy szerverterhelés lelassíthatja a kapcsolatot.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_title">Alacsony (1-75%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_description">Villámgyors sebesség</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_title">Közepes (76-90%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_description">Vélhetően nem befolyásolja a VPN sebességet</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_title">Magas (91-100%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_description">A VPN a megszokottnál lassabban futhat </string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol">Protokoll</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol_description">A protokoll olyan utasítások összessége, amelyeket az eszköz követ a szerverhez való csatlakozáshoz és a vele való kommunikációhoz.</string>
+    <!-- tag(Redesign_2023)
+         Label in front of upload speed in connection details. It is followed by upload speed number and unit.
+    -->
+    <string name="connection_details_upload">Feltöltés</string>
+    <!-- tag(Redesign_2023)
+         Label in front of download speed in connection details. It is followed by download speed number and unit.
+    -->
+    <string name="connection_details_download">Letöltés</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_section_vpn_speed">VPN sebesség</string>
+    <string name="connection_details_section_ip">IP-cím</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_question">Mit jelent a VPN sebessége?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">A Secure Core egy második, maximális biztonságú VPN-kiszolgálón keresztül csatlakozik a célkiszolgálóhoz.\n\nEz a magasabb szintű védelem nagyobb késleltetést és kisebb sebességet okozhat.</string>
+    <string name="info_secure_core_standard_header">Alap VPN kapcsolat</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN kapcsolat</string>
+    <string name="info_dialog_tor_description">Csatlakozzon egy Tor-kiszolgálóhoz, hogy bármilyen böngészővel hozzáférjen rejtett szolgáltatásokhoz és onion oldalakhoz.</string>
+    <string name="info_dialog_button_learn_more_tor">Hogyan lehet a Tor hálózatot elérni</string>
+    <string name="info_dialog_button_learn_more_p2p">Hogyan kell torrentezni P2P-rel</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Mi az az IP-cím?</string>
+    <string name="info_dialog_button_learn_more_streaming">Segítségre van szüksége a videózással kapcsolatban?</string>
+    <string name="info_dialog_streaming_title">Videózás</string>
+    <string name="info_dialog_streaming_description">A videózásra alkalmas szervereket gyors és biztonságos TV- és filmlejátszásra tervezték.</string>
+    <string name="info_dialog_how_to_stream">Videós szolgáltatások használata:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Nyissa meg a telefon beállításait, és kapcsolja ki a helyszolgáltatásokat</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">Indítsa újra a videós szolgáltatást</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Csatlakozzon bármely Plus szerverhez és kezdjen videózni</string>
+    <string name="info_dialog_profiles_title">Profilok</string>
+    <string name="info_dialog_ipaddress_title">IP-cím</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6 forgalom</string>
+    <string name="info_dialog_profiles_description">A profilok olyan egyéni VPN-kapcsolatok, amelyeket az igényeihez igazíthat, és a gyors hozzáférés érdekében elmenthet.\n\nAdja meg a kívánt helyet, és optimalizálja a beállításokat a biztonság, a teljesítmény, a játék vagy bármely más szituáció szerint.</string>
+    <string name="info_dialog_ipaddress_description">A VPN IP-je elrejti a valódi IP-címét. Ez azt a látszatot kelti, mintha a VPN-helyéről böngészne, így az online tevékenységét nem lehet összekapcsolni az eszközével.</string>
+    <string name="info_dialog_ipv6_traffic_description">Az internetprotokoll (IP) címeket rendel az eszközökhöz és továbbítja az internetes forgalmat. Az IPv6 a legújabb verzió, amely több címet és jobb kapcsolódási lehetőségeket kínál, de még nem terjedt el általánosan.</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">A peer-to-peer fájlmegosztás engedélyezve van ezen a szerveren.</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">A hagyományos böngészővel csatlakozhat a .onion webhelyekhez.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">Tevékenysége 2 nagy biztonságú VPN-kiszolgáló mögött van titkosítva.</string>
+    <string name="connection_feature_streaming_title">Videózás</string>
+    <string name="connection_feature_streaming_description">Ez a szerver TV- és filmlejátszásra van optimalizálva.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <string name="connection_feature_smart_routing_description">Fizikailag valahol máshol található szervereken keresztül csatlakozik a célországhoz.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
+    -->
+    <string name="country_smart_routing_info">A szerverek fizikailag %1$s-ban találhatók, de úgy tűnik, hogy a %2$s-ból böngészik.</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Infó</string>
+    <!-- tag(Redesign_2023)
+         Used for button title to learn more about different contexts
+    -->
+    <string name="connection_details_learn_more">További információk</string>
+    <!-- tag(Redesign_2023)
+        Used to describe IP which is not known
+    -->
+    <string name="connection_details_unknown_ip">Ismeretlen</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_description">Ez a grafikon az aktuális feltöltési és letöltési tevékenység sebességét mutatja. A VPN-kapcsolat valószínűleg nem lassítja a normál online tevékenységet.</string>
+    <string name="speed_bytes_per_second">%1$s B/mp</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/mp</string>
+    <string name="speed_megabytes_per_second">%1$s MB/mp</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/mp</string>
+    <string name="speed_terabytes_per_second">%1$s TB/mp</string>
+    <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
+    <string name="speed_graph_title">Sebesség %1$s</string>
+    <string name="bytes_per_second">B/mp</string>
+    <string name="kilobytes_per_second">KB/mp</string>
+    <string name="megabytes_per_second">MB/mp</string>
+    <string name="gigabytes_per_second">GB/mp</string>
+    <string name="terabytes_per_second">TB/mp</string>
+    <plurals name="full_name_speed_bytes_per_second">
+        <item quantity="one">%1$s bájt másodpercenként</item>
+        <item quantity="other">%1$s bájt másodpercenként</item>
+    </plurals>
+    <plurals name="full_name_speed_kilobytes_per_second">
+        <item quantity="one">%1$s kilobájt másodpercenként</item>
+        <item quantity="other">%1$s kilobájt másodpercenként</item>
+    </plurals>
+    <plurals name="full_name_speed_megabytes_per_second">
+        <item quantity="one">%1$s megabájt másodpercenként</item>
+        <item quantity="other">%1$s megabájt másodpercenként</item>
+    </plurals>
+    <plurals name="full_name_speed_gigabytes_per_second">
+        <item quantity="one">%1$s gigabájt másodpercenként</item>
+        <item quantity="other">%1$s gigabájt másodpercenként</item>
+    </plurals>
+    <plurals name="full_name_speed_terabytes_per_second">
+        <item quantity="one">%1$s terabájt másodpercenként</item>
+        <item quantity="other">%1$s terabájt másodpercenként</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_bytes">
+        <item quantity="one">%1$s bájt</item>
+        <item quantity="other">%1$s bájt</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_kilobytes">
+        <item quantity="one">%1$s Kilobájt</item>
+        <item quantity="other">%1$s Kilobájt</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_megabytes">
+        <item quantity="one">%1$s Megabájt</item>
+        <item quantity="other">%1$s Megabájt</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_gigabytes">
+        <item quantity="one">%1$s Gigabájt</item>
+        <item quantity="other">%1$s Gigabájt</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_terabytes">
+        <item quantity="one">%1$s Terabájt</item>
+        <item quantity="other">%1$s Terabájt</item>
+    </plurals>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
+    <!-- tag(Redesign_2023)
+         Shown at the top status view if app detects that there is no usable network to connect to VPN
+    -->
+    <string name="error_vpn_waiting_for_network">Várakozás a hálózatra</string>
+    <!-- tag(Redesign_2023) -->
+    <plurals name="connection_details_days">
+        <item quantity="one">%1$d nap</item>
+        <item quantity="other">%1$d nap</item>
+    </plurals>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_hours_shortened">%1$d óra</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_minutes_shortened">%1$d perc</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_seconds_shortened">%1$d mp</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Kapcsolódás sikertelen</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Ez az eszköz nem engedélyezi a VPN-kapcsolatokat.</string>
+    <string name="create_profile_title">Profil létrehozása</string>
+    <!-- Title for the screen where user can edit a profile.
+         %1$s - name of the profile being edited. -->
+    <string name="edit_profile_title">%1$s szerkesztés</string>
+    <string name="edit_profile_dialog_action">Profil szerkesztése</string>
+    <string name="create_profile_name_hint">Profil neve</string>
+    <string name="create_profile_name_error_empty">Írja be a profil nevét</string>
+    <string name="create_profile_name_error_too_long">A profil neve legfeljebb 30 karakterből állhat</string>
+    <string name="create_profile_type_and_location_title">A kapcsolat típusának és helyének kiválasztása</string>
+    <string name="create_profile_features_and_settings_title">Funkciók és beállítások</string>
+    <string name="configure_profile_features_and_settings_title">Profilbeállítások konfigurálása</string>
+    <string name="configure_profile_features_and_settings_description">A profil beállítások felülírják a VPN beállításait kapcsolódáskor.</string>
+    <!--
+        First input will be for current step, second one will be for total number of steps
+        Example: Step 3 of 7
+     -->
+    <string name="create_profile_steps">%1$d / %2$d lépés</string>
+    <string name="create_profile_button_next">Tovább</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Növelje a kapcsolat sebességét akár 400%% százalékkal a teljesítménynövelő technológiák segítségével. %1$s</string>
+    <string name="settings_account_settings_title">Fiókbeállítások</string>
+    <string name="settings_account_change_password">Jelszó módosítása</string>
+    <string name="settings_account_recovery_email">Helyreállítási e-mail cím</string>
+    <string name="settings_account_recovery_email_not_set">Nincs beállítva</string>
+    <string name="settings_account_security_keys">Hitelesítési kulcsok</string>
+    <!-- Label of a button that opens user\'s account page -->
+    <string name="settings_account_button_my_account">Saját fiók</string>
+    <string name="settings_account_button_delete_account">Fiók törlése</string>
+    <string name="settings_custom_dns_title">Egyéni DNS</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Új DNS szerver hozzáadása</string>
+    <string name="settings_add_dns_new_entry_button">Hozzáadás</string>
+    <string name="settings_add_dns_description">Adja meg a szerver IPv4 vagy IPv6 címét</string>
+    <string name="settings_add_dns_invalid_input">Adjon meg egy érvényes IPv4 vagy IPv6 címet</string>
+    <string name="settings_add_dns_empty_input">Adjon meg egy IPv4 vagy IPv6 címet</string>
+    <string name="settings_add_dns_duplicate_input">Szerver már hozzá van adva</string>
+    <string name="settings_advanced_dns_description">Csatlakozzon a VPN-hez saját üzemeltetésű vagy harmadik féltől származó domain név-rendszerrel (DNS). További információk</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Szerverek (%1$d)</string>
+    <string name="settings_dns_list_description">Ha az egyéni DNS-szervere nem működik, az alap VPN DNS-e lép életbe.</string>
+    <string name="settings_dns_list_description_multiple">A szerverekhez való csatlakozás a megadott sorrendben történik. Ha egyik sem működik, a VPN DNS-e lép életbe.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">A változtatások újracsatlakozáskor lépnek életbe</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">A NetShield nem lesz elérhető</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">A NetShield nem tudja kiszűrni a hirdetéseket, nyomkövetőket és rosszindulatú programokat, amikor egyéni DNS-t használ. További információk</string>
+    <string name="settings_advanced_alternative_routing_title">Alternatív útválasztás</string>
+    <string name="settings_advanced_alternative_routing_description">Ha a Proton szolgáltatásai hálózati korlátozások miatt blokkolva vannak, ez a megoldás alternatív útvonalakat használ a rendszereink elérésére.</string>
+    <string name="settings_advanced_allow_lan_title">LAN kapcsolatok</string>
+    <string name="settings_advanced_allow_lan_description">Lehetővé teszi a nyomtatókhoz, hangszórókhoz és más eszközökhöz való csatlakozást a készülék helyi hálózatában.</string>
+    <string name="settings_advanced_nat_type_title">NAT típus</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Válassza ki a hálózati címfordítás típusát a kapcsolathoz. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Válassza ki a hálózati címfordítás típusát a kapcsolathoz.</string>
+    <string name="settings_advanced_nat_type_strict">Szigorú (3-as típus)</string>
+    <string name="settings_advanced_nat_type_strict_short">3-as típus</string>
+    <string name="settings_advanced_nat_type_moderate">Mérsékelt (2-es típus)</string>
+    <string name="settings_advanced_nat_type_moderate_short">2-es típus</string>
+    <string name="settings_advanced_nat_type_strict_description">Korlátozza a hálózatba belépő adatokat. Ez a lehetőség biztonságosabb, de megnehezítheti a peer-to-peer játékkapcsolatokat.</string>
+    <string name="settings_advanced_nat_type_moderate_description">A hálózatba belépő adatok bizonyos korlátozása. Ez a lehetőség online videójátékokhoz a legjobb.</string>
+    <string name="settings_split_tunneling_description">Testre szabhatja, hogy mely alkalmazásokat és IP-címeket védi a VPN. %1$s</string>
+    <string name="settings_protocol_description">A VPN protokoll határozza meg, hogy az adatok hogyan kerülnek továbbításra a VPN-kiszolgáló és az eszköze között. %1$s</string>
+    <string name="settings_protocol_description_no_link">A VPN protokoll határozza meg, hogy az adatok hogyan kerülnek továbbításra a VPN-szerver és az Ön eszköze között.</string>
+    <string name="settings_protocol_section_speed">Sebesség (UDP)</string>
+    <string name="settings_protocol_section_reliability">Megbízhatóság (TCP)</string>
+    <string name="settings_protocol_smart_title">Intelligens</string>
+    <string name="settings_protocol_smart_description">Automatikusan kiválasztja a legjobb protokollt a kapcsolathoz.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_wireguard_udp_description">A legkorszerűbb protokoll a biztonság és a teljesítmény tekintetében.</string>
+    <string name="settings_protocol_wireguard_tcp_description">A legkorszerűbb protokoll a biztonság és a teljesítmény tekintetében.</string>
+    <string name="settings_protocol_openvpn_title">OpenVPN</string>
+    <string name="settings_protocol_openvpn_udp_description">Bevált, alaposan tesztelt és biztonságos. Az OpenVPN kevésbé energiatakarékos, mint néhány más protokoll.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Bevált, alaposan tesztelt és biztonságos. Az OpenVPN rossz hálózati körülmények között is megbízható, de esetleg lassabb lehet, mint más protokollok.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Legyőzi a VPN-korlátozásokat azáltal, hogy elrejti a VPN-kapcsolatot a cenzorok elől. Ez a protokoll ellenáll a DPI-nek (deep packet inspection), de nem biztos, hogy olyan gyors, mint más protokollok. A Stealth kizárólag a Proton VPN-hez tartozik.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Ajánlott</string>
+    <string name="settings_split_tunneling_mode_title">Mód</string>
+    <string name="settings_split_tunneling_mode_standard">Alap</string>
+    <string name="settings_split_tunneling_mode_inverse">Fordított</string>
+    <string name="settings_split_tunneling_mode_description_standard">A kiválasztott alkalmazások és IP-címek nem a VPN-kapcsolatot használják.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Csak a kiválasztott alkalmazások és IP-címek csatlakoznak a VPN-en keresztül, minden más forgalom nincs védve.</string>
+    <string name="settings_split_tunneling_excluded_apps">Kihagyott alkalmazások</string>
+    <string name="settings_split_tunneling_excluded_ips">Kihagyott IP címek</string>
+    <string name="settings_split_tunneling_included_apps">Bevont alkalmazások</string>
+    <string name="settings_split_tunneling_included_ips">Bevont IP-címek</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Nincs</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s és %3$d további</string>
+    <string name="settings_split_tunneling_already_excluded">Már ki van hagyva</string>
+    <string name="settings_split_tunneling_already_included">Már benne van</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">IP-cím eltávolítása a listáról?</string>
+    <string name="settings_theme_title">Téma</string>
+    <string name="settings_theme_value_auto">Eszköz téma</string>
+    <string name="settings_theme_value_light">Világos</string>
+    <string name="settings_theme_value_dark">Sötét</string>
+    <string name="settings_dialog_reconnect">A beállítások a következő kapcsolódáskor lépnek életbe.</string>
+    <string name="settings_needs_reconnect_banner">A beállítások a következő kapcsolódáskor lépnek életbe.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Egyéni DNS nem elérhető</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Az eszköz harmadik féltől származó DNS-t használ, ami megakadályozza a Proton VPN egyéni DNS-ének működését. További információk</string>
+    <string name="private_dns_conflict_banner_netshield_title">A NetShield nem elérhető</string>
+    <string name="private_dns_conflict_banner_netshield_description">Az eszköz harmadik féltől származó DNS-t használ, ami megakadályozza a NetShield működését. További információk</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Hálózati beállítások</string>
+    <string name="custom_dns_conflict_banner_netshield_title">A NetShield nem elérhető</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Az egyéni DNS engedélyezve van, ami megakadályozza a NetShield működését. További információk</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Egyéni DNS kikapcsolása</string>
+    <string name="info_secure_core_standard_high_privacy">Magas adatvédelem</string>
+    <string name="info_secure_core_standard_lower_latency">Alacsonyabb késleltetés</string>
+    <string name="info_secure_core_advanced_privacy">Fejlett adatvédelem</string>
+    <string name="info_secure_core_higher_latency">Nagyobb késleltetés</string>
+    <string name="info_p2p_what_title">Mi az a P2P?</string>
+    <string name="info_p2p_what_description">A P2P (peer-to-peer) technológia lehetővé teszi, hogy közvetlenül csatlakozzon és megosszon fájlokat más eszközökkel.\n\n\n P2P-kiszolgálóinkat kifejezetten az ilyen típusú fájlmegosztás támogatására terveztük.</string>
+    <string name="info_p2p_torrenting_title">Mi az a torrentezés?</string>
+    <string name="info_p2p_torrenting_description">Nagy méretű fájlok gyors megosztása és letöltése P2P-hálózaton keresztül.</string>
+    <string name="info_p2p_why_title">Miért érdemes P2P-kiszolgálót használni torrentezéskor?</string>
+    <string name="info_p2p_why_description_speed">Megnövelt feltöltési és letöltési sebesség</string>
+    <string name="info_p2p_why_description_logs">Nincs naplózás</string>
+    <string name="info_p2p_why_description_hide">IP-címének elrejtése az internet szolgáltató és a kapcsolódó felek elől</string>
+    <string name="info_dialog_smart_routing_description">A Smart Routing virtuális szervereket használ, hogy VPN-lefedettséget biztosítson a nehezen elérhető országokban.\n\nAmikor csatlakozik egy Smart Routing szerverhez, úgy tűnik, hogy a célországban böngészik, még akkor is, ha a fizikai szerver máshol található.  \n\nA Smart Routingot általában a magánszférát megsértő törvények és a cenzúra egyéb formáinak kijátszására használják.</string>
+    <string name="countries_upsell_banner_description">Világszintű lefedettség a VPN Plusszal</string>
+    <string name="secure_core_upsell_banner_description">Még egy titkosítási réteg hozzáadása a VPN-kapcsolathoz</string>
+    <string name="p2p_upsell_banner_description">Fájlok letöltése BitTorrent és más fájlmegosztó protokollokon keresztül</string>
+    <string name="tor_upsell_banner_description">Használja a Tor hálózatot a VPN kapcsolatán keresztül, további adatvédelemért</string>
+    <string name="vpnplus_upsell_banner_description">Előfizetés a VPN Plusra</string>
+    <string name="search_zero_screen_title">Próbáljon keresni…</string>
+    <string name="search_zero_screen_info_countries_title">Országok</string>
+    <string name="search_zero_screen_info_cities_title">Városok</string>
+    <string name="search_zero_screen_info_servers_title">Szerverek</string>
+    <string name="search_zero_screen_info_countries_examples">Svájc, Egyesült Államok, Olaszország, Kanada…</string>
+    <string name="search_zero_screen_info_cities_examples">New York, London, Tokió, Sydney…</string>
+    <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Hiba az árak lekérdezésekor.</string>
+    <!-- TV settings -->
+    <string name="tv_settings_split_tunneling_description">Testre szabhatja, hogy mely alkalmazásokat védi a VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">A kiválasztott alkalmazások nem a VPN-kapcsolatot használják.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Csak a kiválasztott alkalmazások csatlakoznak VPN-en keresztül, minden más forgalom védtelen.</string>
+    <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_edit">Szerkesztés</string>
+    <string name="profile_action_duplicate">Duplikálás</string>
+    <string name="profile_action_delete">Törlés</string>
+    <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="profile_needs_reconnect">Ez újraindítja a kapcsolatot.</string>
+    <string name="profile_overrides_setting">Ezek a beállítások <b>%1$s</b>-hoz kapcsolódnak, és csak a Profilokban kezelhetők.</string>
+    <string name="initial_profile_name_streaming_us">Videózás USA</string>
+    <string name="initial_profile_name_work_school">Munkahely/Iskola</string>
+    <string name="initial_profile_name_anti_censorship">Cenzúraellenes</string>
+    <string name="initial_profile_name_gaming">Játék</string>
+    <string name="initial_profile_name_max_security">Maximális biztonság</string>
+    <string name="create_profile_pick_country_title">Ország</string>
+    <string name="create_profile_pick_type_title">Típus</string>
+    <string name="create_profile_type_standard">Alap</string>
+    <string name="create_profile_type_secure_core">Secure Core</string>
+    <string name="create_profile_type_p2p">P2P</string>
+    <string name="create_profile_gateway">Átjáró</string>
+    <string name="create_profile_pick_state_title">Állam</string>
+    <string name="create_profile_pick_city_title">Város</string>
+    <string name="create_profile_pick_server_title">Szerver</string>
+    <string name="create_profile_pick_gateway_title">Átjáró</string>
+    <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_netshield_description">Hirdetések, nyomkövetők és rosszindulatú programok blokkolása webhelyeken és alkalmazásokban</string>
+    <string name="create_profile_pick_protocol_title">Protokoll</string>
+    <string name="create_profile_pick_nat_title">NAT típus</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (másolat)</string>
+    <string name="create_profile_fastest_city">Leggyorsabb</string>
+    <string name="create_profile_fastest_state">Leggyorsabb</string>
+    <string name="create_profile_fastest_server">Leggyorsabb</string>
+    <string name="create_profile_pick_middle_country_title">Közbenső ország</string>
+    <string name="profiles_zero_state_title">Első profil létrehozása</string>
+    <string name="profiles_zero_state_description">A profilok mentett kapcsolatok, amelyekben Ön választhatja ki a helyet, a szervert és a protokollt.</string>
+    <string name="profiles_button_create_profile">Profil létrehozása</string>
+    <string name="profile_deleted_snackbar_message">Profil törölve</string>
+    <string name="profile_connected_edit_setting">Ez a beállítás az aktív profiljához tartozik. \n\nSzerkessze a profilt a módosítások elvégzéséhez, vagy szakítsa meg a kapcsolatot a VPN-beállítások szerkesztéséhez.</string>
+    <string name="profile_connected_dialog_title">%1$s kezelése a profiloknál</string>
+    <string name="undo">Visszavonás</string>
+    <string name="profile_unavailable_dialog_title">A profil nem érhető el</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
+    <string name="profile_unavailable_dialog_message">A %1$s szerver kiválasztása nem érhető el. Válasszon másik szervert, vagy próbálja meg később.</string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">%1$d ikon</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">%1$d. szín</string>
+    <string name="generic_info_label">Információk</string>
+    <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
+         Please don't use & in translation and capitalize key words. -->
+    <string name="create_profile_connect_and_go_label">Kapcsolódás és indítás</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Új</string>
+    <string name="create_profile_auto_open_url_input_label">Weboldal URL</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Ki</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">Be</string>
+    <string name="create_profile_auto_open_description">Automatikusan megnyit egy választott weboldalt, amikor ezzel a profillal kapcsolódik.</string>
+    <string name="profile_auto_open_error_invalid_url">Adjon meg egy érvényes URL-t</string>
+    <string name="nps_how_likely_question">Milyen valószínűséggel ajánlaná a Proton VPN-t egy barátjának vagy kollégájának?</string>
+    <string name="nps_additional_comment_title">Kérjük, írja meg miért adta ezt az értékelést</string>
+    <string name="nps_additional_comment_optional">Nem kötelező</string>
+    <string name="nps_rating_low_values_explain">0 nagyon valószínűtlen</string>
+    <string name="nps_rating_high_values_explain">10 nagyon valószínű</string>
+    <string name="nps_toast_submit_message">Köszönjük a megosztást. Visszajelzése segít a Proton VPN fejlesztésében.</string>
+    <string name="nps_submit_error_char_limit">A válasz legfeljebb 250 karakter hosszúságú lehet</string>
+    <string name="nps_button_submit_title">Megosztás névtelenül</string>
+    <string name="widget_preview_switzerland">Svájc</string>
+    <string name="widget_preview_spain">Spanyolország</string>
+    <string name="widget_preview_germany">Németország</string>
+    <string name="widget_preview_france">Franciaország</string>
+    <string name="widget_status_unprotected">Nem védett</string>
+    <string name="widget_status_error">Hiba</string>
+    <string name="widget_status_connecting">Kapcsolódás</string>
+    <string name="widget_sign_in">Bejelentkezés</string>
+    <string name="widget_toast_added_message">Widget hozzáadva a kezdőképernyőhöz</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">Átvezeti az IPv6-forgalmat a VPN-en. Ez növelheti az IPv6 hálózatokkal való kompatibilitást.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Ennek a címnek a használatához engedélyeznie kell az IPv6-kapcsolatokat a VPN-alagúton keresztül.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">IPv6 engedélyezése</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 le van tiltva</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 engedélyezve</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Biztosítja a kizárólag IPv6-os weboldalak és szolgáltatások elérését.</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Megakadályozza a problémákat az IPv6-ra támaszkodó hálózatokon.</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">Lehet, hogy nem működik jól a régebbi hálózatokkal vagy alkalmazásokkal</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Egyes hálózatok kiszámíthatatlanul kezelik az IPv6-forgalmat</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Hátrányok</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Előnyök</string>
+    <string name="settings_lan_allow_direct_connection_title">Közvetlen eszköz kapcsolatok engedélyezése</string>
+    <string name="settings_lan_allow_direct_connection_description">Kapcsolódás okostévéhez, Android Autóhoz és egyéb olyan eszközökhöz, amelyek saját hálózatot hoznak létre. A maximális biztonság érdekében csak akkor engedélyezze, amikor ezekhez az eszközökhöz kapcsolódik.</string>
+</resources>

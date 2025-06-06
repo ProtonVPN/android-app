@@ -253,7 +253,7 @@
     <string name="netshield_setting_warning">Beberapa situs web mungkin tidak akan dapat termuat dengan benar pada saat iklan dan pelacak diblokir.</string>
     <string name="dialogDontShowAgain">Jangan tampilkan lagi</string>
     <string name="guestHoleNotificationContent">Cobalah untuk mengatasi masalah jaringan yang ada. Hal ini akan membantu Anda untuk mengakses Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">Koneksi VPN tidak dapat dikukuhkan karena terdapat konflik antar aplikasi dual-app (semisal Dual Messenger) dan Split Tunneling. Silakan nonaktifkan salah satu aplikasi ini dan nyalakan ulang perangkat Anda.</string>
+    <string name="errorTunMultiUserPermission">Tidak dapat menginisialisasi koneksi VPN karena ada konflik antara aplikasi ganda (misalnya Dual Messenger) dan split tunneling. Harap nonaktifkan salah satu di antaranya dan mulai ulang perangkat Anda.</string>
     <string name="errorTorrentNotAllowed">P2P tidak diizinkan pada server ini</string>
     <string name="error_profile_fallback_unavailable">Koneksi gagal. Pilihan server Anda tidak tersedia untuk profil ini.</string>
     <string name="profileProtocolNotAvailable">Protokol VPN yang diusung oleh profil ini sedang tidak tersedia. Untuk dapat terhubung, cobalah untuk mengubah protokol.</string>
@@ -265,7 +265,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Timur Tengah</string>
     <string name="nameOceania">Oseania</string>
     <string name="tv_row_settings">Pengaturan</string>
-    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorit</string>
     <string name="tv_detail_connect_streaming">Tonton dengan Plus</string>
@@ -494,7 +494,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Jelajahi internet pada kecepatan yang jauh lebih tinggi (hingga %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_title">split tunneling</string>
     <string name="upsell_card_split_tunneling_description">Jelajahi internet dari dua lokasi secara bersamaan</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Tonton berbagai film dan tayangan TV kesayangan Anda</string>
@@ -979,7 +979,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split Tunneling</string>
+    <string name="settings_split_tunneling_title">split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
