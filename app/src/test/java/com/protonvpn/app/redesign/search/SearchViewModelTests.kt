@@ -268,6 +268,23 @@ class SearchViewModelTests {
         coVerify(exactly = 1) { fetchServerByName.invoke(any()) }
     }
 
+    @Test
+    fun `remote server search - disabled when FF is off`() = runTest {
+        val fetchServerByName: FetchServerByName = mockk()
+        coEvery { fetchServerByName.invoke(any()) } returns FetchServerResult.None
+
+        viewModel = searchViewModelInjector.getViewModel(
+            fetchServerByName = fetchServerByName,
+            serverListTruncationEnabled = FakeServerListTruncationEnabled(false)
+        )
+        viewModel.setQuery("CH#1")
+        advanceTimeBy(5_100)
+
+        viewModel.setQuery("Invalid")
+        advanceTimeBy(5_100)
+        coVerify(exactly = 0) { fetchServerByName.invoke(any()) }
+    }
+
     private fun SearchViewState.Result.assertSearchResult(
         expectedCountries: List<String> = emptyList(),
         expectedCities: List<String> = emptyList(),

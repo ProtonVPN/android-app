@@ -62,7 +62,7 @@ class SearchServerRemote @Inject constructor(
 ) {
 
     suspend operator fun invoke(query: String): FetchServerResult {
-        if (isEnabled() && !isValidForRemoteSearch(query))
+        if (!isEnabled() || !isValidForRemoteSearch(query))
             return FetchServerResult.None
 
         val serverTerm = addServerNameHash(query).uppercase()
