@@ -30,6 +30,9 @@ import com.protonvpn.android.utils.Constants
 import de.blinkt.openvpn.VpnProfile
 import de.blinkt.openvpn.core.Connection
 
+// This should correspond to N_DHCP_ADDR in OpenVPN code. 10 user servers + 1 Proton DNS at the end.
+private const val OPENVPN_MAX_DNS_COUNT = 11
+
 class ConnectionParamsOpenVpn(
     connectIntent: AnyConnectIntent,
     server: Server,
@@ -94,7 +97,9 @@ class ConnectionParamsOpenVpn(
         }
 
         mOverrideDNS = userSettings.customDns.effectiveEnabled
-        mCustomDNS = userSettings.customDns.effectiveDnsList
+        // Leave one spot for the Proton VPN DNS at the end of the list. It will be set via control message from the
+        // server.
+        mCustomDNS = userSettings.customDns.effectiveDnsList.take(OPENVPN_MAX_DNS_COUNT - 1)
 
         val appsSplitTunnelingConfigurator = SplitTunnelAppsOpenVpnConfigurator(this)
         applyAppsSplitTunneling(
