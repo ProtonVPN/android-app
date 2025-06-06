@@ -53,6 +53,7 @@ import me.proton.core.user.domain.UserManager
 import me.proton.core.user.domain.extension.isCredentialLess
 import me.proton.core.usersettings.domain.usecase.GetUserSettings
 import me.proton.core.util.kotlin.DispatcherProvider
+import me.proton.core.util.kotlin.runCatchingCheckedExceptions
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -145,10 +146,12 @@ class GlobalSettingsManager @Inject constructor(
         }.launchIn(mainScope)
     }
 
-    suspend fun refresh(userId: UserId, sessionId: SessionId) {
-        if (!isTv() && !userManager.getUser(userId).isCredentialLess()) { // VPNAND-1185
-            runCatching {
-                getUserSettings(sessionId, refresh = true)
+    suspend fun refresh(userId: UserId) {
+        // getUser() calls the backend on rare occasion and may throw ApiException :(
+        val user = runCatchingCheckedExceptions { userManager.getUser(userId) }.getOrNull()
+        if (!isTv() && user != null && !user.isCredentialLess()) { // VPNAND-1185
+            runCatchingCheckedExceptions {
+                getUserSettings(userId, refresh = true)
             }.onSuccess {
                 applyChange(it.telemetry)
             }

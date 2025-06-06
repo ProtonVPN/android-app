@@ -164,7 +164,7 @@ class AppConfig @Inject constructor(
         if (userId != null && sessionId != null) {
             coroutineScope {
                 launch { // Run in parallel, we don't care about the results.
-                    globalSettingsManager.refresh(userId, sessionId)
+                    globalSettingsManager.refresh(userId)
                 }
             }
         }

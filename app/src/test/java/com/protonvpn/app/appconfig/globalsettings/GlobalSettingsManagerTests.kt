@@ -51,8 +51,8 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.ApiResult
-import me.proton.core.network.domain.session.SessionId
 import me.proton.core.user.domain.UserManager
 import me.proton.core.user.domain.entity.Type
 import me.proton.core.usersettings.domain.usecase.GetUserSettings
@@ -152,10 +152,10 @@ class GlobalSettingsManagerTests {
     @Test
     fun `enabling global telemetry setting doesn't change the local one`() = testScope.runTest {
         globalSettingsPrefs.telemetryEnabled = false
-        coEvery { mockGetUserSettings(any<SessionId>(), any()) } returns mockk {
+        coEvery { mockGetUserSettings(any<UserId>(), any()) } returns mockk {
             every { telemetry } returns true
         }
-        globalSettingsManager.refresh(vpnUser1.userId, vpnUser1.sessionId)
+        globalSettingsManager.refresh(vpnUser1.userId)
 
         assertTrue(globalSettingsPrefs.telemetryEnabled)
         assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
@@ -166,10 +166,10 @@ class GlobalSettingsManagerTests {
         globalSettingsPrefs.telemetryEnabled = true
         userSettingsManager.updateTelemetry(true)
 
-        coEvery { mockGetUserSettings(any<SessionId>(), any()) } returns mockk {
+        coEvery { mockGetUserSettings(any<UserId>(), any()) } returns mockk {
             every { telemetry } returns false
         }
-        globalSettingsManager.refresh(vpnUser1.userId, vpnUser1.sessionId)
+        globalSettingsManager.refresh(vpnUser1.userId)
 
         assertFalse(globalSettingsPrefs.telemetryEnabled)
         assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
@@ -223,7 +223,7 @@ class GlobalSettingsManagerTests {
 
         // When
         userSettingsManager.getRawUserSettingsStore(vpnUser2).updateData { it.copy(telemetry = true) }
-        globalSettingsManager.refresh(vpnUser2.userId, vpnUser2.sessionId)
+        globalSettingsManager.refresh(vpnUser2.userId)
 
         // Then
         coVerify(exactly = 0) { mockGlobalSettingUpdateScheduler.updateRemoteTelemetry(any()) }
