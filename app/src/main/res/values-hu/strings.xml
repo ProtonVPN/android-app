@@ -255,7 +255,7 @@
     <string name="netshield_setting_warning">Előfordulhat, hogy egyes webhelyek nem töltődnek be megfelelően, ha a hirdetések és a nyomkövetők blokkolva vannak.</string>
     <string name="dialogDontShowAgain">Ne jelenjen meg újra</string>
     <string name="guestHoleNotificationContent">Kísérlet a hálózati problémák megkerülésére. Ez segít a Proton VPN elérésében.</string>
-    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
+    <string name="errorTunMultiUserPermission">Nem sikerült inicializálni a VPN-kapcsolatot a kettős alkalmazás (például a Dual Messenger) és az osztott alagút közötti konfliktus miatt. Tiltsa le az egyiket, és indítsa újra a eszközt.</string>
     <string name="errorTorrentNotAllowed">P2P nem engedélyezett ezen a szerveren</string>
     <string name="error_profile_fallback_unavailable">A csatlakozás sikertelen. A profilhoz kiválasztott szerver nem érhető el.</string>
     <string name="profileProtocolNotAvailable">Ennek a profilnak a VPN protokollja jelenleg nem érhető el. A csatlakozáshoz próbálja meg megváltoztatni a protokollt.</string>
@@ -267,7 +267,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika és a Közel-Kelet</string>
     <string name="nameOceania">Óceánia</string>
     <string name="tv_row_settings">Beállítások</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Osztott alagút</string>
     <string name="tv_card_protocol_label">Protokoll</string>
     <string name="tv_detail_default_connection_checkbox_short">Kedvenc</string>
     <string name="tv_detail_connect_streaming">Videózás a Plus csomaggal</string>
@@ -510,7 +510,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Böngészés még nagyobb sebességgel (akár %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Osztott alagút</string>
     <string name="upsell_card_split_tunneling_description">Egyszerre két helyről böngészhet</string>
     <string name="upsell_card_streaming_title">Videózás</string>
     <string name="upsell_card_streaming_description">Nézze kedvenc filmjeit és tévéműsorait</string>
@@ -1004,7 +1004,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Osztott alagút</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Vészkapcsoló</string>
     <!-- tag(Redesign_2023) -->

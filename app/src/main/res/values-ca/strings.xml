@@ -267,7 +267,7 @@
     <string name="nameAfricaAndMiddleEast">Àfrica i Orient Mitjà</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Preferències</string>
-    <string name="tv_card_split_tunneling_label">Túnel dividit</string>
+    <string name="tv_card_split_tunneling_label">Tunelització dividida</string>
     <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorit</string>
     <string name="tv_detail_connect_streaming">Feu estríming amb Plus</string>
@@ -510,7 +510,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Navegueu a velocitats encara més altes (de fins a %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Túnel dividit</string>
+    <string name="upsell_card_split_tunneling_title">Tunelització dividida</string>
     <string name="upsell_card_split_tunneling_description">Navegueu des de dues ubicacions alhora</string>
     <string name="upsell_card_streaming_title">Estríming</string>
     <string name="upsell_card_streaming_description">Mireu les vostres pel·lícules i programes de televisió preferits</string>
@@ -1004,7 +1004,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Túnel dividit</string>
+    <string name="settings_split_tunneling_title">Tunelització dividida</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Interruptor de bloqueig</string>
     <!-- tag(Redesign_2023) -->
