@@ -27,7 +27,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.ProfileColor
@@ -82,9 +85,10 @@ private fun defaultSettingScreenState(
     isAutoOpenNew: Boolean,
     lanDirectConnectionsFeatureFlagEnabled: Boolean,
     isPrivateDnsEnabled: Boolean,
+    netShieldAvailability: NetShieldAvailability,
 ) = SettingsScreenState(
     protocol = ProtocolSelection.SMART,
-    netShield = true,
+    netShield = if (netShieldAvailability == NetShieldAvailability.HIDDEN) null else true,
     natType = NatType.Strict,
     lanConnections = true,
     lanConnectionsAllowDirect = if (lanDirectConnectionsFeatureFlagEnabled) false else null,
@@ -200,7 +204,7 @@ sealed interface TypeAndLocationScreenState {
 
 @Parcelize
 data class SettingsScreenState(
-    val netShield: Boolean,
+    val netShield: Boolean?,
     val isPrivateDnsActive: Boolean,
     val protocol: ProtocolSelection,
     val natType: NatType,
@@ -212,7 +216,7 @@ data class SettingsScreenState(
 ) : Parcelable {
     fun toSettingsOverrides() = SettingsOverrides(
         protocolData = protocol.toData(),
-        netShield = if (netShield) NetShieldProtocol.ENABLED_EXTENDED else NetShieldProtocol.DISABLED,
+        netShield = if (netShield == true) NetShieldProtocol.ENABLED_EXTENDED else NetShieldProtocol.DISABLED,
         randomizedNat = natType.toRandomizedNat(),
         customDns = customDnsSettings,
         lanConnections = lanConnections,
@@ -235,6 +239,7 @@ class CreateEditProfileViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val mainScope: CoroutineScope,
     @ApplicationContext private val appContext: Context,
+    private val currentUser: CurrentUser,
     private val profilesDao: ProfilesDao,
     private val createOrUpdateProfile: CreateOrUpdateProfileFromUi,
     private val adapter: ProfilesServerDataAdapter,
@@ -347,14 +352,16 @@ class CreateEditProfileViewModel @Inject constructor(
     private fun setInitialState(profileId: Long?, isDuplicate: Boolean) {
         viewModelScope.launch {
             isAutoOpenNew.emit(!uiStateStorage.state.first().hasSeenProfileAutoOpen)
+            val vpnUser = currentUser.vpnUser()
+            val netShieldAvailability = vpnUser.getNetShieldAvailability()
             val hasRestoreState = nameScreenState != null
             if (!hasRestoreState) {
                 if (profileId != null) {
                     profilesDao.getProfileById(profileId)?.let {
-                        initializeFromProfile(it, isDuplicate)
+                        initializeFromProfile(it, isDuplicate, netShieldAvailability)
                     }
                 } else {
-                    initializeDefault()
+                    initializeDefault(netShieldAvailability)
                 }
             }
         }
@@ -409,7 +416,7 @@ class CreateEditProfileViewModel @Inject constructor(
     }
 
 
-    private suspend fun initializeDefault() {
+    private suspend fun initializeDefault(netShieldAvailability: NetShieldAvailability) {
         nameScreenState = NameScreenState(
             "",
             ProfileColor.Color1,
@@ -419,12 +426,17 @@ class CreateEditProfileViewModel @Inject constructor(
         settingsScreenState = defaultSettingScreenState(
             isAutoOpenNew.first(),
             lanDirectConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled(),
-            isPrivateDnsEnabled = isPrivateDnsActive
+            isPrivateDnsEnabled = isPrivateDnsActive,
+            netShieldAvailability = netShieldAvailability,
         )
     }
 
     @SuppressLint("StringFormatInvalid")
-    private suspend fun initializeFromProfile(profile: Profile, isDuplicate: Boolean) {
+    private suspend fun initializeFromProfile(
+        profile: Profile,
+        isDuplicate: Boolean,
+        netShieldAvailability: NetShieldAvailability
+    ) {
         editedProfileCreatedAt = profile.info.createdAt
         val name = when {
             isDuplicate -> appContext.resources.getString(R.string.create_profile_copy_name, profile.info.name)
@@ -437,16 +449,20 @@ class CreateEditProfileViewModel @Inject constructor(
         )
         val intent = profile.connectIntent
         typeAndLocationScreenSavedState = getTypeAndLocationScreenStateFromIntent(intent)
-        settingsScreenState = getSettingsScreenState(profile)
+        settingsScreenState = getSettingsScreenState(profile, netShieldAvailability)
     }
 
-    private suspend fun getSettingsScreenState(profile: Profile) : SettingsScreenState {
+    private suspend fun getSettingsScreenState(
+        profile: Profile,
+        netShieldAvailability: NetShieldAvailability
+    ): SettingsScreenState {
         val intent = profile.connectIntent
         val directLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled()
         val defaultSettingScreenState = defaultSettingScreenState(
             isAutoOpenNew = isAutoOpenNew.first(),
             lanDirectConnectionsFeatureFlagEnabled = directLanConnectionsFeatureFlagEnabled,
-            isPrivateDnsEnabled = isPrivateDnsActive
+            isPrivateDnsEnabled = isPrivateDnsActive,
+            netShieldAvailability = netShieldAvailability,
         )
 
         val lanConnectionsAllowDirect = if (directLanConnectionsFeatureFlagEnabled) {
@@ -454,8 +470,13 @@ class CreateEditProfileViewModel @Inject constructor(
                 ?: defaultSettingScreenState.lanConnectionsAllowDirect
         } else null
 
+        val netShield = when {
+            netShieldAvailability == NetShieldAvailability.HIDDEN -> null
+            else -> intent.settingsOverrides?.netShield?.let { it != NetShieldProtocol.DISABLED }
+                ?: defaultSettingScreenState.netShield
+        }
         return SettingsScreenState(
-            netShield = intent.settingsOverrides?.netShield?.let { it != NetShieldProtocol.DISABLED } ?: defaultSettingScreenState.netShield,
+            netShield = netShield,
             isPrivateDnsActive = isPrivateDnsActive,
             protocol = intent.settingsOverrides?.protocolData?.toProtocolSelection() ?: defaultSettingScreenState.protocol,
             natType = intent.settingsOverrides?.randomizedNat?.let { NatType.fromRandomizedNat(it) } ?: defaultSettingScreenState.natType,
@@ -802,7 +823,7 @@ class CreateEditProfileViewModel @Inject constructor(
         val customDns = state.customDnsSettings ?: return
 
         val currentList = customDns.rawDnsList
-        val netShieldConflict = state.netShield && !customDns.toggleEnabled
+        val netShieldConflict = state.netShield == true && !customDns.toggleEnabled
         customDnsHelper.validateAndAddDnsAddress(dns, netShieldConflict) {
             setCustomDns(CustomDnsSettings(toggleEnabled = true, rawDnsList = currentList + dns.trim()))
         }

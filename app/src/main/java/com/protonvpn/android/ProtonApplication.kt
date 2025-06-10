@@ -21,7 +21,6 @@ package com.protonvpn.android
 import android.app.Application
 import android.app.ApplicationExitInfo
 import android.content.Context
-import androidx.appcompat.app.AppCompatDelegate
 import com.protonvpn.android.api.DohEnabled
 import com.protonvpn.android.app.AppExitObservability
 import com.protonvpn.android.app.AppStartExitLogger

@@ -110,17 +110,19 @@ private fun ProfileSheetContent(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
-            val netshieldStateResource = when {
-                !profile.netShieldEnabled -> R.string.netshield_state_off
-                profile.customDnsEnabled -> R.string.netshield_state_unavailable
-                else -> R.string.netshield_state_on
+            if (profile.netShieldEnabled != null) {
+                val netshieldStateResource = when {
+                    !profile.netShieldEnabled -> R.string.netshield_state_off
+                    profile.customDnsEnabled -> R.string.netshield_state_unavailable
+                    else -> R.string.netshield_state_on
+                }
+                ProfileSettingItem(
+                    R.string.netshield_feature_name,
+                    stringResource(netshieldStateResource),
+                    if (profile.netShieldEnabled) R.drawable.feature_netshield_on else R.drawable.ic_netshield_off,
+                    modifier = Modifier.weight(1f)
+                )
             }
-            ProfileSettingItem(
-                R.string.netshield_feature_name,
-                stringResource(netshieldStateResource),
-                if (profile.netShieldEnabled) R.drawable.feature_netshield_on else R.drawable.ic_netshield_off,
-                modifier = Modifier.weight(1f)
-            )
             ProfileSettingItem(
                 R.string.settings_custom_dns_title,
                 stringResource(if (profile.customDnsEnabled) R.string.netshield_state_on else R.string.netshield_state_off),

@@ -119,15 +119,17 @@ fun ProfileFeaturesAndSettings(
                 style = ProtonTheme.typography.body2Regular,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-            ProfileNetShieldItem(
-                value = state.netShield,
-                onNetShieldChange = onNetShieldChange,
-                onDisableCustomDns = onDisableCustomDns,
-                onDisablePrivateDns = onDisablePrivateDns,
-                onCustomDnsLearnMore = onCustomDnsLearnMore,
-                onPrivateDnsLearnMore = onPrivateDnsLearnMore,
-                dnsOverride = state.dnsOverride,
-            )
+            if (state.netShield != null) {
+                ProfileNetShieldItem(
+                    value = state.netShield,
+                    onNetShieldChange = onNetShieldChange,
+                    onDisableCustomDns = onDisableCustomDns,
+                    onDisablePrivateDns = onDisablePrivateDns,
+                    onCustomDnsLearnMore = onCustomDnsLearnMore,
+                    onPrivateDnsLearnMore = onPrivateDnsLearnMore,
+                    dnsOverride = state.dnsOverride,
+                )
+            }
             ProfileProtocolItem(
                 value = state.protocol,
                 onSelect = onProtocolChange,

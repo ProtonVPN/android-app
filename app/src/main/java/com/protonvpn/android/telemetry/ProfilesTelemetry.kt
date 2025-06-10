@@ -145,7 +145,12 @@ class ProfilesTelemetry @Inject constructor(
             }
         }
 
-        putDimensions(if (settings.netShield) "f2" else OFF, Dimen.NetShield)
+        val netShield = when (settings.netShield) {
+            null -> NO_VALUE
+            true -> "f2"
+            false -> OFF
+        }
+        putDimensions(netShield, Dimen.NetShield)
         putDimensions(settings.protocol.toTelemetry(), Dimen.VpnProtocol)
         putDimensions(settings.lanConnections.toOnOff(), Dimen.AllowLan)
         putDimensions(settings.natType.toTelemetry(), Dimen.NatType)

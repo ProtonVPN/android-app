@@ -191,19 +191,20 @@ class CreateEditProfileViewModelTests {
         shouldAskForProfileReconnection = ShouldAskForProfileReconnection(vpnStatusProviderUI, profilesDao, createOrUpdate)
         isPrivateDnsActiveFlow = MutableStateFlow(false)
         viewModel = CreateEditProfileViewModel(
-            SavedStateHandle(),
-            testScope.backgroundScope,
-            appContext,
-            profilesDao,
-            createOrUpdate,
-            serversAdapter,
-            { _, connectIntent, _ -> vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, ConnectionParams(connectIntent, servers.first(), null, null)) ) },
-            mockk(relaxed = true),
-            shouldAskForProfileReconnection,
-            UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),
-            IsPrivateDnsActiveFlow(isPrivateDnsActiveFlow),
-            FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
-            TransientMustHaves({ testScope.currentTime })
+            savedStateHandle = SavedStateHandle(),
+            mainScope = testScope.backgroundScope,
+            appContext = appContext,
+            currentUser = currentUser,
+            profilesDao = profilesDao,
+            createOrUpdateProfile = createOrUpdate,
+            adapter = serversAdapter,
+            vpnConnect = { _, connectIntent, _ -> vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, ConnectionParams(connectIntent, servers.first(), null, null)) ) },
+            vpnBackgroundUiDelegate = mockk(relaxed = true),
+            shouldAskForReconnection = shouldAskForProfileReconnection,
+            uiStateStorage = UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),
+            isPrivateDnsActiveFlow = IsPrivateDnsActiveFlow(isPrivateDnsActiveFlow),
+            isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
+            transientMustHaves = TransientMustHaves({ testScope.currentTime })
         )
         viewModel.localeFlow.value = Locale("en")
     }
