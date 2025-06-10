@@ -383,7 +383,6 @@
     <string name="upgrade_split_tunneling_title">Hanki molempien parhaat puolet</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Jaa tietoliikenteesi VPN-tunneliin ja sen ulkopuolelle <b>jaetun tunneloinnin</b> avulla.]]></string>
     <string name="upgrade_customization_title">Avaa edistyneet VPN-mukautukset</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Käytä <b>lähiverkkosi (LAN)</b> laitteita VPN Plus -tilauksella.]]></string>
     <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Käytä kaikkia maita</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

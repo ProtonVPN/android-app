@@ -389,7 +389,6 @@
     <string name="upgrade_split_tunneling_title">Obțineți maximum din ambele părți</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Divizați-vă traficul în tuneluri VPN și non-VPN cu funcția de <b>divizare trafic</b>.]]></string>
     <string name="upgrade_customization_title">Deblocați personalizarea avansată pentru VPN</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Accesați dispozitivele din <b>rețeaua locală (LAN)</b> cu VPN Plus.]]></string>
     <string name="upgrade_customization_message"><![CDATA[Deblocați <b>Conexiunile în LAN</b>, <b>DNS-urile personale</b> și <b>NAT tip 2</b> cu VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Accesați toate țările</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

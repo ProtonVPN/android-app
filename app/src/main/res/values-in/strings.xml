@@ -377,7 +377,6 @@
     <string name="upgrade_split_tunneling_title">Dapatkan yang terbaik dari koneksi VPN dan non-VPN</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Pisahkan lalu lintas jaringan Anda ke dalam tunnel VPN dan non-VPN dengan <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Akses opsi kustomisasi VPN lanjutan</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Akses perangkat yang terdapat pada <b>jaringan lokal (LAN) Anda</b> dengan VPN Plus.]]></string>
     <string name="upgrade_customization_message"><![CDATA[Dapatkan akses ke <b>koneksi LAN</b>, <b>DNS khusus</b>, dan <b>NAT tipe 2</b> dengan VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Akses seluruh negara</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

@@ -383,7 +383,6 @@
     <string name="upgrade_split_tunneling_title">Få det bästa av två världar</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Dela upp din trafik i VPN- och icke-VPN-tunnlar med <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Lås upp avancerad VPN-anpassning</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Nå enheter på ditt <b>lokala nätverk (LAN)</b> med VPN Plus.]]></string>
     <string name="upgrade_customization_message"><![CDATA[Lås upp <b>LAN-anslutningar</b>, <b>anpassad DNS</b> och <b>NAT typ 2</b> med VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Åtkomst till alla länder</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

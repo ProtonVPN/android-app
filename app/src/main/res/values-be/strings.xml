@@ -395,7 +395,6 @@
     <string name="upgrade_split_tunneling_title">Атрымлівайце лепшае ад абодвух светаў</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[З функцыяй <b>Split Tunneling</b> вы зможаце дзяліць свой трафік на той, які будзе праходзіць праз тунэлі VPN і на той, які будзе абыходзіцца без іх.]]></string>
     <string name="upgrade_customization_title">Атрымайце доступ да пашыраных наладаў VPN</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Атрымайце доступ да прылад у сваёй <b>лакальнай сетцы (LAN)</b> з дапамогай VPN Plus.]]></string>
     <string name="upgrade_customization_message"><![CDATA[Разблакіруйце <b>падключэнні па LAN</b>, <b>карыстальніцкія DNS</b> і <b>NAT тыпу 2</b> з дапамогай VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Доступ да ўсіх краін</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

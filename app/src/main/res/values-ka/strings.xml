@@ -383,7 +383,6 @@
     <string name="upgrade_split_tunneling_title">მიიღეთ საუკეთესო ორივე სამყაროდან</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[გაჰყავით თქვენი ტრაფიკი VPN და არა-VPN ტრაფიკად <b>გაყოფილი გვირაბით</b>.]]></string>
     <string name="upgrade_customization_title">განბლოკეთ VPN-ის დამატებითი პარამეტრები</string>
-    <string name="upgrade_lan_access_message"><![CDATA[იქონიეთ წვდომა თქვენს <b>ლოკალურ ქსელში (LAN)</b> არსებულ მოწყობილობებზე VPN Plus-ით.]]></string>
     <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">წვდომა ყველა ქვეყანასთან</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

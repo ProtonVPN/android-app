@@ -383,7 +383,6 @@
     <string name="upgrade_split_tunneling_title">Aconseguiu el millor d\'ambdós mons</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Dividiu el trànsit en túnels VPN i no VPN amb <b>tunelització dividida</b>.]]></string>
     <string name="upgrade_customization_title">Desbloqueu la personalització VPN avançada</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Accediu als dispositius de la vostra <b>xarxa d\'àrea local (LAN)</b> amb VPN Plus.]]></string>
     <string name="upgrade_customization_message"><![CDATA[Accediu a les característiques <b>Connexions LAN</b>, <b>DNS personalitzat</b> i <b>NAT tipus 2</b> amb VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Accediu a tots els països</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

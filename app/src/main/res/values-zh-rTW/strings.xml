@@ -377,7 +377,6 @@
     <string name="upgrade_split_tunneling_title">獲得兩全其美</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[使用<b>分梭通道</b>將您的網路流量分流到 VPN 和非 VPN 通道。]]></string>
     <string name="upgrade_customization_title">解鎖進階 VPN 客製化</string>
-    <string name="upgrade_lan_access_message"><![CDATA[選用 VPN Plus 存取在您的<b>區域網路 (LAN)</b> 上的裝置。]]></string>
     <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">存取所有國家</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

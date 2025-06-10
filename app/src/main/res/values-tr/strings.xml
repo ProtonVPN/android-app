@@ -383,7 +383,6 @@
     <string name="upgrade_split_tunneling_title">İki dünyanın da en iyisini edinin</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[<b>Ayrılmış tünelleme</b> ile VPN kullanan ve VPN kullanmayan trafiğinizi ayırın.]]></string>
     <string name="upgrade_customization_title">Gelişmiş VPN özelleştirmelerine erişin</string>
-    <string name="upgrade_lan_access_message"><![CDATA[VPN Plus tarifesi ile <b>yerel ağınızdaki (LAN)</b> aygıtlara erişin.]]></string>
     <string name="upgrade_customization_message"><![CDATA[VPN Plus ile <b>Yerel ağ bağlantıları</b>, <b>Özel DNS</b> ve <b>NAT Type 2</b> özelliklerine erişin.]]></string>
     <string name="upgrade_all_countries_title">Tüm ülkelere erişim</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

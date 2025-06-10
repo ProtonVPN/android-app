@@ -377,7 +377,6 @@
     <string name="upgrade_split_tunneling_title">両方の利点を最大限に活用</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[<b>スプリットトンネル</b>を使用して、トラフィックを VPN トンネルと非 VPN トンネルに分割します。]]></string>
     <string name="upgrade_customization_title">高度な VPN カスタマイズを解除する</string>
-    <string name="upgrade_lan_access_message"><![CDATA[VPN Plus を使用して<b>ローカル エリア ネットワーク (LAN)</b> 上のデバイスにアクセスします。]]></string>
     <string name="upgrade_customization_message"><![CDATA[VPN Plus で <b>LAN 接続</b>, <b>カスタム DNS</b>, <b>NATタイプ 2</b> をアンロック。]]></string>
     <string name="upgrade_all_countries_title">すべての国にアクセス</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

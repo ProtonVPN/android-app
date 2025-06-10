@@ -383,7 +383,6 @@
     <string name="upgrade_split_tunneling_title">Ottieni il meglio di entrambi i mondi</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Separa il tuo traffico in tunnel VPN e non-VPN con lo <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Sblocca la personalizzazione VPN avanzata</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Accedi ai dispositivi sulla tua <b>rete locale (LAN)</b> con VPN Plus.]]></string>
     <string name="upgrade_customization_message"><![CDATA[Sblocca <b>connessioni LAN</b>, <b>DNS personalizzato</b> e <b>NAT tipo 2</b> con VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Accedi a tutti i Paesi</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

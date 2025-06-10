@@ -383,7 +383,6 @@
     <string name="upgrade_split_tunneling_title">Mindkét világból a legjobbat</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Ossza fel a forgalmat VPN és nem VPN csatornákra a <b>osztott alagút</b> segítségével.]]></string>
     <string name="upgrade_customization_title">Haladó VPN testreszabás feloldása</string>
-    <string name="upgrade_lan_access_message"><![CDATA[A VPN Plus segítségével hozzáférhet a <b>helyi hálózaton (LAN)</b> lévő eszközökhöz.]]></string>
     <string name="upgrade_customization_message"><![CDATA[Használjon <b>LAN kapcsolatokat</b>, az <b>egyéni DNS</b>-t és a <b>2. típusú NAT</b>-ot a VPN Plusszal.]]></string>
     <string name="upgrade_all_countries_title">Hozzáférés minden országhoz</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

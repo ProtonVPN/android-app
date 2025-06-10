@@ -383,7 +383,6 @@
     <string name="upgrade_split_tunneling_title">Αξιοποιήστε στο έπακρο και τους δύο κόσμους</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Χωρίστε την κίνησή σας σε σήραγγες VPN και μη VPN με <b>διαίρεση σήραγγας</b>.]]></string>
     <string name="upgrade_customization_title">Ξεκλειδώστε προχωρημένες προσαρμογές VPN</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Πρόσβαση σε συσκευές στο <b>τοπικό σας δίκτυο (LAN)</b> με το VPN Plus.]]></string>
     <string name="upgrade_customization_message"><![CDATA[Ξεκλειδώστε <b>συνδέσεις LAN</b>, <b>προσαρμοσμένο DNS</b> και <b>NAT τύπου 2</b> με το VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Πρόσβαση σε όλες τις χώρες</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".

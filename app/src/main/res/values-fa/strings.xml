@@ -383,7 +383,6 @@
     <string name="upgrade_split_tunneling_title">بهترین‌های هر دو جوانب را بگیرید</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[ترافیکتان را بین تونل‌های VPN و بدون VPN با <b>split tunneling</b> تقسیم کنید.]]></string>
     <string name="upgrade_customization_title">سفارشی‌سازی پیشرفته VPN را قفل‌گشایی کنید</string>
-    <string name="upgrade_lan_access_message"><![CDATA[به دستگاه‌های موجود در <b>شبکه محلی‌تان (LAN)</b> با VPN Plus دسترسی پیدا کنید.]]></string>
     <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">به تمامی کشورها دسترسی پیدا کنید</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
