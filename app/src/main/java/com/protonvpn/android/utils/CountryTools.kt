@@ -108,6 +108,7 @@ object CountryTools {
         "AE" to CountryData(3103.0, 976.0, Continent.AfricaAndMiddleEast),
         "AF" to CountryData(-1.0, -1.0, Continent.Asia),
         "AL" to CountryData(2560.0, 665.0, Continent.Europe),
+        "AM" to CountryData(-1.0, -1.0, Continent.Asia),
         "AO" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "AR" to CountryData(1300.0, 2000.0, Continent.America),
         "AT" to CountryData(2485.0, 550.0, Continent.Europe),
