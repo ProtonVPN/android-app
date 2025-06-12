@@ -21,6 +21,7 @@
 package com.protonvpn.robots.mobile
 
 import androidx.annotation.StringRes
+import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.interfaces.Robot
 import com.protonvpn.android.R
 import me.proton.test.fusion.Fusion.node
@@ -62,6 +63,22 @@ object ProfileAddEditRobot : Robot {
 
     fun setProfileName(name: String): ProfileAddEditRobot {
         profileNameField.replaceText(name)
+        return this
+    }
+
+    fun selectProfileType(@StringRes profileTypeResId: Int): ProfileAddEditRobot {
+        node.useUnmergedTree().withTag("profileTypeDropdown").click()
+        node.withText(profileTypeResId).click()
+        return this
+    }
+
+    fun selectCountry(@StringRes country: Int): ProfileAddEditRobot {
+        node.useUnmergedTree()
+            .withTag("profileCountryDropdown")
+            .click()
+        node.withText(country)
+            .scrollTo()
+            .click()
         return this
     }
 

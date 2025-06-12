@@ -78,6 +78,26 @@ class ProfilesTestsMocked {
             .verify { zeroScreenDisplayed() }
     }
 
+    @Test
+    fun createSecureCoreProfileAndConnect() {
+        val profileName = "Secure Core"
+
+        HomeRobot.navigateToProfiles()
+
+        ProfilesRobot
+            .addProfile()
+            .setProfileName(profileName)
+            .next()
+            .selectProfileType(R.string.create_profile_type_secure_core)
+            .selectCountry(R.string.widget_preview_france)
+            .next()
+            .save()
+            .verify { profileExists(profileName) }
+            .connect(profileName)
+            .verify { isConnected() }
+            .disconnect()
+    }
+
     private fun ProfilesRobot.verifyPredefinedProfiles() =
         verify { profileExists(R.string.initial_profile_name_streaming_us) }
         .verify { profileExists(R.string.initial_profile_name_work_school) }

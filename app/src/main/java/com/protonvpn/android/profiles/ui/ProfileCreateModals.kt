@@ -100,11 +100,13 @@ fun ProfileTypeItem(
     currentValue: ProfileType,
     allTypes: List<ProfileType>,
     onChangeType: (ProfileType) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     ProfileValueItem(
         labelRes = R.string.create_profile_pick_type_title,
         valueText = stringResource(currentValue.nameRes),
         online = true,
+        modifier = modifier,
         iconContent = {
             Icon(
                 painterResource(currentValue.iconRes),
@@ -169,8 +171,9 @@ fun ProfileCountryItem(
     allEntries: List<TypeAndLocationScreenState.CountryItem>,
     onSelectExit: (TypeAndLocationScreenState.CountryItem) -> Unit,
     onSelectEntry: (TypeAndLocationScreenState.CountryItem) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(modifier = modifier) {
         ProfileValueItem(
             labelRes = R.string.create_profile_pick_country_title,
             valueText = exitCountry.id.label(),

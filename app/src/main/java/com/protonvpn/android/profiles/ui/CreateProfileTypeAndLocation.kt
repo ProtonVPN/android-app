@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -86,7 +87,7 @@ fun ProfileTypeAndLocation(
             style = ProtonTheme.typography.body1Bold,
             modifier = Modifier.padding(bottom = 16.dp)
         )
-        ProfileTypeItem(state.type, state.availableTypes, setType)
+        ProfileTypeItem(state.type, state.availableTypes, setType, modifier = Modifier.testTag("profileTypeDropdown"))
         when (state) {
             is TypeAndLocationScreenState.P2P,
             is TypeAndLocationScreenState.Standard -> {
@@ -98,7 +99,8 @@ fun ProfileTypeAndLocation(
                     state.selectableCountries,
                     emptyList(),
                     onSelectExit = setCountry,
-                    onSelectEntry = {}
+                    onSelectEntry = {},
+                    modifier = Modifier.testTag("profileCountryDropdown")
                 )
                 val cityOrState = state.cityOrState
                 if (cityOrState != null) {
@@ -118,6 +120,7 @@ fun ProfileTypeAndLocation(
                     state.selectableEntryCountries,
                     onSelectExit = setExitCountrySecureCore,
                     onSelectEntry = setEntryCountrySecureCore,
+                    modifier = Modifier.testTag("profileCountryDropdown")
                 )
             }
             is TypeAndLocationScreenState.Gateway -> {
