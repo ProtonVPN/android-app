@@ -349,7 +349,10 @@ class ServerListUpdater @Inject constructor(
                     result.serverList
 
                 DebugUtils.debugAssert("Country with no continent") {
-                    newList.all { CountryTools.oldMapLocations[it.flag]?.continent != null }
+                    val countriesWithNoContinent = newList
+                        .flatMapTo(HashSet()) { listOf(it.entryCountry, it.exitCountry) }
+                        .filter { CountryTools.oldMapLocations[it]?.continent == null }
+                    countriesWithNoContinent.isEmpty()
                 }
 
                 serverManager.setServers(newList, lang, retainIDs = retainIDs)
