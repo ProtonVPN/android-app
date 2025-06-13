@@ -115,7 +115,7 @@
     <string name="error_prepare_vpn_settings">Tuju pengaturan VPN Android</string>
     <string name="error_prepare_vpn_title">Kesalahan: masalah perizinan VPN</string>
     <string name="error_server_not_set">Server tidak lagi tersedia</string>
-    <string name="bugReportErrorEmptyEmail">Alamat email tidak boleh kosong</string>
+    <string name="bugReportErrorEmptyEmail">Email tidak boleh kosong</string>
     <string name="bugReportErrorInvalidEmail">Alamat email tidak valid</string>
     <string name="bugReportLabelVpnLogsTitle">Sertakan log error</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Tindakan ini akan mengirimkan log error lokal (tanpa catatan rekam jejak aktivitas) untuk membantu kami dalam menangani masalah Anda</string>
@@ -545,7 +545,7 @@
     <string name="upgrade_success_get_started_button">Mulai</string>
     <string name="dynamic_report_suggestion_didnt_work">Apakah solusi di atas tidak membantu?</string>
     <string name="dynamic_report_contact_us">Hubungi kami</string>
-    <string name="dynamic_report_tips_description">Tips-tips berikut dapat membantu untuk menyelesaikan masalah Anda dengan lebih cepat.</string>
+    <string name="dynamic_report_tips_description">Tips berikut dapat membantu menyelesaikan masalah Anda dengan lebih cepat.</string>
     <string name="dynamic_report_tips_title">Solusi kilat</string>
     <string name="dynamic_report_logs_title">Kirimkan log error</string>
     <string name="dynamic_report_success_title">Terima kasih atas tanggapan Anda</string>
@@ -577,7 +577,7 @@
     <string name="search_upsell_banner_title">Streaming di mana saja</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="other">Akses konten yang terblokir wilayah dari %1$d negara dengan VPN Plus</item>
+        <item quantity="other">Akses konten yang terbatas wilayah dari %1$d negara dengan VPN Plus</item>
     </plurals>
     <string name="select_default_connection">Pilih koneksi bawaan Anda</string>
     <string name="settings_default_connection_title">Koneksi bawaan</string>

@@ -412,9 +412,9 @@
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Desbloqueie %1$s em %2$s com <b>VPN Plus</b>.]]></string>
-    <string name="mail_app_name" translateable="false">E-mail Proton</string>
+    <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">Todos os serviços premium da Proton com uma assinatura fácil.</string>
-    <string name="upgrade_unlimited_all_apps_description">Obtenha cobertura completa de privacidade com o Proton Ilimitado.</string>
+    <string name="upgrade_unlimited_all_apps_description">Obtenha cobertura completa de privacidade com o Proton Unlimited.</string>
     <string name="upgrade_unlimited_more">E mais</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Desbloqueie todos os países</string>
     <string name="upgrade_unlimited_vpn_all_features">Todos os outros recursos do Proton VPN Plus</string>
@@ -457,7 +457,7 @@
     <string name="upgrade_unlimited_drive_sharing_security">Segurança avançada de compartilhamento</string>
     <string name="upgrade_unlimited_drive_version_history">Histórico de versões</string>
     <string name="upgrade_unlimited_pass_manager">Gerenciador de senhas criptografado</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Logins ilimitados e aliases do tipo hide-my-email</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Inícios de sessão ilimitados e aliases do tipo hide-my-email</string>
     <plurals name="upgrade_unlimited_pass_vaults">
         <item quantity="one">%1$d cofre</item>
         <item quantity="other">%1$d cofre</item>
