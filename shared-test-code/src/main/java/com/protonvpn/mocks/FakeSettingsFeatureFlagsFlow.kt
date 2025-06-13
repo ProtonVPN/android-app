@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Proton AG
+ * Copyright (c) 2025. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,20 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.vpn.openvpn
 
-import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
-import javax.inject.Inject
-import javax.inject.Singleton
+package com.protonvpn.mocks
 
-@Singleton
-class ConnectionFeatureFlagCache @Inject constructor(
-    private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
-) {
-    var isDirectLanConnectionsEnabledCached: Boolean? = null
-        private set
+import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
-    suspend fun update() {
-        isDirectLanConnectionsEnabledCached = isDirectLanConnectionsFeatureFlagEnabled()
-    }
-}
+class FakeSettingsFeatureFlagsFlow(
+    private val flow: Flow<SettingsFeatureFlagsFlow.Flags> = flowOf(SettingsFeatureFlagsFlow.Flags(true, true, true))
+) : Flow<SettingsFeatureFlagsFlow.Flags> by flow

@@ -31,12 +31,12 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
-import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.QuickConnectCard
@@ -49,8 +49,7 @@ import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
-import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
-import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
+import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreference
@@ -116,18 +115,16 @@ class TvMainViewModelTests {
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
         every { mockCurrentUser.vpnUserCached() } answers { vpnUserFlow.value }
 
-        val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
-        val isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
-        val isLightThemeFeatureFlagEnabled = FakeIsLightThemeFeatureFlagEnabled(true)
         val userSettingsManager =
             CurrentUserLocalSettingsManager(LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()))
         val userSettingsFlow = EffectiveCurrentUserSettingsFlow(
             localUserSettings = userSettingsManager,
-            currentUser = mockCurrentUser,
-            isTv = mockk(relaxed = true),
-            isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
-            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
-            isLightThemeFeatureFlagEnabled = isLightThemeFeatureFlagEnabled,
+            applyEffectiveUserSettings = ApplyEffectiveUserSettings(
+                mainScope = testScope.backgroundScope,
+                currentUser = mockCurrentUser,
+                isTv = mockk(relaxed = true),
+                flags = FakeSettingsFeatureFlagsFlow(),
+            )
         ).stateIn(bgScope, SharingStarted.Eagerly, LocalUserSettings.Default)
         userSettingsCached = EffectiveCurrentUserSettingsCached(userSettingsFlow)
 

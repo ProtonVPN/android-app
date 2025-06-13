@@ -44,6 +44,7 @@ class DohEnabled @Inject constructor() {
 
     private val isEnabled = MutableStateFlow<Boolean?>(null)
 
+    // TODO(VPNAND-2241): simplify this code.
     operator fun invoke(): Boolean = isEnabled.value ?: runBlocking { isEnabled.filterNotNull().first() }
 
     private fun set(isEnabled: Boolean) {

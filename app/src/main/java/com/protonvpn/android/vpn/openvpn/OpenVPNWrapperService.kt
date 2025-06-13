@@ -27,7 +27,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.usecase.ComputeAllowedIPs
 import com.protonvpn.android.notifications.NotificationHelper
-import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnectionCached
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnectionSync
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
@@ -44,14 +44,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OpenVPNWrapperService : OpenVPNService(), StateListener {
 
-    @Inject lateinit var settingsForConnection: SettingsForConnectionCached
+    @Inject lateinit var settingsForConnection: SettingsForConnectionSync
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var notificationHelper: NotificationHelper
     @Inject lateinit var certificateRepository: CertificateRepository
     @Inject lateinit var currentUser: CurrentUser
     @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
     @Inject lateinit var computeAllowedIPs: ComputeAllowedIPs
-    @Inject lateinit var connectionFeatureFlagCache: ConnectionFeatureFlagCache
 
     private val connectionParamsUuid = ConnectionParamsUuidServiceHelper()
 
@@ -78,10 +77,7 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
             val certificate = (certificateResult as? CertificateRepository.CertificateResult.Success)?.let {
                 CertificateData(it.privateKeyPem, it.certificate)
             }
-            val settings = settingsForConnection.getFor(
-                it.connectIntent,
-                isDirectLanConnectionsFeatureFlagEnabled = connectionFeatureFlagCache.isDirectLanConnectionsEnabledCached,
-            )
+            val settings = settingsForConnection.getForSync(it.connectIntent)
             connectionParams.openVpnProfile(packageName, settings, certificate, computeAllowedIPs)
         }
     }

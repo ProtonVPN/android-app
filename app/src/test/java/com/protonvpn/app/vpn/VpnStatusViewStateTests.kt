@@ -29,7 +29,7 @@ import com.protonvpn.android.redesign.vpn.ui.StatusBanner
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.vpn.DnsOverride
@@ -37,7 +37,7 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeGetProfileById
-import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
+import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -45,6 +45,7 @@ import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -110,12 +111,15 @@ class VpnStatusViewStateFlowTest {
         changeServerFlow = MutableStateFlow(null)
         hasPromoBannerFlow = MutableStateFlow(false)
         dnsOverrideFlow = MutableStateFlow(DnsOverride.None)
-        val effectiveUserSettings =
-            EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
         val settingsForConnection = SettingsForConnection(
-            settings = effectiveUserSettings,
+            rawSettingsFlow = settingsFlow,
             getProfileById = FakeGetProfileById(),
-            isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
+            applyEffectiveUserSettings = ApplyEffectiveUserSettings(
+                mainScope = testScope.backgroundScope,
+                currentUser = currentUser,
+                isTv = mockk(relaxed = true),
+                flags = FakeSettingsFeatureFlagsFlow()
+            ),
             vpnStatusProviderUI = vpnStatusProviderUi
         )
         vpnStatusViewStateFlow = VpnStatusViewStateFlow(

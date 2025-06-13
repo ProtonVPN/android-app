@@ -22,9 +22,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.satisfiesFeatures
-import com.protonvpn.android.redesign.vpn.usecases.applyOverrides
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.settings.data.LocalUserSettings
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -40,7 +38,7 @@ class GetOnlineServersForIntent @Inject constructor(
 ) {
     suspend operator fun invoke(
         intent: ConnectIntent,
-        userSettings: LocalUserSettings,
+        protocolOverride: ProtocolSelection,
         maxTier: Int,
     ): List<Server> {
         val allServers = serverManager2.allServersByScoreFlow.first()
@@ -58,9 +56,8 @@ class GetOnlineServersForIntent @Inject constructor(
             onServer = { sequenceOf(it) },
             emptySequence(),
         )
-        val protocol = userSettings.applyOverrides(intent.settingsOverrides).protocol
         return intentServers
-            .filter { it.tier <= maxTier && it.online && supportsProtocol(it, protocol) }
+            .filter { it.tier <= maxTier && it.online && supportsProtocol(it, protocolOverride) }
             .toList()
     }
 }

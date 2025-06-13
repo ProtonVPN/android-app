@@ -35,7 +35,7 @@ import com.protonvpn.android.redesign.vpn.isCompatibleWith
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
-import com.protonvpn.android.redesign.vpn.usecases.applyOverrides
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -63,6 +63,7 @@ class RecentsListViewStateFlow @Inject constructor(
     private val getConnectIntentViewState: GetConnectIntentViewState,
     private val serverManager: ServerManager2,
     private val userSettings: EffectiveCurrentUserSettings,
+    private val settingsForConnection: SettingsForConnection,
     private val getIntentAvailability: GetIntentAvailability,
     vpnStatusProvider: VpnStatusProviderUI,
     changeServerManager: ChangeServerManager,
@@ -150,13 +151,12 @@ class RecentsListViewStateFlow @Inject constructor(
         globalSettings: LocalUserSettings
     ): List<RecentItemViewState> =
         // Note: the loop below calls suspending functions in each iteration making it potentially slow.
-        // With the legacy ServerManager this shouldn't be an issue but once we move to a different server storage this
-        // code needs to be revised and all the necessary information should be fetched once in a batch instead of
-        // querying one by one for each intent.
+        // The suspending functions being called need to have a fast, non-suspending path (e.g. by using some form of
+        // caching).
         recents.mapNotNull { recentConnection ->
             val intent = recentConnection.connectIntent
             if (intent != connectionCardIntent || recentConnection.isPinned) {
-                val protocol = globalSettings.applyOverrides(intent.settingsOverrides).protocol
+                val protocol = settingsForConnection.fastGetFor(globalSettings, intent).protocol
                 mapToRecentItemViewState(recentConnection, connectedIntent, connectedServer, vpnUser, protocol)
             } else {
                 null

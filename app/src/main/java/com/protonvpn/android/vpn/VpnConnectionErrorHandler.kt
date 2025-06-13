@@ -283,11 +283,11 @@ class VpnConnectionErrorHandler @Inject constructor(
             serverListUpdater.updateServerList()
         }
 
-        val settings = settingsForConnection.getFor(orgIntent)
+        val settingsForOrgIntent = settingsForConnection.getFor(orgIntent)
         val vpnUser = currentUser.vpnUser()
         val orgPhysicalServer =
             orgParams?.connectingDomain?.let { PhysicalServer(orgParams.server, it) }?.takeIf { it.exists() }
-        val protocol: ProtocolSelection = orgParams?.protocolSelection ?: settings.protocol
+        val protocol: ProtocolSelection = orgParams?.protocolSelection ?: settingsForOrgIntent.protocol
         val isStuckOnCurrentServer = stuckHandler.isStuckOn(orgParams)
         if (includeOriginalServer && isStuckOnCurrentServer) {
             ProtonLogger.logCustom(
@@ -296,7 +296,8 @@ class VpnConnectionErrorHandler @Inject constructor(
             )
         }
         val considerOriginalServer = includeOriginalServer && !isStuckOnCurrentServer
-        val candidates = getCandidateServers(orgIntent, orgPhysicalServer, protocol, vpnUser, considerOriginalServer, settings)
+        val candidates =
+            getCandidateServers(orgIntent, orgPhysicalServer, protocol, vpnUser, considerOriginalServer, settingsForOrgIntent)
 
         candidates.forEach {
             ProtonLogger.logCustom(
@@ -323,7 +324,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             return null
         }
 
-        val expectedProtocolConnection = pingResult.getExpectedProtocolConnection(settings.protocol)
+        val expectedProtocolConnection = pingResult.getExpectedProtocolConnection(settingsForOrgIntent.protocol)
         val orgDirectServerId =
             (orgIntent as? ConnectIntent.Server)?.serverId ?: (orgIntent as? ConnectIntent.Gateway)?.serverId
         val orgDirectServer = orgDirectServerId?.let { serverManager.getServerById(it) }
@@ -375,7 +376,7 @@ class VpnConnectionErrorHandler @Inject constructor(
         protocol: ProtocolSelection,
         vpnUser: VpnUser?,
         includeOrgServer: Boolean,
-        settings: LocalUserSettings
+        settingsForOrgIntent: LocalUserSettings
     ): List<PhysicalServer> {
         val candidateList = mutableListOf<PhysicalServer>()
         if (orgPhysicalServer != null && includeOrgServer)
@@ -384,7 +385,7 @@ class VpnConnectionErrorHandler @Inject constructor(
         val secureCoreExpected = orgIntent.isSecureCore()
         // For profiles we allow switching only to servers compatible with its connect intent
         val eligibleOnlineServers = if (orgIntent.profileId != null) {
-            getOnlineServersForIntent(orgIntent, settings, vpnUser?.maxTier ?: VpnUser.FREE_TIER)
+            getOnlineServersForIntent(orgIntent, settingsForOrgIntent.protocol, vpnUser?.maxTier ?: VpnUser.FREE_TIER)
         } else {
             val gatewayName = (orgIntent as? ConnectIntent.Gateway)?.gatewayName
             serverManager.getOnlineAccessibleServers(secureCoreExpected, gatewayName, vpnUser, protocol)

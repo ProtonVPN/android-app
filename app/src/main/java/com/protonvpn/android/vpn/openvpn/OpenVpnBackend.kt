@@ -73,7 +73,6 @@ class OpenVpnBackend @Inject constructor(
     private val prepareForConnection: PrepareForConnection,
     foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient okHttp: OkHttpClient,
-    private val connectionFeatureFlagCache: ConnectionFeatureFlagCache,
 ) : VpnBackend(
     settingsForConnection,
     certificateRepository,
@@ -122,9 +121,6 @@ class OpenVpnBackend @Inject constructor(
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)
-        // OpenVPN service code is non-suspending so we need to make sure that feature flags it
-        // needs are prepared in advance.
-        connectionFeatureFlagCache.update()
         startOpenVPN(null, connectionParamsUuid = connectionParams.uuid)
     }
 

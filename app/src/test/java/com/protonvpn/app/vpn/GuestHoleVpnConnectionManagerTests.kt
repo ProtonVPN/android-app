@@ -37,8 +37,9 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -51,8 +52,10 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
+import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
 import com.protonvpn.mocks.FakeVpnPermissionDelegate
 import com.protonvpn.mocks.FakeVpnUiDelegate
 import com.protonvpn.mocks.TestProtonLogger
@@ -122,8 +125,7 @@ class GuestHoleVpnConnectionManagerTests {
         val clock = testScope::currentTime
 
         val currentUser = CurrentUser(TestCurrentUserProvider(TestUser.freeUser.vpnUser))
-        val effectiveSettingsFlow = flowOf(LocalUserSettings.Default)
-        val effectiveSettings = EffectiveCurrentUserSettings(bgScope, effectiveSettingsFlow)
+        val rawSettingsFlow = flowOf(LocalUserSettings.Default)
         val foregroundActivityTracker = ForegroundActivityTracker(bgScope, flowOf(mockk<ComponentActivity>()))
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
 
@@ -146,9 +148,14 @@ class GuestHoleVpnConnectionManagerTests {
         vpnStateMonitor = VpnStateMonitor()
         val vpnStatusUiProvider = VpnStatusProviderUI(bgScope, vpnStateMonitor)
         val settingsForConnection = SettingsForConnection(
-            settings = effectiveSettings,
+            rawSettingsFlow = rawSettingsFlow,
             getProfileById = FakeGetProfileById(),
-            isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
+            applyEffectiveUserSettings = ApplyEffectiveUserSettings(
+                mainScope = testScope.backgroundScope,
+                currentUser = currentUser,
+                isTv = mockk(relaxed = true),
+                flags = FakeSettingsFeatureFlagsFlow(),
+            ),
             vpnStatusProviderUI = vpnStatusUiProvider,
         )
         vpnConnectionManager = VpnConnectionManager(

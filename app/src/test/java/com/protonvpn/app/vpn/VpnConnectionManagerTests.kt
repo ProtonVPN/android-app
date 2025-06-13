@@ -35,9 +35,10 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
+import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -56,8 +57,10 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
+import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
+import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
 import com.protonvpn.mocks.FakeVpnUiDelegate
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockSharedPreference
@@ -198,12 +201,16 @@ class VpnConnectionManagerTests {
     }
 
     private fun createManager() {
-        val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, flowOf(LocalUserSettings.Default))
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
         val settingsForConnection = SettingsForConnection(
-            settings = userSettings,
+            rawSettingsFlow = flowOf(LocalUserSettings.Default),
             getProfileById = FakeGetProfileById(),
-            isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
+            applyEffectiveUserSettings = ApplyEffectiveUserSettings(
+                mainScope = testScope.backgroundScope,
+                currentUser = mockCurrentUser,
+                isTv = mockk(relaxed = true),
+                flags = FakeSettingsFeatureFlagsFlow(),
+            ),
             vpnStatusProviderUI = vpnStatusProviderUI
         )
         vpnConnectionManager = VpnConnectionManager(

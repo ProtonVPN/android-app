@@ -56,7 +56,7 @@ class ConnectionParamsOpenVpn(
 
     fun openVpnProfile(
         myPackageName: String,
-        userSettings: LocalUserSettings,
+        connectionSettings: LocalUserSettings,
         clientCertificate: CertificateData?,
         computeAllowedIPs: ComputeAllowedIPs,
     ) = VpnProfile(server.getLabel()).apply {
@@ -75,15 +75,15 @@ class ConnectionParamsOpenVpn(
         mCipher = "AES-256-GCM"
         mUseTLSAuth = true
         mTunMtu = 1500
-        mMssFix = userSettings.mtuSize - 40
+        mMssFix = connectionSettings.mtuSize - 40
         mExpectTLSCert = true
         mX509AuthType = VpnProfile.X509_VERIFY_TLSREMOTE_SAN
         mCheckRemoteCN = true
         mRemoteCN = connectingDomain!!.entryDomain
         mPersistTun = true
-        val splitsTunnel = userSettings.splitTunneling.isEnabled || userSettings.lanConnections
+        val splitsTunnel = connectionSettings.splitTunneling.isEnabled || connectionSettings.lanConnections
         if (connectIntent !is AnyConnectIntent.GuestHole && splitsTunnel) {
-            val (allowedIPs4, allowedIPs6) = computeAllowedIPs(userSettings).partition { it.isIPv4 }
+            val (allowedIPs4, allowedIPs6) = computeAllowedIPs(connectionSettings).partition { it.isIPv4 }
             val splitV4 = allowedIPs4 != listOf("0.0.0.0/0".toIPAddress())
             val splitV6 = allowedIPs6 != listOf("::/0".toIPAddress())
             if (splitV4 || splitV6) {
@@ -96,18 +96,18 @@ class ConnectionParamsOpenVpn(
             }
         }
 
-        mOverrideDNS = userSettings.customDns.effectiveEnabled
+        mOverrideDNS = connectionSettings.customDns.effectiveEnabled
         // Leave one spot for the Proton VPN DNS at the end of the list. It will be set via control message from the
         // server.
-        mCustomDNS = userSettings.customDns.effectiveDnsList.take(OPENVPN_MAX_DNS_COUNT - 1)
+        mCustomDNS = connectionSettings.customDns.effectiveDnsList.take(OPENVPN_MAX_DNS_COUNT - 1)
 
         val appsSplitTunnelingConfigurator = SplitTunnelAppsOpenVpnConfigurator(this)
         applyAppsSplitTunneling(
             appsSplitTunnelingConfigurator,
             connectIntent,
             myPackageName,
-            userSettings.splitTunneling,
-            allowDirectLanConnections = userSettings.lanConnectionsAllowDirect,
+            connectionSettings.splitTunneling,
+            allowDirectLanConnections = connectionSettings.lanConnectionsAllowDirect,
         )
         mConnections[0] = Connection().apply {
             mServerName = entryIp ?: requireNotNull(connectingDomain.getEntryIp(protocolSelection))

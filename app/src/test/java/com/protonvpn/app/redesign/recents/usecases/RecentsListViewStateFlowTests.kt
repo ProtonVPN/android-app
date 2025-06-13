@@ -47,7 +47,9 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.CountryTools
@@ -58,6 +60,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeGetProfileById
+import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -69,6 +72,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -145,9 +149,21 @@ class RecentsListViewStateFlowTests {
         coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(DefaultConnection.LastConnection)
         every { mockChangeServerManager.isChangingServer } returns MutableStateFlow(false)
 
+        profiles = FakeGetProfileById()
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val effectiveUserSettings = EffectiveCurrentUserSettings(bgScope, settingsFlow)
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
+        val settingsForConnection = SettingsForConnection(
+            settingsFlow,
+            profiles,
+            ApplyEffectiveUserSettings(
+                mainScope = testScope.backgroundScope,
+                currentUser = currentUser,
+                isTv = mockk(relaxed = true),
+                flags = FakeSettingsFeatureFlagsFlow()
+            ),
+            vpnStatusProviderUI
+        )
 
         mockkObject(CountryTools)
         every { CountryTools.getPreferredLocale() } returns Locale.US
@@ -161,12 +177,12 @@ class RecentsListViewStateFlowTests {
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
         val getIntentAvailability = GetIntentAvailability(serverManager2, supportsProtocol)
         val translator = Translator(testScope.backgroundScope, serverManager)
-        profiles = FakeGetProfileById()
         viewStateFlow = RecentsListViewStateFlow(
             mockRecentsManager,
             GetConnectIntentViewState(serverManager2, translator, getProfileById = profiles),
             serverManager2,
             effectiveUserSettings,
+            settingsForConnection,
             getIntentAvailability,
             vpnStatusProviderUI,
             mockChangeServerManager,

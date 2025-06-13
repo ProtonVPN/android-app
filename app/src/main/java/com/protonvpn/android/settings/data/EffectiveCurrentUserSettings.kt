@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.settings.data
 
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.netshield.NetShieldAvailability
@@ -30,17 +31,142 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
+import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import javax.inject.Inject
 import javax.inject.Singleton
+
+@Reusable
+class SettingsFeatureFlagsFlow @Inject constructor(
+    isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
+    isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
+    isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
+) : Flow<SettingsFeatureFlagsFlow.Flags> {
+
+    data class Flags(
+        val isIPv6Enabled: Boolean,
+        val isDirectLanConnectionsEnabled: Boolean,
+        val isLightThemeEnabled: Boolean,
+    )
+
+    private val flow: Flow<Flags> = combine(
+        isIPv6FeatureFlagEnabled.observe(),
+        isDirectLanConnectionsFeatureFlagEnabled.observe(),
+        isLightThemeFeatureFlagEnabled.observe()
+    ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isLightThemeEnabled ->
+        Flags(
+            isIPv6Enabled = isIPv6Enabled,
+            isDirectLanConnectionsEnabled = isDirectLanConnectionsEnabled,
+            isLightThemeEnabled = isLightThemeEnabled,
+        )
+    }
+
+    override suspend fun collect(collector: FlowCollector<Flags>) {
+        flow.collect(collector)
+    }
+}
+
+abstract class BaseApplyEffectiveUserSettings(
+    protected val currentUser: CurrentUser,
+    protected val isTv: IsTvCheck,
+) {
+
+    abstract suspend fun getFlags(): SettingsFeatureFlagsFlow.Flags
+    abstract fun getFlagsFlow(): Flow<SettingsFeatureFlagsFlow.Flags>
+
+    suspend operator fun invoke(rawSettings: LocalUserSettings): LocalUserSettings =
+        applyRestrictions(rawSettings, currentUser.vpnUser(), isTv(), getFlags())
+
+    fun observe(rawSettings: LocalUserSettings): Flow<LocalUserSettings> =
+        combine(
+            currentUser.vpnUserFlow,
+            getFlagsFlow(),
+        ) { vpnUser, flags ->
+            applyRestrictions(rawSettings, vpnUser, isTv(), flags)
+        }
+
+    protected fun applyRestrictions(
+        settings: LocalUserSettings,
+        vpnUser: VpnUser?,
+        isTv: Boolean,
+        flags: SettingsFeatureFlagsFlow.Flags,
+    ): LocalUserSettings {
+        val isUserPlusOrAbove = vpnUser?.isUserPlusOrAbove == true
+        val effectiveVpnAccelerator = !isUserPlusOrAbove || settings.vpnAccelerator
+        val netShieldAvailable = vpnUser.getNetShieldAvailability() == NetShieldAvailability.AVAILABLE
+        val effectiveSplitTunneling =
+            if (isUserPlusOrAbove) settings.splitTunneling
+            else SplitTunnelingSettings(isEnabled = false)
+        val lanConnections = isTv || (isUserPlusOrAbove && settings.lanConnections)
+        return settings.copy(
+            defaultProfileId = if (isUserPlusOrAbove || isTv) settings.defaultProfileId else null,
+            lanConnections = lanConnections,
+            lanConnectionsAllowDirect =
+                lanConnections && settings.lanConnectionsAllowDirect && flags.isDirectLanConnectionsEnabled,
+            netShield = if (netShieldAvailable) {
+                if (isTv) NetShieldProtocol.ENABLED else settings.netShield
+            } else {
+                NetShieldProtocol.DISABLED
+            },
+            customDns = if (isUserPlusOrAbove) settings.customDns else CustomDnsSettings(false),
+            theme = if (flags.isLightThemeEnabled) settings.theme else ThemeType.Dark,
+            vpnAccelerator = effectiveVpnAccelerator,
+            splitTunneling = effectiveSplitTunneling,
+            ipV6Enabled = settings.ipV6Enabled && flags.isIPv6Enabled && !isTv
+        )
+    }
+}
+
+@Reusable
+class ApplyEffectiveUserSettings(
+    mainScope: CoroutineScope,
+    currentUser: CurrentUser,
+    isTv: IsTvCheck,
+    private val flags: Flow<SettingsFeatureFlagsFlow.Flags>
+) : BaseApplyEffectiveUserSettings(currentUser, isTv) {
+
+    private val cachedFlags = flags.shareIn(mainScope, SharingStarted.Lazily, 1)
+
+    @Inject constructor(
+        mainScope: CoroutineScope,
+        currentUser: CurrentUser,
+        isTv: IsTvCheck,
+        flags: SettingsFeatureFlagsFlow
+    ) : this(mainScope, currentUser, isTv, flags as Flow<SettingsFeatureFlagsFlow.Flags>)
+
+    override suspend fun getFlags(): SettingsFeatureFlagsFlow.Flags = cachedFlags.first()
+
+    override fun getFlagsFlow(): Flow<SettingsFeatureFlagsFlow.Flags> =
+        // Can't use cachedFlags because of runBlocking in DohEnabled.
+        // TODO(VPNAND-2241): switch to cachedFlags.
+        flags
+}
+
+@Deprecated("Use ApplyEffectiveUserSettings, this object is for synchronous access in legacy code")
+@Singleton
+class ApplyEffectiveUserSettingsCached @Inject constructor(
+    mainScope: CoroutineScope,
+    currentUser: CurrentUser,
+    isTv: IsTvCheck,
+    flags: SettingsFeatureFlagsFlow
+) : BaseApplyEffectiveUserSettings(currentUser, isTv) {
+
+    private val cachedFlags = SyncStateFlow(mainScope, flags)
+
+    override suspend fun getFlags(): SettingsFeatureFlagsFlow.Flags = cachedFlags.value // Non-suspending
+    override fun getFlagsFlow(): Flow<SettingsFeatureFlagsFlow.Flags> = cachedFlags
+}
 
 /**
  * Current user settings that are in effect.
@@ -75,78 +201,23 @@ class EffectiveCurrentUserSettings(
         effectiveSettings.map(transform).distinctUntilChanged()
 }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @Singleton
 class EffectiveCurrentUserSettingsFlow(
     rawCurrentUserSettingsFlow: Flow<LocalUserSettings>,
-    currentUser: CurrentUser,
-    isTv: IsTvCheck,
-    isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
-    isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
-    isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
+    applyEffectiveUserSettings: BaseApplyEffectiveUserSettings,
 ) : Flow<LocalUserSettings> {
 
-    private data class Flags(
-        val isIPv6Enabled: Boolean,
-        val isDirectLanConnectionsEnabled: Boolean,
-        val isLightThemeEnabled: Boolean,
-    )
-    private val flagsFlow = combine(
-        isIPv6FeatureFlagEnabled.observe(),
-        isDirectLanConnectionsFeatureFlagEnabled.observe(),
-        isLightThemeFeatureFlagEnabled.observe(),
-    ) { ipV6Enabled, isDirectLanConnectionsEnabled, isLightThemeEnabled ->
-        Flags(
-            isIPv6Enabled = ipV6Enabled,
-            isDirectLanConnectionsEnabled = isDirectLanConnectionsEnabled,
-            isLightThemeEnabled = isLightThemeEnabled
-        )
-    }
-
-    private val effectiveSettings: Flow<LocalUserSettings> = combine(
-        rawCurrentUserSettingsFlow,
-        currentUser.vpnUserFlow,
-        flagsFlow,
-    ) { settings, vpnUser, flags ->
-        val isUserPlusOrAbove = vpnUser?.isUserPlusOrAbove == true
-        val effectiveVpnAccelerator = !isUserPlusOrAbove || settings.vpnAccelerator
-        val netShieldAvailable = vpnUser.getNetShieldAvailability() == NetShieldAvailability.AVAILABLE
-        val effectiveSplitTunneling =
-            if (isUserPlusOrAbove) settings.splitTunneling
-            else SplitTunnelingSettings(isEnabled = false)
-        val lanConnections = isTv() || (isUserPlusOrAbove && settings.lanConnections)
-        settings.copy(
-            defaultProfileId = if (isUserPlusOrAbove || isTv()) settings.defaultProfileId else null,
-            lanConnections = lanConnections,
-            lanConnectionsAllowDirect =
-                lanConnections && settings.lanConnectionsAllowDirect && flags.isDirectLanConnectionsEnabled,
-            netShield = if (netShieldAvailable) {
-                if (isTv()) NetShieldProtocol.ENABLED else settings.netShield
-            } else {
-                NetShieldProtocol.DISABLED
-            },
-            customDns = if (isUserPlusOrAbove) settings.customDns else CustomDnsSettings(false),
-            theme = if (flags.isLightThemeEnabled) settings.theme else ThemeType.Dark,
-            vpnAccelerator = effectiveVpnAccelerator,
-            splitTunneling = effectiveSplitTunneling,
-            ipV6Enabled = settings.ipV6Enabled && flags.isIPv6Enabled && !isTv()
-        )
-    }
+    private val effectiveSettings: Flow<LocalUserSettings> =
+        rawCurrentUserSettingsFlow.flatMapLatest(applyEffectiveUserSettings::observe)
 
     @Inject
     constructor(
         localUserSettings: CurrentUserLocalSettingsManager,
-        currentUser: CurrentUser,
-        isTv: IsTvCheck,
-        isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
-        isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
-        isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
+        applyEffectiveUserSettings: ApplyEffectiveUserSettings,
     ) : this(
         rawCurrentUserSettingsFlow = localUserSettings.rawCurrentUserSettingsFlow,
-        currentUser = currentUser,
-        isTv = isTv,
-        isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
-        isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
-        isLightThemeFeatureFlagEnabled = isLightThemeFeatureFlagEnabled,
+        applyEffectiveUserSettings = applyEffectiveUserSettings,
     )
 
     override suspend fun collect(collector: FlowCollector<LocalUserSettings>) = effectiveSettings.collect(collector)
@@ -163,6 +234,16 @@ class EffectiveCurrentUserSettingsCached(
     @Inject constructor(
         mainScope: CoroutineScope,
         dispatcherProvider: VpnDispatcherProvider,
-        effectiveCurrentUserSettingsFlow: EffectiveCurrentUserSettingsFlow
-    ) : this(SyncStateFlow(mainScope, effectiveCurrentUserSettingsFlow, dispatcherProvider))
+        currentUserSettingsManager: CurrentUserLocalSettingsManager,
+        applyEffectiveUserSettings: ApplyEffectiveUserSettingsCached,
+    ) : this(
+        SyncStateFlow(
+            mainScope,
+            EffectiveCurrentUserSettingsFlow(
+                currentUserSettingsManager.rawCurrentUserSettingsFlow,
+                applyEffectiveUserSettings
+            ),
+            dispatcherProvider
+        )
+    )
 }

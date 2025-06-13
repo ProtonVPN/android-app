@@ -54,7 +54,6 @@ import org.junit.Test
 
 class GetOnlineServersForIntentTests {
 
-    private lateinit var userSettingsFlow: MutableStateFlow<LocalUserSettings>
     private lateinit var testScope: TestScope
     private lateinit var getOnlineServersForIntent: GetOnlineServersForIntent
     private lateinit var serverManager: ServerManager2
@@ -66,7 +65,6 @@ class GetOnlineServersForIntentTests {
 
         val testDispatcher = StandardTestDispatcher()
         testScope = TestScope(testDispatcher)
-        userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
 
         val servers = listOf(
             createServer(serverName = "SE#1", exitCountry = "SE", isOnline = false),
@@ -108,36 +106,35 @@ class GetOnlineServersForIntentTests {
     @Test
     fun fastestInCountryMatchesTierAndOnlineSortedByScore() = testScope.runTest {
         val profileIntent = ConnectIntent.FastestInCountry(CountryId("SE"), emptySet())
-        val result = getOnlineServersForIntent(profileIntent, userSettingsFlow.value, VpnUser.FREE_TIER)
+        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, VpnUser.FREE_TIER)
         assertEquals(listOf("SE#3", "SE#2"), result.map { it.serverName })
     }
 
     @Test
     fun fastestInCityWithFeatures() = testScope.runTest {
         val profileIntent = ConnectIntent.FastestInCity(CountryId("CH"), "Zurich", setOf(ServerFeature.P2P))
-        val result = getOnlineServersForIntent(profileIntent, userSettingsFlow.value, VpnUser.FREE_TIER)
+        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, VpnUser.FREE_TIER)
         assertEquals(listOf("CH#2"), result.map { it.serverName })
     }
 
     @Test
     fun gatewayWithProtocolOverride() = testScope.runTest {
-        val overrides = SettingsOverrides(ProtocolSelection(VpnProtocol.WireGuard).toData(), null, null, null, null, null)
-        val profileIntent = ConnectIntent.Gateway("GT", null, settingsOverrides = overrides)
-        val result = getOnlineServersForIntent(profileIntent, userSettingsFlow.value, VpnUser.FREE_TIER)
+        val profileIntent = ConnectIntent.Gateway("GT", null)
+        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection(VpnProtocol.WireGuard), VpnUser.FREE_TIER)
         assertEquals(listOf("CH-GT#1", "CH-GT#2"), result.map { it.serverName })
     }
 
     @Test
     fun secureCore() = testScope.runTest {
         val profileIntent = ConnectIntent.SecureCore(CountryId("SE"), CountryId.fastest)
-        val result = getOnlineServersForIntent(profileIntent, userSettingsFlow.value, VpnUser.FREE_TIER)
+        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, VpnUser.FREE_TIER)
         assertEquals(listOf("SE#4"), result.map { it.serverName })
     }
 
     @Test
     fun server() = testScope.runTest {
         val profileIntent = ConnectIntent.Server("SE#2_id", CountryId("SE"), emptySet())
-        val result = getOnlineServersForIntent(profileIntent, userSettingsFlow.value, VpnUser.FREE_TIER)
+        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, VpnUser.FREE_TIER)
         assertEquals(listOf("SE#2"), result.map { it.serverName })
     }
 }

@@ -30,6 +30,7 @@ import com.protonvpn.tests.recents.RecentsListValidatorTestsIntegration
 import com.protonvpn.tests.base.ui.ui.ConnectionDetailsTestsCompose
 import com.protonvpn.tests.base.ui.ui.GetConnectIntentViewStateTestsCompose
 import com.protonvpn.tests.base.ui.ui.VpnStatusViewTests
+import com.protonvpn.tests.settings.data.EffectiveCurrentUserSettingsCachedTests
 import com.protonvpn.tests.upgrade.PaymentPanelTestsCompose
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
@@ -40,6 +41,7 @@ import org.junit.runners.Suite
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
     ConnectionDetailsTestsCompose::class,
+    EffectiveCurrentUserSettingsCachedTests::class,
     GetConnectIntentViewStateTestsCompose::class,
     MigrationTestsIntegration::class,
     NavigationTests::class,

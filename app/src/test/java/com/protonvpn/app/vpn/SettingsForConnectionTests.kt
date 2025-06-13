@@ -27,15 +27,20 @@ import com.protonvpn.android.redesign.recents.data.ProtocolSelectionData
 import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.CustomDnsSettings
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
+import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestUser
+import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -48,7 +53,7 @@ class SettingsForConnectionTests {
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
     private lateinit var currentUser: CurrentUser
-    private lateinit var effectiveSettingsFlow: MutableStateFlow<LocalUserSettings>
+    private lateinit var rawSettingsFlow: MutableStateFlow<LocalUserSettings>
     private lateinit var profileById: FakeGetProfileById
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private val lanEnabledFF = MutableStateFlow(true)
@@ -58,16 +63,25 @@ class SettingsForConnectionTests {
     @Before
     fun setup() {
         testScope = TestScope()
-        testUserProvider = TestCurrentUserProvider(vpnUser = null)
+        testUserProvider = TestCurrentUserProvider(vpnUser = TestUser.plusUser.vpnUser)
         currentUser = CurrentUser(testUserProvider)
-        effectiveSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
+        rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
         profileById = FakeGetProfileById()
         vpnStateMonitor = VpnStateMonitor()
         settingsForConnection = SettingsForConnection(
-            EffectiveCurrentUserSettings(testScope.backgroundScope, effectiveSettingsFlow),
-            profileById,
-            FakeIsLanDirectConnectionsFeatureFlagEnabled(lanEnabledFF),
-            VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
+            rawSettingsFlow = rawSettingsFlow,
+            getProfileById = profileById,
+            applyEffectiveUserSettings = ApplyEffectiveUserSettings(
+                mainScope = testScope.backgroundScope,
+                currentUser = currentUser,
+                isTv = mockk(relaxed = true),
+                flags = SettingsFeatureFlagsFlow(
+                    isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true),
+                    isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(lanEnabledFF),
+                    isLightThemeFeatureFlagEnabled = FakeIsLightThemeFeatureFlagEnabled(true),
+                )
+            ),
+            vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         )
     }
 
@@ -83,7 +97,7 @@ class SettingsForConnectionTests {
 
     @Test
     fun `overrides from intent are applied`() = testScope.runTest {
-        effectiveSettingsFlow.value = LocalUserSettings.Default.copy(
+        rawSettingsFlow.value = LocalUserSettings.Default.copy(
             protocol = ProtocolSelection.STEALTH,
             netShield = NetShieldProtocol.ENABLED_EXTENDED,
             randomizedNat = true,
@@ -111,7 +125,7 @@ class SettingsForConnectionTests {
 
     @Test
     fun `overrides are not applied if feature flags are disabled`() = testScope.runTest {
-        effectiveSettingsFlow.value = LocalUserSettings.Default
+        rawSettingsFlow.value = LocalUserSettings.Default
         val overrides = SettingsOverrides(
             lanConnections = true,
             lanConnectionsAllowDirect = true,
@@ -124,6 +138,24 @@ class SettingsForConnectionTests {
         assertEquals(
             LocalUserSettings.Default.copy(lanConnections = true),
             settingsForConnection.getFor(ConnectIntent.Fastest.copy(settingsOverrides = overrides))
+        )
+    }
+
+    @Test
+    fun `NetShield disabled for essentials plan`() = testScope.runTest {
+        testUserProvider.vpnUser = TestUser.businessEssential.vpnUser
+        rawSettingsFlow.value = LocalUserSettings.Default
+        val overrides = SettingsOverrides(
+            protocolData = ProtocolSelectionData(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
+            netShield = NetShieldProtocol.ENABLED_EXTENDED,
+            randomizedNat = false,
+            lanConnections = false,
+            lanConnectionsAllowDirect = false,
+            customDns = CustomDnsSettings(false)
+        )
+        assertEquals(
+            NetShieldProtocol.DISABLED,
+            settingsForConnection.getFor(ConnectIntent.Fastest.copy(settingsOverrides = overrides)).netShield
         )
     }
 }

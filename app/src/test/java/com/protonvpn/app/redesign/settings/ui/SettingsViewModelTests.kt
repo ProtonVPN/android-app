@@ -22,7 +22,6 @@ package com.protonvpn.app.redesign.settings.ui
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
-import com.protonvpn.android.appconfig.ChangeServerConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.managed.ManagedConfig
@@ -36,11 +35,13 @@ import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
+import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
 import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.settings.AppIconManager
@@ -73,7 +74,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -145,20 +145,25 @@ class SettingsViewModelTests {
         val accountUser = createAccountUser()
         testUserProvider = TestCurrentUserProvider(plusUser, accountUser)
         val currentUser = CurrentUser(testUserProvider)
-        val changeServerConfig = ChangeServerConfig(30, 3, 60)
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
         val isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
         val isLightThemEnabled = FakeIsLightThemeFeatureFlagEnabled(true)
         settingsManager = CurrentUserLocalSettingsManager(
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()),
         )
-        val effectiveCurrentUserSettingsFlow = EffectiveCurrentUserSettingsFlow(
-            rawCurrentUserSettingsFlow = settingsManager.rawCurrentUserSettingsFlow,
+        val applyEffectiveUserSettings = ApplyEffectiveUserSettings(
+            mainScope = testScope.backgroundScope,
             currentUser = currentUser,
             isTv = mockIsTvCheck,
-            isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
-            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
-            isLightThemeFeatureFlagEnabled = isLightThemEnabled,
+            flags = SettingsFeatureFlagsFlow(
+                isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
+                isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
+                isLightThemeFeatureFlagEnabled = isLightThemEnabled,
+            )
+        )
+        val effectiveCurrentUserSettingsFlow = EffectiveCurrentUserSettingsFlow(
+            rawCurrentUserSettingsFlow = settingsManager.rawCurrentUserSettingsFlow,
+            applyEffectiveUserSettings = applyEffectiveUserSettings,
         )
         effectiveSettings = EffectiveCurrentUserSettings(
             testScope.backgroundScope, effectiveCurrentUserSettingsFlow
@@ -167,10 +172,10 @@ class SettingsViewModelTests {
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         getProfileById = FakeGetProfileById()
         settingsForConnection = SettingsForConnection(
-            settings = effectiveSettings,
+            settingsManager = settingsManager,
             getProfileById = getProfileById,
-            isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
-            vpnStatusProviderUI = vpnStatusProviderUI
+            applyEffectiveUserSettings = applyEffectiveUserSettings,
+            vpnStatusProviderUI = vpnStatusProviderUI,
         )
 
         val getConnectIntentViewState = GetConnectIntentViewState(

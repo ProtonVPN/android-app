@@ -45,7 +45,7 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.CountryTools
@@ -67,7 +67,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeGetProfileById
-import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
+import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -195,12 +195,16 @@ class VpnConnectionErrorHandlerTests {
         testScope = TestScope(UnconfinedTestDispatcher())
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
-        val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, userSettingsFlow)
         getOnlineServersForIntent = GetOnlineServersForIntent(serverManager2, supportsProtocol)
         val settingsForConnection = SettingsForConnection(
-            settings = userSettings,
+            rawSettingsFlow = userSettingsFlow,
             getProfileById = FakeGetProfileById(),
-            isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
+            applyEffectiveUserSettings = ApplyEffectiveUserSettings(
+                mainScope = testScope.backgroundScope,
+                currentUser = currentUser,
+                isTv = mockk(relaxed = true),
+                flags = FakeSettingsFeatureFlagsFlow(),
+            ),
             vpnStatusProviderUI = vpnStatusProviderUI
         )
         handler = VpnConnectionErrorHandler(testScope.backgroundScope, api, appConfig,

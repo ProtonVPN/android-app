@@ -44,7 +44,6 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.profiles.data.profileSettingsOverrides
 import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
 import com.protonvpn.android.redesign.CountryId
@@ -53,7 +52,7 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.ConnectionTelemetrySentryDebugEnabled
 import com.protonvpn.android.telemetry.DefaultCommonDimensions
@@ -89,7 +88,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
-import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
+import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
 import com.protonvpn.mocks.MockAgentProvider
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.createInMemoryServerManager
@@ -201,6 +200,7 @@ class VpnConnectionTestsIntegration {
     private lateinit var featureFlagsFlow: MutableStateFlow<FeatureFlags>
     private lateinit var mockOpenVpn: MockVpnBackend
     private lateinit var mockWireguard: MockVpnBackend
+    private lateinit var settingsForConnection: SettingsForConnection
     private lateinit var supportsProtocol: SupportsProtocol
     private lateinit var vpnStatusProviderUI: VpnStatusProviderUI
     private lateinit var userSettingsFlow: MutableStateFlow<LocalUserSettings>
@@ -236,7 +236,6 @@ class VpnConnectionTestsIntegration {
         val clock = { testScheduler.currentTime }
 
         userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
-        val userSettings = EffectiveCurrentUserSettings(bgScope, userSettingsFlow)
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val db = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
@@ -273,17 +272,28 @@ class VpnConnectionTestsIntegration {
         coEvery { certificateRepository.generateNewKey(any()) } returns mockk()
         every { certificateRepository.currentCertUpdateFlow } returns emptyFlow()
 
+        monitor = VpnStateMonitor()
+        vpnStatusProviderUI = VpnStatusProviderUI(bgScope, monitor)
         networkManager = MockNetworkManager()
         networkCapabilitiesFlow = MutableStateFlow(mapOf(
             CAPABILITY_VALIDATED to true,
             CAPABILITY_NOT_VPN to false
         ))
 
-        monitor = VpnStateMonitor()
-        vpnStatusProviderUI = VpnStatusProviderUI(bgScope, monitor)
+        settingsForConnection = SettingsForConnection(
+            rawSettingsFlow = userSettingsFlow,
+            getProfileById = GetProfileByIdImpl(profilesDao),
+            applyEffectiveUserSettings = ApplyEffectiveUserSettings(
+                mainScope = scope.backgroundScope,
+                currentUser = currentUser,
+                isTv = mockk(relaxed = true),
+                flags = FakeSettingsFeatureFlagsFlow(),
+            ),
+            vpnStatusProviderUI = vpnStatusProviderUI
+        )
 
-        mockOpenVpn = spyk(createMockVpnBackend(currentUser, userSettings, profilesDao, VpnProtocol.OpenVPN))
-        mockWireguard = spyk(createMockVpnBackend(currentUser, userSettings, profilesDao, VpnProtocol.WireGuard))
+        mockOpenVpn = spyk(createMockVpnBackend(currentUser, VpnProtocol.OpenVPN))
+        mockWireguard = spyk(createMockVpnBackend(currentUser, VpnProtocol.WireGuard))
 
         switchServerFlow = MutableSharedFlow()
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
@@ -319,12 +329,6 @@ class VpnConnectionTestsIntegration {
             builtInGuestHoles = MockedServers.serverList.filter { supportsProtocol(it, GuestHole.PROTOCOL) }
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
-        val settingsForConnection = SettingsForConnection(
-            settings = userSettings,
-            getProfileById = GetProfileByIdImpl(profilesDao),
-            isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
-            vpnStatusProviderUI = vpnStatusProviderUI
-        )
         manager = VpnConnectionManager(permissionDelegate, getFeatureFlags, settingsForConnection,
             backendProvider, networkManager, vpnErrorHandler, monitor, mockVpnBackgroundUiDelegate,
             serverManager2, certificateRepository, scope.backgroundScope, clock, mockk(relaxed = true),
@@ -1030,8 +1034,6 @@ class VpnConnectionTestsIntegration {
 
     private fun createMockVpnBackend(
         currentUser: CurrentUser,
-        userSettings: EffectiveCurrentUserSettings,
-        profileDao: ProfilesDao,
         protocol: VpnProtocol,
     ): MockVpnBackend =
         MockVpnBackend(
@@ -1040,12 +1042,7 @@ class VpnConnectionTestsIntegration {
             networkManager,
             NetworkCapabilitiesFlow(networkCapabilitiesFlow),
             certificateRepository,
-            SettingsForConnection(
-                settings = userSettings,
-                getProfileById = GetProfileByIdImpl(profileDao),
-                isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
-                vpnStatusProviderUI = vpnStatusProviderUI
-            ),
+            settingsForConnection,
             protocol,
             mockLocalAgentUnreachableTracker,
             currentUser,
