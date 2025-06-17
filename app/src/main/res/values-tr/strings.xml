@@ -255,7 +255,7 @@
     <string name="netshield_setting_warning">Reklamlar ve izleyiciler engellendiğinde bazı siteler düzgün yüklenmeyebilir.</string>
     <string name="dialogDontShowAgain">Bir daha görüntülenmesin</string>
     <string name="guestHoleNotificationContent">Ağ sorunları aşılmaya çalışılıyor. Bu işlem Proton VPN hizmetine erişmenize yardımcı olacak.</string>
-    <string name="errorTunMultiUserPermission">VPN bağlantısı, çift uygulama (örneğin Dual Messenger) ve ayrılmış tünelleme arasındaki bir çakışmadan dolayı başlatılamadı. Lütfen bunlardan birini kapatıp aygıtınızı yeniden başlatın.</string>
+    <string name="errorTunMultiUserPermission">VPN bağlantısı, çift uygulama (Dual Messenger gibi) ve ayrılmış tünelleme arasındaki bir çakışma nedeniyle başlatılamadı. Lütfen bunlardan birini kapatıp aygıtınızı yeniden başlatın.</string>
     <string name="errorTorrentNotAllowed">Bu sunucu üzerinde P2P kullanımına izin verilmiyor</string>
     <string name="error_profile_fallback_unavailable">Bağlantı kurulamadı. Profil için sunucu seçiminiz kullanılamıyor.</string>
     <string name="profileProtocolNotAvailable">Profilin VPN iletişim kuralı şu anda kullanılamıyor. Bağlantı kurmak için iletişim kuralını değiştirmeyi deneyin.</string>

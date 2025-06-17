@@ -305,7 +305,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">Caricamento del server %1$s%%</string>
+    <string name="tv_server_list_load">Caricamento server %1$s%%</string>
     <string name="tv_recently_used_servers">Server usati di recente (%1$d)</string>
     <string name="tv_available_servers">Server disponibili (%1$d)</string>
     <string name="tv_locked_servers">Server bloccati (%1$d)</string>
@@ -548,7 +548,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Questa tecnologia consente a Proton VPN di fornire maggiore velocità e sicurezza in paesi difficili da servire.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Caricamento del server</string>
+    <string name="server_load_title">Caricamento server</string>
     <string name="activity_information_learn_more">Scopri di più</string>
     <string name="server_load_low">Basso</string>
     <string name="server_load_medium">Medio</string>

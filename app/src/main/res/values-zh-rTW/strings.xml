@@ -130,11 +130,11 @@
     <string name="settings_new_label_badge">新版本</string>
     <string name="settingsExcludedIPAddressesListHeader">排除的 IP 位址 (%1$d 個)</string>
     <string name="settingsIncludedIPAddressesListHeader">包含的 IP 位址 (%1$d 個)</string>
-    <string name="settingsExcludedApps">Excluded apps</string>
+    <string name="settingsExcludedApps">不包括所有應用</string>
     <string name="settingsExcludedAppsEmpty">加入您要從 VPN 流量排除的應用程式。</string>
     <string name="settingsIncludedAppsEmpty">新增您要包含於 VPN 流量中的應用程式。</string>
-    <string name="settingsExcludedAppsSelectedHeader">Excluded apps (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">排除的應用程式 (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">包含的應用程式 (%1$d 個)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">其餘的一般應用程式 (%1$d 個)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">其餘的系統應用程式 (%1$d 個)</string>
     <string name="settingsSplitTunnelingAvailableHeader">全部其它應用程式(%1$d)</string>
@@ -148,7 +148,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Add to excluded apps</string>
+    <string name="accessibility_action_add_excluded_app">新增至排除的應用程式</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -162,7 +162,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Add to included apps</string>
+    <string name="accessibility_action_add_included_app">添加至包含應用程式</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -173,7 +173,7 @@
     <string name="accessibility_action_copy_to_clipboard">複製到剪貼簿</string>
     <string name="accessibility_action_item_delete">刪除</string>
     <string name="accessibility_action_item_move_up">向上移</string>
-    <string name="accessibility_action_item_move_down">Move down</string>
+    <string name="accessibility_action_item_move_down">向下移動</string>
     <string name="tileConnected">已連線 %1$s</string>
     <string name="openUrlError">無法開啟 %1$s。裝置上未偵測到網頁瀏覽器。</string>
     <string name="loaderErrorTimeout">連線逾時，請重試。</string>
@@ -189,7 +189,7 @@
     <string name="troubleshootProxyFirewallProblemTitle">代理伺服器/防火牆干擾</string>
     <string name="troubleshootProxyFirewallProblemDescription">停用任何代理伺服器或防火牆，或聯絡您的網路管理員。</string>
     <string name="troubleshootProtonDownTitle">Proton 服務中斷</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[Check <a href=\"%1$s\">Proton Status</a> for our system status.]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[到 <a href=\"%1$s\">Proton 狀態</a>查看我們的系統狀態。]]></string>
     <string name="troubleshootContactUsSectionTitle">仍然需要協助？直接聯絡我們</string>
     <string name="troubleshootCustomerSupport">客戶支援</string>
     <string name="settingsAllowAlternativeRoutingTitle">替代路由</string>
@@ -231,14 +231,14 @@
     <string name="lan_state_off" comment="Describes state, not action">關閉</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">開</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">關閉</string>
-    <string name="custom_dns_state_on" comment="Describes state, not action">On</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">開啟</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">關閉</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">不可用</string>
     <string name="custom_dns_item_removed_snackbar">項目已移除</string>
     <string name="netshield_free_description">封鎖網站與應用程式中的廣告、追蹤器與惡意程式</string>
     <string name="netshield_what_data_means">NetShield statistics explained</string>
     <string name="netshield_ads_title">廣告</string>
-    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
+    <string name="netshield_ads_details">廣告與無形的廣告追蹤器</string>
     <string name="netshield_trackers_title">追蹤器</string>
     <string name="netshield_trackers_details">儲存並分享有關您的網際網路活動資訊之 Cookie 與其他追蹤器</string>
     <string name="netshield_data_title">資料</string>
@@ -253,7 +253,7 @@
     <string name="netshield_setting_warning">當廣告與追蹤器被封鎖時，部份網站或未能正確載入。</string>
     <string name="dialogDontShowAgain">不要再顯示</string>
     <string name="guestHoleNotificationContent">嘗試迴避網路問題。這將可以協助您存取 Proton VPN。</string>
-    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
+    <string name="errorTunMultiUserPermission">無法初始化 VPN 連線，因為雙重應用程式 (例如 Dual Messenger) 與 分隔通道 有所衝突，請二者停用其一，並重新啟動您的裝置。</string>
     <string name="errorTorrentNotAllowed">此伺服器不允許 P2P</string>
     <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
     <string name="profileProtocolNotAvailable">此設定檔的VPN協定暫不可用，請換個不同的協議以連線。</string>
@@ -265,7 +265,7 @@
     <string name="nameAfricaAndMiddleEast">非洲與中東</string>
     <string name="nameOceania">大洋洲</string>
     <string name="tv_row_settings">設定</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">分隔通道</string>
     <string name="tv_card_protocol_label">協定</string>
     <string name="tv_detail_default_connection_checkbox_short">最愛</string>
     <string name="tv_detail_connect_streaming">以 Plus 串流</string>
@@ -303,7 +303,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% server load</string>
+    <string name="tv_server_list_load">%1$s%% 伺服器負載</string>
     <string name="tv_recently_used_servers">最近使用的伺服器 (%1$d)</string>
     <string name="tv_available_servers">可用的伺服器 (%1$d)</string>
     <string name="tv_locked_servers">已鎖定的伺服器 (%1$d)</string>
@@ -352,7 +352,7 @@
     <plurals name="upgrade_devices_title">
         <item quantity="other">同時保護 %1$d 台裝置</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is available on 8 different platforms.</string>
+    <string name="upgrade_devices_text">Proton VPN 可用於 8 個不同的作業平台。</string>
     <string name="upgrade_plus_title">升級您的隱私</string>
     <string name="upgrade_plus_message">選用 VPN Plus 獲享進階的隱私功能與更快速度。</string>
     <string name="upgrade_netshield_title">享受無廣告的瀏覽體驗</string>
@@ -405,19 +405,19 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[選用 <b>VPN Plus</b> 解鎖 %1$s，分布於 %2$s。]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
+    <string name="upgrade_unlimited_all_apps_title">全部頂級版Proton服務。一個簡單的訂購授權。</string>
     <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
     <string name="upgrade_unlimited_more">以及更多</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">存取所有國家</string>
-    <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
+    <string name="upgrade_unlimited_vpn_all_features">所有其他 VPN Plus 功能</string>
     <string name="upgrade_unlimited_vpn_any_location">選擇任何位址</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">更高的 VPN 速度</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
         <item quantity="other">同時保護 %1$d 台裝置</item>
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">安全的串流</string>
     <string name="upgrade_unlimited_vpn_adblocker">廣告攔截器及惡意軟體防護</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">雙重 VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">P2P支援服務</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
         <item quantity="other">%1$d 個自訂電子郵件網域</item>
@@ -432,7 +432,7 @@
     <string name="upgrade_unlimited_mail_dark_web">暗網監測</string>
     <string name="upgrade_unlimited_mail_aliases">hide-my-email 別名無上限</string>
     <string name="upgrade_unlimited_mail_autoreply">自動回覆</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">排程送出</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
         <item quantity="other">%1$d 個個人行事曆</item>
     </plurals>
@@ -448,7 +448,7 @@
     <plurals name="upgrade_unlimited_pass_vaults">
         <item quantity="other">%1$d 個保管庫</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
+    <string name="upgrade_unlimited_pass_logins">無限制登入</string>
     <string name="upgrade_unlimited_pass_aliases">無限制的 hide-my-email別名</string>
     <string name="upgrade_unlimited_pass_credit_cards">Unlimited credit cards</string>
     <string name="upgrade_unlimited_pass_devices">無限裝置數</string>
@@ -493,7 +493,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">享用更快速度的瀏覽 (高達 %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">分隔通道</string>
     <string name="upsell_card_split_tunneling_description">可同時從兩個位置瀏覽</string>
     <string name="upsell_card_streaming_title">串流</string>
     <string name="upsell_card_streaming_description">觀看您喜愛的電影與電視節目</string>
@@ -589,13 +589,13 @@
     <string name="settings_change_icon_confirmation_title">要變更應用程式圖示嗎？</string>
     <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
-    <string name="settings_change_icon_header_discreet">Discreet app icon</string>
+    <string name="settings_change_icon_header_discreet">低調的應用程式圖示</string>
     <string name="settings_widget_title">元件</string>
     <string name="settings_widget_selection_title">Try the Proton VPN widget</string>
     <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
-    <string name="settings_widget_selection_button_title">Add widget</string>
+    <string name="settings_widget_selection_button_title">新增小工具</string>
     <string name="setting_widget_try_title">Try the Proton VPN widget</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -650,11 +650,11 @@
     <string name="not_wanted_country_title">不是您想要的國家？</string>
     <string name="not_wanted_country_description">升級以選擇任何伺服器。</string>
     <string name="whats_new_title">最新消息！</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_title">設定檔重新推出</string>
     <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
     <string name="whats_new_widget_title">Introducing widgets</string>
     <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_add_widget_button">新增小工具</string>
     <string name="welcome_plus_title">歡迎加入 VPN Plus</string>
     <string name="welcome_plus_description">享受額外的隱私功能，最好的性能以及前瞻性的虛擬私有網路自定義。</string>
     <string name="welcome_plus_feature_security">進階安全功能</string>
@@ -978,9 +978,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">分隔通道</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill switch</string>
+    <string name="settings_kill_switch_title">緊急終止開關</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">連接</string>
     <!-- tag(Redesign_2023) -->
@@ -998,11 +998,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">支援</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Support center</string>
+    <string name="settings_help_center_title">支援中心</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">回報問題</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Debug logs</string>
+    <string name="settings_debug_logs_title">偵錯日誌</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">使Proton進步</string>
     <!-- tag(Redesign_2023) -->
@@ -1050,7 +1050,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">讀取：%1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1079,8 +1079,8 @@
     <string name="accessibility_close">關閉</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">我的 IP</string>
-    <string name="connection_details_my_ipv4">My IPv4</string>
-    <string name="connection_details_my_ipv6">My IPv6</string>
+    <string name="connection_details_my_ipv4">我的 IPv4</string>
+    <string name="connection_details_my_ipv6">我的 IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
@@ -1132,7 +1132,7 @@
     <string name="connection_details_download">下載</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN 速度</string>
-    <string name="connection_details_section_ip">IP address</string>
+    <string name="connection_details_section_ip">IP 位址</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">甚麼是 VPN 速度?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1143,11 +1143,11 @@
     <string name="info_dialog_tor_description">連線到 Tor 伺服器，使用任何瀏覽器訪問隱藏服務和隱蔽網站。</string>
     <string name="info_dialog_button_learn_more_tor">如何使用 Tor 網路</string>
     <string name="info_dialog_button_learn_more_p2p">如何使用 P2P 下載種子</string>
-    <string name="info_dialog_button_learn_more_ipaddress">What is an IP address?</string>
+    <string name="info_dialog_button_learn_more_ipaddress">什麼是IP地址？</string>
     <string name="info_dialog_button_learn_more_streaming">需要影音串流幫助?</string>
     <string name="info_dialog_streaming_title">串流</string>
     <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_how_to_stream">如何影音串流：</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
     <!-- item 2 in the numbered list -->
@@ -1155,8 +1155,8 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
     <string name="info_dialog_profiles_title">配置</string>
-    <string name="info_dialog_ipaddress_title">IP address</string>
-    <string name="info_dialog_ipv6_traffic_title">IPv6 traffic</string>
+    <string name="info_dialog_ipaddress_title">IP 位址</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6 流量</string>
     <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
     <string name="info_dialog_ipv6_traffic_description">The Internet Protocol (IP) assigns addresses to devices and routes internet traffic. IPv6 is the latest version, offering more addresses and better connectivity, but it is not yet universally adopted.</string>
@@ -1266,7 +1266,7 @@
     <string name="create_profile_type_and_location_title">選擇連線類型與位置</string>
     <string name="create_profile_features_and_settings_title">功能與設定</string>
     <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
+    <string name="configure_profile_features_and_settings_description">當連線時，設定檔將會覆寫 VPN 的設定值。</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
@@ -1285,9 +1285,9 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">我的帳號</string>
     <string name="settings_account_button_delete_account">刪除帳號</string>
-    <string name="settings_custom_dns_title">Custom DNS</string>
+    <string name="settings_custom_dns_title">自訂 DNS</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
-    <string name="settings_add_dns_title">Add new DNS server</string>
+    <string name="settings_add_dns_title">新增新的 DNS 伺服器</string>
     <string name="settings_add_dns_new_entry_button">加入</string>
     <string name="settings_add_dns_description">Enter the server’s IPv4 or IPv6 address</string>
     <string name="settings_add_dns_invalid_input">Enter a valid IPv4 or IPv6 address</string>
@@ -1329,7 +1329,7 @@
     <string name="settings_protocol_openvpn_udp_description">穩定、經過完善測試且安全的。OpenVPN 消耗較多的電力。</string>
     <string name="settings_protocol_openvpn_tcp_description">穩定、經過完善測試且安全的。OpenVPN 在網路狀況不佳時依然可靠，但可能不如其他通訊協定快速。</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">克服虛擬私有網路封鎖，方法是隱藏您的虛擬私有網路連線避免審查。此協定可抵抗 DPI (深度封包檢測)，但速度可能不及其他協定。Stealth 是 Proton VPN 獨家提供的。</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">推薦使用</string>
     <string name="settings_split_tunneling_mode_title">模式</string>
@@ -1346,10 +1346,10 @@
     <string name="settings_split_tunneling_already_excluded">已經被排除</string>
     <string name="settings_split_tunneling_already_included">已經包含</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">要從清單中移除 IP 位址嗎？</string>
-    <string name="settings_theme_title">Theme</string>
-    <string name="settings_theme_value_auto">Device theme</string>
-    <string name="settings_theme_value_light">Light</string>
-    <string name="settings_theme_value_dark">Dark</string>
+    <string name="settings_theme_title">布景主題</string>
+    <string name="settings_theme_value_auto">裝置布景主題</string>
+    <string name="settings_theme_value_light">淺色</string>
+    <string name="settings_theme_value_dark">深色</string>
     <string name="settings_dialog_reconnect">新的設定將於下次連線時套用。</string>
     <string name="settings_needs_reconnect_banner">新的設定將於下次連線時套用。</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
@@ -1402,9 +1402,9 @@
     <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
     <string name="initial_profile_name_streaming_us">串流 - 美國</string>
     <string name="initial_profile_name_work_school">工作/學校</string>
-    <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
+    <string name="initial_profile_name_anti_censorship">反審查</string>
     <string name="initial_profile_name_gaming">遊戲</string>
-    <string name="initial_profile_name_max_security">Max security</string>
+    <string name="initial_profile_name_max_security">最高安全性</string>
     <string name="create_profile_pick_country_title">國家</string>
     <string name="create_profile_pick_type_title">類型</string>
     <string name="create_profile_type_standard">標準</string>
@@ -1441,7 +1441,7 @@
     <string name="profile_unavailable_dialog_message">您就 %1$s 選取的伺服器無法使用。請選擇另一個伺服器，又或者稍後再試。</string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
-    <string name="profile_icon_accessibility">Icon %1$d</string>
+    <string name="profile_icon_accessibility">圖示 %1$d</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">顏色 %1$d</string>
@@ -1457,7 +1457,7 @@
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_on">開</string>
     <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
-    <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
+    <string name="profile_auto_open_error_invalid_url">輸入有效的網址</string>
     <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
     <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
     <string name="nps_additional_comment_optional">選項</string>
@@ -1485,8 +1485,8 @@
     <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>
     <string name="info_dialog_ipv6_traffic_drawbacks1">May not work well with older networks or apps</string>
     <string name="info_dialog_ipv6_traffic_drawbacks2">Some networks handle IPv6 traffic unpredictably</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks_title">Drawbacks</string>
-    <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
-    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">缺點</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">優點</string>
+    <string name="settings_lan_allow_direct_connection_title">允許直接裝置連線</string>
     <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
 </resources>
