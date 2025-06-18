@@ -46,7 +46,6 @@ class VpnApiClient @Inject constructor(
     override val appVersionHeader get() =
         "${clientId}@" + versionName() + BuildConfig.STORE_SUFFIX
     override val enableDebugLogging = BuildConfig.DEBUG || BuildConfig.ALLOW_LOGCAT
-    override val shouldUseDoh get() = dohEnabled()
 
     override val userAgent: String =
         String.format(Locale.US, "ProtonVPN/%s (Android %s; %s %s)",
@@ -63,6 +62,8 @@ class VpnApiClient @Inject constructor(
     override val dohRecordType get() = ApiClient.DohRecordType.A
     override val useAltRoutingCertVerificationForMainRoute get() =
         BuildConfigUtils.useAltRoutingCertVerificationForMainRoute()
+
+    override suspend fun shouldUseDoh() = dohEnabled()
 
     override fun forceUpdate(errorMessage: String) {
         scope.launch {
