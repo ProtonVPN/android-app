@@ -19,7 +19,6 @@
 
 package com.protonvpn.app.ui.drawer.bugreport
 
-import com.protonvpn.android.api.DohEnabled
 import com.protonvpn.android.auth.AuthFlowStartHelper
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
@@ -52,8 +51,6 @@ class ReportBugActivityViewModelTests {
     @get:Rule
     val roboRule = RobolectricHiltAndroidRule(this)
 
-    @Inject
-    lateinit var dohEnabledProvider: DohEnabled.Provider // Provider is needed to unblock DohEnabled.
     @Inject
     lateinit var testScope: TestScope
     @Inject

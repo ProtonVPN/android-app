@@ -147,10 +147,7 @@ class ApplyEffectiveUserSettings(
 
     override suspend fun getFlags(): SettingsFeatureFlagsFlow.Flags = cachedFlags.first()
 
-    override fun getFlagsFlow(): Flow<SettingsFeatureFlagsFlow.Flags> =
-        // Can't use cachedFlags because of runBlocking in DohEnabled.
-        // TODO(VPNAND-2241): switch to cachedFlags.
-        flags
+    override fun getFlagsFlow(): Flow<SettingsFeatureFlagsFlow.Flags> = cachedFlags
 }
 
 @Deprecated("Use ApplyEffectiveUserSettings, this object is for synchronous access in legacy code")

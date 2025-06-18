@@ -23,7 +23,6 @@ import com.protonvpn.android.api.DohEnabled
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.test.shared.TestDispatcherProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -63,7 +62,6 @@ class DohEnabledTests {
         dohEnabled = DohEnabled()
         dohProvider = DohEnabled.Provider(
             testScope.backgroundScope,
-            TestDispatcherProvider(testDispatcher),
             dohEnabled,
             userSettingsFlow,
             vpnStateMonitor

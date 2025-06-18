@@ -20,7 +20,6 @@
 package com.protonvpn.app.redesign.settings.ui
 
 import app.cash.turbine.turbineScope
-import com.protonvpn.android.api.DohEnabled
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.Distinct
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsViewModel
@@ -61,9 +60,6 @@ class CustomDnsViewModelTests {
 
     @Inject
     lateinit var currentUserProvider: TestCurrentUserProvider
-
-    @Inject
-    lateinit var dohEnabledProvider: DohEnabled.Provider // Provider is needed to unblock DohEnabled.
 
     @Inject
     lateinit var effectiveCurrentUserSettings: EffectiveCurrentUserSettings

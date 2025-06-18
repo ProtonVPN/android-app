@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.api
 
-import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.vpn.VpnState
@@ -30,9 +29,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -44,8 +41,7 @@ class DohEnabled @Inject constructor() {
 
     private val isEnabled = MutableStateFlow<Boolean?>(null)
 
-    // TODO(VPNAND-2241): simplify this code.
-    operator fun invoke(): Boolean = isEnabled.value ?: runBlocking { isEnabled.filterNotNull().first() }
+    operator suspend fun invoke(): Boolean = isEnabled.filterNotNull().first()
 
     private fun set(isEnabled: Boolean) {
         this.isEnabled.value = isEnabled
@@ -59,7 +55,6 @@ class DohEnabled @Inject constructor() {
     @Suppress("UseDataClass")
     class Provider(
         mainScope: CoroutineScope,
-        dispatcherProvider: VpnDispatcherProvider,
         private val dohEnabled: DohEnabled,
         effectiveCurrentUserSettingsFlow: Flow<LocalUserSettings>,
         vpnStateMonitor: VpnStateMonitor
@@ -72,20 +67,17 @@ class DohEnabled @Inject constructor() {
             ) { vpnStatus, settings ->
                 dohEnabled.set(settings.apiUseDoh && vpnStatus.state !in NO_DOH_STATES)
             }
-                .flowOn(dispatcherProvider.Io) // Don't block the main thread.
                 .launchIn(mainScope)
         }
 
         @Inject
         constructor(
             mainScope: CoroutineScope,
-            dispatcherProvider: VpnDispatcherProvider,
             dohEnabled: DohEnabled,
             effectiveCurrentUserSettingsFlow: EffectiveCurrentUserSettingsFlow,
             vpnStateMonitor: VpnStateMonitor
         ) : this(
             mainScope,
-            dispatcherProvider,
             dohEnabled,
             effectiveCurrentUserSettingsFlow as Flow<LocalUserSettings>,
             vpnStateMonitor
