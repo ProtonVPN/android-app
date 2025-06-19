@@ -1,0 +1,2 @@
+What's new
+Introducing light theme support. You can now enjoy a clean, bright interface with our new light theme option.
