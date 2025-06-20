@@ -1104,11 +1104,11 @@
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
-    <string name="vpn_status_connected">Protejat</string>
+    <string name="vpn_status_connected">Conexiune protejată</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is not connected and network is not protected
     -->
-    <string name="vpn_status_disabled">Nu există protecție</string>
+    <string name="vpn_status_disabled">Conexiune neprotejată</string>
     <!-- tag(Redesign_2023)
          Text is shown while connection is being established
     -->
@@ -1542,7 +1542,7 @@
     <string name="widget_preview_spain">Spania</string>
     <string name="widget_preview_germany">Germania</string>
     <string name="widget_preview_france">Franța</string>
-    <string name="widget_status_unprotected">Neprotejat</string>
+    <string name="widget_status_unprotected">Conexiune neprotejată</string>
     <string name="widget_status_error">Eroare</string>
     <string name="widget_status_connecting">Se conectează</string>
     <string name="widget_sign_in">Conectare</string>
