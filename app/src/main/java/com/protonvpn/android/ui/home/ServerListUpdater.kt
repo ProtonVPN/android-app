@@ -389,10 +389,9 @@ class ServerListUpdater @Inject constructor(
 
 @VisibleForTesting
 fun List<Server>.updateTier(update: List<Server>, tier: Int, retainIDs: Set<String>) : List<Server> {
-    DebugUtils.debugAssert { update.all { it.tier == tier }}
     val updateIDs = update.mapTo(mutableSetOf()) { it.serverId }
     return update + filter {
-        // keep servers with different tier or servers to be retained that are not in the update
-        it.tier != tier || (it.serverId in retainIDs && it.serverId !in updateIDs)
+        // keep servers that are not in the update if they are from different tier or in the retainIDs
+        it.serverId !in updateIDs && (it.tier != tier || it.serverId in retainIDs)
     }
 }

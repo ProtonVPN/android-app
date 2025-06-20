@@ -43,6 +43,7 @@ import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createServer
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -349,6 +350,29 @@ class ServerListUpdaterTests {
         // Updating tier 0 with empty list removes all tier 0 servers
         assertEquals(FULL_LIST.filter { it.tier != 0 }, FULL_LIST.updateTier(emptyList(), 0, emptySet()))
         assertTrue(FULL_LIST.updateTier(FREE_LIST_MODIFIED, 0, emptySet()).isModifiedList())
+    }
+
+    @Test
+    fun updateTierWithIncludeID() {
+        val initialList = listOf(
+            createServer(serverId = "1", tier = 0, serverName = "1"),
+            createServer(serverId = "2", tier = 0), // not included in update -> out
+            createServer(serverId = "3", tier = 1), // tier=1 should stay
+            createServer(serverId = "4", tier = 0), // Retained because of retainIDs
+        )
+        val update = listOf(
+            createServer(serverId = "1", tier = 0, serverName = "1-modified"),
+            createServer(serverId = "5", tier = 1), // tier=1 in update because of includeIDs
+        )
+        assertEquals(
+            setOf(
+                createServer(serverId = "1", tier = 0, serverName = "1-modified"),
+                createServer(serverId = "3", tier = 1),
+                createServer(serverId = "4", tier = 0),
+                createServer(serverId = "5", tier = 1)
+            ),
+            initialList.updateTier(update, tier = 0, retainIDs = setOf("4")).toSet()
+        )
     }
 
     private fun List<Server>.isModifiedList() =
