@@ -95,10 +95,11 @@ class SettingsForConnection(
             profileFlow,
             rawSettingsFlow,
         ) { profile, rawSettings ->
+            val effectiveConnectIntent = profile?.connectIntent ?: connectIntent
             CurrentConnectionSettings(
                 associatedProfile = profile,
                 connectionSettings = applyEffectiveUserSettings(
-                    rawSettings.applyOverrides(connectIntent?.settingsOverrides)
+                    rawSettings.applyOverrides(effectiveConnectIntent?.settingsOverrides)
                 )
             )
         }

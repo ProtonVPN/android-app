@@ -26,7 +26,6 @@ import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.promooffers.HomeScreenPromoBannerFlow
-import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.DnsOverrideFlow
@@ -39,7 +38,6 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import java.util.Locale
 import javax.inject.Inject
 
