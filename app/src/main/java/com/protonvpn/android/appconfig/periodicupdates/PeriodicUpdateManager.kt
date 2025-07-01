@@ -239,7 +239,7 @@ class PeriodicUpdateManager @Inject constructor(
      * @see registerAction
      * @see registerApiCall
      */
-    fun <T, R : Any> registerUpdateAction(action: UpdateAction<T, R>, vararg updateSpec: PeriodicUpdateSpec) {
+    fun <T, R> registerUpdateAction(action: UpdateAction<T, R>, vararg updateSpec: PeriodicUpdateSpec) {
         updateActions[action.id] = Action(updateSpec.asList(), action)
         onActionsChanged()
     }
@@ -261,7 +261,7 @@ class PeriodicUpdateManager @Inject constructor(
      *
      * @return API result with the response or error.
      */
-    suspend fun <T, R : Any> executeNow(action: UpdateAction<T, R>): R =
+    suspend fun <T, R> executeNow(action: UpdateAction<T, R>): R =
         executeNow(action, action.defaultInput())
 
     /**
@@ -275,7 +275,7 @@ class PeriodicUpdateManager @Inject constructor(
      *
      *     val result: BarResult = periodicUpdateManager.executeNow(updateBarAction, "custom ID")
      */
-    suspend fun <T, R : Any> executeNow(action: UpdateAction<T, R>, input: T): R =
+    suspend fun <T, R> executeNow(action: UpdateAction<T, R>, input: T): R =
         // Explicitly execute on main thread. It's a workaround for LoginTestRule that executes login on a test thread.
         withContext(dispatcherProvider.Main) {
             // If this action is executing wait for it to finish.
@@ -340,7 +340,7 @@ class PeriodicUpdateManager @Inject constructor(
                 action.firstMatchingPeriodicTrigger(currentConditions)?.nextTimestamp(lastCall)
             }.minOrNull()
 
-    private suspend fun <R : Any> executeAction(action: UpdateAction<*, R>): PeriodicActionResult<out R> {
+    private suspend fun <R> executeAction(action: UpdateAction<*, R>): PeriodicActionResult<out R> {
         tasksInProgressFlow.value += action.id
         try {
             ProtonLogger.logCustom(LogCategory.APP_PERIODIC, "executing action ${action.id}")
@@ -352,7 +352,7 @@ class PeriodicUpdateManager @Inject constructor(
         }
     }
 
-    private suspend fun <T, R : Any> executeAction(action: UpdateAction<T, R>, input: T): PeriodicActionResult<out R> {
+    private suspend fun <T, R> executeAction(action: UpdateAction<T, R>, input: T): PeriodicActionResult<out R> {
         tasksInProgressFlow.value += action.id
         try {
             ProtonLogger.logCustom(LogCategory.APP_PERIODIC, "executing action ${action.id}")

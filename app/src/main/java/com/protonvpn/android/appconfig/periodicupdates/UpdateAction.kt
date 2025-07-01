@@ -28,7 +28,7 @@ typealias UpdateActionId = String
  *
  * See PeriodicActionResult and examples on PeriodicUpdateManager.
  */
-abstract class UpdateAction<T, R : Any> protected constructor(
+abstract class UpdateAction<T, R : Any?> protected constructor(
     val id: UpdateActionId,
     val defaultInput: suspend () -> T
 ) {
@@ -37,7 +37,7 @@ abstract class UpdateAction<T, R : Any> protected constructor(
 
     companion object {
         // Create UpdateAction with no input parameters.
-        operator fun <R : Any> invoke(
+        operator fun <R : Any?> invoke(
             id: UpdateActionId,
             action: suspend () -> PeriodicActionResult<out R>
         ): UpdateAction<Unit, R> = object : UpdateAction<Unit, R>(id, {}) {
@@ -46,7 +46,7 @@ abstract class UpdateAction<T, R : Any> protected constructor(
         }
 
         // Create UpdateAction with one input parameter.
-        operator fun <T, R : Any> invoke(
+        operator fun <T, R : Any?> invoke(
             id: UpdateActionId,
             action: suspend (T) -> PeriodicActionResult<out R>,
             defaultInput: suspend () -> T
