@@ -29,6 +29,8 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.models.vpn.data.LogicalsMetadata
+import com.protonvpn.android.servers.FakeIsBinaryServerStatusFeatureFlagEnabled
+import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
@@ -122,6 +124,7 @@ class ServerListUpdaterTests {
     private lateinit var testScope: TestScope
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var mustHaveIDs: Set<String>
+    private lateinit var binaryStatusFfEnabled: MutableStateFlow<Boolean>
     private lateinit var truncationEnabled: MutableStateFlow<Boolean>
     private var applyTruncation: Boolean = true
     private lateinit var runWhileGettingServerList: () -> Unit
@@ -186,9 +189,15 @@ class ServerListUpdaterTests {
         every { mockTelephonyManager.networkCountryIso } returns "ch"
 
         mustHaveIDs = emptySet()
+        binaryStatusFfEnabled = MutableStateFlow(true)
         truncationEnabled = MutableStateFlow(true)
         applyTruncation = true
         val getNetZone = GetNetZone(serverListUpdaterPrefs)
+        val serverListTruncationFF = FakeServerListTruncationEnabled(truncationEnabled)
+        val binaryServerStatusEnabled = IsBinaryServerStatusEnabled(
+            isBinaryServerStatusFeatureFlagEnabled = FakeIsBinaryServerStatusFeatureFlagEnabled(binaryStatusFfEnabled),
+            isServerListTruncationFeatureFlagEnabled = serverListTruncationFF
+        )
         serverListUpdater = ServerListUpdater(
             testScope.backgroundScope,
             mockApi,
@@ -204,7 +213,8 @@ class ServerListUpdaterTests {
             emptyFlow(),
             remoteConfig,
             testScope::currentTime,
-            FakeServerListTruncationEnabled(truncationEnabled),
+            binaryServerStatusEnabled,
+            serverListTruncationFF,
             GetTruncationMustHaveIDs { _, _ -> mustHaveIDs }
         )
     }
@@ -257,6 +267,7 @@ class ServerListUpdaterTests {
 
     @Test
     fun `free user gets light list refresh`() = testScope.runTest {
+        binaryStatusFfEnabled.value = false
         // First update is full
         assertFalse(serverListUpdater.freeOnlyUpdateNeeded())
         serverListUpdater.updateServers()
@@ -279,6 +290,29 @@ class ServerListUpdaterTests {
             mockServerManager.setServers(withArg { assertTrue(it.isModifiedList()) }, any())
 
             mockApi.getServerList(any(), any(), any(), freeOnly = false, any(), any(), any())
+        }
+    }
+
+    @Test
+    fun `free user light list refresh disabled when binary status enabled`() = testScope.runTest {
+        binaryStatusFfEnabled.value = true
+        truncationEnabled.value = true
+
+        // First update is full
+        assertFalse(serverListUpdater.freeOnlyUpdateNeeded())
+        serverListUpdater.updateServers()
+
+        // Not enough time passed for full refresh
+        advanceTimeBy(1)
+        // Second update is also full
+        assertFalse(serverListUpdater.freeOnlyUpdateNeeded())
+        serverListUpdater.updateServers()
+
+        coVerifyOrder {
+            repeat(2) {
+                mockApi.getServerList(any(), any(), any(), freeOnly = false, any(), any(), any())
+                mockServerManager.setServers(withArg { assertEquals(FULL_LIST, it) }, any())
+            }
         }
     }
 

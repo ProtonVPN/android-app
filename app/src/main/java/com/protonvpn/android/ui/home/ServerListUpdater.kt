@@ -43,6 +43,7 @@ import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.ServersCountResponse
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
+import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
@@ -108,6 +109,7 @@ class ServerListUpdater @Inject constructor(
     @IsInForeground private val inForeground: Flow<Boolean>,
     private val remoteConfig: ServerListUpdaterRemoteConfig,
     @WallClock private val wallClock: () -> Long,
+    private val binaryServerStatusEnabled: IsBinaryServerStatusEnabled,
     private val truncationFeatureFlagEnabled: ServerListTruncationEnabled,
     private val getTruncationMustHaveIDs: GetTruncationMustHaveIDs,
 ) {
@@ -137,8 +139,11 @@ class ServerListUpdater @Inject constructor(
 
     @VisibleForTesting
     suspend fun freeOnlyUpdateNeeded() =
-        currentUser.vpnUser()?.isFreeUser == true &&
+        freeOnlyUpdateAllowed() &&
         wallClock() - prefs.lastFullUpdateTimestamp < FULL_SERVER_LIST_CALL_DELAY
+
+    private suspend fun freeOnlyUpdateAllowed() =
+        !binaryServerStatusEnabled() && currentUser.vpnUser()?.isFreeUser == true
 
     suspend fun needsUpdate() = serverManager.needsUpdate() ||
         wallClock() - serverManager.lastUpdateTimestamp >= 4 * remoteConfig.value.foregroundDelayMs
@@ -204,7 +209,7 @@ class ServerListUpdater @Inject constructor(
     }
 
     private suspend fun updateLoads(): ApiResult<LoadsResponse> {
-        val result = api.getLoads(getNetZone(), currentUser.vpnUser()?.isFreeUser == true)
+        val result = api.getLoads(getNetZone(), freeOnlyUpdateAllowed())
         if (result is ApiResult.Success) {
             serverManager.ensureLoaded()
             serverManager.updateLoads(result.value.loadsList)

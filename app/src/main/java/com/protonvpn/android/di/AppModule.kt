@@ -64,6 +64,8 @@ import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapte
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapterLegacy
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapterLegacy
+import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabled
+import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabledImpl
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.DefaultCommonDimensions
 import com.protonvpn.android.telemetry.DefaultTelemetryReporter
@@ -397,6 +399,11 @@ object AppModule {
         @Singleton
         @Binds
         fun bindImagePrefetcher(glide: GlideImagePrefetcher): ImagePrefetcher
+
+        @Binds
+        fun bindIsBinaryServerStatusFeatureFlagEnabled(
+            impl: IsBinaryServerStatusFeatureFlagEnabledImpl
+        ): IsBinaryServerStatusFeatureFlagEnabled
 
         @Binds
         fun bindIsDirectLanConnectionsFeatureFlagEnabled(
