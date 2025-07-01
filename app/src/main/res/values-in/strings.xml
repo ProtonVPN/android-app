@@ -482,7 +482,7 @@
     <string name="upsell_card_netshield_title">NetShield</string>
     <string name="upsell_card_netshield_description">Blokir iklan, malware, dan pelacak</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
-    <string name="upsell_card_secure_core_description">Tambahkan lapisan enkripsi tambahan ke koneksi VPN Anda</string>
+    <string name="upsell_card_secure_core_description">Terapkan lapisan enkripsi tambahan ke koneksi VPN Anda</string>
     <string name="upsell_card_p2p_title">Dukungan P2P</string>
     <string name="upsell_card_p2p_description">Unduh berkas melalui BitTorrent dan protokol berbagi berkas lainnya</string>
     <string name="upsell_card_profiles_title">Profil</string>
@@ -1374,7 +1374,7 @@
     <string name="info_p2p_why_description_hide">Sembunyikan alamat IP Anda dari penyedia layanan internet dan komputer lain pada jaringan Anda</string>
     <string name="info_dialog_smart_routing_description">Smart Routing menggunakan server virtual untuk menyediakan VPN di negara dengan pembatasan internet yang ketat.\n\nPada saat Anda terhubung ke server dengan Smart Routing, Anda akan terlihat seolah-olah Anda sedang menjelajah dari negara tujuan Anda, meskipun server yang melayani Anda secara fisik berada di tempat lain.  \n\nSmart Routing pada umumnya digunakan untuk menghindari undang-undang anti-privasi dan bentuk sensor lainnya.</string>
     <string name="countries_upsell_banner_description">Dapatkan cakupan server di seluruh dunia dengan VPN Plus</string>
-    <string name="secure_core_upsell_banner_description">Tambahkan lapisan enkripsi tambahan ke koneksi VPN Anda</string>
+    <string name="secure_core_upsell_banner_description">Terapkan lapisan enkripsi tambahan ke koneksi VPN Anda</string>
     <string name="p2p_upsell_banner_description">Unduh berkas melalui BitTorrent dan protokol berbagi berkas lainnya</string>
     <string name="tor_upsell_banner_description">Gunakan jaringan Tor melalui koneksi VPN Anda untuk privasi tambahan</string>
     <string name="vpnplus_upsell_banner_description">Tingkatkan ke VPN Plus</string>

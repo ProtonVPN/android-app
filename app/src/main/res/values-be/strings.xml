@@ -259,7 +259,7 @@
     <string name="netshield_setting_warning">Некаторыя вэб-сайты могуць некарэктна загружацца, калі рэклама і праграмы сачэння заблакіраваны.</string>
     <string name="dialogDontShowAgain">Больш не паказваць</string>
     <string name="guestHoleNotificationContent">Паспрабаваць абысці праблемы з сеткай. Гэта дапаможа вам атрымаць доступ да Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">Немагчыма ініцыялізаваць падключэнне праз VPN з-за канфлікту паміж праграмай для падвойнага ўліковага запісу (напрыклад, Dual Messenger) і Split Tunneling. Адключыце адну з іх і перазапусціце прыладу.</string>
+    <string name="errorTunMultiUserPermission">Немагчыма ініцыялізаваць падключэнне па VPN. Прычынай можа быць канфлікт паміж праграмай для падвойнага ўліковага запісу (напрыклад, Dual Messenger) і Split Tunneling. Адключыце адну з іх і перазапусціце прыладу.</string>
     <string name="errorTorrentNotAllowed">Трафік P2P забаронены на гэтым серверы</string>
     <string name="error_profile_fallback_unavailable">Збой падключэння. Выбар сервера для профілю недаступны.</string>
     <string name="profileProtocolNotAvailable">Гэты профіль пратакола VPN у цяперашні момант недаступны. Для падключэння, паспрабуйце змяніць пратакол.</string>

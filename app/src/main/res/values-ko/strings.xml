@@ -275,14 +275,14 @@
     <string name="tv_detail_description_no_streaming_country">Proton VPN Plus 플랜으로 좋아하는 스트리밍 콘텐츠를 더 즐겨보세요.</string>
     <string name="tv_detail_description_country_not_available">이 국가는 이용할 수 없습니다. Proton VPN Plus 플랜으로 더 많은 스트리밍 옵션을 이용해보세요.</string>
     <string name="tv_detail_description_plus">내 앱으로 좋아하는 비디오, 영화, 스포츠를 스트리밍 해보세요.</string>
-    <string name="tv_login_title_signin">Proton VPN 로그인</string>
+    <string name="tv_login_title_signin">Proton VPN으로 로그인합니다.</string>
     <string name="tv_login_title_welcome">좋아하는 비디오 컨텐츠를 스트리밍 해보세요</string>
     <string name="tv_login_welcome_description">Youtube, Twitch 등 50여 개국의 동영상 콘텐츠를 감상할 수 있습니다. Proton VPN Plus로 Netflix, Amazon Prime, Hulu를 스트리밍하세요.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[<b>%1$s</b>에서 Proton VPN 계정을 가입하세요]]></string>
     <string name="tv_login_welcome_button">로그인</string>
     <string name="tv_login_step1_description"><![CDATA[모바일 장치 또는 컴퓨터에서<b>%1$s</b>로 이동합니다.]]></string>
-    <string name="tv_login_step2_description">Proton VPN 로그인</string>
-    <string name="tv_login_step3_description">코드 입력하기:</string>
+    <string name="tv_login_step2_description">Proton VPN으로 로그인합니다.</string>
+    <string name="tv_login_step3_description">코드를 입력합니다:</string>
     <string name="tv_login_timer_label">이 코드는 다음에 만료됩니다:</string>
     <string name="tv_login_refresh">새로고침</string>
     <string name="tv_login_title_loading">로딩 중...</string>
