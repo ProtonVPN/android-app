@@ -41,13 +41,6 @@ sealed class ServerGroup {
         serverList.any { vpnUser.hasAccessToServer(it) && it.online }
 
     fun isUnderMaintenance(): Boolean = !serverList.any { it.online }
-
-    fun hasConnectedServer(server: Server?): Boolean {
-        if (server == null) {
-            return false
-        }
-        return serverList.any { it.domain == server.domain }
-    }
 }
 
 class GatewayGroup(

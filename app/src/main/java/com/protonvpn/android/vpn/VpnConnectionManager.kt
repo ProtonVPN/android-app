@@ -421,7 +421,7 @@ class VpnConnectionManager @Inject constructor(
                 getFallbackSmartProtocol(server) else protocol
             ProtonLogger.logCustom(
                 LogCategory.CONN_CONNECT,
-                "No response for ${server.domain}, using fallback $protocol"
+                "No response for ${server.serverName}, using fallback $protocol"
             )
 
             // If port scanning fails (because e.g. some temporary network situation) just connect without pinging

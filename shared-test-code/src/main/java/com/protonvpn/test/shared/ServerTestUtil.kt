@@ -66,7 +66,6 @@ fun createServer(
         rawGatewayName = gatewayName,
         connectingDomains = connectingDomains,
         hostCountry = hostCountry,
-        domain = "dummy.protonvpn.net",
         load = loadPercent,
         tier = tier,
         state = state,

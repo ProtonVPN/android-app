@@ -41,11 +41,10 @@ data class Server(
     @SerialName(value = "Name") val serverName: String,
     @SerialName(value = "Servers") val connectingDomains: List<ConnectingDomain>,
     @SerialName(value = "HostCountry") val hostCountry: String? = null,
-    @SerialName(value = "Domain") val domain: String,
     @SerialName(value = "Load") val load: Float,
     @SerialName(value = "Tier") val tier: Int,
     @SerialName(value = "State") val state: String? = null,
-    @SerialName(value = "City") val city: String?,
+    @SerialName(value = "City") val city: String? = null,
     @SerialName(value = "Features") val features: Int,
     @SerialName(value = "Location") private val location: Location,
     @SerialName(value = "Translations") private val translations: Map<String, String?>? = null,
@@ -116,7 +115,7 @@ data class Server(
     val gatewayName: String? get() =
         rawGatewayName ?: if (isGatewayServer) serverName.substringBefore("#") else null
 
-    override fun toString() = "$domain $entryCountry"
+    override fun toString() = "$serverName $entryCountry"
 
     @Suppress("DeprecatedCallableAddReplaceWith")
     @Deprecated("Use displayName for UI.")

@@ -55,23 +55,17 @@ private val connectingDomainDedicatedTcp = ConnectingDomain(
 private val connectingDomainNoDedicatedEntry =
     ConnectingDomain("", null, "", id = "", publicKeyX25519 = "key")
 private val testServer = Server(
-    "id", "DE", "DE", "DE#1", listOf(
-    connectingDomainTlsOnly,
-    connectingDomainDedicatedTcp,
-), domain = "de1.protonvpn.ch", load = 1f, tier = 3, city = "", features = 0,
+    "id", "DE", "DE", "DE#1",
+    listOf(connectingDomainTlsOnly, connectingDomainDedicatedTcp), load = 1f, tier = 3, city = "", features = 0,
     location = Location("", ""), score = 1.0, isOnline = true
 )
 private val tlsOnlyServer = Server(
-    "id", "DE", "DE", "DE#1", listOf(
-    connectingDomainTlsOnly,
-), domain = "de1.protonvpn.ch", load = 1f, tier = 3, city = "", features = 0,
-    location = Location("", ""), score = 1.0, isOnline = true
+    "id", "DE", "DE", "DE#1", listOf(connectingDomainTlsOnly),
+    load = 1f, tier = 3, city = "", features = 0, location = Location("", ""), score = 1.0, isOnline = true
 )
 private val testServerNoDedicatedEntry = Server(
-    "id", "DE", "DE", "DE#3", listOf(
-    connectingDomainNoDedicatedEntry,
-), domain = "de3.protonvpn.ch", load = 1f, tier = 3, city = "", features = 0,
-    location = Location("", ""), score = 1.0, isOnline = true
+    "id", "DE", "DE", "DE#3", listOf(connectingDomainNoDedicatedEntry),
+    load = 1f, tier = 3, city = "", features = 0, location = Location("", ""), score = 1.0, isOnline = true
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)
