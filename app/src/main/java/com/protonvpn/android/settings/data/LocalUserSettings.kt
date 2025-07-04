@@ -92,7 +92,7 @@ data class LocalUserSettings(
     val apiUseDoh: Boolean = true,
     @Serializable(with = UUIDSerializer::class)
     val defaultProfileId: UUID? = null,
-    val lanConnections: Boolean = false,
+    val lanConnections: Boolean = true, // enable for all by default, but effective settings will enable for free users
     val lanConnectionsAllowDirect: Boolean = false,
     val mtuSize: Int = 1375,
     val netShield: NetShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,

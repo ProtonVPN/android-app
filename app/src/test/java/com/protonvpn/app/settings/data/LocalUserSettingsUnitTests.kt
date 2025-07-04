@@ -48,7 +48,7 @@ class LocalUserSettingsUnitTests {
                 "version": 1,
                 "apiUseDoh": true,
                 "defaultProfileId": null,
-                "lanConnections": false,
+                "lanConnections": true,
                 "lanConnectionsAllowDirect": false,
                 "mtuSize": 1375,
                 "netShield": "ENABLED_EXTENDED",
