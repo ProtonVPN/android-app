@@ -324,7 +324,7 @@ class VpnConnectionManager @Inject constructor(
             clearOngoingConnection(clearFallback = false)
             disconnectBlocking(DisconnectTrigger.Error("max sessions reached"))
         } else {
-            ProtonLogger.logCustom(LogCategory.CONN_DISCONNECT, "disconnecting unrecoverably: ${errorType.name}")
+            ProtonLogger.logCustom(LogCategory.CONN, "non-actionable error: ${errorType.name}")
         }
     }
 
