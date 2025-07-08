@@ -1163,8 +1163,8 @@
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
     <string name="info_dialog_secure_core_description">O Secure Core conecta-o ao seu servidor de destino através de um segundo servidor VPN de segurança máxima. \n\nEste nível mais alto de proteção pode causar maior latência e velocidades mais baixas.</string>
-    <string name="info_secure_core_standard_header">Ligação VPN padrão</string>
-    <string name="info_secure_core_secure_header">Conexão VPN Secure Core</string>
+    <string name="info_secure_core_standard_header">Ligação VPN padrão</string>
+    <string name="info_secure_core_secure_header">Conexão VPN Secure Core</string>
     <string name="info_dialog_tor_description">Conecte-se a um servidor Tor para aceder aos serviços ocultos e sítios web onion ao utilizar qualquer navegador.</string>
     <string name="info_dialog_button_learn_more_tor">Como aceder à rede Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Como fazer torrent com P2P?</string>
@@ -1468,7 +1468,7 @@
     <string name="profiles_zero_state_description">Os perfis são conexões guardadas com a sua escolha de localização, servidor e protocolo.</string>
     <string name="profiles_button_create_profile">Criar um perfil</string>
     <string name="profile_deleted_snackbar_message">O perfil foi eliminado.</string>
-    <string name="profile_connected_edit_setting">Esta definição está ligada ao seu perfil ativo. \n\nEdite o seu perfil para fazer alterações ou desconecte-se para editar as suas definições gerais de VPN.</string>
+    <string name="profile_connected_edit_setting">Esta definição está ligada ao seu perfil ativo. \n\nEdite o seu perfil para fazer alterações ou desconecte-se para editar as suas definições gerais de VPN.</string>
     <string name="profile_connected_dialog_title">Gerir %1$s nos perfis</string>
     <string name="undo">Anular</string>
     <string name="profile_unavailable_dialog_title">O perfil não é disponível.</string>
