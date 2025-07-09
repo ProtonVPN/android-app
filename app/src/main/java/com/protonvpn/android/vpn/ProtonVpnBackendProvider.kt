@@ -22,7 +22,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.logging.ConnConnectScanResult
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.toLog

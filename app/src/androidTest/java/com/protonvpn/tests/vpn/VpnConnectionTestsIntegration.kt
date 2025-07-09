@@ -41,7 +41,7 @@ import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.profiles.data.profileSettingsOverrides

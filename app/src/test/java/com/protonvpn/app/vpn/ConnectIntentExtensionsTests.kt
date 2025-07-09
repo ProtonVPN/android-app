@@ -21,7 +21,7 @@ package com.protonvpn.app.vpn
 
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature

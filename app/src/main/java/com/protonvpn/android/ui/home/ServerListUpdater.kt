@@ -38,12 +38,13 @@ import com.protonvpn.android.logging.ApiLogResponse
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.LoadsResponse
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.ServersCountResponse
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
+import com.protonvpn.android.servers.Server
+import com.protonvpn.android.servers.toServers
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
@@ -351,10 +352,12 @@ class ServerListUpdater @Inject constructor(
                 } else {
                     emptySet()
                 }
-                val newList = if (serverListResult.freeOnly)
-                    serverManager.allServers.updateTier(result.serverList, VpnUser.FREE_TIER, retainIDs)
-                else
-                    result.serverList
+                val newServers = result.serverList.toServers()
+                val newList = if (serverListResult.freeOnly) {
+                    serverManager.allServers.updateTier(newServers, VpnUser.FREE_TIER, retainIDs)
+                } else {
+                    newServers
+                }
 
                 DebugUtils.debugAssert("Country with no continent") {
                     val countriesWithNoContinent = newList

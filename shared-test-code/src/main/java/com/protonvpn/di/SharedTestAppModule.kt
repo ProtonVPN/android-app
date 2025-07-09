@@ -36,7 +36,7 @@ import com.protonvpn.android.di.AppDatabaseModule
 import com.protonvpn.android.di.AppModuleProd
 import com.protonvpn.android.di.CoreBaseNetworkModule
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.vpn.ServersStore
+import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection

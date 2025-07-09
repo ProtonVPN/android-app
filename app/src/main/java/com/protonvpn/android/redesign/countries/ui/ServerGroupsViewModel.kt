@@ -30,7 +30,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.InfoType

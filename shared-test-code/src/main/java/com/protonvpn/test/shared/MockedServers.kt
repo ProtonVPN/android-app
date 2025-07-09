@@ -23,18 +23,23 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.LogicalServer
+import com.protonvpn.android.servers.Server
+import com.protonvpn.android.servers.toServer
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.serialization.json.Json
 
 object MockedServers {
 
     @Suppress("JSON_FORMAT_REDUNDANT")
-    val serverList by lazy<List<Server>> {
+    val logicalsList by lazy<List<LogicalServer>> {
         Json {
             isLenient = true
             ignoreUnknownKeys = true
         }.decodeFromString(serverListJson)
+    }
+    val serverList: List<Server> by lazy {
+        logicalsList.map { it.toServer() }
     }
 
     val server by lazy { serverList.first() }

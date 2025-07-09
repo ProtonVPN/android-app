@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Proton AG
+ * Copyright (c) 2025. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,9 +17,10 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.models.vpn
+package com.protonvpn.android.servers
 
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
+import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.BytesFileWriter
 import com.protonvpn.android.utils.FileObjectStore
 import com.protonvpn.android.utils.KotlinCborObjectSerializer

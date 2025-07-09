@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.redesign.vpn
 
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CountryId
 
 fun Server?.isCompatibleWith(intent: ConnectIntent, matchFastest: Boolean): Boolean {

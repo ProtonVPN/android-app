@@ -34,7 +34,7 @@ import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.ServerEntryInfo
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
@@ -45,6 +45,7 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.toServers
 import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -586,23 +587,25 @@ class VpnConnectionErrorHandlerTests {
 
     @Test
     fun testUnreachableSwitchesToSameServerWithDifferentIp() = testScope.runTest {
-        val initialServers = listOf(MockedServers.serverList[0], MockedServers.serverList[1])
-        assertEquals(1, initialServers[0].connectingDomains.size)
-        val initialServer1Domain = initialServers[0].connectingDomains[0]
-        val updatedServers = listOf(
-            initialServers[0].copy(
+        val initialLogicals = listOf(MockedServers.logicalsList[0], MockedServers.logicalsList[1])
+        assertEquals(1, initialLogicals[0].connectingDomains.size)
+        val initialServer1Domain = initialLogicals[0].connectingDomains[0]
+        val updatedLogicals = listOf(
+            initialLogicals[0].copy(
                 connectingDomains = listOf(
-                    initialServers[0].connectingDomains[0].copy(
+                    initialLogicals[0].connectingDomains[0].copy(
                         entryIp = "123.0.0.3"
                     )
                 )
             ),
-            initialServers[1].copy()
+            initialLogicals[1].copy()
         )
+        val initialServers = initialLogicals.toServers()
+        val updatedServers = updatedLogicals.toServers()
         coEvery { serverListUpdater.needsUpdate() } returns true
         coEvery { serverListUpdater.updateServerList() } answers {
             prepareServerManager(updatedServers)
-            ApiResult.Success(ServerList(updatedServers))
+            ApiResult.Success(ServerList(updatedLogicals))
         }
 
         prepareServerManager(initialServers)

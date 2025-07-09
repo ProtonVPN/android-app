@@ -69,12 +69,12 @@ sealed class TestApiConfig {
 
                 rule(get, path eq "/vpn/v1/logicals") { request ->
                     val tier = request.requestUrl?.queryParameter("Tier")?.toInt()
-                    respond(ServerList(
-                        if (tier != null)
-                            MockedServers.serverList.filter { it.tier == tier }
-                        else
-                            MockedServers.serverList)
-                    )
+                    val servers = if (tier != null) {
+                        MockedServers.logicalsList.filter { it.tier == tier }
+                    } else {
+                        MockedServers.logicalsList
+                    }
+                    respond(ServerList(servers))
                 }
 
                 rule(post, path eq "/vpn/v1/certificate") {

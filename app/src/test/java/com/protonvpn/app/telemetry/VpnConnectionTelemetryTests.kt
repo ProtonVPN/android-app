@@ -22,13 +22,12 @@ package com.protonvpn.app.telemetry
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_PARTNER_SERVER
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_STREAMING
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.telemetry.ConnectionTelemetrySentryDebugEnabled
@@ -49,7 +48,6 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser
 import com.protonvpn.test.shared.createServer
-import com.protonvpn.test.shared.dummyConnectingDomain
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery

@@ -23,7 +23,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import me.proton.core.account.data.entity.AccountEntity
 import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.session.SessionId

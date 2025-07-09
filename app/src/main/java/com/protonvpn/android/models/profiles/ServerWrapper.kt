@@ -19,7 +19,7 @@
 package com.protonvpn.android.models.profiles
 
 import com.google.gson.annotations.SerializedName
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import java.io.Serializable
 
 @SuppressWarnings("DataClassShouldBeImmutable")

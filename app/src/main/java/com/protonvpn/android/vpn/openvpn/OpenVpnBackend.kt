@@ -30,7 +30,7 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.ui.ForegroundActivityTracker

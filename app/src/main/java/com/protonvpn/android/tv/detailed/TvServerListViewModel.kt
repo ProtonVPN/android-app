@@ -31,7 +31,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.UserPlanManager

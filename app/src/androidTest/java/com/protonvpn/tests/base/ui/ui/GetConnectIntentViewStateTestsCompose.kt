@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.test.filters.SdkSuppress
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.data.ProfileAutoOpen

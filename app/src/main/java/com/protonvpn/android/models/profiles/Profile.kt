@@ -20,7 +20,7 @@ package com.protonvpn.android.models.profiles
 
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.vpn.ProtocolSelection
 import java.io.Serializable

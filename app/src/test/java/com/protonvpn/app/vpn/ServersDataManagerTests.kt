@@ -21,7 +21,7 @@
 
 package com.protonvpn.app.vpn
 
-import com.protonvpn.android.models.vpn.ServersStore
+import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.test.shared.InMemoryObjectStore
 import com.protonvpn.test.shared.TestDispatcherProvider

@@ -25,12 +25,13 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.models.vpn.data.LogicalsMetadata
 import com.protonvpn.android.servers.FakeIsBinaryServerStatusFeatureFlagEnabled
 import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
+import com.protonvpn.android.servers.Server
+import com.protonvpn.android.servers.toServers
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
@@ -85,10 +86,12 @@ private const val OLD_IP = "10.0.0.1"
 private const val BACKGROUND_DELAY_MS = 1000L
 private const val FOREGROUND_DELAY_MS = 100L
 
-private val FULL_LIST = MockedServers.serverList
-private val FREE_LIST_MODIFIED = listOf(
-    MockedServers.serverList.first { it.serverName == "SE#3" }.copy(load = 50f)
+private val FULL_LIST_LOGICALS = MockedServers.logicalsList
+private val FREE_LIST_LOGICALS_MODIFIED = listOf(
+    MockedServers.logicalsList.first { it.serverName == "SE#3" }.copy(load = 50f)
 )
+private val FULL_LIST = FULL_LIST_LOGICALS.toServers()
+private val FREE_LIST_MODIFIED  = FREE_LIST_LOGICALS_MODIFIED.toServers()
 private val RESPONSE_304 : Response<ServerList> = Response.error("".toResponseBody(),
     okhttp3.Response.Builder()
         .request(Request.Builder().url("https://localhost").get().build())
@@ -170,7 +173,7 @@ class ServerListUpdaterTests {
             val lastModified = arg<Long>(4)
             val enableTruncation = arg<Boolean>(5)
             truncationEnabled.value
-            val list = if (freeOnly) FREE_LIST_MODIFIED else FULL_LIST
+            val list = if (freeOnly) FREE_LIST_LOGICALS_MODIFIED else FULL_LIST_LOGICALS
             val serverLastModified = lastModifiedOverride ?: testScope.currentTime
             if (serverLastModified > lastModified) {
                 val headers = Headers.Builder().add("Last-Modified", Date(serverLastModified)).build()

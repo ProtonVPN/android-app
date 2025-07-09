@@ -20,7 +20,7 @@ package com.protonvpn.android.redesign.recents.usecases
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability

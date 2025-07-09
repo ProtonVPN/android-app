@@ -30,7 +30,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.core.widget.TextViewCompat
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ConnectionFlagsViewBinding
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.AndroidUtils.getFloatRes
 import com.protonvpn.android.utils.CountryTools

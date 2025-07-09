@@ -1,37 +1,40 @@
 /*
- * Copyright (c) 2018 Proton AG
- * 
+ * Copyright (c) 2025. Proton AG
+ *
  * This file is part of ProtonVPN.
- * 
+ *
  * ProtonVPN is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * ProtonVPN is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.vpn
 
+package com.protonvpn.android.servers
+
+import com.protonvpn.android.models.vpn.ConnectingDomain
+import com.protonvpn.android.models.vpn.Location
+import com.protonvpn.android.models.vpn.LogicalServer
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_IPV6
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_PARTNER_SERVER
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_STREAMING
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.VpnIntToBoolSerializer
 import com.protonvpn.android.utils.hasFlag
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-
-const val SERVER_FEATURE_SECURE_CORE = 1
-const val SERVER_FEATURE_TOR = 2
-const val SERVER_FEATURE_P2P = 4
-const val SERVER_FEATURE_STREAMING = 8
-const val SERVER_FEATURE_IPV6 = 16
-const val SERVER_FEATURE_RESTRICTED = 32
-const val SERVER_FEATURE_PARTNER_SERVER = 64
 
 @Serializable
 data class Server(
@@ -147,3 +150,24 @@ data class Server(
         const val SECURE_CORE_SEPARATOR = ">>"
     }
 }
+
+fun LogicalServer.toServer() = Server(
+    serverId = serverId,
+    entryCountry = entryCountry,
+    exitCountry = exitCountry,
+    serverName = serverName,
+    connectingDomains = connectingDomains,
+    hostCountry = hostCountry,
+    load = load,
+    tier = tier,
+    state = state,
+    city = city,
+    features = features,
+    location = location,
+    translations = translations,
+    rawGatewayName = rawGatewayName,
+    score = score,
+    isOnline = isOnline,
+)
+
+fun List<LogicalServer>.toServers() = map { it.toServer() }

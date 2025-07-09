@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.models.vpn.usecase
 
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.vpn.ProtocolSelection
 import javax.inject.Inject
 import javax.inject.Singleton

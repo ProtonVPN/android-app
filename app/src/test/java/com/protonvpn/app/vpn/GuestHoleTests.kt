@@ -23,7 +23,7 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.GuestHoleSuppressor
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.utils.ServerManager

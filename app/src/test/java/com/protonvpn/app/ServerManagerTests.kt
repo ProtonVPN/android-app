@@ -29,7 +29,7 @@ import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.ServerEntryInfo
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId

@@ -20,7 +20,7 @@
 package com.protonvpn.android.redesign.search
 
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.ServerSearchResponse
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled

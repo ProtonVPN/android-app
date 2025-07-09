@@ -33,7 +33,7 @@ import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent

@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.models.vpn
 
+import com.protonvpn.android.servers.Server
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

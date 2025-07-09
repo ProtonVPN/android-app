@@ -2,7 +2,7 @@ package com.protonvpn.app
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.utils.Storage

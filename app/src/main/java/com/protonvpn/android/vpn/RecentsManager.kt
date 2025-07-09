@@ -27,7 +27,7 @@ import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow

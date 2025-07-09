@@ -21,7 +21,7 @@
 
 package com.protonvpn.app.vpn
 
-import com.protonvpn.android.models.vpn.ServersStore
+import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.FileObjectStore
 import com.protonvpn.test.shared.MockedServers

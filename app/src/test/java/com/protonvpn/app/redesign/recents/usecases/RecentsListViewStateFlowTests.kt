@@ -24,7 +24,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.ServerEntryInfo
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.profiles.data.Profile

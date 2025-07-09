@@ -21,6 +21,7 @@ package com.protonvpn.android.models.vpn
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.data.haveAccessWith
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.utils.CountryTools
 import java.io.Serializable
 

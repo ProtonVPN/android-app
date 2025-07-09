@@ -23,7 +23,7 @@ import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.CardLabel

@@ -44,7 +44,7 @@ import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent

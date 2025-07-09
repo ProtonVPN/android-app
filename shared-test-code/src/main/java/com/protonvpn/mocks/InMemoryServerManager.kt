@@ -22,7 +22,7 @@ package com.protonvpn.mocks
 import com.protonvpn.android.appconfig.UserCountryIpBased
 import com.protonvpn.android.appconfig.UserCountryPhysical
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs

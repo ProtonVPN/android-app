@@ -27,6 +27,7 @@ import com.protonvpn.android.redesign.recents.data.ConnectIntentData
 import com.protonvpn.android.redesign.recents.data.toAnyConnectIntent
 import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import java.util.UUID

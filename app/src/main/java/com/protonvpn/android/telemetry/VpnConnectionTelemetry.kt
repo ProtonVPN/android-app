@@ -22,7 +22,7 @@ package com.protonvpn.android.telemetry
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.ConnectivityMonitor

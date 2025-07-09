@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.redesign.search.ui
 
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator

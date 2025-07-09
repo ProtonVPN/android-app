@@ -19,9 +19,9 @@
 
 package com.protonvpn.test.shared
 
-import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.models.vpn.ServersSerializationData
-import com.protonvpn.android.models.vpn.ServersStore
+import com.protonvpn.android.servers.Server
+import com.protonvpn.android.servers.ServersSerializationData
+import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.utils.ObjectStore
 
 class InMemoryObjectStore<T>(initial: T? = null) : ObjectStore<T> {

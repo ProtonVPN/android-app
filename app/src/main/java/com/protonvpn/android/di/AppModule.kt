@@ -54,7 +54,7 @@ import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.managed.usecase.AutoLogin
 import com.protonvpn.android.managed.usecase.AutoLoginImpl
-import com.protonvpn.android.models.vpn.ServersStore
+import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.models.vpn.usecase.ProvideLocalNetworks
 import com.protonvpn.android.models.vpn.usecase.ProvideLocalNetworksImpl
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol

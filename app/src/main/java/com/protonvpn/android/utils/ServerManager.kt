@@ -32,7 +32,7 @@ import com.protonvpn.android.models.profiles.ServerWrapper.ProfileType
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.LoadUpdate
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol

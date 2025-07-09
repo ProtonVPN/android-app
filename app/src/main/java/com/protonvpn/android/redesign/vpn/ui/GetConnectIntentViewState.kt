@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.redesign.vpn.ui
 
-import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.usecases.GetProfileById
