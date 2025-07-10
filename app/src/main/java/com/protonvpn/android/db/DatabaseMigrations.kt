@@ -294,4 +294,11 @@ object DatabaseMigrations {
             db.execSQL("UPDATE unnamedRecentsIntents SET lanConnectionsAllowDirect = 0")
         }
     }
+
+    val MIGRATION_46_47 = object : Migration(46, 47) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            // Revert the previous change to unnamed recents, it was incorrect.
+            db.execSQL("UPDATE unnamedRecentsIntents SET lanConnectionsAllowDirect = NULL")
+        }
+    }
 }
