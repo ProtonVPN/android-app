@@ -57,31 +57,31 @@ class ServersDataManager @Inject constructor(
 
     suspend fun load() {
         serversStore.load()
-        updateWithMutex(serversStore.allServers, saveToStorage = false)
+        updateWithMutex(saveToStorage = false) { serversStore.allServers }
     }
 
     suspend fun replaceServers(serverList: List<Server>, retainIDs: Set<String>) {
-        updateWithMutex(serverList) { servers ->
+        updateWithMutex {
             if (retainIDs.isNotEmpty()) {
                 withContext(dispatcherProvider.Comp) {
                     val missingServerIDs = retainIDs.toMutableSet()
-                    for (server in servers) {
+                    for (server in serverList) {
                         if (server.serverId in retainIDs)
                             missingServerIDs.remove(server.serverId)
                     }
                     val retainedServers = allServers.filter { it.serverId in missingServerIDs }
-                    servers + retainedServers
+                    serverList + retainedServers
                 }
             } else {
-                servers
+                serverList
             }
         }
     }
 
     suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
-        updateWithMutex(allServers) { servers ->
-            buildList(servers.size) {
-                servers.forEach { currentServer ->
+        updateWithMutex {
+            buildList(allServers.size) {
+                allServers.forEach { currentServer ->
                     val server = if (currentServer.connectingDomains.any { it.id == connectingDomain.id }) {
                         val updatedConnectingDomains = currentServer.connectingDomains.replace(
                             connectingDomain,
@@ -98,10 +98,10 @@ class ServersDataManager @Inject constructor(
     }
 
     suspend fun updateLoads(loadsList: List<LoadUpdate>) {
-        updateWithMutex(allServers) { servers ->
+        updateWithMutex {
             val loadsMap: Map<String, LoadUpdate> = loadsList.associateBy { it.id }
-            buildList(servers.size) {
-                servers.forEach { currentServer ->
+            buildList(allServers.size) {
+                allServers.forEach { currentServer ->
                     val newValues = loadsMap[currentServer.serverId]
                     val server = if (newValues != null) {
                         val updatedConnectingDomains = with(currentServer) {
@@ -131,9 +131,9 @@ class ServersDataManager @Inject constructor(
     }
 
     suspend fun updateOrAddServer(server: Server) {
-        updateWithMutex(allServers) { servers ->
+        updateWithMutex {
             withContext(dispatcherProvider.Comp) {
-                servers.toMutableList().apply {
+                allServers.toMutableList().apply {
                     removeIf { it.serverId == server.serverId }
                     add(server)
                 }
@@ -142,13 +142,12 @@ class ServersDataManager @Inject constructor(
     }
 
     private suspend fun updateWithMutex(
-        servers: List<Server>,
         saveToStorage: Boolean = true,
-        updateBlock: suspend (List<Server>) -> List<Server> = { it }
+        updateBlock: suspend () -> List<Server>
     ) {
         updateMutex.withLock {
             val newServerLists = withContext(dispatcherProvider.Comp) {
-                val newServers = updateBlock(servers)
+                val newServers = updateBlock()
                 val groupedServers = async { updateServerLists(newServers) }
                 val sortedServers = async { newServers.sortedBy { it.score } }
                 groupedServers.await()
