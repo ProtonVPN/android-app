@@ -84,15 +84,12 @@ data class CustomDnsSettings(
 
 @Serializable
 data class LocalUserSettings(
-    // Version of the LocalUserSettings structure. Only increase when needed for migration.
-    // Set it to 3 next time a migration is needed.
-    // The current version is in fact 2 but because it's a newly added field it starts with value of 1 to always force a
-    // migration of split tunneling settings.
-    val version: Int = 1,
+    val version: Int = 2,
+    val startingValuesSaved: Boolean = false, // see SaveDefaultValuesMigration
     val apiUseDoh: Boolean = true,
     @Serializable(with = UUIDSerializer::class)
     val defaultProfileId: UUID? = null,
-    val lanConnections: Boolean = true, // enable for all by default, but effective settings will enable for free users
+    val lanConnections: Boolean = false,
     val lanConnectionsAllowDirect: Boolean = false,
     val mtuSize: Int = 1375,
     val netShield: NetShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
@@ -107,7 +104,10 @@ data class LocalUserSettings(
     // Whenever adding a new setting add it also in toLogList below.
 ) {
     companion object {
-        val Default = LocalUserSettings()
+        // Hack: we want to enable LAN by default but only for new installations. If we change
+        // the default it will affect existing ones as defaults are currently not saved to json.
+        // We'll start saving defaults to json and in some time we can remove this hack.
+        val Default = LocalUserSettings().copy(lanConnections = true)
     }
 }
 

@@ -45,10 +45,11 @@ class LocalUserSettingsUnitTests {
     fun `settings tests are up-to-date`() {
         val defaultSettingsJson = """
             {
-                "version": 1,
+                "version": 2,
+                "startingValuesSaved": false,
                 "apiUseDoh": true,
                 "defaultProfileId": null,
-                "lanConnections": true,
+                "lanConnections": false,
                 "lanConnectionsAllowDirect": false,
                 "mtuSize": 1375,
                 "netShield": "ENABLED_EXTENDED",
@@ -92,6 +93,7 @@ class LocalUserSettingsUnitTests {
         val settingsJson = """
             {
                 "version": 2,
+                "startingValuesSaved": false,
                 "apiUseDoh": false,
                 "defaultProfileId": "00000000-0000-0001-0000-000000000002",
                 "lanConnections": true, 
@@ -130,6 +132,7 @@ class LocalUserSettingsUnitTests {
         """.trimIndent()
         val expectedSettings = LocalUserSettings(
             version = 2,
+            startingValuesSaved = false,
             apiUseDoh = false,
             defaultProfileId = UUID(1L, 2L),
             lanConnections = true,

@@ -33,6 +33,7 @@ class JsonDataStoreSerializer<T>(
 ) : Serializer<T> {
     private val json = Json {
         ignoreUnknownKeys = true
+        encodeDefaults = true
     }
 
     override suspend fun readFrom(input: InputStream): T =

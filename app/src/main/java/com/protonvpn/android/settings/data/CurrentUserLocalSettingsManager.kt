@@ -156,27 +156,19 @@ class LocalUserSettingsStoreProvider @Inject constructor(
     LocalUserSettings.Default,
     LocalUserSettings.serializer(),
     factory,
-    listOf(SplitTunnelingMigration())
+    listOf(SaveStartingValuesMigration())
 )
 
+// Migration exists to serialize all current values explicitly (which is achieved together with
+// encodeDefaults in JsonDataStoreSerializer), so that all future changes to default values do not
+// affect existing installations.
 @VisibleForTesting
-class SplitTunnelingMigration : DataMigration<LocalUserSettings> {
+class SaveStartingValuesMigration : DataMigration<LocalUserSettings> {
 
-    override suspend fun shouldMigrate(currentData: LocalUserSettings): Boolean = currentData.version < 2
+    override suspend fun shouldMigrate(currentData: LocalUserSettings): Boolean = !currentData.startingValuesSaved
 
     override suspend fun migrate(currentData: LocalUserSettings): LocalUserSettings =
-        currentData.copy(
-            version = 2,
-            splitTunneling = migrateSplitTunneling(currentData.splitTunneling)
-        )
+        currentData.copy(startingValuesSaved = true)
 
     override suspend fun cleanUp() = Unit
-
-    private fun migrateSplitTunneling(current: SplitTunnelingSettings): SplitTunnelingSettings =
-        // Update the mode for existing settings, even when disabled.
-        current.copy(mode = migratedMode(excludedApps = current.excludedApps, excludedIps = current.excludedIps))
 }
-
-private fun migratedMode(excludedApps: List<String>, excludedIps: List<String>): SplitTunnelingMode =
-    if (excludedApps.isNotEmpty() || excludedIps.isNotEmpty()) SplitTunnelingMode.EXCLUDE_ONLY
-    else SplitTunnelingMode.INCLUDE_ONLY
