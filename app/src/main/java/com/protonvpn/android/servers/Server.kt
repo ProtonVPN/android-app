@@ -21,7 +21,7 @@ package com.protonvpn.android.servers
 
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.models.vpn.Location
-import com.protonvpn.android.servers.api.LogicalServer
+import com.protonvpn.android.servers.api.LogicalServerV1
 import com.protonvpn.android.servers.api.SERVER_FEATURE_IPV6
 import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
 import com.protonvpn.android.servers.api.SERVER_FEATURE_PARTNER_SERVER
@@ -57,7 +57,10 @@ data class Server(
 
     @Serializable(with = VpnIntToBoolSerializer::class)
     @SerialName(value = "Status")
-    private val isOnline: Boolean
+    private val isOnline: Boolean,
+
+    @SerialName(value = "IsVisible")
+    val isVisible: Boolean = true,
 ) : java.io.Serializable {
 
     @Transient
@@ -151,7 +154,7 @@ data class Server(
     }
 }
 
-fun LogicalServer.toServer() = Server(
+fun LogicalServerV1.toServer() = Server(
     serverId = serverId,
     entryCountry = entryCountry,
     exitCountry = exitCountry,
@@ -168,6 +171,7 @@ fun LogicalServer.toServer() = Server(
     rawGatewayName = rawGatewayName,
     score = score,
     isOnline = isOnline,
+    isVisible = true,
 )
 
-fun List<LogicalServer>.toServers() = map { it.toServer() }
+fun List<LogicalServerV1>.toServers() = map { it.toServer() }

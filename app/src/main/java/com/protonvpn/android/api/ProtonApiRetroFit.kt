@@ -72,7 +72,7 @@ open class ProtonApiRetroFit @Inject constructor(
         enableTruncation: Boolean,
         mustHaveIDs: Set<String>?,
     ) = manager {
-        getServers(
+        getServersV1(
             timeoutOverride = TimeoutOverride(readTimeoutSeconds = 20),
             headers = createNetZoneHeaders(netzone) +
                 buildMap {

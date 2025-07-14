@@ -36,7 +36,7 @@ import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.api.ServerEntryInfo
-import com.protonvpn.android.servers.api.ServerList
+import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
@@ -605,7 +605,7 @@ class VpnConnectionErrorHandlerTests {
         coEvery { serverListUpdater.needsUpdate() } returns true
         coEvery { serverListUpdater.updateServerList() } answers {
             prepareServerManager(updatedServers)
-            ApiResult.Success(ServerList(updatedLogicals))
+            ApiResult.Success(ServerListV1(updatedLogicals))
         }
 
         prepareServerManager(initialServers)

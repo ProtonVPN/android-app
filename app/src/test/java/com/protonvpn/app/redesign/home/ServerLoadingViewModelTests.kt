@@ -22,7 +22,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.servers.api.ServerList
+import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.ui.home.ServerListUpdater
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -59,7 +59,7 @@ class ServerLoadingViewModelTests {
     @MockK
     private lateinit var serverListUpdater: ServerListUpdater
 
-    private val apiSuccess = ApiResult.Success(ServerList(emptyList()))
+    private val apiSuccess = ApiResult.Success(ServerListV1(emptyList()))
     private val apiError = ApiResult.Error.Timeout(true, null)
 
     @Before

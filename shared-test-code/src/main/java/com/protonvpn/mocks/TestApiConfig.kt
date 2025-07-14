@@ -22,7 +22,7 @@ package com.protonvpn.mocks
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.vpn.CertificateResponse
-import com.protonvpn.android.servers.api.ServerList
+import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -74,7 +74,7 @@ sealed class TestApiConfig {
                     } else {
                         MockedServers.logicalsList
                     }
-                    respond(ServerList(servers))
+                    respond(ServerListV1(servers))
                 }
 
                 rule(post, path eq "/vpn/v1/certificate") {

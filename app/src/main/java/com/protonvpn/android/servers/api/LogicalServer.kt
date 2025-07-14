@@ -32,7 +32,7 @@ const val SERVER_FEATURE_RESTRICTED = 32
 const val SERVER_FEATURE_PARTNER_SERVER = 64
 
 @Serializable
-data class LogicalServer(
+data class LogicalServerV1(
     @SerialName(value = "ID") val serverId: String,
     @SerialName(value = "EntryCountry") val entryCountry: String,
     @SerialName(value = "ExitCountry") val exitCountry: String,
@@ -53,4 +53,29 @@ data class LogicalServer(
     @Serializable(with = VpnIntToBoolSerializer::class)
     @SerialName(value = "Status")
     val isOnline: Boolean
+)
+
+@Serializable
+data class ServerStatusReference(
+    @SerialName("Index") val index: UInt, // TODO: is UInt mature enough for use?
+    @SerialName("Penalty") val penalty: Float,
+    @SerialName("Cost") val cost: Int,
+)
+
+@Serializable
+data class LogicalServer(
+    @SerialName(value = "ID") val serverId: String,
+    @SerialName(value = "EntryCountry") val entryCountry: String,
+    @SerialName(value = "ExitCountry") val exitCountry: String,
+    @SerialName(value = "Name") val serverName: String,
+    @SerialName(value = "Servers") val physicalServers: List<ConnectingDomain>,
+    @SerialName(value = "StatusReference") val statusReference: ServerStatusReference,
+    @SerialName(value = "Tier") val tier: Int,
+    @SerialName(value = "HostCountry") val hostCountry: String? = null,
+    @SerialName(value = "State") val state: String? = null,
+    @SerialName(value = "City") val city: String? = null,
+    @SerialName(value = "Features") val features: Int,
+    @SerialName(value = "Location") val location: Location,
+    @SerialName(value = "Translations") val translations: Map<String, String?>? = null,
+    @SerialName(value = "GatewayName") val rawGatewayName: String? = null,
 )

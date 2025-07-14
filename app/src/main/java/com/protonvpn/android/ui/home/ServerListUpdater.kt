@@ -38,7 +38,7 @@ import com.protonvpn.android.logging.ApiLogResponse
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.servers.api.LoadsResponse
-import com.protonvpn.android.servers.api.ServerList
+import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.servers.api.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
@@ -259,7 +259,7 @@ class ServerListUpdater @Inject constructor(
         return result
     }
 
-    suspend fun updateServerList(forceFreshUpdate: Boolean = false): ApiResult<ServerList?> {
+    suspend fun updateServerList(forceFreshUpdate: Boolean = false): ApiResult<ServerListV1?> {
         if (forceFreshUpdate) {
             // Force update regardless of the timestamp.
             prefs.serverListLastModified = 0
@@ -269,7 +269,7 @@ class ServerListUpdater @Inject constructor(
     }
 
     data class ServerListResult(
-        val apiResult: ApiResult<ServerList?>,
+        val apiResult: ApiResult<ServerListV1?>,
         val freeOnly: Boolean,
         val lastModified: Date?,
         val usedMustHaveIDs: Set<String>,
@@ -292,7 +292,7 @@ class ServerListUpdater @Inject constructor(
         ).toServerListResult(freeOnly, mustHaveIDs)
     }
 
-    private fun ApiResult<Response<ServerList>>.toServerListResult(freeOnly: Boolean, usedMustHaveIDs: Set<String>): ServerListResult {
+    private fun ApiResult<Response<ServerListV1>>.toServerListResult(freeOnly: Boolean, usedMustHaveIDs: Set<String>): ServerListResult {
         var lastModified: Date? = null
         val apiResult = when(this) {
             is ApiResult.Error.Http ->
@@ -331,7 +331,7 @@ class ServerListUpdater @Inject constructor(
         }
 
     @VisibleForTesting
-    suspend fun updateServers(): ApiResult<ServerList?> {
+    suspend fun updateServers(): ApiResult<ServerListV1?> {
         val lang = Locale.getDefault().language
         val netzone = getNetZone()
 

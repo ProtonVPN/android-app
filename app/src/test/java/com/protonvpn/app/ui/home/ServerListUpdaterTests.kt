@@ -25,7 +25,7 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.servers.api.ServerList
+import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.models.vpn.data.LogicalsMetadata
 import com.protonvpn.android.servers.FakeIsBinaryServerStatusFeatureFlagEnabled
@@ -92,7 +92,7 @@ private val FREE_LIST_LOGICALS_MODIFIED = listOf(
 )
 private val FULL_LIST = FULL_LIST_LOGICALS.toServers()
 private val FREE_LIST_MODIFIED  = FREE_LIST_LOGICALS_MODIFIED.toServers()
-private val RESPONSE_304 : Response<ServerList> = Response.error("".toResponseBody(),
+private val RESPONSE_304 : Response<ServerListV1> = Response.error("".toResponseBody(),
     okhttp3.Response.Builder()
         .request(Request.Builder().url("https://localhost").get().build())
         .code(304)
@@ -179,7 +179,7 @@ class ServerListUpdaterTests {
                 val headers = Headers.Builder().add("Last-Modified", Date(serverLastModified)).build()
                 ApiResult.Success(
                     Response.success(
-                        ServerList(list, LogicalsMetadata(listIsTruncated = enableTruncation && applyTruncation)),
+                        ServerListV1(list, LogicalsMetadata(listIsTruncated = enableTruncation && applyTruncation)),
                         headers
                     )
                 )
