@@ -21,6 +21,7 @@
 
 package com.protonvpn.app.vpn
 
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.test.shared.InMemoryObjectStore
@@ -81,9 +82,26 @@ class ServersDataManagerTests {
             ),
             retainIDs = setOf("1", "2")
         )
-        assertEquals(
-            setOf("1", "2", "4"),
-            manager.allServers.map { it.serverId }.toSet()
-        )
+        assertEquals(setOf("1", "2", "4"), manager.allServers.toIds())
     }
+
+    @Test
+    fun `invisible servers are filtered out`() = testScope.runTest {
+        val servers = listOf(
+            createServer(serverId = "1", exitCountry = "PL", isVisible = true),
+            createServer(serverId = "2", exitCountry = "PL", isVisible = false),
+            createServer(serverId = "3", exitCountry = "CH", gatewayName = "company", isVisible = true),
+            createServer(serverId = "4", exitCountry = "CH", gatewayName = "company", isVisible = false),
+            createServer(serverId = "5", entryCountry = "CH", exitCountry = "PL", isVisible = true),
+            createServer(serverId = "6", entryCountry = "CH", exitCountry = "PL", isVisible = false),
+        )
+        manager.replaceServers(servers, emptySet())
+
+        assertEquals(setOf("1", "3", "5"), manager.allServers.toIds())
+        assertEquals(setOf("1"), manager.vpnCountries.find { it.flag == "PL" }?.serverList?.toIds())
+        assertEquals(setOf("3"), manager.gateways.find { it.name() == "company" }?.serverList?.toIds())
+        assertEquals(setOf("5"), manager.secureCoreExitCountries.find { it.flag == "PL" }?.serverList?.toIds())
+    }
+
+    private fun Iterable<Server>.toIds(): Set<String> = this.map { it.serverId }.toSet()
 }

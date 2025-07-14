@@ -146,15 +146,17 @@ class ServersDataManager @Inject constructor(
         updateBlock: suspend () -> List<Server>
     ) {
         updateMutex.withLock {
-            val newServerLists = withContext(dispatcherProvider.Comp) {
-                val newServers = updateBlock()
+            val (allServers, newServerLists) = withContext(dispatcherProvider.Comp) {
+                val allNewServers = updateBlock()
+                val newServers = allNewServers.filter { it.isVisible }
                 val groupedServers = async { updateServerLists(newServers) }
                 val sortedServers = async { newServers.sortedBy { it.score } }
-                groupedServers.await()
+                val newServerLists = groupedServers.await()
                     .copy(allServersByScore = sortedServers.await())
+                allNewServers to newServerLists
             }
             if (saveToStorage) {
-                serversStore.allServers = newServerLists.allServers
+                serversStore.allServers = allServers
                 serversStore.save()
             }
             serverLists = newServerLists
