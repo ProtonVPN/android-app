@@ -621,7 +621,7 @@
     <string name="free_connections_info_message">Plan Proton Free automatycznie łączy użytkownika z najszybszym dostępnym serwerem. Zazwyczaj będzie to serwer znajdujący się najbliżej lokalizacji użytkownika.</string>
     <string name="free_connections_info_server_locations">Lokalizacje planu Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Plan VPN Plus zapewnia zasięg na całym świecie</string>
-    <string name="free_connection_info_title">Bezpłatne połączenia</string>
+    <string name="free_connection_info_title">Darmowe połączenia</string>
     <string name="search_upsell_banner_title">Streamuj gdziekolwiek jesteś</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
@@ -971,7 +971,7 @@
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
-    <string name="connection_card_label_free_connection">Bezpłatne połączenie</string>
+    <string name="connection_card_label_free_connection">Darmowe połączenie</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -1011,7 +1011,7 @@
          a button with this description will be read by a screen reader as:
          "more information about free connections, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_free_connections">więcej informacji o bezpłatnych połączeniach</string>
+    <string name="connection_card_accessbility_label_free_connections">więcej informacji o darmowych połączeniach</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
