@@ -3,10 +3,10 @@ package com.protonvpn.app.redesign.main_screen.ui
 import app.cash.turbine.test
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.managed.AutoLoginManager
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.ui.storage.UiStateStoreProvider

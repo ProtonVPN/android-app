@@ -27,6 +27,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.usecase.ComputeAllowedIPs
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.servers.Server
+import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.utils.Constants.VPN_CLIENT_IP

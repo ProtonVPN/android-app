@@ -37,10 +37,10 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ApiLogResponse
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.models.vpn.LoadsResponse
-import com.protonvpn.android.models.vpn.ServerList
-import com.protonvpn.android.models.vpn.ServersCountResponse
-import com.protonvpn.android.models.vpn.StreamingServicesResponse
+import com.protonvpn.android.servers.api.LoadsResponse
+import com.protonvpn.android.servers.api.ServerList
+import com.protonvpn.android.servers.api.ServersCountResponse
+import com.protonvpn.android.servers.api.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
 import com.protonvpn.android.servers.Server

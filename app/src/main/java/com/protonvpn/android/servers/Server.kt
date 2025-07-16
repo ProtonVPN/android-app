@@ -19,16 +19,16 @@
 
 package com.protonvpn.android.servers
 
-import com.protonvpn.android.models.vpn.ConnectingDomain
+import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.models.vpn.Location
-import com.protonvpn.android.models.vpn.LogicalServer
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_IPV6
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_PARTNER_SERVER
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_STREAMING
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
+import com.protonvpn.android.servers.api.LogicalServer
+import com.protonvpn.android.servers.api.SERVER_FEATURE_IPV6
+import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
+import com.protonvpn.android.servers.api.SERVER_FEATURE_PARTNER_SERVER
+import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
+import com.protonvpn.android.servers.api.SERVER_FEATURE_SECURE_CORE
+import com.protonvpn.android.servers.api.SERVER_FEATURE_STREAMING
+import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.VpnIntToBoolSerializer
 import com.protonvpn.android.utils.hasFlag

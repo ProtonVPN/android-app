@@ -16,22 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.vpn
+package com.protonvpn.android.servers.api
 
+import com.protonvpn.android.models.vpn.data.LogicalsMetadata
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class LoadsResponse(
-    @SerialName(value = "LogicalServers") val loadsList: List<LoadUpdate>
+class ServerList(
+    @SerialName(value = "LogicalServers") val serverList: List<LogicalServer>,
+    @SerialName(value = "ResponseMetadata") val metadata: LogicalsMetadata? = null,
 )
-
-@Serializable
-data class LoadUpdate(
-    @SerialName(value = "ID") val id: String,
-    @SerialName(value = "Load") val load: Float,
-    @SerialName(value = "Score") val score: Double = 0.0,
-    @SerialName(value = "Status") val status: Int = 1
-) {
-    val isOnline get() = status != 0
-}

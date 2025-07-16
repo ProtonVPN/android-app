@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Proton AG
+ * Copyright (c) 2024. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,20 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.vpn
+
+package com.protonvpn.android.servers.api
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class StreamingServicesResponse(
-    @SerialName(value = "ResourceBaseURL") val resourceBaseURL: String,
-    @SerialName(value = "StreamingServices") val countryToServices: Map<String, Map<String, List<StreamingService>>>
-)
-
-@Serializable
-data class StreamingService(
-    @SerialName(value = "Name") val name: String,
-    @SerialName(value = "Icon") val iconName: String,
-    @SerialName(value = "ColoredIcon") val coloredIconName: String
+data class ServersCountResponse(
+    @SerialName("Countries") val countryCount: Int,
+    @SerialName("Servers") val serverCount: Int,
 )

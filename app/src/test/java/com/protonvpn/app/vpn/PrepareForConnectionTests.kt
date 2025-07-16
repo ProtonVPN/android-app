@@ -23,10 +23,10 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.DefaultPorts
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.vpn.ConnectingDomain
+import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.models.vpn.Location
 import com.protonvpn.android.servers.Server
-import com.protonvpn.android.models.vpn.ServerEntryInfo
+import com.protonvpn.android.servers.api.ServerEntryInfo
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.vpn.PrepareForConnection

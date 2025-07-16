@@ -19,8 +19,8 @@
 
 package com.protonvpn.android.utils
 
-import com.protonvpn.android.models.vpn.StreamingService
-import com.protonvpn.android.models.vpn.StreamingServicesResponse
+import com.protonvpn.android.servers.api.StreamingService
+import com.protonvpn.android.servers.api.StreamingServicesResponse
 
 private const val ALL_COUNTRIES = "*"
 

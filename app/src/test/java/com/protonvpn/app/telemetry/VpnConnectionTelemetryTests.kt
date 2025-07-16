@@ -23,10 +23,10 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_PARTNER_SERVER
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_STREAMING
+import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
+import com.protonvpn.android.servers.api.SERVER_FEATURE_PARTNER_SERVER
+import com.protonvpn.android.servers.api.SERVER_FEATURE_SECURE_CORE
+import com.protonvpn.android.servers.api.SERVER_FEATURE_STREAMING
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.vpn
+package com.protonvpn.android.servers.api
 
 import com.protonvpn.android.utils.VpnIntToBoolSerializer
 import com.protonvpn.android.vpn.ProtocolSelection

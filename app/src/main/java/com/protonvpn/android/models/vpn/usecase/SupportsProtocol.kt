@@ -22,7 +22,7 @@ package com.protonvpn.android.models.vpn.usecase
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.di.Distinct
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.vpn.ConnectingDomain
+import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.vpn.ProtocolSelection
 import javax.inject.Inject

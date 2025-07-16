@@ -19,8 +19,8 @@
 
 package com.protonvpn.app.utils
 
-import com.protonvpn.android.models.vpn.StreamingService
-import com.protonvpn.android.models.vpn.StreamingServicesResponse
+import com.protonvpn.android.servers.api.StreamingService
+import com.protonvpn.android.servers.api.StreamingServicesResponse
 import com.protonvpn.android.utils.StreamingServicesModel
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals

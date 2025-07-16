@@ -19,8 +19,8 @@
 
 package com.protonvpn.android.redesign.vpn
 
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
+import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
+import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.utils.hasFlag
 import java.util.EnumSet

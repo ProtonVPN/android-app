@@ -19,11 +19,11 @@
 
 package com.protonvpn.test.shared
 
-import com.protonvpn.android.models.vpn.ConnectingDomain
+import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.models.vpn.Location
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_IPV6
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
-import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
+import com.protonvpn.android.servers.api.SERVER_FEATURE_IPV6
+import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
+import com.protonvpn.android.servers.api.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.usecase.GetSmartProtocols
 import com.protonvpn.android.vpn.ProtocolSelection

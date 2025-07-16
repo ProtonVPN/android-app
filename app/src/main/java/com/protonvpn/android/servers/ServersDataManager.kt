@@ -20,9 +20,9 @@
 package com.protonvpn.android.servers
 
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
-import com.protonvpn.android.models.vpn.ConnectingDomain
+import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.models.vpn.GatewayGroup
-import com.protonvpn.android.models.vpn.LoadUpdate
+import com.protonvpn.android.servers.api.LoadUpdate
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.replace
 import kotlinx.coroutines.async

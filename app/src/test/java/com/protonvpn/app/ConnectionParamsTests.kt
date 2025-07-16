@@ -25,7 +25,7 @@ import android.os.Parcel
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.vpn.ConnectingDomain
+import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.netshield.NetShieldProtocol

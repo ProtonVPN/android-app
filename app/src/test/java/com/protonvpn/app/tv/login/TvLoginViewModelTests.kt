@@ -33,7 +33,7 @@ import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.VPNInfo
 import com.protonvpn.android.models.login.VpnInfoResponse
-import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.servers.api.ServerList
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.login.TvLoginViewState
 import com.protonvpn.android.ui.home.ServerListUpdater

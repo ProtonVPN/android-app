@@ -26,6 +26,7 @@ import com.protonvpn.android.models.vpn.usecase.ComputeAllowedIPs
 import com.protonvpn.android.models.vpn.usecase.toIPAddress
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.servers.Server
+import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.Constants
 import de.blinkt.openvpn.VpnProfile
