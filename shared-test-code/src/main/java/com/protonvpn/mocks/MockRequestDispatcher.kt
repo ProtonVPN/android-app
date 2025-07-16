@@ -25,11 +25,13 @@ import me.proton.core.util.kotlin.equalsNoCase
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
+import okio.Buffer
 import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import java.text.SimpleDateFormat
+import java.util.Base64
 import java.util.Date
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -109,6 +111,8 @@ class MockRuleBuilder(private val rulesSink: MutableList<MockRequestDispatcher.R
     fun respond(responseCode: Int) = responseWithHeaders(MockResponse().setResponseCode(responseCode))
     fun respond(responseCode: Int, bodyText: String) =
         responseWithHeaders(MockResponse().setResponseCode(responseCode).setBody(bodyText))
+    fun respondBinary(base64Body: String) =
+        responseWithHeaders(MockResponse().setResponseCode(200).setBody(base64Body.base64ToBuffer()))
     inline fun <reified T> respond(serializableObject: T) = respond(Json.encodeToString(serializableObject))
     inline fun <reified T> respond(responseCode: Int, serializableObject: T) =
         respond(responseCode, Json.encodeToString(serializableObject))
@@ -125,4 +129,9 @@ class MockRuleBuilder(private val rulesSink: MutableList<MockRequestDispatcher.R
 
     private fun getPathWithoutQuery(request: RecordedRequest): String? =
         request.path?.split("?")?.firstOrNull()
+
+    private fun String.base64ToBuffer(): Buffer {
+        val bytes = Base64.getDecoder().decode(this)
+        return Buffer().write(bytes, 0, bytes.size)
+    }
 }

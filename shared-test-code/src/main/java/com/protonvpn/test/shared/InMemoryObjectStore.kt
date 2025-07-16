@@ -22,6 +22,7 @@ package com.protonvpn.test.shared
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServersSerializationData
 import com.protonvpn.android.servers.ServersStore
+import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.utils.ObjectStore
 
 class InMemoryObjectStore<T>(initial: T? = null) : ObjectStore<T> {
@@ -32,5 +33,10 @@ class InMemoryObjectStore<T>(initial: T? = null) : ObjectStore<T> {
     override fun clear() { value = null }
 }
 
-fun createInMemoryServersStore(initialServers: List<Server>? = null) =
-    ServersStore(InMemoryObjectStore(initialServers?.let { ServersSerializationData(initialServers) }))
+fun createInMemoryServersStore(
+    initialServers: List<Server>? = null,
+    initialStatusId: LogicalsStatusId? = null
+): ServersStore {
+    val data = initialServers?.let { ServersSerializationData(initialServers, initialStatusId) }
+    return ServersStore(InMemoryObjectStore(data))
+}

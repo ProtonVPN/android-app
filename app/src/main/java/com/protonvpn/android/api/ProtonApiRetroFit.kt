@@ -63,7 +63,7 @@ open class ProtonApiRetroFit @Inject constructor(
         params: RequestBody,
     ) = manager { postBugReport(TimeoutOverride(writeTimeoutSeconds = 20), params) }
 
-    open suspend fun getServerList(
+    open suspend fun getServerListV1(
         netzone: String?,
         lang: String,
         protocols: List<String>,
@@ -74,16 +74,29 @@ open class ProtonApiRetroFit @Inject constructor(
     ) = manager {
         getServersV1(
             timeoutOverride = TimeoutOverride(readTimeoutSeconds = 20),
-            headers = createNetZoneHeaders(netzone) +
-                buildMap {
-                    put("If-Modified-Since", httpHeaderDateFormatter.format(Instant.ofEpochMilli(lastModified)))
-                    if (enableTruncation)
-                        put("x-pm-response-truncation-permitted", "true")
-                },
+            headers = createLogicalsHeaders(netzone, lastModified, enableTruncation),
             language = lang,
             protocols = protocols.joinToString(","),
             withState = true,
             userTier = if (freeOnly) VpnUser.FREE_TIER else null,
+            includeIDs = mustHaveIDs.takeIf { enableTruncation }
+        )
+    }
+
+    suspend fun getServerList(
+        netzone: String?,
+        lang: String,
+        protocols: List<String>,
+        lastModified: Long,
+        enableTruncation: Boolean,
+        mustHaveIDs: Set<String>?,
+    ) = manager {
+        getServers(
+            timeoutOverride = TimeoutOverride(readTimeoutSeconds = 20),
+            headers = createLogicalsHeaders(netzone, lastModified, enableTruncation),
+            language = lang,
+            protocols = protocols.joinToString(","),
+            withState = true,
             includeIDs = mustHaveIDs.takeIf { enableTruncation }
         )
     }
@@ -98,6 +111,9 @@ open class ProtonApiRetroFit @Inject constructor(
                 if (freeOnly) VpnUser.FREE_TIER else null
             )
         }
+
+    open suspend fun getBinaryStatus(statusId: String) =
+        manager { getBinaryStatus(statusId) }
 
     open suspend fun getStreamingServices() =
         manager { getStreamingServices() }
@@ -171,5 +187,12 @@ open class ProtonApiRetroFit @Inject constructor(
             if (!effectiveNetzone.isNullOrEmpty())
                 put(ProtonVPNRetrofit.HEADER_NETZONE, effectiveNetzone)
             ProtonLogger.logCustom(LogCategory.API, "netzone: $effectiveNetzone, mcc: $effectiveMCC")
+        }
+
+    private fun createLogicalsHeaders(netzone: String?, lastModified: Long, enableTruncation: Boolean,) =
+        createNetZoneHeaders(netzone) + buildMap {
+            put("If-Modified-Since", httpHeaderDateFormatter.format(Instant.ofEpochMilli(lastModified)))
+            if (enableTruncation)
+                put("x-pm-response-truncation-permitted", "true")
         }
 }

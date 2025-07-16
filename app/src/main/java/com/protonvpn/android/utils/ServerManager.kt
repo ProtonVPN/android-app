@@ -42,6 +42,7 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.satisfiesFeatures
 import com.protonvpn.android.servers.ServersDataManager
+import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -112,6 +113,7 @@ class ServerManager @Inject constructor(
             translationsLang != Locale.getDefault().language
     }
 
+    val logicalsStatusId get() = serversData.statusId
     val allServers get() = serversData.allServers
     val allServersByScore get() = serversData.allServersByScore
 
@@ -176,7 +178,10 @@ class ServerManager @Inject constructor(
     }
 
     suspend fun setGuestHoleServers(serverList: List<Server>) {
-        setServers(serverList, null)
+        DebugUtils.debugAssert("Guest hole servers can only be set when regular servers are not available") {
+            !isDownloadedAtLeastOnce
+        }
+        setServers(serverList, null, null)
         lastUpdateTimestamp = 0L
     }
 
@@ -192,9 +197,14 @@ class ServerManager @Inject constructor(
             }.takeRandomStable(serverCount).shuffled()
             ).distinct().take(serverCount)
 
-    suspend fun setServers(serverList: List<Server>, language: String?, retainIDs: Set<String> = emptySet()) {
+    suspend fun setServers(
+        serverList: List<Server>,
+        statusId: LogicalsStatusId?,
+        language: String?,
+        retainIDs: Set<String> = emptySet()
+    ) {
         ensureLoaded()
-        serversData.replaceServers(serverList, retainIDs)
+        serversData.replaceServers(serverList, statusId, retainIDs)
 
         lastUpdateTimestamp = wallClock()
         serverListAppVersionCode = BuildConfig.VERSION_CODE
@@ -221,6 +231,14 @@ class ServerManager @Inject constructor(
     suspend fun updateLoads(loadsList: List<LoadUpdate>) {
         ensureLoaded()
         serversData.updateLoads(loadsList)
+
+        Storage.save(this, ServerManager::class.java)
+        onServersUpdate()
+    }
+
+    suspend fun updateBinaryLoads(statusId: LogicalsStatusId, loads: ByteArray) {
+        ensureLoaded()
+        serversData.updateBinaryLoads(statusId, loads)
 
         Storage.save(this, ServerManager::class.java)
         onServersUpdate()

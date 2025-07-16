@@ -296,7 +296,8 @@ class CreateEditProfileViewModelTests {
                 createServer(exitCountry = "SE"),
                 createServer(exitCountry = "CH", gatewayName = "Gateway1")
             ),
-            "en"
+            statusId = null,
+            language = "en"
         )
 
         assertEquals(

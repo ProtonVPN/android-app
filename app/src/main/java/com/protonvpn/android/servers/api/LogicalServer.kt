@@ -57,14 +57,22 @@ data class LogicalServerV1(
 
 @Serializable
 data class ServerStatusReference(
-    @SerialName("Index") val index: UInt, // TODO: is UInt mature enough for use?
-    @SerialName("Penalty") val penalty: Float,
+    @SerialName("Index") val index: UInt,
+    @SerialName("Penalty") val penalty: Double,
     @SerialName("Cost") val cost: Int,
+)
+
+typealias LogicalsStatusId = String
+
+@Serializable
+data class ServerLocation(
+    @SerialName(value = "Latitude") val latitude: Float,
+    @SerialName(value = "Longitude") val longitude: Float,
 )
 
 @Serializable
 data class LogicalServer(
-    @SerialName(value = "ID") val serverId: String,
+    @SerialName(value = "ID") val serverId: LogicalsStatusId,
     @SerialName(value = "EntryCountry") val entryCountry: String,
     @SerialName(value = "ExitCountry") val exitCountry: String,
     @SerialName(value = "Name") val serverName: String,
@@ -75,7 +83,8 @@ data class LogicalServer(
     @SerialName(value = "State") val state: String? = null,
     @SerialName(value = "City") val city: String? = null,
     @SerialName(value = "Features") val features: Int,
-    @SerialName(value = "Location") val location: Location,
+    @SerialName(value = "ExitLocation") val exitLocation: ServerLocation,
+    @SerialName(value = "EntryLocation") val entryLocation: ServerLocation,
     @SerialName(value = "Translations") val translations: Map<String, String?>? = null,
-    @SerialName(value = "GatewayName") val rawGatewayName: String? = null,
+    @SerialName(value = "GatewayName") val gatewayName: String? = null,
 )

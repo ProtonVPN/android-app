@@ -184,7 +184,7 @@ class ServerManagerTests {
             createSeattleServer("SC", score = .1, features = SERVER_FEATURE_SECURE_CORE, entryCountry = "CH")
         )
         createServerManagers()
-        manager.setServers(servers, null)
+        manager.setServers(servers, statusId = null, language = null)
 
         testIntent("2", ConnectIntent.FastestInCountry(CountryId.fastest, EnumSet.of(ServerFeature.P2P)))
         testIntent(
@@ -220,7 +220,7 @@ class ServerManagerTests {
             createServer("US SC plus online", score = 3.0, exitCountry = "US", tier = 2, isSecureCore = true),
         )
         createServerManagers()
-        manager.setServers(servers, null)
+        manager.setServers(servers, null, null)
 
         val fastestPl = ConnectIntent.FastestInCountry(CountryId("PL"), emptySet())
         val fastestCh = ConnectIntent.FastestInCountry(CountryId("CH"), emptySet())

@@ -258,7 +258,7 @@ class TvMainViewModelTests {
         val server2 = MockedServers.serverList[2]
         assertNotEquals("Servers in this test need to be in different countries", server1.exitCountry, server2.exitCountry)
         runBlocking {
-            serverManager.setServers(listOf(server1), null)
+            serverManager.setServers(listOf(server1), null, null)
         }
 
         // Note: this assumes that defaultConnection is for the fastest server.
@@ -275,7 +275,7 @@ class TvMainViewModelTests {
         assertIs<QuickConnectCard>(recentsBefore[0])
 
         runBlocking {
-            serverManager.setServers(listOf(server2), null)
+            serverManager.setServers(listOf(server2), null, null)
         }
         val secondDefaultServer =
             serverManager.getServerForProfile(profileManager.getDefaultOrFastest(), vpnUserFlow.value, userSettingsCached.value.protocol)!!

@@ -24,6 +24,7 @@ import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.servers.api.LoadUpdate
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.utils.replace
 import kotlinx.coroutines.async
 import kotlinx.coroutines.sync.Mutex
@@ -36,19 +37,34 @@ import javax.inject.Singleton
 class ServersDataManager @Inject constructor(
     private val dispatcherProvider: VpnDispatcherProvider,
     private val serversStore: ServersStore,
+    private val updateServersWithBinaryStatus: UpdateServersWithBinaryStatus,
 ) {
     private data class ServerLists(
-        val allServers: List<Server> = emptyList(),
-        val allServersByScore: List<Server> = emptyList(),
-        val vpnCountries: List<VpnCountry> = emptyList(),
-        val secureCoreExitCountries: List<VpnCountry> = emptyList(),
-        val gateways: List<GatewayGroup> = emptyList(),
+        val allServers: List<Server>,
+        val allServersByScore: List<Server>,
+        val vpnCountries: List<VpnCountry>,
+        val secureCoreExitCountries: List<VpnCountry>,
+        val gateways: List<GatewayGroup>,
+        val statusId: LogicalsStatusId? = null,
+    )
+
+    private data class UpdateResult(
+        val statusId: LogicalsStatusId?,
+        val servers: List<Server>,
     )
 
     // Protect all modifications with the mutex. Use updateWithMutex for common cases.
     private val updateMutex = Mutex()
-    private var serverLists = ServerLists()
+    private var serverLists = ServerLists(
+        allServers = emptyList(),
+        allServersByScore = emptyList(),
+        vpnCountries = emptyList(),
+        secureCoreExitCountries = emptyList(),
+        gateways = emptyList(),
+        statusId = null,
+    )
 
+    val statusId: LogicalsStatusId? get() = serverLists.statusId
     val allServers: List<Server> get() = serverLists.allServers
     val allServersByScore: List<Server> get() = serverLists.allServersByScore
     val vpnCountries: List<VpnCountry> get() = serverLists.vpnCountries
@@ -57,10 +73,10 @@ class ServersDataManager @Inject constructor(
 
     suspend fun load() {
         serversStore.load()
-        updateWithMutex(saveToStorage = false) { serversStore.allServers }
+        updateWithMutex(saveToStorage = false) { with(serversStore) { UpdateResult(serversStatusId, allServers) } }
     }
 
-    suspend fun replaceServers(serverList: List<Server>, retainIDs: Set<String>) {
+    suspend fun replaceServers(serverList: List<Server>, newStatusId: LogicalsStatusId?, retainIDs: Set<String>) {
         updateWithMutex {
             if (retainIDs.isNotEmpty()) {
                 withContext(dispatcherProvider.Comp) {
@@ -70,17 +86,17 @@ class ServersDataManager @Inject constructor(
                             missingServerIDs.remove(server.serverId)
                     }
                     val retainedServers = allServers.filter { it.serverId in missingServerIDs }
-                    serverList + retainedServers
+                    UpdateResult(newStatusId, serverList + retainedServers)
                 }
             } else {
-                serverList
+                UpdateResult(newStatusId, serverList)
             }
         }
     }
 
     suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
         updateWithMutex {
-            buildList(allServers.size) {
+            val updatedServers = buildList(allServers.size) {
                 allServers.forEach { currentServer ->
                     val server = if (currentServer.connectingDomains.any { it.id == connectingDomain.id }) {
                         val updatedConnectingDomains = currentServer.connectingDomains.replace(
@@ -94,13 +110,14 @@ class ServersDataManager @Inject constructor(
                     add(server)
                 }
             }
+            UpdateResult(statusId, updatedServers)
         }
     }
 
     suspend fun updateLoads(loadsList: List<LoadUpdate>) {
         updateWithMutex {
             val loadsMap: Map<String, LoadUpdate> = loadsList.associateBy { it.id }
-            buildList(allServers.size) {
+            val updatedServers = buildList(allServers.size) {
                 allServers.forEach { currentServer ->
                     val newValues = loadsMap[currentServer.serverId]
                     val server = if (newValues != null) {
@@ -127,44 +144,58 @@ class ServersDataManager @Inject constructor(
                     add(server)
                 }
             }
+            UpdateResult(statusId, updatedServers)
+        }
+    }
+
+    suspend fun updateBinaryLoads(statusId: LogicalsStatusId, statusData: ByteArray) {
+        updateWithMutex {
+            if (statusId != this.statusId) return@updateWithMutex null
+            val updatedServers = updateServersWithBinaryStatus(serversStore.allServers, statusData)
+            updatedServers?.let { UpdateResult(statusId, updatedServers) }
         }
     }
 
     suspend fun updateOrAddServer(server: Server) {
         updateWithMutex {
             withContext(dispatcherProvider.Comp) {
-                allServers.toMutableList().apply {
-                    removeIf { it.serverId == server.serverId }
-                    add(server)
-                }
+                UpdateResult(
+                    statusId,
+                    allServers.toMutableList().apply {
+                        removeIf { it.serverId == server.serverId }
+                        add(server)
+                    }
+                )
             }
         }
     }
 
     private suspend fun updateWithMutex(
         saveToStorage: Boolean = true,
-        updateBlock: suspend () -> List<Server>
+        updateBlock: suspend () -> UpdateResult?,
     ) {
         updateMutex.withLock {
-            val (allServers, newServerLists) = withContext(dispatcherProvider.Comp) {
-                val allNewServers = updateBlock()
-                val newServers = allNewServers.filter { it.isVisible }
-                val groupedServers = async { updateServerLists(newServers) }
+            val updateResult: Pair<List<Server>, ServerLists>? = withContext(dispatcherProvider.Comp) {
+                val update = updateBlock() ?: return@withContext null
+                val newServers = update.servers.filter { it.isVisible }
+                val groupedServers = async { updateServerLists(newServers, update.statusId) }
                 val sortedServers = async { newServers.sortedBy { it.score } }
                 val newServerLists = groupedServers.await()
                     .copy(allServersByScore = sortedServers.await())
-                allNewServers to newServerLists
+                update.servers to newServerLists
             }
-            if (saveToStorage) {
-                serversStore.allServers = allServers
-                serversStore.save()
+            if (updateResult != null) {
+                val (allServers, newServerLists) = updateResult
+                if (saveToStorage) {
+                    serversStore.save(allServers, newServerLists.statusId)
+                }
+                serverLists = newServerLists
             }
-            serverLists = newServerLists
         }
     }
 
     companion object {
-        private fun updateServerLists(newServerList: List<Server>): ServerLists {
+        private fun updateServerLists(newServerList: List<Server>, statusId: LogicalsStatusId?): ServerLists {
             fun MutableMap<String, MutableList<Server>>.addServer(
                 key: String,
                 server: Server,
@@ -196,10 +227,12 @@ class ServersDataManager @Inject constructor(
             }
 
             return ServerLists(
+                statusId = statusId,
                 allServers = newServerList,
                 vpnCountries = vpnCountries.toVpnCountries(),
                 secureCoreExitCountries = secureCoreExitCountries.toVpnCountries(),
                 gateways = gateways.map { (name, servers) -> GatewayGroup(name, servers) },
+                allServersByScore = emptyList() // This value will be set by the caller.
             )
         }
     }

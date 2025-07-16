@@ -26,6 +26,7 @@ import com.protonvpn.android.observability.AppExitTotal
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -84,6 +85,8 @@ fun ProtonLogger.logUiSettingChange(setting: Setting, where: String) {
 }
 
 fun ProtocolSelection.toLog() = "$vpn ${transmission ?: ""}"
+
+fun Server.toLog() = "$serverName ($serverId)"
 
 fun Boolean?.toLog() = when(this) {
     true -> "enabled"

@@ -70,7 +70,7 @@ class TranslatorTests {
             createServer(city = "Zurich", translations = mapOf("City" to "Zurych")),
             createServer(city = "New York", translations = mapOf("City" to "Nowy Jork"))
         )
-        serverManager.setServers(servers, "pl")
+        serverManager.setServers(servers, null, "pl")
         val translator = createTranslator()
 
         assertEquals("Zurych", translator.getCity("Zurich"))
@@ -83,7 +83,7 @@ class TranslatorTests {
             createServer(state = "California", translations = mapOf("State" to "Kalifornia")),
             createServer(state = "New York", translations = mapOf("State" to "Nowy Jork"))
         )
-        serverManager.setServers(servers, "pl")
+        serverManager.setServers(servers, null, "pl")
         val translator = createTranslator()
 
         assertEquals("Kalifornia", translator.getState("California"))
@@ -98,7 +98,7 @@ class TranslatorTests {
             createServer(city = "Warsaw", translations = mapOf("City" to "")),
             createServer(state = "California", translations = null),
         )
-        serverManager.setServers(servers, "pl")
+        serverManager.setServers(servers, null, "pl")
         val translator = createTranslator()
 
         assertEquals("Zurich", translator.getCity("Zurich"))
@@ -118,12 +118,12 @@ class TranslatorTests {
             createServer(state = "North Carolina", translations = mapOf("State" to "Carolina del Norte"))
         )
 
-        serverManager.setServers(serversPl, "pl")
+        serverManager.setServers(serversPl, null, "pl")
         val translator = createTranslator()
         assertEquals("Nowy Jork", translator.getCity("New York"))
         assertEquals("Północna Karolina", translator.getState("North Carolina"))
 
-        serverManager.setServers(serversEs, "es")
+        serverManager.setServers(serversEs, null, "es")
         assertEquals("Nueva York", translator.getCity("New York"))
         assertEquals("Carolina del Norte", translator.getState("North Carolina"))
     }

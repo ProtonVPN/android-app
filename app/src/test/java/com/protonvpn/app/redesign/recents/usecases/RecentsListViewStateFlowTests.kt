@@ -277,7 +277,7 @@ class RecentsListViewStateFlowTests {
         coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(DefaultRecents.first())
 
         val offlineSecureCore = serverSecureCore.copy(isOnline = false)
-        serverManager.setServers(listOf(serverCh, serverIs, serverSe, offlineSecureCore), null)
+        serverManager.setServers(listOf(serverCh, serverIs, serverSe, offlineSecureCore), null, null)
 
         val viewState = viewStateFlow.first()
 
@@ -295,7 +295,7 @@ class RecentsListViewStateFlowTests {
             serverSe.copy(tier = 0),
             serverIs.copy(tier = 0),
         )
-        serverManager.setServers(servers, null)
+        serverManager.setServers(servers, null, null)
         val viewState = viewStateFlow.first()
         assertEquals(emptyList(), viewState.recents.map { it.availability })
     }
@@ -309,7 +309,7 @@ class RecentsListViewStateFlowTests {
             serverSe.copy(isOnline = false),
             serverIs.copy(isOnline = false),
         )
-        serverManager.setServers(servers, null)
+        serverManager.setServers(servers, null, null)
         val viewState = viewStateFlow.first()
 
         val expected = listOf(
@@ -327,7 +327,7 @@ class RecentsListViewStateFlowTests {
         val viewStates = viewStateFlow
             .onEach {
                 val offlineSecureCoreServer = serverSecureCore.copy(isOnline = false)
-                serverManager.setServers(listOf(serverCh, offlineSecureCoreServer), null)
+                serverManager.setServers(listOf(serverCh, offlineSecureCoreServer), null, null)
             }
             .take(2)
             .toList()
@@ -349,7 +349,7 @@ class RecentsListViewStateFlowTests {
         val wgOnlyDomain =
             ConnectingDomain(entryIp = null, wgEntryProtocols, "domain", null, "id1", publicKeyX25519 = "key")
         val wgOnlyServer = serverSecureCore.copy(connectingDomains = listOf(wgOnlyDomain))
-        serverManager.setServers(listOf(serverCh, wgOnlyServer), null)
+        serverManager.setServers(listOf(serverCh, wgOnlyServer), null, null)
 
         val viewStates = viewStateFlow
             .onEach {

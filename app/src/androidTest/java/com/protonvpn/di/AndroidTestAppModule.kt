@@ -21,6 +21,8 @@ package com.protonvpn.di
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
+import com.protonvpn.android.servers.UpdateServersWithBinaryStatus
+import com.protonvpn.android.servers.UpdateServersWithBinaryStatusImpl
 import com.protonvpn.testsHelper.EspressoDispatcherProvider
 import dagger.Binds
 import dagger.Module
@@ -59,5 +61,8 @@ object AndroidTestScopeAppModule {
         @Binds
         @Singleton
         fun provideCurrentUserProvider(impl: DefaultCurrentUserProvider): CurrentUserProvider
+
+        @Binds
+        fun provideUpdateServersWithBinaryStatus(impl: UpdateServersWithBinaryStatusImpl): UpdateServersWithBinaryStatus
     }
 }

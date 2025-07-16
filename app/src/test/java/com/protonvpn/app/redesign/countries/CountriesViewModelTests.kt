@@ -102,7 +102,7 @@ class CountriesViewModelTests {
             createServer(exitCountry = "RO", tier = 1),
             createServer(exitCountry = "LV", tier = 1), // Starts with Ł in Polish, should be in front of R.
         )
-        serverManager.setServers(servers, null)
+        serverManager.setServers(servers, null, null)
         viewModel.localeFlow.value = localePl
 
         val state = viewModel.stateFlow.filterNotNull().first()
@@ -117,7 +117,7 @@ class CountriesViewModelTests {
             createServer(serverName = "high", exitCountry = "PL", city = city, loadPercent = 50.13f, tier = 1),
             createServer(serverName = "low", exitCountry = "PL", city = city, loadPercent = 6.24f, tier = 1),
         )
-        serverManager.setServers(servers, null)
+        serverManager.setServers(servers, null, null)
         viewModel.localeFlow.value = localePl
 
         val cityItem = ServerGroupItemData.City(
@@ -139,13 +139,11 @@ class CountriesViewModelTests {
 
     @Test
     fun selectFilterScenario() = runTest {
-        serverManager.setServers(
-            listOf(
-                server(exitCountry = "US"),
-                server(exitCountry = "JP", features = SERVER_FEATURE_TOR),
-            ),
-            null
+        val servers = listOf(
+            server(exitCountry = "US"),
+            server(exitCountry = "JP", features = SERVER_FEATURE_TOR),
         )
+        serverManager.setServers(servers, null, null)
         viewModel.localeFlow.value = Locale.US
 
         val expectedFilters = listOf(ServerFilterType.All, ServerFilterType.Tor)
@@ -171,6 +169,7 @@ class CountriesViewModelTests {
         val viewModel = countriesViewModelInjector.getViewModel(connect = { _, _, _ -> connectCalled = true })
         serverManager.setServers(
             listOf(server(exitCountry = "US"), server(exitCountry = "JP")),
+            null,
             null
         )
         viewModel.localeFlow.value = localePl
@@ -198,6 +197,7 @@ class CountriesViewModelTests {
         )
         serverManager.setServers(
             listOf(server(exitCountry = "US"), server(exitCountry = "JP")),
+            null,
             null
         )
         viewModel.localeFlow.value = localePl
@@ -233,6 +233,7 @@ class CountriesViewModelTests {
         )
         serverManager.setServers(
             listOf(server(exitCountry = "US"), server(exitCountry = "JP", features = SERVER_FEATURE_TOR)),
+            null,
             null
         )
         viewModel.localeFlow.value = localePl
@@ -251,6 +252,7 @@ class CountriesViewModelTests {
         val viewModel = countriesViewModelInjector.getViewModel()
         serverManager.setServers(
             listOf(server(exitCountry = "US"), server(exitCountry = "JP")),
+            null,
             null
         )
         viewModel.localeFlow.value = localePl
@@ -274,7 +276,8 @@ class CountriesViewModelTests {
         )
         serverManager.setServers(
             listOf(usServer, server(exitCountry = "JP")),
-            null
+            null,
+            null,
         )
         viewModel.localeFlow.value = localePl
 

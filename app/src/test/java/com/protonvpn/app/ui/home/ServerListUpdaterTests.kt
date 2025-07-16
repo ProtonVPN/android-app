@@ -25,12 +25,18 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.models.vpn.data.LogicalsMetadata
 import com.protonvpn.android.servers.FakeIsBinaryServerStatusFeatureFlagEnabled
+import com.protonvpn.android.servers.FetchServerListWithStatus
 import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
 import com.protonvpn.android.servers.Server
+import com.protonvpn.android.servers.api.LogicalServer
+import com.protonvpn.android.servers.api.LogicalServerV1
+import com.protonvpn.android.servers.api.LogicalsResponse
+import com.protonvpn.android.servers.api.LogicalsStatusId
+import com.protonvpn.android.servers.api.ServerListV1
+import com.protonvpn.android.servers.toPartialServer
 import com.protonvpn.android.servers.toServers
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -43,9 +49,12 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
+import com.protonvpn.mocks.FakeUpdateServersWithBinaryStatus
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createLogicalServer
 import com.protonvpn.test.shared.createServer
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -86,20 +95,14 @@ private const val OLD_IP = "10.0.0.1"
 private const val BACKGROUND_DELAY_MS = 1000L
 private const val FOREGROUND_DELAY_MS = 100L
 
-private val FULL_LIST_LOGICALS = MockedServers.logicalsList
-private val FREE_LIST_LOGICALS_MODIFIED = listOf(
+private val FULL_LIST_LOGICALS_V1 = MockedServers.logicalsList
+private val FREE_LIST_LOGICALS_V1_MODIFIED = listOf(
     MockedServers.logicalsList.first { it.serverName == "SE#3" }.copy(load = 50f)
 )
-private val FULL_LIST = FULL_LIST_LOGICALS.toServers()
-private val FREE_LIST_MODIFIED  = FREE_LIST_LOGICALS_MODIFIED.toServers()
-private val RESPONSE_304 : Response<ServerListV1> = Response.error("".toResponseBody(),
-    okhttp3.Response.Builder()
-        .request(Request.Builder().url("https://localhost").get().build())
-        .code(304)
-        .message("Not Modified")
-        .protocol(Protocol.HTTP_1_1)
-        .build()
-)
+private val LIST_LOGICALS_V2 = listOf(createLogicalServer("ID1"), createLogicalServer("ID2"))
+private val STATUS_ID: LogicalsStatusId = "StatusId"
+private val FULL_LIST = FULL_LIST_LOGICALS_V1.toServers()
+private val FREE_LIST_MODIFIED  = FREE_LIST_LOGICALS_V1_MODIFIED.toServers()
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ServerListUpdaterTests {
@@ -122,6 +125,9 @@ class ServerListUpdaterTests {
     @RelaxedMockK
     private lateinit var mockPeriodicUpdateManager: PeriodicUpdateManager
 
+    private lateinit var fakeUpdateWithBinaryStatus: FakeUpdateServersWithBinaryStatus
+    private lateinit var fakeServerListV1Backend: FakeServerListV1Backend
+    private lateinit var fakeServerListV2Backend: FakeServerListV2Backend
     private lateinit var remoteConfig: ServerListUpdaterRemoteConfig
     private lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
     private lateinit var testScope: TestScope
@@ -129,17 +135,14 @@ class ServerListUpdaterTests {
     private lateinit var mustHaveIDs: Set<String>
     private lateinit var binaryStatusFfEnabled: MutableStateFlow<Boolean>
     private lateinit var truncationEnabled: MutableStateFlow<Boolean>
-    private var applyTruncation: Boolean = true
     private lateinit var runWhileGettingServerList: () -> Unit
 
     private lateinit var serverListUpdater: ServerListUpdater
-    private var lastModifiedOverride: Long? = null
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
-        lastModifiedOverride = null
         val testDispatcher = UnconfinedTestDispatcher()
         testScope = TestScope(testDispatcher)
         // Move wall clock away from epoch
@@ -156,6 +159,17 @@ class ServerListUpdaterTests {
                 )
             )
         )
+        fakeUpdateWithBinaryStatus = FakeUpdateServersWithBinaryStatus()
+        fakeServerListV1Backend = FakeServerListV1Backend(
+            serverLastModified = { testScope.currentTime },
+            freeLogicals = FREE_LIST_LOGICALS_V1_MODIFIED,
+            fullLogicals = FULL_LIST_LOGICALS_V1
+        )
+        fakeServerListV2Backend = FakeServerListV2Backend(
+            serverLastModified = { testScope.currentTime },
+            logicals = LIST_LOGICALS_V2,
+            statusId = STATUS_ID
+        )
         runWhileGettingServerList = {}
         coEvery { guestHole.runWithGuestHoleFallback(any<suspend () -> Any?>()) } coAnswers { firstArg<suspend () -> Any?>()() }
         coEvery { mockCurrentUser.isLoggedIn() } returns true
@@ -164,42 +178,39 @@ class ServerListUpdaterTests {
         coEvery { mockServerManager.isDownloadedAtLeastOnce } returns true
         coEvery { mockServerManager.needsUpdate() } returns false
         var allServers = emptyList<Server>()
-        coEvery { mockServerManager.setServers(any(), any()) } answers { allServers = firstArg() }
+        coEvery { mockServerManager.setServers(any(), any(), any()) } answers { allServers = firstArg() }
         every { mockServerManager.allServers } answers { allServers }
         coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
-        coEvery { mockApi.getServerList(any(), any(), any(), any(), any(), any(), any()) } answers {
+        coEvery { mockApi.getServerListV1(any(), any(), any(), any(), any(), any(), any()) } answers {
             runWhileGettingServerList()
-            val freeOnly = arg<Boolean>(3)
-            val lastModified = arg<Long>(4)
-            val enableTruncation = arg<Boolean>(5)
-            truncationEnabled.value
-            val list = if (freeOnly) FREE_LIST_LOGICALS_MODIFIED else FULL_LIST_LOGICALS
-            val serverLastModified = lastModifiedOverride ?: testScope.currentTime
-            if (serverLastModified > lastModified) {
-                val headers = Headers.Builder().add("Last-Modified", Date(serverLastModified)).build()
-                ApiResult.Success(
-                    Response.success(
-                        ServerListV1(list, LogicalsMetadata(listIsTruncated = enableTruncation && applyTruncation)),
-                        headers
-                    )
-                )
-            } else {
-                ApiResult.Success(RESPONSE_304)
-            }
+            fakeServerListV1Backend.createResponse(freeOnly = arg(3), lastModified = arg(4), enableTruncation = arg(5))
         }
+        coEvery { mockApi.getServerList(any(), any(), any(), any(), any(), any()) } answers {
+            runWhileGettingServerList()
+            fakeServerListV2Backend.createResponse(lastModified = arg(3), enableTruncation = arg(4))
+        }
+        coEvery { mockApi.getBinaryStatus(any()) } returns ApiResult.Success(ByteArray(0))
 
         every { mockTelephonyManager.phoneType } returns TelephonyManager.PHONE_TYPE_GSM
         every { mockTelephonyManager.networkCountryIso } returns "ch"
 
         mustHaveIDs = emptySet()
-        binaryStatusFfEnabled = MutableStateFlow(true)
+        binaryStatusFfEnabled = MutableStateFlow(false)
         truncationEnabled = MutableStateFlow(true)
-        applyTruncation = true
         val getNetZone = GetNetZone(serverListUpdaterPrefs)
         val serverListTruncationFF = FakeServerListTruncationEnabled(truncationEnabled)
         val binaryServerStatusEnabled = IsBinaryServerStatusEnabled(
             isBinaryServerStatusFeatureFlagEnabled = FakeIsBinaryServerStatusFeatureFlagEnabled(binaryStatusFfEnabled),
             isServerListTruncationFeatureFlagEnabled = serverListTruncationFF
+        )
+        val getTruncationMustHaveIds = GetTruncationMustHaveIDs { _, _ -> mustHaveIDs }
+        val fetchServerListWithStatus = FetchServerListWithStatus(
+            mockApi,
+            TestDispatcherProvider(testDispatcher),
+            fakeUpdateWithBinaryStatus,
+            binaryServerStatusEnabled,
+            serverListTruncationFF,
+            getTruncationMustHaveIds,
         )
         serverListUpdater = ServerListUpdater(
             testScope.backgroundScope,
@@ -216,9 +227,9 @@ class ServerListUpdaterTests {
             emptyFlow(),
             remoteConfig,
             testScope::currentTime,
+            fetchServerListWithStatus,
             binaryServerStatusEnabled,
-            serverListTruncationFF,
-            GetTruncationMustHaveIDs { _, _ -> mustHaveIDs }
+            getTruncationMustHaveIds,
         )
     }
 
@@ -286,18 +297,21 @@ class ServerListUpdaterTests {
         serverListUpdater.updateServers()
 
         coVerifyOrder {
-            mockApi.getServerList(any(), any(), any(), freeOnly = false, any(), any(), any())
-            mockServerManager.setServers(withArg { assertEquals(FULL_LIST, it) }, any())
+            mockApi.getServerListV1(any(), any(), any(), freeOnly = false, any(), any(), any())
+            mockServerManager.setServers(withArg { assertEquals(FULL_LIST, it) }, null, any())
 
-            mockApi.getServerList(any(), any(), any(), freeOnly = true, any(), any(), any())
-            mockServerManager.setServers(withArg { assertTrue(it.isModifiedList()) }, any())
+            mockApi.getServerListV1(any(), any(), any(), freeOnly = true, any(), any(), any())
+            mockServerManager.setServers(withArg { assertTrue(it.isModifiedList()) }, null, any())
 
-            mockApi.getServerList(any(), any(), any(), freeOnly = false, any(), any(), any())
+            mockApi.getServerListV1(any(), any(), any(), freeOnly = false, any(), any(), any())
         }
     }
 
     @Test
     fun `free user light list refresh disabled when binary status enabled`() = testScope.runTest {
+        fun applyStatus(server: Server) = server.copy(isOnline = true, isVisible = true, load = 10f, score = 1.0)
+        val expectedServers = LIST_LOGICALS_V2.map { applyStatus(it.toPartialServer()) }
+        fakeUpdateWithBinaryStatus.mapsAllServers(::applyStatus)
         binaryStatusFfEnabled.value = true
         truncationEnabled.value = true
 
@@ -313,10 +327,24 @@ class ServerListUpdaterTests {
 
         coVerifyOrder {
             repeat(2) {
-                mockApi.getServerList(any(), any(), any(), freeOnly = false, any(), any(), any())
-                mockServerManager.setServers(withArg { assertEquals(FULL_LIST, it) }, any())
+                mockApi.getServerList(any(), any(), any(), any(), any(), any())
+                mockServerManager.setServers(
+                    withArg { assertEquals(expectedServers, it) },
+                    STATUS_ID,
+                    any())
             }
         }
+    }
+
+    @Test
+    fun `when logicals is successful but binary status fails then no servers are updated`() = testScope.runTest {
+        binaryStatusFfEnabled.value = true
+        truncationEnabled.value = true
+        coEvery { mockApi.getBinaryStatus(any()) } returns ApiResult.Error.Connection()
+
+        serverListUpdater.updateServers()
+        coVerify(exactly = 1) { mockApi.getServerList(any(), any(), any(), any(), any(), any()) }
+        coVerify(exactly = 0) { mockServerManager.setServers(any(), any(), any()) }
     }
 
     @Test
@@ -327,8 +355,8 @@ class ServerListUpdaterTests {
         serverListUpdater.updateServers()
 
         coVerifyOrder {
-            mockApi.getServerList(any(), any(), any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2"))
-            mockServerManager.setServers(any(), any(), retainIDs = setOf("3"))
+            mockApi.getServerListV1(any(), any(), any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2"))
+            mockServerManager.setServers(any(), null, any(), retainIDs = setOf("3"))
         }
     }
 
@@ -338,48 +366,45 @@ class ServerListUpdaterTests {
         mustHaveIDs = setOf("1", "2", "3")
         serverListUpdater.updateServers()
         coVerifyOrder {
-            mockApi.getServerList(any(), any(), any(), any(), any(), enableTruncation = false, mustHaveIDs = emptySet())
-            mockServerManager.setServers(any(), any(), retainIDs = emptySet())
+            mockApi.getServerListV1(any(), any(), any(), any(), any(), enableTruncation = false, mustHaveIDs = emptySet())
+            mockServerManager.setServers(any(), null, any(), retainIDs = emptySet())
         }
     }
 
     @Test
     fun `don't retain server IDs if truncation not applied`() = testScope.runTest {
         truncationEnabled.value = true
-        applyTruncation = false
+        fakeServerListV1Backend.applyTruncation = false
         mustHaveIDs = setOf("1", "2", "3")
         serverListUpdater.updateServers()
         coVerifyOrder {
-            mockApi.getServerList(any(), any(), any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2", "3"))
-            mockServerManager.setServers(any(), any(), retainIDs = emptySet())
+            mockApi.getServerListV1(any(), any(), any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2", "3"))
+            mockServerManager.setServers(any(), null, any(), retainIDs = emptySet())
         }
     }
 
     @Test
     fun `no refresh if client already have newest version`() = testScope.runTest {
         val result1 = serverListUpdater.updateServers()
-        assertTrue(result1 is ApiResult.Success && result1.value != null)
+        assertTrue(result1 is ApiResult.Success)
+        coVerify(exactly = 1) { mockServerManager.setServers(any(), null, any()) }
 
         // Version will not change for the next call
-        lastModifiedOverride = serverListUpdaterPrefs.serverListLastModified
+        var lastModifiedOverride = serverListUpdaterPrefs.serverListLastModified
+        fakeServerListV1Backend.serverLastModified = { lastModifiedOverride }
 
         val result2 = serverListUpdater.updateServers()
-        assertTrue(result2 is ApiResult.Success && result2.value == null)
-
-        // Make sure 304 will update server list refresh timestamp
-        coVerify(exactly = 1) {
-            mockServerManager.updateTimestamp()
-        }
+        assertTrue(result2 is ApiResult.Success)
+        // 304 does not result in a call to setServers but will refresh timestamp.
+        coVerify(exactly = 1) { mockServerManager.setServers(any(), null, any()) }
+        coVerify(exactly = 1) { mockServerManager.updateTimestamp() }
 
         // Make new version available
-        lastModifiedOverride = lastModifiedOverride?.let { it + TimeUnit.HOURS.toMillis(1) }
+        lastModifiedOverride += TimeUnit.HOURS.toMillis(1)
         val result3 = serverListUpdater.updateServers()
-        assertTrue(result3 is ApiResult.Success && result3.value != null)
+        assertTrue(result3 is ApiResult.Success)
         assertEquals(lastModifiedOverride, serverListUpdaterPrefs.serverListLastModified)
-
-        coVerify(exactly = 2) {
-            mockServerManager.setServers(any(), any())
-        }
+        coVerify(exactly = 2) { mockServerManager.setServers(any(), null, any()) }
     }
 
     @Test
@@ -415,4 +440,81 @@ class ServerListUpdaterTests {
     private fun List<Server>.isModifiedList() =
         filter { it.tier != 0 } == FULL_LIST.filter { it.tier != 0 } // Same paid servers
             && filter { it.tier == 0 } == FREE_LIST_MODIFIED // Free servers come from new update
+}
+
+private abstract class FakeServerListBackend(
+    var serverLastModified: () -> Long
+) {
+
+    var applyTruncation: Boolean = true
+
+    protected fun <T> createResponse(
+        lastModified: Long,
+        enableTruncation: Boolean,
+        buildResponse: (isListTruncated: Boolean, headers: Headers) -> Response<T>
+    ) : ApiResult<Response<T>> {
+        val headers = Headers.Builder().add("Last-Modified", Date(serverLastModified())).build()
+        return if (serverLastModified() > lastModified) {
+            ApiResult.Success(buildResponse(enableTruncation && applyTruncation, headers))
+        } else {
+            ApiResult.Success(response304<T>())
+        }
+    }
+
+    private fun <T> response304() = Response.error<T>(
+        "".toResponseBody(),
+        okhttp3.Response.Builder()
+            .request(Request.Builder().url("https://localhost").get().build())
+            .code(304)
+            .message("Not Modified")
+            .protocol(Protocol.HTTP_1_1)
+            .build()
+    )
+}
+
+private class FakeServerListV1Backend(
+    serverLastModified: () -> Long,
+    var freeLogicals: List<LogicalServerV1>,
+    var fullLogicals: List<LogicalServerV1>,
+) : FakeServerListBackend(serverLastModified) {
+
+    fun createResponse(
+        freeOnly: Boolean,
+        lastModified: Long,
+        enableTruncation: Boolean,
+    ) = createResponse(lastModified, enableTruncation) { isListTruncated, headers ->
+        val list = if (freeOnly) freeLogicals else fullLogicals
+        response(list, isListTruncated, headers)
+    }
+
+    private fun response(
+        list: List<LogicalServerV1>,
+        isListTruncated: Boolean,
+        headers: Headers
+    ): Response<ServerListV1> = Response.success(
+            ServerListV1(list, LogicalsMetadata(listIsTruncated = isListTruncated)),
+            headers
+        )
+}
+
+private class FakeServerListV2Backend(
+    serverLastModified: () -> Long,
+    var logicals: List<LogicalServer>,
+    var statusId: LogicalsStatusId,
+) : FakeServerListBackend(serverLastModified) {
+
+    fun createResponse(lastModified: Long, enableTruncation: Boolean) =
+        createResponse(lastModified, enableTruncation) { isListTruncated, headers ->
+            response(logicals, statusId, isListTruncated, headers)
+        }
+
+    private fun response(
+        list: List<LogicalServer>,
+        statusId: LogicalsStatusId,
+        isListTruncated: Boolean,
+        headers: Headers
+    ): Response<LogicalsResponse> = Response.success(
+        LogicalsResponse(statusId, list, LogicalsMetadata(isListTruncated)),
+        headers
+    )
 }

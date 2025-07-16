@@ -66,6 +66,8 @@ import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapterLegacy
 import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabled
 import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabledImpl
+import com.protonvpn.android.servers.UpdateServersWithBinaryStatus
+import com.protonvpn.android.servers.UpdateServersWithBinaryStatusImpl
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.DefaultCommonDimensions
 import com.protonvpn.android.telemetry.DefaultTelemetryReporter
@@ -227,6 +229,9 @@ object AppModuleProd {
     @Module
     @InstallIn(SingletonComponent::class)
     interface Bindings {
+
+        @Binds
+        fun bindUpdateServersWithBinaryStatus(usecase: UpdateServersWithBinaryStatusImpl): UpdateServersWithBinaryStatus
 
         @Binds
         fun bindGlobalSettingsUpdateScheduler(

@@ -29,10 +29,10 @@ import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.search.FetchServerByName
 import com.protonvpn.android.redesign.search.FetchServerResult
 import com.protonvpn.android.redesign.search.SearchServerRemote
+import com.protonvpn.android.redesign.search.TextMatch
 import com.protonvpn.android.redesign.search.ui.SearchViewModel
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewState
-import com.protonvpn.android.redesign.search.TextMatch
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnect
@@ -104,7 +104,8 @@ class SearchViewModelTests {
                 server(exitCountry = "PT", city = "Porto", serverName = "PO#1"),
                 server(exitCountry = "PL", city = "Warsaw", serverName = "PL#1"),
             ),
-            null
+            null,
+            null,
         )
         viewModel.localeFlow.value = Locale.US
         viewModel.setQuery("po")
@@ -124,7 +125,8 @@ class SearchViewModelTests {
                 server(exitCountry = "EN", city = "York"),
                 server(exitCountry = "US", city = "New York"),
             ),
-            null
+            null,
+            null,
         )
         viewModel.localeFlow.value = Locale.US
         viewModel.setQuery("yor")
@@ -147,7 +149,8 @@ class SearchViewModelTests {
 
         serverManager.setServers(
             listOf(server(exitCountry = "US", city = "Portland", serverName = "US-CA#10")),
-            null
+            null,
+            null,
         )
         viewModel.localeFlow.value = Locale.US
 
@@ -193,7 +196,8 @@ class SearchViewModelTests {
 
         serverManager.setServers(
             listOf(server(serverId = "id1", exitCountry = "CH", serverName = "CH#1")),
-            null
+            null,
+            null,
         )
         viewModel.localeFlow.value = Locale.US
 
@@ -221,7 +225,7 @@ class SearchViewModelTests {
         val fetchServerByName: FetchServerByName = mockk()
         coEvery { fetchServerByName.invoke("CH#2") } returns FetchServerResult.Success(ch2)
         viewModel.localeFlow.value = Locale.US
-        serverManager.setServers(listOf(ch2), null)
+        serverManager.setServers(listOf(ch2), null, null)
 
         viewModel.stateFlow.test {
             viewModel.setQuery("CH#2")

@@ -47,6 +47,7 @@ import com.protonvpn.android.ui.promooffers.usecase.PostNps
 import me.proton.core.network.data.protonApi.BaseRetrofitApi
 import me.proton.core.network.domain.TimeoutOverride
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -92,6 +93,9 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         @HeaderMap headers: Map<String, String>,
         @Query("Tier") userTier: Int?
     ): LoadsResponse
+
+    @GET("vpn/v2/status/{id}/binary")
+    suspend fun getBinaryStatus(@Path(value = "id", encoded = true) id: String): ByteArray
 
     @GET("vpn/v1/streamingservices")
     suspend fun getStreamingServices(): StreamingServicesResponse

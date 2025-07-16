@@ -30,7 +30,7 @@ class ServerListV1(
 
 @Serializable
 class LogicalsResponse(
-    @SerialName(value = "Status") val statusId: String,
+    @SerialName(value = "StatusID") val statusId: String,
     @SerialName(value = "LogicalServers") val serverList: List<LogicalServer>,
     @SerialName(value = "ResponseMetadata") val metadata: LogicalsMetadata? = null,
 )

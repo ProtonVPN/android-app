@@ -20,7 +20,7 @@
 package com.protonvpn.android.servers
 
 import com.protonvpn.android.servers.api.ConnectingDomain
-import com.protonvpn.android.models.vpn.Location
+import com.protonvpn.android.servers.api.LogicalServer
 import com.protonvpn.android.servers.api.LogicalServerV1
 import com.protonvpn.android.servers.api.SERVER_FEATURE_IPV6
 import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
@@ -29,6 +29,8 @@ import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.servers.api.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.servers.api.SERVER_FEATURE_STREAMING
 import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
+import com.protonvpn.android.servers.api.ServerLocation
+import com.protonvpn.android.servers.api.ServerStatusReference
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.VpnIntToBoolSerializer
 import com.protonvpn.android.utils.hasFlag
@@ -49,9 +51,11 @@ data class Server(
     @SerialName(value = "State") val state: String? = null,
     @SerialName(value = "City") val city: String? = null,
     @SerialName(value = "Features") val features: Int,
-    @SerialName(value = "Location") private val location: Location,
+    @SerialName(value = "ExitLocation") val exitLocation: ServerLocation? = null,
+    @SerialName(value = "EntryLocation") val entryLocation: ServerLocation? = null,
     @SerialName(value = "Translations") private val translations: Map<String, String?>? = null,
     @SerialName(value = "GatewayName") val rawGatewayName: String? = null,
+    @SerialName(value = "StatusReference") val statusReference: ServerStatusReference? = null,
 
     @SerialName(value = "Score") val score: Double,
 
@@ -166,7 +170,9 @@ fun LogicalServerV1.toServer() = Server(
     state = state,
     city = city,
     features = features,
-    location = location,
+    exitLocation = with(location) {
+        ServerLocation(latitude = latitude.toFloatOrNull() ?: 0f, longitude = longitude.toFloatOrNull() ?: 0f)
+    },
     translations = translations,
     rawGatewayName = rawGatewayName,
     score = score,
@@ -174,4 +180,29 @@ fun LogicalServerV1.toServer() = Server(
     isVisible = true,
 )
 
-fun List<LogicalServerV1>.toServers() = map { it.toServer() }
+fun Iterable<LogicalServerV1>.toServers() = map { it.toServer() }
+
+fun LogicalServer.toPartialServer() = Server(
+    serverId = serverId,
+    entryCountry = entryCountry,
+    exitCountry = exitCountry,
+    serverName = serverName,
+    connectingDomains = physicalServers,
+    hostCountry = hostCountry,
+    tier = tier,
+    state = state,
+    city = city,
+    features = features,
+    exitLocation = exitLocation,
+    entryLocation = entryLocation,
+    translations = translations,
+    rawGatewayName = gatewayName,
+    statusReference = statusReference,
+    // The following values are fetched separately.
+    load = 100f,
+    score = 1_000_000.0,
+    isOnline = false,
+    isVisible = false,
+)
+
+fun Iterable<LogicalServer>.toPartialServers() = map { it.toPartialServer() }

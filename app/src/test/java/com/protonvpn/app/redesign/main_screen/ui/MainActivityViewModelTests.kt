@@ -110,7 +110,7 @@ class MainActivityViewModelTests {
     fun `GIVEN there are no servers WHEN showCountriesFlow is observed THEN emits false`() = testScope.runTest {
         val serverList = emptyList<Server>()
         val expectedShowCountries = false
-        serverManager.setServers(serverList = serverList, language = null)
+        serverManager.setServers(serverList = serverList, statusId = "1", language = null)
 
         viewModel.showCountriesFlow.test {
             val showCountries = awaitItem()
@@ -123,7 +123,7 @@ class MainActivityViewModelTests {
     fun `GIVEN there are servers WHEN showCountriesFlow is observed THEN emits true`() = testScope.runTest {
         val serverList = listOf(createServer(serverId = "server1"))
         val expectedShowCountries = true
-        serverManager.setServers(serverList = serverList, language = null)
+        serverManager.setServers(serverList = serverList, statusId = "1", language = null)
 
         viewModel.showCountriesFlow.test {
             val showCountries = awaitItem()
@@ -136,7 +136,7 @@ class MainActivityViewModelTests {
     fun `GIVEN there are no servers WHEN showGatewaysFlow is observed THEN emits false`() = testScope.runTest {
         val serverList = emptyList<Server>()
         val expectedShowGateways = false
-        serverManager.setServers(serverList = serverList, language = null)
+        serverManager.setServers(serverList = serverList, statusId = "1", language = null)
 
         viewModel.showGatewaysFlow.test {
             val showGateways = awaitItem()
@@ -149,7 +149,7 @@ class MainActivityViewModelTests {
     fun `GIVEN there are no servers with gateways WHEN showGatewaysFlow is observed THEN emits false`() = testScope.runTest {
         val serverList = listOf(createServer(serverId = "server1", gatewayName = null))
         val expectedShowGateways = false
-        serverManager.setServers(serverList = serverList, language = null)
+        serverManager.setServers(serverList = serverList, statusId = "1", language = null)
 
         viewModel.showGatewaysFlow.test {
             val showGateways = awaitItem()
@@ -162,7 +162,7 @@ class MainActivityViewModelTests {
     fun `GIVEN there are servers with gateways WHEN showGatewaysFlow is observed THEN emits true`() = testScope.runTest {
         val serverList = listOf(createServer(serverId = "server1", gatewayName = "gateway1"))
         val expectedShowGateways = true
-        serverManager.setServers(serverList = serverList, language = null)
+        serverManager.setServers(serverList = serverList, statusId = "1", language = null)
 
         viewModel.showGatewaysFlow.test {
             val showGateways = awaitItem()

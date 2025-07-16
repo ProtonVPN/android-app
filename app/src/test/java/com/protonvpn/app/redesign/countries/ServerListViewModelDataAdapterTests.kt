@@ -19,6 +19,7 @@
 
 package com.protonvpn.app.redesign.countries
 
+import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
 import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
 import com.protonvpn.android.redesign.CityStateId
@@ -29,9 +30,10 @@ import com.protonvpn.android.redesign.countries.ui.ServerGroupItemData
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.test.shared.createServer
 import com.protonvpn.app.testRules.RobolectricHiltAndroidRule
+import com.protonvpn.test.shared.createServer
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.flow.first
@@ -68,7 +70,7 @@ class ServerListViewModelDataAdapterTests {
 
     @Test
     fun testCountryFiltering() = runTest {
-        serverManager.setServers(
+        setServers(
             listOf(
                 server(exitCountry = "PL", isOnline = false),
                 server(exitCountry = "PL", isOnline = true),
@@ -77,8 +79,7 @@ class ServerListViewModelDataAdapterTests {
                 server(exitCountry = "DE", entryCountry = "SE", isSecureCore = true, tier = 2, isOnline = false),
                 server(exitCountry = "DE", entryCountry = "IS", isSecureCore = true, tier = 3, isOnline = false),
                 server(exitCountry = "JP", gatewayName = "gateway"), // Country with just gateways shouldn't show for countries
-            ),
-            null
+            )
         )
 
         val allCountries = adapter.countries().first()
@@ -112,7 +113,7 @@ class ServerListViewModelDataAdapterTests {
 
     @Test
     fun testCitiesFiltering() = runTest {
-        serverManager.setServers(
+        setServers(
             listOf(
                 server(exitCountry = "DE", city = "Berlin"),
                 server(exitCountry = "PL", city = "Warsaw", translations = mapOf("City" to "Warszawa"), tier = 2),
@@ -122,8 +123,7 @@ class ServerListViewModelDataAdapterTests {
                 server(exitCountry = "US", state = "California", city = "Los Angeles"),
                 server(exitCountry = "US", state = "California", city = "San Francisco"),
                 server(exitCountry = "US", state = "Alabama", city = "Birmingham"),
-            ),
-            null
+            )
         )
 
         val plCities = adapter.cities(country = CountryId("PL")).first()
@@ -158,7 +158,7 @@ class ServerListViewModelDataAdapterTests {
 
     @Test
     fun testServersFiltering() = runTest {
-        serverManager.setServers(
+        setServers(
             listOf(
                 server(exitCountry = "PL", city = "Warsaw", serverName = "PL#1", serverId = "w1", tier = 2),
                 server(exitCountry = "PL", city = "Warsaw", serverName = "PL#2", serverId = "w2", tier = 3, features = SERVER_FEATURE_TOR),
@@ -168,8 +168,7 @@ class ServerListViewModelDataAdapterTests {
                 server(exitCountry = "PL", gatewayName = "gateway", city = "Cracow", serverName = "PL-G#2", tier = 0), // Gateway server shouldn't show unless gateway filter is set
                 server(exitCountry = "US", state = "California", serverName = "US-CA#1", serverId = "cal1"),
                 server(exitCountry = "US", state = "California", serverName = "US-CA#2", serverId = "cal2"),
-            ),
-            null
+            )
         )
 
         val plWarsawServers = adapter.servers(country = CountryId("PL"), cityStateId = CityStateId("Warsaw", false)).first()
@@ -249,14 +248,13 @@ class ServerListViewModelDataAdapterTests {
 
     @Test
     fun testHaveStates() = runTest {
-        serverManager.setServers(
+        setServers(
             listOf(
                 server(exitCountry = "PL", city = "Warsaw"),
                 server(exitCountry = "PL", city = "Cracow"),
                 server(exitCountry = "US", state = "California"),
                 server(exitCountry = "US", state = "Alabama"),
             ),
-            null
         )
         assertEquals(false, adapter.haveStates(CountryId("PL")))
         assertEquals(true, adapter.haveStates(CountryId("US")))
@@ -264,14 +262,13 @@ class ServerListViewModelDataAdapterTests {
 
     @Test
     fun testAvailableTypes() = runTest {
-        serverManager.setServers(
+        setServers(
             listOf(
                 server(exitCountry = "PL"),
                 server(exitCountry = "PL", features = SERVER_FEATURE_TOR),
                 server(exitCountry = "DE", city = "Berlin", isSecureCore = true),
                 server(exitCountry = "DE", city = "Hamburg", features = SERVER_FEATURE_P2P),
             ),
-            null
         )
         assertEquals(
             setOf(ServerFilterType.All, ServerFilterType.Tor, ServerFilterType.P2P, ServerFilterType.SecureCore),
@@ -289,14 +286,13 @@ class ServerListViewModelDataAdapterTests {
 
     @Test
     fun testEntryCountries() = runTest {
-        serverManager.setServers(
+        setServers(
             listOf(
                 server(exitCountry = "PL"),
                 server(exitCountry = "PL", entryCountry = "IS", isSecureCore = true),
                 server(exitCountry = "DE", entryCountry = "IS", isSecureCore = true),
                 server(exitCountry = "DE", entryCountry = "SE", isSecureCore = true),
             ),
-            null
         )
 
         val plEntries = adapter.entryCountries(CountryId("PL")).first()
@@ -334,7 +330,7 @@ class ServerListViewModelDataAdapterTests {
 
     @Test
     fun testGateways() = runTest {
-        serverManager.setServers(
+        setServers(
             listOf(
                 server(exitCountry = "US"),
                 server(exitCountry = "US", gatewayName = "gateway1", isOnline = false, tier = 2),
@@ -343,7 +339,6 @@ class ServerListViewModelDataAdapterTests {
                 // Free servers in gateways should be displayed.
                 server(exitCountry = "NL", gatewayName = "gateway3", tier = 0),
             ),
-            null
         )
 
         val gateways = adapter.gateways().first()
@@ -357,19 +352,18 @@ class ServerListViewModelDataAdapterTests {
 
     @Test
     fun freeServersNotListed() = runTest {
-        serverManager.setServers(
+        setServers(
             listOf(
                 server(exitCountry = "PL", tier = 0),
                 server(exitCountry = "PL", tier = 1),
-            ),
-            null
+            )
         )
         val servers = adapter.servers(country = CountryId("PL")).first()
         assertEquals(1, servers.size)
     }
 
     private suspend fun searchTestSetup() {
-        serverManager.setServers(
+        setServers(
             listOf(
                 server(exitCountry = "PL", city = "Warsaw", serverName = "PL#1"),
                 server(exitCountry = "PL", city = "Warsaw", serverName = "PL#2", features = SERVER_FEATURE_TOR),
@@ -378,7 +372,6 @@ class ServerListViewModelDataAdapterTests {
                 server(exitCountry = "US", state = "California", serverName = "US-CA#1"),
                 server(exitCountry = "US", city = "New York", serverName = "US-NY#2"),
             ),
-            null
         )
     }
 
@@ -468,19 +461,25 @@ class ServerListViewModelDataAdapterTests {
 
     @Test
     fun testGetHostCountry() = runTest {
-        serverManager.setServers(
+        setServers(
             listOf(
                 server(exitCountry = "PL", city = "Warsaw", hostCountry = "US"),
                 server(exitCountry = "US", city = "New York"),
             ),
-            null
         )
 
         assertEquals(CountryId("US"), adapter.getHostCountry(CountryId("PL")))
         assertEquals(null, adapter.getHostCountry(CountryId("US")))
     }
+
+    private suspend fun setServers(serverList: List<Server>, statusId: LogicalsStatusId? = null) {
+        serverManager.setServers(serverList, statusId, null)
+    }
 }
 
+// TODO: it's being used in many test files, move it together with createServer.
+//  AFAIK the only difference is that it defaults to tier = 1 while createServer defaults to tier = 0.
+//  Maybe createServer can default to tier = 1?
 fun server(
     exitCountry: String,
     city: String? = null,

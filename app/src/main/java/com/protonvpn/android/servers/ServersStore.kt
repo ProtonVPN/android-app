@@ -21,6 +21,7 @@ package com.protonvpn.android.servers
 
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.utils.BytesFileWriter
 import com.protonvpn.android.utils.FileObjectStore
 import com.protonvpn.android.utils.KotlinCborObjectSerializer
@@ -33,11 +34,15 @@ import java.io.File
 class ServersStore(
     private val store: ObjectStore<ServersSerializationData>,
 ) {
+    var serversStatusId: LogicalsStatusId? = null
+        private set
     var allServers: List<Server> = emptyList()
+        private set
 
     suspend fun load() {
         val data = store.read()
         if (data != null) {
+            serversStatusId = data.statusFileId
             allServers = if (data.allServers.isEmpty() && data.vpnCountries.isNotEmpty()) {
                 extractServers(data.vpnCountries, data.secureCoreEntryCountries, data.secureCoreExitCountries)
             } else {
@@ -46,18 +51,15 @@ class ServersStore(
         }
     }
 
-    @Deprecated("Use save() with immutable data that can be serialized on another thread.")
-    fun saveMutable() {
-        val data = ServersSerializationData(allServers)
-        store.storeMutable(data)
-    }
-
-    fun save() {
-        val data = ServersSerializationData(allServers)
+    fun save(newServers: List<Server>, newStatusId: LogicalsStatusId?) {
+        serversStatusId = newStatusId
+        allServers = newServers
+        val data = ServersSerializationData(allServers, serversStatusId)
         store.store(data)
     }
 
     fun clear() {
+        serversStatusId = null
         allServers = emptyList()
         store.clear()
     }
@@ -90,6 +92,7 @@ class ServersStore(
 @kotlinx.serialization.Serializable
 class ServersSerializationData(
     val allServers: List<Server> = emptyList(),
+    val statusFileId: String? = null,
 
     // Deprecated, used only for migration.
     val vpnCountries: List<VpnCountry> = emptyList(),

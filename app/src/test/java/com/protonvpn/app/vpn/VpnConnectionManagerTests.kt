@@ -265,7 +265,7 @@ class VpnConnectionManagerTests {
     @Test
     fun `when fallback finishes wake lock is released`() = testScope.runTest {
         // No servers triggers fallback connections
-        serverManager.setServers(emptyList(), null)
+        serverManager.setServers(emptyList(), null, null)
         coEvery { mockVpnErrorHandler.onServerNotAvailable(any()) } returns null
 
         vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)

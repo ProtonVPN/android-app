@@ -23,12 +23,12 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.DefaultPorts
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.servers.api.ConnectingDomain
-import com.protonvpn.android.models.vpn.Location
-import com.protonvpn.android.servers.Server
-import com.protonvpn.android.servers.api.ServerEntryInfo
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.servers.Server
+import com.protonvpn.android.servers.api.ConnectingDomain
+import com.protonvpn.android.servers.api.ServerEntryInfo
+import com.protonvpn.android.servers.api.ServerLocation
 import com.protonvpn.android.vpn.PrepareForConnection
 import com.protonvpn.android.vpn.ServerAvailabilityCheck
 import com.protonvpn.test.shared.createGetSmartProtocols
@@ -46,6 +46,8 @@ import org.junit.Test
 import kotlin.random.Random
 import kotlin.test.assertEquals
 
+private val dummyLocation = ServerLocation(0f, 0f)
+
 private val connectingDomainTlsOnly = ConnectingDomain(
     null, mapOf("WireGuardTLS" to ServerEntryInfo("TLS")),
     "", id = "", publicKeyX25519 = "key2")
@@ -57,15 +59,15 @@ private val connectingDomainNoDedicatedEntry =
 private val testServer = Server(
     "id", "DE", "DE", "DE#1",
     listOf(connectingDomainTlsOnly, connectingDomainDedicatedTcp), load = 1f, tier = 3, city = "", features = 0,
-    location = Location("", ""), score = 1.0, isOnline = true
+    exitLocation = dummyLocation, entryLocation = dummyLocation, score = 1.0, isOnline = true
 )
 private val tlsOnlyServer = Server(
     "id", "DE", "DE", "DE#1", listOf(connectingDomainTlsOnly),
-    load = 1f, tier = 3, city = "", features = 0, location = Location("", ""), score = 1.0, isOnline = true
+    load = 1f, tier = 3, city = "", features = 0, exitLocation = dummyLocation, entryLocation = dummyLocation, score = 1.0, isOnline = true
 )
 private val testServerNoDedicatedEntry = Server(
     "id", "DE", "DE", "DE#3", listOf(connectingDomainNoDedicatedEntry),
-    load = 1f, tier = 3, city = "", features = 0, location = Location("", ""), score = 1.0, isOnline = true
+    load = 1f, tier = 3, city = "", features = 0, exitLocation = dummyLocation, entryLocation = dummyLocation, score = 1.0, isOnline = true
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)

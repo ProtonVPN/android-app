@@ -191,7 +191,7 @@ class GuestHoleVpnConnectionManagerTests {
 
         // Can't use runBlocking because ServerManager uses testScope's StandardTestDispatcher, so it would deadlock.
         testScope.launch {
-            serverManager.setServers(listOf(createServer("serverId")), null)
+            serverManager.setServers(listOf(createServer("serverId")), null, null)
             serverManager.setBuiltInGuestHoleServersForTesting(listOf(createServer("ghServerId")))
         }
         testScope.runCurrent()
