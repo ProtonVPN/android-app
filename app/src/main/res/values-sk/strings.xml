@@ -264,7 +264,7 @@
     <string name="error_profile_fallback_unavailable">Pripojenie zlyhalo. Váš server vybraný v profile nie je k dispozícii.</string>
     <string name="profileProtocolNotAvailable">Protokol VPN tohto profilu nie je v súčasnosti k dispozícii. Ak sa chcete pripojiť, skúste zmeniť protokol.</string>
     <string name="stateConnectedTo">Pripojené k %1$s</string>
-    <string name="stateNotConnected">Nie ste pripojení</string>
+    <string name="stateNotConnected">Bez pripojenia</string>
     <string name="nameEurope">Európa</string>
     <string name="nameAmerica">Amerika</string>
     <string name="nameAsia">Ázia</string>

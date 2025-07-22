@@ -1463,7 +1463,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="nps_how_likely_question">Proton VPN을 친구나 동료에게 얼마나 추천하실 것 같나요?</string>
     <string name="nps_additional_comment_title">저희에게 이 점수를 주신 이유를 알려주세요</string>
     <string name="nps_additional_comment_optional">선택</string>
-    <string name="nps_rating_low_values_explain">0은 매우 가능성이 낮습니다</string>
+    <string name="nps_rating_low_values_explain">0은 매우 가능성 낮음</string>
     <string name="nps_rating_high_values_explain">10은 매우 가능성 있음</string>
     <string name="nps_toast_submit_message">공유해주셔서 감사합니다. 회원님의 피드백은 Proton VPN을 향상시키는데 도움이 됩니다.</string>
     <string name="nps_submit_error_char_limit">응답이 250자 이상이여야 합니다.</string>
@@ -1485,8 +1485,8 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="settings_ipv6_enabled_toast">IPv6가 활성화됨</string>
     <string name="info_dialog_ipv6_traffic_benefits1">IPv6 전용 웹사이트 및 서비스에 대한 접근을 보장합니다.</string>
     <string name="info_dialog_ipv6_traffic_benefits2">IPv6에 의존하는 네트워크의 문제를 방지합니다.</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks1">노후화된 네트워크나 앱에 작동하지 않을 수 있습니다.</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks2">일부 네트워크가 IPv6 트래픽을 예측할 수 없이 처리합니다</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">노후화된 네트워크나 앱에서는 작동하지 않을 수 있습니다.</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">일부 네트워크는 IPv6 트래픽을 불규칙적으로 처리합니다</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">단점</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">이점</string>
     <string name="settings_lan_allow_direct_connection_title">직접 장치 연결 허용</string>
