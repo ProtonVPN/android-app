@@ -249,6 +249,8 @@ class ServerListUpdater @Inject constructor(
             with(result.value) {
                 prefs.lastKnownCountry = country
                 prefs.lastKnownIsp = isp
+                prefs.lastKnownIpLatitude = latitude
+                prefs.lastKnownIpLongitude = longitude
                 ProtonLogger.logCustom(LogCategory.APP, "location: $country, isp: $isp (as seen by API)")
             }
 

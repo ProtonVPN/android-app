@@ -26,6 +26,7 @@ import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
+import me.proton.core.util.android.sharedpreferences.float
 import me.proton.core.util.android.sharedpreferences.int
 import me.proton.core.util.android.sharedpreferences.long
 import me.proton.core.util.android.sharedpreferences.observe
@@ -46,13 +47,19 @@ class ServerListUpdaterPrefs @Inject constructor(
     var ipAddress: String by string(EMPTY_STRING, key = KEY_IP_ADDRESS)
     var lastKnownCountry: String? by string(key = KEY_COUNTRY)
     var lastKnownIsp: String? by string()
-    var lastNetzoneForLogicals: String? by string()
+
+    // Used in calculations for finding the most suitable VPN servers to connect to.
+    // These values are only processed within the application and never sent out.
+    var lastKnownIpLongitude: Float? by float()
+    var lastKnownIpLatitude: Float? by float()
+
     var lastFullUpdateTimestamp: Long by long(0)
     var serverListLastModified: Long by long(0)
     var vpnServerCount: Int by int(Constants.FALLBACK_SERVER_COUNT)
     var vpnCountryCount: Int by int(Constants.FALLBACK_COUNTRY_COUNT)
 
     // Removed (keeping for reference to avoid reusing names by mistake):
+    // var lastNetzoneForLogicals: String? by string()
     // var loadsUpdateTimestamp: Long by long(0)
 
     companion object {

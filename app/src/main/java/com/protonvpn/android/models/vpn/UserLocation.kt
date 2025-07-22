@@ -25,5 +25,7 @@ import kotlinx.serialization.Serializable
 class UserLocation(
     @SerialName(value = "IP") val ipAddress: String,
     @SerialName(value = "Country") val country: String,
-    @SerialName(value = "ISP") val isp: String
+    @SerialName(value = "ISP") val isp: String,
+    @SerialName(value = "Lat") val latitude: Float,
+    @SerialName(value = "Long") val longitude: Float,
 ) : java.io.Serializable

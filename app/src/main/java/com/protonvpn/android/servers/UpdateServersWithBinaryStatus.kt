@@ -20,10 +20,12 @@
 package com.protonvpn.android.servers
 
 import androidx.annotation.WorkerThread
+import com.protonvpn.android.appconfig.UserCountryIpBased
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.toLog
+import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import com.protonvpn.android.utils.stacktraceMessage
 import dagger.Reusable
@@ -41,7 +43,10 @@ interface UpdateServersWithBinaryStatus {
 private class BinaryStatusProcessingError(message: String) : Exception(message)
 
 @Reusable
-class UpdateServersWithBinaryStatusImpl @Inject constructor() : UpdateServersWithBinaryStatus {
+class UpdateServersWithBinaryStatusImpl @Inject constructor(
+    private val prefs: ServerListUpdaterPrefs,
+    private val userCountryIpBased: UserCountryIpBased,
+) : UpdateServersWithBinaryStatus {
 
     @WorkerThread
     override operator fun invoke(serversToUpdate: List<Server>, statusData: ByteArray): List<Server>? {
@@ -62,8 +67,8 @@ class UpdateServersWithBinaryStatusImpl @Inject constructor() : UpdateServersWit
             val loads = computeLoadsUniffi(
                 logicals = uniffiLogicals,
                 statusFile = statusData,
-                userLocation = UniffiLocation(lat = 0f, long = 0f),
-                userCountry = "",
+                userLocation = getLastKnownIpLocation(),
+                userCountry = userCountryIpBased()?.countryCode,
             )
             if (loads.size == serversToUpdate.size) {
                 serversToUpdate.zip(loads) { server, load ->
@@ -95,6 +100,12 @@ class UpdateServersWithBinaryStatusImpl @Inject constructor() : UpdateServersWit
             exitCountry = exitCountry,
             features = features.toUInt(),
         )
+    }
+
+    private fun getLastKnownIpLocation(): UniffiLocation? {
+        val latitude = prefs.lastKnownIpLatitude
+        val longitude = prefs.lastKnownIpLongitude
+        return if (latitude != null && longitude != null) UniffiLocation(latitude, longitude) else null
     }
 
     private fun logAndReportToSentry(message: String) {
