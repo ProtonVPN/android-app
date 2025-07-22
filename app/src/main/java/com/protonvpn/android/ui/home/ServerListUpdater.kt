@@ -31,6 +31,7 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
 import com.protonvpn.android.appconfig.periodicupdates.registerAction
 import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
+import com.protonvpn.android.appconfig.periodicupdates.toPeriodicActionResultWithCustomValue
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
@@ -107,6 +108,11 @@ class ServerListUpdater @Inject constructor(
     private val binaryServerStatusEnabled: IsBinaryServerStatusEnabled,
     private val getTruncationMustHaveIDs: GetTruncationMustHaveIDs,
 ) {
+    sealed interface Result {
+        object Success : Result
+        data class Error(val apiError: ApiResult.Error?) : Result
+    }
+
     val ipAddress = prefs.ipAddressFlow
 
     // Country and ISP are used by "Report an issue" form.
@@ -115,11 +121,7 @@ class ServerListUpdater @Inject constructor(
 
     private val isDisconnected = vpnStateMonitor.status.map { it.state == VpnState.Disabled }
 
-    private val serverListUpdate =
-        UpdateAction(
-            "server_list",
-            { PeriodicApiCallResult(updateServers()) },
-        )
+    private val serverListUpdate = UpdateAction("server_list", ::updateServers)
     private val locationUpdate = periodicUpdateManager.registerAction(
         "location",
         ::updateLocationIfVpnOff,
@@ -263,7 +265,7 @@ class ServerListUpdater @Inject constructor(
         return result
     }
 
-    suspend fun updateServerList(forceFreshUpdate: Boolean = false): ApiResult<Any?> {
+    suspend fun updateServerList(forceFreshUpdate: Boolean = false): Result {
         if (forceFreshUpdate) {
             // Force update regardless of the timestamp.
             prefs.serverListLastModified = 0
@@ -286,7 +288,7 @@ class ServerListUpdater @Inject constructor(
         }
 
     @VisibleForTesting
-    suspend fun updateServers(): ApiResult<Unit> {
+    suspend fun updateServers(): PeriodicActionResult<Result> {
         val lang = Locale.getDefault().language
         val netzone = getNetZone()
 
@@ -333,14 +335,20 @@ class ServerListUpdater @Inject constructor(
                 prefs.lastFullUpdateTimestamp = wallClock()
         }
 
-        // Note: it would be better to return PeriodicActionResult, but some of the logic needs the API error types,
-        // it's simpler to return an ApiResult with no data.
         return when(serverListResult) {
-            is FetchServerListWithStatus.FetchResult.ApiError -> serverListResult.apiError
+            is FetchServerListWithStatus.FetchResult.ApiError ->
+                serverListResult.apiError.toPeriodicActionResultWithCustomValue(
+                    Result.Error(serverListResult.apiError),
+                    isSuccess = false,
+                )
+
+            is FetchServerListWithStatus.FetchResult.EmptyBody,
+            is FetchServerListWithStatus.FetchResult.BinaryStatusError ->
+                PeriodicActionResult(Result.Error(null), isSuccess = false)
+
             is FetchServerListWithStatus.FetchResult.NewServers,
-            is FetchServerListWithStatus.FetchResult.EmptyBody, // TODO: this should be considered an error and block login.
-            is FetchServerListWithStatus.FetchResult.BinaryStatusError, // TODO: consider this an error, it should block login.
-            is FetchServerListWithStatus.FetchResult.NotModified -> ApiResult.Success(Unit)
+            is FetchServerListWithStatus.FetchResult.NotModified ->
+                PeriodicActionResult(Result.Success, isSuccess = true)
         }
     }
 

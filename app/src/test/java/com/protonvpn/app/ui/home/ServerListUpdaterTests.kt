@@ -23,6 +23,7 @@ import android.telephony.TelephonyManager
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.UserLocation
@@ -91,6 +92,7 @@ import java.util.Date
 import java.util.concurrent.TimeUnit
 
 private const val TEST_IP = "1.2.3.4"
+private val DUMMY_USER_LOCATION = UserLocation(TEST_IP, "pl", "ISP", latitude = 0f, longitude = 0f)
 private const val OLD_IP = "10.0.0.1"
 private const val BACKGROUND_DELAY_MS = 1000L
 private const val FOREGROUND_DELAY_MS = 100L
@@ -235,7 +237,7 @@ class ServerListUpdaterTests {
 
     @Test
     fun `location is updated when VPN is off`() = testScope.runTest {
-        coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
+        coEvery { mockApi.getLocation() } returns ApiResult.Success(DUMMY_USER_LOCATION)
 
         serverListUpdater.updateLocationIfVpnOff()
         assertEquals(TEST_IP, serverListUpdater.ipAddress.first())
@@ -257,7 +259,7 @@ class ServerListUpdaterTests {
     fun `location update is cancelled when VPN starts connecting during update`() = testScope.runTest {
         coEvery { mockApi.getLocation() } coAnswers {
             delay(1000)
-            ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
+            ApiResult.Success(DUMMY_USER_LOCATION)
         }
 
         val updateLocationJob = launch {
@@ -273,7 +275,7 @@ class ServerListUpdaterTests {
 
     @Test
     fun `location update triggers server list update`() = testScope.runTest {
-        coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
+        coEvery { mockApi.getLocation() } returns ApiResult.Success(DUMMY_USER_LOCATION)
         serverListUpdater.updateLocationIfVpnOff()
 
         coVerify { mockPeriodicUpdateManager.executeNow<Any, Any>(match { it.id == "server_list" }) }
@@ -385,8 +387,9 @@ class ServerListUpdaterTests {
 
     @Test
     fun `no refresh if client already have newest version`() = testScope.runTest {
+        val successResult = ServerListUpdater.Result.Success
         val result1 = serverListUpdater.updateServers()
-        assertTrue(result1 is ApiResult.Success)
+        assertEquals(successResult, result1.result)
         coVerify(exactly = 1) { mockServerManager.setServers(any(), null, any()) }
 
         // Version will not change for the next call
@@ -394,7 +397,7 @@ class ServerListUpdaterTests {
         fakeServerListV1Backend.serverLastModified = { lastModifiedOverride }
 
         val result2 = serverListUpdater.updateServers()
-        assertTrue(result2 is ApiResult.Success)
+        assertEquals(successResult, result2.result)
         // 304 does not result in a call to setServers but will refresh timestamp.
         coVerify(exactly = 1) { mockServerManager.setServers(any(), null, any()) }
         coVerify(exactly = 1) { mockServerManager.updateTimestamp() }
@@ -402,7 +405,7 @@ class ServerListUpdaterTests {
         // Make new version available
         lastModifiedOverride += TimeUnit.HOURS.toMillis(1)
         val result3 = serverListUpdater.updateServers()
-        assertTrue(result3 is ApiResult.Success)
+        assertEquals(successResult, result3.result)
         assertEquals(lastModifiedOverride, serverListUpdaterPrefs.serverListLastModified)
         coVerify(exactly = 2) { mockServerManager.setServers(any(), null, any()) }
     }

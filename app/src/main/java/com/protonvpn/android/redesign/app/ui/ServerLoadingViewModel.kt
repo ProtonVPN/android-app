@@ -87,7 +87,7 @@ class ServerLoadingViewModel @Inject constructor(
 
             val result = serverListUpdater.updateServerList(forceFreshUpdate = true)
 
-            loaderState.value = if (result.isSuccess) {
+            loaderState.value = if (result == ServerListUpdater.Result.Success) {
                 LoaderState.Loaded
             } else {
                 LoaderState.Error.RequestFailed
@@ -129,9 +129,6 @@ class ServerLoadingViewModel @Inject constructor(
                     context.startActivity(Intent(context, DynamicReportActivity::class.java))
                 },
             )
-
         }
-
     }
-
 }

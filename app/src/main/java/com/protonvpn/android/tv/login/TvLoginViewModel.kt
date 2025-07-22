@@ -43,7 +43,6 @@ import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import me.proton.core.account.domain.entity.Account
@@ -199,11 +198,11 @@ class TvLoginViewModel @Inject constructor(
         state.value = TvLoginViewState.Loading
         appConfig.forceUpdate(userId)
         when (val result = serverListUpdater.updateServerList()) {
-            is ApiResult.Success -> {
+            ServerListUpdater.Result.Success -> {
                 guestHole.releaseNeedGuestHole(VpnLogin.GUEST_HOLE_ID)
                 state.value = TvLoginViewState.Success
             }
-            is ApiResult.Error ->
+            is ServerListUpdater.Result.Error ->
                 state.value = result.toLoginError()
         }
     }
@@ -262,6 +261,10 @@ sealed class TvLoginViewState(
     )
 
     companion object {
+
+        fun ServerListUpdater.Result.Error.toLoginError() =
+            if (apiError != null) apiError.toLoginError()
+            else Error(R.string.loaderErrorGeneric, R.string.try_again)
 
         fun ApiResult.Error.toLoginError(): Error = when (this) {
             is ApiResult.Error.NoInternet ->

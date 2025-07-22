@@ -22,14 +22,12 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.ui.home.ServerListUpdater
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -39,7 +37,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import me.proton.core.network.domain.ApiResult
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -59,9 +56,6 @@ class ServerLoadingViewModelTests {
     @MockK
     private lateinit var serverListUpdater: ServerListUpdater
 
-    private val apiSuccess = ApiResult.Success(ServerListV1(emptyList()))
-    private val apiError = ApiResult.Error.Timeout(true, null)
-
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -69,7 +63,7 @@ class ServerLoadingViewModelTests {
         testScope = TestScope(testDispatcher)
         Dispatchers.setMain(testDispatcher)
         every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
-        coEvery { serverListUpdater.updateServerList(any()) } returns ApiResult.Success(mockk())
+        coEvery { serverListUpdater.updateServerList(any()) } returns ServerListUpdater.Result.Success
     }
 
     @After
@@ -95,7 +89,8 @@ class ServerLoadingViewModelTests {
         every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
         every { serverManager.hasAnyCountryFlow } returns flowOf(true)
         every { serverManager.hasAnyGatewaysFlow } returns flowOf(false)
-        coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns apiSuccess
+        coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns ServerListUpdater.Result.Success
+
         val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
         val expectedLoaderState = ServerLoadingViewModel.LoaderState.Loaded
 
@@ -111,7 +106,7 @@ class ServerLoadingViewModelTests {
         every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
         every { serverManager.hasAnyCountryFlow } returns flowOf(false)
         every { serverManager.hasAnyGatewaysFlow } returns flowOf(true)
-        coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns apiSuccess
+        coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns ServerListUpdater.Result.Success
         val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
         val expectedLoaderState = ServerLoadingViewModel.LoaderState.Loaded
 
@@ -127,7 +122,7 @@ class ServerLoadingViewModelTests {
         every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
         every { serverManager.hasAnyCountryFlow } returns flowOf(false)
         every { serverManager.hasAnyGatewaysFlow } returns flowOf(false)
-        coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns apiSuccess
+        coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns ServerListUpdater.Result.Success
         val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
         val expectedLoaderState = ServerLoadingViewModel.LoaderState.Error.NoCountriesNoGateways
 
@@ -149,7 +144,9 @@ class ServerLoadingViewModelTests {
             every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
             every { serverManager.hasAnyCountryFlow } returns flowOf(hasCountries)
             every { serverManager.hasAnyGatewaysFlow } returns flowOf(hasGateways)
-            coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns apiError
+            coEvery {
+                serverListUpdater.updateServerList(forceFreshUpdate = true)
+            } returns ServerListUpdater.Result.Error(null)
             val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
             val expectedLoaderState = ServerLoadingViewModel.LoaderState.Error.RequestFailed
 

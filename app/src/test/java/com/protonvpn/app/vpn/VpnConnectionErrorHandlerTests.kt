@@ -27,16 +27,9 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.login.Session
 import com.protonvpn.android.models.login.SessionListResponse
-import com.protonvpn.android.servers.api.ConnectingDomain
-import com.protonvpn.android.servers.api.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
-import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
-import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
-import com.protonvpn.android.servers.Server
-import com.protonvpn.android.servers.api.ServerEntryInfo
-import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
@@ -44,7 +37,13 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.api.ConnectingDomain
+import com.protonvpn.android.servers.api.ConnectingDomainResponse
+import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
+import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
+import com.protonvpn.android.servers.api.ServerEntryInfo
 import com.protonvpn.android.servers.toServers
 import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -605,7 +604,7 @@ class VpnConnectionErrorHandlerTests {
         coEvery { serverListUpdater.needsUpdate() } returns true
         coEvery { serverListUpdater.updateServerList() } answers {
             prepareServerManager(updatedServers)
-            ApiResult.Success(ServerListV1(updatedLogicals))
+            ServerListUpdater.Result.Success
         }
 
         prepareServerManager(initialServers)
