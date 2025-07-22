@@ -324,12 +324,15 @@ fun SubSettingsRoute(
             }
 
             SubSettingsScreen.Type.Theme -> {
-                val setting = viewModel.theme.collectAsStateWithLifecycle(initialValue = null).value
-                ThemeSettings(
-                    selectedTheme = setting,
-                    onSelected = settingsChangeViewModel::onThemeUpdated,
-                    onClose = onClose
-                )
+                val selectedTheme = viewModel.theme.collectAsStateWithLifecycle(initialValue = null).value
+
+                if(selectedTheme != null) {
+                    ThemeSettings(
+                        selectedTheme = selectedTheme,
+                        onSelected = settingsChangeViewModel::onThemeUpdated,
+                        onClose = onClose
+                    )
+                }
             }
 
             SubSettingsScreen.Type.IconChange -> {

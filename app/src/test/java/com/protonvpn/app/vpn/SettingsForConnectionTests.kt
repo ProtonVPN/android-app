@@ -35,7 +35,6 @@ import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
-import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -85,7 +84,6 @@ class SettingsForConnectionTests {
                 flags = SettingsFeatureFlagsFlow(
                     isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true),
                     isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(lanEnabledFF),
-                    isLightThemeFeatureFlagEnabled = FakeIsLightThemeFeatureFlagEnabled(true),
                 )
             ),
             vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)

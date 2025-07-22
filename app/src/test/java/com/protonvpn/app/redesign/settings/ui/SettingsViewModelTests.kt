@@ -42,7 +42,6 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
-import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
@@ -147,7 +146,6 @@ class SettingsViewModelTests {
         val currentUser = CurrentUser(testUserProvider)
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
         val isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
-        val isLightThemEnabled = FakeIsLightThemeFeatureFlagEnabled(true)
         settingsManager = CurrentUserLocalSettingsManager(
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()),
         )
@@ -158,7 +156,6 @@ class SettingsViewModelTests {
             flags = SettingsFeatureFlagsFlow(
                 isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
                 isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
-                isLightThemeFeatureFlagEnabled = isLightThemEnabled,
             )
         )
         val effectiveCurrentUserSettingsFlow = EffectiveCurrentUserSettingsFlow(
@@ -189,7 +186,6 @@ class SettingsViewModelTests {
             accountUserSettings = mockObserveUserSettings,
             buildConfigInfo = mockBuildConfigInfo,
             settingsForConnection = settingsForConnection,
-            vpnStatusProviderUI = vpnStatusProviderUI,
             recentsManager = mockRecentManager,
             installedAppsProvider = mockInstalledAppsProvider,
             getConnectIntentViewState = getConnectIntentViewState,
@@ -200,7 +196,6 @@ class SettingsViewModelTests {
             appWidgetManager = mockWidgetManager,
             appFeaturePrefs = prefs,
             isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
-            isLightThemeFeatureFlagEnabled = isLightThemEnabled,
             isPrivateDnsActiveFlow = IsPrivateDnsActiveFlow(isPrivateDnsActive),
             isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled
         )

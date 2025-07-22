@@ -31,7 +31,6 @@ import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.ImagePrefetcher
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.ui.promooffers.PromoOfferImage
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
@@ -198,14 +197,6 @@ class ApiNotificationManagerTests {
         assertEquals(listOf("success"), notificationManager.activeListFlow.first().map { it.id })
     }
 
-    @Test
-    fun `when image prefetch fails notification is filtered out (light mode disabled)`() = testScope.runTest {
-        notificationManager = createNotificationsManager(isLightThemeEnabled = false)
-        setupImagePrefetchTest()
-
-        assertEquals(listOf("success", "failureLight"), notificationManager.activeListFlow.first().map { it.id })
-    }
-
     private suspend fun setupImagePrefetchTest() {
         mockResponse(
             mockOffer("success", -1, 1, iconUrl = "urlSuccess", panel = mockFullScreenImagePanel("urlSuccess", "urlSuccess")),
@@ -281,20 +272,18 @@ class ApiNotificationManagerTests {
         assertEquals(expectedNotificationIds, notificationIds)
     }
 
-    private fun createNotificationsManager(isLightThemeEnabled: Boolean = true) =
-        ApiNotificationManager(
-            mockContext,
-            testScope.backgroundScope,
-            TestDispatcherProvider(testDispatcher),
-            { testScope.currentTime },
-            mockAppConfig,
-            mockApi,
-            currentUser,
-            mockUserPlanManager,
-            mockImagePrefetcher,
-            mockPeriodicUpdateManager,
-            FakeIsLightThemeFeatureFlagEnabled(isLightThemeEnabled),
-            flowOf(true),
-            flowOf(true),
-        )
+    private fun createNotificationsManager() = ApiNotificationManager(
+        mockContext,
+        testScope.backgroundScope,
+        TestDispatcherProvider(testDispatcher),
+        { testScope.currentTime },
+        mockAppConfig,
+        mockApi,
+        currentUser,
+        mockUserPlanManager,
+        mockImagePrefetcher,
+        mockPeriodicUpdateManager,
+        flowOf(true),
+        flowOf(true),
+    )
 }

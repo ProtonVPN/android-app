@@ -334,14 +334,14 @@ fun SettingsView(
                         onClick = onNotificationsClick,
                     )
                 }
-                if (viewState.theme != null) {
-                    SettingRowWithIcon(
-                        icon = CoreR.drawable.ic_proton_circle_half_filled,
-                        title = stringResource(R.string.settings_theme_title),
-                        onClick = onThemeClick,
-                        settingValue = viewState.theme.settingValueView,
-                    )
-                }
+
+                SettingRowWithIcon(
+                    icon = CoreR.drawable.ic_proton_circle_half_filled,
+                    title = stringResource(R.string.settings_theme_title),
+                    onClick = onThemeClick,
+                    settingValue = viewState.theme.settingValueView,
+                )
+
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_grid_2,
                     title = stringResource(id = R.string.settings_change_icon_title),

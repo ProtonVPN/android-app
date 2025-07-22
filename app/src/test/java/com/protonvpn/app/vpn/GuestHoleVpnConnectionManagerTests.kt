@@ -39,7 +39,6 @@ import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
-import com.protonvpn.android.theme.FakeIsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -52,9 +51,7 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
-import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.mocks.FakeGetProfileById
-import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
 import com.protonvpn.mocks.FakeVpnPermissionDelegate
 import com.protonvpn.mocks.FakeVpnUiDelegate

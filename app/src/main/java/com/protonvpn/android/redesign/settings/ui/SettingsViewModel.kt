@@ -40,7 +40,6 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.settings.data.SplitTunnelingMode
-import com.protonvpn.android.theme.IsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.theme.label
 import com.protonvpn.android.ui.settings.AppIconManager
@@ -51,7 +50,6 @@ import com.protonvpn.android.utils.combine
 import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
-import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.getDnsOverride
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
@@ -86,7 +84,6 @@ class SettingsViewModel @Inject constructor(
     accountUserSettings: ObserveUserSettings,
     buildConfigInfo: BuildConfigInfo,
     settingsForConnection: SettingsForConnection,
-    vpnStatusProviderUI: VpnStatusProviderUI,
     private val recentsManager: RecentsManager,
     private val installedAppsProvider: InstalledAppsProvider,
     private val getConnectIntentViewState: GetConnectIntentViewState,
@@ -97,7 +94,6 @@ class SettingsViewModel @Inject constructor(
     private val appWidgetManager: WidgetManager,
     private val appFeaturePrefs: AppFeaturesPrefs,
     private val isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
-    private val isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
     val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
 ) : ViewModel() {
@@ -321,7 +317,7 @@ class SettingsViewModel @Inject constructor(
         val buildInfo: String?,
         val showSignOut: Boolean,
         val showDebugTools: Boolean,
-        val theme: SettingViewState.Theme?,
+        val theme: SettingViewState.Theme,
         val isWidgetDiscovered: Boolean,
         val accountScreenEnabled: Boolean,
         val versionName: String,
@@ -346,8 +342,7 @@ class SettingsViewModel @Inject constructor(
             appFeaturePrefs.isWidgetDiscoveredFlow,
             isIPv6FeatureFlagEnabled.observe(),
             isPrivateDnsActiveFlow,
-            isLightThemeFeatureFlagEnabled.observe()
-        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled, isPrivateDnsActive, isLightThemeEnabled ->
+        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled, isPrivateDnsActive ->
             val isFree = user?.vpnUser?.isFreeUser == true
             val isCredentialLess = user?.user?.isCredentialLess() == true
             val settings = connectionSettings.connectionSettings
@@ -420,7 +415,7 @@ class SettingsViewModel @Inject constructor(
                     ),
                 versionName = BuildConfig.VERSION_NAME,
                 ipV6 = if (isIPv6FeatureFlagEnabled) SettingViewState.IPv6(enabled = settings.ipV6Enabled) else null,
-                theme = if (isLightThemeEnabled) SettingViewState.Theme(settings.theme) else null,
+                theme = SettingViewState.Theme(settings.theme),
             )
         }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(1_000), replay = 1)
 
@@ -435,7 +430,7 @@ class SettingsViewModel @Inject constructor(
     val protocol = viewState.map { it.protocol }.distinctUntilChanged()
     val customDns = viewState.map { it.customDns }.distinctUntilChanged()
     val splitTunneling = viewState.map { it.splitTunneling }.distinctUntilChanged()
-    val theme = viewState.map { it.theme?.value }.distinctUntilChanged()
+    val theme = viewState.map { it.theme.value }.distinctUntilChanged()
 
     data class AdvancedSettingsViewState(
         val altRouting: SettingViewState.AltRouting,

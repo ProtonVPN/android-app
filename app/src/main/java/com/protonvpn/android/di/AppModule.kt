@@ -72,8 +72,6 @@ import com.protonvpn.android.telemetry.SnapshotScheduler
 import com.protonvpn.android.telemetry.TelemetryReporter
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
-import com.protonvpn.android.theme.IsLightThemeFeatureFlagEnabled
-import com.protonvpn.android.theme.IsLightThemeFeatureFlagEnabledImpl
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
@@ -238,8 +236,10 @@ object AppModuleProd {
 
         @Binds
         fun bindTelemetryUploadScheduler(scheduler: TelemetryUploadWorkerScheduler): TelemetryUploadScheduler
+
         @Binds
         fun bindSnapshotScheduler(scheduler: SettingsSnapshotScheduler): SnapshotScheduler
+
         @Singleton
         @Binds
         fun provideLocalDataStoreFactory(factory: DefaultLocalDataStoreFactory): LocalDataStoreFactory
@@ -383,9 +383,6 @@ object AppModule {
 
         @Binds
         fun bindIsIPv6FeatureFlagEnabled(impl: IsIPv6FeatureFlagEnabledImpl): IsIPv6FeatureFlagEnabled
-
-        @Binds
-        fun bindIsLightThemeEnabled(impl: IsLightThemeFeatureFlagEnabledImpl): IsLightThemeFeatureFlagEnabled
 
         @Binds
         fun bindProvideLocalNetworks(impl: ProvideLocalNetworksImpl): ProvideLocalNetworks

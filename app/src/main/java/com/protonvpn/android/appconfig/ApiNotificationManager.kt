@@ -32,7 +32,6 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
-import com.protonvpn.android.theme.IsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.ui.promooffers.PromoOfferImage
 import com.protonvpn.android.ui.promooffers.PromoOfferImage.getFullScreenImageMaxSizePx
 import com.protonvpn.android.utils.Storage
@@ -102,7 +101,6 @@ class ApiNotificationManager @Inject constructor(
     private val userPlanManager: UserPlanManager,
     private val imagePrefetcher: ImagePrefetcher,
     private val periodicUpdateManager: PeriodicUpdateManager,
-    private val isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
     @IsInForeground private val inForeground: Flow<Boolean>,
     @IsLoggedIn private val isLoggedIn: Flow<Boolean>
 ) {
@@ -126,9 +124,8 @@ class ApiNotificationManager @Inject constructor(
     private val notificationsFlow = allNotificationsFlow
         .combine(prefetchTrigger) { notifications, _ -> notifications }
         .mapLatest { notifications ->
-            val isLightThemeEnabled = isLightThemeFeatureFlagEnabled()
             notifications.mapNotNullAsync { notification ->
-                notification.takeIf { notification.allImageUrls(isLightThemeEnabled).ensureAllPrefetched() }
+                notification.takeIf { notification.allImageUrls().ensureAllPrefetched() }
             }
         }
         .flowOn(dispatcherProvider.Io)
@@ -218,20 +215,18 @@ class ApiNotificationManager @Inject constructor(
         }
     }
 
-    private fun ApiNotification.allImageUrls(isLightModeEnabled: Boolean): List<String> =
-        buildList {
-            val width = getFullScreenImageMaxSizePx(appContext).width
-            val fullScreenImage = offer?.panel?.fullScreenImage
-            if (fullScreenImage != null) {
-                add(PromoOfferImage.getFullScreenImageUrl(pixelWidth = width, isNightMode = true, fullScreenImage))
-                if (isLightModeEnabled)
-                    add(PromoOfferImage.getFullScreenImageUrl(pixelWidth = width, isNightMode = false, fullScreenImage))
-            }
-            add(offer?.panel?.pictureUrl)
-            add(offer?.iconUrl)
+    private fun ApiNotification.allImageUrls(): List<String> = buildList {
+        val width = getFullScreenImageMaxSizePx(appContext).width
+        val fullScreenImage = offer?.panel?.fullScreenImage
+        if (fullScreenImage != null) {
+            add(PromoOfferImage.getFullScreenImageUrl(pixelWidth = width, isNightMode = true, fullScreenImage))
+            add(PromoOfferImage.getFullScreenImageUrl(pixelWidth = width, isNightMode = false, fullScreenImage))
         }
-        .filterNotNull()
-        .filter { it.isNotBlank() }
+        add(offer?.panel?.pictureUrl)
+        add(offer?.iconUrl)
+    }
+    .filterNotNull()
+    .filter(String::isNotBlank)
 
     private suspend fun List<String>.ensureAllPrefetched(): Boolean = mapAsync { url ->
         imagePrefetcher.prefetch(url)

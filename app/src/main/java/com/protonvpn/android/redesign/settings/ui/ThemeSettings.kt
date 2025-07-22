@@ -54,7 +54,7 @@ import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun ThemeSettings(
-    selectedTheme: ThemeType?,
+    selectedTheme: ThemeType,
     onSelected: (ThemeType) -> Unit,
     onClose: () -> Unit,
 ) {
@@ -66,14 +66,13 @@ fun ThemeSettings(
             modifier = Modifier.padding(horizontal = 16.dp)
                 .height(IntrinsicSize.Max)
         ) {
-            val itemModifier = Modifier.weight(1f)
             listOf(ThemeType.Light, ThemeType.Dark, ThemeType.System).forEach { theme ->
                 ThemeRadioItem(
                     titleRes = theme.label(),
                     imageRes = theme.image(),
                     selected = theme == selectedTheme,
                     onSelected = { onSelected(theme) },
-                    modifier = itemModifier
+                    modifier =  Modifier.weight(1f)
                 )
             }
         }

@@ -25,8 +25,6 @@ import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
-import com.protonvpn.android.theme.IsLightThemeFeatureFlagEnabled
-import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
@@ -51,24 +49,20 @@ import javax.inject.Singleton
 class SettingsFeatureFlagsFlow @Inject constructor(
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
-    isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
 ) : Flow<SettingsFeatureFlagsFlow.Flags> {
 
     data class Flags(
         val isIPv6Enabled: Boolean,
         val isDirectLanConnectionsEnabled: Boolean,
-        val isLightThemeEnabled: Boolean,
     )
 
     private val flow: Flow<Flags> = combine(
         isIPv6FeatureFlagEnabled.observe(),
         isDirectLanConnectionsFeatureFlagEnabled.observe(),
-        isLightThemeFeatureFlagEnabled.observe()
-    ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isLightThemeEnabled ->
+    ) { isIPv6Enabled, isDirectLanConnectionsEnabled ->
         Flags(
             isIPv6Enabled = isIPv6Enabled,
             isDirectLanConnectionsEnabled = isDirectLanConnectionsEnabled,
-            isLightThemeEnabled = isLightThemeEnabled,
         )
     }
 
@@ -120,7 +114,7 @@ abstract class BaseApplyEffectiveUserSettings(
                 NetShieldProtocol.DISABLED
             },
             customDns = if (isUserPlusOrAbove) settings.customDns else CustomDnsSettings(false),
-            theme = if (flags.isLightThemeEnabled) settings.theme else ThemeType.Dark,
+            theme = settings.theme,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
             ipV6Enabled = settings.ipV6Enabled && flags.isIPv6Enabled && !isTv

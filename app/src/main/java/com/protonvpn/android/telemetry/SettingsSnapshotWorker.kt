@@ -26,7 +26,6 @@ import com.protonvpn.android.components.AppInUseMonitor
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
-import com.protonvpn.android.theme.IsLightThemeFeatureFlagEnabled
 import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
@@ -56,7 +55,6 @@ class SettingsSnapshotWorker @AssistedInject constructor(
     private val connectivityMonitor: ConnectivityMonitor,
     private val isServerListTruncationEnabled: ServerListTruncationEnabled,
     private val getTruncationMustHaveIDs: GetTruncationMustHaveIDs,
-    private val isLightThemeFeatureFlagEnabled: IsLightThemeFeatureFlagEnabled,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
@@ -91,9 +89,7 @@ class SettingsSnapshotWorker @AssistedInject constructor(
                             maxMustHaves = Int.MAX_VALUE
                         ).size.toTruncationMustHaveSizeBucketString()
                     }
-                    if (isLightThemeFeatureFlagEnabled()) {
-                        this["ui_theme"] = settings.theme.toTelemetry()
-                    }
+                    this["ui_theme"] = settings.theme.toTelemetry()
                     commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
                 }
                 TelemetryEventData(
