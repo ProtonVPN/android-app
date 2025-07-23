@@ -32,8 +32,9 @@ private const val FASTEST_EXCLUDING_MY_COUNTRY = "FASTEST_EXCLUDING_MY_COUNTRY"
 @Parcelize
 value class CountryId private constructor(val countryCode: String) : Parcelable {
 
+    // Note: this includes isFastestExcludingMyCountry.
     val isFastest: Boolean
-        get() = countryCode == "" || countryCode == FASTEST_EXCLUDING_MY_COUNTRY
+        get() = countryCode == "" || isFastestExcludingMyCountry
 
     val isFastestExcludingMyCountry: Boolean
         get() = countryCode == FASTEST_EXCLUDING_MY_COUNTRY

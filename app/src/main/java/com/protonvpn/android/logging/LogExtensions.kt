@@ -93,7 +93,11 @@ fun Boolean?.toLog() = when(this) {
 
 fun List<*>.itemCountToLog() = if (isEmpty()) "None" else "$size items"
 
-fun CountryId.toLog() = if (isFastest) "fastest" else countryCode
+fun CountryId.toLog() = when {
+    isFastestExcludingMyCountry -> "fastest excluding my country"
+    isFastest -> "fastest"
+    else -> countryCode
+}
 
 fun SplitTunnelingMode.toLog() = when (this) {
     SplitTunnelingMode.INCLUDE_ONLY -> "inverse"
