@@ -58,7 +58,7 @@ fun createServer(
     city: String? = null,
     state: String? = null,
     score: Double = 0.5,
-    tier: Int = 0,
+    tier: Int = 2,
     features: Int = 0,
     gatewayName: String? = null,
     translations: Map<String, String?>? = null,

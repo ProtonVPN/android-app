@@ -140,8 +140,8 @@ class CountriesViewModelTests {
     @Test
     fun selectFilterScenario() = runTest {
         val servers = listOf(
-            server(exitCountry = "US"),
-            server(exitCountry = "JP", features = SERVER_FEATURE_TOR),
+            createServer(exitCountry = "US"),
+            createServer(exitCountry = "JP", features = SERVER_FEATURE_TOR),
         )
         serverManager.setServers(servers, null, null)
         viewModel.localeFlow.value = Locale.US
@@ -168,7 +168,7 @@ class CountriesViewModelTests {
         var connectCalled = false
         val viewModel = countriesViewModelInjector.getViewModel(connect = { _, _, _ -> connectCalled = true })
         serverManager.setServers(
-            listOf(server(exitCountry = "US"), server(exitCountry = "JP")),
+            listOf(createServer(exitCountry = "US"), createServer(exitCountry = "JP")),
             null,
             null
         )
@@ -196,7 +196,7 @@ class CountriesViewModelTests {
             connect = { _, _, _ -> connectCalled = true }
         )
         serverManager.setServers(
-            listOf(server(exitCountry = "US"), server(exitCountry = "JP")),
+            listOf(createServer(exitCountry = "US"), createServer(exitCountry = "JP")),
             null,
             null
         )
@@ -232,7 +232,7 @@ class CountriesViewModelTests {
             )
         )
         serverManager.setServers(
-            listOf(server(exitCountry = "US"), server(exitCountry = "JP", features = SERVER_FEATURE_TOR)),
+            listOf(createServer(exitCountry = "US"), createServer(exitCountry = "JP", features = SERVER_FEATURE_TOR)),
             null,
             null
         )
@@ -251,7 +251,7 @@ class CountriesViewModelTests {
         currentUserProvider.vpnUser = TestUser.freeUser.vpnUser
         val viewModel = countriesViewModelInjector.getViewModel()
         serverManager.setServers(
-            listOf(server(exitCountry = "US"), server(exitCountry = "JP")),
+            listOf(createServer(exitCountry = "US"), createServer(exitCountry = "JP")),
             null,
             null
         )
@@ -268,14 +268,14 @@ class CountriesViewModelTests {
     @Test
     fun connectedCountryIsMarkedAsConnected() = testScope.runTest {
         var connectRequested = false
-        val usServer = server(exitCountry = "US")
+        val usServer = createServer(exitCountry = "US")
         val connectionParams = ConnectionParams(ConnectIntent.FastestInCountry(CountryId("US"), setOf()), usServer, null, null)
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
         val viewModel = countriesViewModelInjector.getViewModel(
             connect = { _, _, _ -> connectRequested = true }
         )
         serverManager.setServers(
-            listOf(usServer, server(exitCountry = "JP")),
+            listOf(usServer, createServer(exitCountry = "JP")),
             null,
             null,
         )

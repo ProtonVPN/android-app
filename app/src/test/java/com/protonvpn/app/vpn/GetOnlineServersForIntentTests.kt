@@ -54,6 +54,8 @@ class GetOnlineServersForIntentTests {
     private lateinit var getOnlineServersForIntent: GetOnlineServersForIntent
     private lateinit var serverManager: ServerManager2
 
+    private val vpnUser = TestUser.plusUser.vpnUser
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -64,10 +66,10 @@ class GetOnlineServersForIntentTests {
 
         val servers = listOf(
             createServer(serverName = "SE#1", exitCountry = "SE", isOnline = false),
-            createServer(serverId = "SE#2_id", serverName = "SE#2", exitCountry = "SE", score = 2.0),
-            createServer(serverName = "SE#3", exitCountry = "SE", score = 1.0),
+            createServer(serverId = "SE#2_id", serverName = "SE#2", exitCountry = "SE", tier = 0, score = 2.0),
+            createServer(serverName = "SE#3", exitCountry = "SE", tier = 0, score = 1.0),
             createServer(serverName = "SE#4", exitCountry = "SE", entryCountry = "CH", isSecureCore = true),
-            createServer(serverName = "SE#4", exitCountry = "SE", tier = 1),
+            createServer(serverName = "SE#4", exitCountry = "SE", tier = 2),
             createServer(serverName = "CH#1", exitCountry = "CH", city = "Zurich"),
             createServer(serverName = "CH#2", exitCountry = "CH", city = "Zurich", features = SERVER_FEATURE_P2P),
             createServer(serverName = "CH-GT#1", exitCountry = "CH", gatewayName = "GT", city = "Zurich"),
@@ -91,7 +93,7 @@ class GetOnlineServersForIntentTests {
                 testScope,
                 TestDispatcherProvider(testDispatcher),
                 supportsProtocol,
-                CurrentUser(TestCurrentUserProvider(TestUser.freeUser.vpnUser)),
+                CurrentUser(TestCurrentUserProvider(vpnUser)),
                 servers
             ),
             supportsProtocol
@@ -109,28 +111,28 @@ class GetOnlineServersForIntentTests {
     @Test
     fun fastestInCityWithFeatures() = testScope.runTest {
         val profileIntent = ConnectIntent.FastestInCity(CountryId("CH"), "Zurich", setOf(ServerFeature.P2P))
-        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, VpnUser.FREE_TIER)
+        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, vpnUser.userTier)
         assertEquals(listOf("CH#2"), result.map { it.serverName })
     }
 
     @Test
     fun gatewayWithProtocolOverride() = testScope.runTest {
         val profileIntent = ConnectIntent.Gateway("GT", null)
-        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection(VpnProtocol.WireGuard), VpnUser.FREE_TIER)
+        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection(VpnProtocol.WireGuard), vpnUser.userTier)
         assertEquals(listOf("CH-GT#1", "CH-GT#2"), result.map { it.serverName })
     }
 
     @Test
     fun secureCore() = testScope.runTest {
         val profileIntent = ConnectIntent.SecureCore(CountryId("SE"), CountryId.fastest)
-        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, VpnUser.FREE_TIER)
+        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, vpnUser.userTier)
         assertEquals(listOf("SE#4"), result.map { it.serverName })
     }
 
     @Test
     fun server() = testScope.runTest {
         val profileIntent = ConnectIntent.Server("SE#2_id", CountryId("SE"), emptySet())
-        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, VpnUser.FREE_TIER)
+        val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, vpnUser.userTier)
         assertEquals(listOf("SE#2"), result.map { it.serverName })
     }
 }
