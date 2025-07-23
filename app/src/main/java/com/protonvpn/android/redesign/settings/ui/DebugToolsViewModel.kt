@@ -66,7 +66,7 @@ class DebugToolsViewModel @Inject constructor(
     fun refreshConfig() {
         mainScope.launch {
             appConfig.forceUpdate(currentUser.vpnUser()?.userId)
-            serverListUpdater.updateServerList()
+            serverListUpdater.updateServerList(forceFreshUpdate = true)
         }
     }
 
