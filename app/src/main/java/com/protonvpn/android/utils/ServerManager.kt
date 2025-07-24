@@ -21,6 +21,7 @@ package com.protonvpn.android.utils
 import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.api.GuestHole
+import com.protonvpn.android.appconfig.UserCountryPhysical
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -41,7 +42,6 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.satisfiesFeatures
 import com.protonvpn.android.servers.ServersDataManager
-import com.protonvpn.android.ui.home.GetUserCountry
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,7 +55,7 @@ import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Deprecated("User ServerManager2 in new code")
+@Deprecated("Use ServerManager2 in new code")
 @Singleton
 class ServerManager @Inject constructor(
     @Transient private val mainScope: CoroutineScope,
@@ -63,7 +63,7 @@ class ServerManager @Inject constructor(
     @Transient @WallClock private val wallClock: () -> Long,
     @Transient val supportsProtocol: SupportsProtocol,
     @Transient val serversData: ServersDataManager,
-    @Transient val getUserCountry: GetUserCountry,
+    @Transient val physicalUserCountry: UserCountryPhysical,
 ) : Serializable {
 
     private var serverListAppVersionCode = 0
@@ -350,7 +350,8 @@ class ServerManager @Inject constructor(
         return when (connectIntent) {
             is ConnectIntent.FastestInCountry ->
                 if (connectIntent.country.isFastest) {
-                    val excludedCountry = if (connectIntent.country.isFastestExcludingMyCountry) getUserCountry() else null
+                    val excludedCountry =
+                        ifOrNull(connectIntent.country.isFastestExcludingMyCountry) { physicalUserCountry() }
                     onFastest(false, connectIntent.features, excludedCountry)
                 } else {
                     getVpnExitCountry(
@@ -377,7 +378,8 @@ class ServerManager @Inject constructor(
 
             is ConnectIntent.SecureCore ->
                 if (connectIntent.exitCountry.isFastest) {
-                    val excludedCountry = if (connectIntent.exitCountry.isFastestExcludingMyCountry) getUserCountry() else null
+                    val excludedCountry =
+                        ifOrNull(connectIntent.exitCountry.isFastestExcludingMyCountry) { physicalUserCountry() }
                     onFastest(true, connectIntent.features, excludedCountry)
                 } else {
                     val exitCountry = getVpnExitCountry(connectIntent.exitCountry.countryCode, true)

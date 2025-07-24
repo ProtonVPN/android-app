@@ -23,7 +23,7 @@ import androidx.room.Room
 import androidx.work.WorkManager
 import com.protonvpn.TestSettings
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.appconfig.UserCountryProvider
+import com.protonvpn.android.appconfig.UserCountryTelephonyBased
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateScheduler
 import com.protonvpn.android.appconfig.globalsettings.NoopGlobalSettingsUpdateScheduler
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerScheduler
@@ -69,7 +69,7 @@ import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
-import com.protonvpn.test.shared.TestUserCountryProvider
+import com.protonvpn.test.shared.TestUserCountryTelephonyBased
 import com.protonvpn.test.shared.createInMemoryServersStore
 import dagger.Binds
 import dagger.BindsOptionalOf
@@ -315,7 +315,7 @@ class SharedTestAppModule {
 
         @Binds
         @Singleton
-        fun bindUserCountryProvider(provider: TestUserCountryProvider): UserCountryProvider
+        fun bindUserCountryTelephonyBased(provider: TestUserCountryTelephonyBased): UserCountryTelephonyBased
     }
 }
 

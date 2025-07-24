@@ -19,16 +19,14 @@
 
 package com.protonvpn.test.shared
 
-import com.protonvpn.android.appconfig.UserCountryProvider
+import com.protonvpn.android.appconfig.UserCountryTelephonyBased
+import com.protonvpn.android.redesign.CountryId
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TestUserCountryProvider @Inject constructor() : UserCountryProvider {
+class TestUserCountryTelephonyBased @Inject constructor() : UserCountryTelephonyBased {
 
     var telephonyCountry: String? = null
-    var ipCountry: String? = null
-    override fun getTelephonyCountryCode(): String? = telephonyCountry
-
-    override fun getCountryCode(): String? = telephonyCountry ?: ipCountry
+    override fun invoke(): CountryId? = telephonyCountry?.let { CountryId(it) }
 }

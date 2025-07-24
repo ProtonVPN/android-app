@@ -19,15 +19,17 @@
 
 package com.protonvpn.mocks
 
+import com.protonvpn.android.appconfig.UserCountryIpBased
+import com.protonvpn.android.appconfig.UserCountryPhysical
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.servers.ServersDataManager
-import com.protonvpn.android.ui.home.GetUserCountry
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
+import com.protonvpn.test.shared.TestUserCountryTelephonyBased
 import com.protonvpn.test.shared.createInMemoryServersStore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -43,20 +45,20 @@ fun createInMemoryServerManager(
     currentUser: CurrentUser,
     initialServers: List<Server>,
     builtInGuestHoles: List<Server> = emptyList(),
+    physicalUserCountry: UserCountryPhysical = createNoopUserCountry(),
 ): ServerManager {
     val serverStore = createInMemoryServersStore(initialServers)
     val serversDataManager = ServersDataManager(
         testDispatcherProvider,
         serverStore
     )
-    val getUserCountry = GetUserCountry(ServerListUpdaterPrefs(MockSharedPreferencesProvider()))
     val serverManager = ServerManager(
         testScope.backgroundScope,
         currentUser,
         testScope::currentTime,
         supportsProtocol,
         serversDataManager,
-        getUserCountry,
+        physicalUserCountry,
     )
     testScope.launch {
         serverManager.setServers(initialServers, "en")
@@ -65,3 +67,9 @@ fun createInMemoryServerManager(
     serverManager.setBuiltInGuestHoleServersForTesting(builtInGuestHoles)
     return serverManager
 }
+
+private fun createNoopUserCountry() =
+    UserCountryPhysical(
+        TestUserCountryTelephonyBased(),
+        UserCountryIpBased(ServerListUpdaterPrefs(MockSharedPreferencesProvider()), null),
+    )

@@ -37,10 +37,10 @@ import com.protonvpn.android.api.data.DebugApiPrefs
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.ChangeServerConfigFlow
 import com.protonvpn.android.appconfig.DefaultChangeServerConfigFlow
-import com.protonvpn.android.appconfig.DefaultUserCountryProvider
+import com.protonvpn.android.appconfig.DefaultUserCountryTelephonyBased
 import com.protonvpn.android.appconfig.GlideImagePrefetcher
 import com.protonvpn.android.appconfig.ImagePrefetcher
-import com.protonvpn.android.appconfig.UserCountryProvider
+import com.protonvpn.android.appconfig.UserCountryTelephonyBased
 import com.protonvpn.android.appconfig.VpnFeatureFlagContextProvider
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateScheduler
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsUpdateWorker
@@ -245,7 +245,7 @@ object AppModuleProd {
         fun provideLocalDataStoreFactory(factory: DefaultLocalDataStoreFactory): LocalDataStoreFactory
 
         @Binds
-        fun bindUserCountryProvider(provider: DefaultUserCountryProvider): UserCountryProvider
+        fun bindUserCountryTelephonyBased(provider: DefaultUserCountryTelephonyBased): UserCountryTelephonyBased
 
         @Singleton
         @Binds

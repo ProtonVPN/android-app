@@ -324,3 +324,6 @@ fun BroadcastReceiver.launchAsyncReceive(scope: CoroutineScope, block: suspend (
         }
     }
 }
+
+inline fun <reified T> ifOrNull(predicate: Boolean, block: () -> T): T? =
+    if (predicate) block() else null

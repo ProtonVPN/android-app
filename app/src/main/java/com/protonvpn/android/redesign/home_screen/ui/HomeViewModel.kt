@@ -26,6 +26,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
+import com.protonvpn.android.appconfig.UserCountryIpBased
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
@@ -69,6 +70,7 @@ import com.protonvpn.android.widget.WidgetAdoptionUiType
 import com.protonvpn.android.widget.WidgetManager
 import dagger.Reusable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -114,7 +116,7 @@ class HomeViewModel @Inject constructor(
     private val changeServerManager: ChangeServerManager,
     private val upgradeTelemetry: UpgradeTelemetry,
     vpnStatusProviderUI: VpnStatusProviderUI,
-    serverListUpdaterPrefs: ServerListUpdaterPrefs,
+    userCountryIpBased: UserCountryIpBased,
     private val vpnErrorUIManager: VpnErrorUIManager,
     upsellCarouselStateFlow: UpsellCarouselStateFlow,
     private val bottomPromoBannerFlow: HomeScreenPromoBannerFlow,
@@ -139,11 +141,11 @@ class HomeViewModel @Inject constructor(
     val showWidgetAdoptionFlow = widgetManager.showWidgetAdoptionFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(1_000), WidgetAdoptionUiType.None)
 
-    val mapHighlightState = combine(
+    val mapHighlightState: Flow<Pair<String, CountryHighlight>?> = combine(
         connectionMapHighlightsFlow,
-        serverListUpdaterPrefs.lastKnownCountryFlow.distinctUntilChanged()
+        userCountryIpBased.observe().distinctUntilChanged()
     ) { connectionHighlight, realCountry ->
-        connectionHighlight ?: (realCountry to CountryHighlight.SELECTED)
+        connectionHighlight ?: realCountry?.let { it.countryCode to CountryHighlight.SELECTED }
     }
 
     val recentsViewState = recentsListViewStateFlow

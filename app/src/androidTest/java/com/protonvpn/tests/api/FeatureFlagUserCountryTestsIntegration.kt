@@ -21,12 +21,14 @@
 
 package com.protonvpn.tests.api
 
+import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.mocks.TestApiConfig
-import com.protonvpn.test.shared.TestUserCountryProvider
+import com.protonvpn.test.shared.TestUserCountryTelephonyBased
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import me.proton.core.featureflag.domain.usecase.FetchUnleashTogglesRemote
+import okhttp3.mockwebserver.RecordedRequest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -43,7 +45,9 @@ class FeatureFlagUserCountryTestsIntegration {
     @Inject
     lateinit var fetchUnleashToggles: FetchUnleashTogglesRemote
     @Inject
-    lateinit var userCountryProvider: TestUserCountryProvider
+    lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
+    @Inject
+    lateinit var telephonyUserCountry: TestUserCountryTelephonyBased
 
     @Before
     fun setup() {
@@ -52,14 +56,28 @@ class FeatureFlagUserCountryTestsIntegration {
 
     @Test
     fun userCountryPresentInUnleashRequest() {
-        userCountryProvider.ipCountry = "CH"
+        serverListUpdaterPrefs.lastKnownCountry = "PL"
+        telephonyUserCountry.telephonyCountry = "CH"
+        val featuresRequest = refreshUnleashAndGetRequest()
+        assertNotNull(featuresRequest)
+        assertEquals("userCountry=CH", featuresRequest.requestUrl?.encodedQuery)
+    }
+
+    @Test
+    fun ipBasedUserCountryIsUsedIfTelephonyIsMissing() {
+        serverListUpdaterPrefs.lastKnownCountry = "PL"
+        telephonyUserCountry.telephonyCountry = null
+        val featuresRequest = refreshUnleashAndGetRequest()
+        assertNotNull(featuresRequest)
+        assertEquals("userCountry=PL", featuresRequest.requestUrl?.encodedQuery)
+    }
+
+    private fun refreshUnleashAndGetRequest(): RecordedRequest {
         runBlocking {
             fetchUnleashToggles(null)
         }
-        val featuresRequest = protonRule.mockDispatcher.recordedRequests.last {
+        return protonRule.mockDispatcher.recordedRequests.last {
             it.requestUrl?.encodedPath == "/feature/v2/frontend"
         }
-        assertNotNull(featuresRequest)
-        assertEquals("userCountry=CH", featuresRequest.requestUrl?.encodedQuery)
     }
 }

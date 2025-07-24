@@ -21,7 +21,7 @@ package com.protonvpn.android.api
 import android.os.Build
 import com.protonvpn.android.api.data.DebugApiPrefs
 import com.protonvpn.android.appconfig.AppConfigResponse
-import com.protonvpn.android.appconfig.UserCountryProvider
+import com.protonvpn.android.appconfig.UserCountryTelephonyBased
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
 import com.protonvpn.android.auth.data.VpnUser
@@ -47,7 +47,7 @@ import javax.inject.Singleton
 @Singleton
 open class ProtonApiRetroFit @Inject constructor(
     private val manager: VpnApiManager,
-    private val userCountryProvider: UserCountryProvider,
+    private val userCountryTelephonyBased: UserCountryTelephonyBased,
     private val debugApiPrefs: DebugApiPrefs?,
 ) {
     open suspend fun getAppConfig(sessionId: SessionId?, netzone: String?): ApiResult<AppConfigResponse> =
@@ -164,7 +164,7 @@ open class ProtonApiRetroFit @Inject constructor(
 
     private fun createNetZoneHeaders(netzone: String?) =
         mutableMapOf<String, String>().apply {
-            val effectiveMCC = debugApiPrefs?.country ?: userCountryProvider.getTelephonyCountryCode()
+            val effectiveMCC = userCountryTelephonyBased()?.countryCode
             if (effectiveMCC != null)
                 put(ProtonVPNRetrofit.HEADER_COUNTRY, effectiveMCC)
             val effectiveNetzone = debugApiPrefs?.netzone ?: netzone

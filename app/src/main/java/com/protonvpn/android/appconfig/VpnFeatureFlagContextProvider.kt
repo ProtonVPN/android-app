@@ -25,12 +25,12 @@ import javax.inject.Inject
 
 @Reusable
 class VpnFeatureFlagContextProvider @Inject constructor(
-    private val userCountryProvider: UserCountryProvider,
+    private val physicalUserCountry: UserCountryPhysical,
 ) : FeatureFlagContextProvider {
 
     override suspend fun invoke(): Map<String, String> {
-        val userCountry = userCountryProvider.getCountryCode()
-        return if (userCountry != null) mapOf(USER_COUNTRY_PROPERTY to userCountry) else emptyMap()
+        val userCountry = physicalUserCountry()
+        return if (userCountry != null) mapOf(USER_COUNTRY_PROPERTY to userCountry.countryCode) else emptyMap()
     }
 
     companion object {
