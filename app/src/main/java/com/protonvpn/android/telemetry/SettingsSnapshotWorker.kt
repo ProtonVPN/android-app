@@ -73,14 +73,21 @@ class SettingsSnapshotWorker @AssistedInject constructor(
                     }
                     val settings = effectiveCurrentUserSettings.effectiveSettings.first()
                     val customDnsList = settings.customDns.effectiveDnsList
-                    this["custom_dns_count"] = customDnsList.size.toCustomDnsCountBucketString()
-                    customDnsList.firstOrNull()?.let {
-                        this["first_custom_dns_address_family"] = it.toTelemetryAddressFamily()
-                    }
-                    val isPrivateDnsActive = connectivityMonitor.isPrivateDnsActive.first()
-                    if (isPrivateDnsActive != null) {
-                        this["is_system_custom_dns_enabled"] = isPrivateDnsActive.toTelemetry()
-                    }
+
+                    this["is_custom_dns_enabled"] = settings.customDns
+                        .effectiveEnabled
+                        .toTelemetry()
+
+                    this["custom_dns_count"] = customDnsList.size
+                        .toCustomDnsCountBucketString()
+
+                    this["first_custom_dns_address_family"] = customDnsList.firstOrNull()
+                        .toTelemetryAddressFamily()
+
+                    this["is_system_custom_dns_enabled"] = connectivityMonitor.isPrivateDnsActive
+                        .first()
+                        .toTelemetry()
+
                     this["is_ipv6_enabled"] = settings.ipV6Enabled.toTelemetry()
                     this["lan_mode"] = lanModeToTelemetry(settings.lanConnections, settings.lanConnectionsAllowDirect)
                     if (isServerListTruncationEnabled()) {
@@ -145,7 +152,9 @@ class SettingsSnapshotWorker @AssistedInject constructor(
         else -> ">=51"
     }
 
-    private fun String.toTelemetryAddressFamily() = if (isIPv6()) "ipv6" else "ipv4"
+    private fun String?.toTelemetryAddressFamily() = this
+        ?.let { addressFamily -> if (isIPv6()) "ipv6" else "ipv4" }
+        ?: toTelemetry()
 
     private fun lanModeToTelemetry(lanConnections: Boolean, lanConnectionsAllowDirect: Boolean): String =
         when {
