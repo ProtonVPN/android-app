@@ -36,6 +36,7 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
+import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.tv.login.TvLoginViewState.Companion.toLoginError
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
@@ -198,11 +199,11 @@ class TvLoginViewModel @Inject constructor(
         state.value = TvLoginViewState.Loading
         appConfig.forceUpdate(userId)
         when (val result = serverListUpdater.updateServerList()) {
-            ServerListUpdater.Result.Success -> {
+            UpdateServerListFromApi.Result.Success -> {
                 guestHole.releaseNeedGuestHole(VpnLogin.GUEST_HOLE_ID)
                 state.value = TvLoginViewState.Success
             }
-            is ServerListUpdater.Result.Error ->
+            is UpdateServerListFromApi.Result.Error ->
                 state.value = result.toLoginError()
         }
     }
@@ -262,7 +263,7 @@ sealed class TvLoginViewState(
 
     companion object {
 
-        fun ServerListUpdater.Result.Error.toLoginError() =
+        fun UpdateServerListFromApi.Result.Error.toLoginError() =
             if (apiError != null) apiError.toLoginError()
             else Error(R.string.loaderErrorGeneric, R.string.try_again)
 

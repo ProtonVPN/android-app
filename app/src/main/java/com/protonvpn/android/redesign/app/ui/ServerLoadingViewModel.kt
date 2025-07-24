@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
@@ -87,7 +88,7 @@ class ServerLoadingViewModel @Inject constructor(
 
             val result = serverListUpdater.updateServerList(forceFreshUpdate = true)
 
-            loaderState.value = if (result == ServerListUpdater.Result.Success) {
+            loaderState.value = if (result == UpdateServerListFromApi.Result.Success) {
                 LoaderState.Loaded
             } else {
                 LoaderState.Error.RequestFailed

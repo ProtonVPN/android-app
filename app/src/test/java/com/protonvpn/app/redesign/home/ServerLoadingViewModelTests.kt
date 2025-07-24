@@ -21,6 +21,7 @@ package com.protonvpn.app.redesign.home
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel
+import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.ui.home.ServerListUpdater
 import io.mockk.MockKAnnotations
@@ -63,7 +64,7 @@ class ServerLoadingViewModelTests {
         testScope = TestScope(testDispatcher)
         Dispatchers.setMain(testDispatcher)
         every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
-        coEvery { serverListUpdater.updateServerList(any()) } returns ServerListUpdater.Result.Success
+        coEvery { serverListUpdater.updateServerList(any()) } returns UpdateServerListFromApi.Result.Success
     }
 
     @After
@@ -89,7 +90,7 @@ class ServerLoadingViewModelTests {
         every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
         every { serverManager.hasAnyCountryFlow } returns flowOf(true)
         every { serverManager.hasAnyGatewaysFlow } returns flowOf(false)
-        coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns ServerListUpdater.Result.Success
+        coEvery { serverListUpdater.updateServerList(true) } returns UpdateServerListFromApi.Result.Success
 
         val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
         val expectedLoaderState = ServerLoadingViewModel.LoaderState.Loaded
@@ -106,7 +107,7 @@ class ServerLoadingViewModelTests {
         every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
         every { serverManager.hasAnyCountryFlow } returns flowOf(false)
         every { serverManager.hasAnyGatewaysFlow } returns flowOf(true)
-        coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns ServerListUpdater.Result.Success
+        coEvery { serverListUpdater.updateServerList(true) } returns UpdateServerListFromApi.Result.Success
         val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
         val expectedLoaderState = ServerLoadingViewModel.LoaderState.Loaded
 
@@ -122,7 +123,7 @@ class ServerLoadingViewModelTests {
         every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
         every { serverManager.hasAnyCountryFlow } returns flowOf(false)
         every { serverManager.hasAnyGatewaysFlow } returns flowOf(false)
-        coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns ServerListUpdater.Result.Success
+        coEvery { serverListUpdater.updateServerList(true) } returns UpdateServerListFromApi.Result.Success
         val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
         val expectedLoaderState = ServerLoadingViewModel.LoaderState.Error.NoCountriesNoGateways
 
@@ -144,9 +145,7 @@ class ServerLoadingViewModelTests {
             every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
             every { serverManager.hasAnyCountryFlow } returns flowOf(hasCountries)
             every { serverManager.hasAnyGatewaysFlow } returns flowOf(hasGateways)
-            coEvery {
-                serverListUpdater.updateServerList(forceFreshUpdate = true)
-            } returns ServerListUpdater.Result.Error(null)
+            coEvery { serverListUpdater.updateServerList(true) } returns UpdateServerListFromApi.Result.Error(null)
             val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
             val expectedLoaderState = ServerLoadingViewModel.LoaderState.Error.RequestFailed
 

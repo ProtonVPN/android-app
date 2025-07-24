@@ -31,27 +31,22 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
 import com.protonvpn.android.appconfig.periodicupdates.registerAction
 import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
-import com.protonvpn.android.appconfig.periodicupdates.toPeriodicActionResultWithCustomValue
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.UserLocation
-import com.protonvpn.android.servers.FetchServerListWithStatus
 import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
 import com.protonvpn.android.servers.Server
+import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.servers.api.StreamingServicesResponse
-import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.mapState
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import dagger.Reusable
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -104,15 +99,9 @@ class ServerListUpdater @Inject constructor(
     @IsInForeground private val inForeground: Flow<Boolean>,
     private val remoteConfig: ServerListUpdaterRemoteConfig,
     @WallClock private val wallClock: () -> Long,
-    private val fetchServerListWithStatus: FetchServerListWithStatus,
+    private val updateServerListFromApi: UpdateServerListFromApi,
     private val binaryServerStatusEnabled: IsBinaryServerStatusEnabled,
-    private val getTruncationMustHaveIDs: GetTruncationMustHaveIDs,
 ) {
-    sealed interface Result {
-        object Success : Result
-        data class Error(val apiError: ApiResult.Error?) : Result
-    }
-
     val ipAddress = prefs.ipAddressFlow
 
     // Country and ISP are used by "Report an issue" form.
@@ -265,7 +254,7 @@ class ServerListUpdater @Inject constructor(
         return result
     }
 
-    suspend fun updateServerList(forceFreshUpdate: Boolean = false): Result {
+    suspend fun updateServerList(forceFreshUpdate: Boolean = false): UpdateServerListFromApi.Result {
         if (forceFreshUpdate) {
             // Force update regardless of the timestamp.
             prefs.serverListLastModified = 0
@@ -288,67 +277,14 @@ class ServerListUpdater @Inject constructor(
         }
 
     @VisibleForTesting
-    suspend fun updateServers(): PeriodicActionResult<Result> {
-        val lang = Locale.getDefault().language
-        val netzone = getNetZone()
-
-        val serverListResult = coroutineScope {
-            guestHole.runWithGuestHoleFallback {
-                fetchServerListWithStatus(
-                    netzone = netzone,
-                    lang = lang,
-                    freeOnly = freeOnlyUpdateNeeded(),
-                    serverListLastModified = prefs.serverListLastModified
-                )
-            }
-        }
-
-        // TODO: consider moving the following part to a use-case (perhaps combine with FetchServerListWithStatus and
-        //  rename it to UpdateServerListFromApi). This will allow removing a few more dependencies from ServerListUpdater.
-        if (serverListResult is FetchServerListWithStatus.FetchResult.NewServers) {
-            serverManager.ensureLoaded()
-            val retainIDs = if (serverListResult.isListTruncated == true) {
-                // retain only those ID that were not in must-haves for this call
-                getTruncationMustHaveIDs() - serverListResult.usedMustHaveIDs
-            } else {
-                emptySet()
-            }
-
-            val newList = if (serverListResult.freeOnly == true) {
-                serverManager.allServers.updateTier(serverListResult.newServers, VpnUser.FREE_TIER, retainIDs)
-            } else {
-                serverListResult.newServers
-            }
-            if (serverListResult.lastModified != null)
-                prefs.serverListLastModified = serverListResult.lastModified.time
-
-            DebugUtils.debugAssert("Country with no continent") {
-                val countriesWithNoContinent = newList
-                    .flatMapTo(HashSet()) { listOf(it.entryCountry, it.exitCountry) }
-                    .filter { CountryTools.oldMapLocations[it]?.continent == null }
-                countriesWithNoContinent.isEmpty()
-            }
-
-            serverManager.setServers(newList,  statusId = serverListResult.statusId,lang, retainIDs = retainIDs)
-            serverManager.updateTimestamp()
-            if (!serverListResult.freeOnly)
-                prefs.lastFullUpdateTimestamp = wallClock()
-        }
-
-        return when(serverListResult) {
-            is FetchServerListWithStatus.FetchResult.ApiError ->
-                serverListResult.apiError.toPeriodicActionResultWithCustomValue(
-                    Result.Error(serverListResult.apiError),
-                    isSuccess = false,
-                )
-
-            is FetchServerListWithStatus.FetchResult.EmptyBody,
-            is FetchServerListWithStatus.FetchResult.BinaryStatusError ->
-                PeriodicActionResult(Result.Error(null), isSuccess = false)
-
-            is FetchServerListWithStatus.FetchResult.NewServers,
-            is FetchServerListWithStatus.FetchResult.NotModified ->
-                PeriodicActionResult(Result.Success, isSuccess = true)
+    suspend fun updateServers(): PeriodicActionResult<UpdateServerListFromApi.Result> = coroutineScope {
+        guestHole.runWithGuestHoleFallback {
+            updateServerListFromApi(
+                netzone = getNetZone(),
+                lang = Locale.getDefault().language,
+                freeOnly = freeOnlyUpdateNeeded(),
+                serverListLastModified = prefs.serverListLastModified
+            )
         }
     }
 

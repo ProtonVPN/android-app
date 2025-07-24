@@ -37,6 +37,7 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.api.ConnectingDomain
@@ -604,7 +605,7 @@ class VpnConnectionErrorHandlerTests {
         coEvery { serverListUpdater.needsUpdate() } returns true
         coEvery { serverListUpdater.updateServerList() } answers {
             prepareServerManager(updatedServers)
-            ServerListUpdater.Result.Success
+            UpdateServerListFromApi.Result.Success
         }
 
         prepareServerManager(initialServers)

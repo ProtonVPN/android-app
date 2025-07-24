@@ -20,12 +20,20 @@
 package com.protonvpn.android.servers
 
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
+import com.protonvpn.android.appconfig.periodicupdates.toPeriodicActionResultWithCustomValue
+import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ApiLogResponse
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.servers.api.ServerListV1
+import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
+import com.protonvpn.android.ui.home.updateTier
+import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
@@ -38,22 +46,28 @@ import java.util.Date
 import javax.inject.Inject
 
 @Reusable
-class FetchServerListWithStatus @Inject constructor(
+class UpdateServerListFromApi @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val dispatcherProvider: DispatcherProvider,
+    @WallClock private val wallClock: () -> Long,
+    private val serverManager: ServerManager,
+    private val prefs: ServerListUpdaterPrefs,
     private val updateWithBinaryStatus: UpdateServersWithBinaryStatus,
     private val binaryServerStatusEnabled: IsBinaryServerStatusEnabled,
     private val truncationFeatureFlagEnabled: ServerListTruncationEnabled,
     private val getTruncationMustHaveIDs: GetTruncationMustHaveIDs,
 ) {
-    sealed interface FetchResult {
+    sealed interface Result {
+        object Success : Result
+        data class Error(val apiError: ApiResult.Error?) : Result
+    }
+
+    private sealed interface FetchResult {
         data class NewServers(
             val newServers: List<Server>,
             val statusId: LogicalsStatusId? = null,
             val isListTruncated: Boolean? = null,
-            val freeOnly: Boolean,
             val lastModified: Date? = null,
-            val usedMustHaveIDs: Set<String>,
         ): FetchResult
 
         object NotModified : FetchResult
@@ -71,11 +85,11 @@ class FetchServerListWithStatus @Inject constructor(
         lang: String,
         freeOnly: Boolean,
         serverListLastModified: Long
-    ): FetchResult {
+    ): PeriodicActionResult<Result> {
         val realProtocolsNames = ProtocolSelection.REAL_PROTOCOLS.map { it.apiName }
         val enableTruncation = truncationFeatureFlagEnabled()
-        val mustHaveIDs = if (enableTruncation) getTruncationMustHaveIDs() else emptySet()
-        return if (binaryServerStatusEnabled()) {
+        val requestedMustHaveIDs = if (enableTruncation) getTruncationMustHaveIDs() else emptySet()
+        val fetchResult = if (binaryServerStatusEnabled()) {
             DebugUtils.debugAssert("Partial updates are not supported with binary status") { !freeOnly }
             val listResult = api.getServerList(
                 netzone,
@@ -83,9 +97,9 @@ class FetchServerListWithStatus @Inject constructor(
                 protocols = realProtocolsNames,
                 lastModified = serverListLastModified,
                 enableTruncation = enableTruncation,
-                mustHaveIDs = mustHaveIDs,
+                mustHaveIDs = requestedMustHaveIDs,
             )
-            processServerListResult(listResult, freeOnly, mustHaveIDs, ::processServerList)
+            processServerListResult(listResult,  ::processServerList)
         } else {
             val listResult = api.getServerListV1(
                 netzone,
@@ -94,17 +108,56 @@ class FetchServerListWithStatus @Inject constructor(
                 freeOnly,
                 enableTruncation = enableTruncation,
                 lastModified = serverListLastModified,
-                mustHaveIDs = mustHaveIDs,
+                mustHaveIDs = requestedMustHaveIDs,
             )
-            processServerListResult(listResult, freeOnly, mustHaveIDs, ::processV1ServerList)
+            processServerListResult(listResult, ::processV1ServerList)
+        }
+
+        if (fetchResult is FetchResult.NewServers) {
+            serverManager.ensureLoaded()
+            val retainIDs = if (fetchResult.isListTruncated == true) {
+                // retain only those ID that were not in must-haves for this call
+                getTruncationMustHaveIDs() - requestedMustHaveIDs
+            } else {
+                emptySet()
+            }
+
+            val newList = if (freeOnly) {
+                serverManager.allServers.updateTier(fetchResult.newServers, VpnUser.FREE_TIER, retainIDs)
+            } else {
+                fetchResult.newServers
+            }
+            if (fetchResult.lastModified != null)
+                prefs.serverListLastModified = fetchResult.lastModified.time
+
+            debugCountryCheck(newList)
+
+            serverManager.setServers(newList,  statusId = fetchResult.statusId,lang, retainIDs = retainIDs)
+            serverManager.updateTimestamp()
+            if (!freeOnly)
+                prefs.lastFullUpdateTimestamp = wallClock()
+        }
+
+        return when(fetchResult) {
+            is FetchResult.ApiError ->
+                fetchResult.apiError.toPeriodicActionResultWithCustomValue(
+                    Result.Error(fetchResult.apiError),
+                    isSuccess = false,
+                )
+
+            is FetchResult.EmptyBody,
+            is FetchResult.BinaryStatusError ->
+                PeriodicActionResult(Result.Error(null), isSuccess = false)
+
+            is FetchResult.NewServers,
+            is FetchResult.NotModified ->
+                PeriodicActionResult(Result.Success, isSuccess = true)
         }
     }
 
     private suspend fun <T> processServerListResult(
         result: ApiResult<Response<T>>,
-        freeOnly: Boolean,
-        usedMustHaveIDs: Set<String>,
-        processNewServers: suspend (body: T, lastModifier: Date?, freeOnly: Boolean, usedMustHaveIDs: Set<String>) -> FetchResult
+        processNewServers: suspend (body: T, lastModifier: Date?) -> FetchResult
     ): FetchResult = when(result) {
         is ApiResult.Error.Http ->
             if (result.httpCode == HTTP_NOT_MODIFIED_304) {
@@ -118,7 +171,7 @@ class FetchServerListWithStatus @Inject constructor(
             val body = body()
             when {
                 result.value.isSuccessful && body != null ->
-                    processNewServers(body, headers().getDate("Last-Modified"), freeOnly, usedMustHaveIDs)
+                    processNewServers(body, headers().getDate("Last-Modified"))
                 result.value.isSuccessful ->
                     FetchResult.EmptyBody
                 else -> {
@@ -140,22 +193,16 @@ class FetchServerListWithStatus @Inject constructor(
     private fun processV1ServerList(
         body: ServerListV1,
         lastModified: Date?,
-        freeOnly: Boolean,
-        usedMustHaveIDs: Set<String>
     ): FetchResult.NewServers = FetchResult.NewServers(
         newServers = body.serverList.toServers(),
         statusId = null,
         isListTruncated = body.metadata?.listIsTruncated,
-        freeOnly = freeOnly,
         lastModified = lastModified,
-        usedMustHaveIDs = usedMustHaveIDs,
     )
 
     private suspend fun processServerList(
         body: LogicalsResponse,
         lastModified: Date?,
-        freeOnly: Boolean,
-        usedMustHaveIDs: Set<String>
     ): FetchResult {
         val statusId = body.statusId
         val statusDataResult = api.getBinaryStatus(statusId)
@@ -171,9 +218,7 @@ class FetchServerListWithStatus @Inject constructor(
                         newServers = servers,
                         statusId = statusId,
                         isListTruncated = body.metadata?.listIsTruncated,
-                        freeOnly = freeOnly,
                         lastModified = lastModified,
-                        usedMustHaveIDs = usedMustHaveIDs,
                     )
                 } else {
                     FetchResult.BinaryStatusError
@@ -181,6 +226,15 @@ class FetchServerListWithStatus @Inject constructor(
             }
 
             is ApiResult.Error -> FetchResult.ApiError(statusDataResult)
+        }
+    }
+
+    private fun debugCountryCheck(serverList: List<Server>) {
+        DebugUtils.debugAssert("Country with no continent") {
+            val countriesWithNoContinent = serverList
+                .flatMapTo(HashSet()) { listOf(it.entryCountry, it.exitCountry) }
+                .filter { CountryTools.oldMapLocations[it]?.continent == null }
+            countriesWithNoContinent.isEmpty()
         }
     }
 

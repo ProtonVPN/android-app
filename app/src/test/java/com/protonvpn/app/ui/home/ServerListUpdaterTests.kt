@@ -23,13 +23,12 @@ import android.telephony.TelephonyManager
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.models.vpn.data.LogicalsMetadata
 import com.protonvpn.android.servers.FakeIsBinaryServerStatusFeatureFlagEnabled
-import com.protonvpn.android.servers.FetchServerListWithStatus
+import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.api.LogicalServer
@@ -206,9 +205,12 @@ class ServerListUpdaterTests {
             isServerListTruncationFeatureFlagEnabled = serverListTruncationFF
         )
         val getTruncationMustHaveIds = GetTruncationMustHaveIDs { _, _ -> mustHaveIDs }
-        val fetchServerListWithStatus = FetchServerListWithStatus(
+        val updateServerListFromApi = UpdateServerListFromApi(
             mockApi,
             TestDispatcherProvider(testDispatcher),
+            testScope::currentTime,
+            mockServerManager,
+            serverListUpdaterPrefs,
             fakeUpdateWithBinaryStatus,
             binaryServerStatusEnabled,
             serverListTruncationFF,
@@ -229,9 +231,8 @@ class ServerListUpdaterTests {
             emptyFlow(),
             remoteConfig,
             testScope::currentTime,
-            fetchServerListWithStatus,
+            updateServerListFromApi,
             binaryServerStatusEnabled,
-            getTruncationMustHaveIds,
         )
     }
 
@@ -387,7 +388,7 @@ class ServerListUpdaterTests {
 
     @Test
     fun `no refresh if client already have newest version`() = testScope.runTest {
-        val successResult = ServerListUpdater.Result.Success
+        val successResult = UpdateServerListFromApi.Result.Success
         val result1 = serverListUpdater.updateServers()
         assertEquals(successResult, result1.result)
         coVerify(exactly = 1) { mockServerManager.setServers(any(), null, any()) }
