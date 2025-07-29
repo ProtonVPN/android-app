@@ -21,8 +21,10 @@ package com.protonvpn.android.utils
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
+import java.util.concurrent.TimeUnit
 
 object Constants {
+    val APP_NOT_IN_USE_DELAY_MS = TimeUnit.DAYS.toMillis(2)
 
     const val NOTIFICATION_ID = 6
     const val NOTIFICATION_INFO_ID = 7

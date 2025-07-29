@@ -74,6 +74,8 @@ import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
+import com.protonvpn.android.ui.settings.AppIconManager
+import com.protonvpn.android.ui.settings.AppIconManagerImpl
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.userstorage.DefaultLocalDataStoreFactory
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
@@ -349,6 +351,9 @@ object AppModule {
     @Module
     @InstallIn(SingletonComponent::class)
     interface Bindings {
+
+        @Binds
+        fun bindAppIconManager(impl: AppIconManagerImpl): AppIconManager
 
         @Binds
         fun bindAutoLogin(autoLogin: AutoLoginImpl): AutoLogin

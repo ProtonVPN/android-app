@@ -32,14 +32,25 @@ import javax.inject.Singleton
 
 private const val ACTIVITY_ALIAS_PREFIX = "ch.protonvpn.android"
 
+interface AppIconManager {
+
+    val currentIconData: MutableStateFlow<CustomAppIconData>
+
+    fun setNewAppIcon(desiredAppIcon: CustomAppIconData)
+
+    fun getCurrentIconData(): CustomAppIconData
+
+}
+
 @Singleton
-class AppIconManager @Inject constructor(
+class AppIconManagerImpl @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val createLaunchIntent: CreateLaunchIntent,
-) {
-    val currentIconData by lazy { MutableStateFlow(getCurrentIconData()) }
+): AppIconManager {
 
-    fun setNewAppIcon(desiredAppIcon: CustomAppIconData) {
+    override val currentIconData by lazy { MutableStateFlow(getCurrentIconData()) }
+
+    override fun setNewAppIcon(desiredAppIcon: CustomAppIconData) {
         getCurrentIconData().let {
             appContext.packageManager.setComponentEnabledSetting(it.getComponentName(appContext), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
         }
@@ -48,7 +59,7 @@ class AppIconManager @Inject constructor(
         createLaunchIntent.invalidateCache()
     }
 
-    fun getCurrentIconData(): CustomAppIconData {
+    override fun getCurrentIconData(): CustomAppIconData {
         val activeIcon = enumValues<CustomAppIconData>().firstOrNull {
             appContext.packageManager.getComponentEnabledSetting(it.getComponentName(appContext)) == PackageManager.COMPONENT_ENABLED_STATE_ENABLED
         }

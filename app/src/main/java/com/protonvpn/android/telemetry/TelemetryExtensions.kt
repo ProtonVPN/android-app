@@ -24,12 +24,6 @@ import com.protonvpn.android.profiles.ui.ProfileType
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.vpn.ProtocolSelection
 
-private const val TELEMETRY_NOT_AVAILABLE = "n/a"
-
-fun String?.toTelemetry(): String = this ?: TELEMETRY_NOT_AVAILABLE
-
-fun Boolean?.toTelemetry(): String = this?.let(Boolean::toTelemetry) ?: TELEMETRY_NOT_AVAILABLE
-
 fun Boolean.toTelemetry() = if (this) "true" else "false"
 
 fun ProtocolSelection.toTelemetry(): String {

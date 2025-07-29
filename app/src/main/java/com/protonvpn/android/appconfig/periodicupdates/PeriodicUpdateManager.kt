@@ -25,6 +25,7 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.utils.Constants
 import io.sentry.Sentry
 import io.sentry.SentryLevel
 import kotlinx.coroutines.CompletableDeferred
@@ -58,7 +59,6 @@ import kotlin.time.Duration.Companion.minutes
 
 @VisibleForTesting const val MAX_JITTER_RATIO = .2f
 @VisibleForTesting val MAX_JITTER_DELAY_MS = TimeUnit.HOURS.toMillis(1)
-private val APP_NOT_IN_USE_DELAY_MS = TimeUnit.DAYS.toMillis(2)
 private val RUNAWAY_DETECT_INTERVAL_MS = TimeUnit.MINUTES.toMillis(10)
 private const val RUNAWAY_EXECUTION_THRESHOLD = 5
 private val RUNAWAY_ACTION_DELAY_MS = TimeUnit.HOURS.toMillis(1)
@@ -297,7 +297,7 @@ class PeriodicUpdateManager @Inject constructor(
         if (tasksInProgress.isNotEmpty()) return // Reschedule only when all tasks are finished.
 
         val next = computeNearestNextActionTimestamp(conditions)
-        if (next != null && appInUseMonitor.wasInUseIn(APP_NOT_IN_USE_DELAY_MS)) {
+        if (next != null && appInUseMonitor.wasInUseIn(Constants.APP_NOT_IN_USE_DELAY_MS)) {
             periodicUpdateScheduler.scheduleAt(next)
         } else {
             periodicUpdateScheduler.cancelScheduled()
