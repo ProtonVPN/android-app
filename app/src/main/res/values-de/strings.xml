@@ -635,7 +635,7 @@
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
         <item quantity="one">%1$d Minute</item>
-        <item quantity="other">%1$d minuten</item>
+        <item quantity="other">%1$d Minuten</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
@@ -1388,13 +1388,13 @@
     <string name="settings_theme_value_dark">Dunkel</string>
     <string name="settings_dialog_reconnect">Die neuen Einstellungen werden erst nach dem nächsten Verbindungsaufbau übernommen.</string>
     <string name="settings_needs_reconnect_banner">Die neuen Einstellungen werden erst nach dem nächsten Verbindungsaufbau übernommen.</string>
-    <string name="private_dns_conflict_banner_custom_dns_title">Benutzerdefinierter DNS nicht verfügbar</string>
-    <string name="private_dns_conflict_banner_custom_dns_description">Dein Gerät verwendet einen DNS eines Drittanbieters, der verhindert, dass der benutzerdefinierte DNS von Proton VPN funktioniert. Mehr erfahren</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Benutzerdefiniertes DNS nicht verfügbar</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Dein Gerät verwendet ein DNS eines Drittanbieters, das verhindert, dass das benutzerdefinierte DNS von Proton VPN funktioniert. Mehr erfahren</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield nicht verfügbar</string>
-    <string name="private_dns_conflict_banner_netshield_description">Dein Gerät verwendet einen DNS eines Drittanbieters, der verhindert, dass NetShield funktioniert. Mehr erfahren</string>
+    <string name="private_dns_conflict_banner_netshield_description">Dein Gerät verwendet ein DNS eines Drittanbieters, das verhindert, dass NetShield funktioniert. Mehr erfahren</string>
     <string name="private_dns_conflict_banner_network_settings_button">Netzwerkeinstellungen</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield nicht verfügbar</string>
-    <string name="custom_dns_conflict_banner_netshield_description">Der benutzerdefinierte DNS ist aktiviert und verhindert, dass NetShield funktioniert. Mehr erfahren</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Das benutzerdefinierte DNS ist aktiviert und verhindert, dass NetShield funktioniert. Mehr erfahren</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Benutzerdefiniertes DNS deaktivieren</string>
     <string name="info_secure_core_standard_high_privacy">Hohe Privatsphäre</string>
     <string name="info_secure_core_standard_lower_latency">Niedrigere Latenz</string>

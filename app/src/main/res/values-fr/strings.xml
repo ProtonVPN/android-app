@@ -234,7 +234,7 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Activé</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Désactivé</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Indisponible</string>
-    <string name="custom_dns_item_removed_snackbar">L\'élément supprimé.</string>
+    <string name="custom_dns_item_removed_snackbar">L\'élément a été retiré.</string>
     <string name="netshield_free_description">Bloquez les publicités, les traqueurs et les logiciels malveillants sur les sites internet et les applications.</string>
     <string name="netshield_what_data_means">Explication des statistiques NetShield</string>
     <string name="netshield_ads_title">Publicités</string>

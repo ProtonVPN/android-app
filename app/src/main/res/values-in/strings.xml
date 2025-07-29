@@ -648,7 +648,7 @@
     <string name="server_change_button_time_left_seconds_content_description">Tersedia dalam %1$s</string>
     <string name="server_change_progress_finished_contend_description">Saat ini tersedia</string>
     <string name="not_wanted_country_title">Bukan negara yang Anda inginkan?</string>
-    <string name="not_wanted_country_description">Tingkatkan untuk memilih server mana pun</string>
+    <string name="not_wanted_country_description">Tingkatkan untuk bebas memilih server mana saja</string>
     <string name="whats_new_title">Apa yang baru</string>
     <string name="whats_new_profiles_title">Profil kini kembali hadir</string>
     <string name="whats_new_profiles_description">Buat dan simpan koneksi khusus dengan lokasi, server, dan protokol pilihan Anda.</string>
