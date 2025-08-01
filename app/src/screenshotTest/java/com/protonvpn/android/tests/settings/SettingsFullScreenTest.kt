@@ -22,7 +22,6 @@
 package com.protonvpn.android.tests.settings
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.annotations.ProtonVpnTestPreviewLong
 import com.protonvpn.android.base.ui.ProtonVpnPreview

@@ -22,13 +22,11 @@ package com.protonvpn.android.netshield
 import com.protonvpn.android.auth.data.VpnUser
 
 enum class NetShieldAvailability {
-    AVAILABLE, UPGRADE_VPN_PLUS, HIDDEN
+    AVAILABLE,
+    UPGRADE_VPN_PLUS,
 }
 
 fun VpnUser?.getNetShieldAvailability() = when {
     this == null || isFreeUser -> NetShieldAvailability.UPGRADE_VPN_PLUS
-    !isFreeUser && planName == VPN_PLAN_NO_NETSHIELD -> NetShieldAvailability.HIDDEN
     else -> NetShieldAvailability.AVAILABLE
 }
-
-private const val VPN_PLAN_NO_NETSHIELD = "vpnpro2023"

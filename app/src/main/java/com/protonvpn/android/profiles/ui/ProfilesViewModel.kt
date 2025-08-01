@@ -26,9 +26,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
-import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.profiles.data.ProfilesDao
@@ -209,10 +207,7 @@ class ProfilesViewModel @Inject constructor(
             else -> getIntentAvailability(intent, vpnUser, settingsProtocol)
         }
         val intentViewState = getConnectIntentViewState.forProfile(this)
-        val netShieldEnabled = when {
-            vpnUser.getNetShieldAvailability() == NetShieldAvailability.HIDDEN -> null
-            else -> intent.settingsOverrides?.netShield == NetShieldProtocol.ENABLED_EXTENDED
-        }
+        val netShieldEnabled = intent.settingsOverrides?.netShield == NetShieldProtocol.ENABLED_EXTENDED
         val protocol = intent.settingsOverrides?.protocol ?: settingsProtocol
         val customDnsEnabled = intent.settingsOverrides?.customDns?.effectiveEnabled
         val natType = NatType.fromRandomizedNat(intent.settingsOverrides?.randomizedNat == true)

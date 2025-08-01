@@ -182,10 +182,10 @@ class SettingsForConnectionTests {
     }
 
     @Test
-    fun `NetShield disabled for essentials plan`() = testScope.runTest {
+    fun `GIVEN business essential user WHEN enabling NetShield settings THEN NetShield is enabled`() = testScope.runTest {
         testUserProvider.vpnUser = TestUser.businessEssential.vpnUser
         rawSettingsFlow.value = LocalUserSettings.Default
-        val overrides = SettingsOverrides(
+        val settingsOverrides = SettingsOverrides(
             protocolData = ProtocolSelectionData(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
             netShield = NetShieldProtocol.ENABLED_EXTENDED,
             randomizedNat = false,
@@ -193,10 +193,10 @@ class SettingsForConnectionTests {
             lanConnectionsAllowDirect = false,
             customDns = CustomDnsSettings(false)
         )
-        assertEquals(
-            NetShieldProtocol.DISABLED,
-            settingsForConnection.getFor(ConnectIntent.Fastest.copy(settingsOverrides = overrides)).netShield
-        )
+        val connectIntent = ConnectIntent.Fastest.copy(settingsOverrides = settingsOverrides)
+        val expectedNetShieldProtocol = settingsForConnection.getFor(connectIntent).netShield
+
+        assertEquals(NetShieldProtocol.ENABLED_EXTENDED, expectedNetShieldProtocol)
     }
 
     private fun createSettingsOverrides(

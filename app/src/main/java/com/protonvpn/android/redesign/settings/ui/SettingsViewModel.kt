@@ -353,15 +353,16 @@ class SettingsViewModel @Inject constructor(
                     profileName = profile.info.name,
                 )
             }
-            val netShieldSetting = when (val netShieldAvailability = user?.vpnUser.getNetShieldAvailability()) {
-                NetShieldAvailability.HIDDEN -> null
-                else -> SettingViewState.NetShield(
+
+            val netShieldSetting = user?.vpnUser.getNetShieldAvailability().let { netShieldAvailability ->
+                SettingViewState.NetShield(
                     settings.netShield != NetShieldProtocol.DISABLED,
                     profileOverrideInfo = profileOverrideInfo,
                     isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE,
                     dnsOverride = getDnsOverride(isPrivateDnsActive, settings),
                 )
             }
+
             val currentModeAppNames =
                 installedAppsProvider.getNamesOfInstalledApps(settings.splitTunneling.currentModeApps())
 

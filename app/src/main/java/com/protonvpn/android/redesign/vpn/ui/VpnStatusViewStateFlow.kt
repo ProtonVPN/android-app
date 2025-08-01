@@ -103,7 +103,6 @@ class VpnStatusViewStateFlow(
                         }
                         StatusBanner.NetShieldBanner(netShieldState)
                     }
-                    NetShieldAvailability.HIDDEN -> null
                     NetShieldAvailability.UPGRADE_VPN_PLUS -> StatusBanner.UpgradePlus
                 }
             }

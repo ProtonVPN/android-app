@@ -32,6 +32,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.settings.ui.SettingValue
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
+import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
@@ -238,11 +239,37 @@ class SettingsViewModelTests {
     }
 
     @Test
-    fun `netshield hidden for B2B-essentials users`() = testScope.runTest {
-        settingsManager.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
+    fun `GIVEN business essential user WHEN enabling NetShield THEN NetShield setting is on`() = testScope.runTest {
         testUserProvider.vpnUser = businessEssentialUser
-        val state = settingsViewModel.viewState.first()
-        assertNull(state.netShield)
+
+        settingsManager.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
+
+        val netShieldState = settingsViewModel.viewState.first().netShield
+        assertNotNull(netShieldState)
+        assertCommonProperties(
+            expectedValue = true,
+            expectedTitle = R.string.netshield_feature_name,
+            expectedSettingValue = SettingValue.SettingStringRes(R.string.netshield_state_on),
+            expectedIsRestricted = false,
+            settingState = netShieldState
+        )
+    }
+
+    @Test
+    fun `GIVEN business essential user WHEN disabling NetShield THEN NetShield setting is off`() = testScope.runTest {
+        testUserProvider.vpnUser = businessEssentialUser
+
+        settingsManager.update { it.copy(netShield = NetShieldProtocol.DISABLED) }
+
+        val netShieldState = settingsViewModel.viewState.first().netShield
+        assertNotNull(netShieldState)
+        assertCommonProperties(
+            expectedValue = false,
+            expectedTitle = R.string.netshield_feature_name,
+            expectedSettingValue = SettingValue.SettingStringRes(R.string.netshield_state_off),
+            expectedIsRestricted = false,
+            settingState = netShieldState
+        )
     }
 
     @Test
@@ -344,7 +371,7 @@ class SettingsViewModelTests {
         @StringRes expectedTitle: Int,
         expectedSettingValue: SettingValue,
         expectedIsRestricted: Boolean,
-        settingState: SettingsViewModel.SettingViewState<T>
+        settingState: SettingViewState<T>
     ) {
         assertEquals(expectedValue, settingState.value)
         assertEquals(expectedTitle, settingState.titleRes)

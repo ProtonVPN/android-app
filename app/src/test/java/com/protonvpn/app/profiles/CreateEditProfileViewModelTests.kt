@@ -194,7 +194,6 @@ class CreateEditProfileViewModelTests {
             savedStateHandle = SavedStateHandle(),
             mainScope = testScope.backgroundScope,
             appContext = appContext,
-            currentUser = currentUser,
             profilesDao = profilesDao,
             createOrUpdateProfile = createOrUpdate,
             adapter = serversAdapter,

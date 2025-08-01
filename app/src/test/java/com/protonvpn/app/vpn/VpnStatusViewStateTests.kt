@@ -176,14 +176,6 @@ class VpnStatusViewStateFlowTest {
     }
 
     @Test
-    fun `vpn-essential plan shows no netshields stats nor any banner`() = runTest {
-        statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
-        assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connected)
-        testUserProvider.vpnUser = TestUser.businessEssential.vpnUser
-        assertEquals(VpnStatusViewState.Connected(false, null), vpnStatusViewStateFlow.first())
-    }
-
-    @Test
     fun `change in netShield stats are reflected in StatusViewState flow`() = runTest {
         statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
         assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connected)
