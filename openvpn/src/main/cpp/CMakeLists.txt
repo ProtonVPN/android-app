@@ -107,6 +107,7 @@ else ()
 endif ()
 
 add_library(ovpnutil SHARED ovpnutil/jniglue.c)
+target_compile_options(ovpnutil PRIVATE -fPIE -fstack-protector-all)
 target_compile_definitions(ovpnutil PRIVATE -DTARGET_ARCH_ABI=\"${ANDROID_ABI}\"
         -DOPENVPN2_GIT_REVISION=\"${OPENVPN2_GIT}\"
         -DOPENVPN3_GIT_REVISION=\"${OPENVPN3_GIT}\"
@@ -251,7 +252,7 @@ else ()
 endif ()
 
 add_executable(libovpnexec.so minivpn/minivpn.c)
-target_compile_options(libovpnexec.so PRIVATE -fPIE)
+target_compile_options(libovpnexec.so PRIVATE -fPIE -fstack-protector-all)
 target_link_libraries(libovpnexec.so PRIVATE openvpn -fPIE -pie)
 
 add_executable(pie_openvpn.${ANDROID_ABI} minivpn/minivpn.c)
