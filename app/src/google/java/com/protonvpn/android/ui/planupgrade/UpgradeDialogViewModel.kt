@@ -29,7 +29,6 @@ import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.GiapPlanInfo
 import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
-import com.protonvpn.android.ui.planupgrade.usecase.OneClickPaymentsEnabled
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
@@ -65,7 +64,6 @@ class UpgradeDialogViewModel(
     isInAppUpgradeAllowed: suspend () -> Boolean,
     upgradeTelemetry: UpgradeTelemetry,
     private val loadGoogleSubscriptionPlans: suspend (planNames: List<String>) -> List<GiapPlanInfo>,
-    private val oneClickPaymentsEnabled: suspend () -> Boolean,
     private val performGiapPurchase: PerformGiapPurchase<Activity>,
     userPlanManager: UserPlanManager,
     waitForSubscription: WaitForSubscription,
@@ -87,7 +85,6 @@ class UpgradeDialogViewModel(
         isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
         upgradeTelemetry: UpgradeTelemetry,
         loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans,
-        oneClickPaymentsEnabled: OneClickPaymentsEnabled,
         performGiapPurchase: PerformGiapPurchase<Activity>,
         userPlanManager: UserPlanManager,
         waitForSubscription: WaitForSubscription,
@@ -98,7 +95,6 @@ class UpgradeDialogViewModel(
         isInAppUpgradeAllowed::invoke,
         upgradeTelemetry,
         loadGoogleSubscriptionPlans::invoke,
-        oneClickPaymentsEnabled::invoke,
         performGiapPurchase,
         userPlanManager,
         waitForSubscription,
@@ -135,14 +131,10 @@ class UpgradeDialogViewModel(
     fun loadPlans(planNames: List<String>) {
         loadPlanNames = planNames
         viewModelScope.launch {
-            if (!isInAppUpgradeAllowed())
+            if (!isInAppUpgradeAllowed()) {
                 state.value = State.UpgradeDisabled
-            else {
-                if (!oneClickPaymentsEnabled()) {
-                    state.value = State.PlansFallback
-                } else {
-                    loadGiapPlans(planNames)
-                }
+            } else {
+                loadGiapPlans(planNames)
             }
         }
     }

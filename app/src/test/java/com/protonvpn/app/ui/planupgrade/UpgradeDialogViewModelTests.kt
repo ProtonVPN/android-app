@@ -75,7 +75,6 @@ class UpgradeDialogViewModelTests {
     private lateinit var viewModel: UpgradeDialogViewModel
 
     private var isInAppAllowed = true
-    private var oneClickPaymentsEnabled = true
     private var giapPlans: List<GiapPlanInfo> = emptyList()
 
     private val dummyPrices = mapOf(
@@ -102,7 +101,6 @@ class UpgradeDialogViewModelTests {
         Dispatchers.setMain(testDispatcher)
 
         isInAppAllowed = true
-        oneClickPaymentsEnabled = true
         giapPlans = listOf(testPlan)
         performGiapPurchase = mockk()
         viewModel = UpgradeDialogViewModel(
@@ -112,7 +110,6 @@ class UpgradeDialogViewModelTests {
             isInAppUpgradeAllowed = { isInAppAllowed },
             upgradeTelemetry = mockk(relaxed = true),
             loadGoogleSubscriptionPlans = { giapPlans },
-            oneClickPaymentsEnabled = { oneClickPaymentsEnabled },
             performGiapPurchase = performGiapPurchase,
             userPlanManager = mockk(relaxed = true),
             waitForSubscription = mockk(relaxed = true),
@@ -168,13 +165,6 @@ class UpgradeDialogViewModelTests {
         isInAppAllowed = false
         viewModel.loadPlans(listOf(testPlanName))
         Assert.assertTrue(viewModel.state.value is State.UpgradeDisabled)
-    }
-
-    @Test
-    fun `enter fallback when 1-click payments disabled`() = testScope.runTest {
-        oneClickPaymentsEnabled = false
-        viewModel.loadPlans(listOf(testPlanName))
-        Assert.assertTrue(viewModel.state.value is State.PlansFallback)
     }
 
     @Test
