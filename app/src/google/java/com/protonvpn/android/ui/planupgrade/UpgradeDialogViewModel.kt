@@ -67,7 +67,6 @@ class UpgradeDialogViewModel(
     upgradeTelemetry: UpgradeTelemetry,
     private val loadGoogleSubscriptionPlans: suspend (planNames: List<String>) -> List<GiapPlanInfo>,
     private val oneClickPaymentsEnabled: suspend () -> Boolean,
-    private val oneClickUnlimitedEnabled: suspend () -> Boolean,
     private val performGiapPurchase: PerformGiapPurchase<Activity>,
     userPlanManager: UserPlanManager,
     waitForSubscription: WaitForSubscription,
@@ -91,7 +90,6 @@ class UpgradeDialogViewModel(
         upgradeTelemetry: UpgradeTelemetry,
         loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans,
         oneClickPaymentsEnabled: OneClickPaymentsEnabled,
-        oneClickUnlimitedEnabled: OneClickUnlimitedPlanEnabled,
         performGiapPurchase: PerformGiapPurchase<Activity>,
         userPlanManager: UserPlanManager,
         waitForSubscription: WaitForSubscription,
@@ -104,7 +102,6 @@ class UpgradeDialogViewModel(
         upgradeTelemetry,
         loadGoogleSubscriptionPlans::invoke,
         oneClickPaymentsEnabled::invoke,
-        oneClickUnlimitedEnabled::invoke,
         performGiapPurchase,
         userPlanManager,
         waitForSubscription,
@@ -128,9 +125,8 @@ class UpgradeDialogViewModel(
 
     fun loadPlans(allowMultiplePlans: Boolean) {
         viewModelScope.launch {
-            val unlimitedPlanEnabled = oneClickUnlimitedEnabled()
             val plans = when {
-                allowMultiplePlans && unlimitedPlanEnabled ->
+                allowMultiplePlans ->
                     listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
 
                 else ->

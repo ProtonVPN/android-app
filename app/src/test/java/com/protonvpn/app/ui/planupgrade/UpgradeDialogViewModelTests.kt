@@ -76,7 +76,6 @@ class UpgradeDialogViewModelTests {
 
     private var isInAppAllowed = true
     private var oneClickPaymentsEnabled = true
-    private var oneClickUnlimitedEnabled = true
     private var giapPlans: List<GiapPlanInfo> = emptyList()
 
     private val dummyPrices = mapOf(
@@ -114,7 +113,6 @@ class UpgradeDialogViewModelTests {
             upgradeTelemetry = mockk(relaxed = true),
             loadGoogleSubscriptionPlans = { giapPlans },
             oneClickPaymentsEnabled = { oneClickPaymentsEnabled },
-            oneClickUnlimitedEnabled = { oneClickUnlimitedEnabled },
             performGiapPurchase = performGiapPurchase,
             userPlanManager = mockk(relaxed = true),
             waitForSubscription = mockk(relaxed = true),
@@ -292,15 +290,6 @@ class UpgradeDialogViewModelTests {
         giapPlans = createDummyPlans(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
         viewModel.loadPlans(allowMultiplePlans = false)
 
-        assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN), viewModel.state.first())
-    }
-
-    @Test
-    fun `when oneClickUnlimitedEnabled is false then only the first plan is used`() = testScope.runTest {
-        giapPlans = createDummyPlans(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
-        oneClickUnlimitedEnabled = false
-
-        viewModel.loadPlans(allowMultiplePlans = true)
         assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN), viewModel.state.first())
     }
 
