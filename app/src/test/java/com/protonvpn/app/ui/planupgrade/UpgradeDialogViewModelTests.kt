@@ -116,7 +116,6 @@ class UpgradeDialogViewModelTests {
             performGiapPurchase = performGiapPurchase,
             userPlanManager = mockk(relaxed = true),
             waitForSubscription = mockk(relaxed = true),
-            { true }
         )
     }
 

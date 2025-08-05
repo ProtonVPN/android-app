@@ -30,7 +30,6 @@ import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.GiapPlanInfo
 import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.OneClickPaymentsEnabled
-import com.protonvpn.android.ui.planupgrade.usecase.PaymentDisplayRenewPriceKillSwitch
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
@@ -70,7 +69,6 @@ class UpgradeDialogViewModel(
     private val performGiapPurchase: PerformGiapPurchase<Activity>,
     userPlanManager: UserPlanManager,
     waitForSubscription: WaitForSubscription,
-    private val paymentDisplayRenewPriceKillSwitch: suspend () -> Boolean,
 ) : CommonUpgradeDialogViewModel(
     userId,
     authOrchestrator,
@@ -93,7 +91,6 @@ class UpgradeDialogViewModel(
         performGiapPurchase: PerformGiapPurchase<Activity>,
         userPlanManager: UserPlanManager,
         waitForSubscription: WaitForSubscription,
-        paymentDisplayRenewPriceKillSwitch: PaymentDisplayRenewPriceKillSwitch,
     ) : this(
         currentUser.userFlow.map { it?.userId },
         authOrchestrator,
@@ -105,13 +102,11 @@ class UpgradeDialogViewModel(
         performGiapPurchase,
         userPlanManager,
         waitForSubscription,
-        paymentDisplayRenewPriceKillSwitch::invoke,
     )
 
     private var loadPlanNames: List<String>? = null
 
     private lateinit var loadedPlans: List<GiapPlanModel>
-    private var showRenewPrice = true // Initialized in loadPlans()
     val selectedCycle = MutableStateFlow<PlanCycle?>(null)
 
     data class GiapPlanModel(
@@ -146,7 +141,6 @@ class UpgradeDialogViewModel(
                 if (!oneClickPaymentsEnabled()) {
                     state.value = State.PlansFallback
                 } else {
-                    showRenewPrice = !paymentDisplayRenewPriceKillSwitch()
                     loadGiapPlans(planNames)
                 }
             }
@@ -202,7 +196,6 @@ class UpgradeDialogViewModel(
             allPlans = loadedPlans,
             selectedPlan = plan,
             selectedPlanPriceInfo = giapPlan.prices,
-            showRenewPrice = showRenewPrice,
             inProgress = false
         )
         if (plan.cycles.none { it.cycle == selectedCycle.value }) {

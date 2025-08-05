@@ -48,7 +48,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
     @Test
     fun renewPriceIsShownYear() {
         composeRule.setVpnContent {
-            RenewInfo(showRenewPrice = true, cycleInfoWithRenew)
+            RenewInfo(cycleInfoWithRenew)
         }
         node.withText("Welcome offer. Auto renews at 20 CHF/year").assertIsDisplayed()
     }
@@ -56,24 +56,16 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
     @Test
     fun renewPriceIsShownMonth() {
         composeRule.setVpnContent {
-            RenewInfo(showRenewPrice = true, cycleInfoWithRenew.copy(cycle = PlanCycle.MONTHLY))
+            RenewInfo(cycleInfoWithRenew.copy(cycle = PlanCycle.MONTHLY))
         }
         node.withText("Welcome offer. Auto renews at 20 CHF/month").assertIsDisplayed()
-    }
-
-    @Test
-    fun killSwitchFallsBackToGenericText() {
-        composeRule.setVpnContent {
-            RenewInfo(showRenewPrice = false, cycleInfoWithRenew.copy(cycle = PlanCycle.MONTHLY))
-        }
-        node.withText("Subscription auto renews monthly").assertIsDisplayed()
     }
 
     @Test
     fun regularPriceIsShown() {
         composeRule.setVpnContent {
             Column {
-                RenewInfo(showRenewPrice = true, cycleInfo)
+                RenewInfo(cycleInfo)
             }
         }
         node.withText("Subscription auto renews at 10 CHF/year").assertIsDisplayed()

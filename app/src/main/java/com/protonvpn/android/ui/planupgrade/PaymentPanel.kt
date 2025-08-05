@@ -75,7 +75,6 @@ sealed class ViewState(val inProgress: Boolean) {
         val displayName: String,
         val planName: String,
         val cycles: List<CycleViewInfo>,
-        val showRenewPrice: Boolean,
         inProgress: Boolean
     ) : ViewState(inProgress)
     object FallbackFlowReady : ViewState(false)
@@ -134,7 +133,6 @@ fun PaymentPanel(
                         val selectedCycleInfo = viewState.cycles.firstOrNull { it.cycle == selectedCycle }
                         if (selectedCycleInfo != null) {
                             RenewInfo(
-                                viewState.showRenewPrice,
                                 selectedCycleInfo = selectedCycleInfo,
                                 Modifier.padding(top = 4.dp).align(Alignment.CenterHorizontally)
                             )
@@ -182,7 +180,6 @@ fun PaymentPanel(
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
 fun RenewInfo(
-    showRenewPrice: Boolean,
     selectedCycleInfo: ViewState. CycleViewInfo,
     modifier: Modifier = Modifier
 ) {
@@ -190,16 +187,12 @@ fun RenewInfo(
     val renewPrice = selectedCycleInfo.priceInfo.formattedRenewPrice
     val renewInfoText = when (selectedCycleInfo.cycle) {
         PlanCycle.MONTHLY -> when {
-            !showRenewPrice ->
-                stringResource(R.string.payment_welcome_price_message_monthly_fallback)
             renewPrice != null ->
                 stringResource(R.string.payment_welcome_price_message_monthly, renewPrice)
             else ->
                 stringResource(R.string.payment_auto_renew_message_monthly, price)
         }
         PlanCycle.YEARLY -> when {
-            !showRenewPrice ->
-                stringResource(R.string.payment_welcome_price_message_annual_fallback)
             renewPrice != null ->
                 stringResource(R.string.payment_welcome_price_message_annual, renewPrice)
             else ->
@@ -368,7 +361,6 @@ private fun PreviewPlan() {
                         CommonUpgradeDialogViewModel.PriceInfo("$15.99")
                     ),
                 ),
-                showRenewPrice = true,
                 inProgress = false
             ),
             selectedCycle = PlanCycle.YEARLY,

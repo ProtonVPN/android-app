@@ -76,7 +76,6 @@ class PaymentPanelFragment : Fragment() {
                                     priceInfo
                                 )
                             },
-                            showRenewPrice = state.showRenewPrice,
                             inProgress = state.inProgress,
                         )
                 }

@@ -77,7 +77,6 @@ abstract class CommonUpgradeDialogViewModel(
             val allPlans: List<PlanModel>,
             val selectedPlan: PlanModel,
             val selectedPlanPriceInfo: Map<PlanCycle, PriceInfo>,
-            val showRenewPrice: Boolean,
             val inProgress: Boolean = false,
         ) : State()
         object PlansFallback : State() // Conditions for short flow were not met, start normal account flow
