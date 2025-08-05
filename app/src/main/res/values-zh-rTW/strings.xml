@@ -82,16 +82,16 @@
     <string name="report_bug_email_label">您的電郵</string>
     <string name="report_bug_email_hint">輸入您的電郵位址</string>
     <string name="report_bug_message_label">郵件訊息</string>
-    <string name="report_bug_message_hint">請描述臭蟲以及發現它的方式與位置</string>
+    <string name="report_bug_message_hint">請描述問題以及發現它的方式與位置</string>
     <string name="send_report">傳送回報</string>
-    <string name="discardChanges">要捨棄未儲存的變更嗎？</string>
+    <string name="discardChanges">放棄仍未儲存的變更嗎？</string>
     <string name="discard">捨棄</string>
     <string name="done">完成</string>
     <string name="add">加入</string>
     <string name="copy_to_clipboard">複製</string>
     <string name="copied_to_clipboard">已複製到剪貼簿</string>
     <string name="got_it">了解</string>
-    <string name="something_went_wrong">發生錯誤</string>
+    <string name="something_went_wrong">出了點問題</string>
     <string name="try_again">再試一次</string>
     <string name="delete">刪除</string>
     <string name="remove">移除</string>
@@ -102,23 +102,23 @@
     <string name="noVpnPermissionMainTitle">連線到 VPN 所需動作</string>
     <string name="noVpnPermissionMainMessage">若要連線到 Proton VPN，請採取以下步驟：</string>
     <string name="noVpnPermissionGrantPermissionTitle">授予 VPN 權限</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">Android 需要您的權限以連線到 Proton VPN。當 Android 顯示「連線需求」視窗時，請輕觸「確定」以授予權限。</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">停用其他 VPN 程式的永久連線功能</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android 需取得您授權許可後才得以連線至 Proton VPN。 Android 顯示「連線需求」視窗時，請輕觸「確定」以授予權限。</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">停用其它 VPN 程式的永久連線功能</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android 並不支援多重 VPN 應用程式。請停用 Proton VPN 以外任何 VPN 應用程式的「永久連線」設定。</string>
-    <string name="noVpnPermissionProtonAppLabel">ProtonVpn 應用程式</string>
-    <string name="noVpnPermissionOtherAppLabel">其他 VPN 應用程式</string>
-    <string name="noVpnPermissionOpenSettings">開啟 Android VPN 設定</string>
+    <string name="noVpnPermissionProtonAppLabel">Proton VPN 應用程式</string>
+    <string name="noVpnPermissionOtherAppLabel">其它 VPN 應用程式</string>
+    <string name="noVpnPermissionOpenSettings">開啟 Android VPN 設定值</string>
     <string name="noNotificationPermissionGrantTitle">不要漏掉</string>
-    <string name="noNotificationPermissionGrantDescription">在連線狀態有變化時通知您</string>
+    <string name="noNotificationPermissionGrantDescription">啟用通知，在連線狀態發生變化時，獲取警示。</string>
     <string name="noNotificationPermissionGrantNowTitle">啟用通知</string>
     <string name="error_prepare_vpn_description"><![CDATA[請停用 Android VPN 系統設定中其他 VPN 應用程式的「永久連線的 VPN」設定，以免干擾 Proton VPN 創建 VPN 連線。若出現要求 VPN 權限的對話方塊，請允許。其他 VPN 應用程式可能也需要移除以免衝突。之後，請再試一遍。<a href="%1$s">瞭解更多</a>]]></string>
-    <string name="error_prepare_vpn_settings">前往 Android VPN 設定</string>
+    <string name="error_prepare_vpn_settings">前往 Android VPN 設定值</string>
     <string name="error_prepare_vpn_title">錯誤：VPN 權限出現問題</string>
     <string name="error_server_not_set">伺服器不再可用</string>
     <string name="bugReportErrorEmptyEmail">電子信箱不能空白</string>
     <string name="bugReportErrorInvalidEmail">無效的電郵位址</string>
-    <string name="bugReportLabelVpnLogsTitle">包含錯誤紀錄檔</string>
-    <string name="bugReportErrorLabelVpnLogsDescription">這會傳送本機錯誤紀錄檔（我們並不紀錄活動）來協助我們修復您的問題</string>
+    <string name="bugReportLabelVpnLogsTitle">包含錯誤日誌</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">這會傳送本機錯誤日誌（我們不會記錄活動）以利協助我們修復您的問題</string>
     <string name="profileFastest">最快速</string>
     <string name="profileRandom">隨機</string>
     <string name="loaderErrorNoInternet">沒有網際網路連線</string>
@@ -130,51 +130,51 @@
     <string name="settings_new_label_badge">新版本</string>
     <string name="settingsExcludedIPAddressesListHeader">排除的 IP 位址 (%1$d 個)</string>
     <string name="settingsIncludedIPAddressesListHeader">包含的 IP 位址 (%1$d 個)</string>
-    <string name="settingsExcludedApps">不包括所有應用</string>
+    <string name="settingsExcludedApps">排除所有應用程式</string>
     <string name="settingsExcludedAppsEmpty">加入您要從 VPN 流量排除的應用程式。</string>
     <string name="settingsIncludedAppsEmpty">新增您要包含於 VPN 流量中的應用程式。</string>
     <string name="settingsExcludedAppsSelectedHeader">排除的應用程式 (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">包含的應用程式 (%1$d 個)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">其餘的一般應用程式 (%1$d 個)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">其餘的系統應用程式 (%1$d 個)</string>
-    <string name="settingsSplitTunnelingAvailableHeader">全部其它應用程式(%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">全部其它應用程式 (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">顯示系統應用程式</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">顯示系統應用程式</string>
     <string name="settingsSplitTunnelingExcludedAppsList">這些應用程式排除於您的 VPN 連線之外。</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">僅限這些應用程式透過 VPN 連線。</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">僅限這些應用程式可透過 VPN 連線。</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">新增至排除的應用程式</string>
+    <string name="accessibility_action_add_excluded_app">加入至排除的應用程式</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">從排除應用程式移除</string>
+    <string name="accessibility_action_remove_excluded_app">從排除的應用程式中移除</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">添加至包含應用程式</string>
+    <string name="accessibility_action_add_included_app">加入至包含應用程式</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">從包含應用程式移除</string>
+    <string name="accessibility_action_remove_included_app">從包含應用程式中移除</string>
     <string name="accessibility_action_copy_to_clipboard">複製到剪貼簿</string>
     <string name="accessibility_action_item_delete">刪除</string>
-    <string name="accessibility_action_item_move_up">向上移</string>
+    <string name="accessibility_action_item_move_up">向上移動</string>
     <string name="accessibility_action_item_move_down">向下移動</string>
-    <string name="tileConnected">已連線 %1$s</string>
+    <string name="tileConnected">已連線： %1$s</string>
     <string name="openUrlError">無法開啟 %1$s。裝置上未偵測到網頁瀏覽器。</string>
     <string name="loaderErrorTimeout">連線逾時，請重試。</string>
     <string name="troubleshootButton">疑難排解</string>
