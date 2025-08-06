@@ -38,6 +38,7 @@ enum class LogCategory(private val categoryName: String) {
     NETWORK("NETWORK"),
     OS("OS"),
     OS_POWER("OS.POWER"),
+    PROMO("PROMO"),
     PROTOCOL("PROTOCOL"),
     SECURE_STORE("SECURE_STORE"),
     SETTINGS("SETTINGS"),

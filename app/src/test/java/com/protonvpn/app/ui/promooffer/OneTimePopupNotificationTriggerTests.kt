@@ -28,6 +28,7 @@ import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.promooffers.NpsActivityOpener
 import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger
 import com.protonvpn.android.ui.promooffers.PromoActivityOpener
+import com.protonvpn.android.ui.promooffers.PromoIapActivityOpener
 import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePanel
@@ -58,6 +59,8 @@ class OneTimePopupNotificationTriggerTests {
 
     @MockK
     private lateinit var mockApiNotificationManager: ApiNotificationManager
+    @RelaxedMockK
+    private lateinit var mockPromoIapActivityOpener: PromoIapActivityOpener
     @RelaxedMockK
     private lateinit var mockPromoActivityOpener: PromoActivityOpener
     @RelaxedMockK
@@ -93,6 +96,7 @@ class OneTimePopupNotificationTriggerTests {
             currentUser = CurrentUser(testUserProvider),
             promoOffersPrefs = promoOffersPrefs,
             promoActivityOpener = mockPromoActivityOpener,
+            promoIapOpener = mockPromoIapActivityOpener,
             npsActivityOpener = mockNpsActivityOpener
         )
     }
@@ -185,6 +189,14 @@ class OneTimePopupNotificationTriggerTests {
 
         delay(3000)
         verify(exactly = 1) { mockNpsActivityOpener.open(any(), NOTIFICATION_ID) }
+    }
+
+    @Test
+    fun `IAP activity triggered for IAP notification type`() = testScope.runTest {
+        activeNotificationsFlow.value =
+            listOf(createTestNotification(NOTIFICATION_ID, ApiNotificationTypes.TYPE_INTERNAL_ONE_TIME_IAP_POPUP))
+        foregroundActivityFlow.value = mockk()
+        verify(exactly = 0) { mockPromoIapActivityOpener.open(any(), NOTIFICATION_ID) }
     }
 
     private fun createTestNotification(

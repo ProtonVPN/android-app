@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.ui.promooffers
 
+import com.protonvpn.android.appconfig.ApiNotificationActions
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.auth.usecase.AutoLoginUrlForWeb
 import com.protonvpn.android.logging.LogCategory
@@ -29,7 +30,6 @@ import me.proton.core.util.kotlin.equalsNoCase
 import javax.inject.Inject
 
 private const val AUTOLOGIN_FLAG = "autologin"
-private const val ACTION_OPENURL = "openurl"
 
 // Handles "Action", "URL" and "With" fields.
 // At the moment the only implemented action is OpenURL.
@@ -41,7 +41,7 @@ class PromoOfferButtonActions @Inject constructor(
         getButtonUrl(button.url, button.action, button.actionBehaviors)
 
     private suspend fun getButtonUrl(url: String?, action: String, behaviors: List<String>): String? =
-        if (action.equalsNoCase(ACTION_OPENURL) && url != null) {
+        if (ApiNotificationActions.isOpenUrl(action) && url != null) {
             if (hasAutologin(behaviors)) {
                 autoLoginUrlForWeb(url)
             } else {

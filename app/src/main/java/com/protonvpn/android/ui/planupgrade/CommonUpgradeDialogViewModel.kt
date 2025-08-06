@@ -68,7 +68,7 @@ abstract class CommonUpgradeDialogViewModel(
     sealed class State {
         object Initializing : State()
         object UpgradeDisabled : State()
-        object LoadingPlans : State()
+        data class LoadingPlans(val expectedCycleCount: Int) : State()
         class LoadError(
             @StringRes val messageRes: Int? = null,
             val error: Throwable? = null
@@ -92,8 +92,8 @@ abstract class CommonUpgradeDialogViewModel(
     val eventPurchaseError: ReceiveChannel<PurchaseError> = purchaseError
     val state = MutableStateFlow<State>(State.Initializing)
 
-    fun reportUpgradeFlowStart(upgradeSource: UpgradeSource) {
-        upgradeTelemetry.onUpgradeFlowStarted(upgradeSource)
+    fun reportUpgradeFlowStart(upgradeSource: UpgradeSource, reference: String? = null) {
+        upgradeTelemetry.onUpgradeFlowStarted(upgradeSource, reference)
     }
 
     fun setupOrchestrators(activity: ComponentActivity) {

@@ -19,8 +19,6 @@
 
 package com.protonvpn.app.telemetry
 
-import com.protonvpn.android.appconfig.FeatureFlags
-import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.telemetry.DefaultCommonDimensions
 import com.protonvpn.android.telemetry.DefaultTelemetryReporter
@@ -43,7 +41,6 @@ import io.mockk.runs
 import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -64,7 +61,6 @@ class UpgradeTelemetryTests {
     private lateinit var mockTelemetry: Telemetry
 
     private var fakeTime: Long = 0L // It's not related to test scheduler's clock.
-    private lateinit var featureFlagsFlow: MutableStateFlow<FeatureFlags>
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
     private val freeVpnUser = TestUser.freeUser.vpnUser
@@ -82,8 +78,6 @@ class UpgradeTelemetryTests {
         testUserProvider = TestCurrentUserProvider(freeVpnUser, createAccountUser(createdAtUtc = 100L))
         val currentUser = CurrentUser(testUserProvider)
 
-        featureFlagsFlow = MutableStateFlow(FeatureFlags())
-        val getFeatureFlags = GetFeatureFlags(featureFlagsFlow)
         val commonDimensions = DefaultCommonDimensions(
             currentUser,
             VpnStateMonitor(),
@@ -94,7 +88,6 @@ class UpgradeTelemetryTests {
         upgradeTelemetry = UpgradeTelemetry(
             commonDimensions,
             currentUser,
-            getFeatureFlags,
             clock = { fakeTime },
             helper
         )

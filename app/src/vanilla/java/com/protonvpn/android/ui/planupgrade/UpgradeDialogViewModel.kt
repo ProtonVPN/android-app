@@ -23,12 +23,14 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.plan.presentation.PlansOrchestrator
+import me.proton.core.plan.presentation.entity.PlanCycle
 import javax.inject.Inject
 
 @HiltViewModel
@@ -56,6 +58,11 @@ class UpgradeDialogViewModel @Inject constructor(
             else
                 State.UpgradeDisabled
         }
+    }
+
+    fun loadPlans(planNames: List<String>, cycles: List<PlanCycle>?) {
+        DebugUtils.fail("Not supported, triggers regular payments flow")
+        loadPlans(allowMultiplePlans = true)
     }
 
     fun selectPlan(plan: PlanModel) = Unit

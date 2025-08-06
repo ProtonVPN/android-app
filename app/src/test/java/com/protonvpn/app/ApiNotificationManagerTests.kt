@@ -49,6 +49,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -273,17 +274,18 @@ class ApiNotificationManagerTests {
     }
 
     private fun createNotificationsManager() = ApiNotificationManager(
-        mockContext,
-        testScope.backgroundScope,
-        TestDispatcherProvider(testDispatcher),
-        { testScope.currentTime },
-        mockAppConfig,
-        mockApi,
-        currentUser,
-        mockUserPlanManager,
-        mockImagePrefetcher,
-        mockPeriodicUpdateManager,
-        flowOf(true),
-        flowOf(true),
+        appContext = mockContext,
+        mainScope = testScope.backgroundScope,
+        dispatcherProvider = TestDispatcherProvider(testDispatcher),
+        wallClockMs = { testScope.currentTime },
+        appConfig = mockAppConfig,
+        api = mockApi,
+        currentUser = currentUser,
+        userPlanManager = mockUserPlanManager,
+        generateNotificationsForIntroductoryOffers = mockk(relaxed = true),
+        imagePrefetcher = mockImagePrefetcher,
+        periodicUpdateManager = mockPeriodicUpdateManager,
+        inForeground = flowOf(true),
+        isLoggedIn = flowOf(true),
     )
 }

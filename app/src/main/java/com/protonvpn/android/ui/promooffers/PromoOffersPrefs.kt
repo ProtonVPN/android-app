@@ -21,7 +21,6 @@ package com.protonvpn.android.ui.promooffers
 
 import android.content.SharedPreferences
 import com.protonvpn.android.utils.SharedPreferencesProvider
-import com.protonvpn.android.utils.Storage
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

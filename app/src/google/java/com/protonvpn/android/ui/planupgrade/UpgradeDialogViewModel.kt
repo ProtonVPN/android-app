@@ -100,7 +100,9 @@ class UpgradeDialogViewModel(
         waitForSubscription,
     )
 
-    private var loadPlanNames: List<String>? = null
+    private class ReloadState(val plans: List<String>, val cycles: List<PlanCycle>?)
+    private var plansForReload: ReloadState? = null
+
 
     private lateinit var loadedPlans: List<GiapPlanModel>
     val selectedCycle = MutableStateFlow<PlanCycle?>(null)
@@ -111,7 +113,7 @@ class UpgradeDialogViewModel(
     ) : PlanModel(displayName = giapPlanInfo.displayName, planName = giapPlanInfo.name, cycles = giapPlanInfo.cycles)
 
     fun reloadPlans() {
-        loadPlanNames?.let { loadPlans(it) }
+        plansForReload?.let { loadPlans(it.plans, it.cycles) }
     }
 
     fun loadPlans(allowMultiplePlans: Boolean) {
@@ -123,27 +125,33 @@ class UpgradeDialogViewModel(
                 else ->
                     listOf(Constants.CURRENT_PLUS_PLAN)
             }
-            loadPlans(plans)
+            loadPlans(plans, cycles = null)
         }
     }
 
-    @VisibleForTesting
-    fun loadPlans(planNames: List<String>) {
-        loadPlanNames = planNames
+    fun loadPlans(planNames: List<String>, cycles: List<PlanCycle>?) {
+        plansForReload = ReloadState(planNames, cycles)
         viewModelScope.launch {
             if (!isInAppUpgradeAllowed()) {
                 state.value = State.UpgradeDisabled
             } else {
-                loadGiapPlans(planNames)
+                loadGiapPlans(planNames, cycles)
             }
         }
     }
 
     // The plan first on the list is mandatory and will be preselected.
-    private suspend fun loadGiapPlans(planNames: List<String>) {
-        state.value = State.LoadingPlans
+    private suspend fun loadGiapPlans(planNames: List<String>, cycleFilter: List<PlanCycle>?) {
+        state.value = State.LoadingPlans(cycleFilter?.size ?: 2)
         suspend {
-            val unorderedPlans = loadGoogleSubscriptionPlans(planNames).map { planInfo ->
+            val unorderedPlans = loadGoogleSubscriptionPlans(planNames).map { inputPlanInfo ->
+                val planInfo = if (cycleFilter != null) {
+                    val filteredCycles = inputPlanInfo.cycles.filter { cycleFilter.contains(it.cycle) }
+                    val selectedCycle = (filteredCycles.find { it.cycle == inputPlanInfo.preselectedCycle } ?: filteredCycles.first()).cycle
+                    inputPlanInfo.copy(cycles = filteredCycles, preselectedCycle = selectedCycle)
+                } else {
+                    inputPlanInfo
+                }
                 GiapPlanModel(planInfo, calculatePriceInfos(planInfo.cycles, planInfo.dynamicPlan))
             }
             // Plans order should match order of planNames.
@@ -256,17 +264,7 @@ class UpgradeDialogViewModel(
             cycles: List<CycleInfo>,
             dynamicPlan: DynamicPlan,
         ): Map<PlanCycle, PriceInfo> {
-            val currencies = dynamicPlan.instances
-                .flatMap { (_, instance) -> instance.price.map { it.value.currency } }
-                .toSet()
-
-            // Temporary workaround for issue in core returning wrong prices if there was an issue
-            // fetching prices from google billing library.
-            if (currencies.isEmpty() || currencies.size > 1)
-                return emptyMap()
-
-            // The prices coming from Google Play will have a single currency:
-            val currency = currencies.first()
+            val currency = dynamicPlan.getSingleCurrency() ?: return emptyMap()
 
             val perMonthPrices = cycles.associate { cycleInfo ->
                 val months = cycleInfo.cycle.cycleDurationMonths

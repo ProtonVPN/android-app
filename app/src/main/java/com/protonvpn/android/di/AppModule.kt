@@ -74,6 +74,8 @@ import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
+import com.protonvpn.android.ui.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabled
+import com.protonvpn.android.ui.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabledImpl
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.AppIconManagerImpl
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
@@ -81,6 +83,8 @@ import com.protonvpn.android.userstorage.DefaultLocalDataStoreFactory
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
 import com.protonvpn.android.utils.BuildConfigUtils
+import com.protonvpn.android.utils.DefaultLocaleProvider
+import com.protonvpn.android.utils.DefaultLocaleProviderImpl
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnBackendProvider
@@ -365,6 +369,9 @@ object AppModule {
         fun bindCommonDimensions(provider: DefaultCommonDimensions): CommonDimensions
 
         @Binds
+        fun bindDefaultLocaleProvider(impl: DefaultLocaleProviderImpl): DefaultLocaleProvider
+
+        @Binds
         fun bindFeatureFlagContextProvider(provider: VpnFeatureFlagContextProvider): FeatureFlagContextProvider
 
         @Binds
@@ -385,6 +392,11 @@ object AppModule {
         fun bindIsDirectLanConnectionsFeatureFlagEnabled(
             impl: IsDirectLanConnectionsFeatureFlagEnabledImpl
         ): IsDirectLanConnectionsFeatureFlagEnabled
+
+        @Binds
+        fun bindIsIapClientSidePromoFeatureFlagEnabled(
+            impl: IsIapClientSidePromoFeatureFlagEnabledImpl
+        ): IsIapClientSidePromoFeatureFlagEnabled
 
         @Binds
         fun bindIsIPv6FeatureFlagEnabled(impl: IsIPv6FeatureFlagEnabledImpl): IsIPv6FeatureFlagEnabled

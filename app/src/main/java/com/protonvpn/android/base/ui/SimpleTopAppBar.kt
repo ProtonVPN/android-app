@@ -20,6 +20,7 @@
 package com.protonvpn.android.base.ui
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -72,6 +73,7 @@ fun SimpleTopAppBar(
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     backgroundColor: Color = ProtonTheme.colors.backgroundNorm,
 ) {
     TopAppBar(
@@ -84,6 +86,7 @@ fun SimpleTopAppBar(
         },
         navigationIcon = navigationIcon,
         modifier = modifier,
+        windowInsets = windowInsets,
     )
 }
 

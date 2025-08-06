@@ -128,7 +128,7 @@ class UpgradeDialogViewModelTests {
             purchaseResult.first()
         }
 
-        viewModel.loadPlans(listOf(testPlanName))
+        viewModel.loadPlans(listOf(testPlanName), null)
 
         Assert.assertEquals(PlanCycle.MONTHLY, viewModel.selectedCycle.value)
 
@@ -163,14 +163,14 @@ class UpgradeDialogViewModelTests {
     @Test
     fun `in-app payments disabled`() = testScope.runTest {
         isInAppAllowed = false
-        viewModel.loadPlans(listOf(testPlanName))
+        viewModel.loadPlans(listOf(testPlanName), null)
         Assert.assertTrue(viewModel.state.value is State.UpgradeDisabled)
     }
 
     @Test
     fun `show error on plan load fail`() = testScope.runTest {
         giapPlans = emptyList()
-        viewModel.loadPlans(listOf(testPlanName))
+        viewModel.loadPlans(listOf(testPlanName), null)
         val state = viewModel.state.first()
         assertIs<State.LoadError>(state)
         assertEquals(state.messageRes, R.string.error_fetching_prices)
@@ -178,7 +178,7 @@ class UpgradeDialogViewModelTests {
 
     @Test
     fun `show error when first plan is missing`() = testScope.runTest {
-        viewModel.loadPlans(listOf("missing plan", testPlanName))
+        viewModel.loadPlans(listOf("missing plan", testPlanName), null)
         val state = viewModel.state.first()
         assertIs<State.LoadError>(state)
         assertEquals(state.messageRes, R.string.error_fetching_prices)
@@ -186,7 +186,7 @@ class UpgradeDialogViewModelTests {
 
     @Test
     fun `ignore subsequent plans if missing`() = testScope.runTest {
-        viewModel.loadPlans(listOf(testPlanName, "missing plan"))
+        viewModel.loadPlans(listOf(testPlanName, "missing plan"), null)
         val state = viewModel.state.first()
         assertIs<State.PurchaseReady>(state)
         assertEquals(listOf(testPlanName), state.allPlans.map { it.planName })
@@ -254,7 +254,7 @@ class UpgradeDialogViewModelTests {
             prices = mapOf(PlanCycle.MONTHLY to emptyMap())
         )
         giapPlans = listOf(plan1, plan2).toGiapPlans()
-        viewModel.loadPlans(listOf("plan with prices", "plan with missing prices"))
+        viewModel.loadPlans(listOf("plan with prices", "plan with missing prices"), null)
         assertIs<State.LoadError>(viewModel.state.first())
     }
 
@@ -262,7 +262,7 @@ class UpgradeDialogViewModelTests {
     fun `plan order matches the order of plan names to loadPlans`() = testScope.runTest {
         giapPlans = createDummyPlans("plan1", "plan2")
 
-        viewModel.loadPlans(listOf("plan2", "plan1"))
+        viewModel.loadPlans(listOf("plan2", "plan1"), null)
         assertPlanNames(listOf("plan2", "plan1"), viewModel.state.first())
     }
 

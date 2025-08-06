@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.ui.planupgrade
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
@@ -53,7 +52,6 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commitNow
 import androidx.fragment.app.replace
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -85,6 +83,8 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
     protected val binding by viewBinding(ActivityUpsellDialogBinding::inflate)
     private val carouselViewModel: UpgradeHighlightsCarouselViewModel by viewModels()
 
+    private val upgradeHelper = UpgradeActivityHelper(this, this::afterPaymentSuccess)
+
     private lateinit var backgroundGradient: GradientDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,22 +103,9 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
             viewModel.loadPlans(allowMultiplePlans)
             viewModel.reportUpgradeFlowStart(getTelemetryUpgradeSource())
         }
+        upgradeHelper.onCreate(viewModel)
 
         binding.buttonNotNow.setOnClickListener { finish() }
-
-        viewModel.state.asLiveData().observe(this) { state ->
-            when (state) {
-                CommonUpgradeDialogViewModel.State.Initializing -> {}
-                CommonUpgradeDialogViewModel.State.UpgradeDisabled -> {}
-                CommonUpgradeDialogViewModel.State.LoadingPlans -> {}
-                is CommonUpgradeDialogViewModel.State.LoadError -> {}
-                is CommonUpgradeDialogViewModel.State.PurchaseReady -> {}
-                CommonUpgradeDialogViewModel.State.PlansFallback -> {}
-                is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> {
-                    onPaymentSuccess(state.newPlanName, state.upgradeFlowType)
-                }
-            }
-        }
 
         binding.composeToolbar.setContent {
             val state by viewModel.state.collectAsStateWithLifecycle()
@@ -148,10 +135,7 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
     }
 
     @CallSuper
-    protected open fun onPaymentSuccess(newPlanName: String, upgradeFlowType: UpgradeFlowType) {
-        setResult(Activity.RESULT_OK)
-        finish()
-    }
+    protected open fun afterPaymentSuccess(newPlanName: String) {}
 
     protected fun setGradientColors(top: Int, mid: Int, bottom: Int,  fixedAlpha: Boolean = false) {
         val alphaFraction: Float = resources.getFraction(R.fraction.upsellDialogGradientAlphaFraction, 1, 1)
@@ -330,8 +314,8 @@ class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultipleP
         binding.composeToolbar.isVisible = false
     }
 
-    override fun onPaymentSuccess(newPlanName: String, upgradeFlowType: UpgradeFlowType) {
-        super.onPaymentSuccess(newPlanName, upgradeFlowType)
+    override fun afterPaymentSuccess(newPlanName: String) {
+        super.afterPaymentSuccess(newPlanName)
         onboardingTelemetry.onOnboardingPaymentSuccess(newPlanName)
     }
 

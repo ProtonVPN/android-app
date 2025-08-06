@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.telemetry
 
-import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
@@ -67,7 +66,6 @@ enum class UpgradeSource {
 class UpgradeTelemetry @Inject constructor(
     private val commonDimensions: CommonDimensions,
     private val currentUser: CurrentUser,
-    private val getFeatureFlags: GetFeatureFlags,
     @WallClock private val clock: () -> Long,
     private val helper: TelemetryFlowHelper
 ) {

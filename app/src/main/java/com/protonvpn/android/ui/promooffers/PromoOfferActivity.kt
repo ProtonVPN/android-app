@@ -45,6 +45,8 @@ import com.protonvpn.android.databinding.ItemPromoFeatureBinding
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.utils.addListener
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.utils.setTextOrGoneIfNullOrEmpty

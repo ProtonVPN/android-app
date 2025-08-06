@@ -33,9 +33,10 @@ import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.ui.promooffers.PromoOfferImage
-import com.protonvpn.android.ui.promooffers.PromoOfferImage.getFullScreenImageMaxSizePx
+import com.protonvpn.android.ui.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -47,6 +48,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -56,7 +58,7 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.shareIn
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
@@ -78,10 +80,10 @@ class GlideImagePrefetcher @Inject constructor(
 ) : ImagePrefetcher {
     override fun prefetch(url: String): Boolean {
         val future = Glide.with(appContext).download(url).submit()
-        return try {
+        return {
             future.get()
             true
-        } catch (e: Throwable) {
+        }.runCatchingCheckedExceptions {
             false
         }
     }
@@ -99,10 +101,11 @@ class ApiNotificationManager @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val currentUser: CurrentUser,
     private val userPlanManager: UserPlanManager,
+    private val generateNotificationsForIntroductoryOffers: GenerateNotificationsForIntroductoryOffers,
     private val imagePrefetcher: ImagePrefetcher,
     private val periodicUpdateManager: PeriodicUpdateManager,
     @IsInForeground private val inForeground: Flow<Boolean>,
-    @IsLoggedIn private val isLoggedIn: Flow<Boolean>
+    @IsLoggedIn private val isLoggedIn: Flow<Boolean>,
 ) {
 
     private val testNotifications = MutableStateFlow<List<ApiNotification>>(emptyList())
@@ -115,11 +118,20 @@ class ApiNotificationManager @Inject constructor(
 
     private val prefetchTrigger = MutableSharedFlow<Unit>(replay = 1).apply { tryEmit(Unit) }
 
-    private val allNotificationsFlow = apiNotificationsResponse
-        .map { response -> response.notifications }
-        .combine(testNotifications) { notifications, testNotifications ->
-            testNotifications.ifEmpty { notifications }
+    private val introOffersNotificationsTrigger = MutableSharedFlow<Unit>(replay = 1).apply { tryEmit(Unit) }
+    private val introOffersNotificationsFlow = introOffersNotificationsTrigger
+        .map { generateNotificationsForIntroductoryOffers() }
+
+    private val allNotificationsFlow = combine(
+        apiNotificationsResponse.map { response -> response.notifications },
+        testNotifications,
+        introOffersNotificationsFlow,
+    ) { responseNotifications, testNotifications, introOfferNotifications ->
+        val notifications = testNotifications.ifEmpty { responseNotifications } + introOfferNotifications
+        notifications.filter { notification ->
+            notification.allActionNames().all { action ->  ApiNotificationActions.SUPPORTED_ACTIONS.contains(action) }
         }
+    }
 
     private val notificationsFlow = allNotificationsFlow
         .combine(prefetchTrigger) { notifications, _ -> notifications }
@@ -128,8 +140,9 @@ class ApiNotificationManager @Inject constructor(
                 notification.takeIf { notification.allImageUrls().ensureAllPrefetched() }
             }
         }
+        .distinctUntilChanged()
         .flowOn(dispatcherProvider.Io)
-        .stateIn(mainScope, SharingStarted.Eagerly, emptyList())
+        .shareIn(mainScope, SharingStarted.Eagerly, replay = 1)
 
     // Active notifications are sorted by end time - the ones that end sooner are first.
     val activeListFlow = notificationsFlow
@@ -182,9 +195,10 @@ class ApiNotificationManager @Inject constructor(
 
     @VisibleForTesting
     suspend fun updateNotifications(): ApiResult<ApiNotificationsResponse> {
+        introOffersNotificationsTrigger.tryEmit(Unit)
         val fullScreenImageSize = PromoOfferImage.getFullScreenImageMaxSizePx(appContext)
         val response = api.getApiNotifications(
-            PromoOfferImage.SupportedFormats.values().map { it.toString() },
+            PromoOfferImage.SupportedFormats.entries.map { it.toString() },
             fullScreenImageSize.width,
             fullScreenImageSize.height
         )
@@ -192,6 +206,7 @@ class ApiNotificationManager @Inject constructor(
             apiNotificationsResponse.value = notifications
             Storage.save(notifications, ApiNotificationsResponse::class.java)
         }
+
         return response
     }
 
@@ -216,9 +231,12 @@ class ApiNotificationManager @Inject constructor(
     }
 
     private fun ApiNotification.allImageUrls(): List<String> = buildList {
-        val width = getFullScreenImageMaxSizePx(appContext).width
-        val fullScreenImage = offer?.panel?.fullScreenImage
-        if (fullScreenImage != null) {
+        val width = PromoOfferImage.getFullScreenImageMaxSizePx(appContext).width
+        val fullScreenImages = listOfNotNull(
+            offer?.panel?.fullScreenImage,
+            offer?.panel?.button?.panel?.fullScreenImage
+        )
+        fullScreenImages.forEach { fullScreenImage ->
             add(PromoOfferImage.getFullScreenImageUrl(pixelWidth = width, isNightMode = true, fullScreenImage))
             add(PromoOfferImage.getFullScreenImageUrl(pixelWidth = width, isNightMode = false, fullScreenImage))
         }
@@ -227,6 +245,15 @@ class ApiNotificationManager @Inject constructor(
     }
     .filterNotNull()
     .filter(String::isNotBlank)
+
+    private fun ApiNotification.allActionNames(): List<String> = buildList {
+        val buttons: List<ApiNotificationOfferButton> = listOfNotNull(
+            offer?.panel?.button,
+            offer?.panel?.button?.panel?.button,
+            offer?.prominentBanner?.actionButton,
+        )
+        return buttons.map { it.action }
+    }
 
     private suspend fun List<String>.ensureAllPrefetched(): Boolean = mapAsync { url ->
         imagePrefetcher.prefetch(url)

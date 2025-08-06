@@ -22,6 +22,7 @@ package com.protonvpn.android.redesign.settings.ui
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.data.DebugApiPrefs
+import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -40,6 +41,7 @@ class DebugToolsViewModel @Inject constructor(
     private val currentUser: CurrentUser,
     private val appConfig: AppConfig,
     private val serverListUpdater: ServerListUpdater,
+    private val apiNotificationManager: ApiNotificationManager,
     debugApiPrefsNullable: DebugApiPrefs?,
 ): ViewModel() {
 
@@ -67,6 +69,7 @@ class DebugToolsViewModel @Inject constructor(
         mainScope.launch {
             appConfig.forceUpdate(currentUser.vpnUser()?.userId)
             serverListUpdater.updateServerList(forceFreshUpdate = true)
+            apiNotificationManager.forceUpdate()
         }
     }
 

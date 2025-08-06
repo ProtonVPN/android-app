@@ -61,6 +61,8 @@ class AppFeaturesPrefs @Inject constructor(
     var isWidgetDiscovered: Boolean by boolean(default = false, key = KEY_WIDGET_DISCOVERED)
     val isWidgetDiscoveredFlow: Flow<Boolean> = preferences.observe<Boolean>(KEY_WIDGET_DISCOVERED).map { it ?: false }
 
+    var iapFirstIntroPriceCheckTimestamp: Long by long(0L)
+
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
         private const val KEY_SHOW_WHATS_NEW = "showWhatsNew"

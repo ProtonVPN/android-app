@@ -65,7 +65,7 @@ class HomeScreenPromoBannerFlow @Inject constructor(
     fun hasBannerFlow(): Flow<Boolean> = invoke(isNighMode = true).map { it != null }
 
     private fun createPromoOfferBanner(notification: ApiNotification, isNighMode: Boolean): PromoOfferBannerState? {
-        if (notification.offer?.panel?.button?.url?.isNotEmpty() == true &&
+        if (notification.offer?.panel?.button != null &&
             notification.offer.panel.fullScreenImage?.source?.isNotEmpty() == true
         ) {
             val fullScreenImage = notification.offer.panel.fullScreenImage

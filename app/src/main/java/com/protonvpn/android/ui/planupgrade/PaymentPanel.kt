@@ -64,7 +64,7 @@ import me.proton.core.plan.presentation.entity.PlanCycle
 sealed class ViewState(val inProgress: Boolean) {
     object Initializing : ViewState(false)
     object UpgradeDisabled : ViewState(false)
-    object LoadingPlans : ViewState(true)
+    data class LoadingPlans(val expectedCycleCount: Int) : ViewState(true)
     data class CycleViewInfo(
         val cycle: PlanCycle,
         @StringRes val perCycleResId: Int,
@@ -118,7 +118,7 @@ fun PaymentPanel(
                 is ViewState.LoadingPlans -> {
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         selectPlanText()
-                        repeat(2) { CycleSelectionPlaceholderRow() }
+                        repeat(viewState.expectedCycleCount) { CycleSelectionPlaceholderRow() }
                     }
                 }
                 is ViewState.PlanReady -> {
@@ -146,7 +146,7 @@ fun PaymentPanel(
         }
 
         val onClick: () -> Unit = when(viewState) {
-            ViewState.Initializing, ViewState.LoadingPlans -> { {} }
+            ViewState.Initializing, is ViewState.LoadingPlans -> { {} }
             is ViewState.PlanReady -> onPayClicked
             ViewState.FallbackFlowReady -> onStartFallback
             ViewState.Error -> onErrorButtonClicked
@@ -373,6 +373,6 @@ private fun PreviewPlan() {
 @Composable
 private fun PreviewLoadingPlans() {
     ProtonVpnPreview {
-        PaymentPanel(viewState = ViewState.LoadingPlans, null, {}, {}, {}, {}, {})
+        PaymentPanel(viewState = ViewState.LoadingPlans(2), null, {}, {}, {}, {}, {})
     }
 }

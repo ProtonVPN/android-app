@@ -18,8 +18,11 @@
  */
 package com.protonvpn.android.appconfig
 
+import com.protonvpn.android.BuildConfig
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import me.proton.core.plan.presentation.entity.PlanCycle
+import me.proton.core.util.kotlin.equalsNoCase
 
 object ApiNotificationTypes {
     //const val TYPE_TOOLBAR = 0 // No longer supported.
@@ -27,6 +30,24 @@ object ApiNotificationTypes {
     const val TYPE_HOME_SCREEN_BANNER = 2
     const val TYPE_HOME_PROMINENT_BANNER = 3
     const val TYPE_NPS = 4
+    // Internal types are used without the backend support.
+    const val TYPE_INTERNAL_ONE_TIME_IAP_POPUP = 1_000_000
+}
+
+// TODO: introduce a set of domain-level classes for representing the parsed notifications. It will simplify
+//  handling notifications a lot.
+object ApiNotificationActions {
+    private const val OPEN_URL = "OpenUrl"
+    private const val IN_APP_PURCHASE_FULLSCREEN = "InAppPurchaseFullscreen"
+
+    val SUPPORTED_ACTIONS = if (BuildConfig.FLAVOR_functionality == "google") {
+        arrayOf(OPEN_URL, IN_APP_PURCHASE_FULLSCREEN)
+    } else {
+        arrayOf(OPEN_URL)
+    }
+
+    fun isOpenUrl(action: String?) = OPEN_URL equalsNoCase action
+    fun isInAppPurchaseFullscreen(action: String?) = IN_APP_PURCHASE_FULLSCREEN equalsNoCase action
 }
 
 @Serializable
@@ -87,12 +108,24 @@ data class ApiNotificationProminentBanner(
     @SerialName("Style") val style: ApiNotificationProminentBannerStyle,
 )
 
+// It's not being used in actions from the backend, it's injected within the application.
+@Serializable
+data class ApiNotificationIapAction(
+    val planName: String,
+    val cycle: PlanCycle,
+)
+
 @Serializable
 data class ApiNotificationOfferButton(
     @SerialName("Text") val text: String = "",
     @SerialName("URL") val url: String? = null,
     @SerialName("Action") val action: String = "OpenURL",
-    @SerialName("Behaviors") val actionBehaviors: List<String> = emptyList()
+    @SerialName("Behaviors") val actionBehaviors: List<String> = emptyList(),
+    // iapActionDetails is not being provided by the backend, it's injected within the application.
+    @SerialName("_iapDetails") val iapActionDetails: ApiNotificationIapAction? = null,
+    // Available only to the InAppPurchasePopup action. Don't do this for backend-supported notifications, consider
+    // adding an action that references another notification instead of nesting JSONs.
+    @SerialName("_panel") val panel: ApiNotificationOfferPanel? = null,
 )
 
 @Serializable

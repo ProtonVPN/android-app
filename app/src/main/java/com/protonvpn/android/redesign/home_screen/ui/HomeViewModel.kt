@@ -21,10 +21,10 @@ package com.protonvpn.android.redesign.home_screen.ui
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Parcelable
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.appconfig.ApiNotificationActions
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.UserCountryIpBased
 import com.protonvpn.android.di.ElapsedRealtimeClock
@@ -48,16 +48,16 @@ import com.protonvpn.android.settings.usecases.DisableCustomDnsForCurrentConnect
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.tv.main.CountryHighlight
-import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
+import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.promooffers.HomeScreenProminentBannerFlow
 import com.protonvpn.android.ui.promooffers.HomeScreenPromoBannerFlow
 import com.protonvpn.android.ui.promooffers.ProminentBannerState
 import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.ui.promooffers.PromoOfferButtonActions
+import com.protonvpn.android.ui.promooffers.PromoOfferIapActivity
 import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
 import com.protonvpn.android.ui.storage.UiStateStorage
-import com.protonvpn.android.utils.isNightMode
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -75,7 +75,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -247,20 +246,34 @@ class HomeViewModel @Inject constructor(
     }
 
     suspend fun openPromoOffer(banner: PromoOfferBannerState, context: Context) {
-        openPromoOffer(banner.action, banner.reference, context)
+        openPromoOffer(banner.action, banner.notificationId, banner.reference, context)
     }
 
     suspend fun openPromoOffer(banner: ProminentBannerState, context: Context) {
-        openPromoOffer(banner.actionButton!!, banner.reference, context)
+        openPromoOffer(banner.actionButton!!, banner.notificationId,  banner.reference, context)
     }
 
-    private suspend fun openPromoOffer(action: ApiNotificationOfferButton, reference: String?, context: Context) {
-        val url = promoOfferButtonActions.getButtonUrl(action)
-
-        if (url != null) { // It's not null on correctly defined notifications.
-            upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER, reference)
-            upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.EXTERNAL)
-            context.openUrl(url)
+    private suspend fun openPromoOffer(
+        action: ApiNotificationOfferButton,
+        notificationId: String,
+        reference: String?,
+        context: Context
+    ) {
+        when {
+            ApiNotificationActions.isOpenUrl(action.action) -> {
+                val url = promoOfferButtonActions.getButtonUrl(action)
+                if (url != null) { // It's not null on correctly defined notifications.
+                    upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER, reference)
+                    upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.EXTERNAL)
+                    context.openUrl(url)
+                }
+            }
+            ApiNotificationActions.isInAppPurchaseFullscreen(action.action) -> {
+                if (action.panel != null) {
+                    // Telemetry events are reported by the activity.
+                    PromoOfferIapActivity.launch(context, notificationId)
+                }
+            }
         }
     }
 

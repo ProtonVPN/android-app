@@ -88,8 +88,8 @@ class PaymentPanelFragment : Fragment() {
                 CommonUpgradeDialogViewModel.State.Initializing -> {
                     currentViewState.value = ViewState.Initializing
                 }
-                CommonUpgradeDialogViewModel.State.LoadingPlans -> {
-                    currentViewState.value = ViewState.LoadingPlans
+                is CommonUpgradeDialogViewModel.State.LoadingPlans -> {
+                    currentViewState.value = ViewState.LoadingPlans(state.expectedCycleCount)
                 }
                 CommonUpgradeDialogViewModel.State.UpgradeDisabled ->
                     currentViewState.value = ViewState.UpgradeDisabled
