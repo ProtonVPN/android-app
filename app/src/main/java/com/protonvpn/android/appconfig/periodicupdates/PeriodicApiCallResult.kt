@@ -37,14 +37,9 @@ fun <T> ApiResult<Any>.toPeriodicActionResultWithCustomValue(
     nextCallDelayOverride: Long? = this.retryAfterIfApplicable(MIN_RETRY_AFTER)?.inWholeMilliseconds
 ) = PeriodicActionResult<T>(value, isSuccess, nextCallDelayOverride)
 
-// TODO: these two following functions are not necessary after all.
 fun <T> ApiResult<T>.toPeriodicActionResult(
     nextCallDelayOverride: Long? = this.retryAfterIfApplicable(MIN_RETRY_AFTER)?.inWholeMilliseconds
 ) = PeriodicApiCallResult(this, nextCallDelayOverride)
-
-fun ApiResult<*>.toPeriodicActionResultWithNoData(
-    nextCallDelayOverride: Long? = this.retryAfterIfApplicable(MIN_RETRY_AFTER)?.inWholeMilliseconds
-) = PeriodicActionResult(Unit, this is ApiResult.Success, nextCallDelayOverride)
 
 private fun <T> ApiResult<T>.retryAfterIfApplicable(minimalDuration: Duration): Duration? =
     (this as? ApiResult.Error.Http)?.retryAfter?.takeIf {

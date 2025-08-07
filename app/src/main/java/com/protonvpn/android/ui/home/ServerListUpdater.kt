@@ -31,6 +31,7 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
 import com.protonvpn.android.appconfig.periodicupdates.registerAction
 import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
+import com.protonvpn.android.appconfig.periodicupdates.toPeriodicActionResult
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
@@ -201,14 +202,14 @@ class ServerListUpdater @Inject constructor(
             if (result is ApiResult.Success) {
                 serverManager.updateBinaryLoads(statusId, result.value)
             }
-            PeriodicApiCallResult(result)
+            result
         } else {
             val result = api.getLoads(getNetZone(), freeOnlyUpdateAllowed())
             if (result is ApiResult.Success) {
                 serverManager.updateLoads(result.value.loadsList)
             }
-            PeriodicApiCallResult(result)
-        }
+            result
+        }.toPeriodicActionResult()
     }
 
     @VisibleForTesting
@@ -225,7 +226,7 @@ class ServerListUpdater @Inject constructor(
                         locationUpdate.cancel()
                 }.launchIn(this)
             try {
-                PeriodicApiCallResult(locationUpdate.await())
+                locationUpdate.await().toPeriodicActionResult()
             } catch (_: CancellationException) {
                 cancelResult
             } finally {
