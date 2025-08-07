@@ -49,6 +49,7 @@ import me.proton.core.presentation.R as CoreR
 @Composable
 fun BottomBarView(
     modifier: Modifier = Modifier,
+    showCountries: Boolean,
     showGateways: Boolean,
     selectedTarget: MainTarget? = MainTarget.Home,
     notificationDots: Set<MainTarget> = emptySet(),
@@ -63,6 +64,10 @@ fun BottomBarView(
         tonalElevation = 0.dp,
     ) {
         MainTarget.entries.forEach { target ->
+            if(target == MainTarget.Countries && !showCountries) {
+                return@forEach
+            }
+
             if (target == MainTarget.Gateways && !showGateways)
                 return@forEach
 
@@ -138,6 +143,7 @@ fun BottomBarPreviewDark() {
     ProtonVpnPreview {
         BottomBarView(
             selectedTarget = MainTarget.Home,
+            showCountries = true,
             showGateways = true,
             notificationDots = EnumSet.of(MainTarget.Profiles, MainTarget.Settings),
             navigateTo = {}

@@ -51,6 +51,10 @@ class MainActivityViewModel @Inject constructor(
     val vpnStateViewFlow: StateFlow<VpnStatusViewState> = vpnStatusViewStateFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), VpnStatusViewState.Loading)
 
+    val showCountriesFlow = serverManager2.hasAnyCountryFlow
+        .distinctUntilChanged()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+
     val showGatewaysFlow = serverManager2.hasAnyGatewaysFlow
         .distinctUntilChanged()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
@@ -58,8 +62,9 @@ class MainActivityViewModel @Inject constructor(
     val isMinimalStateReadyFlow: StateFlow<Boolean> = combine(
         vpnStateViewFlow,
         showGatewaysFlow,
-    ) { vpnStateView, showGateways ->
-        vpnStateView != VpnStatusViewState.Loading && showGateways != null
+        showCountriesFlow,
+    ) { vpnStateView, showGateways, showCountries ->
+        vpnStateView != VpnStatusViewState.Loading && showGateways != null && showCountries != null
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
 
     val autoShowInfoSheet = uiStateStorage.state.map { it.shouldPromoteProfiles }.distinctUntilChanged()
