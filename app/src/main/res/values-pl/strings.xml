@@ -559,8 +559,8 @@
     <string name="payment_price_per_month">miesiąc</string>
     <string name="payment_price_per_year">rok</string>
     <string name="payment_price_per_2years">2 lata</string>
-    <string name="payment_price_cycle_month_label">miesiąc</string>
-    <string name="payment_price_cycle_year_label">rok</string>
+    <string name="payment_price_cycle_month_label">1 miesiąc</string>
+    <string name="payment_price_cycle_year_label">1 rok</string>
     <string name="payment_price_cycle_2years_label">2 lata</string>
     <string name="payment_select_your_plan">Wybierz swój plan</string>
     <!-- Label on a button for purchasing a subscription.
@@ -572,7 +572,7 @@
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Oferta powitalna. Automatyczne odnowienie w kwocie %1$s miesięcznie</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Oferta powitana. Automatyczne odnowienie w kwocie %1$s rocznie</string>
+    <string name="payment_welcome_price_message_annual">Oferta powitalna. Automatyczne odnowienie w kwocie %1$s rocznie</string>
     <string name="payment_auto_renew_message_monthly">Subskrypcja odnowi się automatycznie w kwocie %1$s miesięcznie</string>
     <string name="payment_auto_renew_message_annual">Subskrypcja odnowi się automatycznie w kwocie %1$s rocznie</string>
     <string name="payment_welcome_price_message_monthly_fallback">Subskrypcja odnowi się automatycznie co miesiąc</string>
