@@ -113,6 +113,8 @@ data class ApiNotificationProminentBanner(
 data class ApiNotificationIapAction(
     val planName: String,
     val cycle: PlanCycle,
+    val currency: String?,
+    val priceCents: Int?,
 )
 
 @Serializable

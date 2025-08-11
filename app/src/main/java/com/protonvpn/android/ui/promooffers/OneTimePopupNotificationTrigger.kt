@@ -25,6 +25,7 @@ import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.ui.promooffers.usecase.EnsureIapOfferStillValid
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -62,6 +63,7 @@ class OneTimePopupNotificationTrigger @Inject constructor(
     mainScope: CoroutineScope,
     foregroundActivityTracker: ForegroundActivityTracker,
     private val apiNotificationManager: ApiNotificationManager,
+    private val ensureIapOfferStillValid: EnsureIapOfferStillValid,
     currentUser: CurrentUser,
     private val promoOffersPrefs: PromoOffersPrefs,
     private val promoActivityOpener: PromoActivityOpener,
@@ -106,8 +108,10 @@ class OneTimePopupNotificationTrigger @Inject constructor(
                 }
 
                 it.isOneTimeIap() -> {
-                    // TODO: make sure the user is still eligible for the offer!
-                    promoIapOpener.open(activity, it.id)
+                    val iapDetails = it.offer?.panel?.button?.iapActionDetails
+                    if (iapDetails != null && ensureIapOfferStillValid(iapDetails)) {
+                        promoIapOpener.open(activity, it.id)
+                    }
                 }
 
                 else -> {

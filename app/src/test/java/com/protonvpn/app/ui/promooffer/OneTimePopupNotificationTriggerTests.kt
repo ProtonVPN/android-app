@@ -30,6 +30,7 @@ import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger
 import com.protonvpn.android.ui.promooffers.PromoActivityOpener
 import com.protonvpn.android.ui.promooffers.PromoIapActivityOpener
 import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
+import com.protonvpn.android.ui.promooffers.usecase.EnsureIapOfferStillValid
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePanel
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
@@ -38,6 +39,7 @@ import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
@@ -59,6 +61,8 @@ class OneTimePopupNotificationTriggerTests {
 
     @MockK
     private lateinit var mockApiNotificationManager: ApiNotificationManager
+    @MockK
+    private lateinit var mockEnsureIapOfferStillValid: EnsureIapOfferStillValid
     @RelaxedMockK
     private lateinit var mockPromoIapActivityOpener: PromoIapActivityOpener
     @RelaxedMockK
@@ -97,6 +101,7 @@ class OneTimePopupNotificationTriggerTests {
             promoOffersPrefs = promoOffersPrefs,
             promoActivityOpener = mockPromoActivityOpener,
             promoIapOpener = mockPromoIapActivityOpener,
+            ensureIapOfferStillValid = mockEnsureIapOfferStillValid,
             npsActivityOpener = mockNpsActivityOpener
         )
     }
@@ -193,6 +198,7 @@ class OneTimePopupNotificationTriggerTests {
 
     @Test
     fun `IAP activity triggered for IAP notification type`() = testScope.runTest {
+        coEvery { mockEnsureIapOfferStillValid.invoke(any()) } returns true
         activeNotificationsFlow.value =
             listOf(createTestNotification(NOTIFICATION_ID, ApiNotificationTypes.TYPE_INTERNAL_ONE_TIME_IAP_POPUP))
         foregroundActivityFlow.value = mockk()

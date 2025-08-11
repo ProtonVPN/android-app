@@ -25,6 +25,7 @@ import com.protonvpn.android.appconfig.ApiNotificationIapAction
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
 import com.protonvpn.android.appconfig.ApiNotificationTypes
+import com.protonvpn.android.ui.promooffers.usecase.EnsureIapOfferStillValid
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import me.proton.core.util.kotlin.takeIfNotBlank
@@ -32,7 +33,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PromoOfferIapViewModel @Inject constructor(
-    private val notifications: ApiNotificationManager
+    private val notifications: ApiNotificationManager,
+    private val ensureIapOfferStillValid: EnsureIapOfferStillValid,
 ) : ViewModel() {
 
     data class OfferViewState(
@@ -45,13 +47,12 @@ class PromoOfferIapViewModel @Inject constructor(
     )
 
     suspend fun getOfferViewState(notificationId: String): OfferViewState? {
-        // TODO: verify that the notification still matches an eligible offer
         val notification = notifications.activeListFlow
             .first()
             .find { it.id == notificationId }
             ?: return null
 
-        return when {
+        val offer = when {
             notification.type == ApiNotificationTypes.TYPE_INTERNAL_ONE_TIME_IAP_POPUP -> {
                 val panel = notification.offer?.panel
                 panel?.let {
@@ -69,6 +70,8 @@ class PromoOfferIapViewModel @Inject constructor(
 
             else -> null
         }
+        return offer
+            ?.takeIf { ensureIapOfferStillValid(it.iapData) }
     }
 
     private fun getOfferViewState(panel: ApiNotificationOfferPanel, reference: String?): OfferViewState? {

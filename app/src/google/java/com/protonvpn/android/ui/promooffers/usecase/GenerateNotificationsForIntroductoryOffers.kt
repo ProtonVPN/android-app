@@ -243,6 +243,8 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
                 iapActionDetails = ApiNotificationIapAction(
                     planName = planName,
                     cycle = planCycle,
+                    priceCents = config.priceCents,
+                    currency = config.currency,
                 ),
                 panel = buttonPanel
             ),
