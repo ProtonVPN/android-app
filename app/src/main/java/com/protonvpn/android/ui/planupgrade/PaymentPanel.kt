@@ -64,7 +64,10 @@ import me.proton.core.plan.presentation.entity.PlanCycle
 sealed class ViewState(val inProgress: Boolean) {
     object Initializing : ViewState(false)
     object UpgradeDisabled : ViewState(false)
-    data class LoadingPlans(val expectedCycleCount: Int) : ViewState(true)
+    data class LoadingPlans(
+        val expectedCycleCount: Int,
+        val buttonLabelOverride: String?,
+    ) : ViewState(true)
     data class CycleViewInfo(
         val cycle: PlanCycle,
         @StringRes val perCycleResId: Int,
@@ -75,7 +78,8 @@ sealed class ViewState(val inProgress: Boolean) {
         val displayName: String,
         val planName: String,
         val cycles: List<CycleViewInfo>,
-        inProgress: Boolean
+        inProgress: Boolean,
+        val buttonLabelOverride: String?,
     ) : ViewState(inProgress)
     object FallbackFlowReady : ViewState(false)
     object Error : ViewState(false)
@@ -134,7 +138,9 @@ fun PaymentPanel(
                         if (selectedCycleInfo != null) {
                             RenewInfo(
                                 selectedCycleInfo = selectedCycleInfo,
-                                Modifier.padding(top = 4.dp).align(Alignment.CenterHorizontally)
+                                Modifier
+                                    .padding(top = 4.dp)
+                                    .align(Alignment.CenterHorizontally)
                             )
                         }
                     }
@@ -162,12 +168,21 @@ fun PaymentPanel(
             onClick = onClick
         ) {
             when (viewState) {
-                is ViewState.Initializing,
-                is ViewState.LoadingPlans,
+                is ViewState.Initializing, -> {
+                    /* empty button */
+                }
                 is ViewState.FallbackFlowReady ->
                     Text(stringResource(R.string.payment_button_get_plan, Constants.CURRENT_PLUS_PLAN_LABEL))
-                is ViewState.PlanReady ->
-                    Text(stringResource(R.string.payment_button_get_plan, viewState.displayName))
+                is ViewState.LoadingPlans -> {
+                    val buttonText = viewState.buttonLabelOverride
+                        ?: stringResource(R.string.payment_button_get_plan, Constants.CURRENT_PLUS_PLAN_LABEL)
+                    Text(buttonText)
+                }
+                is ViewState.PlanReady -> {
+                    val buttonText = viewState.buttonLabelOverride
+                        ?: stringResource(R.string.payment_button_get_plan, viewState.displayName)
+                    Text(buttonText)
+                }
                 is ViewState.Error ->
                     Text(stringResource(R.string.try_again))
                 is ViewState.UpgradeDisabled ->
@@ -361,7 +376,8 @@ private fun PreviewPlan() {
                         CommonUpgradeDialogViewModel.PriceInfo("$15.99")
                     ),
                 ),
-                inProgress = false
+                inProgress = false,
+                buttonLabelOverride = null,
             ),
             selectedCycle = PlanCycle.YEARLY,
             {}, {}, {}, {}, {}
@@ -373,6 +389,6 @@ private fun PreviewPlan() {
 @Composable
 private fun PreviewLoadingPlans() {
     ProtonVpnPreview {
-        PaymentPanel(viewState = ViewState.LoadingPlans(2), null, {}, {}, {}, {}, {})
+        PaymentPanel(viewState = ViewState.LoadingPlans(2, null), null, {}, {}, {}, {}, {})
     }
 }

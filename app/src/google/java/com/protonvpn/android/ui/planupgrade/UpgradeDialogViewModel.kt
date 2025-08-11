@@ -100,9 +100,12 @@ class UpgradeDialogViewModel(
         waitForSubscription,
     )
 
-    private class ReloadState(val plans: List<String>, val cycles: List<PlanCycle>?)
+    private class ReloadState(
+        val plans: List<String>,
+        val cycles: List<PlanCycle>?,
+        val buttonLabelOverride: String? = null
+    )
     private var plansForReload: ReloadState? = null
-
 
     private lateinit var loadedPlans: List<GiapPlanModel>
     val selectedCycle = MutableStateFlow<PlanCycle?>(null)
@@ -113,7 +116,7 @@ class UpgradeDialogViewModel(
     ) : PlanModel(displayName = giapPlanInfo.displayName, planName = giapPlanInfo.name, cycles = giapPlanInfo.cycles)
 
     fun reloadPlans() {
-        plansForReload?.let { loadPlans(it.plans, it.cycles) }
+        plansForReload?.let { loadPlans(it.plans, it.cycles, it.buttonLabelOverride) }
     }
 
     fun loadPlans(allowMultiplePlans: Boolean) {
@@ -125,24 +128,24 @@ class UpgradeDialogViewModel(
                 else ->
                     listOf(Constants.CURRENT_PLUS_PLAN)
             }
-            loadPlans(plans, cycles = null)
+            loadPlans(plans, cycles = null, buttonLabelOverride = null)
         }
     }
 
-    fun loadPlans(planNames: List<String>, cycles: List<PlanCycle>?) {
+    fun loadPlans(planNames: List<String>, cycles: List<PlanCycle>?, buttonLabelOverride: String?) {
         plansForReload = ReloadState(planNames, cycles)
         viewModelScope.launch {
             if (!isInAppUpgradeAllowed()) {
                 state.value = State.UpgradeDisabled
             } else {
-                loadGiapPlans(planNames, cycles)
+                loadGiapPlans(planNames, cycles, buttonLabelOverride)
             }
         }
     }
 
     // The plan first on the list is mandatory and will be preselected.
-    private suspend fun loadGiapPlans(planNames: List<String>, cycleFilter: List<PlanCycle>?) {
-        state.value = State.LoadingPlans(cycleFilter?.size ?: 2)
+    private suspend fun loadGiapPlans(planNames: List<String>, cycleFilter: List<PlanCycle>?, buttonLabelOverride: String?) {
+        state.value = State.LoadingPlans(cycleFilter?.size ?: 2, buttonLabelOverride)
         suspend {
             val unorderedPlans = loadGoogleSubscriptionPlans(planNames).map { inputPlanInfo ->
                 val planInfo = if (cycleFilter != null) {
@@ -168,7 +171,7 @@ class UpgradeDialogViewModel(
                     error = IllegalArgumentException("Missing prices: $errorInfo")
                 )
             } else {
-                selectPlan(preselectedPlan)
+                selectPlan(preselectedPlan, buttonLabelOverride)
             }
         }.runCatchingCheckedExceptions { e ->
             // loadGoogleSubscriptionPlans throws errors.
@@ -191,12 +194,17 @@ class UpgradeDialogViewModel(
     }
 
     fun selectPlan(plan: PlanModel) {
+        selectPlan(plan, plansForReload?.buttonLabelOverride)
+    }
+
+    private fun selectPlan(plan: PlanModel, buttonLabelOverride: String?) {
         val giapPlan = plan as GiapPlanModel
         state.value = State.PurchaseReady(
             allPlans = loadedPlans,
             selectedPlan = plan,
             selectedPlanPriceInfo = giapPlan.prices,
-            inProgress = false
+            inProgress = false,
+            buttonLabelOverride = buttonLabelOverride
         )
         if (plan.cycles.none { it.cycle == selectedCycle.value }) {
             selectedCycle.value = giapPlan.giapPlanInfo.preselectedCycle

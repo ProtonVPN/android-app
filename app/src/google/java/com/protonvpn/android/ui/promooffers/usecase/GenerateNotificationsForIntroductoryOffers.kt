@@ -238,7 +238,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
                 alternativeText = config.altText,
             ),
             button = ApiNotificationOfferButton(
-                text = config.buttonText, // TODO: customizable button text in the PaymentPanel
+                text = config.buttonText,
                 action = "InAppPurchaseFullscreen",
                 iapActionDetails = ApiNotificationIapAction(
                     planName = planName,

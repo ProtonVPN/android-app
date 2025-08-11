@@ -27,6 +27,7 @@ import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
+import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,8 +39,9 @@ class PromoOfferIapViewModel @Inject constructor(
         val imageUrlLight: String,
         val imageUrlDark: String,
         val imageContentDescription: String?,
+        val buttonLabel: String?,
         val iapData: ApiNotificationIapAction,
-        val notificationReference: String?
+        val notificationReference: String?,
     )
 
     suspend fun getOfferViewState(notificationId: String): OfferViewState? {
@@ -79,6 +81,7 @@ class PromoOfferIapViewModel @Inject constructor(
                 imageUrlDark = imageSource.url,
                 imageUrlLight = imageSource.urlLight,
                 imageContentDescription = imageContentDescription,
+                buttonLabel = panel.button.text.takeIfNotBlank(),
                 iapData = iapData,
                 notificationReference = reference,
             )

@@ -77,6 +77,7 @@ class PaymentPanelFragment : Fragment() {
                                 )
                             },
                             inProgress = state.inProgress,
+                            buttonLabelOverride = state.buttonLabelOverride,
                         )
                 }
                 is CommonUpgradeDialogViewModel.State.LoadError -> {
@@ -89,7 +90,7 @@ class PaymentPanelFragment : Fragment() {
                     currentViewState.value = ViewState.Initializing
                 }
                 is CommonUpgradeDialogViewModel.State.LoadingPlans -> {
-                    currentViewState.value = ViewState.LoadingPlans(state.expectedCycleCount)
+                    currentViewState.value = ViewState.LoadingPlans(state.expectedCycleCount, state.buttonLabelOverride)
                 }
                 CommonUpgradeDialogViewModel.State.UpgradeDisabled ->
                     currentViewState.value = ViewState.UpgradeDisabled

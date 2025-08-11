@@ -68,7 +68,10 @@ abstract class CommonUpgradeDialogViewModel(
     sealed class State {
         object Initializing : State()
         object UpgradeDisabled : State()
-        data class LoadingPlans(val expectedCycleCount: Int) : State()
+        data class LoadingPlans(
+            val expectedCycleCount: Int,
+            val buttonLabelOverride: String?,
+        ) : State()
         class LoadError(
             @StringRes val messageRes: Int? = null,
             val error: Throwable? = null
@@ -78,6 +81,7 @@ abstract class CommonUpgradeDialogViewModel(
             val selectedPlan: PlanModel,
             val selectedPlanPriceInfo: Map<PlanCycle, PriceInfo>,
             val inProgress: Boolean = false,
+            val buttonLabelOverride: String? = null,
         ) : State()
         object PlansFallback : State() // Conditions for short flow were not met, start normal account flow
         data class PurchaseSuccess(
