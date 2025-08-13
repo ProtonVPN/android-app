@@ -31,11 +31,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.LogItemBinding
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.ViewUtils.viewBinding
+import com.protonvpn.android.utils.applySystemBarInsets
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -49,6 +51,7 @@ class LogActivity : BaseActivityV2() {
     private val viewModel by viewModels<LogActivityViewModel>()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdgeVpn()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         with(binding.contentAppbar.toolbar) {
@@ -57,6 +60,7 @@ class LogActivity : BaseActivityV2() {
         addMenuProvider(LogMenuProvider(this::shareLogFile), this)
 
         setupLogDisplay(binding.recyclerItems)
+        applySystemBarInsets(binding.root)
     }
 
     private fun setupLogDisplay(recyclerView: RecyclerView) {

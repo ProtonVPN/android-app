@@ -163,7 +163,7 @@ android {
     defaultConfig {
         applicationId appId
         minSdkVersion rootProject.ext.minSdkVersion // See also build flavors.
-        targetSdkVersion 34
+        targetSdkVersion 35
         multiDexEnabled true
         versionName helpers.fullVersionName
         versionCode helpers.getVersionCode()
