@@ -91,12 +91,16 @@ class ServerManager @Inject constructor(
 
     /** Can be checked even before servers are loaded from storage */
     private var hasGateways: Boolean = false
+    private var hasCountries: Boolean = false
 
     /** Can be checked even before servers are loaded from storage */
     val isDownloadedAtLeastOnce get() = lastUpdateTimestamp > 0 && hasDownloadedServers
 
     @Transient
     val isDownloadedAtLeastOnceFlow = serverListVersion.map { isDownloadedAtLeastOnce }.distinctUntilChanged()
+
+    @Transient
+    val hasCountriesFlow = serverListVersion.map { hasCountries }.distinctUntilChanged()
 
     @Transient
     val hasGatewaysFlow = serverListVersion.map { hasGateways }.distinctUntilChanged()
@@ -124,6 +128,7 @@ class ServerManager @Inject constructor(
             serverListAppVersionCode = oldManager.serverListAppVersionCode
             translationsLang = oldManager.translationsLang
             hasDownloadedServers = oldManager.hasDownloadedServers
+            hasCountries = oldManager.hasCountries
             hasGateways = oldManager.hasGateways
 
             serverListVersion.value = 1
@@ -148,6 +153,7 @@ class ServerManager @Inject constructor(
 
     private fun updateInternal() {
         hasGateways = serversData.gateways.isNotEmpty()
+        hasCountries = serversData.vpnCountries.isNotEmpty()
         hasDownloadedServers = true
     }
 

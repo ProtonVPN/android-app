@@ -57,12 +57,12 @@ import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import dagger.Reusable
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalForInheritanceCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -75,6 +75,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@OptIn(ExperimentalForInheritanceCoroutinesApi::class)
 @Reusable
 class ServerListUpdaterRemoteConfig(
     private val flow: StateFlow<Config>
@@ -174,8 +175,10 @@ class ServerListUpdater @Inject constructor(
             .launchIn(scope)
         currentUser.eventVpnLogin
             .onEach {
-                if (serverManager.streamingServicesModel == null)
+                if (serverManager.streamingServicesModel == null) {
                     periodicUpdateManager.executeNow(streamingServicesUpdate)
+                }
+
                 updateServerList(forceFreshUpdate = true)
             }
             .launchIn(scope)

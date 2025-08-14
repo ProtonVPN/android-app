@@ -37,6 +37,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -125,8 +126,11 @@ class CurrentUser @Inject constructor(
     // Will serve only users that have non-null user and vpnUser and sessionId
     val jointUserFlow = provider.partialJointUserFlow.map { it.toJointUserInfo() }.distinctUntilChanged()
 
-    val eventVpnLogin =
-        vpnUserFlow.withPrevious().filter { (previous, new) -> previous == null && new != null }.map { (_, new) -> new }
+    val eventVpnLogin = vpnUserFlow.withPrevious()
+        .filter { (previous, new) ->
+            new?.userId != null && previous?.userId != new.userId
+        }
+        .map { (_, new) -> new }
 
     suspend fun vpnUser() = vpnUserFlow.first()
     suspend fun user() = userFlow.first()

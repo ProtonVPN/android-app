@@ -769,8 +769,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_json_version"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-cbor:$kotlinx_serialization_json_version"
     implementation 'androidx.preference:preference-ktx:1.2.1'
-    implementation 'com.airbnb.android:lottie:6.6.2'
-    implementation 'com.airbnb.android:lottie-compose:6.6.2'
+    implementation 'com.airbnb.android:lottie:6.6.7'
+    implementation 'com.airbnb.android:lottie-compose:6.6.7'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation "androidx.security:security-crypto:1.0.0"
     implementation 'androidx.viewpager2:viewpager2:1.1.0'

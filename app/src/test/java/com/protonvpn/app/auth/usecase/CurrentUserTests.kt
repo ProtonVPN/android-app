@@ -31,6 +31,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
@@ -44,6 +45,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class CurrentUserTests {
 
     @MockK
@@ -88,24 +90,48 @@ class CurrentUserTests {
     }
 
     @Test
-    fun `eventVpnLogin emits login events`() = scope.runTest {
+    fun `GIVEN user is logged-in WHEN observing vppLoginEvents THEN no events are emitted`() = scope.runTest {
         turbineScope {
-            val loginEvents = currentUser.eventVpnLogin.testIn(backgroundScope)
-            primaryUserIdFlow.emit(null)
             primaryUserIdFlow.emit(AccountTestHelper.UserId1)
-            primaryUserIdFlow.emit(null)
-            primaryUserIdFlow.emit(AccountTestHelper.UserId2)
-            assertEquals(AccountTestHelper.UserId1, loginEvents.awaitItem()?.userId)
-            assertEquals(AccountTestHelper.UserId2, loginEvents.awaitItem()?.userId)
+
+            val loginEvents = currentUser.eventVpnLogin.testIn(backgroundScope)
+
+            loginEvents.expectNoEvents()
         }
     }
 
     @Test
-    fun `eventVpnLogin doesn't emit when logged-in`() = scope.runTest {
+    fun `GIVEN credential less user is logged-in AND logs in with and account WHEN observing vppLoginEvents THEN event is emitted`() = scope.runTest {
         turbineScope {
+            val credentialLessUserId = AccountTestHelper.UserId1
+            val accountUserId = AccountTestHelper.UserId2
             val loginEvents = currentUser.eventVpnLogin.testIn(backgroundScope)
-            primaryUserIdFlow.emit(AccountTestHelper.UserId1)
-            loginEvents.expectNoEvents()
+            primaryUserIdFlow.emit(credentialLessUserId)
+            primaryUserIdFlow.emit(accountUserId)
+            val expectedUserId = accountUserId
+
+            val vpnUser = loginEvents.awaitItem()
+
+            assertEquals(expectedUserId, vpnUser?.userId)
+        }
+    }
+
+    @Test
+    fun `GIVEN user logs in AND switches to another account WHEN observing vppLoginEvents THEN events are emitted`() = scope.runTest {
+        turbineScope {
+            val accountUserId1 = AccountTestHelper.UserId1
+            val accountUserId2 = AccountTestHelper.UserId2
+            val loginEvents = currentUser.eventVpnLogin.testIn(backgroundScope)
+            primaryUserIdFlow.emit(null)
+            primaryUserIdFlow.emit(accountUserId1)
+            primaryUserIdFlow.emit(null)
+            primaryUserIdFlow.emit(accountUserId2)
+
+            val vpnUser1 = loginEvents.awaitItem()
+            val vpnUser2 = loginEvents.awaitItem()
+
+            assertEquals(accountUserId1, vpnUser1?.userId)
+            assertEquals(accountUserId2, vpnUser2?.userId)
         }
     }
 }

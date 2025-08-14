@@ -22,12 +22,11 @@ package com.protonvpn.android.redesign.app.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import com.protonvpn.android.R
 import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel.LoaderState
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
+import com.protonvpn.android.ui.noconnections.NoConnectionsScreen
 
 @Composable
 fun VpnApp(
@@ -38,17 +37,19 @@ fun VpnApp(
     val rootController = rememberNavController()
     val viewModel: ServerLoadingViewModel = hiltViewModel()
 
-    when (viewModel.serverLoadingState.collectAsState().value) {
-        LoaderState.Error -> {
-            FullScreenError(
-                errorTitle = stringResource(R.string.something_went_wrong),
-                errorDescription = stringResource(R.string.error_server_list_load_failed),
-                onRetry = { viewModel.updateServerList() }
+    when (val state = viewModel.serverLoadingState.collectAsState().value) {
+        is LoaderState.Error -> {
+            NoConnectionsScreen(
+                state = state,
+                onRefresh = viewModel::updateServerList,
+                onLogout = coreNavigation.onSignOut,
             )
         }
+
         LoaderState.Loading -> {
             FullScreenLoading()
         }
+
         LoaderState.Loaded -> {
             RootNav(rootController).NavHost(
                 modifier = modifier,
@@ -56,6 +57,7 @@ fun VpnApp(
                 settingsChangeViewModel = settingsChangeViewModel,
             )
         }
-        null -> { /* Nothing */ }
+
+        null -> Unit
     }
 }

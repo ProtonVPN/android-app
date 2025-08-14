@@ -56,6 +56,7 @@ object Constants {
     const val URL_IPV6_ADDRESS_LEARN_MORE = "https://protonvpn.com/blog/what-is-an-ip-address#ipv6"
     const val URL_CUSTOM_DNS_LEARN_MORE = "https://protonvpn.com/support/custom-dns#android"
     const val URL_CUSTOM_DNS_PRIVATE_DNS_LEARN_MORE = "http://protonvpn.com/support/custom-dns#privatevscustom"
+    const val URL_ENABLE_VPN_CONNECTION = "https://protonvpn.com/support/enable-vpn-connection"
     const val PROTON_URL_UTM_SOURCE = "androidvpn"
     const val MINIMUM_MAINTENANCE_CHECK_MINUTES = 5L
     const val DEFAULT_MAINTENANCE_CHECK_MINUTES = 40L

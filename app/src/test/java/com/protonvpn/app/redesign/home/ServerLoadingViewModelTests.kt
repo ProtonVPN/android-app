@@ -19,28 +19,24 @@
 package com.protonvpn.app.redesign.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.test.shared.runWhileCollecting
-import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
-import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.proton.core.network.domain.ApiResult
@@ -49,7 +45,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ServerLoadingViewModelTests {
@@ -58,16 +53,15 @@ class ServerLoadingViewModelTests {
     val instantExecutorRule = InstantTaskExecutorRule()
     private lateinit var testScope: TestScope
 
-    @RelaxedMockK
+    @MockK
     private lateinit var serverManager: ServerManager2
 
-    @RelaxedMockK
+    @MockK
     private lateinit var serverListUpdater: ServerListUpdater
 
     private val apiSuccess = ApiResult.Success(ServerList(emptyList()))
     private val apiError = ApiResult.Error.Timeout(true, null)
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -75,7 +69,7 @@ class ServerLoadingViewModelTests {
         testScope = TestScope(testDispatcher)
         Dispatchers.setMain(testDispatcher)
         every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
-        coEvery { serverListUpdater.updateServerList() } returns ApiResult.Success(mockk())
+        coEvery { serverListUpdater.updateServerList(any()) } returns ApiResult.Success(mockk())
     }
 
     @After
@@ -84,56 +78,131 @@ class ServerLoadingViewModelTests {
     }
 
     @Test
-    fun `state is loaded if servers are downloaded at least once`() = runTest {
-        every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(true)
-        val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
-
-        coVerify(exactly = 0) { serverListUpdater.updateServerList() }
-
-        val state = viewModel.serverLoadingState.first()
-        assertIs<ServerLoadingViewModel.LoaderState.Loaded>(state)
-    }
-
-    @Test
-    fun `state changes to loaded on successful update`() = runTest {
-        val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
-        viewModel.updateServerList()
-
-        val state = viewModel.serverLoadingState.first()
-        assertIs<ServerLoadingViewModel.LoaderState.Loaded>(state)
-    }
-
-    @Test
-    fun `state changes to error on failed update`() = runTest {
+    fun `GIVEN servers are not loaded WHEN viewModel is created THEN servers are fetched`() = runTest {
         every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
-        coEvery { serverListUpdater.updateServerList() } returns ApiResult.Error.Timeout(true, null)
-        val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
+        every { serverManager.hasAnyCountryFlow } returns flowOf(true)
+        every { serverManager.hasAnyGatewaysFlow } returns flowOf(true)
 
-        val state = viewModel.serverLoadingState.first()
-        assertIs<ServerLoadingViewModel.LoaderState.Error>(state)
+        ServerLoadingViewModel(serverManager, serverListUpdater)
+
+        coVerify(exactly = 1) {
+            serverListUpdater.updateServerList(forceFreshUpdate = true)
+        }
     }
 
     @Test
-    fun `error state is cleared when retrying`() = runTest {
-        val suspendedResponse = CompletableDeferred<ApiResult<ServerList>>()
-        coEvery { serverListUpdater.updateServerList() } returns apiError
+    fun `GIVEN servers are not loaded AND servers update succeeds with countries WHEN observing serverLoadingState THEN Loaded state is emitted`() = runTest {
+        every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
+        every { serverManager.hasAnyCountryFlow } returns flowOf(true)
+        every { serverManager.hasAnyGatewaysFlow } returns flowOf(false)
+        coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns apiSuccess
         val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
+        val expectedLoaderState = ServerLoadingViewModel.LoaderState.Loaded
 
-        val states = runWhileCollecting(viewModel.serverLoadingState) {
-            runCurrent()
+        viewModel.serverLoadingState.test {
+            val loaderState = awaitItem()
 
-            coEvery { serverListUpdater.updateServerList() } coAnswers { suspendedResponse.await() }
-            viewModel.updateServerList()
-            runCurrent()
-
-            suspendedResponse.complete(apiSuccess)
-            runCurrent()
+            assertEquals(expectedLoaderState, loaderState)
         }
-        val expected = listOf(
-            ServerLoadingViewModel.LoaderState.Error,
-            ServerLoadingViewModel.LoaderState.Loading,
-            ServerLoadingViewModel.LoaderState.Loaded,
-        )
-        assertEquals(expected, states)
+    }
+
+    @Test
+    fun `GIVEN servers are not loaded AND servers update succeeds with gateways WHEN observing serverLoadingState THEN Loaded state is emitted`() = runTest {
+        every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
+        every { serverManager.hasAnyCountryFlow } returns flowOf(false)
+        every { serverManager.hasAnyGatewaysFlow } returns flowOf(true)
+        coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns apiSuccess
+        val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
+        val expectedLoaderState = ServerLoadingViewModel.LoaderState.Loaded
+
+        viewModel.serverLoadingState.test {
+            val loaderState = awaitItem()
+
+            assertEquals(expectedLoaderState, loaderState)
+        }
+    }
+
+    @Test
+    fun `GIVEN servers are not loaded AND servers update succeeds with no countries_gateways WHEN observing serverLoadingState THEN NoCountriesNoGateways state is emitted`() = runTest {
+        every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
+        every { serverManager.hasAnyCountryFlow } returns flowOf(false)
+        every { serverManager.hasAnyGatewaysFlow } returns flowOf(false)
+        coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns apiSuccess
+        val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
+        val expectedLoaderState = ServerLoadingViewModel.LoaderState.Error.NoCountriesNoGateways
+
+        viewModel.serverLoadingState.test {
+            val loaderState = awaitItem()
+
+            assertEquals(expectedLoaderState, loaderState)
+        }
+    }
+
+    @Test
+    fun `GIVEN servers are not loaded AND servers update fails WHEN observing serverLoadingState THEN RequestFailed state is emitted`() = runTest {
+        listOf(
+            true to true,
+            true to false,
+            false to true,
+            false to false,
+        ).forEach { (hasCountries, hasGateways) ->
+            every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(false)
+            every { serverManager.hasAnyCountryFlow } returns flowOf(hasCountries)
+            every { serverManager.hasAnyGatewaysFlow } returns flowOf(hasGateways)
+            coEvery { serverListUpdater.updateServerList(forceFreshUpdate = true) } returns apiError
+            val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
+            val expectedLoaderState = ServerLoadingViewModel.LoaderState.Error.RequestFailed
+
+            viewModel.serverLoadingState.test {
+                val loaderState = awaitItem()
+
+                assertEquals(expectedLoaderState, loaderState)
+            }
+        }
+    }
+
+    @Test
+    fun `GIVEN servers are loaded AND there are countries WHEN observing serverLoadingState THEN Loaded state is emitted`() = runTest {
+        every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(true)
+        every { serverManager.hasAnyCountryFlow } returns flowOf(true)
+        every { serverManager.hasAnyGatewaysFlow } returns flowOf(false)
+        val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
+        val expectedLoaderState = ServerLoadingViewModel.LoaderState.Loaded
+
+        viewModel.serverLoadingState.test {
+            val loaderState = awaitItem()
+
+            assertEquals(expectedLoaderState, loaderState)
+        }
+    }
+
+    @Test
+    fun `GIVEN servers are loaded AND there are gateways WHEN observing serverLoadingState THEN Loaded state is emitted`() = runTest {
+        every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(true)
+        every { serverManager.hasAnyCountryFlow } returns flowOf(false)
+        every { serverManager.hasAnyGatewaysFlow } returns flowOf(true)
+        val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
+        val expectedLoaderState = ServerLoadingViewModel.LoaderState.Loaded
+
+        viewModel.serverLoadingState.test {
+            val loaderState = awaitItem()
+
+            assertEquals(expectedLoaderState, loaderState)
+        }
+    }
+
+    @Test
+    fun `GIVEN servers are loaded AND there are no countries and no gateways WHEN observing serverLoadingState THEN NoCountriesNoGateways state is emitted`() = runTest {
+        every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(true)
+        every { serverManager.hasAnyCountryFlow } returns flowOf(false)
+        every { serverManager.hasAnyGatewaysFlow } returns flowOf(false)
+        val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
+        val expectedLoaderState = ServerLoadingViewModel.LoaderState.Error.NoCountriesNoGateways
+
+        viewModel.serverLoadingState.test {
+            val loaderState = awaitItem()
+
+            assertEquals(expectedLoaderState, loaderState)
+        }
     }
 }
