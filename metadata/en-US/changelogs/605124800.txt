@@ -1,0 +1,2 @@
+What's new
+Fixed country detection in 'Exclude My Country' profiles when roaming
