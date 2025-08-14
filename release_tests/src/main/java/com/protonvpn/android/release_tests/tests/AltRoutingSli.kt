@@ -25,6 +25,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.protonvpn.android.release_tests.BuildConfig
 import com.protonvpn.android.release_tests.data.LokiConfig
+import com.protonvpn.android.release_tests.data.TestConstants
 import com.protonvpn.android.release_tests.helpers.BtiScenarios
 import com.protonvpn.android.release_tests.helpers.TestApiClient
 import com.protonvpn.android.release_tests.robots.LoginRobot
@@ -65,7 +66,7 @@ class AltRoutingSli {
             .addMeasurement(DurationMeasurement())
             .setLogcatFilter(LokiConfig.logcatFilter)
 
-        LoginRobot.signIn("testas3", BuildConfig.TEST_ACCOUNT_PASSWORD)
+        LoginRobot.signIn(TestConstants.USERNAME, BuildConfig.TEST_ACCOUNT_PASSWORD)
 
         profile.measure {
             LoginRobot.waitUntilLoggedIn()

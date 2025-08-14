@@ -49,11 +49,11 @@ class TestUser(
 
     companion object {
         @JvmStatic val freeUser: TestUser
-            get() = TestUser("free", "dummy", "test", "free", "free", 0, 1)
+            get() = TestUser("automationFreeUser", "dummy", "test", "free", "free", 0, 1)
         val basicUser: TestUser
-            get() = TestUser("basic", "dummy", "testas2", "vpnbasic", "vpnbasic", 1, 2)
+            get() = TestUser("automationBasicUser", "dummy", "testas2", "vpnbasic", "vpnbasic", 1, 2)
         @JvmStatic val plusUser: TestUser
-            get() = TestUser("plus", "dummy", "test", "vpnplus", "vpnplus", 2, 5)
+            get() = TestUser("automationPlusUser", "dummy", "test", "vpnplus", "vpnplus", 2, 5)
 
         val sameIdFreeUser: TestUser
             get() = TestUser("Testas", "a", "rand", "free", "free", 0, 1)
@@ -78,11 +78,6 @@ class TestUser(
                 arrayOf("self", "user", "loggedin", "vpn"),
                 "UserId"
             )
-
-        fun getRandomUsername(): String {
-            val usernames = listOf("testas2", "testas3", "testas4")
-            return usernames.random()
-        }
     }
 }
 

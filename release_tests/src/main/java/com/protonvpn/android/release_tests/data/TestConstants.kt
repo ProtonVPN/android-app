@@ -26,6 +26,7 @@ import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 object TestConstants {
+    const val USERNAME = "automationPlusUser"
     const val TEST_PACKAGE = "ch.protonvpn.android.dev"
     val TWENTY_SECOND_TIMEOUT = 20000.milliseconds
     val TWO_MINUTES_TIMEOUT = 2.minutes
