@@ -1,2 +1,2 @@
-versionName=5.12.48.0
-versionCode=605124800
+versionName=5.12.48.1
+versionCode=605124801
