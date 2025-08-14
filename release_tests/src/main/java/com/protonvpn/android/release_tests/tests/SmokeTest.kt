@@ -22,6 +22,7 @@
 package com.protonvpn.android.release_tests.tests
 
 import com.protonvpn.android.release_tests.BuildConfig
+import com.protonvpn.android.release_tests.data.TestConstants
 import com.protonvpn.android.release_tests.robots.LoginRobot
 import com.protonvpn.android.release_tests.rules.LaunchVpnAppRule
 import org.junit.Rule
@@ -34,7 +35,7 @@ class SmokeTest {
 
     @Test
     fun testSignIn() {
-        LoginRobot.signIn("testas3", BuildConfig.TEST_ACCOUNT_PASSWORD)
+        LoginRobot.signIn(TestConstants.USERNAME, BuildConfig.TEST_ACCOUNT_PASSWORD)
             .waitUntilLoggedIn()
     }
 }

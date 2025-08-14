@@ -20,7 +20,6 @@
 package com.protonvpn.test.shared
 
 import com.protonvpn.android.BuildConfig
-import com.protonvpn.test.shared.TestUser.Companion.getRandomUsername
 import dagger.Reusable
 import me.proton.core.configuration.EnvironmentConfiguration
 import javax.inject.Inject
@@ -46,7 +45,7 @@ class TestUserEndToEnd @Inject constructor(
         return if (isAtlas()) {
             TestUser("vpnplus", "12341234", "test", "vpnplus", "vpnplus", 2, 10)
         } else {
-            TestUser("Testas3", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", "vpnplus", 2, 5)
+            TestUser("automationPlusUser", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", "vpnplus", 2, 5)
         }
     }
 
@@ -54,6 +53,11 @@ class TestUserEndToEnd @Inject constructor(
         return if (isAtlas())
             TestUser("vpnfree", "12341234", "test", "free", "free", 0, 1)
         else
-            TestUser("Testas1", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas", "free", "free", 0, 1)
+            TestUser("automationFreeUser", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas", "free", "free", 0, 1)
+    }
+
+    fun getRandomUsername(): String {
+        val usernames = listOf(getPlusPlanUser()).map { it.email }
+        return usernames.random()
     }
 }
