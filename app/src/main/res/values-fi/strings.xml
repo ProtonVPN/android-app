@@ -134,7 +134,7 @@
     <string name="settingsExcludedAppsEmpty">Lisää VPN-tietoliikenteen ulkopuolelle rajoitettavia sovelluksia.</string>
     <string name="settingsIncludedAppsEmpty">Lisää VPN-tietoliikenteeseen sisällytettäviä sovelluksia.</string>
     <string name="settingsExcludedAppsSelectedHeader">Poissuljetut sovellukset (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Sisällytetyt sovellukset (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Kaikki muut tavalliset sovellukset (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Kaikki muut järjestelmäsovellukset (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">Kaikki muut sovellukset (%1$d)</string>
@@ -204,11 +204,11 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">asetukset</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Käytä \"<b>jatkuvatoiminen VPN</b>\" ja \"<b>Estä yhteydet ilman VPN:ää</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Asetukset</string>
     <string name="settingsKillSwitchLearnMoreButton">Mikä on tappokytkin?</string>
     <string name="settingsKillSwitchWarningMain">Kun tappokytkin on käytössä, et voi yhdistää seuraaviin:</string>
-    <string name="settingsKillSwitchWarningPoint1">Websites and apps excluded from your VPN connection through split tunneling</string>
+    <string name="settingsKillSwitchWarningPoint1">Verkkosivustot ja sovellukset, jotka on suljettu pois VPN-yhteydestäsi jaetun tunneloinnin kautta</string>
     <string name="settingsKillSwitchWarningPoint2">Lähiverkkosi (LAN) laitteet</string>
     <string name="settingsEnableTelemetryTitle">Jaa anonyymejä käyttötilastoja</string>
     <string name="settingsEnableTelemetryDescription">Käyttötilastot auttavat meitä kiertämään VPN-estoja ja parantamaan sovelluksen suorituskykyä.</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Virheraportit auttavat meitä korjaaman vikoja, havaitsemaan palomuureja ja kiertämään VPN-estoja.</string>
     <string name="settingsTelemetryScreenTitle">Käyttötilastot</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Nämä tilastot eivät sisällä IP-osoitettasi, eikä sinua ole mahdollista tunnistaa niiden perusteella. Emme koskaa jaa niitä ulkopuolisille tahoille. <a href="%1$s">Lue lisää</a>]]></string>
-    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. %1$s</string>
+    <string name="netshield_settings_description_not_html">Suojaudu verkkosivustojen ja sovellusten mainoksilta, haittaohjelmilta ja seurannoilta. %1$s</string>
     <string name="settings_icon_change_description">Naamioi Proton VPN -sovellus huomaamattomalla kuvakkeella. Ilmoituksissa näkyy edelleen Proton VPN:n alkuperäinen nimi ja kuvake. %1$s</string>
     <string name="settings_icon_change_learn_more">Lue lisää</string>
     <string name="learn_more">Lue lisää</string>
@@ -255,7 +255,7 @@
     <string name="netshield_setting_warning">Jotkin verkkosivustot eivät ehkä lataudu oikein, kun mainokset ja seurannat on estetty.</string>
     <string name="dialogDontShowAgain">Älä näytä uudelleen</string>
     <string name="guestHoleNotificationContent">Verkkoyhteyden ongelmia yritetään kiertää. Tämä auttaa Proton VPN-yhteyden muodostuksessa.</string>
-    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
+    <string name="errorTunMultiUserPermission">VPN-yhteyden muodostus ei onnistunut monistetun sovelluksen (esim. Dual Messenger) ja jaetun tunneloinnin ristiriidan vuoksi. Poista jompikumpi käytöstä ja käynnistä laite uudelleen.</string>
     <string name="errorTorrentNotAllowed">P2P ei ole tällä palvelimella sallittu</string>
     <string name="error_profile_fallback_unavailable">Yhteys epäonnistui. Valitsemasi profiilin palvelin ei ole käytettävissä.</string>
     <string name="profileProtocolNotAvailable">Profiilin VPN-protokolla ei ole tällä hetkellä käytettävissä. Kokeile vaihtaa protokollaa yhteyden muodostamiseksi.</string>
@@ -305,7 +305,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% server load</string>
+    <string name="tv_server_list_load">%1$s%% palvelimen kuormitus</string>
     <string name="tv_recently_used_servers">Viimeksi käytetyt palvelimet (%1$d)</string>
     <string name="tv_available_servers">Käytettävissä olevat palvelimet (%1$d)</string>
     <string name="tv_locked_servers">Lukitut palvelimet (%1$d)</string>
@@ -383,7 +383,7 @@
     <string name="upgrade_split_tunneling_title">Hanki molempien parhaat puolet</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Jaa tietoliikenteesi VPN-tunneliin ja sen ulkopuolelle <b>jaetun tunneloinnin</b> avulla.]]></string>
     <string name="upgrade_customization_title">Avaa edistyneet VPN-mukautukset</string>
-    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Avaa <b>LAN-yhteydet</b>, <b>mukautettu DNS</b> ja <b>NAT-tyyppi 2</b> VPN Plus -palvelulla.]]></string>
     <string name="upgrade_all_countries_title">Käytä kaikkia maita</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -609,7 +609,7 @@
     <string name="settings_change_icon_header_discreet">Huomaamaton sovelluskuvake</string>
     <string name="settings_widget_title">Widgetti</string>
     <string name="settings_widget_selection_title">Kokeile Proton VPN -widgettiä</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">Näe yhteystilasi ja käytä suosikki-VPN-yhteyksiäsi aloitusnäytöltä.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Lisää widgetti painamalla pitkään mitä tahansa tyhjää kohtaa aloitusnäytölläsi ja etsi sitten widgettivalikosta %1$s.</string>
     <string name="settings_widget_selection_button_title">Lisää widgetti</string>
@@ -674,7 +674,7 @@
     <string name="whats_new_profiles_title">Profiilit ovat palanneet</string>
     <string name="whats_new_profiles_description">Luo ja tallenna mukautettuja yhteyksiä, jotka sisältävät valitsemasi sijainnin, palvelimen ja protokollan.</string>
     <string name="whats_new_widget_title">Esittelyssä widgetit</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
+    <string name="whats_new_widget_description">Voit nyt tarkastella ja hallita VPN:ääsi poistumatta aloitusnäytöltä.</string>
     <string name="whats_new_add_widget_button">Lisää widgetti</string>
     <string name="welcome_plus_title">Tervetuloa VPN Plussaan</string>
     <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja uuden tason VPN-mukautuksesta.</string>
@@ -1183,8 +1183,8 @@
     <string name="info_dialog_ipaddress_title">IP-osoite</string>
     <string name="info_dialog_ipv6_traffic_title">IPv6-tietoliikenne</string>
     <string name="info_dialog_profiles_description">Profiilit ovat mukautettuja VPN-yhteyksiä, jotka voit räätälöidä tarpeidesi mukaan ja tallentaa nopeaa käyttöä varten.\n\nAseta haluamasi sijainti ja optimoi asetuksesi turvallisuutta, suorituskykyä, pelaamista tai mitä tahansa muuta tarkoitusta varten.</string>
-    <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
-    <string name="info_dialog_ipv6_traffic_description">The Internet Protocol (IP) assigns addresses to devices and routes internet traffic. IPv6 is the latest version, offering more addresses and better connectivity, but it is not yet universally adopted.</string>
+    <string name="info_dialog_ipaddress_description">VPN:n IP-osoite naamioi todellisen IP-IP-osoitteesi. Tämä saa sen näyttämään siltä, että selaat VPN-sijainnistasi, joten verkkotoimintaasi ei voida yhdistää laitteeseesi.</string>
+    <string name="info_dialog_ipv6_traffic_description">Internet-protokolla (IP) määrittää osoitteita laitteille ja reitittää internetin tietoliikennettä. IPv6 on uusin versio, tarjoten enemmän osoitteita ja paremman yhteyden, mutta sitä ei ole vielä yleisesti otettu käyttöön.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Tiedostojen jako vertaisverkon kautta on käytössä tällä palvelimella.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1202,7 +1202,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
+    <string name="country_smart_routing_info">Palvelimien fyysinen sijainti on %1$s, mutta näytät selaavan sijainnista %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1302,7 +1302,7 @@
     <string name="create_profile_type_and_location_title">Valitse yhteystyyppi ja -sijainti</string>
     <string name="create_profile_features_and_settings_title">Ominaisuudet ja asetukset</string>
     <string name="configure_profile_features_and_settings_title">Määritä profiiliasetukset</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
+    <string name="configure_profile_features_and_settings_description">Profiilin asetukset ohittavat VPN-asetuksesi yhdistettynä.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
@@ -1312,7 +1312,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Nopeuta yhteyttäsi jopa 400%% suorituskykyä parantavien tekniikoiden avulla. %1$s</string>
     <string name="settings_account_settings_title">Tilin asetukset</string>
     <string name="settings_account_change_password">Vaihda salasana</string>
     <string name="settings_account_recovery_email">Palautusosoite</string>
@@ -1329,14 +1329,14 @@
     <string name="settings_add_dns_invalid_input">Syötä kelvollinen IPv4- tai IPv6-osoite</string>
     <string name="settings_add_dns_empty_input">Syötä IPv4- tai IPv6-osoite</string>
     <string name="settings_add_dns_duplicate_input">Palvelin on jo lisätty</string>
-    <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
+    <string name="settings_advanced_dns_description">Yhdistä VPN:ään itse isännöidyllä tai ulkopuolisella verkkotunnusjärjestelmällä (DNS). Lue lisää</string>
     <!-- %1$d - Corresponds to number of servers added -->
     <string name="settings_dns_list_title">Palvelimet (%1$d)</string>
-    <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
-    <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
+    <string name="settings_dns_list_description">Jos mukautettu DNS-palvelimesi ei toimi, käytetään tavallista VPN-DNS:ää.</string>
+    <string name="settings_dns_list_description_multiple">Yritämme yhdistää näihin palvelimiin järjestyksessä. Jos mikään niistä ei toimi, käytetään VPN-DNS:ää.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Muutokset tulevat voimaan, kun yhdistät uudelleen</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield ei ole käytettävissä</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield can not filter out ads, trackers and malware when custom DNS is used. Learn more</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield ei voi suodattaa mainoksia, seurantaa ja haittaohjelmia, kun käytössä on mukautettu DNS. Lue lisää</string>
     <string name="settings_advanced_alternative_routing_title">Vaihtoehtoinen reititys</string>
     <string name="settings_advanced_alternative_routing_description">Jos Proton-palvelut on estetty verkkorajoitusten takia, yritämme käyttää vaihtoehtoista verkkoreititystä, jotta voit silti muodostaa yhteyden sivustoihimme.</string>
     <string name="settings_advanced_allow_lan_title">LAN-yhteydet</string>

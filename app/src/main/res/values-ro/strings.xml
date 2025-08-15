@@ -120,7 +120,7 @@
     <string name="bugReportLabelVpnLogsTitle">Includere jurnal de erori</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Aceasta va trimite jurnalul de erori local (nu vă înregistrăm activitatea) pentru a ne ajuta să rezolvăm problema.</string>
     <string name="profileFastest">Cel mai rapid</string>
-    <string name="profileRandom">Aleator</string>
+    <string name="profileRandom">Aleatoriu</string>
     <string name="loaderErrorNoInternet">Nu există conexiune la internet</string>
     <string name="loaderErrorGeneric">Ceva nu a funcționat corect</string>
     <string name="inputIpAddressLabel">Adresa IP</string>
