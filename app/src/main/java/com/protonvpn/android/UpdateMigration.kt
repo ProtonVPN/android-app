@@ -19,6 +19,7 @@
 
 package com.protonvpn.android
 
+import android.content.Context
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.logging.AppUpdateUpdated
 import com.protonvpn.android.logging.ProtonLogger
@@ -26,12 +27,14 @@ import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.Storage
 import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @Reusable
 class UpdateMigration @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     private val mainScope: CoroutineScope,
     private val appPrefs: AppFeaturesPrefs,
     private val uiStateStorage: UiStateStorage,
@@ -47,6 +50,7 @@ class UpdateMigration @Inject constructor(
             clearCertificateData(strippedOldVersionCode)
             promoteProfiles(strippedOldVersionCode)
             whatsNewWidget(strippedOldVersionCode)
+            remove_cert_storage_v1(strippedOldVersionCode)
         }
     }
 
@@ -76,6 +80,14 @@ class UpdateMigration @Inject constructor(
     private fun whatsNewWidget(oldVersionCode: Int) {
         if (oldVersionCode <= 5_08_85_00) {
             appPrefs.showWhatsNew = true
+        }
+    }
+
+    @SuppressWarnings("MagicNumber")
+    private fun remove_cert_storage_v1(oldVersionCode: Int) {
+        if (oldVersionCode <= 5_12_83_00) {
+            appContext.deleteSharedPreferences("cert_data")
+            appContext.deleteSharedPreferences("cert_data_fallback")
         }
     }
 

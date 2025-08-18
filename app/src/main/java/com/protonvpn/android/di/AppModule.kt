@@ -86,6 +86,8 @@ import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.DefaultLocaleProvider
 import com.protonvpn.android.utils.DefaultLocaleProviderImpl
 import com.protonvpn.android.utils.SharedPreferencesProvider
+import com.protonvpn.android.vpn.CertStorageCrypto
+import com.protonvpn.android.vpn.CertStorageCryptoImpl
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnect
@@ -361,6 +363,9 @@ object AppModule {
 
         @Binds
         fun bindAutoLogin(autoLogin: AutoLoginImpl): AutoLogin
+
+        @Binds
+        fun bindCertStorageCrypto(impl: CertStorageCryptoImpl): CertStorageCrypto
 
         @Binds
         fun bindChangeServerConfigFlow(impl: DefaultChangeServerConfigFlow): ChangeServerConfigFlow

@@ -19,152 +19,176 @@
 
 package com.protonvpn.android.vpn
 
-import android.content.Context
-import android.content.SharedPreferences
-import androidx.core.content.edit
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
-import com.protonvpn.android.auth.usecase.CurrentUser
+import androidx.annotation.VisibleForTesting
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserCertStoreError
-import com.protonvpn.android.observability.CertificateStorageCreateMetric
-import com.protonvpn.android.utils.AndroidUtils
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.protonvpn.android.userstorage.JsonDataStoreSerializer
+import com.protonvpn.android.userstorage.LocalDataStoreFactory
+import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
+import me.proton.core.crypto.common.keystore.EncryptedString
+import me.proton.core.crypto.common.keystore.KeyStoreCrypto
+import me.proton.core.crypto.common.keystore.decryptOrElse
+import me.proton.core.crypto.common.keystore.encryptOrElse
 import me.proton.core.crypto.validator.domain.prefs.CryptoPrefs
-import me.proton.core.featureflag.domain.entity.FeatureId
-import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import me.proton.core.network.domain.session.SessionId
-import me.proton.core.observability.domain.ObservabilityManager
-import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
-import java.io.IOException
-import java.security.GeneralSecurityException
-import java.security.KeyStore
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@VisibleForTesting
+@Serializable
+sealed class StoredCertInfo {
+    @Serializable
+    data class Encrypted(val encryptedCertInfoJson: String) : StoredCertInfo()
+
+    // Due to unreliability of the Android Keystore on some devices we'll allow fallback to storing
+    // unencrypted data.
+    @Serializable
+    data class Fallback(val certInfoJson: String) : StoredCertInfo()
+}
+
+interface CertStorageCrypto {
+    val useInsecureKeystore: Boolean
+    suspend fun encryptOrElse(text: String, onError: (Throwable) -> String?): String?
+    suspend fun decryptOrElse(ciphertext: EncryptedString, onError: (Throwable) -> String?): String?
+}
+
+@Reusable
+class CertStorageCryptoImpl @Inject constructor(
+    private val cryptoPrefs: CryptoPrefs,
+    private val keyStoreCrypto: KeyStoreCrypto,
+    private val dispatchers: VpnDispatcherProvider,
+) : CertStorageCrypto {
+    override val useInsecureKeystore: Boolean
+        get() = cryptoPrefs.useInsecureKeystore ?: false
+
+    override suspend fun encryptOrElse(text: String, onError: (Throwable) -> String?): EncryptedString? =
+        withContext(dispatchers.Comp) {
+            text.encryptOrElse(keyStoreCrypto, onError)
+        }
+
+    override suspend fun decryptOrElse(ciphertext: EncryptedString, onError: (Throwable) -> String?): String? =
+        withContext(dispatchers.Comp) {
+            ciphertext.decryptOrElse(keyStoreCrypto, onError)
+        }
+}
+
+// SessionId cannot be used as key in serialized Data. Introduce alias to be used with SessionId.id
+private typealias SessionIdRaw = String
+
 @Singleton
 class CertificateStorage @Inject constructor(
-    private @ApplicationContext val appContext: Context,
-    private val mainScope: CoroutineScope,
-    dispatcherProvider: DispatcherProvider,
-    private val cryptoPrefs: CryptoPrefs,
-    featureFlagRepository: FeatureFlagRepository,
-    currentUser: CurrentUser,
-    private val observability: ObservabilityManager,
+    mainScope: CoroutineScope,
+    private val crypto: CertStorageCrypto,
+    private val localDataStoreFactory: LocalDataStoreFactory,
 ) {
-    // Use getCertPrefs() to access this.
-    private val certPreferences = mainScope.async(dispatcherProvider.Io, start = CoroutineStart.LAZY) {
-        if (cryptoPrefs.useInsecureKeystore == true) {
-            createStorageWithoutEncryption(CertificateStorageCreateMetric.StorageType.Unencrypted)
-        } else {
-            val clearStorageOnError = featureFlagRepository.getValue(currentUser.user()?.userId, FEATURE_FLAG) ?: false
-            if (clearStorageOnError) {
-                createStorageWithClearOnError()
-            } else {
-                createStorageWithFallback()
-            }
-        }
+    @Serializable
+    data class Data(
+        val sessionCerts: Map<SessionIdRaw, StoredCertInfo>,
+    )
+
+    private val inMemoryCache = mutableMapOf<String, CertInfo>()
+    private val dataStore = mainScope.async(start = CoroutineStart.LAZY) {
+        localDataStoreFactory.getDataStore(
+            FILE_NAME,
+            JsonDataStoreSerializer(Data(emptyMap()), Data.serializer()),
+            emptyList()
+        )
     }
 
+    private suspend fun getStore() = dataStore.await()
+
     suspend fun get(sessionId: SessionId): CertInfo? =
-        getCertPrefs().getString(sessionId.id, null)?.deserialize()
+        inMemoryCache[sessionId.id] ?: getFromStore(sessionId)?.also {
+            inMemoryCache[sessionId.id] = it
+        }
 
     suspend fun put(sessionId: SessionId, info: CertInfo) {
-        getCertPrefs().edit {
-            putString(sessionId.id, info.serialize())
-        }
+        inMemoryCache[sessionId.id] = info
+        putInStore(sessionId, info)
     }
 
     suspend fun remove(sessionId: SessionId) {
-        getCertPrefs().edit {
-            remove(sessionId.id)
+        inMemoryCache.remove(sessionId.id)
+        getStore().updateData { data ->
+            data.copy(sessionCerts = data.sessionCerts - sessionId.id)
         }
     }
 
-    private suspend fun getCertPrefs() = certPreferences.await()
-
-    private fun createStorageWithClearOnError(): SharedPreferences {
-        fun recreateKeyAndPrefsOnError(e: Throwable): SharedPreferences {
-            ProtonLogger.log(UserCertStoreError, "Recreating master key and storage: $e")
-            deleteMasterKey()
-            deleteEncryptedPrefs()
-            return createEncryptedPrefs().also {
-                enqueueObservabilityEvent(CertificateStorageCreateMetric.StorageType.EncryptedFallback)
-            }
-        }
-
+    private suspend fun getFromStore(sessionId: SessionId): CertInfo? {
+        val storedInfo = getStoredCertInfo(sessionId)
         return try {
-            createEncryptedPrefs().also {
-                enqueueObservabilityEvent(CertificateStorageCreateMetric.StorageType.Encrypted)
+            when (storedInfo) {
+                is StoredCertInfo.Encrypted ->
+                    crypto.decryptOrElse(storedInfo.encryptedCertInfoJson) { e ->
+                        ProtonLogger.log(UserCertStoreError, "Failed to decrypt certificate info: $e")
+                        null
+                    }?.deserialize()
+
+                is StoredCertInfo.Fallback ->
+                    storedInfo.certInfoJson.deserialize()
+
+                null -> null
             }
-        } catch (e: GeneralSecurityException) {
-            recreateKeyAndPrefsOnError(e)
-        } catch (e: IOException) {
-            recreateKeyAndPrefsOnError(e)
+            // Deserialization can throw IllegalArgumentException and IllegalStateException (e.g. on EOF).
+        } catch (e: IllegalArgumentException) {
+            ProtonLogger.log(UserCertStoreError, "Failed to deserialize certificate info: $e")
+            null
+        } catch (e: IllegalStateException) {
+            ProtonLogger.log(UserCertStoreError, "Failed to deserialize certificate info: $e")
+            null
         }
     }
 
-    private fun createStorageWithFallback(): SharedPreferences {
-        val encryptedPrefs = try {
-            createEncryptedPrefs()
-        } catch (e: GeneralSecurityException) {
-            ProtonLogger.log(UserCertStoreError, e.toString())
-            null
-        } catch (e: IOException) {
-            ProtonLogger.log(UserCertStoreError, e.toString())
-            null
+    @VisibleForTesting
+    suspend fun getStoredCertInfo(sessionId: SessionId): StoredCertInfo? {
+        val data = getStore().data.first()
+        return data.sessionCerts[sessionId.id]
+    }
+
+    private suspend fun putInStore(sessionId: SessionId, info: CertInfo) {
+        val certInfoJson = try {
+            info.serialize()
+        } catch (e: SerializationException) {
+            ProtonLogger.log(UserCertStoreError, "Failed to serialize certificate info: $e")
+            return
         }
-        return if (encryptedPrefs != null) {
-            enqueueObservabilityEvent(CertificateStorageCreateMetric.StorageType.Encrypted)
-            encryptedPrefs
+        putInStore(sessionId, certInfoJson)
+    }
+
+    @VisibleForTesting
+    suspend fun putInStore(sessionId: SessionId, certInfoJson: String) {
+        val storedInfo = if (crypto.useInsecureKeystore) {
+            StoredCertInfo.Fallback(certInfoJson)
         } else {
-            createStorageWithoutEncryption(CertificateStorageCreateMetric.StorageType.UnencryptedFallback)
+            val encryptedJson = crypto.encryptOrElse(certInfoJson) { e ->
+                ProtonLogger.log(UserCertStoreError, "Failed to encrypt certificate info: $e")
+                null
+            }
+            if (encryptedJson != null) {
+                StoredCertInfo.Encrypted(encryptedJson)
+            } else {
+                // Fallback to storing unencrypted data if encryption fails
+                ProtonLogger.log(UserCertStoreError, "Using fallback for certificate info storage")
+                StoredCertInfo.Fallback(certInfoJson)
+            }
         }
-    }
 
-    // Due to a number of issues with EncryptedSharedPreferences on some devices we fallback to unencrypted storage.
-    private fun createStorageWithoutEncryption(storageType: CertificateStorageCreateMetric.StorageType): SharedPreferences {
-        enqueueObservabilityEvent(storageType)
-        return appContext.getSharedPreferences(FALLBACK_PREFS_NAME, Context.MODE_PRIVATE)
-    }
-
-    private fun createEncryptedPrefs() = EncryptedSharedPreferences.create(
-        PREFS_NAME,
-        MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-        appContext,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
-
-    private fun deleteEncryptedPrefs() {
-        AndroidUtils.deleteSharedPrefs(appContext, PREFS_NAME)
-    }
-
-    private fun enqueueObservabilityEvent(storageType: CertificateStorageCreateMetric.StorageType) {
-        mainScope.launch {
-            observability.enqueue(CertificateStorageCreateMetric(storageType))
-        }
-    }
-
-    @Throws(GeneralSecurityException::class, IOException::class)
-    private fun deleteMasterKey() {
-        with(KeyStore.getInstance("AndroidKeyStore")) {
-            load(null)
-            val masterKeyAlias = "_androidx_security_master_key_" // The alias in MasterKeys.
-            if (containsAlias(masterKeyAlias))
-                deleteEntry(masterKeyAlias)
+        getStore().updateData { data ->
+            data.copy(sessionCerts = data.sessionCerts + (sessionId.id to storedInfo))
         }
     }
 
     companion object {
-        private const val PREFS_NAME = "cert_data"
-        private const val FALLBACK_PREFS_NAME = "cert_data_fallback"
-        private val FEATURE_FLAG = FeatureId("CertStorageRecreateOnErrorEnabled")
+        private const val FILE_NAME = "cert_data_store"
     }
 }
