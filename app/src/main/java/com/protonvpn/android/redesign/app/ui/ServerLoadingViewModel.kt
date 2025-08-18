@@ -18,12 +18,17 @@
  */
 package com.protonvpn.android.redesign.app.ui
 
+import android.content.Context
+import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.openUrl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -99,15 +104,8 @@ class ServerLoadingViewModel @Inject constructor(
         sealed class Error(
             @StringRes val descriptionResId: Int,
             @StringRes val helpResId: Int?,
-            @StringRes val helpLinkResId: Int?,
-            val action: Action,
+            val linkAnnotationAction: ((Context) -> Unit)?,
         ) : LoaderState {
-
-            enum class Action {
-                None,
-                ReportAnIssue,
-                ShowInstructions,
-            }
 
             @StringRes
             val titleResId: Int = R.string.no_connections_title
@@ -115,22 +113,21 @@ class ServerLoadingViewModel @Inject constructor(
             data object DisabledByAdmin : Error(
                 descriptionResId = R.string.no_connections_description_no_servers,
                 helpResId = R.string.no_connections_help_follow_instructions,
-                helpLinkResId = R.string.no_connections_help_follow_instructions_link,
-                action = Action.ShowInstructions,
+                linkAnnotationAction = { context -> context.openUrl(url = Constants.URL_ENABLE_VPN_CONNECTION) },
             )
 
             data object NoCountriesNoGateways : Error(
                 descriptionResId = R.string.no_connections_description_no_servers,
                 helpResId = null,
-                helpLinkResId = null,
-                action = Action.None,
+                linkAnnotationAction = null,
             )
 
             data object RequestFailed : Error(
                 descriptionResId = R.string.no_connections_description_loading_error,
                 helpResId = R.string.no_connections_help_contact_us,
-                helpLinkResId = R.string.no_connections_help_contact_us_link,
-                action = Action.ReportAnIssue,
+                linkAnnotationAction = { context ->
+                    context.startActivity(Intent(context, DynamicReportActivity::class.java))
+                },
             )
 
         }

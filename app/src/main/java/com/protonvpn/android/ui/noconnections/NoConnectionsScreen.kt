@@ -1,6 +1,5 @@
 package com.protonvpn.android.ui.noconnections
 
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,19 +14,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel.LoaderState
-import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
-import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultWeak
 
@@ -86,30 +84,25 @@ fun NoConnectionsScreen(
                 )
             }
 
-            state.helpResId?.let { helpTextId ->
-                val linkText = state.helpLinkResId
-                    ?.let { helpLinkId -> stringResource(id = helpLinkId) }
-                    .orEmpty()
+            if (state.helpResId != null) {
+                val helpTextStyle = ProtonTheme.typography.captionRegular
+                val helpLinkStyle =  helpTextStyle.copy(color = ProtonTheme.colors.textAccent).toSpanStyle()
+                val helpText = stringResource(id = state.helpResId)
+                val helpAnnotatedString = if (state.linkAnnotationAction != null) {
+                    AnnotatedString.fromHtml(
+                        helpText,
+                        TextLinkStyles(helpLinkStyle),
+                        { state.linkAnnotationAction(context) },
+                    )
+                } else {
+                    AnnotatedString(helpText)
+                }
 
-                AnnotatedClickableText(
-                    fullText = stringResource(id = helpTextId, linkText),
-                    annotatedPart = linkText,
-                    annotatedStyle = ProtonTheme.typography.body2Medium,
-                    onAnnotatedClick = {
-                        when (state.action) {
-                            LoaderState.Error.Action.None -> Unit
-                            LoaderState.Error.Action.ReportAnIssue -> {
-                                context.startActivity(Intent(context, DynamicReportActivity::class.java))
-                            }
-
-                            LoaderState.Error.Action.ShowInstructions -> {
-                                context.openUrl(url = Constants.URL_ENABLE_VPN_CONNECTION)
-                            }
-                        }
-                    },
-                    textAlign = TextAlign.Center,
-                    style = ProtonTheme.typography.body2Regular,
+                Text(
+                    helpAnnotatedString,
                     color = ProtonTheme.colors.textWeak,
+                    style = helpTextStyle,
+                    textAlign = TextAlign.Center
                 )
             }
         }

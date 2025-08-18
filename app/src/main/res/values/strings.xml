@@ -1555,8 +1555,6 @@
     <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
     <string name="no_connections_action_refresh">Refresh</string>
     <string name="no_connections_action_sign_out">Sign out</string>
-    <string name="no_connections_help_contact_us">Need help? %1$s</string>
-    <string name="no_connections_help_contact_us_link">Contact us</string>
-    <string name="no_connections_help_follow_instructions">If your administrator needs help enabling VPN access, send them %1$s</string>
-    <string name="no_connections_help_follow_instructions_link">these instructions.</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
 </resources>

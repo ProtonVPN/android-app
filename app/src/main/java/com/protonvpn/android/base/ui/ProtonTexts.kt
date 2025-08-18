@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import me.proton.core.compose.theme.ProtonTheme
 
+@Deprecated("Use HTML-based strings with AnnotatedString.fromHtml with the regular Text composable.")
 @Composable
 fun AnnotatedClickableText(
     fullText: String,
