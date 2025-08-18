@@ -4,6 +4,7 @@ rootProject.name = "ProtonVPN"
 
 plugins {
     id("me.proton.core.gradle-plugins.include-core-build") version "1.3.0"
+    id("com.gradle.develocity") version "4.1"
 }
 
 includeCoreBuild {
@@ -24,6 +25,14 @@ include(":observability:domain")
 include(":observability:tools")
 include(":openvpn")
 include(":shared-test-code")
+
+develocity {
+    buildScan {
+        publishing.onlyIf { System.getenv("BUILD_SCAN_PUBLISH") == "true" }
+        termsOfUseUrl = "https://gradle.com/terms-of-service"
+        termsOfUseAgree = "yes"
+    }
+}
 
 buildCache {
     local {
