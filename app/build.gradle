@@ -27,6 +27,9 @@ import io.gitlab.arturbosch.detekt.Detekt
 
 buildscript {
     repositories {
+        if (System.getenv("MAVEN_CACHE_PKG_URL")) {
+            maven { url System.getenv("MAVEN_CACHE_PKG_URL") }
+        }
         maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
     }
@@ -710,6 +713,9 @@ tasks.register("getReleaseNotes"){
 }
 
 repositories {
+    if (System.getenv("MAVEN_CACHE_PKG_URL")) {
+        maven { url System.getenv("MAVEN_CACHE_PKG_URL") }
+    }
     maven { url "https://clojars.org/repo/" }
     google()
     mavenCentral()

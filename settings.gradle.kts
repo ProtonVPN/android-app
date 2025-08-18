@@ -39,7 +39,12 @@ buildCache {
         if (System.getenv("CI") == "true") {
             directory = file("build/gradle-build-cache")
         }
-        removeUnusedEntriesAfterDays = 3
+    }
+    providers.environmentVariable("BUILD_CACHE_URL").orNull?.let { buildCacheUrl ->
+        remote<HttpBuildCache> {
+            isPush = providers.environmentVariable("CI").isPresent
+            url = uri(buildCacheUrl)
+        }
     }
 }
 include(":release_tests")

@@ -44,6 +44,9 @@ buildscript {
     ext.turbine_version = '1.2.0'
 
     repositories {
+        if (System.getenv("MAVEN_CACHE_PKG_URL")) {
+            maven { url System.getenv("MAVEN_CACHE_PKG_URL") }
+        }
         maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
         google()
@@ -75,6 +78,9 @@ project.ext {
 
 allprojects {
     repositories {
+        if (System.getenv("MAVEN_CACHE_PKG_URL")) {
+            maven { url System.getenv("MAVEN_CACHE_PKG_URL") }
+        }
         mavenCentral()
         google()
         maven { url "https://jitpack.io" }
