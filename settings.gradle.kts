@@ -36,9 +36,7 @@ develocity {
 
 buildCache {
     local {
-        if (System.getenv("CI") == "true") {
-            directory = file("build/gradle-build-cache")
-        }
+        isEnabled = !providers.environmentVariable("CI").isPresent
     }
     providers.environmentVariable("BUILD_CACHE_URL").orNull?.let { buildCacheUrl ->
         remote<HttpBuildCache> {
