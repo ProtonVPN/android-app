@@ -141,9 +141,9 @@ def debugKeystorePath = System.getenv("DEBUG_KEYSTORE_FILE")
 android {
     namespace "com.protonvpn.android"
     testNamespace 'com.protonvpn'
-    buildToolsVersion "34.0.0"
     ndkVersion rootProject.ext.compileNdkVersion
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdk rootProject.ext.compileSdkVersion
+    buildToolsVersion = "35.0.1"
     useLibrary 'org.apache.http.legacy'
     signingConfigs {
         if (debugKeystorePath) {

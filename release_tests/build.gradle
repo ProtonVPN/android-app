@@ -28,7 +28,7 @@ def debugKeystorePath = file(new File(rootDir, "app/${System.getenv("DEBUG_KEYST
 
 android {
     namespace "com.protonvpn.android.release_tests"
-    compileSdk 34
+    compileSdk rootProject.ext.compileSdkVersion
 
     signingConfigs {
         release {
@@ -42,7 +42,7 @@ android {
     defaultConfig {
         applicationId "com.protonvpn.android.release_tests"
         minSdkVersion rootProject.ext.minSdkVersion
-        targetSdk 34
+        targetSdk 35
         versionCode 1
         versionName "1.0"
         def lokiEndpoint = System.getenv("LOKI_ENDPOINT")
