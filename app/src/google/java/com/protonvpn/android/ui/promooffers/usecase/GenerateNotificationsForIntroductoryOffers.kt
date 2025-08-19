@@ -191,7 +191,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
                         config,
                         buttonPanel = iapPanel,
                         showCountdown = true,
-                        isDismissible = true,
+                        isDismissible = false,
                     )
                 )
             }
