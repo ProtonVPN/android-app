@@ -156,6 +156,7 @@ open class ProtonApplication : Application() {
         initSentry(this)
 
         if (isMainProcess()) {
+            VpnLeakCanary.init(this)
             initLogger()
             ProtonLogger.log(AppProcessStart, "version: " + BuildConfig.VERSION_NAME)
 
