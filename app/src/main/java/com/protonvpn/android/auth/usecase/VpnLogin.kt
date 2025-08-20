@@ -74,7 +74,7 @@ class VpnLogin @Inject constructor(
 
         when (val vpnResult = vpnInfoDeferred.await()) {
             is ApiResult.Error.Http -> {
-                if (vpnResult.proton?.code == ERROR_CODE_NO_CONNECTIONS_ASSIGNED) {
+                if (vpnResult.isErrorNoConnectionsAssigned()) {
                     Result.AssignConnections
                 } else {
                     Result.Error(vpnResult.proton?.error ?: context.getString(AuthR.string.auth_login_general_error))
@@ -87,8 +87,6 @@ class VpnLogin @Inject constructor(
                 when {
                     vpnInfo.userTierUnknown ->
                         Result.Error(context.getString(AuthR.string.auth_login_general_error))
-                    vpnInfo.hasNoConnectionsAssigned ->
-                        Result.AssignConnections
                     else -> {
                         val appConfigResult = appConfigDeferred.await()
                         val certificateFetched = certificateDeferred.await()
@@ -123,5 +121,8 @@ class VpnLogin @Inject constructor(
     companion object {
         private const val ERROR_CODE_NO_CONNECTIONS_ASSIGNED = 86_300
         const val GUEST_HOLE_ID = "LOGIN_SIGNUP"
+
+        fun ApiResult<*>.isErrorNoConnectionsAssigned(): Boolean =
+            (this as? ApiResult.Error.Http)?.proton?.code == ERROR_CODE_NO_CONNECTIONS_ASSIGNED
     }
 }

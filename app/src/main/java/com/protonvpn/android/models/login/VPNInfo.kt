@@ -34,8 +34,4 @@ data class VPNInfo(
     @SerialName(value = "Password") val password: String
 ) : java.io.Serializable {
     val userTierUnknown get() = tierName == null && maxConnect > 1
-
-    // The server always adds a 1 to max connections to allow for a stale session to fit within
-    // the limit. Therefore 1 means the user has 0 max connections configured.
-    val hasNoConnectionsAssigned get() = tierName == null && maxConnect <= 1
 }

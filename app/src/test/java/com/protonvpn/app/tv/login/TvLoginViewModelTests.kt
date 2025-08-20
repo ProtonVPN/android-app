@@ -98,15 +98,8 @@ class TvLoginViewModelTests {
         scopes = arrayOf("scope"),
         userId = "user ID"
     )
-    private val noConnectionsVpnInfoResponse = VpnInfoResponse(
-        1000,
-        VPNInfo(1, 0, null, null, null, 1, "user", "group-id", "pass"),
-        1,
-        1,
-        0,
-        0,
-        false
-    )
+    private val noConnectionsVpnInfoResponse =
+        ApiResult.Error.Http(422, "no connections assigned", ApiResult.Error.ProtonData(86_300, ""))
 
     @Before
     fun setup() {
@@ -156,7 +149,7 @@ class TvLoginViewModelTests {
         val viewModel = TvLoginViewModel(currentUser, setVpnUser, appConfig, api,
             serverListUpdater, serverManager, accountManager, monoClockMs = { currentTime }, wallClock= { currentTime },
             guestHole = guestHole, managedConfig = managedConfig)
-        coEvery { api.getVPNInfo(any()) } returns ApiResult.Success(noConnectionsVpnInfoResponse)
+        coEvery { api.getVPNInfo(any()) } returns noConnectionsVpnInfoResponse
         viewModel.startLogin(this)
         advanceUntilIdle()
 

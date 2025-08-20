@@ -26,31 +26,15 @@ import org.junit.Test
 class VPNInfoTests {
 
     @Test
-    fun zeroConnectionsAssigned() {
-        val vpnInfo = vpnInfoWithTierSettings(null, null, 0)
-        Assert.assertTrue(vpnInfo.hasNoConnectionsAssigned)
-        Assert.assertFalse(vpnInfo.userTierUnknown)
-    }
-
-    @Test
-    fun oneConnectionsAssigned() {
-        val vpnInfo = vpnInfoWithTierSettings(null, null, 1)
-        Assert.assertTrue(vpnInfo.hasNoConnectionsAssigned)
-        Assert.assertFalse(vpnInfo.userTierUnknown)
-    }
-
-    @Test
     fun unknownTier() {
         val vpnInfo = vpnInfoWithTierSettings(null, null, 20)
         Assert.assertTrue(vpnInfo.userTierUnknown)
-        Assert.assertFalse(vpnInfo.hasNoConnectionsAssigned)
     }
 
     @Test
     fun tierAndPlanSet() {
         val vpnInfo = vpnInfoWithTierSettings("free", 0, 20)
         Assert.assertFalse(vpnInfo.userTierUnknown)
-        Assert.assertFalse(vpnInfo.hasNoConnectionsAssigned)
     }
 
     private fun vpnInfoWithTierSettings(tierName: String?, maxTier: Int?, maxConnect: Int) =

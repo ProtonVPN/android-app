@@ -31,6 +31,7 @@ import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.auth.usecase.VpnLogin
+import com.protonvpn.android.auth.usecase.VpnLogin.Companion.isErrorNoConnectionsAssigned
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.managed.ManagedConfig
@@ -171,15 +172,15 @@ class TvLoginViewModel @Inject constructor(
         when (val infoResult = api.getVPNInfo(loginResponse.sessionId)) {
             is ApiResult.Error -> {
                 accountManager.removeAccount(userId)
-                state.value = infoResult.toLoginError()
+                if (infoResult.isErrorNoConnectionsAssigned()) {
+                    state.value = TvLoginViewState.ConnectionAllocationPrompt
+                } else {
+                    state.value = infoResult.toLoginError()
+                }
             }
             is ApiResult.Success -> {
                 val vpnInfo = infoResult.value.vpnInfo
                 when {
-                    vpnInfo.hasNoConnectionsAssigned -> {
-                        accountManager.removeAccount(userId)
-                        state.value = TvLoginViewState.ConnectionAllocationPrompt
-                    }
                     vpnInfo.userTierUnknown -> {
                         accountManager.removeAccount(userId)
                         state.value = TvLoginViewState.Error(R.string.loaderErrorGeneric, R.string.try_again)
