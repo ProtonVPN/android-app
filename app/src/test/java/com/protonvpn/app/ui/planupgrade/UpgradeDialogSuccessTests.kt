@@ -22,6 +22,7 @@ import android.app.Activity
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess
 import com.protonvpn.android.utils.UserPlanManager
@@ -80,7 +81,15 @@ class UpgradeDialogSuccessTests {
         testScope = TestScope(UnconfinedTestDispatcher())
         testUserProvider = TestCurrentUserProvider(TestUser.sameIdFreeUser.vpnUser)
         userPlanManager = UserPlanManager(
-            mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true), { 0L }, mockk(), mockk()
+            mainScope = testScope.backgroundScope,
+            api = mockk(relaxed = true),
+            currentUser = mockk(relaxed = true),
+            setVpnUser = mockk(relaxed = true),
+            managedConfig = ManagedConfig(MutableStateFlow(null)),
+            periodicUpdateManager = mockk(relaxed = true),
+            wallClock = { 0L },
+            loggedIn = mockk(),
+            inForeground = mockk()
         )
         currentUser = CurrentUser(testUserProvider)
         every { foregroundActivityTracker.foregroundActivityFlow } returns foregroundActivityFlow

@@ -20,18 +20,8 @@
 package com.protonvpn.android.auth.usecase
 
 import android.content.Context
-import com.protonvpn.android.api.GuestHole
-import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
-import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.di.WallClock
-import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.logging.UserPlanChanged
-import com.protonvpn.android.logging.toLog
-import com.protonvpn.android.managed.ManagedConfig
-import com.protonvpn.android.models.login.toVpnUserEntity
-import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.Reusable
 import kotlinx.coroutines.async
@@ -45,62 +35,30 @@ import me.proton.core.auth.presentation.R as AuthR
 
 @Reusable
 class VpnLogin @Inject constructor(
-    private val api: ProtonApiRetroFit,
     private val sessionProvider: SessionProvider,
     private val certificateRepository: CertificateRepository,
     private val purchaseEnabled: CachedPurchaseEnabled,
     private val appConfig: AppConfig,
-    private val serverListUpdater: ServerListUpdater,
-    private val guestHole: GuestHole,
-    private val setVpnUser: SetVpnUser,
-    @WallClock private val wallClock: () -> Long,
-    private val managedConfig: ManagedConfig
 ) {
     sealed class Result {
-        class Success(val vpnUser: VpnUser) : Result()
+        object Success : Result()
         class Error(val message: String) : Result()
-        object AssignConnections : Result()
     }
 
     suspend operator fun invoke(user: User, context: Context): Result = coroutineScope {
         purchaseEnabled.forceRefresh()
         val sessionId = sessionProvider.getSessionId(user.userId)
         requireNotNull(sessionId)
-        // Note: all API calls need explicit sessionId!
-        val vpnInfoDeferred = async { api.getVPNInfo(sessionId) }
         val appConfigDeferred = async { appConfig.forceUpdate(user.userId) }
         val certificateDeferred = async { fetchCertificate(sessionId) }
-        val autoLoginName = managedConfig.value?.username
 
-        when (val vpnResult = vpnInfoDeferred.await()) {
-            is ApiResult.Error.Http -> {
-                if (vpnResult.isErrorNoConnectionsAssigned()) {
-                    Result.AssignConnections
-                } else {
-                    Result.Error(vpnResult.proton?.error ?: context.getString(AuthR.string.auth_login_general_error))
-                }
-            }
-            is ApiResult.Error ->
-                Result.Error(context.getString(AuthR.string.auth_login_general_error))
-            is ApiResult.Success -> {
-                val vpnInfo = vpnResult.value.vpnInfo
-                when {
-                    vpnInfo.userTierUnknown ->
-                        Result.Error(context.getString(AuthR.string.auth_login_general_error))
-                    else -> {
-                        val appConfigResult = appConfigDeferred.await()
-                        val certificateFetched = certificateDeferred.await()
-                        if (certificateFetched && appConfigResult.isSuccess) {
-                            val vpnUser = vpnResult.value.toVpnUserEntity(user.userId, sessionId, wallClock(), autoLoginName)
-                            finalizeLogin(vpnUser)
-                            Result.Success(vpnUser)
-                        } else {
-                            val appConfigError = (appConfigResult as? ApiResult.Error.Http)?.proton?.error
-                            Result.Error(appConfigError ?: context.getString(AuthR.string.auth_login_general_error))
-                        }
-                    }
-                }
-            }
+        val appConfigResult = appConfigDeferred.await()
+        val certificateFetched = certificateDeferred.await()
+        if (certificateFetched && appConfigResult.isSuccess) {
+            Result.Success
+        } else {
+            val appConfigError = (appConfigResult as? ApiResult.Error.Http)?.proton?.error
+            Result.Error(appConfigError ?: context.getString(AuthR.string.auth_login_general_error))
         }
     }
 
@@ -108,21 +66,5 @@ class VpnLogin @Inject constructor(
         certificateRepository.generateNewKey(sessionId)
         val certificateResult = certificateRepository.updateCertificate(sessionId, false)
         return certificateResult is CertificateRepository.CertificateResult.Success
-    }
-
-    private suspend fun finalizeLogin(vpnUser: VpnUser) {
-        ProtonLogger.log(UserPlanChanged, "logged in: ${vpnUser.toLog()}")
-        setVpnUser(vpnUser)
-        if (guestHole.isGuestHoleActive)
-            serverListUpdater.updateServerList()
-        guestHole.releaseNeedGuestHole(GUEST_HOLE_ID)
-    }
-
-    companion object {
-        private const val ERROR_CODE_NO_CONNECTIONS_ASSIGNED = 86_300
-        const val GUEST_HOLE_ID = "LOGIN_SIGNUP"
-
-        fun ApiResult<*>.isErrorNoConnectionsAssigned(): Boolean =
-            (this as? ApiResult.Error.Http)?.proton?.code == ERROR_CODE_NO_CONNECTIONS_ASSIGNED
     }
 }

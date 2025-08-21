@@ -24,77 +24,141 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
+import com.protonvpn.android.api.GuestHole
+import com.protonvpn.android.appconfig.periodicupdates.UpdateState
+import com.protonvpn.android.auth.LOGIN_GUEST_HOLE_ID
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.PartialJointUserInfo
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.openUrl
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val GUEST_HOLE_ID = "ServerLoadingViewModel"
+
+// TODO: rename the class
 @HiltViewModel
 class ServerLoadingViewModel @Inject constructor(
+    private val mainScope: CoroutineScope,
     serverManager: ServerManager2,
     private val serverListUpdater: ServerListUpdater,
+    currentUser: CurrentUser,
+    private val userPlanManager: UserPlanManager,
+    private val guestHole: GuestHole,
 ) : ViewModel() {
 
-    private val loaderState = MutableStateFlow<LoaderState>(LoaderState.Loading)
+    private val serversLoaderState = combine(
+        serverListUpdater.updateState,
+        serverManager.hasAnyCountryFlow,
+        serverManager.hasAnyGatewaysFlow,
+    ) { updateState, hasCountries, hasGateways ->
+        if (isServerListReady(hasCountries, hasGateways)) {
+            LoaderState.Loaded
+        } else {
+            when (updateState) {
+                is UpdateState.Idle -> {
+                    when (updateState.lastResult) {
+                        is UpdateServerListFromApi.Result.Error -> LoaderState.Error.RequestFailed(::updateServerList)
+                        UpdateServerListFromApi.Result.Success ->
+                            LoaderState.Error.NoCountriesNoGateways(::updateServerList)
+                        null -> LoaderState.Error.RequestFailed(::updateServerList)
+                    }
+                }
 
-    init {
-        viewModelScope.launch {
-            val isDownloaded = serverManager.isDownloadedAtLeastOnceFlow.first()
-
-            if (isDownloaded) {
-                loaderState.value = LoaderState.Loaded
-            } else {
-                updateServerList()
+                UpdateState.Updating -> LoaderState.Loading
             }
         }
     }
 
-    val serverLoadingState = combine(
-        loaderState,
-        serverManager.hasAnyCountryFlow,
-        serverManager.hasAnyGatewaysFlow,
-    ) { loaderState, hasCountries, hasGateways ->
-        when (loaderState) {
-            is LoaderState.Error,
-            LoaderState.Loading -> loaderState
+    private val usersLoaderState = combine(
+        userPlanManager.updateState,
+        currentUser.partialJointUserFlow,
+    ) { updateState, partialUser ->
+        if (isUserReady(partialUser)) {
+            LoaderState.Loaded
+        } else {
+            when (updateState) {
+                is UpdateState.Idle -> {
+                    when (updateState.lastResult) {
+                        UserPlanManager.UpdateResult.UpdateError -> LoaderState.Error.RequestFailed(::updateVpnUser)
+                        UserPlanManager.UpdateResult.NoConnectionsAssigned ->
+                            LoaderState.Error.DisabledByAdmin(::updateVpnUser)
+                        null -> LoaderState.Error.RequestFailed(::updateVpnUser)
+                        // Set loading because Success should only be reported when a valid user is being set to DB.
+                        // The next update emitted by partialJointUserFlow should include VpnUser and switch state to
+                        // Loaded.
+                        UserPlanManager.UpdateResult.Success -> LoaderState.Loading
+                    }
+                }
 
-            LoaderState.Loaded -> {
-                if(!hasCountries && !hasGateways) LoaderState.Error.NoCountriesNoGateways
-                else loaderState
+                UpdateState.Updating -> LoaderState.Loading
             }
+        }
+    }
+
+    val loadingState = combine(usersLoaderState, serversLoaderState) { userState, serversState ->
+        if (userState != LoaderState.Loaded) {
+            userState
+        } else {
+            serversState
         }
     }
         .distinctUntilChanged()
+        .onEach {
+            if (it == LoaderState.Loaded) {
+                releaseGuestHolesLocks()
+            } else {
+                guestHole.acquireNeedGuestHole(GUEST_HOLE_ID)
+            }
+        }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
             initialValue = null
         )
 
-    fun updateServerList() {
-        viewModelScope.launch {
-            loaderState.value = LoaderState.Loading
-
-            val result = serverListUpdater.updateServerList(forceFreshUpdate = true)
-
-            loaderState.value = if (result == UpdateServerListFromApi.Result.Success) {
-                LoaderState.Loaded
-            } else {
-                LoaderState.Error.RequestFailed
-            }
+    override fun onCleared() {
+        viewModelScope.launch(NonCancellable) {
+            releaseGuestHolesLocks()
         }
     }
+
+    private suspend fun releaseGuestHolesLocks() {
+        guestHole.releaseNeedGuestHole(LOGIN_GUEST_HOLE_ID)
+        guestHole.releaseNeedGuestHole(GUEST_HOLE_ID)
+    }
+
+    private fun updateServerList() {
+        mainScope.launch {
+            serverListUpdater.updateServerList(forceFreshUpdate = true)
+        }
+    }
+
+    private fun updateVpnUser() {
+        mainScope.launch {
+            userPlanManager.refreshVpnInfo()
+        }
+    }
+
+    private fun isServerListReady(hasCountries: Boolean, hasServers: Boolean): Boolean =
+        hasCountries || hasServers
+
+    // Note: this condition is a bit weak.
+    private fun isUserReady(partialJointUserInfo: PartialJointUserInfo): Boolean =
+        partialJointUserInfo.user != null && partialJointUserInfo.vpnUser != null
 
     sealed interface LoaderState {
 
@@ -107,23 +171,25 @@ class ServerLoadingViewModel @Inject constructor(
             @StringRes val helpResId: Int?,
             val linkAnnotationAction: ((Context) -> Unit)?,
         ) : LoaderState {
+            abstract val retryAction: () -> Unit
 
             @StringRes
             val titleResId: Int = R.string.no_connections_title
 
-            data object DisabledByAdmin : Error(
+            data class DisabledByAdmin(override val retryAction: () -> Unit) : Error(
                 descriptionResId = R.string.no_connections_description_no_servers,
                 helpResId = R.string.no_connections_help_follow_instructions,
                 linkAnnotationAction = { context -> context.openUrl(url = Constants.URL_ENABLE_VPN_CONNECTION) },
             )
 
-            data object NoCountriesNoGateways : Error(
+            data class NoCountriesNoGateways(override val retryAction: () -> Unit) : Error(
                 descriptionResId = R.string.no_connections_description_no_servers,
                 helpResId = null,
                 linkAnnotationAction = null,
             )
 
-            data object RequestFailed : Error(
+            // The description is intentionally the same for servers and VPN user.
+            data class RequestFailed(override val retryAction: () -> Unit) : Error(
                 descriptionResId = R.string.no_connections_description_loading_error,
                 helpResId = R.string.no_connections_help_contact_us,
                 linkAnnotationAction = { context ->

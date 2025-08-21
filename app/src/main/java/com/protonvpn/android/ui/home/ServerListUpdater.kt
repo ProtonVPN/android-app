@@ -25,13 +25,14 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
 import com.protonvpn.android.appconfig.periodicupdates.IsLoggedIn
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
-import com.protonvpn.android.appconfig.periodicupdates.PeriodicApiCallResult
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
+import com.protonvpn.android.appconfig.periodicupdates.UpdateState
 import com.protonvpn.android.appconfig.periodicupdates.registerAction
 import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
 import com.protonvpn.android.appconfig.periodicupdates.toPeriodicActionResult
+import com.protonvpn.android.appconfig.periodicupdates.withUpdateState
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
@@ -55,6 +56,7 @@ import kotlinx.coroutines.ExperimentalForInheritanceCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
@@ -108,6 +110,8 @@ class ServerListUpdater @Inject constructor(
     // Country and ISP are used by "Report an issue" form.
     val lastKnownCountry: String? get() = prefs.lastKnownCountry
     val lastKnownIsp: String? get() = prefs.lastKnownIsp
+
+    val updateState = MutableStateFlow<UpdateState<UpdateServerListFromApi.Result>>(UpdateState.Idle(null))
 
     private val isDisconnected = vpnStateMonitor.status.map { it.state == VpnState.Disabled }
 
@@ -279,13 +283,19 @@ class ServerListUpdater @Inject constructor(
 
     @VisibleForTesting
     suspend fun updateServers(): PeriodicActionResult<UpdateServerListFromApi.Result> = coroutineScope {
-        guestHole.runWithGuestHoleFallback {
-            updateServerListFromApi(
-                netzone = getNetZone(),
-                lang = Locale.getDefault().language,
-                freeOnly = freeOnlyUpdateNeeded(),
-                serverListLastModified = prefs.serverListLastModified
-            )
+        withUpdateState(
+            updateState,
+            resultMapper = { it.result },
+            exceptionError = UpdateServerListFromApi.Result.Error(null),
+        ) {
+            guestHole.runWithGuestHoleFallback {
+                updateServerListFromApi(
+                    netzone = getNetZone(),
+                    lang = Locale.getDefault().language,
+                    freeOnly = freeOnlyUpdateNeeded(),
+                    serverListLastModified = prefs.serverListLastModified
+                )
+            }
         }
     }
 
@@ -305,7 +315,6 @@ class ServerListUpdater @Inject constructor(
         private val STREAMING_CALL_DELAY = TimeUnit.DAYS.toMillis(2)
         private val SERVER_COUNT_CALL_DELAY = TimeUnit.DAYS.toMillis(7)
         private val SERVER_COUNT_ERROR_DELAY = TimeUnit.DAYS.toMillis(1)
-        private const val HTTP_NOT_MODIFIED_304 = 304
     }
 }
 

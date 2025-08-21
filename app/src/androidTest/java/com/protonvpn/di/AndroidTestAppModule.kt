@@ -20,6 +20,8 @@ package com.protonvpn.di
 
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
+import com.protonvpn.android.auth.usecase.SetVpnUser
+import com.protonvpn.android.auth.usecase.SetVpnUserImpl
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatus
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatusImpl
@@ -61,6 +63,9 @@ object AndroidTestScopeAppModule {
         @Binds
         @Singleton
         fun provideCurrentUserProvider(impl: DefaultCurrentUserProvider): CurrentUserProvider
+
+        @Binds
+        fun provideSetVpnUser(setVpnUser: SetVpnUserImpl): SetVpnUser
 
         @Binds
         fun provideUpdateServersWithBinaryStatus(impl: UpdateServersWithBinaryStatusImpl): UpdateServersWithBinaryStatus

@@ -22,7 +22,6 @@ package com.protonvpn.android.managed
 import android.content.Intent
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.logging.LogCategory
@@ -42,6 +41,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import me.proton.core.user.domain.entity.User
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -88,12 +88,12 @@ class AutoLoginManager @Inject constructor(
                         }
                         _state.value = AutoLoginState.Disabled
                     } else {
-                        currentUser.vpnUserFlow.collect { vpnUser ->
-                            if (vpnUser != null && vpnUser.autoLoginName == config.username) {
+                        currentUser.partialJointUserFlow.collect { (user, vpnUser, _) ->
+                            if (user != null && user.name == config.username) {
                                 _state.value = AutoLoginState.Success
                             } else {
                                 // This will trigger re-login if user is logged out.
-                                login(vpnUser, config)
+                                login(user, config)
                             }
                         }
                     }
@@ -101,7 +101,7 @@ class AutoLoginManager @Inject constructor(
         }
     }
 
-    private fun login(current: VpnUser?, config: AutoLoginConfig) : Job {
+    private fun login(loggedInUser: User?, config: AutoLoginConfig) : Job {
         val oldLogin = ongoingLogin
         ProtonLogger.logCustom(LogCategory.MANAGED_CONFIG, "Initiating auto-login (replacing ongoing = ${oldLogin != null})")
         val job = mainScope.launch {
@@ -109,7 +109,7 @@ class AutoLoginManager @Inject constructor(
             _state.value = AutoLoginState.Ongoing
             resetUiForAutoLogin.onAutoLoginStarted()
             oldLogin?.cancelAndJoin()
-            if (current != null) {
+            if (loggedInUser != null) {
                 logout()
             }
             val result = autoLogin.execute(config)
@@ -144,7 +144,7 @@ class AutoLoginManager @Inject constructor(
             if (config == null)
                 _state.value = AutoLoginState.Disabled
             else
-                login(currentUser.vpnUser(), config)
+                login(currentUser.user(), config)
         }
     }
 }

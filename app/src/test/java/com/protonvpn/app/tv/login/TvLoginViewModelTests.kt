@@ -28,7 +28,7 @@ import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.auth.usecase.SetVpnUser
+import com.protonvpn.android.auth.usecase.SetVpnUserImpl
 import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.VPNInfo
@@ -80,8 +80,6 @@ class TvLoginViewModelTests {
     private lateinit var vpnUserDao: VpnUserDao
     @RelaxedMockK
     private lateinit var accountManager: AccountManager
-    @RelaxedMockK
-    private lateinit var guestHole: GuestHole
 
     private lateinit var currentUser: CurrentUser
     private lateinit var testScope: TestScope
@@ -119,10 +117,9 @@ class TvLoginViewModelTests {
 
     @Test
     fun successfulLogin() = testScope.runTest {
-        val setVpnUser = SetVpnUser(vpnUserDao, currentUser)
+        val setVpnUser = SetVpnUserImpl(vpnUserDao, currentUser)
         val viewModel = TvLoginViewModel(currentUser, setVpnUser, appConfig, api, serverListUpdater, serverManager,
-            accountManager, monoClockMs = { currentTime }, wallClock = { currentTime },
-            guestHole = guestHole, managedConfig = managedConfig
+            accountManager, monoClockMs = { currentTime }, wallClock = { currentTime }, managedConfig = managedConfig
         )
         val insertedVpnUser = slot<VpnUser>()
         coEvery { vpnUserDao.insertOrUpdate(capture(insertedVpnUser)) } returns Unit
@@ -145,10 +142,10 @@ class TvLoginViewModelTests {
 
     @Test
     fun vpnConnectionAllocationNeeded() = testScope.runTest {
-        val setVpnUser = SetVpnUser(vpnUserDao, currentUser)
+        val setVpnUser = SetVpnUserImpl(vpnUserDao, currentUser)
         val viewModel = TvLoginViewModel(currentUser, setVpnUser, appConfig, api,
             serverListUpdater, serverManager, accountManager, monoClockMs = { currentTime }, wallClock= { currentTime },
-            guestHole = guestHole, managedConfig = managedConfig)
+            managedConfig = managedConfig)
         coEvery { api.getVPNInfo(any()) } returns noConnectionsVpnInfoResponse
         viewModel.startLogin(this)
         advanceUntilIdle()

@@ -67,10 +67,6 @@ class TvMainActivity : BaseTvActivity() {
                     add(R.id.container, TvMainFragment::class.java, null)
                 }
         }
-
-        override fun onAssignConnectionNeeded() {
-            // Ignore. Handled in TvLoginActivity.
-        }
     }
 
     private val loginLauncher = registerForActivityResult(TvLoginActivity.createContract()) {

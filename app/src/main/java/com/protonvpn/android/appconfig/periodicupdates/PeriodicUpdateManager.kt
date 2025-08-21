@@ -137,9 +137,71 @@ open class PeriodicActionResult<R>(
  *
  * See the documentation for public methods for more information.
  */
+interface PeriodicUpdateManager {
+    // To avoid unnecessary rescheduling of WorkManager (which is expensive) when application is starting call start()
+    // after all app modules had a chance to register their actions.
+    fun start()
+
+    /**
+     * Register a periodic update action.
+     * The action will be executed according to the provided PeriodicUpdateSpec(s): when conditions are met the action
+     * is executed repeatedly with the delay defined by the PeriodicUpdateSpec. If multiple PeriodicUpdateSpecs are
+     * provided the first one whose conditions are met is executed (put more specific ones first and general ones at the
+     * end).
+     * The delay time can be overridden by the executed action, see PeriodicCallResult.nextCallDelayOverride.
+     *
+     * Random jitter is added to all delays.
+     *
+     * Registering the same action again overwrites its previous updateSpec.
+     *
+     * Example:
+     *    // Execute an action every minute while the app is in foreground, every 60 minutes otherwise.
+     *    periodicUpdateManager.registerAction(
+     *        updateAction,
+     *        PeriodicUpdateSpec(60_000, setOf(inForeground)),
+     *        PeriodicUpdateSpec(60 * 60_000, emptySet())
+     *    )
+     *
+     * @see registerAction
+     * @see registerApiCall
+     */
+    fun <T, R> registerUpdateAction(action: UpdateAction<T, R>, vararg updateSpec: PeriodicUpdateSpec)
+
+    fun unregister(action: UpdateAction<*, *>)
+
+    /**
+     * Execute an action explicitly, regardless of whether it's pending or if conditions for executing it are met.
+     * Time of next periodic execution will be computed based on this call.
+     *
+     * Example:
+     *     fun updateFoo(): PeriodicActionResult<FooResult>
+     *     val updateFooAction = periodicUpdateManager.registerAction("foo", ::updateFoo, PeriodicUpdateSpec(...))
+     *
+     *     val result: FooResult = periodicUpdateManager.executeNow(updateFooAction)
+     *
+     * @return API result with the response or error.
+     */
+    suspend fun <T, R> executeNow(action: UpdateAction<T, R>): R
+
+    /**
+     * Same as executeNow() but for actions with an input parameter.
+     *
+     * Example:
+     *     fun updateBar(id: String): PeriodicActionResult<BarResult> { ... }
+     *     fun getDefaultId(): String = ...
+     *     val updateBarAction =
+     *         periodicUpdateManager.registerAction("bar", ::updateFoo, ::getDefaultId, PeriodicUpdateSpec(...))
+     *
+     *     val result: BarResult = periodicUpdateManager.executeNow(updateBarAction, "custom ID")
+     */
+    suspend fun <T, R> executeNow(action: UpdateAction<T, R>, input: T): R
+
+    suspend fun processPeriodic()
+}
+
 @OptIn(ExperimentalCoroutinesApi::class)
 @Singleton
-class PeriodicUpdateManager @Inject constructor(
+class PeriodicUpdateManagerImpl @Inject constructor(
     private val mainScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     @WallClock private val clock: () -> Long,
@@ -148,7 +210,7 @@ class PeriodicUpdateManager @Inject constructor(
     private val appInUseMonitor: AppInUseMonitor,
     private val networkManager: NetworkManager,
     private val random: Random
-) {
+) : PeriodicUpdateManager {
 
     private val allConditions = MutableStateFlow<Set<UpdateCondition>>(emptySet())
     private val trueConditionsFlow: Flow<Set<UpdateCondition>> = allConditions.flatMapLatest { conditions ->
@@ -182,9 +244,7 @@ class PeriodicUpdateManager @Inject constructor(
 
     private val started = CompletableDeferred<Unit>()
 
-    // To avoid unnecessary rescheduling of WorkManager (which is expensive) when application is starting call start()
-    // after all app modules had a chance to register their actions.
-    fun start() {
+    override fun start() {
         mainScope.launch {
             periodicUpdatesDao.getAll().associateByTo(previousCalls) { it.id }
             started.complete(Unit)
@@ -207,66 +267,20 @@ class PeriodicUpdateManager @Inject constructor(
         }
     }
 
-    /**
-     * Register a periodic update action.
-     * The action will be executed according to the provided PeriodicUpdateSpec(s): when conditions are met the action
-     * is executed repeatedly with the delay defined by the PeriodicUpdateSpec. If multiple PeriodicUpdateSpecs are
-     * provided the first one whose conditions are met is executed (put more specific ones first and general ones at the
-     * end).
-     * The delay time can be overridden by the executed action, see PeriodicCallResult.nextCallDelayOverride.
-     *
-     * Random jitter is added to all delays.
-     *
-     * Registering the same action again overwrites its previous updateSpec.
-     *
-     * Example:
-     *    // Execute an action every minute while the app is in foreground, every 60 minutes otherwise.
-     *    periodicUpdateManager.registerAction(
-     *        updateAction,
-     *        PeriodicUpdateSpec(60_000, setOf(inForeground)),
-     *        PeriodicUpdateSpec(60 * 60_000, emptySet())
-     *    )
-     *
-     * @see registerAction
-     * @see registerApiCall
-     */
-    fun <T, R> registerUpdateAction(action: UpdateAction<T, R>, vararg updateSpec: PeriodicUpdateSpec) {
+    override fun <T, R> registerUpdateAction(action: UpdateAction<T, R>, vararg updateSpec: PeriodicUpdateSpec) {
         updateActions[action.id] = Action(updateSpec.asList(), action)
         onActionsChanged()
     }
 
-    fun unregister(action: UpdateAction<*, *>) {
+    override fun unregister(action: UpdateAction<*, *>) {
         updateActions.remove(action.id)
         onActionsChanged()
     }
 
-    /**
-     * Execute an action explicitly, regardless of whether it's pending or if conditions for executing it are met.
-     * Time of next periodic execution will be computed based on this call.
-     *
-     * Example:
-     *     fun updateFoo(): PeriodicActionResult<FooResult>
-     *     val updateFooAction = periodicUpdateManager.registerAction("foo", ::updateFoo, PeriodicUpdateSpec(...))
-     *
-     *     val result: FooResult = periodicUpdateManager.executeNow(updateFooAction)
-     *
-     * @return API result with the response or error.
-     */
-    suspend fun <T, R> executeNow(action: UpdateAction<T, R>): R =
+    override suspend fun <T, R> executeNow(action: UpdateAction<T, R>): R =
         executeNow(action, action.defaultInput())
 
-    /**
-     * Same as executeNow() but for actions with an input parameter.
-     *
-     * Example:
-     *     fun updateBar(id: String): PeriodicActionResult<BarResult> { ... }
-     *     fun getDefaultId(): String = ...
-     *     val updateBarAction =
-     *         periodicUpdateManager.registerAction("bar", ::updateFoo, ::getDefaultId, PeriodicUpdateSpec(...))
-     *
-     *     val result: BarResult = periodicUpdateManager.executeNow(updateBarAction, "custom ID")
-     */
-    suspend fun <T, R> executeNow(action: UpdateAction<T, R>, input: T): R =
+    override suspend fun <T, R> executeNow(action: UpdateAction<T, R>, input: T): R =
         // Explicitly execute on main thread. It's a workaround for LoginTestRule that executes login on a test thread.
         withContext(dispatcherProvider.Main) {
             // If this action is executing wait for it to finish.
@@ -276,7 +290,7 @@ class PeriodicUpdateManager @Inject constructor(
             }.result
         }
 
-    suspend fun processPeriodic() {
+    override suspend fun processPeriodic() {
         started.await()
         if (networkManager.isConnectedToNetwork()) {
             executePendingPeriodic(trueConditions)

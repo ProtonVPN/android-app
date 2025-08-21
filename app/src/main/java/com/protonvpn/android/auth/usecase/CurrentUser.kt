@@ -32,15 +32,16 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import me.proton.core.account.domain.entity.AccountState
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.accountmanager.domain.getPrimaryAccount
 import me.proton.core.domain.entity.SessionUserId
@@ -82,7 +83,10 @@ class DefaultCurrentUserProvider @Inject constructor(
             // value atm)
             invalidate.collectLatest { version ->
                 accountManager.getPrimaryAccount()
-                    .map { account -> account?.userId to account?.sessionId }
+                    .map { account ->
+                        val activeAccount = account?.takeIf { it.state != AccountState.Disabled }
+                        activeAccount?.userId to activeAccount?.sessionId
+                    }
                     .distinctUntilChanged()
                     .flatMapLatest { (userId, sessionId) ->
                         when (userId) {
@@ -123,8 +127,12 @@ class CurrentUser @Inject constructor(
     val userFlow = provider.partialJointUserFlow.map { it.user }.distinctUntilChanged()
     val sessionIdFlow = provider.partialJointUserFlow.map { it.sessionId }.distinctUntilChanged()
 
+    val partialJointUserFlow = provider.partialJointUserFlow
     // Will serve only users that have non-null user and vpnUser and sessionId
     val jointUserFlow = provider.partialJointUserFlow.map { it.toJointUserInfo() }.distinctUntilChanged()
+
+    val eventPartialLogin = partialJointUserFlow.map { it.user }.withPrevious()
+        .filter { (previous, new) -> new?.userId != null && previous?.userId != new.userId }
 
     val eventVpnLogin = vpnUserFlow.withPrevious()
         .filter { (previous, new) ->

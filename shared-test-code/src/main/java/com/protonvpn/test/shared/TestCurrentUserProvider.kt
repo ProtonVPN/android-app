@@ -25,11 +25,13 @@ import com.protonvpn.android.auth.usecase.PartialJointUserInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import me.proton.core.network.domain.session.SessionId
 import me.proton.core.user.domain.entity.User
 
 class TestCurrentUserProvider(
     vpnUser: VpnUser?,
     user: User? = null,
+    noVpnUserSessionId: SessionId? = null,
 ) : CurrentUserProvider {
 
     private val mutableVpnUserFlow = MutableStateFlow(vpnUser)
@@ -48,7 +50,7 @@ class TestCurrentUserProvider(
     }
 
     override val partialJointUserFlow: Flow<PartialJointUserInfo> = combine(mutableUserFlow, mutableVpnUserFlow) { accountUser, vpnUser ->
-        PartialJointUserInfo(accountUser, vpnUser, vpnUser?.sessionId)
+        PartialJointUserInfo(accountUser, vpnUser, vpnUser?.sessionId ?: noVpnUserSessionId)
     }
 
     fun set(vpnUser: VpnUser?, user: User?) {

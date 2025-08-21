@@ -30,7 +30,7 @@ import com.protonvpn.android.ui.noconnections.NoConnectionsScreen
 fun NoConnectionsScreen_DisabledByAdmin() {
     ProtonVpnPreview(addSurface = false) {
         NoConnectionsScreen(
-            state = LoaderState.Error.DisabledByAdmin,
+            state = LoaderState.Error.DisabledByAdmin({}),
             onRefresh = {},
             onLogout = {},
         )
@@ -42,7 +42,7 @@ fun NoConnectionsScreen_DisabledByAdmin() {
 fun NoConnectionsScreen_NoCountriesNoGateways() {
     ProtonVpnPreview(addSurface = false) {
         NoConnectionsScreen(
-            state = LoaderState.Error.NoCountriesNoGateways,
+            state = LoaderState.Error.NoCountriesNoGateways({}),
             onRefresh = {},
             onLogout = {},
         )
@@ -54,7 +54,7 @@ fun NoConnectionsScreen_NoCountriesNoGateways() {
 fun NoConnectionsScreen_RequestFailed() {
     ProtonVpnPreview(addSurface = false) {
         NoConnectionsScreen(
-            state = LoaderState.Error.RequestFailed,
+            state = LoaderState.Error.RequestFailed({}),
             onRefresh = {},
             onLogout = {},
         )

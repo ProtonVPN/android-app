@@ -409,9 +409,6 @@
             android:name=".ui.login.TroubleshootActivity"
             android:label="@string/activityTroubleshootTitle" />
         <activity
-            android:name=".ui.login.AssignVpnConnectionActivity"
-            android:label="@string/activityTroubleshootTitle" />
-        <activity
             android:name=".ui.settings.SettingsSplitTunnelAppsActivity" />
         <activity
             android:name=".ui.settings.SettingsSplitTunnelIpsActivity" />

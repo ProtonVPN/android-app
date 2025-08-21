@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Proton AG
+ * Copyright (c) 2025. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,28 +17,13 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.auth.usecase
+package com.protonvpn.test.shared
 
 import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.auth.data.VpnUserDao
-import dagger.Reusable
-import javax.inject.Inject
+import com.protonvpn.android.auth.usecase.SetVpnUser
 
-interface SetVpnUser {
-    suspend operator fun invoke(vpnUser: VpnUser?)
-}
-
-@Reusable
-class SetVpnUserImpl @Inject constructor(
-    private val vpnUserDao: VpnUserDao,
-    private val currentUser: CurrentUser
-) : SetVpnUser {
-    override suspend operator fun invoke(vpnUser: VpnUser?) {
-        if (vpnUser != null) {
-            vpnUserDao.insertOrUpdate(vpnUser)
-        } else {
-            currentUser.vpnUser()?.let { vpnUserDao.delete(it) }
-        }
-        currentUser.invalidateCache()
+class TestSetVpnUser(private val testCurrentUserProvider: TestCurrentUserProvider) : SetVpnUser {
+    override suspend fun invoke(vpnUser: VpnUser?) {
+        testCurrentUserProvider.vpnUser = vpnUser
     }
 }

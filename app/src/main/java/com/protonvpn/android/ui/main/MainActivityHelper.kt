@@ -37,7 +37,6 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
             init(activity)
 
             onAddAccountClosed = activity::finish
-            onAssignConnectionHandler = this@MainActivityHelper::onAssignConnectionNeeded
 
             eventForceUpdate.launchAndCollectIn(activity) {
                 activity.startActivity(ForceUpdateActivity(activity, it, Constants.FORCE_UPDATE_URL))
@@ -58,7 +57,6 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
 
     abstract suspend fun onLoginNeeded()
     abstract suspend fun onReady()
-    abstract fun onAssignConnectionNeeded()
 
     private suspend fun onStateChange(state: AccountViewModel.State) = when (state) {
         AccountViewModel.State.LoginNeeded ->

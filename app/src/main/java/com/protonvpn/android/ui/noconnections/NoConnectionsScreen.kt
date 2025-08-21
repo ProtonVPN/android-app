@@ -127,9 +127,9 @@ private class NoConnectionsScreenParameterProvider : PreviewParameterProvider<Lo
 
     override val values: Sequence<LoaderState.Error>
         get() = sequenceOf(
-            LoaderState.Error.DisabledByAdmin,
-            LoaderState.Error.NoCountriesNoGateways,
-            LoaderState.Error.RequestFailed,
+            LoaderState.Error.DisabledByAdmin({}),
+            LoaderState.Error.NoCountriesNoGateways({}),
+            LoaderState.Error.RequestFailed({}),
         )
 
 }

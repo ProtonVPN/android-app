@@ -24,6 +24,7 @@ import com.protonvpn.android.appconfig.periodicupdates.MAX_JITTER_RATIO
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicCallInfo
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManagerImpl
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateScheduler
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdatesDao
@@ -114,7 +115,7 @@ class PeriodicUpdateManagerTests {
         every { mockAppInUseMonitor.isInUseFlow } returns appInUseFlow
         every { mockScheduler.eventProcessPeriodicUpdates } returns emptyFlow()
 
-        periodicUpdateManager = PeriodicUpdateManager(
+        periodicUpdateManager = PeriodicUpdateManagerImpl(
             testScope.backgroundScope,
             TestDispatcherProvider(dispatcher),
             testScope::currentTime,

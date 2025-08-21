@@ -24,20 +24,30 @@ import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
 import com.protonvpn.android.appconfig.periodicupdates.IsLoggedIn
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
+import com.protonvpn.android.appconfig.periodicupdates.UpdateState
 import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
+import com.protonvpn.android.appconfig.periodicupdates.withUpdateState
 import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.isErrorNoConnectionsAssigned
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanChanged
 import com.protonvpn.android.logging.toLog
+import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onEach
 import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -45,9 +55,11 @@ import javax.inject.Singleton
 
 @Singleton
 class UserPlanManager @Inject constructor(
+    mainScope: CoroutineScope,
     private val api: ProtonApiRetroFit,
     private val currentUser: CurrentUser,
     private val setVpnUser: SetVpnUser,
+    private val managedConfig: ManagedConfig,
     private val periodicUpdateManager: PeriodicUpdateManager,
     @WallClock private val wallClock: () -> Long,
     @IsLoggedIn loggedIn: Flow<Boolean>,
@@ -79,24 +91,65 @@ class UserPlanManager @Inject constructor(
         changes.firstOrNull { it is InfoChange.PlanChange } as? InfoChange.PlanChange
     }
 
+    enum class UpdateResult {
+        Success, UpdateError, NoConnectionsAssigned
+    }
+
+    val updateState = MutableStateFlow<UpdateState<UpdateResult>>(UpdateState.Idle(null))
+
+    init {
+        currentUser.eventPartialLogin
+            .onEach { refreshVpnInfo() }
+            .launchIn(mainScope)
+    }
+
     suspend fun refreshVpnInfo(): ApiResult<VpnInfoResponse> =
         periodicUpdateManager.executeNow(vpnInfoUpdate)
 
     @VisibleForTesting
-    suspend fun refreshVpnInfoInternal(): ApiResult<VpnInfoResponse> {
+    suspend fun refreshVpnInfoInternal(): ApiResult<VpnInfoResponse> =  withUpdateState(
+        updateState,
+        resultMapper = { result ->
+            when {
+                result.isSuccess -> UpdateResult.Success
+                result.isErrorNoConnectionsAssigned() -> UpdateResult.NoConnectionsAssigned
+                else -> UpdateResult.UpdateError
+            }
+        },
+        exceptionError = UpdateResult.UpdateError
+    ) {
         val result = api.getVPNInfo()
-        val changes = result.valueOrNull?.let { vpnInfoResponse ->
-            currentUser.vpnUser()?.let { currentUserInfo ->
-                val newUserInfo =
-                    with(currentUserInfo) { vpnInfoResponse.toVpnUserEntity(userId, sessionId, wallClock(), autoLoginName) }
-                setVpnUser(newUserInfo)
-                computeUserInfoChanges(currentUserInfo, newUserInfo)
+        if (result.isErrorNoConnectionsAssigned()) {
+            setVpnUser(null)
+        } else {
+            val changes = result.valueOrNull?.let { vpnInfoResponse ->
+                val currentUserInfo = currentUser.vpnUser()
+                if (currentUserInfo != null) {
+                    val newUserInfo = with(currentUserInfo) {
+                        vpnInfoResponse.toVpnUserEntity(userId, sessionId, wallClock(), autoLoginName)
+                    }
+                    setVpnUser(newUserInfo)
+                    computeUserInfoChanges(currentUserInfo, newUserInfo)
+                } else {
+                    val (user, _, sessionId) = currentUser.partialJointUserFlow.first()
+                    if (user != null && sessionId != null) {
+                        val autoLoginName = managedConfig.value?.username
+                        val newUserInfo =
+                            vpnInfoResponse.toVpnUserEntity(user.userId, sessionId, wallClock(), autoLoginName)
+                        setVpnUser(newUserInfo)
+                        ProtonLogger.log(UserPlanChanged, "logged in: ${newUserInfo.toLog()}")
+                        null
+                    } else {
+                        ProtonLogger.logCustom(LogCategory.USER, "Missing user when refreshing VPN user")
+                        null
+                    }
+                }
+            }
+            changes.whenNotNullNorEmpty {
+                infoChangeFlow.emit(it)
             }
         }
-        changes.whenNotNullNorEmpty {
-            infoChangeFlow.emit(it)
-        }
-        return result
+        result
     }
 
     fun computeUserInfoChanges(currentUserInfo: VpnUser, newUserInfo: VpnUser): List<InfoChange> {

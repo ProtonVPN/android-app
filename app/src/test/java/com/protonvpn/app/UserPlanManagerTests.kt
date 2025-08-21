@@ -23,7 +23,8 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.auth.usecase.SetVpnUser
+import com.protonvpn.android.auth.usecase.SetVpnUserImpl
+import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
@@ -35,9 +36,11 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
@@ -56,6 +59,7 @@ class UserPlanManagerTests {
     @RelaxedMockK private lateinit var currentUser: CurrentUser
     @RelaxedMockK private lateinit var vpnUserDao: VpnUserDao
 
+    private lateinit var testScope: TestScope
     private var vpnUser: VpnUser? = null
 
     @get:Rule var rule = InstantTaskExecutorRule()
@@ -64,6 +68,7 @@ class UserPlanManagerTests {
     fun setup() {
         MockKAnnotations.init(this)
         Storage.setPreferences(mockk(relaxed = true))
+        testScope = TestScope(UnconfinedTestDispatcher())
         currentUser.mockVpnUser {
             vpnUser
         }
@@ -72,18 +77,20 @@ class UserPlanManagerTests {
             vpnUser = userSlot.captured
         }
         manager = UserPlanManager(
-            apiRetroFit,
-            currentUser,
-            SetVpnUser(vpnUserDao, currentUser),
-            mockk(relaxed = true),
+            mainScope = testScope.backgroundScope,
+            api = apiRetroFit,
+            currentUser = currentUser,
+            setVpnUser = SetVpnUserImpl(vpnUserDao, currentUser),
+            managedConfig = ManagedConfig(MutableStateFlow(null)),
+            periodicUpdateManager = mockk(relaxed = true),
             wallClock = { 0 },
-            flowOf(true),
-            flowOf(true)
+            loggedIn = flowOf(true),
+            inForeground = flowOf(true)
         )
     }
 
     @Test
-    fun planUpgradeFiresPlanChange() = runTest(UnconfinedTestDispatcher()) {
+    fun planUpgradeFiresPlanChange() = testScope.runTest {
         launch {
             val planChange = manager.planChangeFlow.first()
             with(planChange) {
@@ -96,7 +103,7 @@ class UserPlanManagerTests {
     }
 
     @Test
-    fun planChangeInTheSameTierFiresEvent() = runTest(UnconfinedTestDispatcher()) {
+    fun planChangeInTheSameTierFiresEvent() = testScope.runTest {
         launch {
             val planChange = manager.planChangeFlow.first()
             with(planChange) {
@@ -108,7 +115,7 @@ class UserPlanManagerTests {
     }
 
     @Test
-    fun credentialChangeFiresEvent() = runTest(UnconfinedTestDispatcher()) {
+    fun credentialChangeFiresEvent() = testScope.runTest {
         launch {
             assertTrue(UserPlanManager.InfoChange.VpnCredentials in manager.infoChangeFlow.first())
         }
@@ -116,7 +123,7 @@ class UserPlanManagerTests {
     }
 
     @Test
-    fun planDowngradeFiresDowngrade() = runTest(UnconfinedTestDispatcher()) {
+    fun planDowngradeFiresDowngrade() = testScope.runTest {
         launch {
             val planChange = manager.planChangeFlow.first()
             with(planChange) {

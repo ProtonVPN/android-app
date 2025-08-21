@@ -31,12 +31,12 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.AuthFlowStartHelper
-import com.protonvpn.android.auth.VpnUserCheck
+import com.protonvpn.android.auth.LOGIN_GUEST_HOLE_ID
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.managed.AutoLoginState
 import com.protonvpn.android.auth.usecase.HumanVerificationGuestHoleCheck
 import com.protonvpn.android.auth.usecase.Logout
-import com.protonvpn.android.auth.usecase.VpnLogin.Companion.GUEST_HOLE_ID
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
@@ -85,8 +85,8 @@ class AccountViewModel @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val authOrchestrator: AuthOrchestrator,
     private val accountManager: AccountManager,
+    private val currentUser: CurrentUser,
     private val vpnApiClient: VpnApiClient,
-    private val vpnUserCheck: VpnUserCheck,
     private val guestHole: dagger.Lazy<GuestHole>,
     private val humanVerificationGuestHoleCheck: HumanVerificationGuestHoleCheck,
     private val logoutUseCase: Logout,
@@ -120,7 +120,7 @@ class AccountViewModel @Inject constructor(
 
     val eventShowOnboarding = combine(
         appFeaturesPrefs.showOnboardingUserIdFlow.distinctUntilChanged(),
-        accountManager.getPrimaryUserId().distinctUntilChanged()
+        currentUser.vpnUserFlow.map { it?.userId }.distinctUntilChanged()
     ) { onboardingUserId, primaryUserId ->
         if (primaryUserId != null && primaryUserId.id == onboardingUserId) {
             primaryUserId
@@ -144,7 +144,6 @@ class AccountViewModel @Inject constructor(
 
     val eventForceUpdate get() = vpnApiClient.eventForceUpdate
     var onAddAccountClosed: (() -> Unit)? = null
-    var onAssignConnectionHandler: (() -> Unit)? = null
 
     val state =
         autoLoginManager.state.flatMapLatest { autoLoginState ->
@@ -179,15 +178,11 @@ class AccountViewModel @Inject constructor(
     fun init(activity: FragmentActivity) {
         authOrchestrator.register(activity)
 
-        vpnUserCheck.assignConnectionNeeded.onEach {
-            onAssignConnectionHandler?.invoke()
-        }.launchIn(activity.lifecycleScope)
-
         with(authOrchestrator) {
             onAddAccountResult { result ->
                 if (result == null) {
                     viewModelScope.launch {
-                        guestHole.get().releaseNeedGuestHole(GUEST_HOLE_ID)
+                        guestHole.get().releaseNeedGuestHole(LOGIN_GUEST_HOLE_ID)
                         onAddAccountClosed?.invoke()
                     }
                 } else if (result.workflow == AddAccountWorkflow.SignUp ||
@@ -222,13 +217,13 @@ class AccountViewModel @Inject constructor(
     }
 
     private fun setupGuestHoleForLoginAndSignup() = with(guestHole.get()) {
-        acquireNeedGuestHole(GUEST_HOLE_ID)
+        acquireNeedGuestHole(LOGIN_GUEST_HOLE_ID) // Released in ServerLoadingViewModel.
         humanVerificationGuestHoleCheck(viewModelScope)
     }
 
     override fun onCleared() {
         viewModelScope.launch(NonCancellable) {
-            guestHole.get().releaseNeedGuestHole(GUEST_HOLE_ID)
+            guestHole.get().releaseNeedGuestHole(LOGIN_GUEST_HOLE_ID)
         }
     }
 

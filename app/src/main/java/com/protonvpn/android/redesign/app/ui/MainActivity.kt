@@ -36,7 +36,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
@@ -58,8 +57,6 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
-import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
-import com.protonvpn.android.ui.login.TroubleshootActivity
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
@@ -120,10 +117,6 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
         override suspend fun onReady() {
             // Handled in onCreate()
-        }
-
-        override fun onAssignConnectionNeeded() {
-            startActivity(Intent(this@MainActivity, AssignVpnConnectionActivity::class.java))
         }
     }
 

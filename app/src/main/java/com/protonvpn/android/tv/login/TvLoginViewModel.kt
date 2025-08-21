@@ -23,15 +23,13 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
-import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
+import com.protonvpn.android.auth.isErrorNoConnectionsAssigned
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.SetVpnUser
-import com.protonvpn.android.auth.usecase.VpnLogin
-import com.protonvpn.android.auth.usecase.VpnLogin.Companion.isErrorNoConnectionsAssigned
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.managed.ManagedConfig
@@ -72,7 +70,6 @@ class TvLoginViewModel @Inject constructor(
     private val serverListUpdater: ServerListUpdater,
     private val serverManager: ServerManager,
     private val accountManager: AccountManager,
-    private val guestHole: GuestHole,
     @TvLoginPollDelayMs val pollDelayMs: Long = POLL_DELAY_MS,
     @ElapsedRealtimeClock private val monoClockMs: () -> Long,
     @WallClock private val wallClock: () -> Long,
@@ -201,7 +198,6 @@ class TvLoginViewModel @Inject constructor(
         appConfig.forceUpdate(userId)
         when (val result = serverListUpdater.updateServerList()) {
             UpdateServerListFromApi.Result.Success -> {
-                guestHole.releaseNeedGuestHole(VpnLogin.GUEST_HOLE_ID)
                 state.value = TvLoginViewState.Success
             }
             is UpdateServerListFromApi.Result.Error ->

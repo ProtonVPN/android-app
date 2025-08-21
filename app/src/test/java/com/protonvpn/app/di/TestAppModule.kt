@@ -21,11 +21,13 @@
 package com.protonvpn.app.di
 
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
+import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatus
 import com.protonvpn.mocks.FakeUpdateServersWithBinaryStatus
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
+import com.protonvpn.test.shared.TestSetVpnUser
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -64,6 +66,9 @@ object TestScopeAppModule {
     @Singleton
     fun provideVpnDispatcherProvider(testDispatcher: TestDispatcher): VpnDispatcherProvider = TestDispatcherProvider(testDispatcher)
 
+    @Provides
+    fun providerSetVpnUser(testCurrentUserProvider: TestCurrentUserProvider): SetVpnUser =
+        TestSetVpnUser(testCurrentUserProvider)
 
     @Module
     @InstallIn(SingletonComponent::class)

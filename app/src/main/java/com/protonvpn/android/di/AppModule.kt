@@ -44,11 +44,15 @@ import com.protonvpn.android.appconfig.UserCountryTelephonyBased
 import com.protonvpn.android.appconfig.VpnFeatureFlagContextProvider
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateScheduler
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsUpdateWorker
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManagerImpl
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerScheduler
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerSchedulerImpl
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
+import com.protonvpn.android.auth.usecase.SetVpnUser
+import com.protonvpn.android.auth.usecase.SetVpnUserImpl
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
@@ -275,6 +279,9 @@ object AppModuleProd {
         @Singleton
         @Binds
         fun provideCurrentUserProvider(provider: DefaultCurrentUserProvider): CurrentUserProvider
+
+        @Binds
+        fun providerSetVpnUser(setVpnUser: SetVpnUserImpl): SetVpnUser
     }
 }
 
@@ -450,6 +457,9 @@ object AppModule {
         fun bindIsTvNetShieldSettingFeatureFlagEnabled(
             impl: IsTvNetShieldSettingFeatureFlagEnabledImpl
         ): IsTvNetShieldSettingFeatureFlagEnabled
+
+        @Binds
+        fun bindPeriodicUpdateManager(impl: PeriodicUpdateManagerImpl): PeriodicUpdateManager
 
         @Binds
         fun bindProvideLocalNetworks(impl: ProvideLocalNetworksImpl): ProvideLocalNetworks

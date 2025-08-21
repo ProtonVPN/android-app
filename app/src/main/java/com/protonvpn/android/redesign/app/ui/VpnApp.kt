@@ -37,11 +37,11 @@ fun VpnApp(
     val rootController = rememberNavController()
     val viewModel: ServerLoadingViewModel = hiltViewModel()
 
-    when (val state = viewModel.serverLoadingState.collectAsState().value) {
+    when (val state = viewModel.loadingState.collectAsState().value) {
         is LoaderState.Error -> {
             NoConnectionsScreen(
                 state = state,
-                onRefresh = viewModel::updateServerList,
+                onRefresh = state.retryAction,
                 onLogout = coreNavigation.onSignOut,
             )
         }
