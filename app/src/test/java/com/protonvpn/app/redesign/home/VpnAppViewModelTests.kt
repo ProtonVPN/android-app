@@ -25,7 +25,7 @@ import com.protonvpn.android.appconfig.periodicupdates.UpdateState
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel
+import com.protonvpn.android.redesign.app.ui.VpnAppViewModel
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -66,7 +66,7 @@ import org.junit.Test
 import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ServerLoadingViewModelTests {
+class VpnAppViewModelTests {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -150,7 +150,7 @@ class ServerLoadingViewModelTests {
             runCurrent()
             val loaderState = expectMostRecentItem()
 
-            assertEquals(ServerLoadingViewModel.LoaderState.Loaded, loaderState)
+            assertEquals(VpnAppViewModel.LoaderState.Loaded, loaderState)
         }
     }
 
@@ -163,7 +163,7 @@ class ServerLoadingViewModelTests {
             runCurrent()
             val loaderState = expectMostRecentItem()
 
-            assertEquals(ServerLoadingViewModel.LoaderState.Loaded, loaderState)
+            assertEquals(VpnAppViewModel.LoaderState.Loaded, loaderState)
         }
     }
 
@@ -176,7 +176,7 @@ class ServerLoadingViewModelTests {
             runCurrent()
             val loaderState = expectMostRecentItem()
 
-            assertIs<ServerLoadingViewModel.LoaderState.Error.NoCountriesNoGateways>(loaderState)
+            assertIs<VpnAppViewModel.LoaderState.Error.NoCountriesNoGateways>(loaderState)
         }
     }
 
@@ -189,7 +189,7 @@ class ServerLoadingViewModelTests {
             runCurrent()
             val loaderState = expectMostRecentItem()
 
-            assertIs<ServerLoadingViewModel.LoaderState.Error.RequestFailed>(loaderState)
+            assertIs<VpnAppViewModel.LoaderState.Error.RequestFailed>(loaderState)
         }
     }
 
@@ -197,7 +197,7 @@ class ServerLoadingViewModelTests {
     fun `GIVEN servers are loaded AND there are countries WHEN observing loadingState THEN Loaded state is emitted`() = runTest {
         serverManager.setServers(listOf(createServer()), "1", null)
         val viewModel = createViewModel()
-        val expectedLoaderState = ServerLoadingViewModel.LoaderState.Loaded
+        val expectedLoaderState = VpnAppViewModel.LoaderState.Loaded
 
         viewModel.loadingState.test {
             runCurrent()
@@ -212,7 +212,7 @@ class ServerLoadingViewModelTests {
 
         viewModel.loadingState.test {
             runCurrent()
-            assertEquals(ServerLoadingViewModel.LoaderState.Loaded, expectMostRecentItem())
+            assertEquals(VpnAppViewModel.LoaderState.Loaded, expectMostRecentItem())
         }
     }
 
@@ -226,7 +226,7 @@ class ServerLoadingViewModelTests {
         userPlanManager.refreshVpnInfo()
         viewModel.loadingState.test {
             runCurrent()
-            assertIs<ServerLoadingViewModel.LoaderState.Error.DisabledByAdmin>( expectMostRecentItem())
+            assertIs<VpnAppViewModel.LoaderState.Error.DisabledByAdmin>( expectMostRecentItem())
         }
     }
 
@@ -238,12 +238,12 @@ class ServerLoadingViewModelTests {
         userPlanManager.refreshVpnInfo()
         viewModel.loadingState.test {
             runCurrent()
-            assertEquals(ServerLoadingViewModel.LoaderState.Loaded, expectMostRecentItem())
+            assertEquals(VpnAppViewModel.LoaderState.Loaded, expectMostRecentItem())
 
             coEvery { mockApi.getVPNInfo(any()) } returns vpnInfoNeedsConnectionsAssigned
             userPlanManager.refreshVpnInfo()
             runCurrent()
-            assertIs<ServerLoadingViewModel.LoaderState.Error.DisabledByAdmin>( expectMostRecentItem())
+            assertIs<VpnAppViewModel.LoaderState.Error.DisabledByAdmin>( expectMostRecentItem())
         }
     }
 
@@ -257,16 +257,16 @@ class ServerLoadingViewModelTests {
         userPlanManager.refreshVpnInfo()
         viewModel.loadingState.test {
             runCurrent()
-            assertIs<ServerLoadingViewModel.LoaderState.Error.DisabledByAdmin>(expectMostRecentItem())
+            assertIs<VpnAppViewModel.LoaderState.Error.DisabledByAdmin>(expectMostRecentItem())
 
             coEvery { mockApi.getVPNInfo(any()) } returns vpnInfoSuccessResponse
             userPlanManager.refreshVpnInfo()
             runCurrent()
-            assertEquals(ServerLoadingViewModel.LoaderState.Loaded, expectMostRecentItem())
+            assertEquals(VpnAppViewModel.LoaderState.Loaded, expectMostRecentItem())
         }
     }
 
-    private fun TestScope.createViewModel() = ServerLoadingViewModel(
+    private fun TestScope.createViewModel() = VpnAppViewModel(
         mainScope = backgroundScope,
         serverManager = serverManager2,
         serverListUpdater = mockServerListUpdater,

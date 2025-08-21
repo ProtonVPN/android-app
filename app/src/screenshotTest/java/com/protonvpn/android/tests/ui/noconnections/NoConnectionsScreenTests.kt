@@ -22,7 +22,7 @@ package com.protonvpn.android.tests.ui.noconnections
 import androidx.compose.runtime.Composable
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel.LoaderState
+import com.protonvpn.android.redesign.app.ui.VpnAppViewModel.LoaderState
 import com.protonvpn.android.ui.noconnections.NoConnectionsScreen
 
 @ProtonVpnTestPreview

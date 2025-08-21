@@ -25,7 +25,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
-import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel.LoaderState
+import com.protonvpn.android.redesign.app.ui.VpnAppViewModel.LoaderState
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultWeak
 

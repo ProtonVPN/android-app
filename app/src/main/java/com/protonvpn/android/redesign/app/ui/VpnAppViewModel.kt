@@ -47,11 +47,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val GUEST_HOLE_ID = "ServerLoadingViewModel"
+private const val GUEST_HOLE_ID = "VpnAppViewModel"
 
-// TODO: rename the class
 @HiltViewModel
-class ServerLoadingViewModel @Inject constructor(
+class VpnAppViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
     serverManager: ServerManager2,
     private val serverListUpdater: ServerListUpdater,

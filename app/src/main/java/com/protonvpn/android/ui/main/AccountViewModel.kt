@@ -217,7 +217,7 @@ class AccountViewModel @Inject constructor(
     }
 
     private fun setupGuestHoleForLoginAndSignup() = with(guestHole.get()) {
-        acquireNeedGuestHole(LOGIN_GUEST_HOLE_ID) // Released in ServerLoadingViewModel.
+        acquireNeedGuestHole(LOGIN_GUEST_HOLE_ID) // Released in VpnAppViewModel.
         humanVerificationGuestHoleCheck(viewModelScope)
     }
 
