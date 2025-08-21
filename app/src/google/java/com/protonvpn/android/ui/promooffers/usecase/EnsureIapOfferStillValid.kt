@@ -22,12 +22,15 @@ package com.protonvpn.android.ui.promooffers.usecase
 import com.protonvpn.android.appconfig.ApiNotificationIapAction
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import dagger.Reusable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.util.kotlin.equalsNoCase
 import javax.inject.Inject
 
 @Reusable
 class EnsureIapOfferStillValid @Inject constructor(
+    private val mainScope: CoroutineScope,
     private val getEligibleIntroductoryOffers: GetEligibleIntroductoryOffers,
     private val apiNotificationsManager: ApiNotificationManager
 ) {
@@ -47,7 +50,9 @@ class EnsureIapOfferStillValid @Inject constructor(
         }
         val isError = valid == null
         if (valid == false) {
-            apiNotificationsManager.forceUpdate()
+            mainScope.launch {
+                apiNotificationsManager.updateIapIntroOffers()
+            }
         }
         return valid == true || isError
     }

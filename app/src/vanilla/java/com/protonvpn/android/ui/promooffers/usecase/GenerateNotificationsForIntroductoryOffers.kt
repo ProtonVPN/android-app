@@ -23,6 +23,8 @@ import com.protonvpn.android.appconfig.ApiNotification
 import dagger.Reusable
 import javax.inject.Inject
 
+fun ApiNotification.isIntroductoryPriceOffer(): Boolean = false
+
 @Reusable
 class GenerateNotificationsForIntroductoryOffers @Inject constructor() {
 

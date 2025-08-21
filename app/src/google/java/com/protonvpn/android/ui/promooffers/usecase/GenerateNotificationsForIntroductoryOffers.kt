@@ -38,6 +38,7 @@ import com.protonvpn.android.utils.DefaultLocaleProvider
 import dagger.Reusable
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.util.kotlin.equalsNoCase
+import me.proton.core.util.kotlin.startsWith
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -51,6 +52,9 @@ private val PLAN_CYCLE = PlanCycle.MONTHLY
 
 private const val IMAGE_ASSETS_URL = "file:///android_asset/promooffers"
 private const val ANY = "any"
+
+fun ApiNotification.isIntroductoryPriceOffer(): Boolean =
+    this.id.startsWith(CAMPAIGN_NAME)
 
 @Reusable
 class GenerateNotificationsForIntroductoryOffers @Inject constructor(

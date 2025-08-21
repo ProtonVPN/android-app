@@ -32,6 +32,7 @@ import com.protonvpn.android.appconfig.ImagePrefetcher
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.promooffers.PromoOfferImage
+import com.protonvpn.android.ui.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePanel
@@ -49,7 +50,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -89,6 +89,8 @@ class ApiNotificationManagerTests {
     private lateinit var mockUserPlanManager: UserPlanManager
     @MockK
     private lateinit var mockApi: ProtonApiRetroFit
+    @MockK
+    private lateinit var mockGenerateNotificationsForIntroductoryOffers: GenerateNotificationsForIntroductoryOffers
     @RelaxedMockK
     private lateinit var mockPeriodicUpdateManager: PeriodicUpdateManager
 
@@ -133,6 +135,7 @@ class ApiNotificationManagerTests {
         every { mockAppConfig.appConfigUpdateEvent } returns MutableSharedFlow()
         every { mockAppConfig.appConfigFlow } returns appConfigFlow
         every { mockImagePrefetcher.prefetch(any()) } returns true
+        coEvery { mockGenerateNotificationsForIntroductoryOffers.invoke() } returns emptyList()
 
         infoChangeFlow = MutableSharedFlow()
         every { mockUserPlanManager.infoChangeFlow } returns infoChangeFlow
@@ -273,6 +276,39 @@ class ApiNotificationManagerTests {
         assertEquals(expectedNotificationIds, notificationIds)
     }
 
+    @Test
+    fun `notifications for intro offers are restored on restart`() = testScope.runTest {
+        mockResponse()
+        val introOffers = listOf(mockOffer("internal_intro_price_1"))
+        coEvery { mockGenerateNotificationsForIntroductoryOffers.invoke() } returns introOffers
+
+        val expectedNotificationIds = listOf("internal_intro_price_1")
+        notificationManager.updateNotifications()
+        advanceTimeBy(10_001)
+        assertEquals(expectedNotificationIds, notificationManager.activeListFlow.first().map { it.id })
+
+        val newNotificationManager = createNotificationsManager()
+        val notificationIds = newNotificationManager.activeListFlow.first().map { it.id }
+        assertEquals(expectedNotificationIds, notificationIds)
+    }
+
+    @Test
+    fun `API and generated notifications are combined and replaced`() = testScope.runTest {
+        mockResponse(mockOffer("api_offer_1"))
+        val introOffers = listOf(mockOffer("internal_intro_price_1"))
+        coEvery { mockGenerateNotificationsForIntroductoryOffers.invoke() } returns introOffers
+
+        repeat(2) {
+            notificationManager.updateNotifications()
+            advanceTimeBy(10_001)
+            assertEquals(
+                // Comparing lists, not sets, to catch duplicates.
+                listOf("api_offer_1", "internal_intro_price_1").sorted(),
+                notificationManager.activeListFlow.first().map { it.id }.sorted()
+            )
+        }
+    }
+
     private fun createNotificationsManager() = ApiNotificationManager(
         appContext = mockContext,
         mainScope = testScope.backgroundScope,
@@ -282,7 +318,7 @@ class ApiNotificationManagerTests {
         api = mockApi,
         currentUser = currentUser,
         userPlanManager = mockUserPlanManager,
-        generateNotificationsForIntroductoryOffers = mockk(relaxed = true),
+        generateNotificationsForIntroductoryOffers = mockGenerateNotificationsForIntroductoryOffers,
         imagePrefetcher = mockImagePrefetcher,
         periodicUpdateManager = mockPeriodicUpdateManager,
         inForeground = flowOf(true),

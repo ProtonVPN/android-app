@@ -34,6 +34,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.ui.promooffers.PromoOfferImage
 import com.protonvpn.android.ui.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
+import com.protonvpn.android.ui.promooffers.usecase.isIntroductoryPriceOffer
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
@@ -59,6 +60,7 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
@@ -118,16 +120,11 @@ class ApiNotificationManager @Inject constructor(
 
     private val prefetchTrigger = MutableSharedFlow<Unit>(replay = 1).apply { tryEmit(Unit) }
 
-    private val introOffersNotificationsTrigger = MutableSharedFlow<Unit>(replay = 1).apply { tryEmit(Unit) }
-    private val introOffersNotificationsFlow = introOffersNotificationsTrigger
-        .map { generateNotificationsForIntroductoryOffers() }
-
     private val allNotificationsFlow = combine(
         apiNotificationsResponse.map { response -> response.notifications },
         testNotifications,
-        introOffersNotificationsFlow,
-    ) { responseNotifications, testNotifications, introOfferNotifications ->
-        val notifications = testNotifications.ifEmpty { responseNotifications } + introOfferNotifications
+    ) { responseNotifications, testNotifications ->
+        val notifications = testNotifications.ifEmpty { responseNotifications }
         notifications.filter { notification ->
             notification.allActionNames().all { action ->  ApiNotificationActions.SUPPORTED_ACTIONS.contains(action) }
         }
@@ -195,7 +192,6 @@ class ApiNotificationManager @Inject constructor(
 
     @VisibleForTesting
     suspend fun updateNotifications(): ApiResult<ApiNotificationsResponse> {
-        introOffersNotificationsTrigger.tryEmit(Unit)
         val fullScreenImageSize = PromoOfferImage.getFullScreenImageMaxSizePx(appContext)
         val response = api.getApiNotifications(
             PromoOfferImage.SupportedFormats.entries.map { it.toString() },
@@ -203,11 +199,28 @@ class ApiNotificationManager @Inject constructor(
             fullScreenImageSize.height
         )
         response.valueOrNull?.let { notifications ->
-            apiNotificationsResponse.value = notifications
-            Storage.save(notifications, ApiNotificationsResponse::class.java)
+            replaceNotifications(notifications.notifications, iapIntroOffers = false)
         }
 
+        mainScope.launch {
+            // Checking intro offers may be a bit heavy, delay it to avoid running on start.
+            delay(10_000)
+            updateIapIntroOffers()
+        }
         return response
+    }
+
+    suspend fun updateIapIntroOffers() {
+        replaceNotifications(generateNotificationsForIntroductoryOffers(), iapIntroOffers = true)
+    }
+
+    private fun replaceNotifications(notifications: List<ApiNotification>, iapIntroOffers: Boolean) {
+        val existingNotifications = apiNotificationsResponse.value.notifications
+        val replacedNotifications =
+            existingNotifications.filterNot { it.isIntroductoryPriceOffer() == iapIntroOffers } + notifications
+        val data = ApiNotificationsResponse(replacedNotifications)
+        apiNotificationsResponse.value = data
+        Storage.save(data, ApiNotificationsResponse::class.java)
     }
 
     private fun activeNotifications(nowS: Long, notifications: List<ApiNotification>) =
