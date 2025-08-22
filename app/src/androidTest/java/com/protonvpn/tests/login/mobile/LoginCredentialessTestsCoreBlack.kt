@@ -87,7 +87,7 @@ class LoginCredentialessTestsCoreBlack : MinimalSignInGuestTests {
             .fillUsername(testUsername)
             .clickNext()
         SetPasswordRobot
-            .fillAndClickNext("123123123")
+            .fillAndClickNext("pAsword132Test#_Abcd")
 
         SignupRobot.enterRecoveryEmail("${testUsername}@proton.ch")
         HumanVerificationRobot.verifyViaEmail()

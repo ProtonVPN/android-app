@@ -46,7 +46,7 @@ object LoginRobotVpn : Robot {
 
     // TODO Refactor sign in method to not use Proton's test user.
     fun signIn(testUser: TestUser): LoginRobotVpn {
-        LoginRobot.login(testUser.email, testUser.password)
+        LoginRobot.login(testUser.email, testUser.password, isLoginTwoStepEnabled = true)
         return this
     }
 

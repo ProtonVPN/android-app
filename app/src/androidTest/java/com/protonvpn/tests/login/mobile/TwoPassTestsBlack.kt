@@ -58,7 +58,7 @@ class TwoPassTestsBlack {
     @Test
     fun signInTwoPassDoNotShowTwoPassScreen() = runTest {
         AddAccountRobot.clickSignIn()
-        SignInFlow.signInInternal(user.email, user.password)
+        SignInFlow.signInInternal(user.email, user.password, isLoginTwoStepEnabled = true)
         HomeRobot.verify { isLoggedIn() }
     }
 }

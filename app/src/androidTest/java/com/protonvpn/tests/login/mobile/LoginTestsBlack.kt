@@ -35,11 +35,14 @@ import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testsHelper.AtlasEnvVarHelper
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.serialization.SerializationException
+import me.proton.core.auth.test.robot.CredentialLessWelcomeRobot
 import me.proton.core.auth.test.robot.login.LoginLegacyRobot
 import me.proton.core.auth.test.robot.login.LoginRobot
+import me.proton.core.compose.component.PROTON_OUTLINED_TEXT_INPUT_TAG
 import me.proton.core.test.android.robots.auth.AddAccountRobot
 import me.proton.core.test.quark.Quark
 import me.proton.core.test.quark.data.User
+import me.proton.test.fusion.Fusion
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -67,13 +70,10 @@ class LoginTestsBlack {
     @Inject
     lateinit var testUserEndToEnd: TestUserEndToEnd
 
-    private lateinit var addAccountRobot: AddAccountRobot
-
     @Before
     fun setUp() {
         quark.jailUnban()
-        addAccountRobot = AddAccountRobot()
-        AddAccountRobot().signIn()
+        CredentialLessWelcomeRobot.clickSignIn()
     }
 
     @Test
@@ -89,27 +89,16 @@ class LoginTestsBlack {
     }
 
     @Test
-    fun viewPasswordIsVisible() {
-        LoginLegacyRobot.fillUsername(testUserEndToEnd.plusUser.email)
-            .fillPassword(testUserEndToEnd.plusUser.password)
-        LoginRobotVpn
-            .viewPassword()
-            .verify { passwordIsVisible(testUserEndToEnd.plusUser) }
-    }
-
-    @Test
-    fun needHelpMenuIsOpened() {
-        LoginRobotVpn.selectNeedHelp()
-            .verify { needHelpOptionsAreDisplayed() }
-    }
-
-    @Test
     fun rememberMeFunctionality() {
         LoginRobotVpn.signIn(testUserEndToEnd.plusUser)
         HomeRobot.verify { isLoggedIn() }
             .logout()
-        addAccountRobot.signIn()
-            .verify { view.withText(testUserEndToEnd.plusUser.email).checkDisplayed() }
+        CredentialLessWelcomeRobot.clickSignIn()
+        // TODO: this should be part of LoginTwoStepRobot.verify
+        Fusion.node
+            .withTag(PROTON_OUTLINED_TEXT_INPUT_TAG)
+            .withText(testUserEndToEnd.plusUser.email)
+            .assertIsDisplayed()
     }
 
     @Test
@@ -138,7 +127,8 @@ class LoginTestsBlack {
         }
         LoginRobot.login(
             specialCharsUser.name,
-            URLDecoder.decode(specialCharsUser.password, "utf-8")
+            URLDecoder.decode(specialCharsUser.password, "utf-8"),
+            isLoginTwoStepEnabled = true,
         )
         HomeRobot.verify { isLoggedIn() }
     }

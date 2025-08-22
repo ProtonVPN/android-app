@@ -13,8 +13,8 @@ import me.proton.core.accountrecovery.test.fake.FakeIsAccountRecoveryEnabled
 import me.proton.core.accountrecovery.test.fake.FakeIsAccountRecoveryResetEnabled
 import me.proton.core.auth.dagger.CoreAuthFeaturesModule
 import me.proton.core.auth.domain.feature.IsCommonPasswordCheckEnabled
-import me.proton.core.auth.domain.feature.IsFido2Enabled
 import me.proton.core.auth.domain.feature.IsCredentialLessEnabled
+import me.proton.core.auth.domain.feature.IsFido2Enabled
 import me.proton.core.auth.domain.feature.IsLoginTwoStepEnabled
 import me.proton.core.auth.domain.feature.IsSsoCustomTabEnabled
 import me.proton.core.auth.domain.feature.IsSsoEnabled
@@ -77,9 +77,38 @@ interface MockCoreFeaturesModule {
     companion object {
         @Provides
         @Singleton
-        fun provideFakeIsSsoEnabled() = FakeIsSsoEnabled(enabled = true)
+        fun provideIsLoginTwoStepEnabled() = FakeIsLoginTwoStepEnabled(true)
 
-        // NOTE: Other Fake.. classes have a default `false` value.
+        @Provides
+        @Singleton
+        fun provideIsAccountRecoveryEnabled() = FakeIsAccountRecoveryEnabled(true)
+
+        @Provides
+        @Singleton
+        fun provideIsAccountRecoveryResetEnabled() = FakeIsAccountRecoveryResetEnabled(true)
+
+        @Provides
+        @Singleton
+        fun provideIsCredentialLessEnabled() = FakeIsCredentialLessEnabled(true)
+
+        @Provides
+        @Singleton
+        fun provideIsSsoCustomTabEnabled() = FakeIsSsoCustomTabEnabled(true)
+
+        @Provides
+        @Singleton
+        fun provideIsSsoEnabled() = FakeIsSsoEnabled(true)
+
+        @Provides
+        @Singleton
+        fun provideIsNotificationsEnabled() = FakeIsNotificationsEnabled(true)
+
+        @Provides
+        @Singleton
+        fun provideIsCommonPasswordCheckEnabled() = FakeIsCommonPasswordCheckEnabled(true)
+
+        @Provides
+        @Singleton
+        fun provideIsFido2Enabled() = FakeIsFido2Enabled(true)
     }
 }
-

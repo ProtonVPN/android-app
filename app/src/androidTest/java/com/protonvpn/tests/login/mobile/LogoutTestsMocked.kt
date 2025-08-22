@@ -30,10 +30,12 @@ import com.protonvpn.interfaces.verify
 import com.protonvpn.testRules.CommonRuleChains.mockedLoggedInRule
 import com.protonvpn.testsHelper.ServerManagerHelper
 import dagger.hilt.android.testing.HiltAndroidTest
+import me.proton.test.fusion.Fusion
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import me.proton.core.auth.presentation.R as AuthR
 
 /**
  * [LogoutTestsMocked] contains tests related to Logout process
@@ -54,7 +56,7 @@ class LogoutTestsMocked {
     @Test
     fun successfulLogout() {
         HomeRobot.logout()
-            .verify { addAccountElementsDisplayed() }
+            .verify { credentiallessWelcomeScreenDisplayed() }
     }
 
     @Test
@@ -76,6 +78,10 @@ class LogoutTestsMocked {
         HomeRobot.logout()
         HomeRobot.verify { signOutWarningMessageIsDisplayed() }
         HomeRobot.confirmLogout()
-            .verify { addAccountElementsDisplayed() }
+            .verify { credentiallessWelcomeScreenDisplayed() }
     }
+
+    // TODO: add verify functionality to CredentialLessWelcomeRobot.
+    private fun credentiallessWelcomeScreenDisplayed() =
+        Fusion.view.withId(AuthR.id.sign_in_guest).checkIsDisplayed()
 }

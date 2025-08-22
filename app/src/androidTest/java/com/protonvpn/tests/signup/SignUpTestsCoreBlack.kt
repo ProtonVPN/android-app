@@ -25,14 +25,15 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.filters.LargeTest
 import androidx.test.filters.SdkSuppress
 import com.protonvpn.android.redesign.app.ui.MainActivity
+import com.protonvpn.interfaces.verify
 import com.protonvpn.robots.mobile.HomeRobot
 import com.protonvpn.robots.mobile.HumanVerificationRobot
 import com.protonvpn.robots.mobile.OnboardingRobot
 import com.protonvpn.robots.mobile.SignupRobot
-import com.protonvpn.interfaces.verify
 import com.protonvpn.testRules.CommonRuleChains.realBackendRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.test.MinimalSignUpExternalTests
+import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import me.proton.core.auth.test.robot.signup.CongratsRobot
 import me.proton.core.auth.test.robot.signup.SetPasswordRobot
 import me.proton.core.auth.test.robot.signup.SignUpRobot
@@ -46,6 +47,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
+import org.junit.runners.model.Statement
 import javax.inject.Inject
 
 @LargeTest
@@ -53,24 +55,36 @@ import javax.inject.Inject
 @HiltAndroidTest
 class SignupTests : MinimalSignUpExternalTests {
 
-    @get:Rule
-    val rule: RuleChain = realBackendRule()
-        .around(AcceptExternalRule { extraHeaderProvider })
-        .around(createAndroidComposeRule<MainActivity>().apply {
-            FusionConfig.Compose.testRule.set(this)
-        })
+    private inner class DisableCredentialLess(private val base: Statement) : Statement() {
+        override fun evaluate() {
+            isCredentialLessEnabled.localEnabled = false
+            isCredentialLessEnabled.remoteDisabled = suspend { true }
+            println("### isCredentialLessEnabled $isCredentialLessEnabled")
+            base.evaluate()
+        }
+    }
 
     @Inject
     lateinit var extraHeaderProvider: ExtraHeaderProvider
     @Inject
     lateinit var quark: Quark
+    @Inject
+    lateinit var isCredentialLessEnabled: FakeIsCredentialLessEnabled
+
+    @get:Rule
+    val rule: RuleChain = realBackendRule()
+        .around { statement, _ -> DisableCredentialLess(statement) }
+        .around(AcceptExternalRule { extraHeaderProvider })
+        .around(createAndroidComposeRule<MainActivity>().apply {
+            FusionConfig.Compose.testRule.set(this)
+        })
+
+    private val isCongratsDisplayed = false
 
     @Before
     fun setUp() {
         quark.jailUnban()
     }
-
-    private val isCongratsDisplayed = false
 
     @Test
     // TODO Migrate this test to core
@@ -86,7 +100,7 @@ class SignupTests : MinimalSignUpExternalTests {
             .fillUsername(testUsername)
             .clickNext()
         SetPasswordRobot
-            .fillAndClickNext("123123123")
+            .fillAndClickNext(String.random(12))
 
         SignupRobot.enterRecoveryEmail("${testUsername}@proton.ch")
         HumanVerificationRobot.verifyViaEmail()
