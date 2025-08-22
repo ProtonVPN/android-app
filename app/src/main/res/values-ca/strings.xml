@@ -543,8 +543,6 @@
     <string name="payment_welcome_price_message_annual">Oferta de benvinguda. Es renova automàticament a %1$s/any.</string>
     <string name="payment_auto_renew_message_monthly">La subscripció es renova automàticament a %1$s/mes.</string>
     <string name="payment_auto_renew_message_annual">La subscripció es renova automàticament a %1$s/any.</string>
-    <string name="payment_welcome_price_message_monthly_fallback">La subscripció es renova automàticament cada mes.</string>
-    <string name="payment_welcome_price_message_annual_fallback">La subscripció es renova automàticament cada any.</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Aquesta tecnologia permet a Proton VPN proporcionar una major velocitat i seguretat en països on és difícil prestar servei.</string>
     <string name="tor_title">Tor</string>
@@ -1525,4 +1523,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Avantatges</string>
     <string name="settings_lan_allow_direct_connection_title">Connexions directes de dispositius</string>
     <string name="settings_lan_allow_direct_connection_description">Connecteu-vos a Smart TVs, Android Auto i altres dispositius que creen la seva pròpia xarxa. Per a màxima seguretat, activeu-ho només quan us connecteu a aquests dispositius.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">No hi ha connexions VPN disponibles</string>
+    <string name="no_connections_description_loading_error">No s\'ha pogut carregar la llista de servidors.</string>
+    <string name="no_connections_description_no_servers">Demaneu al vostre administrador que habiliti l\'accés a la VPN per al vostre compte.</string>
+    <string name="no_connections_action_refresh">Actualitza</string>
+    <string name="no_connections_action_sign_out">Tanqueu la sessió</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Us cal ajuda? <a href="">Contacteu amb nosaltres</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Si el vostre administrador necessita ajuda per habilitar l\'accés a la VPN, envieu-li <a href="">aquestes instruccions</a>.]]></string>
 </resources>

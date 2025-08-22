@@ -576,8 +576,6 @@
     <string name="payment_welcome_price_message_annual">Ponudba dobrodošlice. Samodejno se obnovi po ceni %1$s/leto</string>
     <string name="payment_auto_renew_message_monthly">Naročnina se samodejno obnovi po ceni %1$s/mesec</string>
     <string name="payment_auto_renew_message_annual">Naročnina se samodejno obnovi po ceni %1$s/leto</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Naročnina se samodejno obnovi mesečno</string>
-    <string name="payment_welcome_price_message_annual_fallback">Naročnina se samodejno obnovi letno</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ta tehnologija omogoča Proton VPN, da zagotavlja višjo hitrost in varnost v državah, kjer je storitev otežena.</string>
     <string name="tor_title">Tor</string>
@@ -1599,4 +1597,12 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Prednosti</string>
     <string name="settings_lan_allow_direct_connection_title">Omogoči neposredne povezave naprav</string>
     <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">No VPN connections available</string>
+    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
+    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
+    <string name="no_connections_action_refresh">Refresh</string>
+    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
 </resources>

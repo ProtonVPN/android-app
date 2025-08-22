@@ -575,8 +575,6 @@
     <string name="payment_welcome_price_message_annual">Uvítací nabídka. Obnovuje se automaticky za %1$s/rok</string>
     <string name="payment_auto_renew_message_monthly">Předplatné se automaticky obnovuje za %1$s/měsíc</string>
     <string name="payment_auto_renew_message_annual">Předplatné se automaticky obnovuje za %1$s/rok</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Předplatné se automaticky obnovuje každý měsíc.</string>
-    <string name="payment_welcome_price_message_annual_fallback">Předplatné se automaticky obnovuje každý rok.</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Tato technologie umožňuje, aby aplikace Proton VPN byly rychlejší a bezpečnější v zemích, které nerespektují soukromí.</string>
     <string name="tor_title">Tor</string>
@@ -1597,4 +1595,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Výhody</string>
     <string name="settings_lan_allow_direct_connection_title">Povolit přímé připojení zařízení</string>
     <string name="settings_lan_allow_direct_connection_description">Připojte se k chytrým TV, Android Auto a dalším zařízením, která vytvářejí vlastní síť. Pro maximální zabezpečení povolte tuto funkci pouze při připojování k těmto zařízením.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">Nejsou dostupná žádná VPN připojení</string>
+    <string name="no_connections_description_loading_error">Nepodařilo se nám načíst seznam serverů.</string>
+    <string name="no_connections_description_no_servers">Požádejte svého administrátora, aby povolil přístup k VPN pro váš účet.</string>
+    <string name="no_connections_action_refresh">Obnovit</string>
+    <string name="no_connections_action_sign_out">Odhlásit se</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Potřebujete pomoc? <a href="">Kontaktujte nás</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Pokud váš administrátor potřebuje pomoc s povolením přístupu VPN, odešlete mu <a href="">tyto instrukce</a>]]></string>
 </resources>

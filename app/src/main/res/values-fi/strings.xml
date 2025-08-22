@@ -543,8 +543,6 @@
     <string name="payment_welcome_price_message_annual">Tervetuliaistarjous. Uudistuu automaattisesti hintaan %1$s/vuosi.</string>
     <string name="payment_auto_renew_message_monthly">Tilaus uudistuu automaattisesti hintaan %1$s/kuukausi.</string>
     <string name="payment_auto_renew_message_annual">Tilaus uudistuu automaattisesti hintaan %1$s/vuosi.</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Tilaus uudistuu automaattisesti kuukausittain</string>
-    <string name="payment_welcome_price_message_annual_fallback">Tilaus uudistuu automaattisesti vuosittain</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Tämän tekniikan ansiosta Proton VPN voi tarjota paremman nopeuden ja suojauksen vaikeasti palveltavissa maissa.</string>
     <string name="tor_title">Tor</string>
@@ -1525,4 +1523,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Edut</string>
     <string name="settings_lan_allow_direct_connection_title">Salli suorat laiteyhteydet</string>
     <string name="settings_lan_allow_direct_connection_description">Yhdistä älytelevisioihin, Android Autoon ja muihin oman verkkonsa luoviin laitteisiin. Parhaan turvallisuuden takaamiseksi ota tämä toiminto käyttöön vain silloin, kun yhdistät näihin laitteisiin.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">No VPN connections available</string>
+    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
+    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
+    <string name="no_connections_action_refresh">Refresh</string>
+    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
 </resources>

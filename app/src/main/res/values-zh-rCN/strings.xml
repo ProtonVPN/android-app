@@ -527,8 +527,6 @@
     <string name="payment_welcome_price_message_annual">新人特惠。自动续订 %1$s/年</string>
     <string name="payment_auto_renew_message_monthly">订阅自动续订，每月 %1$s</string>
     <string name="payment_auto_renew_message_annual">订阅自动续订，每年 %1$s</string>
-    <string name="payment_welcome_price_message_monthly_fallback">每月自动续订</string>
-    <string name="payment_welcome_price_message_annual_fallback">每年自动续订</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">这项技术让 Proton VPN 在难以服务的地域更快更安全。</string>
     <string name="tor_title">Tor</string>
@@ -1489,4 +1487,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">优点</string>
     <string name="settings_lan_allow_direct_connection_title">允许设备直连</string>
     <string name="settings_lan_allow_direct_connection_description">连接智能电视、Android Auto 和其他可创建自己网络的设备。为获得最大的安全性，请仅在连接这些设备时启用。</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">No VPN connections available</string>
+    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
+    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
+    <string name="no_connections_action_refresh">Refresh</string>
+    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
 </resources>

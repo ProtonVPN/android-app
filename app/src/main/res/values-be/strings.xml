@@ -575,8 +575,6 @@
     <string name="payment_welcome_price_message_annual">Вітальная прапанова. Аўтаматычнае падаўжэнне за %1$s у год</string>
     <string name="payment_auto_renew_message_monthly">Падпіска будзе аўтаматычна падаўжацца за %1$s у месяц</string>
     <string name="payment_auto_renew_message_annual">Падпіска будзе аўтаматычна падаўжацца за %1$s у год</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Падпіска будзе аўтаматычна падаўжацца штомесяц</string>
-    <string name="payment_welcome_price_message_annual_fallback">Падпіска будзе аўтаматычна падаўжацца штогод</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Гэта тэхналогія дазваляе Proton VPN забяспечваць больш высокую хуткасць і бяспеку ў краінах, дзе ёсць праблемы з прыватнасцю.</string>
     <string name="tor_title">Tor</string>
@@ -1597,4 +1595,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Перавагі</string>
     <string name="settings_lan_allow_direct_connection_title">Дазволіць прамыя падключэнні прылад</string>
     <string name="settings_lan_allow_direct_connection_description">Падключыць да Smart TV, Android Auto і іншых прылад, якія ствараюць сваю ўласную сетку. Для максімальнай бяспекі ўключайце толькі пры падключэнні да гэтых прылад.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">Няма даступных VPN-падключэнняў</string>
+    <string name="no_connections_description_loading_error">Немагчыма загрузіць спіс сервераў.</string>
+    <string name="no_connections_description_no_servers">Запытайце ў вашага адміністратара ўключыць доступ да VPN для вашага ўліковага запісу.</string>
+    <string name="no_connections_action_refresh">Абнавіць</string>
+    <string name="no_connections_action_sign_out">Выйсці з уліковага запісу</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Патрэбна дапамога? <a href="">Звяжыцеся з намі</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Калі вашаму адміністратару патрэбна дапамога ва ўключэнні доступу да VPN, адпраўце ім <a href="">гэтыя інструкцыі</a>.]]></string>
 </resources>

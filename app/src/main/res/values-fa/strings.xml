@@ -543,8 +543,6 @@
     <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
     <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
     <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">این فناوری به Proton VPN اجازه می‌دهد تا در کشورهایی که ارائهٔ خدمات در آن‌ها دشوار است، سرعت و امنیت بالاتری را ارائه کند.</string>
     <string name="tor_title">Tor</string>
@@ -1525,4 +1523,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
     <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
     <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">No VPN connections available</string>
+    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
+    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
+    <string name="no_connections_action_refresh">Refresh</string>
+    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
 </resources>

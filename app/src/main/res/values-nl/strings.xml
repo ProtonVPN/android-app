@@ -543,8 +543,6 @@
     <string name="payment_welcome_price_message_annual">Welkomstaanbod. Verlengt automatisch voor %1$s per jaar</string>
     <string name="payment_auto_renew_message_monthly">Abonnement wordt automatisch verlengd voor %1$s per maand</string>
     <string name="payment_auto_renew_message_annual">Abonnement wordt automatisch verlengd voor %1$s per jaar</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Abonnement wordt maandelijks automatisch verlengd</string>
-    <string name="payment_welcome_price_message_annual_fallback">Abonnement wordt jaarlijks automatisch verlengd</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Met deze technologie kan Proton VPN hogere snelheid en beveiliging bieden in landen waar de toegang tot VPNs beperkt is.</string>
     <string name="tor_title">Tor</string>
@@ -1525,4 +1523,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Voordelen</string>
     <string name="settings_lan_allow_direct_connection_title">Directe apparaatverbindingen toestaan</string>
     <string name="settings_lan_allow_direct_connection_description">Verbinden met Smart-tv\'s, Android Auto en andere apparaten die hun eigen netwerk creëren. Voor maximale beveiliging schakelt u dit alleen in wanneer u verbinding maakt met deze apparaten.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">Geen VPN-verbindingen beschikbaar</string>
+    <string name="no_connections_description_loading_error">De serverlijst kon niet worden geladen.</string>
+    <string name="no_connections_description_no_servers">Vraag uw beheerder om VPN-toegang voor uw account in te schakelen.</string>
+    <string name="no_connections_action_refresh">Vernieuwen</string>
+    <string name="no_connections_action_sign_out">Uitloggen</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Hulp nodig? <a href="">Neem contact met ons op</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Als uw beheerder hulp nodig heeft bij het inschakelen van VPN-toegang, stuur hen dan <a href="">deze instructies</a>.]]></string>
 </resources>

@@ -575,8 +575,6 @@
     <string name="payment_welcome_price_message_annual">Пропозиція для нових користувачів. Автоматично поновлюється за %1$s/рік</string>
     <string name="payment_auto_renew_message_monthly">Передплата автоматично поновлюється за %1$s/місяць</string>
     <string name="payment_auto_renew_message_annual">Передплата автоматично поновлюється за %1$s/рік</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Передплата автоматично поновлюється щомісяця</string>
-    <string name="payment_welcome_price_message_annual_fallback">Передплата автоматично поновлюється щороку</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ця технологія дає змогу Proton VPN забезпечити вищу швидкість та безпеку в країнах з ускладненим обслуговуванням.</string>
     <string name="tor_title">Tor</string>
@@ -1597,4 +1595,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Переваги</string>
     <string name="settings_lan_allow_direct_connection_title">Дозволити прямі з\'єднання пристроїв</string>
     <string name="settings_lan_allow_direct_connection_description">Під\'єднуйтеся до Smart TV, Android Auto та інших пристроїв, що створюють власну мережу. Для максимальної безпеки вмикайте лише під час з\'єднання з цими пристроями.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">Немає доступних VPN з\'єднань</string>
+    <string name="no_connections_description_loading_error">Не вдалося завантажити список серверів.</string>
+    <string name="no_connections_description_no_servers">Попросіть свого адміністратора увімкнути доступ до VPN для вашого облікового запису.</string>
+    <string name="no_connections_action_refresh">Оновити</string>
+    <string name="no_connections_action_sign_out">Вийти</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Потрібна допомога? <a href="">Зв\'яжіться з нами</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Якщо ваш адміністратор потребує допомоги в увімкненні VPN-доступу, надішліть йому <a href="">ці інструкції</a>.]]></string>
 </resources>

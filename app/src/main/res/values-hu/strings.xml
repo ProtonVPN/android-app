@@ -543,8 +543,6 @@
     <string name="payment_welcome_price_message_annual">Üdvözlő ajánlat. Automatikusan megújul %1$s/év áron</string>
     <string name="payment_auto_renew_message_monthly">Az előfizetés automatikusan megújul %1$s/hónap áron</string>
     <string name="payment_auto_renew_message_annual">Az előfizetés automatikusan megújul %1$s/év áron</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Az előfizetés havonta automatikusan megújul</string>
-    <string name="payment_welcome_price_message_annual_fallback">Az előfizetés évente automatikusan megújul</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ez a technológia lehetővé teszi, hogy a Proton VPN nagyobb sebességet és biztonságot adjon a nehezen kiszolgálható országokban.</string>
     <string name="tor_title">Tor</string>
@@ -1525,4 +1523,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Előnyök</string>
     <string name="settings_lan_allow_direct_connection_title">Közvetlen eszköz kapcsolatok engedélyezése</string>
     <string name="settings_lan_allow_direct_connection_description">Kapcsolódás okostévéhez, Android Autóhoz és egyéb olyan eszközökhöz, amelyek saját hálózatot hoznak létre. A maximális biztonság érdekében csak akkor engedélyezze, amikor ezekhez az eszközökhöz kapcsolódik.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">No VPN connections available</string>
+    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
+    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
+    <string name="no_connections_action_refresh">Refresh</string>
+    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
 </resources>

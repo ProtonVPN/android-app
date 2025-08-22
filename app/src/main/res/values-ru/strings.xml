@@ -575,8 +575,6 @@
     <string name="payment_welcome_price_message_annual">Приветственное предложение. Автоматическое продление по цене %1$s/в год</string>
     <string name="payment_auto_renew_message_monthly">Подписка автоматически продлевается за %1$s в месяц</string>
     <string name="payment_auto_renew_message_annual">Подписка автоматически продлевается за %1$s в год</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Подписка автоматически обновляется каждый месяц</string>
-    <string name="payment_welcome_price_message_annual_fallback">Подписка автоматически продлевается ежегодно</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Эта технология позволяет Proton VPN обеспечивать более высокую скорость и безопасность в трудных для обслуживания странах.</string>
     <string name="tor_title">Tor</string>
@@ -1598,4 +1596,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Преимущества</string>
     <string name="settings_lan_allow_direct_connection_title">Разрешить прямые подключения устройств</string>
     <string name="settings_lan_allow_direct_connection_description">Подключайтесь к Smart TV, Android Auto и другим устройствам, создающим собственную сеть. Для обеспечения максимальной защищенности всегда включайте эту функцию при подключении к этим устройствам.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">No VPN connections available</string>
+    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
+    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
+    <string name="no_connections_action_refresh">Refresh</string>
+    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
 </resources>

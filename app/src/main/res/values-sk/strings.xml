@@ -575,8 +575,6 @@
     <string name="payment_welcome_price_message_annual">Uvítacia ponuka. Automatické obnovenie za %1$s/rok</string>
     <string name="payment_auto_renew_message_monthly">Predplatné sa automaticky obnovuje za %1$s/mesiac</string>
     <string name="payment_auto_renew_message_annual">Predplatné sa automaticky obnovuje za %1$s/rok</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Predplatné sa automaticky obnovuje každý mesiac</string>
-    <string name="payment_welcome_price_message_annual_fallback">Predplatné sa automaticky obnovuje každý rok</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Táto technológia umožňuje aplikácii Proton VPN poskytovať vyššiu rýchlosť a bezpečnosť v ťažko dostupných krajinách.</string>
     <string name="tor_title">Tor</string>
@@ -1597,4 +1595,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Výhody</string>
     <string name="settings_lan_allow_direct_connection_title">Povoliť priame pripojenia zariadení</string>
     <string name="settings_lan_allow_direct_connection_description">Pripojenie k inteligentným televízorom, systému Android Auto a ďalším zariadeniam, ktoré vytvárajú vlastnú sieť. V záujme maximálneho zabezpečenia povoľte túto funkciu len pri pripájaní k týmto zariadeniam.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">No VPN connections available</string>
+    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
+    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
+    <string name="no_connections_action_refresh">Refresh</string>
+    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
 </resources>

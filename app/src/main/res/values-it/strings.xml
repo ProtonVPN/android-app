@@ -543,8 +543,6 @@
     <string name="payment_welcome_price_message_annual">Offerta di benvenuto. Si rinnova automaticamente a %1$s/anno</string>
     <string name="payment_auto_renew_message_monthly">L\'abbonamento si rinnova automaticamente a %1$s/mese</string>
     <string name="payment_auto_renew_message_annual">L\'abbonamento si rinnova automaticamente a %1$s/anno</string>
-    <string name="payment_welcome_price_message_monthly_fallback">L\'abbonamento si rinnova automaticamente ogni mese</string>
-    <string name="payment_welcome_price_message_annual_fallback">L\'abbonamento si rinnova automaticamente ogni anno</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Questa tecnologia consente a Proton VPN di fornire maggiore velocità e sicurezza in paesi difficili da servire.</string>
     <string name="tor_title">Tor</string>
@@ -1525,4 +1523,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Benefici</string>
     <string name="settings_lan_allow_direct_connection_title">Consenti connessioni dirette tra dispositivi</string>
     <string name="settings_lan_allow_direct_connection_description">Connettiti a Smart TV, Android Auto e altri dispositivi che creano la propria rete. Per la massima sicurezza, attiva solo quando ti connetti a questi dispositivi.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">Nessuna connessione VPN disponibile</string>
+    <string name="no_connections_description_loading_error">Non è stato possibile caricare l’elenco dei server.</string>
+    <string name="no_connections_description_no_servers">Chiedi al tuo amministratore di abilitare l’accesso VPN per il tuo account.</string>
+    <string name="no_connections_action_refresh">Aggiorna</string>
+    <string name="no_connections_action_sign_out">Disconnetti</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Hai bisogno di aiuto? <a href="">Contattaci</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Se il tuo amministratore ha bisogno di aiuto per abilitare l’accesso VPN, inviagli <a href="">queste istruzioni</a>]]></string>
 </resources>

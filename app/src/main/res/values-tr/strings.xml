@@ -543,8 +543,6 @@
     <string name="payment_welcome_price_message_annual">Karşılama teklifi. %1$s/yıl tutar ile otomatik olarak yenilenir</string>
     <string name="payment_auto_renew_message_monthly">Abonelik %1$s/ay tutar ile otomatik olarak yenilenir</string>
     <string name="payment_auto_renew_message_annual">Abonelik %1$s/yıl tutar ile otomatik yenilenir</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Abonelik her ay otomatik olarak yenilenir</string>
-    <string name="payment_welcome_price_message_annual_fallback">Abonelik her yıl otomatik olarak yenilenir</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Bu teknoloji, hizmet verilmesi zor ülkelerde Proton VPN için daha yüksek hız ve güvenlik sağlar.</string>
     <string name="tor_title">Tor</string>
@@ -1525,4 +1523,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">İyi yanları</string>
     <string name="settings_lan_allow_direct_connection_title">Doğrudan aygıt bağlantılarına izin verilsin</string>
     <string name="settings_lan_allow_direct_connection_description">Akıllı TV, Android Auto ve kendi ağınızdaki diğer aygıtlara bağlanın. En yüksek güvenlik için, yalnızca bu aygıtlara bağlanırken etkinleştirin.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">Kullanılabilecek bir VPN bağlantısı yok</string>
+    <string name="no_connections_description_loading_error">Sunucu listesi yüklenemedi.</string>
+    <string name="no_connections_description_no_servers">Yöneticiniz ile görüşerek hesabınız için VPN özelliğini açmasını isteyin.</string>
+    <string name="no_connections_action_refresh">Yenile</string>
+    <string name="no_connections_action_sign_out">Oturumu kapat</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Yardım mı gerekiyor? <a href="">Bize ulaşın</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Yöneticiniz VPN özelliğini açmak için yardıma gerek duyarsa, ona <a href="">bu yönergeyi</a> gönderin.]]></string>
 </resources>

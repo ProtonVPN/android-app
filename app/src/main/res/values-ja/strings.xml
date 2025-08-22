@@ -527,8 +527,6 @@
     <string name="payment_welcome_price_message_annual">歓迎オファー。%1$s/年で自動更新</string>
     <string name="payment_auto_renew_message_monthly">サブスクリプションは%1$s/月で自動更新</string>
     <string name="payment_auto_renew_message_annual">サブスクリプションは%1$s/年で自動更新</string>
-    <string name="payment_welcome_price_message_monthly_fallback">サブスクリプションは毎月自動更新</string>
-    <string name="payment_welcome_price_message_annual_fallback">サブスクリプションは毎年自動更新</string>
     <string name="smart_routing_title">スマートルーティング</string>
     <string name="smart_routing_description">この技術は Proton VPN の提供が困難な国で高速な速度とセキュリティを提供します。</string>
     <string name="tor_title">Tor</string>
@@ -1489,4 +1487,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">長所</string>
     <string name="settings_lan_allow_direct_connection_title">直接のデバイス接続を許可</string>
     <string name="settings_lan_allow_direct_connection_description">スマート TV、Android Auto、独自のネットワークを作成するその他のデバイスに接続します。最大限のセキュリティのために、これらのデバイスに接続する場合にのみ有効にしてください。</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">No VPN connections available</string>
+    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
+    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
+    <string name="no_connections_action_refresh">Refresh</string>
+    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
 </resources>

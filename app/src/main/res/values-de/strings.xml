@@ -543,8 +543,6 @@
     <string name="payment_welcome_price_message_annual">Willkommensangebot. Wird automatisch für %1$s/Jahr verlängert.</string>
     <string name="payment_auto_renew_message_monthly">Abonnement verlängert sich automatisch für %1$s/Monat</string>
     <string name="payment_auto_renew_message_annual">Abonnement verlängert sich automatisch für %1$s/Jahr</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Abonnement wird automatisch jeden Monat verlängert.</string>
-    <string name="payment_welcome_price_message_annual_fallback">Abonnement wird automatisch jedes Jahr verlängert.</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Diese Technologie ermöglicht es Proton VPN, höhere Geschwindigkeit und Sicherheit in schwer zu erreichenden Ländern zu bieten.</string>
     <string name="tor_title">Tor</string>
@@ -1525,4 +1523,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Vorteile</string>
     <string name="settings_lan_allow_direct_connection_title">Direkte Geräteverbindungen zulassen</string>
     <string name="settings_lan_allow_direct_connection_description">Verbinde dich mit Smart TVs, Android Auto und anderen Geräten, die ihr eigenes Netzwerk erstellen. Um maximale Sicherheit zu gewährleisten, aktiviere die Funktion nur, wenn du dich mit diesen Geräten verbindest.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">Keine VPN-Verbindungen verfügbar</string>
+    <string name="no_connections_description_loading_error">Die Serverliste konnte nicht geladen werden.</string>
+    <string name="no_connections_description_no_servers">Bitte deinen Administrator, den VPN-Zugang für dein Konto freizuschalten.</string>
+    <string name="no_connections_action_refresh">Aktualisieren</string>
+    <string name="no_connections_action_sign_out">Abmelden</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Hilfe gewünscht? <a href="">Kontaktieren Sie uns</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Wenn dein Administrator Hilfe bei der Aktivierung des VPN-Zugangs benötigt, sende ihm bitte <a href="">diese Anleitung</a>.]]></string>
 </resources>

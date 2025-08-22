@@ -575,8 +575,6 @@
     <string name="payment_welcome_price_message_annual">Oferta powitalna. Automatyczne odnowienie w kwocie %1$s rocznie</string>
     <string name="payment_auto_renew_message_monthly">Subskrypcja odnowi się automatycznie w kwocie %1$s miesięcznie</string>
     <string name="payment_auto_renew_message_annual">Subskrypcja odnowi się automatycznie w kwocie %1$s rocznie</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subskrypcja odnowi się automatycznie co miesiąc</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subskrypcja odnowi się automatycznie co rok</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ta technologia pozwala zapewnić aplikacji Proton VPN wyższą prędkość i bezpieczeństwo w krajach nieszanujących prywatność.</string>
     <string name="tor_title">Tor</string>
@@ -1597,4 +1595,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Zalety</string>
     <string name="settings_lan_allow_direct_connection_title">Zezwalaj na bezpośrednie połączenie z urządzeniami</string>
     <string name="settings_lan_allow_direct_connection_description">Połącz się z telewizorami, Android Auto i innymi urządzeniami, które tworzą własną sieć. Aby zapewnić maksymalne bezpieczeństwo, włącz tę funkcję tylko podczas łączenia się z tymi urządzeniami.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">Brak dostępnych połączeń VPN</string>
+    <string name="no_connections_description_loading_error">Nie mogliśmy załadować listy serwerów.</string>
+    <string name="no_connections_description_no_servers">Poproś administratora o włączenie dostępu do usługi VPN dla Twojego konta.</string>
+    <string name="no_connections_action_refresh">Odśwież</string>
+    <string name="no_connections_action_sign_out">Wyloguj</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Potrzebujesz pomocy? <a href="">Skontaktuj się z nami</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Jeśli Twój administrator potrzebuje pomocy dotyczącej włączenia dostępu do usługi VPN, wyślij mu <a href="">te instrukcje</a>.]]></string>
 </resources>

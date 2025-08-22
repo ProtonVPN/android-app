@@ -527,8 +527,6 @@
     <string name="payment_welcome_price_message_annual">迎新優惠。以 %1$s/年自動續期</string>
     <string name="payment_auto_renew_message_monthly">訂閱以 %1$s/月自動續期</string>
     <string name="payment_auto_renew_message_annual">訂閱以 %1$s/年自動續期</string>
-    <string name="payment_welcome_price_message_monthly_fallback">訂閱每月自動續期</string>
-    <string name="payment_welcome_price_message_annual_fallback">訂閱每年自動續期</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">這項技術讓 Proton VPN 可在難以提供服務的國家提供較高的速度與安全性。</string>
     <string name="tor_title">洋蔥路由器</string>
@@ -1489,4 +1487,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">優點</string>
     <string name="settings_lan_allow_direct_connection_title">允許直接裝置連線</string>
     <string name="settings_lan_allow_direct_connection_description">連接到智慧電視、Android Auto 和其他建立自身網路的裝置。為了獲得最大安全性，僅在連接到這些裝置時啟用。</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">沒有 VPN 連線可供使用</string>
+    <string name="no_connections_description_loading_error">我們無法載入伺服器列表。</string>
+    <string name="no_connections_description_no_servers">請您的管理員為您的帳號啟用 VPN 服務。</string>
+    <string name="no_connections_action_refresh">重新整理</string>
+    <string name="no_connections_action_sign_out">登出</string>
+    <string name="no_connections_help_contact_us"><![CDATA[需要協助？ <a href="">聯絡我們</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[如果您的管理員需要協助啟用 VPN 服務，請向他們發出<a href="">這些指示</a>。]]></string>
 </resources>

@@ -527,8 +527,6 @@
     <string name="payment_welcome_price_message_annual">Penawaran selamat datang. Diperbarui secara otomatis pada harga %1$s/tahun</string>
     <string name="payment_auto_renew_message_monthly">Langganan diperbarui secara otomatis pada harga %1$s/bulan</string>
     <string name="payment_auto_renew_message_annual">Langganan diperbarui secara otomatis pada harga %1$s/tahun</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Langganan diperbarui secara otomatis setiap bulan</string>
-    <string name="payment_welcome_price_message_annual_fallback">Langganan diperbarui secara otomatis setiap tahun</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Teknologi ini memungkinkan Proton VPN untuk menyediakan layanan yang lebih cepat dan lebih aman pada negara dengan pembatasan internet yang ketat.</string>
     <string name="tor_title">Tor</string>
@@ -1489,4 +1487,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Kelebihan</string>
     <string name="settings_lan_allow_direct_connection_title">Izinkan koneksi perangkat secara langsung</string>
     <string name="settings_lan_allow_direct_connection_description">Sambungkan ke TV Pintar, Android Auto, dan perangkat lain yang membuat jaringannya sendiri. Untuk keamanan maksimum, aktifkan hanya saat menyambungkan ke perangkat ini.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">Tidak ada koneksi VPN yang tersedia</string>
+    <string name="no_connections_description_loading_error">Kami tidak dapat memuat daftar server.</string>
+    <string name="no_connections_description_no_servers">Mintalah administrator Anda untuk mengaktifkan akses VPN bagi akun Anda.</string>
+    <string name="no_connections_action_refresh">Muat ulang</string>
+    <string name="no_connections_action_sign_out">Keluar</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Butuh bantuan? <a href="">Hubungi kami</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Apabila administrator Anda memerlukan bantuan untuk mengaktifkan akses VPN, kirimkan <a href="">instruksi ini</a> kepada mereka.]]></string>
 </resources>

@@ -543,8 +543,6 @@
     <string name="payment_welcome_price_message_annual">Oferta de boas-vindas. Renovação automática a %1$s/ano</string>
     <string name="payment_auto_renew_message_monthly">Renovação automática da subscrição a %1$s/mês</string>
     <string name="payment_auto_renew_message_annual">Renovação automática da subscrição a %1$s/ano</string>
-    <string name="payment_welcome_price_message_monthly_fallback">A subscrição é renovada automaticamente a cada mês.</string>
-    <string name="payment_welcome_price_message_annual_fallback">A subscrição é renovada automaticamente a cada ano.</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Esta tecnologia permite que o Proton VPN ofereça maior velocidade e segurança em países difíceis de servir.</string>
     <string name="tor_title">Tor</string>
@@ -1525,4 +1523,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Vantagens</string>
     <string name="settings_lan_allow_direct_connection_title">Permitir ligações diretas de dispositivos</string>
     <string name="settings_lan_allow_direct_connection_description">Ligue a Smart TV, Android Auto e outros dispositivos que criam a sua própria rede. Para máxima segurança, apenas ative ao ligar a estes dispositivos.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">No VPN connections available</string>
+    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
+    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
+    <string name="no_connections_action_refresh">Refresh</string>
+    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
 </resources>

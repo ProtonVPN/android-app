@@ -543,8 +543,6 @@
     <string name="payment_welcome_price_message_annual">შეთავაზება ახალი მომხამრებლებისთვის. ავტომატური განახლება ფასით %1$s/წელიწადში</string>
     <string name="payment_auto_renew_message_monthly">გამოწერა ავტომატურად განახლდება ტარიფით %1$s/თვეში</string>
     <string name="payment_auto_renew_message_annual">გამოწერა ავტომატურად განახლდება ტარიფით %1$s/წელიწადში</string>
-    <string name="payment_welcome_price_message_monthly_fallback">გამოწერა ყოველთვე განახლდება</string>
-    <string name="payment_welcome_price_message_annual_fallback">გამოწერა წელიწადში ერთხელ განახლდება</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">ეს ტექნოლოგია საშუალებას აძლევს Proton VPN-ს, მოგაწოდოთ უფრო მეტი სიჩქარე და უსაფრთხოება ძნელად მისაწვდომ ქვეყნებშიც კი.</string>
     <string name="tor_title">Tor</string>
@@ -1525,4 +1523,12 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
     <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
     <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
+    <!-- No VPN connections -->
+    <string name="no_connections_title">No VPN connections available</string>
+    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
+    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
+    <string name="no_connections_action_refresh">Refresh</string>
+    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
 </resources>
