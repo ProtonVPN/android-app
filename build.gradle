@@ -23,7 +23,7 @@ buildscript {
     // We should migrate to version catalogs as soon as IDE support is available:
     // https://issuetracker.google.com/issues/226078451
     ext.androidx_lifecycle_version = '2.8.7'
-    ext.core_version = '34.1.0'
+    ext.core_version = '34.3.0'
     ext.datastore_version = '1.1.1'
     ext.desugar_jdk_version = '2.0.4'
     ext.detekt_version = '1.23.7'
@@ -31,7 +31,7 @@ buildscript {
     // WARNING: hilt 2.51 causes runtime crashes (see breaking changes in https://github.com/google/dagger/releases/tag/dagger-2.51)
     ext.hilt_version = '2.50'
     ext.hilt_compiler_version = '1.2.0'
-    ext.govpnlib_version = '0.1.77'
+    ext.govpnlib_version = '0.1.78'
     // When updating kotlin version KSP needs to be updated as well to matching version
     ext.kotlin_version = '2.0.21'
     ext.ksp_version = '2.0.21-1.0.27'

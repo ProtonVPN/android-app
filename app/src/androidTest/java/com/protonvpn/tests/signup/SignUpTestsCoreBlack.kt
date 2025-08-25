@@ -37,8 +37,9 @@ import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import me.proton.core.auth.test.robot.signup.CongratsRobot
 import me.proton.core.auth.test.robot.signup.SetPasswordRobot
 import me.proton.core.auth.test.robot.signup.SignUpRobot
-import me.proton.core.auth.test.robot.signup.SignupInternal
+import me.proton.core.auth.test.robot.signup.SignupExternal
 import me.proton.core.auth.test.rule.AcceptExternalRule
+import me.proton.core.humanverification.test.robot.HvCodeRobot
 import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.test.quark.Quark
 import me.proton.core.util.kotlin.random
@@ -117,12 +118,10 @@ class SignupTests : MinimalSignUpExternalTests {
     override fun signupExternalAccountHappyPath() {
         val testEmail = "${String.random()}@example.com"
 
-        SignupInternal
-            .apply {
-                robotDisplayed()
-            }
-            .fillEmail(testEmail)
+        SignupExternal
+            .fillUsername(testEmail)
             .clickNext()
+        HvCodeRobot
             .fillCode()
             .clickVerify()
 

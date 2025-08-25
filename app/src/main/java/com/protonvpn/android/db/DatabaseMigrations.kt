@@ -301,4 +301,10 @@ object DatabaseMigrations {
             db.execSQL("UPDATE unnamedRecentsIntents SET lanConnectionsAllowDirect = NULL")
         }
     }
+
+    val MIGRATION_47_48 = object : Migration(47, 48) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            FeatureFlagDatabase.MIGRATION_4.migrate(db)
+        }
+    }
 }
