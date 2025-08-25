@@ -29,6 +29,7 @@ import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.core.animation.addListener
 import androidx.core.graphics.and
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.utils.inCoordsOf
 import com.protonvpn.android.utils.scale
@@ -62,7 +63,12 @@ class TvMapView @JvmOverloads constructor(
         fadeInDurationMs: Long = 0,
     ) {
         alpha = 0f
-        mapRenderer = TvMapRenderer(context, (context as ComponentActivity).lifecycleScope, config, emptySet()) { map, id ->
+        mapRenderer = TvMapRenderer(
+            context,
+            findViewTreeLifecycleOwner()!!.lifecycleScope,
+            config,
+            emptySet()
+        ) { map, id ->
             if (renderedMap == null) {
                 animate()
                     .alpha(1f)

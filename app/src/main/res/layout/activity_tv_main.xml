@@ -17,36 +17,8 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <com.protonvpn.android.tv.main.TvMapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/status"
-        android:name="com.protonvpn.android.tv.TvStatusFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
-
-    <TextView
-        android:id="@+id/versionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="32dp"
-        android:textSize="12sp"
-        android:clickable="false"
-        android:textColor="@color/shade_80"
-        tools:text="ProtonVPN v2.10.4.0"/>
-</FrameLayout>
+    xmlns:tools="http://schemas.android.com/tools"/>
