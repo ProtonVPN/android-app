@@ -29,7 +29,6 @@ import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.FragmentTvMainBinding
-import com.protonvpn.android.tv.main.TvHomeFragment
 import com.protonvpn.android.utils.CountryTools
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.viewBinding

@@ -20,19 +20,13 @@
 package com.protonvpn.app.tv.login
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
-import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.auth.usecase.SetVpnUserImpl
 import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.login.GenericResponse
-import com.protonvpn.android.models.login.VPNInfo
-import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.login.TvLoginViewState
@@ -45,7 +39,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
@@ -77,8 +70,6 @@ class TvLoginViewModelTests {
     @MockK
     private lateinit var serverManager: ServerManager
     @RelaxedMockK
-    private lateinit var vpnUserDao: VpnUserDao
-    @RelaxedMockK
     private lateinit var accountManager: AccountManager
 
     private lateinit var currentUser: CurrentUser
@@ -96,8 +87,6 @@ class TvLoginViewModelTests {
         scopes = arrayOf("scope"),
         userId = "user ID"
     )
-    private val noConnectionsVpnInfoResponse =
-        ApiResult.Error.Http(422, "no connections assigned", ApiResult.Error.ProtonData(86_300, ""))
 
     @Before
     fun setup() {
@@ -117,13 +106,15 @@ class TvLoginViewModelTests {
 
     @Test
     fun successfulLogin() = testScope.runTest {
-        val setVpnUser = SetVpnUserImpl(vpnUserDao, currentUser)
-        val viewModel = TvLoginViewModel(currentUser, setVpnUser, appConfig, api, serverListUpdater, serverManager,
-            accountManager, monoClockMs = { currentTime }, wallClock = { currentTime }, managedConfig = managedConfig
+        val viewModel = TvLoginViewModel(
+            currentUser = currentUser,
+            appConfig = appConfig,
+            api = api,
+            serverListUpdater = serverListUpdater,
+            serverManager = serverManager,
+            accountManager = accountManager,
+            monoClockMs = { currentTime },
         )
-        val insertedVpnUser = slot<VpnUser>()
-        coEvery { vpnUserDao.insertOrUpdate(capture(insertedVpnUser)) } returns Unit
-
         viewModel.onEnterScreen(this)
         assertEquals(TvLoginViewState.Welcome, viewModel.state.value)
 
@@ -134,23 +125,7 @@ class TvLoginViewModelTests {
         advanceUntilIdle()
 
         assertEquals(TvLoginViewState.Success, viewModel.state.value)
-        // Can't simply verify the inserted object because to VpnInfoResponse.toVpnUserEntity uses a real clock to
-        // set updateTime on the object, so every call can produce a different value...
-        coVerify { vpnUserDao.insertOrUpdate(any()) }
-        assertEquals(insertedVpnUser.captured.userId.id, forkedSessionResponse.userId)
-    }
-
-    @Test
-    fun vpnConnectionAllocationNeeded() = testScope.runTest {
-        val setVpnUser = SetVpnUserImpl(vpnUserDao, currentUser)
-        val viewModel = TvLoginViewModel(currentUser, setVpnUser, appConfig, api,
-            serverListUpdater, serverManager, accountManager, monoClockMs = { currentTime }, wallClock= { currentTime },
-            managedConfig = managedConfig)
-        coEvery { api.getVPNInfo(any()) } returns noConnectionsVpnInfoResponse
-        viewModel.startLogin(this)
-        advanceUntilIdle()
-
-        assertEquals(TvLoginViewState.ConnectionAllocationPrompt, viewModel.state.value)
-        coVerify { accountManager.removeAccount(UserId(forkedSessionResponse.userId)) }
+        val expectedUserId = UserId(forkedSessionResponse.userId)
+        coVerify { accountManager.addAccount(match { it.userId == expectedUserId }, any()) }
     }
 }

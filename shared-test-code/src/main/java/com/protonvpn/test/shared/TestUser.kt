@@ -18,7 +18,6 @@
  */
 package com.protonvpn.test.shared
 
-import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.login.VPNInfo
@@ -67,17 +66,6 @@ class TestUser(
             get() = TestUser("twopasswords", "thisisarandomp45w0rd_*&-/?", "rand", "vpnplus", "vpnplus", 2, 5)
         val businessEssential: TestUser
             get() = TestUser("businessEssential", "", "", "vpnpro2023", "VPN Essential", 2, 2)
-        val forkedSessionResponse: ForkedSessionResponse
-            get() = ForkedSessionResponse(
-                864000,
-                "Bearer",
-                "UId",
-                "refreshToken",
-                "null",
-                0,
-                arrayOf("self", "user", "loggedin", "vpn"),
-                "UserId"
-            )
     }
 }
 
