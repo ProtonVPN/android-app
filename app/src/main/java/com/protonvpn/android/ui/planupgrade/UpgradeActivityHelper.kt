@@ -32,6 +32,7 @@ class UpgradeActivityHelper(
 ) {
 
     fun onCreate(viewModel: UpgradeDialogViewModel) {
+        viewModel.setupOrchestrators(activity)
         viewModel.state
             .flowWithLifecycle(activity.lifecycle)
             .onEach(::onStateUpdate)

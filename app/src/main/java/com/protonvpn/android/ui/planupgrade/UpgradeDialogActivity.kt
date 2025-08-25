@@ -96,7 +96,6 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
         }
         setupGradientBackground()
 
-        viewModel.setupOrchestrators(this)
         if (savedInstanceState == null) {
             initHighlightsFragment()
             initPaymentsPanelFragment()
