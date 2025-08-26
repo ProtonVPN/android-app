@@ -267,7 +267,7 @@
     <string name="nameAfricaAndMiddleEast">Αφρική &amp; Μέση Ανατολή</string>
     <string name="nameOceania">Ωκεανία</string>
     <string name="tv_row_settings">Ρυθμίσεις</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Διαίρεση σήραγγας</string>
     <string name="tv_card_protocol_label">Πρωτόκολλο</string>
     <string name="tv_detail_default_connection_checkbox_short">Αγαπημένο</string>
     <string name="tv_detail_connect_streaming">Stream με Plus</string>
@@ -509,7 +509,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Περιηγηθείτε με ακόμα υψηλότερες ταχύτητες (έως %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Διαίρεση σήραγγας</string>
     <string name="upsell_card_split_tunneling_description">Περιήγηση από δύο τοποθεσίες ταυτόχρονα</string>
     <string name="upsell_card_streaming_title">Μετάδοση</string>
     <string name="upsell_card_streaming_description">Παρακολουθήστε τις αγαπημένες σας ταινίες και τηλεοπτικές εκπομπές</string>
@@ -1001,7 +1001,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Διαίρεση σήραγγας</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->

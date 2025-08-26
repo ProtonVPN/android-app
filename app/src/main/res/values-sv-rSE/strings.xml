@@ -1530,5 +1530,5 @@
     <string name="no_connections_action_refresh">Uppdatera</string>
     <string name="no_connections_action_sign_out">Logga ut</string>
     <string name="no_connections_help_contact_us"><![CDATA[Behöver du hjälp? <a href="">Kontakta oss</a>]]></string>
-    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Om din administratör behöver hjälp med att aktivera VPN-åtkomst, skicka dem <a href="">dessa instruktioner</a>.]]></string>
 </resources>

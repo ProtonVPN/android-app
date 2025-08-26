@@ -296,7 +296,7 @@
     <string name="tv_upgrade_description">Luați un plan Proton VPN Plus pentru a accesa peste 500 de servere din întreaga lume și opțiuni optimizate de vizionare pentru Netflix, Amazon Prime Video, Disney+ și multe altele.</string>
     <string name="tv_vpn_error_dialog_title">Conexiunea VPN a eșuat</string>
     <string name="tv_signout_label">Deconectare</string>
-    <string name="tv_signout_dialog_title">Sigur doriți să vă deconectați?</string>
+    <string name="tv_signout_dialog_title">Vă deconectați?</string>
     <string name="tv_signout_dialog_description_connected">Aceasta va deconecta televizorul de la orice server VPN.</string>
     <string name="tv_signout_dialog_ok">Deconectare</string>
     <string name="tv_quick_connect_recommened">Recomandat</string>
@@ -1560,11 +1560,11 @@
     <string name="settings_lan_allow_direct_connection_title">Permitere conexiuni directe între dispozitive</string>
     <string name="settings_lan_allow_direct_connection_description">Conectați-vă la televizoare Smart, Android Auto și alte dispozitive care își creează propria rețea. Pentru securitate maximă, activați doar când vă conectați la aceste dispozitive.</string>
     <!-- No VPN connections -->
-    <string name="no_connections_title">No VPN connections available</string>
-    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
-    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
-    <string name="no_connections_action_refresh">Refresh</string>
-    <string name="no_connections_action_sign_out">Sign out</string>
-    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
-    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
+    <string name="no_connections_title">Nu există conexiuni VPN disponibile</string>
+    <string name="no_connections_description_loading_error">Lista de servere nu a putut fi încărcată.</string>
+    <string name="no_connections_description_no_servers">Solicitați administratorului să vă activeze accesul VPN în cont.</string>
+    <string name="no_connections_action_refresh">Împrospătare</string>
+    <string name="no_connections_action_sign_out">Deconectare</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Aveți nevoie de ajutor? <a href="">Contactați-ne</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Dacă administratorul are nevoie de ajutor cu activarea accesului VPN, trimiteți-i <a href="">aceste instrucțiuni</a>.]]></string>
 </resources>
