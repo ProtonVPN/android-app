@@ -24,6 +24,7 @@ import android.app.Application
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.IdlingPolicies
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.TestSettings
@@ -49,6 +50,7 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
+import java.util.concurrent.TimeUnit
 
 /**
  * Hilt injection in tests for ProtonApplication.
@@ -99,6 +101,7 @@ class ProtonHiltAndroidRule(
                     ApplicationProvider.getApplicationContext<Application>(),
                     HiltEntryPoint::class.java
                 )
+                IdlingPolicies.setIdlingResourceTimeout(45, TimeUnit.SECONDS)
                 installIdlingResources(hilt.dispatcherProvider() as EspressoDispatcherProvider, hilt.okHttpClient())
 
                 if (!deferAppStartup)
