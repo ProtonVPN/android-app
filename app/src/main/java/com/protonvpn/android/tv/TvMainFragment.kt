@@ -216,7 +216,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         updateRecentsRow()
         val continentMap = viewModel.getCountryCardMap()
 
-        CountryTools.Continent.values().forEach { continent ->
+        CountryTools.Continent.entries.forEach { continent ->
             continentMap[continent]?.let { cards ->
                 addOrReplace(index,
                     createRow(
@@ -236,8 +236,8 @@ class TvMainFragment : BaseTvBrowseFragment() {
             add(SettingsSplitTunnelingCard(getString(R.string.tv_card_split_tunneling_label), isFreeUser))
             add(SettingsProtocolCard(getString(R.string.tv_card_protocol_label)))
 
-            add(LogoutCard(getString(R.string.tv_signout_label)))
             add(ReportBugCard(getString(R.string.drawerReportProblem)))
+            add(LogoutCard(getString(R.string.tv_signout_label)))
         }
 
         val settingsRow = CardRow(

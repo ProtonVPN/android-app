@@ -24,6 +24,7 @@ package com.protonvpn.robots.tv
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isSelected
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
@@ -69,9 +70,10 @@ class TvCountryListRobot : BaseRobot() {
         }
         uiDevice.pressDPadDown()
 
-        // Note: ideally we would move right until the sign-out button is focused.
-        uiDevice.pressDPadRight()
-        uiDevice.pressDPadRight()
+        view.waitForCondition(watchTimeout = Timeouts.TWENTY_SECONDS_MS) {
+            uiDevice.pressDPadRight()
+            onView(withText(R.string.tv_signout_label)).check(matches(isSelected()))
+        }
         uiDevice.pressDPadCenter()
         return TvCountryListRobot()
     }
