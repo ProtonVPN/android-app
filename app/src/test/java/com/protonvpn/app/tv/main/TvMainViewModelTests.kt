@@ -167,7 +167,7 @@ class TvMainViewModelTests {
             logoutUseCase = mockk(relaxed = true),
             purchaseEnabled = mockk(relaxed = true),
             effectiveCurrentUserSettingsCached = userSettingsCached,
-            isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true)
+            isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
         )
     }
 

@@ -280,6 +280,7 @@
     <string name="nameAfricaAndMiddleEast">Africa &amp; Middle East</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Settings</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorite</string>
@@ -1358,6 +1359,8 @@
     <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
     <string name="settings_advanced_allow_lan_title">LAN connections</string>
     <string name="settings_advanced_allow_lan_description">Allows you to connect to printers, speakers, and other devices in your device’s local network.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
+    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
     <string name="settings_advanced_nat_type_title">NAT type</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>

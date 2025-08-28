@@ -42,7 +42,6 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
-import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
@@ -87,7 +86,7 @@ class TvMainViewModel @Inject constructor(
     private val logoutUseCase: Logout,
     private val effectiveCurrentUserSettingsCached: EffectiveCurrentUserSettingsCached,
     val purchaseEnabled: CachedPurchaseEnabled,
-    private val isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
+    isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
 ) : ViewModel() {
 
     data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)

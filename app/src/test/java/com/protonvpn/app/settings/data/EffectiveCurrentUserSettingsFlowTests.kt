@@ -87,14 +87,12 @@ class EffectiveCurrentUserSettingsFlowTests {
     }
 
     @Test
-    fun `LAN connection is always enabled on TV`() = testScope.runTest {
+    fun `LAN connections is disabled on TV when restricted`() = testScope.runTest {
         every { mockIsTv.invoke() } returns true
-        rawSettingsFlow.update { it.copy(lanConnections = false) }
+        rawSettingsFlow.update { it.copy(lanConnections = true) }
         assertTrue(effectiveSettings().lanConnections)
-
-        // Even when restricted
         testUserProvider.vpnUser = freeUser
-        assertTrue(effectiveSettings().lanConnections)
+        assertFalse(effectiveSettings().lanConnections)
     }
 
     @Test
@@ -114,6 +112,15 @@ class EffectiveCurrentUserSettingsFlowTests {
     }
 
     @Test
+    fun `LAN connections matches raw setting on TV`() = testScope.runTest {
+        every { mockIsTv.invoke() } returns true
+        rawSettingsFlow.update { it.copy(lanConnections = false) }
+        assertFalse(effectiveSettings().lanConnections)
+        rawSettingsFlow.update { it.copy(lanConnections = true) }
+        assertTrue(effectiveSettings().lanConnections)
+    }
+
+    @Test
     fun `NetShield only available to paying users`() = testScope.runTest {
         testUserProvider.vpnUser = freeUser
         rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
@@ -126,11 +133,11 @@ class EffectiveCurrentUserSettingsFlowTests {
     @Test
     fun `NetShield can be disabled on TV only if FF is disabled`() = testScope.runTest {
         every { mockIsTv.invoke() } returns true
-        featureFlagsFlow.update { it.copy(isTvSettingNetShieldEnabled = false ) }
+        featureFlagsFlow.update { it.copy(isTvNetShieldSettingEnabled = false ) }
         rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.DISABLED) }
         assertEquals(NetShieldProtocol.ENABLED, effectiveSettings().netShield)
 
-        featureFlagsFlow.update { it.copy(isTvSettingNetShieldEnabled = true ) }
+        featureFlagsFlow.update { it.copy(isTvNetShieldSettingEnabled = true ) }
         assertEquals(NetShieldProtocol.DISABLED, effectiveSettings().netShield)
     }
 

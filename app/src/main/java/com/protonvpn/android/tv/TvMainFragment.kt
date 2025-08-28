@@ -56,11 +56,13 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.LogoutCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.ReportBugCard
+import com.protonvpn.android.tv.models.SettingsLanConnectionsCard
 import com.protonvpn.android.tv.models.SettingsNetShieldCard
 import com.protonvpn.android.tv.models.SettingsProtocolCard
 import com.protonvpn.android.tv.models.SettingsSplitTunnelingCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
+import com.protonvpn.android.tv.settings.lanconnections.TvSettingsLanConnectionsActivity
 import com.protonvpn.android.tv.settings.netshield.TvSettingsNetShieldActivity
 import com.protonvpn.android.tv.settings.protocol.TvSettingsProtocolActivity
 import com.protonvpn.android.tv.settings.splittunneling.TvSettingsSplitTunnelingActivity
@@ -164,6 +166,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 is QuickConnectCard -> {
                     viewModel.onQuickConnectAction(requireActivity() as BaseTvActivity)
                 }
+                is SettingsLanConnectionsCard -> {
+                    paidFeatureOpener(TvSettingsLanConnectionsActivity::class.java)
+                }
                 is SettingsNetShieldCard -> {
                     paidFeatureOpener(TvSettingsNetShieldActivity::class.java)
                 }
@@ -217,7 +222,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
         addOrReplace(0, createRow(recentsRow, 0))
     }
 
-    private fun ArrayObjectAdapter.createRows(isFreeUser: Boolean, showNetShieldSetting: Boolean) {
+    private fun ArrayObjectAdapter.createRows(
+        isFreeUser: Boolean,
+        showNetShieldSetting: Boolean,
+    ) {
         var index = 1
         updateRecentsRow()
         val continentMap = viewModel.getCountryCardMap()
@@ -242,8 +250,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
             if (showNetShieldSetting) {
                 add(SettingsNetShieldCard(getString(R.string.settings_netshield_title), isFreeUser))
             }
+
             add(SettingsSplitTunnelingCard(getString(R.string.tv_card_split_tunneling_label), isFreeUser))
             add(SettingsProtocolCard(getString(R.string.tv_card_protocol_label)))
+            add(SettingsLanConnectionsCard(getString(R.string.tv_card_lan_connections_label), isFreeUser))
 
             add(ReportBugCard(getString(R.string.drawerReportProblem)))
             add(LogoutCard(getString(R.string.tv_signout_label)))

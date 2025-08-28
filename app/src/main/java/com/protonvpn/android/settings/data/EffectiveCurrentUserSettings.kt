@@ -56,7 +56,7 @@ class SettingsFeatureFlagsFlow @Inject constructor(
     data class Flags(
         val isIPv6Enabled: Boolean,
         val isDirectLanConnectionsEnabled: Boolean,
-        val isTvSettingNetShieldEnabled: Boolean,
+        val isTvNetShieldSettingEnabled: Boolean,
     )
 
     private val flow: Flow<Flags> = combine(
@@ -67,7 +67,7 @@ class SettingsFeatureFlagsFlow @Inject constructor(
         Flags(
             isIPv6Enabled = isIPv6Enabled,
             isDirectLanConnectionsEnabled = isDirectLanConnectionsEnabled,
-            isTvSettingNetShieldEnabled = isTvNetShieldEnabled
+            isTvNetShieldSettingEnabled = isTvNetShieldEnabled,
         )
     }
 
@@ -107,14 +107,14 @@ abstract class BaseApplyEffectiveUserSettings(
         val effectiveSplitTunneling =
             if (isUserPlusOrAbove) settings.splitTunneling
             else SplitTunnelingSettings(isEnabled = false)
-        val lanConnections = isTv || (isUserPlusOrAbove && settings.lanConnections)
+        val lanConnections = isUserPlusOrAbove && settings.lanConnections
         return settings.copy(
             defaultProfileId = if (isUserPlusOrAbove || isTv) settings.defaultProfileId else null,
             lanConnections = lanConnections,
             lanConnectionsAllowDirect =
                 lanConnections && settings.lanConnectionsAllowDirect && flags.isDirectLanConnectionsEnabled,
             netShield = if (netShieldAvailable) {
-                if (isTv && !flags.isTvSettingNetShieldEnabled) NetShieldProtocol.ENABLED else settings.netShield
+                if (isTv && !flags.isTvNetShieldSettingEnabled) NetShieldProtocol.ENABLED else settings.netShield
             } else {
                 NetShieldProtocol.DISABLED
             },
