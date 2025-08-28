@@ -78,6 +78,8 @@ import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
+import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
+import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabledImpl
 import com.protonvpn.android.ui.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabled
 import com.protonvpn.android.ui.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabledImpl
 import com.protonvpn.android.ui.settings.AppIconManager
@@ -422,6 +424,11 @@ object AppModule {
 
         @Binds
         fun bindIsIPv6FeatureFlagEnabled(impl: IsIPv6FeatureFlagEnabledImpl): IsIPv6FeatureFlagEnabled
+
+        @Binds
+        fun bindIsTvNetShieldSettingFeatureFlagEnabled(
+            impl: IsTvNetShieldSettingFeatureFlagEnabledImpl
+        ): IsTvNetShieldSettingFeatureFlagEnabled
 
         @Binds
         fun bindProvideLocalNetworks(impl: ProvideLocalNetworksImpl): ProvideLocalNetworks

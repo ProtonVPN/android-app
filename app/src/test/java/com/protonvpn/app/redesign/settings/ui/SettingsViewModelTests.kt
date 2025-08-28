@@ -44,6 +44,7 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.utils.Constants
@@ -88,7 +89,6 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsViewModelTests {
@@ -157,6 +157,7 @@ class SettingsViewModelTests {
             flags = SettingsFeatureFlagsFlow(
                 isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
                 isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
+                isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
             )
         )
         val effectiveCurrentUserSettingsFlow = EffectiveCurrentUserSettingsFlow(

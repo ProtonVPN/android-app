@@ -42,6 +42,8 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
+import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
+import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -85,6 +87,7 @@ class TvMainViewModel @Inject constructor(
     private val logoutUseCase: Logout,
     private val effectiveCurrentUserSettingsCached: EffectiveCurrentUserSettingsCached,
     val purchaseEnabled: CachedPurchaseEnabled,
+    private val isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
 ) : ViewModel() {
 
     data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)
@@ -132,16 +135,23 @@ class TvMainViewModel @Inject constructor(
 
     // serverListVersion and userTier are only included to trigger UI refresh when they change.
     // The UI pulls all data by calling various functions on the viewmodel, it doesn't use any kind of view state.
-    data class MainViewState(val isFreeUser: Boolean, val serverListVersion: Int, val userTier: Int)
+    data class MainViewState(
+        val isFreeUser: Boolean,
+        val serverListVersion: Int,
+        val userTier: Int,
+        val showNetShieldSetting: Boolean,
+    )
 
     val mainViewState = combine(
         serverManager.serverListVersion,
-        currentUser.vpnUserFlow
-    ) { serverListVersion, vpnUser ->
+        currentUser.vpnUserFlow,
+        isTvNetShieldSettingFeatureFlagEnabled.observe(),
+    ) { serverListVersion, vpnUser, isNetShieldAvailable ->
         MainViewState(
             isFreeUser = vpnUser?.isFreeUser != false,
             serverListVersion = serverListVersion,
-            userTier = vpnUser?.userTier ?: VpnUser.FREE_TIER
+            userTier = vpnUser?.userTier ?: VpnUser.FREE_TIER,
+            showNetShieldSetting = isNetShieldAvailable,
         )
     }.onStart {
         // The main TV UI is synchronous and assumes all servers are loaded - changing this is tricky.

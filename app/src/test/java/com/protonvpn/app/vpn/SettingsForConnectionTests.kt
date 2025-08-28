@@ -35,6 +35,8 @@ import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
+import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -46,7 +48,9 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createProfileEntity
 import com.protonvpn.test.shared.createServer
-import io.mockk.mockk
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -56,23 +60,33 @@ import kotlin.test.assertEquals
 
 class SettingsForConnectionTests {
 
+    @MockK
+    private lateinit var mockIsTvCheck: IsTvCheck
+
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
     private lateinit var currentUser: CurrentUser
     private lateinit var rawSettingsFlow: MutableStateFlow<LocalUserSettings>
     private lateinit var profileById: FakeGetProfileById
     private lateinit var vpnStateMonitor: VpnStateMonitor
-    private val lanEnabledFF = MutableStateFlow(true)
+    private lateinit var isDirectLanEnabled: FakeIsLanDirectConnectionsFeatureFlagEnabled
+    private lateinit var isTvNetShieldEnabled: FakeIsTvNetShieldSettingFeatureFlagEnabled
 
     private lateinit var settingsForConnection: SettingsForConnection
 
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
         testScope = TestScope()
         testUserProvider = TestCurrentUserProvider(vpnUser = TestUser.plusUser.vpnUser)
         currentUser = CurrentUser(testUserProvider)
         rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
+        isDirectLanEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
+        isTvNetShieldEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true)
         profileById = FakeGetProfileById()
+
+        every { mockIsTvCheck.invoke() } returns false
+
         vpnStateMonitor = VpnStateMonitor()
         settingsForConnection = SettingsForConnection(
             rawSettingsFlow = rawSettingsFlow,
@@ -80,10 +94,11 @@ class SettingsForConnectionTests {
             applyEffectiveUserSettings = ApplyEffectiveUserSettings(
                 mainScope = testScope.backgroundScope,
                 currentUser = currentUser,
-                isTv = mockk(relaxed = true),
+                isTv = mockIsTvCheck,
                 flags = SettingsFeatureFlagsFlow(
                     isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true),
-                    isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(lanEnabledFF),
+                    isDirectLanConnectionsFeatureFlagEnabled = isDirectLanEnabled,
+                    isTvNetShieldSettingFeatureFlagEnabled = isTvNetShieldEnabled,
                 )
             ),
             vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
@@ -139,7 +154,7 @@ class SettingsForConnectionTests {
             netShield = null,
             randomizedNat = null,
         )
-        lanEnabledFF.value = false
+        isDirectLanEnabled.setEnabled(false)
         assertEquals(
             LocalUserSettings.Default.copy(lanConnections = true),
             settingsForConnection.getFor(ConnectIntent.Fastest.copy(settingsOverrides = overrides))

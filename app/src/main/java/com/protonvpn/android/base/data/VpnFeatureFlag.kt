@@ -22,11 +22,11 @@ package com.protonvpn.android.base.data
 import com.protonvpn.android.auth.usecase.CurrentUser
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import me.proton.core.domain.entity.UserId
 import me.proton.core.featureflag.domain.ExperimentalProtonFeatureFlag
@@ -40,10 +40,23 @@ interface VpnFeatureFlag {
     fun observe(): Flow<Boolean>
 }
 
-open class FakeVpnFeatureFlag(private val enabledFlow: Flow<Boolean>) : VpnFeatureFlag {
-    constructor(enabled: Boolean) : this(flowOf(enabled))
-    override suspend operator fun invoke(): Boolean = enabledFlow.first()
-    override fun observe(): Flow<Boolean> = enabledFlow
+open class FakeVpnFeatureFlag
+@Deprecated("Use the constructor with boolean argument and setEnabled function.")
+constructor(
+    private val enabledFlow: Flow<Boolean>?
+) : VpnFeatureFlag {
+    constructor(enabled: Boolean) : this(null) {
+        setEnabled(enabled)
+    }
+
+    private val isEnabled = MutableStateFlow(true)
+
+    fun setEnabled(isEnabled: Boolean) {
+        this.isEnabled.value = isEnabled
+    }
+
+    override suspend operator fun invoke(): Boolean = enabledFlow?.first() ?: isEnabled.value
+    override fun observe(): Flow<Boolean> = enabledFlow ?: isEnabled
 }
 
 open class VpnFeatureFlagImpl @Inject constructor(

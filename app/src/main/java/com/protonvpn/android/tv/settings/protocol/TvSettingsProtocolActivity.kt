@@ -20,7 +20,6 @@
 package com.protonvpn.android.tv.settings.protocol
 
 import android.os.Bundle
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

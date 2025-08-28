@@ -56,10 +56,12 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.LogoutCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.ReportBugCard
+import com.protonvpn.android.tv.models.SettingsNetShieldCard
 import com.protonvpn.android.tv.models.SettingsProtocolCard
 import com.protonvpn.android.tv.models.SettingsSplitTunnelingCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
+import com.protonvpn.android.tv.settings.netshield.TvSettingsNetShieldActivity
 import com.protonvpn.android.tv.settings.protocol.TvSettingsProtocolActivity
 import com.protonvpn.android.tv.settings.splittunneling.TvSettingsSplitTunnelingActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
@@ -108,7 +110,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 viewModel.mainViewState
                     .onEach {
                         paidFeatureOpener.isFreeUser = it.isFreeUser
-                        setupRowAdapter(it.isFreeUser)
+                        setupRowAdapter(it)
                     }
                     .launchIn(viewLifecycleOwner.lifecycleScope)
             }
@@ -162,9 +164,13 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 is QuickConnectCard -> {
                     viewModel.onQuickConnectAction(requireActivity() as BaseTvActivity)
                 }
+                is SettingsNetShieldCard -> {
+                    paidFeatureOpener(TvSettingsNetShieldActivity::class.java)
+                }
                 is SettingsProtocolCard -> {
                     startActivity(Intent(context, TvSettingsProtocolActivity::class.java))
                 }
+
                 is SettingsSplitTunnelingCard -> {
                     paidFeatureOpener(TvSettingsSplitTunnelingActivity::class.java)
                 }
@@ -178,8 +184,8 @@ class TvMainFragment : BaseTvBrowseFragment() {
         }
     }
 
-    private fun setupRowAdapter(isFreeUser: Boolean) {
-        rowsAdapter?.createRows(isFreeUser)
+    private fun setupRowAdapter(viewState: TvMainViewModel.MainViewState) {
+        rowsAdapter?.createRows(viewState.isFreeUser, viewState.showNetShieldSetting)
         view?.doOnPreDraw {
             startPostponedEnterTransition()
         }
@@ -211,7 +217,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         addOrReplace(0, createRow(recentsRow, 0))
     }
 
-    private fun ArrayObjectAdapter.createRows(isFreeUser: Boolean) {
+    private fun ArrayObjectAdapter.createRows(isFreeUser: Boolean, showNetShieldSetting: Boolean) {
         var index = 1
         updateRecentsRow()
         val continentMap = viewModel.getCountryCardMap()
@@ -233,6 +239,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
         }
 
         val settingsCards = buildList {
+            if (showNetShieldSetting) {
+                add(SettingsNetShieldCard(getString(R.string.settings_netshield_title), isFreeUser))
+            }
             add(SettingsSplitTunnelingCard(getString(R.string.tv_card_split_tunneling_label), isFreeUser))
             add(SettingsProtocolCard(getString(R.string.tv_card_protocol_label)))
 

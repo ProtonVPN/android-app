@@ -26,6 +26,7 @@ import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
@@ -49,20 +50,24 @@ import javax.inject.Singleton
 class SettingsFeatureFlagsFlow @Inject constructor(
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
+    isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
 ) : Flow<SettingsFeatureFlagsFlow.Flags> {
 
     data class Flags(
         val isIPv6Enabled: Boolean,
         val isDirectLanConnectionsEnabled: Boolean,
+        val isTvSettingNetShieldEnabled: Boolean,
     )
 
     private val flow: Flow<Flags> = combine(
         isIPv6FeatureFlagEnabled.observe(),
         isDirectLanConnectionsFeatureFlagEnabled.observe(),
-    ) { isIPv6Enabled, isDirectLanConnectionsEnabled ->
+        isTvNetShieldSettingFeatureFlagEnabled.observe(),
+    ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isTvNetShieldEnabled ->
         Flags(
             isIPv6Enabled = isIPv6Enabled,
             isDirectLanConnectionsEnabled = isDirectLanConnectionsEnabled,
+            isTvSettingNetShieldEnabled = isTvNetShieldEnabled
         )
     }
 
@@ -109,7 +114,7 @@ abstract class BaseApplyEffectiveUserSettings(
             lanConnectionsAllowDirect =
                 lanConnections && settings.lanConnectionsAllowDirect && flags.isDirectLanConnectionsEnabled,
             netShield = if (netShieldAvailable) {
-                if (isTv) NetShieldProtocol.ENABLED else settings.netShield
+                if (isTv && !flags.isTvSettingNetShieldEnabled) NetShieldProtocol.ENABLED else settings.netShield
             } else {
                 NetShieldProtocol.DISABLED
             },

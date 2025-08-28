@@ -66,6 +66,8 @@ open class IconCard(title: String, @DrawableRes image: Int) : Card(
 
 class LogoutCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_arrow_out_from_rectangle)
 class ReportBugCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_bug)
+class SettingsNetShieldCard(title: String, isFree: Boolean) :
+    IconCard(title, iconPaidFeature(isFree, CoreR.drawable.ic_proton_shield_filled))
 class SettingsProtocolCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_shield_2_bolt)
 class SettingsSplitTunnelingCard(title: String, isFree: Boolean) :
     IconCard(title, iconPaidFeature(isFree, CoreR.drawable.ic_proton_arrows_swap_right))
