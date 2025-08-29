@@ -1524,11 +1524,11 @@
     <string name="settings_lan_allow_direct_connection_title">Permitir conexões diretas com dispositivos</string>
     <string name="settings_lan_allow_direct_connection_description">Conecte-se a Smart TVs, Android Auto e outros dispositivos que criam a própria rede. Para máxima segurança, ative apenas ao se conectar a esses dispositivos.</string>
     <!-- No VPN connections -->
-    <string name="no_connections_title">No VPN connections available</string>
-    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
-    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
+    <string name="no_connections_title">Nenhuma conexão VPN disponível</string>
+    <string name="no_connections_description_loading_error">Não foi possível carregar a lista de servidores.</string>
+    <string name="no_connections_description_no_servers">Peça à administração para ativar o acesso VPN para sua conta.</string>
     <string name="no_connections_action_refresh">Recarregar</string>
     <string name="no_connections_action_sign_out">Sair da sessão</string>
-    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
-    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
+    <string name="no_connections_help_contact_us"><![CDATA[Precisa de ajuda? <a href="">Entre em contato</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Se sua administração precisar de ajuda para ativar o acesso VPN, envie <a href="">estas instruções</a>.]]></string>
 </resources>

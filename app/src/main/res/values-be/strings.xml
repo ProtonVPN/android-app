@@ -1596,11 +1596,11 @@
     <string name="settings_lan_allow_direct_connection_title">Дазволіць прамыя падключэнні прылад</string>
     <string name="settings_lan_allow_direct_connection_description">Падключыць да Smart TV, Android Auto і іншых прылад, якія ствараюць сваю ўласную сетку. Для максімальнай бяспекі ўключайце толькі пры падключэнні да гэтых прылад.</string>
     <!-- No VPN connections -->
-    <string name="no_connections_title">Няма даступных VPN-падключэнняў</string>
+    <string name="no_connections_title">Няма даступных падключэнняў па VPN</string>
     <string name="no_connections_description_loading_error">Немагчыма загрузіць спіс сервераў.</string>
-    <string name="no_connections_description_no_servers">Запытайце ў вашага адміністратара ўключыць доступ да VPN для вашага ўліковага запісу.</string>
+    <string name="no_connections_description_no_servers">Папрасіце свайго адміністратара ўключыць доступ да VPN для вашага ўліковага запісу.</string>
     <string name="no_connections_action_refresh">Абнавіць</string>
     <string name="no_connections_action_sign_out">Выйсці з уліковага запісу</string>
     <string name="no_connections_help_contact_us"><![CDATA[Патрэбна дапамога? <a href="">Звяжыцеся з намі</a>]]></string>
-    <string name="no_connections_help_follow_instructions"><![CDATA[Калі вашаму адміністратару патрэбна дапамога ва ўключэнні доступу да VPN, адпраўце ім <a href="">гэтыя інструкцыі</a>.]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Адпраўце свайму адміністратару <a href="">гэтыя інструкцыі</a>, калі яму патрэбна дапамога з уключэннем доступу па VPN.]]></string>
 </resources>

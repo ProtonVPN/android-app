@@ -1526,9 +1526,9 @@
     <!-- No VPN connections -->
     <string name="no_connections_title">No hi ha connexions VPN disponibles</string>
     <string name="no_connections_description_loading_error">No s\'ha pogut carregar la llista de servidors.</string>
-    <string name="no_connections_description_no_servers">Demaneu al vostre administrador que habiliti l\'accés a la VPN per al vostre compte.</string>
+    <string name="no_connections_description_no_servers">Demaneu a l\'administrador que activi l\'accés a la VPN per al vostre compte.</string>
     <string name="no_connections_action_refresh">Actualitza</string>
-    <string name="no_connections_action_sign_out">Tanqueu la sessió</string>
-    <string name="no_connections_help_contact_us"><![CDATA[Us cal ajuda? <a href="">Contacteu amb nosaltres</a>]]></string>
+    <string name="no_connections_action_sign_out">Tanca la sessió</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Necessiteu ajuda? <a href="">Contacteu amb nosaltres</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Si el vostre administrador necessita ajuda per habilitar l\'accés a la VPN, envieu-li <a href="">aquestes instruccions</a>.]]></string>
 </resources>

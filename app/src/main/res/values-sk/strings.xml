@@ -1596,11 +1596,11 @@
     <string name="settings_lan_allow_direct_connection_title">Povoliť priame pripojenia zariadení</string>
     <string name="settings_lan_allow_direct_connection_description">Pripojenie k inteligentným televízorom, systému Android Auto a ďalším zariadeniam, ktoré vytvárajú vlastnú sieť. V záujme maximálneho zabezpečenia povoľte túto funkciu len pri pripájaní k týmto zariadeniam.</string>
     <!-- No VPN connections -->
-    <string name="no_connections_title">No VPN connections available</string>
-    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
-    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
-    <string name="no_connections_action_refresh">Refresh</string>
-    <string name="no_connections_action_sign_out">Sign out</string>
-    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
-    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
+    <string name="no_connections_title">K dispozícii nie sú žiadne VPN pripojenia</string>
+    <string name="no_connections_description_loading_error">Nepodarilo sa nám načítať zoznam serverov.</string>
+    <string name="no_connections_description_no_servers">Požiadajte svojho správcu, aby pre váš účet povolil prístup cez VPN.</string>
+    <string name="no_connections_action_refresh">Obnoviť</string>
+    <string name="no_connections_action_sign_out">Odhlásiť sa</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Potrebujete pomoc? <a href="">Kontaktujte nás</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Ak váš administrátor potrebuje pomoc s povolením prístupu k VPN, odošlite mu <a href="">tieto pokyny</a>.]]></string>
 </resources>
