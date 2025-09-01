@@ -1112,13 +1112,13 @@
     <string name="country_filter_countries_list_header">Країни (%1$d)</string>
     <string name="country_filter_cities_list_header">Міста (%1$d)</string>
     <string name="country_filter_states_list_header">Штати (%1$d)</string>
-    <string name="country_filter_servers_list_header">Сервери (%1$d)</string>
+    <string name="country_filter_servers_list_header">Сервери</string>
     <string name="country_filter_secure_core_list_header">Країни Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">Країни P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Міста P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">Штати P2P (%1$d)</string>
     <string name="country_filter_tor_list_header">Країни Tor (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Сервери Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Сервери Tor</string>
     <string name="country_filter_info_label">Інформація</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled

@@ -1038,13 +1038,13 @@
     <string name="country_filter_countries_list_header">국가 (%1$d)</string>
     <string name="country_filter_cities_list_header">도시 (%1$d)</string>
     <string name="country_filter_states_list_header">시/주 (%1$d)</string>
-    <string name="country_filter_servers_list_header">서버 (%1$d)</string>
+    <string name="country_filter_servers_list_header">서버</string>
     <string name="country_filter_secure_core_list_header">Secure Core 도시 (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P 국가 (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P 도시 (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P 도시 (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor 국가 (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor 서버 (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor 서버</string>
     <string name="country_filter_info_label">정보</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled

@@ -1062,13 +1062,13 @@
     <string name="country_filter_countries_list_header">Országok (%1$d)</string>
     <string name="country_filter_cities_list_header">Városok (%1$d)</string>
     <string name="country_filter_states_list_header">Államok (%1$d)</string>
-    <string name="country_filter_servers_list_header">Szerverek (%1$d)</string>
+    <string name="country_filter_servers_list_header">Szerverek</string>
     <string name="country_filter_secure_core_list_header">Secure Core országok (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P országok (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P városok (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P államok (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor országok (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor szerverek (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor szerverek</string>
     <string name="country_filter_info_label">Információk</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled

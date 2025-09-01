@@ -1062,13 +1062,13 @@
     <string name="country_filter_countries_list_header">Paesi (%1$d)</string>
     <string name="country_filter_cities_list_header">Città (%1$d)</string>
     <string name="country_filter_states_list_header">Stati (%1$d)</string>
-    <string name="country_filter_servers_list_header">Server (%1$d)</string>
+    <string name="country_filter_servers_list_header">Server</string>
     <string name="country_filter_secure_core_list_header">Paesi Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">Paesi P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Città P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">Stati P2P (%1$d)</string>
     <string name="country_filter_tor_list_header">Paesi Tor (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Server Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Server Tor</string>
     <string name="country_filter_info_label">Informazioni</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled

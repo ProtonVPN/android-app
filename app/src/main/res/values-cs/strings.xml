@@ -1112,13 +1112,13 @@
     <string name="country_filter_countries_list_header">Země (%1$d)</string>
     <string name="country_filter_cities_list_header">Města (%1$d)</string>
     <string name="country_filter_states_list_header">Státy (%1$d)</string>
-    <string name="country_filter_servers_list_header">Servery (%1$d)</string>
+    <string name="country_filter_servers_list_header">Servery</string>
     <string name="country_filter_secure_core_list_header">Secure Core země (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P země (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P města (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P státy (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor země (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor servery (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor servery</string>
     <string name="country_filter_info_label">Informace</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled

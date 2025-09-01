@@ -1062,13 +1062,13 @@
     <string name="country_filter_countries_list_header">کشورها (%1$d)</string>
     <string name="country_filter_cities_list_header">شهرها (%1$d)</string>
     <string name="country_filter_states_list_header">ایالت‌ها (%1$d)</string>
-    <string name="country_filter_servers_list_header">سرورها (%1$d)</string>
+    <string name="country_filter_servers_list_header">سرورها</string>
     <string name="country_filter_secure_core_list_header">کشورهای Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">کشورهای P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">شهرهای P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">ایالت‌های P2P (%1$d)</string>
     <string name="country_filter_tor_list_header">کشورهای Tor (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">سرورهای Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">سرورهای Tor</string>
     <string name="country_filter_info_label">اطلاعات</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled

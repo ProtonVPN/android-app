@@ -1037,13 +1037,13 @@
     <string name="country_filter_countries_list_header">國家 (%1$d)</string>
     <string name="country_filter_cities_list_header">城市 (%1$d)</string>
     <string name="country_filter_states_list_header">州 (%1$d)</string>
-    <string name="country_filter_servers_list_header">伺服器 (%1$d)</string>
+    <string name="country_filter_servers_list_header">伺服器</string>
     <string name="country_filter_secure_core_list_header">雙重路由國家/地區 (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P 國家 (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P 城市 (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P州 (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor 國家/地區 (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor 伺服器 (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor 伺服器</string>
     <string name="country_filter_info_label">資訊</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled

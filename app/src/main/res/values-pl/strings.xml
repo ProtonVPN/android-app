@@ -1112,13 +1112,13 @@
     <string name="country_filter_countries_list_header">Kraje (%1$d)</string>
     <string name="country_filter_cities_list_header">Miasta (%1$d)</string>
     <string name="country_filter_states_list_header">Stany (%1$d)</string>
-    <string name="country_filter_servers_list_header">Serwery (%1$d)</string>
+    <string name="country_filter_servers_list_header">Serwery</string>
     <string name="country_filter_secure_core_list_header">Kraje Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">Kraje P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Miasta P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">Stany P2P (%1$d)</string>
     <string name="country_filter_tor_list_header">Kraje Tor (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Serwery Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Serwery Tor</string>
     <string name="country_filter_info_label">Informacje</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled

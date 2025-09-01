@@ -1062,13 +1062,13 @@
     <string name="country_filter_countries_list_header">Maat (%1$d)</string>
     <string name="country_filter_cities_list_header">Kaupungit (%1$d)</string>
     <string name="country_filter_states_list_header">Osavaltiot (%1$d)</string>
-    <string name="country_filter_servers_list_header">Palvelimet (%1$d)</string>
+    <string name="country_filter_servers_list_header">Palvelimet</string>
     <string name="country_filter_secure_core_list_header">Secure Core -maat (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P-maat (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P-kaupungit (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P-osavaltiot (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor-maat (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor-palvelimet (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor-palvelimet</string>
     <string name="country_filter_info_label">Tiedot</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled

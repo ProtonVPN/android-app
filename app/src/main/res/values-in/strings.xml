@@ -1037,13 +1037,13 @@
     <string name="country_filter_countries_list_header">Negara (%1$d)</string>
     <string name="country_filter_cities_list_header">Kota (%1$d)</string>
     <string name="country_filter_states_list_header">Negara bagian (%1$d)</string>
-    <string name="country_filter_servers_list_header">Server (%1$d)</string>
+    <string name="country_filter_servers_list_header">Server</string>
     <string name="country_filter_secure_core_list_header">Negara Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">Negara P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Kota P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">Negara bagian P2P (%1$d)</string>
     <string name="country_filter_tor_list_header">Negara Tor (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Server Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Server Tor</string>
     <string name="country_filter_info_label">Info</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled

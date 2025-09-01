@@ -1062,13 +1062,13 @@
     <string name="country_filter_countries_list_header">Land (%1$d)</string>
     <string name="country_filter_cities_list_header">Byer (%1$d)</string>
     <string name="country_filter_states_list_header">Stater (%1$d)</string>
-    <string name="country_filter_servers_list_header">Tjenere (%1$d)</string>
+    <string name="country_filter_servers_list_header">Tjenere</string>
     <string name="country_filter_secure_core_list_header">Secure Core-land (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P-land (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P-land (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P-stater (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor-land (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor-tjenere (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor-tjenere</string>
     <string name="country_filter_info_label">Info</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled

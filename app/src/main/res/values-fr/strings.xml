@@ -1062,13 +1062,13 @@
     <string name="country_filter_countries_list_header">Pays (%1$d)</string>
     <string name="country_filter_cities_list_header">Villes (%1$d)</string>
     <string name="country_filter_states_list_header">États (%1$d)</string>
-    <string name="country_filter_servers_list_header">Serveurs (%1$d)</string>
+    <string name="country_filter_servers_list_header">Serveurs</string>
     <string name="country_filter_secure_core_list_header">Pays Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">Pays P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Villes P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">États P2P (%1$d)</string>
     <string name="country_filter_tor_list_header">Pays Tor (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Serveurs Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Serveurs Tor</string>
     <string name="country_filter_info_label">Informations</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled

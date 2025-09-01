@@ -1062,13 +1062,13 @@
     <string name="country_filter_countries_list_header">ქვეყნები (%1$d)</string>
     <string name="country_filter_cities_list_header">ქალაქები (%1$d)</string>
     <string name="country_filter_states_list_header">შტატები (%1$d)</string>
-    <string name="country_filter_servers_list_header">სერვერები (%1$d)</string>
+    <string name="country_filter_servers_list_header">სერვერები</string>
     <string name="country_filter_secure_core_list_header">Secure Core-ის ქვეყნები (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P ქვეყნები (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P ქალაქები (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P შტატები (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor ქვეყნები (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor-ის სერვერები (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor-ის სერვერები</string>
     <string name="country_filter_info_label">ინფო</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
