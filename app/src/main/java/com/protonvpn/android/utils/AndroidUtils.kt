@@ -180,8 +180,13 @@ fun Activity.haveVpnSettings() =
     Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
         && Intent(Settings.ACTION_VPN_SETTINGS).resolveActivity(packageManager) != null
 
-fun ImageView.setColorTint(@ColorInt colorValue: Int) {
-    this.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(colorValue, BlendModeCompat.SRC_OVER)
+fun ImageView.setColorTintRes(@ColorRes colorRes: Int?) {
+    if (colorRes != null) {
+        val colorValue = ContextCompat.getColor(context, colorRes)
+        colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(colorValue, BlendModeCompat.SRC_OVER)
+    } else {
+        clearColorFilter()
+    }
 }
 
 fun Button.setStartDrawable(@DrawableRes id: Int = 0) {

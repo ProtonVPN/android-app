@@ -33,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="6dp"
-        app:tint="@color/white"
         tools:src="@drawable/ic_proton_arrow_out_from_rectangle" />
 
     <TextView

@@ -23,6 +23,7 @@ import androidx.annotation.DrawableRes
 import com.protonvpn.android.R
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import android.R as AndroidR
 import me.proton.core.presentation.R as CoreR
 
 sealed class Card(
@@ -66,7 +67,8 @@ open class IconCard(title: String, @DrawableRes image: Int) : Card(
 class LogoutCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_arrow_out_from_rectangle)
 class ReportBugCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_bug)
 class SettingsProtocolCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_shield_2_bolt)
-class SettingsSplitTunnelingCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_arrows_swap_right)
+class SettingsSplitTunnelingCard(title: String, isFree: Boolean) :
+    IconCard(title, iconPaidFeature(isFree, CoreR.drawable.ic_proton_arrows_swap_right))
 
 class Title(
     val text: String,
@@ -76,5 +78,8 @@ class Title(
 
 class DrawableImage(
     @DrawableRes val resId: Int,
-    @ColorRes val tint: Int? = null
+    @ColorRes val tintRes: Int? = null
 )
+
+private fun iconPaidFeature(isFree: Boolean, @DrawableRes iconRes: Int) =
+    if (isFree) R.drawable.vpn_plus_badge else iconRes

@@ -132,14 +132,14 @@ class TvMainViewModel @Inject constructor(
 
     // serverListVersion and userTier are only included to trigger UI refresh when they change.
     // The UI pulls all data by calling various functions on the viewmodel, it doesn't use any kind of view state.
-    data class MainViewState(val showSettings: Boolean, val serverListVersion: Int, val userTier: Int)
+    data class MainViewState(val isFreeUser: Boolean, val serverListVersion: Int, val userTier: Int)
 
     val mainViewState = combine(
         serverManager.serverListVersion,
         currentUser.vpnUserFlow
     ) { serverListVersion, vpnUser ->
         MainViewState(
-            showSettings = vpnUser?.isFreeUser == false,
+            isFreeUser = vpnUser?.isFreeUser != false,
             serverListVersion = serverListVersion,
             userTier = vpnUser?.userTier ?: VpnUser.FREE_TIER
         )
@@ -254,7 +254,7 @@ class TvMainViewModel @Inject constructor(
             ),
             backgroundImage = DrawableImage(
                 resId = quickConnectBackground(context),
-                tint = if (isConnected() || isEstablishingConnection())
+                tintRes = if (isConnected() || isEstablishingConnection())
                     R.color.tvDisconnectButtonTint else CoreR.color.transparent
             )
         )

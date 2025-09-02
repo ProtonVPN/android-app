@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.tv
 
+import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Outline
@@ -92,7 +94,11 @@ class TvMainFragment : BaseTvBrowseFragment() {
             }
         }
 
-        setupUi()
+        // The onItemViewClickedListener has to be set before any views are created and cannot be replaced.
+        // Use PaidFeatureOpener as a proxy for opening either the feature activity or upgrade screen, depending
+        // on whether the user is on the free plan or not.
+        val paidFeatureOpener = PaidFeatureOpener(requireContext())
+        setupClickListener(paidFeatureOpener)
         monitorVpnState()
         postponeEnterTransition()
         rowsAdapter = ArrayObjectAdapter(FadeTopListRowPresenter())
@@ -100,7 +106,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.mainViewState
-                    .onEach { setupRowAdapter(it.showSettings) }
+                    .onEach {
+                        paidFeatureOpener.isFreeUser = it.isFreeUser
+                        setupRowAdapter(it.isFreeUser)
+                    }
                     .launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
@@ -116,7 +125,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         super.onDestroyView()
     }
 
-    private fun setupUi() {
+    private fun setupClickListener(paidFeatureOpener: PaidFeatureOpener) {
         onItemViewClickedListener = OnItemViewClickedListener { viewHolder, item, _, _ ->
             when (item) {
                 is CountryCard -> {
@@ -157,7 +166,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
                     startActivity(Intent(context, TvSettingsProtocolActivity::class.java))
                 }
                 is SettingsSplitTunnelingCard -> {
-                    startActivity(Intent(context, TvSettingsSplitTunnelingActivity::class.java))
+                    paidFeatureOpener(TvSettingsSplitTunnelingActivity::class.java)
                 }
                 is LogoutCard -> {
                     logout()
@@ -169,8 +178,8 @@ class TvMainFragment : BaseTvBrowseFragment() {
         }
     }
 
-    private fun setupRowAdapter(showSettings: Boolean) {
-        rowsAdapter?.createRows(showSettings)
+    private fun setupRowAdapter(isFreeUser: Boolean) {
+        rowsAdapter?.createRows(isFreeUser)
         view?.doOnPreDraw {
             startPostponedEnterTransition()
         }
@@ -202,7 +211,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         addOrReplace(0, createRow(recentsRow, 0))
     }
 
-    private fun ArrayObjectAdapter.createRows(showSettings: Boolean) {
+    private fun ArrayObjectAdapter.createRows(isFreeUser: Boolean) {
         var index = 1
         updateRecentsRow()
         val continentMap = viewModel.getCountryCardMap()
@@ -224,10 +233,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
         }
 
         val settingsCards = buildList {
-            if (showSettings) {
-                add(SettingsSplitTunnelingCard(getString(R.string.tv_card_split_tunneling_label)))
-                add(SettingsProtocolCard(getString(R.string.tv_card_protocol_label)))
-            }
+            add(SettingsSplitTunnelingCard(getString(R.string.tv_card_split_tunneling_label), isFreeUser))
+            add(SettingsProtocolCard(getString(R.string.tv_card_protocol_label)))
+
             add(LogoutCard(getString(R.string.tv_signout_label)))
             add(ReportBugCard(getString(R.string.drawerReportProblem)))
         }
@@ -317,5 +325,14 @@ class TvMainFragment : BaseTvBrowseFragment() {
     companion object {
         private const val ROW_FADING_EDGE_DP = 16
         private const val TOP_ROW_ALPHA = 0.5f
+    }
+}
+
+private class PaidFeatureOpener(private val context: Context) {
+    var isFreeUser: Boolean = true
+
+    operator fun invoke(paidFeatureActivity: Class<out Activity>) {
+        val activityClass = if (isFreeUser) TvUpgradeActivity::class.java else paidFeatureActivity
+        context.startActivity(Intent(context, activityClass))
     }
 }

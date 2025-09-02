@@ -24,6 +24,7 @@ import androidx.leanback.widget.BaseCardView
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvIconCardBinding
 import com.protonvpn.android.tv.models.Card
+import com.protonvpn.android.utils.setColorTintRes
 
 class TvIconCardView(context: Context) : BaseCardView(context, null, R.style.DefaultCardTheme) {
 
@@ -41,7 +42,8 @@ class TvIconCardView(context: Context) : BaseCardView(context, null, R.style.Def
 
     fun updateUi(card: Card) = with(binding) {
         alpha = if (isSelected) 1f else 0.5f
-        card.backgroundImage?.resId?.let(icon::setImageResource)
+        icon.setImageResource(card.backgroundImage.resId)
+        icon.setColorTintRes(card.backgroundImage.tintRes)
         card.title?.text?.let { title.text = it }
     }
 }

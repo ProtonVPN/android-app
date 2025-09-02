@@ -28,7 +28,7 @@ import com.protonvpn.android.databinding.TvItemGridBinding
 import com.protonvpn.android.tv.detailed.CountryDetailFragment
 import com.protonvpn.android.tv.models.Card
 import com.protonvpn.android.tv.models.CountryCard
-import com.protonvpn.android.utils.setColorTint
+import com.protonvpn.android.utils.setColorTintRes
 
 class TvItemCardView(context: Context?) : BaseCardView(context, null, R.style.DefaultCardTheme) {
 
@@ -53,14 +53,9 @@ class TvItemCardView(context: Context?) : BaseCardView(context, null, R.style.De
         titleLayout.setBackgroundResource(card.title?.backgroundColorRes ?: 0)
         imageTitle.isVisible = card.title?.resId != null
 
-        card.backgroundImage?.let { drawableImage ->
-            if (drawableImage.tint != null) {
-                imageBackground.setColorTint(ContextCompat.getColor(context, drawableImage.tint))
-            } else {
-                imageBackground.colorFilter = null
-            }
-
-            imageBackground.setImageResource(drawableImage.resId)
+        with(card.backgroundImage) {
+            imageBackground.setColorTintRes(tintRes)
+            imageBackground.setImageResource(resId)
         }
         card.bottomTitle?.let { title ->
             textDescription.text = title.text
