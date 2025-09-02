@@ -20,7 +20,6 @@
 package com.protonvpn.android.tv.settings.splittunneling
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.focusGroup
@@ -321,7 +320,6 @@ private fun AppItemRow(
         onClick = onClick,
         clickSound = false, // Clicking moves focus which also produces sound.
         verticalAlignment = Alignment.CenterVertically,
-        verticalContentPadding = 16.dp ,
         modifier = modifier.semantics {
             this.onClick(label = clickLabel, action = null)
         },

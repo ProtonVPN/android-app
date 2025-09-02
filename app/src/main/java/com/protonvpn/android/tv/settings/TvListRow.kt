@@ -95,7 +95,7 @@ fun TvListRow(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
-    verticalContentPadding: Dp = 12.dp,
+    verticalContentPadding: Dp = 16.dp,
     clickSound: Boolean = true,
     content: @Composable RowScope.() -> Unit
 ) {
