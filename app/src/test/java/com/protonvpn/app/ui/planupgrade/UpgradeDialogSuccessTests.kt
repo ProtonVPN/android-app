@@ -88,7 +88,6 @@ class UpgradeDialogSuccessTests {
             managedConfig = ManagedConfig(MutableStateFlow(null)),
             periodicUpdateManager = mockk(relaxed = true),
             wallClock = { 0L },
-            loggedIn = mockk(),
             inForeground = mockk()
         )
         currentUser = CurrentUser(testUserProvider)

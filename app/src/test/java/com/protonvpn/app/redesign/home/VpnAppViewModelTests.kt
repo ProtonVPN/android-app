@@ -129,7 +129,6 @@ class VpnAppViewModelTests {
             managedConfig = ManagedConfig(MutableStateFlow(null)),
             periodicUpdateManager = ImmediatePeriodicUpdateManager(),
             wallClock = { testScope.currentTime },
-            loggedIn = flowOf(false),
             inForeground = flowOf(true),
         )
         // Most tests expect a fully logged in user.

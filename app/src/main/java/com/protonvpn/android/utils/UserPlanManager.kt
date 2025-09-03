@@ -46,6 +46,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 import me.proton.core.network.domain.ApiResult
@@ -62,7 +63,6 @@ class UserPlanManager @Inject constructor(
     private val managedConfig: ManagedConfig,
     private val periodicUpdateManager: PeriodicUpdateManager,
     @WallClock private val wallClock: () -> Long,
-    @IsLoggedIn loggedIn: Flow<Boolean>,
     @IsInForeground inForeground: Flow<Boolean>,
 ) {
     sealed class InfoChange {
@@ -75,12 +75,14 @@ class UserPlanManager @Inject constructor(
         override fun toString(): String = this.javaClass.simpleName
     }
 
+    private val partiallyOrFullyLoggedIn: Flow<Boolean> = currentUser.partialJointUserFlow.map { it.user != null }
+
     private val vpnInfoUpdate = periodicUpdateManager.registerApiCall(
         "vpn_info",
         ::refreshVpnInfoInternal,
         PeriodicUpdateSpec(
             TimeUnit.MINUTES.toMillis(Constants.VPN_INFO_REFRESH_INTERVAL_MINUTES),
-            setOf(inForeground, loggedIn)
+            setOf(inForeground, partiallyOrFullyLoggedIn)
         )
     )
 

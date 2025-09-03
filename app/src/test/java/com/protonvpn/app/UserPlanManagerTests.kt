@@ -84,7 +84,6 @@ class UserPlanManagerTests {
             managedConfig = ManagedConfig(MutableStateFlow(null)),
             periodicUpdateManager = mockk(relaxed = true),
             wallClock = { 0 },
-            loggedIn = flowOf(true),
             inForeground = flowOf(true)
         )
     }
