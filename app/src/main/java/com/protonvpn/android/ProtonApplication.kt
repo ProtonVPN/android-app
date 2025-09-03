@@ -67,6 +67,7 @@ import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.UpdateSettingsOnFeatureFlagChange
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange
 import com.protonvpn.android.vpn.VpnConnectionObservability
+import com.protonvpn.android.vpn.autoconnect.AutoConnectBootReceiverController
 import com.protonvpn.android.widget.WidgetStateUpdater
 import com.protonvpn.android.widget.data.WidgetTracker
 import dagger.hilt.EntryPoint
@@ -101,6 +102,7 @@ open class ProtonApplication : Application() {
         val accountStateHandler: AccountStateHandler
         val appExitObservability: AppExitObservability
         val appStartExitLogger: AppStartExitLogger
+        val autoConnectBootController: AutoConnectBootReceiverController
         val autoLoginManager: AutoLoginManager?
         val certificateRepository: CertificateRepository?
         val closeSessionOnForceLogout: CloseSessionOnForceLogout?
@@ -183,6 +185,7 @@ open class ProtonApplication : Application() {
 
         dependencies.accountStateHandler.start()
         dependencies.appExitObservability.start()
+        dependencies.autoConnectBootController.start()
         dependencies.autoLoginManager
         dependencies.certificateRepository
         dependencies.connectingUpdatesRecents

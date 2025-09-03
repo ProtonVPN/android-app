@@ -65,6 +65,8 @@ open class IconCard(title: String, @DrawableRes image: Int) : Card(
 
 class LogoutCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_arrow_out_from_rectangle)
 class ReportBugCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_bug)
+class SettingsAutoConnectCard(title: String) :
+    IconCard(title, CoreR.drawable.ic_proton_power_off)
 
 class SettingsCustomDns(title: String, isFree: Boolean) : IconCard(
     title = title,

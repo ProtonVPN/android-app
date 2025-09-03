@@ -26,6 +26,7 @@ import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.utils.SyncStateFlow
@@ -51,6 +52,7 @@ import javax.inject.Singleton
 class SettingsFeatureFlagsFlow @Inject constructor(
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
+    isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
 ) : Flow<SettingsFeatureFlagsFlow.Flags> {
@@ -58,6 +60,7 @@ class SettingsFeatureFlagsFlow @Inject constructor(
     data class Flags(
         val isIPv6Enabled: Boolean,
         val isDirectLanConnectionsEnabled: Boolean,
+        val isTvAutoConnectEnabled: Boolean,
         val isTvNetShieldSettingEnabled: Boolean,
         val isTvCustomDnsSettingEnabled: Boolean,
     )
@@ -65,12 +68,14 @@ class SettingsFeatureFlagsFlow @Inject constructor(
     private val flow: Flow<Flags> = combine(
         isIPv6FeatureFlagEnabled.observe(),
         isDirectLanConnectionsFeatureFlagEnabled.observe(),
+        isTvAutoConnectFeatureFlagEnabled.observe(),
         isTvNetShieldSettingFeatureFlagEnabled.observe(),
         isTvCustomDnsSettingFeatureFlagEnabled.observe(),
-    ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isTvNetShieldEnabled, isTvCustomDnsEnabled ->
+    ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isTvAutoConnectEnabled, isTvNetShieldEnabled, isTvCustomDnsEnabled ->
         Flags(
             isIPv6Enabled = isIPv6Enabled,
             isDirectLanConnectionsEnabled = isDirectLanConnectionsEnabled,
+            isTvAutoConnectEnabled = isTvAutoConnectEnabled,
             isTvNetShieldSettingEnabled = isTvNetShieldEnabled,
             isTvCustomDnsSettingEnabled = isTvCustomDnsEnabled
         )
@@ -125,6 +130,7 @@ abstract class BaseApplyEffectiveUserSettings(
             },
             customDns = if (isUserPlusOrAbove) settings.customDns else CustomDnsSettings(false),
             theme = settings.theme,
+            tvAutoConnect = if (isTv && flags.isTvAutoConnectEnabled) settings.tvAutoConnect else AutoConnectSetting(false),
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
             ipV6Enabled = settings.ipV6Enabled && flags.isIPv6Enabled && !isTv
@@ -189,6 +195,7 @@ class EffectiveCurrentUserSettings(
     val netShield = distinct { it.netShield }
     val protocol = distinct { it.protocol }
     val telemetry = distinct { it.telemetry }
+    val tvAutoConnect = distinct { it.tvAutoConnect }
     val vpnAccelerator = distinct { it.vpnAccelerator }
     val splitTunneling = distinct { it.splitTunneling }
     val ipV6Enabled = distinct { it.ipV6Enabled }

@@ -74,6 +74,7 @@ class EffectiveCurrentUserSettingsFlowTests {
                 isDirectLanConnectionsEnabled = true,
                 isTvNetShieldSettingEnabled = true,
                 isTvCustomDnsSettingEnabled = true,
+                isTvAutoConnectEnabled = true,
             )
         )
         testUserProvider = TestCurrentUserProvider(plusUser)

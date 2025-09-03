@@ -36,6 +36,7 @@ import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -101,6 +102,7 @@ class SettingsForConnectionTests {
                 flags = SettingsFeatureFlagsFlow(
                     isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true),
                     isDirectLanConnectionsFeatureFlagEnabled = isDirectLanEnabled,
+                    isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
                     isTvNetShieldSettingFeatureFlagEnabled = isTvNetShieldEnabled,
                     isTvCustomDnsSettingFeatureFlagEnabled = isTvCustomDnsEnabled,
                 )

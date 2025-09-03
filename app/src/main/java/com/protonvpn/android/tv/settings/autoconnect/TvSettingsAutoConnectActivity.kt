@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.tv.settings.lanconnections
+package com.protonvpn.android.tv.settings.autoconnect
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -35,22 +35,23 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
+import com.protonvpn.android.settings.data.AutoConnectMode
 import com.protonvpn.android.tv.settings.TvSettingDescriptionRow
+import com.protonvpn.android.tv.settings.TvSettingsItemRadioSmall
 import com.protonvpn.android.tv.settings.TvSettingsMainToggleLayout
-import com.protonvpn.android.tv.settings.TvSettingsReconnectDialog
 import com.protonvpn.android.tv.ui.TvUiConstants
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 
 @AndroidEntryPoint
-class TvSettingsLanConnectionsActivity : BaseTvActivity() {
+class TvSettingsAutoConnectActivity : BaseTvActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ProtonThemeTv {
-                val viewModel: TvSettingsLanConnectionsViewModel = hiltViewModel()
+                val viewModel: TvSettingsAutoConnectViewModel = hiltViewModel()
                 val viewState = viewModel.viewState.collectAsStateWithLifecycle().value
 
                 Box(
@@ -58,11 +59,10 @@ class TvSettingsLanConnectionsActivity : BaseTvActivity() {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     if (viewState != null) {
-                        TvSettingsLanConnections(
+                        TvSettingsAutoConnect(
                             viewState = viewState,
-                            onToggled = { viewModel.toggleLanConnections(getVpnUiDelegate()) },
-                            onReconnect = { viewModel.onReconnectClicked(getVpnUiDelegate()) },
-                            onReconnectDismiss = viewModel::onReconnectDismissed,
+                            onToggled = viewModel::toggleAutoConnect,
+                            onModeSelected = viewModel::setAutoConnectMode,
                             modifier = Modifier.widthIn(max = TvUiConstants.SingleColumnWidth),
                         )
                     }
@@ -73,31 +73,37 @@ class TvSettingsLanConnectionsActivity : BaseTvActivity() {
 }
 
 @Composable
-private fun TvSettingsLanConnections(
-    viewState: TvSettingsLanConnectionsViewModel.ViewState,
+private fun TvSettingsAutoConnect(
+    viewState: TvSettingsAutoConnectViewModel.ViewState,
     onToggled: () -> Unit,
-    onReconnect: () -> Unit,
-    onReconnectDismiss: () -> Unit,
-    modifier: Modifier = Modifier,
+    onModeSelected: (AutoConnectMode) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     TvSettingsMainToggleLayout(
         modifier = modifier,
-        title = stringResource(R.string.settings_advanced_allow_lan_title_tv),
-        titleImageRes = R.drawable.tv_settings_lan_connections_header_image,
-        toggleValue = viewState.isEnabled,
+        title = stringResource(R.string.settings_autoconnect_title),
         onToggled = onToggled,
+        toggleValue = viewState.isEnabled,
     ) {
         item {
             TvSettingDescriptionRow(
-                stringResource(R.string.settings_advanced_allow_lan_description_tv),
+                text = stringResource(R.string.settings_autoconnect_description),
             )
         }
-    }
 
-    if (viewState.showReconnectDialog) {
-        TvSettingsReconnectDialog(
-            onReconnectNow = onReconnect,
-            onDismissRequest = onReconnectDismiss,
-        )
+        item {
+            TvSettingsItemRadioSmall(
+                title = stringResource(R.string.settings_autoconnect_mode_open_ui),
+                checked = viewState.mode == AutoConnectMode.OpenUi,
+                onClick = { onModeSelected(AutoConnectMode.OpenUi) },
+            )
+        }
+        item {
+            TvSettingsItemRadioSmall(
+                title = stringResource(R.string.settings_autoconnect_mode_boot),
+                checked = viewState.mode == AutoConnectMode.Boot,
+                onClick = { onModeSelected(AutoConnectMode.Boot ) },
+            )
+        }
     }
 }

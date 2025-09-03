@@ -82,6 +82,20 @@ data class CustomDnsSettings(
     val effectiveEnabled get() = effectiveDnsList.isNotEmpty()
 }
 
+enum class AutoConnectMode {
+    Boot, OpenUi
+}
+
+@Serializable
+data class AutoConnectSetting(
+    val isEnabled: Boolean = false,
+    val mode: AutoConnectMode = AutoConnectMode.OpenUi,
+) {
+    companion object {
+        val Default = AutoConnectSetting()
+    }
+}
+
 @Serializable
 data class LocalUserSettings(
     val version: Int = 2,
@@ -98,6 +112,7 @@ data class LocalUserSettings(
     val splitTunneling: SplitTunnelingSettings = SplitTunnelingSettings(),
     val telemetry: Boolean = true,
     val theme: ThemeType = ThemeType.Dark,
+    val tvAutoConnect: AutoConnectSetting = AutoConnectSetting.Default,
     val vpnAccelerator: Boolean = true,
     val ipV6Enabled: Boolean = true,
     val customDns: CustomDnsSettings = CustomDnsSettings(false)
@@ -131,6 +146,7 @@ fun LocalUserSettings.toLogList(): List<String> {
         "Custom DNS enabled: ${customDns.toggleEnabled.toLog()}",
         "Custom DNS list: ${customDns.rawDnsList.itemCountToLog()}",
         "UI theme: $theme",
+        "TV auto connect: ${tvAutoConnect.toLog()}"
     )
     return regularSettings
 }

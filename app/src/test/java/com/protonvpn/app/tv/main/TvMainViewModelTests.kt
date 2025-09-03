@@ -40,6 +40,7 @@ import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.QuickConnectCard
+import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.SetFavoriteCountry
@@ -168,6 +169,8 @@ class TvMainViewModelTests {
             logoutUseCase = mockk(relaxed = true),
             purchaseEnabled = mockk(relaxed = true),
             effectiveCurrentUserSettingsCached = userSettingsCached,
+            autoConnectVpn = mockk(relaxed = true),
+            isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
             isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
             isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),
         )

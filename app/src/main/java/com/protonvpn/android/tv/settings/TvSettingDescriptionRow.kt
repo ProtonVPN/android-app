@@ -17,20 +17,27 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.mocks
+package com.protonvpn.android.tv.settings
 
-import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.tv.material3.Text
+import com.protonvpn.android.tv.ui.TvUiConstants
+import me.proton.core.compose.theme.ProtonTheme
 
-class FakeSettingsFeatureFlagsFlow(
-    private val flow: Flow<SettingsFeatureFlagsFlow.Flags> = flowOf(
-        value = SettingsFeatureFlagsFlow.Flags(
-            isIPv6Enabled = true,
-            isDirectLanConnectionsEnabled = true,
-            isTvNetShieldSettingEnabled = true,
-            isTvCustomDnsSettingEnabled = true,
-            isTvAutoConnectEnabled = true,
-        )
+@Composable
+fun TvSettingDescriptionRow(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        style = ProtonTheme.typography.body2Regular,
+        color = ProtonTheme.colors.textWeak,
+        modifier = modifier
+            .padding(horizontal = TvUiConstants.SelectionPaddingHorizontal)
+            .padding(top = 12.dp, bottom = 16.dp)
     )
-) : Flow<SettingsFeatureFlagsFlow.Flags> by flow
+}

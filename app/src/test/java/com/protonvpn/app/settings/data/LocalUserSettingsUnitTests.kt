@@ -22,6 +22,8 @@ package com.protonvpn.app.settings.data
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.settings.data.AutoConnectMode
+import com.protonvpn.android.settings.data.AutoConnectSetting
 import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
@@ -68,6 +70,10 @@ class LocalUserSettingsUnitTests {
                 },
                 "telemetry": true,
                 "theme": "Dark",
+                "tvAutoConnect": {
+                    "isEnabled": false,
+                    "mode": "OpenUi"
+                },
                 "vpnAccelerator": true,
                 "ipV6Enabled": true,
                 "customDns": {
@@ -120,6 +126,10 @@ class LocalUserSettingsUnitTests {
                 },
                 "telemetry": false,
                 "theme": "System",
+                "tvAutoConnect": {
+                    "isEnabled": true,
+                    "mode": "Boot"
+                },
                 "vpnAccelerator": false,
                 "ipV6Enabled": false,
                 "customDns": {
@@ -149,6 +159,7 @@ class LocalUserSettingsUnitTests {
             ),
             telemetry = false,
             theme = ThemeType.System,
+            tvAutoConnect = AutoConnectSetting(isEnabled = true, AutoConnectMode.Boot),
             vpnAccelerator = false,
             ipV6Enabled = false,
             customDns = CustomDnsSettings(

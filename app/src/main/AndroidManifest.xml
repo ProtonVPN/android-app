@@ -96,6 +96,8 @@
             android:name=".tv.TvUpgradeActivity"
             android:theme="@style/AppTheme.TV.Browse" />
         <activity
+            android:name=".tv.settings.autoconnect.TvSettingsAutoConnectActivity" />
+        <activity
             android:name=".tv.settings.customdns.TvSettingsCustomDnsActivity" />
         <activity
             android:name=".tv.settings.customdns.add.TvSettingsAddCustomDnsActivity" />
@@ -326,6 +328,13 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".vpn.autoconnect.AutoConnectBootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 

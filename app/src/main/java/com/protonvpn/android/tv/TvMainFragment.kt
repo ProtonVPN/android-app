@@ -56,6 +56,7 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.LogoutCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.ReportBugCard
+import com.protonvpn.android.tv.models.SettingsAutoConnectCard
 import com.protonvpn.android.tv.models.SettingsCustomDns
 import com.protonvpn.android.tv.models.SettingsLanConnectionsCard
 import com.protonvpn.android.tv.models.SettingsNetShieldCard
@@ -63,6 +64,7 @@ import com.protonvpn.android.tv.models.SettingsProtocolCard
 import com.protonvpn.android.tv.models.SettingsSplitTunnelingCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
+import com.protonvpn.android.tv.settings.autoconnect.TvSettingsAutoConnectActivity
 import com.protonvpn.android.tv.settings.customdns.TvSettingsCustomDnsActivity
 import com.protonvpn.android.tv.settings.lanconnections.TvSettingsLanConnectionsActivity
 import com.protonvpn.android.tv.settings.netshield.TvSettingsNetShieldActivity
@@ -117,6 +119,8 @@ class TvMainFragment : BaseTvBrowseFragment() {
                         setupRowAdapter(it)
                     }
                     .launchIn(viewLifecycleOwner.lifecycleScope)
+                viewModel.autoConnectTrigger
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
     }
@@ -168,6 +172,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 is QuickConnectCard -> {
                     viewModel.onQuickConnectAction(requireActivity() as BaseTvActivity)
                 }
+                is SettingsAutoConnectCard -> {
+                    startActivity(Intent(context, TvSettingsAutoConnectActivity::class.java))
+                }
                 is SettingsCustomDns -> {
                     paidFeatureOpener(TvSettingsCustomDnsActivity::class.java)
                 }
@@ -199,6 +206,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
             isFreeUser = viewState.isFreeUser,
             showNetShieldSetting = viewState.showNetShieldSetting,
             showCustomDnsSetting = viewState.showCustomDnsSetting,
+            showAutoConnectSetting = viewState.showAutoConnectSetting,
         )
 
         view?.doOnPreDraw {
@@ -234,6 +242,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
     private fun ArrayObjectAdapter.createRows(
         isFreeUser: Boolean,
+        showAutoConnectSetting: Boolean,
         showNetShieldSetting: Boolean,
         showCustomDnsSetting: Boolean,
     ) {
@@ -261,9 +270,11 @@ class TvMainFragment : BaseTvBrowseFragment() {
             if (showNetShieldSetting) {
                 add(SettingsNetShieldCard(getString(R.string.settings_netshield_title), isFreeUser))
             }
-
             add(SettingsSplitTunnelingCard(getString(R.string.tv_card_split_tunneling_label), isFreeUser))
             add(SettingsProtocolCard(getString(R.string.tv_card_protocol_label)))
+            if (showAutoConnectSetting) {
+                add(SettingsAutoConnectCard(getString(R.string.settings_autoconnect_title)))
+            }
             add(SettingsLanConnectionsCard(getString(R.string.tv_card_lan_connections_label), isFreeUser))
 
             if(showCustomDnsSetting) {
