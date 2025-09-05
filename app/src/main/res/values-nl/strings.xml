@@ -1068,7 +1068,7 @@
     <string name="country_filter_p2p_list_header_cities">P2P-steden (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P-staten (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor-landen (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor servers</string>
+    <string name="country_filter_tor_servers_list_header">Tor-servers</string>
     <string name="country_filter_info_label">Info</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
