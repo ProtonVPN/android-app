@@ -20,7 +20,6 @@
 package com.protonvpn.android.vpn
 
 import androidx.annotation.VisibleForTesting
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserCertStoreError
@@ -40,7 +39,6 @@ import me.proton.core.crypto.common.keystore.decryptOrElse
 import me.proton.core.crypto.common.keystore.encryptOrElse
 import me.proton.core.crypto.validator.domain.prefs.CryptoPrefs
 import me.proton.core.network.domain.session.SessionId
-import me.proton.core.user.domain.entity.Role
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
 import javax.inject.Inject
@@ -84,19 +82,6 @@ class CertStorageCryptoImpl @Inject constructor(
         }
 }
 
-fun interface CanUseInsecureCertStorage {
-    suspend operator fun invoke(): Boolean
-}
-
-@Reusable
-class CanUseInsecureCertStorageImpl @Inject constructor(
-    private val currentUser: CurrentUser
-) : CanUseInsecureCertStorage {
-    override suspend fun invoke(): Boolean = currentUser.user().let { user ->
-        user == null || user.role == Role.NoOrganization
-    }
-}
-
 // SessionId cannot be used as key in serialized Data. Introduce alias to be used with SessionId.id
 private typealias SessionIdRaw = String
 
@@ -104,7 +89,6 @@ private typealias SessionIdRaw = String
 class CertificateStorage @Inject constructor(
     mainScope: CoroutineScope,
     private val crypto: CertStorageCrypto,
-    private val canUseInsecureCertStorage: CanUseInsecureCertStorage,
     private val localDataStoreFactory: LocalDataStoreFactory,
 ) {
     @Serializable
@@ -183,7 +167,7 @@ class CertificateStorage @Inject constructor(
 
     @VisibleForTesting
     suspend fun putInStore(sessionId: SessionId, certInfoJson: String) {
-        val storedInfo = if (crypto.useInsecureKeystore && canUseInsecureCertStorage()) {
+        val storedInfo = if (crypto.useInsecureKeystore) {
             StoredCertInfo.Fallback(certInfoJson)
         } else {
             val encryptedJson = crypto.encryptOrElse(certInfoJson) { e ->
@@ -192,13 +176,11 @@ class CertificateStorage @Inject constructor(
             }
             if (encryptedJson != null) {
                 StoredCertInfo.Encrypted(encryptedJson)
-            } else if (canUseInsecureCertStorage()) {
-                // Fallback to storing unencrypted data if encryption fails
+            } else {
+                // Fallback to storing unencrypted data if encryption fails, rely on android
+                // filesystem protection until we have a better way of recognizing b2b.
                 ProtonLogger.log(UserCertStoreError, "Using fallback for certificate info storage")
                 StoredCertInfo.Fallback(certInfoJson)
-            } else {
-                ProtonLogger.log(UserCertStoreError, "Failed to store certificate info securely")
-                return
             }
         }
 

@@ -19,7 +19,6 @@
 
 package com.protonvpn.app.vpn
 
-import com.protonvpn.android.vpn.CanUseInsecureCertStorage
 import com.protonvpn.android.vpn.CertInfo
 import com.protonvpn.android.vpn.CertStorageCrypto
 import com.protonvpn.android.vpn.CertificateStorage
@@ -139,28 +138,15 @@ class CertificateStorageTests {
         )
         assertEquals(null, storageAfterLaunch.get(SESSION_1))
     }
-
-    @Test
-    fun `GIVEN insecure store disallowed THEN cert is stored only encrypted`() = runTest {
-        val storage = createStorage(this, canUseInsecureCertStorage = { false })
-
-        val certEncryptFail = createTestCert(PRIVATE_KEY_PEM_FAIL_TO_ENCRYPT)
-        storage.put(SESSION_1, certEncryptFail)
-        // Cert is readable from cache but not stored
-        assertEquals(certEncryptFail, storage.get(SESSION_1))
-        assertEquals(null, storage.getStoredCertInfo(SESSION_1))
-    }
 }
 
 private fun createStorage(
     scope: CoroutineScope,
     localDataStoreFactory: InMemoryDataStoreFactory = InMemoryDataStoreFactory(),
     crypto: TestCertStorageCrypto = TestCertStorageCrypto(),
-    canUseInsecureCertStorage: CanUseInsecureCertStorage = CanUseInsecureCertStorage { true },
 ) = CertificateStorage(
     mainScope = scope,
     crypto,
-    canUseInsecureCertStorage,
     localDataStoreFactory = localDataStoreFactory
 )
 
