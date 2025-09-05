@@ -24,6 +24,7 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.logging.AppUpdateUpdated
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.CertificateData
+import com.protonvpn.android.settings.usecases.EnableTvLanSettingOnMigration
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.Storage
 import dagger.Reusable
@@ -38,6 +39,7 @@ class UpdateMigration @Inject constructor(
     private val mainScope: CoroutineScope,
     private val appPrefs: AppFeaturesPrefs,
     private val uiStateStorage: UiStateStorage,
+    private val enableTvLanSettingOnMigration: dagger.Lazy<EnableTvLanSettingOnMigration>,
 ) {
 
     fun handleUpdate() {
@@ -51,6 +53,7 @@ class UpdateMigration @Inject constructor(
             promoteProfiles(strippedOldVersionCode)
             whatsNewWidget(strippedOldVersionCode)
             remove_cert_storage_v1(strippedOldVersionCode)
+            migrateTvLanSetting(strippedOldVersionCode)
         }
     }
 
@@ -88,6 +91,15 @@ class UpdateMigration @Inject constructor(
         if (oldVersionCode <= 5_12_83_00) {
             appContext.deleteSharedPreferences("cert_data")
             appContext.deleteSharedPreferences("cert_data_fallback")
+        }
+    }
+
+    @SuppressWarnings("MagicNumber")
+    private fun migrateTvLanSetting(oldVersionCode: Int) {
+        if (oldVersionCode <= 5_13_15_00) {
+            mainScope.launch {
+                enableTvLanSettingOnMigration.get().invoke()
+            }
         }
     }
 
