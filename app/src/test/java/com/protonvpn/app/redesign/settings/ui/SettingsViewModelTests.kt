@@ -29,6 +29,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.toProfile
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.settings.ui.SettingValue
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
@@ -102,7 +103,11 @@ class SettingsViewModelTests {
     private lateinit var mockObserveUserSettings: ObserveUserSettings
 
     @MockK
+    private lateinit var mockObserveDefaultConnection: ObserveDefaultConnection
+
+    @MockK
     private lateinit var mockIsTvCheck: IsTvCheck
+
     @MockK
     private lateinit var mockAppIconManager: AppIconManager
 
@@ -111,10 +116,13 @@ class SettingsViewModelTests {
 
     @RelaxedMockK
     private lateinit var mockRecentManager: RecentsManager
+
     @RelaxedMockK
     private lateinit var isFido2Enabled: IsFido2Enabled
+
     @RelaxedMockK
     private lateinit var observeRegisteredSecurityKeys: ObserveRegisteredSecurityKeys
+
     @RelaxedMockK
     private lateinit var mockWidgetManager: WidgetManager
 
@@ -143,7 +151,7 @@ class SettingsViewModelTests {
         testScope = TestScope(testDispatcher)
         prefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
         every { mockIsTvCheck.invoke() } returns false
-        coEvery { mockRecentManager.getDefaultConnectionFlow() } returns flowOf(Constants.DEFAULT_CONNECTION)
+        coEvery { mockObserveDefaultConnection() } returns flowOf(Constants.DEFAULT_CONNECTION)
         val accountUser = createAccountUser()
         testUserProvider = TestCurrentUserProvider(plusUser, accountUser)
         val currentUser = CurrentUser(testUserProvider)
@@ -203,7 +211,8 @@ class SettingsViewModelTests {
             appFeaturePrefs = prefs,
             isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
             isPrivateDnsActiveFlow = IsPrivateDnsActiveFlow(isPrivateDnsActive),
-            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled
+            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
+            observeDefaultConnection = mockObserveDefaultConnection,
         )
     }
 

@@ -1,7 +1,7 @@
 package com.protonvpn.app.telemetry.settings
 
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
-import com.protonvpn.android.redesign.recents.usecases.RecentsManager
+import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -46,7 +46,7 @@ class GetSettingsTelemetrySnapshotDimensionsTests {
     private lateinit var mockConnectivityMonitor: ConnectivityMonitor
 
     @MockK
-    private lateinit var mockRecentsManager: RecentsManager
+    private lateinit var mockObserveDefaultConnection: ObserveDefaultConnection
 
     @MockK
     private lateinit var mockWidgetTracker: WidgetTracker
@@ -89,16 +89,14 @@ class GetSettingsTelemetrySnapshotDimensionsTests {
             effectiveCurrentUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, localUserSettingsFlow),
             getTruncationMustHaveIDs = getTruncationMustHaveIDs,
             isServerListTruncationEnabled = FakeServerListTruncationEnabled(isServerListTruncationEnabledFlow),
-            recentsManager = mockRecentsManager,
+            observeDefaultConnection = mockObserveDefaultConnection,
             widgetTracker = mockWidgetTracker,
             isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true)
         )
 
         every { mockAppIconManager.getCurrentIconData() } returns CustomAppIconData.DEFAULT
         every { mockConnectivityMonitor.isPrivateDnsActive } returns MutableStateFlow(null)
-        every { mockRecentsManager.getDefaultConnectionFlow() } returns MutableStateFlow(
-            DefaultConnection.FastestConnection
-        )
+        every { mockObserveDefaultConnection() } returns MutableStateFlow(DefaultConnection.FastestConnection)
         every { mockWidgetTracker.widgetCount } returns MutableStateFlow(0)
         coEvery { mockWidgetTracker.firstWidgetType() } returns null
     }
@@ -137,7 +135,7 @@ class GetSettingsTelemetrySnapshotDimensionsTests {
             DefaultConnection.LastConnection to "last_connection",
             DefaultConnection.Recent(recentId = 1L) to "recent",
         ).forEach { (defaultConnection, expectedDimensionValue) ->
-            every { mockRecentsManager.getDefaultConnectionFlow() } returns MutableStateFlow(value = defaultConnection)
+            every { mockObserveDefaultConnection() } returns MutableStateFlow(value = defaultConnection)
 
             val dimensions = getSettingsTelemetrySnapshotDimensions()
 

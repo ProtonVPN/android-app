@@ -32,23 +32,29 @@ class GetQuickConnectIntent @Inject constructor(
     private val currentUser: CurrentUser,
     private val recentsManager: RecentsManager,
     private val getIntentAvailability: GetIntentAvailability,
+    private val getDefaultConnectIntent: GetDefaultConnectIntent,
     private val userSettings: EffectiveCurrentUserSettings,
+    private val observeDefaultConnection: ObserveDefaultConnection,
 ) {
     suspend operator fun invoke(): ConnectIntent {
-        val quickIntent: ConnectIntent? = if (currentUser.vpnUser()?.isFreeUser != false) {
-            ConnectIntent.Default
-        } else {
-            when (val defaultConnection = recentsManager.getDefaultConnectionFlow().first()) {
-                DefaultConnection.LastConnection ->
-                    recentsManager.getMostRecentConnection().first()?.connectIntent
-                DefaultConnection.FastestConnection -> ConnectIntent.Fastest
-                is DefaultConnection.Recent ->
-                    recentsManager.getRecentById(defaultConnection.recentId)?.connectIntent
-            }
+        val vpnUser = currentUser.vpnUser()
+
+        if (vpnUser == null || vpnUser.isFreeUser) {
+            return ConnectIntent.Default
         }
 
-        return quickIntent?.takeIf {
-            getIntentAvailability(it, currentUser.vpnUser(), userSettings.protocol.first()) == ConnectIntentAvailability.ONLINE
-        } ?: ConnectIntent.Default
+        val protocolSelection = userSettings.protocol.first()
+
+        return when (val defaultConnection = observeDefaultConnection().first()) {
+            DefaultConnection.LastConnection -> recentsManager.getMostRecentConnection().first()?.connectIntent
+            DefaultConnection.FastestConnection -> ConnectIntent.Fastest
+            is DefaultConnection.Recent -> recentsManager.getRecentById(defaultConnection.recentId)?.connectIntent
+        }?.takeIf { quickConnectIntent ->
+            getIntentAvailability(
+                connectIntent = quickConnectIntent,
+                vpnUser = vpnUser,
+                settingsProtocol = protocolSelection,
+            ) == ConnectIntentAvailability.ONLINE
+        } ?: getDefaultConnectIntent(vpnUser = vpnUser, protocolSelection = protocolSelection)
     }
 }

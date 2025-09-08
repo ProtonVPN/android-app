@@ -21,18 +21,11 @@ package com.protonvpn.android.redesign.recents.usecases
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
-import com.protonvpn.android.redesign.recents.data.ConnectionType
-import com.protonvpn.android.redesign.recents.data.DefaultConnection
-import com.protonvpn.android.redesign.recents.data.DefaultConnectionDao
-import com.protonvpn.android.redesign.recents.data.DefaultConnectionEntity
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.data.RecentsDao
-import com.protonvpn.android.redesign.recents.data.toDefaultConnection
 import com.protonvpn.android.utils.flatMapLatestNotNull
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -42,39 +35,24 @@ import javax.inject.Singleton
  */
 @Singleton
 class RecentsManager @Inject constructor(
+    currentUser: CurrentUser,
     private val mainScope: CoroutineScope,
     private val recentsDao: RecentsDao,
-    private val defaultConnectionDao: DefaultConnectionDao,
-    private val currentUser: CurrentUser,
     @WallClock private val clock: () -> Long,
 ) {
     private val currentVpnUserFlow = currentUser.vpnUserFlow
 
-    fun getRecentsList(limit: Int = -1): Flow<List<RecentConnection>> = currentVpnUserFlow.flatMapLatestNotNull { user ->
-        recentsDao.getRecentsList(user.userId, limit)
-    }
-    suspend fun setDefaultConnection(defaultConnection: DefaultConnection) {
-        currentVpnUserFlow.first()?.let {
-            val defaultConnectionEntity = when (defaultConnection) {
-                DefaultConnection.FastestConnection -> DefaultConnectionEntity(userId = it.userId.id, recentId = null, connectionType = ConnectionType.FASTEST)
-                DefaultConnection.LastConnection -> DefaultConnectionEntity(userId = it.userId.id, recentId = null, connectionType = ConnectionType.LAST_CONNECTION)
-                is DefaultConnection.Recent -> DefaultConnectionEntity(userId = it.userId.id, recentId = defaultConnection.recentId, connectionType = ConnectionType.RECENT)
-            }
-            defaultConnectionDao.insert(defaultConnectionEntity)
+    fun getRecentsList(limit: Int = -1): Flow<List<RecentConnection>> = currentVpnUserFlow
+        .flatMapLatestNotNull { user ->
+            recentsDao.getRecentsList(user.userId, limit)
         }
-    }
 
-    fun getDefaultConnectionFlow(): Flow<DefaultConnection> = currentVpnUserFlow.flatMapLatestNotNull { user ->
-        defaultConnectionDao.getDefaultConnectionFlow(user.userId).map { entity ->
-            entity?.toDefaultConnection() ?: DefaultConnection.FastestConnection
+    fun getMostRecentConnection(): Flow<RecentConnection?> = currentVpnUserFlow
+        .flatMapLatestNotNull { user ->
+            recentsDao.getMostRecentConnection(user.userId)
         }
-    }
 
-    fun getMostRecentConnection(): Flow<RecentConnection?> = currentVpnUserFlow.flatMapLatestNotNull { user ->
-        recentsDao.getMostRecentConnection(user.userId)
-    }
-
-    suspend fun getRecentById(id: Long) = recentsDao.getById(id)
+    suspend fun getRecentById(id: Long): RecentConnection? = recentsDao.getById(id)
 
     fun pin(itemId: Long) {
         mainScope.launch {

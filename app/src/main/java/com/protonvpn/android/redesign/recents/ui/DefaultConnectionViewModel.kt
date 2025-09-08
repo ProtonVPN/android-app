@@ -23,7 +23,7 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.DefaultConnItem
 import com.protonvpn.android.redesign.recents.usecases.DefaultConnectionViewStateFlow
-import com.protonvpn.android.redesign.recents.usecases.RecentsManager
+import com.protonvpn.android.redesign.recents.usecases.SetDefaultConnection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -35,7 +35,7 @@ import javax.inject.Inject
 class DefaultConnectionViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
     defaultConnectionViewStateFlow: DefaultConnectionViewStateFlow,
-    private val recentsManager: RecentsManager,
+    private val setDefaultConnection: SetDefaultConnection,
 ) : ViewModel() {
     val defaultConnectionViewState = defaultConnectionViewStateFlow
         .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
@@ -43,11 +43,17 @@ class DefaultConnectionViewModel @Inject constructor(
     fun setNewDefaultConnection(defaultConnectionItem: DefaultConnItem) {
         mainScope.launch {
             val defaultConnection = when (defaultConnectionItem) {
-                is DefaultConnItem.DefaultConnItemViewState -> DefaultConnection.Recent(defaultConnectionItem.id)
+                is DefaultConnItem.DefaultConnItemViewState -> DefaultConnection.Recent(
+                    recentId = defaultConnectionItem.id
+                )
+
                 is DefaultConnItem.MostRecentItem -> DefaultConnection.LastConnection
-                else -> DefaultConnection.FastestConnection
+
+                is DefaultConnItem.HeaderSeparator,
+                is DefaultConnItem.FastestItem -> DefaultConnection.FastestConnection
             }
-            recentsManager.setDefaultConnection(defaultConnection)
+
+            setDefaultConnection(defaultConnection)
         }
     }
 }

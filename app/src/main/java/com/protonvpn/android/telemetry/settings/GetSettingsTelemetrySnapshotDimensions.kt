@@ -1,7 +1,7 @@
 package com.protonvpn.android.telemetry.settings
 
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
-import com.protonvpn.android.redesign.recents.usecases.RecentsManager
+import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.toTelemetry
@@ -28,9 +28,9 @@ class GetSettingsTelemetrySnapshotDimensions @Inject constructor(
     private val effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
     private val getTruncationMustHaveIDs: GetTruncationMustHaveIDs,
     private val isServerListTruncationEnabled: ServerListTruncationEnabled,
-    private val recentsManager: RecentsManager,
     private val widgetTracker: WidgetTracker,
     private val isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
+    private val observeDefaultConnection: ObserveDefaultConnection,
 ) {
 
     suspend operator fun invoke(): Map<String, String> = buildMap {
@@ -41,7 +41,7 @@ class GetSettingsTelemetrySnapshotDimensions @Inject constructor(
 
         put(
             key = DIMENSION_DEFAULT_CONNECTION_TYPE,
-            value = recentsManager.getDefaultConnectionFlow().first().getTelemetryName()
+            value = observeDefaultConnection().first().getTelemetryName()
         )
 
         put(

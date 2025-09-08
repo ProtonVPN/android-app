@@ -20,19 +20,22 @@
 package com.protonvpn.app.redesign.recents.usecases
 
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.RecentConnection
+import com.protonvpn.android.redesign.recents.usecases.GetDefaultConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.GetIntentAvailability
 import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
+import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
-import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createConnectIntentFastest
+import com.protonvpn.test.shared.createConnectIntentFastestInCountry
+import com.protonvpn.test.shared.createConnectIntentGateway
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -46,6 +49,12 @@ import org.junit.Before
 import org.junit.Test
 
 class GetQuickConnectIntentTests {
+
+    @MockK
+    private lateinit var mockGetDefaultConnectIntent: GetDefaultConnectIntent
+
+    @MockK
+    private lateinit var mockObserveDefaultConnection: ObserveDefaultConnection
 
     @MockK
     private lateinit var mockRecentsManager: RecentsManager
@@ -71,60 +80,160 @@ class GetQuickConnectIntentTests {
         testUserProvider = TestCurrentUserProvider(vpnUser = null)
         currentUser = CurrentUser(testUserProvider)
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
-        val effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
+        val effectiveUserSettings =
+            EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
         mostRecentConnectionFlow = MutableStateFlow(null)
         every { mockRecentsManager.getMostRecentConnection() } returns mostRecentConnectionFlow
-        coEvery { mockGetIntentAvailability(any(), any(), any()) } returns ConnectIntentAvailability.ONLINE
-        coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(Constants.DEFAULT_CONNECTION)
-        getQuickConnectIntent = GetQuickConnectIntent(currentUser, mockRecentsManager, mockGetIntentAvailability, effectiveUserSettings)
+        coEvery {
+            mockGetIntentAvailability(
+                any(),
+                any(),
+                any()
+            )
+        } returns ConnectIntentAvailability.ONLINE
+        coEvery { mockObserveDefaultConnection() } returns flowOf(Constants.DEFAULT_CONNECTION)
+        getQuickConnectIntent = GetQuickConnectIntent(
+            currentUser = currentUser,
+            recentsManager = mockRecentsManager,
+            getIntentAvailability = mockGetIntentAvailability,
+            observeDefaultConnection = mockObserveDefaultConnection,
+            getDefaultConnectIntent = mockGetDefaultConnectIntent,
+            userSettings = effectiveUserSettings,
+        )
     }
 
     @Test
-    fun `when no connection history return fastest`() = testScope.runTest {
-        testUserProvider.vpnUser = plusUser
-        mostRecentConnectionFlow.value = null
+    fun `GIVEN no VPN user WHEN getting quick connect intent THEN returns Fastest`() = testScope.runTest {
+        testUserProvider.vpnUser = null
+        val expectedQuickConnectIntent = createConnectIntentFastest()
 
-        assertEquals(ConnectIntent.Fastest, getQuickConnectIntent())
+        val quickConnectIntent = getQuickConnectIntent()
+
+        assertEquals(expectedQuickConnectIntent, quickConnectIntent)
     }
 
     @Test
-    fun `when there is connection history return most recent`() = testScope.runTest {
-        val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
-        coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(DefaultConnection.LastConnection)
-        testUserProvider.vpnUser = plusUser
-        mostRecentConnectionFlow.value = RecentConnection.UnnamedRecent(0, false, connectIntent)
-
-        assertEquals(connectIntent, getQuickConnectIntent())
-    }
-
-    @Test
-    fun `when recent is offline fastest connection is returned instead`() = testScope.runTest {
-        val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
-        coEvery { mockGetIntentAvailability(any(), any(), any()) } returns ConnectIntentAvailability.AVAILABLE_OFFLINE
-        coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(DefaultConnection.LastConnection)
-        testUserProvider.vpnUser = plusUser
-        mostRecentConnectionFlow.value = RecentConnection.UnnamedRecent(0, false, connectIntent)
-
-        assertEquals(ConnectIntent.Fastest, getQuickConnectIntent())
-    }
-
-    @Test
-    fun `when there is connection history return fastest for free user`() = testScope.runTest {
-        val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
+    fun `GIVEN free VPN user WHEN getting quick connect intent THEN returns Fastest`() = testScope.runTest {
         testUserProvider.vpnUser = freeUser
-        mostRecentConnectionFlow.value = RecentConnection.UnnamedRecent(0, false, connectIntent)
+        val expectedQuickConnectIntent = createConnectIntentFastest()
 
-        assertEquals(ConnectIntent.Fastest, getQuickConnectIntent())
+        val quickConnectIntent = getQuickConnectIntent()
+
+        assertEquals(expectedQuickConnectIntent, quickConnectIntent)
     }
 
     @Test
-    fun `when specific recent is selected return fastest for free user`() = testScope.runTest {
-        val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
-        val recent = RecentConnection.UnnamedRecent(0, false, connectIntent)
-        coEvery { mockRecentsManager.getRecentById(recent.id) } returns recent
-        coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(DefaultConnection.Recent(recent.id))
-        testUserProvider.vpnUser = freeUser
+    fun `GIVEN paid VPN user AND default connection is available WHEN getting quick connect intent THEN return saved default connect intent`() = testScope.runTest {
+        val recentId = 1L
+        val intentAvailability = ConnectIntentAvailability.ONLINE
+        testUserProvider.vpnUser = plusUser
 
-        assertEquals(ConnectIntent.Fastest, getQuickConnectIntent())
+        listOf(
+            DefaultConnection.FastestConnection to RecentConnection.UnnamedRecent(
+                id = recentId,
+                isPinned = false,
+                connectIntent = createConnectIntentFastest(),
+            ),
+            DefaultConnection.LastConnection to RecentConnection.UnnamedRecent(
+                id = recentId,
+                isPinned = true,
+                connectIntent = createConnectIntentFastestInCountry(),
+            ),
+            DefaultConnection.Recent(recentId = recentId) to RecentConnection.UnnamedRecent(
+                id = recentId,
+                isPinned = false,
+                connectIntent = createConnectIntentGateway(),
+            ),
+        ).forEach { (defaultConnection, recent) ->
+            val expectedQuickConnectIntent = recent.connectIntent
+            coEvery { mockObserveDefaultConnection() } returns flowOf(defaultConnection)
+            coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(recent)
+            coEvery { mockRecentsManager.getRecentById(id = recentId) } returns recent
+            coEvery {
+                mockGetIntentAvailability(
+                    connectIntent = recent.connectIntent,
+                    vpnUser = plusUser,
+                    settingsProtocol = settingsFlow.value.protocol,
+                )
+            } returns intentAvailability
+
+            val quickConnectIntent = getQuickConnectIntent()
+
+            assertEquals(expectedQuickConnectIntent, quickConnectIntent)
+        }
     }
+
+    @Test
+    fun `GIVEN paid VPN user AND default connection is not available WHEN getting quick connect intent THEN return fallback connect intent`() = testScope.runTest {
+        val recentId = 1L
+        val intentAvailability = ConnectIntentAvailability.UNAVAILABLE_PROTOCOL
+        testUserProvider.vpnUser = plusUser
+
+        listOf(
+            DefaultConnection.FastestConnection to RecentConnection.UnnamedRecent(
+                id = recentId,
+                isPinned = false,
+                connectIntent = createConnectIntentFastest()
+            ),
+            DefaultConnection.LastConnection to RecentConnection.UnnamedRecent(
+                id = recentId,
+                isPinned = true,
+                connectIntent = createConnectIntentFastestInCountry()
+            ),
+            DefaultConnection.Recent(recentId = recentId) to RecentConnection.UnnamedRecent(
+                id = recentId,
+                isPinned = false,
+                connectIntent = createConnectIntentGateway(),
+            ),
+        ).forEach { (defaultConnection, recent) ->
+            val expectedQuickConnectIntent = createConnectIntentFastest()
+            coEvery { mockObserveDefaultConnection() } returns flowOf(defaultConnection)
+            coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(recent)
+            coEvery { mockRecentsManager.getRecentById(id = recentId) } returns recent
+            coEvery {
+                mockGetIntentAvailability(
+                    connectIntent = recent.connectIntent,
+                    vpnUser = plusUser,
+                    settingsProtocol = settingsFlow.value.protocol,
+                )
+            } returns intentAvailability
+            coEvery {
+                mockGetDefaultConnectIntent(
+                    vpnUser = plusUser,
+                    protocolSelection = settingsFlow.value.protocol,
+                )
+            } returns expectedQuickConnectIntent
+
+            val quickConnectIntent = getQuickConnectIntent()
+
+            assertEquals(expectedQuickConnectIntent, quickConnectIntent)
+        }
+    }
+
+    @Test
+    fun `GIVEN paid VPN user AND no default connection WHEN getting quick connect intent THEN return fallback connect intent`() = testScope.runTest {
+        val recentId = 1L
+        testUserProvider.vpnUser = plusUser
+
+        listOf(
+            DefaultConnection.LastConnection to null,
+            DefaultConnection.Recent(recentId = recentId) to null,
+        ).forEach { (defaultConnection, recent) ->
+            val expectedQuickConnectIntent = createConnectIntentFastest()
+            coEvery { mockObserveDefaultConnection() } returns flowOf(defaultConnection)
+            coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(recent)
+            coEvery { mockRecentsManager.getRecentById(id = recentId) } returns recent
+            coEvery {
+                mockGetDefaultConnectIntent(
+                    vpnUser = plusUser,
+                    protocolSelection = settingsFlow.value.protocol,
+                )
+            } returns expectedQuickConnectIntent
+
+            val quickConnectIntent = getQuickConnectIntent()
+
+            assertEquals(expectedQuickConnectIntent, quickConnectIntent)
+        }
+    }
+
 }

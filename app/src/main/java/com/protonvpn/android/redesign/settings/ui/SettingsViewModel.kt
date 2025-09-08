@@ -35,6 +35,7 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.getRecentIdOrNull
+import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
@@ -84,6 +85,7 @@ class SettingsViewModel @Inject constructor(
     accountUserSettings: ObserveUserSettings,
     buildConfigInfo: BuildConfigInfo,
     settingsForConnection: SettingsForConnection,
+    private val observeDefaultConnection: ObserveDefaultConnection,
     private val recentsManager: RecentsManager,
     private val installedAppsProvider: InstalledAppsProvider,
     private val getConnectIntentViewState: GetConnectIntentViewState,
@@ -336,7 +338,7 @@ class SettingsViewModel @Inject constructor(
     val viewState =
         combine(
             currentUser.jointUserFlow,
-            recentsManager.getDefaultConnectionFlow(),
+            observeDefaultConnection(),
             // Will return override settings if connected else global
             settingsForConnection.getFlowForCurrentConnection(),
             appFeaturePrefs.isWidgetDiscoveredFlow,

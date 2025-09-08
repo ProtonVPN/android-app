@@ -22,6 +22,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
+import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import kotlinx.coroutines.CoroutineScope
@@ -45,6 +46,7 @@ class QuickTileDataStoreUpdater @Inject constructor(
     private val dataStore: QuickTileDataStore,
     private val recentsManager: RecentsManager,
     private val profilesDao: ProfilesDao,
+    private val observeDefaultConnection: ObserveDefaultConnection,
 ) {
     @OptIn(ExperimentalCoroutinesApi::class)
     fun start() {
@@ -68,7 +70,7 @@ class QuickTileDataStoreUpdater @Inject constructor(
         if (!isPlus) {
             flowOf(false)
         } else combine(
-            recentsManager.getDefaultConnectionFlow(),
+            observeDefaultConnection(),
             recentsManager.getMostRecentConnection(),
         ) { defaultConnection, mostRecentConnection ->
             defaultConnection to mostRecentConnection
