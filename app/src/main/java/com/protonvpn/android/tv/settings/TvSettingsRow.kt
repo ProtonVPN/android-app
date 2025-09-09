@@ -21,6 +21,7 @@ package com.protonvpn.android.tv.settings
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -44,6 +45,7 @@ import androidx.tv.material3.SwitchDefaults
 import androidx.tv.material3.Text
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun TvSettingsItem(
@@ -161,6 +163,33 @@ fun TvSettingsItemRadioSmall(
             modifier = Modifier
                 .padding(start = 8.dp)
                 .clearAndSetSemantics { }
+        )
+    }
+}
+
+@Composable
+fun TvSettingsItemMoreInfo(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    @DrawableRes leadingIconResId: Int = CoreR.drawable.ic_proton_question_circle,
+) {
+    TvListRow(
+        modifier = modifier,
+        onClick = onClick,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+    ) {
+        Icon(
+            painter = painterResource(id = leadingIconResId),
+            contentDescription = null,
+            tint = ProtonTheme.colors.textNorm,
+        )
+
+        Text(
+            text = text,
+            style = ProtonTheme.typography.body2Regular,
+            color = ProtonTheme.colors.textNorm,
         )
     }
 }

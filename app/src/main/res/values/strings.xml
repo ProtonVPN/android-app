@@ -230,7 +230,13 @@
     <string name="settingsTelemetryScreenTitle">Usage statistics</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. %1$s</string>
-    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
+    <string name="netshield_settings_description_tv">Protects you from third-party ads, trackers, and malware. NetShield doesn\'t block ads that are built into streaming services like YouTube and Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">How NetShield works</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield blocks DNS requests to third-party domains known for ads, trackers, and malware.</item>
+        <item>This means you won\'t receive ads from your browser or free apps that use third-party ad services.</item>
+        <item>However, it can\'t block ads from streaming platforms like YouTube and Netflix, because their ads come from their own servers.</item>
+    </string-array>
     <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
     <string name="settings_icon_change_learn_more">Learn more</string>
     <string name="learn_more">Learn more</string>

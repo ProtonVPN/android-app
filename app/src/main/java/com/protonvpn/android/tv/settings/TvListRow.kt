@@ -23,6 +23,7 @@ import android.content.Context
 import android.media.AudioManager
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -96,6 +97,7 @@ fun TvListRow(
     modifier: Modifier = Modifier,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
     verticalContentPadding: Dp = 16.dp,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     clickSound: Boolean = true,
     content: @Composable RowScope.() -> Unit
 ) {
@@ -108,6 +110,7 @@ fun TvListRow(
     ) {
         Row(
             verticalAlignment = verticalAlignment,
+            horizontalArrangement = horizontalArrangement,
             modifier = Modifier
                 .padding(horizontal = TvUiConstants.SelectionPaddingHorizontal,  vertical = verticalContentPadding),
             content = content
