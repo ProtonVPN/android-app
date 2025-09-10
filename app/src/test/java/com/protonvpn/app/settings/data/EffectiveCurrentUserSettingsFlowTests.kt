@@ -68,7 +68,14 @@ class EffectiveCurrentUserSettingsFlowTests {
         MockKAnnotations.init(this)
         testScope = TestScope(UnconfinedTestDispatcher())
 
-        featureFlagsFlow = MutableStateFlow(SettingsFeatureFlagsFlow.Flags(true, true, true))
+        featureFlagsFlow = MutableStateFlow(
+            value = SettingsFeatureFlagsFlow.Flags(
+                isIPv6Enabled = true,
+                isDirectLanConnectionsEnabled = true,
+                isTvNetShieldSettingEnabled = true,
+                isTvCustomDnsSettingEnabled = true,
+            )
+        )
         testUserProvider = TestCurrentUserProvider(plusUser)
         rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
 

@@ -26,6 +26,7 @@ import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
@@ -51,23 +52,27 @@ class SettingsFeatureFlagsFlow @Inject constructor(
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
+    isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
 ) : Flow<SettingsFeatureFlagsFlow.Flags> {
 
     data class Flags(
         val isIPv6Enabled: Boolean,
         val isDirectLanConnectionsEnabled: Boolean,
         val isTvNetShieldSettingEnabled: Boolean,
+        val isTvCustomDnsSettingEnabled: Boolean,
     )
 
     private val flow: Flow<Flags> = combine(
         isIPv6FeatureFlagEnabled.observe(),
         isDirectLanConnectionsFeatureFlagEnabled.observe(),
         isTvNetShieldSettingFeatureFlagEnabled.observe(),
-    ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isTvNetShieldEnabled ->
+        isTvCustomDnsSettingFeatureFlagEnabled.observe(),
+    ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isTvNetShieldEnabled, isTvCustomDnsEnabled ->
         Flags(
             isIPv6Enabled = isIPv6Enabled,
             isDirectLanConnectionsEnabled = isDirectLanConnectionsEnabled,
             isTvNetShieldSettingEnabled = isTvNetShieldEnabled,
+            isTvCustomDnsSettingEnabled = isTvCustomDnsEnabled
         )
     }
 

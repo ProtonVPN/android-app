@@ -42,6 +42,7 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
+import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
@@ -87,6 +88,7 @@ class TvMainViewModel @Inject constructor(
     private val effectiveCurrentUserSettingsCached: EffectiveCurrentUserSettingsCached,
     val purchaseEnabled: CachedPurchaseEnabled,
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
+    isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
 ) : ViewModel() {
 
     data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)
@@ -139,18 +141,21 @@ class TvMainViewModel @Inject constructor(
         val serverListVersion: Int,
         val userTier: Int,
         val showNetShieldSetting: Boolean,
+        val showCustomDnsSetting: Boolean,
     )
 
     val mainViewState = combine(
         serverManager.serverListVersion,
         currentUser.vpnUserFlow,
         isTvNetShieldSettingFeatureFlagEnabled.observe(),
-    ) { serverListVersion, vpnUser, isNetShieldAvailable ->
+        isTvCustomDnsSettingFeatureFlagEnabled.observe(),
+    ) { serverListVersion, vpnUser, isNetShieldAvailable, isCustomDnsAvailable ->
         MainViewState(
             isFreeUser = vpnUser?.isFreeUser != false,
             serverListVersion = serverListVersion,
             userTier = vpnUser?.userTier ?: VpnUser.FREE_TIER,
             showNetShieldSetting = isNetShieldAvailable,
+            showCustomDnsSetting = isCustomDnsAvailable,
         )
     }.onStart {
         // The main TV UI is synchronous and assumes all servers are loaded - changing this is tricky.

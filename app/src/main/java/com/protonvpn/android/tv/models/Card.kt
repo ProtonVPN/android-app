@@ -23,7 +23,6 @@ import androidx.annotation.DrawableRes
 import com.protonvpn.android.R
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import android.R as AndroidR
 import me.proton.core.presentation.R as CoreR
 
 sealed class Card(
@@ -66,8 +65,15 @@ open class IconCard(title: String, @DrawableRes image: Int) : Card(
 
 class LogoutCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_arrow_out_from_rectangle)
 class ReportBugCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_bug)
+
+class SettingsCustomDns(title: String, isFree: Boolean) : IconCard(
+    title = title,
+    image = iconPaidFeature(isFree = isFree, iconRes = CoreR.drawable.ic_proton_servers)
+)
+
 class SettingsLanConnectionsCard(title: String, isFree: Boolean) :
     IconCard(title, iconPaidFeature(isFree, CoreR.drawable.ic_proton_arrow_right_arrow_left))
+
 class SettingsNetShieldCard(title: String, isFree: Boolean) :
     IconCard(title, iconPaidFeature(isFree, CoreR.drawable.ic_proton_shield_filled))
 

@@ -36,6 +36,7 @@ import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
@@ -71,6 +72,7 @@ class SettingsForConnectionTests {
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var isDirectLanEnabled: FakeIsLanDirectConnectionsFeatureFlagEnabled
     private lateinit var isTvNetShieldEnabled: FakeIsTvNetShieldSettingFeatureFlagEnabled
+    private lateinit var isTvCustomDnsEnabled: FakeIsTvCustomDnsSettingFeatureFlagEnabled
 
     private lateinit var settingsForConnection: SettingsForConnection
 
@@ -83,6 +85,7 @@ class SettingsForConnectionTests {
         rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
         isDirectLanEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
         isTvNetShieldEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true)
+        isTvCustomDnsEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true)
         profileById = FakeGetProfileById()
 
         every { mockIsTvCheck.invoke() } returns false
@@ -99,6 +102,7 @@ class SettingsForConnectionTests {
                     isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true),
                     isDirectLanConnectionsFeatureFlagEnabled = isDirectLanEnabled,
                     isTvNetShieldSettingFeatureFlagEnabled = isTvNetShieldEnabled,
+                    isTvCustomDnsSettingFeatureFlagEnabled = isTvCustomDnsEnabled,
                 )
             ),
             vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)

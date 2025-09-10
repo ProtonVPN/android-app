@@ -56,12 +56,14 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.LogoutCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.ReportBugCard
+import com.protonvpn.android.tv.models.SettingsCustomDns
 import com.protonvpn.android.tv.models.SettingsLanConnectionsCard
 import com.protonvpn.android.tv.models.SettingsNetShieldCard
 import com.protonvpn.android.tv.models.SettingsProtocolCard
 import com.protonvpn.android.tv.models.SettingsSplitTunnelingCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
+import com.protonvpn.android.tv.settings.customdns.TvSettingsCustomDnsActivity
 import com.protonvpn.android.tv.settings.lanconnections.TvSettingsLanConnectionsActivity
 import com.protonvpn.android.tv.settings.netshield.TvSettingsNetShieldActivity
 import com.protonvpn.android.tv.settings.protocol.TvSettingsProtocolActivity
@@ -166,6 +168,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 is QuickConnectCard -> {
                     viewModel.onQuickConnectAction(requireActivity() as BaseTvActivity)
                 }
+                is SettingsCustomDns -> {
+                    paidFeatureOpener(TvSettingsCustomDnsActivity::class.java)
+                }
                 is SettingsLanConnectionsCard -> {
                     paidFeatureOpener(TvSettingsLanConnectionsActivity::class.java)
                 }
@@ -190,7 +195,12 @@ class TvMainFragment : BaseTvBrowseFragment() {
     }
 
     private fun setupRowAdapter(viewState: TvMainViewModel.MainViewState) {
-        rowsAdapter?.createRows(viewState.isFreeUser, viewState.showNetShieldSetting)
+        rowsAdapter?.createRows(
+            isFreeUser = viewState.isFreeUser,
+            showNetShieldSetting = viewState.showNetShieldSetting,
+            showCustomDnsSetting = viewState.showCustomDnsSetting,
+        )
+
         view?.doOnPreDraw {
             startPostponedEnterTransition()
         }
@@ -225,6 +235,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
     private fun ArrayObjectAdapter.createRows(
         isFreeUser: Boolean,
         showNetShieldSetting: Boolean,
+        showCustomDnsSetting: Boolean,
     ) {
         var index = 1
         updateRecentsRow()
@@ -254,6 +265,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
             add(SettingsSplitTunnelingCard(getString(R.string.tv_card_split_tunneling_label), isFreeUser))
             add(SettingsProtocolCard(getString(R.string.tv_card_protocol_label)))
             add(SettingsLanConnectionsCard(getString(R.string.tv_card_lan_connections_label), isFreeUser))
+
+            if(showCustomDnsSetting) {
+                add(SettingsCustomDns(getString(R.string.settings_custom_dns_title), isFreeUser))
+            }
 
             add(ReportBugCard(getString(R.string.drawerReportProblem)))
             add(LogoutCard(getString(R.string.tv_signout_label)))
