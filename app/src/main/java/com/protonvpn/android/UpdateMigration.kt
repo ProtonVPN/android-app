@@ -27,6 +27,7 @@ import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.settings.usecases.EnableTvLanSettingOnMigration
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.usecases.UpdateCertForCurrentUser
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -39,6 +40,7 @@ class UpdateMigration @Inject constructor(
     private val mainScope: CoroutineScope,
     private val appPrefs: AppFeaturesPrefs,
     private val uiStateStorage: UiStateStorage,
+    private val updateCertForCurrentUser: dagger.Lazy<UpdateCertForCurrentUser>,
     private val enableTvLanSettingOnMigration: dagger.Lazy<EnableTvLanSettingOnMigration>,
 ) {
 
@@ -88,9 +90,10 @@ class UpdateMigration @Inject constructor(
 
     @SuppressWarnings("MagicNumber")
     private fun remove_cert_storage_v1(oldVersionCode: Int) {
-        if (oldVersionCode <= 5_12_83_00) {
+        if (oldVersionCode <= 5_13_18_00) {
             appContext.deleteSharedPreferences("cert_data")
             appContext.deleteSharedPreferences("cert_data_fallback")
+            updateCertForCurrentUser.get()()
         }
     }
 
