@@ -98,6 +98,8 @@
         <activity
             android:name=".tv.settings.customdns.TvSettingsCustomDnsActivity" />
         <activity
+            android:name=".tv.settings.customdns.add.TvSettingsAddCustomDnsActivity" />
+        <activity
             android:name=".tv.settings.lanconnections.TvSettingsLanConnectionsActivity" />
         <activity
             android:name=".tv.settings.netshield.TvSettingsNetShieldActivity" />

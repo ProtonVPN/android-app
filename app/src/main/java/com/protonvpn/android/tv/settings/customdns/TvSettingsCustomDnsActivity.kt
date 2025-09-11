@@ -1,5 +1,6 @@
 package com.protonvpn.android.tv.settings.customdns
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -30,6 +31,7 @@ import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.tv.buttons.TvSolidButton
 import com.protonvpn.android.tv.settings.TvListRow
 import com.protonvpn.android.tv.settings.TvSettingsMainToggleLayout
+import com.protonvpn.android.tv.settings.customdns.add.TvSettingsAddCustomDnsActivity
 import com.protonvpn.android.tv.ui.TvUiConstants
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.compose.theme.ProtonTheme
@@ -51,6 +53,7 @@ class TvSettingsCustomDnsActivity : BaseTvActivity() {
                         TvSettingsCustomDns(
                             modifier = Modifier.fillMaxWidth(),
                             viewState = viewState,
+                            onAddNewCustomDns = ::openAddCustomDns,
                             onToggled = viewModel::onToggleIsCustomDnsEnabled,
                         )
                     }
@@ -58,6 +61,7 @@ class TvSettingsCustomDnsActivity : BaseTvActivity() {
                     TvSettingsCustomDnsViewModel.ViewState.Empty -> {
                         TvSettingsCustomDnsEmpty(
                             modifier = Modifier.fillMaxSize(),
+                            onAddNewCustomDns = ::openAddCustomDns,
                         )
                     }
 
@@ -67,10 +71,19 @@ class TvSettingsCustomDnsActivity : BaseTvActivity() {
         }
     }
 
+    fun openAddCustomDns() {
+        val intent = Intent(this, TvSettingsAddCustomDnsActivity::class.java)
+
+        startActivity(intent)
+    }
+
 }
 
 @Composable
-private fun TvSettingsCustomDnsEmpty(modifier: Modifier = Modifier) {
+private fun TvSettingsCustomDnsEmpty(
+    onAddNewCustomDns: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center,
@@ -102,9 +115,7 @@ private fun TvSettingsCustomDnsEmpty(modifier: Modifier = Modifier) {
             TvSolidButton(
                 modifier = Modifier.padding(top = 16.dp),
                 text = stringResource(id = R.string.settings_add_dns_title),
-                onClick = {
-                    // Will be implemented in VPNAND-2353
-                },
+                onClick = onAddNewCustomDns,
             )
         }
     }
@@ -114,6 +125,7 @@ private fun TvSettingsCustomDnsEmpty(modifier: Modifier = Modifier) {
 private fun TvSettingsCustomDns(
     viewState: TvSettingsCustomDnsViewModel.ViewState.CustomDns,
     onToggled: () -> Unit,
+    onAddNewCustomDns: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val customDnsDescriptionResId = remember(key1 = viewState.hasSingleCustomDns) {
@@ -188,9 +200,7 @@ private fun TvSettingsCustomDns(
                     TvSolidButton(
                         modifier = Modifier.fillMaxWidth(),
                         text = stringResource(id = R.string.settings_add_dns_title),
-                        onClick = {
-                            // Will be implemented in VPNAND-2353
-                        },
+                        onClick = onAddNewCustomDns,
                     )
                 }
 
@@ -203,4 +213,3 @@ private fun TvSettingsCustomDns(
         }
     }
 }
-
