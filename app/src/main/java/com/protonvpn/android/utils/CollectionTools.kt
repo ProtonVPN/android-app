@@ -23,7 +23,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.receiveOrNull
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -118,6 +117,22 @@ suspend fun <T : Any> List<T>.parallelSearch(
         mapNotNullAsync { item -> item.takeIf { predicate(it) } }
     else
         listOfNotNull(parallelFirstOrNull(priorityWaitMs = priorityWaitMs) { predicate(it) })
+
+fun <T> List<T>.swapOrCurrent(index1: Int, index2: Int): List<T> {
+    if (index1 == index2) return this
+
+    if (index1 !in indices) return this
+
+    if (index2 !in indices) return this
+
+    return this.toMutableList()
+        .apply {
+            val temp = this[index1]
+            this[index1] = this[index2]
+            this[index2] = temp
+        }
+        .toList()
+}
 
 // as .take(n) but instead of taking n first elements take random elements keeping the order
 fun <T> List<T>.takeRandomStable(n: Int, random: Random = Random.Default): List<T> =

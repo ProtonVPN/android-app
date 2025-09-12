@@ -97,6 +97,9 @@
     <string name="something_went_wrong">Something went wrong</string>
     <string name="try_again">Try again</string>
     <string name="delete">Delete</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Move to top</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Move up</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Move down</string>
     <string name="remove">Remove</string>
     <string name="saveButton">Save</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -283,6 +286,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_dialog_delete_server_title">Delete server %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorite</string>
     <string name="tv_detail_connect_streaming">Stream with Plus</string>
     <string name="tv_detail_connect">Connect</string>

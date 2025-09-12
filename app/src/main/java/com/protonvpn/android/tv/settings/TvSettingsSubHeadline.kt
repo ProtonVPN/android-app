@@ -19,23 +19,25 @@
 
 package com.protonvpn.android.tv.settings
 
-import android.content.DialogInterface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import com.protonvpn.android.R
-import com.protonvpn.android.tv.dialogs.TvAlertDialog
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.tv.material3.Text
+import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
-fun TvSettingsReconnectDialog(
-    onReconnectNow: () -> Unit,
-    onDismissRequest: () -> Unit,
+fun TvSettingsSubHeadline(
+    text: String,
+    maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Clip,
+    modifier: Modifier = Modifier
 ) {
-    TvAlertDialog(
-        title = stringResource(id = R.string.settings_dialog_reconnect),
-        confirmText = stringResource(id = R.string.reconnect_now),
-        dismissText = stringResource(id = R.string.ok),
-        focusedButton = DialogInterface.BUTTON_POSITIVE,
-        onDismiss = onDismissRequest,
-        onConfirm = onReconnectNow,
+    Text(
+        modifier = modifier,
+        text = text,
+        maxLines = maxLines,
+        overflow = overflow,
+        color = ProtonTheme.colors.textNorm,
+        style = ProtonTheme.typography.subheadline,
     )
 }
