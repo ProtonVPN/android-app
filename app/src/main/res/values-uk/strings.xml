@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Статистика використання</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ця статистика не містить вашої IP-адреси та не може бути використана для вашої ідентифікації. Ми ніколи не передаємо ці дані третім сторонам. <a href="%1$s">Докладніше</a>]]></string>
     <string name="netshield_settings_description_not_html">Захистіться від реклами, зловмисних програм і стеження на вебсайтах і в програмах. %1$s</string>
+    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
     <string name="settings_icon_change_description">Замаскуйте програму Proton VPN за допомогою стриманої піктограми. Сповіщення й надалі показуватимуться зі звичайною назвою та піктограмою Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Докладніше</string>
     <string name="learn_more">Докладніше</string>
@@ -271,6 +272,7 @@
     <string name="nameAfricaAndMiddleEast">Африка та Близький Схід</string>
     <string name="nameOceania">Океанія</string>
     <string name="tv_row_settings">Налаштування</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Роздільне тунелювання</string>
     <string name="tv_card_protocol_label">Протокол</string>
     <string name="tv_detail_default_connection_checkbox_short">Улюблені</string>
@@ -1411,6 +1413,8 @@
     <string name="settings_advanced_alternative_routing_description">Якщо служби Proton блокуються мережевими обмеженнями, ми спробуємо використати альтернативний спосіб маршрутизації для з\'єднання з нашими сайтами.</string>
     <string name="settings_advanced_allow_lan_title">LAN-з\'єднання</string>
     <string name="settings_advanced_allow_lan_description">Дає можливість під\'єднуватися до принтерів, гучномовців та інших пристроїв у локальній мережі вашого пристрою.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
+    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
     <string name="settings_advanced_nat_type_title">NAT Type</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Виберіть тип трансляції мережевої адреси для свого з\'єднання. %1$s</string>

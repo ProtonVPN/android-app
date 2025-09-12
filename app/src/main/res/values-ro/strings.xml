@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Statistici de utilizare</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Aceste statistici nu vă conțin adresa IP și nu pot fi utilizate să vă identifice. Nu le vom partaja cu terțe părți. <a href="%1$s">Detalii</a>]]></string>
     <string name="netshield_settings_description_not_html">Vă protejați de reclame, malware și instrumente de urmărire de pe site-uri și aplicații. %1$s</string>
+    <string name="netshield_settings_description_tv">Vă protejați de reclame, malware și instrumente de urmărire de pe site-uri și aplicații.</string>
     <string name="settings_icon_change_description">Deghizați aplicația Proton VPN cu o pictogramă discretă. Notificările vor afișa în continuare numele și pictograma implicite Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Detalii</string>
     <string name="learn_more">Detalii</string>
@@ -269,6 +270,7 @@
     <string name="nameAfricaAndMiddleEast">Africa și Orientul Mijlociu</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Setări</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Divizare trafic</string>
     <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorită</string>
@@ -1375,6 +1377,8 @@
     <string name="settings_advanced_alternative_routing_description">Dacă serviciile Proton sunt blocate din cauza restricțiilor de rețea, vom încerca să utilizăm o rută alternativă de rețea pentru a vă conecta la site-urile noastre.</string>
     <string name="settings_advanced_allow_lan_title">Conexiuni LAN</string>
     <string name="settings_advanced_allow_lan_description">Vă permite să vă conectați la imprimante, boxe și alte dispozitive din rețeaua locală a dispozitivului.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Vă conectați la boxe, calculatoare și alte dispozitive din rețeaua locală.</string>
+    <string name="settings_advanced_allow_lan_title_tv">Permitere conexiuni LAN</string>
     <string name="settings_advanced_nat_type_title">Tip NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Selectați un tip de traducere a adreselor de rețea pentru conexiunea proprie. %1$s</string>

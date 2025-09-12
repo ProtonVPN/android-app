@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Användningsstatistik</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Denna statistik innehåller inte din IP-adress och den kan inte användas för att identifiera dig. Vi kommer aldrig att dela den med tredje part. <a href="%1$s">Lär dig mer</a>]]></string>
     <string name="netshield_settings_description_not_html">Skydda dig själv från annonser, skadlig kod och spårare på webbplatser och appar. %1$s</string>
+    <string name="netshield_settings_description_tv">Skydda dig själv från annonser, skadlig kod och spårare på webbplatser och appar.</string>
     <string name="settings_icon_change_description">Maskera Proton VPN-appen med en diskret ikon. Aviseringar kommer fortfarande visa standardnamnet och ikonen för Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Lär dig mer</string>
     <string name="learn_more">Lär dig mer</string>
@@ -267,6 +268,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Mellanöstern</string>
     <string name="nameOceania">Oceanien</string>
     <string name="tv_row_settings">Inställningar</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protokoll</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorit</string>
@@ -1339,6 +1341,8 @@
     <string name="settings_advanced_alternative_routing_description">Om Proton-tjänster blockeras på grund av nätverksbegränsningar kommer vi försöka använda alternativ nätverksdirigering för att ansluta dig till våra webbplatser.</string>
     <string name="settings_advanced_allow_lan_title">LAN-anslutningar</string>
     <string name="settings_advanced_allow_lan_description">Låter dig ansluta till skrivare, högtalare och andra enheter i din enhets lokala nätverk.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Anslut till högtalare, datorer och andra enheter i ditt lokala nätverk</string>
+    <string name="settings_advanced_allow_lan_title_tv">Tillåt LAN-anslutningar</string>
     <string name="settings_advanced_nat_type_title">NAT-typ</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Välj en nätverksadressöversättningstyp för din anslutning. %1$s</string>

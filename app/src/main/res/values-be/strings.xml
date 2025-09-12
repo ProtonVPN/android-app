@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Статыстыка выкарыстання</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="netshield_settings_description_not_html">Абараніце сябе ад рэкламы, шкодных праграм, праграм сачэння ў інтэрнэце і на камп\'ютары. %1$s</string>
+    <string name="netshield_settings_description_tv">Абараніце сябе ад рэкламы, шкодных праграм, праграм сачэння ў інтэрнэце і на камп\'ютары.</string>
     <string name="settings_icon_change_description">Замаскіраваць праграму Proton VPN з дапамогай непрыметнага значка. Апавяшчэнні як і раней будуць адлюстроўваць прадвызначаную назву Proton VPN і значок. %1$s</string>
     <string name="settings_icon_change_learn_more">Даведацца больш</string>
     <string name="learn_more">Даведацца больш</string>
@@ -271,6 +272,7 @@
     <string name="nameAfricaAndMiddleEast">Афрыка і Сярэдні Усход</string>
     <string name="nameOceania">Акіянія</string>
     <string name="tv_row_settings">Налады</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">Пратакол</string>
     <string name="tv_detail_default_connection_checkbox_short">Абраная</string>
@@ -1411,6 +1413,8 @@
     <string name="settings_advanced_alternative_routing_description">Калі сэрвісы Proton заблакіраваны па прычыне абмежаванняў сеткі, мы паспрабуем скарыстацца альтэрнатыўным сеткавым маршрутам для падключэння да нашых сайтаў.</string>
     <string name="settings_advanced_allow_lan_title">Падключэнні па лакальнай сетцы</string>
     <string name="settings_advanced_allow_lan_description">Дазваляе вам падключацца да прынтараў, дынамікаў і іншых прылад, якія знаходзяцца ў вашай лакальнай сетцы.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Падключайцеся да дынамікаў, камп\'ютараў і іншых прылад у вашай лакальнай сетцы</string>
+    <string name="settings_advanced_allow_lan_title_tv">Дазволіць падключэнні па лакальнай сетцы</string>
     <string name="settings_advanced_nat_type_title">Тып NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Выберыце тып пераўтварэння сеткавых адрасоў для вашага падключэння. %1$s</string>

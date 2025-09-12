@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Στατιστικά χρήσης</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Αυτά τα στατιστικά στοιχεία δεν περιέχουν τη διεύθυνση IP σας και δεν μπορούν να χρησιμοποιηθούν για την αναγνώρισή σας. Δε θα τα μοιραστούμε ποτέ με τρίτους. <a href="%1$s">Μάθετε περισσότερα</a>]]></string>
     <string name="netshield_settings_description_not_html">Προστατευτείτε από διαφημίσεις, κακόβουλο λογισμικό και ιχνηλάτες σε ιστοσελίδες και εφαρμογές. %1$s</string>
+    <string name="netshield_settings_description_tv">Προστατευτείτε από διαφημίσεις, κακόβουλο λογισμικό και ιχνηλάτες σε ιστότοπους και εφαρμογές.</string>
     <string name="settings_icon_change_description">Μεταμφιέστε την εφαρμογή Proton VPN με ένα διακριτικό εικονίδιο. Οι ειδοποιήσεις θα εξακολουθούν να εμφανίζουν το προεπιλεγμένο όνομα και εικονίδιο Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Μάθετε περισσότερα</string>
     <string name="learn_more">Μάθετε περισσότερα</string>
@@ -267,6 +268,7 @@
     <string name="nameAfricaAndMiddleEast">Αφρική &amp; Μέση Ανατολή</string>
     <string name="nameOceania">Ωκεανία</string>
     <string name="tv_row_settings">Ρυθμίσεις</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Διαίρεση σήραγγας</string>
     <string name="tv_card_protocol_label">Πρωτόκολλο</string>
     <string name="tv_detail_default_connection_checkbox_short">Αγαπημένο</string>
@@ -1339,6 +1341,8 @@
     <string name="settings_advanced_alternative_routing_description">Εάν οι υπηρεσίες Proton αποκλειστούν λόγω περιορισμών δικτύου, θα προσπαθήσουμε να χρησιμοποιήσουμε εναλλακτική δρομολόγηση δικτύου για να σας συνδέσουμε στους ιστότοπούς μας.</string>
     <string name="settings_advanced_allow_lan_title">Τοπικές συνδέσεις (LAN)</string>
     <string name="settings_advanced_allow_lan_description">Σας επιτρέπει να συνδέεστε σε εκτυπωτές, ηχεία και άλλες συσκευές στο τοπικό δίκτυο της συσκευής σας.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Συνδεθείτε με ηχεία, υπολογιστές και άλλες συσκευές στο τοπικό σας δίκτυο</string>
+    <string name="settings_advanced_allow_lan_title_tv">Επιτρέψτε τις συνδέσεις LAN</string>
     <string name="settings_advanced_nat_type_title">Τύπος NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Επιλέξτε έναν τύπο μετάφρασης διεύθυνσης δικτύου για τη σύνδεσή σας. %1$s</string>

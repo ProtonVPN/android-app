@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Estatísticas de uso</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm seu endereço IP, e não podem ser usadas para te identificar. Nunca as compartilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="netshield_settings_description_not_html">Proteja-se contra anúncios, malware e rastreadores em sites e aplicativos. %1$s</string>
+    <string name="netshield_settings_description_tv">Proteja-se contra anúncios, malware e rastreadores em sites e aplicativos.</string>
     <string name="settings_icon_change_description">Disfarce o aplicativo do Proton VPN com um ícone discreto. As notificações ainda exibirão o nome e o ícone padrão do Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Saiba mais</string>
     <string name="learn_more">Saiba mais</string>
@@ -267,6 +268,7 @@
     <string name="nameAfricaAndMiddleEast">África &amp; Oriente Médio</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Configurações</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Tunelamento dividido</string>
     <string name="tv_card_protocol_label">Protocolo</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorito</string>
@@ -1339,6 +1341,8 @@
     <string name="settings_advanced_alternative_routing_description">Se os serviços da Proton forem bloqueados devido a restrições de rede, tentaremos usar roteamento de rede alternativo para conectar você aos nossos sites.</string>
     <string name="settings_advanced_allow_lan_title">Conexões LAN</string>
     <string name="settings_advanced_allow_lan_description">Permite conectar-se a impressoras, alto-falantes e outros dispositivos na rede local do seu dispositivo.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Conecte-se a impressoras, alto-falantes e outros dispositivos na sua rede local</string>
+    <string name="settings_advanced_allow_lan_title_tv">Permitir conexões LAN</string>
     <string name="settings_advanced_nat_type_title">Tipo NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Selecione um tipo de tradução de endereço de rede para sua conexão. %1$s</string>

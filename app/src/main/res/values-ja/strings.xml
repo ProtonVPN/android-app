@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">使用統計</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[この統計にあなたの IP アドレスは含まれず、あなたを特定することはできません。この統計は第三者に共有しません。<a href="%1$s">詳細</a>]]></string>
     <string name="netshield_settings_description_not_html">ウェブサイトやアプリの使用中に、広告、マルウェア、トラッカーから身を守りましょう。 %1$s</string>
+    <string name="netshield_settings_description_tv">ウェブサイトやアプリの使用中に、広告やマルウェア、追跡から保護</string>
     <string name="settings_icon_change_description">Proton VPNアプリを目立たないアイコンで偽装します。通知には引き続きデフォルトのProton VPNの名前とアイコンが表示されます。%1$s</string>
     <string name="settings_icon_change_learn_more">より詳しく</string>
     <string name="learn_more">より詳しく</string>
@@ -265,6 +266,7 @@
     <string name="nameAfricaAndMiddleEast">アフリカ &amp; 中東</string>
     <string name="nameOceania">オセアニア</string>
     <string name="tv_row_settings">設定</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">スプリットトンネル</string>
     <string name="tv_card_protocol_label">プロトコル</string>
     <string name="tv_detail_default_connection_checkbox_short">お気に入り</string>
@@ -1037,13 +1039,13 @@
     <string name="country_filter_countries_list_header">国 (%1$d)</string>
     <string name="country_filter_cities_list_header">都市 (%1$d)</string>
     <string name="country_filter_states_list_header">州 (%1$d)</string>
-    <string name="country_filter_servers_list_header">Servers</string>
+    <string name="country_filter_servers_list_header">サーバー</string>
     <string name="country_filter_secure_core_list_header">Secure Core の国 (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P対応国 (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P 都市 (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P 対応州 (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor対応国 (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor servers</string>
+    <string name="country_filter_tor_servers_list_header">Torサーバー</string>
     <string name="country_filter_info_label">情報</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
@@ -1303,6 +1305,8 @@
     <string name="settings_advanced_alternative_routing_description">ネットワーク制限により Proton サービスがブロックされている場合は、代替ネットワーク ルーティングを使用してサイトに接続しようとします。</string>
     <string name="settings_advanced_allow_lan_title">LAN 接続</string>
     <string name="settings_advanced_allow_lan_description">デバイスのローカル ネットワーク内のプリンター、スピーカー、その他のデバイスに接続できるようにします。</string>
+    <string name="settings_advanced_allow_lan_description_tv">ローカルネットワーク上のスピーカー、コンピュータ、他のデバイスに接続</string>
+    <string name="settings_advanced_allow_lan_title_tv">LAN への接続を許可</string>
     <string name="settings_advanced_nat_type_title">NAT タイプ</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">接続用のネットワークアドレス変換タイプを選択してください。 %1$s</string>

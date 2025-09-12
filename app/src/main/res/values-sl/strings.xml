@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Statistika uporabe</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ti statistični podatki ne vsebujejo vašega naslova IP in jih ni mogoče uporabiti za vašo identifikacijo. Nikoli jih ne bomo delili s tretjimi osebami. <a href="%1$s">Več o tem</a>]]></string>
     <string name="netshield_settings_description_not_html">Zaščitite se pred oglasi, zlonamerno programsko opremo in sledilniki na spletnih straneh in v aplikacijah. %1$s</string>
+    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
     <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
     <string name="settings_icon_change_learn_more">Več informacij</string>
     <string name="learn_more">Izvedi več</string>
@@ -271,6 +272,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Bližnji vzhod</string>
     <string name="nameOceania">Oceanija</string>
     <string name="tv_row_settings">Nastavitve</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Najljubša</string>
@@ -1413,6 +1415,8 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_advanced_alternative_routing_description">Če so storitve Proton blokirane zaradi omrežnih omejitev, bomo poskušali uporabiti alternativno omrežno usmerjanje, da vas povežemo z našimi spletnimi mesti.</string>
     <string name="settings_advanced_allow_lan_title">LAN povezave</string>
     <string name="settings_advanced_allow_lan_description">Omogoča povezovanje s tiskalniki, zvočniki in drugimi napravami v lokalnem omrežju.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
+    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
     <string name="settings_advanced_nat_type_title">NAT tip</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Izberite vrsto prevajanja omrežnih naslovov za vašo povezavo. %1$s</string>

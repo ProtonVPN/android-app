@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Bruksstatistikk</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Disse statistikkene inneholder ikke IP-adressen din, og de kan ikke brukes til å identifisere deg. Vi deler dem aldri med tredjeparter. <a href="%1$s">Lær mer</a>]]></string>
     <string name="netshield_settings_description_not_html">Beskytt deg mot annonser, skadelig programvare og sporere på nettsteder og apper. %1$s</string>
+    <string name="netshield_settings_description_tv">Beskytt deg mot annonser, skadelig programvare og sporere på nettsteder og apper.</string>
     <string name="settings_icon_change_description">Skjul Proton VPN-appen med et diskret ikon. Varsler vil fortsatt vise standard Proton VPN-navn og ikon. %1$s.</string>
     <string name="settings_icon_change_learn_more">Lær mer</string>
     <string name="learn_more">Lær mer</string>
@@ -267,6 +268,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Midtøsten</string>
     <string name="nameOceania">Oseania</string>
     <string name="tv_row_settings">Innstillinger</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Delt tunnelering</string>
     <string name="tv_card_protocol_label">Protokoll</string>
     <string name="tv_detail_default_connection_checkbox_short">Favoritt</string>
@@ -1339,6 +1341,8 @@
     <string name="settings_advanced_alternative_routing_description">Hvis Proton-tjenester er blokkert på grunn av nettverksbegrensninger, prøver vi å bruke alternativ nettverksruting for å koble deg til nettstedene våre.</string>
     <string name="settings_advanced_allow_lan_title">LAN-forbindelser</string>
     <string name="settings_advanced_allow_lan_description">Lar deg koble til skrivere, høyttalere og andre enheter i enhetens lokale nettverk.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Koble til høyttalere, datamaskiner og andre enheter på ditt lokale nettverk</string>
+    <string name="settings_advanced_allow_lan_title_tv">Tillat LAN-forbindelser</string>
     <string name="settings_advanced_nat_type_title">NAT-type</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Velg en nettverksadresseoversettelsestype for tilkoblingen. %1$s.</string>

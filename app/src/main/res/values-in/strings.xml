@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Statistik pemakaian</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Statistik ini tidak mengandung alamat IP Anda dan tidak dapat digunakan untuk mengenali diri Anda. Kami tidak akan pernah membagikan statistik ini kepada pihak ketiga mana pun. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="netshield_settings_description_not_html">Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi. %1$s</string>
+    <string name="netshield_settings_description_tv">Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi.</string>
     <string name="settings_icon_change_description">Samarkan Proton VPN dengan ikon aplikasi yang tidak mencolok. Notifikasi yang masuk akan tetap menampilkan nama dan ikon Proton VPN bawaan. %1$s</string>
     <string name="settings_icon_change_learn_more">Pelajari lebih lanjut</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
@@ -265,6 +266,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Timur Tengah</string>
     <string name="nameOceania">Oseania</string>
     <string name="tv_row_settings">Pengaturan</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorit</string>
@@ -1303,6 +1305,8 @@
     <string name="settings_advanced_alternative_routing_description">Apabila layanan Proton diblokir akibat pembatasan jaringan, kami akan mencoba untuk menggunakan rute jaringan alternatif demi menghubungkan Anda ke situs kami.</string>
     <string name="settings_advanced_allow_lan_title">Koneksi LAN</string>
     <string name="settings_advanced_allow_lan_description">Memungkinkan Anda untuk terhubung ke printer, speaker, dan perangkat lainnya pada jaringan lokal milik perangkat Anda.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Hubungkan VPN ke printer, speaker, dan perangkat lainnya pada jaringan lokal Anda</string>
+    <string name="settings_advanced_allow_lan_title_tv">Izinkan sambungan LAN</string>
     <string name="settings_advanced_nat_type_title">Tipe NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Pilih tipe terjemahan alamat jaringan (NAT) untuk koneksi Anda. %1$s</string>

@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Nutzungsstatistiken</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Diese Statistiken enthalten weder deine IP-Adresse noch können diese dazu verwendet werden, um dich zu identifizieren. Wir werden die Statistiken nie an Dritte weitergeben. <a href="%1$s">Mehr erfahren</a>]]></string>
     <string name="netshield_settings_description_not_html">Schütze dich vor Werbung, Malware und Trackern auf Websites und in Apps. %1$s</string>
+    <string name="netshield_settings_description_tv">Schütze dich vor Werbung, Malware und Trackern auf Websites und in Apps.</string>
     <string name="settings_icon_change_description">Tarne die Proton VPN-App mit einem diskreten Symbol. Benachrichtigungen zeigen weiterhin Standardname und -symbol von Proton VPN an. %1$s</string>
     <string name="settings_icon_change_learn_more">Mehr erfahren</string>
     <string name="learn_more">Mehr erfahren</string>
@@ -267,6 +268,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika und Naher Osten</string>
     <string name="nameOceania">Ozeanien</string>
     <string name="tv_row_settings">Einstellungen</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split‐Tunneling</string>
     <string name="tv_card_protocol_label">Protokoll</string>
     <string name="tv_detail_default_connection_checkbox_short">Bevorzugt</string>
@@ -1339,6 +1341,8 @@
     <string name="settings_advanced_alternative_routing_description">Wenn Proton-Dienste aufgrund von Netzbeschränkungen blockiert sind, versuchen wir, dich über eine alternative Netzweiterleitung mit unseren Websites zu verbinden.</string>
     <string name="settings_advanced_allow_lan_title">LAN‐Verbindungen</string>
     <string name="settings_advanced_allow_lan_description">Ermöglicht es dir, eine Verbindung zu Druckern, Lautsprechern und anderen Geräten im lokalen Netzwerk deines Geräts herzustellen.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Ermöglicht die Verbindung zu Lautsprechern, Computern und anderen Geräten in deinem lokalen Netzwerk</string>
+    <string name="settings_advanced_allow_lan_title_tv">LAN-Verbindungen zulassen</string>
     <string name="settings_advanced_nat_type_title">NAT-Typ</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Wähle einen NAT-Typ für deine Verbindung. %1$s</string>

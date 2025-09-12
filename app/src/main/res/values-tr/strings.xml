@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Kullanım istatistikleri</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Bu istatistikler IP adresinizi içermez ve kim olduğunuzu belirlemek için kullanılamaz. Bu verileri asla üçüncü taraflar ile paylaşmayız. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="netshield_settings_description_not_html">Sizi siteler ve uygulamalardaki reklamlardan, kötü amaçlı yazılımlardan ve izleyicilerden korur. %1$s</string>
+    <string name="netshield_settings_description_tv">Kendinizi siteler ve uygulamalardaki reklamlardan, kötü amaçlı yazılımlardan ve izleyicilerden koruyun.</string>
     <string name="settings_icon_change_description">Proton VPN uygulamasını farklı bir simge ile gizleyin. Bildirimlerde hala varsayılan Proton VPN adı ve simgesi görüntülenir. %1$s</string>
     <string name="settings_icon_change_learn_more">Ayrıntılı bilgi alın</string>
     <string name="learn_more">Ayrıntılı bilgi alın</string>
@@ -267,6 +268,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika ve Orta Doğu</string>
     <string name="nameOceania">Okyanusya</string>
     <string name="tv_row_settings">Ayarlar</string>
+    <string name="tv_card_lan_connections_label">Yerel ağ</string>
     <string name="tv_card_split_tunneling_label">Ayrılmış tünelleme</string>
     <string name="tv_card_protocol_label">İletişim kuralı</string>
     <string name="tv_detail_default_connection_checkbox_short">Yeğlenen</string>
@@ -1339,6 +1341,8 @@
     <string name="settings_advanced_alternative_routing_description">Proton hizmetlerine erişim ağ üzerinden engelleniyorsa, sitelerimizle bağlantınızı kurmak için alternatif ağ yöneltmesi kullanmayı deneyeceğiz.</string>
     <string name="settings_advanced_allow_lan_title">Yerel ağ bağlantıları</string>
     <string name="settings_advanced_allow_lan_description">Aygıtınızın aynı yerel ağda bulunan yazıcı, hoparlör gibi diğer aygıtlara bağlanmasını sağlar.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Yerel ağınızdaki hoparlörlere, bilgisayarlara ve diğer aygıtlara bağlanın</string>
+    <string name="settings_advanced_allow_lan_title_tv">Yerel ağ bağlantılarına izin verilsin</string>
     <string name="settings_advanced_nat_type_title">NAT Type</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Bağlantınız için bir ağ adresi dönüştürme (NAT) türü seçin. %1$s</string>

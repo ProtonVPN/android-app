@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">გამოყენების სტატისტიკა</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[ეს სტატისტიკა თქვენს IP-ს არ შეიცავს და ის თქვენს ამოსაცნობად გამოყენებული ვერ იქნება. ჩვენ მას მესამე პირებს არასოდეს ვუზიარებთ. <a href="%1$s">გაიგეთ მეტი</a>]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. %1$s</string>
+    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
     <string name="settings_icon_change_description">დამალეთ Proton VPN განხვავებული ხატულით. გაფრთხილებები ნაგულისხმევ Proton VPN სახელს და ხატულა გაჩვენებთ. %1$s</string>
     <string name="settings_icon_change_learn_more">გაიგეთ მეტი</string>
     <string name="learn_more">გაიგეთ მეტი</string>
@@ -267,6 +268,7 @@
     <string name="nameAfricaAndMiddleEast">აფრიკა და ახლო აღმოსავლეთი</string>
     <string name="nameOceania">ოკეანეთი</string>
     <string name="tv_row_settings">მორგება</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">პროტოკოლი</string>
     <string name="tv_detail_default_connection_checkbox_short">რჩეული</string>
@@ -1339,6 +1341,8 @@
     <string name="settings_advanced_alternative_routing_description">თუ Proton-ის სერვისები დაბლოკილია ქსელის შეზღუდვების გამო, ჩვენ ალტერნატიულ ქსელის რაუტინგს ვცდით, რომ ჩვენს საიტებთან დაგაკავშიროთ.</string>
     <string name="settings_advanced_allow_lan_title">LAN შეერთებები</string>
     <string name="settings_advanced_allow_lan_description">საშუალებას გაძლევთ, დაუკავშირდეთ პრინტერებს, დინამიკებს და სხვა მოწყობილობებს თქვენი მოწყობილობის ლოკალურ ქსელში.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
+    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
     <string name="settings_advanced_nat_type_title">NAT-ის ტიპი</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">აირჩიეთ NAT-ის ტიპი თქვენი მიერთებისთვის. %1$s</string>

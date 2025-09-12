@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Статистика использования</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Эта статистика не содержит ваш IP-адрес и не может быть использована для вашей идентификации. Мы никогда не передаем её третьим лицам. <a href="%1$s">Подробнее</a>]]></string>
     <string name="netshield_settings_description_not_html">Защитите себя от рекламы, вредоносных программ и трекеров на веб-сайтах и в приложениях. %1$s</string>
+    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
     <string name="settings_icon_change_description">Замаскируйте приложение Proton VPN с помощью незаметного значка. В уведомлениях по-прежнему будут отображаться название и значок Proton VPN по умолчанию. %1$s</string>
     <string name="settings_icon_change_learn_more">Подробнее</string>
     <string name="learn_more">Подробнее</string>
@@ -231,8 +232,8 @@
     <string name="lan_state_off" comment="Describes state, not action">Выключено</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Включён</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Выключено</string>
-    <string name="custom_dns_state_on" comment="Describes state, not action">Включен</string>
-    <string name="custom_dns_state_off" comment="Describes state, not action">Выключен</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Вкл.</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Выкл.</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Недоступна</string>
     <string name="custom_dns_item_removed_snackbar">Элемент удалён</string>
     <string name="netshield_free_description">Блокирует рекламу, трекеры и вредоносные программы на веб-сайтах и в приложениях</string>
@@ -271,6 +272,7 @@
     <string name="nameAfricaAndMiddleEast">Африка и Ближний и Средний Восток</string>
     <string name="nameOceania">Океания</string>
     <string name="tv_row_settings">Настройки</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Раздельное туннелирование</string>
     <string name="tv_card_protocol_label">Протокол</string>
     <string name="tv_detail_default_connection_checkbox_short">Избранная</string>
@@ -1411,6 +1413,8 @@
     <string name="settings_advanced_alternative_routing_description">Если сервисы Proton заблокированы из-за сетевых ограничений, мы попробуем использовать альтернативные маршруты для подключения к нашим сайтам.</string>
     <string name="settings_advanced_allow_lan_title">Подключения по LAN</string>
     <string name="settings_advanced_allow_lan_description">Позволяет подключаться к принтерам, динамикам и другим устройствам в локальной сети вашего устройства.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
+    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
     <string name="settings_advanced_nat_type_title">Тип NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Выберите тип преобразования сетевых адресов для вашего подключения. %1$s</string>

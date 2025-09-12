@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">使用統計資料</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[這些統計資料不包含您的 IP 位址，且其無法用於識別您的身份。我們永遠不會將它們與第三方分享。<a href="%1$s">取得更多資訊</a>]]></string>
     <string name="netshield_settings_description_not_html">在網站和應用程式中保護自己免受廣告、惡意軟體和追蹤程式的侵害。%1$s</string>
+    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
     <string name="settings_icon_change_description">使用隱密圖示隱藏 Proton VPN 應用程式。通知仍會顯示預設 Proton VPN 名稱和圖示。 %1$s</string>
     <string name="settings_icon_change_learn_more">瞭解更多</string>
     <string name="learn_more">瞭解更多</string>
@@ -265,6 +266,7 @@
     <string name="nameAfricaAndMiddleEast">非洲與中東</string>
     <string name="nameOceania">大洋洲</string>
     <string name="tv_row_settings">設定</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">分隔通道</string>
     <string name="tv_card_protocol_label">協定</string>
     <string name="tv_detail_default_connection_checkbox_short">最愛</string>
@@ -1303,6 +1305,8 @@
     <string name="settings_advanced_alternative_routing_description">萬一 Proton 服務受網路限制封鎖，我們將嘗試改用替代網路路由，替您連接至我們的網站。</string>
     <string name="settings_advanced_allow_lan_title">區域網路連線</string>
     <string name="settings_advanced_allow_lan_description">讓您連接與您的裝置同一區域網路上的印表機、揚聲器和其他裝置。</string>
+    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
+    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
     <string name="settings_advanced_nat_type_title">NAT 類型</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">選取您的連線要使用的網路位址轉譯類型。%1$s</string>

@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Käyttötilastot</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Nämä tilastot eivät sisällä IP-osoitettasi, eikä sinua ole mahdollista tunnistaa niiden perusteella. Emme koskaa jaa niitä ulkopuolisille tahoille. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="netshield_settings_description_not_html">Suojaudu verkkosivustojen ja sovellusten mainoksilta, haittaohjelmilta ja seurannoilta. %1$s</string>
+    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
     <string name="settings_icon_change_description">Naamioi Proton VPN -sovellus huomaamattomalla kuvakkeella. Ilmoituksissa näkyy edelleen Proton VPN:n alkuperäinen nimi ja kuvake. %1$s</string>
     <string name="settings_icon_change_learn_more">Lue lisää</string>
     <string name="learn_more">Lue lisää</string>
@@ -267,6 +268,7 @@
     <string name="nameAfricaAndMiddleEast">Afrikka ja Lähi-Itä</string>
     <string name="nameOceania">Oseania</string>
     <string name="tv_row_settings">Asetukset</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Jaettu tunnelointi</string>
     <string name="tv_card_protocol_label">Protokolla</string>
     <string name="tv_detail_default_connection_checkbox_short">Suosikki</string>
@@ -1339,6 +1341,8 @@
     <string name="settings_advanced_alternative_routing_description">Jos Proton-palvelut on estetty verkkorajoitusten takia, yritämme käyttää vaihtoehtoista verkkoreititystä, jotta voit silti muodostaa yhteyden sivustoihimme.</string>
     <string name="settings_advanced_allow_lan_title">LAN-yhteydet</string>
     <string name="settings_advanced_allow_lan_description">Sallii yhteyden muodostamisen tulostimiin, kaiuttimiin ja muihin lähiverkossasi oleviin laitteisiin.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
+    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
     <string name="settings_advanced_nat_type_title">NAT-tyyppi</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Valitse yhteydellesi osoitteenmuunnostyyppi. %1$s</string>

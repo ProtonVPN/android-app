@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Estadístiques d\'ús</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Aquestes estadístiques no contenen la vostra adreça IP i no es poden utilitzar per identificar-vos. Mai les compartirem amb tercers. <a href="%1$s">Més informació</a>]]></string>
     <string name="netshield_settings_description_not_html">Protegiu-vos dels anuncis, programari maliciós, rastrejadors en llocs web i aplicacions. %1$s</string>
+    <string name="netshield_settings_description_tv">Protegiu-vos d\'anuncis, programari maliciós i rastrejadors de llocs web i aplicacions.</string>
     <string name="settings_icon_change_description">Opteu per una icona més discreta per a l\'aplicació Proton VPN. Les notificacions sempre mostraran el nom i la icona de Proton VPN per defecte. %1$s</string>
     <string name="settings_icon_change_learn_more">Més informació</string>
     <string name="learn_more">Més informació</string>
@@ -267,6 +268,7 @@
     <string name="nameAfricaAndMiddleEast">Àfrica i Orient Mitjà</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Preferències</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Tunelització dividida</string>
     <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorit</string>
@@ -1339,6 +1341,8 @@
     <string name="settings_advanced_alternative_routing_description">Si els serveis de Proton estan bloquejats a causa de restriccions de xarxa, intentarem utilitzar un camí de xarxa alternatiu per connectar-vos als nostres llocs.</string>
     <string name="settings_advanced_allow_lan_title">Connexions LAN</string>
     <string name="settings_advanced_allow_lan_description">Us permet connectar-vos a impressores, altaveus i altres dispositius de la xarxa local del dispositiu.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Connecteu-vos a altaveus, ordinadors i altres dispositius de la vostra xarxa local</string>
+    <string name="settings_advanced_allow_lan_title_tv">Permeteu connexions LAN</string>
     <string name="settings_advanced_nat_type_title">Tipus de NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Seleccioneu un tipus de traducció d\'adreces de xarxa per a la vostra connexió: %1$s</string>

@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Štatistiky používania</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Tieto štatistiky neobsahujú vašu IP adresu a nemôžu byť použité na vašu identifikáciu. Nikdy ich nebudeme zdieľať s tretími stranami. <a href="%1$s">Zistiť viac</a>]]></string>
     <string name="netshield_settings_description_not_html">Chráňte sa pred reklamami, malvérom a sledovačmi na webových stránkach a v aplikáciách. %1$s</string>
+    <string name="netshield_settings_description_tv">Chráňte sa pred reklamou, malware a sledovacími prvkami na weboch a v aplikáciách.</string>
     <string name="settings_icon_change_description">Zamaskujte aplikáciu Proton VPN diskrétnou ikonou. V oznámeniach sa bude stále zobrazovať predvolený názov a ikona Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Zistiť viac</string>
     <string name="learn_more">Zistiť viac</string>
@@ -271,6 +272,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Blízky východ</string>
     <string name="nameOceania">Oceánia</string>
     <string name="tv_row_settings">Nastavenia</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Rozdelené tunelovanie</string>
     <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Obľúbené</string>
@@ -1411,6 +1413,8 @@
     <string name="settings_advanced_alternative_routing_description">Ak sú služby spoločnosti Proton zablokované z dôvodu sieťových obmedzení, pokúsime sa na pripojenie k našim stránkam použiť alternatívne sieťové smerovanie.</string>
     <string name="settings_advanced_allow_lan_title">LAN pripojenia</string>
     <string name="settings_advanced_allow_lan_description">Umožňuje pripojiť tlačiarne, reproduktory a ďalšie zariadenia vo vašej lokálnej sieti.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Pripojte sa k reproduktorom, počítačom a iným zariadeniam vo vašej lokálnej sieti.</string>
+    <string name="settings_advanced_allow_lan_title_tv">Povoliť pripojenie k sieti LAN</string>
     <string name="settings_advanced_nat_type_title">Typ NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Vyberte typ prekladu sieťových adries vášho pripojenia. %1$s</string>

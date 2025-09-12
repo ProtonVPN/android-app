@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Statistiky o používání</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Tyto statistiky neobsahují vaši IP adresu a nelze je použít k vaší identifikaci. Nikdy je nebudeme sdílet se třetími stranami. <a href="%1$s">Více informací</a>]]></string>
     <string name="netshield_settings_description_not_html">Chraňte se před reklamou, malware a sledovacími prvky na webech a v aplikacích. %1$s</string>
+    <string name="netshield_settings_description_tv">Chraňte se před reklamou, malware a sledovacími prvky na webech a v aplikacích.</string>
     <string name="settings_icon_change_description">Maskuje ikonu aplikace Proton VPN pomocí diskrétní ikony. Upozornění stále zobrazí název a ikonu aplikace Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Zjistit více</string>
     <string name="learn_more">Více informací</string>
@@ -271,6 +272,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Blízký východ</string>
     <string name="nameOceania">Oceánie</string>
     <string name="tv_row_settings">Nastavení</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Oblíbené</string>
@@ -1411,6 +1413,8 @@
     <string name="settings_advanced_alternative_routing_description">Pokud jsou služby Protonu blokovány poskytovatelem síťového připojení, pokusíme se vás připojit k našim stránkám pomocí alternativního síťového směrování.</string>
     <string name="settings_advanced_allow_lan_title">LAN připojení</string>
     <string name="settings_advanced_allow_lan_description">Umožňuje připojit tiskárny, reproduktory a ostatní zařízení ve vaší LAN.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Připojte se k reproduktorům, počítačům a dalším zařízením ve vaší místní síti</string>
+    <string name="settings_advanced_allow_lan_title_tv">Povolit připojení LAN</string>
     <string name="settings_advanced_nat_type_title">Typ NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Vyberte typ překladu síťových adres (NAT) vašeho připojení. %1$s</string>

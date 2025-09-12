@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">사용 통계</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[이 통계에는 회원님의 IP 주소가 담기지 않으며 식별에 사용할 수 없습니다. 제 3자에게 공유하지도 않습니다. <a href="%1$s">더 알아보기</a>]]></string>
     <string name="netshield_settings_description_not_html">웹 사이트와 앱들의 광고, 멀웨어 및 트래커들로부터 보호 받으세요. %1$s</string>
+    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
     <string name="settings_icon_change_description">비밀 아이콘으로 Proton VPN 앱을 위장하세요.
 알림은 여전히 기본 Proton VPN 이름 및 아이콘으로 표시됩니다. %1$s</string>
     <string name="settings_icon_change_learn_more">더 알아보기</string>
@@ -266,6 +267,7 @@
     <string name="nameAfricaAndMiddleEast">아프리카 &amp; 중동</string>
     <string name="nameOceania">오세아니아</string>
     <string name="tv_row_settings">설정</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">분할 터널링</string>
     <string name="tv_card_protocol_label">프로토콜</string>
     <string name="tv_detail_default_connection_checkbox_short">선호</string>
@@ -1304,6 +1306,8 @@
     <string name="settings_advanced_alternative_routing_description">Proton 서비스가 네트워크 제한으로 막혔다면, 대체 네트워크 라우딩을 이용해서 연결해보세요.</string>
     <string name="settings_advanced_allow_lan_title">LAN 연결</string>
     <string name="settings_advanced_allow_lan_description">로컬 네트워크에 있는 프린터, 스피커 및 기타 기기에 연결할 수 있게 합니다.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
+    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
     <string name="settings_advanced_nat_type_title">NAT 방식</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">네트워크 주소 변환 방식을 선택하세요. %1$s</string>

@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">آمارهای استفاده</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[این آمارها نشانی IP شما را شامل‌ نمی‌شوند، و برای شناسایی شما قابل استفاده نیستند. ما هرگز آن‌ها را با اشخاص ثالث در اشتراک نمی‌گذاریم. <a href="%1$s"> بیشتر بدانید </a>]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. %1$s</string>
+    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
     <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
     <string name="settings_icon_change_learn_more">بیشتر بدانید</string>
     <string name="learn_more">بیشتر بدانید</string>
@@ -267,6 +268,7 @@
     <string name="nameAfricaAndMiddleEast">آفریقا &amp; خاورمیانه</string>
     <string name="nameOceania">اقیانوسیه</string>
     <string name="tv_row_settings">تنظیمات</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">پروتکل</string>
     <string name="tv_detail_default_connection_checkbox_short">مورد علاقه</string>
@@ -1339,6 +1341,8 @@
     <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
     <string name="settings_advanced_allow_lan_title">اتصالات LAN</string>
     <string name="settings_advanced_allow_lan_description">Allows you to connect to printers, speakers, and other devices in your device’s local network.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
+    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
     <string name="settings_advanced_nat_type_title">نوع NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>

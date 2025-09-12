@@ -217,6 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Használati statisztikák</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ezek a statisztikák nem tartalmazzák az IP-címét, és nem használhatók fel az azonosítására. Soha nem osztjuk meg ezeket harmadik felekkel. <a href="%1$s">További információk</a>]]></string>
     <string name="netshield_settings_description_not_html">Védekezzen a hirdetések, követők és rosszindulatú szoftverek ellen a weboldalakon és alkalmazásokban. %1$s</string>
+    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
     <string name="settings_icon_change_description">Álcázza a Proton VPN alkalmazást egy diszkrét ikonnal. Az értesítések továbbra is az alapértelmezett Proton VPN nevet és ikont fogják megjeleníteni. %1$s</string>
     <string name="settings_icon_change_learn_more">További információk</string>
     <string name="learn_more">További információk</string>
@@ -267,6 +268,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika és a Közel-Kelet</string>
     <string name="nameOceania">Óceánia</string>
     <string name="tv_row_settings">Beállítások</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Osztott alagút</string>
     <string name="tv_card_protocol_label">Protokoll</string>
     <string name="tv_detail_default_connection_checkbox_short">Kedvenc</string>
@@ -1339,6 +1341,8 @@
     <string name="settings_advanced_alternative_routing_description">Ha a Proton szolgáltatásai hálózati korlátozások miatt blokkolva vannak, ez a megoldás alternatív útvonalakat használ a rendszereink elérésére.</string>
     <string name="settings_advanced_allow_lan_title">LAN kapcsolatok</string>
     <string name="settings_advanced_allow_lan_description">Lehetővé teszi a nyomtatókhoz, hangszórókhoz és más eszközökhöz való csatlakozást a készülék helyi hálózatában.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
+    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
     <string name="settings_advanced_nat_type_title">NAT típus</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Válassza ki a hálózati címfordítás típusát a kapcsolathoz. %1$s</string>
