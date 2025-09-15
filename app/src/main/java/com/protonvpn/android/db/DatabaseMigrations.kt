@@ -307,4 +307,10 @@ object DatabaseMigrations {
             FeatureFlagDatabase.MIGRATION_4.migrate(db)
         }
     }
+
+    val MIGRATION_48_49 = object : Migration(48, 49) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            AccountDatabase.MIGRATION_11.migrate(db)
+        }
+    }
 }
