@@ -1305,8 +1305,8 @@
     <string name="settings_advanced_alternative_routing_description">倘若网络限制拦截了 Proton 服务，我们将用备用网络路线把你连到你要去的地方。</string>
     <string name="settings_advanced_allow_lan_title">LAN 连接</string>
     <string name="settings_advanced_allow_lan_description">允许连至打印机、扬声器等局域网设备。</string>
-    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
-    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
+    <string name="settings_advanced_allow_lan_description_tv">连接至局域网上的扬声器，电脑等设备</string>
+    <string name="settings_advanced_allow_lan_title_tv">允许 LAN 连接</string>
     <string name="settings_advanced_nat_type_title">NAT 类型</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">为您的连接选择网络地址转换类型。%1$s</string>
