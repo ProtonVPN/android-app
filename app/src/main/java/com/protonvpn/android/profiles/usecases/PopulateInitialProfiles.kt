@@ -89,6 +89,7 @@ class PopulateInitialProfiles @Inject constructor(
                 ).toData(),
                 autoOpenText = "",
                 autoOpenEnabled = false,
+                autoOpenUrlPrivately = false,
             ),
             ProfileEntity(
                 userId = userId,
@@ -107,6 +108,7 @@ class PopulateInitialProfiles @Inject constructor(
                 ).toData(),
                 autoOpenText = "",
                 autoOpenEnabled = false,
+                autoOpenUrlPrivately = false,
             ),
             ProfileEntity(
                 userId = userId,
@@ -125,6 +127,7 @@ class PopulateInitialProfiles @Inject constructor(
                 ).toData(),
                 autoOpenText = "",
                 autoOpenEnabled = false,
+                autoOpenUrlPrivately = false,
             ),
             ProfileEntity(
                 userId = userId,
@@ -143,6 +146,7 @@ class PopulateInitialProfiles @Inject constructor(
                 ).toData(),
                 autoOpenText = "",
                 autoOpenEnabled = false,
+                autoOpenUrlPrivately = false,
             ),
             ProfileEntity(
                 userId = userId,
@@ -162,6 +166,7 @@ class PopulateInitialProfiles @Inject constructor(
                 ).toData(),
                 autoOpenText = "",
                 autoOpenEnabled = false,
+                autoOpenUrlPrivately = false,
             ),
         )
     }

@@ -42,6 +42,7 @@ fun createProfileEntity(
     icon,
     autoOpenText = "",
     autoOpenEnabled = false,
+    autoOpenUrlPrivately = false,
     createdAt,
     isUserCreated = isUserCreated,
     lastConnectedAt = null,

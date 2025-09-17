@@ -179,10 +179,11 @@ fun ProtonDialogButton(onClick: () -> Unit, text: String, modifier: Modifier = M
 fun ProtonDialogCheckbox(
     text: String,
     value: Boolean,
-    onValueChange: (Boolean) -> Unit
+    onValueChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        Modifier
+        modifier
             .toggleable(
                 value,
                 onValueChange = onValueChange,

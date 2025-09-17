@@ -54,6 +54,8 @@ data class ProfileEntity(
     val autoOpenText: String,
     @ColumnInfo(defaultValue = "0")
     val autoOpenEnabled: Boolean,
+    @ColumnInfo(defaultValue = "0")
+    val autoOpenUrlPrivately: Boolean,
     val createdAt: Long,
     @ColumnInfo(defaultValue = "NULL")
     val lastConnectedAt: Long?,

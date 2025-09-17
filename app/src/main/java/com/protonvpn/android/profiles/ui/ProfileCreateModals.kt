@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -82,6 +83,7 @@ import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.FlagDimensions
 import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
 import com.protonvpn.android.redesign.base.ui.ProtonDialogButton
+import com.protonvpn.android.redesign.base.ui.ProtonDialogCheckbox
 import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
 import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
 import com.protonvpn.android.redesign.settings.ui.DnsConflictBanner
@@ -817,7 +819,7 @@ fun ProfileAutoOpenItem(
         labelRes = R.string.create_profile_connect_and_go_label,
         valueText = when (value) {
             is ProfileAutoOpen.None -> stringResource(R.string.profile_auto_open_off)
-            is ProfileAutoOpen.App -> appInfo?.label ?: value.packageName.takeIf { !loadingAppInfo } ?: ""
+            is ProfileAutoOpen.App -> appInfo?.label ?: value.packageName.takeIf { !loadingAppInfo }.orEmpty()
             is ProfileAutoOpen.Url -> value.url.toString()
         },
         iconContent = appInfo?.let { appInfo ->
@@ -868,6 +870,11 @@ fun AutoOpenModal(
     var urlErrorState by rememberSaveable(initialValue) {
         mutableStateOf<Int?>(null)
     }
+    var privateModeState by rememberSaveable(initialValue) {
+        mutableStateOf(
+            if (initialValue is ProfileAutoOpen.Url) initialValue.openInPrivateMode else false
+        )
+    }
 
     BaseItemPickerDialog(
         R.string.create_profile_connect_and_go_label,
@@ -878,7 +885,7 @@ fun AutoOpenModal(
                 AutoOpenType.None -> ProfileAutoOpen.None
                 AutoOpenType.App -> ProfileAutoOpen.App(packageNameState)
                 AutoOpenType.Url -> {
-                    val (autoOpen, error) = fixAndValidateAutoOpenUri(urlState.text)
+                    val (autoOpen, error) = fixAndValidateAutoOpenUri(urlState.text, privateModeState)
                     if (error != null) {
                         urlErrorState = error
                     }
@@ -922,6 +929,8 @@ fun AutoOpenModal(
                         urlErrorState = null
                     },
                     urlError = urlErrorState,
+                    privateMode = privateModeState,
+                    onPrivateModeChange = { privateModeState = it },
                 )
                 AutoOpenType.None -> {}
             }
@@ -969,7 +978,7 @@ private fun AutoOpenAppContent(
         valueText = valueText,
         backgroundColor = ProtonTheme.colors.backgroundNorm,
         innerTextColor = if (packageName.isNullOrBlank()) ProtonTheme.colors.textHint else ProtonTheme.colors.textNorm,
-        bottomPadding = 10.dp,
+        bottomPadding = 12.dp,
         online = true,
     )
 
@@ -989,34 +998,47 @@ private fun AutoOpenAppContent(
 @Composable
 private fun AutoOpenUrlContent(
     url: TextFieldValue,
+    privateMode: Boolean,
     onUrlChange: (TextFieldValue) -> Unit,
+    onPrivateModeChange: (Boolean) -> Unit,
     urlError: Int?,
 ) {
-    val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(true) {
-        focusRequester.requestFocus()
+    Column {
+        val focusRequester = remember { FocusRequester() }
+        LaunchedEffect(true) {
+            focusRequester.requestFocus()
+        }
+        ProtonOutlinedTextField(
+            value = url,
+            onValueChange = onUrlChange,
+            textStyle = ProtonTheme.typography.defaultNorm,
+            labelText = stringResource(R.string.create_profile_auto_open_url_input_label),
+            assistiveText = urlError?.let { stringResource(it) } ?: "",
+            isError = urlError != null,
+            placeholderText = stringResource(R.string.create_profile_auto_open_url_input_placeholder),
+            maxLines = 1,
+            singleLine = true,
+            modifier = Modifier
+                .padding(top = 12.dp)
+                .padding(horizontal = DIALOG_CONTENT_PADDING)
+                .focusRequester(focusRequester)
+                .fillMaxWidth(),
+            backgroundColor = ProtonTheme.colors.backgroundNorm,
+        )
+        ProtonDialogCheckbox(
+            stringResource(R.string.create_profile_auto_open_url_private_mode_label),
+            privateMode,
+            onValueChange = onPrivateModeChange,
+            modifier = Modifier
+                .padding(top = 4.dp, bottom = 20.dp)
+                .padding(horizontal = DIALOG_CONTENT_PADDING)
+                .fillMaxWidth()
+        )
     }
-    ProtonOutlinedTextField(
-        value = url,
-        onValueChange = onUrlChange,
-        textStyle = ProtonTheme.typography.defaultNorm,
-        labelText = stringResource(R.string.create_profile_auto_open_url_input_label),
-        assistiveText = urlError?.let { stringResource(it) } ?: "",
-        isError = urlError != null,
-        placeholderText = stringResource(R.string.create_profile_auto_open_url_input_placeholder),
-        maxLines = 1,
-        singleLine = true,
-        modifier = Modifier
-            .padding(top = 12.dp)
-            .padding(horizontal = DIALOG_CONTENT_PADDING)
-            .focusRequester(focusRequester)
-            .fillMaxWidth(),
-        backgroundColor = ProtonTheme.colors.backgroundNorm,
-    )
 }
 
 @VisibleForTesting
-fun fixAndValidateAutoOpenUri(text: String) : Pair<ProfileAutoOpen?, Int?> {
+fun fixAndValidateAutoOpenUri(text: String, privateMode: Boolean) : Pair<ProfileAutoOpen?, Int?> {
     var uri = Uri.parse(text)
     if (uri.scheme.isNullOrBlank())
         uri = Uri.parse("https://$text")
@@ -1024,7 +1046,7 @@ fun fixAndValidateAutoOpenUri(text: String) : Pair<ProfileAutoOpen?, Int?> {
     val invalid = null to R.string.profile_auto_open_error_invalid_url
     return try {
         when (uri.scheme) {
-            "https" -> if (Patterns.WEB_URL.matcher(uri.toString()).matches()) ProfileAutoOpen.Url(uri) to null else invalid
+            "https" -> if (Patterns.WEB_URL.matcher(uri.toString()).matches()) ProfileAutoOpen.Url(uri, privateMode) to null else invalid
             else -> invalid
         }
     } catch (e: IllegalArgumentException) {
@@ -1215,7 +1237,7 @@ private fun AutoOpenModalPreview() {
 @Composable
 private fun AutoOpenModalUrlPreview() {
     ProtonVpnPreview {
-        AutoOpenModal(ProfileAutoOpen.Url(Uri.parse("https://proton.me")), {}, {}, { null }, { emptyList() })
+        AutoOpenModal(ProfileAutoOpen.Url(Uri.parse("https://proton.me"), false), {}, {}, { null }, { emptyList() })
     }
 }
 

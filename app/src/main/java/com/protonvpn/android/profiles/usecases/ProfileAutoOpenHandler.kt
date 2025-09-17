@@ -20,9 +20,11 @@
 package com.protonvpn.android.profiles.usecases
 
 import android.app.Activity
+import android.content.res.Configuration
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.utils.openPrivateCustomTab
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnState
@@ -75,14 +77,25 @@ class ProfileAutoOpenHandler @Inject constructor(
 
     private suspend fun handleAutoOpenForProfile(activity: Activity, profileId: Long) {
         profilesDao.getProfileById(profileId)?.let { profile ->
-            when (profile.autoOpen) {
+            val autoOpen = profile.autoOpen
+            when (autoOpen) {
                 is ProfileAutoOpen.None -> {}
                 is ProfileAutoOpen.App ->
-                    activity.packageManager.getLaunchIntentForPackage(profile.autoOpen.packageName)?.let { intent ->
+                    activity.packageManager.getLaunchIntentForPackage(autoOpen.packageName)?.let { intent ->
                         activity.startActivity(intent)
                     }
                 is ProfileAutoOpen.Url ->
-                    activity.openUrl(profile.autoOpen.url)
+                    if (autoOpen.openInPrivateMode) {
+                        val currentNightMode = activity.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                        val darkTheme = when (currentNightMode) {
+                            Configuration.UI_MODE_NIGHT_YES -> true
+                            Configuration.UI_MODE_NIGHT_NO -> false
+                            else -> null
+                        }
+                        activity.openPrivateCustomTab(autoOpen.url, darkTheme)
+                    } else {
+                        activity.openUrl(profile.autoOpen.url)
+                    }
             }
         }
     }

@@ -49,6 +49,8 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
+import androidx.browser.customtabs.CustomTabsClient
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -156,6 +158,27 @@ fun Context.openUrl(url: Uri) {
     } catch (e: ActivityNotFoundException) {
         Toast.makeText(this, getString(R.string.openUrlError, url), Toast.LENGTH_LONG).show()
     }
+}
+
+fun Context.doesDefaultBrowserSupportEphemeralCustomTabs() : Boolean {
+    val defaultCustomTabsBrowser = CustomTabsClient.getPackageName(this, emptyList()) ?: return false
+    return CustomTabsClient.isEphemeralBrowsingSupported(this, defaultCustomTabsBrowser)
+}
+
+fun Context.openPrivateCustomTab(url: Uri, darkTheme: Boolean?): Boolean {
+    if (!doesDefaultBrowserSupportEphemeralCustomTabs())
+        return false
+
+    CustomTabsIntent.Builder()
+        .setEphemeralBrowsingEnabled(true)
+        .setColorScheme(when (darkTheme) {
+            true -> CustomTabsIntent.COLOR_SCHEME_DARK
+            false -> CustomTabsIntent.COLOR_SCHEME_LIGHT
+            null -> CustomTabsIntent.COLOR_SCHEME_SYSTEM
+        })
+        .build()
+        .launchUrl(this, url)
+    return true
 }
 
 // Need to drop alpha channel as android won't handle it properly in TextView
