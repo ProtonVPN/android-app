@@ -83,7 +83,9 @@ class AppInfoService : Service() {
             }
 
             packageNames.forEach { pkgName ->
-                appMetaDataChannel.trySendBlocking(getAppMetaData(pkgName))
+                appMetaDataChannel.trySendBlocking(
+                    getAppMetaData(pkgName) ?: AppMetaData(pkgName, pkgName, null)
+                )
             }
 
             appMetaDataChannel.close()
@@ -93,31 +95,7 @@ class AppInfoService : Service() {
         }
     }
 
-    private data class AppMetaData(val packageName: String, val label: String, val iconDrawable: Drawable?)
-
-    private fun getAppMetaData(pkgName: String): AppMetaData =
-        try {
-            val appInfo = packageManager.getApplicationInfo(pkgName, PackageManager.GET_META_DATA)
-            AppMetaData(
-                pkgName,
-                appInfo.loadLabel(packageManager).toString(),
-                // Don't extract process the default icon.
-                if (appInfo.icon > 0) appInfo.loadIcon(packageManager) else null
-            )
-        } catch (e: PackageManager.NameNotFoundException) {
-            AppMetaData(pkgName, pkgName, null)
-        }
-
-    private fun createResultBundle(appMetaData: AppMetaData, iconSizePx: Int): Bundle =
-        Bundle().apply {
-            putString(EXTRA_PACKAGE_NAME, appMetaData.packageName)
-            putString(EXTRA_APP_LABEL, appMetaData.label)
-            if (appMetaData.iconDrawable != null) {
-                putByteArray(EXTRA_APP_ICON, compressIcon(appMetaData.iconDrawable, iconSizePx))
-            }
-        }
-
-    private fun compressIcon(iconDrawable: Drawable, sizePx: Int): ByteArray {
+    fun compressIcon(iconDrawable: Drawable, sizePx: Int): ByteArray {
         val bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         with(iconDrawable) {
@@ -129,6 +107,15 @@ class AppInfoService : Service() {
         bitmap.compress(Bitmap.CompressFormat.WEBP, WEBP_QUALITY, bytes)
         return bytes.toByteArray()
     }
+
+    private fun createResultBundle(appMetaData: AppMetaData, iconSizePx: Int): Bundle =
+        Bundle().apply {
+            putString(EXTRA_PACKAGE_NAME, appMetaData.packageName)
+            putString(EXTRA_APP_LABEL, appMetaData.label)
+            if (appMetaData.iconDrawable != null) {
+                putByteArray(EXTRA_APP_ICON, compressIcon(appMetaData.iconDrawable, iconSizePx))
+            }
+        }
 
     companion object {
         private const val MESSAGE_TYPE_REQUEST_APPS = 1
@@ -148,3 +135,20 @@ class AppInfoService : Service() {
         fun createIntent(context: Context) = Intent(context, AppInfoService::class.java)
     }
 }
+
+data class AppMetaData(val packageName: String, val label: String, val iconDrawable: Drawable?)
+
+// Gets label and icon for the given package name. Returns null if the package is not found.
+// For querying large number of packages use InstalledAppsProvider.
+fun Context.getAppMetaData(pkgName: String): AppMetaData? =
+    try {
+        val appInfo = packageManager.getApplicationInfo(pkgName, PackageManager.GET_META_DATA)
+        AppMetaData(
+            pkgName,
+            appInfo.loadLabel(packageManager).toString(),
+            // Don't extract process the default icon.
+            if (appInfo.icon > 0) appInfo.loadIcon(packageManager) else null
+        )
+    } catch (e: PackageManager.NameNotFoundException) {
+        null
+    }

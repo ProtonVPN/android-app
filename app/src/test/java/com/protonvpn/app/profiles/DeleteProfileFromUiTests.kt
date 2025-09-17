@@ -61,7 +61,7 @@ class DeleteProfileFromUiTests {
         info = ProfileInfo(1, "profile 1", ProfileColor.Color2, ProfileIcon.Icon5, 100L, true),
         connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet(), profileId = 1),
         userId = UserId("user1"),
-        autoOpen = ProfileAutoOpen.None("")
+        autoOpen = ProfileAutoOpen.None
     )
 
     @MockK

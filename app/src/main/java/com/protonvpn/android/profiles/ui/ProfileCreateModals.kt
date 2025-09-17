@@ -40,7 +40,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -57,6 +56,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -67,6 +67,7 @@ import androidx.compose.ui.semantics.text
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -88,11 +89,11 @@ import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.ProtocolSettingsList
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
+import com.protonvpn.android.ui.settings.LabeledItem
 import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultNorm
-import me.proton.core.compose.theme.defaultWeak
 import me.proton.core.presentation.R as CoreR
 
 @Composable
@@ -796,22 +797,42 @@ fun ProfileCustomDnsItem(
 fun ProfileAutoOpenItem(
     value: ProfileAutoOpen,
     onChange: (ProfileAutoOpen) -> Unit,
+    getAppInfo: suspend (String) -> LabeledItem?,
+    getAllAppsInfo: suspend (Int) -> List<LabeledItem>,
     modifier: Modifier = Modifier,
     isNew: Boolean
 ) {
+    val iconSizePx = with(LocalDensity.current) { 24.dp.roundToPx() }
+    val packageName = if (value is ProfileAutoOpen.App) value.packageName else null
+
+    var loadingAppInfo by remember(packageName) { mutableStateOf(true) }
+    var appInfo by remember(packageName) { mutableStateOf<LabeledItem?>(null) }
+    if (packageName != null) {
+        LaunchedEffect(packageName) {
+            appInfo = getAppInfo(packageName)
+            loadingAppInfo = false
+        }
+    }
     ProfileValueItem(
         labelRes = R.string.create_profile_connect_and_go_label,
         valueText = when (value) {
             is ProfileAutoOpen.None -> stringResource(R.string.profile_auto_open_off)
-            is ProfileAutoOpen.App -> value.packageName
+            is ProfileAutoOpen.App -> appInfo?.label ?: value.packageName.takeIf { !loadingAppInfo } ?: ""
             is ProfileAutoOpen.Url -> value.url.toString()
+        },
+        iconContent = appInfo?.let { appInfo ->
+            {
+                AutoOpenAppIcon(iconSizePx, appInfo)
+            }
         },
         online = true,
         modal = { closeModal ->
             AutoOpenModal(
-                value = value,
+                initialValue = value,
                 onChange = onChange,
-                onDismissRequest = closeModal
+                onDismissRequest = closeModal,
+                getAppInfo = getAppInfo,
+                getAllAppsInfo = getAllAppsInfo,
             )
         },
         labelBadge = R.string.create_profile_auto_open_label_badge.takeIf { isNew },
@@ -819,106 +840,190 @@ fun ProfileAutoOpenItem(
     )
 }
 
+private enum class AutoOpenType { None, Url, App }
+private fun ProfileAutoOpen.type() = when (this) {
+    is ProfileAutoOpen.None -> AutoOpenType.None
+    is ProfileAutoOpen.Url -> AutoOpenType.Url
+    is ProfileAutoOpen.App -> AutoOpenType.App
+}
+
 @Composable
 fun AutoOpenModal(
-    value: ProfileAutoOpen,
+    initialValue: ProfileAutoOpen,
     onChange: (ProfileAutoOpen) -> Unit,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    getAppInfo: suspend (String) -> LabeledItem?,
+    getAllAppsInfo: suspend (Int) -> List<LabeledItem>,
 ) {
-    var isOnState by rememberSaveable(value) { mutableStateOf(value !is ProfileAutoOpen.None) }
-    var urlState by rememberSaveable(value, stateSaver = TextFieldValue.Saver) {
-        val text = when (value) {
-            is ProfileAutoOpen.Url -> value.url.toString()
-            is ProfileAutoOpen.App -> "app:${value.packageName}"
-            is ProfileAutoOpen.None -> value.savedText
-        }
-        // Move cursor to the end on focusing
+    var typeState by rememberSaveable { mutableStateOf(initialValue.type()) }
+    var packageNameState by rememberSaveable(initialValue) {
+        mutableStateOf(
+            if (initialValue is ProfileAutoOpen.App) initialValue.packageName else ""
+        )
+    }
+    var urlState by rememberSaveable(initialValue, stateSaver = TextFieldValue.Saver) {
+        val text = if (initialValue is ProfileAutoOpen.Url) initialValue.url.toString() else ""
         mutableStateOf(TextFieldValue(text, TextRange(0)))
     }
-    var errorState by rememberSaveable(value) { mutableStateOf<Int?>(null) }
+    var urlErrorState by rememberSaveable(initialValue) {
+        mutableStateOf<Int?>(null)
+    }
 
     BaseItemPickerDialog(
         R.string.create_profile_connect_and_go_label,
         description = R.string.create_profile_auto_open_description,
         onDismissRequest = onDismissRequest,
         onSave = {
-            val (autoOpen, error) = fixAndValidateAutoOpenUri(isOnState, urlState.text)
-            if (error != null) {
-                errorState = error
-            } else {
+            val autoOpen = when (typeState) {
+                AutoOpenType.None -> ProfileAutoOpen.None
+                AutoOpenType.App -> ProfileAutoOpen.App(packageNameState)
+                AutoOpenType.Url -> {
+                    val (autoOpen, error) = fixAndValidateAutoOpenUri(urlState.text)
+                    if (error != null) {
+                        urlErrorState = error
+                    }
+                    autoOpen
+                }
+            }
+            if (autoOpen != null) {
                 onChange(autoOpen)
                 onDismissRequest()
             }
         }
     ) {
-        item {
-            SettingsRadioItemSmall(
-                title = stringResource(R.string.profile_auto_open_off),
-                description = null,
-                selected = !isOnState,
-                onSelected = {
-                    isOnState = false
-                    errorState = null
-                },
-                horizontalContentPadding = DIALOG_CONTENT_PADDING,
-            )
-        }
-        item {
-            Column(
-                modifier = Modifier.clickable { isOnState = true }
-            ) {
+        for (type in AutoOpenType.entries) {
+            val titleRes = when (type) {
+                AutoOpenType.None -> R.string.profile_auto_open_off
+                AutoOpenType.App -> R.string.profile_auto_open_app
+                AutoOpenType.Url -> R.string.profile_auto_open_website
+            }
+            item {
                 SettingsRadioItemSmall(
-                    title = stringResource(R.string.profile_auto_open_on),
+                    title = stringResource(titleRes),
                     description = null,
-                    selected = isOnState,
-                    onSelected = { isOnState = true },
+                    selected = typeState == type,
+                    onSelected = { typeState = type },
                     horizontalContentPadding = DIALOG_CONTENT_PADDING,
                 )
-                val focusRequester = remember { FocusRequester() }
-                if (isOnState) {
-                    LaunchedEffect(true) {
-                        focusRequester.requestFocus()
-                    }
-                }
-                ProtonOutlinedTextField(
-                    value = urlState,
-                    onValueChange = {
-                        urlState = it
-                        errorState = null
-                    },
-                    textStyle =
-                        if (isOnState) ProtonTheme.typography.defaultNorm
-                        else ProtonTheme.typography.defaultWeak,
-                    labelText = stringResource(R.string.create_profile_auto_open_url_input_label),
-                    assistiveText = errorState?.let { stringResource(it) } ?: "",
-                    isError = errorState != null,
-                    enabled = isOnState,
-                    placeholderText = stringResource(R.string.create_profile_auto_open_url_input_placeholder),
-                    maxLines = 1,
-                    singleLine = true,
-                    modifier = Modifier
-                        .padding(top = 12.dp)
-                        .padding(horizontal = DIALOG_CONTENT_PADDING)
-                        .focusRequester(focusRequester)
-                        .fillMaxWidth(),
-                    backgroundColor = ProtonTheme.colors.backgroundNorm,
+            }
+        }
+        item {
+            when (typeState) {
+                AutoOpenType.App -> AutoOpenAppContent(
+                    packageName = packageNameState,
+                    onPackageNameChange = { packageNameState = it },
+                    getAppInfo = getAppInfo,
+                    getAllAppsInfo = getAllAppsInfo,
                 )
+                AutoOpenType.Url -> AutoOpenUrlContent(
+                    url = urlState,
+                    onUrlChange = {
+                        urlState = it
+                        urlErrorState = null
+                    },
+                    urlError = urlErrorState,
+                )
+                AutoOpenType.None -> {}
             }
         }
     }
 }
 
+@Composable
+private fun AutoOpenAppContent(
+    packageName: String?,
+    onPackageNameChange: (String) -> Unit,
+    getAppInfo: suspend (String) -> LabeledItem?,
+    getAllAppsInfo: suspend (Int) -> List<LabeledItem>,
+) {
+    val showAppPicker = remember { mutableStateOf(false) }
+
+    val iconSizePx = with(LocalDensity.current) { 24.dp.roundToPx() }
+    var loadingAppLabel by remember(packageName) { mutableStateOf(true) }
+    var appLabel by remember(packageName) { mutableStateOf<LabeledItem?>(null) }
+    LaunchedEffect(packageName) {
+        appLabel = if (packageName.isNullOrBlank()) {
+            null
+        } else {
+            getAppInfo(packageName)
+        }
+        loadingAppLabel = false
+    }
+    val valueText = if (packageName.isNullOrBlank()) {
+        stringResource(R.string.create_profile_auto_open_app_input_hint)
+    } else {
+        appLabel?.label ?: packageName.takeIf { !loadingAppLabel } ?: ""
+    }
+    ProfileValueItem(
+        modifier = Modifier
+            .padding(top = 4.dp)
+            .padding(horizontal = DIALOG_CONTENT_PADDING)
+            .fillMaxWidth(),
+        labelRes = R.string.create_profile_auto_open_app_input_label,
+        onClick = { showAppPicker.value = true },
+        iconContent = appLabel?.let { appLabel ->
+            {
+                AutoOpenAppIcon(iconSizePx, appLabel)
+            }
+        },
+        valueText = valueText,
+        backgroundColor = ProtonTheme.colors.backgroundNorm,
+        innerTextColor = if (packageName.isNullOrBlank()) ProtonTheme.colors.textHint else ProtonTheme.colors.textNorm,
+        bottomPadding = 10.dp,
+        online = true,
+    )
+
+    if (showAppPicker.value) {
+        AutoOpenAppPickerDialog(
+            initialPackageName = packageName,
+            onAppSelected = { selectedPackageName ->
+                onPackageNameChange(selectedPackageName)
+                showAppPicker.value = false
+            },
+            getAllApps = getAllAppsInfo,
+            onDismissRequest = { showAppPicker.value = false }
+        )
+    }
+}
+
+@Composable
+private fun AutoOpenUrlContent(
+    url: TextFieldValue,
+    onUrlChange: (TextFieldValue) -> Unit,
+    urlError: Int?,
+) {
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(true) {
+        focusRequester.requestFocus()
+    }
+    ProtonOutlinedTextField(
+        value = url,
+        onValueChange = onUrlChange,
+        textStyle = ProtonTheme.typography.defaultNorm,
+        labelText = stringResource(R.string.create_profile_auto_open_url_input_label),
+        assistiveText = urlError?.let { stringResource(it) } ?: "",
+        isError = urlError != null,
+        placeholderText = stringResource(R.string.create_profile_auto_open_url_input_placeholder),
+        maxLines = 1,
+        singleLine = true,
+        modifier = Modifier
+            .padding(top = 12.dp)
+            .padding(horizontal = DIALOG_CONTENT_PADDING)
+            .focusRequester(focusRequester)
+            .fillMaxWidth(),
+        backgroundColor = ProtonTheme.colors.backgroundNorm,
+    )
+}
+
 @VisibleForTesting
-fun fixAndValidateAutoOpenUri(isOn: Boolean, text: String) : Pair<ProfileAutoOpen, Int?> {
-    if (!isOn) return ProfileAutoOpen.None(text) to null
+fun fixAndValidateAutoOpenUri(text: String) : Pair<ProfileAutoOpen?, Int?> {
     var uri = Uri.parse(text)
     if (uri.scheme.isNullOrBlank())
         uri = Uri.parse("https://$text")
 
-    val invalid = ProfileAutoOpen.None(text) to R.string.profile_auto_open_error_invalid_url
+    val invalid = null to R.string.profile_auto_open_error_invalid_url
     return try {
         when (uri.scheme) {
-            "app" -> ProfileAutoOpen.App(uri.schemeSpecificPart) to null
             "https" -> if (Patterns.WEB_URL.matcher(uri.toString()).matches()) ProfileAutoOpen.Url(uri) to null else invalid
             else -> invalid
         }
@@ -966,8 +1071,9 @@ private fun ProfileValueItem(
     iconContent: (@Composable RowScope.() -> Unit)? = null,
     bottomPadding: Dp = 20.dp,
     onClick: () -> Unit,
+    backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
+    innerTextColor: Color = if (online) ProtonTheme.colors.textNorm else ProtonTheme.colors.textHint
 ) {
-    val textColor = if (online) ProtonTheme.colors.textNorm else ProtonTheme.colors.textHint
     Column(
         modifier = modifier
             .padding(vertical = 8.dp)
@@ -984,7 +1090,7 @@ private fun ProfileValueItem(
                 Text(
                     text = label,
                     style = ProtonTheme.typography.captionMedium,
-                    color = textColor,
+                    color = ProtonTheme.colors.textNorm,
                     modifier = Modifier.weight(1f, fill = false)
                 )
                 if (labelBadge != null) {
@@ -1006,7 +1112,7 @@ private fun ProfileValueItem(
                     if (label != null) text = AnnotatedString(label)
                 }
                 .clickable(onClick = onClick)
-                .background(ProtonTheme.colors.backgroundSecondary)
+                .background(backgroundColor)
                 .heightIn(min = 48.dp)
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -1022,7 +1128,9 @@ private fun ProfileValueItem(
                 Text(
                     text = valueText,
                     style = ProtonTheme.typography.body1Medium,
-                    color = textColor,
+                    color = innerTextColor,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.weight(1f, fill = false)
                 )
                 AvailabilityIndicator(online, Modifier.padding(horizontal = 12.dp))
@@ -1099,7 +1207,29 @@ fun BaseItemPickerDialog(
 @Composable
 private fun AutoOpenModalPreview() {
     ProtonVpnPreview {
-        AutoOpenModal(ProfileAutoOpen.None(""), {}, {})
+        AutoOpenModal(ProfileAutoOpen.None, {}, {}, { null }, { emptyList() })
+    }
+}
+
+@ProtonVpnPreview
+@Composable
+private fun AutoOpenModalUrlPreview() {
+    ProtonVpnPreview {
+        AutoOpenModal(ProfileAutoOpen.Url(Uri.parse("https://proton.me")), {}, {}, { null }, { emptyList() })
+    }
+}
+
+@ProtonVpnPreview
+@Composable
+private fun AutoOpenModalAppPreview() {
+    ProtonVpnPreview {
+        AutoOpenModal(
+            ProfileAutoOpen.App("ch.protonvpn.android"),
+            {},
+            {},
+            { LabeledItem("ch.protonvpn.android", "Proton VPN", iconRes = R.drawable.ic_vpn_icon_colorful) },
+            { emptyList() }
+        )
     }
 }
 

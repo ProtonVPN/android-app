@@ -46,6 +46,7 @@ import com.protonvpn.android.redesign.settings.ui.customdns.UndoCustomDnsRemove
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.settings.data.CustomDnsSettings
+import com.protonvpn.android.ui.settings.LabeledItem
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.CountryTools
@@ -88,7 +89,7 @@ private fun defaultSettingScreenState(
     natType = NatType.Strict,
     lanConnections = true,
     lanConnectionsAllowDirect = if (lanDirectConnectionsFeatureFlagEnabled) false else null,
-    autoOpen = ProfileAutoOpen.None(""),
+    autoOpen = ProfileAutoOpen.None,
     customDnsSettings = CustomDnsSettings(false),
     isAutoOpenNew = isAutoOpenNew,
     isPrivateDnsActive = isPrivateDnsEnabled,
@@ -245,6 +246,7 @@ class CreateEditProfileViewModel @Inject constructor(
     private val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     private val transientMustHaves: TransientMustHaves,
+    private val autoOpenAppInfoHelper: AutoOpenAppInfoHelper,
 ) : ViewModel() {
 
     private var editedProfileId: Long? = null
@@ -811,4 +813,10 @@ class CreateEditProfileViewModel @Inject constructor(
             setCustomDns(CustomDnsSettings(toggleEnabled = true, rawDnsList = currentList + dns.trim()))
         }
     }
+
+    suspend fun getAutoOpenAppInfo(packageName: String): LabeledItem? =
+        autoOpenAppInfoHelper.getAppInfo(packageName)
+
+    suspend fun getAutoOpenAllAppsInfo(iconSizePx: Int): List<LabeledItem> =
+        autoOpenAppInfoHelper.getLaunchableAppsInfo(iconSizePx)
 }

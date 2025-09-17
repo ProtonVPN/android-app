@@ -414,7 +414,7 @@ class RecentsListViewStateFlowTests {
 
         val Profile = Profile(
             ProfileInfo(1, "MyProfile", ProfileColor.Color1, ProfileIcon.Icon1, createdAt = 0L, isUserCreated = true),
-            ProfileAutoOpen.None(""),
+            ProfileAutoOpen.None,
             ConnectIntent.FastestInCountry(CountryId.fastest, emptySet(), profileId = 1),
             userId = TestUser.plusUser.vpnUser.userId
         )

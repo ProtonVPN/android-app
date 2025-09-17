@@ -95,7 +95,7 @@ class CreateOrUpdateProfileFromUiTests {
         natType = NatType.Moderate,
         lanConnections = true,
         lanConnectionsAllowDirect = false,
-        autoOpen = ProfileAutoOpen.None(""),
+        autoOpen = ProfileAutoOpen.None,
         customDnsSettings = CustomDnsSettings(false),
         isAutoOpenNew = true,
         isPrivateDnsActive = false,
@@ -117,7 +117,7 @@ class CreateOrUpdateProfileFromUiTests {
             profileId = 1L,
             settingsOverrides = settingsScreenState.toSettingsOverrides()
         ),
-        autoOpen = ProfileAutoOpen.None("")
+        autoOpen = ProfileAutoOpen.None
     )
 
     @Before

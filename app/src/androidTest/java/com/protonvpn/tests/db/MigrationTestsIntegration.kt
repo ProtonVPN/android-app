@@ -125,7 +125,7 @@ class MigrationTestsIntegration {
                 isUserCreated = true,
                 lastConnectedAt = null,
             ),
-            autoOpen = ProfileAutoOpen.None(""),
+            autoOpen = ProfileAutoOpen.None,
             connectIntent = ConnectIntent.FastestInCity(
                 country = CountryId("CH"),
                 cityEn = "Zurich",

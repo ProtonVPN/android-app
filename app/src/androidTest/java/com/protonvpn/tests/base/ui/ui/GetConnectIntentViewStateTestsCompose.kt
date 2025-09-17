@@ -480,7 +480,7 @@ class GetConnectIntentViewStateTestsCompose : FusionComposeTest() {
             ),
             connectIntent = intent,
             userId = UserId("dummy id"),
-            autoOpen = ProfileAutoOpen.None(""),
+            autoOpen = ProfileAutoOpen.None,
         )
         profiles.set(profile)
         setConnectIntentRowComposable(profile.connectIntent, isFreeUser = false)

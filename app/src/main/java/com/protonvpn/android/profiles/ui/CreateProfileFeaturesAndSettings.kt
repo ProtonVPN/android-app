@@ -30,7 +30,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Text
@@ -40,6 +39,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.settings.data.CustomDnsSettings
+import com.protonvpn.android.ui.settings.LabeledItem
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -75,7 +75,9 @@ fun CreateProfileFeaturesAndSettingsRoute(
                 onCustomDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE) },
                 onPrivateDnsLearnMore = { context.openUrl(Constants.URL_CUSTOM_DNS_PRIVATE_DNS_LEARN_MORE) },
                 onNext = onNext,
-                onBack = onBack
+                onBack = onBack,
+                getAutoOpenAppInfo = viewModel::getAutoOpenAppInfo,
+                getAutoOpenAllAppsInfo = viewModel::getAutoOpenAllAppsInfo,
             )
             LaunchedEffect(Unit) {
                 viewModel.settingsScreenShown()
@@ -99,6 +101,8 @@ fun ProfileFeaturesAndSettings(
     onNext: () -> Unit,
     onBack: () -> Unit,
     onAutoOpenChange: (ProfileAutoOpen) -> Unit,
+    getAutoOpenAppInfo: suspend (String) -> LabeledItem?,
+    getAutoOpenAllAppsInfo: suspend (Int) -> List<LabeledItem>,
 ) {
     CreateProfileStep(
         onNext = onNext,
@@ -146,6 +150,8 @@ fun ProfileFeaturesAndSettings(
                 value = state.autoOpen,
                 onChange = onAutoOpenChange,
                 isNew = state.isAutoOpenNew,
+                getAppInfo = getAutoOpenAppInfo,
+                getAllAppsInfo = getAutoOpenAllAppsInfo,
             )
             state.customDnsSettings?.let {
                 ProfileCustomDnsItem(
@@ -170,7 +176,7 @@ fun PreviewFeaturesAndSettings() {
                 NatType.Strict,
                 lanConnections = false,
                 lanConnectionsAllowDirect = false,
-                ProfileAutoOpen.None(""),
+                ProfileAutoOpen.None,
                 customDnsSettings = CustomDnsSettings(false),
                 isAutoOpenNew = true,
             ),
@@ -186,6 +192,8 @@ fun PreviewFeaturesAndSettings() {
             onAutoOpenChange = {},
             onDisablePrivateDns = {},
             onPrivateDnsLearnMore = {},
+            getAutoOpenAppInfo = { null },
+            getAutoOpenAllAppsInfo = { emptyList() },
         )
     }
 }

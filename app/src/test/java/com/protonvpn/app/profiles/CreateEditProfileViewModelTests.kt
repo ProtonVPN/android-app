@@ -119,7 +119,7 @@ class CreateEditProfileViewModelTests {
         natType = NatType.Moderate,
         lanConnections = true,
         lanConnectionsAllowDirect = false,
-        autoOpen = ProfileAutoOpen.None(""),
+        autoOpen = ProfileAutoOpen.None,
         customDnsSettings = CustomDnsSettings(false),
         isAutoOpenNew = true,
         isPrivateDnsActive = false,
@@ -141,7 +141,7 @@ class CreateEditProfileViewModelTests {
             profileId = 1L,
             settingsOverrides = settingsScreenState.toSettingsOverrides(),
         ),
-        autoOpen = ProfileAutoOpen.None(""),
+        autoOpen = ProfileAutoOpen.None,
     )
 
     @Before
@@ -203,7 +203,8 @@ class CreateEditProfileViewModelTests {
             uiStateStorage = UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),
             isPrivateDnsActiveFlow = IsPrivateDnsActiveFlow(isPrivateDnsActiveFlow),
             isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
-            transientMustHaves = TransientMustHaves({ testScope.currentTime })
+            transientMustHaves = TransientMustHaves({ testScope.currentTime }),
+            autoOpenAppInfoHelper = mockk(relaxed = true)
         )
         viewModel.localeFlow.value = Locale("en")
     }

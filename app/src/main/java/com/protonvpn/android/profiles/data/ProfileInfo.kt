@@ -43,13 +43,13 @@ data class ProfileInfo(
 )
 
 sealed class ProfileAutoOpen : Parcelable {
-    @Parcelize data class None(val savedText: String) : ProfileAutoOpen()
+    @Parcelize data object None : ProfileAutoOpen()
     @Parcelize data class App(val packageName: String) : ProfileAutoOpen()
     @Parcelize data class Url(val url: Uri) : ProfileAutoOpen()
 
     companion object {
         fun from(text: String, enabled: Boolean): ProfileAutoOpen = when {
-            !enabled -> None(text)
+            !enabled -> None
             text.startsWith("app:") -> App(text.removePrefix("app:"))
             else -> Url(Uri.parse(text))
         }
@@ -74,7 +74,7 @@ fun Profile.toProfileEntity() = ProfileEntity(
     userId = userId,
     autoOpenEnabled = autoOpen !is ProfileAutoOpen.None,
     autoOpenText = when (autoOpen) {
-        is ProfileAutoOpen.None -> autoOpen.savedText
+        is ProfileAutoOpen.None -> ""
         is ProfileAutoOpen.App -> "app:${autoOpen.packageName}"
         is ProfileAutoOpen.Url -> autoOpen.url.toString()
     },
