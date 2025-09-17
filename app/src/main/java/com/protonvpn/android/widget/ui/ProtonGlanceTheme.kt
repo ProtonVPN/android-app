@@ -29,17 +29,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceComposable
 import androidx.glance.color.ColorProvider
-import androidx.glance.color.DayNightColorProvider
 import androidx.glance.color.DynamicThemeColorProviders
 import androidx.glance.text.FontWeight
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import androidx.glance.unit.FixedColorProvider
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.LocalLocale
 import com.protonvpn.android.base.ui.LocalStringProvider
 import com.protonvpn.android.base.ui.StringProvider
-import com.protonvpn.android.redesign.base.ui.vpnGreen
+import com.protonvpn.android.base.ui.vpnGreen
 import me.proton.core.compose.theme.ProtonColors
 import java.util.Locale
 

@@ -40,6 +40,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.vpnGreen
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable

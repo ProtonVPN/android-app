@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Proton AG
+ * Copyright (c) 2025 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,26 +17,10 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.base.ui
+package com.protonvpn.android.tv.ui
 
-import androidx.compose.ui.graphics.Color
-import me.proton.core.compose.theme.ProtonColors
+object TvKeyConstants {
 
-@Suppress("MagicNumber")
-val ProtonColors.vpnGreen: Color
-    get() = if (isDark) Color(0xFF2CFFCC) else Color(0xFF1C9C7C)
+    const val PAID_FEATURE: String = "paid_feature_key"
 
-val ProtonColors.upsellBackground: Color
-    get() = Color(0xFF191927)
-
-val ProtonColors.upsellGradientStart: Color
-    get() = Color(0x6611D8CC)
-
-val ProtonColors.upsellGradientEnd: Color
-    get() = Color(0x006E4BFF)
-
-val ProtonColors.upsellBorderGradientStart: Color
-    get() = Color(0xff4B29D9)
-
-val ProtonColors.upsellBorderGradientEnd: Color
-    get() = Color(0xff2CDCCB)
+}

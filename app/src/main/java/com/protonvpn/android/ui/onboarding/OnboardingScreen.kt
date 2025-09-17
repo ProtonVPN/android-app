@@ -43,8 +43,8 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.VpnSolidButton
-import com.protonvpn.android.redesign.base.ui.upsellGradientEnd
-import com.protonvpn.android.redesign.base.ui.upsellGradientStart
+import com.protonvpn.android.base.ui.upsellGradientEnd
+import com.protonvpn.android.base.ui.upsellGradientStart
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultSmallNorm

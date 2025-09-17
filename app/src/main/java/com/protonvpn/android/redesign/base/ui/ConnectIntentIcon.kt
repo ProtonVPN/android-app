@@ -20,7 +20,6 @@
 package com.protonvpn.android.redesign.base.ui
 
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.ColorFilter
@@ -66,6 +65,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.createHueRotationMatrix
 import com.protonvpn.android.base.ui.rgbToHueInRadians
+import com.protonvpn.android.base.ui.vpnGreen
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.ui.toColor

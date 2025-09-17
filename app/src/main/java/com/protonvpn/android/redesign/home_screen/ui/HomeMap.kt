@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.viewinterop.AndroidView
-import com.protonvpn.android.redesign.base.ui.vpnGreen
+import com.protonvpn.android.base.ui.vpnGreen
 import com.protonvpn.android.tv.main.CountryHighlight
 import com.protonvpn.android.tv.main.CountryHighlightInfo
 import com.protonvpn.android.tv.main.MapRendererConfig

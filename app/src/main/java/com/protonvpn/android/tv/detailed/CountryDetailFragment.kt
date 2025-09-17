@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.tv.detailed
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.doOnPreDraw
@@ -37,8 +38,9 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.StreamingIcon
 import com.protonvpn.android.databinding.FragmentTvCountryDetailsBinding
-import com.protonvpn.android.tv.TvUpgradeActivity
-import com.protonvpn.android.utils.AndroidUtils.launchActivity
+import com.protonvpn.android.models.features.PaidFeature
+import com.protonvpn.android.tv.ui.TvKeyConstants
+import com.protonvpn.android.tv.upsell.TvUpsellActivity
 import com.protonvpn.android.utils.ViewUtils.requestAllFocus
 import com.protonvpn.android.utils.setStartDrawable
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -163,7 +165,11 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
     }
 
     private fun onUpgradeClicked(ignored: View) {
-        requireContext().launchActivity<TvUpgradeActivity>()
+        val intent = Intent(context, TvUpsellActivity::class.java).apply {
+            putExtra(TvKeyConstants.PAID_FEATURE, PaidFeature.AllCountries)
+        }
+
+        requireContext().startActivity(intent)
     }
 
     private fun getCountryCode(): String = requireNotNull(

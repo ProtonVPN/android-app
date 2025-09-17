@@ -86,7 +86,7 @@ import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.netshield.NetShieldView
 import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.redesign.base.ui.UpsellBannerContent
-import com.protonvpn.android.redesign.base.ui.vpnGreen
+import com.protonvpn.android.base.ui.vpnGreen
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.DnsOverride

@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
 import com.protonvpn.android.redesign.base.ui.optional
+import com.protonvpn.android.tv.buttons.TvTextButton
 import com.protonvpn.android.tv.settings.ProtonTvFocusableSurface
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -84,7 +85,7 @@ fun TvAlertDialog(
                     horizontalArrangement = Arrangement.spacedBy(space = 16.dp),
                     verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
                 ) {
-                    TvDialogButton(
+                    TvTextButton(
                         modifier = Modifier.optional(
                             predicate = { focusedButton == DialogInterface.BUTTON_NEGATIVE },
                             modifier = Modifier.focusRequester(focusRequester),
@@ -93,7 +94,7 @@ fun TvAlertDialog(
                         onClick = onDismiss,
                     )
 
-                    TvDialogButton(
+                    TvTextButton(
                         modifier = Modifier.optional(
                             predicate = { focusedButton == DialogInterface.BUTTON_POSITIVE },
                             modifier = Modifier.focusRequester(focusRequester),
@@ -105,26 +106,4 @@ fun TvAlertDialog(
             }
         },
     )
-}
-
-@Composable
-private fun TvDialogButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    ProtonTvFocusableSurface(
-        modifier = modifier,
-        color = { Color.Transparent },
-        focusedColor = { ProtonTheme.colors.backgroundNorm },
-        shape = CircleShape,
-        onClick = onClick,
-    ) {
-        Text(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-            text = text,
-            color = ProtonTheme.colors.textNorm,
-            style = ProtonTheme.typography.body2Medium,
-        )
-    }
 }

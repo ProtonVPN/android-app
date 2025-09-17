@@ -20,6 +20,7 @@
 package com.protonvpn.android.tv.detailed
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -39,10 +40,11 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvBrowseFragment
 import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.databinding.TvServerRowBinding
-import com.protonvpn.android.tv.TvUpgradeActivity
+import com.protonvpn.android.models.features.PaidFeature
 import com.protonvpn.android.tv.detailed.TvServerListScreenFragment.Companion.EXTRA_COUNTRY
 import com.protonvpn.android.tv.presenters.AbstractCardPresenter
-import com.protonvpn.android.utils.AndroidUtils.launchActivity
+import com.protonvpn.android.tv.ui.TvKeyConstants
+import com.protonvpn.android.tv.upsell.TvUpsellActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -74,7 +76,13 @@ class TvServerListFragment : BaseTvBrowseFragment() {
             require(item is TvServerListViewModel.ServerViewModel)
             item.click(
                 (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate(),
-                onUpgrade = { requireContext().launchActivity<TvUpgradeActivity>() }
+                onUpgrade = {
+                    val intent = Intent(context, TvUpsellActivity::class.java).apply {
+                        putExtra(TvKeyConstants.PAID_FEATURE, PaidFeature.AllCountries)
+                    }
+
+                    requireContext().startActivity(intent)
+                }
             )
         }
 

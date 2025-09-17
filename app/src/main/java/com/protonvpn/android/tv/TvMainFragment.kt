@@ -46,6 +46,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.BaseTvBrowseFragment
 import com.protonvpn.android.databinding.TvCardRowBinding
+import com.protonvpn.android.models.features.PaidFeature
 import com.protonvpn.android.tv.detailed.CountryDetailFragment
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.tv.main.translateMapCoordinatesToRegion
@@ -70,6 +71,8 @@ import com.protonvpn.android.tv.settings.lanconnections.TvSettingsLanConnections
 import com.protonvpn.android.tv.settings.netshield.TvSettingsNetShieldActivity
 import com.protonvpn.android.tv.settings.protocol.TvSettingsProtocolActivity
 import com.protonvpn.android.tv.settings.splittunneling.TvSettingsSplitTunnelingActivity
+import com.protonvpn.android.tv.ui.TvKeyConstants
+import com.protonvpn.android.tv.upsell.TvUpsellActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.CountryTools
@@ -176,20 +179,32 @@ class TvMainFragment : BaseTvBrowseFragment() {
                     startActivity(Intent(context, TvSettingsAutoConnectActivity::class.java))
                 }
                 is SettingsCustomDns -> {
-                    paidFeatureOpener(TvSettingsCustomDnsActivity::class.java)
+                    paidFeatureOpener(
+                        paidFeature = PaidFeature.CustomDns,
+                        paidFeatureActivityClass = TvSettingsCustomDnsActivity::class.java,
+                    )
                 }
                 is SettingsLanConnectionsCard -> {
-                    paidFeatureOpener(TvSettingsLanConnectionsActivity::class.java)
+                    paidFeatureOpener(
+                        paidFeature = PaidFeature.LanConnections,
+                        paidFeatureActivityClass = TvSettingsLanConnectionsActivity::class.java,
+                    )
                 }
                 is SettingsNetShieldCard -> {
-                    paidFeatureOpener(TvSettingsNetShieldActivity::class.java)
+                    paidFeatureOpener(
+                        paidFeature = PaidFeature.NetShield,
+                        paidFeatureActivityClass = TvSettingsNetShieldActivity::class.java,
+                    )
                 }
                 is SettingsProtocolCard -> {
                     startActivity(Intent(context, TvSettingsProtocolActivity::class.java))
                 }
 
                 is SettingsSplitTunnelingCard -> {
-                    paidFeatureOpener(TvSettingsSplitTunnelingActivity::class.java)
+                    paidFeatureOpener(
+                        paidFeature = PaidFeature.SplitTunneling,
+                        paidFeatureActivityClass = TvSettingsSplitTunnelingActivity::class.java,
+                    )
                 }
                 is LogoutCard -> {
                     logout()
@@ -376,8 +391,16 @@ class TvMainFragment : BaseTvBrowseFragment() {
 private class PaidFeatureOpener(private val context: Context) {
     var isFreeUser: Boolean = true
 
-    operator fun invoke(paidFeatureActivity: Class<out Activity>) {
-        val activityClass = if (isFreeUser) TvUpgradeActivity::class.java else paidFeatureActivity
-        context.startActivity(Intent(context, activityClass))
+    operator fun invoke(paidFeature: PaidFeature, paidFeatureActivityClass: Class<out Activity>) {
+        val intent = if(isFreeUser) {
+            Intent(context, TvUpsellActivity::class.java).apply {
+                putExtra(TvKeyConstants.PAID_FEATURE, paidFeature)
+            }
+        } else {
+            Intent(context, paidFeatureActivityClass)
+        }
+
+        context.startActivity(intent)
     }
+
 }

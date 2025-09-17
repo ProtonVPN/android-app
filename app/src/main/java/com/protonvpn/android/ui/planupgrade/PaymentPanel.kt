@@ -50,7 +50,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.PlaceholderRect
 import com.protonvpn.android.base.ui.ProtonSolidButton
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.redesign.base.ui.vpnGreen
+import com.protonvpn.android.base.ui.vpnGreen
 import com.protonvpn.android.utils.Constants
 import me.proton.core.compose.theme.ProtonDimens
 import me.proton.core.compose.theme.ProtonTheme
