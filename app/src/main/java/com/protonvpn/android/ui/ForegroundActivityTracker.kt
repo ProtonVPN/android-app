@@ -89,6 +89,10 @@ class ForegroundActivityTracker(
                         if (currentActivity == stoppedActivity) null else currentActivity
                     }
                 }
+
+                override fun onActivityResumed(activity: Activity) {
+                    flow.update { activity }
+                }
             }
             // It's never unregistered - there should be only one global observer created.
             app.registerActivityLifecycleCallbacks(lifecycleCallbacks)
