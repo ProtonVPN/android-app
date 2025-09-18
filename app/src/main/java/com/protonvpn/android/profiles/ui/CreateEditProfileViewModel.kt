@@ -34,6 +34,8 @@ import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.profiles.usecases.CreateOrUpdateProfileFromUi
+import com.protonvpn.android.profiles.usecases.IsPrivateBrowsingAvailable
+import com.protonvpn.android.profiles.usecases.PrivateBrowsingAvailability
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.ConnectIntentData
@@ -93,6 +95,7 @@ private fun defaultSettingScreenState(
     customDnsSettings = CustomDnsSettings(false),
     isAutoOpenNew = isAutoOpenNew,
     isPrivateDnsActive = isPrivateDnsEnabled,
+    showPrivateBrowsing = false,
 )
 
 @Parcelize
@@ -210,6 +213,7 @@ data class SettingsScreenState(
     val autoOpen: ProfileAutoOpen,
     val isAutoOpenNew: Boolean,
     val customDnsSettings: CustomDnsSettings?,
+    val showPrivateBrowsing: Boolean,
 ) : Parcelable {
     fun toSettingsOverrides() = SettingsOverrides(
         protocolData = protocol.toData(),
@@ -247,6 +251,7 @@ class CreateEditProfileViewModel @Inject constructor(
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     private val transientMustHaves: TransientMustHaves,
     private val autoOpenAppInfoHelper: AutoOpenAppInfoHelper,
+    private val isPrivateBrowsingAvailable: IsPrivateBrowsingAvailable,
 ) : ViewModel() {
 
     private var editedProfileId: Long? = null
@@ -460,6 +465,10 @@ class CreateEditProfileViewModel @Inject constructor(
             ?.let { it != NetShieldProtocol.DISABLED }
             ?: defaultSettingScreenState.netShield
 
+        // Show private browsing switch for auto-open if it's supported or when it was already
+        // enabled for given profile
+        val showPrivateBrowsing = (profile.autoOpen is ProfileAutoOpen.Url && profile.autoOpen.openInPrivateMode)
+            || isPrivateBrowsingAvailable() != PrivateBrowsingAvailability.NotAvailable
         return SettingsScreenState(
             netShield = netShield,
             isPrivateDnsActive = isPrivateDnsActive,
@@ -470,6 +479,7 @@ class CreateEditProfileViewModel @Inject constructor(
             autoOpen = profile.autoOpen,
             customDnsSettings = intent.settingsOverrides?.customDns ?: defaultSettingScreenState.customDnsSettings,
             isAutoOpenNew = isAutoOpenNew.first(),
+            showPrivateBrowsing = showPrivateBrowsing,
         )
     }
 

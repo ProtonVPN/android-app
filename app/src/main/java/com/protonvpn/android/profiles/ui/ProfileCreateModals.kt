@@ -801,6 +801,7 @@ fun ProfileAutoOpenItem(
     onChange: (ProfileAutoOpen) -> Unit,
     getAppInfo: suspend (String) -> LabeledItem?,
     getAllAppsInfo: suspend (Int) -> List<LabeledItem>,
+    showPrivateBrowsing: Boolean,
     modifier: Modifier = Modifier,
     isNew: Boolean
 ) {
@@ -835,6 +836,7 @@ fun ProfileAutoOpenItem(
                 onDismissRequest = closeModal,
                 getAppInfo = getAppInfo,
                 getAllAppsInfo = getAllAppsInfo,
+                showPrivateBrowsing = showPrivateBrowsing
             )
         },
         labelBadge = R.string.create_profile_auto_open_label_badge.takeIf { isNew },
@@ -856,6 +858,7 @@ fun AutoOpenModal(
     onDismissRequest: () -> Unit,
     getAppInfo: suspend (String) -> LabeledItem?,
     getAllAppsInfo: suspend (Int) -> List<LabeledItem>,
+    showPrivateBrowsing: Boolean,
 ) {
     var typeState by rememberSaveable { mutableStateOf(initialValue.type()) }
     var packageNameState by rememberSaveable(initialValue) {
@@ -939,6 +942,7 @@ fun AutoOpenModal(
                     },
                     urlError = urlErrorState,
                     privateMode = privateModeState,
+                    showPrivateBrowsing = showPrivateBrowsing,
                     onPrivateModeChange = { privateModeState = it },
                 )
                 AutoOpenType.None -> {}
@@ -1011,6 +1015,7 @@ private fun AutoOpenUrlContent(
     onUrlChange: (TextFieldValue) -> Unit,
     onPrivateModeChange: (Boolean) -> Unit,
     urlError: Int?,
+    showPrivateBrowsing: Boolean,
 ) {
     Column {
         val focusRequester = remember { FocusRequester() }
@@ -1034,15 +1039,17 @@ private fun AutoOpenUrlContent(
                 .fillMaxWidth(),
             backgroundColor = ProtonTheme.colors.backgroundNorm,
         )
-        ProtonDialogCheckbox(
-            stringResource(R.string.create_profile_auto_open_url_private_mode_label),
-            privateMode,
-            onValueChange = onPrivateModeChange,
-            modifier = Modifier
-                .padding(top = 4.dp, bottom = 20.dp)
-                .padding(horizontal = DIALOG_CONTENT_PADDING)
-                .fillMaxWidth()
-        )
+        if (showPrivateBrowsing) {
+            ProtonDialogCheckbox(
+                stringResource(R.string.create_profile_auto_open_url_private_mode_label),
+                privateMode,
+                onValueChange = onPrivateModeChange,
+                modifier = Modifier
+                    .padding(top = 4.dp, bottom = 20.dp)
+                    .padding(horizontal = DIALOG_CONTENT_PADDING)
+                    .fillMaxWidth()
+            )
+        }
     }
 }
 
@@ -1240,7 +1247,7 @@ fun BaseItemPickerDialog(
 @Composable
 private fun AutoOpenModalPreview() {
     ProtonVpnPreview {
-        AutoOpenModal(ProfileAutoOpen.None, {}, {}, { null }, { emptyList() })
+        AutoOpenModal(ProfileAutoOpen.None,{}, {}, { null }, { emptyList() }, true)
     }
 }
 
@@ -1248,7 +1255,7 @@ private fun AutoOpenModalPreview() {
 @Composable
 private fun AutoOpenModalUrlPreview() {
     ProtonVpnPreview {
-        AutoOpenModal(ProfileAutoOpen.Url(Uri.parse("https://proton.me"), false), {}, {}, { null }, { emptyList() })
+        AutoOpenModal(ProfileAutoOpen.Url(Uri.parse("https://proton.me"), false), {}, {}, { null }, { emptyList() }, true)
     }
 }
 
@@ -1261,7 +1268,8 @@ private fun AutoOpenModalAppPreview() {
             {},
             {},
             { LabeledItem("ch.protonvpn.android", "Proton VPN", iconRes = R.drawable.ic_vpn_icon_colorful) },
-            { emptyList() }
+            { emptyList() },
+            showPrivateBrowsing = true
         )
     }
 }

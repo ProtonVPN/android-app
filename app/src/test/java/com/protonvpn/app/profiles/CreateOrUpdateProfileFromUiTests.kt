@@ -99,6 +99,7 @@ class CreateOrUpdateProfileFromUiTests {
         customDnsSettings = CustomDnsSettings(false),
         isAutoOpenNew = true,
         isPrivateDnsActive = false,
+        showPrivateBrowsing = true
     )
     // Matches the screen states above.
     private val testProfile = Profile(
