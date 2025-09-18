@@ -56,6 +56,8 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
 import com.protonvpn.android.R
+import com.protonvpn.android.logging.ProfilesAutoOpen
+import com.protonvpn.android.logging.ProtonLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.times
@@ -165,11 +167,20 @@ fun Context.doesDefaultBrowserSupportEphemeralCustomTabs() : Boolean {
     return CustomTabsClient.isEphemeralBrowsingSupported(this, defaultCustomTabsBrowser)
 }
 
-fun Context.openPrivateCustomTab(url: Uri, darkTheme: Boolean?): Boolean {
-    if (!doesDefaultBrowserSupportEphemeralCustomTabs())
-        return false
+fun Context.getEphemeralCustomTabsBrowser(url: Uri) : String? {
+    // Get all apps that can handle VIEW intents and Custom Tab service connections.
+    val browserIntent = Intent(Intent.ACTION_VIEW, url)
+    val browsers = packageManager.queryIntentActivities(
+        browserIntent,
+        PackageManager.MATCH_ALL
+    ).map {
+        it.activityInfo.packageName
+    }
+    return browsers.firstOrNull { CustomTabsClient.isEphemeralBrowsingSupported(this, it) }
+}
 
-    CustomTabsIntent.Builder()
+fun Context.openPrivateCustomTab(url: Uri, darkTheme: Boolean?, browserPackage: String?) {
+    val intent = CustomTabsIntent.Builder()
         .setEphemeralBrowsingEnabled(true)
         .setColorScheme(when (darkTheme) {
             true -> CustomTabsIntent.COLOR_SCHEME_DARK
@@ -177,8 +188,11 @@ fun Context.openPrivateCustomTab(url: Uri, darkTheme: Boolean?): Boolean {
             null -> CustomTabsIntent.COLOR_SCHEME_SYSTEM
         })
         .build()
-        .launchUrl(this, url)
-    return true
+
+    if (browserPackage != null)
+        intent.intent.setPackage(browserPackage)
+
+    intent.launchUrl(this, url)
 }
 
 // Need to drop alpha channel as android won't handle it properly in TextView

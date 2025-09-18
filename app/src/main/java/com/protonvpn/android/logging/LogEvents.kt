@@ -38,6 +38,7 @@ enum class LogCategory(private val categoryName: String) {
     NETWORK("NETWORK"),
     OS("OS"),
     OS_POWER("OS.POWER"),
+    PROFILES("PROFILES"),
     PROMO("PROMO"),
     PROTOCOL("PROTOCOL"),
     SECURE_STORE("SECURE_STORE"),
@@ -98,6 +99,8 @@ val NetworkUnavailable = LogEventType(LogCategory.NETWORK, "UNAVAILABLE", LogLev
 
 val OsPowerCurrent = LogEventType(LogCategory.OS_POWER, "CURRENT", LogLevel.INFO)
 val OsPowerChanged = LogEventType(LogCategory.OS_POWER, "CHANGED", LogLevel.INFO)
+
+val ProfilesAutoOpen = LogEventType(LogCategory.PROFILES, "AUTO_OPEN", LogLevel.INFO)
 
 val SettingsChanged = LogEventType(LogCategory.SETTINGS, "CHANGED", LogLevel.INFO)
 val SettingsCurrent = LogEventType(LogCategory.SETTINGS, "CURRENT", LogLevel.INFO)
