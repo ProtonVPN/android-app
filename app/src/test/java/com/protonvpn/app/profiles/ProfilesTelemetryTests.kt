@@ -19,12 +19,14 @@
 
 package com.protonvpn.app.profiles
 
+import android.net.Uri
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.toProfile
 import com.protonvpn.android.profiles.ui.SettingsScreenState
 import com.protonvpn.android.profiles.ui.TypeAndLocationScreenState
+import com.protonvpn.android.profiles.usecases.PrivateBrowsingAvailability
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.settings.ui.NatType
@@ -37,6 +39,7 @@ import com.protonvpn.mocks.FakeCommonDimensions
 import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.test.shared.createProfileEntity
 import io.mockk.MockKAnnotations
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runCurrent
@@ -82,7 +85,7 @@ class ProfilesTelemetryTests {
     @Test
     fun `profile create`() = testScope.runTest {
         val typeAndLocation = createStandardTypeAndLocation(CountryId.sweden, null, null)
-        profilesTelemetry.profileCreated(typeAndLocation, settingsScreenState, 5)
+        profilesTelemetry.profileCreated(typeAndLocation, settingsScreenState, 5, PrivateBrowsingAvailability.AvailableWithDefault)
         runCurrent()
 
         assertEquals(1, testTelemetry.collectedEvents.size)
@@ -99,7 +102,7 @@ class ProfilesTelemetryTests {
             isUserCreated = true,
             connectIntent = ConnectIntent.Fastest
         ).toProfile()
-        profilesTelemetry.profileUpdated(typeAndLocation, settingsScreenState, profile, false)
+        profilesTelemetry.profileUpdated(typeAndLocation, settingsScreenState, profile, false, PrivateBrowsingAvailability.AvailableWithDefault)
         runCurrent()
         assertEquals(1, testTelemetry.collectedEvents.size)
         val event = testTelemetry.collectedEvents.first()
@@ -141,7 +144,7 @@ class ProfilesTelemetryTests {
             50 to ">=50",
             1000 to ">=50"
         ).forEach { (count, expected) ->
-            profilesTelemetry.profileCreated(typeAndLocation, settingsScreenState, profileCount = count)
+            profilesTelemetry.profileCreated(typeAndLocation, settingsScreenState, profileCount = count, PrivateBrowsingAvailability.AvailableWithDefault)
             runCurrent()
             val countDimension = testTelemetry.collectedEvents.last().dimensions["profile_count"]
             assertEquals("Incorrect dimension for profile count $count", expected, countDimension)
@@ -265,6 +268,7 @@ class ProfilesTelemetryTests {
 
     @Test
     fun `profile settings dimensions`() = testScope.runTest {
+        val url = mockk<Uri>()
         val typeAndLocation = createSecureCoreTypeAndLocation(CountryId.fastest, null)
         val settingsDimensions1 = reportEventAndGetDimensions(
             typeAndLocation,
@@ -274,7 +278,7 @@ class ProfilesTelemetryTests {
                 natType = NatType.Moderate,
                 lanConnections = false,
                 lanConnectionsAllowDirect = false,
-                autoOpen = ProfileAutoOpen.None,
+                autoOpen = ProfileAutoOpen.Url(url, openInPrivateMode = true),
                 customDnsSettings = CustomDnsSettings(false),
                 isAutoOpenNew = true,
                 isPrivateDnsActive = false,
@@ -285,6 +289,7 @@ class ProfilesTelemetryTests {
         assertEquals("smart", settingsDimensions1["vpn_protocol"])
         assertEquals("type2_moderate", settingsDimensions1["nat_type"])
         assertEquals("off", settingsDimensions1["lan_access"])
+        assertEquals("url_private", settingsDimensions1["auto_open"])
 
         val settingsDimensions2 = reportEventAndGetDimensions(
             typeAndLocation,
@@ -307,11 +312,30 @@ class ProfilesTelemetryTests {
         assertEquals("on", settingsDimensions2["lan_access"])
     }
 
+    @Test
+    fun `private browsing availability sent only when auto open in private enabled`() = testScope.runTest {
+        val url = mockk<Uri>()
+        val typeAndLocation = createStandardTypeAndLocation(CountryId.sweden, null, null)
+
+        fun checkAvailabilityForAutoOpen(expectedAvailability: String,value: ProfileAutoOpen) {
+            val dimensions = reportEventAndGetDimensions(
+                typeAndLocation,
+                settings = settingsScreenState.copy(autoOpen = value)
+            )
+            assertEquals(expectedAvailability, dimensions["auto_open_private_mode_availability"])
+        }
+
+        checkAvailabilityForAutoOpen("n/a", ProfileAutoOpen.None)
+        checkAvailabilityForAutoOpen("n/a", ProfileAutoOpen.App("com.example.app"))
+        checkAvailabilityForAutoOpen("n/a", ProfileAutoOpen.Url(url, openInPrivateMode = false))
+        checkAvailabilityForAutoOpen("available_with_default", ProfileAutoOpen.Url(url, openInPrivateMode = true))
+    }
+
     private fun TestScope.reportEventAndGetDimensions(
         typeAndLocation: TypeAndLocationScreenState,
         settings: SettingsScreenState = settingsScreenState
     ): Map<String, String> {
-        profilesTelemetry.profileCreated(typeAndLocation, settings, profileCount = 1)
+        profilesTelemetry.profileCreated(typeAndLocation, settings, profileCount = 1, PrivateBrowsingAvailability.AvailableWithDefault)
         runCurrent()
         return testTelemetry.collectedEvents.last().dimensions
     }

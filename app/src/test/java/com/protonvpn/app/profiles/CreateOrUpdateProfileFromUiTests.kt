@@ -37,6 +37,7 @@ import com.protonvpn.android.profiles.ui.NameScreenState
 import com.protonvpn.android.profiles.ui.SettingsScreenState
 import com.protonvpn.android.profiles.ui.TypeAndLocationScreenState
 import com.protonvpn.android.profiles.usecases.CreateOrUpdateProfileFromUi
+import com.protonvpn.android.profiles.usecases.PrivateBrowsingAvailability
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -152,7 +153,8 @@ class CreateOrUpdateProfileFromUiTests {
             profilesDao,
             currentUser,
             telemetry = profilesTelemetry,
-            wallClock = { testScope.currentTime }
+            wallClock = { testScope.currentTime },
+            isPrivateBrowsingAvailable = { PrivateBrowsingAvailability.AvailableWithDefault }
         )
     }
 

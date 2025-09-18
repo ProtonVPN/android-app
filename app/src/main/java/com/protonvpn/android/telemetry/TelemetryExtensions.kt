@@ -21,6 +21,7 @@ package com.protonvpn.android.telemetry
 
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.ui.ProfileType
+import com.protonvpn.android.profiles.usecases.PrivateBrowsingAvailability
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.vpn.ProtocolSelection
 
@@ -40,7 +41,13 @@ fun NatType.toTelemetry() = when(this) {
 fun ProfileAutoOpen.toTelemetry() = when(this) {
     is ProfileAutoOpen.None -> "off"
     is ProfileAutoOpen.App -> "app"
-    is ProfileAutoOpen.Url -> "url"
+    is ProfileAutoOpen.Url -> if (openInPrivateMode) "url_private" else "url"
+}
+
+fun PrivateBrowsingAvailability.toTelemetry() = when(this) {
+    PrivateBrowsingAvailability.AvailableWithDefault -> "available_with_default"
+    PrivateBrowsingAvailability.AvailableWithOther -> "available_with_other"
+    PrivateBrowsingAvailability.NotAvailable -> "not_available"
 }
 
 fun ProfileType.toTelemetry() = when(this) {

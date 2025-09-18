@@ -20,8 +20,10 @@
 package com.protonvpn.android.telemetry
 
 import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.ui.SettingsScreenState
 import com.protonvpn.android.profiles.ui.TypeAndLocationScreenState
+import com.protonvpn.android.profiles.usecases.PrivateBrowsingAvailability
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import com.protonvpn.android.utils.DebugUtils
@@ -51,18 +53,20 @@ class ProfilesTelemetry @Inject constructor(
         AllowLan("lan_access"),
         EditSource("edit_route_source"),
         AutoOpen("auto_open"),
+        AutoOpenPrivateModeAvailability("auto_open_private_mode_availability"),
     }
 
     fun profileCreated(
         typeAndLocationScreen: TypeAndLocationScreenState,
         settingsScreen: SettingsScreenState,
-        profileCount: Int
+        profileCount: Int,
+        privateBrowsingAvailability: PrivateBrowsingAvailability
     ) {
         telemetry.event {
             val dimensions: Map<String, String> = buildMap {
                 commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
                 putDimensions(profileCountBucket(profileCount), Dimen.ProfileCount)
-                putAll(profileConfigurationDimensions(typeAndLocationScreen, settingsScreen))
+                putAll(profileConfigurationDimensions(typeAndLocationScreen, settingsScreen, privateBrowsingAvailability))
             }
             TelemetryEventData(MEASUREMENT_GROUP, "profile_created", dimensions = dimensions)
         }
@@ -72,14 +76,15 @@ class ProfilesTelemetry @Inject constructor(
         typeAndLocationScreen: TypeAndLocationScreenState,
         settingsScreen: SettingsScreenState,
         isSourceProfileUserCreated: Boolean,
-        profileCount: Int
+        profileCount: Int,
+        privateBrowsingAvailability: PrivateBrowsingAvailability
     ) {
         telemetry.event {
             val dimensions: Map<String, String> = buildMap {
                 commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
                 putDimensions(profileCountBucket(profileCount), Dimen.ProfileCount)
                 putDimensions(userProfileType(isSourceProfileUserCreated), Dimen.SourceProfileType)
-                putAll(profileConfigurationDimensions(typeAndLocationScreen, settingsScreen))
+                putAll(profileConfigurationDimensions(typeAndLocationScreen, settingsScreen, privateBrowsingAvailability))
             }
             TelemetryEventData(MEASUREMENT_GROUP, "profile_duplicated", dimensions = dimensions)
         }
@@ -90,11 +95,12 @@ class ProfilesTelemetry @Inject constructor(
         settingsScreen: SettingsScreenState,
         profile: Profile,
         routedFromSettings: Boolean,
+        privateBrowsingAvailability: PrivateBrowsingAvailability
     ) {
         telemetry.event {
             val dimensions = buildMap {
                 commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
-                putAll(profileConfigurationDimensions(typeAndLocationScreen, settingsScreen))
+                putAll(profileConfigurationDimensions(typeAndLocationScreen, settingsScreen, privateBrowsingAvailability))
                 putDimensions(userProfileType(profile.info.isUserCreated), Dimen.ProfileType)
                 putDimensions(profileEditSource(routedFromSettings), Dimen.EditSource)
             }
@@ -122,7 +128,8 @@ class ProfilesTelemetry @Inject constructor(
 
     private fun profileConfigurationDimensions(
         typeAndLocation: TypeAndLocationScreenState,
-        settings: SettingsScreenState
+        settings: SettingsScreenState,
+        privateBrowsingAvailability: PrivateBrowsingAvailability
     ): Map<String, String> = buildMap {
         putDimensions(typeAndLocation.type.toTelemetry(), Dimen.ConnectionType)
 
@@ -155,6 +162,11 @@ class ProfilesTelemetry @Inject constructor(
         putDimensions(settings.lanConnections.toOnOff(), Dimen.AllowLan)
         putDimensions(settings.natType.toTelemetry(), Dimen.NatType)
         putDimensions(settings.autoOpen.toTelemetry(), Dimen.AutoOpen)
+        val autoOpenInPrivateEnabled = settings.autoOpen is ProfileAutoOpen.Url && settings.autoOpen.openInPrivateMode
+        putDimensions(
+            if (autoOpenInPrivateEnabled) privateBrowsingAvailability.toTelemetry() else NO_VALUE,
+            Dimen.AutoOpenPrivateModeAvailability
+        )
     }
 
     private fun Boolean.toOnOff() = if (this) ON else OFF

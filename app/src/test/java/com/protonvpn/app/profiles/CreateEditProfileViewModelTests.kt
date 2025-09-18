@@ -177,7 +177,8 @@ class CreateEditProfileViewModelTests {
             profilesDao,
             currentUser,
             telemetry = profilesTelemetry,
-            wallClock = { testScope.currentTime }
+            wallClock = { testScope.currentTime },
+            isPrivateBrowsingAvailable = { PrivateBrowsingAvailability.AvailableWithDefault }
         )
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         serverManager = createInMemoryServerManager(
