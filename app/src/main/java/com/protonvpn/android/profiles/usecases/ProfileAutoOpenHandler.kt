@@ -21,6 +21,8 @@ package com.protonvpn.android.profiles.usecases
 
 import android.app.Activity
 import android.content.res.Configuration
+import android.widget.Toast
+import com.protonvpn.android.R
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.ui.ForegroundActivityTracker
@@ -80,10 +82,18 @@ class ProfileAutoOpenHandler @Inject constructor(
             val autoOpen = profile.autoOpen
             when (autoOpen) {
                 is ProfileAutoOpen.None -> {}
-                is ProfileAutoOpen.App ->
-                    activity.packageManager.getLaunchIntentForPackage(autoOpen.packageName)?.let { intent ->
+                is ProfileAutoOpen.App -> {
+                    val intent = activity.packageManager.getLaunchIntentForPackage(autoOpen.packageName)
+                    if (intent != null) {
                         activity.startActivity(intent)
+                    } else {
+                        Toast.makeText(
+                            activity,
+                            R.string.profile_auto_open_app_failed_to_launch,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+                }
                 is ProfileAutoOpen.Url ->
                     if (autoOpen.openInPrivateMode) {
                         val currentNightMode = activity.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK

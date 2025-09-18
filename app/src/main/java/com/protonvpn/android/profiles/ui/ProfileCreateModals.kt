@@ -875,11 +875,20 @@ fun AutoOpenModal(
             if (initialValue is ProfileAutoOpen.Url) initialValue.openInPrivateMode else false
         )
     }
+    var saveEnabled by remember(typeState, packageNameState, urlState, urlErrorState) {
+        mutableStateOf(
+            when (typeState) {
+                AutoOpenType.App -> packageNameState.isNotBlank()
+                AutoOpenType.None, AutoOpenType.Url -> true
+            }
+        )
+    }
 
     BaseItemPickerDialog(
         R.string.create_profile_connect_and_go_label,
         description = R.string.create_profile_auto_open_description,
         onDismissRequest = onDismissRequest,
+        saveEnabled = saveEnabled,
         onSave = {
             val autoOpen = when (typeState) {
                 AutoOpenType.None -> ProfileAutoOpen.None
@@ -961,7 +970,7 @@ private fun AutoOpenAppContent(
     val valueText = if (packageName.isNullOrBlank()) {
         stringResource(R.string.create_profile_auto_open_app_input_hint)
     } else {
-        appLabel?.label ?: packageName.takeIf { !loadingAppLabel } ?: ""
+        appLabel?.label ?: packageName.takeIf { !loadingAppLabel }.orEmpty()
     }
     ProfileValueItem(
         modifier = Modifier
@@ -1013,7 +1022,7 @@ private fun AutoOpenUrlContent(
             onValueChange = onUrlChange,
             textStyle = ProtonTheme.typography.defaultNorm,
             labelText = stringResource(R.string.create_profile_auto_open_url_input_label),
-            assistiveText = urlError?.let { stringResource(it) } ?: "",
+            assistiveText = urlError?.let { stringResource(it) }.orEmpty(),
             isError = urlError != null,
             placeholderText = stringResource(R.string.create_profile_auto_open_url_input_placeholder),
             maxLines = 1,
@@ -1172,6 +1181,7 @@ fun BaseItemPickerDialog(
     @StringRes title: Int,
     onDismissRequest: () -> Unit,
     onSave: (() -> Unit)? = null,
+    saveEnabled: Boolean = true,
     @StringRes description: Int? = null,
     itemList: LazyListScope.() -> Unit,
 ) {
@@ -1214,6 +1224,7 @@ fun BaseItemPickerDialog(
                         ProtonDialogButton(
                             onClick = onSave,
                             text = stringResource(R.string.saveButton),
+                            enabled = saveEnabled,
                             modifier = Modifier.padding(start = 8.dp)
                         )
                     }
