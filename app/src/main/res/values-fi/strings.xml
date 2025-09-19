@@ -217,7 +217,7 @@
     <string name="settingsTelemetryScreenTitle">Käyttötilastot</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Nämä tilastot eivät sisällä IP-osoitettasi, eikä sinua ole mahdollista tunnistaa niiden perusteella. Emme koskaa jaa niitä ulkopuolisille tahoille. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="netshield_settings_description_not_html">Suojaudu verkkosivustojen ja sovellusten mainoksilta, haittaohjelmilta ja seurannoilta. %1$s</string>
-    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
+    <string name="netshield_settings_description_tv">Suojaudu verkkosivustojen ja sovellusten mainoksilta, haittaohjelmilta ja seurannoilta.</string>
     <string name="settings_icon_change_description">Naamioi Proton VPN -sovellus huomaamattomalla kuvakkeella. Ilmoituksissa näkyy edelleen Proton VPN:n alkuperäinen nimi ja kuvake. %1$s</string>
     <string name="settings_icon_change_learn_more">Lue lisää</string>
     <string name="learn_more">Lue lisää</string>
@@ -1064,13 +1064,13 @@
     <string name="country_filter_countries_list_header">Maat (%1$d)</string>
     <string name="country_filter_cities_list_header">Kaupungit (%1$d)</string>
     <string name="country_filter_states_list_header">Osavaltiot (%1$d)</string>
-    <string name="country_filter_servers_list_header">Servers</string>
+    <string name="country_filter_servers_list_header">Palvelimet</string>
     <string name="country_filter_secure_core_list_header">Secure Core -maat (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P-maat (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P-kaupungit (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P-osavaltiot (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor-maat (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor servers</string>
+    <string name="country_filter_tor_servers_list_header">Tor-palvelimet</string>
     <string name="country_filter_info_label">Tiedot</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
@@ -1341,8 +1341,8 @@
     <string name="settings_advanced_alternative_routing_description">Jos Proton-palvelut on estetty verkkorajoitusten takia, yritämme käyttää vaihtoehtoista verkkoreititystä, jotta voit silti muodostaa yhteyden sivustoihimme.</string>
     <string name="settings_advanced_allow_lan_title">LAN-yhteydet</string>
     <string name="settings_advanced_allow_lan_description">Sallii yhteyden muodostamisen tulostimiin, kaiuttimiin ja muihin lähiverkossasi oleviin laitteisiin.</string>
-    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
-    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
+    <string name="settings_advanced_allow_lan_description_tv">Yhdistä kaiuttimiin, tietokoneisiin ja muihin laitteisiin paikallisessa verkossasi.</string>
+    <string name="settings_advanced_allow_lan_title_tv">Salli LAN-yhteydet</string>
     <string name="settings_advanced_nat_type_title">NAT-tyyppi</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Valitse yhteydellesi osoitteenmuunnostyyppi. %1$s</string>
@@ -1528,11 +1528,11 @@
     <string name="settings_lan_allow_direct_connection_title">Salli suorat laiteyhteydet</string>
     <string name="settings_lan_allow_direct_connection_description">Yhdistä älytelevisioihin, Android Autoon ja muihin oman verkkonsa luoviin laitteisiin. Parhaan turvallisuuden takaamiseksi ota tämä toiminto käyttöön vain silloin, kun yhdistät näihin laitteisiin.</string>
     <!-- No VPN connections -->
-    <string name="no_connections_title">No VPN connections available</string>
-    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
-    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
-    <string name="no_connections_action_refresh">Refresh</string>
-    <string name="no_connections_action_sign_out">Sign out</string>
-    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
+    <string name="no_connections_title">VPN-yhteyksiä ei ole käytettävissä</string>
+    <string name="no_connections_description_loading_error">Palvelinlistaa ei voitu ladata.</string>
+    <string name="no_connections_description_no_servers">Pyydä ylläpitäjääsi antamaan tilillesi VPN-käyttöoikeus.</string>
+    <string name="no_connections_action_refresh">Päivitä</string>
+    <string name="no_connections_action_sign_out">Kirjaudu ulos</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Tarvitsetko apua? <a href="">Ota meihin yhteyttä</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
 </resources>

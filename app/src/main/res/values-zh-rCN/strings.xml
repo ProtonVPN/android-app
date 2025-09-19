@@ -217,7 +217,7 @@
     <string name="settingsTelemetryScreenTitle">使用统计</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[这些统计数据不包含您的IP地址，且无法用于识别您的身份。我们绝不会与第三方共享这些数据。<a href="%1$s">了解详情</a>]]></string>
     <string name="netshield_settings_description_not_html">保护自己免受网站和应用上的广告、恶意软件和跟踪器的侵害。%1$s</string>
-    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
+    <string name="netshield_settings_description_tv">网站上、应用中，为您抵御广告、恶意软件和跟踪器的侵扰。</string>
     <string name="settings_icon_change_description">把 Proton VPN 的应用图标伪装成其他类型的应用。通知仍会显示默认的 Proton VPN 名称和图标。%1$s</string>
     <string name="settings_icon_change_learn_more">了解详情</string>
     <string name="learn_more">了解详情</string>
@@ -1492,11 +1492,11 @@
     <string name="settings_lan_allow_direct_connection_title">允许设备直连</string>
     <string name="settings_lan_allow_direct_connection_description">连接智能电视、Android Auto 和其他可创建自己网络的设备。为获得最大的安全性，请仅在连接这些设备时启用。</string>
     <!-- No VPN connections -->
-    <string name="no_connections_title">No VPN connections available</string>
-    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
-    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
-    <string name="no_connections_action_refresh">Refresh</string>
-    <string name="no_connections_action_sign_out">Sign out</string>
-    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
-    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
+    <string name="no_connections_title">VPN 连接均不可用</string>
+    <string name="no_connections_description_loading_error">服务器列表加载不出来。</string>
+    <string name="no_connections_description_no_servers">找管理员开启您账户的 VPN 权限。</string>
+    <string name="no_connections_action_refresh">刷新</string>
+    <string name="no_connections_action_sign_out">登出</string>
+    <string name="no_connections_help_contact_us"><![CDATA[有问题吗？<a href="">联系我们</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[需要的话，把<a href="">操作说明</a>发给管理员，帮管理员开启 VPN 权限。]]></string>
 </resources>

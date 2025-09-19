@@ -217,7 +217,7 @@
     <string name="settingsTelemetryScreenTitle">사용 통계</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[이 통계에는 회원님의 IP 주소가 담기지 않으며 식별에 사용할 수 없습니다. 제 3자에게 공유하지도 않습니다. <a href="%1$s">더 알아보기</a>]]></string>
     <string name="netshield_settings_description_not_html">웹 사이트와 앱들의 광고, 멀웨어 및 트래커들로부터 보호 받으세요. %1$s</string>
-    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
+    <string name="netshield_settings_description_tv">웹사이트와 앱의 광고, 추적기, 악성코드로부터 자신을 보호하세요.</string>
     <string name="settings_icon_change_description">비밀 아이콘으로 Proton VPN 앱을 위장하세요.
 알림은 여전히 기본 Proton VPN 이름 및 아이콘으로 표시됩니다. %1$s</string>
     <string name="settings_icon_change_learn_more">더 알아보기</string>
@@ -1040,13 +1040,13 @@
     <string name="country_filter_countries_list_header">국가 (%1$d)</string>
     <string name="country_filter_cities_list_header">도시 (%1$d)</string>
     <string name="country_filter_states_list_header">시/주 (%1$d)</string>
-    <string name="country_filter_servers_list_header">Servers</string>
+    <string name="country_filter_servers_list_header">서버</string>
     <string name="country_filter_secure_core_list_header">Secure Core 도시 (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P 국가 (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P 도시 (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P 도시 (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor 국가 (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor servers</string>
+    <string name="country_filter_tor_servers_list_header">Tor 서버</string>
     <string name="country_filter_info_label">정보</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
@@ -1306,8 +1306,8 @@
     <string name="settings_advanced_alternative_routing_description">Proton 서비스가 네트워크 제한으로 막혔다면, 대체 네트워크 라우딩을 이용해서 연결해보세요.</string>
     <string name="settings_advanced_allow_lan_title">LAN 연결</string>
     <string name="settings_advanced_allow_lan_description">로컬 네트워크에 있는 프린터, 스피커 및 기타 기기에 연결할 수 있게 합니다.</string>
-    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
-    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
+    <string name="settings_advanced_allow_lan_description_tv">로컬 네트워크에 있는 스피커, 컴퓨터 및 기타 기기에 연결합니다</string>
+    <string name="settings_advanced_allow_lan_title_tv">LAN 연결 허용</string>
     <string name="settings_advanced_nat_type_title">NAT 방식</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">네트워크 주소 변환 방식을 선택하세요. %1$s</string>
@@ -1494,11 +1494,11 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="settings_lan_allow_direct_connection_title">직접 장치 연결 허용</string>
     <string name="settings_lan_allow_direct_connection_description">스마트 TV, Android Auto 및 자체 네트워크를 생성하는 다른 장치에 연결할 수 있습니다. 보안 극대화를 위하여 이러한 특수 상황에만 기능을 활성화하십시오.</string>
     <!-- No VPN connections -->
-    <string name="no_connections_title">No VPN connections available</string>
-    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
-    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
-    <string name="no_connections_action_refresh">Refresh</string>
-    <string name="no_connections_action_sign_out">Sign out</string>
-    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
-    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
+    <string name="no_connections_title">사용 가능한 VPN 연결 없음</string>
+    <string name="no_connections_description_loading_error">서버 목록을 불러오지 못했습니다.</string>
+    <string name="no_connections_description_no_servers">관리자에게 내 계정의 VPN 접근 활성화를 요청하십시오.</string>
+    <string name="no_connections_action_refresh">새로고침</string>
+    <string name="no_connections_action_sign_out">로그아웃</string>
+    <string name="no_connections_help_contact_us"><![CDATA[도움이 필요하세요? <a href="">문의해 주세요</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[귀하의 관리자가 VPN 접근 활성화에 도움이 필요하다면, <a href="">이 지침</a>을 보내십시오.]]></string>
 </resources>
