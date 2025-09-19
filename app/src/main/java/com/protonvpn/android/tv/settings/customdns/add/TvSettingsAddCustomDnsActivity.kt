@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.tv.settings.customdns.add
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -41,6 +42,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.redesign.base.ui.collectAsEffect
+import com.protonvpn.android.tv.dialogs.TvAlertDialog
 import com.protonvpn.android.tv.settings.TvSettingsMainEditTextLayout
 import com.protonvpn.android.tv.ui.TvUiConstants
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,10 +59,17 @@ class TvSettingsAddCustomDnsActivity : BaseTvActivity() {
             ProtonThemeTv {
                 val viewModel = hiltViewModel<TvSettingsAddCustomDnsViewModel>()
                 val viewState = viewModel.viewStateFlow.collectAsStateWithLifecycle().value
+                var showNetShieldConflictDialog by rememberSaveable { mutableStateOf(value = false) }
 
                 viewModel.eventChannelReceiver.receiveAsFlow().collectAsEffect { event ->
                     when (event) {
-                        TvSettingsAddCustomDnsViewModel.Event.OnCustomDnsAdded -> finish()
+                        TvSettingsAddCustomDnsViewModel.Event.OnCustomDnsAdded -> {
+                            finish()
+                        }
+
+                        TvSettingsAddCustomDnsViewModel.Event.OnShowNetShieldConflictDialog -> {
+                            showNetShieldConflictDialog = true
+                        }
                     }
                 }
 
@@ -70,6 +79,20 @@ class TvSettingsAddCustomDnsActivity : BaseTvActivity() {
                         state = state,
                         onCustomDnsChanged = viewModel::onCustomDnsChanged,
                         onSubmitCustomDns = viewModel::onAddCustomDns,
+                    )
+                }
+
+                if (showNetShieldConflictDialog) {
+                    TvAlertDialog(
+                        title = stringResource(id = R.string.settings_custom_dns_netshield_conflict_dialog_title),
+                        description = stringResource(id = R.string.settings_custom_dns_netshield_conflict_dialog_message_tv),
+                        focusedButton = DialogInterface.BUTTON_POSITIVE,
+                        confirmText = stringResource(id = R.string.got_it),
+                        onConfirm = {
+                            showNetShieldConflictDialog = false
+
+                            finish()
+                        },
                     )
                 }
             }

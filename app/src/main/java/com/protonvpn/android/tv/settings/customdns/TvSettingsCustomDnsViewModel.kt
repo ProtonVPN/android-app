@@ -27,6 +27,7 @@ import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.utils.swapOrCurrent
+import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -48,6 +49,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TvSettingsCustomDnsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
     private val mainScope: CoroutineScope,
     private val settingsReconnectHandler: SettingsReconnectHandler,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
@@ -99,6 +101,8 @@ class TvSettingsCustomDnsViewModel @Inject constructor(
 
         data class Empty(override val areCustomDnsSettingsChanged: Boolean) : ViewState
 
+        data class PrivateDnsConflict(override val areCustomDnsSettingsChanged: Boolean) : ViewState
+
     }
 
     private var dialogState by savedStateHandle.state<DialogState?>(
@@ -141,15 +145,22 @@ class TvSettingsCustomDnsViewModel @Inject constructor(
     private val selectedCustomDnsFlow = MutableStateFlow<SelectedCustomDns?>(value = null)
 
     val viewStateFlow: StateFlow<ViewState?> = combine(
+        isPrivateDnsActiveFlow,
         areCustomDnsSettingsChangedFlow,
         userSettingsManager.rawCurrentUserSettingsFlow,
         selectedCustomDnsFlow,
-    ) { areCustomDnsSettingsChangedFlow, localUserSettings, selectedCustomDns ->
-        if (localUserSettings.customDns.rawDnsList.isEmpty()) {
-            ViewState.Empty(areCustomDnsSettingsChanged = areCustomDnsSettingsChangedFlow)
-        } else {
-            ViewState.CustomDns(
-                areCustomDnsSettingsChanged = areCustomDnsSettingsChangedFlow,
+    ) { isPrivateDnsActive, areCustomDnsSettingsChanged, localUserSettings, selectedCustomDns ->
+        when {
+            isPrivateDnsActive -> ViewState.PrivateDnsConflict(
+                areCustomDnsSettingsChanged = areCustomDnsSettingsChanged,
+            )
+
+            localUserSettings.customDns.rawDnsList.isEmpty() -> ViewState.Empty(
+                areCustomDnsSettingsChanged = areCustomDnsSettingsChanged,
+            )
+
+            else -> ViewState.CustomDns(
+                areCustomDnsSettingsChanged = areCustomDnsSettingsChanged,
                 isCustomDnsEnabled = localUserSettings.customDns.toggleEnabled,
                 customDnsList = localUserSettings.customDns.rawDnsList,
                 selectedCustomDns = selectedCustomDns,

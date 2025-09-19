@@ -66,11 +66,13 @@ import com.protonvpn.android.tv.dialogs.TvAlertDialog
 import com.protonvpn.android.tv.drawers.TvModalDrawer
 import com.protonvpn.android.tv.settings.TvListRow
 import com.protonvpn.android.tv.settings.TvSettingsMainToggleLayout
+import com.protonvpn.android.tv.settings.TvSettingsMainWarningBanner
 import com.protonvpn.android.tv.settings.TvSettingsOptionsMenu
 import com.protonvpn.android.tv.settings.TvSettingsOptionsMenuItem
 import com.protonvpn.android.tv.settings.TvSettingsReconnectDialog
 import com.protonvpn.android.tv.settings.customdns.add.TvSettingsAddCustomDnsActivity
 import com.protonvpn.android.tv.ui.TvUiConstants
+import com.protonvpn.android.utils.openWifiSettings
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
@@ -123,6 +125,13 @@ class TvSettingsCustomDnsActivity : BaseTvActivity() {
                         TvSettingsCustomDnsEmpty(
                             modifier = Modifier.fillMaxSize(),
                             onAddNewCustomDns = ::openAddCustomDns,
+                        )
+                    }
+
+                    is TvSettingsCustomDnsViewModel.ViewState.PrivateDnsConflict -> {
+                        TvSettingsCustomDnsConflict(
+                            modifier = Modifier.fillMaxWidth(),
+                            onConflictActionClicked = { openWifiSettings(isTv = true) },
                         )
                     }
 
@@ -179,6 +188,12 @@ private fun TvSettingsCustomDnsEmpty(
     onAddNewCustomDns: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(key1 = Unit) {
+        focusRequester.requestFocus()
+    }
+
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center,
@@ -208,7 +223,9 @@ private fun TvSettingsCustomDnsEmpty(
             )
 
             TvSolidButton(
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .focusRequester(focusRequester = focusRequester),
                 text = stringResource(id = R.string.settings_add_dns_title),
                 onClick = onAddNewCustomDns,
             )
@@ -438,5 +455,27 @@ private fun TvSettingsCustomDnsOptions(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun TvSettingsCustomDnsConflict(
+    onConflictActionClicked: () -> Unit,
+    modifier: Modifier,
+) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
+        TvSettingsMainWarningBanner(
+            modifier = Modifier.widthIn(max = TvUiConstants.SingleColumnWidth),
+            headerImageRes = R.drawable.tv_settings_custom_dns_header_image,
+            headerTitle = stringResource(id = R.string.settings_custom_dns_title),
+            headerDescription = stringResource(id = R.string.settings_custom_dns_description_tv),
+            bannerTitle = stringResource(id = R.string.private_dns_conflict_banner_custom_dns_title),
+            bannerDescription = stringResource(id = R.string.private_dns_conflict_banner_custom_dns_description_tv),
+            actionText = stringResource(id = R.string.private_dns_conflict_banner_network_settings_button),
+            onActionClicked = onConflictActionClicked,
+        )
     }
 }

@@ -25,7 +25,9 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.tv.material3.Text
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.tv.settings.ProtonTvFocusableSurface
 import me.proton.core.compose.theme.ProtonTheme
 import androidx.compose.material3.ButtonDefaults as CoreButtonDefaults
@@ -55,5 +57,16 @@ fun TvSolidButton(
                 color = ProtonTheme.colors.textNorm,
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewTvSolidButton() {
+    ProtonVpnPreview(isDark = true) {
+        TvSolidButton(
+            text = "Button text",
+            onClick = {},
+        )
     }
 }

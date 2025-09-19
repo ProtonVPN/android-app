@@ -21,7 +21,9 @@ package com.protonvpn.android.tv.settings.customdns.add
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsError
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.utils.isValidIp
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,12 +43,15 @@ import javax.inject.Inject
 @HiltViewModel
 class TvSettingsAddCustomDnsViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
+    private val settingsForConnection: SettingsForConnection,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
 ) : ViewModel() {
 
     sealed interface Event {
 
         data object OnCustomDnsAdded : Event
+
+        data object OnShowNetShieldConflictDialog : Event
 
     }
 
@@ -77,14 +82,33 @@ class TvSettingsAddCustomDnsViewModel @Inject constructor(
         mainScope.launch {
             val customDnsValidationError = getCustomDnsValidationError(newCustomDns)
 
-            if (customDnsValidationError == null) {
-                updateCustomDns(newCustomDns)
-                eventChannel.send(Event.OnCustomDnsAdded)
-            } else {
+            if (customDnsValidationError != null) {
                 customDnsErrorFlow.value = customDnsValidationError
+                return@launch
+            }
+
+            val hasNetShieldConflict = hasNetShieldConflict()
+
+            updateCustomDns(newCustomDns)
+
+            if (hasNetShieldConflict) {
+                eventChannel.send(Event.OnShowNetShieldConflictDialog)
+            } else {
+                eventChannel.send(Event.OnCustomDnsAdded)
             }
         }
     }
+
+    private suspend fun hasNetShieldConflict(): Boolean = settingsForConnection
+        .getFlowForCurrentConnection()
+        .first()
+        .connectionSettings
+        .let { connectionSettings ->
+            val isNetShieldEnabled = connectionSettings.netShield != NetShieldProtocol.DISABLED
+            val isCustomDnsEmpty = connectionSettings.customDns.rawDnsList.isEmpty()
+            isNetShieldEnabled && isCustomDnsEmpty
+        }
+
 
     private suspend fun getCustomDnsValidationError(customDns: String): AddDnsError? = when {
         customDns.isEmpty() -> AddDnsError.EmptyInput

@@ -26,6 +26,7 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.tv.settings.customdns.TvSettingsCustomDnsViewModel
 import com.protonvpn.android.userstorage.DontShowAgainStore
+import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -40,6 +41,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
@@ -62,6 +64,8 @@ class TvSettingsCustomDnsViewModelTests {
     @MockK
     private lateinit var mockVpnConnectionManager: VpnConnectionManager
 
+    private lateinit var isPrivateDnsActiveFlow: MutableStateFlow<Boolean>
+
     private lateinit var testScope: TestScope
 
     private lateinit var userSettingsManager: CurrentUserLocalSettingsManager
@@ -81,6 +85,8 @@ class TvSettingsCustomDnsViewModelTests {
         testScope = TestScope(context = testDispatcher)
 
         Dispatchers.setMain(dispatcher = testDispatcher)
+
+        isPrivateDnsActiveFlow = MutableStateFlow(value = false)
 
         every { mockVpnConnectionManager.reconnect(any(), any()) } just Runs
 
@@ -111,6 +117,7 @@ class TvSettingsCustomDnsViewModelTests {
 
         viewModel = TvSettingsCustomDnsViewModel(
             savedStateHandle = savedStateHandle,
+            isPrivateDnsActiveFlow = IsPrivateDnsActiveFlow(flow = isPrivateDnsActiveFlow),
             mainScope = testScope.backgroundScope,
             settingsReconnectHandler = settingsReconnectHandler,
             userSettingsManager = userSettingsManager,
@@ -120,6 +127,20 @@ class TvSettingsCustomDnsViewModelTests {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+    }
+
+    @Test
+    fun `GIVEN user has private DNS enabled WHEN observing view state THEN view state is PrivateDnsConflict`() = testScope.runTest {
+        isPrivateDnsActiveFlow.value = true
+        val expectedViewState = TvSettingsCustomDnsViewModel.ViewState.PrivateDnsConflict(
+            areCustomDnsSettingsChanged = false,
+        )
+
+        viewModel.viewStateFlow.test {
+            val viewState = awaitItem()
+
+            assertEquals(expectedViewState, viewState)
+        }
     }
 
     @Test

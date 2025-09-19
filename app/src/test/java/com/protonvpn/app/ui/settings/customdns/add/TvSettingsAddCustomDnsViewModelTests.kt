@@ -20,11 +20,30 @@
 package com.protonvpn.app.ui.settings.customdns.add
 
 import app.cash.turbine.test
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsError
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
+import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
+import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
+import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
+import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.customdns.add.TvSettingsAddCustomDnsViewModel
+import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
+import com.protonvpn.mocks.FakeGetProfileById
+import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
+import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createAccountUser
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -42,7 +61,12 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 class TvSettingsAddCustomDnsViewModelTests {
 
+    @MockK
+    private lateinit var mockIsTvCheck: IsTvCheck
+
     private lateinit var testScope: TestScope
+
+    private lateinit var settingsForConnection: SettingsForConnection
 
     private lateinit var userSettingsManager: CurrentUserLocalSettingsManager
 
@@ -50,10 +74,15 @@ class TvSettingsAddCustomDnsViewModelTests {
 
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
+
         val testDispatcher = UnconfinedTestDispatcher(scheduler = TestCoroutineScheduler())
+
         testScope = TestScope(context = testDispatcher)
 
         Dispatchers.setMain(dispatcher = testDispatcher)
+
+        every { mockIsTvCheck.invoke() } returns true
 
         userSettingsManager = CurrentUserLocalSettingsManager(
             userSettingsStoreProvider = LocalUserSettingsStoreProvider(
@@ -61,8 +90,35 @@ class TvSettingsAddCustomDnsViewModelTests {
             )
         )
 
+        settingsForConnection = SettingsForConnection(
+            settingsManager = userSettingsManager,
+            getProfileById = FakeGetProfileById(),
+            applyEffectiveUserSettings = ApplyEffectiveUserSettings(
+                mainScope = testScope.backgroundScope,
+                currentUser = CurrentUser(
+                    provider = TestCurrentUserProvider(
+                        vpnUser = TestUser.plusUser.vpnUser,
+                        user = createAccountUser(),
+                    )
+                ),
+                isTv = mockIsTvCheck,
+                flags = SettingsFeatureFlagsFlow(
+                    isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true),
+                    isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
+                    isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
+                    isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
+                    isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),
+                )
+            ),
+            vpnStatusProviderUI = VpnStatusProviderUI(
+                scope = testScope.backgroundScope,
+                monitor = VpnStateMonitor(),
+            ),
+        )
+
         viewModel = TvSettingsAddCustomDnsViewModel(
             mainScope = testScope,
+            settingsForConnection = settingsForConnection,
             userSettingsManager = userSettingsManager,
         )
     }
@@ -155,9 +211,25 @@ class TvSettingsAddCustomDnsViewModelTests {
     }
 
     @Test
-    fun `GIVEN valid custom DNS WHEN adding the custom DNS THEN notifies custom DNS is added`() = testScope.runTest {
+    fun `GIVEN valid custom DNS AND does not have custom DNS WHEN adding the custom DNS THEN shows net shield conflict dialog`() = testScope.runTest {
+        val customDns = "16.0.254.1"
+        val expectedEvent = TvSettingsAddCustomDnsViewModel.Event.OnShowNetShieldConflictDialog
+
+        viewModel.onAddCustomDns(newCustomDns = customDns)
+
+        viewModel.eventChannelReceiver.receiveAsFlow().test {
+            val event = awaitItem()
+
+            assertEquals(expectedEvent, event)
+        }
+    }
+
+    @Test
+    fun `GIVEN valid custom DNS AND already has custom DNS WHEN adding the custom DNS THEN notifies custom DNS is added`() = testScope.runTest {
         val customDns = "16.0.254.1"
         val expectedEvent = TvSettingsAddCustomDnsViewModel.Event.OnCustomDnsAdded
+        userSettingsManager.updateCustomDnsList(newDnsList = listOf("8.8.8.8"))
+
         viewModel.onAddCustomDns(newCustomDns = customDns)
 
         viewModel.eventChannelReceiver.receiveAsFlow().test {

@@ -45,7 +45,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
@@ -175,6 +174,23 @@ fun Context.openVpnSettings() =
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
     )
+
+fun Activity.openWifiSettings(isTv: Boolean = false): Boolean {
+    val action = if (isTv) Settings.ACTION_WIFI_SETTINGS else Settings.ACTION_WIRELESS_SETTINGS
+
+    return executeActionIntent(action)
+}
+
+private fun Activity.executeActionIntent(action: String): Boolean {
+    val intent = Intent(action)
+
+    return if (intent.resolveActivity(packageManager) == null) {
+        false
+    } else {
+        startActivity(intent)
+        true
+    }
+}
 
 fun Activity.haveVpnSettings() =
     Build.VERSION.SDK_INT >= Build.VERSION_CODES.N

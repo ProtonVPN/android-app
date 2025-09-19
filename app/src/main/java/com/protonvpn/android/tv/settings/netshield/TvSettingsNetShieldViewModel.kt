@@ -23,31 +23,57 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.vpn.DnsOverride
+import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
+import com.protonvpn.android.vpn.getDnsOverride
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TvSettingsNetShieldViewModel @Inject constructor(
+    isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
     private val mainScope: CoroutineScope,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
 ) : ViewModel() {
 
     data class ViewState(
-        val isEnabled: Boolean
+        val isNetShieldEnabled: Boolean,
+        val dnsOverride: DnsOverride,
     )
 
-    val viewState = userSettingsManager.rawCurrentUserSettingsFlow
-        .map { ViewState(it.netShield != NetShieldProtocol.DISABLED) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+    val viewState: StateFlow<ViewState?> = combine(
+        isPrivateDnsActiveFlow,
+        userSettingsManager.rawCurrentUserSettingsFlow,
+    ) { isPrivateDnsActive, localUserSettings ->
+        ViewState(
+            isNetShieldEnabled = localUserSettings.netShield != NetShieldProtocol.DISABLED,
+            dnsOverride = getDnsOverride(
+                isPrivateDnsActive = isPrivateDnsActive,
+                effectiveSettings = localUserSettings,
+            )
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = null,
+    )
 
     fun toggleNetShield() {
         mainScope.launch {
             userSettingsManager.toggleNetShield()
         }
     }
+
+    fun disableCustomDns() {
+        mainScope.launch {
+            userSettingsManager.disableCustomDNS()
+        }
+    }
+
 }
