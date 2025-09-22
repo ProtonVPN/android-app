@@ -96,6 +96,9 @@ class VpnDns(
                     systemResolver(hostname)
                 }.onAwait { it }
             }
+        }.also {
+            if (it.isEmpty())
+                throw UnknownHostException("Unable to resolve host \"$hostname\". Please check your connection.")
         }
     }
 }
