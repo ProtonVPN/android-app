@@ -85,6 +85,7 @@ private fun defaultSettingScreenState(
     isAutoOpenNew: Boolean,
     lanDirectConnectionsFeatureFlagEnabled: Boolean,
     isPrivateDnsEnabled: Boolean,
+    isPrivateBrowsingAvailable: Boolean,
 ) = SettingsScreenState(
     protocol = ProtocolSelection.SMART,
     netShield = true,
@@ -95,7 +96,7 @@ private fun defaultSettingScreenState(
     customDnsSettings = CustomDnsSettings(false),
     isAutoOpenNew = isAutoOpenNew,
     isPrivateDnsActive = isPrivateDnsEnabled,
-    showPrivateBrowsing = false,
+    showPrivateBrowsing = isPrivateBrowsingAvailable,
 )
 
 @Parcelize
@@ -426,6 +427,7 @@ class CreateEditProfileViewModel @Inject constructor(
             isAutoOpenNew.first(),
             lanDirectConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled(),
             isPrivateDnsEnabled = isPrivateDnsActive,
+            isPrivateBrowsingAvailable = isPrivateBrowsingAvailable() != PrivateBrowsingAvailability.NotAvailable,
         )
     }
 
@@ -448,11 +450,13 @@ class CreateEditProfileViewModel @Inject constructor(
 
     private suspend fun getSettingsScreenState(profile: Profile): SettingsScreenState {
         val intent = profile.connectIntent
+        val isPrivateBrowsingAvailable = isPrivateBrowsingAvailable() != PrivateBrowsingAvailability.NotAvailable
         val directLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled()
         val defaultSettingScreenState = defaultSettingScreenState(
             isAutoOpenNew = isAutoOpenNew.first(),
             lanDirectConnectionsFeatureFlagEnabled = directLanConnectionsFeatureFlagEnabled,
             isPrivateDnsEnabled = isPrivateDnsActive,
+            isPrivateBrowsingAvailable = isPrivateBrowsingAvailable,
         )
 
         val lanConnectionsAllowDirect = if (directLanConnectionsFeatureFlagEnabled) {
@@ -467,8 +471,8 @@ class CreateEditProfileViewModel @Inject constructor(
 
         // Show private browsing switch for auto-open if it's supported or when it was already
         // enabled for given profile
-        val showPrivateBrowsing = (profile.autoOpen is ProfileAutoOpen.Url && profile.autoOpen.openInPrivateMode)
-            || isPrivateBrowsingAvailable() != PrivateBrowsingAvailability.NotAvailable
+        val showPrivateBrowsing = isPrivateBrowsingAvailable ||
+            (profile.autoOpen is ProfileAutoOpen.Url && profile.autoOpen.openInPrivateMode)
         return SettingsScreenState(
             netShield = netShield,
             isPrivateDnsActive = isPrivateDnsActive,
