@@ -55,7 +55,10 @@ import kotlinx.coroutines.flow.transformLatest
 import me.proton.core.presentation.savedstate.state
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
+
+private val remoteSearchDelay = 2.5.seconds
 
 sealed class SearchViewState {
     data object ZeroScreen : SearchViewState()
@@ -97,7 +100,7 @@ class SearchViewModel @Inject constructor(
         searchQueryFlow
             .transformLatest<String, Unit> { query ->
                 if (!remoteSearchDisabled) {
-                    delay(5.seconds)
+                    delay(remoteSearchDelay)
                     // Search results are added to the server list and thus will bubble up to search results
                     // (if they match the filters).
                     val result = remoteSearch(query)
