@@ -42,15 +42,18 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
+import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.tv.drawers.TvModalDrawer
 import com.protonvpn.android.tv.settings.TvSettingsItemMoreInfo
 import com.protonvpn.android.tv.settings.TvSettingsMainToggleLayout
 import com.protonvpn.android.tv.settings.TvSettingsMainWarningBanner
 import com.protonvpn.android.tv.settings.TvSettingsMoreInfoLayout
+import com.protonvpn.android.tv.settings.TvSettingsReconnectDialog
 import com.protonvpn.android.tv.ui.TvUiConstants
 import com.protonvpn.android.utils.openWifiSettings
 import com.protonvpn.android.vpn.DnsOverride
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 
@@ -67,9 +70,28 @@ class TvSettingsNetShieldActivity : BaseTvActivity() {
                 val viewModel: TvSettingsNetShieldViewModel = hiltViewModel()
                 val viewState = viewModel.viewState.collectAsStateWithLifecycle().value
                 var isDrawerOpen by remember { mutableStateOf(false) }
+                var showReconnectDialog by remember { mutableStateOf(false) }
 
                 BackHandler(enabled = isDrawerOpen) {
                     isDrawerOpen = false
+                }
+
+                viewModel.eventChannelReceiver.receiveAsFlow().collectAsEffect { event ->
+                    when (event) {
+                        TvSettingsNetShieldViewModel.Event.OnClose -> {
+                            finish()
+                        }
+
+                        TvSettingsNetShieldViewModel.Event.OnDismissReconnectNowDialog -> {
+                            showReconnectDialog = false
+                        }
+
+                        TvSettingsNetShieldViewModel.Event.OnShowReconnectNowDialog -> {
+                            viewModel.onShowReconnectNowDialog(vpnUiDelegate = getVpnUiDelegate())
+
+                            showReconnectDialog = true
+                        }
+                    }
                 }
 
                 if (viewState != null) {
@@ -116,6 +138,15 @@ class TvSettingsNetShieldActivity : BaseTvActivity() {
                                 }
                             }
                         }
+                    )
+                }
+
+                if(showReconnectDialog) {
+                    TvSettingsReconnectDialog(
+                        onReconnectNow = {
+                            viewModel.onReconnectNow(vpnUiDelegate = getVpnUiDelegate())
+                        },
+                        onDismissRequest = viewModel::onDismissReconnectNowDialog,
                     )
                 }
             }

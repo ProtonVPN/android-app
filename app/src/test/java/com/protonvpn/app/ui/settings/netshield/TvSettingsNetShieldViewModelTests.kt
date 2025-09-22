@@ -19,17 +19,31 @@
 
 package com.protonvpn.app.ui.settings.netshield
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.tv.settings.netshield.TvSettingsNetShieldViewModel
+import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
+import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.VpnUiDelegate
+import com.protonvpn.mocks.FakeVpnUiDelegate
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
-import junit.framework.Assert.assertEquals
+import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -37,11 +51,18 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TvSettingsNetShieldViewModelTests {
+
+    @MockK
+    private lateinit var mockDontShowAgainStore: DontShowAgainStore
+
+    @MockK
+    private lateinit var mockVpnConnectionManager: VpnConnectionManager
 
     private lateinit var isPrivateDnsActiveFlow: MutableStateFlow<Boolean>
 
@@ -49,10 +70,16 @@ class TvSettingsNetShieldViewModelTests {
 
     private lateinit var userSettingsManager: CurrentUserLocalSettingsManager
 
+    private lateinit var vpnStateMonitor: VpnStateMonitor
+
+    private lateinit var vpnUiDelegate: VpnUiDelegate
+
     private lateinit var viewModel: TvSettingsNetShieldViewModel
 
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
+
         val testDispatcher = UnconfinedTestDispatcher(scheduler = TestCoroutineScheduler())
 
         testScope = TestScope(context = testDispatcher)
@@ -60,6 +87,27 @@ class TvSettingsNetShieldViewModelTests {
         Dispatchers.setMain(dispatcher = testDispatcher)
 
         isPrivateDnsActiveFlow = MutableStateFlow(value = false)
+
+        every { mockVpnConnectionManager.reconnect(any(), any()) } just Runs
+
+        vpnUiDelegate = FakeVpnUiDelegate()
+
+        vpnStateMonitor = VpnStateMonitor()
+
+        val vpnStatusProviderUi = VpnStatusProviderUI(
+            scope = testScope.backgroundScope,
+            monitor = vpnStateMonitor,
+        )
+
+        val savedStateHandle = SavedStateHandle()
+
+        val settingsReconnectHandler = SettingsReconnectHandler(
+            mainScope = testScope.backgroundScope,
+            vpnConnectionManager = mockVpnConnectionManager,
+            vpnStatusProviderUI = vpnStatusProviderUi,
+            dontShowAgainStore = mockDontShowAgainStore,
+            savedStateHandle = savedStateHandle,
+        )
 
         userSettingsManager = CurrentUserLocalSettingsManager(
             userSettingsStoreProvider = LocalUserSettingsStoreProvider(
@@ -70,6 +118,7 @@ class TvSettingsNetShieldViewModelTests {
         viewModel = TvSettingsNetShieldViewModel(
             isPrivateDnsActiveFlow = IsPrivateDnsActiveFlow(flow = isPrivateDnsActiveFlow),
             mainScope = testScope.backgroundScope,
+            settingsReconnectHandler = settingsReconnectHandler,
             userSettingsManager = userSettingsManager,
         )
     }
@@ -183,6 +232,57 @@ class TvSettingsNetShieldViewModelTests {
 
             val noConflictViewState = awaitItem()
             assertEquals(expectedNoConflictViewState, noConflictViewState)
+        }
+    }
+
+    @Test
+    fun `GIVEN custom DNS conflict WHEN disabling custom DNS THEN show reconnect now dialog event is emitted`() = testScope.runTest {
+        val expectedEvent = TvSettingsNetShieldViewModel.Event.OnShowReconnectNowDialog
+        userSettingsManager.updateCustomDns { customDns ->
+            customDns.copy(
+                toggleEnabled = true,
+                rawDnsList = listOf("0.0.0.0"),
+            )
+        }
+
+        viewModel.disableCustomDns()
+
+        viewModel.eventChannelReceiver.receiveAsFlow().test {
+            val event = awaitItem()
+
+            assertEquals(expectedEvent, event)
+        }
+    }
+
+    @Test
+    fun `WHEN reconnecting to VPN THEN close screen event is emitted`() = testScope.runTest {
+        val expectedEvent = TvSettingsNetShieldViewModel.Event.OnClose
+        coEvery {
+            mockDontShowAgainStore.getChoice(type = DontShowAgainStore.Type.DnsChangeWhenConnected)
+        } returns DontShowAgainStore.Choice.ShowDialog
+
+        viewModel.onReconnectNow(vpnUiDelegate = vpnUiDelegate)
+
+        viewModel.eventChannelReceiver.receiveAsFlow().test {
+            val event = awaitItem()
+
+            assertEquals(expectedEvent, event)
+        }
+    }
+
+    @Test
+    fun `WHEN dismissing reconnect now dialog THEN dismiss event is emitted`() = testScope.runTest {
+        val expectedEvent = TvSettingsNetShieldViewModel.Event.OnDismissReconnectNowDialog
+        coEvery {
+            mockDontShowAgainStore.getChoice(type = DontShowAgainStore.Type.DnsChangeWhenConnected)
+        } returns DontShowAgainStore.Choice.ShowDialog
+
+        viewModel.onDismissReconnectNowDialog()
+
+        viewModel.eventChannelReceiver.receiveAsFlow().test {
+            val event = awaitItem()
+
+            assertEquals(expectedEvent, event)
         }
     }
 
