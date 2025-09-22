@@ -22,7 +22,6 @@ package com.protonvpn.android.vpn.autoconnect
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.protonvpn.android.settings.data.AutoConnectMode
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -40,7 +39,7 @@ class AutoConnectBootReceiver : BroadcastReceiver() {
         val pendingResult = goAsync()
         mainScope.launch {
             try {
-                autoConnectVpn.get().invoke(AutoConnectMode.Boot)
+                autoConnectVpn.get().invoke()
             } finally {
                 pendingResult.finish()
             }

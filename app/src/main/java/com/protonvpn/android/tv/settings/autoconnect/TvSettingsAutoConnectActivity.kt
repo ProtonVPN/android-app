@@ -23,25 +23,19 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
-import com.protonvpn.android.settings.data.AutoConnectMode
 import com.protonvpn.android.tv.settings.TvSettingDescriptionRow
-import com.protonvpn.android.tv.settings.TvSettingsItemRadioSmall
 import com.protonvpn.android.tv.settings.TvSettingsMainToggleLayout
 import com.protonvpn.android.tv.ui.TvUiConstants
 import dagger.hilt.android.AndroidEntryPoint
-import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 
 @AndroidEntryPoint
@@ -62,7 +56,6 @@ class TvSettingsAutoConnectActivity : BaseTvActivity() {
                         TvSettingsAutoConnect(
                             viewState = viewState,
                             onToggled = viewModel::toggleAutoConnect,
-                            onModeSelected = viewModel::setAutoConnectMode,
                             modifier = Modifier.widthIn(max = TvUiConstants.SingleColumnWidth),
                         )
                     }
@@ -76,7 +69,6 @@ class TvSettingsAutoConnectActivity : BaseTvActivity() {
 private fun TvSettingsAutoConnect(
     viewState: TvSettingsAutoConnectViewModel.ViewState,
     onToggled: () -> Unit,
-    onModeSelected: (AutoConnectMode) -> Unit,
     modifier: Modifier = Modifier
 ) {
     TvSettingsMainToggleLayout(
@@ -87,22 +79,7 @@ private fun TvSettingsAutoConnect(
     ) {
         item {
             TvSettingDescriptionRow(
-                text = stringResource(R.string.settings_autoconnect_description),
-            )
-        }
-
-        item {
-            TvSettingsItemRadioSmall(
-                title = stringResource(R.string.settings_autoconnect_mode_open_ui),
-                checked = viewState.mode == AutoConnectMode.OpenUi,
-                onClick = { onModeSelected(AutoConnectMode.OpenUi) },
-            )
-        }
-        item {
-            TvSettingsItemRadioSmall(
-                title = stringResource(R.string.settings_autoconnect_mode_boot),
-                checked = viewState.mode == AutoConnectMode.Boot,
-                onClick = { onModeSelected(AutoConnectMode.Boot ) },
+                text = stringResource(R.string.settings_autoconnect_boot_description),
             )
         }
     }

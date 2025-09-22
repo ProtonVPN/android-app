@@ -24,7 +24,6 @@ import android.content.Context
 import android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED
 import android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED
 import android.content.pm.PackageManager.DONT_KILL_APP
-import com.protonvpn.android.settings.data.AutoConnectMode
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -41,12 +40,11 @@ class AutoConnectBootReceiverController @Inject constructor(
 ) {
 
     private val controlFlow = effectiveUserSettings
-        .tvAutoConnect
-        .onEach { autoConnectSetting ->
+        .tvAutoConnectOnBoot
+        .onEach { autoConnectOnBoot ->
             val receiverName = ComponentName(appContext, AutoConnectBootReceiver::class.java)
-            val enabledForBoot = with(autoConnectSetting) { isEnabled && mode == AutoConnectMode.Boot }
             val newState = when {
-                enabledForBoot -> COMPONENT_ENABLED_STATE_ENABLED
+                autoConnectOnBoot -> COMPONENT_ENABLED_STATE_ENABLED
                 else -> COMPONENT_ENABLED_STATE_DISABLED
             }
             appContext.packageManager.setComponentEnabledSetting(receiverName, newState, DONT_KILL_APP)

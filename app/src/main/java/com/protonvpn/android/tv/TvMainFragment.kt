@@ -122,8 +122,6 @@ class TvMainFragment : BaseTvBrowseFragment() {
                         setupRowAdapter(it)
                     }
                     .launchIn(viewLifecycleOwner.lifecycleScope)
-                viewModel.autoConnectTrigger
-                    .launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
     }

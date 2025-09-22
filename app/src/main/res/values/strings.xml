@@ -1035,9 +1035,7 @@
     <string name="countries_title">Countries</string>
     <string name="profiles_title">Profiles</string>
     <string name="settings_autoconnect_title">Auto-connect</string>
-    <string name="settings_autoconnect_description">Automatically connect to VPN using quick connect</string>
-    <string name="settings_autoconnect_mode_boot">When the device is turned on</string>
-    <string name="settings_autoconnect_mode_open_ui">When the app is opened</string>
+    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Features</string>
     <!-- tag(Redesign_2023) -->

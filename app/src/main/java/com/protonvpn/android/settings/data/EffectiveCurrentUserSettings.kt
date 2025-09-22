@@ -130,7 +130,7 @@ abstract class BaseApplyEffectiveUserSettings(
             },
             customDns = if (isUserPlusOrAbove) settings.customDns else CustomDnsSettings(false),
             theme = settings.theme,
-            tvAutoConnect = if (isTv && flags.isTvAutoConnectEnabled) settings.tvAutoConnect else AutoConnectSetting(false),
+            tvAutoConnectOnBoot = if (isTv && flags.isTvAutoConnectEnabled) settings.tvAutoConnectOnBoot else false,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
             ipV6Enabled = settings.ipV6Enabled && flags.isIPv6Enabled && !isTv
@@ -195,7 +195,7 @@ class EffectiveCurrentUserSettings(
     val netShield = distinct { it.netShield }
     val protocol = distinct { it.protocol }
     val telemetry = distinct { it.telemetry }
-    val tvAutoConnect = distinct { it.tvAutoConnect }
+    val tvAutoConnectOnBoot = distinct { it.tvAutoConnectOnBoot }
     val vpnAccelerator = distinct { it.vpnAccelerator }
     val splitTunneling = distinct { it.splitTunneling }
     val ipV6Enabled = distinct { it.ipV6Enabled }

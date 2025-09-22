@@ -22,12 +22,10 @@ package com.protonvpn.android.logging
 import android.app.ActivityManager.RunningAppProcessInfo
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.observability.AppExitTotal
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.Server
-import com.protonvpn.android.settings.data.AutoConnectSetting
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -127,4 +125,3 @@ fun Int.toImportanceLog() =
         else -> "unknown"
     }
 
-fun AutoConnectSetting.toLog() = "${isEnabled.toLog()} $mode"

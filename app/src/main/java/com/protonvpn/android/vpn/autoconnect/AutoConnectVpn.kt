@@ -20,7 +20,6 @@
 package com.protonvpn.android.vpn.autoconnect
 
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.settings.data.AutoConnectMode
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.tv.vpn.createIntentForDefaultProfile
 import com.protonvpn.android.userstorage.ProfileManager
@@ -41,15 +40,14 @@ class AutoConnectVpn @Inject constructor(
     private val serverManager: ServerManager,
     private val currentUser: CurrentUser,
 ) {
-    suspend operator fun invoke(connectMode: AutoConnectMode) {
+    suspend operator fun invoke() {
         val settings = effectiveUserSettings.effectiveSettings.first()
-        val isEnabled = with(settings.tvAutoConnect) { isEnabled && mode == connectMode }
-        if (isEnabled && !vpnUiStatus.isEstablishingOrConnected) {
+        if (settings.tvAutoConnectOnBoot && !vpnUiStatus.isEstablishingOrConnected) {
             val profile = tvProfileManager.getDefaultOrFastest()
             val intent = createIntentForDefaultProfile(serverManager, currentUser, settings.protocol, profile)
             vpnConnectionManager.get().connectInBackground(
                 intent,
-                ConnectTrigger.Auto("Auto-connect: ${connectMode.name}")
+                ConnectTrigger.Auto("Auto-connect on boot")
             )
         }
     }

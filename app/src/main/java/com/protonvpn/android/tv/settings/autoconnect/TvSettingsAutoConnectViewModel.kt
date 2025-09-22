@@ -21,7 +21,6 @@ package com.protonvpn.android.tv.settings.autoconnect
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.settings.data.AutoConnectMode
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -39,30 +38,18 @@ class TvSettingsAutoConnectViewModel @Inject constructor(
 
     data class ViewState(
         val isEnabled: Boolean,
-        val mode: AutoConnectMode,
     )
 
     val viewState = userSettingsManager.rawCurrentUserSettingsFlow
         .map { rawSettings ->
-            ViewState(
-                isEnabled = rawSettings.tvAutoConnect.isEnabled,
-                mode = rawSettings.tvAutoConnect.mode
-            )
+            ViewState(isEnabled = rawSettings.tvAutoConnectOnBoot,)
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     fun toggleAutoConnect() {
         mainScope.launch {
             userSettingsManager.update {
-                it.copy(tvAutoConnect = it.tvAutoConnect.copy(isEnabled = !it.tvAutoConnect.isEnabled))
-            }
-        }
-    }
-
-    fun setAutoConnectMode(mode: AutoConnectMode) {
-        mainScope.launch {
-            userSettingsManager.update {
-                it.copy(tvAutoConnect = it.tvAutoConnect.copy(mode = mode))
+                it.copy(tvAutoConnectOnBoot = !it.tvAutoConnectOnBoot)
             }
         }
     }

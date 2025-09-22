@@ -34,7 +34,6 @@ import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.settings.data.AutoConnectMode
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.tv.models.Card
 import com.protonvpn.android.tv.models.ConnectIntentCard
@@ -133,12 +132,6 @@ class TvMainViewModel @Inject constructor(
     }.distinctUntilChanged().asLiveData()
 
     val settingsProtocol get() = effectiveCurrentUserSettingsCached.value.protocol
-
-    val autoConnectTrigger: Flow<Unit> = flowOf(Unit)
-        .onStart {
-            autoConnectVpn(AutoConnectMode.OpenUi)
-        }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(1000), Unit)
 
     init {
         viewModelScope.launch {
