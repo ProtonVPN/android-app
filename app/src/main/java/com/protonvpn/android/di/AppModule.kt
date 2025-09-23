@@ -62,6 +62,8 @@ import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
 import com.protonvpn.android.profiles.usecases.GetPrivateBrowsingAvailability
 import com.protonvpn.android.profiles.usecases.GetPrivateBrowsingAvailabilityImpl
+import com.protonvpn.android.profiles.usecases.IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled
+import com.protonvpn.android.profiles.usecases.IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabledImpl
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapterLegacy
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
@@ -407,6 +409,11 @@ object AppModule {
         @Singleton
         @Binds
         fun bindImagePrefetcher(glide: GlideImagePrefetcher): ImagePrefetcher
+
+        @Binds
+        fun bindIsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled(
+            impl: IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabledImpl
+        ): IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled
 
         @Binds
         fun bindIsBinaryServerStatusFeatureFlagEnabled(
