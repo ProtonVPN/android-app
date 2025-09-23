@@ -83,6 +83,7 @@ fun ProtonOutlinedTextField(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
     textHeightIn: Dp = Dp.Unspecified,
+    cursorColor: Color = cursorColor(textStyle, isError).value,
     trailingIcon: @Composable (() -> Unit)? = null
 ) {
     val decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit = @Composable { innerTextField ->
@@ -114,7 +115,7 @@ fun ProtonOutlinedTextField(
         enabled = enabled,
         readOnly = readOnly,
         textStyle = textStyle,
-        cursorBrush = SolidColor(cursorColor(textStyle, isError).value),
+        cursorBrush = SolidColor(value = cursorColor),
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
@@ -245,6 +246,7 @@ private fun ProtonOutlineDecorationBox(
             disabledContainerColor = backgroundColor,
             focusedBorderColor = ProtonTheme.colors.interactionNorm,
             unfocusedBorderColor = Color.Transparent,
+            errorBorderColor = ProtonTheme.colors.notificationError,
         )
         // Wrap OutlinedTextFieldDecorationBox in a Box because there's no way to pass size modifier directly.
         Box(Modifier
@@ -280,7 +282,7 @@ private fun ProtonOutlineDecorationBox(
 }
 
 @Composable
-private inline fun cursorColor(textStyle: TextStyle, isError: Boolean) = rememberUpdatedState(
+private fun cursorColor(textStyle: TextStyle, isError: Boolean) = rememberUpdatedState(
     if (isError) {
         ProtonTheme.colors.notificationError
     } else {
