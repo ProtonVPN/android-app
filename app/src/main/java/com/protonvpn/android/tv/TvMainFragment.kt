@@ -38,10 +38,8 @@ import androidx.leanback.widget.OnItemViewSelectedListener
 import androidx.leanback.widget.PresenterSelector
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.BaseTvBrowseFragment
@@ -79,8 +77,6 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.relativePadding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -115,13 +111,12 @@ class TvMainFragment : BaseTvBrowseFragment() {
         rowsAdapter = ArrayObjectAdapter(FadeTopListRowPresenter())
         adapter = rowsAdapter
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.mainViewState
-                    .onEach {
-                        paidFeatureOpener.isFreeUser = it.isFreeUser
-                        setupRowAdapter(it)
-                    }
-                    .launchIn(viewLifecycleOwner.lifecycleScope)
+            // Do not wrap with repeatOnLifecycle otherwise the adapter will be recreated.
+            // Therefore, focus will be moved back to the first element.
+            viewModel.mainViewState.collect { viewState ->
+                paidFeatureOpener.isFreeUser = viewState.isFreeUser
+
+                setupRowAdapter(viewState = viewState)
             }
         }
     }
