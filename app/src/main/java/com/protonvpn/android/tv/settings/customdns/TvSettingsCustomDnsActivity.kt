@@ -22,6 +22,7 @@ package com.protonvpn.android.tv.settings.customdns
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -37,7 +38,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -49,6 +54,7 @@ import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.
 import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component4
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -89,9 +95,23 @@ class TvSettingsCustomDnsActivity : BaseTvActivity() {
                 val viewModel = hiltViewModel<TvSettingsCustomDnsViewModel>()
                 val viewState = viewModel.viewStateFlow.collectAsStateWithLifecycle().value
                 val dialogState = viewModel.dialogStateFlow.collectAsStateWithLifecycle().value
+                val context = LocalContext.current
+                var isSettingsChangedToastShown by rememberSaveable { mutableStateOf(value = false) }
 
                 BackHandler(enabled = viewState?.areCustomDnsSettingsChanged == true) {
                     viewModel.onShowReconnectNowDialog(vpnUiDelegate = getVpnUiDelegate())
+                }
+
+                LaunchedEffect(key1 = viewState?.areCustomDnsSettingsChanged) {
+                    if (viewState?.areCustomDnsSettingsChanged == true && !isSettingsChangedToastShown) {
+                        isSettingsChangedToastShown = true
+
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.settings_changes_apply_on_reconnect_toast),
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    }
                 }
 
                 viewModel.eventChannelReceiver.receiveAsFlow().collectAsEffect { event ->
