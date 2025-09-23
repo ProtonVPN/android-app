@@ -57,7 +57,10 @@ class TestUserEndToEnd @Inject constructor(
     }
 
     fun getRandomUsername(): String {
-        val usernames = listOf(getPlusPlanUser()).map { it.email }
+        val usernames = listOf(
+            getPlusPlanUser().email,
+            "automationBasicUser",
+        )
         return usernames.random()
     }
 }
