@@ -94,6 +94,9 @@
     <string name="something_went_wrong">Виникла проблема</string>
     <string name="try_again">Повторити спробу</string>
     <string name="delete">Видалити</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Move to top</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Move up</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Move down</string>
     <string name="remove">Вилучити</string>
     <string name="saveButton">Зберегти</string>
     <string name="ipWithPlaceholder">IP-адреса: %1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">Статистика використання</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ця статистика не містить вашої IP-адреси та не може бути використана для вашої ідентифікації. Ми ніколи не передаємо ці дані третім сторонам. <a href="%1$s">Докладніше</a>]]></string>
     <string name="netshield_settings_description_not_html">Захистіться від реклами, зловмисних програм і стеження на вебсайтах і в програмах. %1$s</string>
-    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
+    <string name="netshield_settings_description_tv">Protects you from third-party ads, trackers, and malware. NetShield doesn\'t block ads that are built into streaming services like YouTube and Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">How NetShield works</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield blocks DNS requests to third-party domains known for ads, trackers, and malware.</item>
+        <item>This means you won\'t receive ads from your browser or free apps that use third-party ad services.</item>
+        <item>However, it can\'t block ads from streaming platforms like YouTube and Netflix, because their ads come from their own servers.</item>
+    </string-array>
     <string name="settings_icon_change_description">Замаскуйте програму Proton VPN за допомогою стриманої піктограми. Сповіщення й надалі показуватимуться зі звичайною назвою та піктограмою Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Докладніше</string>
     <string name="learn_more">Докладніше</string>
@@ -275,6 +284,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Роздільне тунелювання</string>
     <string name="tv_card_protocol_label">Протокол</string>
+    <string name="tv_dialog_delete_server_title">Delete server %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Улюблені</string>
     <string name="tv_detail_connect_streaming">Транслюйте з Plus</string>
     <string name="tv_detail_connect">З\'єднатися</string>
@@ -549,6 +559,15 @@
     <string name="upsell_card_streaming_description">Дивіться улюблені фільми й телешоу</string>
     <string name="upsell_card_tor_title">Tor через VPN</string>
     <string name="upsell_card_tor_description">Користуйтеся мережею Tor через VPN-з\'єднання для додаткової приватності</string>
+    <string name="upsell_tv_all_countries_title">Access all countries with Plus</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Unlock %1$s secure servers in %2$s countries. %3$s</string>
+    <string name="upsell_tv_netshield_title">Enjoy ad-free browsing with Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Get the best of both worlds with Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Get advanced VPN customization with Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Go to the Proton VPN website to upgrade your plan.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -1048,6 +1067,8 @@
     <string name="gateways_title">Мережеві шлюзи</string>
     <string name="countries_title">Країни</string>
     <string name="profiles_title">Профілі</string>
+    <string name="settings_autoconnect_title">Auto-connect</string>
+    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Функції</string>
     <!-- tag(Redesign_2023) -->
@@ -1394,6 +1415,7 @@
     <string name="settings_account_button_my_account">Мій обліковий запис</string>
     <string name="settings_account_button_delete_account">Видалити обліковий запис</string>
     <string name="settings_custom_dns_title">Власний DNS</string>
+    <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Додати новий DNS-сервер</string>
     <string name="settings_add_dns_new_entry_button">Додати</string>
@@ -1409,6 +1431,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">Зміни застосуються після повторного з\'єднання</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield буде недоступний</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield не може фільтрувати рекламу, стеження і зловмисні програми, якщо використовується власний DNS. Докладніше</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield can not filter out ads, trackers and malware when custom DNS is used.</string>
     <string name="settings_advanced_alternative_routing_title">Альтернативна маршрутизація</string>
     <string name="settings_advanced_alternative_routing_description">Якщо служби Proton блокуються мережевими обмеженнями, ми спробуємо використати альтернативний спосіб маршрутизації для з\'єднання з нашими сайтами.</string>
     <string name="settings_advanced_allow_lan_title">LAN-з\'єднання</string>
@@ -1464,11 +1487,14 @@
     <string name="settings_needs_reconnect_banner">Нові налаштування застосуються при наступному з\'єднанні.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Власний DNS недоступний</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Ваш пристрій використовує сторонній DNS, що заважає роботі власного DNS Proton VPN. Докладніше</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working.</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield недоступний</string>
     <string name="private_dns_conflict_banner_netshield_description">Ваш пристрій використовує сторонній DNS, що заважає роботі NetShield. Докладніше</string>
     <string name="private_dns_conflict_banner_network_settings_button">Налаштування мережі</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield недоступний</string>
     <string name="custom_dns_conflict_banner_netshield_description">Увімкнено власний DNS, що заважає роботі NetShield. Докладніше</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Turn off custom DNS to use NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">Custom DNS is enabled which prevents NetShield from working.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Вимкніть власний DNS</string>
     <string name="info_secure_core_standard_high_privacy">Високий рівень приватності</string>
     <string name="info_secure_core_standard_lower_latency">Нижча затримка</string>
@@ -1562,11 +1588,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Новий</string>
     <string name="create_profile_auto_open_url_input_label">URL-адреса вебсайту</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Use private browsing mode</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Вимк</string>
+    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">Увімк</string>
+    <string name="profile_auto_open_website">Open a website</string>
+    <string name="profile_auto_open_app">Open an app</string>
     <string name="create_profile_auto_open_description">Автоматично відкривати вибраний вебсайт після під\'єднання до цього профілю.</string>
+    <string name="create_profile_auto_open_app_input_hint">Select an app</string>
+    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
     <string name="profile_auto_open_error_invalid_url">Введіть дійсну URL-адресу</string>
     <string name="nps_how_likely_question">Наскільки ймовірно, що ви порекомендуєте Proton VPN друзям або колегам?</string>
     <string name="nps_additional_comment_title">Повідомте, чому ви поставили таку оцінку</string>

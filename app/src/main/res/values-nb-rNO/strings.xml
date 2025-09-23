@@ -94,6 +94,9 @@
     <string name="something_went_wrong">Noe gikk galt</string>
     <string name="try_again">Prøv igjen</string>
     <string name="delete">Slett</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Flytt til toppen</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Flytt opp</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Flytt ned</string>
     <string name="remove">Fjern</string>
     <string name="saveButton">Lagre</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">Bruksstatistikk</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Disse statistikkene inneholder ikke IP-adressen din, og de kan ikke brukes til å identifisere deg. Vi deler dem aldri med tredjeparter. <a href="%1$s">Lær mer</a>]]></string>
     <string name="netshield_settings_description_not_html">Beskytt deg mot annonser, skadelig programvare og sporere på nettsteder og apper. %1$s</string>
-    <string name="netshield_settings_description_tv">Beskytt deg mot annonser, skadelig programvare og sporere på nettsteder og apper.</string>
+    <string name="netshield_settings_description_tv">Beskytter deg mot tredjepartsannonser, sporere og skadelig programvare. NetShield blokkerer ikke annonser som er innebygd i strømmetjenester som YouTube og Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Slik fungerer NetShield</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield blokkerer DNS-forespørsler til tredjepartsdomener kjent for annonser, sporere og skadelig programvare.</item>
+        <item>Dette betyr at du ikke vil motta annonser fra nettleseren din eller gratis apper som bruker tredjeparts annonsetjenester.</item>
+        <item>Den kan imidlertid ikke blokkere annonser fra strømmingsplattformer som YouTube og Netflix, fordi annonsene kommer fra deres egne tjenere.</item>
+    </string-array>
     <string name="settings_icon_change_description">Skjul Proton VPN-appen med et diskret ikon. Varsler vil fortsatt vise standard Proton VPN-navn og ikon. %1$s.</string>
     <string name="settings_icon_change_learn_more">Lær mer</string>
     <string name="learn_more">Lær mer</string>
@@ -271,6 +280,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Delt tunnelering</string>
     <string name="tv_card_protocol_label">Protokoll</string>
+    <string name="tv_dialog_delete_server_title">Slette tjener %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Favoritt</string>
     <string name="tv_detail_connect_streaming">Strøm med Plus</string>
     <string name="tv_detail_connect">Koble til</string>
@@ -517,6 +527,15 @@
     <string name="upsell_card_streaming_description">Se favorittfilmene og TV-programmene dine</string>
     <string name="upsell_card_tor_title">TOR over VPN</string>
     <string name="upsell_card_tor_description">Bruk Tor-nettverket over VPN-tilkoblingen for ekstra personvern</string>
+    <string name="upsell_tv_all_countries_title">Få tilgang til alle land med Plus</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Lås opp %1$s sikre tjenere i %2$s land. %3$s</string>
+    <string name="upsell_tv_netshield_title">Kos deg med reklamefri surfing med Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Blokkér annonser, sporere og skadelig programvare med <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Få det beste fra begge verdener med Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Del trafikken din inn i VPN- og ikke-VPN-tunneler med <b>delt tunnelering</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Få avanserte VPN-tilpasninger med Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Lås opp <b>LAN-forbindelser</b>, <b>Egendefinert DNS</b> og mer avanserte VPN-funksjoner. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Gå til Proton VPN-nettstedet for å oppgradere planen din.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -998,6 +1017,8 @@
     <string name="gateways_title">Porttjenere</string>
     <string name="countries_title">Land</string>
     <string name="profiles_title">Profiler</string>
+    <string name="settings_autoconnect_title">Koble til automatisk</string>
+    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funksjoner</string>
     <!-- tag(Redesign_2023) -->
@@ -1322,6 +1343,7 @@
     <string name="settings_account_button_my_account">Min konto</string>
     <string name="settings_account_button_delete_account">Slett konto</string>
     <string name="settings_custom_dns_title">Egendefinert DNS</string>
+    <string name="settings_custom_dns_description_tv">Koble til VPN med et selvdrevet eller tredjeparts domenenavnsystem (DNS).</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Legg til ny DNS-tjener</string>
     <string name="settings_add_dns_new_entry_button">Legg til</string>
@@ -1337,6 +1359,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">Endringer trer i kraft når du kobler til på nytt</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield vil være utilgjengelig</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield kan ikke filtrere ut annonser, sporere og skadelig programvare når egendefinert DNS brukes. Lær mer</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield kan ikke filtrere ut annonser, sporere og skadelig programvare når egendefinert DNS brukes.</string>
     <string name="settings_advanced_alternative_routing_title">Alternativ ruting</string>
     <string name="settings_advanced_alternative_routing_description">Hvis Proton-tjenester er blokkert på grunn av nettverksbegrensninger, prøver vi å bruke alternativ nettverksruting for å koble deg til nettstedene våre.</string>
     <string name="settings_advanced_allow_lan_title">LAN-forbindelser</string>
@@ -1392,11 +1415,14 @@
     <string name="settings_needs_reconnect_banner">Nye innstillinger vil gjelde neste gang du kobler til.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Egendefinert DNS er utilgjengelig</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Enheten din bruker en tredjeparts DNS som hindrer Proton VPNs tilpassede DNS i å fungere. Lær mer</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Enheten din bruker en tredjeparts DNS som hindrer Proton VPNs egendefinerte DNS i å fungere.</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield er utilgjengelig</string>
     <string name="private_dns_conflict_banner_netshield_description">Enheten din bruker en tredjeparts DNS som hindrer NetShield i å fungere. Lær mer</string>
     <string name="private_dns_conflict_banner_network_settings_button">Nettverksinnstillinger</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield er utilgjengelig</string>
     <string name="custom_dns_conflict_banner_netshield_description">Egendefinert DNS er aktivert, noe som hindrer NetShield i å fungere. Lær mer</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Slå av egendefinert DNS for å bruke NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">Egendefinert DNS er aktivert, noe som hindrer NetShield i å fungere.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Slå av egendefinert DNS</string>
     <string name="info_secure_core_standard_high_privacy">Høy personvern</string>
     <string name="info_secure_core_standard_lower_latency">Lavere latens</string>
@@ -1490,11 +1516,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Ny</string>
     <string name="create_profile_auto_open_url_input_label">Nettsideadresse</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Bruk privat nettlesingsmodus</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Av</string>
+    <string name="profile_auto_open_app_failed_to_launch">Koble til og start: ingen apper funnet</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">På</string>
+    <string name="profile_auto_open_website">Åpne et nettsted</string>
+    <string name="profile_auto_open_app">Åpne en app</string>
     <string name="create_profile_auto_open_description">Åpne automatisk et nettsted du ønsker når du kobler til denne profilen.</string>
+    <string name="create_profile_auto_open_app_input_hint">Velg en app</string>
+    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_no_apps">Ingen apper funnet.</string>
     <string name="profile_auto_open_error_invalid_url">Skriv inn en gyldig nettadresse</string>
     <string name="nps_how_likely_question">Hvor sannsynlig er det at du vil anbefale Proton VPN til en venn eller kollega?</string>
     <string name="nps_additional_comment_title">Fortell oss hvorfor du ga den vurderingen</string>

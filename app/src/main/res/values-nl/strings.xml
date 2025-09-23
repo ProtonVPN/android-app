@@ -94,6 +94,9 @@
     <string name="something_went_wrong">Er is iets fout gegaan</string>
     <string name="try_again">Probeer opnieuw</string>
     <string name="delete">Verwijderen</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Naar boven verplaatsen</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Omhoog verplaatsen</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Omlaag verplaatsen</string>
     <string name="remove">Verwijder</string>
     <string name="saveButton">Opslaan</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">Gebruiksstatistieken</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Deze statistieken bevatten uw IP-adres niet, en kunnen niet gebruikt worden om u te identificeren. We zullen deze nooit delen met derden. <a href="%1$s">Meer informatie</a>]]></string>
     <string name="netshield_settings_description_not_html">Bescherm uzelf tegen advertenties, malware en trackers op websites en apps. %1$s</string>
-    <string name="netshield_settings_description_tv">Bescherm uzelf tegen advertenties, malware en trackers op websites en apps.</string>
+    <string name="netshield_settings_description_tv">Beschermt u tegen advertenties van derden, trackers en malware. NetShield blokkeert geen advertenties die zijn ingebouwd in streamingdiensten zoals YouTube en Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Hoe NetShield werkt</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield blokkeert DNS-verzoeken naar domeinen van derden die bekendstaan om advertenties, trackers en malware.</item>
+        <item>Dit betekent dat u geen advertenties zult ontvangen van uw browser of gratis apps die gebruikmaken van advertentiediensten van derden.</item>
+        <item>Echter, het kan geen advertenties blokkeren van streamingplatforms zoals YouTube en Netflix, omdat hun advertenties van hun eigen servers komen.</item>
+    </string-array>
     <string name="settings_icon_change_description">Vermom de Proton VPN app met een discreet icoon. Notificaties zullen nog steeds de standaard Proton VPN naam en icoon tonen. %1$s</string>
     <string name="settings_icon_change_learn_more">Lees meer</string>
     <string name="learn_more">Lees meer</string>
@@ -271,6 +280,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_dialog_delete_server_title">Server %1$s verwijderen?</string>
     <string name="tv_detail_default_connection_checkbox_short">Favoriet</string>
     <string name="tv_detail_connect_streaming">Stream met Plus</string>
     <string name="tv_detail_connect">Verbind</string>
@@ -517,6 +527,15 @@
     <string name="upsell_card_streaming_description">Bekijk uw favoriete films en tv-series</string>
     <string name="upsell_card_tor_title">Tor via VPN</string>
     <string name="upsell_card_tor_description">Gebruik het Tor netwerk via uw VPN verbinding voor extra privacy</string>
+    <string name="upsell_tv_all_countries_title">Verkrijg toegang tot alle landen met Plus</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Ontgrendel %1$s beveiligde servers in %2$s landen. %3$s</string>
+    <string name="upsell_tv_netshield_title">Geniet van advertentie-vrij browsen met Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Blokkeer advertenties, trackers en malware met <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Krijg het beste van beide werelden met Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Verdeel uw verkeer in VPN- en niet-VPN-tunnels met <b>split tunneling</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Ontvang geavanceerde VPN-aanpassingen met Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Ontgrendel <b>LAN-verbindingen</b>, <b>Aangepaste DNS</b> en meer geavanceerde VPN-functies. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Ga naar de Proton VPN website om uw abonnement te upgraden.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -998,6 +1017,8 @@
     <string name="gateways_title">Gateways</string>
     <string name="countries_title">Landen</string>
     <string name="profiles_title">Profielen</string>
+    <string name="settings_autoconnect_title">Automatisch verbinden</string>
+    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Functies</string>
     <!-- tag(Redesign_2023) -->
@@ -1322,6 +1343,7 @@
     <string name="settings_account_button_my_account">Mijn account</string>
     <string name="settings_account_button_delete_account">Account verwijderen</string>
     <string name="settings_custom_dns_title">Aangepaste DNS</string>
+    <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Nieuwe DNS-server toevoegen</string>
     <string name="settings_add_dns_new_entry_button">Voeg toe</string>
@@ -1337,6 +1359,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">Wijzigingen zijn van toepassing zodra u opnieuw verbinding maakt</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield zal niet beschikbaar zijn</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield kan geen advertenties, trackers en malware filteren wanneer een aangepaste DNS wordt gebruikt. Lees meer</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield can not filter out ads, trackers and malware when custom DNS is used.</string>
     <string name="settings_advanced_alternative_routing_title">Alternatieve routing</string>
     <string name="settings_advanced_alternative_routing_description">Als Proton-diensten worden geblokkeerd vanwege netwerkbeperkingen, zullen we proberen alternatieve netwerkrouting te gebruiken om verbinding te maken met onze sites.</string>
     <string name="settings_advanced_allow_lan_title">LAN-verbindingen</string>
@@ -1392,11 +1415,14 @@
     <string name="settings_needs_reconnect_banner">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Aangepaste DNS is niet beschikbaar</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Uw apparaat gebruikt een DNS van derden waardoor Proton VPN\'s aangepaste DNS niet werkt. Lees meer</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working.</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield is niet beschikbaar</string>
     <string name="private_dns_conflict_banner_netshield_description">Uw apparaat gebruikt een DNS van derden waardoor NetShield niet werkt. Lees meer</string>
     <string name="private_dns_conflict_banner_network_settings_button">Netwerk instellingen</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield is niet beschikbaar</string>
     <string name="custom_dns_conflict_banner_netshield_description">Aangepaste DNS is ingeschakeld waardoor NetShield niet werkt. Lees meer</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Turn off custom DNS to use NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">Custom DNS is enabled which prevents NetShield from working.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Aangepaste DNS uitschakelen</string>
     <string name="info_secure_core_standard_high_privacy">Hoge privacy</string>
     <string name="info_secure_core_standard_lower_latency">Lagere latentie</string>
@@ -1490,11 +1516,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nieuw</string>
     <string name="create_profile_auto_open_url_input_label">URL van website</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Gebruik privé browsen modus</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Uit</string>
+    <string name="profile_auto_open_app_failed_to_launch">Verbinden en starten: toepassing niet gevonden</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">Aan</string>
+    <string name="profile_auto_open_website">Open een website</string>
+    <string name="profile_auto_open_app">App openen</string>
     <string name="create_profile_auto_open_description">Open automatisch een website naar keuze wanneer u verbinding maakt met dit profiel.</string>
+    <string name="create_profile_auto_open_app_input_hint">Selecteer een app</string>
+    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_no_apps">Geen apps gevonden.</string>
     <string name="profile_auto_open_error_invalid_url">Voer een geldige URL in</string>
     <string name="nps_how_likely_question">Hoe waarschijnlijk is het dat u Proton VPN aan een vriend of collega zult aanbevelen?</string>
     <string name="nps_additional_comment_title">Laat ons weten waarom u die beoordeling heeft gegeven</string>

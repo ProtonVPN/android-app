@@ -94,6 +94,9 @@
     <string name="something_went_wrong">Terdapat suatu kesalahan</string>
     <string name="try_again">Coba lagi</string>
     <string name="delete">Hapus</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Pindahkan ke atas</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Naikkan</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Turunkan</string>
     <string name="remove">Hapus</string>
     <string name="saveButton">Simpan</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">Statistik pemakaian</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Statistik ini tidak mengandung alamat IP Anda dan tidak dapat digunakan untuk mengenali diri Anda. Kami tidak akan pernah membagikan statistik ini kepada pihak ketiga mana pun. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="netshield_settings_description_not_html">Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi. %1$s</string>
-    <string name="netshield_settings_description_tv">Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi.</string>
+    <string name="netshield_settings_description_tv">Melindungi Anda dari iklan pihak ketiga, pelacak, dan malware. NetShield tidak memblokir iklan yang terpadu dengan layanan streaming seperti YouTube dan Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Bagaimana cara NetShield bekerja</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield memblokir permintaan DNS ke domain pihak ketiga yang diketahui mengandung iklan, pelacak, dan malware.</item>
+        <item>Hal ini berarti Anda tidak akan lagi menerima iklan dari browser Anda atau aplikasi gratis yang menggunakan layanan iklan pihak ketiga.</item>
+        <item>Meskipun demikian, NetShield tidak dapat memblokir iklan yang berasal dari layanan streaming seperti YouTube dan Netflix, karena iklan mereka berasal dari server mereka sendiri.</item>
+    </string-array>
     <string name="settings_icon_change_description">Samarkan Proton VPN dengan ikon aplikasi yang tidak mencolok. Notifikasi yang masuk akan tetap menampilkan nama dan ikon Proton VPN bawaan. %1$s</string>
     <string name="settings_icon_change_learn_more">Pelajari lebih lanjut</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
@@ -269,6 +278,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protokol</string>
+    <string name="tv_dialog_delete_server_title">Hapus server %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorit</string>
     <string name="tv_detail_connect_streaming">Tonton dengan Plus</string>
     <string name="tv_detail_connect">Hubungkan</string>
@@ -501,6 +511,15 @@
     <string name="upsell_card_streaming_description">Tonton berbagai film dan tayangan TV kesayangan Anda</string>
     <string name="upsell_card_tor_title">Tor via VPN</string>
     <string name="upsell_card_tor_description">Sandingkan jaringan Tor dengan koneksi VPN Anda untuk privasi yang lebih</string>
+    <string name="upsell_tv_all_countries_title">Akses seluruh negara dengan Plus</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Dapatkan akses ke %1$s server aman di %2$s negara. %3$s</string>
+    <string name="upsell_tv_netshield_title">Nikmati penjelajahan tanpa iklan dengan Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Blokir iklan, pelacak, dan malware dengan <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Dapatkan yang terbaik dari koneksi VPN dan non-VPN dengan Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Pisahkan lalu lintas jaringan Anda ke dalam tunnel VPN dan non-VPN dengan <b>split tunneling</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Dapatkan fitur kustomisasi VPN lanjutan dengan Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Dapatkan akses ke <b>koneksi LAN</b>, <b>DNS Khusus</b>, dan lebih banyak fitur VPN canggih lainnya. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Kunjungi situs web Proton VPN untuk meningkatkan paket Anda.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -973,6 +992,8 @@
     <string name="gateways_title">Gateway</string>
     <string name="countries_title">Negara</string>
     <string name="profiles_title">Profil</string>
+    <string name="settings_autoconnect_title">Penghubungan otomatis</string>
+    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Fitur</string>
     <!-- tag(Redesign_2023) -->
@@ -1286,6 +1307,7 @@
     <string name="settings_account_button_my_account">Akun saya</string>
     <string name="settings_account_button_delete_account">Hapus akun</string>
     <string name="settings_custom_dns_title">DNS khusus</string>
+    <string name="settings_custom_dns_description_tv">Hubungkan diri Anda ke VPN dengan nama domain (DNS) milik pihak ketiga atau yang dikelola secara mandiri.</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Tambah server DNS baru</string>
     <string name="settings_add_dns_new_entry_button">Tambah</string>
@@ -1301,6 +1323,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">Segala perubahan akan diterapkan pada saat Anda menghubungkan ulang</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield akan tidak tersedia</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShiled tidak dapat menyaring iklan, pelacak, dan malware pada saat DNS khusus sedang digunakan. Pelajari lebih lanjut</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield tidak dapat menyaring iklan, pelacak, dan malware pada saat DNS khusus sedang digunakan.</string>
     <string name="settings_advanced_alternative_routing_title">Pengalihan lalu lintas alternatif</string>
     <string name="settings_advanced_alternative_routing_description">Apabila layanan Proton diblokir akibat pembatasan jaringan, kami akan mencoba untuk menggunakan rute jaringan alternatif demi menghubungkan Anda ke situs kami.</string>
     <string name="settings_advanced_allow_lan_title">Koneksi LAN</string>
@@ -1356,11 +1379,14 @@
     <string name="settings_needs_reconnect_banner">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">DNS khusus tidak tersedia</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Perangkat Anda menggunakan DNS pihak ketiga, yang mencegah DNS Khusus Proton VPN untuk dapat berfungsi. Pelajari lebih lanjut</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Perangkat Anda menggunakan DNS pihak ketiga, yang mencegah DNS Khusus milik Proton VPN untuk dapat berfungsi.</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield tidak tersedia</string>
     <string name="private_dns_conflict_banner_netshield_description">Perangkat Anda menggunakan DNS pihak ketiga, yang mencegah NetShield untuk dapat berfungsi. Pelajari lebih lanjut</string>
     <string name="private_dns_conflict_banner_network_settings_button">Pengaturan jaringan</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield tidak tersedia</string>
     <string name="custom_dns_conflict_banner_netshield_description">DNS khusus sedang diaktifkan, yang mencegah NetShield untuk dapat berfungsi. Pelajari lebih lanjut</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Nonaktifkan DNS khusus untuk menggunakan NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">DNS khusus sedang diaktifkan, yang mencegah NetShield untuk dapat berfungsi.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Nonaktifkan DNS khusus</string>
     <string name="info_secure_core_standard_high_privacy">Privasi tinggi</string>
     <string name="info_secure_core_standard_lower_latency">Latensi rendah</string>
@@ -1454,11 +1480,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Baru</string>
     <string name="create_profile_auto_open_url_input_label">URL situs web</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Gunakan mode penjelajahan pribadi</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Nonaktifkan</string>
+    <string name="profile_auto_open_app_failed_to_launch">Sambung dan Luncurkan: aplikasi tidak ditemukan</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">Aktif</string>
+    <string name="profile_auto_open_website">Buka situs web</string>
+    <string name="profile_auto_open_app">Buka aplikasi</string>
     <string name="create_profile_auto_open_description">Membuka situs web yang Anda tentukan secara otomatis pada saat Anda terhubung ke profil ini.</string>
+    <string name="create_profile_auto_open_app_input_hint">Pilih aplikasi</string>
+    <string name="create_profile_auto_open_app_input_label">Aplikasi</string>
+    <string name="create_profile_auto_open_app_no_apps">Tidak ada aplikasi yang ditemukan.</string>
     <string name="profile_auto_open_error_invalid_url">Masukkan URL yang valid</string>
     <string name="nps_how_likely_question">Seberapa terdorongkah Anda untuk menyarankan Proton VPN kepada teman atau kolega Anda?</string>
     <string name="nps_additional_comment_title">Beri tahu kami mengapa Anda memberikan penilaian tersebut</string>

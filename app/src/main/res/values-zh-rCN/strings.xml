@@ -94,6 +94,9 @@
     <string name="something_went_wrong">出错了</string>
     <string name="try_again">重试</string>
     <string name="delete">删除</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Move to top</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">上移</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">下移</string>
     <string name="remove">移除</string>
     <string name="saveButton">保存</string>
     <string name="ipWithPlaceholder">IP：%1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">使用统计</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[这些统计数据不包含您的IP地址，且无法用于识别您的身份。我们绝不会与第三方共享这些数据。<a href="%1$s">了解详情</a>]]></string>
     <string name="netshield_settings_description_not_html">保护自己免受网站和应用上的广告、恶意软件和跟踪器的侵害。%1$s</string>
-    <string name="netshield_settings_description_tv">网站上、应用中，为您抵御广告、恶意软件和跟踪器的侵扰。</string>
+    <string name="netshield_settings_description_tv">Protects you from third-party ads, trackers, and malware. NetShield doesn\'t block ads that are built into streaming services like YouTube and Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">How NetShield works</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield blocks DNS requests to third-party domains known for ads, trackers, and malware.</item>
+        <item>This means you won\'t receive ads from your browser or free apps that use third-party ad services.</item>
+        <item>However, it can\'t block ads from streaming platforms like YouTube and Netflix, because their ads come from their own servers.</item>
+    </string-array>
     <string name="settings_icon_change_description">把 Proton VPN 的应用图标伪装成其他类型的应用。通知仍会显示默认的 Proton VPN 名称和图标。%1$s</string>
     <string name="settings_icon_change_learn_more">了解详情</string>
     <string name="learn_more">了解详情</string>
@@ -269,6 +278,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">拆分隧道</string>
     <string name="tv_card_protocol_label">协议</string>
+    <string name="tv_dialog_delete_server_title">删除伺服器 %1$s？</string>
     <string name="tv_detail_default_connection_checkbox_short">收藏</string>
     <string name="tv_detail_connect_streaming">开通 Plus 串流</string>
     <string name="tv_detail_connect">连接</string>
@@ -501,6 +511,15 @@
     <string name="upsell_card_streaming_description">看你想看的电影电视</string>
     <string name="upsell_card_tor_title">经 Tor 连接 VPN</string>
     <string name="upsell_card_tor_description">经 Tor 网络，连接 VPN，更强隐私</string>
+    <string name="upsell_tv_all_countries_title">使用 Plus 即可连接到所有国家</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Unlock %1$s secure servers in %2$s countries. %3$s</string>
+    <string name="upsell_tv_netshield_title">使用 Plus 享受无广告浏览</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[使用 <b>NetShield</b> 屏蔽广告，跟踪器与恶意软件。%1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">使用 Plus，两全其美</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[通过<b>拆分隧道</b>功能，将您的流量分为 VPN 隧道流量与非 VPN 隧道流量。 %1$s]]></string>
+    <string name="upsell_tv_customization_title">Get advanced VPN customization with Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">前往 Proton VPN 网站已升级您的套餐。</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -973,6 +992,8 @@
     <string name="gateways_title">网关</string>
     <string name="countries_title">国家</string>
     <string name="profiles_title">收藏</string>
+    <string name="settings_autoconnect_title">自动连接</string>
+    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">功能</string>
     <!-- tag(Redesign_2023) -->
@@ -1286,6 +1307,7 @@
     <string name="settings_account_button_my_account">我的账户</string>
     <string name="settings_account_button_delete_account">删除账号</string>
     <string name="settings_custom_dns_title">自定义DNS</string>
+    <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">添加新的DNS服务器</string>
     <string name="settings_add_dns_new_entry_button">添加</string>
@@ -1301,6 +1323,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">更改将在您重新连接后生效</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield防护功能即将暂停</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">当您使用自定义DNS时，NetShield将无法拦截广告、跟踪器和恶意软件。了解详情</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">当您使用自定义 DNS 时，NetShield 将无法拦截广告，跟踪器与恶意软件。</string>
     <string name="settings_advanced_alternative_routing_title">备用线路</string>
     <string name="settings_advanced_alternative_routing_description">倘若网络限制拦截了 Proton 服务，我们将用备用网络路线把你连到你要去的地方。</string>
     <string name="settings_advanced_allow_lan_title">LAN 连接</string>
@@ -1356,11 +1379,14 @@
     <string name="settings_needs_reconnect_banner">新设置应用于下次连接。</string>
     <string name="private_dns_conflict_banner_custom_dns_title">自定义DNS不可用</string>
     <string name="private_dns_conflict_banner_custom_dns_description">您的设备正在使用第三方DNS服务，导致Proton VPN的自定义DNS功能无法生效。了解详情</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">您的设备正在使用第三方 DNS 服务，导致 Proton VPN 的自定义 DNS 功能无法生效。</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield 不可用</string>
     <string name="private_dns_conflict_banner_netshield_description">您的设备当前使用的第三方DNS服务导致NetShield无法正常运作。了解详情</string>
     <string name="private_dns_conflict_banner_network_settings_button">网络配置</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield不可用</string>
     <string name="custom_dns_conflict_banner_netshield_description">检测到您启用了自定义DNS服务器，这将导致NetShield防护功能失效。了解详情</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">关闭自定义 DNS 以使用 NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">自定义 DNS 目前已启用，这将导致 NetShield 防护功能生效。</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">关闭自定义 DNS</string>
     <string name="info_secure_core_standard_high_privacy">隐私性高</string>
     <string name="info_secure_core_standard_lower_latency">延迟较低</string>
@@ -1454,11 +1480,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">新版本</string>
     <string name="create_profile_auto_open_url_input_label">网站 URL</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Use private browsing mode</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">关闭</string>
+    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">已启用</string>
+    <string name="profile_auto_open_website">Open a website</string>
+    <string name="profile_auto_open_app">Open an app</string>
     <string name="create_profile_auto_open_description">当您连接到此配置文件时，将自动打开您选择的网站。</string>
+    <string name="create_profile_auto_open_app_input_hint">Select an app</string>
+    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
     <string name="profile_auto_open_error_invalid_url">输入一个有效的 URL</string>
     <string name="nps_how_likely_question">您向朋友或同事推荐 Proton VPN 的可能性有多大？</string>
     <string name="nps_additional_comment_title">请告诉我们您为何给予这样的评价</string>

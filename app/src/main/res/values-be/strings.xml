@@ -94,6 +94,9 @@
     <string name="something_went_wrong">Нешта пайшло не так</string>
     <string name="try_again">Паспрабаваць яшчэ раз</string>
     <string name="delete">Выдаліць</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Перамясціць на самы верх</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Перамясціць уверх</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Перамясціць уніз</string>
     <string name="remove">Выдаліць</string>
     <string name="saveButton">Захаваць</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">Статыстыка выкарыстання</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="netshield_settings_description_not_html">Абараніце сябе ад рэкламы, шкодных праграм, праграм сачэння ў інтэрнэце і на камп\'ютары. %1$s</string>
-    <string name="netshield_settings_description_tv">Абараніце сябе ад рэкламы, шкодных праграм, праграм сачэння ў інтэрнэце і на камп\'ютары.</string>
+    <string name="netshield_settings_description_tv">Абараняе вас ад старонняй рэкламы, праграм сачэння і шкодных праграм. NetShield не блакіруе рэкламу, якая ўбудавана ў такія сэрвісы прагляду, як YouTube і Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Як працуе NetShield</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield блакіруе запыты DNS да старонніх даменаў рэкламнага характару, праграм сачэння і шкодных праграм.</item>
+        <item>Гэта азначае, што ў вашым браўзеры будзе адсутнічаць рэклама або бясплатныя праграмы, якія выкарыстоўваюць староннія рэкламныя сэрвісы.</item>
+        <item>Аднак дадзеная функцыя не можа блакіраваць рэкламу з такіх платформ, як YouTube і Netflix, бо гэту рэкламу трансліруюць іх уласныя серверы.</item>
+    </string-array>
     <string name="settings_icon_change_description">Замаскіраваць праграму Proton VPN з дапамогай непрыметнага значка. Апавяшчэнні як і раней будуць адлюстроўваць прадвызначаную назву Proton VPN і значок. %1$s</string>
     <string name="settings_icon_change_learn_more">Даведацца больш</string>
     <string name="learn_more">Даведацца больш</string>
@@ -275,6 +284,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">Пратакол</string>
+    <string name="tv_dialog_delete_server_title">Выдаліць сервер %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Абраная</string>
     <string name="tv_detail_connect_streaming">Трансляцыя з Plus</string>
     <string name="tv_detail_connect">Падключыцца</string>
@@ -549,6 +559,15 @@
     <string name="upsell_card_streaming_description">Глядзіце свае абраныя фільмы і тэлеперадачы</string>
     <string name="upsell_card_tor_title">Tor праз VPN</string>
     <string name="upsell_card_tor_description">Выкарыстоўвайце сетку Tor праз ваша падключэнне да VPN для дадатковай прыватнасці</string>
+    <string name="upsell_tv_all_countries_title">Доступ да ўсіх краін з Plus</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Разблакіруйце %1$s бяспечныя серверы ў %2$s краінах. %3$s</string>
+    <string name="upsell_tv_netshield_title">Праглядайце старонкі без рэкламы з дапамогай Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Блакіруйце рэкламу, праграмы сачэння і шкодныя праграмы з дапамогай <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Атрымлівайце лепшае ад абодвух светаў з Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[З функцыяй <b>Split Tunneling</b> вы зможаце дзяліць свой трафік на той, які будзе праходзіць праз тунэлі VPN і на той, які будзе абыходзіцца без іх. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Атрымайце пашыраныя налады VPN з Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Разблакіруйце <b>падключэнні па LAN</b>, <b>карыстальніцкія DNS</b> і дадатковыя функцыі VPN. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Перайдзіце на вэб-сайт Proton VPN, каб палепшыць свой тарыфны план.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -1048,6 +1067,8 @@
     <string name="gateways_title">Шлюзы</string>
     <string name="countries_title">Краіны</string>
     <string name="profiles_title">Профілі</string>
+    <string name="settings_autoconnect_title">Аўтаматычнае падключэнне</string>
+    <string name="settings_autoconnect_boot_description">Аўтаматычна падключае вас да VPN, выкарыстоўваючы хуткае падключэнне, як толькі ваша прылада запусціцца.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Функцыі</string>
     <!-- tag(Redesign_2023) -->
@@ -1394,6 +1415,7 @@
     <string name="settings_account_button_my_account">Мой уліковы запіс</string>
     <string name="settings_account_button_delete_account">Выдаліць уліковы запіс</string>
     <string name="settings_custom_dns_title">Карыстальніцкія DNS</string>
+    <string name="settings_custom_dns_description_tv">Падключайцеся да VPN з уласнай або старонняй сістэмай даменных імён (DNS).</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Дадаць новы сервер DNS</string>
     <string name="settings_add_dns_new_entry_button">Дадаць</string>
@@ -1409,6 +1431,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">Змены будуць ужытыя пасля перападключэння</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield будзе недаступны</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield не зможа адфільтраваць рэкламу, праграмы сачэння і шкодныя праграмы, калі выкарыстоўваецца карыстальніцкі DNS. Даведацца больш</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield не зможа адфільтраваць рэкламу, праграмы сачэння і шкодныя праграмы, калі выкарыстоўваецца карыстальніцкі DNS.</string>
     <string name="settings_advanced_alternative_routing_title">Альтэрнатыўная маршрутызацыя</string>
     <string name="settings_advanced_alternative_routing_description">Калі сэрвісы Proton заблакіраваны па прычыне абмежаванняў сеткі, мы паспрабуем скарыстацца альтэрнатыўным сеткавым маршрутам для падключэння да нашых сайтаў.</string>
     <string name="settings_advanced_allow_lan_title">Падключэнні па лакальнай сетцы</string>
@@ -1464,11 +1487,14 @@
     <string name="settings_needs_reconnect_banner">Новыя налады будуць ужыты пры наступным падключэнні.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Карыстальніцкі DNS недаступны</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Ваша прылада выкарыстоўвае старонні DNS, які перашкаджае працы карыстальніцкаму DNS ад Proton VPN. Даведацца больш</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Ваша прылада выкарыстоўвае старонні DNS, які перашкаджае працы карыстальніцкаму DNS ад Proton VPN.</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield недаступны</string>
     <string name="private_dns_conflict_banner_netshield_description">Ваша прылада выкарыстоўвае старонні DNS, які перашкаджае працы NetShield. Даведацца больш</string>
     <string name="private_dns_conflict_banner_network_settings_button">Налады сеткі</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield недаступны</string>
     <string name="custom_dns_conflict_banner_netshield_description">Карыстальніцкі DNS уключаны і гэта перашкаджае працы NetShield. Даведацца больш</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Выключыць карыстальніцкі DNS, каб выкарыстоўваць NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">Карыстальніцкі DNS уключаны і гэта перашкаджае працы NetShield.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Выключыце карыстальніцкі DNS</string>
     <string name="info_secure_core_standard_high_privacy">Высокая прыватнасць</string>
     <string name="info_secure_core_standard_lower_latency">Ніжэйшая затрымка</string>
@@ -1562,11 +1588,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Новае</string>
     <string name="create_profile_auto_open_url_input_label">Вэб-сайт URL-адраса</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Выкарыстоўваць рэжым прыватнага прагляду</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Выключана</string>
+    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: праграма не знойдзена</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">Укл</string>
+    <string name="profile_auto_open_website">Адкрыць вэб-сайт</string>
+    <string name="profile_auto_open_app">Адкрыць праграму</string>
     <string name="create_profile_auto_open_description">Аўтаматычна адкрываць выбраны вэб-сайт пры падключэнні да гэтага профілю.</string>
+    <string name="create_profile_auto_open_app_input_hint">Выбраць праграму</string>
+    <string name="create_profile_auto_open_app_input_label">Праграма</string>
+    <string name="create_profile_auto_open_app_no_apps">Праграмы не знойдзены.</string>
     <string name="profile_auto_open_error_invalid_url">Увядзіце сапраўдны URL-адрас</string>
     <string name="nps_how_likely_question">З якой верагоднасцю вы парэкамендуеце Proton VPN сябрам або калегам?</string>
     <string name="nps_additional_comment_title">Растлумачце, чаму вы так нас ацанілі</string>

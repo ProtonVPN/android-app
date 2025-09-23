@@ -94,6 +94,9 @@
     <string name="something_went_wrong">Alguna cosa ha anat malament.</string>
     <string name="try_again">Torna-ho a provar</string>
     <string name="delete">Elimina</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Mou a l\'inici</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Mou cap amunt</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Mou cap avall</string>
     <string name="remove">Esborra</string>
     <string name="saveButton">Desa</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">Estadístiques d\'ús</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Aquestes estadístiques no contenen la vostra adreça IP i no es poden utilitzar per identificar-vos. Mai les compartirem amb tercers. <a href="%1$s">Més informació</a>]]></string>
     <string name="netshield_settings_description_not_html">Protegiu-vos dels anuncis, programari maliciós, rastrejadors en llocs web i aplicacions. %1$s</string>
-    <string name="netshield_settings_description_tv">Protegiu-vos d\'anuncis, programari maliciós i rastrejadors de llocs web i aplicacions.</string>
+    <string name="netshield_settings_description_tv">Us protegeix dels anuncis de tercers, rastrejadors i programari maliciós. NetShield no bloqueja anuncis integrats en serveis de reproducció en continu com YouTube i Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Com funciona NetShield</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield bloqueja les sol·licituds DNS a dominis de tercers coneguts per anuncis, rastrejadors i programari maliciós.</item>
+        <item>Això vol dir que no rebreu anuncis del navegador o aplicacions gratuïtes que utilitzin serveis d\'anuncis de tercers.</item>
+        <item>No obstant això, no pot bloquejar els anuncis de plataformes de reproducció en continu com YouTube i Netflix, perquè provenen dels seus propis servidors.</item>
+    </string-array>
     <string name="settings_icon_change_description">Opteu per una icona més discreta per a l\'aplicació Proton VPN. Les notificacions sempre mostraran el nom i la icona de Proton VPN per defecte. %1$s</string>
     <string name="settings_icon_change_learn_more">Més informació</string>
     <string name="learn_more">Més informació</string>
@@ -271,6 +280,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Tunelització dividida</string>
     <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_dialog_delete_server_title">Voleu eliminar el servidor %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorit</string>
     <string name="tv_detail_connect_streaming">Feu estríming amb Plus</string>
     <string name="tv_detail_connect">Connecta</string>
@@ -517,6 +527,15 @@
     <string name="upsell_card_streaming_description">Mireu les vostres pel·lícules i programes de televisió preferits</string>
     <string name="upsell_card_tor_title">Tor sobre VPN</string>
     <string name="upsell_card_tor_description">Utilitzeu la xarxa Tor a través de la vostra connexió VPN per a una privacitat addicional</string>
+    <string name="upsell_tv_all_countries_title">Accediu a tots els països amb Plus</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Desbloquegeu %1$s servidors segurs a %2$s països. %3$s</string>
+    <string name="upsell_tv_netshield_title">Gaudiu d\'una navegació sense anuncis amb Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Bloquegeu anuncis, rastrejadors i programari maliciós amb <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Aconseguiu el millor dels dos mons amb Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Dividiu el trànsit en túnels VPN i no VPN amb la <b>tunelització dividida</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Aconseguiu una personalització avançada de VPN amb Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Desbloquegeu <b>connexions LAN</b>, <b>DNS personalitzades</b> i funcions VPN més avançades.%1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Aneu al lloc web de Proton VPN per millorar el vostre pla.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -998,6 +1017,8 @@
     <string name="gateways_title">Passarel·les</string>
     <string name="countries_title">Països</string>
     <string name="profiles_title">Perfils</string>
+    <string name="settings_autoconnect_title">Connexió automàtica</string>
+    <string name="settings_autoconnect_boot_description">Us connecta automàticament a la VPN utilitzant la connexió ràpida un cop hagi arrencat el vostre dispositiu.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Característiques</string>
     <!-- tag(Redesign_2023) -->
@@ -1322,6 +1343,7 @@
     <string name="settings_account_button_my_account">El meu compte</string>
     <string name="settings_account_button_delete_account">Eliminar el compte</string>
     <string name="settings_custom_dns_title">DNS personalitzat</string>
+    <string name="settings_custom_dns_description_tv">Connecteu-vos a la VPN amb un sistema de noms de domini (DNS) autoallotjats o de tercers.</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Afegeix un nou servidor DNS</string>
     <string name="settings_add_dns_new_entry_button">Afegeix</string>
@@ -1337,6 +1359,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">Els canvis s\'apliquen quan us torneu a connectar.</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield no estarà disponible.</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield no pot filtrar anuncis, rastrejadors i programari maliciós quan s\'utilitza el DNS personalitzat. Més informació</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield no pot filtrar anuncis, rastrejadors i programari maliciós quan s\'utilitzin DNS personalitzats.</string>
     <string name="settings_advanced_alternative_routing_title">Encaminament alternatiu</string>
     <string name="settings_advanced_alternative_routing_description">Si els serveis de Proton estan bloquejats a causa de restriccions de xarxa, intentarem utilitzar un camí de xarxa alternatiu per connectar-vos als nostres llocs.</string>
     <string name="settings_advanced_allow_lan_title">Connexions LAN</string>
@@ -1392,11 +1415,14 @@
     <string name="settings_needs_reconnect_banner">La nova configuració s\'aplicarà la pròxima vegada que us connecteu.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">El DNS personalitzat no està disponible.</string>
     <string name="private_dns_conflict_banner_custom_dns_description">El vostre dispositiu utilitza un DNS de tercers que impedeix que el DNS personalitzat de Proton VPN funcioni. Més informació</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">El vostre dispositiu utilitza un DNS de tercers que impedeix que el DNS personalitzat de Proton VPN funcioni.</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield no està disponible.</string>
     <string name="private_dns_conflict_banner_netshield_description">El vostre dispositiu utilitza un DNS de tercers que impedeix que NetShield funcioni. Més informació</string>
     <string name="private_dns_conflict_banner_network_settings_button">Preferències de la xarxa</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield no està disponible.</string>
     <string name="custom_dns_conflict_banner_netshield_description">El DNS personalitzat està activat, cosa que impedeix que NetShield funcioni. Més informació</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Desactiveu el DNS personalitzat per a utilitzar NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">El DNS personalitzat està activat, cosa que impedeix que NetShield funcioni.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Desactiva el DNS personalitzat</string>
     <string name="info_secure_core_standard_high_privacy">Alta privacitat</string>
     <string name="info_secure_core_standard_lower_latency">Latència baixa</string>
@@ -1490,11 +1516,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nou</string>
     <string name="create_profile_auto_open_url_input_label">URL del lloc web</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Utilitzeu el mode de navegació privada</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Desactivat</string>
+    <string name="profile_auto_open_app_failed_to_launch">Connecteu-vos i aneu-hi: no s\'ha trobat cap aplicació</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">Activat</string>
+    <string name="profile_auto_open_website">Obriu un lloc web</string>
+    <string name="profile_auto_open_app">Obriu una aplicació</string>
     <string name="create_profile_auto_open_description">Obriu automàticament el lloc web que trieu quan us connecteu a aquest perfil.</string>
+    <string name="create_profile_auto_open_app_input_hint">Seleccioneu una aplicació</string>
+    <string name="create_profile_auto_open_app_input_label">Aplicació</string>
+    <string name="create_profile_auto_open_app_no_apps">No s\'ha trobat cap aplicació.</string>
     <string name="profile_auto_open_error_invalid_url">Introduïu un URL vàlid</string>
     <string name="nps_how_likely_question">Amb quina probabilitat recomanaríeu Proton VPN a un amic o col·lega?</string>
     <string name="nps_additional_comment_title">Feu-nos saber per què heu donat aquesta puntuació.</string>

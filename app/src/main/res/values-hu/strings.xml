@@ -94,6 +94,9 @@
     <string name="something_went_wrong">Valamilyen hiba történt</string>
     <string name="try_again">Próbálja újra</string>
     <string name="delete">Törlés</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Move to top</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Move up</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Move down</string>
     <string name="remove">Eltávolítás</string>
     <string name="saveButton">Mentés</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">Használati statisztikák</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ezek a statisztikák nem tartalmazzák az IP-címét, és nem használhatók fel az azonosítására. Soha nem osztjuk meg ezeket harmadik felekkel. <a href="%1$s">További információk</a>]]></string>
     <string name="netshield_settings_description_not_html">Védekezzen a hirdetések, követők és rosszindulatú szoftverek ellen a weboldalakon és alkalmazásokban. %1$s</string>
-    <string name="netshield_settings_description_tv">Protect yourself from ads, malware, and trackers on websites and apps.</string>
+    <string name="netshield_settings_description_tv">Protects you from third-party ads, trackers, and malware. NetShield doesn\'t block ads that are built into streaming services like YouTube and Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">How NetShield works</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield blocks DNS requests to third-party domains known for ads, trackers, and malware.</item>
+        <item>This means you won\'t receive ads from your browser or free apps that use third-party ad services.</item>
+        <item>However, it can\'t block ads from streaming platforms like YouTube and Netflix, because their ads come from their own servers.</item>
+    </string-array>
     <string name="settings_icon_change_description">Álcázza a Proton VPN alkalmazást egy diszkrét ikonnal. Az értesítések továbbra is az alapértelmezett Proton VPN nevet és ikont fogják megjeleníteni. %1$s</string>
     <string name="settings_icon_change_learn_more">További információk</string>
     <string name="learn_more">További információk</string>
@@ -271,6 +280,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Osztott alagút</string>
     <string name="tv_card_protocol_label">Protokoll</string>
+    <string name="tv_dialog_delete_server_title">Delete server %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Kedvenc</string>
     <string name="tv_detail_connect_streaming">Videózás a Plus csomaggal</string>
     <string name="tv_detail_connect">Kapcsolódás</string>
@@ -517,6 +527,15 @@
     <string name="upsell_card_streaming_description">Nézze kedvenc filmjeit és tévéműsorait</string>
     <string name="upsell_card_tor_title">Tor VPN-en</string>
     <string name="upsell_card_tor_description">Használja a Tor hálózatot a VPN kapcsolatán keresztül, extra adatvédelemért</string>
+    <string name="upsell_tv_all_countries_title">Access all countries with Plus</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Unlock %1$s secure servers in %2$s countries. %3$s</string>
+    <string name="upsell_tv_netshield_title">Enjoy ad-free browsing with Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Get the best of both worlds with Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Get advanced VPN customization with Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Go to the Proton VPN website to upgrade your plan.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -998,6 +1017,8 @@
     <string name="gateways_title">Átjárók</string>
     <string name="countries_title">Országok</string>
     <string name="profiles_title">Profilok</string>
+    <string name="settings_autoconnect_title">Auto-connect</string>
+    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Jellemzők</string>
     <!-- tag(Redesign_2023) -->
@@ -1322,6 +1343,7 @@
     <string name="settings_account_button_my_account">Saját fiók</string>
     <string name="settings_account_button_delete_account">Fiók törlése</string>
     <string name="settings_custom_dns_title">Egyéni DNS</string>
+    <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Új DNS szerver hozzáadása</string>
     <string name="settings_add_dns_new_entry_button">Hozzáadás</string>
@@ -1337,6 +1359,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">A változtatások újracsatlakozáskor lépnek életbe</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">A NetShield nem lesz elérhető</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">A NetShield nem tudja kiszűrni a hirdetéseket, nyomkövetőket és rosszindulatú programokat, amikor egyéni DNS-t használ. További információk</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield can not filter out ads, trackers and malware when custom DNS is used.</string>
     <string name="settings_advanced_alternative_routing_title">Alternatív útválasztás</string>
     <string name="settings_advanced_alternative_routing_description">Ha a Proton szolgáltatásai hálózati korlátozások miatt blokkolva vannak, ez a megoldás alternatív útvonalakat használ a rendszereink elérésére.</string>
     <string name="settings_advanced_allow_lan_title">LAN kapcsolatok</string>
@@ -1392,11 +1415,14 @@
     <string name="settings_needs_reconnect_banner">A beállítások a következő kapcsolódáskor lépnek életbe.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Egyéni DNS nem elérhető</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Az eszköz harmadik féltől származó DNS-t használ, ami megakadályozza a Proton VPN egyéni DNS-ének működését. További információk</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working.</string>
     <string name="private_dns_conflict_banner_netshield_title">A NetShield nem elérhető</string>
     <string name="private_dns_conflict_banner_netshield_description">Az eszköz harmadik féltől származó DNS-t használ, ami megakadályozza a NetShield működését. További információk</string>
     <string name="private_dns_conflict_banner_network_settings_button">Hálózati beállítások</string>
     <string name="custom_dns_conflict_banner_netshield_title">A NetShield nem elérhető</string>
     <string name="custom_dns_conflict_banner_netshield_description">Az egyéni DNS engedélyezve van, ami megakadályozza a NetShield működését. További információk</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Turn off custom DNS to use NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">Custom DNS is enabled which prevents NetShield from working.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Egyéni DNS kikapcsolása</string>
     <string name="info_secure_core_standard_high_privacy">Magas adatvédelem</string>
     <string name="info_secure_core_standard_lower_latency">Alacsonyabb késleltetés</string>
@@ -1490,11 +1516,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Új</string>
     <string name="create_profile_auto_open_url_input_label">Weboldal URL</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Use private browsing mode</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Ki</string>
+    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">Be</string>
+    <string name="profile_auto_open_website">Open a website</string>
+    <string name="profile_auto_open_app">Open an app</string>
     <string name="create_profile_auto_open_description">Automatikusan megnyit egy választott weboldalt, amikor ezzel a profillal kapcsolódik.</string>
+    <string name="create_profile_auto_open_app_input_hint">Select an app</string>
+    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
     <string name="profile_auto_open_error_invalid_url">Adjon meg egy érvényes URL-t</string>
     <string name="nps_how_likely_question">Milyen valószínűséggel ajánlaná a Proton VPN-t egy barátjának vagy kollégájának?</string>
     <string name="nps_additional_comment_title">Kérjük, írja meg miért adta ezt az értékelést</string>

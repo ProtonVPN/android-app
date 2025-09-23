@@ -94,6 +94,9 @@
     <string name="something_went_wrong">不具合が発生しました。</string>
     <string name="try_again">再試行</string>
     <string name="delete">削除</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">最上部へ移動</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">上へ移動</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">下へ移動</string>
     <string name="remove">削除</string>
     <string name="saveButton">保存</string>
     <string name="ipWithPlaceholder">IP アドレス: %1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">使用統計</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[この統計にあなたの IP アドレスは含まれず、あなたを特定することはできません。この統計は第三者に共有しません。<a href="%1$s">詳細</a>]]></string>
     <string name="netshield_settings_description_not_html">ウェブサイトやアプリの使用中に、広告、マルウェア、トラッカーから身を守りましょう。 %1$s</string>
-    <string name="netshield_settings_description_tv">ウェブサイトやアプリの使用中に、広告やマルウェア、追跡から保護</string>
+    <string name="netshield_settings_description_tv">お客様をサードパーティの広告、トラッカー、マルウェアから保護します。NetShieldは、YouTubeやNetflixのようなストリーミングサービスに組み込まれた広告をブロックしません。</string>
+    <string name="netshield_settings_more_info_title_tv">NetShieldの仕組み</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShieldは、広告、トラッカー、マルウェアとして知られるサードパーティのドメインへのDNSリクエストをブロックします。</item>
+        <item>これは、お客様のブラウザや、サードパーティの広告サービスを使用している無料アプリからの広告が表示されなくなることを意味します。</item>
+        <item>ただし、YouTubeやNetflixのようなストリーミングプラットフォームからの広告はブロックできません。それらの広告は独自のサーバーから配信されるためです。</item>
+    </string-array>
     <string name="settings_icon_change_description">Proton VPNアプリを目立たないアイコンで偽装します。通知には引き続きデフォルトのProton VPNの名前とアイコンが表示されます。%1$s</string>
     <string name="settings_icon_change_learn_more">より詳しく</string>
     <string name="learn_more">より詳しく</string>
@@ -269,6 +278,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">スプリットトンネル</string>
     <string name="tv_card_protocol_label">プロトコル</string>
+    <string name="tv_dialog_delete_server_title">サーバー %1$s を削除しますか？</string>
     <string name="tv_detail_default_connection_checkbox_short">お気に入り</string>
     <string name="tv_detail_connect_streaming">PLUS でストリーミング</string>
     <string name="tv_detail_connect">接続</string>
@@ -501,6 +511,15 @@
     <string name="upsell_card_streaming_description">お気に入りの映画やTV番組を見る</string>
     <string name="upsell_card_tor_title">VPN経由Tor</string>
     <string name="upsell_card_tor_description">VPN接続にTorネットワークを使用することで、プライバシーをさらに守ることができます</string>
+    <string name="upsell_tv_all_countries_title">Plusですべての国にアクセス</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">%2$sか国にある%1$s台の安全なサーバーをご利用いただけます。%3$s</string>
+    <string name="upsell_tv_netshield_title">Plus で広告なしのブラウジングを体験</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[<b>NetShield</b> で広告、トラッカー、マルウェアをブロックします。 %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Plusで両方の利点を最大限に活用</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[<b>スプリットトンネル</b>を使用して、トラフィックをVPNトンネルと非VPNトンネルに分割します。%1$s]]></string>
+    <string name="upsell_tv_customization_title">Plusで高度なVPNカスタマイズを利用</string>
+    <string name="upsell_tv_customization_description"><![CDATA[<b>LAN 接続</b>、<b>カスタム DNS</b>、およびより高度な VPN 機能 をアンロックします。%1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Proton VPNのウェブサイトにアクセスして、プランをアップグレードしてください。</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -973,6 +992,8 @@
     <string name="gateways_title">ゲートウェイ</string>
     <string name="countries_title">国</string>
     <string name="profiles_title">プロファイル</string>
+    <string name="settings_autoconnect_title">自動接続</string>
+    <string name="settings_autoconnect_boot_description">お客様のデバイスが起動すると、クイック接続を使用してVPNに自動的に接続します。</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">機能</string>
     <!-- tag(Redesign_2023) -->
@@ -1286,6 +1307,7 @@
     <string name="settings_account_button_my_account">マイアカウント</string>
     <string name="settings_account_button_delete_account">アカウントを削除する</string>
     <string name="settings_custom_dns_title">カスタム DNS</string>
+    <string name="settings_custom_dns_description_tv">セルフホストまたはサードパーティ製のドメインネームシステム(DNS)を使用してVPNに接続します。</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">新しいDNSサーバーを追加</string>
     <string name="settings_add_dns_new_entry_button">追加</string>
@@ -1301,6 +1323,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">再接続すると変更が適用されます</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield は利用できません</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">カスタムDNSが使用されている場合、NetShieldは広告、トラッカー、マルウェアを除外できません。詳細はこちら</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">カスタムDNSが使用されている場合、NetShieldは広告、トラッカー、マルウェアを除外できません。</string>
     <string name="settings_advanced_alternative_routing_title">代替ルーティング</string>
     <string name="settings_advanced_alternative_routing_description">ネットワーク制限により Proton サービスがブロックされている場合は、代替ネットワーク ルーティングを使用してサイトに接続しようとします。</string>
     <string name="settings_advanced_allow_lan_title">LAN 接続</string>
@@ -1356,11 +1379,14 @@
     <string name="settings_needs_reconnect_banner">新しい設定は次の接続から適用されます。</string>
     <string name="private_dns_conflict_banner_custom_dns_title">カスタム DNS は利用できません</string>
     <string name="private_dns_conflict_banner_custom_dns_description">お使いのデバイスはサードパーティ製のDNSを使用しており、Proton VPNのカスタムDNSが動作しないようにしています。詳細はこちら</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">お客様のデバイスはサードパーティ製のDNSを使用しており、Proton VPNのカスタムDNSが動作しないようにしています。</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield は利用できません</string>
     <string name="private_dns_conflict_banner_netshield_description">お使いのデバイスはサードパーティ製のDNSを使用しており、NetShieldが動作しないようにしています。詳細はこちら</string>
     <string name="private_dns_conflict_banner_network_settings_button">ネットワーク設定</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield は利用できません</string>
     <string name="custom_dns_conflict_banner_netshield_description">NetShield が動作しないようにするカスタム DNS が有効になっています。詳細はこちら</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">NetShield を使用するには、カスタム DNS をオフにしてください。</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">NetShield が動作しないようにするカスタム DNS が有効になっています。</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">カスタム DNS をオフにします</string>
     <string name="info_secure_core_standard_high_privacy">高いプライバシー</string>
     <string name="info_secure_core_standard_lower_latency">低レイテンシー</string>
@@ -1454,11 +1480,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">新着情報</string>
     <string name="create_profile_auto_open_url_input_label">ウェブサイトURL</string>
+    <string name="create_profile_auto_open_url_private_mode_label">プライベートブラウジングモードを使用</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">オフ</string>
+    <string name="profile_auto_open_app_failed_to_launch">接続して起動: アプリが見つかりません</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">有効</string>
+    <string name="profile_auto_open_website">ウェブサイトを開く</string>
+    <string name="profile_auto_open_app">アプリを開く</string>
     <string name="create_profile_auto_open_description">このプロファイルに接続した際、あなたが選んだウェブサイトが自動的に開きます。</string>
+    <string name="create_profile_auto_open_app_input_hint">アプリを選択</string>
+    <string name="create_profile_auto_open_app_input_label">アプリ</string>
+    <string name="create_profile_auto_open_app_no_apps">アプリが見つかりません。</string>
     <string name="profile_auto_open_error_invalid_url">有効なURLを入力してください</string>
     <string name="nps_how_likely_question">ProtonVPNを友人や同僚に推奨する可能性はどれくらいですか?</string>
     <string name="nps_additional_comment_title">評価の理由を教えてください</string>

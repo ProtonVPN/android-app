@@ -94,6 +94,9 @@
     <string name="something_went_wrong">Ceva nu a funcționat corect</string>
     <string name="try_again">Reîncercați</string>
     <string name="delete">Ștergere</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Mutare la început</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Mutare în sus</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Mutare în jos</string>
     <string name="remove">Eliminare</string>
     <string name="saveButton">Salvare</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">Statistici de utilizare</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Aceste statistici nu vă conțin adresa IP și nu pot fi utilizate să vă identifice. Nu le vom partaja cu terțe părți. <a href="%1$s">Detalii</a>]]></string>
     <string name="netshield_settings_description_not_html">Vă protejați de reclame, malware și instrumente de urmărire de pe site-uri și aplicații. %1$s</string>
-    <string name="netshield_settings_description_tv">Vă protejați de reclame, malware și instrumente de urmărire de pe site-uri și aplicații.</string>
+    <string name="netshield_settings_description_tv">Vă protejează de reclame de la terțe părți, de instrumente de urmărire și de programe malițioase. NetShield nu blochează reclamele încorporate în serviciile de transmisie în flux, cum ar fi YouTube și Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Cum funcționează NetShield</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield blochează solicitările DNS către domenii terțe parte cunoscute pentru reclame, instrumente de urmărire și programe malițioase.</item>
+        <item>Aceasta înseamnă că nu veți primi reclame în navigatorul web sau aplicații gratuite care utilizează servicii de publicitate terță parte.</item>
+        <item>Totuși, nu poate bloca reclamele de pe platformele de transmisie în flux precum YouTube și Netflix, deoarece reclamele lor provin de pe propriile servere.</item>
+    </string-array>
     <string name="settings_icon_change_description">Deghizați aplicația Proton VPN cu o pictogramă discretă. Notificările vor afișa în continuare numele și pictograma implicite Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Detalii</string>
     <string name="learn_more">Detalii</string>
@@ -273,6 +282,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Divizare trafic</string>
     <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_dialog_delete_server_title">Ștergeți serverul %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorită</string>
     <string name="tv_detail_connect_streaming">Transmisii în flux cu Plus</string>
     <string name="tv_detail_connect">Conectare</string>
@@ -533,6 +543,15 @@
     <string name="upsell_card_streaming_description">Vizionați filmele și emisiunile TV favorite</string>
     <string name="upsell_card_tor_title">Tor prin VPN</string>
     <string name="upsell_card_tor_description">Utilizați rețeaua Tor prin conexiunea VPN pentru intimitate suplimentară</string>
+    <string name="upsell_tv_all_countries_title">Accesați toate țările cu Plus</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Deblocați %1$s servere sigure în %2$s țări. %3$s</string>
+    <string name="upsell_tv_netshield_title">Bucurați-vă de navigarea fără reclame cu Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Blocați reclamele, uneltele de urmărire și programele malițioase cu <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Obțineți maxim din ambele lumi cu Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divizați-vă traficul în tuneluri VPN și non-VPN cu funcția de <b>divizare trafic</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Obțineți personalizări VPN avansate cu Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Deblocați <b>Conexiunile în LAN</b>, <b>DNS-urile personale</b> și mai multe funcții VPN avansate. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Accesați site-ul web Proton VPN pentru a vă modifica planul.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -1023,6 +1042,8 @@
     <string name="gateways_title">Porți de acces</string>
     <string name="countries_title">Țări</string>
     <string name="profiles_title">Profiluri</string>
+    <string name="settings_autoconnect_title">Conectare automată</string>
+    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funcții</string>
     <!-- tag(Redesign_2023) -->
@@ -1358,6 +1379,7 @@
     <string name="settings_account_button_my_account">Contul meu</string>
     <string name="settings_account_button_delete_account">Ștergere cont</string>
     <string name="settings_custom_dns_title">DNS personal</string>
+    <string name="settings_custom_dns_description_tv">Conectare la VPN cu un sistem de nume de domenii (DNS) autogăzduit sau terță parte.</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Adăugare server DNS</string>
     <string name="settings_add_dns_new_entry_button">Adăugare</string>
@@ -1373,6 +1395,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">Modificările se vor aplica după reconectare</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield va fi indisponibil</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield nu poate filtra reclame, instrumente de urmărire și malițioase când se folosește un DNS personal. Detalii</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield nu poate filtra reclamele, uneltele de urmărire și programele malițioase când se folosește un DNS personal.</string>
     <string name="settings_advanced_alternative_routing_title">Rută alternativă</string>
     <string name="settings_advanced_alternative_routing_description">Dacă serviciile Proton sunt blocate din cauza restricțiilor de rețea, vom încerca să utilizăm o rută alternativă de rețea pentru a vă conecta la site-urile noastre.</string>
     <string name="settings_advanced_allow_lan_title">Conexiuni LAN</string>
@@ -1428,11 +1451,14 @@
     <string name="settings_needs_reconnect_banner">Noile setări vor fi aplicate la următoarea conectare.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">DNS-ul personal nu este disponibil</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Dispozitivul folosește un DNS terță-parte care împiedică funcționarea DNS-ului personal din Proton VPN. Detalii</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Acest dispozitiv folosește un DNS terță parte care împiedică funcționarea DNS-ului personal din Proton VPN.</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield nu este disponibil</string>
     <string name="private_dns_conflict_banner_netshield_description">Dispozitivul folosește un DNS terță-parte care împiedică NetShield să funcționeze. Detalii</string>
     <string name="private_dns_conflict_banner_network_settings_button">Setări rețea</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield nu este disponibil</string>
     <string name="custom_dns_conflict_banner_netshield_description">DNS-ul personal este activat și împiedică funcționarea NetShield. Detalii</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Dezactivați DNS-ul personal pentru a utiliza NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">DNS-ul personal este activat și împiedică funcționarea NetShield.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Opriți DNS-ul personal</string>
     <string name="info_secure_core_standard_high_privacy">Intimitate mare</string>
     <string name="info_secure_core_standard_lower_latency">Latență scăzută</string>
@@ -1526,11 +1552,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nou</string>
     <string name="create_profile_auto_open_url_input_label">URL Website</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Use private browsing mode</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Oprită</string>
+    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">Pornită</string>
+    <string name="profile_auto_open_website">Open a website</string>
+    <string name="profile_auto_open_app">Open an app</string>
     <string name="create_profile_auto_open_description">Deschidere automată a unei pagini web alese când vă conectați la acest profil.</string>
+    <string name="create_profile_auto_open_app_input_hint">Select an app</string>
+    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
     <string name="profile_auto_open_error_invalid_url">Introduceți un URL valid</string>
     <string name="nps_how_likely_question">Cât de probabil este să recomandați Proton VPN unui prieten sau coleg?</string>
     <string name="nps_additional_comment_title">Vă rugăm să ne spuneți de ce ați acordat această evaluare</string>

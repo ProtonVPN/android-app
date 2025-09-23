@@ -94,6 +94,9 @@
     <string name="something_went_wrong">Något gick fel</string>
     <string name="try_again">Försök igen</string>
     <string name="delete">Ta bort</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Flytta till toppen</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Flytta upp</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Flytta ner</string>
     <string name="remove">Ta bort</string>
     <string name="saveButton">Spara</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">Användningsstatistik</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Denna statistik innehåller inte din IP-adress och den kan inte användas för att identifiera dig. Vi kommer aldrig att dela den med tredje part. <a href="%1$s">Lär dig mer</a>]]></string>
     <string name="netshield_settings_description_not_html">Skydda dig själv från annonser, skadlig kod och spårare på webbplatser och appar. %1$s</string>
-    <string name="netshield_settings_description_tv">Skydda dig själv från annonser, skadlig kod och spårare på webbplatser och appar.</string>
+    <string name="netshield_settings_description_tv">Skyddar dig från annonser från tredje part, spårare och skadlig kod. NetShield blockerar inte annonser som är inbyggda i streamingtjänster som YouTube och Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Hur NetShield fungerar</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield blockerar DNS-förfrågningar till domäner från tredje part kända för annonser, spårare och skadlig kod.</item>
+        <item>Det betyder att du inte kommer få annonser från din webbläsare eller gratisappar som använder annonstjänster från tredje part.</item>
+        <item>Den kan dock inte blockera annonser från streamingplattformar som YouTube och Netflix, eftersom deras annonser kommer från deras egna servrar.</item>
+    </string-array>
     <string name="settings_icon_change_description">Maskera Proton VPN-appen med en diskret ikon. Aviseringar kommer fortfarande visa standardnamnet och ikonen för Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Lär dig mer</string>
     <string name="learn_more">Lär dig mer</string>
@@ -271,6 +280,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protokoll</string>
+    <string name="tv_dialog_delete_server_title">Ta bort server %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorit</string>
     <string name="tv_detail_connect_streaming">Streama med Plus</string>
     <string name="tv_detail_connect">Anslut</string>
@@ -517,6 +527,15 @@
     <string name="upsell_card_streaming_description">Titta på dina favoritfilmer och TV-program</string>
     <string name="upsell_card_tor_title">Tor över VPN</string>
     <string name="upsell_card_tor_description">Använd Tor-nätverket över din VPN-anslutning för extra integritet</string>
+    <string name="upsell_tv_all_countries_title">Åtkomst till alla länder med Plus</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Lås upp %1$s säkra servrar i %2$s länder. %3$s</string>
+    <string name="upsell_tv_netshield_title">Njut av annonsfri surfning med Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Blockera annonser, spårare och skadlig programvara med <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Få det bästa av båda världar med Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Dela upp din trafik i VPN- och icke-VPN-tunnlar med <b>split tunneling</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Få avancerade VPN-anpassningar med Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Lås upp <b>LAN-anslutningar</b>, <b>anpassad DNS</b> och mer avancerade VPN-funktioner. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Gå till Proton VPN-webbplatsen för att uppgradera ditt paket.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -998,6 +1017,8 @@
     <string name="gateways_title">Gateways</string>
     <string name="countries_title">Länder</string>
     <string name="profiles_title">Profiler</string>
+    <string name="settings_autoconnect_title">Anslut automatiskt</string>
+    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funktioner</string>
     <!-- tag(Redesign_2023) -->
@@ -1322,6 +1343,7 @@
     <string name="settings_account_button_my_account">Mitt konto</string>
     <string name="settings_account_button_delete_account">Ta bort konto</string>
     <string name="settings_custom_dns_title">Anpassad DNS</string>
+    <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Lägg till ny DNS-server</string>
     <string name="settings_add_dns_new_entry_button">Lägg till</string>
@@ -1337,6 +1359,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">Ändringar tillämpas när du ansluter igen</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield kommer vara otillgänglig</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield kan inte filtrera bort annonser, spårare och skadlig kod när anpassad DNS används. Lär dig mer</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield kan inte filtrera bort annonser, spårare och skadlig kod när anpassad DNS används.</string>
     <string name="settings_advanced_alternative_routing_title">Alternativ routing</string>
     <string name="settings_advanced_alternative_routing_description">Om Proton-tjänster blockeras på grund av nätverksbegränsningar kommer vi försöka använda alternativ nätverksdirigering för att ansluta dig till våra webbplatser.</string>
     <string name="settings_advanced_allow_lan_title">LAN-anslutningar</string>
@@ -1392,11 +1415,14 @@
     <string name="settings_needs_reconnect_banner">Nya inställningar kommer tillämpas nästa gång du ansluter.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Anpassad DNS är inte tillgänglig</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Din enhet använder en tredjeparts-DNS som hindrar Proton VPN:s anpassade DNS från att fungera. Lär dig mer</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Din enhet använder DNS från tredje part vilket förhindrar Proton VPN:s anpassade DNS att fungera.</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield är otillgänglig</string>
     <string name="private_dns_conflict_banner_netshield_description">Din enhet använder en DNS från tredje part vilket hindrar NetShield från att fungera. Lär dig mer</string>
     <string name="private_dns_conflict_banner_network_settings_button">Nätverksinställningar</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield är otillgänglig</string>
     <string name="custom_dns_conflict_banner_netshield_description">Anpassad DNS är aktiverad vilket hindrar NetShield från att fungera. Lär dig mer</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Stäng av anpassad DNS för att använda NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">Anpassad DNS är aktiverad vilket hindrar NetShield att fungera.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Stäng av anpassad DNS</string>
     <string name="info_secure_core_standard_high_privacy">Hög integritet</string>
     <string name="info_secure_core_standard_lower_latency">Lägre latens</string>
@@ -1490,11 +1516,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nytt</string>
     <string name="create_profile_auto_open_url_input_label">Webbplats-URL</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Använd privat surfläge</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Av</string>
+    <string name="profile_auto_open_app_failed_to_launch">Anslut och kör: applikation hittades inte</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">På</string>
+    <string name="profile_auto_open_website">Öppna en webbplats</string>
+    <string name="profile_auto_open_app">Öppna en app</string>
     <string name="create_profile_auto_open_description">Öppna en valfri webbplats automatiskt när du ansluter till denna profil.</string>
+    <string name="create_profile_auto_open_app_input_hint">Välj en app</string>
+    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_no_apps">Inga appar hittades.</string>
     <string name="profile_auto_open_error_invalid_url">Ange en giltig URL</string>
     <string name="nps_how_likely_question">Hur troligt är det att du kommer att rekommendera Proton VPN till en vän eller kollega?</string>
     <string name="nps_additional_comment_title">Berätta gärna varför du gav oss det betyget</string>

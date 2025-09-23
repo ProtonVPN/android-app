@@ -94,6 +94,9 @@
     <string name="something_went_wrong">Niečo sa pokazilo</string>
     <string name="try_again">Skús znova</string>
     <string name="delete">Vymazať</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Presunúť na začiatok</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Presunúť hore</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Presunúť dole</string>
     <string name="remove">Odstrániť</string>
     <string name="saveButton">Uložiť</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">Štatistiky používania</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Tieto štatistiky neobsahujú vašu IP adresu a nemôžu byť použité na vašu identifikáciu. Nikdy ich nebudeme zdieľať s tretími stranami. <a href="%1$s">Zistiť viac</a>]]></string>
     <string name="netshield_settings_description_not_html">Chráňte sa pred reklamami, malvérom a sledovačmi na webových stránkach a v aplikáciách. %1$s</string>
-    <string name="netshield_settings_description_tv">Chráňte sa pred reklamou, malware a sledovacími prvkami na weboch a v aplikáciách.</string>
+    <string name="netshield_settings_description_tv">Chráni vás pred reklamami tretích strán, sledovacími nástrojmi a škodlivým softvérom. NetShield neblokuje reklamy, ktoré sú integrované do streamovacích služieb, ako sú YouTube a Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Ako funguje NetShield</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield blokuje DNS požiadavky na domény tretích strán, ktoré sú známe reklamami, sledovacími modulmi a škodlivým softvérom.</item>
+        <item>To znamená, že nebudete dostávať reklamy z prehliadača ani bezplatných aplikácií, ktoré používajú reklamné služby tretích strán.</item>
+        <item>Nemôže však blokovať reklamy zo streamovacích platforiem, ako sú YouTube a Netflix, pretože ich reklamy pochádzajú z ich vlastných serverov.</item>
+    </string-array>
     <string name="settings_icon_change_description">Zamaskujte aplikáciu Proton VPN diskrétnou ikonou. V oznámeniach sa bude stále zobrazovať predvolený názov a ikona Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Zistiť viac</string>
     <string name="learn_more">Zistiť viac</string>
@@ -275,6 +284,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Rozdelené tunelovanie</string>
     <string name="tv_card_protocol_label">Protokol</string>
+    <string name="tv_dialog_delete_server_title">Vymazať server %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Obľúbené</string>
     <string name="tv_detail_connect_streaming">Streamovať s Plus</string>
     <string name="tv_detail_connect">Pripojiť</string>
@@ -549,6 +559,15 @@
     <string name="upsell_card_streaming_description">Pozerajte vaše obľúbené filmy a televízne relácie</string>
     <string name="upsell_card_tor_title">Tor cez VPN</string>
     <string name="upsell_card_tor_description">Použite sieť Tor nad vaším VPN pripojením pre väčšie súkromie</string>
+    <string name="upsell_tv_all_countries_title">Prístup ku všetkým krajinám s Plus</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Odomknite %1$s bezpečných serverov v %2$s krajinách. %3$s</string>
+    <string name="upsell_tv_netshield_title">Vychutnajte si prehliadanie bez reklám s Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Blokujte reklamy, sledovače a malvér pomocou nástroja <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Získajte to najlepšie z oboch svetov s Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Rozdeľte svoju prevádzku na VPN tunely a iné ako VPN pomocou <b>rozdeleného tunelovania</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Získajte pokročilé prispôsobenia VPN s Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Odomknite <b>LAN pripojenia</b>, <b>vlastné DNS</b> a pokročilejšie VPN funkcie. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Prejdite na webovú stránku Proton VPN, aby ste si zvýšili úroveň svojho plánu.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -1048,6 +1067,8 @@
     <string name="gateways_title">Brány</string>
     <string name="countries_title">Krajiny</string>
     <string name="profiles_title">Profily</string>
+    <string name="settings_autoconnect_title">Automatické pripojenie</string>
+    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funkcie</string>
     <!-- tag(Redesign_2023) -->
@@ -1394,6 +1415,7 @@
     <string name="settings_account_button_my_account">Môj účet</string>
     <string name="settings_account_button_delete_account">Zmazať účet</string>
     <string name="settings_custom_dns_title">Vlastné DNS</string>
+    <string name="settings_custom_dns_description_tv">Pripojenie k VPN pomocou vlastného systému doménových názvov (DNS) alebo systému názvov domén tretích strán.</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Pridať nový DNS server</string>
     <string name="settings_add_dns_new_entry_button">Pridať</string>
@@ -1409,6 +1431,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">Zmeny sa uplatnia po opätovnom pripojení</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield bude nedostupný</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield nedokáže odfiltrovať reklamy, sledovače a malvér, ak používate vlastnú DNS. Zistite viac</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield nedokáže odfiltrovať reklamy, sledovače a malvér, ak používate vlastnú DNS.</string>
     <string name="settings_advanced_alternative_routing_title">Alternatívne smerovanie</string>
     <string name="settings_advanced_alternative_routing_description">Ak sú služby spoločnosti Proton zablokované z dôvodu sieťových obmedzení, pokúsime sa na pripojenie k našim stránkam použiť alternatívne sieťové smerovanie.</string>
     <string name="settings_advanced_allow_lan_title">LAN pripojenia</string>
@@ -1464,11 +1487,14 @@
     <string name="settings_needs_reconnect_banner">Nové nastavenia sa aplikujú pri ďalšom pripojení.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Vlastné DNS je nodstupné</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Vaše zariadenie používa DNS tretej strany, ktoré zabraňuje fungovaniu vlastného DNS Proton VPN. Zistite viac</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Vaše zariadenie používa DNS tretej strany, ktoré zabraňuje fungovaniu vlastného DNS Proton VPN.</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield je nedostupný</string>
     <string name="private_dns_conflict_banner_netshield_description">Vaše zariadenie používa DNS tretej strany, ktorý bráni funkcii NetShield. Zistite viac</string>
     <string name="private_dns_conflict_banner_network_settings_button">Nastavenia siete</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield je nedostupný</string>
     <string name="custom_dns_conflict_banner_netshield_description">Je povolená vlastná DNS, ktorá bráni funkčnosti služby NetShield. Zistite viac</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Vypnite vlastné DNS na použitie NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">Je povolená vlastná DNS, ktorá bráni funkčnosti služby NetShield.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Vypnúť vlastné DNS</string>
     <string name="info_secure_core_standard_high_privacy">Väčšie súkromie</string>
     <string name="info_secure_core_standard_lower_latency">Nižšia latencia</string>
@@ -1562,11 +1588,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nové</string>
     <string name="create_profile_auto_open_url_input_label">URL webovej stránky</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Use private browsing mode</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Vyp.</string>
+    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">Zap.</string>
+    <string name="profile_auto_open_website">Open a website</string>
+    <string name="profile_auto_open_app">Open an app</string>
     <string name="create_profile_auto_open_description">Po pripojení k tomuto profilu sa automaticky otvorí webová stránka podľa vášho výberu.</string>
+    <string name="create_profile_auto_open_app_input_hint">Select an app</string>
+    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
     <string name="profile_auto_open_error_invalid_url">Zadajte platnú URL adresu</string>
     <string name="nps_how_likely_question">Aká je pravdepodobnosť, že odporučíte Proton VPN svojmu priateľovi alebo kolegovi?</string>
     <string name="nps_additional_comment_title">Dajte nám, prosím, vedieť, prečo ste udelili toto hodnotenie</string>

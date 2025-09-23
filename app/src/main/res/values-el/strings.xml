@@ -94,6 +94,9 @@
     <string name="something_went_wrong">Κάτι πήγε στραβά</string>
     <string name="try_again">Προσπαθήστε ξανά</string>
     <string name="delete">Διαγραφή</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Μετακίνηση στην κορυφή</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Μετακίνηση προς τα πάνω</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Μετακίνηση προς τα κάτω</string>
     <string name="remove">Αφαίρεση</string>
     <string name="saveButton">Αποθήκευση</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -217,7 +220,13 @@
     <string name="settingsTelemetryScreenTitle">Στατιστικά χρήσης</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Αυτά τα στατιστικά στοιχεία δεν περιέχουν τη διεύθυνση IP σας και δεν μπορούν να χρησιμοποιηθούν για την αναγνώρισή σας. Δε θα τα μοιραστούμε ποτέ με τρίτους. <a href="%1$s">Μάθετε περισσότερα</a>]]></string>
     <string name="netshield_settings_description_not_html">Προστατευτείτε από διαφημίσεις, κακόβουλο λογισμικό και ιχνηλάτες σε ιστοσελίδες και εφαρμογές. %1$s</string>
-    <string name="netshield_settings_description_tv">Προστατευτείτε από διαφημίσεις, κακόβουλο λογισμικό και ιχνηλάτες σε ιστότοπους και εφαρμογές.</string>
+    <string name="netshield_settings_description_tv">Σας προστατεύει από διαφημίσεις τρίτων, προγράμματα παρακολούθησης και κακόβουλο λογισμικό. Το NetShield δεν αποκλείει διαφημίσεις που είναι ενσωματωμένες σε υπηρεσίες ροής όπως το YouTube και το Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Πώς λειτουργεί το NetShield</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>Το NetShield αποκλείει τα αιτήματα DNS σε τομείς τρίτων που είναι γνωστοί για διαφημίσεις, προγράμματα παρακολούθησης και κακόβουλο λογισμικό.</item>
+        <item>Αυτό σημαίνει ότι δε θα λαμβάνετε διαφημίσεις από το πρόγραμμα περιήγησής σας ή από δωρεάν εφαρμογές που χρησιμοποιούν διαφημιστικές υπηρεσίες τρίτων.</item>
+        <item>Ωστόσο, δεν μπορεί να μπλοκάρει διαφημίσεις από πλατφόρμες ροής όπως το YouTube και το Netflix, επειδή οι διαφημίσεις τους προέρχονται από τους δικούς τους διακομιστές</item>
+    </string-array>
     <string name="settings_icon_change_description">Μεταμφιέστε την εφαρμογή Proton VPN με ένα διακριτικό εικονίδιο. Οι ειδοποιήσεις θα εξακολουθούν να εμφανίζουν το προεπιλεγμένο όνομα και εικονίδιο Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Μάθετε περισσότερα</string>
     <string name="learn_more">Μάθετε περισσότερα</string>
@@ -271,6 +280,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Διαίρεση σήραγγας</string>
     <string name="tv_card_protocol_label">Πρωτόκολλο</string>
+    <string name="tv_dialog_delete_server_title">Διαγραφή διακομιστή %1$s;</string>
     <string name="tv_detail_default_connection_checkbox_short">Αγαπημένο</string>
     <string name="tv_detail_connect_streaming">Stream με Plus</string>
     <string name="tv_detail_connect">Σύνδεση</string>
@@ -517,6 +527,15 @@
     <string name="upsell_card_streaming_description">Παρακολουθήστε τις αγαπημένες σας ταινίες και τηλεοπτικές εκπομπές</string>
     <string name="upsell_card_tor_title">Tor μέσω VPN</string>
     <string name="upsell_card_tor_description">Χρησιμοποιήστε το δίκτυο Tor μέσω της σύνδεσής σας VPN για επιπλέον ιδιωτικότητα</string>
+    <string name="upsell_tv_all_countries_title">Πρόσβαση σε όλες τις χώρες με το Plus</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Ξεκλειδώστε %1$s ασφαλείς διακομιστές σε %2$s χώρες. %3$s</string>
+    <string name="upsell_tv_netshield_title">Απολαύστε περιήγηση χωρίς διαφημίσεις με το Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Αποκλεισμός διαφημίσεων, ιχνηλατών και κακόβουλου λογισμικού με το <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Αποκτήστε τα καλύτερα και από τους δύο κόσμους με το Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Χωρίστε την κίνησή σας σε σήραγγες VPN και μη VPN με <b>διαίρεση σήραγγας</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Αποκτήστε προηγμένες δυνατότητες προσαρμογής VPN με το Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Ξεκλειδώστε τις <b>συνδέσεις LAN</b>, <b>προσαρμοσμένο DNS</b> και πιο προηγμένες λειτουργίες VPN. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Μεταβείτε στον ιστότοπο του Proton VPN για να αναβαθμίσετε το πακέτο σας.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -998,6 +1017,8 @@
     <string name="gateways_title">Πύλες</string>
     <string name="countries_title">Χώρες</string>
     <string name="profiles_title">Προφίλ</string>
+    <string name="settings_autoconnect_title">Αυτόματη σύνδεση</string>
+    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Χαρακτηριστικά</string>
     <!-- tag(Redesign_2023) -->
@@ -1322,6 +1343,7 @@
     <string name="settings_account_button_my_account">Ο λογαριασμός μου</string>
     <string name="settings_account_button_delete_account">Διαγραφή λογαριασμού</string>
     <string name="settings_custom_dns_title">Προσαρμοσμένος DNS</string>
+    <string name="settings_custom_dns_description_tv">Συνδεθείτε στο VPN με ένα σύστημα ονομάτων τομέα (DNS) αυτο-φιλοξενούμενο ή τρίτου κατασκευαστή.</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Προσθήκη νέου διακομιστή DNS</string>
     <string name="settings_add_dns_new_entry_button">Προσθήκη</string>
@@ -1337,6 +1359,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">Οι αλλαγές εφαρμόζονται όταν επανασυνδεθήτε</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">Το NetShield δε θα είναι διαθέσιμο</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">Το NetShield δεν μπορεί να φιλτράρει διαφημίσεις, ιχνηλάτες και κακόβουλο λογισμικό όταν χρησιμοποιείται προσαρμοσμένο DNS. Μάθετε περισσότερα</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">Το NetShield δεν μπορεί να φιλτράρει διαφημίσεις, ιχνηλάτες και κακόβουλο λογισμικό όταν χρησιμοποιείται προσαρμοσμένο DNS.</string>
     <string name="settings_advanced_alternative_routing_title">Εναλλακτική δρομολόγηση</string>
     <string name="settings_advanced_alternative_routing_description">Εάν οι υπηρεσίες Proton αποκλειστούν λόγω περιορισμών δικτύου, θα προσπαθήσουμε να χρησιμοποιήσουμε εναλλακτική δρομολόγηση δικτύου για να σας συνδέσουμε στους ιστότοπούς μας.</string>
     <string name="settings_advanced_allow_lan_title">Τοπικές συνδέσεις (LAN)</string>
@@ -1392,11 +1415,14 @@
     <string name="settings_needs_reconnect_banner">Οι νέες ρυθμίσεις θα εφαρμοστούν την επόμενη φορά που θα συνδεθείτε.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Το προσαρμοσμένο DNS δεν είναι διαθέσιμο</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Η συσκευή σας χρησιμοποιεί DNS τρίτου κατασκευαστή που εμποδίζει τη λειτουργία του προσαρμοσμένου DNS του Proton VPN. Μάθετε περισσότερα</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Η συσκευή σας χρησιμοποιεί DNS τρίτου κατασκευαστή που εμποδίζει τη λειτουργία του προσαρμοσμένου DNS του Proton VPN.</string>
     <string name="private_dns_conflict_banner_netshield_title">Το NetShield δεν είναι διαθέσιμο</string>
     <string name="private_dns_conflict_banner_netshield_description">Η συσκευή σας χρησιμοποιεί DNS τρίτου κατασκευαστή που εμποδίζει τη λειτουργία του NetShield. Μάθετε περισσότερα</string>
     <string name="private_dns_conflict_banner_network_settings_button">Ρυθμίσεις δικτύου</string>
     <string name="custom_dns_conflict_banner_netshield_title">Το NetShield δεν είναι διαθέσιμο</string>
     <string name="custom_dns_conflict_banner_netshield_description">Είναι ενεργοποιημένο το προσαρμοσμένο DNS που εμποδίζει τη λειτουργία του NetShield. Μάθετε περισσότερα</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Απενεργοποιήστε το προσαρμοσμένο DNS για να χρησιμοποιήσετε το NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">Είναι ενεργοποιημένο το προσαρμοσμένο DNS που εμποδίζει τη λειτουργία του NetShield.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Απενεργοποίηση προσαρμοσμένου DNS</string>
     <string name="info_secure_core_standard_high_privacy">Υψηλή ιδιωτικότητα</string>
     <string name="info_secure_core_standard_lower_latency">Χαμηλότερη αδράνεια</string>
@@ -1490,11 +1516,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Νέα</string>
     <string name="create_profile_auto_open_url_input_label">URL Ιστοσελίδας</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Χρησιμοποιήστε τη λειτουργία ιδιωτικής περιήγησης</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Ανενεργό</string>
+    <string name="profile_auto_open_app_failed_to_launch">Σύνδεση και Εκκίνηση: η εφαρμογή δε βρέθηκε</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">Ενεργό</string>
+    <string name="profile_auto_open_website">Ανοίξτε μια ιστοσελίδα</string>
+    <string name="profile_auto_open_app">Ανοίξτε την εφαρμογή</string>
     <string name="create_profile_auto_open_description">Αυτόματο άνοιγμα της επιλεγμένης ιστοσελίδας κατά τη σύνδεσή σας σε αυτό το προφίλ.</string>
+    <string name="create_profile_auto_open_app_input_hint">Επιλέξτε μια εφαρμογή</string>
+    <string name="create_profile_auto_open_app_input_label">Εφαρμογή</string>
+    <string name="create_profile_auto_open_app_no_apps">Δε βρέθηκαν εφαρμογές.</string>
     <string name="profile_auto_open_error_invalid_url">Εισάγετε μια έγκυρη διεύθυνση URL</string>
     <string name="nps_how_likely_question">Πόσο πιθανό είναι να προτείνετε το Proton VPN σε φίλους ή συνεργάτες;</string>
     <string name="nps_additional_comment_title">Παρακαλούμε αιτιολογήστε τη βαθμολογία σας.</string>
