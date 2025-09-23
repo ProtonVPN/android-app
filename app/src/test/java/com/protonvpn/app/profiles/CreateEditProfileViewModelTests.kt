@@ -178,7 +178,7 @@ class CreateEditProfileViewModelTests {
             currentUser,
             telemetry = profilesTelemetry,
             wallClock = { testScope.currentTime },
-            isPrivateBrowsingAvailable = { PrivateBrowsingAvailability.AvailableWithDefault }
+            getPrivateBrowsingAvailability = { PrivateBrowsingAvailability.AvailableWithDefault }
         )
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         serverManager = createInMemoryServerManager(
@@ -208,7 +208,7 @@ class CreateEditProfileViewModelTests {
             isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
             transientMustHaves = TransientMustHaves({ testScope.currentTime }),
             autoOpenAppInfoHelper = mockk(relaxed = true),
-            isPrivateBrowsingAvailable = { PrivateBrowsingAvailability.AvailableWithDefault },
+            getPrivateBrowsingAvailability = { PrivateBrowsingAvailability.AvailableWithDefault },
         )
         viewModel.localeFlow.value = Locale("en")
     }

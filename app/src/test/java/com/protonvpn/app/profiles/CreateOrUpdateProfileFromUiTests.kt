@@ -154,7 +154,7 @@ class CreateOrUpdateProfileFromUiTests {
             currentUser,
             telemetry = profilesTelemetry,
             wallClock = { testScope.currentTime },
-            isPrivateBrowsingAvailable = { PrivateBrowsingAvailability.AvailableWithDefault }
+            getPrivateBrowsingAvailability = { PrivateBrowsingAvailability.AvailableWithDefault }
         )
     }
 

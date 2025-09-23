@@ -34,7 +34,7 @@ import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.profiles.usecases.CreateOrUpdateProfileFromUi
-import com.protonvpn.android.profiles.usecases.IsPrivateBrowsingAvailable
+import com.protonvpn.android.profiles.usecases.GetPrivateBrowsingAvailability
 import com.protonvpn.android.profiles.usecases.PrivateBrowsingAvailability
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
@@ -252,7 +252,7 @@ class CreateEditProfileViewModel @Inject constructor(
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     private val transientMustHaves: TransientMustHaves,
     private val autoOpenAppInfoHelper: AutoOpenAppInfoHelper,
-    private val isPrivateBrowsingAvailable: IsPrivateBrowsingAvailable,
+    private val getPrivateBrowsingAvailability: GetPrivateBrowsingAvailability,
 ) : ViewModel() {
 
     private var editedProfileId: Long? = null
@@ -427,7 +427,7 @@ class CreateEditProfileViewModel @Inject constructor(
             isAutoOpenNew.first(),
             lanDirectConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled(),
             isPrivateDnsEnabled = isPrivateDnsActive,
-            isPrivateBrowsingAvailable = isPrivateBrowsingAvailable() != PrivateBrowsingAvailability.NotAvailable,
+            isPrivateBrowsingAvailable = getPrivateBrowsingAvailability() != PrivateBrowsingAvailability.NotAvailable,
         )
     }
 
@@ -450,7 +450,7 @@ class CreateEditProfileViewModel @Inject constructor(
 
     private suspend fun getSettingsScreenState(profile: Profile): SettingsScreenState {
         val intent = profile.connectIntent
-        val isPrivateBrowsingAvailable = isPrivateBrowsingAvailable() != PrivateBrowsingAvailability.NotAvailable
+        val isPrivateBrowsingAvailable = getPrivateBrowsingAvailability() != PrivateBrowsingAvailability.NotAvailable
         val directLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled()
         val defaultSettingScreenState = defaultSettingScreenState(
             isAutoOpenNew = isAutoOpenNew.first(),

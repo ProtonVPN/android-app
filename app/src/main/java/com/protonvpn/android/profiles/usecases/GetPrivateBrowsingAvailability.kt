@@ -35,17 +35,17 @@ enum class PrivateBrowsingAvailability {
     NotAvailable
 }
 
-fun interface IsPrivateBrowsingAvailable {
+fun interface GetPrivateBrowsingAvailability {
     suspend operator fun invoke(): PrivateBrowsingAvailability
 }
 
 private val EXAMPLE_URL = Uri.parse("https://proton.me")
 
 @Reusable
-class IsPrivateBrowsingAvailableImpl @Inject constructor(
+class GetPrivateBrowsingAvailabilityImpl @Inject constructor(
     @ApplicationContext val appContext: Context,
     val dispatcherProvider: VpnDispatcherProvider,
-) : IsPrivateBrowsingAvailable {
+) : GetPrivateBrowsingAvailability {
 
     override suspend operator fun invoke(): PrivateBrowsingAvailability = withContext(dispatcherProvider.Io) {
         when {

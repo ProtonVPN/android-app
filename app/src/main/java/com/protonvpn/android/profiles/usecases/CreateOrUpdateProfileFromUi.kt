@@ -44,7 +44,7 @@ class CreateOrUpdateProfileFromUi @Inject constructor(
     private val profilesDao: ProfilesDao,
     private val currentUser: CurrentUser,
     private val telemetry: ProfilesTelemetry,
-    private val isPrivateBrowsingAvailable: IsPrivateBrowsingAvailable,
+    private val getPrivateBrowsingAvailability: GetPrivateBrowsingAvailability,
     @WallClock private val wallClock: () -> Long,
 ) {
 
@@ -57,7 +57,7 @@ class CreateOrUpdateProfileFromUi @Inject constructor(
         createDuplicate: Boolean = false,
         routedFromSettings: Boolean = false,
     ) : Deferred<Profile?> = mainScope.async {
-        val privateBrowsingAvailability = isPrivateBrowsingAvailable()
+        val privateBrowsingAvailability = getPrivateBrowsingAvailability()
         currentUser.vpnUser()?.userId?.let { userId ->
             val existingProfile =
                 if (profileId == null) null else profilesDao.getProfileById(profileId)

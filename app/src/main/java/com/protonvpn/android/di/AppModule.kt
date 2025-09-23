@@ -60,8 +60,8 @@ import com.protonvpn.android.models.vpn.usecase.ProvideLocalNetworksImpl
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
-import com.protonvpn.android.profiles.usecases.IsPrivateBrowsingAvailable
-import com.protonvpn.android.profiles.usecases.IsPrivateBrowsingAvailableImpl
+import com.protonvpn.android.profiles.usecases.GetPrivateBrowsingAvailability
+import com.protonvpn.android.profiles.usecases.GetPrivateBrowsingAvailabilityImpl
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapterLegacy
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
@@ -427,7 +427,7 @@ object AppModule {
         fun bindIsIPv6FeatureFlagEnabled(impl: IsIPv6FeatureFlagEnabledImpl): IsIPv6FeatureFlagEnabled
 
         @Binds
-        fun bindsIsPrivateBrowsingAvailable(impl: IsPrivateBrowsingAvailableImpl): IsPrivateBrowsingAvailable
+        fun bindsIsPrivateBrowsingAvailable(impl: GetPrivateBrowsingAvailabilityImpl): GetPrivateBrowsingAvailability
 
         @Binds
         fun bindIsTvAutoConnectFeatureFlagEnabled(
