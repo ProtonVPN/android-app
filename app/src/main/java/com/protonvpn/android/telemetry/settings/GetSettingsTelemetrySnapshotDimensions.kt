@@ -6,6 +6,7 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.toTelemetry
 import com.protonvpn.android.theme.ThemeType
+import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.isIPv6
@@ -29,6 +30,7 @@ class GetSettingsTelemetrySnapshotDimensions @Inject constructor(
     private val isServerListTruncationEnabled: ServerListTruncationEnabled,
     private val recentsManager: RecentsManager,
     private val widgetTracker: WidgetTracker,
+    private val isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
 ) {
 
     suspend operator fun invoke(): Map<String, String> = buildMap {
@@ -121,6 +123,13 @@ class GetSettingsTelemetrySnapshotDimensions @Inject constructor(
             )
         }
 
+        if (isTvAutoConnectFeatureFlagEnabled()) {
+            put(
+                key = DIMENSION_AUTO_CONNECT_ENABLED,
+                value = settings.tvAutoConnectOnBoot.toTelemetry()
+            )
+        }
+
         commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
     }
 
@@ -181,6 +190,7 @@ class GetSettingsTelemetrySnapshotDimensions @Inject constructor(
 
     private companion object {
         private const val DIMENSION_APP_ICON = "app_icon"
+        private const val DIMENSION_AUTO_CONNECT_ENABLED = "is_auto_connect_enabled"
         private const val DIMENSION_DEFAULT_CONNECTION_TYPE = "default_connection_type"
         private const val DIMENSION_WIDGET_COUNT = "widget_count"
         private const val DIMENSION_FIRST_WIDGET_SIZE = "first_widget_size"

@@ -8,6 +8,7 @@ import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.settings.GetSettingsTelemetrySnapshotDimensions
 import com.protonvpn.android.theme.ThemeType
+import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.vpn.ConnectivityMonitor
@@ -90,6 +91,7 @@ class GetSettingsTelemetrySnapshotDimensionsTests {
             isServerListTruncationEnabled = FakeServerListTruncationEnabled(isServerListTruncationEnabledFlow),
             recentsManager = mockRecentsManager,
             widgetTracker = mockWidgetTracker,
+            isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true)
         )
 
         every { mockAppIconManager.getCurrentIconData() } returns CustomAppIconData.DEFAULT
@@ -374,6 +376,19 @@ class GetSettingsTelemetrySnapshotDimensionsTests {
         val dimensions = getSettingsTelemetrySnapshotDimensions()
 
         assertEquals(userTier, dimensions[CommonDimensions.Key.USER_TIER.reportedName])
+    }
+
+    @Test
+    fun `WHEN TV auto connect FF is enabled THEN auto_connect dimension is added`() = testScope.runTest {
+        listOf(
+            true to "true",
+            false to "false"
+        ).forEach { (isEnabled, expectedValue) ->
+            localUserSettingsFlow.value = LocalUserSettings(tvAutoConnectOnBoot = isEnabled)
+
+            val dimensions = getSettingsTelemetrySnapshotDimensions()
+            assertEquals(expectedValue, dimensions["is_auto_connect_enabled"])
+        }
     }
 
 }
