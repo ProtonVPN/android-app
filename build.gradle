@@ -59,7 +59,8 @@ buildscript {
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath "androidx.room:room-gradle-plugin:$room_version"
-        classpath 'com.android.compose.screenshot:screenshot-test-gradle-plugin:0.0.1-alpha11'
+        // The newest version fails on Windows: https://issuetracker.google.com/issues/422412664
+        classpath 'com.android.compose.screenshot:screenshot-test-gradle-plugin:0.0.1-alpha09'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

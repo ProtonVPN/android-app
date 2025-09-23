@@ -22,7 +22,6 @@
 package com.protonvpn.android.tests.profiles
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
@@ -113,6 +112,7 @@ fun ProfileFeaturesAndSettingsScreen() {
                 customDnsSettings = CustomDnsSettings(false),
                 isAutoOpenNew = false,
                 isPrivateDnsActive = false,
+                showPrivateBrowsing = true,
             ),
             onNext = {},
             onBack = {},
@@ -147,6 +147,7 @@ fun ProfileFeaturesAndSettingsScreenCustomDnsConflict() {
                 customDnsSettings = CustomDnsSettings(true, listOf("1.1.1.1")),
                 isAutoOpenNew = true,
                 isPrivateDnsActive = false,
+                showPrivateBrowsing = true,
             ),
             onNext = {},
             onBack = {},
