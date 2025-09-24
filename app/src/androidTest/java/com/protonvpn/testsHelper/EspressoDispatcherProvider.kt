@@ -68,8 +68,6 @@ class IdlingResourceDispatcher(
 ) : CoroutineDispatcher() {
     override fun dispatch(context: CoroutineContext, block: Runnable) {
         idlingResource.increment()
-        idlingResource.dumpStateToLogs()
-        Log.d("Idling", "Block $block")
         dispatcher.dispatch(
             context,
             Runnable {
@@ -77,7 +75,6 @@ class IdlingResourceDispatcher(
                     block.run()
                 } finally {
                     idlingResource.decrement()
-                    idlingResource.dumpStateToLogs()
                 }
             }
         )
