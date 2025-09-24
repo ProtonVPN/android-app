@@ -318,10 +318,10 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">%1$s%% φορτίο διακομιστή</string>
-    <string name="tv_recently_used_servers">Πρόσφατα χρησιμοποιημένοι διακομιστές (%1$d)</string>
-    <string name="tv_available_servers">Διαθέσιμοι διακομιστές (%1$d)</string>
-    <string name="tv_locked_servers">Κλειδωμένοι διακομιστές (%1$d)</string>
-    <string name="tv_other_servers">Άλλοι διακομιστές (%1$d)</string>
+    <string name="tv_recently_used_servers">Πρόσφατα χρησιμοποιημένοι διακομιστές</string>
+    <string name="tv_available_servers">Διαθέσιμοι διακομιστές</string>
+    <string name="tv_locked_servers">Κλειδωμένοι διακομιστές</string>
+    <string name="tv_other_servers">Άλλοι διακομιστές</string>
     <string name="tv_server_list">Λίστα διακομιστών</string>
     <string name="tv_server_list_action_unavailable">Μη διαθέσιμο</string>
     <string name="notification_subscription_expired_title">Η συνδρομή σας στο πλάνο του Proton VPN έχει λήξει</string>

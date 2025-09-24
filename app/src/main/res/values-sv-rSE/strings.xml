@@ -318,10 +318,10 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">%1$s %% serverbelastning</string>
-    <string name="tv_recently_used_servers">Nyligen använda servrar (%1$d)</string>
-    <string name="tv_available_servers">Tillgängliga servrar (%1$d)</string>
-    <string name="tv_locked_servers">Låsta servrar (%1$d)</string>
-    <string name="tv_other_servers">Andra servrar (%1$d)</string>
+    <string name="tv_recently_used_servers">Nyligen använda servrar</string>
+    <string name="tv_available_servers">Tillgängliga servrar</string>
+    <string name="tv_locked_servers">Låsta servrar</string>
+    <string name="tv_other_servers">Andra servrar</string>
     <string name="tv_server_list">Serverlista</string>
     <string name="tv_server_list_action_unavailable">Inte tillgänglig</string>
     <string name="notification_subscription_expired_title">Din Proton VPN-prenumerationspaket har löpt ut</string>

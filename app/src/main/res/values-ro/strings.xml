@@ -320,10 +320,10 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">%1$s %% încărcare server</string>
-    <string name="tv_recently_used_servers">Servere utilizate recent (%1$d)</string>
-    <string name="tv_available_servers">Servere disponibile (%1$d)</string>
-    <string name="tv_locked_servers">Servere blocate (%1$d)</string>
-    <string name="tv_other_servers">Alte servere (%1$d)</string>
+    <string name="tv_recently_used_servers">Servere utilizate recent</string>
+    <string name="tv_available_servers">Servere disponibile</string>
+    <string name="tv_locked_servers">Servere blocate</string>
+    <string name="tv_other_servers">Alte servere</string>
     <string name="tv_server_list">Listă servere</string>
     <string name="tv_server_list_action_unavailable">Indisponibil</string>
     <string name="notification_subscription_expired_title">Abonamentul Proton VPN a expirat</string>

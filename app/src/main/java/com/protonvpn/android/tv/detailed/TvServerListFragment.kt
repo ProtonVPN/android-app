@@ -130,17 +130,18 @@ class TvServerListFragment : BaseTvBrowseFragment() {
         index: Int
     ): Row {
         val listRowAdapter = ArrayObjectAdapter(ServersPresenterSelector(requireContext()))
-        for (server in servers)
-            listRowAdapter.add(server)
-        return ServersListRow(null, listRowAdapter, group, servers.size, index)
+
+        servers.forEach(listRowAdapter::add)
+
+        return ServersListRow(null, listRowAdapter, group, index)
     }
 
-    private fun TvServerListViewModel.ServerGroup.toLabel(count: Int) = when (this) {
-        TvServerListViewModel.ServerGroup.Recents -> getString(R.string.tv_recently_used_servers, count)
-        TvServerListViewModel.ServerGroup.Available -> getString(R.string.tv_available_servers, count)
-        TvServerListViewModel.ServerGroup.Locked -> getString(R.string.tv_locked_servers, count)
-        TvServerListViewModel.ServerGroup.Other -> getString(R.string.tv_other_servers, count)
-        is TvServerListViewModel.ServerGroup.City -> "$name ($count)"
+    private fun TvServerListViewModel.ServerGroup.toLabel() = when (this) {
+        TvServerListViewModel.ServerGroup.Recents -> getString(R.string.tv_recently_used_servers)
+        TvServerListViewModel.ServerGroup.Available -> getString(R.string.tv_available_servers)
+        TvServerListViewModel.ServerGroup.Locked -> getString(R.string.tv_locked_servers)
+        TvServerListViewModel.ServerGroup.Other -> getString(R.string.tv_other_servers)
+        is TvServerListViewModel.ServerGroup.City -> name
     }
 
     private class RowViewHolder(val binding: TvServerRowBinding, presenter: ListRowPresenter) :
@@ -167,10 +168,11 @@ class TvServerListFragment : BaseTvBrowseFragment() {
 
         override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any?) {
             super.onBindRowViewHolder(holder, item)
+
             with((holder as RowViewHolder).binding) {
-                this.rowLabel.text = (item as? ServersListRow)?.run {
-                    group.toLabel(count)
-                } ?: ""
+                this.rowLabel.text = (item as? ServersListRow)
+                    ?.run { group.toLabel() }
+                    .orEmpty()
             }
         }
     }
@@ -184,7 +186,6 @@ class TvServerListFragment : BaseTvBrowseFragment() {
         header: HeaderItem?,
         adapter: ObjectAdapter,
         val group: TvServerListViewModel.ServerGroup,
-        val count: Int,
         var index: Int = 0,
     ) : ListRow(header, adapter)
 

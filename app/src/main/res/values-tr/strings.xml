@@ -318,10 +318,10 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">Sunucu yükü %1$s[%1$s]</string>
-    <string name="tv_recently_used_servers">Son kullanılan sunucular (%1$d)</string>
-    <string name="tv_available_servers">Kullanılabilecek sunucular (%1$d)</string>
-    <string name="tv_locked_servers">Kilitli sunucular (%1$d)</string>
-    <string name="tv_other_servers">Diğer sunucular (%1$d)</string>
+    <string name="tv_recently_used_servers">Son kullanılan sunucular</string>
+    <string name="tv_available_servers">Kullanılabilecek sunucular</string>
+    <string name="tv_locked_servers">Kilitli sunucular</string>
+    <string name="tv_other_servers">Diğer sunucular</string>
     <string name="tv_server_list">Sunucu listesi</string>
     <string name="tv_server_list_action_unavailable">Kullanılamıyor</string>
     <string name="notification_subscription_expired_title">Proton VPN abonelik tarifenizin geçerlilik süresi dolmuş</string>
