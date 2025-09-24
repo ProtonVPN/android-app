@@ -89,7 +89,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->
+        onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, row ->
             if (item != null) {
                 val selectedCountry = when (item) {
                     is CountryCard -> item.vpnCountry.flag
@@ -98,6 +98,14 @@ class TvMainFragment : BaseTvBrowseFragment() {
                     else -> null
                 }
                 viewModel.setSelectedCountry(selectedCountry)
+            }
+
+            if(row != null) {
+                rowsAdapter?.let { adapter ->
+                    val selectedRowIndex = adapter.indexOf(row)
+                    val lastRowIndex = adapter.size().minus(1)
+                    viewModel.onLastRowSelection(selected = selectedRowIndex == lastRowIndex)
+                }
             }
         }
 
@@ -366,13 +374,6 @@ class TvMainFragment : BaseTvBrowseFragment() {
             }
         }
 
-        override fun onRowViewSelected(holder: RowPresenter.ViewHolder?, selected: Boolean) {
-            super.onRowViewSelected(holder, selected)
-            val index = rowsAdapter?.indexOf(holder?.rowObject) ?: -1
-            val isLastRow = index >= 0 && index == (rowsAdapter?.size() ?: 0) - 1
-            if (isLastRow)
-                viewModel.onLastRowSelection(selected)
-        }
     }
 
     companion object {
