@@ -146,7 +146,6 @@ android {
     testNamespace 'com.protonvpn'
     ndkVersion rootProject.ext.compileNdkVersion
     compileSdk rootProject.ext.compileSdkVersion
-    buildToolsVersion = "35.0.1"
     useLibrary 'org.apache.http.legacy'
     signingConfigs {
         if (debugKeystorePath) {
