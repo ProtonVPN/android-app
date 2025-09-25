@@ -1,0 +1,3350 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 51,
+    "identityHash": "05d5fed2cc02086a63e18d37e83e4173",
+    "entities": [
+      {
+        "tableName": "AccountEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `username` TEXT, `email` TEXT, `state` TEXT NOT NULL, `sessionId` TEXT, `sessionState` TEXT, PRIMARY KEY(`userId`), FOREIGN KEY(`sessionId`) REFERENCES `SessionEntity`(`sessionId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "username",
+            "columnName": "username",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "state",
+            "columnName": "state",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sessionState",
+            "columnName": "sessionState",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_AccountEntity_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AccountEntity_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          },
+          {
+            "name": "index_AccountEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AccountEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "SessionEntity",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sessionId"
+            ],
+            "referencedColumns": [
+              "sessionId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "AccountMetadataEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `product` TEXT NOT NULL, `primaryAtUtc` INTEGER NOT NULL, `migrations` TEXT, PRIMARY KEY(`userId`, `product`), FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "product",
+            "columnName": "product",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "primaryAtUtc",
+            "columnName": "primaryAtUtc",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "migrations",
+            "columnName": "migrations",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId",
+            "product"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_AccountMetadataEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AccountMetadataEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
+            "name": "index_AccountMetadataEntity_product",
+            "unique": false,
+            "columnNames": [
+              "product"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AccountMetadataEntity_product` ON `${TABLE_NAME}` (`product`)"
+          },
+          {
+            "name": "index_AccountMetadataEntity_primaryAtUtc",
+            "unique": false,
+            "columnNames": [
+              "primaryAtUtc"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AccountMetadataEntity_primaryAtUtc` ON `${TABLE_NAME}` (`primaryAtUtc`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "AccountEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "SessionEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT, `sessionId` TEXT NOT NULL, `accessToken` TEXT NOT NULL, `refreshToken` TEXT NOT NULL, `scopes` TEXT NOT NULL, `product` TEXT NOT NULL, PRIMARY KEY(`sessionId`), FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accessToken",
+            "columnName": "accessToken",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "refreshToken",
+            "columnName": "refreshToken",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scopes",
+            "columnName": "scopes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "product",
+            "columnName": "product",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "sessionId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_SessionEntity_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_SessionEntity_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          },
+          {
+            "name": "index_SessionEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_SessionEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "AccountEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "SessionDetailsEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sessionId` TEXT NOT NULL, `initialEventId` TEXT, `requiredAccountType` TEXT NOT NULL, `secondFactorEnabled` INTEGER NOT NULL, `twoPassModeEnabled` INTEGER NOT NULL, `passphrase` BLOB, `password` TEXT, `fido2AuthenticationOptionsJson` TEXT, PRIMARY KEY(`sessionId`), FOREIGN KEY(`sessionId`) REFERENCES `SessionEntity`(`sessionId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "initialEventId",
+            "columnName": "initialEventId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "requiredAccountType",
+            "columnName": "requiredAccountType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "secondFactorEnabled",
+            "columnName": "secondFactorEnabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "twoPassModeEnabled",
+            "columnName": "twoPassModeEnabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "passphrase",
+            "columnName": "passphrase",
+            "affinity": "BLOB"
+          },
+          {
+            "fieldPath": "password",
+            "columnName": "password",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fido2AuthenticationOptionsJson",
+            "columnName": "fido2AuthenticationOptionsJson",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "sessionId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_SessionDetailsEntity_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_SessionDetailsEntity_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "SessionEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sessionId"
+            ],
+            "referencedColumns": [
+              "sessionId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "ChallengeFrameEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`challengeFrame` TEXT NOT NULL, `flow` TEXT NOT NULL, `focusTime` TEXT NOT NULL, `clicks` INTEGER NOT NULL, `copy` TEXT NOT NULL, `paste` TEXT NOT NULL, `keys` TEXT NOT NULL, PRIMARY KEY(`challengeFrame`))",
+        "fields": [
+          {
+            "fieldPath": "challengeFrame",
+            "columnName": "challengeFrame",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flow",
+            "columnName": "flow",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "focusTime",
+            "columnName": "focusTime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clicks",
+            "columnName": "clicks",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "copy",
+            "columnName": "copy",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paste",
+            "columnName": "paste",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keys",
+            "columnName": "keys",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "challengeFrame"
+          ]
+        }
+      },
+      {
+        "tableName": "UserEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `email` TEXT, `name` TEXT, `displayName` TEXT, `currency` TEXT NOT NULL, `credit` INTEGER NOT NULL, `createdAtUtc` INTEGER NOT NULL, `usedSpace` INTEGER NOT NULL, `maxSpace` INTEGER NOT NULL, `maxUpload` INTEGER NOT NULL, `type` INTEGER, `role` INTEGER, `private` INTEGER NOT NULL, `subscribed` INTEGER NOT NULL, `services` INTEGER NOT NULL, `delinquent` INTEGER, `passphrase` BLOB, `flags` TEXT, `maxBaseSpace` INTEGER, `maxDriveSpace` INTEGER, `usedBaseSpace` INTEGER, `usedDriveSpace` INTEGER, `recovery_state` INTEGER, `recovery_startTime` INTEGER, `recovery_endTime` INTEGER, `recovery_sessionId` TEXT, `recovery_reason` INTEGER, PRIMARY KEY(`userId`), FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "credit",
+            "columnName": "credit",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAtUtc",
+            "columnName": "createdAtUtc",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usedSpace",
+            "columnName": "usedSpace",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxSpace",
+            "columnName": "maxSpace",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxUpload",
+            "columnName": "maxUpload",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "role",
+            "columnName": "role",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "isPrivate",
+            "columnName": "private",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subscribed",
+            "columnName": "subscribed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "services",
+            "columnName": "services",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "delinquent",
+            "columnName": "delinquent",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "passphrase",
+            "columnName": "passphrase",
+            "affinity": "BLOB"
+          },
+          {
+            "fieldPath": "flags",
+            "columnName": "flags",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "maxBaseSpace",
+            "columnName": "maxBaseSpace",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "maxDriveSpace",
+            "columnName": "maxDriveSpace",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "usedBaseSpace",
+            "columnName": "usedBaseSpace",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "usedDriveSpace",
+            "columnName": "usedDriveSpace",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "recovery.state",
+            "columnName": "recovery_state",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "recovery.startTime",
+            "columnName": "recovery_startTime",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "recovery.endTime",
+            "columnName": "recovery_endTime",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "recovery.sessionId",
+            "columnName": "recovery_sessionId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "recovery.reason",
+            "columnName": "recovery_reason",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_UserEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_UserEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "AccountEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "UserKeyEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `keyId` TEXT NOT NULL, `version` INTEGER NOT NULL, `privateKey` TEXT NOT NULL, `isPrimary` INTEGER NOT NULL, `isUnlockable` INTEGER NOT NULL, `fingerprint` TEXT, `activation` TEXT, `active` INTEGER, `recoverySecretHash` TEXT, `recoverySecretSignature` TEXT, PRIMARY KEY(`keyId`), FOREIGN KEY(`userId`) REFERENCES `UserEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keyId",
+            "columnName": "keyId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "privateKey",
+            "columnName": "privateKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isPrimary",
+            "columnName": "isPrimary",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isUnlockable",
+            "columnName": "isUnlockable",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fingerprint",
+            "columnName": "fingerprint",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "activation",
+            "columnName": "activation",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "active",
+            "columnName": "active",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "recoverySecretHash",
+            "columnName": "recoverySecretHash",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "recoverySecretSignature",
+            "columnName": "recoverySecretSignature",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "keyId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_UserKeyEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_UserKeyEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
+            "name": "index_UserKeyEntity_keyId",
+            "unique": false,
+            "columnNames": [
+              "keyId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_UserKeyEntity_keyId` ON `${TABLE_NAME}` (`keyId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "UserEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "AddressEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `addressId` TEXT NOT NULL, `email` TEXT NOT NULL, `displayName` TEXT, `signature` TEXT, `domainId` TEXT, `canSend` INTEGER NOT NULL, `canReceive` INTEGER NOT NULL, `enabled` INTEGER NOT NULL, `type` INTEGER, `order` INTEGER NOT NULL, `signedKeyList_data` TEXT, `signedKeyList_signature` TEXT, `signedKeyList_minEpochId` INTEGER, `signedKeyList_maxEpochId` INTEGER, `signedKeyList_expectedMinEpochId` INTEGER, PRIMARY KEY(`addressId`), FOREIGN KEY(`userId`) REFERENCES `UserEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "addressId",
+            "columnName": "addressId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "signature",
+            "columnName": "signature",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "domainId",
+            "columnName": "domainId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "canSend",
+            "columnName": "canSend",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "canReceive",
+            "columnName": "canReceive",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "enabled",
+            "columnName": "enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "signedKeyList.data",
+            "columnName": "signedKeyList_data",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "signedKeyList.signature",
+            "columnName": "signedKeyList_signature",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "signedKeyList.minEpochId",
+            "columnName": "signedKeyList_minEpochId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "signedKeyList.maxEpochId",
+            "columnName": "signedKeyList_maxEpochId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "signedKeyList.expectedMinEpochId",
+            "columnName": "signedKeyList_expectedMinEpochId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "addressId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_AddressEntity_addressId",
+            "unique": false,
+            "columnNames": [
+              "addressId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AddressEntity_addressId` ON `${TABLE_NAME}` (`addressId`)"
+          },
+          {
+            "name": "index_AddressEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AddressEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "UserEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "AddressKeyEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`addressId` TEXT NOT NULL, `keyId` TEXT NOT NULL, `version` INTEGER NOT NULL, `privateKey` TEXT NOT NULL, `isPrimary` INTEGER NOT NULL, `isUnlockable` INTEGER NOT NULL, `flags` INTEGER NOT NULL, `passphrase` BLOB, `token` TEXT, `signature` TEXT, `fingerprint` TEXT, `fingerprints` TEXT, `activation` TEXT, `active` INTEGER NOT NULL, PRIMARY KEY(`keyId`), FOREIGN KEY(`addressId`) REFERENCES `AddressEntity`(`addressId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "addressId",
+            "columnName": "addressId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keyId",
+            "columnName": "keyId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "privateKey",
+            "columnName": "privateKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isPrimary",
+            "columnName": "isPrimary",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isUnlockable",
+            "columnName": "isUnlockable",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flags",
+            "columnName": "flags",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "passphrase",
+            "columnName": "passphrase",
+            "affinity": "BLOB"
+          },
+          {
+            "fieldPath": "token",
+            "columnName": "token",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "signature",
+            "columnName": "signature",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fingerprint",
+            "columnName": "fingerprint",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fingerprints",
+            "columnName": "fingerprints",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "activation",
+            "columnName": "activation",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "active",
+            "columnName": "active",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "keyId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_AddressKeyEntity_addressId",
+            "unique": false,
+            "columnNames": [
+              "addressId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AddressKeyEntity_addressId` ON `${TABLE_NAME}` (`addressId`)"
+          },
+          {
+            "name": "index_AddressKeyEntity_keyId",
+            "unique": false,
+            "columnNames": [
+              "keyId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AddressKeyEntity_keyId` ON `${TABLE_NAME}` (`keyId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "AddressEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "addressId"
+            ],
+            "referencedColumns": [
+              "addressId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "FeatureFlagEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `featureId` TEXT NOT NULL, `scope` TEXT NOT NULL, `defaultValue` INTEGER NOT NULL, `value` INTEGER NOT NULL, `variantName` TEXT, `payloadType` TEXT, `payloadValue` TEXT, PRIMARY KEY(`userId`, `featureId`))",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "featureId",
+            "columnName": "featureId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scope",
+            "columnName": "scope",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "defaultValue",
+            "columnName": "defaultValue",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "variantName",
+            "columnName": "variantName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "payloadType",
+            "columnName": "payloadType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "payloadValue",
+            "columnName": "payloadValue",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId",
+            "featureId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_FeatureFlagEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_FeatureFlagEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
+            "name": "index_FeatureFlagEntity_featureId",
+            "unique": false,
+            "columnNames": [
+              "featureId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_FeatureFlagEntity_featureId` ON `${TABLE_NAME}` (`featureId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "KeySaltEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `keyId` TEXT NOT NULL, `keySalt` TEXT, PRIMARY KEY(`userId`, `keyId`))",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keyId",
+            "columnName": "keyId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keySalt",
+            "columnName": "keySalt",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId",
+            "keyId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_KeySaltEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_KeySaltEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
+            "name": "index_KeySaltEntity_keyId",
+            "unique": false,
+            "columnNames": [
+              "keyId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_KeySaltEntity_keyId` ON `${TABLE_NAME}` (`keyId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "PublicAddressEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`email` TEXT NOT NULL, `recipientType` INTEGER NOT NULL, `mimeType` TEXT, `ignoreKT` INTEGER, `signedKeyList_data` TEXT, `signedKeyList_signature` TEXT, `signedKeyList_minEpochId` INTEGER, `signedKeyList_maxEpochId` INTEGER, `signedKeyList_expectedMinEpochId` INTEGER, PRIMARY KEY(`email`))",
+        "fields": [
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recipientType",
+            "columnName": "recipientType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mimeType",
+            "columnName": "mimeType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "ignoreKT",
+            "columnName": "ignoreKT",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "signedKeyListEntity.data",
+            "columnName": "signedKeyList_data",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "signedKeyListEntity.signature",
+            "columnName": "signedKeyList_signature",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "signedKeyListEntity.minEpochId",
+            "columnName": "signedKeyList_minEpochId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "signedKeyListEntity.maxEpochId",
+            "columnName": "signedKeyList_maxEpochId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "signedKeyListEntity.expectedMinEpochId",
+            "columnName": "signedKeyList_expectedMinEpochId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "email"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_PublicAddressEntity_email",
+            "unique": false,
+            "columnNames": [
+              "email"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_PublicAddressEntity_email` ON `${TABLE_NAME}` (`email`)"
+          }
+        ]
+      },
+      {
+        "tableName": "PublicAddressKeyEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`email` TEXT NOT NULL, `flags` INTEGER NOT NULL, `publicKey` TEXT NOT NULL, `isPrimary` INTEGER NOT NULL, PRIMARY KEY(`email`, `publicKey`), FOREIGN KEY(`email`) REFERENCES `PublicAddressEntity`(`email`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flags",
+            "columnName": "flags",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "publicKey",
+            "columnName": "publicKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isPrimary",
+            "columnName": "isPrimary",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "email",
+            "publicKey"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_PublicAddressKeyEntity_email",
+            "unique": false,
+            "columnNames": [
+              "email"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_PublicAddressKeyEntity_email` ON `${TABLE_NAME}` (`email`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "PublicAddressEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "email"
+            ],
+            "referencedColumns": [
+              "email"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "PublicAddressInfoEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`email` TEXT NOT NULL, `warnings` TEXT NOT NULL, `protonMx` INTEGER NOT NULL, `isProton` INTEGER NOT NULL, `addressSignedKeyList_data` TEXT, `addressSignedKeyList_signature` TEXT, `addressSignedKeyList_minEpochId` INTEGER, `addressSignedKeyList_maxEpochId` INTEGER, `addressSignedKeyList_expectedMinEpochId` INTEGER, `catchAllSignedKeyList_data` TEXT, `catchAllSignedKeyList_signature` TEXT, `catchAllSignedKeyList_minEpochId` INTEGER, `catchAllSignedKeyList_maxEpochId` INTEGER, `catchAllSignedKeyList_expectedMinEpochId` INTEGER, PRIMARY KEY(`email`))",
+        "fields": [
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "warnings",
+            "columnName": "warnings",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "protonMx",
+            "columnName": "protonMx",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isProton",
+            "columnName": "isProton",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "addressSignedKeyList.data",
+            "columnName": "addressSignedKeyList_data",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "addressSignedKeyList.signature",
+            "columnName": "addressSignedKeyList_signature",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "addressSignedKeyList.minEpochId",
+            "columnName": "addressSignedKeyList_minEpochId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "addressSignedKeyList.maxEpochId",
+            "columnName": "addressSignedKeyList_maxEpochId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "addressSignedKeyList.expectedMinEpochId",
+            "columnName": "addressSignedKeyList_expectedMinEpochId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "catchAllSignedKeyList.data",
+            "columnName": "catchAllSignedKeyList_data",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "catchAllSignedKeyList.signature",
+            "columnName": "catchAllSignedKeyList_signature",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "catchAllSignedKeyList.minEpochId",
+            "columnName": "catchAllSignedKeyList_minEpochId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "catchAllSignedKeyList.maxEpochId",
+            "columnName": "catchAllSignedKeyList_maxEpochId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "catchAllSignedKeyList.expectedMinEpochId",
+            "columnName": "catchAllSignedKeyList_expectedMinEpochId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "email"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_PublicAddressInfoEntity_email",
+            "unique": false,
+            "columnNames": [
+              "email"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_PublicAddressInfoEntity_email` ON `${TABLE_NAME}` (`email`)"
+          }
+        ]
+      },
+      {
+        "tableName": "PublicAddressKeyDataEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`email` TEXT NOT NULL, `emailAddressType` INTEGER NOT NULL, `flags` INTEGER NOT NULL, `publicKey` TEXT NOT NULL, `isPrimary` INTEGER NOT NULL, `source` INTEGER, PRIMARY KEY(`email`, `publicKey`), FOREIGN KEY(`email`) REFERENCES `PublicAddressInfoEntity`(`email`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "emailAddressType",
+            "columnName": "emailAddressType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flags",
+            "columnName": "flags",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "publicKey",
+            "columnName": "publicKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isPrimary",
+            "columnName": "isPrimary",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "email",
+            "publicKey"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_PublicAddressKeyDataEntity_email",
+            "unique": false,
+            "columnNames": [
+              "email"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_PublicAddressKeyDataEntity_email` ON `${TABLE_NAME}` (`email`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "PublicAddressInfoEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "email"
+            ],
+            "referencedColumns": [
+              "email"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "HumanVerificationEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`clientId` TEXT NOT NULL, `clientIdType` TEXT NOT NULL, `verificationMethods` TEXT NOT NULL, `verificationToken` TEXT, `state` TEXT NOT NULL, `humanHeaderTokenType` TEXT, `humanHeaderTokenCode` TEXT, PRIMARY KEY(`clientId`))",
+        "fields": [
+          {
+            "fieldPath": "clientId",
+            "columnName": "clientId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientIdType",
+            "columnName": "clientIdType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "verificationMethods",
+            "columnName": "verificationMethods",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "verificationToken",
+            "columnName": "verificationToken",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "state",
+            "columnName": "state",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "humanHeaderTokenType",
+            "columnName": "humanHeaderTokenType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "humanHeaderTokenCode",
+            "columnName": "humanHeaderTokenCode",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "clientId"
+          ]
+        }
+      },
+      {
+        "tableName": "UserSettingsEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `news` INTEGER, `locale` TEXT, `logAuth` INTEGER, `density` INTEGER, `weekStart` INTEGER, `dateFormat` INTEGER, `timeFormat` INTEGER, `earlyAccess` INTEGER, `deviceRecovery` INTEGER, `telemetry` INTEGER, `crashReports` INTEGER, `sessionAccountRecovery` INTEGER, `easyDeviceMigrationOptOut` INTEGER, `email_value` TEXT, `email_status` INTEGER, `email_notify` INTEGER, `email_reset` INTEGER, `phone_value` TEXT, `phone_status` INTEGER, `phone_notify` INTEGER, `phone_reset` INTEGER, `password_mode` INTEGER, `password_expirationTime` INTEGER, `twoFA_enabled` INTEGER, `twoFA_allowed` INTEGER, `twoFA_expirationTime` INTEGER, `twoFA_registeredKeys` TEXT, PRIMARY KEY(`userId`), FOREIGN KEY(`userId`) REFERENCES `UserEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "news",
+            "columnName": "news",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "logAuth",
+            "columnName": "logAuth",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "density",
+            "columnName": "density",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "weekStart",
+            "columnName": "weekStart",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "dateFormat",
+            "columnName": "dateFormat",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "timeFormat",
+            "columnName": "timeFormat",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "earlyAccess",
+            "columnName": "earlyAccess",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "deviceRecovery",
+            "columnName": "deviceRecovery",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "telemetry",
+            "columnName": "telemetry",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "crashReports",
+            "columnName": "crashReports",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "sessionAccountRecovery",
+            "columnName": "sessionAccountRecovery",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "easyDeviceMigrationOptOut",
+            "columnName": "easyDeviceMigrationOptOut",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "email.value",
+            "columnName": "email_value",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "email.status",
+            "columnName": "email_status",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "email.notify",
+            "columnName": "email_notify",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "email.reset",
+            "columnName": "email_reset",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "phone.value",
+            "columnName": "phone_value",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "phone.status",
+            "columnName": "phone_status",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "phone.notify",
+            "columnName": "phone_notify",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "phone.reset",
+            "columnName": "phone_reset",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "password.mode",
+            "columnName": "password_mode",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "password.expirationTime",
+            "columnName": "password_expirationTime",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "twoFA.enabled",
+            "columnName": "twoFA_enabled",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "twoFA.allowed",
+            "columnName": "twoFA_allowed",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "twoFA.expirationTime",
+            "columnName": "twoFA_expirationTime",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "twoFA.registeredKeys",
+            "columnName": "twoFA_registeredKeys",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "UserEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "OrganizationEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `name` TEXT NOT NULL, `displayName` TEXT, `planName` TEXT, `twoFactorGracePeriod` INTEGER, `theme` TEXT, `email` TEXT, `maxDomains` INTEGER, `maxAddresses` INTEGER, `maxSpace` INTEGER, `maxMembers` INTEGER, `maxVPN` INTEGER, `maxCalendars` INTEGER, `features` INTEGER, `flags` INTEGER, `usedDomains` INTEGER, `usedAddresses` INTEGER, `usedSpace` INTEGER, `assignedSpace` INTEGER, `usedMembers` INTEGER, `usedVPN` INTEGER, `usedCalendars` INTEGER, `hasKeys` INTEGER, `toMigrate` INTEGER, PRIMARY KEY(`userId`), FOREIGN KEY(`userId`) REFERENCES `UserEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "planName",
+            "columnName": "planName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "twoFactorGracePeriod",
+            "columnName": "twoFactorGracePeriod",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "theme",
+            "columnName": "theme",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "maxDomains",
+            "columnName": "maxDomains",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "maxAddresses",
+            "columnName": "maxAddresses",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "maxSpace",
+            "columnName": "maxSpace",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "maxMembers",
+            "columnName": "maxMembers",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "maxVPN",
+            "columnName": "maxVPN",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "maxCalendars",
+            "columnName": "maxCalendars",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "features",
+            "columnName": "features",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "flags",
+            "columnName": "flags",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "usedDomains",
+            "columnName": "usedDomains",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "usedAddresses",
+            "columnName": "usedAddresses",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "usedSpace",
+            "columnName": "usedSpace",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "assignedSpace",
+            "columnName": "assignedSpace",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "usedMembers",
+            "columnName": "usedMembers",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "usedVPN",
+            "columnName": "usedVPN",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "usedCalendars",
+            "columnName": "usedCalendars",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "hasKeys",
+            "columnName": "hasKeys",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "toMigrate",
+            "columnName": "toMigrate",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "UserEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "OrganizationKeysEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `publicKey` TEXT NOT NULL, `privateKey` TEXT NOT NULL, PRIMARY KEY(`userId`), FOREIGN KEY(`userId`) REFERENCES `UserEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "publicKey",
+            "columnName": "publicKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "privateKey",
+            "columnName": "privateKey",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "UserEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "GooglePurchaseEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`googlePurchaseToken` TEXT NOT NULL, `paymentToken` TEXT NOT NULL, PRIMARY KEY(`googlePurchaseToken`))",
+        "fields": [
+          {
+            "fieldPath": "googlePurchaseToken",
+            "columnName": "googlePurchaseToken",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paymentToken",
+            "columnName": "paymentToken",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "googlePurchaseToken"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_GooglePurchaseEntity_paymentToken",
+            "unique": true,
+            "columnNames": [
+              "paymentToken"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_GooglePurchaseEntity_paymentToken` ON `${TABLE_NAME}` (`paymentToken`)"
+          }
+        ]
+      },
+      {
+        "tableName": "PurchaseEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sessionId` TEXT NOT NULL, `planName` TEXT NOT NULL, `planCycle` INTEGER NOT NULL, `purchaseState` TEXT NOT NULL, `purchaseFailure` TEXT, `paymentProvider` TEXT NOT NULL, `paymentOrderId` TEXT, `paymentToken` TEXT, `paymentCurrency` TEXT NOT NULL, `paymentAmount` INTEGER NOT NULL, PRIMARY KEY(`planName`), FOREIGN KEY(`sessionId`) REFERENCES `SessionEntity`(`sessionId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "planName",
+            "columnName": "planName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "planCycle",
+            "columnName": "planCycle",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "purchaseState",
+            "columnName": "purchaseState",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "purchaseFailure",
+            "columnName": "purchaseFailure",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "paymentProvider",
+            "columnName": "paymentProvider",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paymentOrderId",
+            "columnName": "paymentOrderId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "paymentToken",
+            "columnName": "paymentToken",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "paymentCurrency",
+            "columnName": "paymentCurrency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paymentAmount",
+            "columnName": "paymentAmount",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "planName"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_PurchaseEntity_planName",
+            "unique": false,
+            "columnNames": [
+              "planName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_PurchaseEntity_planName` ON `${TABLE_NAME}` (`planName`)"
+          },
+          {
+            "name": "index_PurchaseEntity_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_PurchaseEntity_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          },
+          {
+            "name": "index_PurchaseEntity_purchaseState",
+            "unique": false,
+            "columnNames": [
+              "purchaseState"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_PurchaseEntity_purchaseState` ON `${TABLE_NAME}` (`purchaseState`)"
+          },
+          {
+            "name": "index_PurchaseEntity_paymentProvider",
+            "unique": false,
+            "columnNames": [
+              "paymentProvider"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_PurchaseEntity_paymentProvider` ON `${TABLE_NAME}` (`paymentProvider`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "SessionEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sessionId"
+            ],
+            "referencedColumns": [
+              "sessionId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "ObservabilityEventEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `version` INTEGER NOT NULL, `timestamp` INTEGER NOT NULL, `data` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "data",
+            "columnName": "data",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "NotificationEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notificationId` TEXT NOT NULL, `userId` TEXT NOT NULL, `time` INTEGER NOT NULL, `type` TEXT NOT NULL, `payload` TEXT NOT NULL, PRIMARY KEY(`userId`, `notificationId`), FOREIGN KEY(`userId`) REFERENCES `UserEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "notificationId",
+            "columnName": "notificationId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "payload",
+            "columnName": "payload",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId",
+            "notificationId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_NotificationEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
+            "name": "index_NotificationEntity_notificationId",
+            "unique": false,
+            "columnNames": [
+              "notificationId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_notificationId` ON `${TABLE_NAME}` (`notificationId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "UserEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "PushEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `pushId` TEXT NOT NULL, `objectId` TEXT NOT NULL, `type` TEXT NOT NULL, PRIMARY KEY(`userId`, `pushId`), FOREIGN KEY(`userId`) REFERENCES `UserEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pushId",
+            "columnName": "pushId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "objectId",
+            "columnName": "objectId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId",
+            "pushId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_PushEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_PushEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
+            "name": "index_PushEntity_type",
+            "unique": false,
+            "columnNames": [
+              "type"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_PushEntity_type` ON `${TABLE_NAME}` (`type`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "UserEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "TelemetryEventEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` TEXT, `group` TEXT NOT NULL, `name` TEXT NOT NULL, `values` TEXT NOT NULL, `dimensions` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, FOREIGN KEY(`userId`) REFERENCES `UserEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "group",
+            "columnName": "group",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "values",
+            "columnName": "values",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dimensions",
+            "columnName": "dimensions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_TelemetryEventEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_TelemetryEventEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "UserEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "EventMetadataEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `config` TEXT NOT NULL, `eventId` TEXT, `nextEventId` TEXT, `refresh` TEXT, `more` INTEGER, `retry` INTEGER NOT NULL, `state` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER, `fetchedAt` INTEGER, PRIMARY KEY(`userId`, `config`), FOREIGN KEY(`userId`) REFERENCES `UserEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "config",
+            "columnName": "config",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eventId",
+            "columnName": "eventId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "nextEventId",
+            "columnName": "nextEventId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "refresh",
+            "columnName": "refresh",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "more",
+            "columnName": "more",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "retry",
+            "columnName": "retry",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "state",
+            "columnName": "state",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fetchedAt",
+            "columnName": "fetchedAt",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId",
+            "config"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_EventMetadataEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_EventMetadataEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
+            "name": "index_EventMetadataEntity_config",
+            "unique": false,
+            "columnNames": [
+              "config"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_EventMetadataEntity_config` ON `${TABLE_NAME}` (`config`)"
+          },
+          {
+            "name": "index_EventMetadataEntity_createdAt",
+            "unique": false,
+            "columnNames": [
+              "createdAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_EventMetadataEntity_createdAt` ON `${TABLE_NAME}` (`createdAt`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "UserEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "RecoveryFileEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `createdAtUtcMillis` INTEGER NOT NULL, `keyCount` INTEGER, `recoveryFile` TEXT NOT NULL, `recoverySecretHash` TEXT NOT NULL, PRIMARY KEY(`recoverySecretHash`), FOREIGN KEY(`userId`) REFERENCES `UserEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAtUtcMillis",
+            "columnName": "createdAtUtcMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keyCount",
+            "columnName": "keyCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "recoveryFile",
+            "columnName": "recoveryFile",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recoverySecretHash",
+            "columnName": "recoverySecretHash",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "recoverySecretHash"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_RecoveryFileEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_RecoveryFileEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "UserEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "DeviceSecretEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `deviceId` TEXT NOT NULL, `secret` TEXT NOT NULL, `token` TEXT NOT NULL, PRIMARY KEY(`userId`), FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deviceId",
+            "columnName": "deviceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "secret",
+            "columnName": "secret",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "token",
+            "columnName": "token",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_DeviceSecretEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_DeviceSecretEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "AccountEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "AuthDeviceEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `deviceId` TEXT NOT NULL, `addressId` TEXT, `state` INTEGER NOT NULL, `name` TEXT NOT NULL, `localizedClientName` TEXT NOT NULL, `platform` TEXT, `createdAtUtcSeconds` INTEGER NOT NULL, `activatedAtUtcSeconds` INTEGER, `rejectedAtUtcSeconds` INTEGER, `activationToken` TEXT, `lastActivityAtUtcSeconds` INTEGER NOT NULL, PRIMARY KEY(`userId`, `deviceId`), FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deviceId",
+            "columnName": "deviceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "addressId",
+            "columnName": "addressId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "state",
+            "columnName": "state",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "localizedClientName",
+            "columnName": "localizedClientName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "platform",
+            "columnName": "platform",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAtUtcSeconds",
+            "columnName": "createdAtUtcSeconds",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activatedAtUtcSeconds",
+            "columnName": "activatedAtUtcSeconds",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "rejectedAtUtcSeconds",
+            "columnName": "rejectedAtUtcSeconds",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "activationToken",
+            "columnName": "activationToken",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastActivityAtUtcSeconds",
+            "columnName": "lastActivityAtUtcSeconds",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId",
+            "deviceId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_AuthDeviceEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AuthDeviceEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
+            "name": "index_AuthDeviceEntity_addressId",
+            "unique": false,
+            "columnNames": [
+              "addressId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_AuthDeviceEntity_addressId` ON `${TABLE_NAME}` (`addressId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "AccountEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "MemberDeviceEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `deviceId` TEXT NOT NULL, `memberId` TEXT NOT NULL, `addressId` TEXT, `state` INTEGER NOT NULL, `name` TEXT NOT NULL, `localizedClientName` TEXT NOT NULL, `platform` TEXT, `createdAtUtcSeconds` INTEGER NOT NULL, `activatedAtUtcSeconds` INTEGER, `rejectedAtUtcSeconds` INTEGER, `activationToken` TEXT, `lastActivityAtUtcSeconds` INTEGER NOT NULL, PRIMARY KEY(`userId`, `deviceId`), FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deviceId",
+            "columnName": "deviceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "memberId",
+            "columnName": "memberId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "addressId",
+            "columnName": "addressId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "state",
+            "columnName": "state",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "localizedClientName",
+            "columnName": "localizedClientName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "platform",
+            "columnName": "platform",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAtUtcSeconds",
+            "columnName": "createdAtUtcSeconds",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activatedAtUtcSeconds",
+            "columnName": "activatedAtUtcSeconds",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "rejectedAtUtcSeconds",
+            "columnName": "rejectedAtUtcSeconds",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "activationToken",
+            "columnName": "activationToken",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastActivityAtUtcSeconds",
+            "columnName": "lastActivityAtUtcSeconds",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId",
+            "deviceId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_MemberDeviceEntity_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_MemberDeviceEntity_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
+            "name": "index_MemberDeviceEntity_memberId",
+            "unique": false,
+            "columnNames": [
+              "memberId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_MemberDeviceEntity_memberId` ON `${TABLE_NAME}` (`memberId`)"
+          },
+          {
+            "name": "index_MemberDeviceEntity_addressId",
+            "unique": false,
+            "columnNames": [
+              "addressId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_MemberDeviceEntity_addressId` ON `${TABLE_NAME}` (`addressId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "AccountEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "PeriodicCallInfo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `wasSuccess` INTEGER NOT NULL, `jitterRatio` REAL NOT NULL, `nextTimestampOverride` INTEGER, `throttledTimestamp` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wasSuccess",
+            "columnName": "wasSuccess",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "jitterRatio",
+            "columnName": "jitterRatio",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nextTimestampOverride",
+            "columnName": "nextTimestampOverride",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "throttledTimestamp",
+            "columnName": "throttledTimestamp",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "profiles",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `name` TEXT NOT NULL, `color` TEXT NOT NULL, `icon` TEXT NOT NULL, `autoOpenText` TEXT NOT NULL DEFAULT '', `autoOpenEnabled` INTEGER NOT NULL DEFAULT 0, `autoOpenUrlPrivately` INTEGER NOT NULL DEFAULT 0, `createdAt` INTEGER NOT NULL, `lastConnectedAt` INTEGER DEFAULT NULL, `isUserCreated` INTEGER NOT NULL DEFAULT 1, `connectIntentType` TEXT NOT NULL, `exitCountry` TEXT, `entryCountry` TEXT, `city` TEXT, `region` TEXT, `gatewayName` TEXT, `serverId` TEXT, `features` TEXT NOT NULL, `profileId` INTEGER, `netShield` TEXT, `randomizedNat` INTEGER, `lanConnections` INTEGER, `lanConnectionsAllowDirect` INTEGER, `vpn` TEXT, `transmission` TEXT, `customDnsEnabled` INTEGER, `rawDnsList` TEXT, PRIMARY KEY(`profileId`), FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "autoOpenText",
+            "columnName": "autoOpenText",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "autoOpenEnabled",
+            "columnName": "autoOpenEnabled",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "autoOpenUrlPrivately",
+            "columnName": "autoOpenUrlPrivately",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastConnectedAt",
+            "columnName": "lastConnectedAt",
+            "affinity": "INTEGER",
+            "defaultValue": "NULL"
+          },
+          {
+            "fieldPath": "isUserCreated",
+            "columnName": "isUserCreated",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "1"
+          },
+          {
+            "fieldPath": "connectIntentData.connectIntentType",
+            "columnName": "connectIntentType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "connectIntentData.exitCountry",
+            "columnName": "exitCountry",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.entryCountry",
+            "columnName": "entryCountry",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.city",
+            "columnName": "city",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.region",
+            "columnName": "region",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.gatewayName",
+            "columnName": "gatewayName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.serverId",
+            "columnName": "serverId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.features",
+            "columnName": "features",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "connectIntentData.profileId",
+            "columnName": "profileId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.netShield",
+            "columnName": "netShield",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.randomizedNat",
+            "columnName": "randomizedNat",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.lanConnections",
+            "columnName": "lanConnections",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.lanConnectionsAllowDirect",
+            "columnName": "lanConnectionsAllowDirect",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.protocolData.vpn",
+            "columnName": "vpn",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.protocolData.transmission",
+            "columnName": "transmission",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.customDns.toggleEnabled",
+            "columnName": "customDnsEnabled",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.customDns.rawDnsList",
+            "columnName": "rawDnsList",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "profileId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_profiles_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_profiles_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "AccountEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "recents",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` TEXT NOT NULL, `isPinned` INTEGER NOT NULL, `lastConnectionAttemptTimestamp` INTEGER NOT NULL, `lastPinnedTimestamp` INTEGER NOT NULL, `profileId` INTEGER, FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`profileId`) REFERENCES `profiles`(`profileId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isPinned",
+            "columnName": "isPinned",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastConnectionAttemptTimestamp",
+            "columnName": "lastConnectionAttemptTimestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastPinnedTimestamp",
+            "columnName": "lastPinnedTimestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profileId",
+            "columnName": "profileId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_recents_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_recents_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
+            "name": "index_recents_isPinned",
+            "unique": false,
+            "columnNames": [
+              "isPinned"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_recents_isPinned` ON `${TABLE_NAME}` (`isPinned`)"
+          },
+          {
+            "name": "index_recents_lastConnectionAttemptTimestamp",
+            "unique": false,
+            "columnNames": [
+              "lastConnectionAttemptTimestamp"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_recents_lastConnectionAttemptTimestamp` ON `${TABLE_NAME}` (`lastConnectionAttemptTimestamp`)"
+          },
+          {
+            "name": "index_recents_lastPinnedTimestamp",
+            "unique": false,
+            "columnNames": [
+              "lastPinnedTimestamp"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_recents_lastPinnedTimestamp` ON `${TABLE_NAME}` (`lastPinnedTimestamp`)"
+          },
+          {
+            "name": "index_recents_profileId",
+            "unique": false,
+            "columnNames": [
+              "profileId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_recents_profileId` ON `${TABLE_NAME}` (`profileId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "AccountEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          },
+          {
+            "table": "profiles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "profileId"
+            ],
+            "referencedColumns": [
+              "profileId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "unnamedRecentsIntents",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`recentId` INTEGER NOT NULL, `connectIntentType` TEXT NOT NULL, `exitCountry` TEXT, `entryCountry` TEXT, `city` TEXT, `region` TEXT, `gatewayName` TEXT, `serverId` TEXT, `features` TEXT NOT NULL, `profileId` INTEGER, `netShield` TEXT, `randomizedNat` INTEGER, `lanConnections` INTEGER, `lanConnectionsAllowDirect` INTEGER, `vpn` TEXT, `transmission` TEXT, `customDnsEnabled` INTEGER, `rawDnsList` TEXT, PRIMARY KEY(`recentId`), FOREIGN KEY(`recentId`) REFERENCES `recents`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "recentId",
+            "columnName": "recentId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "connectIntentData.connectIntentType",
+            "columnName": "connectIntentType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "connectIntentData.exitCountry",
+            "columnName": "exitCountry",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.entryCountry",
+            "columnName": "entryCountry",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.city",
+            "columnName": "city",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.region",
+            "columnName": "region",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.gatewayName",
+            "columnName": "gatewayName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.serverId",
+            "columnName": "serverId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.features",
+            "columnName": "features",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "connectIntentData.profileId",
+            "columnName": "profileId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.netShield",
+            "columnName": "netShield",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.randomizedNat",
+            "columnName": "randomizedNat",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.lanConnections",
+            "columnName": "lanConnections",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.lanConnectionsAllowDirect",
+            "columnName": "lanConnectionsAllowDirect",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.protocolData.vpn",
+            "columnName": "vpn",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.protocolData.transmission",
+            "columnName": "transmission",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.customDns.toggleEnabled",
+            "columnName": "customDnsEnabled",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "connectIntentData.settingsOverrides.customDns.rawDnsList",
+            "columnName": "rawDnsList",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "recentId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "recents",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "recentId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "defaultConnection",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` TEXT NOT NULL, `connectionType` TEXT NOT NULL, `recentId` INTEGER, FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`recentId`) REFERENCES `recents`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "connectionType",
+            "columnName": "connectionType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recentId",
+            "columnName": "recentId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_defaultConnection_userId",
+            "unique": true,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_defaultConnection_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
+            "name": "index_defaultConnection_recentId",
+            "unique": true,
+            "columnNames": [
+              "recentId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_defaultConnection_recentId` ON `${TABLE_NAME}` (`recentId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "AccountEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          },
+          {
+            "table": "recents",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "recentId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "VpnUser",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `subscribed` INTEGER NOT NULL, `services` INTEGER NOT NULL, `delinquent` INTEGER NOT NULL, `credit` INTEGER NOT NULL DEFAULT 0, `hasPaymentMethod` INTEGER NOT NULL DEFAULT false, `status` INTEGER NOT NULL, `expirationTime` INTEGER NOT NULL, `planName` TEXT, `planDisplayName` TEXT, `maxTier` INTEGER, `maxConnect` INTEGER NOT NULL, `name` TEXT NOT NULL, `groupId` TEXT NOT NULL, `password` TEXT NOT NULL, `updateTime` INTEGER NOT NULL, `sessionId` TEXT NOT NULL, `autoLoginName` TEXT, PRIMARY KEY(`userId`), FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subscribed",
+            "columnName": "subscribed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "services",
+            "columnName": "services",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "delinquent",
+            "columnName": "delinquent",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "credit",
+            "columnName": "credit",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "hasPaymentMethod",
+            "columnName": "hasPaymentMethod",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "false"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "expirationTime",
+            "columnName": "expirationTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "planName",
+            "columnName": "planName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "planDisplayName",
+            "columnName": "planDisplayName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "maxTier",
+            "columnName": "maxTier",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "maxConnect",
+            "columnName": "maxConnect",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groupId",
+            "columnName": "groupId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "password",
+            "columnName": "password",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updateTime",
+            "columnName": "updateTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "autoLoginName",
+            "columnName": "autoLoginName",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_VpnUser_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_VpnUser_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "AccountEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '05d5fed2cc02086a63e18d37e83e4173')"
+    ]
+  }
+}

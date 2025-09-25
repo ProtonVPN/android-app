@@ -313,4 +313,13 @@ object DatabaseMigrations {
             AccountDatabase.MIGRATION_11.migrate(db)
         }
     }
+
+    val MIGRATION_50_51 = object : Migration(50, 51) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("UPDATE unnamedRecentsIntents SET entryCountry = 'GB' WHERE entryCountry = 'UK'")
+            db.execSQL("UPDATE unnamedRecentsIntents SET exitCountry = 'GB' WHERE exitCountry = 'UK'")
+            db.execSQL("UPDATE profiles SET entryCountry = 'GB' WHERE entryCountry = 'UK'")
+            db.execSQL("UPDATE profiles SET exitCountry = 'GB' WHERE exitCountry = 'UK'")
+        }
+    }
 }

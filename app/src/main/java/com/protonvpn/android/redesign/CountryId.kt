@@ -52,7 +52,7 @@ value class CountryId private constructor(val countryCode: String) : Parcelable 
 
         private fun sanitizeCountryCode(code: String) =
             code.uppercase().let {
-                if (it == "GB") "UK" else it
+                if (it == "UK") "GB" else it
             }
     }
 }

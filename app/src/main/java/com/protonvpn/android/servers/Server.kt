@@ -76,7 +76,7 @@ data class Server(
         get() = tier == 0
 
     val flag: String
-        get() = if (exitCountry == "GB") "UK" else exitCountry
+        get() = if (exitCountry == "UK") "GB" else exitCountry
 
     val isBasicServer: Boolean
         get() = tier == 1
