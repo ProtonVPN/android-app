@@ -35,12 +35,10 @@ import me.proton.core.presentation.R as CoreR
 @Reusable
 class GetCountryCard @Inject constructor(
     @ApplicationContext private val appContext: Context,
-    private val streamingServices: GetStreamingServices,
     private val currentUser: CurrentUser
 ) {
     operator fun invoke(country: VpnCountry) = CountryCard(
         countryName = country.countryName,
-        hasStreamingService = streamingServices(country.flag).isNotEmpty(),
         backgroundImage = DrawableImage(CountryTools.getLargeFlagResource(appContext, country.flag)),
         bottomTitleResId = countryListItemIcon(country),
         vpnCountry = country

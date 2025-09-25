@@ -33,12 +33,10 @@ sealed class Card(
 
 class CountryCard(
     val countryName: String,
-    hasStreamingService: Boolean = false,
     backgroundImage: DrawableImage,
     @DrawableRes bottomTitleResId: Int?,
     val vpnCountry: VpnCountry
 ) : Card(
-    title = if (hasStreamingService) Title("", R.drawable.ic_streaming_tv) else null,
     bottomTitle = Title(countryName, bottomTitleResId),
     backgroundImage = backgroundImage
 )
