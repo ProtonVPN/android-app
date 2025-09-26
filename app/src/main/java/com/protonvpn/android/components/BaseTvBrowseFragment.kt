@@ -69,12 +69,12 @@ abstract class BaseTvBrowseFragment : BrowseSupportFragment() {
                 view.alpha = targetAlpha
         }
 
-        override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any?) {
+        override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any) {
             super.onBindRowViewHolder(holder, item)
             holder.setupAlpha(false)
         }
 
-        override fun onUnbindRowViewHolder(holder: RowPresenter.ViewHolder?) {
+        override fun onUnbindRowViewHolder(holder: RowPresenter.ViewHolder) {
             if (holder == selectedHolder)
                 selectedHolder = null
 
@@ -87,7 +87,7 @@ abstract class BaseTvBrowseFragment : BrowseSupportFragment() {
             }
         }
 
-        override fun onRowViewSelected(holder: RowPresenter.ViewHolder?, selected: Boolean) {
+        override fun onRowViewSelected(holder: RowPresenter.ViewHolder, selected: Boolean) {
             super.onRowViewSelected(holder, selected)
 
             if (selected) {

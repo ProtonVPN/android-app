@@ -360,7 +360,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
             return RowViewHolder(rowView, this)
         }
 
-        override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any?) {
+        override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any) {
             super.onBindRowViewHolder(holder, item)
             val row = (item as CardListRow).cardRow
             with(holder as RowViewHolder) {
@@ -373,7 +373,6 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 }
             }
         }
-
     }
 
     companion object {

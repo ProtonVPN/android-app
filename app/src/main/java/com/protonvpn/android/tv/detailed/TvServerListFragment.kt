@@ -166,7 +166,7 @@ class TvServerListFragment : BaseTvBrowseFragment() {
             return RowViewHolder(rowView, this)
         }
 
-        override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any?) {
+        override fun onBindRowViewHolder(holder: RowPresenter.ViewHolder, item: Any) {
             super.onBindRowViewHolder(holder, item)
 
             with((holder as RowViewHolder).binding) {
@@ -179,7 +179,7 @@ class TvServerListFragment : BaseTvBrowseFragment() {
 
     inner class ServersPresenterSelector(context: Context) : PresenterSelector() {
         private val presenter = ServerPresenter(context)
-        override fun getPresenter(item: Any): Presenter = presenter
+        override fun getPresenter(item: Any?): Presenter = presenter
     }
 
     class ServersListRow(

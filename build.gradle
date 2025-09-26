@@ -36,6 +36,7 @@ buildscript {
     ext.ksp_version = '2.0.21-1.0.27'
     ext.kotlinx_coroutines_version = '1.9.0'
     ext.kotlinx_serialization_json_version = '1.7.3'
+    ext.leanback_version = '1.2.0'
     ext.mockk_version = '1.13.13'
     ext.robolectric_version = '4.12.1'
     ext.room_version = '2.7.2'
