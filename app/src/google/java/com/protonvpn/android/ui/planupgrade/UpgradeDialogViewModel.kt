@@ -49,6 +49,7 @@ import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.domain.entity.UserId
 import me.proton.core.payment.domain.repository.BillingClientError
 import me.proton.core.plan.domain.entity.DynamicPlan
+import me.proton.core.plan.domain.entity.DynamicPlanPrice
 import me.proton.core.plan.domain.usecase.PerformGiapPurchase
 import me.proton.core.plan.presentation.PlansOrchestrator
 import me.proton.core.plan.presentation.entity.PlanCycle
@@ -274,19 +275,27 @@ class UpgradeDialogViewModel(
         ): Map<PlanCycle, PriceInfo> {
             val currency = dynamicPlan.getSingleCurrency() ?: return emptyMap()
 
-            val perMonthPrices = cycles.associate { cycleInfo ->
+            fun perMonthPrice(cycleInfo: CycleInfo, price: (DynamicPlanPrice) -> Int): Double? {
                 val months = cycleInfo.cycle.cycleDurationMonths
-                val amount = dynamicPlan.instances[months]?.price?.get(currency)?.current?.centsToUnits()
-                val perMonthPrice = if (months > 0 && amount != null && amount > 0.0)
-                    amount / months else null
-                cycleInfo.cycle to perMonthPrice
+                val amount = dynamicPlan.instances[months]?.price?.get(currency)?.let { price(it) }?.centsToUnits()
+                return if (months > 0 && amount != null && amount > 0.0) {
+                    amount / months
+                } else {
+                    null
+                }
+            }
+
+            val perMonthCurrentPrices = cycles.associate { cycleInfo ->
+                cycleInfo.cycle to perMonthPrice(cycleInfo) { it.current }
             }.filterNotNullValues()
 
-            val maxPerMonthPrice = perMonthPrices.values.maxOrNull()
+            val maxPerMonthPrice = cycles
+                .mapNotNull { cycleInfo -> perMonthPrice(cycleInfo) { it.default ?: it.current } }
+                .max()
 
             return cycles.associate { cycleInfo ->
                 val info = dynamicPlan.instances[cycleInfo.cycle.cycleDurationMonths]?.let { planInstance ->
-                    val perMonthPrice = perMonthPrices[cycleInfo.cycle]
+                    val perMonthPrice = perMonthCurrentPrices[cycleInfo.cycle]
                     val priceAmount = planInstance.price.getValue(currency).current.centsToUnits()
                     val renewPriceAmount = planInstance.price.getValue(currency).default?.centsToUnits()
                     PriceInfo(

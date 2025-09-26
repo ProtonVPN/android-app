@@ -208,7 +208,9 @@ class UpgradeDialogViewModelTests {
                             cycle = 1,
                             description = "1 month",
                             periodEnd = Instant.MAX,
-                            price = mapOf("USD" to DynamicPlanPrice(id = "id", currency = "USD", current = 10_00))
+                            price = mapOf(
+                                "USD" to DynamicPlanPrice(id = "id", currency = "USD", current = 10_00, default = 15_00)
+                            )
                         )
                     ),
                     Pair(
@@ -228,12 +230,14 @@ class UpgradeDialogViewModelTests {
             listOf(
                 PlanCycle.YEARLY to CommonUpgradeDialogViewModel.PriceInfo(
                     formattedPrice = formatPrice(100.0, "USD"),
-                    savePercent = -16,
+                    savePercent = -44,
                     formattedPerMonthPrice = formatPrice(8.33, "USD"),
                     formattedRenewPrice = formatPrice(120.0, "USD")
                 ),
                 PlanCycle.MONTHLY to CommonUpgradeDialogViewModel.PriceInfo(
                     formattedPrice = formatPrice(10.0, "USD"),
+                    savePercent = -33,
+                    formattedRenewPrice = formatPrice(15.0, "USD")
                 )
             ),
             priceInfo.toList()
