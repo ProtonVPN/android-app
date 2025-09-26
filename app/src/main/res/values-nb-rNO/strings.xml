@@ -318,10 +318,10 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">%1$s%% tjenerbelastning</string>
-    <string name="tv_recently_used_servers">Nylig brukte tjenere</string>
-    <string name="tv_available_servers">Tilgjengelige tjenere</string>
-    <string name="tv_locked_servers">Låste tjenere</string>
-    <string name="tv_other_servers">Andre tjenere</string>
+    <string name="tv_recently_used_servers">Recently used servers</string>
+    <string name="tv_available_servers">Available servers</string>
+    <string name="tv_locked_servers">Locked servers</string>
+    <string name="tv_other_servers">Other servers</string>
     <string name="tv_server_list">Tjenerliste</string>
     <string name="tv_server_list_action_unavailable">Utilgjengelig</string>
     <string name="notification_subscription_expired_title">Proton VPN-abonnementsplanen din er utløpt</string>
@@ -1018,7 +1018,7 @@
     <string name="countries_title">Land</string>
     <string name="profiles_title">Profiler</string>
     <string name="settings_autoconnect_title">Koble til automatisk</string>
-    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
+    <string name="settings_autoconnect_boot_description">Kobler deg automatisk til VPN med hurtigkobling når enheten din har startet.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funksjoner</string>
     <!-- tag(Redesign_2023) -->

@@ -318,10 +318,10 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">%1$s%% szerverterhelés</string>
-    <string name="tv_recently_used_servers">Legutóbbi szerverek</string>
-    <string name="tv_available_servers">Elérhető szerverek</string>
-    <string name="tv_locked_servers">Lezárt szerverek</string>
-    <string name="tv_other_servers">Más szerverek</string>
+    <string name="tv_recently_used_servers">Recently used servers</string>
+    <string name="tv_available_servers">Available servers</string>
+    <string name="tv_locked_servers">Locked servers</string>
+    <string name="tv_other_servers">Other servers</string>
     <string name="tv_server_list">Szerver lista</string>
     <string name="tv_server_list_action_unavailable">Nem elérhető</string>
     <string name="notification_subscription_expired_title">A Proton VPN előfizetési csomagja lejárt</string>

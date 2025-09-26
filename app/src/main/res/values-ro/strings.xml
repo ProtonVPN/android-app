@@ -1043,7 +1043,7 @@
     <string name="countries_title">Țări</string>
     <string name="profiles_title">Profiluri</string>
     <string name="settings_autoconnect_title">Conectare automată</string>
-    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
+    <string name="settings_autoconnect_boot_description">Vă conectează automat la VPN folosind conectarea rapidă după ce a pornit dispozitivul.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funcții</string>
     <!-- tag(Redesign_2023) -->
@@ -1552,17 +1552,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nou</string>
     <string name="create_profile_auto_open_url_input_label">URL Website</string>
-    <string name="create_profile_auto_open_url_private_mode_label">Use private browsing mode</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Utilizare mod privat de navigare</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Oprită</string>
-    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
+    <string name="profile_auto_open_app_failed_to_launch">Conectare și lansare: aplicația nu a fost găsită</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_website">Open a website</string>
-    <string name="profile_auto_open_app">Open an app</string>
+    <string name="profile_auto_open_website">Deschidere un site web</string>
+    <string name="profile_auto_open_app">Deschidere o aplicație</string>
     <string name="create_profile_auto_open_description">Deschidere automată a unei pagini web alese când vă conectați la acest profil.</string>
-    <string name="create_profile_auto_open_app_input_hint">Select an app</string>
-    <string name="create_profile_auto_open_app_input_label">App</string>
-    <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
+    <string name="create_profile_auto_open_app_input_hint">Selectare aplicație</string>
+    <string name="create_profile_auto_open_app_input_label">Aplicație</string>
+    <string name="create_profile_auto_open_app_no_apps">Nu există aplicații.</string>
     <string name="profile_auto_open_error_invalid_url">Introduceți un URL valid</string>
     <string name="nps_how_likely_question">Cât de probabil este să recomandați Proton VPN unui prieten sau coleg?</string>
     <string name="nps_additional_comment_title">Vă rugăm să ne spuneți de ce ați acordat această evaluare</string>

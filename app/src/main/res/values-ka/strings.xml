@@ -318,10 +318,10 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">%1$s%% server load</string>
-    <string name="tv_recently_used_servers">ახლახან გამოყენებული სერვერები</string>
-    <string name="tv_available_servers">ხელმისაწვდომი სერვერები</string>
-    <string name="tv_locked_servers">დაბლოკილი სერვერები</string>
-    <string name="tv_other_servers">სხვა სერვერები</string>
+    <string name="tv_recently_used_servers">Recently used servers</string>
+    <string name="tv_available_servers">Available servers</string>
+    <string name="tv_locked_servers">Locked servers</string>
+    <string name="tv_other_servers">Other servers</string>
     <string name="tv_server_list">სერვერების სია</string>
     <string name="tv_server_list_action_unavailable">ხელმიუწვდომელია</string>
     <string name="notification_subscription_expired_title">Proton VPN-ის თქვენს გამოწერის გეგმას ვადა გაუვიდა</string>

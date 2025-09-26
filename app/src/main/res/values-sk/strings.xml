@@ -1068,7 +1068,7 @@
     <string name="countries_title">Krajiny</string>
     <string name="profiles_title">Profily</string>
     <string name="settings_autoconnect_title">Automatické pripojenie</string>
-    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
+    <string name="settings_autoconnect_boot_description">Po spustení zariadenia vás automaticky pripojí k VPN pomocou rýchleho pripojenia.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funkcie</string>
     <!-- tag(Redesign_2023) -->
@@ -1588,17 +1588,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nové</string>
     <string name="create_profile_auto_open_url_input_label">URL webovej stránky</string>
-    <string name="create_profile_auto_open_url_private_mode_label">Use private browsing mode</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Použiť režim súkromného prehliadania</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Vyp.</string>
-    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
+    <string name="profile_auto_open_app_failed_to_launch">Pripojiť a spustiť: aplikácia nenájdená</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_website">Open a website</string>
-    <string name="profile_auto_open_app">Open an app</string>
+    <string name="profile_auto_open_website">Otvoriť webovú stránku</string>
+    <string name="profile_auto_open_app">Otvoriť aplikáciu</string>
     <string name="create_profile_auto_open_description">Po pripojení k tomuto profilu sa automaticky otvorí webová stránka podľa vášho výberu.</string>
-    <string name="create_profile_auto_open_app_input_hint">Select an app</string>
-    <string name="create_profile_auto_open_app_input_label">App</string>
-    <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
+    <string name="create_profile_auto_open_app_input_hint">Vyberte aplikáciu</string>
+    <string name="create_profile_auto_open_app_input_label">Aplikácia</string>
+    <string name="create_profile_auto_open_app_no_apps">Nenašli sa žiadne aplikácie.</string>
     <string name="profile_auto_open_error_invalid_url">Zadajte platnú URL adresu</string>
     <string name="nps_how_likely_question">Aká je pravdepodobnosť, že odporučíte Proton VPN svojmu priateľovi alebo kolegovi?</string>
     <string name="nps_additional_comment_title">Dajte nám, prosím, vedieť, prečo ste udelili toto hodnotenie</string>

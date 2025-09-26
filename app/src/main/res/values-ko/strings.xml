@@ -317,10 +317,10 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">서버 부하율 %1$s%%</string>
-    <string name="tv_recently_used_servers">최근 사용한 서버</string>
-    <string name="tv_available_servers">이용 가능한 서버</string>
-    <string name="tv_locked_servers">잠긴 서버</string>
-    <string name="tv_other_servers">다른 서버</string>
+    <string name="tv_recently_used_servers">Recently used servers</string>
+    <string name="tv_available_servers">Available servers</string>
+    <string name="tv_locked_servers">Locked servers</string>
+    <string name="tv_other_servers">Other servers</string>
     <string name="tv_server_list">서버 목록</string>
     <string name="tv_server_list_action_unavailable">사용할 수 없음</string>
     <string name="notification_subscription_expired_title">회원님의 Proton VPN 구독이 만료되었습니다</string>

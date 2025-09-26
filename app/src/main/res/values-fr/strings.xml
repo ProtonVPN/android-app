@@ -1364,7 +1364,7 @@
     <string name="settings_advanced_alternative_routing_description">Si les services Proton sont bloqués en raison de restrictions du réseau, nous essaierons d\'utiliser un routage alternatif du réseau pour vous connecter à nos sites.</string>
     <string name="settings_advanced_allow_lan_title">Connexions LAN</string>
     <string name="settings_advanced_allow_lan_description">Vous permet de vous connecter à des imprimantes, des enceintes et d\'autres appareils du réseau local de votre appareil.</string>
-    <string name="settings_advanced_allow_lan_description_tv">Se connecter à des enceintes, des ordinateurs et d’autres appareils sur votre réseau local</string>
+    <string name="settings_advanced_allow_lan_description_tv">Connecter à des enceintes, des ordinateurs et d’autres appareils sur votre réseau local</string>
     <string name="settings_advanced_allow_lan_title_tv">Autoriser les connexions LAN</string>
     <string name="settings_advanced_nat_type_title">Type de NAT</string>
     <!-- %1$s - will have translated learn_more value -->
@@ -1561,8 +1561,8 @@
     <string name="settings_lan_allow_direct_connection_description">Connectez-vous aux Smart TV, à Android Auto et à d\'autres appareils qui créent leur propre réseau. Pour une sécurité maximale, activez uniquement cette fonction lorsque vous vous connectez à ces appareils.</string>
     <!-- No VPN connections -->
     <string name="no_connections_title">Aucune connexion VPN disponible</string>
-    <string name="no_connections_description_loading_error">Échec du chargement de la liste des serveurs</string>
-    <string name="no_connections_description_no_servers">Demandez l\'accès de votre compte VPN à votre administrateur.</string>
+    <string name="no_connections_description_loading_error">Nous n\'avons pas pu charger la liste des serveurs.</string>
+    <string name="no_connections_description_no_servers">Demandez à votre administrateur d\'activer l\'accès VPN pour votre compte.</string>
     <string name="no_connections_action_refresh">Actualiser</string>
     <string name="no_connections_action_sign_out">Se déconnecter</string>
     <string name="no_connections_help_contact_us"><![CDATA[Besoin d\'aide ? <a href=""> Contactez-nous</a>]]></string>

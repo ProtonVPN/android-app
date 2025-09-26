@@ -1018,7 +1018,7 @@
     <string name="countries_title">Χώρες</string>
     <string name="profiles_title">Προφίλ</string>
     <string name="settings_autoconnect_title">Αυτόματη σύνδεση</string>
-    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
+    <string name="settings_autoconnect_boot_description">Σας συνδέει αυτόματα στο VPN χρησιμοποιώντας τη γρήγορη σύνδεση μόλις ξεκινήσει η συσκευή σας.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Χαρακτηριστικά</string>
     <!-- tag(Redesign_2023) -->

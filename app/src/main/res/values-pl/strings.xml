@@ -322,10 +322,10 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">Obciążenie serwera %1$s%%</string>
-    <string name="tv_recently_used_servers">Ostatnio używane serwery</string>
-    <string name="tv_available_servers">Dostępne serwery</string>
-    <string name="tv_locked_servers">Zablokowane serwery</string>
-    <string name="tv_other_servers">Inne serwery</string>
+    <string name="tv_recently_used_servers">Recently used servers</string>
+    <string name="tv_available_servers">Available servers</string>
+    <string name="tv_locked_servers">Locked servers</string>
+    <string name="tv_other_servers">Other servers</string>
     <string name="tv_server_list">Lista serwerów</string>
     <string name="tv_server_list_action_unavailable">Niedostępny</string>
     <string name="notification_subscription_expired_title">Twoja subskrypcja planu Proton VPN wygasła</string>

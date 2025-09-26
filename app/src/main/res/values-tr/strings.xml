@@ -1018,7 +1018,7 @@
     <string name="countries_title">Ülkeler</string>
     <string name="profiles_title">Profiller</string>
     <string name="settings_autoconnect_title">Otomatik bağlantı</string>
-    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
+    <string name="settings_autoconnect_boot_description">Aygıtınız başlatıldığında, hızlı bağlan ile otomatik VPN bağlantısı kurar.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Özellikler</string>
     <!-- tag(Redesign_2023) -->
@@ -1516,17 +1516,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Yeni</string>
     <string name="create_profile_auto_open_url_input_label">Site adresi</string>
-    <string name="create_profile_auto_open_url_private_mode_label">Use private browsing mode</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Gizli gezinme kipini kullanın</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Kapalı</string>
-    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
+    <string name="profile_auto_open_app_failed_to_launch">Bağlan ve Git: Uygulama bulunamadı</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_website">Open a website</string>
-    <string name="profile_auto_open_app">Open an app</string>
+    <string name="profile_auto_open_website">Bir site açın</string>
+    <string name="profile_auto_open_app">Bir uygulama açın</string>
     <string name="create_profile_auto_open_description">Bu profil ile bağlantı kurduğunuzda istediğiniz bir siteyi otomatik olarak açın.</string>
-    <string name="create_profile_auto_open_app_input_hint">Select an app</string>
-    <string name="create_profile_auto_open_app_input_label">App</string>
-    <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
+    <string name="create_profile_auto_open_app_input_hint">Bir uygulama seçin</string>
+    <string name="create_profile_auto_open_app_input_label">Uygulama</string>
+    <string name="create_profile_auto_open_app_no_apps">Herhangi bir uygulama bulunamadı.</string>
     <string name="profile_auto_open_error_invalid_url">Geçerli bir adres yazın</string>
     <string name="nps_how_likely_question">Proton VPN hizmetini bir arkadaşınıza veya meslektaşınıza önerme olasılığınız nedir?</string>
     <string name="nps_additional_comment_title">Lütfen neden bu puanı verdiğinizi bize anlatın</string>
