@@ -21,5 +21,5 @@ package com.protonvpn.android.redesign.vpn.ui
 
 enum class ConnectIntentAvailability {
     // Order is significant, see RecentsListViewStateFlow.getAvailability.
-    SERVER_REMOVED, UNAVAILABLE_PLAN, UNAVAILABLE_PROTOCOL, AVAILABLE_OFFLINE, ONLINE
+    NO_SERVERS, UNAVAILABLE_PLAN, UNAVAILABLE_PROTOCOL, AVAILABLE_OFFLINE, ONLINE
 }

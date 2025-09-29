@@ -201,7 +201,10 @@ class VpnConnectionErrorHandler @Inject constructor(
     ): VpnFallbackResult.Switch? {
         val fallbackIntent = ConnectIntent.Default
         val protocol = settingsForConnection.getFor(fallbackIntent).protocol
-        val fallbackServer = serverManager.getBestServerForConnectIntent(fallbackIntent, vpnUser, protocol) ?: return null
+        val fallbackServer =
+            serverManager.getBestServerForConnectIntent(fallbackIntent, vpnUser, protocol)
+                ?.takeIf { it.online }
+                ?: return null
         for (change in changes) when {
             change is PlanChange && change.isDowngrade -> {
                 return VpnFallbackResult.Switch.SwitchConnectIntent(

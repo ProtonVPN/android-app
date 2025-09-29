@@ -301,7 +301,12 @@ class RecentsListViewStateFlowTests {
 
     @Test
     fun offlineServersAreMarkedOffline() = testScope.runTest {
-        coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
+        val fastestP2P = ConnectIntent.FastestInCountry(CountryId.fastest, setOf(ServerFeature.P2P))
+        val recents =
+            DefaultRecents + listOf(
+                RecentConnection.UnnamedRecent(100, false, fastestP2P)
+            )
+        coEvery { mockRecentsManager.getRecentsList() } returns flowOf(recents)
         val servers = listOf(
             serverSecureCore,
             serverCh,
@@ -316,6 +321,7 @@ class RecentsListViewStateFlowTests {
             ConnectIntentAvailability.ONLINE,
             ConnectIntentAvailability.AVAILABLE_OFFLINE,
             ConnectIntentAvailability.AVAILABLE_OFFLINE,
+            ConnectIntentAvailability.NO_SERVERS, // No P2P servers in ServerManager.
         )
         assertEquals(expected, viewState.recents.map { it.availability })
     }
@@ -387,7 +393,7 @@ class RecentsListViewStateFlowTests {
 
     companion object {
         val ConnectIntentSecureCore = ConnectIntent.SecureCore(CountryId("PL"), CountryId.switzerland)
-        val ConnectIntentFastest = ConnectIntent.FastestInCountry(CountryId.fastest, setOf(ServerFeature.P2P))
+        val ConnectIntentFastest = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
         val ConnectIntentSweden = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
         val ConnectIntentIceland = ConnectIntent.FastestInCountry(CountryId.iceland, emptySet())
         val ConnectIntentSwitzerland = ConnectIntent.FastestInCountry(CountryId.switzerland, emptySet())
@@ -407,7 +413,7 @@ class RecentsListViewStateFlowTests {
         val ConnectIntentViewSwitzerland = createViewStateForFastestInCountry(ConnectIntentSwitzerland)
 
         val RecentSecureCore = RecentConnection.UnnamedRecent(1, true, ConnectIntentSecureCore)
-        val RecentFastest = RecentConnection.UnnamedRecent(2, false, ConnectIntentFastest)
+        val RecentFastest = RecentConnection.UnnamedRecent(2, true, ConnectIntentFastest)
         val RecentSweden = RecentConnection.UnnamedRecent(3, false, ConnectIntentSweden)
         val RecentIceland = RecentConnection.UnnamedRecent(4, false, ConnectIntentIceland)
 

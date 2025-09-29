@@ -41,16 +41,9 @@ class GetIntentAvailability @Inject constructor(
         settingsProtocol: ProtocolSelection
     ): ConnectIntentAvailability {
         val protocol = connectIntent.settingsOverrides?.protocol ?: settingsProtocol
-        return serverManager.forConnectIntent(
-            connectIntent,
-            onFastest = { isSecureCore, _, _ ->
-                if (!isSecureCore || vpnUser?.isFreeUser != true) ConnectIntentAvailability.ONLINE
-                else ConnectIntentAvailability.UNAVAILABLE_PLAN
-            },
-            onFastestInGroup = { servers -> servers.getAvailability(vpnUser, protocol) },
-            onServer = { server -> listOf(server).getAvailability(vpnUser, protocol) },
-            fallbackResult = ConnectIntentAvailability.SERVER_REMOVED
-        )
+        return serverManager.forConnectIntent(connectIntent, ConnectIntentAvailability.NO_SERVERS) { servers ->
+            servers.getAvailability(vpnUser, protocol)
+        }
     }
 
     private fun Iterable<Server>.getAvailability(
@@ -58,7 +51,7 @@ class GetIntentAvailability @Inject constructor(
         protocol: ProtocolSelection
     ): ConnectIntentAvailability {
         fun Server.hasAvailability(availability: ConnectIntentAvailability) = when (availability) {
-            ConnectIntentAvailability.SERVER_REMOVED, ConnectIntentAvailability.UNAVAILABLE_PLAN -> true
+            ConnectIntentAvailability.NO_SERVERS, ConnectIntentAvailability.UNAVAILABLE_PLAN -> true
             ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> vpnUser.hasAccessToServer(this)
             ConnectIntentAvailability.AVAILABLE_OFFLINE -> supportsProtocol(this, protocol)
             ConnectIntentAvailability.ONLINE -> online
@@ -72,6 +65,6 @@ class GetIntentAvailability @Inject constructor(
                     // The list of servers may be long and most of them should be online. Finish the loop early.
                     if (it == ConnectIntentAvailability.ONLINE) return@getAvailability ConnectIntentAvailability.ONLINE
                 }
-        } ?: ConnectIntentAvailability.UNAVAILABLE_PLAN
+        } ?: ConnectIntentAvailability.NO_SERVERS
     }
 }

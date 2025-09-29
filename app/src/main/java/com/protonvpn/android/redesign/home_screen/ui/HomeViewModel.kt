@@ -48,7 +48,6 @@ import com.protonvpn.android.settings.usecases.DisableCustomDnsForCurrentConnect
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.tv.main.CountryHighlight
-import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.promooffers.HomeScreenProminentBannerFlow
 import com.protonvpn.android.ui.promooffers.HomeScreenPromoBannerFlow
@@ -213,7 +212,7 @@ class HomeViewModel @Inject constructor(
             when (item.availability) {
                 ConnectIntentAvailability.UNAVAILABLE_PLAN -> eventNavigateToUpgrade.tryEmit(Unit)
                 ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> dialogState = DialogState.ServerNotAvailable
-                ConnectIntentAvailability.SERVER_REMOVED -> dialogState = DialogState.ServerNotAvailable
+                ConnectIntentAvailability.NO_SERVERS -> dialogState = DialogState.ServerNotAvailable
                 ConnectIntentAvailability.AVAILABLE_OFFLINE -> dialogState = recent.toMaintenanceDialogType()
                 ConnectIntentAvailability.ONLINE -> {
                     val trigger = if (recent.isPinned) ConnectTrigger.RecentPinned else ConnectTrigger.RecentRegular

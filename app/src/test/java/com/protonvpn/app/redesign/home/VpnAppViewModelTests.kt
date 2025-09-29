@@ -116,7 +116,6 @@ class VpnAppViewModelTests {
             testScope = testScope,
             testDispatcherProvider = TestDispatcherProvider(testDispatcher),
             supportsProtocol = supportsProtocol,
-            currentUser = currentUser,
             initialServers = emptyList()
         )
         serverManager2 = ServerManager2(serverManager, supportsProtocol)

@@ -156,7 +156,7 @@ class ProfilesViewModel @Inject constructor(
     ) {
         selectedProfileId = null
         when (item.availability) {
-            ConnectIntentAvailability.SERVER_REMOVED,
+            ConnectIntentAvailability.NO_SERVERS,
             ConnectIntentAvailability.UNAVAILABLE_PROTOCOL,
             ConnectIntentAvailability.AVAILABLE_OFFLINE ->
                 showDialog.value = Dialog.ServerUnavailable(item.profile.name)

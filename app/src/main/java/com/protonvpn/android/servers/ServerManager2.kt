@@ -22,13 +22,11 @@ package com.protonvpn.android.servers
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
-import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.flow.emitAll
@@ -116,13 +114,11 @@ class ServerManager2 @Inject constructor(
      */
     suspend fun <T> forConnectIntent(
         connectIntent: AnyConnectIntent,
-        onFastest: (isSecureCore: Boolean, serverFeatures: Set<ServerFeature>, excludeCountry: CountryId?) -> T,
-        onFastestInGroup: (List<Server>) -> T,
-        onServer: (Server) -> T,
-        fallbackResult: T
+        fallbackResult: T,
+        onServers: (Iterable<Server>) -> T,
     ): T {
         serverManager.ensureLoaded()
-        return serverManager.forConnectIntent(connectIntent, onFastest, onFastestInGroup, onServer, fallbackResult)
+        return serverManager.forConnectIntent(connectIntent, fallbackResult, onServers)
     }
 
     suspend fun getServerById(id: String): Server? {

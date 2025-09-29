@@ -18,13 +18,11 @@
  */
 package com.protonvpn.android.vpn
 
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.redesign.vpn.satisfiesFeatures
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
 import dagger.Reusable
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 // Get servers that are compatible with the given intent sorted by score. Compatibility here means
@@ -41,21 +39,9 @@ class GetOnlineServersForIntent @Inject constructor(
         protocolOverride: ProtocolSelection,
         maxTier: Int,
     ): List<Server> {
-        val allServers = serverManager2.allServersByScoreFlow.first()
-        val intentServers = serverManager2.forConnectIntent(
-            intent,
-            onFastest = { isSecureCore, features, excludedCountryId ->
-                val excludedCountry = excludedCountryId?.countryCode
-                allServers.asSequence().filter {
-                    it.isSecureCoreServer == isSecureCore &&
-                    it.satisfiesFeatures(features) &&
-                    it.exitCountry != excludedCountry
-                }
-            },
-            onFastestInGroup = { servers -> servers.sortedBy { it.score }.asSequence() },
-            onServer = { sequenceOf(it) },
-            emptySequence(),
-        )
+        val intentServers = serverManager2.forConnectIntent(intent, emptySequence()) { servers ->
+            servers.sortedBy { it.score }.asSequence()
+        }
         return intentServers
             .filter { it.tier <= maxTier && it.online && supportsProtocol(it, protocolOverride) }
             .toList()
