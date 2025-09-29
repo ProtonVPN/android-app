@@ -24,7 +24,6 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.appconfig.UserCountryPhysical
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.profiles.Profile
@@ -60,7 +59,6 @@ import javax.inject.Singleton
 @Singleton
 class ServerManager @Inject constructor(
     @Transient private val mainScope: CoroutineScope,
-    @Transient val currentUser: CurrentUser,
     @Transient @WallClock private val wallClock: () -> Long,
     @Transient val supportsProtocol: SupportsProtocol,
     @Transient val serversData: ServersDataManager,

@@ -20,7 +20,6 @@
 package com.protonvpn.app.userstorage
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.SavedProfilesV3
@@ -36,9 +35,7 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreference
-import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
-import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -71,7 +68,6 @@ class ProfileManagerTests {
         Storage.setPreferences(MockSharedPreference())
         val testDispatcher = UnconfinedTestDispatcher()
         testScope = TestScope(testDispatcher)
-        val currentUser = CurrentUser(TestCurrentUserProvider(TestUser.plusUser.vpnUser))
 
         effectiveUserSettings = MutableStateFlow(LocalUserSettings.Default)
         val currentUserSettings = EffectiveCurrentUserSettingsCached(effectiveUserSettings)
@@ -85,7 +81,6 @@ class ProfileManagerTests {
             testScope,
             TestDispatcherProvider(testDispatcher),
             SupportsProtocol(createGetSmartProtocols()),
-            currentUser,
             emptyList()
         )
     }

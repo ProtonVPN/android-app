@@ -190,7 +190,6 @@ class VpnConnectionManagerTests {
             testScope,
             TestDispatcherProvider(testDispatcher),
             supportsProtocol,
-            mockCurrentUser,
             MockedServers.serverList
         )
 

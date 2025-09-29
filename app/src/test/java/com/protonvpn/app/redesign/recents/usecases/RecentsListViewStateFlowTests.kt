@@ -171,7 +171,6 @@ class RecentsListViewStateFlowTests {
             testScope,
             TestDispatcherProvider(testDispatcher),
             supportsProtocol,
-            currentUser,
             listOf(serverCh, serverIs, serverSe, serverSecureCore)
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)

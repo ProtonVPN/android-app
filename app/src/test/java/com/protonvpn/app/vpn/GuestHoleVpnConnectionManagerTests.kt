@@ -136,7 +136,6 @@ class GuestHoleVpnConnectionManagerTests {
             testScope,
             TestDispatcherProvider(testDispatcher),
             supportsProtocol,
-            currentUser,
             emptyList()
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)

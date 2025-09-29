@@ -20,22 +20,20 @@
 package com.protonvpn.app.vpn
 
 import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.servers.api.ConnectingDomain
-import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
-import com.protonvpn.android.servers.api.ServerEntryInfo
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.api.ConnectingDomain
+import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
+import com.protonvpn.android.servers.api.ServerEntryInfo
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.GetOnlineServersForIntent
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockSharedPreference
-import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
@@ -93,7 +91,6 @@ class GetOnlineServersForIntentTests {
                 testScope,
                 TestDispatcherProvider(testDispatcher),
                 supportsProtocol,
-                CurrentUser(TestCurrentUserProvider(vpnUser)),
                 servers
             ),
             supportsProtocol

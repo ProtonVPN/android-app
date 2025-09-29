@@ -324,7 +324,6 @@ class VpnConnectionTestsIntegration {
             scope,
             testDispatcherProvider,
             supportsProtocol,
-            currentUser,
             MockedServers.serverList,
             builtInGuestHoles = MockedServers.serverList.filter { supportsProtocol(it, GuestHole.PROTOCOL) }
         )

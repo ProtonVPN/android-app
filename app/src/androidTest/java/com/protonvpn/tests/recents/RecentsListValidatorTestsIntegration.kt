@@ -122,7 +122,6 @@ class RecentsListValidatorTestsIntegration {
             testScope,
             TestDispatcherProvider(testDispatcher),
             supportsProtocol,
-            currentUser,
             emptyList()
         )
         serverManager2 = ServerManager2(serverManager, supportsProtocol)

@@ -57,7 +57,6 @@ class TranslatorTests {
             testScope,
             TestDispatcherProvider(dispatcher),
             supportsProtocol = mockk(relaxed = true),
-            currentUser = mockk(),
             emptyList()
         )
     }

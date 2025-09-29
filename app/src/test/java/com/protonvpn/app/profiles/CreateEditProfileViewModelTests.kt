@@ -185,7 +185,6 @@ class CreateEditProfileViewModelTests {
             testScope,
             TestDispatcherProvider(dispatcher),
             supportsProtocol,
-            currentUser,
             servers
         )
         vpnStateMonitor = VpnStateMonitor()

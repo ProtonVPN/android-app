@@ -78,7 +78,6 @@ class MainActivityViewModelTests {
             testScope = testScope,
             testDispatcherProvider = TestDispatcherProvider(testDispatcher),
             supportsProtocol = supportsProtocol,
-            currentUser = currentUser,
             initialServers = emptyList(),
         )
 

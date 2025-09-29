@@ -44,7 +44,6 @@ fun createInMemoryServerManager(
     testScope: TestScope,
     testDispatcherProvider: TestDispatcherProvider,
     supportsProtocol: SupportsProtocol,
-    currentUser: CurrentUser,
     initialServers: List<Server>,
     initialStatusId: LogicalsStatusId? = null,
     updateWithBinaryStatus: UpdateServersWithBinaryStatus = FakeUpdateServersWithBinaryStatus(),
@@ -59,7 +58,6 @@ fun createInMemoryServerManager(
     )
     val serverManager = ServerManager(
         testScope.backgroundScope,
-        currentUser,
         testScope::currentTime,
         supportsProtocol,
         serversDataManager,

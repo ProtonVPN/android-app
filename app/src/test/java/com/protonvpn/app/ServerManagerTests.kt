@@ -278,7 +278,6 @@ class ServerManagerTests {
             this,
             testDispatcherProvider,
             supportsProtocol,
-            currentUser,
             servers,
         )
         serverManager2 = ServerManager2(manager, supportsProtocol)

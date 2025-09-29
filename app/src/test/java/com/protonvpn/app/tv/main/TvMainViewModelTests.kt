@@ -143,7 +143,6 @@ class TvMainViewModelTests {
             testScope,
             TestDispatcherProvider(testDispatcher),
             supportsProtocol,
-            mockCurrentUser,
             MockedServers.serverList,
         )
 
