@@ -123,6 +123,33 @@ class WidgetTests {
         onNode(hasTextEqualTo(WidgetData.PROFILE_NAME)).assertExists()
     }
 
+    @Test
+    fun widgetSmallUnavailable() = runGlanceAppWidgetUnitTest {
+        val widgetSelectors = setupWidget(WidgetSize.SMALL_WIDGET) {
+            ProtonVpnGlanceWidget().WidgetUnavailableServers()
+        }
+
+        onNode(widgetSelectors.unavailableLabel).assertExists()
+    }
+
+    @Test
+    fun widgetMediumUnavailable() = runGlanceAppWidgetUnitTest {
+        val widgetSelectors = setupWidget(WidgetSize.MEDIUM_WIDGET) {
+            ProtonVpnGlanceWidget().WidgetUnavailableServers()
+        }
+
+        onNode(widgetSelectors.unavailableLabel).assertExists()
+    }
+
+    @Test
+    fun widgetLargeUnavailable() = runGlanceAppWidgetUnitTest {
+        val widgetSelectors = setupWidget(WidgetSize.LARGE_WIDGET) {
+            ProtonVpnGlanceWidget().WidgetUnavailableServers()
+        }
+
+        onNode(widgetSelectors.unavailableLabel).assertExists()
+    }
+
     private fun GlanceAppWidgetUnitTest.setupWidget(size: DpSize, content: @Composable () -> Unit): WidgetSelectors {
         setAppWidgetSize(size)
         val context = InstrumentationRegistry.getInstrumentation().targetContext
@@ -137,7 +164,7 @@ class WidgetTests {
     }
 }
 
-private class WidgetSelectors(context: Context){
+private class WidgetSelectors(context: Context) {
     val connectButton = hasTextEqualTo(context.getString(R.string.buttonConnect))
     val signInButton = hasTextEqualTo(context.getString(R.string.widget_sign_in))
     val fastestCountry = hasTextEqualTo(context.getString(R.string.fastest_country))
@@ -145,10 +172,11 @@ private class WidgetSelectors(context: Context){
     val recentsHeadline = hasTextEqualTo(context.getString(R.string.recents_headline))
     val disconnectButton = hasTextEqualTo(context.getString(R.string.disconnect))
     val protectedLabel = hasTextEqualTo(context.getString(R.string.vpn_status_connected))
+    val unavailableLabel = hasTextEqualTo(context.getString(R.string.no_connections_title))
 }
 
 private object WidgetData{
-    const val PROFILE_NAME = "Profile Recent";
+    const val PROFILE_NAME = "Profile Recent"
 
     val actionPlaceholder = actionStartActivity(
         ComponentName("test","test"),

@@ -63,6 +63,7 @@ import me.proton.core.presentation.R as CoreR
 fun WidgetViewState.widgetBackground(): Int = when(this) {
     is WidgetViewState.NeedLogin -> ProtonGlanceTheme.resources.widgetBackgroundNeedsLogin
     is WidgetViewState.LoggedIn -> ProtonGlanceTheme.resources.widgetBackgroundLoggedIn
+    is WidgetViewState.NoServersAvailable -> ProtonGlanceTheme.resources.widgetBackgroundUnavailable
 }
 
 @Composable

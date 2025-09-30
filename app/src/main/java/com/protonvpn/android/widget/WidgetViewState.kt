@@ -48,4 +48,7 @@ sealed interface WidgetViewState {
         // Recents that are avoiding duplication with connect card (can happen when we're connected to pinned recent).
         fun recentsWithoutPinnedConnectCard(): List<WidgetRecent> = recents.filter { it.connectIntentViewState != connectCard }
     }
+
+    data class NoServersAvailable(override val launchMainActivityAction: Action) : WidgetViewState
+
 }

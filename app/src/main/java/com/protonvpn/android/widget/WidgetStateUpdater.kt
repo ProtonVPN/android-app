@@ -31,6 +31,7 @@ import com.protonvpn.android.logging.WidgetStateUpdate
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.utils.flatMapLatestNotNull
 import com.protonvpn.android.vpn.VpnState
@@ -49,6 +50,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -61,74 +63,116 @@ class WidgetStateUpdater @Inject constructor(
     recentsListViewStateFlow: dagger.Lazy<RecentsListViewStateFlow>,
     currentUser: dagger.Lazy<CurrentUser>,
     appIconManager: dagger.Lazy<AppIconManager>,
+    serverManager2: ServerManager2,
     widgetTracker: WidgetTracker,
 ) {
 
-    private val vpnStatusFlow by lazy {
-        vpnStatusProviderUi.get().uiStatus
-            .map {
-                when (it.state) {
-                    VpnState.Disabled,
-                    VpnState.Disconnecting -> WidgetVpnStatus.Disconnected
+    private val vpnStatusFlow = vpnStatusProviderUi.get().uiStatus
+        .map {
+            when (it.state) {
+                VpnState.Disabled,
+                VpnState.Disconnecting -> WidgetVpnStatus.Disconnected
 
-                    VpnState.Connecting,
-                    VpnState.Reconnecting,
-                    VpnState.ScanningPorts,
-                    VpnState.CheckingAvailability -> WidgetVpnStatus.Connecting
+                VpnState.Connecting,
+                VpnState.Reconnecting,
+                VpnState.ScanningPorts,
+                VpnState.CheckingAvailability -> WidgetVpnStatus.Connecting
 
-                    VpnState.Connected -> WidgetVpnStatus.Connected
-                    VpnState.WaitingForNetwork -> WidgetVpnStatus.WaitingForNetwork
-                    is VpnState.Error ->
-                        if (it.state.isFinal) WidgetVpnStatus.Disconnected
-                        else WidgetVpnStatus.Connecting
-                }
+                VpnState.Connected -> WidgetVpnStatus.Connected
+                VpnState.WaitingForNetwork -> WidgetVpnStatus.WaitingForNetwork
+                is VpnState.Error ->
+                    if (it.state.isFinal) WidgetVpnStatus.Disconnected
+                    else WidgetVpnStatus.Connecting
             }
-            .distinctUntilChanged()
+        }
+        .distinctUntilChanged()
+        .shareIn(
+            scope = mainScope,
+            started = SharingStarted.WhileSubscribed(),
+            replay = 1,
+        )
+
+    private val areVpnServersAvailableFlow = combine(
+        vpnStatusFlow.map { widgetVpnStatus -> widgetVpnStatus == WidgetVpnStatus.Connected },
+        serverManager2.hasAnyCountryFlow,
+        serverManager2.hasAnyGatewaysFlow,
+    ) { isConnected, hasCountries, hasGateways ->
+        isConnected || hasCountries || hasGateways
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val widgetViewStateFlow = widgetTracker.haveWidgets.flatMapLatestNotNull { haveWidgets ->
-        if (!haveWidgets)
+        if (!haveWidgets) {
             flowOf(null)
-        else combine(
-            currentUser.get().vpnUserFlow,
-            appIconManager.get().currentIconData.map { it.getComponentName(appContext) },
-        ) { vpnUser, mainComponentName ->
-            vpnUser to mainComponentName
-        }.flatMapLatest { (vpnUser, mainComponentName) ->
-            val mainActivityAction = actionStartActivity(mainComponentName)
-            if (vpnUser == null)
-                flowOf(WidgetViewState.NeedLogin(mainActivityAction))
-            else combine(
-                vpnStatusFlow,
-                recentsListViewStateFlow.get()
-            ) { vpnStatus, recents ->
-                val haveVpnPermission = VpnService.prepare(appContext) == null
-                val widgetRecents = recents.recents.map {
-                    val canConnectInBackground = haveVpnPermission && !it.connectIntent.isProfileAutoOpen
-                    WidgetRecent(
-                        actionConnect(canConnectInBackground, mainComponentName, recentId = it.id),
-                        it.connectIntent
-                    )
+        } else {
+            combine(
+                currentUser.get().vpnUserFlow,
+                areVpnServersAvailableFlow,
+                appIconManager.get().currentIconData.map { it.getComponentName(appContext) },
+                ::Triple,
+            ).flatMapLatest { (vpnUser, areVpnServersAvailable, mainComponentName) ->
+                val mainActivityAction = actionStartActivity(mainComponentName)
+
+                when {
+                    vpnUser == null -> {
+                        flowOf(WidgetViewState.NeedLogin(mainActivityAction))
+                    }
+
+                    !areVpnServersAvailable -> {
+                        flowOf(WidgetViewState.NoServersAvailable(mainActivityAction))
+                    }
+
+                    else -> {
+                        combine(
+                            vpnStatusFlow,
+                            recentsListViewStateFlow.get(),
+                        ) { vpnStatus, recents ->
+                            val hasVpnPermission = VpnService.prepare(appContext) == null
+
+                            val widgetRecents = recents.recents.map { recentItemViewState ->
+                                val canConnectInBackground = hasVpnPermission && !recentItemViewState.connectIntent.isProfileAutoOpen
+
+                                WidgetRecent(
+                                    action = actionConnect(
+                                        canConnectInBackground = canConnectInBackground,
+                                        mainComponentName = mainComponentName,
+                                        recentId = recentItemViewState.id,
+                                    ),
+                                    connectIntentViewState = recentItemViewState.connectIntent,
+                                )
+                            }
+
+                            val canCardConnectInBackground = hasVpnPermission && !recents.connectionCard.connectIntentViewState.isProfileAutoOpen
+
+                            val cardAction = if (vpnStatus.isActionConnect) {
+                                actionConnect(
+                                    canConnectInBackground = canCardConnectInBackground,
+                                    mainComponentName = mainComponentName,
+                                )
+                            } else {
+                                actionSendBroadcast(
+                                    intent = WidgetActionBroadcastReceiver.intentDisconnect(
+                                        context = appContext,
+                                    )
+                                )
+                            }
+
+                            WidgetViewState.LoggedIn(
+                                connectCard = recents.connectionCard.connectIntentViewState,
+                                connectCardAction = cardAction,
+                                vpnStatus = vpnStatus,
+                                recents = widgetRecents,
+                                launchMainActivityAction = mainActivityAction,
+                            )
+                        }
+                    }
                 }
-                val canCardConnectInBackground =
-                    haveVpnPermission && !recents.connectionCard.connectIntentViewState.isProfileAutoOpen
-                val cardAction =
-                    if (vpnStatus.isActionConnect) actionConnect(canCardConnectInBackground, mainComponentName)
-                    else actionSendBroadcast(WidgetActionBroadcastReceiver.intentDisconnect(appContext))
-                WidgetViewState.LoggedIn(
-                    recents.connectionCard.connectIntentViewState,
-                    cardAction,
-                    vpnStatus,
-                    widgetRecents,
-                    mainActivityAction,
-                )
             }
         }
     }.stateIn(
-        mainScope,
-        SharingStarted.WhileSubscribed(),
-        null
+        scope = mainScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = null,
     )
 
     private val WidgetVpnStatus.isActionConnect get() = when(this) {

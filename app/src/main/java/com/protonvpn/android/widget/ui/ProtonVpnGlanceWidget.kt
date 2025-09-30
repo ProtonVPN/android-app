@@ -46,12 +46,14 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
+import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.layout.wrapContentHeight
 import androidx.glance.text.Text
+import androidx.glance.text.TextAlign
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.widget.WidgetStateUpdater
@@ -154,6 +156,12 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                                 }
                                 LoggedIn(viewState, contentModifier)
                             }
+
+                            is WidgetViewState.NoServersAvailable -> {
+                                WidgetUnavailableServers(
+                                    modifier = contentModifier.fillMaxSize(),
+                                )
+                            }
                         }
                     }
                     Spacer(GlanceModifier.defaultWeight())
@@ -239,6 +247,29 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                     )
                 }
             }
+        }
+    }
+
+    @Composable
+    fun WidgetUnavailableServers(modifier: GlanceModifier = GlanceModifier) {
+        Column(
+            modifier = modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Image(
+                provider = ImageProvider(resId = R.drawable.globe_error),
+                contentDescription = null,
+            )
+
+            Spacer(modifier = GlanceModifier.height(height = 12.dp))
+
+            Text(
+                text = glanceStringResource(id = R.string.no_connections_title),
+                style = ProtonGlanceTheme.typography.bigSecondary.copy(
+                    textAlign = TextAlign.Center,
+                )
+            )
         }
     }
 
