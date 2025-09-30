@@ -89,7 +89,7 @@
     <string name="done">انجام شد</string>
     <string name="add">اضافه کردن</string>
     <string name="copy_to_clipboard">کپی</string>
-    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="copied_to_clipboard">کپی شد</string>
     <string name="got_it">فهمیدم</string>
     <string name="something_went_wrong">مشکلی پیش آمد</string>
     <string name="try_again">تلاش دوباره</string>
@@ -173,8 +173,8 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Remove from included apps</string>
-    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
-    <string name="accessibility_action_item_delete">Delete</string>
+    <string name="accessibility_action_copy_to_clipboard">کپی در کلیپ‌بورد</string>
+    <string name="accessibility_action_item_delete">حذف</string>
     <string name="accessibility_action_item_move_up">Move up</string>
     <string name="accessibility_action_item_move_down">Move down</string>
     <string name="tileConnected">متصل: %1$s</string>
@@ -241,8 +241,8 @@
     <string name="lan_state_off" comment="Describes state, not action">خاموش</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">روشن</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">خاموش</string>
-    <string name="custom_dns_state_on" comment="Describes state, not action">On</string>
-    <string name="custom_dns_state_off" comment="Describes state, not action">Off</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">روشن</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">خاموش</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
     <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_description">تبلیغات، ردیاب‌ها، و بدافزارها را در وب‌سایت‌ها و برنامه‌ها مسدود می‌کند</string>
@@ -620,7 +620,7 @@
     <string name="fastest_country_description">بهترین سرور بر اساس مکان شما</string>
     <string name="settings_last_connection_title">آخرین اتصال</string>
     <string name="settings_last_connection_description">Your most recently used connection</string>
-    <string name="settings_change_icon_title">App icon</string>
+    <string name="settings_change_icon_title">آیکون برنامه</string>
     <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
     <string name="settings_change_icon_confirmation_title">Change app icon?</string>
     <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>

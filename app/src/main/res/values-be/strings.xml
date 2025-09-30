@@ -1068,7 +1068,7 @@
     <string name="countries_title">Краіны</string>
     <string name="profiles_title">Профілі</string>
     <string name="settings_autoconnect_title">Аўтаматычнае падключэнне</string>
-    <string name="settings_autoconnect_boot_description">Аўтаматычна падключае вас да VPN, выкарыстоўваючы хуткае падключэнне, як толькі ваша прылада запусціцца.</string>
+    <string name="settings_autoconnect_boot_description">Адразу пасля запуску вашай прылады аўтаматычна падключае вас да VPN пры выкарыстанні хуткага падключэння.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Функцыі</string>
     <!-- tag(Redesign_2023) -->
@@ -1591,7 +1591,7 @@
     <string name="create_profile_auto_open_url_private_mode_label">Выкарыстоўваць рэжым прыватнага прагляду</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Выключана</string>
-    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: праграма не знойдзена</string>
+    <string name="profile_auto_open_app_failed_to_launch">Падключыць і перайсці: праграма не знойдзена</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_website">Адкрыць вэб-сайт</string>
     <string name="profile_auto_open_app">Адкрыць праграму</string>
