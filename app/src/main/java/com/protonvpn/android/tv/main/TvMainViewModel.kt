@@ -136,7 +136,7 @@ class TvMainViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             vpnStatusProviderUI.status.collect {
-                connectedCountryFlag.value = if (isConnected()) it.server!!.flag else ""
+                connectedCountryFlag.value = if (isConnected()) it.server!!.exitCountry else ""
             }
         }
     }
@@ -293,7 +293,7 @@ class TvMainViewModel @Inject constructor(
     fun isEstablishingConnection() = vpnStatusProviderUI.isEstablishingConnection
 
     val quickConnectFlag get() = if (isConnected() || isEstablishingConnection())
-        vpnStatusProviderUI.connectingToServer?.flag
+        vpnStatusProviderUI.connectingToServer?.exitCountry
     else
         getConnectCountry(profileManager.getDefaultOrFastest())
 

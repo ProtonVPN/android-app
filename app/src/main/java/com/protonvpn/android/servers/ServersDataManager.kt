@@ -221,7 +221,7 @@ class ServersDataManager @Inject constructor(
                         gateways.addServer(server.gatewayName!!, server, uppercase = false)
 
                     else ->
-                        vpnCountries.addServer(server.flag, server)
+                        vpnCountries.addServer(server.exitCountry, server)
 
                 }
             }

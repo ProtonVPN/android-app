@@ -42,7 +42,7 @@ import kotlinx.serialization.Transient
 data class Server(
     @SerialName(value = "ID") val serverId: String,
     @SerialName(value = "EntryCountry") val entryCountry: String,
-    @SerialName(value = "ExitCountry") val exitCountry: String,
+    @SerialName(value = "ExitCountry") private val rawExitCountry: String,
     @SerialName(value = "Name") val serverName: String,
     @SerialName(value = "Servers") val connectingDomains: List<ConnectingDomain>,
     @SerialName(value = "HostCountry") val hostCountry: String? = null,
@@ -75,8 +75,7 @@ data class Server(
     val isFreeServer: Boolean
         get() = tier == 0
 
-    val flag: String
-        get() = if (exitCountry == "UK") "GB" else exitCountry
+    val exitCountry: String get() = if (rawExitCountry == "UK") "GB" else rawExitCountry
 
     val isBasicServer: Boolean
         get() = tier == 1
@@ -120,7 +119,7 @@ data class Server(
     val displayName: String get() = if (isSecureCoreServer)
         secureCoreServerNaming
     else
-        CountryTools.getFullName(flag)
+        CountryTools.getFullName(exitCountry)
 
     val gatewayName: String? get() =
         rawGatewayName ?: if (isGatewayServer) serverName.substringBefore("#") else null
@@ -161,7 +160,7 @@ data class Server(
 fun LogicalServerV1.toServer() = Server(
     serverId = serverId,
     entryCountry = entryCountry,
-    exitCountry = exitCountry,
+    rawExitCountry = exitCountry,
     serverName = serverName,
     connectingDomains = connectingDomains,
     hostCountry = hostCountry,
@@ -185,7 +184,7 @@ fun Iterable<LogicalServerV1>.toServers() = map { it.toServer() }
 fun LogicalServer.toPartialServer() = Server(
     serverId = serverId,
     entryCountry = entryCountry,
-    exitCountry = exitCountry,
+    rawExitCountry = exitCountry,
     serverName = serverName,
     connectingDomains = physicalServers,
     hostCountry = hostCountry,

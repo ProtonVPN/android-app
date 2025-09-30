@@ -72,7 +72,7 @@ fun createServer(
 ) = Server(
         serverId = serverId,
         entryCountry = entryCountry.uppercase(),
-        exitCountry = exitCountry.uppercase(),
+        rawExitCountry = exitCountry.uppercase(),
         serverName = serverName,
         rawGatewayName = gatewayName,
         connectingDomains = connectingDomains,

@@ -11,6 +11,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
@@ -53,10 +54,7 @@ class RecentsManagerTests {
         serverName: String = country,
     ): ConnectionParams {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId(country), emptySet())
-        val server = mockk<Server>()
-        every { server.flag } returns country
-        every { server.exitCountry } returns country
-        every { server.serverName } returns serverName
+        val server = createServer(exitCountry = country, serverName = serverName)
         return ConnectionParams(connectIntent, server, mockk(), mockk())
     }
 
@@ -80,12 +78,12 @@ class RecentsManagerTests {
 
     @Test
     fun testNewlyUsedRecentsMovedToFront() {
-        val connectionParams = mockedConnectionParams("Test")
+        val connectionParams = mockedConnectionParams("DE", "Test")
         addRecent(connectionParams)
-        addRecent(mockedConnectionParams("Test2"))
-        Assert.assertEquals("Test2", manager.getRecentCountries()[0])
+        addRecent(mockedConnectionParams("CH", "Test2"))
+        Assert.assertEquals("CH", manager.getRecentCountries()[0])
         addRecent(connectionParams)
-        Assert.assertEquals("Test", manager.getRecentCountries()[0])
+        Assert.assertEquals("DE", manager.getRecentCountries()[0])
     }
 
     @Test

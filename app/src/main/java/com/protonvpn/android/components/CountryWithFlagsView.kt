@@ -78,7 +78,7 @@ class CountryWithFlagsView : LinearLayout {
 
     fun setCountry(server: Server, text: CharSequence? = null) {
         with(server) {
-            update(flag, entryCountry.takeIf { isSecureCoreServer }, text)
+            update(exitCountry, entryCountry.takeIf { isSecureCoreServer }, text)
         }
     }
 

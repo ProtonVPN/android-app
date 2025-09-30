@@ -104,7 +104,7 @@ class RecentsManager @Inject constructor(
     fun getRecentCountries(): List<String> = recentCountries
 
     private fun addToRecentServers(server: Server) {
-        recentServers.getOrPut(server.flag) {
+        recentServers.getOrPut(server.exitCountry) {
             ArrayDeque(RECENT_SERVER_MAX_SIZE + 1)
         }.apply {
             removeFirst { it.serverName == server.serverName }
