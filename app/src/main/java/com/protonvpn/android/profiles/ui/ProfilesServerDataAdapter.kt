@@ -20,24 +20,53 @@
 package com.protonvpn.android.profiles.ui
 
 import com.protonvpn.android.models.vpn.GatewayGroup
+import com.protonvpn.android.profiles.usecases.UpdateConnectIntentForExistingServers
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.satisfiesFeatures
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.hasFlag
 import dagger.Reusable
+import kotlinx.coroutines.flow.map
+import java.util.EnumSet
 import javax.inject.Inject
+import kotlin.Boolean
 
 @Reusable
 class ProfilesServerDataAdapter @Inject constructor(
     private val serverManager: ServerManager2,
     private val translator: Translator,
+    private val updateConnectIntentForExistingServers: UpdateConnectIntentForExistingServers,
 ) {
-    val hasAnyGatewaysFlow get() = serverManager.hasAnyGatewaysFlow
+    enum class ServerType {
+        DirectCountry, P2P, SecureCore, Gateway
+    }
+
     val serverListVersion get() = serverManager.serverListVersion
+    val serverTypesFlow = serverManager.allServersFlow.map { allServers ->
+        val types = EnumSet.noneOf(ServerType::class.java)
+        allServers.forEach {
+            val isDirectCountryServer = !it.isGatewayServer && !it.isSecureCoreServer
+            if (isDirectCountryServer) {
+                types.add(ServerType.DirectCountry)
+                if (it.isP2pServer) types.add(ServerType.P2P)
+            }
+            if (it.isGatewayServer) types.add(ServerType.Gateway)
+            if (it.isSecureCoreServer) types.add(ServerType.SecureCore)
+
+            if (types.size == ServerType.entries.size) return@forEach
+        }
+        types
+    }
+
+    suspend fun updateIntentForExistingServers(intent: ConnectIntent): ConnectIntent {
+        val validIntent = updateConnectIntentForExistingServers(intent)
+        return validIntent ?: ConnectIntent.Fastest // There should always exist some servers and thus a valid intent.
+    }
 
     suspend fun countries(feature: ServerFeature?) : List<TypeAndLocationScreenState.CountryItem> {
         val countries = serverManager.getVpnCountries().asSequence()

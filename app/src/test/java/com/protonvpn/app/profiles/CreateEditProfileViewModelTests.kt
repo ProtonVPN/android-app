@@ -21,7 +21,9 @@ package com.protonvpn.app.profiles
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
+import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
@@ -46,11 +48,15 @@ import com.protonvpn.android.profiles.ui.ShouldAskForProfileReconnection
 import com.protonvpn.android.profiles.ui.TypeAndLocationScreenState
 import com.protonvpn.android.profiles.usecases.CreateOrUpdateProfileFromUi
 import com.protonvpn.android.profiles.usecases.PrivateBrowsingAvailability
+import com.protonvpn.android.profiles.usecases.UpdateConnectIntentForExistingServers
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
+import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.telemetry.ProfilesTelemetry
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
@@ -97,6 +103,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import java.util.Locale
+import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
@@ -130,7 +137,7 @@ class CreateEditProfileViewModelTests {
     private val testProfile = Profile(
         userId = vpnUser.userId,
         info = ProfileInfo(
-            id = 1L,
+            id = -1L, // ID is returned by upsert when inserting the profile to DB.
             name = "Profile 1",
             color = ProfileColor.Color1,
             icon = ProfileIcon.Icon1,
@@ -145,6 +152,17 @@ class CreateEditProfileViewModelTests {
         ),
         autoOpen = ProfileAutoOpen.None,
     )
+    private val testProfileZurichP2P = testProfile.copy(
+        info = testProfile.info.copy(name = "Profile Zurich P2P"),
+        connectIntent = ConnectIntent.FastestInCity(CountryId("CH"), cityEn = "Zurich", setOf(ServerFeature.P2P))
+    )
+
+    private val serverGenevaRegular = createServer(exitCountry = "CH", city = "Geneva")
+    private val serverGenevaP2P = createServer(exitCountry = "CH", city = "Geneva", features = SERVER_FEATURE_P2P)
+    private val serverZurichRegular = createServer(exitCountry = "CH", city = "Zurich")
+    private val serverLondonP2P = createServer(exitCountry = "UK", city = "London", features = SERVER_FEATURE_P2P)
+    private val serverLondonRegular = createServer(exitCountry = "UK", city = "London")
+    private val serverGateway = createServer(exitCountry = "CH", gatewayName = "Gateway", features = SERVER_FEATURE_RESTRICTED)
 
     @Before
     fun setup() {
@@ -152,6 +170,8 @@ class CreateEditProfileViewModelTests {
         testScope = TestScope(dispatcher)
         Dispatchers.setMain(dispatcher)
         Storage.setPreferences(MockSharedPreference())
+        // Context is needed by CountryTools - we should fix that.
+        ProtonApplication.setAppContextForTest(ApplicationProvider.getApplicationContext<ProtonApplication>())
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val db = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
@@ -188,7 +208,12 @@ class CreateEditProfileViewModelTests {
             servers
         )
         vpnStateMonitor = VpnStateMonitor()
-        serversAdapter = ProfilesServerDataAdapter(ServerManager2(serverManager, supportsProtocol), Translator(testScope.backgroundScope, serverManager))
+        val serverManager2 = ServerManager2(serverManager, supportsProtocol)
+        serversAdapter = ProfilesServerDataAdapter(
+            serverManager2,
+            Translator(testScope.backgroundScope, serverManager),
+            UpdateConnectIntentForExistingServers(serverManager2),
+        )
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         shouldAskForProfileReconnection = ShouldAskForProfileReconnection(vpnStatusProviderUI, profilesDao, createOrUpdate)
         isPrivateDnsActiveFlow = MutableStateFlow(false)
@@ -225,7 +250,7 @@ class CreateEditProfileViewModelTests {
 
     @Test
     fun `profile edit require reconnection on protocol change of currently connected profile`() = testScope.runTest {
-        profilesDao.upsert(testProfile.toProfileEntity())
+        val profileId = profilesDao.upsert(testProfile.toProfileEntity())
 
         vpnStateMonitor.updateStatus(
             VpnStateMonitor.Status(
@@ -234,7 +259,7 @@ class CreateEditProfileViewModelTests {
             )
         )
 
-        viewModel.setEditedProfileId(testProfile.info.id, false)
+        viewModel.setEditedProfileId(profileId, false)
         val newProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP)
         viewModel.setProtocol(newProtocol)
         var addScreenClosed = false
@@ -249,7 +274,7 @@ class CreateEditProfileViewModelTests {
 
     @Test
     fun `profile edit doesnt require reconnection on netshield change of currently connected profile`() = testScope.runTest {
-        profilesDao.upsert(testProfile.toProfileEntity())
+        val profileId = profilesDao.upsert(testProfile.toProfileEntity())
 
         vpnStateMonitor.updateStatus(
             VpnStateMonitor.Status(
@@ -258,7 +283,7 @@ class CreateEditProfileViewModelTests {
             )
         )
 
-        viewModel.setEditedProfileId(testProfile.info.id, false)
+        viewModel.setEditedProfileId(profileId, false)
         viewModel.setNetShield(false)
         var addScreenClosed = false
         viewModel.saveOrShowReconnectDialog(false) { addScreenClosed = true }
@@ -270,9 +295,10 @@ class CreateEditProfileViewModelTests {
 
     @Test
     fun `when country not available edit switches to fastest`() = testScope.runTest {
-        val connectIntent = ConnectIntent.FastestInCountry(CountryId.switzerland, emptySet(), testProfile.info.id)
-        profilesDao.upsert(testProfile.copy(connectIntent = connectIntent).toProfileEntity())
-        viewModel.setEditedProfileId(testProfile.info.id, false)
+        val connectIntent = ConnectIntent.FastestInCountry(CountryId.switzerland, emptySet())
+        val profileId = profilesDao.upsert(testProfile.copy(connectIntent = connectIntent).toProfileEntity())
+
+        viewModel.setEditedProfileId(profileId, false)
         val typeAndLocation = viewModel.typeAndLocationScreenStateFlow.first() as TypeAndLocationScreenState.Standard
         assertEquals(
             listOf(
@@ -287,26 +313,90 @@ class CreateEditProfileViewModelTests {
     }
 
     @Test
-    fun `gateway type available only if gateways exists`() = testScope.runTest {
-        profilesDao.upsert(testProfile.toProfileEntity())
-        viewModel.setEditedProfileId(testProfile.info.id, false)
-        assertEquals(
-            listOf(ProfileType.Standard, ProfileType.SecureCore, ProfileType.P2P),
-            viewModel.typeAndLocationScreenStateFlow.first().availableTypes
-        )
+    fun `available types depend on available servers`() = testScope.runTest {
+        val profileId = profilesDao.upsert(testProfile.toProfileEntity())
+        viewModel.setEditedProfileId(profileId, false)
 
-        serverManager.setServers(
-            listOf(
-                createServer(exitCountry = "SE"),
-                createServer(exitCountry = "CH", gatewayName = "Gateway1")
-            ),
-            statusId = null,
-            language = "en"
-        )
+        val regular = createServer(exitCountry = "SE")
+        val p2p = createServer(exitCountry = "SE", features = SERVER_FEATURE_P2P)
+        val secureCore = createServer(exitCountry = "SE", entryCountry = "CH")
+        val gateway = createServer(exitCountry = "SE", gatewayName = "Gateway")
 
-        assertEquals(
-            listOf(ProfileType.Standard, ProfileType.SecureCore, ProfileType.P2P, ProfileType.Gateway),
-            viewModel.typeAndLocationScreenStateFlow.first().availableTypes
-        )
+        listOf(
+            listOf(regular) to listOf(ProfileType.Standard),
+            listOf(p2p) to listOf(ProfileType.Standard, ProfileType.P2P),
+            listOf(gateway) to listOf(ProfileType.Gateway),
+            listOf(secureCore) to listOf(ProfileType.SecureCore),
+            listOf(regular, p2p, secureCore, gateway)
+                to listOf(ProfileType.Standard, ProfileType.SecureCore, ProfileType.P2P, ProfileType.Gateway)
+        ).forEachIndexed { index, (servers, expectedTypes) ->
+            serverManager.setServers(servers, statusId = null, language = null)
+
+            assertEquals(
+                "Case $index",
+                expectedTypes,
+                viewModel.typeAndLocationScreenStateFlow.first().availableTypes
+            )
+        }
+    }
+
+    @Test
+    fun `missing servers fallback - city P2P - drop city, preserve type`() = testScope.runTest {
+        val profileId = profilesDao.upsert(testProfileZurichP2P.toProfileEntity())
+        val servers = listOf(serverGenevaRegular, serverGenevaP2P, serverZurichRegular)
+        serverManager.setServers(servers, statusId = null, language = null)
+        viewModel.setEditedProfileId(profileId, false)
+
+        val state = viewModel.typeAndLocationScreenStateFlow.first()
+        assertIs<TypeAndLocationScreenState.P2P>(state)
+        assertEquals(CountryId("CH"), state.country.id)
+        assertEquals(null, state.cityOrState?.name)
+    }
+
+    @Test
+    fun `missing servers fallback - city P2P - drop city and country, preserve type`() = testScope.runTest {
+        val profileId = profilesDao.upsert(testProfileZurichP2P.toProfileEntity())
+        val servers = listOf(serverGenevaRegular, serverZurichRegular, serverLondonP2P, serverLondonRegular)
+        serverManager.setServers(servers, statusId = null, language = null)
+        viewModel.setEditedProfileId(profileId, false)
+
+        val state = viewModel.typeAndLocationScreenStateFlow.first()
+        assertIs<TypeAndLocationScreenState.P2P>(state)
+        assertEquals(CountryId.fastest, state.country.id)
+        assertEquals(null, state.cityOrState?.name)
+    }
+
+    @Test
+    fun `missing servers fallback - city P2P - no P2P servers`() = testScope.runTest {
+        val profileId = profilesDao.upsert(testProfileZurichP2P.toProfileEntity())
+        serverManager.setServers(listOf(serverLondonRegular), statusId = null, language = null)
+        viewModel.setEditedProfileId(profileId, false)
+
+        val state = viewModel.typeAndLocationScreenStateFlow.first()
+        assertIs<TypeAndLocationScreenState.Standard>(state)
+        assertEquals(CountryId.fastest, state.country.id)
+    }
+
+    @Test
+    fun `missing servers fallback - city P2P - fallback to gateway`() = testScope.runTest {
+        val profileId = profilesDao.upsert(testProfileZurichP2P.toProfileEntity())
+        serverManager.setServers(listOf(serverGateway), statusId = null, language = null)
+        viewModel.setEditedProfileId(profileId, false)
+
+        val state = viewModel.typeAndLocationScreenStateFlow.first()
+        assertIs<TypeAndLocationScreenState.Gateway>(state)
+        assertEquals("Gateway", state.gateway.name)
+    }
+
+    @Test
+    fun `missing servers fallback - gateway - fallback to fastest country`() = testScope.runTest {
+        val gatewayProfile = testProfile.copy(connectIntent = ConnectIntent.Gateway("Gateway", null))
+        val profileId = profilesDao.upsert(gatewayProfile.toProfileEntity())
+        serverManager.setServers(listOf(serverLondonRegular), statusId = null, language = null)
+        viewModel.setEditedProfileId(profileId, false)
+
+        val state = viewModel.typeAndLocationScreenStateFlow.first()
+        assertIs<TypeAndLocationScreenState.Standard>(state)
+        assertEquals(CountryId.fastest, state.country.id)
     }
 }

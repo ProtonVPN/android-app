@@ -91,7 +91,6 @@ fun ProfileTypeAndLocation(
         when (state) {
             is TypeAndLocationScreenState.P2P,
             is TypeAndLocationScreenState.Standard -> {
-                state as TypeAndLocationScreenState.StandardWithFeatures
                 ProfileCountryItem(
                     secureCore = false,
                     exitCountry = state.country,

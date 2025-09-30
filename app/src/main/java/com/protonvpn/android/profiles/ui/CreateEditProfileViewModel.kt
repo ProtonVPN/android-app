@@ -268,8 +268,15 @@ class CreateEditProfileViewModel @Inject constructor(
     val settingsScreenStateFlow = savedStateHandle.getStateFlow<SettingsScreenState?>(SETTINGS_SCREEN_STATE_KEY, null)
 
     val localeFlow = MutableStateFlow<Locale?>(null)
-    private val availableTypesFlow = adapter.hasAnyGatewaysFlow.map {
-        if (it) ProfileType.entries else ProfileType.entries.minus(ProfileType.Gateway)
+    private val availableTypesFlow = adapter.serverTypesFlow.map { types ->
+        ProfileType.entries.filter {
+            when(it) {
+                ProfileType.Standard -> types.contains(ProfilesServerDataAdapter.ServerType.DirectCountry)
+                ProfileType.SecureCore -> types.contains(ProfilesServerDataAdapter.ServerType.SecureCore)
+                ProfileType.P2P -> types.contains(ProfilesServerDataAdapter.ServerType.P2P)
+                ProfileType.Gateway -> types.contains(ProfilesServerDataAdapter.ServerType.Gateway)
+            }
+        }
     }
 
     val showReconnectDialogFlow = MutableStateFlow(false)
@@ -422,7 +429,13 @@ class CreateEditProfileViewModel @Inject constructor(
             ProfileColor.Color1,
             ProfileIcon.Icon1,
         )
-        typeAndLocationScreenSavedState = standardTypeDefault()
+        val availableTypes = availableTypesFlow.first()
+        typeAndLocationScreenSavedState = when {
+            availableTypes.contains(ProfileType.Standard) -> standardTypeDefault()
+            availableTypes.contains(ProfileType.SecureCore) -> secureCoreTypeDefault()
+            availableTypes.contains(ProfileType.Gateway) -> gatewayTypeDefault()
+            else -> throw IllegalStateException("Neither gateways nor country servers available")
+        }
         settingsScreenState = defaultSettingScreenState(
             isAutoOpenNew.first(),
             lanDirectConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled(),
@@ -443,8 +456,8 @@ class CreateEditProfileViewModel @Inject constructor(
             profile.info.color,
             profile.info.icon,
         )
-        val intent = profile.connectIntent
-        typeAndLocationScreenSavedState = getTypeAndLocationScreenStateFromIntent(intent)
+        val intentForAvailableServers = adapter.updateIntentForExistingServers(profile.connectIntent)
+        typeAndLocationScreenSavedState = getTypeAndLocationScreenStateFromIntent(intentForAvailableServers)
         settingsScreenState = getSettingsScreenState(profile)
     }
 
@@ -507,11 +520,20 @@ class CreateEditProfileViewModel @Inject constructor(
         }
     }
 
-    private fun standardTypeDefault() =
-        TypeAndLocationScreenSaveState(
-            type = ProfileType.Standard,
-            countryId = CountryId.fastest
-        )
+    private fun standardTypeDefault() = TypeAndLocationScreenSaveState(
+        type = ProfileType.Standard,
+        countryId = CountryId.fastest
+    )
+
+    private fun secureCoreTypeDefault() = TypeAndLocationScreenSaveState(
+        type = ProfileType.SecureCore,
+        countryId = CountryId.fastest,
+    )
+
+    private suspend  fun gatewayTypeDefault() = TypeAndLocationScreenSaveState(
+        type = ProfileType.Gateway,
+        gateway = adapter.gateways().first().name
+    )
 
     private fun ConnectIntentData.cityStateId() = when {
         region != null -> CityStateId(region, true)
