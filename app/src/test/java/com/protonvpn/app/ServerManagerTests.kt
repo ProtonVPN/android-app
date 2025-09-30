@@ -130,7 +130,8 @@ class ServerManagerTests {
     fun doNotChooseOfflineServerFromAll() = testScope.runTest {
         createServerManagers()
         val protocol = currentSettings.value.protocol
-        val server = manager.getBestScoreServer(false, serverFeatures = emptySet(), currentUser.vpnUser(), protocol)
+        val countryServers = manager.allServersByScore.filter { !it.isGatewayServer }
+        val server = manager.getBestScoreServer(countryServers, currentUser.vpnUser(), protocol)
         assertNotNull(server)
         assertEquals("DE#1", server.serverName)
     }

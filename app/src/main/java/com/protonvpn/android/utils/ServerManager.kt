@@ -188,12 +188,15 @@ class ServerManager @Inject constructor(
         guestHoleServers = serverList
     }
 
-    fun getDownloadedServersForGuestHole(serverCount: Int, protocol: ProtocolSelection) =
-        (listOfNotNull(getBestScoreServer(false, emptySet(), null, protocol)) +
+    fun getDownloadedServersForGuestHole(serverCount: Int, protocol: ProtocolSelection): List<Server> {
+        val servers =
+            listOfNotNull(getBestScoreServer(allServersByScore.filter { it.online }, vpnUser = null, protocol)) +
             getExitCountries(false).flatMap { country ->
                 country.serverList.filter { it.online && supportsProtocol(it, protocol) }
-            }.takeRandomStable(serverCount).shuffled()
-            ).distinct().take(serverCount)
+            }
+
+        return servers.takeRandomStable(serverCount).shuffled().distinct()
+    }
 
     suspend fun setServers(
         serverList: List<Server>,
@@ -270,26 +273,6 @@ class ServerManager @Inject constructor(
     fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? =
         getExitCountries(secureCoreCountry).firstOrNull { it.flag == countryCode }
 
-    fun getBestScoreServer(
-        secureCore: Boolean,
-        serverFeatures: Set<ServerFeature>,
-        vpnUser: VpnUser?,
-        protocol: ProtocolSelection,
-        excludedCountryId: CountryId? = null
-    ): Server? {
-        val excludedCountry = excludedCountryId?.countryCode
-        val eligibleServers = serversData.allServersByScore.asSequence()
-            .filter {
-                it.online
-                    && supportsProtocol(it, protocol)
-                    && it.isSecureCoreServer == secureCore
-                    && it.satisfiesFeatures(serverFeatures)
-                    && !it.isGatewayServer
-                    && it.exitCountry != excludedCountry
-            }
-        return with(eligibleServers) { firstOrNull { vpnUser.hasAccessToServer(it) } ?: firstOrNull() }
-    }
-
     @VisibleForTesting
     fun getBestScoreServer(serverList: Iterable<Server>, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
         val eligibleServers = serverList.sortedBy { it.score }.asSequence()
@@ -324,8 +307,10 @@ class ServerManager @Inject constructor(
         val wrapper = profile.wrapper
         val needsSecureCore = profile.isSecureCore ?: false
         return when (wrapper.type) {
-            ProfileType.FASTEST ->
-                getBestScoreServer(needsSecureCore, emptySet(), vpnUser, protocol)
+            ProfileType.FASTEST -> {
+                val tvServers = allServersByScore.filter { it.online && !it.isGatewayServer }
+                getBestScoreServer(tvServers, vpnUser, protocol)
+            }
 
             ProfileType.RANDOM ->
                 getRandomServer(vpnUser, protocol)
