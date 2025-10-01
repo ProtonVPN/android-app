@@ -58,14 +58,13 @@ import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.managed.usecase.AutoLogin
 import com.protonvpn.android.managed.usecase.AutoLoginImpl
-import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.models.vpn.usecase.ProvideLocalNetworks
 import com.protonvpn.android.models.vpn.usecase.ProvideLocalNetworksImpl
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.profiles.usecases.GetProfileById
-import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
 import com.protonvpn.android.profiles.usecases.GetPrivateBrowsingAvailability
 import com.protonvpn.android.profiles.usecases.GetPrivateBrowsingAvailabilityImpl
+import com.protonvpn.android.profiles.usecases.GetProfileById
+import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
 import com.protonvpn.android.profiles.usecases.IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled
 import com.protonvpn.android.profiles.usecases.IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabledImpl
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
@@ -74,6 +73,7 @@ import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapterLegacy
 import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabled
 import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabledImpl
+import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatus
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatusImpl
 import com.protonvpn.android.telemetry.CommonDimensions
@@ -376,7 +376,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDebugApiPrefs(provider: SharedPreferencesProvider): DebugApiPrefs? =
-        if (BuildConfig.DEBUG) DebugApiPrefs(provider) else null
+        if (BuildConfigUtils.displayDebugUi()) DebugApiPrefs(provider) else null
 
     @Module
     @InstallIn(SingletonComponent::class)
