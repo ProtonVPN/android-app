@@ -28,10 +28,12 @@ import javax.inject.Inject
 @Reusable
 class Logout @Inject constructor(
     val accountManager: AccountManager,
-    val onSessionClosed: OnSessionClosed
+    val onSessionClosed: OnSessionClosed,
+    val setVpnUser: SetVpnUser,
 ) {
     suspend operator fun invoke() {
         accountManager.getPrimaryAccount().first()?.let { account ->
+            setVpnUser(null) // Uses CurrentUser internally, must be called first.
             onSessionClosed(account)
         }
     }

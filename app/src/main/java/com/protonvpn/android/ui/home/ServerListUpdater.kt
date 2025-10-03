@@ -171,7 +171,9 @@ class ServerListUpdater @Inject constructor(
         currentUser.eventVpnLogin
             .onEach {
                 if (serverManager.streamingServicesModel == null) {
-                    periodicUpdateManager.executeNow(streamingServicesUpdate)
+                    coroutineScope {
+                        launch { periodicUpdateManager.executeNow(streamingServicesUpdate) }
+                    }
                 }
 
                 updateServerList(forceFreshUpdate = true)
