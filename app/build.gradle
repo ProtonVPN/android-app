@@ -204,6 +204,10 @@ android {
 
         Helpers.setAssetLinksResValue(it, "proton.me")
     }
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     flavorDimensions = ["environment", "functionality", "distribution"]
     productFlavors {
         production {
