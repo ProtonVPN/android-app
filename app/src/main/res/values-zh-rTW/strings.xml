@@ -114,7 +114,7 @@
     <string name="noNotificationPermissionGrantTitle">不要漏掉</string>
     <string name="noNotificationPermissionGrantDescription">啟用通知，在連線狀態發生變化時，獲取警示。</string>
     <string name="noNotificationPermissionGrantNowTitle">啟用通知</string>
-    <string name="error_prepare_vpn_description"><![CDATA[請停用 Android VPN 系統設定中其他 VPN 應用程式的「永久連線的 VPN」設定，以免干擾 Proton VPN 創建 VPN 連線。若出現要求 VPN 權限的對話方塊，請允許。其他 VPN 應用程式可能也需要移除以免衝突。之後，請再試一遍。<a href="%1$s">瞭解更多</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[在 Android VPN 系統設定裡，請將所有其它 VPN 應用程式的持續運作 VPN 功能設為停用，以避免 Proton VPN 建立連線時與其它程式發生錯誤干擾。若出現 VPN 權限需求的對話匡，請依指示授予該權限。其它 VPN 應用程式也許在某些時候需要移除，以避免發生衝突。完成上述內容確認後，請再試一次。 <a href="%1$s">瞭解更多</a>]]></string>
     <string name="error_prepare_vpn_settings">前往 Android VPN 設定值</string>
     <string name="error_prepare_vpn_title">錯誤：VPN 權限出現問題</string>
     <string name="error_server_not_set">伺服器不再可用</string>
@@ -182,23 +182,23 @@
     <string name="loaderErrorTimeout">連線逾時，請重試。</string>
     <string name="troubleshootButton">疑難排解</string>
     <string name="activityTroubleshootTitle">疑難排解</string>
-    <string name="troubleshootPotentialSolutionsSectionTitle">可能的解決方案</string>
-    <string name="troubleshootNoInternetDescription">請確定網際網路連線正常。</string>
-    <string name="troubleshootNoInternetTitle">沒有網際網路連線</string>
-    <string name="troubleshootIspProblemTitle">網際網路服務提供者 (ISP) 問題</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[嘗試改用另一個網路來連線到 Proton（或使用 <a href=\'%1$s\'>Tor</a>）]]></string>
-    <string name="troubleshootAntivirusProblemTitle">防毒軟體干擾</string>
-    <string name="troubleshootAntivirusProblemDescription">暫時停用或移除您的防毒軟件。</string>
-    <string name="troubleshootProxyFirewallProblemTitle">代理伺服器/防火牆干擾</string>
-    <string name="troubleshootProxyFirewallProblemDescription">停用任何代理伺服器或防火牆，或聯絡您的網路管理員。</string>
-    <string name="troubleshootProtonDownTitle">Proton 服務中斷</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[到 <a href=\"%1$s\">Proton 狀態</a>查看我們的系統狀態。]]></string>
-    <string name="troubleshootContactUsSectionTitle">仍然需要協助？直接聯絡我們</string>
-    <string name="troubleshootCustomerSupport">客戶支援</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">潛力解決方案</string>
+    <string name="troubleshootNoInternetDescription">請檢查確認網際網路連線是正常運作。</string>
+    <string name="troubleshootNoInternetTitle">網際網路未連線</string>
+    <string name="troubleshootIspProblemTitle">網際網路服務提供者 (ISP) 的問題</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[嘗試透過另一組網路進行連線到 Proton (或者使用 <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootAntivirusProblemTitle">防毒應用程式的干擾</string>
+    <string name="troubleshootAntivirusProblemDescription">暫時停用或者移除您的防毒應用程式。</string>
+    <string name="troubleshootProxyFirewallProblemTitle">代理伺服器/防火牆的干擾</string>
+    <string name="troubleshootProxyFirewallProblemDescription">停用所有代理伺服器或防火牆，又或者聯絡網路管理員。</string>
+    <string name="troubleshootProtonDownTitle">Proton 服務中止</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[移至 <a href=\"%1$s\">Proton 狀態</a> 查看我們的系統狀態。]]></string>
+    <string name="troubleshootContactUsSectionTitle">仍然需要說明？請直接聯繫我們</string>
+    <string name="troubleshootCustomerSupport">客戶支援服務</string>
     <string name="settingsAllowAlternativeRoutingTitle">替代路由</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[如果 Proton 被攔截，請允許應用程式嘗試替代路徑以連線至 Proton 伺服器。<a href="%1$s">取得更多資訊</a>。]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[為排除 Proton 被攔截情況發生，請將應用程式設為允許連線嘗試經替代路連至 Proton 伺服器。<a href="%1$s">取得更多資訊</a>。]]></string>
     <string name="troubleshootGovernmentBlockTitle">政治攔截</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[您所在的國家可能攔截存取 Proton。請嘗試改用 <a href=\'%1$s\'>Tor</a> 存取 Proton。]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[您所在的國家可能會攔截存取 Proton。請嘗試改用 <a href=\'%1$s\'>Tor</a> 存取 Proton。]]></string>
     <string name="settingsKillSwitchEnableTitle">如何啟用緊急終止開關</string>
     <string name="settingsKillSwitchEnableStep1">1. 開啟您的裝置設定值</string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -207,18 +207,18 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">設定</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. 啟用 \"<b>持續運作 VPN</b>\" 和 \"<b>封鎖無 VPN 連線</b>\"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. 啟用 \"<b>持續運作 VPN</b>\" 和 \"<b>攔截非經 VPN 的連線</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">設定</string>
     <string name="settingsKillSwitchLearnMoreButton">什麼是緊急終止開關？</string>
-    <string name="settingsKillSwitchWarningMain">當緊急終止開關開啟時，您將無法連接到：</string>
-    <string name="settingsKillSwitchWarningPoint1">透過分隔通道從 VPN 連線排除的網站和應用程式</string>
-    <string name="settingsKillSwitchWarningPoint2">您區域網路 (LAN) 上的裝置</string>
-    <string name="settingsEnableTelemetryTitle">分享匿名使用統計資料</string>
-    <string name="settingsEnableTelemetryDescription">使用資料協助我們克服 VPN 封鎖與改善應用程式效能。</string>
-    <string name="settingsSendCrashReportsTitle">分享匿名故障報告</string>
-    <string name="settingsSendCrashReportsDescription">故障報告協助我們修復臭蟲、偵測防火牆與避免 VPN 封鎖。</string>
-    <string name="settingsTelemetryScreenTitle">使用統計資料</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[這些統計資料不包含您的 IP 位址，且其無法用於識別您的身份。我們永遠不會將它們與第三方分享。<a href="%1$s">取得更多資訊</a>]]></string>
+    <string name="settingsKillSwitchWarningMain">當緊急終止開關在運作時，您就無法連接到：</string>
+    <string name="settingsKillSwitchWarningPoint1">透過分隔通道可在VPN 連線裡將網站與應用程式設為排除</string>
+    <string name="settingsKillSwitchWarningPoint2">您所在處的區域網路 (LAN) 上所有裝置</string>
+    <string name="settingsEnableTelemetryTitle">匿名分享使用情形統計值</string>
+    <string name="settingsEnableTelemetryDescription">使用情況資料有助於我們克服解決少數 VPN 受攔截的疑慮，同時亦可增進與改善應用程式的效能。</string>
+    <string name="settingsSendCrashReportsTitle">匿名分享當機故障報告</string>
+    <string name="settingsSendCrashReportsDescription">當機故障報告有助於我們修復錯誤、偵測防火牆以及避免 VPN 受攔截的問題。</string>
+    <string name="settingsTelemetryScreenTitle">使用情形統計值</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[這些統計值並未列入您的 IP 位址，同時透過這些數值並無法用來辨識您的身分。我們堅守承諾絕不會與第三方進行分享這些統計數值。<a href="%1$s">了解更多</a>]]></string>
     <string name="netshield_settings_description_not_html">在網站和應用程式中保護自己免受廣告、惡意軟體和追蹤程式的侵害。%1$s</string>
     <string name="netshield_settings_description_tv">Protects you from third-party ads, trackers, and malware. NetShield doesn\'t block ads that are built into streaming services like YouTube and Netflix.</string>
     <string name="netshield_settings_more_info_title_tv">How NetShield works</string>
@@ -232,7 +232,7 @@
     <string name="learn_more">瞭解更多</string>
     <string name="netshield_state_on" comment="Describes state, not action">開</string>
     <string name="netshield_state_off" comment="Describes state, not action">關閉</string>
-    <string name="netshield_state_unavailable" comment="Describes state, not action">不可用</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">非適用</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">開</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">關閉</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">開</string>
@@ -241,16 +241,16 @@
     <string name="lan_state_off" comment="Describes state, not action">關閉</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">開</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">關閉</string>
-    <string name="custom_dns_state_on" comment="Describes state, not action">開啟</string>
-    <string name="custom_dns_state_off" comment="Describes state, not action">關閉</string>
-    <string name="custom_dns_state_unavailable" comment="Describes state, not action">不可用</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">開</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">關</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">非適用</string>
     <string name="custom_dns_item_removed_snackbar">項目已移除</string>
-    <string name="netshield_free_description">封鎖網站與應用程式中的廣告、追蹤器與惡意程式</string>
+    <string name="netshield_free_description">攔截在網站與應用程式裡的廣告、追蹤程式與惡意軟體</string>
     <string name="netshield_what_data_means">NetShield 統計資料說明</string>
     <string name="netshield_ads_title">廣告</string>
-    <string name="netshield_ads_details">廣告與無形的廣告追蹤器</string>
-    <string name="netshield_trackers_title">追蹤器</string>
-    <string name="netshield_trackers_details">儲存並分享有關您的網際網路活動資訊之 Cookie 與其他追蹤器</string>
+    <string name="netshield_ads_details">廣告以及隱形廣告追蹤程式</string>
+    <string name="netshield_trackers_title">追蹤程式</string>
+    <string name="netshield_trackers_details">Cookies 以及其它追蹤應用程式可儲存並分享您在網路活動的所有資訊</string>
     <string name="netshield_data_title">資料</string>
     <string name="netshield_data_details">由 NetShield 封鎖的廣告、追蹤器與惡意軟體不受歡迎的數據量</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
@@ -322,7 +322,7 @@
     <string name="tv_other_servers">Other servers</string>
     <string name="tv_server_list">伺服器列表</string>
     <string name="tv_server_list_action_unavailable">不可用</string>
-    <string name="notification_subscription_expired_title">您的 Proton VPN 訂購授權已逾期</string>
+    <string name="notification_subscription_expired_title">您的 Proton VPN 授權方案已到期</string>
     <string name="notification_subscription_expired_content">我們已將您的方案降級，但我們已將您重新連線至目前方案中可用的最快伺服器。</string>
     <string name="notification_subscription_expired_no_reconnection_content">您的訂購授權已降級。</string>
     <string name="notification_delinquent_title">您的 Proton VPN 帳號有未付繳款單</string>

@@ -529,7 +529,7 @@
     <string name="upsell_card_tor_description">Utilitzeu la xarxa Tor a través de la vostra connexió VPN per a una privacitat addicional</string>
     <string name="upsell_tv_all_countries_title">Accediu a tots els països amb Plus</string>
     <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Desbloquegeu %1$s servidors segurs a %2$s països. %3$s</string>
-    <string name="upsell_tv_netshield_title">Gaudiu d\'una navegació sense anuncis amb Plus</string>
+    <string name="upsell_tv_netshield_title">Gaudiu d\'una navegació sense anuncis amb el pla Plus</string>
     <string name="upsell_tv_netshield_description"><![CDATA[Bloquegeu anuncis, rastrejadors i programari maliciós amb <b>NetShield</b>. %1$s]]></string>
     <string name="upsell_tv_split_tunneling_title">Aconseguiu el millor dels dos mons amb Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Dividiu el trànsit en túnels VPN i no VPN amb la <b>tunelització dividida</b>. %1$s]]></string>
@@ -1422,7 +1422,7 @@
     <string name="custom_dns_conflict_banner_netshield_title">NetShield no està disponible.</string>
     <string name="custom_dns_conflict_banner_netshield_description">El DNS personalitzat està activat, cosa que impedeix que NetShield funcioni. Més informació</string>
     <string name="custom_dns_conflict_banner_netshield_title_tv">Desactiveu el DNS personalitzat per a utilitzar NetShield</string>
-    <string name="custom_dns_conflict_banner_netshield_description_tv">El DNS personalitzat està activat, cosa que impedeix que NetShield funcioni.</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">El DNS personalitzat està activat, cosa que impedeix que el NetShield funcioni.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Desactiva el DNS personalitzat</string>
     <string name="info_secure_core_standard_high_privacy">Alta privacitat</string>
     <string name="info_secure_core_standard_lower_latency">Latència baixa</string>
