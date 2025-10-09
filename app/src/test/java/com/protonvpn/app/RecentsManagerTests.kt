@@ -2,7 +2,6 @@ package com.protonvpn.app
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.utils.Storage
@@ -41,7 +40,7 @@ class RecentsManagerTests {
         Storage.setPreferences(MockSharedPreference())
         every { vpnStatusProviderUI.status } returns vpnStatus
         testScope = TestScope(UnconfinedTestDispatcher())
-        manager = RecentsManager(testScope.backgroundScope, vpnStatusProviderUI, mockk(relaxed = true))
+        manager = RecentsManager(testScope.backgroundScope, vpnStatusProviderUI, mockk(relaxed = true), mockk())
     }
 
     private fun addRecent(connectionParams: ConnectionParams) {

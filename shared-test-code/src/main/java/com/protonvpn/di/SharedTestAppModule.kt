@@ -49,6 +49,7 @@ import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
@@ -259,8 +260,9 @@ class SharedTestAppModule {
     fun provideRecentManager(
         scope: CoroutineScope,
         vpnStatusProviderUI: VpnStatusProviderUI,
-        onSessionClosed: OnSessionClosed
-    ) = RecentsManager(scope, vpnStatusProviderUI, onSessionClosed).apply { clear() }
+        onSessionClosed: OnSessionClosed,
+        serverManager: ServerManager,
+    ) = RecentsManager(scope, vpnStatusProviderUI, onSessionClosed, serverManager).apply { clear() }
 
     @Singleton
     @Provides
