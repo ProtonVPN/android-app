@@ -40,7 +40,7 @@ class RecentsManagerTests {
         Storage.setPreferences(MockSharedPreference())
         every { vpnStatusProviderUI.status } returns vpnStatus
         testScope = TestScope(UnconfinedTestDispatcher())
-        manager = RecentsManager(testScope.backgroundScope, vpnStatusProviderUI, mockk(relaxed = true), mockk())
+        manager = RecentsManager(testScope.backgroundScope, vpnStatusProviderUI, mockk())
     }
 
     private fun addRecent(connectionParams: ConnectionParams) {

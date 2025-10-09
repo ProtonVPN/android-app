@@ -45,7 +45,6 @@ import javax.inject.Singleton
 class RecentsManager @Inject constructor(
     @Transient private val scope: CoroutineScope,
     @Transient private val vpnStatusProviderUI: VpnStatusProviderUI,
-    @Transient private val onSessionClosed: OnSessionClosed,
     serverManager: ServerManager,
 ) : java.io.Serializable {
 
@@ -99,9 +98,6 @@ class RecentsManager @Inject constructor(
                 }
             }
         }
-        onSessionClosed.logoutFlow.onEach {
-            clear()
-        }.launchIn(scope)
     }
 
     fun clear() {
@@ -134,6 +130,8 @@ class RecentsManager @Inject constructor(
     }
 
     fun getRecentServers(country: String): List<Server>? = recentServers[country]
+
+    fun getAllRecentServers(): List<Server> = recentServers.flatMap { (_, servers) -> servers }
 
     class RecentServersJsonAdapter : JsonDeserializer<LinkedHashMap<String, ArrayDeque<Server>>>,
                                      JsonSerializer<LinkedHashMap<String, ArrayDeque<Server>>>

@@ -260,9 +260,8 @@ class SharedTestAppModule {
     fun provideRecentManager(
         scope: CoroutineScope,
         vpnStatusProviderUI: VpnStatusProviderUI,
-        onSessionClosed: OnSessionClosed,
         serverManager: ServerManager,
-    ) = RecentsManager(scope, vpnStatusProviderUI, onSessionClosed, serverManager).apply { clear() }
+    ) = RecentsManager(scope, vpnStatusProviderUI, serverManager).apply { clear() }
 
     @Singleton
     @Provides

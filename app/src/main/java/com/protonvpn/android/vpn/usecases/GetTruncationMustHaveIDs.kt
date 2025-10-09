@@ -24,6 +24,7 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
@@ -76,6 +77,7 @@ class GetTruncationMustHaveIDsImpl @Inject constructor(
     private val currentUser: CurrentUser,
     private val profilesDao: ProfilesDao,
     private val recentsDao: RecentsDao,
+    private val recentsManager: RecentsManager,
     private val transientMustHaves: TransientMustHaves,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
 ) : GetTruncationMustHaveIDs {
@@ -85,15 +87,16 @@ class GetTruncationMustHaveIDsImpl @Inject constructor(
         maxMustHaves: Int,
     ): Set<String> {
         val userId = currentUser.vpnUser()?.userId
-        val recentsServerIDs = userId?.let {
+        val regularRecentIDs = userId?.let {
             recentsDao.getRecentsList(userId).first().mapNotNull { it.connectIntent.serverId }
         } ?: emptyList()
+        val tvRecentIDs = recentsManager.getAllRecentServers().map { it.serverId }
         val profilesServerIDs = userId?.let {
             profilesDao.getProfilesOrderedByConnectionRecency(userId).first().mapNotNull { it.connectIntent.serverId }
         } ?: emptyList()
         return getMustHaveIDs(
             currentServerID = vpnStatusProviderUI.connectingToServer?.serverId,
-            recentsServerIDs = recentsServerIDs,
+            recentsServerIDs = regularRecentIDs + tvRecentIDs,
             profilesServerIDs = profilesServerIDs,
             transientIDs = transientMustHaves.getAll(),
             maxRecents = maxRecents,

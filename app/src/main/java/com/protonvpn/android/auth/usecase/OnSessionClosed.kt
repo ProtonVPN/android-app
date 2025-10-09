@@ -24,6 +24,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.DisconnectTrigger
+import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
 import kotlinx.coroutines.flow.MutableSharedFlow
 import me.proton.core.account.domain.entity.Account
@@ -37,6 +38,7 @@ class OnSessionClosed @Inject constructor(
     private val vpnConnectionManager: VpnConnectionManager,
     private val certificateRepository: CertificateRepository,
     private val serverManager: ServerManager,
+    private val tvRecentsManager: RecentsManager,
     private val currentUser: CurrentUser
 ) {
     val logoutFlow = MutableSharedFlow<Account>()
@@ -48,6 +50,7 @@ class OnSessionClosed @Inject constructor(
         currentUser.invalidateCache()
         account.sessionId?.let { certificateRepository.clear(it) }
         serverManager.clearCache()
+        tvRecentsManager.clear()
         logoutFlow.emit(account)
     }
 }
