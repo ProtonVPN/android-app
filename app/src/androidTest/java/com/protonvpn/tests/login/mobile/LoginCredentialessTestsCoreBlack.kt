@@ -115,7 +115,8 @@ class LoginCredentialessTestsCoreBlack : MinimalSignInGuestTests {
         OnboardingRobot
             .verify { onboardingPaymentIdDisplayed() }
             .skipOnboardingPayment()
-        SettingsRobot
+        HomeRobot
+            .navigateToSettings() // The main screen is reset to the Home tab as the VpnUser is refetched.
             .verify { usernameIsDisplayed(username) }
     }
 }

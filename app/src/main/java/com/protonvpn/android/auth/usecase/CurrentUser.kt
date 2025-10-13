@@ -52,7 +52,11 @@ import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
 import javax.inject.Singleton
 
-data class PartialJointUserInfo(val user: User?, val vpnUser: VpnUser?, val sessionId: SessionId?)
+data class PartialJointUserInfo(val user: User?, val vpnUser: VpnUser?, val sessionId: SessionId?) {
+    override fun toString(): String {
+        return "PartialJointUserInt(user=\"${user?.userId}\", vpnUser=\"${vpnUser?.userId}, sessionId=$sessionId)"
+    }
+}
 data class FullJointUserInfo(val user: User, val vpnUser: VpnUser, val sessionId: SessionId)
 fun PartialJointUserInfo.toJointUserInfo() =
     if (user == null || vpnUser == null || sessionId == null) null
