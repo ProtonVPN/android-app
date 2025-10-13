@@ -204,6 +204,15 @@ fun RectF.translateMapCoordinatesToRegion() =
         MapRegion(left, top, width(), height())
     }
 
+fun PointF.translateRegionPointToMapCoordinates() =
+    PointF(x *TvMapRenderer.WIDTH, y * TvMapRenderer.WIDTH)
+
+fun PointF.translateNewToOldMapCoordinates() : PointF {
+    val oldX = (x - 60.36402f) / 0.28127f
+    val oldY = (y + 2.25f) / 0.28258f
+    return PointF(oldX, oldY)
+}
+
 // Translates point on the old map to a new one with linear regression (seems to work well enough)
 fun PointF.translateOldToNewMapCoordinates() : RectF {
     val newX = 0.28127f * x + 60.36402f

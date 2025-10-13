@@ -23,15 +23,18 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PointF
 import android.graphics.Rect
 import android.graphics.RectF
 import android.provider.Settings
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.activity.ComponentActivity
 import androidx.core.graphics.and
 import androidx.lifecycle.lifecycleScope
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.tv.main.CountryHighlight
 import com.protonvpn.android.tv.main.CountryHighlightInfo
@@ -39,6 +42,8 @@ import com.protonvpn.android.tv.main.MapRegion
 import com.protonvpn.android.tv.main.MapRendererConfig
 import com.protonvpn.android.tv.main.RenderedMap
 import com.protonvpn.android.tv.main.TvMapRenderer
+import com.protonvpn.android.tv.main.translateNewToOldMapCoordinates
+import com.protonvpn.android.tv.main.translateRegionPointToMapCoordinates
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.inCoordsOf
 import com.protonvpn.android.utils.scale
@@ -117,6 +122,12 @@ class MapView @JvmOverloads constructor(
                     invalidate()
                 }
             }
+        }
+        if (BuildConfig.DEBUG) setOnTouchListener { view, event ->
+            val region = renderedMap?.region
+            if (event.action == MotionEvent.ACTION_DOWN && region != null)
+                logMapLocation(region, event.x, event.y)
+            false
         }
     }
 
@@ -270,4 +281,12 @@ class MapView @JvmOverloads constructor(
         val OUTER_PIN_SMALL_SIZE = 32.toPx().toFloat()
         val INNER_PIN_SIZE = 12.toPx().toFloat()
     }
+}
+
+fun logMapLocation(region: RectF, x: Float, y: Float) {
+    val px = region.left + x * region.width()
+    val py = region.top + y * region.height()
+    val newMapCoord = PointF(px, py).translateRegionPointToMapCoordinates()
+    val oldMapCoord = newMapCoord.translateNewToOldMapCoordinates()
+    println("Map coordinates: new=$newMapCoord old=$oldMapCoord")
 }
