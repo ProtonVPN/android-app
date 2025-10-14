@@ -39,6 +39,7 @@ import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -67,6 +68,7 @@ class TvMainActivity : BaseTvActivity() {
             if (supportFragmentManager.findFragmentById(R.id.container) == null) {
                 vpnAppStateJob = vpnAppViewModel.loadingState
                     .flowWithLifecycle(lifecycle)
+                    .distinctUntilChanged()
                     .onEach { onAppStateChanged(it) }
                     .launchIn(lifecycleScope)
             }
