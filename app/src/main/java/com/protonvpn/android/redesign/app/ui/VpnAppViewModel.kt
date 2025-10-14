@@ -73,7 +73,12 @@ class VpnAppViewModel @Inject constructor(
                         is UpdateServerListFromApi.Result.Error -> LoaderState.Error.RequestFailed(::updateServerList)
                         UpdateServerListFromApi.Result.Success ->
                             LoaderState.Error.NoCountriesNoGateways(::updateServerList)
-                        null -> LoaderState.Error.RequestFailed(::updateServerList)
+                        null ->
+                            // Null means that update hasn't started yet. ServerListUpdater starts
+                            // the update in response to eventPartialLogin but the asynchronous
+                            // processing means that events can be handled in different orders so
+                            // emit "Loading" for a seamless UI transition.
+                            LoaderState.Loading
                     }
                 }
 
@@ -152,8 +157,8 @@ class VpnAppViewModel @Inject constructor(
         }
     }
 
-    private fun isServerListReady(hasCountries: Boolean, hasServers: Boolean): Boolean =
-        hasCountries || hasServers
+    private fun isServerListReady(hasCountries: Boolean, hasGateways: Boolean): Boolean =
+        hasCountries || hasGateways
 
     // Note: this condition is a bit weak.
     private fun isUserReady(partialJointUserInfo: PartialJointUserInfo): Boolean =
