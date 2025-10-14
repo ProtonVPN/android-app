@@ -94,9 +94,9 @@
     <string name="something_went_wrong">Coś poszło nie tak</string>
     <string name="try_again">Spróbuj ponownie</string>
     <string name="delete">Usuń</string>
-    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Move to top</string>
-    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Move up</string>
-    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Move down</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Przenieś na początek</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Przesuń w górę</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Przesuń w dół</string>
     <string name="remove">Usuń</string>
     <string name="saveButton">Zapisz</string>
     <string name="ipWithPlaceholder">Adres IP: %1$s</string>

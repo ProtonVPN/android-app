@@ -1549,7 +1549,7 @@
     <string name="settings_advanced_ipv6_description">Le trafic IPv6 passe par le VPN, ce qui peut améliorer la compatibilité avec les réseaux IPv6.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Pour utiliser cette adresse, vous devez autoriser les connexions IPv6 via le tunnel VPN.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Activer IPv6</string>
-    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 est désactivé</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">L\'IPv6 a été désactivé</string>
     <string name="settings_ipv6_enabled_toast">IPv6 activé</string>
     <string name="info_dialog_ipv6_traffic_benefits1">Garantit l\'accès aux sites internet et services uniquement compatibles avec IPv6.</string>
     <string name="info_dialog_ipv6_traffic_benefits2">Prévient les problèmes sur les réseaux qui dépendent de l\'IPv6.</string>

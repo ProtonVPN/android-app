@@ -1018,7 +1018,7 @@
     <string name="countries_title">Länder</string>
     <string name="profiles_title">Profiler</string>
     <string name="settings_autoconnect_title">Anslut automatiskt</string>
-    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
+    <string name="settings_autoconnect_boot_description">Ansluter dig automatiskt till VPN med snabbanslutning när din enhet har startats.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funktioner</string>
     <!-- tag(Redesign_2023) -->
