@@ -71,6 +71,9 @@ class SettingsCustomDns(title: String, isFree: Boolean) : IconCard(
     image = iconPaidFeature(isFree = isFree, iconRes = CoreR.drawable.ic_proton_servers)
 )
 
+class SettingsIPv6ConnectionsCard(title: String) :
+    IconCard(title, CoreR.drawable.ic_proton_globe)
+
 class SettingsLanConnectionsCard(title: String, isFree: Boolean) :
     IconCard(title, iconPaidFeature(isFree, CoreR.drawable.ic_proton_arrow_right_arrow_left))
 

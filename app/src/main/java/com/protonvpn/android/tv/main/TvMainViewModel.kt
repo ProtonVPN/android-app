@@ -61,6 +61,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.autoconnect.AutoConnectVpn
+import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -95,6 +96,7 @@ class TvMainViewModel @Inject constructor(
     isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
+    isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     autoConnectVpn: AutoConnectVpn,
 ) : ViewModel() {
 
@@ -150,22 +152,36 @@ class TvMainViewModel @Inject constructor(
         val showAutoConnectSetting: Boolean,
         val showNetShieldSetting: Boolean,
         val showCustomDnsSetting: Boolean,
+        val showIpv6Setting: Boolean,
+    )
+
+    data class FeatureFlags(
+        val isTvAutoConnectFeatureFlagEnabled: Boolean,
+        val isTvNetShieldSettingFeatureFlagEnabled: Boolean,
+        val isTvCustomDnsSettingFeatureFlagEnabled: Boolean,
+        val isIPv6FeatureFlagEnabled: Boolean,
+    )
+    private val featureFlagsFlow = combine(
+        isTvAutoConnectFeatureFlagEnabled.observe(),
+        isTvNetShieldSettingFeatureFlagEnabled.observe(),
+        isTvCustomDnsSettingFeatureFlagEnabled.observe(),
+        isIPv6FeatureFlagEnabled.observe(),
+        ::FeatureFlags
     )
 
     val mainViewState = combine(
         serverManager.serverListVersion,
         currentUser.vpnUserFlow,
-        isTvAutoConnectFeatureFlagEnabled.observe(),
-        isTvNetShieldSettingFeatureFlagEnabled.observe(),
-        isTvCustomDnsSettingFeatureFlagEnabled.observe(),
-    ) { serverListVersion, vpnUser, isAutoConnectAvailable, isNetShieldAvailable, isCustomDnsAvailable ->
+        featureFlagsFlow,
+    ) { serverListVersion, vpnUser, flags ->
         MainViewState(
             isFreeUser = vpnUser?.isFreeUser != false,
             serverListVersion = serverListVersion,
             userTier = vpnUser?.userTier ?: VpnUser.FREE_TIER,
-            showAutoConnectSetting = isAutoConnectAvailable,
-            showNetShieldSetting = isNetShieldAvailable,
-            showCustomDnsSetting = isCustomDnsAvailable,
+            showAutoConnectSetting = flags.isIPv6FeatureFlagEnabled,
+            showNetShieldSetting = flags.isTvNetShieldSettingFeatureFlagEnabled,
+            showCustomDnsSetting = flags.isTvCustomDnsSettingFeatureFlagEnabled,
+            showIpv6Setting = flags.isIPv6FeatureFlagEnabled,
         )
     }.onStart {
         // The main TV UI is synchronous and assumes all servers are loaded - changing this is tricky.

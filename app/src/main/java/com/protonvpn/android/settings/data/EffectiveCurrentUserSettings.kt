@@ -133,7 +133,7 @@ abstract class BaseApplyEffectiveUserSettings(
             tvAutoConnectOnBoot = if (isTv && flags.isTvAutoConnectEnabled) settings.tvAutoConnectOnBoot else false,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
-            ipV6Enabled = settings.ipV6Enabled && flags.isIPv6Enabled && !isTv
+            ipV6Enabled = settings.ipV6Enabled && flags.isIPv6Enabled
         )
     }
 }

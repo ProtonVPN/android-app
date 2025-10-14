@@ -57,6 +57,7 @@ import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.ReportBugCard
 import com.protonvpn.android.tv.models.SettingsAutoConnectCard
 import com.protonvpn.android.tv.models.SettingsCustomDns
+import com.protonvpn.android.tv.models.SettingsIPv6ConnectionsCard
 import com.protonvpn.android.tv.models.SettingsLanConnectionsCard
 import com.protonvpn.android.tv.models.SettingsNetShieldCard
 import com.protonvpn.android.tv.models.SettingsProtocolCard
@@ -66,6 +67,7 @@ import com.protonvpn.android.tv.presenters.TvItemCardView
 import com.protonvpn.android.tv.reports.TvBugReportActivity
 import com.protonvpn.android.tv.settings.autoconnect.TvSettingsAutoConnectActivity
 import com.protonvpn.android.tv.settings.customdns.TvSettingsCustomDnsActivity
+import com.protonvpn.android.tv.settings.ipv6.TvSettingsIPv6Activity
 import com.protonvpn.android.tv.settings.lanconnections.TvSettingsLanConnectionsActivity
 import com.protonvpn.android.tv.settings.netshield.TvSettingsNetShieldActivity
 import com.protonvpn.android.tv.settings.protocol.TvSettingsProtocolActivity
@@ -193,6 +195,9 @@ class TvHomeFragment : BaseTvBrowseFragment() {
                         paidFeatureActivityClass = TvSettingsCustomDnsActivity::class.java,
                     )
                 }
+                is SettingsIPv6ConnectionsCard -> {
+                    startActivity(Intent(context, TvSettingsIPv6Activity::class.java))
+                }
                 is SettingsLanConnectionsCard -> {
                     paidFeatureOpener(
                         paidFeature = PaidFeature.LanConnections,
@@ -240,6 +245,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
             showNetShieldSetting = viewState.showNetShieldSetting,
             showCustomDnsSetting = viewState.showCustomDnsSetting,
             showAutoConnectSetting = viewState.showAutoConnectSetting,
+            showIpv6Setting = viewState.showIpv6Setting,
         )
 
         view?.doOnPreDraw {
@@ -278,6 +284,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
         showAutoConnectSetting: Boolean,
         showNetShieldSetting: Boolean,
         showCustomDnsSetting: Boolean,
+        showIpv6Setting: Boolean,
     ) {
         var index = 1
         updateRecentsRow()
@@ -312,6 +319,10 @@ class TvHomeFragment : BaseTvBrowseFragment() {
 
             if(showCustomDnsSetting) {
                 add(SettingsCustomDns(getString(R.string.settings_custom_dns_title), isFreeUser))
+            }
+
+            if (showIpv6Setting) {
+                add(SettingsIPv6ConnectionsCard(getString(R.string.settings_advanced_ipv6_title)))
             }
 
             add(ReportBugCard(getString(R.string.drawerReportProblem)))
