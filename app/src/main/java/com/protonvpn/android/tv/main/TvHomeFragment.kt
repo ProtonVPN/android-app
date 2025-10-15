@@ -163,7 +163,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
                             imageView, CountryDetailFragment.Companion.transitionNameForCountry(item.vpnCountry.flag)
                         )
                         replace(
-                            R.id.container,
+                            R.id.home_container,
                             CountryDetailFragment::class.java,
                             CountryDetailFragment.Companion.createArguments(item.vpnCountry.flag)
                         )

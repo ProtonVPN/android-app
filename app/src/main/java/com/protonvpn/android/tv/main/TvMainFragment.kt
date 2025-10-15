@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.BuildConfig
@@ -79,9 +80,9 @@ class TvMainFragment : Fragment(R.layout.fragment_tv_main) {
             }
         }
         if (savedInstanceState == null) {
-            childFragmentManager.beginTransaction()
-                .replace(R.id.container, TvHomeFragment())
-                .commitNow()
+            activity?.supportFragmentManager?.commit {
+                replace(R.id.home_container, TvHomeFragment())
+            }
         }
     }
 

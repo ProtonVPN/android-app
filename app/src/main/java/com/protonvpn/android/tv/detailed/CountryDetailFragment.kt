@@ -184,7 +184,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
                 R.anim.slide_in_from_bottom, R.anim.slide_out_to_top,
                 R.anim.slide_in_from_top, R.anim.slide_out_to_bottom)
             addSharedElement(binding.flag, transitionNameForCountry(countryCode))
-            replace(R.id.container, TvServerListScreenFragment::class.java, bundle)
+            replace(R.id.home_container, TvServerListScreenFragment::class.java, bundle)
             addToBackStack(null)
         }
     }
