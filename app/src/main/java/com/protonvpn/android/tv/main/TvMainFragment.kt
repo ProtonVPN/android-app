@@ -23,7 +23,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.BuildConfig
@@ -39,7 +39,7 @@ private const val MAP_FADE_IN_DURATION = 400L
 @AndroidEntryPoint
 class TvMainFragment : Fragment(R.layout.fragment_tv_main) {
 
-    private val viewModel: TvMainViewModel by viewModels()
+    private val viewModel: TvMainViewModel by activityViewModels()
     private val binding by viewBinding(FragmentTvMainBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
