@@ -115,8 +115,8 @@ class TvMapRenderer(
         renderJob = scope.launch(renderContext) {
             val highlightsCss = highlights
                 .filter { it.country !in fuzzyBorderCountries }
-                .joinToString { (country, highlight) ->
-                    "#$country { fill: ${highlight.cssColor}; } "
+                .joinToString(separator = " ") { (country, highlight) ->
+                    "#$country { fill: ${highlight.cssColor}; }"
                 }
             val borderWidth = if (config.zoomIndependentBorderWidth) {
                 config.borderWidth * regionToRender.w // Borders will be the same regardless of zoom level
