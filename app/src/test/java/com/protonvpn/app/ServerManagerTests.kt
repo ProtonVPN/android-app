@@ -241,10 +241,10 @@ class ServerManagerTests {
     @Test
     fun updatedLoadsAreReflectedInGroupedServers() = testScope.runTest {
         val server1 = createServer("server1", exitCountry = "PL", loadPercent = 50f, score = 1.5, isOnline = true)
-        val server2 = createServer("server2", exitCountry = "PL", loadPercent = 10f, score = 1.0, isOnline = false)
+        val server2 = createServer("server2", exitCountry = "PL", loadPercent = 10f, score = 1.0, isOnline = true)
         val newLoads = listOf(
             LoadUpdate("server1", load = 100f, score = 0.0, status = 1),
-            LoadUpdate("server2", load = 25f, score = 5.0, status = 1),
+            LoadUpdate("server2", load = 25f, score = 5.0, status = 0),
         )
         createServerManagers(servers = listOf(server1, server2))
         manager.updateLoads(newLoads)
@@ -252,9 +252,21 @@ class ServerManagerTests {
         val country = serverManager2.getVpnExitCountry("PL", secureCoreCountry = false)
         val expectedServers = setOf(
             server1.copy(load = 100f, score = 0.0),
-            server2.copy(load = 25f, score = 5.0, isOnline = true)
+            server2.copy(load = 25f, score = 5.0, isOnline = false)
         )
         assertEquals(expectedServers, country?.serverList?.toSet())
+    }
+
+    @Test
+    fun loadsUpdateDoesntEnableOfflineServers() = testScope.runTest {
+        val server = createServer("server", exitCountry = "PL", isOnline = false)
+        val newLoads = listOf(LoadUpdate("server", load = 50f, score = 0.5, status = 1))
+
+        createServerManagers(servers = listOf(server))
+        manager.updateLoads(newLoads)
+        val country = serverManager2.getVpnExitCountry("PL", secureCoreCountry = false)
+        val expectedServer = server.copy(load = 50f, score = 0.5)
+        assertEquals(listOf(expectedServer), country?.serverList)
     }
 
     @Test

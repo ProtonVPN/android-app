@@ -121,22 +121,13 @@ class ServersDataManager @Inject constructor(
                 allServers.forEach { currentServer ->
                     val newValues = loadsMap[currentServer.serverId]
                     val server = if (newValues != null) {
-                        val updatedConnectingDomains = with(currentServer) {
-                            // If server becomes online we don't know which connectingDomains became available
-                            // based on /loads response. If there's more than one connectingDomain it'll have to
-                            // wait for /logicals response
-                            if (online != newValues.isOnline && newValues.isOnline && connectingDomains.size == 1) {
-                                listOf(connectingDomains.first().copy(isOnline = newValues.isOnline))
-                            } else {
-                                connectingDomains
-                            }
-                        }
-
+                        // Status update doesn't include physical servers, it's not safe to go from
+                        // disabled to enabled without the full information.
+                        val newIsOnline = newValues.isOnline.takeIf { currentServer.online } ?: false
                         currentServer.copy(
                             score = newValues.score,
                             load = newValues.load,
-                            isOnline = newValues.isOnline,
-                            connectingDomains = updatedConnectingDomains
+                            isOnline = newIsOnline,
                         )
                     } else {
                         currentServer
