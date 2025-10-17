@@ -136,7 +136,7 @@
     <string name="settingsExcludedApps">Исключенные приложения</string>
     <string name="settingsExcludedAppsEmpty">Добавьте приложения, трафик которых должен идти в обход VPN.</string>
     <string name="settingsIncludedAppsEmpty">Добавьте приложения, которые будут включены в VPN-трафик.</string>
-    <string name="settingsExcludedAppsSelectedHeader">Исключенные приложения (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Исключённые приложения (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Включенные приложения (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Все остальные обычные приложения (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Все остальные системные приложения (%1$d)</string>
@@ -151,14 +151,14 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Добавить в исключенные приложения</string>
+    <string name="accessibility_action_add_excluded_app">Добавить в исключённые приложения</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Удалить из исключенных приложений</string>
+    <string name="accessibility_action_remove_excluded_app">Удалить из исключённых приложений</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -210,7 +210,7 @@
     <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Включите \"<b>Постоянную VPN</b>\" и \"<b>Блокировать соединения без VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Настройки</string>
     <string name="settingsKillSwitchLearnMoreButton">Что такое kill switch?</string>
-    <string name="settingsKillSwitchWarningMain">Когда кнопка kill switch включен, вы не сможете подключиться к:</string>
+    <string name="settingsKillSwitchWarningMain">Когда kill switch включён, вы не сможете подключиться к:</string>
     <string name="settingsKillSwitchWarningPoint1">Веб-сайты и приложения, исключенные из вашего подключения к VPN с помощью раздельного туннелирования</string>
     <string name="settingsKillSwitchWarningPoint2">Устройства в вашей локальной сети (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Делиться анонимной статистикой использования</string>
