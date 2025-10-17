@@ -40,7 +40,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.minutes
 
-private const val UPDATE_STALENESS_THRESHOLD = 90
+private const val UPDATE_STALENESS_THRESHOLD = 45
 
 class PromptUpdateForStaleVersionTests {
 

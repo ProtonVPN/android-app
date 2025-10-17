@@ -45,7 +45,7 @@ import javax.inject.Singleton
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.milliseconds
 
-private const val UPDATE_PROMPT_STALENESS_DAYS = 90
+private const val UPDATE_PROMPT_STALENESS_DAYS = 45
 private val PROMPT_INTERVALS_IN_DAYS = listOf(21, 13, 8, 5, 3, 2)
 private const val UPDATE_TYPE = AppUpdateType.IMMEDIATE
 
