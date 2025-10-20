@@ -144,8 +144,9 @@ fun HomeRoute(
     val changeServerState =
         homeViewModel.changeServerViewState.collectAsStateWithLifecycle(null).value
     val upsellCarouselState = homeViewModel.upsellCarouselState.collectAsStateWithLifecycle().value
+    val isNightMode = LocalConfiguration.current.isNightMode()
     val bottomPromoBannerState =
-        homeViewModel.getBottomPromoBannerStateFlow(LocalConfiguration.current.isNightMode())
+        remember(isNightMode) { homeViewModel.getBottomPromoBannerStateFlow(isNightMode) }
             .collectAsStateWithLifecycle()
             .value
     val prominentPromoBannerState =
