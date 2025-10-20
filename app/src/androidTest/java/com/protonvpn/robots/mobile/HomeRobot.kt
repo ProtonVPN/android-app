@@ -28,15 +28,17 @@ import me.proton.test.fusion.Fusion.node
 
 object HomeRobot : Robot {
 
-    private val settingsButton get() = node.withText(R.string.botton_nav_settings)
-    private val profilesButton get() = node.withText(R.string.bottom_nav_profiles)
+    private val settingsButton get() =
+        node.hasAncestor(node.withTag("mainBottomBar")).withText(R.string.botton_nav_settings)
+    private val profilesButton get() =
+        node.hasAncestor(node.withTag("mainBottomBar")).withText(R.string.bottom_nav_profiles)
+    private val homeButton get() = node.hasAncestor(node.withTag("mainBottomBar")).withText(R.string.bottom_nav_home)
     private val signOutButton get() = node.withText(R.string.settings_sign_out)
     private val cancelButton get() = node.withText(R.string.dialog_action_cancel)
     private val confirmButton get() = node.withTag("confirmButton")
     private val dismissButton get() = node.withTag("dismissButton")
     private val connectionDetailsButton get() = node.withContentDescription(R.string.connection_card_accessbility_label_connection_details)
     private val signOutTitle get() = node.withText(R.string.dialog_sign_out_title)
-    private val homeButton get() = node.withText(R.string.bottom_nav_home)
     private val retryButton get() = node.withText(R.string.retry)
 
     fun cancelLogout() = cancelButton.clickTo(this)
