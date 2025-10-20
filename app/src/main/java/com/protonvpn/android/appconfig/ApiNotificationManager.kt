@@ -126,7 +126,7 @@ class ApiNotificationManager @Inject constructor(
     ) { responseNotifications, testNotifications ->
         val notifications = testNotifications.ifEmpty { responseNotifications }
         notifications.filter { notification ->
-            notification.allActionNames().all { action ->  ApiNotificationActions.SUPPORTED_ACTIONS.contains(action) }
+            notification.allActionNames().all { ApiNotificationActions.isSupported(it) }
         }
     }
 

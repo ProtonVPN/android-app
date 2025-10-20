@@ -40,12 +40,13 @@ object ApiNotificationActions {
     private const val OPEN_URL = "OpenUrl"
     private const val IN_APP_PURCHASE_FULLSCREEN = "InAppPurchaseFullscreen"
 
-    val SUPPORTED_ACTIONS = if (BuildConfig.FLAVOR_functionality == "google") {
+    private val SUPPORTED_ACTIONS = if (BuildConfig.FLAVOR_functionality == "google") {
         arrayOf(OPEN_URL, IN_APP_PURCHASE_FULLSCREEN)
     } else {
         arrayOf(OPEN_URL)
     }
 
+    fun isSupported(action: String) = SUPPORTED_ACTIONS.any { it.equalsNoCase(action) }
     fun isOpenUrl(action: String?) = OPEN_URL equalsNoCase action
     fun isInAppPurchaseFullscreen(action: String?) = IN_APP_PURCHASE_FULLSCREEN equalsNoCase action
 }
