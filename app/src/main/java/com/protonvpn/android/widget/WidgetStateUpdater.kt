@@ -26,6 +26,7 @@ import androidx.glance.action.actionStartActivity
 import androidx.glance.appwidget.action.actionSendBroadcast
 import androidx.glance.appwidget.updateAll
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.hasConnectionsAssigned
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.WidgetStateUpdate
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
@@ -106,16 +107,20 @@ class WidgetStateUpdater @Inject constructor(
             flowOf(null)
         } else {
             combine(
-                currentUser.get().vpnUserFlow,
+                currentUser.get().partialJointUserFlow,
                 areVpnServersAvailableFlow,
                 appIconManager.get().currentIconData.map { it.getComponentName(appContext) },
                 ::Triple,
-            ).flatMapLatest { (vpnUser, areVpnServersAvailable, mainComponentName) ->
+            ).flatMapLatest { (partialJointUser, areVpnServersAvailable, mainComponentName) ->
                 val mainActivityAction = actionStartActivity(mainComponentName)
 
                 when {
-                    vpnUser == null -> {
+                    partialJointUser.user == null -> {
                         flowOf(WidgetViewState.NeedLogin(mainActivityAction))
+                    }
+
+                    !partialJointUser.hasConnectionsAssigned() -> {
+                        flowOf(WidgetViewState.NoServersAvailable(mainActivityAction))
                     }
 
                     !areVpnServersAvailable -> {

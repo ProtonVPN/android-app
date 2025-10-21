@@ -44,6 +44,8 @@ import me.proton.core.user.domain.UserManager
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CurrentUserTests {
@@ -134,4 +136,35 @@ class CurrentUserTests {
             assertEquals(accountUserId2, vpnUser2?.userId)
         }
     }
+
+    @Test
+    fun `GIVEN vpn user exists WHEN observing if has connections assigned THEN emits true`() = scope.runTest {
+        turbineScope {
+            val accountUserId = AccountTestHelper.UserId1
+            val vpnUser = TestVpnUser.create(id = accountUserId.id)
+            coEvery { mockVpnUserDao.getByUserId(userId = accountUserId) } returns flowOf(vpnUser)
+            val hasAssignedConnectionsEvents = currentUser.hasConnectionsAssignedFlow.testIn(backgroundScope)
+            primaryUserIdFlow.emit(accountUserId)
+
+            val hasAssignedConnections = hasAssignedConnectionsEvents.awaitItem()
+
+            assertTrue(hasAssignedConnections)
+        }
+    }
+
+    @Test
+    fun `GIVEN vpn user does not exist WHEN observing if has connections assigned THEN emits false`() = scope.runTest {
+        turbineScope {
+            val accountUserId = AccountTestHelper.UserId1
+            val vpnUser = null
+            coEvery { mockVpnUserDao.getByUserId(userId = accountUserId) } returns flowOf(vpnUser)
+            val hasAssignedConnectionsEvents = currentUser.hasConnectionsAssignedFlow.testIn(backgroundScope)
+            primaryUserIdFlow.emit(accountUserId)
+
+            val hasAssignedConnections = hasAssignedConnectionsEvents.awaitItem()
+
+            assertFalse(hasAssignedConnections)
+        }
+    }
+
 }
