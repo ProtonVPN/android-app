@@ -43,12 +43,11 @@ class GetEligibleIntroductoryOffers @Inject constructor(
         val introPriceCents: Int
     )
 
-    suspend operator fun invoke(): List<Offer>? {
+    suspend operator fun invoke(planNames: List<String>): List<Offer>? {
         if (!inAppUpgradeAllowed()) return null
 
         return suspend {
-            val allPlans = listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
-            val giapPlans = loadGoogleSubscriptionPlans(allPlans)
+            val giapPlans = loadGoogleSubscriptionPlans(planNames)
 
             val introOffers = giapPlans.flatMap { plan ->
                 val currency = plan.dynamicPlan.getSingleCurrency() ?: return@flatMap emptyList()

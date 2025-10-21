@@ -33,6 +33,7 @@ import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.formatPrice
+import com.protonvpn.android.utils.ifOrNull
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -104,7 +105,8 @@ class UpgradeDialogViewModel(
     private class ReloadState(
         val plans: List<String>,
         val cycles: List<PlanCycle>?,
-        val buttonLabelOverride: String? = null
+        val buttonLabelOverride: String? = null,
+        val showDiscountBadge: Boolean = true,
     )
     private var plansForReload: ReloadState? = null
 
@@ -117,7 +119,7 @@ class UpgradeDialogViewModel(
     ) : PlanModel(displayName = giapPlanInfo.displayName, planName = giapPlanInfo.name, cycles = giapPlanInfo.cycles)
 
     fun reloadPlans() {
-        plansForReload?.let { loadPlans(it.plans, it.cycles, it.buttonLabelOverride) }
+        plansForReload?.let { loadPlans(it.plans, it.cycles, it.buttonLabelOverride, it.showDiscountBadge) }
     }
 
     fun loadPlans(allowMultiplePlans: Boolean) {
@@ -129,23 +131,33 @@ class UpgradeDialogViewModel(
                 else ->
                     listOf(Constants.CURRENT_PLUS_PLAN)
             }
-            loadPlans(plans, cycles = null, buttonLabelOverride = null)
+            loadPlans(plans, cycles = null, buttonLabelOverride = null, showDiscountBadge = true)
         }
     }
 
-    fun loadPlans(planNames: List<String>, cycles: List<PlanCycle>?, buttonLabelOverride: String?) {
-        plansForReload = ReloadState(planNames, cycles)
+    fun loadPlans(
+        planNames: List<String>,
+        cycles: List<PlanCycle>?,
+        buttonLabelOverride: String?,
+        showDiscountBadge: Boolean
+    ) {
+        plansForReload = ReloadState(planNames, cycles, null, showDiscountBadge)
         viewModelScope.launch {
             if (!isInAppUpgradeAllowed()) {
                 state.value = State.UpgradeDisabled
             } else {
-                loadGiapPlans(planNames, cycles, buttonLabelOverride)
+                loadGiapPlans(planNames, cycles, buttonLabelOverride, showDiscountBadge)
             }
         }
     }
 
     // The plan first on the list is mandatory and will be preselected.
-    private suspend fun loadGiapPlans(planNames: List<String>, cycleFilter: List<PlanCycle>?, buttonLabelOverride: String?) {
+    private suspend fun loadGiapPlans(
+        planNames: List<String>,
+        cycleFilter: List<PlanCycle>?,
+        buttonLabelOverride: String?,
+        showDiscountBadge: Boolean,
+    ) {
         state.value = State.LoadingPlans(cycleFilter?.size ?: 2, buttonLabelOverride)
         suspend {
             val unorderedPlans = loadGoogleSubscriptionPlans(planNames).map { inputPlanInfo ->
@@ -156,7 +168,10 @@ class UpgradeDialogViewModel(
                 } else {
                     inputPlanInfo
                 }
-                GiapPlanModel(planInfo, calculatePriceInfos(planInfo.cycles, planInfo.dynamicPlan))
+                GiapPlanModel(
+                    planInfo,
+                    calculatePriceInfos(planInfo.cycles, planInfo.dynamicPlan, showDiscountBadge)
+                )
             }
             // Plans order should match order of planNames.
             loadedPlans = planNames.mapNotNull { planName -> unorderedPlans.find { it.planName == planName } }
@@ -272,6 +287,7 @@ class UpgradeDialogViewModel(
         fun calculatePriceInfos(
             cycles: List<CycleInfo>,
             dynamicPlan: DynamicPlan,
+            withSavePercent: Boolean,
         ): Map<PlanCycle, PriceInfo> {
             val currency = dynamicPlan.getSingleCurrency() ?: return emptyMap()
 
@@ -301,7 +317,7 @@ class UpgradeDialogViewModel(
                     PriceInfo(
                         formattedPrice = formatPrice(priceAmount, currency),
                         formattedRenewPrice = renewPriceAmount?.let { formatPrice(it, currency) },
-                        savePercent = calculateSavingsPercentage(perMonthPrice, maxPerMonthPrice),
+                        savePercent = ifOrNull(withSavePercent) { calculateSavingsPercentage(perMonthPrice, maxPerMonthPrice) },
                         formattedPerMonthPrice =
                         if (perMonthPrice != null && cycleInfo.cycle.cycleDurationMonths != 1)
                             formatPrice(perMonthPrice, currency) else null

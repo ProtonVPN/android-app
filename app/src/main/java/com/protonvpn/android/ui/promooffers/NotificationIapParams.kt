@@ -28,12 +28,17 @@ data class NotificationIapParams(
     val cycle: PlanCycle,
     val currency: String? = null,
     val priceCents: Int? = null,
+    val showDiscountBadge: Boolean = false,
 )
 
 fun ApiNotificationIapAction.toIapParams() = NotificationIapParams(
-    planName = planName, cycle = cycle, currency = currency, priceCents = priceCents
+    planName = planName,
+    cycle = cycle,
+    currency = currency,
+    priceCents = priceCents,
+    showDiscountBadge = true,
 )
 
 fun ApiNotificationProductDetailsGoogle.toIapParams() = NotificationIapParams(
-    planName = planName, cycle = cycle, currency = null, priceCents = null
+    planName = planName, cycle = cycle,
 )

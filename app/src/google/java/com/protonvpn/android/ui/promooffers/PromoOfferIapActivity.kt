@@ -96,7 +96,12 @@ class PromoOfferIapActivity : BaseActivityV2() {
                 bgImageUrl.value =
                     if (resources.configuration.isNightMode()) offer.imageUrlDark else offer.imageUrlLight
                 bgImageContentDescription.value = offer.imageContentDescription
-                upgradeViewModel.loadPlans(listOf(offer.iapParams.planName), listOf(offer.iapParams.cycle), offer.buttonLabel)
+                upgradeViewModel.loadPlans(
+                    planNames = listOf(offer.iapParams.planName),
+                    cycles = listOf(offer.iapParams.cycle),
+                    buttonLabelOverride = offer.buttonLabel,
+                    showDiscountBadge = offer.iapParams.showDiscountBadge
+                )
                 upgradeViewModel.reportUpgradeFlowStart(UpgradeSource.PROMO_OFFER, offer.notificationReference)
             }
         }

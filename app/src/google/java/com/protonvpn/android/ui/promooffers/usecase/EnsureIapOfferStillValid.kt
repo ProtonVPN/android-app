@@ -43,7 +43,7 @@ class EnsureIapOfferStillValid @Inject constructor(
         priceCents: Int?,
         currency: String?
     ): Boolean {
-        val valid = getEligibleIntroductoryOffers()?.any { offer ->
+        val valid = getEligibleIntroductoryOffers(listOf(planName))?.any { offer ->
             offer.planName == planName && offer.cycle == planCycle &&
                 (currency == null || offer.currency equalsNoCase currency) &&
                 (priceCents == null || offer.introPriceCents == priceCents)
