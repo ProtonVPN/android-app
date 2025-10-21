@@ -113,6 +113,16 @@ class HomeScreenPromoOfferBannerTests {
     }
 
     @Test
+    fun `notification with unknown action type are ignored`() = runTest {
+        val unsupportedAction = ApiNotificationOfferButton(action = "unsupported")
+        val banner =
+            mockFullScreenImagePanel("image url", "image url", "alternative text", button = unsupportedAction)
+        val offer = mockOffer("id", type = ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER, panel = banner)
+        activeNotifications.value = listOf(offer)
+        assertNull(homeScreenBannerFlow(isNighMode = false).first())
+    }
+
+    @Test
     fun `notifications of other types are ignored`() = runTest {
         val action = ApiNotificationOfferButton(url = "action url")
         val banner = mockFullScreenImagePanel("image url", "image url", "alternative text", button = action)

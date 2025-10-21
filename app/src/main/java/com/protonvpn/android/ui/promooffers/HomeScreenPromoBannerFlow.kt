@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.promooffers
 
 import com.protonvpn.android.appconfig.ApiNotification
+import com.protonvpn.android.appconfig.ApiNotificationActions
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.ApiNotificationTypes
@@ -77,6 +78,7 @@ class HomeScreenPromoBannerFlow @Inject constructor(
 
     private fun createPromoOfferBanner(notification: ApiNotification, isNighMode: Boolean): PromoOfferBannerState? {
         if (notification.offer?.panel?.button != null &&
+            ApiNotificationActions.isSupported(notification.offer.panel.button.action) &&
             notification.offer.panel.fullScreenImage?.source?.isNotEmpty() == true
         ) {
             val fullScreenImage = notification.offer.panel.fullScreenImage
