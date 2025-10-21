@@ -19,18 +19,23 @@
 
 package com.protonvpn.app.ui.promooffer
 
+import app.cash.turbine.test
 import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
+import com.protonvpn.android.appconfig.ApiNotificationProductDetails
+import com.protonvpn.android.appconfig.ApiNotificationProductDetailsGoogle
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.ui.promooffers.HomeScreenPromoBannerFlow
 import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
+import com.protonvpn.android.ui.promooffers.usecase.EnsureIapOfferStillValid
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePanel
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,6 +43,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
+import me.proton.core.plan.presentation.entity.PlanCycle
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
@@ -45,6 +51,9 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeScreenPromoOfferBannerTests {
+
+    @MockK
+    private lateinit var mockEnsureIapOfferStillValid: EnsureIapOfferStillValid
 
     @MockK
     private lateinit var mockNotificationManager: ApiNotificationManager
@@ -60,9 +69,11 @@ class HomeScreenPromoOfferBannerTests {
 
         activeNotifications = MutableStateFlow(emptyList())
         every { mockNotificationManager.activeListFlow } returns activeNotifications
+        coEvery { mockEnsureIapOfferStillValid.invoke(any()) } returns true
 
         promoOffersPrefs = PromoOffersPrefs(MockSharedPreferencesProvider())
-        homeScreenBannerFlow = HomeScreenPromoBannerFlow(mockNotificationManager, promoOffersPrefs)
+        homeScreenBannerFlow =
+            HomeScreenPromoBannerFlow(mockNotificationManager, promoOffersPrefs, mockEnsureIapOfferStillValid)
     }
 
     @Test
@@ -91,7 +102,8 @@ class HomeScreenPromoOfferBannerTests {
     @Test
     fun `banner notifications with missing image or action are ignored`() = runTest {
         val actionNoUrl = ApiNotificationOfferButton(url = "")
-        val bannerNoActionUrl = mockFullScreenImagePanel("image url", "alternative text", button = actionNoUrl)
+        val bannerNoActionUrl =
+            mockFullScreenImagePanel("image url", "image url", "alternative text", button = actionNoUrl)
         val offerNoActionUrl =
             mockOffer("id2", type = ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER, panel = bannerNoActionUrl)
         val offerNoPanel = mockOffer("id3", type = ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER)
@@ -117,14 +129,41 @@ class HomeScreenPromoOfferBannerTests {
         val offer = mockOffer("id", type = ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER, panel = banner)
         activeNotifications.value = listOf(offer)
 
-        val bannerStates = runWhileCollecting(homeScreenBannerFlow(isNighMode = true)) {
-            runCurrent()
-            promoOffersPrefs.addVisitedOffer("id")
-            runCurrent()
-        }
         val uiBanner = PromoOfferBannerState(
             "image url", "alternative text", action, isDismissible = false, endTimestamp = null, notificationId = "id", reference = null
         )
-        assertEquals(listOf(uiBanner, null), bannerStates)
+        homeScreenBannerFlow(isNighMode = true).test {
+            assertEquals(uiBanner, awaitItem())
+            promoOffersPrefs.addVisitedOffer("id")
+            assertEquals(null, awaitItem())
+        }
+    }
+
+    @Test
+    fun `notification with IAP is displayed only when eligible`() = runTest {
+        val productDetails = ApiNotificationProductDetailsGoogle("plan", PlanCycle.MONTHLY)
+        val action = ApiNotificationOfferButton(
+            action = "IapPopup",
+            panel = mockFullScreenImagePanel(
+                lightThemeImageUrl = "image url",
+                darkModeImageUrl = "image url",
+                iapProductDetails = ApiNotificationProductDetails(google = productDetails)
+            )
+        )
+        val banner = mockFullScreenImagePanel("image url", "image url", "alternative text", button = action)
+        val offer = mockOffer("id", type = ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER, panel = banner)
+        activeNotifications.value = listOf(offer)
+
+        val uiBanner = PromoOfferBannerState(
+            "image url", "alternative text", action, isDismissible = false, endTimestamp = null, notificationId = "id", reference = null
+        )
+
+        homeScreenBannerFlow(isNighMode = true).test {
+            assertEquals(uiBanner, awaitItem())
+        }
+        coEvery { mockEnsureIapOfferStillValid.invoke(any()) } returns false
+        homeScreenBannerFlow(isNighMode = true).test {
+            assertEquals(null, awaitItem())
+        }
     }
 }

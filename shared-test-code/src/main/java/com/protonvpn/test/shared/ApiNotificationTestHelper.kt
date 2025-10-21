@@ -25,6 +25,7 @@ import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.ApiNotificationOfferFullScreenImage
 import com.protonvpn.android.appconfig.ApiNotificationOfferImageSource
 import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
+import com.protonvpn.android.appconfig.ApiNotificationProductDetails
 import com.protonvpn.android.appconfig.ApiNotificationProminentBanner
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
@@ -65,6 +66,7 @@ object ApiNotificationTestHelper {
         button: ApiNotificationOfferButton? = null,
         showCountdown: Boolean = false,
         isDismissible: Boolean = false,
+        iapProductDetails: ApiNotificationProductDetails? = null,
     ): ApiNotificationOfferPanel {
         val images = if (darkModeImageUrl != null) {
             listOf(ApiNotificationOfferImageSource(darkModeImageUrl, lightThemeImageUrl, "png"))
@@ -76,6 +78,7 @@ object ApiNotificationTestHelper {
             button = button,
             showCountdown = showCountdown,
             isDismissible = isDismissible,
+            iapProductDetails = iapProductDetails,
         )
     }
 

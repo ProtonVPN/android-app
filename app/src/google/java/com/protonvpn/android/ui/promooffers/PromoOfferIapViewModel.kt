@@ -21,9 +21,9 @@ package com.protonvpn.android.ui.promooffers
 
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.appconfig.ApiNotificationActions
-import com.protonvpn.android.appconfig.ApiNotificationIapAction
 import com.protonvpn.android.appconfig.ApiNotificationManager
-import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
+import com.protonvpn.android.appconfig.ApiNotificationOfferButton
+import com.protonvpn.android.appconfig.ApiNotificationOfferFullScreenImage
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.ui.promooffers.usecase.EnsureIapOfferStillValid
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,7 +42,7 @@ class PromoOfferIapViewModel @Inject constructor(
         val imageUrlDark: String,
         val imageContentDescription: String?,
         val buttonLabel: String?,
-        val iapData: ApiNotificationIapAction,
+        val iapParams: NotificationIapParams,
         val notificationReference: String?,
     )
 
@@ -55,37 +55,61 @@ class PromoOfferIapViewModel @Inject constructor(
         val offer = when {
             notification.type == ApiNotificationTypes.TYPE_INTERNAL_ONE_TIME_IAP_POPUP -> {
                 val panel = notification.offer?.panel
-                panel?.let {
-                    getOfferViewState(panel, reference = notification.reference)
-                }
+                getOfferViewState(
+                    image = panel?.fullScreenImage,
+                    button = panel?.button,
+                    iapParams = panel?.button?.iapActionDetails?.toIapParams(),
+                    reference = notification.reference
+                )
+            }
+
+            notification.type == ApiNotificationTypes.TYPE_ONE_TIME_IAP_POPUP -> {
+                val panel = notification.offer?.panel
+                getOfferViewState(
+                    image = panel?.fullScreenImage,
+                    button = panel?.button,
+                    iapParams = panel?.iapProductDetails?.google?.toIapParams(),
+                    reference = notification.reference
+                )
             }
 
             notification.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER &&
-                ApiNotificationActions.isInAppPurchaseFullscreen(notification.offer?.panel?.button?.action) -> {
+                ApiNotificationActions.isInAppPurchasePopup(notification.offer?.panel?.button?.action) -> {
                 val panel = notification.offer?.panel?.button?.panel
-                panel?.let {
-                    getOfferViewState(panel, reference = notification.reference)
+                val iapParams = if (panel?.iapProductDetails != null) {
+                    panel.iapProductDetails.google?.toIapParams()
+                } else {
+                    panel?.button?.iapActionDetails?.toIapParams()
                 }
+                getOfferViewState(
+                    image = panel?.fullScreenImage,
+                    button = panel?.button,
+                    iapParams = iapParams,
+                    reference = notification.reference
+                )
             }
 
             else -> null
         }
         return offer
-            ?.takeIf { ensureIapOfferStillValid(it.iapData) }
+            ?.takeIf { ensureIapOfferStillValid(it.iapParams) }
     }
 
-    private fun getOfferViewState(panel: ApiNotificationOfferPanel, reference: String?): OfferViewState? {
-        val imageSource = panel.fullScreenImage?.source?.firstOrNull()
-        val imageContentDescription = panel.fullScreenImage?.alternativeText
-        val isIapAction = ApiNotificationActions.isInAppPurchaseFullscreen(panel.button?.action)
-        val iapData = panel.button?.iapActionDetails
-        return if (isIapAction && iapData != null && imageSource?.url != null && imageSource.urlLight != null) {
+    private fun getOfferViewState(
+        image: ApiNotificationOfferFullScreenImage?,
+        button: ApiNotificationOfferButton?,
+        iapParams: NotificationIapParams?,
+        reference: String?
+    ): OfferViewState? {
+        val imageSource = image?.source?.firstOrNull()
+        val imageContentDescription = image?.alternativeText
+        return if (iapParams != null && imageSource?.url != null && imageSource.urlLight != null) {
             OfferViewState(
                 imageUrlDark = imageSource.url,
                 imageUrlLight = imageSource.urlLight,
                 imageContentDescription = imageContentDescription,
-                buttonLabel = panel.button.text.takeIfNotBlank(),
-                iapData = iapData,
+                buttonLabel = button?.text?.takeIfNotBlank(),
+                iapParams = iapParams,
                 notificationReference = reference,
             )
         } else {

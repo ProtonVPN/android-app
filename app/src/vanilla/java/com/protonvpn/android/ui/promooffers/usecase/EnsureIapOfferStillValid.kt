@@ -19,12 +19,12 @@
 
 package com.protonvpn.android.ui.promooffers.usecase
 
-import com.protonvpn.android.appconfig.ApiNotificationIapAction
+import com.protonvpn.android.ui.promooffers.NotificationIapParams
 import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
 class EnsureIapOfferStillValid @Inject constructor() {
 
-    suspend operator fun invoke(iapDetails: ApiNotificationIapAction) = false
+    suspend operator fun invoke(iapDetails: NotificationIapParams) = false
 }

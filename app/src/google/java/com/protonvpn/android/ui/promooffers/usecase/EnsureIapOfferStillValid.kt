@@ -19,8 +19,8 @@
 
 package com.protonvpn.android.ui.promooffers.usecase
 
-import com.protonvpn.android.appconfig.ApiNotificationIapAction
 import com.protonvpn.android.appconfig.ApiNotificationManager
+import com.protonvpn.android.ui.promooffers.NotificationIapParams
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -34,8 +34,8 @@ class EnsureIapOfferStillValid @Inject constructor(
     private val getEligibleIntroductoryOffers: GetEligibleIntroductoryOffers,
     private val apiNotificationsManager: ApiNotificationManager
 ) {
-    suspend operator fun invoke(iapDetails: ApiNotificationIapAction) =
-        with (iapDetails) { invoke(planName, cycle, priceCents, currency) }
+    suspend operator fun invoke(iapParams: NotificationIapParams) =
+        with (iapParams) { invoke(planName, cycle, priceCents, currency) }
 
     private suspend operator fun invoke(
         planName: String,

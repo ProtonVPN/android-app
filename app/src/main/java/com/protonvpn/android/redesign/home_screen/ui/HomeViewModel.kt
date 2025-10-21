@@ -267,7 +267,7 @@ class HomeViewModel @Inject constructor(
                     context.openUrl(url)
                 }
             }
-            ApiNotificationActions.isInAppPurchaseFullscreen(action.action) -> {
+            ApiNotificationActions.isInAppPurchasePopup(action.action) -> {
                 if (action.panel != null) {
                     // Telemetry events are reported by the activity.
                     PromoOfferIapActivity.launch(context, notificationId)

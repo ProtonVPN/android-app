@@ -243,7 +243,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
             ),
             button = ApiNotificationOfferButton(
                 text = config.buttonText,
-                action = "InAppPurchaseFullscreen",
+                action = "IapPanel",
                 iapActionDetails = ApiNotificationIapAction(
                     planName = planName,
                     cycle = planCycle,

@@ -23,6 +23,7 @@ import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.ApiNotificationTypes
+import com.protonvpn.android.ui.promooffers.usecase.EnsureIapOfferStillValid
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -44,15 +45,25 @@ data class PromoOfferBannerState(
 class HomeScreenPromoBannerFlow @Inject constructor(
     apiNotificationManager: ApiNotificationManager,
     promoOffersPrefs: PromoOffersPrefs,
+    ensureIapOfferStillValid: EnsureIapOfferStillValid,
 ) {
 
     private val activeNotificationsFlow = combine(
         apiNotificationManager.activeListFlow,
         promoOffersPrefs.visitedOffersFlow
     ) { notifications, dismissedOffers ->
-        notifications.firstOrNull {
-            it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER && !dismissedOffers.contains(it.id)
-        }
+        notifications
+            .filter {
+                it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER
+                        && !dismissedOffers.contains(it.id)
+            }.firstOrNull {
+
+                val iapParams = with(it.offer?.panel?.button?.panel) {
+                    this?.iapProductDetails?.google?.toIapParams()
+                        ?: this?.button?.iapActionDetails?.toIapParams()
+                }
+                iapParams == null || ensureIapOfferStillValid(iapParams)
+            }
     }
 
     operator fun invoke(isNighMode: Boolean): Flow<PromoOfferBannerState?> =
