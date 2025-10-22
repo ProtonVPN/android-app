@@ -117,12 +117,20 @@ fun PaymentPanel(
                 .animateContentSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val renewInfoModifier = Modifier
+                .padding(top = 4.dp)
             when (viewState) {
                 is ViewState.Initializing -> {}
                 is ViewState.LoadingPlans -> {
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                        selectPlanText()
+                        if (viewState.expectedCycleCount > 1) {
+                            selectPlanText()
+                        }
                         repeat(viewState.expectedCycleCount) { CycleSelectionPlaceholderRow() }
+                        RenewInfoText(
+                            "",
+                            modifier = renewInfoModifier.alpha(0f)
+                        )
                     }
                 }
                 is ViewState.PlanReady -> {
@@ -138,8 +146,7 @@ fun PaymentPanel(
                         if (selectedCycleInfo != null) {
                             RenewInfo(
                                 selectedCycleInfo = selectedCycleInfo,
-                                Modifier
-                                    .padding(top = 4.dp)
+                                modifier = renewInfoModifier
                                     .align(Alignment.CenterHorizontally)
                             )
                         }
@@ -195,7 +202,7 @@ fun PaymentPanel(
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
 fun RenewInfo(
-    selectedCycleInfo: ViewState. CycleViewInfo,
+    selectedCycleInfo: ViewState.CycleViewInfo,
     modifier: Modifier = Modifier
 ) {
     val price = selectedCycleInfo.priceInfo.formattedPrice
@@ -215,7 +222,14 @@ fun RenewInfo(
         }
         else -> return
     }
+    RenewInfoText(renewInfoText, modifier)
+}
 
+@Composable
+private fun RenewInfoText(
+    renewInfoText: String,
+    modifier: Modifier = Modifier
+) {
     Text(
         text = renewInfoText,
         style = ProtonTheme.typography.captionWeak,
