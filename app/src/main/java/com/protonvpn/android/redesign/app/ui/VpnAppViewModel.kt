@@ -29,6 +29,8 @@ import com.protonvpn.android.appconfig.periodicupdates.UpdateState
 import com.protonvpn.android.auth.LOGIN_GUEST_HOLE_ID
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.PartialJointUserInfo
+import com.protonvpn.android.redesign.reports.IsRedesignedBugReportFeatureFlagEnabled
+import com.protonvpn.android.redesign.reports.ui.BugReportActivity
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
@@ -57,6 +59,7 @@ class VpnAppViewModel @Inject constructor(
     currentUser: CurrentUser,
     private val userPlanManager: UserPlanManager,
     private val guestHole: GuestHole,
+    private val isRedesignedBugReportFeatureFlagEnabled: IsRedesignedBugReportFeatureFlagEnabled,
 ) : ViewModel() {
 
     private val serversLoaderState = combine(
@@ -70,7 +73,11 @@ class VpnAppViewModel @Inject constructor(
             when (updateState) {
                 is UpdateState.Idle -> {
                     when (updateState.lastResult) {
-                        is UpdateServerListFromApi.Result.Error -> LoaderState.Error.RequestFailed(::updateServerList)
+                        is UpdateServerListFromApi.Result.Error -> LoaderState.Error.RequestFailed(
+                            scope = mainScope,
+                            isRedesignedBugReportFeatureFlagEnabled = isRedesignedBugReportFeatureFlagEnabled,
+                            retryAction = ::updateServerList,
+                        )
                         UpdateServerListFromApi.Result.Success ->
                             LoaderState.Error.NoCountriesNoGateways(::updateServerList)
                         null ->
@@ -97,10 +104,14 @@ class VpnAppViewModel @Inject constructor(
             when (updateState) {
                 is UpdateState.Idle -> {
                     when (updateState.lastResult) {
-                        UserPlanManager.UpdateResult.UpdateError -> LoaderState.Error.RequestFailed(::updateVpnUser)
+                        null,
+                        UserPlanManager.UpdateResult.UpdateError -> LoaderState.Error.RequestFailed(
+                            scope = mainScope,
+                            isRedesignedBugReportFeatureFlagEnabled = isRedesignedBugReportFeatureFlagEnabled,
+                            retryAction = ::updateVpnUser,
+                        )
                         UserPlanManager.UpdateResult.NoConnectionsAssigned ->
                             LoaderState.Error.DisabledByAdmin(::updateVpnUser)
-                        null -> LoaderState.Error.RequestFailed(::updateVpnUser)
                         // Set loading because Success should only be reported when a valid user is being set to DB.
                         // The next update emitted by partialJointUserFlow should include VpnUser and switch state to
                         // Loaded.
@@ -193,11 +204,21 @@ class VpnAppViewModel @Inject constructor(
             )
 
             // The description is intentionally the same for servers and VPN user.
-            data class RequestFailed(override val retryAction: () -> Unit) : Error(
+            data class RequestFailed(
+                val scope: CoroutineScope,
+                val isRedesignedBugReportFeatureFlagEnabled: IsRedesignedBugReportFeatureFlagEnabled,
+                override val retryAction: () -> Unit,
+            ) : Error(
                 descriptionResId = R.string.no_connections_description_loading_error,
                 helpResId = R.string.no_connections_help_contact_us,
                 linkAnnotationAction = { context ->
-                    context.startActivity(Intent(context, DynamicReportActivity::class.java))
+                    scope.launch {
+                        if (isRedesignedBugReportFeatureFlagEnabled()) {
+                            context.startActivity(Intent(context, BugReportActivity::class.java))
+                        } else {
+                            context.startActivity(Intent(context, DynamicReportActivity::class.java))
+                        }
+                    }
                 },
             )
         }

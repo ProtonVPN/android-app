@@ -69,6 +69,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
+import com.protonvpn.android.redesign.reports.ui.BugReportActivity
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.label
@@ -190,7 +191,11 @@ fun SettingsRoute(
                     context.openUrl(context.getString(R.string.contact_support_link))
                 },
                 onReportBugClick = {
-                    context.startActivity(Intent(context, DynamicReportActivity::class.java))
+                    if (viewState.isRedesignedBugReportFeatureFlagEnabled) {
+                        context.startActivity(Intent(context, BugReportActivity::class.java))
+                    } else {
+                        context.startActivity(Intent(context, DynamicReportActivity::class.java))
+                    }
                 },
                 onDebugLogsClick = {
                     context.startActivity(Intent(context, LogActivity::class.java))

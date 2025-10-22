@@ -343,7 +343,8 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
         ipV6 = ipV6,
         customDns = customDns,
         showDebugTools = false,
-        theme = theme
+        theme = theme,
+        isRedesignedBugReportFeatureFlagEnabled = true,
     )
 
     val credentiallessAccountViewState =

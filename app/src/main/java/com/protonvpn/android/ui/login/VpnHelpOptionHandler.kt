@@ -21,16 +21,29 @@ package com.protonvpn.android.ui.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import com.protonvpn.android.redesign.reports.IsRedesignedBugReportFeatureFlagEnabled
+import com.protonvpn.android.redesign.reports.ui.BugReportActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import dagger.Reusable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.DefaultHelpOptionHandler
 import javax.inject.Inject
 
 @Reusable
-class VpnHelpOptionHandler @Inject constructor() : DefaultHelpOptionHandler() {
+class VpnHelpOptionHandler @Inject constructor(
+    private val mainScope: CoroutineScope,
+    private val isRedesignedBugReportFeatureFlagEnabled: IsRedesignedBugReportFeatureFlagEnabled,
+) : DefaultHelpOptionHandler() {
 
     override fun onCustomerSupport(context: AppCompatActivity) {
-        context.startActivity(Intent(context, DynamicReportActivity::class.java))
+        mainScope.launch {
+            if (isRedesignedBugReportFeatureFlagEnabled()) {
+                context.startActivity(Intent(context, BugReportActivity::class.java))
+            } else {
+                context.startActivity(Intent(context, DynamicReportActivity::class.java))
+            }
+        }
     }
 
     override fun onTroubleshoot(context: AppCompatActivity) {

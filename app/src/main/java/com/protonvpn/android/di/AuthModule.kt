@@ -22,12 +22,14 @@ package com.protonvpn.android.di
 import android.content.Context
 import com.protonvpn.android.auth.VpnUserCheck
 import com.protonvpn.android.auth.usecase.VpnLogin
+import com.protonvpn.android.redesign.reports.IsRedesignedBugReportFeatureFlagEnabled
 import com.protonvpn.android.ui.login.VpnHelpOptionHandler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
 import me.proton.core.auth.presentation.HelpOptionHandler
@@ -40,7 +42,10 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideHelpOptionHandler(): HelpOptionHandler = VpnHelpOptionHandler()
+    fun provideHelpOptionHandler(
+        scope: CoroutineScope,
+        isRedesignedBugReportFeatureFlagEnabled: IsRedesignedBugReportFeatureFlagEnabled,
+    ): HelpOptionHandler = VpnHelpOptionHandler(scope, isRedesignedBugReportFeatureFlagEnabled)
 
     @Provides
     @Singleton

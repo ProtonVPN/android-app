@@ -46,6 +46,7 @@ import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.BaseTvBrowseFragment
 import com.protonvpn.android.databinding.TvCardRowBinding
 import com.protonvpn.android.models.features.PaidFeature
+import com.protonvpn.android.redesign.reports.IsRedesignedBugReportFeatureFlagEnabled
 import com.protonvpn.android.tv.detailed.CountryDetailFragment
 import com.protonvpn.android.tv.models.CardListRow
 import com.protonvpn.android.tv.models.CardRow
@@ -62,6 +63,7 @@ import com.protonvpn.android.tv.models.SettingsProtocolCard
 import com.protonvpn.android.tv.models.SettingsSplitTunnelingCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
+import com.protonvpn.android.tv.reports.TvBugReportActivity
 import com.protonvpn.android.tv.settings.autoconnect.TvSettingsAutoConnectActivity
 import com.protonvpn.android.tv.settings.customdns.TvSettingsCustomDnsActivity
 import com.protonvpn.android.tv.settings.lanconnections.TvSettingsLanConnectionsActivity
@@ -78,9 +80,13 @@ import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.relativePadding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TvHomeFragment : BaseTvBrowseFragment() {
+
+    @Inject
+    lateinit var isRedesignedBugReportFeatureFlagEnabled: IsRedesignedBugReportFeatureFlagEnabled
 
     private val viewModel by activityViewModels<TvMainViewModel>()
 
@@ -216,7 +222,13 @@ class TvHomeFragment : BaseTvBrowseFragment() {
                 }
 
                 is ReportBugCard -> {
-                    startActivity(Intent(context, DynamicReportActivity::class.java))
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        if (isRedesignedBugReportFeatureFlagEnabled()) {
+                            startActivity(Intent(context, TvBugReportActivity::class.java))
+                        } else {
+                            startActivity(Intent(context, DynamicReportActivity::class.java))
+                        }
+                    }
                 }
             }
         }

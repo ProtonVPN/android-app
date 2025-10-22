@@ -94,6 +94,8 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".tv.reports.TvBugReportActivity" />
+        <activity
             android:name=".tv.settings.autoconnect.TvSettingsAutoConnectActivity" />
         <activity
             android:name=".tv.settings.customdns.TvSettingsCustomDnsActivity" />
@@ -418,6 +420,9 @@
         <activity
             android:name=".ui.drawer.bugreport.DynamicReportActivity"
             android:label="@string/drawerReportProblem"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".redesign.reports.ui.BugReportActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.drawer.bugreport.FullScreenDialog"

@@ -31,6 +31,7 @@ import com.protonvpn.android.profiles.data.toProfile
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
+import com.protonvpn.android.redesign.reports.FakeIsRedesignedBugReportFeatureFlagEnabled
 import com.protonvpn.android.redesign.settings.ui.SettingValue
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
@@ -213,6 +214,7 @@ class SettingsViewModelTests {
             isPrivateDnsActiveFlow = IsPrivateDnsActiveFlow(isPrivateDnsActive),
             isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
             observeDefaultConnection = mockObserveDefaultConnection,
+            isRedesignedBugReportFeatureFlagEnabled = FakeIsRedesignedBugReportFeatureFlagEnabled(true),
         )
     }
 

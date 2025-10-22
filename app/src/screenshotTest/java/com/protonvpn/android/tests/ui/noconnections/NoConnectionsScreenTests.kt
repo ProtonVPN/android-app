@@ -23,7 +23,10 @@ import androidx.compose.runtime.Composable
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.app.ui.VpnAppViewModel.LoaderState
+import com.protonvpn.android.redesign.reports.FakeIsRedesignedBugReportFeatureFlagEnabled
 import com.protonvpn.android.ui.noconnections.NoConnectionsScreen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 @ProtonVpnTestPreview
 @Composable
@@ -54,7 +57,11 @@ fun NoConnectionsScreen_NoCountriesNoGateways() {
 fun NoConnectionsScreen_RequestFailed() {
     ProtonVpnPreview(addSurface = false) {
         NoConnectionsScreen(
-            state = LoaderState.Error.RequestFailed({}),
+            state = LoaderState.Error.RequestFailed(
+                scope = CoroutineScope(context = Dispatchers.Main),
+                isRedesignedBugReportFeatureFlagEnabled = FakeIsRedesignedBugReportFeatureFlagEnabled(true),
+                retryAction = {},
+            ),
             onRefresh = {},
             onLogout = {},
         )

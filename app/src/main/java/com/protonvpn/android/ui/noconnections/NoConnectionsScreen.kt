@@ -26,6 +26,11 @@ import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.redesign.app.ui.VpnAppViewModel.LoaderState
+import com.protonvpn.android.redesign.reports.FakeIsRedesignedBugReportFeatureFlagEnabled
+import com.protonvpn.android.redesign.reports.IsRedesignedBugReportFeatureFlagEnabled
+import com.protonvpn.android.redesign.reports.IsRedesignedBugReportFeatureFlagEnabledImpl
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultWeak
 
@@ -127,9 +132,12 @@ private class NoConnectionsScreenParameterProvider : PreviewParameterProvider<Lo
 
     override val values: Sequence<LoaderState.Error>
         get() = sequenceOf(
-            LoaderState.Error.DisabledByAdmin({}),
-            LoaderState.Error.NoCountriesNoGateways({}),
-            LoaderState.Error.RequestFailed({}),
+            LoaderState.Error.DisabledByAdmin {},
+            LoaderState.Error.NoCountriesNoGateways {},
+            LoaderState.Error.RequestFailed(
+                scope = CoroutineScope(context = Dispatchers.Main),
+                isRedesignedBugReportFeatureFlagEnabled = FakeIsRedesignedBugReportFeatureFlagEnabled(true),
+            ) {},
         )
 
 }
