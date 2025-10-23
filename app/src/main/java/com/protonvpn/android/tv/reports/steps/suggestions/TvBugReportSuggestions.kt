@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Proton AG
+ * Copyright (c) 2025 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,17 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.app
 
-import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
-import org.junit.Assert
-import org.junit.Test
+package com.protonvpn.android.tv.reports.steps.suggestions
 
-class AndroidUtilsTests {
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import com.protonvpn.android.redesign.reports.ui.BugReportViewModel
 
-    @Test
-    fun testGetStringHtmlColorNoAlpha() {
-        Assert.assertEquals("#0000ff", 0xff.toStringHtmlColorNoAlpha())
-        Assert.assertEquals("#ff0000", 0x80ff0000.toInt().toStringHtmlColorNoAlpha())
+@Composable
+fun TvBugReportSuggestions(
+    viewState: BugReportViewModel.ViewState,
+    onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LaunchedEffect(key1 = Unit) {
+        onSetCurrentStep(BugReportViewModel.BugReportSteps.Suggestions)
     }
+
+    // Will be implemented in VPNAND-2392
 }

@@ -56,12 +56,9 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
 import com.protonvpn.android.R
-import com.protonvpn.android.logging.ProfilesAutoOpen
-import com.protonvpn.android.logging.ProtonLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.times
-import okhttp3.internal.toHexString
 import java.io.File
 import java.io.Serializable
 import java.nio.CharBuffer
@@ -194,12 +191,6 @@ fun Context.openPrivateCustomTab(url: Uri, darkTheme: Boolean?, browserPackage: 
 
     intent.launchUrl(this, url)
 }
-
-// Need to drop alpha channel as android won't handle it properly in TextView
-fun Int.toStringHtmlColorNoAlpha() = "#${toHexString().padStart(8, '0').drop(2)}"
-
-fun Context.getStringHtmlColorNoAlpha(@ColorRes res: Int) =
-    ContextCompat.getColor(this, res).toStringHtmlColorNoAlpha()
 
 fun Context.openProtonUrl(url: String) =
     openUrl(Uri.parse(url).buildUpon().appendQueryParameter("utm_source", Constants.PROTON_URL_UTM_SOURCE).build())

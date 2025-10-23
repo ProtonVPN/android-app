@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Proton AG
+ * Copyright (c) 2025 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,27 +17,22 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.update
+package com.protonvpn.android.redesign.reports.ui.steps.suggestions
 
-import androidx.activity.ComponentActivity
-import javax.inject.Inject
-import javax.inject.Singleton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import com.protonvpn.android.redesign.reports.ui.BugReportViewModel
 
-typealias AppUpdateInfo = Unit
+@Composable
+fun BugReportSuggestions(
+    viewState: BugReportViewModel.ViewState,
+    onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LaunchedEffect(key1 = Unit) {
+        onSetCurrentStep(BugReportViewModel.BugReportSteps.Suggestions)
+    }
 
-@Singleton
-class AppUpdateManager @Inject constructor() {
-
-    suspend fun checkForUpdate(): AppUpdateInfo? = null
-
-    fun launchUpdateFlow(activity: ComponentActivity, updateInfo: AppUpdateInfo) = Unit
-
-}
-
-@Singleton
-class UpdatePromptForStaleVersion @Inject constructor() {
-
-    // Matches the interface in other variants.
-    suspend fun getUpdatePrompt(): AppUpdateInfo? = null
-    fun launchUpdateFlow(activity: ComponentActivity, updateInfo: AppUpdateInfo) = Unit
+    // Will be implemented in VPNAND-2392
 }

@@ -54,6 +54,7 @@
     <string name="close">Close</string>
     <string name="drawerReportProblem">Report an issue</string>
     <string name="drawerSignOut">@string/menuActionSignOut</string>
+    <string name="action_done">Done</string>
     <string name="action_share">Share</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Under maintenance</string>

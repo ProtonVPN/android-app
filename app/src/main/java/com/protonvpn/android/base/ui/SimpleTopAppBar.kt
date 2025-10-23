@@ -20,21 +20,29 @@
 package com.protonvpn.android.base.ui
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
@@ -75,6 +83,7 @@ fun SimpleTopAppBar(
     modifier: Modifier = Modifier,
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     backgroundColor: Color = ProtonTheme.colors.backgroundNorm,
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -87,6 +96,7 @@ fun SimpleTopAppBar(
         navigationIcon = navigationIcon,
         modifier = modifier,
         windowInsets = windowInsets,
+        actions = actions,
     )
 }
 
@@ -113,5 +123,38 @@ fun TopAppBarCloseIcon(
             painter = painterResource(id = CoreR.drawable.ic_proton_cross),
             contentDescription = stringResource(id = R.string.accessibility_close)
         )
+    }
+}
+
+@Composable
+fun TopAppBarTitle(
+    title: String,
+    modifier: Modifier = Modifier,
+    subtitle: String? = null,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(weight = 1f)
+                .semantics(mergeDescendants = true) {},
+            verticalArrangement = Arrangement.spacedBy(space = 4.dp),
+        ) {
+            Text(
+                text = title,
+                color = ProtonTheme.colors.textNorm,
+                style = ProtonTheme.typography.body1Medium,
+            )
+
+            subtitle?.let { text ->
+                Text(
+                    text = text,
+                    color = ProtonTheme.colors.textWeak,
+                    style = ProtonTheme.typography.captionRegular,
+                )
+            }
+        }
     }
 }

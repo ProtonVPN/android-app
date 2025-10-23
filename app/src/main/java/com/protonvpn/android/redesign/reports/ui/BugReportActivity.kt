@@ -22,8 +22,11 @@ package com.protonvpn.android.redesign.reports.ui
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.presentation.utils.openMarketLink
 
 @AndroidEntryPoint
 class BugReportActivity : AppCompatActivity() {
@@ -33,7 +36,15 @@ class BugReportActivity : AppCompatActivity() {
 
         setContent {
             VpnTheme {
-                // Will be implemented in VPNAND-2391
+                val bugReportViewModel = hiltViewModel<BugReportViewModel>()
+
+                val navController = rememberNavController()
+
+                BugReportNav(selfNav = navController).NavHost(
+                    bugReportViewModel = bugReportViewModel,
+                    onClose = ::finish,
+                    onOpenStore = ::openMarketLink,
+                )
             }
         }
     }
