@@ -39,7 +39,7 @@ class ServersStore(
     var allServers: List<Server> = emptyList()
         private set
 
-    suspend fun load() {
+    suspend fun load(): Boolean {
         val data = store.read()
         if (data != null) {
             serversStatusId = data.statusFileId
@@ -49,6 +49,7 @@ class ServersStore(
                 data.allServers
             }
         }
+        return data != null
     }
 
     fun save(newServers: List<Server>, newStatusId: LogicalsStatusId?) {

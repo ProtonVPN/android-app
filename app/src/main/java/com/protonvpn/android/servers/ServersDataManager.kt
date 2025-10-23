@@ -71,9 +71,11 @@ class ServersDataManager @Inject constructor(
     val secureCoreExitCountries: List<VpnCountry> get() = serverLists.secureCoreExitCountries
     val gateways: List<GatewayGroup> get() = serverLists.gateways
 
-    suspend fun load() {
-        serversStore.load()
+    // Load servers from storage. Returns true if servers were loaded successfully.
+    suspend fun load(): Boolean {
+        val loaded = serversStore.load()
         updateWithMutex(saveToStorage = false) { with(serversStore) { UpdateResult(serversStatusId, allServers) } }
+        return loaded
     }
 
     suspend fun replaceServers(serverList: List<Server>, newStatusId: LogicalsStatusId?, retainIDs: Set<String>) {

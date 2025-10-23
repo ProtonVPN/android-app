@@ -135,8 +135,14 @@ class ServerManager @Inject constructor(
         }
 
         mainScope.launch {
-            serversData.load()
+            val loaded = serversData.load()
             updateInternal()
+            if (hasDownloadedServers && !loaded) {
+                // We had servers saved but failed to load them, reset state.
+                lastUpdateTimestamp = 0L
+                hasDownloadedServers = false
+                Storage.save(this@ServerManager, ServerManager::class.java)
+            }
 
             // Notify of loaded state and update after everything has been updated.
             isLoaded.value = true
