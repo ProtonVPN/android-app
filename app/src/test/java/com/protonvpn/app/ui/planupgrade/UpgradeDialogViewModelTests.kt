@@ -60,6 +60,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.time.Instant
+import java.util.Optional
 import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -113,6 +114,8 @@ class UpgradeDialogViewModelTests {
             performGiapPurchase = performGiapPurchase,
             userPlanManager = mockk(relaxed = true),
             waitForSubscription = mockk(relaxed = true),
+            convertToObservabilityGiapStatus = Optional.empty(),
+            observabilityManager = mockk(relaxed = true),
         )
     }
 
