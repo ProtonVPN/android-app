@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -1194,7 +1195,7 @@ fun BaseItemPickerDialog(
 ) {
     ProtonBasicAlert(
         content = {
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.fillMaxWidth().imePadding()) {
                 val textPaddingModifier = Modifier
                     .padding(horizontal = DIALOG_CONTENT_PADDING)
                     .padding(bottom = 12.dp)
