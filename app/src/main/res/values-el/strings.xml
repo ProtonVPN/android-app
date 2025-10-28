@@ -425,8 +425,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Ξεκλειδώστε %1$s σε %2$s με το <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Όλες οι premium Proton υπηρεσίες . Μια εύκολη συνδρομή.</string>
-    <string name="upgrade_unlimited_all_apps_description">Αποκτήστε πλήρη κάλυψη απορρήτου με το Proton Unlimited.</string>
+    <string name="upgrade_unlimited_all_apps_title">Αποκτήστε πλήρη κάλυψη απορρήτου με το Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Ξεκλειδώστε όλες τις premium λειτουργίες από τα Proton VPN, Mail, Calendar, Drive και Pass.</string>
     <string name="upgrade_unlimited_more">Και άλλα</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Ξεκλειδώστε όλες τις χώρες</string>
     <string name="upgrade_unlimited_vpn_all_features">Όλα τα άλλα χαρακτηριστικά του VPN Plus</string>
@@ -699,7 +699,7 @@
     <string name="welcome_plus_description">Απολαύστε επιπλέον λειτουργίες απορρήτου, υπερφορτισμένη απόδοση και επόμενου επιπέδου προσαρμογές VPN.</string>
     <string name="welcome_plus_feature_security">Προηγμένες λειτουργίες ασφαλείας</string>
     <string name="welcome_unlimited_title">Καλώς ήλθατε στο Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Συγχαρητήρια! Ξεκλειδώσατε κορυφαίες δυνατότητες ασφάλειας και απόδοσης σε όλες τις υπηρεσίες Proton, καθώς και συνολικό χώρο αποθήκευσης <b>%1$d&#160;GB</b>.<br><br>Απολαύστε το καλύτερο του απορρήτου Proton.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Ξεκλειδώσατε όλες τις premium λειτουργίες των Proton VPN, Mail, Calendar, Drive, Pass και Wallet — και <b>%1$d&#160;GB</b> συνολικό χώρο αποθήκευσης.]]></string>
     <string name="welcome_generic_title">Συγχαρητήρια</string>
     <string name="welcome_generic_description">Έχετε αναβαθμίσει τη συνδρομή σας. Απολαύστε προηγμένες δυνατότητες απορρήτου και απόδοση επόμενου επιπέδου.</string>
     <!-- Example: Up to 10 devices at once
@@ -1394,8 +1394,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Προτεινόμενο</string>
     <string name="settings_split_tunneling_mode_title">Λειτουργία</string>
-    <string name="settings_split_tunneling_mode_standard">Τυπικό</string>
-    <string name="settings_split_tunneling_mode_inverse">Αντίστροφο</string>
+    <string name="settings_split_tunneling_mode_standard">Εξαίρεση</string>
+    <string name="settings_split_tunneling_mode_inverse">Συμπερίληψη</string>
     <string name="settings_split_tunneling_mode_description_standard">Επιλεγμένες εφαρμογές και διευθύνσεις IP εξαιρούνται από τη σύνδεση VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Μόνο επιλεγμένες εφαρμογές και διευθύνσεις IP συνδέονται μέσω VPN, όλη η άλλη κίνηση είναι απροστάτευτη.</string>
     <string name="settings_split_tunneling_excluded_apps">Αποκλεισμένες εφαρμογές</string>

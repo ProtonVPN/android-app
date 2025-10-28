@@ -425,8 +425,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[%1$s feloldása %2$s a <b>VPN Plus</b> segítségével.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Minden prémium Proton szolgáltatás. Egy egyszerű előfizetés.</string>
-    <string name="upgrade_unlimited_all_apps_description">A Proton Unlimited teljes körű adatvédelmi fedezetet nyújt.</string>
+    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
     <string name="upgrade_unlimited_more">És még több</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Minden ország feloldása</string>
     <string name="upgrade_unlimited_vpn_all_features">Minden más VPN Plus funkció</string>
@@ -699,7 +699,7 @@
     <string name="welcome_plus_description">Élvezze az extra adatvédelmi funkciókat, a felturbózott teljesítményt és a magas szintű VPN testreszabást.</string>
     <string name="welcome_plus_feature_security">Fejlett biztonsági funkciók</string>
     <string name="welcome_unlimited_title">Üdvözli a Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Gratulálunk! Ön feloldotta a prémium biztonsági és teljesítményfunkciókat az összes Proton szolgáltatáshoz, valamint <b>%1$d&#160;GB</b> teljes tárhelyet.<br><br>Élvezze a Proton védelmének legjavát.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
     <string name="welcome_generic_title">Gratulálunk</string>
     <string name="welcome_generic_description">Ön frissítette előfizetését. Élvezze a fejlett adatvédelmi funkciókat és a nagyobb teljesítményt.</string>
     <!-- Example: Up to 10 devices at once
@@ -1394,8 +1394,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Ajánlott</string>
     <string name="settings_split_tunneling_mode_title">Mód</string>
-    <string name="settings_split_tunneling_mode_standard">Alap</string>
-    <string name="settings_split_tunneling_mode_inverse">Fordított</string>
+    <string name="settings_split_tunneling_mode_standard">Exclude</string>
+    <string name="settings_split_tunneling_mode_inverse">Include</string>
     <string name="settings_split_tunneling_mode_description_standard">A kiválasztott alkalmazások és IP-címek nem a VPN-kapcsolatot használják.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Csak a kiválasztott alkalmazások és IP-címek csatlakoznak a VPN-en keresztül, minden más forgalom nincs védve.</string>
     <string name="settings_split_tunneling_excluded_apps">Kihagyott alkalmazások</string>

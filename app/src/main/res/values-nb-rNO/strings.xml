@@ -425,8 +425,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Lås opp %1$s i %2$s med <b>VPN Plus</b>]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Alle premium Proton-tjenester. Ett enkelt abonnement.</string>
-    <string name="upgrade_unlimited_all_apps_description">Skaff deg fullstendig personverndekning med Proton Unlimited.</string>
+    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
     <string name="upgrade_unlimited_more">Og mer</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Lås opp alle land</string>
     <string name="upgrade_unlimited_vpn_all_features">Alle andre VPN Plus-funksjoner</string>
@@ -699,7 +699,7 @@
     <string name="welcome_plus_description">Nyt ekstra personvernfunksjoner, forbedret ytelse og VPN-tilpasning på neste nivå.</string>
     <string name="welcome_plus_feature_security">Avanserte sikkerhetsfunksjoner</string>
     <string name="welcome_unlimited_title">Velkommen til Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Gratulerer! Du låste opp premium sikkerhet og ytelsefunksjoner på alle Protontjenester, pluss <b>%1$d&#160;GB</b> total lagring.<br><br>Nyt det beste av Proton personvern.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
     <string name="welcome_generic_title">Gratulerer</string>
     <string name="welcome_generic_description">Du har oppgradert abonnementet ditt. Gled deg over avanserte personvernfunksjoner og neste-nivå ytelse.</string>
     <!-- Example: Up to 10 devices at once
@@ -1394,8 +1394,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Anbefalt</string>
     <string name="settings_split_tunneling_mode_title">Modus</string>
-    <string name="settings_split_tunneling_mode_standard">Standard</string>
-    <string name="settings_split_tunneling_mode_inverse">Omvendt</string>
+    <string name="settings_split_tunneling_mode_standard">Exclude</string>
+    <string name="settings_split_tunneling_mode_inverse">Include</string>
     <string name="settings_split_tunneling_mode_description_standard">Valgte apper og IP-adresser er ekskludert fra VPN-tilkoblingen.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Bare valgte apper og IP-adresser kobles til gjennom VPN, all annen trafikk er ubeskyttet.</string>
     <string name="settings_split_tunneling_excluded_apps">Ekskluderte apper</string>

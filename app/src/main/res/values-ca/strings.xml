@@ -425,8 +425,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Desbloquegi %1$s a %2$s amb <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Tots els serveis prèmium del Proton. Una subscripció senzilla.</string>
-    <string name="upgrade_unlimited_all_apps_description">Gaudiu d\'una protecció de privadesa completa amb Proton Unlimited.</string>
+    <string name="upgrade_unlimited_all_apps_title">Gaudiu d\'una protecció de privadesa completa amb Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Desbloquegeu totes les característiques prèmium de Proton VPN, Mail, calendari, drive i Pass.</string>
     <string name="upgrade_unlimited_more">I més</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Desbloqueja tots els països</string>
     <string name="upgrade_unlimited_vpn_all_features">Totes les altres característiques del pla VPN Plus</string>
@@ -699,7 +699,7 @@
     <string name="welcome_plus_description">Gaudiu de funcions de privadesa addicionals, rendiment excepcional i una personalització de VPN d\'un altre nivell.</string>
     <string name="welcome_plus_feature_security">Característiques de seguretat avançades</string>
     <string name="welcome_unlimited_title">Us donem la benvinguda a Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Enhorabona! Heu desbloquejat funcions de seguretat i rendiment prèmium en tots els serveis de Proton, a més de <b>%1$d&#160; GB</b> d\'emmagatzematge total.<br><br>Gaudiu del millor de la privadesa de Proton.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Heu desbloquejat totes les característiques prèmium de Proton VPN, Mail, Calendari, Drive, Pass i Cartera — i <b>%1$d&#160;GB</b> d\'emmagatzematge total.]]></string>
     <string name="welcome_generic_title">Felicitats</string>
     <string name="welcome_generic_description">Heu millorat la subscripció. Gaudiu de característiques de privacitat avançades i rendiment d\'alt nivell.</string>
     <!-- Example: Up to 10 devices at once
@@ -1394,8 +1394,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Recomanat</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>
-    <string name="settings_split_tunneling_mode_standard">Estàndard</string>
-    <string name="settings_split_tunneling_mode_inverse">Invers</string>
+    <string name="settings_split_tunneling_mode_standard">Exclou</string>
+    <string name="settings_split_tunneling_mode_inverse">Inclou</string>
     <string name="settings_split_tunneling_mode_description_standard">Les aplicacions i adreces IP seleccionades s\'exclouen de la connexió VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Només les aplicacions i adreces IP seleccionades es connecten mitjançant VPN, la resta de trànsit no està protegit.</string>
     <string name="settings_split_tunneling_excluded_apps">Aplicacions excloses</string>

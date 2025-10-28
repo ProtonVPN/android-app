@@ -441,8 +441,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Розблокуйте %1$s у %2$s з <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Усі преміальні функції Proton з одною простою передплатою.</string>
-    <string name="upgrade_unlimited_all_apps_description">Отримайте повний захист приватності з Proton Unlimited.</string>
+    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
     <string name="upgrade_unlimited_more">Та інші можливості</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Розблокуйте всі країни</string>
     <string name="upgrade_unlimited_vpn_all_features">Всі інші функції VPN Plus</string>
@@ -741,7 +741,7 @@
     <string name="welcome_plus_description">Оцініть додаткові функції приватності, вдосконалену продуктивність і налаштування VPN нового рівня.</string>
     <string name="welcome_plus_feature_security">Розширені функції безпеки</string>
     <string name="welcome_unlimited_title">Вітаємо у Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Вітаємо! Ви розблокували функції безпеки й продуктивності рівня преміум у всіх службах Proton, а також отримали <b>%1$d&#160;ГБ</b> обсягу сховища. <br><br>Насолоджуйтеся найкращими функціями захисту приватності від Proton.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
     <string name="welcome_generic_title">Вітаємо</string>
     <string name="welcome_generic_description">Ви оновили свій тарифний план. Оцініть переваги розширених функцій безпеки й продуктивності нового рівня.</string>
     <!-- Example: Up to 10 devices at once
@@ -1466,8 +1466,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Рекомендовано</string>
     <string name="settings_split_tunneling_mode_title">Режим</string>
-    <string name="settings_split_tunneling_mode_standard">Стандартний</string>
-    <string name="settings_split_tunneling_mode_inverse">Інвертувати</string>
+    <string name="settings_split_tunneling_mode_standard">Exclude</string>
+    <string name="settings_split_tunneling_mode_inverse">Include</string>
     <string name="settings_split_tunneling_mode_description_standard">Вибрані програми та IP-адреси виключаються з VPN-з\'єднання.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Лише вибрані програми та IP-адреси під\'єднуються через VPN, а весь інший трафік не захищається.</string>
     <string name="settings_split_tunneling_excluded_apps">Винятки програм</string>

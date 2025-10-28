@@ -425,8 +425,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Lås upp %1$s i %2$s med <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Alla Protons premiumtjänster. En enkel prenumeration.</string>
-    <string name="upgrade_unlimited_all_apps_description">Få fullständig täckning för integritet med Proton Unlimited.</string>
+    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Lås upp alla premiumfunktioner från Proton VPN, Mail, Calendar, Drive och Pass.</string>
     <string name="upgrade_unlimited_more">Och mer</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Lås upp alla länder</string>
     <string name="upgrade_unlimited_vpn_all_features">Alla andra VPN Plus-funktioner</string>
@@ -699,7 +699,7 @@
     <string name="welcome_plus_description">Njut av extra integritetsfunktioner, kraftfullare prestanda och nästa nivå av VPN-anpassning.</string>
     <string name="welcome_plus_feature_security">Avancerade säkerhetsfunktioner</string>
     <string name="welcome_unlimited_title">Välkommen till Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Grattis! Du har låst upp premium säkerhets- och prestandafunktioner i alla Proton-tjänster, plus <b>%1$d&#160; GB</b> totalt lagringsutrymme.<br><br>Njut av det bästa av Proton-integritet.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Du låste upp alla premiumfunktioner i Proton VPN, Mail, Calendar, Drive, Pass och Wallet – och <b>%1$d&#160; GB</b> totalt lagringsutrymme.]]></string>
     <string name="welcome_generic_title">Grattis</string>
     <string name="welcome_generic_description">Du har uppgraderat din prenumeration. Njut av avancerade integritetsfunktioner och nästa nivå av prestanda.</string>
     <!-- Example: Up to 10 devices at once
@@ -1394,8 +1394,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Rekommenderat</string>
     <string name="settings_split_tunneling_mode_title">Läge</string>
-    <string name="settings_split_tunneling_mode_standard">Standard</string>
-    <string name="settings_split_tunneling_mode_inverse">Omvänd</string>
+    <string name="settings_split_tunneling_mode_standard">Exkludera</string>
+    <string name="settings_split_tunneling_mode_inverse">Inkludera</string>
     <string name="settings_split_tunneling_mode_description_standard">Valda appar och IP-adresser är exkluderade från VPN-anslutning.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Endast valda appar och IP-adresser ansluter via VPN, all annan trafik är oskyddad.</string>
     <string name="settings_split_tunneling_excluded_apps">Exkluderade appar</string>

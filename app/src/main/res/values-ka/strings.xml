@@ -425,8 +425,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[განბლოკეთ %1$s %2$s-ში <b>VPN Plus</b>-თან ერთად.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">ყველა ფასიანი Proton-ის სერვისი. ერთი იოლი გამოწერა.</string>
-    <string name="upgrade_unlimited_all_apps_description">მიიღეთ კონფიდენციალობის სრული დაფარვა Proton Unlimited-თან ერთად.</string>
+    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
     <string name="upgrade_unlimited_more">და სხვა</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">ყველა ქვეყნის განბლოკვა</string>
     <string name="upgrade_unlimited_vpn_all_features">ყველა სხვა VPN Plus-ის ფუნქცია</string>
@@ -699,7 +699,7 @@
     <string name="welcome_plus_description">ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით, ჩქაროსნული წარმადობით და შემდეგ დონეზე აყვანილი VPN-ის მორგებით.</string>
     <string name="welcome_plus_feature_security">დამატებითი უსაფრთხოების ფუნქციები</string>
     <string name="welcome_unlimited_title">მოგესალმებათ Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[გილოცავთ! თქვენ განბლოკეთ ფასიანი უსაფრთხოების და წარმადობის ფუნქციები ყველა Proton-ის სერვისისთვის, პლუს <b>%1$d&#160;გბ</b> ჯამური საცავი.<br><br>ისიამოვნეთ Proton-ის კონფიდენციალობის საუკეთესო ფუნქციებით.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
     <string name="welcome_generic_title">გილოცავთ</string>
     <string name="welcome_generic_description">თქვენ ასწიეთ თქვენი ტარიფი. ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით და შემდეგი დონის წარმადობით.</string>
     <!-- Example: Up to 10 devices at once
@@ -1394,8 +1394,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">რეკომენდებულია</string>
     <string name="settings_split_tunneling_mode_title">რეჟიმი</string>
-    <string name="settings_split_tunneling_mode_standard">სტანდარტული</string>
-    <string name="settings_split_tunneling_mode_inverse">შებრუნება</string>
+    <string name="settings_split_tunneling_mode_standard">Exclude</string>
+    <string name="settings_split_tunneling_mode_inverse">Include</string>
     <string name="settings_split_tunneling_mode_description_standard">მონიშნული აპები და IP მისამართები ამოღებულია VPN მიერთებიდან.</string>
     <string name="settings_split_tunneling_mode_description_inverse">მხოლოდ, არჩეული აპები და IP მისამართები გავლენ VPN-ის გავლით. დანარჩენი ყველაფერი დაუცველი იქნება.</string>
     <string name="settings_split_tunneling_excluded_apps">გამორიცხული აპები</string>

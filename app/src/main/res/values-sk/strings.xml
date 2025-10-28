@@ -441,8 +441,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odomknite %1$s v %2$s s <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Všetky prémiové služby Proton. Jedno jednoduché predplatné.</string>
-    <string name="upgrade_unlimited_all_apps_description">Získajte kompletnú ochranu súkromia s Proton Unlimited.</string>
+    <string name="upgrade_unlimited_all_apps_title">Získajte kompletnú ochranu súkromia s Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Odomknite všetky prémiové funkcie služieb Proton VPN, Mail, Calendar, Drive a Pass.</string>
     <string name="upgrade_unlimited_more">A ďalšie</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Prístup ku všetkým krajinám</string>
     <string name="upgrade_unlimited_vpn_all_features">Všetky ďalšie funkcie služby VPN Plus</string>
@@ -741,7 +741,7 @@
     <string name="welcome_plus_description">Vychutnajte si ďalšie funkcie ochrany súkromia, vyšší výkon a prispôsobenie VPN na novej úrovni.</string>
     <string name="welcome_plus_feature_security">Pokročilé bezpečnostné funkcie</string>
     <string name="welcome_unlimited_title">Vitajte v Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Gratulujeme! Odomkli ste prémiové funkcie zabezpečenia a výkonu všetkých služieb Proton a navyše <b>%1$d&#160;GB</b> celkového úložiska.<br><br>Vychutnajte si to najlepšie s Proton privacy.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Odomkli ste všetky prémiové funkcie Proton VPN, Mail, Calendar, Drive, Pass a Wallet – a celkovo <b>%1$d&#160;GB</b> úložného priestoru.]]></string>
     <string name="welcome_generic_title">Gratulujeme</string>
     <string name="welcome_generic_description">Aktualizovali ste si predplatné. Užívajte si pokročilé funkcie ochrany osobných údajov a výkon na vyššej úrovni.</string>
     <!-- Example: Up to 10 devices at once
@@ -1466,8 +1466,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Odporúčané</string>
     <string name="settings_split_tunneling_mode_title">Režim</string>
-    <string name="settings_split_tunneling_mode_standard">Štandardný</string>
-    <string name="settings_split_tunneling_mode_inverse">Inverzný</string>
+    <string name="settings_split_tunneling_mode_standard">Vylúčiť</string>
+    <string name="settings_split_tunneling_mode_inverse">Zahrnúť</string>
     <string name="settings_split_tunneling_mode_description_standard">Vybrané aplikácie a IP adresy sú vylúčené z pripojenia VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Cez VPN sa pripájajú len vybrané aplikácie a IP adresy, všetka ostatná prevádzka je nechránená.</string>
     <string name="settings_split_tunneling_excluded_apps">Vylúčené aplikácie</string>

@@ -417,8 +417,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[开通 <b>VPN Plus</b>，解锁遍及 %2$s的 %1$s。]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">高级 Proton 服务，只需轻松订阅。</string>
-    <string name="upgrade_unlimited_all_apps_description">开通 Proton Unlimited，隐私功能全覆盖。</string>
+    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
     <string name="upgrade_unlimited_more">还有别的</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">解锁全部地域</string>
     <string name="upgrade_unlimited_vpn_all_features">VPN Plus 的其余全部功能</string>
@@ -678,7 +678,7 @@
     <string name="welcome_plus_description">享受额外的隐私功能、超强的性能和更高级别的 VPN 选项。</string>
     <string name="welcome_plus_feature_security">高级安全功能</string>
     <string name="welcome_unlimited_title">欢迎使用 Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[祝贺！Proton 全部各项服务的高级安全功能和高级性能功能均已解锁，另享 <b>%1$d&#160;GB</b> 通用存储空间。<br><br>享受 Proton 的最优隐私。]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
     <string name="welcome_generic_title">祝贺</string>
     <string name="welcome_generic_description">订阅已升级。享受高级隐私功能和更高水平的性能。</string>
     <!-- Example: Up to 10 devices at once
@@ -1358,8 +1358,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">推荐</string>
     <string name="settings_split_tunneling_mode_title">模式</string>
-    <string name="settings_split_tunneling_mode_standard">普通</string>
-    <string name="settings_split_tunneling_mode_inverse">反转（选择部分流量纳入）</string>
+    <string name="settings_split_tunneling_mode_standard">Exclude</string>
+    <string name="settings_split_tunneling_mode_inverse">Include</string>
     <string name="settings_split_tunneling_mode_description_standard">挑选不经 VPN 连接的应用和 IP 地址。</string>
     <string name="settings_split_tunneling_mode_description_inverse">选中的应用和 IP 地址经 VPN 连接，其余全部流量不受保护。</string>
     <string name="settings_split_tunneling_excluded_apps">排除的应用</string>

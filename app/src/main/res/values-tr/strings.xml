@@ -425,8 +425,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[<b>VPN Plus tarifesi</b> ile %2$sdeki %1$sya erişin.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Tüm ücretli Proton hizmetleri. Tek bir abonelik.</string>
-    <string name="upgrade_unlimited_all_apps_description">Proton Unlimited ile tam bir gizlilik koruması edinin.</string>
+    <string name="upgrade_unlimited_all_apps_title">Proton Unlimited ile tam bir gizlilik koruması edinin</string>
+    <string name="upgrade_unlimited_all_apps_description">Proton VPN, Mail, Takvim, Drive ve Pass ürünlerinin tüm ücretli özelliklerinin kilidini açın.</string>
     <string name="upgrade_unlimited_more">Ve daha fazlası</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Tüm ülkelere erişim</string>
     <string name="upgrade_unlimited_vpn_all_features">Tüm diğer VPN Plus özellikleri</string>
@@ -699,7 +699,7 @@
     <string name="welcome_plus_description">Ek gizlilik özelliklerinin, güçlendirilmiş başarımın ve üst düzey VPN özelleştirmenin tadını çıkarın.</string>
     <string name="welcome_plus_feature_security">Gelişmiş güvenlik özellikleri</string>
     <string name="welcome_unlimited_title">Proton Unlimited tarifesine hoş geldiniz</string>
-    <string name="welcome_unlimited_description"><![CDATA[Tebrikler! Tüm Proton hizmetlerinin ücretli güvenlik ve başarım özelliklerini ve ek olarak <b>%1$d&#160; GB</b> depolama alanını kullanabilirsiniz.<br><br>En iyi Proton gizliliğinin tadını çıkarın.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Tüm ücretli Proton VPN, Mail, Calendar, Drive ve Pass özellikleri ile toplam <b>%1$d&#160;GB</b> depolama alanına erişim kazandınız.]]></string>
     <string name="welcome_generic_title">Tebrikler</string>
     <string name="welcome_generic_description">Abonelik tarifenizi yükselttiniz. Gelişmiş gizlilik özelliklerinin ve yeni nesil başarımın tadını çıkarın.</string>
     <!-- Example: Up to 10 devices at once
@@ -1394,8 +1394,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Önerilir</string>
     <string name="settings_split_tunneling_mode_title">Kip</string>
-    <string name="settings_split_tunneling_mode_standard">Standart</string>
-    <string name="settings_split_tunneling_mode_inverse">Ters</string>
+    <string name="settings_split_tunneling_mode_standard">Katma</string>
+    <string name="settings_split_tunneling_mode_inverse">Kat</string>
     <string name="settings_split_tunneling_mode_description_standard">Seçilmiş uygulamalar ve IP adresleri VPN bağlantısına katılmaz.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Yalnızca seçilmiş uygulamalar ve IP adresleri VPN üzerinden bağlanır, diğer tüm trafik korumasızdır.</string>
     <string name="settings_split_tunneling_excluded_apps">Katılmayacak uygulamalar</string>

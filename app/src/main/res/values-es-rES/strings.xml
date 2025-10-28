@@ -425,8 +425,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Accede a %1$s en %2$s con <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Todos los servicios prémium de Proton en una sola y sencilla suscripción.</string>
-    <string name="upgrade_unlimited_all_apps_description">Obtén cobertura de privacidad completa con Proton Unlimited.</string>
+    <string name="upgrade_unlimited_all_apps_title">Obtén cobertura de privacidad completa con Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Desbloquea todas las funciones prémium de Proton VPN, Mail, Calendario, Drive y Pass.</string>
     <string name="upgrade_unlimited_more">Y mucho más</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Desbloquea todos los países</string>
     <string name="upgrade_unlimited_vpn_all_features">Todas las otras funciones del plan VPN Plus</string>
@@ -699,7 +699,7 @@
     <string name="welcome_plus_description">Disfruta de funciones de privacidad adicionales, rendimiento excepcional y una personalización de VPN de otro nivel.</string>
     <string name="welcome_plus_feature_security">Funciones de seguridad avanzadas</string>
     <string name="welcome_unlimited_title">Te damos la bienvenida a Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[¡Felicidades! Has desbloqueado la seguridad prémium y funciones de rendimiento en todos los servicios de Proton, además de <b>%1$d&#160; GB</b> de almacenamiento total.<br><br>Disfruta de lo mejor de la privacidad de Proton.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Has desbloqueado todas las funciones prémium de Proton VPN, Mail, Calendario, Drive, Pass y Cartera — y <b>%1$d&#160;GB</b> de almacenamiento total.]]></string>
     <string name="welcome_generic_title">Felicitaciones</string>
     <string name="welcome_generic_description">Has mejorado tu suscripción. Disfruta de funciones de privacidad avanzadas y rendimiento a otro nivel.</string>
     <!-- Example: Up to 10 devices at once
@@ -1394,8 +1394,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Recomendado</string>
     <string name="settings_split_tunneling_mode_title">Modo</string>
-    <string name="settings_split_tunneling_mode_standard">Estándar</string>
-    <string name="settings_split_tunneling_mode_inverse">Inverso</string>
+    <string name="settings_split_tunneling_mode_standard">Excluir</string>
+    <string name="settings_split_tunneling_mode_inverse">Incluir</string>
     <string name="settings_split_tunneling_mode_description_standard">Las aplicaciones y direcciones IP seleccionadas están excluidas de la conexión VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Solo las aplicaciones y direcciones IP seleccionadas se conectan mediante VPN. El resto del tráfico no está protegido.</string>
     <string name="settings_split_tunneling_excluded_apps">Aplicaciones excluidas</string>

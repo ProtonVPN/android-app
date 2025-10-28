@@ -418,8 +418,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[<b>VPN Plus</b>로 %2$s 내의 %1$s 잠금 해제]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">모든 Proton 프리미엄 서비스. 하나의 간단한 구독.</string>
-    <string name="upgrade_unlimited_all_apps_description">Proton Unlimited로 완전한 개인정보 보호 커버리지를 경험하세요.</string>
+    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
     <string name="upgrade_unlimited_more">기타 등등</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">모든 국가 잠금해제</string>
     <string name="upgrade_unlimited_vpn_all_features">기타 모든 VPN Plus 기능</string>
@@ -679,7 +679,7 @@
     <string name="welcome_plus_description">더 많은 개인정보 보호 기능과 강력한 성능, 그리고 한 차원 높은 VPN 사용자화를 사용해 보세요.</string>
     <string name="welcome_plus_feature_security">고급 제어 기능</string>
     <string name="welcome_unlimited_title">Proton Unlimited에 오신 것을 환영합니다</string>
-    <string name="welcome_unlimited_description"><![CDATA[축하합니다! Proton의 모든 서비스에서 프리미엄용 보안과 성능 기능을, 총 저장공간은 <b>%1$d&#160;GB </b> 더 사용할 수 있게 되었습니다.<br><br>Proton 프라이버시의 최고를 누려보세요.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
     <string name="welcome_generic_title">축하합니다</string>
     <string name="welcome_generic_description">구독을 업그레이드 했습니다. 한 차원 높은 개인정보 보호 기능과 성능을 즐겨보세요.</string>
     <!-- Example: Up to 10 devices at once
@@ -1360,8 +1360,8 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">권장</string>
     <string name="settings_split_tunneling_mode_title">모드</string>
-    <string name="settings_split_tunneling_mode_standard">표준</string>
-    <string name="settings_split_tunneling_mode_inverse">반전</string>
+    <string name="settings_split_tunneling_mode_standard">Exclude</string>
+    <string name="settings_split_tunneling_mode_inverse">Include</string>
     <string name="settings_split_tunneling_mode_description_standard">선택한 앱과 IP 주소가 VPN 연결에서 제외됩니다.</string>
     <string name="settings_split_tunneling_mode_description_inverse">선택한 앱과 IP 주소만이 VPN에 연결되고 그 외 트래픽은 보호되지 않습니다.</string>
     <string name="settings_split_tunneling_excluded_apps">제외된 앱</string>

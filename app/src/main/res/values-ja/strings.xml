@@ -417,8 +417,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[<b>VPN Plus</b> を使用して %2$s の %1$s のロックを解除します。]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">全てのプレミアムProtonサービス。一つの簡単なサブスクリプションで。</string>
-    <string name="upgrade_unlimited_all_apps_description">Proton Unlimitedで完全なプライバシー保護を取得しましょう。</string>
+    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
     <string name="upgrade_unlimited_more">さらに</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">全ての国をアンロック</string>
     <string name="upgrade_unlimited_vpn_all_features">他のすべてのVPN Plus機能</string>
@@ -678,7 +678,7 @@
     <string name="welcome_plus_description">特別なプライバシー機能、超高速パフォーマンス、そしてハイレベルなVPNカスタマイズをお楽しみください。</string>
     <string name="welcome_plus_feature_security">高度なセキュリティ機能</string>
     <string name="welcome_unlimited_title">Proton Unlimitedへようこそ</string>
-    <string name="welcome_unlimited_description"><![CDATA[おめでとうございます！すべてのProtonサービスでプレミアムなセキュリティとパフォーマンスの機能、さらに合計<b>%1$d&#160;GB</b>のストレージを解除しました。<br><br>Protonプライバシーをお楽しみください。]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
     <string name="welcome_generic_title">おめでとうございます！</string>
     <string name="welcome_generic_description">サブスクリプションをアップグレードしました。高度なプライバシー機能と次世代のパフォーマンスをお楽しみください。</string>
     <!-- Example: Up to 10 devices at once
@@ -1358,8 +1358,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">推奨</string>
     <string name="settings_split_tunneling_mode_title">モード</string>
-    <string name="settings_split_tunneling_mode_standard">標準</string>
-    <string name="settings_split_tunneling_mode_inverse">反転</string>
+    <string name="settings_split_tunneling_mode_standard">Exclude</string>
+    <string name="settings_split_tunneling_mode_inverse">Include</string>
     <string name="settings_split_tunneling_mode_description_standard">選択したアプリと IP アドレスは VPN 接続から除外されます.</string>
     <string name="settings_split_tunneling_mode_description_inverse">選択したアプリとIPアドレスだけがVPNを通して接続され、他の全てのトラフィックは保護されません。</string>
     <string name="settings_split_tunneling_excluded_apps">除外されたアプリ</string>
