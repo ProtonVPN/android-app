@@ -44,8 +44,8 @@ object ApiNotificationTypes {
 // TODO: introduce a set of domain-level classes for representing the parsed notifications. It will simplify
 //  handling notifications a lot.
 object ApiNotificationActions {
-    private const val OPEN_URL = "OpenUrl"
-    private const val IN_APP_PURCHASE_POPUP = "IapPopup"
+    const val OPEN_URL = "OpenUrl"
+    const val IN_APP_PURCHASE_POPUP = "IapPopup"
 
     private val SUPPORTED_ACTIONS = if (BuildConfig.FLAVOR_functionality == "google") {
         arrayOf(OPEN_URL, IN_APP_PURCHASE_POPUP)

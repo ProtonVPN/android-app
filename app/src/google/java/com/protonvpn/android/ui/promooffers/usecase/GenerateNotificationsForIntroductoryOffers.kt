@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.promooffers.usecase
 
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.appconfig.ApiNotification
+import com.protonvpn.android.appconfig.ApiNotificationActions
 import com.protonvpn.android.appconfig.ApiNotificationIapAction
 import com.protonvpn.android.appconfig.ApiNotificationOffer
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
@@ -245,7 +246,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
             ),
             button = ApiNotificationOfferButton(
                 text = config.buttonText,
-                action = "IapPanel",
+                action = ApiNotificationActions.IN_APP_PURCHASE_POPUP,
                 iapActionDetails = ApiNotificationIapAction(
                     planName = planName,
                     cycle = planCycle,
