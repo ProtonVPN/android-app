@@ -23,6 +23,7 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import com.bumptech.glide.Glide
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
 import com.protonvpn.android.appconfig.periodicupdates.IsLoggedIn
@@ -32,6 +33,9 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.ui.promooffers.PromoOfferImage
 import com.protonvpn.android.ui.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
 import com.protonvpn.android.ui.promooffers.usecase.isIntroductoryPriceOffer
@@ -49,7 +53,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -66,6 +69,8 @@ import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.mapAsync
 import me.proton.core.util.kotlin.mapNotNullAsync
+import me.proton.core.util.kotlin.serialize
+import me.proton.core.util.kotlin.takeIfNotEmpty
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -125,8 +130,11 @@ class ApiNotificationManager @Inject constructor(
         testNotifications,
     ) { responseNotifications, testNotifications ->
         val notifications = testNotifications.ifEmpty { responseNotifications }
+        logDebugNotifications(notifications)
         notifications.filter { notification ->
             notification.allActionNames().all { ApiNotificationActions.isSupported(it) }
+        }.also {
+            logDebugRemovedNotifications(notifications, it, "unsupported action")
         }
     }
 
@@ -135,6 +143,8 @@ class ApiNotificationManager @Inject constructor(
         .mapLatest { notifications ->
             notifications.mapNotNullAsync { notification ->
                 notification.takeIf { notification.allImageUrls().ensureAllPrefetched() }
+            }.also {
+                logDebugRemovedNotifications(notifications, it, "can't load images")
             }
         }
         .distinctUntilChanged()
@@ -153,6 +163,7 @@ class ApiNotificationManager @Inject constructor(
                     val activeNotifications = activeNotifications(nowS, notifications)
                         .sortedBy { it.endTime }
                     emit(activeNotifications)
+                    logDebugRemovedNotifications(notifications, activeNotifications, "time")
                     nextUpdateDelayS = nextUpdateDelayS(nowS, notifications)
                 }
             }
@@ -272,4 +283,29 @@ class ApiNotificationManager @Inject constructor(
         imagePrefetcher.prefetch(url)
     }.all { isPrefetched -> isPrefetched }
 
+    private fun logDebugNotifications(notifications: Iterable<ApiNotification>) {
+        if (BuildConfig.DEBUG) {
+            notifications.forEach {
+                val jsonString = it.serialize()
+                ProtonLogger.logCustom(LogLevel.DEBUG, LogCategory.PROMO, "Parsed JSON:\n$jsonString")
+            }
+        }
+    }
+
+    private fun logDebugRemovedNotifications(
+        before: Iterable<ApiNotification>,
+        after: Iterable<ApiNotification>,
+        reason: String
+    ) {
+        if (BuildConfig.DEBUG) {
+            val removedIds = before.toSet().subtract(after).takeIfNotEmpty()?.joinToString(", ") { it.id }
+            if (removedIds != null) {
+                ProtonLogger.logCustom(
+                    LogLevel.DEBUG,
+                    LogCategory.PROMO,
+                    "Ignored notifications ($reason): $removedIds"
+                )
+            }
+        }
+    }
 }
