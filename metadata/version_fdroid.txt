@@ -1,2 +1,2 @@
-versionName=5.14.2.0
-versionCode=605140200
+versionName=5.14.2.1
+versionCode=605140201

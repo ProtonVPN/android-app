@@ -1,0 +1,2 @@
+What's new
+Fixed language display bug affecting devices with multiple languages configured.
