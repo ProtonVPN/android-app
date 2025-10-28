@@ -21,6 +21,9 @@ package com.protonvpn.android.ui.promooffers
 
 import android.content.Context
 import com.protonvpn.android.appconfig.ApiNotificationManager
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -43,11 +46,15 @@ class TestNotificationLoader @Inject constructor(
         mainScope.launch {
             val jsonString = withContext(dispatcherProvider.Io) {
                 val filePath = File(appContext.filesDir, FILE_NAME)
-                if (filePath.exists())
+                if (filePath.exists()) {
+                    ProtonLogger.logCustom(LogLevel.INFO, LogCategory.PROMO, "Found test notifications: $filePath")
                     filePath.readText()
-                else
+                } else {
+                    ProtonLogger.logCustom(LogLevel.INFO, LogCategory.PROMO, "No test notifications file: $filePath")
                     null
+                }
             }
+
             if (jsonString != null) notificationManager.setTestNotificationsResponseJson(jsonString)
         }
     }

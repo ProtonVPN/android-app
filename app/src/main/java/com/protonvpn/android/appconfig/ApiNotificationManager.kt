@@ -20,7 +20,6 @@
 package com.protonvpn.android.appconfig
 
 import android.content.Context
-import android.util.Log
 import androidx.annotation.VisibleForTesting
 import com.bumptech.glide.Glide
 import com.protonvpn.android.BuildConfig
@@ -250,7 +249,7 @@ class ApiNotificationManager @Inject constructor(
         try {
             testNotifications.value = json.deserialize<ApiNotificationsResponse>().notifications
         } catch(e: Throwable) {
-            Log.e("ApiNotificationManager", "Error parsing JSON", e)
+            ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.PROMO, "Error parsing JSON: $e")
         }
     }
 
