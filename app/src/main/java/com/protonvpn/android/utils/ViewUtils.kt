@@ -134,10 +134,10 @@ fun <T> RequestBuilder<T>.addListener(
     }
 
     override fun onResourceReady(
-        resource: T & Any,
-        model: Any,
-        target: Target<T>?,
-        dataSource: DataSource,
+        resource: T?,
+        model: Any?,
+        target: Target<T?>?,
+        dataSource: DataSource?,
         isFirstResource: Boolean
     ): Boolean {
         onSuccess?.invoke()

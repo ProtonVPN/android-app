@@ -824,9 +824,9 @@ dependencies {
     googleImplementation "com.google.android.play:review-ktx:2.0.2"
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
-    implementation 'com.github.bumptech.glide:compose:1.0.0-beta01'
-    ksp 'com.github.bumptech.glide:ksp:4.16.0'
+    implementation 'com.github.bumptech.glide:glide:5.0.5'
+    implementation 'com.github.bumptech.glide:compose:1.0.0-beta08'
+    ksp 'com.github.bumptech.glide:ksp:5.0.5'
 
     // Widget
     def glanceVersion = '1.1.1'
