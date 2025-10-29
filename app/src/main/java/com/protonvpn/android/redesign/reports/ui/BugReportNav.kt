@@ -33,6 +33,7 @@ class BugReportNav(selfNav: NavHostController) : BaseNav<BugReportNav>(selfNav, 
     fun NavHost(
         bugReportViewModel: BugReportViewModel,
         onClose: () -> Unit,
+        onOpenLink: (String) -> Unit,
         onOpenStore: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
@@ -46,6 +47,7 @@ class BugReportNav(selfNav: NavHostController) : BaseNav<BugReportNav>(selfNav, 
                 bugReportViewModel = bugReportViewModel,
                 bugReportStepsNav = bugReportStepsNav,
                 onClose = onClose,
+                onOpenLink = onOpenLink,
                 onUpdateApp = onOpenStore,
             )
         }

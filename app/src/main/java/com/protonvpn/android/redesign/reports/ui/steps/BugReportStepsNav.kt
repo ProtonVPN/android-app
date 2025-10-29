@@ -23,6 +23,7 @@ class BugReportStepsNav(
     fun NavHost(
         viewState: BugReportViewModel.ViewState,
         onOpenStore: () -> Unit,
+        onOpenLink: (String) -> Unit,
         onSelectCategory: (Category) -> Unit,
         onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
         modifier: Modifier = Modifier,
@@ -49,6 +50,7 @@ class BugReportStepsNav(
             bugReportSuggestionsScreen(
                 viewState = viewState,
                 onSetCurrentStep = onSetCurrentStep,
+                onOpenLink = onOpenLink,
             )
 
             bugReportFormScreen(

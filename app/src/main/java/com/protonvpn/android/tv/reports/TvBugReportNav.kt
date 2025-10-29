@@ -16,6 +16,7 @@ class TvBugReportNav(selfNav: NavHostController) : BaseNav<BugReportNav>(selfNav
     @Composable
     fun NavHost(
         bugReportViewModel: BugReportViewModel,
+        onClose: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
         val tvBugReportStepsNav = rememberTvBugReportStepsNav()
@@ -28,6 +29,7 @@ class TvBugReportNav(selfNav: NavHostController) : BaseNav<BugReportNav>(selfNav
                 modifier = Modifier.fillMaxSize(),
                 bugReportViewModel = bugReportViewModel,
                 tvBugReportStepsNav = tvBugReportStepsNav,
+                onClose = onClose,
             )
         }
     }

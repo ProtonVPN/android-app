@@ -42,6 +42,7 @@ class TvBugReportActivity : BaseTvActivity() {
 
                 TvBugReportNav(selfNav = navController).NavHost(
                     bugReportViewModel = bugReportViewModel,
+                    onClose = ::finish,
                 )
             }
         }

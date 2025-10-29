@@ -29,10 +29,14 @@ object TvBugReportSuggestionsScreen : ScreenNoArg<TvBugReportStepsNav>("tvBugRep
 
     fun SafeNavGraphBuilder<TvBugReportStepsNav>.tvBugReportSuggestionsScreen(
         viewState: BugReportViewModel.ViewState,
+        onCancel: () -> Unit,
+        onContactUs: () -> Unit,
         onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
     ) = addToGraph(this) {
         TvBugReportSuggestions(
             viewState = viewState,
+            onCancelClick = onCancel,
+            onContactUsClick = onContactUs,
             onSetCurrentStep = onSetCurrentStep,
         )
     }

@@ -41,6 +41,8 @@ class TvBugReportStepsNav(
     @Composable
     fun NavHost(
         viewState: BugReportViewModel.ViewState,
+        onClose: () -> Unit,
+        onContactUs: () -> Unit,
         onSelectCategory: (Category) -> Unit,
         onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
         modifier: Modifier = Modifier,
@@ -65,6 +67,8 @@ class TvBugReportStepsNav(
 
             tvBugReportSuggestionsScreen(
                 viewState = viewState,
+                onCancel = onClose,
+                onContactUs = onContactUs,
                 onSetCurrentStep = onSetCurrentStep,
             )
 

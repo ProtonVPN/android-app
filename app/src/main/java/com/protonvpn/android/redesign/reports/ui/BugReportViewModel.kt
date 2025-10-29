@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
+import com.protonvpn.android.models.config.bugreport.Suggestion
 import com.protonvpn.android.update.AppUpdateManager
 import com.protonvpn.android.utils.FileUtils
 import com.protonvpn.android.utils.Storage
@@ -52,6 +53,8 @@ class BugReportViewModel @Inject constructor(
         val stepsCount: Int = BugReportSteps.entries.size
 
         val subtitle: String? = selectedCategory?.label
+
+        val suggestions: List<Suggestion> = selectedCategory?.suggestions.orEmpty()
 
     }
 

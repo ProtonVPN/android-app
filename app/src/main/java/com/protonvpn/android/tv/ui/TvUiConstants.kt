@@ -25,5 +25,6 @@ object TvUiConstants {
     val SelectionPaddingHorizontal = 24.dp
     val SingleColumnWidth = 500.dp
     val ScreenPaddingVertical = 50.dp
+    val ScreenPaddingVerticalSmall = 25.dp
     val ScreenPaddingHorizontal = 80.dp
 }

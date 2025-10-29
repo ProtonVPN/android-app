@@ -19,13 +19,9 @@
 
 package com.protonvpn.android.tv.reports.steps
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,12 +29,10 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.material3.Icon
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.indicators.StepsProgressIndicator
@@ -47,15 +41,16 @@ import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
 import com.protonvpn.android.redesign.reports.ui.BugReportNav
 import com.protonvpn.android.redesign.reports.ui.BugReportViewModel
+import com.protonvpn.android.tv.reports.steps.form.TvBugReportFormScreen
 import com.protonvpn.android.tv.ui.TvUiConstants
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.presentation.R as CoreR
 
 object TvBugReportStepsScreen : ScreenNoArg<BugReportNav>("tvBugReportSteps") {
 
     fun SafeNavGraphBuilder<BugReportNav>.tvBugReportStepsScreen(
         bugReportViewModel: BugReportViewModel,
         tvBugReportStepsNav: TvBugReportStepsNav,
+        onClose: () -> Unit,
         modifier: Modifier = Modifier,
     ) = addToGraph(this) {
         val viewState = bugReportViewModel.viewStateFlow.collectAsStateWithLifecycle().value
@@ -68,6 +63,10 @@ object TvBugReportStepsScreen : ScreenNoArg<BugReportNav>("tvBugReportSteps") {
                 tvBugReportStepsNav.NavHost(
                     modifier = Modifier.fillMaxSize(),
                     viewState = viewState,
+                    onClose = onClose,
+                    onContactUs = {
+                        tvBugReportStepsNav.navigateInternal(screen = TvBugReportFormScreen)
+                    },
                     onSelectCategory = bugReportViewModel::onSelectCategory,
                     onSetCurrentStep = bugReportViewModel::onUpdateCurrentStep,
                 )
@@ -89,46 +88,24 @@ private fun TvBugReportStepsRoute(
         Column(
             modifier = Modifier
                 .widthIn(max = TvUiConstants.SingleColumnWidth)
-                .padding(top = TvUiConstants.ScreenPaddingVertical),
+                .padding(vertical = TvUiConstants.ScreenPaddingVerticalSmall),
             verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(space = 4.dp),
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.settings_report_issue_title),
-                        style = ProtonTheme.typography.hero,
-                    )
+                Text(
+                    text = stringResource(id = R.string.settings_report_issue_title),
+                    style = ProtonTheme.typography.hero,
+                )
 
-                    AnimatedVisibility(
-                        visible = viewState.selectedCategory?.label != null,
-                        enter = fadeIn(),
-                        exit = fadeOut(),
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Icon(
-                                painter = painterResource(id = CoreR.drawable.ic_proton_chevron_tiny_right),
-                                contentDescription = null,
-                                tint = ProtonTheme.colors.textNorm,
-                            )
-
-                            Text(
-                                text = viewState.selectedCategory?.label.orEmpty(),
-                                color = ProtonTheme.colors.textWeak,
-                                style = ProtonTheme.typography.subheadline,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                        }
-                    }
-                }
+                Text(
+                    text = viewState.selectedCategory?.label.orEmpty(),
+                    color = ProtonTheme.colors.textWeak,
+                    style = ProtonTheme.typography.body2Regular,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
 
                 StepsProgressIndicator(
                     modifier = Modifier

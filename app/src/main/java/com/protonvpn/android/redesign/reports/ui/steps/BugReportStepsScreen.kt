@@ -20,21 +20,26 @@
 package com.protonvpn.android.redesign.reports.ui.steps
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonTextButton
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarBackIcon
 import com.protonvpn.android.base.ui.TopAppBarTitle
+import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.indicators.StepsProgressIndicator
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
@@ -42,6 +47,7 @@ import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
 import com.protonvpn.android.redesign.reports.ui.BugReportNav
 import com.protonvpn.android.redesign.reports.ui.BugReportViewModel
+import com.protonvpn.android.redesign.reports.ui.steps.form.BugReportFormScreen
 import me.proton.core.compose.theme.ProtonTheme
 
 object BugReportStepsScreen : ScreenNoArg<BugReportNav>("bugReportSteps") {
@@ -50,6 +56,7 @@ object BugReportStepsScreen : ScreenNoArg<BugReportNav>("bugReportSteps") {
         bugReportViewModel: BugReportViewModel,
         bugReportStepsNav: BugReportStepsNav,
         onClose: () -> Unit,
+        onOpenLink: (String) -> Unit,
         onUpdateApp: () -> Unit,
         modifier: Modifier = Modifier,
     ) = addToGraph(this) {
@@ -57,15 +64,19 @@ object BugReportStepsScreen : ScreenNoArg<BugReportNav>("bugReportSteps") {
 
         viewState?.let { state ->
             BugReportStepsRoute(
-                modifier = modifier,
+                modifier = modifier.padding(horizontal = largeScreenContentPadding()),
                 viewState = state,
                 onClose = onClose,
                 onNavigateBack = bugReportStepsNav::navigateUp,
+                onContactUsClick = {
+                    bugReportStepsNav.navigateInternal(screen = BugReportFormScreen)
+                },
             ) {
                 bugReportStepsNav.NavHost(
                     modifier = Modifier.fillMaxSize(),
                     viewState = state,
                     onOpenStore = onUpdateApp,
+                    onOpenLink = onOpenLink,
                     onSelectCategory = bugReportViewModel::onSelectCategory,
                     onSetCurrentStep = bugReportViewModel::onUpdateCurrentStep,
                 )
@@ -79,6 +90,7 @@ private fun BugReportStepsRoute(
     viewState: BugReportViewModel.ViewState,
     onClose: () -> Unit,
     onNavigateBack: () -> Unit,
+    onContactUsClick: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
@@ -117,14 +129,22 @@ private fun BugReportStepsRoute(
                     }
                 }
             )
-        }
+        },
+        bottomBar = {
+            BugReportStepBottomBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(all = 16.dp),
+                step = viewState.currentStep,
+                onContactUsClick = onContactUsClick,
+            )
+        },
     ) { innerPaddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues = innerPaddingValues)
-                .background(color = ProtonTheme.colors.backgroundNorm)
-                .padding(horizontal = largeScreenContentPadding()),
+                .background(color = ProtonTheme.colors.backgroundNorm),
         ) {
             StepsProgressIndicator(
                 modifier = Modifier.fillMaxWidth(),
@@ -133,6 +153,42 @@ private fun BugReportStepsRoute(
             )
 
             content()
+        }
+    }
+}
+
+@Composable
+private fun BugReportStepBottomBar(
+    step: BugReportViewModel.BugReportSteps,
+    onContactUsClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    when (step) {
+        BugReportViewModel.BugReportSteps.Menu -> Unit
+        BugReportViewModel.BugReportSteps.Suggestions -> {
+            BottomAppBar(
+                modifier = modifier,
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.dynamic_report_suggestion_didnt_work),
+                        color = ProtonTheme.colors.textWeak,
+                        style = ProtonTheme.typography.captionRegular,
+                    )
+
+                    VpnSolidButton(
+                        text = stringResource(id = R.string.dynamic_report_contact_us),
+                        onClick = onContactUsClick,
+                    )
+                }
+            }
+        }
+
+        BugReportViewModel.BugReportSteps.Form -> {
+            // Will be implemented in VPNAND-2393
         }
     }
 }

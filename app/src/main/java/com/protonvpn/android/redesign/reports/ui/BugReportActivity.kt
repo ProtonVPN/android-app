@@ -25,13 +25,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.presentation.utils.openBrowserLink
 import me.proton.core.presentation.utils.openMarketLink
 
 @AndroidEntryPoint
 class BugReportActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdgeVpn()
+
         super.onCreate(savedInstanceState)
 
         setContent {
@@ -43,6 +47,7 @@ class BugReportActivity : AppCompatActivity() {
                 BugReportNav(selfNav = navController).NavHost(
                     bugReportViewModel = bugReportViewModel,
                     onClose = ::finish,
+                    onOpenLink = ::openBrowserLink,
                     onOpenStore = ::openMarketLink,
                 )
             }

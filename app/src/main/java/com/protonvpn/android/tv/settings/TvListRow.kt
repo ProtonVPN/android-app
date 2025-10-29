@@ -21,6 +21,7 @@ package com.protonvpn.android.tv.settings
 
 import android.content.Context
 import android.media.AudioManager
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -42,6 +43,7 @@ import androidx.tv.material3.ClickableSurfaceDefaults
 import androidx.tv.material3.ClickableSurfaceScale
 import androidx.tv.material3.LocalContentColor
 import androidx.tv.material3.Surface
+import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.tv.ui.TvUiConstants
 import com.protonvpn.android.tv.ui.onFocusLost
 import me.proton.core.compose.theme.ProtonTheme
@@ -88,6 +90,51 @@ fun ProtonTvFocusableSurface(
         ) {
             content()
         }
+    }
+}
+
+@Composable
+fun ProtonTvFocusableSurface(
+    modifier: Modifier = Modifier,
+    focusedColor: @Composable () -> Color = { ProtonTheme.colors.textHint },
+    shape: Shape = ProtonTheme.shapes.large,
+    content: @Composable () -> Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+
+    val isFocused by interactionSource.collectIsFocusedAsState()
+
+    val context = LocalContext.current
+
+    val audioManager = remember {
+        context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    }
+
+    Surface(
+        modifier = modifier
+            .optional(
+                predicate = { isFocused },
+                modifier = Modifier.border(
+                    width = 2.dp,
+                    color = focusedColor(),
+                    shape = shape,
+                )
+            )
+            .onFocusLost {
+                audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_UP)
+            },
+        onClick = {},
+        colors = ClickableSurfaceDefaults.colors(
+            containerColor = Color.Transparent,
+            contentColor = LocalContentColor.current,
+            focusedContainerColor = Color.Transparent,
+            focusedContentColor = LocalContentColor.current,
+        ),
+        shape = ClickableSurfaceDefaults.shape(shape),
+        scale = ClickableSurfaceScale.None,
+        interactionSource = interactionSource,
+    ) {
+        content()
     }
 }
 

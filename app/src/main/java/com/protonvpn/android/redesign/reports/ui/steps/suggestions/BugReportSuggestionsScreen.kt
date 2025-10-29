@@ -30,10 +30,12 @@ object BugReportSuggestionsScreen : ScreenNoArg<BugReportStepsNav>("bugReportSte
     fun SafeNavGraphBuilder<BugReportStepsNav>.bugReportSuggestionsScreen(
         viewState: BugReportViewModel.ViewState,
         onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
+        onOpenLink: (String) -> Unit,
     ) = addToGraph(this) {
         BugReportSuggestions(
             viewState = viewState,
             onSetCurrentStep = onSetCurrentStep,
+            onSuggestionLinkClick = onOpenLink,
         )
     }
 
