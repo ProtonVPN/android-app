@@ -63,14 +63,14 @@ class AppUpdateManager @Inject constructor(
     suspend fun checkForUpdate(): AppUpdateInfo? =
         try {
             val updateInfo: GoogleAppUpdateInfo = updateManager.requestAppUpdateInfo()
-            logUpdateInfo(updateInfo)
             val updateStalenessDays = updateInfo.clientVersionStalenessDays()
+            val updateAvailability = updateInfo.updateAvailability()
 
-            if (updateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                && updateStalenessDays != null
-                && updateInfo.isUpdateTypeAllowed(UPDATE_TYPE)
+            if (updateAvailability == UpdateAvailability.UPDATE_AVAILABLE ||
+                updateAvailability == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
             ) {
-                AppUpdateInfo(updateStalenessDays, updateInfo)
+                logUpdateInfo(updateInfo)
+                AppUpdateInfo(updateStalenessDays ?: 0, updateInfo)
             } else {
                 null
             }
@@ -87,13 +87,10 @@ class AppUpdateManager @Inject constructor(
     }
 
     private fun logUpdateInfo(updateInfo: GoogleAppUpdateInfo) {
-        if (updateInfo.updateAvailability() != UpdateAvailability.UPDATE_NOT_AVAILABLE) {
-            val logInfo = with (updateInfo) {
-                "availability: ${updateAvailability()}, staleness: ${clientVersionStalenessDays()}, " +
-                    "type ${UPDATE_TYPE} allowed: ${isUpdateTypeAllowed(UPDATE_TYPE)})"
-            }
-            ProtonLogger.logCustom(LogCategory.APP_UPDATE, "in-app update: $logInfo")
+        val logInfo = with (updateInfo) {
+            "availability: ${updateAvailability()}, staleness: ${clientVersionStalenessDays()}"
         }
+        ProtonLogger.logCustom(LogCategory.APP_UPDATE, "in-app update: $logInfo")
     }
 }
 
