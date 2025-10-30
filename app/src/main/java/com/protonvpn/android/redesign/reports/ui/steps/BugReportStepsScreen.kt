@@ -48,6 +48,7 @@ import com.protonvpn.android.redesign.base.ui.nav.addToGraph
 import com.protonvpn.android.redesign.reports.ui.BugReportNav
 import com.protonvpn.android.redesign.reports.ui.BugReportViewModel
 import com.protonvpn.android.redesign.reports.ui.steps.form.BugReportFormScreen
+import com.protonvpn.android.update.AppUpdateInfo
 import me.proton.core.compose.theme.ProtonTheme
 
 object BugReportStepsScreen : ScreenNoArg<BugReportNav>("bugReportSteps") {
@@ -57,7 +58,7 @@ object BugReportStepsScreen : ScreenNoArg<BugReportNav>("bugReportSteps") {
         bugReportStepsNav: BugReportStepsNav,
         onClose: () -> Unit,
         onOpenLink: (String) -> Unit,
-        onUpdateApp: () -> Unit,
+        onUpdateApp: (AppUpdateInfo) -> Unit,
         modifier: Modifier = Modifier,
     ) = addToGraph(this) {
         val viewState = bugReportViewModel.viewStateFlow.collectAsStateWithLifecycle().value
@@ -75,7 +76,7 @@ object BugReportStepsScreen : ScreenNoArg<BugReportNav>("bugReportSteps") {
                 bugReportStepsNav.NavHost(
                     modifier = Modifier.fillMaxSize(),
                     viewState = state,
-                    onOpenStore = onUpdateApp,
+                    onUpdateApp = onUpdateApp,
                     onOpenLink = onOpenLink,
                     onSelectCategory = bugReportViewModel::onSelectCategory,
                     onSetCurrentStep = bugReportViewModel::onUpdateCurrentStep,

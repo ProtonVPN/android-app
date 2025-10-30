@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.redesign.reports.ui.steps.menu
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -39,13 +40,14 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.banners.VpnUpdateBanner
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.redesign.reports.ui.BugReportViewModel
+import com.protonvpn.android.update.AppUpdateInfo
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun BugReportMenu(
     viewState: BugReportViewModel.ViewState,
-    onUpdateVersionClick: () -> Unit,
+    onUpdateApp: (AppUpdateInfo) -> Unit,
     onCategoryClick: (Category) -> Unit,
     onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
     modifier: Modifier = Modifier,
@@ -57,8 +59,8 @@ fun BugReportMenu(
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
     ) {
-        if (viewState.isUpdateAvailable) {
-            item {
+        item(key = "header") {
+            AnimatedVisibility(viewState.appUpdateInfo != null, modifier = Modifier.fillMaxWidth()) {
                 VpnUpdateBanner(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -67,12 +69,10 @@ fun BugReportMenu(
                             top = 24.dp,
                             end = 16.dp,
                         ),
-                    onClick = onUpdateVersionClick,
+                    onClick = { onUpdateApp(requireNotNull(viewState.appUpdateInfo)) },
                 )
             }
-        }
 
-        item {
             Text(
                 modifier = Modifier.padding(
                     horizontal = 16.dp,
@@ -84,7 +84,7 @@ fun BugReportMenu(
             )
         }
 
-        items(viewState.categories) { category ->
+        items(viewState.categories, key = { it.label }) { category ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

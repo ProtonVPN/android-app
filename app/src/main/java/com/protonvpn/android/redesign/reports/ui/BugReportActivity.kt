@@ -48,7 +48,7 @@ class BugReportActivity : AppCompatActivity() {
                     bugReportViewModel = bugReportViewModel,
                     onClose = ::finish,
                     onOpenLink = ::openBrowserLink,
-                    onOpenStore = ::openMarketLink,
+                    onUpdateApp = { update -> bugReportViewModel.onAppUpdateStart(this, update) },
                 )
             }
         }

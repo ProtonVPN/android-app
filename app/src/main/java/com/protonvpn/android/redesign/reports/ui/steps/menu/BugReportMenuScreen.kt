@@ -25,18 +25,19 @@ import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
 import com.protonvpn.android.redesign.reports.ui.BugReportViewModel
 import com.protonvpn.android.redesign.reports.ui.steps.BugReportStepsNav
+import com.protonvpn.android.update.AppUpdateInfo
 
 object BugReportMenuScreen : ScreenNoArg<BugReportStepsNav>("bugReportStepMenu") {
 
     fun SafeNavGraphBuilder<BugReportStepsNav>.bugReportMenuScreen(
         viewState: BugReportViewModel.ViewState,
-        onUpdateApp: () -> Unit,
+        onUpdateApp: (AppUpdateInfo) -> Unit,
         onCategorySelected: (Category) -> Unit,
         onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
     ) = addToGraph(this) {
         BugReportMenu(
             viewState = viewState,
-            onUpdateVersionClick = onUpdateApp,
+            onUpdateApp = onUpdateApp,
             onCategoryClick = onCategorySelected,
             onSetCurrentStep = onSetCurrentStep,
         )

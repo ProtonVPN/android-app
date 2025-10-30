@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.update
 
-import androidx.activity.ComponentActivity
+import android.app.Activity
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,7 +30,7 @@ class AppUpdateManager @Inject constructor() {
 
     suspend fun checkForUpdate(): AppUpdateInfo? = null
 
-    fun launchUpdateFlow(activity: ComponentActivity, updateInfo: AppUpdateInfo) = Unit
+    fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) = Unit
 
 }
 
@@ -39,5 +39,5 @@ class UpdatePromptForStaleVersion @Inject constructor() {
 
     // Matches the interface in other variants.
     suspend fun getUpdatePrompt(): AppUpdateInfo? = null
-    fun launchUpdateFlow(activity: ComponentActivity, updateInfo: AppUpdateInfo) = Unit
+    fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) = Unit
 }

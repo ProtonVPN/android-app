@@ -19,8 +19,8 @@
 
 package com.protonvpn.android.update
 
+import android.app.Activity
 import android.content.Context
-import androidx.activity.ComponentActivity
 import com.google.android.play.core.appupdate.AppUpdateInfo as GoogleAppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
@@ -82,7 +82,7 @@ class AppUpdateManager @Inject constructor(
             null
         }
 
-    fun launchUpdateFlow(activity: ComponentActivity, updateInfo: AppUpdateInfo) {
+    fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) {
         updateManager.startUpdateFlow(updateInfo.updateToken, activity, AppUpdateOptions.defaultOptions(UPDATE_TYPE))
     }
 
@@ -123,7 +123,7 @@ class UpdatePromptForStaleVersion @Inject constructor(
         }
     }
 
-    fun launchUpdateFlow(activity: ComponentActivity, updateInfo: AppUpdateInfo) {
+    fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) {
         ProtonLogger.logCustom(LogCategory.APP_UPDATE, "In-app update started")
         appFeaturesPrefs.lastUpdatePromptTimestamp = clock()
         appFeaturesPrefs.lastUpdatePromptTryCount++

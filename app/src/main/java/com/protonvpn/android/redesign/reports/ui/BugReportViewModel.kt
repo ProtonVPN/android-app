@@ -1,5 +1,6 @@
 package com.protonvpn.android.redesign.reports.ui
 
+import android.app.Activity
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +8,7 @@ import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.config.bugreport.Suggestion
+import com.protonvpn.android.update.AppUpdateInfo
 import com.protonvpn.android.update.AppUpdateManager
 import com.protonvpn.android.utils.FileUtils
 import com.protonvpn.android.utils.Storage
@@ -41,7 +43,7 @@ class BugReportViewModel @Inject constructor(
         val currentStep: BugReportSteps,
         val categories: List<Category>,
         val selectedCategory: Category?,
-        val isUpdateAvailable: Boolean,
+        val appUpdateInfo: AppUpdateInfo?,
     ) {
 
         val initialStep: BugReportSteps = BugReportSteps.Menu
@@ -80,10 +82,9 @@ class BugReportViewModel @Inject constructor(
         initialValue = null,
     )
 
-    private val isAppUpdateAvailableFlow = flow {
-        val isAppUpdateAvailable = appUpdateManager.checkForUpdate() != null
-
-        emit(value = isAppUpdateAvailable)
+    private val appUpdateFlow = flow {
+        emit(null)
+        emit(appUpdateManager.checkForUpdate())
     }
 
     val viewStateFlow: StateFlow<ViewState?> = combine(
@@ -96,13 +97,17 @@ class BugReportViewModel @Inject constructor(
         },
         categoriesFlow,
         selectedCategoryFlow,
-        isAppUpdateAvailableFlow,
+        appUpdateFlow,
         ::ViewState,
     ).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000),
         initialValue = null,
     )
+
+    fun onAppUpdateStart(activity: Activity, appUpdateInfo: AppUpdateInfo) {
+        appUpdateManager.launchUpdateFlow(activity, appUpdateInfo)
+    }
 
     private fun onResetCategory() {
         savedStateHandle[SELECTED_CATEGORY_KEY] = null

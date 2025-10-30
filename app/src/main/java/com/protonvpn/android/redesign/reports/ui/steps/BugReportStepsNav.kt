@@ -14,6 +14,7 @@ import com.protonvpn.android.redesign.reports.ui.steps.menu.BugReportMenuScreen
 import com.protonvpn.android.redesign.reports.ui.steps.menu.BugReportMenuScreen.bugReportMenuScreen
 import com.protonvpn.android.redesign.reports.ui.steps.suggestions.BugReportSuggestionsScreen
 import com.protonvpn.android.redesign.reports.ui.steps.suggestions.BugReportSuggestionsScreen.bugReportSuggestionsScreen
+import com.protonvpn.android.update.AppUpdateInfo
 
 class BugReportStepsNav(
     selfNav: NavHostController,
@@ -22,7 +23,7 @@ class BugReportStepsNav(
     @Composable
     fun NavHost(
         viewState: BugReportViewModel.ViewState,
-        onOpenStore: () -> Unit,
+        onUpdateApp: (AppUpdateInfo) -> Unit,
         onOpenLink: (String) -> Unit,
         onSelectCategory: (Category) -> Unit,
         onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
@@ -34,7 +35,7 @@ class BugReportStepsNav(
         ) {
             bugReportMenuScreen(
                 viewState = viewState,
-                onUpdateApp = onOpenStore,
+                onUpdateApp = onUpdateApp,
                 onSetCurrentStep = onSetCurrentStep,
                 onCategorySelected = { selectedCategory ->
                     onSelectCategory(selectedCategory)

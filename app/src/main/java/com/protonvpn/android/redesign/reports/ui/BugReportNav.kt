@@ -26,6 +26,7 @@ import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.reports.ui.steps.BugReportStepsScreen
 import com.protonvpn.android.redesign.reports.ui.steps.BugReportStepsScreen.bugReportStepsScreen
 import com.protonvpn.android.redesign.reports.ui.steps.rememberBugReportStepsNav
+import com.protonvpn.android.update.AppUpdateInfo
 
 class BugReportNav(selfNav: NavHostController) : BaseNav<BugReportNav>(selfNav, "bugReport") {
 
@@ -34,7 +35,7 @@ class BugReportNav(selfNav: NavHostController) : BaseNav<BugReportNav>(selfNav, 
         bugReportViewModel: BugReportViewModel,
         onClose: () -> Unit,
         onOpenLink: (String) -> Unit,
-        onOpenStore: () -> Unit,
+        onUpdateApp: (AppUpdateInfo) -> Unit,
         modifier: Modifier = Modifier,
     ) {
         val bugReportStepsNav = rememberBugReportStepsNav()
@@ -48,7 +49,7 @@ class BugReportNav(selfNav: NavHostController) : BaseNav<BugReportNav>(selfNav, 
                 bugReportStepsNav = bugReportStepsNav,
                 onClose = onClose,
                 onOpenLink = onOpenLink,
-                onUpdateApp = onOpenStore,
+                onUpdateApp = onUpdateApp,
             )
         }
     }
