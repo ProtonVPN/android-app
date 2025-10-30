@@ -46,18 +46,20 @@ internal fun TvOutlinedTextField(
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
     assistiveText: String? = null,
+    labelText: String? = null,
     placeholderText: String? = null,
     errorText: String? = null,
     isError: Boolean = false,
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
+    minLines: Int = 1,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     focusRequester: FocusRequester? = null,
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
         ProtonOutlinedTextField(
             modifier = Modifier
@@ -72,10 +74,12 @@ internal fun TvOutlinedTextField(
                 ),
             value = value,
             onValueChange = onValueChange,
+            labelText = labelText,
             placeholderText = placeholderText,
             isError = isError,
             singleLine = singleLine,
             maxLines = maxLines,
+            minLines = minLines,
             textStyle = if (isError) {
                 ProtonTheme.typography.defaultNorm.copy(color = ProtonTheme.colors.notificationError)
             } else {
@@ -89,14 +93,14 @@ internal fun TvOutlinedTextField(
         if (isError && errorText != null) {
             Text(
                 text = errorText,
-                style = ProtonTheme.typography.body2Regular,
+                style = ProtonTheme.typography.captionRegular,
                 color = ProtonTheme.colors.notificationError,
             )
         } else {
             assistiveText?.let { text ->
                 Text(
                     text = text,
-                    style = ProtonTheme.typography.body2Regular,
+                    style = ProtonTheme.typography.captionRegular,
                     color = ProtonTheme.colors.textWeak,
                 )
             }

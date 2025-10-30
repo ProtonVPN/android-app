@@ -58,7 +58,7 @@ fun BugReportSuggestions(
     LazyColumn(
         modifier = modifier,
     ) {
-        item {
+        item(key = "suggestions_header_key") {
             Column(
                 modifier = Modifier.padding(
                     horizontal = 16.dp,
@@ -80,7 +80,10 @@ fun BugReportSuggestions(
             }
         }
 
-        itemsIndexed(viewState.suggestions) { index, suggestion ->
+        itemsIndexed(
+            items = viewState.suggestions,
+            key = { _, suggestion -> suggestion.text },
+        ) { index, suggestion ->
             val isSuggestionLinkAvailable = suggestion.link != null
 
             Row(

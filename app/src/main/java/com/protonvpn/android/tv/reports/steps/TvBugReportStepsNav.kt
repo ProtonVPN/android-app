@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.models.config.bugreport.Category
+import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.reports.ui.BugReportViewModel
 import com.protonvpn.android.tv.reports.steps.form.TvBugReportFormScreen
@@ -45,6 +46,10 @@ class TvBugReportStepsNav(
         onContactUs: () -> Unit,
         onSelectCategory: (Category) -> Unit,
         onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
+        onFormEmailChanged: (String) -> Unit,
+        onFormFieldChanged: (InputField, String) -> Unit,
+        onFormSendLogsChanged: (Boolean) -> Unit,
+        onSubmitReport: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
         SafeNavHost(
@@ -75,6 +80,10 @@ class TvBugReportStepsNav(
             tvBugReportFormScreen(
                 viewState = viewState,
                 onSetCurrentStep = onSetCurrentStep,
+                onFormEmailChanged = onFormEmailChanged,
+                onFormFieldChanged = onFormFieldChanged,
+                onFormSendLogsChanged = onFormSendLogsChanged,
+                onSubmitReport = onSubmitReport,
             )
         }
     }

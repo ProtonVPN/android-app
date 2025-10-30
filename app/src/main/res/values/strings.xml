@@ -602,6 +602,7 @@
     <string name="dynamic_report_tips_description">These tips could help to solve your issue faster.</string>
     <string name="dynamic_report_tips_title">Quick fixes</string>
     <string name="dynamic_report_logs_title">Send error logs</string>
+    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
     <string name="dynamic_report_success_title">Thanks for your feedback</string>
     <string name="dynamic_report_success_description">We’ll get back to you as soon as we can.</string>
     <string name="dynamic_report_field_mandatory">This field is mandatory</string>

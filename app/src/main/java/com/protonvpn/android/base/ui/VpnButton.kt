@@ -47,9 +47,18 @@ fun VpnSolidButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     isExternalLink: Boolean = false,
+    isLoading: Boolean = false,
 ) {
-    ProtonSolidButton(onClick = onClick, modifier = modifier.fillMaxWidth(), enabled = enabled) {
-        VpnButtonContent(text, isExternalLink)
+    ProtonSolidButton(
+        modifier = modifier.fillMaxWidth(),
+        onClick = onClick,
+        enabled = enabled,
+        loading = isLoading,
+    ) {
+        VpnButtonContent(
+            text = text,
+            isExternalLink = isExternalLink,
+        )
     }
 }
 

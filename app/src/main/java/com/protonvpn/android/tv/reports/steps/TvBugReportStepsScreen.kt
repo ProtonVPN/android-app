@@ -69,6 +69,10 @@ object TvBugReportStepsScreen : ScreenNoArg<BugReportNav>("tvBugReportSteps") {
                     },
                     onSelectCategory = bugReportViewModel::onSelectCategory,
                     onSetCurrentStep = bugReportViewModel::onUpdateCurrentStep,
+                    onFormEmailChanged = bugReportViewModel::onFormEmailChanged,
+                    onFormFieldChanged = bugReportViewModel::onFormFieldChanged,
+                    onFormSendLogsChanged = bugReportViewModel::onFormSendLogsChanged,
+                    onSubmitReport = bugReportViewModel::onSubmitReport,
                 )
             }
         }

@@ -80,6 +80,7 @@ fun ProtonOutlinedTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+    minLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
     textHeightIn: Dp = Dp.Unspecified,
@@ -122,6 +123,7 @@ fun ProtonOutlinedTextField(
         interactionSource = interactionSource,
         singleLine = singleLine,
         maxLines = maxLines,
+        minLines = minLines,
         decorationBox = decorationBox
     )
 }
@@ -145,6 +147,7 @@ fun ProtonOutlinedTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+    minLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
     textHeightIn: Dp = Dp.Unspecified,
@@ -186,6 +189,7 @@ fun ProtonOutlinedTextField(
         interactionSource = interactionSource,
         singleLine = singleLine,
         maxLines = maxLines,
+        minLines = minLines,
         decorationBox = decorationBox
     )
 }
@@ -244,6 +248,7 @@ private fun ProtonOutlineDecorationBox(
             focusedContainerColor = backgroundColor,
             unfocusedContainerColor = backgroundColor,
             disabledContainerColor = backgroundColor,
+            errorContainerColor = backgroundColor,
             focusedBorderColor = ProtonTheme.colors.interactionNorm,
             unfocusedBorderColor = Color.Transparent,
             errorBorderColor = ProtonTheme.colors.notificationError,

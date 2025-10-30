@@ -94,7 +94,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".tv.reports.TvBugReportActivity" />
+            android:name=".tv.reports.TvBugReportActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".tv.settings.autoconnect.TvSettingsAutoConnectActivity" />
         <activity

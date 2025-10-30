@@ -50,6 +50,9 @@ class BugReportNav(selfNav: NavHostController) : BaseNav<BugReportNav>(selfNav, 
                 onClose = onClose,
                 onOpenLink = onOpenLink,
                 onUpdateApp = onUpdateApp,
+                onReportSubmitted = {
+                    // Will be implemented in VPNAND-2394
+                },
             )
         }
     }

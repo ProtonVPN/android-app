@@ -40,8 +40,8 @@ import androidx.tv.material3.Icon
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.reports.ui.BugReportViewModel
-import com.protonvpn.android.tv.buttons.TvSolidButton
 import com.protonvpn.android.tv.buttons.TvProtonTextButton
+import com.protonvpn.android.tv.buttons.TvSolidButton
 import com.protonvpn.android.tv.reports.steps.TvBugReportStepHeader
 import com.protonvpn.android.tv.settings.ProtonTvFocusableSurface
 import me.proton.core.compose.theme.ProtonTheme
@@ -71,7 +71,7 @@ fun TvBugReportSuggestions(
                 .focusRequester(focusRequester)
                 .weight(weight = 1f, fill = true),
         ) {
-            item {
+            item(key = "suggestions_header_key") {
                 TvBugReportStepHeader(
                     modifier = Modifier.padding(all = 16.dp),
                     title = stringResource(id = R.string.dynamic_report_tips_title),
@@ -79,7 +79,10 @@ fun TvBugReportSuggestions(
                 )
             }
 
-            items(viewState.suggestions) { suggestion ->
+            items(
+                items = viewState.suggestions,
+                key = { suggestion -> suggestion.text },
+            ) { suggestion ->
                 ProtonTvFocusableSurface(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
