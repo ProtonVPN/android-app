@@ -24,9 +24,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppUpdateManagerImpl @Inject constructor(): NoopAppUpdateManager()
-
-@Singleton
 class UpdatePromptForStaleVersion @Inject constructor() {
 
     // Matches the interface in other variants.
