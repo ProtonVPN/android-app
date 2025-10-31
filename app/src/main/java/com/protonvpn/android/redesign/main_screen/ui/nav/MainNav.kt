@@ -200,9 +200,10 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
         val showCountries = activityViewModel.showCountriesFlow.collectAsStateWithLifecycle().value ?: false
         val showGateways = activityViewModel.showGatewaysFlow.collectAsStateWithLifecycle().value ?: false
         val showProfilesDot by activityViewModel.autoShowInfoSheet.collectAsStateWithLifecycle(false)
-        val notificationDots = when {
-            showProfilesDot -> EnumSet.of(MainTarget.Profiles)
-            else -> EnumSet.noneOf(MainTarget::class.java)
+        val showAppVersionUpdateDot by activityViewModel.showAppUpdateDot.collectAsStateWithLifecycle(false)
+        val notificationDots = EnumSet.noneOf(MainTarget::class.java).apply {
+            if (showProfilesDot) add(MainTarget.Profiles)
+            if (showAppVersionUpdateDot) add(MainTarget.Settings)
         }
         Scaffold(
             bottomBar = {

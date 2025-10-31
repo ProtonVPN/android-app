@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2024. Proton AG
+ * Copyright (c) 2025. Proton AG
  *
- * This file is part of ProtonVPN.
+ *  This file is part of ProtonVPN.
  *
  * ProtonVPN is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,16 +22,24 @@ package com.protonvpn.android.update
 import android.app.Activity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class AppUpdateManagerImpl @Inject constructor(): NoopAppUpdateManager()
+open class AppUpdateInfo(
+    val stalenessDays: Int,
+    val availableVersionCode: Int,
+)
 
-@Singleton
-class UpdatePromptForStaleVersion @Inject constructor() {
+interface AppUpdateManager {
+    fun checkForUpdateFlow(): Flow<AppUpdateInfo?>
 
-    // Matches the interface in other variants.
-    suspend fun getUpdatePrompt(): AppUpdateInfo? = null
-    fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) = Unit
+    suspend fun checkForUpdate(): AppUpdateInfo?
+
+    fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo)
+}
+
+open class NoopAppUpdateManager : AppUpdateManager {
+    override fun checkForUpdateFlow(): Flow<AppUpdateInfo?> = flowOf(null)
+
+    override suspend fun checkForUpdate(): AppUpdateInfo? = null
+
+    override fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) = Unit
 }

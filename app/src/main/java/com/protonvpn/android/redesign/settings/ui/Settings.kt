@@ -20,12 +20,15 @@
 package com.protonvpn.android.redesign.settings.ui
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
 import android.provider.Settings.EXTRA_APP_PACKAGE
 import android.provider.Settings.EXTRA_CHANNEL_ID
+import androidx.activity.compose.LocalActivity
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -62,6 +65,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.LabelBadge
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.banners.VpnUpdateBanner
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
@@ -81,6 +85,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingHighlightsFragm
 import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorHighlightsFragment
 import com.protonvpn.android.ui.settings.OssLicensesActivity
 import com.protonvpn.android.ui.settings.SettingsTelemetryActivity
+import com.protonvpn.android.update.AppUpdateInfo
 import com.protonvpn.android.utils.openUrl
 import me.proton.core.accountmanager.presentation.compose.AccountSettingsInfo
 import me.proton.core.accountmanager.presentation.compose.viewmodel.AccountSettingsViewModel
@@ -108,6 +113,7 @@ fun SettingsRoute(
     onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
     onNavigateToEditProfile: (Long, ProfileCreationStepTarget) -> Unit
 ) {
+    val activity: Activity = requireNotNull(LocalActivity.current)
     val viewModel = hiltViewModel<SettingsViewModel>()
     val viewState = viewModel.viewState.collectAsStateWithLifecycle(initialValue = null).value
 
@@ -139,6 +145,9 @@ fun SettingsRoute(
                 onSignUpClick = onSignUpClick,
                 onSignInClick = onSignInClick,
                 onSignOutClick = onSignOutClick,
+                onAppUpdateClick = { updateInfo ->
+                    viewModel.onAppUpdateClick(activity, updateInfo)
+                },
                 onAccountClick = {
                     if (viewState.accountScreenEnabled)
                         onNavigateToSubSetting(SubSettingsScreen.Type.Account)
@@ -231,6 +240,7 @@ fun SettingsView(
     modifier: Modifier = Modifier,
     viewState: SettingsViewModel.SettingsViewState,
     accountSettingsViewState: AccountSettingsViewState,
+    onAppUpdateClick: (AppUpdateInfo) -> Unit,
     onAccountClick: () -> Unit,
     onSignUpClick: () -> Unit,
     onSignInClick: () -> Unit,
@@ -270,6 +280,18 @@ fun SettingsView(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = extraScreenPadding)
         ) {
+            val horizontalItemPadding = Modifier.padding(horizontal = 16.dp)
+            AnimatedVisibility(
+                modifier = Modifier.fillMaxWidth(),
+                visible = viewState.appUpdateInfo != null
+            ) {
+                VpnUpdateBanner(
+                    message = stringResource(R.string.update_banner_description_settings),
+                    onClick = { onAppUpdateClick(requireNotNull(viewState.appUpdateInfo)) },
+                    modifier = horizontalItemPadding,
+                )
+            }
+
             viewState.profileOverrideInfo?.let {
                 ProfileOverrideView(
                     modifier = Modifier.padding(16.dp),
@@ -292,7 +314,7 @@ fun SettingsView(
                 onAlwaysOnClick = onAlwaysOnClick
             )
             Category(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                modifier = horizontalItemPadding,
                 stringResource(id = R.string.settings_connection_category)
             ) {
                 viewState.defaultConnection?.let { connnection ->
@@ -329,7 +351,7 @@ fun SettingsView(
             }
 
             Category(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                modifier = horizontalItemPadding,
                 stringResource(id = R.string.settings_category_general)
             ) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -362,7 +384,7 @@ fun SettingsView(
                 )
             }
             Category(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                modifier = horizontalItemPadding,
                 stringResource(id = R.string.settings_category_support)
             ) {
                 SettingRowWithIcon(
@@ -390,7 +412,7 @@ fun SettingsView(
                 }
             }
             Category(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                modifier = horizontalItemPadding,
                 stringResource(id = R.string.settings_category_improve_proton)
             ) {
                 SettingRowWithIcon(
@@ -438,7 +460,7 @@ fun SettingsView(
                 Text(
                     text = viewState.buildInfo,
                     style = ProtonTheme.typography.defaultSmallWeak,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                    modifier = horizontalItemPadding.padding(vertical = 8.dp)
                 )
             }
             Spacer(Modifier.height(24.dp))

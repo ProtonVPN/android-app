@@ -13,6 +13,7 @@ import com.protonvpn.android.ui.storage.UiStateStoreProvider
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.mocks.FakeShouldShowAppUpdateDotFlow
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreference
@@ -97,6 +98,7 @@ class MainActivityViewModelTests {
             uiStateStorage = uiStateStorage,
             vpnConnectionManager = mockVpnConnectionManager,
             vpnStatusViewStateFlow = mockVpnStatusViewStateFlow,
+            shouldShowAppUpdateDotFlow = FakeShouldShowAppUpdateDotFlow()
         )
     }
 

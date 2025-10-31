@@ -27,6 +27,7 @@ import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.update.ShouldShowAppUpdateDotFlow
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnUiDelegate
@@ -36,6 +37,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -46,7 +48,10 @@ class MainActivityViewModel @Inject constructor(
     serverManager2: ServerManager2,
     private val autoLoginManager: AutoLoginManager,
     uiStateStorage: UiStateStorage,
+    shouldShowAppUpdateDotFlow: ShouldShowAppUpdateDotFlow,
 ) : ViewModel() {
+    private val uiStateFlow = uiStateStorage.state
+        .shareIn(viewModelScope, SharingStarted.WhileSubscribed(5000), replay = 1)
 
     val vpnStateViewFlow: StateFlow<VpnStatusViewState> = vpnStatusViewStateFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), VpnStatusViewState.Loading)
@@ -67,7 +72,9 @@ class MainActivityViewModel @Inject constructor(
         vpnStateView != VpnStatusViewState.Loading && showGateways != null && showCountries != null
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
 
-    val autoShowInfoSheet = uiStateStorage.state.map { it.shouldPromoteProfiles }.distinctUntilChanged()
+    val autoShowInfoSheet = uiStateFlow.map { it.shouldPromoteProfiles }.distinctUntilChanged()
+
+    val showAppUpdateDot = shouldShowAppUpdateDotFlow
 
     // Must be fast, it's used in SplashScreen.setKeepOnScreenCondition
     val isMinimalStateReady: Boolean get() = isMinimalStateReadyFlow.value

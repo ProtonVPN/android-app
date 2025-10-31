@@ -99,6 +99,12 @@ import com.protonvpn.android.ui.promooffers.usecase.IsIapClientSidePromoFeatureF
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.AppIconManagerImpl
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
+import com.protonvpn.android.update.AppUpdateManager
+import com.protonvpn.android.update.AppUpdateManagerImpl
+import com.protonvpn.android.update.IsAppUpdateBannerFeatureFlagEnabled
+import com.protonvpn.android.update.IsAppUpdateBannerFeatureFlagEnabledImpl
+import com.protonvpn.android.update.ShouldShowAppUpdateDotFlow
+import com.protonvpn.android.update.ShouldShowAppUpdateDotFlowImpl
 import com.protonvpn.android.userstorage.DefaultLocalDataStoreFactory
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
@@ -388,6 +394,9 @@ object AppModule {
         fun bindAppIconManager(impl: AppIconManagerImpl): AppIconManager
 
         @Binds
+        fun bindAppUpdateManager(impl: AppUpdateManagerImpl): AppUpdateManager
+
+        @Binds
         fun bindAutoLogin(autoLogin: AutoLoginImpl): AutoLogin
 
         @Binds
@@ -466,6 +475,11 @@ object AppModule {
         ): IsTvNetShieldSettingFeatureFlagEnabled
 
         @Binds
+        fun bindIsAppUpdateBannerFeatureFlagEnabled(
+            impl: IsAppUpdateBannerFeatureFlagEnabledImpl
+        ): IsAppUpdateBannerFeatureFlagEnabled
+
+        @Binds
         fun bindPeriodicUpdateManager(impl: PeriodicUpdateManagerImpl): PeriodicUpdateManager
 
         @Binds
@@ -484,6 +498,9 @@ object AppModule {
 
         @Binds
         fun bindServerNameTopStrategyEnabled(impl: ServerNameTopStrategyEnabledImpl): ServerNameTopStrategyEnabled
+
+        @Binds
+        fun bindShouldShowAppUpdateDotFlow(impl: ShouldShowAppUpdateDotFlowImpl): ShouldShowAppUpdateDotFlow
 
         @Binds
         fun bindTelemetryReporter(impl: DefaultTelemetryReporter): TelemetryReporter

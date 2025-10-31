@@ -62,6 +62,7 @@ fun BugReportMenu(
         item(key = "header") {
             AnimatedVisibility(viewState.appUpdateInfo != null, modifier = Modifier.fillMaxWidth()) {
                 VpnUpdateBanner(
+                    message = stringResource(id = R.string.update_screen_description),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(

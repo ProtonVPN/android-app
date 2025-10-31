@@ -81,21 +81,21 @@ class PromptUpdateForStaleVersionTests {
     @Test
     fun `when there is an update but feature is disabled there is no prompt`() = runTest {
         coEvery { mockIsFeatureEnabled.invoke() } returns false
-        coEvery { mockAppUpdateManager.checkForUpdate() } returns AppUpdateInfo(UPDATE_STALENESS_THRESHOLD, mockk())
+        coEvery { mockAppUpdateManager.checkForUpdate() } returns AppUpdateInfo(UPDATE_STALENESS_THRESHOLD, 0)
 
         assertNull(updatePrompt.getUpdatePrompt())
     }
 
     @Test
     fun `when there is a fresh update then there is no prompt`() = runTest {
-        coEvery { mockAppUpdateManager.checkForUpdate() } returns AppUpdateInfo(1, mockk())
+        coEvery { mockAppUpdateManager.checkForUpdate() } returns AppUpdateInfo(1, 0)
 
         assertNull(updatePrompt.getUpdatePrompt())
     }
 
     @Test
     fun `when there is a stale update then there is a prompt`() = runTest {
-        coEvery { mockAppUpdateManager.checkForUpdate() } returns AppUpdateInfo(UPDATE_STALENESS_THRESHOLD, mockk())
+        coEvery { mockAppUpdateManager.checkForUpdate() } returns AppUpdateInfo(UPDATE_STALENESS_THRESHOLD, 0)
 
         assertNotNull(updatePrompt.getUpdatePrompt())
     }
@@ -175,7 +175,7 @@ class PromptUpdateForStaleVersionTests {
         val startTime = clockTime
         coEvery { mockAppUpdateManager.checkForUpdate() } answers {
             val elapsedDays = (clockTime - startTime).inWholeDays
-            AppUpdateInfo(stalenessDays + elapsedDays.toInt(), mockk())
+            AppUpdateInfo(stalenessDays + elapsedDays.toInt(), 0)
         }
     }
 }

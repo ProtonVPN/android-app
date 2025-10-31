@@ -82,11 +82,6 @@ class BugReportViewModel @Inject constructor(
         initialValue = null,
     )
 
-    private val appUpdateFlow = flow {
-        emit(null)
-        emit(appUpdateManager.checkForUpdate())
-    }
-
     val viewStateFlow: StateFlow<ViewState?> = combine(
         currentStepFlow.onEach { currentStep ->
             when (currentStep) {
@@ -97,7 +92,7 @@ class BugReportViewModel @Inject constructor(
         },
         categoriesFlow,
         selectedCategoryFlow,
-        appUpdateFlow,
+        appUpdateManager.checkForUpdateFlow(),
         ::ViewState,
     ).stateIn(
         scope = viewModelScope,

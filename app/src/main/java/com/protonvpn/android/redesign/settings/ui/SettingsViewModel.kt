@@ -19,6 +19,7 @@
 package com.protonvpn.android.redesign.settings.ui
 
 import android.annotation.TargetApi
+import android.app.Activity
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
@@ -47,6 +48,10 @@ import com.protonvpn.android.theme.label
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.ui.settings.CustomAppIconData
+import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.update.AppUpdateInfo
+import com.protonvpn.android.update.AppUpdateManager
+import com.protonvpn.android.update.IsAppUpdateBannerFeatureFlagEnabled
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.combine
 import com.protonvpn.android.vpn.DnsOverride
@@ -65,7 +70,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import me.proton.core.auth.domain.feature.IsFido2Enabled
@@ -86,7 +93,8 @@ class SettingsViewModel @Inject constructor(
     accountUserSettings: ObserveUserSettings,
     buildConfigInfo: BuildConfigInfo,
     settingsForConnection: SettingsForConnection,
-    private val observeDefaultConnection: ObserveDefaultConnection,
+    observeDefaultConnection: ObserveDefaultConnection,
+    private val uiStateStorage: UiStateStorage,
     private val recentsManager: RecentsManager,
     private val installedAppsProvider: InstalledAppsProvider,
     private val getConnectIntentViewState: GetConnectIntentViewState,
@@ -98,8 +106,10 @@ class SettingsViewModel @Inject constructor(
     private val appFeaturePrefs: AppFeaturesPrefs,
     private val isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
+    private val appUpdateManager: AppUpdateManager,
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     private val isRedesignedBugReportFeatureFlagEnabled: IsRedesignedBugReportFeatureFlagEnabled,
+    isAppUpdateBannerFeatureFlagEnabled: IsAppUpdateBannerFeatureFlagEnabled,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -326,6 +336,7 @@ class SettingsViewModel @Inject constructor(
         val accountScreenEnabled: Boolean,
         val versionName: String,
         val isRedesignedBugReportFeatureFlagEnabled: Boolean,
+        val appUpdateInfo: AppUpdateInfo?,
     )
 
     enum class UiEvent {
@@ -337,6 +348,20 @@ class SettingsViewModel @Inject constructor(
     private val buildConfigText = if (displayDebugUi) buildConfigInfo() else null
 
     val event = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
+    val acknowledgingAppUpdateBannerStateFlow = isAppUpdateBannerFeatureFlagEnabled.observe()
+        .flatMapLatest{ isEnabled ->
+            if (isEnabled) {
+                appUpdateManager.checkForUpdateFlow()
+                    .onEach { update ->
+                        if (update != null) {
+                            // Hides the dot on the Settings button in bottom bar.
+                            uiStateStorage.update { it.copy(lastAppUpdatePromptAckedVersion = update.availableVersionCode) }
+                        }
+                    }
+            } else {
+                flowOf(null)
+            }
+        }
 
     val viewState =
         combine(
@@ -348,7 +373,8 @@ class SettingsViewModel @Inject constructor(
             isIPv6FeatureFlagEnabled.observe(),
             isPrivateDnsActiveFlow,
             isRedesignedBugReportFeatureFlagEnabled.observe(),
-        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled, isPrivateDnsActive, isRedesignedBugReportFeatureFlagEnabled ->
+            acknowledgingAppUpdateBannerStateFlow,
+        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled, isPrivateDnsActive, isRedesignedBugReportFeatureFlagEnabled, appUpdateInfo ->
             val isFree = user?.vpnUser?.isFreeUser == true
             val isCredentialLess = user?.user?.isCredentialLess() == true
             val settings = connectionSettings.connectionSettings
@@ -424,6 +450,7 @@ class SettingsViewModel @Inject constructor(
                 ipV6 = if (isIPv6FeatureFlagEnabled) SettingViewState.IPv6(enabled = settings.ipV6Enabled) else null,
                 theme = SettingViewState.Theme(settings.theme),
                 isRedesignedBugReportFeatureFlagEnabled = isRedesignedBugReportFeatureFlagEnabled,
+                appUpdateInfo = appUpdateInfo,
             )
         }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(1_000), replay = 1)
 
@@ -507,6 +534,10 @@ class SettingsViewModel @Inject constructor(
     fun getCurrentAppIcon() = appIconManager.getCurrentIconData()
 
     fun setNewAppIcon(newIcon: CustomAppIconData) = appIconManager.setNewAppIcon(newIcon)
+
+    fun onAppUpdateClick(activity: Activity, appUpdateInfo: AppUpdateInfo) {
+        appUpdateManager.launchUpdateFlow(activity, appUpdateInfo)
+    }
 
     @TargetApi(26)
     fun onWidgetSettingClick() {

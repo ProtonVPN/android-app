@@ -51,6 +51,10 @@ import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnab
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
+import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.ui.storage.UiStateStoreProvider
+import com.protonvpn.android.update.FakeIsAppUpdateBannerFeatureFlagEnabled
+import com.protonvpn.android.update.NoopAppUpdateManager
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.VpnState
@@ -215,6 +219,9 @@ class SettingsViewModelTests {
             isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
             observeDefaultConnection = mockObserveDefaultConnection,
             isRedesignedBugReportFeatureFlagEnabled = FakeIsRedesignedBugReportFeatureFlagEnabled(true),
+            uiStateStorage = UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),
+            isAppUpdateBannerFeatureFlagEnabled = FakeIsAppUpdateBannerFeatureFlagEnabled(true),
+            appUpdateManager = NoopAppUpdateManager(),
         )
     }
 

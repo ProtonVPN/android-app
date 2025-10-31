@@ -45,6 +45,7 @@ import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun VpnUpdateBanner(
+    message: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -76,7 +77,7 @@ fun VpnUpdateBanner(
                 )
 
                 Text(
-                    text = stringResource(id = R.string.update_screen_description),
+                    text = message,
                     color = ProtonTheme.colors.textWeak,
                     style = ProtonTheme.typography.body2Regular,
                 )
@@ -98,6 +99,7 @@ private fun VpnUpdateBannerPreview(
 ) {
     ProtonVpnPreview(isDark = isDark) {
         VpnUpdateBanner(
+            message = stringResource(id = R.string.update_screen_description),
             onClick = {},
         )
     }
