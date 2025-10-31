@@ -57,7 +57,7 @@ class AppUpdateBannerStateFlowImpl @Inject constructor(
         }
 
     private val updateFlow = combine(
-        appUpdateManager.checkForUpdateFlow(),
+        appUpdateManager.checkForUpdateFlow,
         vpnStatusProviderUI.status.map { it.state.isConnectedOrConnecting() },
     ) { appUpdate, isConnectedOrConnecting ->
         if (appUpdate != null) {

@@ -20,8 +20,6 @@
 package com.protonvpn.android.update
 
 import android.app.Activity
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 import javax.inject.Singleton
 

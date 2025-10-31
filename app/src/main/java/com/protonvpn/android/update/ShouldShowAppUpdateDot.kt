@@ -55,7 +55,7 @@ class ShouldShowAppUpdateDotFlowImpl @Inject constructor(
 
     private val updateFlow = combine(
         uiStateStorage.state.map { it.lastAppUpdatePromptAckedVersion },
-        appUpdateManager.checkForUpdateFlow(),
+        appUpdateManager.checkForUpdateFlow,
     ) { versionAcked, update ->
         val versionAvailable = update?.availableVersionCode
         (update?.stalenessDays ?: 0) >= MIN_STALENESS_DAYS &&

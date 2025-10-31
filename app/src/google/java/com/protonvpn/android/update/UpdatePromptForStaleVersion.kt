@@ -25,7 +25,8 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
-import com.google.android.play.core.ktx.requestAppUpdateInfo
+import com.google.android.play.core.ktx.AppUpdateResult
+import com.google.android.play.core.ktx.requestUpdateFlow
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
@@ -34,13 +35,15 @@ import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import me.proton.core.featureflag.domain.ExperimentalProtonFeatureFlag
 import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
 import java.util.concurrent.CancellationException
-
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Duration.Companion.days
@@ -58,35 +61,42 @@ data class GoogleAppUpdateInfo(
 
 @Singleton
 class AppUpdateManagerImpl @Inject constructor(
-    @ApplicationContext appContext: Context
-) : AppUpdateManager {
+    @ApplicationContext appContext: Context,
+    mainScope: CoroutineScope,
+) : AppUpdateManager() {
     private val updateManager by lazy { AppUpdateManagerFactory.create(appContext) }
 
-    override fun checkForUpdateFlow(): Flow<AppUpdateInfo?> = flow {
-        emit(null)
-        emit(checkForUpdate())
-    }
+    override val checkForUpdateFlow = updateManager.requestUpdateFlow()
+        .map { update ->
+            when(update) {
+                is AppUpdateResult.Available -> {
+                    val updateInfo = update.updateInfo
+                    val updateAvailability = updateInfo.updateAvailability()
 
-    override suspend fun checkForUpdate(): AppUpdateInfo? =
-        try {
-            val updateInfo = updateManager.requestAppUpdateInfo()
-            val updateAvailability = updateInfo.updateAvailability()
+                    if (updateAvailability == UpdateAvailability.UPDATE_AVAILABLE ||
+                        updateAvailability == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
+                    ) {
+                        logUpdateInfo(updateInfo)
+                        GoogleAppUpdateInfo(updateInfo)
+                    } else {
+                        null
+                    }
+                }
 
-            if (updateAvailability == UpdateAvailability.UPDATE_AVAILABLE ||
-                updateAvailability == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
-            ) {
-                logUpdateInfo(updateInfo)
-                GoogleAppUpdateInfo(updateInfo)
-            } else {
-                null
+                is AppUpdateResult.Downloaded -> null
+                is AppUpdateResult.InProgress -> null
+                AppUpdateResult.NotAvailable -> null
             }
-        } catch(e: CancellationException) {
-            throw e
-        } catch(e: Exception) {
-            val message = "Unable to obtain in-app update info $e"
-            ProtonLogger.logCustom(LogLevel.WARN, LogCategory.APP_UPDATE, message)
-            null
-        }
+        }.catch { e ->
+          when (e) {
+              is CancellationException -> throw e
+              else -> {
+                  val message = "Unable to obtain in-app update info $e"
+                  ProtonLogger.logCustom(LogLevel.WARN, LogCategory.APP_UPDATE, message)
+                  null
+              }
+          }
+        }.shareIn(mainScope, SharingStarted.WhileSubscribed(15_000), replay = 1)
 
     override fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) {
         val updateToken = (updateInfo as GoogleAppUpdateInfo).updateToken

@@ -21,6 +21,7 @@ package com.protonvpn.android.update
 
 import android.app.Activity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 
 open class AppUpdateInfo(
@@ -28,18 +29,16 @@ open class AppUpdateInfo(
     val availableVersionCode: Int,
 )
 
-interface AppUpdateManager {
-    fun checkForUpdateFlow(): Flow<AppUpdateInfo?>
+abstract class AppUpdateManager {
+    abstract val checkForUpdateFlow: Flow<AppUpdateInfo?>
 
-    suspend fun checkForUpdate(): AppUpdateInfo?
+    suspend fun checkForUpdate(): AppUpdateInfo? = checkForUpdateFlow.firstOrNull()
 
-    fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo)
+    abstract fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo)
 }
 
-open class NoopAppUpdateManager : AppUpdateManager {
-    override fun checkForUpdateFlow(): Flow<AppUpdateInfo?> = flowOf(null)
-
-    override suspend fun checkForUpdate(): AppUpdateInfo? = null
+open class NoopAppUpdateManager : AppUpdateManager() {
+    override val checkForUpdateFlow: Flow<AppUpdateInfo?> = flowOf(null)
 
     override fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) = Unit
 }
