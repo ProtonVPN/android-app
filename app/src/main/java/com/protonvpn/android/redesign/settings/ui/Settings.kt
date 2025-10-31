@@ -28,7 +28,6 @@ import android.provider.Settings.EXTRA_APP_PACKAGE
 import android.provider.Settings.EXTRA_CHANNEL_ID
 import androidx.activity.compose.LocalActivity
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -65,7 +64,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.LabelBadge
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.base.ui.banners.VpnUpdateBanner
+import com.protonvpn.android.update.VpnUpdateBanner
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
@@ -281,16 +280,14 @@ fun SettingsView(
                 .padding(horizontal = extraScreenPadding)
         ) {
             val horizontalItemPadding = Modifier.padding(horizontal = 16.dp)
-            AnimatedVisibility(
-                modifier = Modifier.fillMaxWidth(),
-                visible = viewState.appUpdateInfo != null
-            ) {
-                VpnUpdateBanner(
-                    message = stringResource(R.string.update_banner_description_settings),
-                    onClick = { onAppUpdateClick(requireNotNull(viewState.appUpdateInfo)) },
-                    modifier = horizontalItemPadding,
-                )
-            }
+            VpnUpdateBanner(
+                message = stringResource(R.string.update_banner_description_settings),
+                viewState = viewState.appUpdateBannerState,
+                onAppUpdate = onAppUpdateClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .then(horizontalItemPadding),
+            )
 
             viewState.profileOverrideInfo?.let {
                 ProfileOverrideView(

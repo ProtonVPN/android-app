@@ -62,6 +62,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
+import com.protonvpn.mocks.FakeAppUpdateBannerStateFlow
 import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
@@ -220,8 +221,8 @@ class SettingsViewModelTests {
             observeDefaultConnection = mockObserveDefaultConnection,
             isRedesignedBugReportFeatureFlagEnabled = FakeIsRedesignedBugReportFeatureFlagEnabled(true),
             uiStateStorage = UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),
-            isAppUpdateBannerFeatureFlagEnabled = FakeIsAppUpdateBannerFeatureFlagEnabled(true),
             appUpdateManager = NoopAppUpdateManager(),
+            appUpdateBannerStateFlow = FakeAppUpdateBannerStateFlow(),
         )
     }
 

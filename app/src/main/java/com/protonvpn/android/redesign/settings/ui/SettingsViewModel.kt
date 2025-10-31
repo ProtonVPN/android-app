@@ -49,6 +49,8 @@ import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.update.AppUpdateBannerState
+import com.protonvpn.android.update.AppUpdateBannerStateFlow
 import com.protonvpn.android.update.AppUpdateInfo
 import com.protonvpn.android.update.AppUpdateManager
 import com.protonvpn.android.update.IsAppUpdateBannerFeatureFlagEnabled
@@ -107,9 +109,9 @@ class SettingsViewModel @Inject constructor(
     private val isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
     private val appUpdateManager: AppUpdateManager,
+    appUpdateBannerStateFlow: AppUpdateBannerStateFlow,
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     private val isRedesignedBugReportFeatureFlagEnabled: IsRedesignedBugReportFeatureFlagEnabled,
-    isAppUpdateBannerFeatureFlagEnabled: IsAppUpdateBannerFeatureFlagEnabled,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -336,7 +338,7 @@ class SettingsViewModel @Inject constructor(
         val accountScreenEnabled: Boolean,
         val versionName: String,
         val isRedesignedBugReportFeatureFlagEnabled: Boolean,
-        val appUpdateInfo: AppUpdateInfo?,
+        val appUpdateBannerState: AppUpdateBannerState,
     )
 
     enum class UiEvent {
@@ -348,18 +350,13 @@ class SettingsViewModel @Inject constructor(
     private val buildConfigText = if (displayDebugUi) buildConfigInfo() else null
 
     val event = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
-    val acknowledgingAppUpdateBannerStateFlow = isAppUpdateBannerFeatureFlagEnabled.observe()
-        .flatMapLatest{ isEnabled ->
-            if (isEnabled) {
-                appUpdateManager.checkForUpdateFlow()
-                    .onEach { update ->
-                        if (update != null) {
-                            // Hides the dot on the Settings button in bottom bar.
-                            uiStateStorage.update { it.copy(lastAppUpdatePromptAckedVersion = update.availableVersionCode) }
-                        }
-                    }
-            } else {
-                flowOf(null)
+    val acknowledgingAppUpdateBannerStateFlow = appUpdateBannerStateFlow
+        .onEach { state ->
+            if (state is AppUpdateBannerState.Shown) {
+                // Hides the dot on the Settings button in bottom bar.
+                uiStateStorage.update {
+                    it.copy(lastAppUpdatePromptAckedVersion = state.appUpdateInfo.availableVersionCode)
+                }
             }
         }
 
@@ -374,7 +371,7 @@ class SettingsViewModel @Inject constructor(
             isPrivateDnsActiveFlow,
             isRedesignedBugReportFeatureFlagEnabled.observe(),
             acknowledgingAppUpdateBannerStateFlow,
-        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled, isPrivateDnsActive, isRedesignedBugReportFeatureFlagEnabled, appUpdateInfo ->
+        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled, isPrivateDnsActive, isRedesignedBugReportFeatureFlagEnabled, appUpdateBannerState ->
             val isFree = user?.vpnUser?.isFreeUser == true
             val isCredentialLess = user?.user?.isCredentialLess() == true
             val settings = connectionSettings.connectionSettings
@@ -450,7 +447,7 @@ class SettingsViewModel @Inject constructor(
                 ipV6 = if (isIPv6FeatureFlagEnabled) SettingViewState.IPv6(enabled = settings.ipV6Enabled) else null,
                 theme = SettingViewState.Theme(settings.theme),
                 isRedesignedBugReportFeatureFlagEnabled = isRedesignedBugReportFeatureFlagEnabled,
-                appUpdateInfo = appUpdateInfo,
+                appUpdateBannerState = appUpdateBannerState,
             )
         }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(1_000), replay = 1)
 

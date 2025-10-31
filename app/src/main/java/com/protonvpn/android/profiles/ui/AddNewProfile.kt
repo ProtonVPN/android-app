@@ -291,7 +291,6 @@ fun ReconnectDialog(
         isWideDialog = true,
         onConfirm = { onConfirm() },
         dismissLabel = stringResource(id = R.string.cancel),
-        onDismissButton = { onDismiss() },
         onDismissRequest = onDismiss,
     )
 }

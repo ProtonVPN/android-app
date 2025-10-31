@@ -101,6 +101,8 @@ import com.protonvpn.android.ui.settings.AppIconManagerImpl
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.update.AppUpdateManager
 import com.protonvpn.android.update.AppUpdateManagerImpl
+import com.protonvpn.android.update.AppUpdateBannerStateFlow
+import com.protonvpn.android.update.AppUpdateBannerStateFlowImpl
 import com.protonvpn.android.update.IsAppUpdateBannerFeatureFlagEnabled
 import com.protonvpn.android.update.IsAppUpdateBannerFeatureFlagEnabledImpl
 import com.protonvpn.android.update.ShouldShowAppUpdateDotFlow
@@ -395,6 +397,11 @@ object AppModule {
 
         @Binds
         fun bindAppUpdateManager(impl: AppUpdateManagerImpl): AppUpdateManager
+
+        @Binds
+        fun bindAppUpdateBannerStateFlow(
+            impl: AppUpdateBannerStateFlowImpl
+        ): AppUpdateBannerStateFlow
 
         @Binds
         fun bindAutoLogin(autoLogin: AutoLoginImpl): AutoLogin

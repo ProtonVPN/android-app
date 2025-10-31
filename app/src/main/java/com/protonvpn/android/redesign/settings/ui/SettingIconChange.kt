@@ -102,10 +102,6 @@ fun IconSelectionScreen(
                 showRestartDialog.value = false
             },
             dismissLabel = stringResource(id = R.string.dialog_action_cancel),
-            onDismissButton = {
-                pendingIcon = currentIcon
-                showRestartDialog.value = false
-            },
             onDismissRequest = {
                 pendingIcon = currentIcon
                 showRestartDialog.value = false

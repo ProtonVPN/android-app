@@ -19,6 +19,8 @@
 
 package com.protonvpn.mocks
 
+import com.protonvpn.android.update.AppUpdateBannerState
+import com.protonvpn.android.update.AppUpdateBannerStateFlow
 import com.protonvpn.android.update.ShouldShowAppUpdateDotFlow
 import kotlinx.coroutines.ExperimentalForInheritanceCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,3 +34,6 @@ open class FakeFlow<T>(flow: MutableStateFlow<T>): MutableStateFlow<T> by flow {
 @OptIn(ExperimentalForInheritanceCoroutinesApi::class)
 class FakeShouldShowAppUpdateDotFlow
     : ShouldShowAppUpdateDotFlow, FakeFlow<Boolean>(false)
+
+class FakeAppUpdateBannerStateFlow
+    : AppUpdateBannerStateFlow, FakeFlow<AppUpdateBannerState>(AppUpdateBannerState.Hidden)

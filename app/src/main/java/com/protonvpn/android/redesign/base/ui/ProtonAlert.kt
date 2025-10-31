@@ -84,8 +84,8 @@ fun ProtonAlert(
     confirmLabel: String,
     onConfirm: (checkBoxValue: Boolean) -> Unit,
     dismissLabel: String? = null,
-    onDismissButton: (checkBoxValue: Boolean) -> Unit = {},
     onDismissRequest: () -> Unit = {},
+    onDismissButton: (checkBoxValue: Boolean) -> Unit = { onDismissRequest() },
     checkBox: String? = null,
     checkBoxInitialValue: Boolean = false,
     isWideDialog: Boolean = false

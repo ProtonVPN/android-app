@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.redesign.reports.ui.steps.menu
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -37,7 +36,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.banners.VpnUpdateBanner
+import com.protonvpn.android.update.VpnUpdateBanner
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.redesign.reports.ui.BugReportViewModel
 import com.protonvpn.android.update.AppUpdateInfo
@@ -60,19 +59,14 @@ fun BugReportMenu(
         modifier = modifier.fillMaxWidth(),
     ) {
         item(key = "header") {
-            AnimatedVisibility(viewState.appUpdateInfo != null, modifier = Modifier.fillMaxWidth()) {
-                VpnUpdateBanner(
-                    message = stringResource(id = R.string.update_screen_description),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = 16.dp,
-                            top = 24.dp,
-                            end = 16.dp,
-                        ),
-                    onClick = { onUpdateApp(requireNotNull(viewState.appUpdateInfo)) },
-                )
-            }
+            VpnUpdateBanner(
+                message = stringResource(R.string.update_screen_description),
+                viewState = viewState.appUpdateBannerState,
+                onAppUpdate = onUpdateApp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 24.dp, end = 16.dp),
+            )
 
             Text(
                 modifier = Modifier.padding(

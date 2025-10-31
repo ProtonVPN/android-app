@@ -8,6 +8,8 @@ import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.config.bugreport.Suggestion
+import com.protonvpn.android.update.AppUpdateBannerState
+import com.protonvpn.android.update.AppUpdateBannerStateFlow
 import com.protonvpn.android.update.AppUpdateInfo
 import com.protonvpn.android.update.AppUpdateManager
 import com.protonvpn.android.utils.FileUtils
@@ -31,6 +33,7 @@ class BugReportViewModel @Inject constructor(
     private val appUpdateManager: AppUpdateManager,
     private val dispatcherProvider: VpnDispatcherProvider,
     private val savedStateHandle: SavedStateHandle,
+    appUpdateBannerStateFlow: AppUpdateBannerStateFlow,
 ) : ViewModel() {
 
     enum class BugReportSteps(val stepIndex: Int) {
@@ -43,7 +46,7 @@ class BugReportViewModel @Inject constructor(
         val currentStep: BugReportSteps,
         val categories: List<Category>,
         val selectedCategory: Category?,
-        val appUpdateInfo: AppUpdateInfo?,
+        val appUpdateBannerState: AppUpdateBannerState,
     ) {
 
         val initialStep: BugReportSteps = BugReportSteps.Menu
@@ -92,7 +95,7 @@ class BugReportViewModel @Inject constructor(
         },
         categoriesFlow,
         selectedCategoryFlow,
-        appUpdateManager.checkForUpdateFlow(),
+        appUpdateBannerStateFlow,
         ::ViewState,
     ).stateIn(
         scope = viewModelScope,

@@ -40,6 +40,7 @@ import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.theme.ThemeType
+import com.protonvpn.android.update.AppUpdateBannerState
 import com.protonvpn.android.update.AppUpdateInfo
 import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -330,7 +331,7 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
     private val theme = SettingViewState.Theme(ThemeType.Dark)
 
     val settingsViewState = SettingsViewModel.SettingsViewState(
-        appUpdateInfo = null,
+        appUpdateBannerState = AppUpdateBannerState.Shown(false, AppUpdateInfo(0, 0)),
         profileOverrideInfo = overrideInfo,
         netShield = netshield,
         splitTunneling = splitTunneling,
