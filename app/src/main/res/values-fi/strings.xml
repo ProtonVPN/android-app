@@ -52,6 +52,7 @@
     <string name="cancel">Peruuta</string>
     <string name="close">Sulje</string>
     <string name="drawerReportProblem">Ilmoita ongelmasta</string>
+    <string name="action_done">Valmis</string>
     <string name="action_share">Jaa</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Huollossa</string>
@@ -1394,8 +1395,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Suositus</string>
     <string name="settings_split_tunneling_mode_title">Tila</string>
-    <string name="settings_split_tunneling_mode_standard">Exclude</string>
-    <string name="settings_split_tunneling_mode_inverse">Include</string>
+    <string name="settings_split_tunneling_mode_standard">Poissulje</string>
+    <string name="settings_split_tunneling_mode_inverse">Sisällytä</string>
     <string name="settings_split_tunneling_mode_description_standard">Valitut sovellukset ja IP-osoitteet suljetaan VPN-yhteyden ulkopuolelle.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Vain valitut sovellukset ja IP-osoitteet muodostavat yhteyden VPN:n kautta, kaikki muu tietoliikenne on suojaamatonta.</string>
     <string name="settings_split_tunneling_excluded_apps">Poissuljetut sovellukset</string>
@@ -1545,7 +1546,7 @@
     <string name="widget_status_connecting">Yhdistetään</string>
     <string name="widget_sign_in">Kirjaudu sisään</string>
     <string name="widget_toast_added_message">Widgetti lisättiin aloitusnäytölle</string>
-    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_title">IPv6-tuki</string>
     <string name="settings_advanced_ipv6_description">Tunneloi IPv6-tietoliikenteen VPN:n kautta. Voi parantaa yhteensopivuutta IPv6-verkkojen kanssa.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Tämän osoitteen käyttämiseksi sinun tulee sallia IPv6-yhteydet VPN-tunnelin kautta.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Ota IPv6 käyttöön</string>

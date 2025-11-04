@@ -52,6 +52,7 @@
     <string name="cancel">Abbrechen</string>
     <string name="close">Schließen</string>
     <string name="drawerReportProblem">Problem melden</string>
+    <string name="action_done">Fertig</string>
     <string name="action_share">Teilen</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Im Wartungsmodus</string>
@@ -1545,7 +1546,7 @@
     <string name="widget_status_connecting">Verbindung wird hergestellt</string>
     <string name="widget_sign_in">Anmelden</string>
     <string name="widget_toast_added_message">Widget zum Startbildschirm hinzugefügt</string>
-    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_title">IPv6-Unterstützung</string>
     <string name="settings_advanced_ipv6_description">Tunnelt IPv6-Datenverkehr durch das VPN. Kann die Kompatibilität mit IPv6-Netzwerken verbessern.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Um diese Adresse verwenden zu können, musst du IPv6-Verbindungen durch den VPN-Tunnel zulassen.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">IPv6 aktivieren</string>

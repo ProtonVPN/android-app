@@ -52,6 +52,7 @@
     <string name="cancel">Отменить</string>
     <string name="close">Закрыть</string>
     <string name="drawerReportProblem">Сообщить о проблеме</string>
+    <string name="action_done">Done</string>
     <string name="action_share">Поделиться</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">На техобслуживании</string>
@@ -173,7 +174,7 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Удалить из включенных приложений</string>
-    <string name="accessibility_action_copy_to_clipboard">Скопировать в буфер обмена</string>
+    <string name="accessibility_action_copy_to_clipboard">Копировать в буфер обмена</string>
     <string name="accessibility_action_item_delete">Удалить</string>
     <string name="accessibility_action_item_move_up">Переместить вверх</string>
     <string name="accessibility_action_item_move_down">Переместить вниз</string>
@@ -211,7 +212,7 @@
     <string name="settingsKillSwitchAndroidSettingsButton">Настройки</string>
     <string name="settingsKillSwitchLearnMoreButton">Что такое kill switch?</string>
     <string name="settingsKillSwitchWarningMain">Когда kill switch включён, вы не сможете подключиться к:</string>
-    <string name="settingsKillSwitchWarningPoint1">Веб-сайты и приложения, исключенные из вашего подключения к VPN с помощью раздельного туннелирования</string>
+    <string name="settingsKillSwitchWarningPoint1">Веб-сайты и приложения, исключённые из вашего подключения к VPN с помощью раздельного туннелирования</string>
     <string name="settingsKillSwitchWarningPoint2">Устройства в вашей локальной сети (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Делиться анонимной статистикой использования</string>
     <string name="settingsEnableTelemetryDescription">Данные об использовании помогают нам преодолевать блокировки VPN и повышать производительность приложения.</string>
@@ -623,7 +624,7 @@
     <string name="dynamic_report_step1">Шаг 1 из 3</string>
     <string name="dynamic_report_step2">Шаг 2 из 3</string>
     <string name="dynamic_report_step3">Шаг 3 из 3</string>
-    <string name="dynamic_report_your_issue_headline">В чем проблема?</string>
+    <string name="dynamic_report_your_issue_headline">В чём проблема?</string>
     <string name="update_screen_title">Обновить Proton VPN</string>
     <string name="update_screen_description">Вероятность возникновения проблем выше на старых версиях Proton VPN.</string>
     <string name="dialog_create_account_title">Создайте аккаунт, чтобы продолжить</string>
@@ -1519,7 +1520,7 @@
     <string name="search_zero_screen_info_cities_title">Города</string>
     <string name="search_zero_screen_info_servers_title">Серверы</string>
     <string name="search_zero_screen_info_countries_examples">Швейцария, Соединенные Штаты, Италия, Канада…</string>
-    <string name="search_zero_screen_info_cities_examples">Нью-Йорк, Лондон, Токио, Сидней...</string>
+    <string name="search_zero_screen_info_cities_examples">Нью-Йорк, Лондон, Токио, Сидней…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Ошибка загрузки цен.</string>
     <!-- TV settings -->
@@ -1618,7 +1619,7 @@
     <string name="widget_status_connecting">Подключение</string>
     <string name="widget_sign_in">Войти</string>
     <string name="widget_toast_added_message">Виджет добавлен на домашний экран</string>
-    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_title">IPv6 support</string>
     <string name="settings_advanced_ipv6_description">Туннелирует трафик IPv6 через VPN. Может улучшить совместимость с сетями IPv6.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Чтобы использовать этот адрес, вам необходимо разрешить подключения к IPv6 через туннель VPN.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Включить IPv6</string>

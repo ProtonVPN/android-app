@@ -52,6 +52,7 @@
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
     <string name="drawerReportProblem">Nahlásit problém</string>
+    <string name="action_done">Hotovo</string>
     <string name="action_share">Sdílení</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Probíhá údržba</string>
@@ -441,8 +442,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odblokujte %1$s v %2$s s <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
+    <string name="upgrade_unlimited_all_apps_title">Získejte kompletní ochranu soukromí s Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Odemkněte všechny prémiové funkce Proton VPN, Mail, Calendar, Drive a Pass.</string>
     <string name="upgrade_unlimited_more">A další</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Přístup ke všem zemím</string>
     <string name="upgrade_unlimited_vpn_all_features">Všechny ostatní funkce VPN Plus</string>
@@ -741,7 +742,7 @@
     <string name="welcome_plus_description">Užívejte si další funkce pro ochranu soukromí, vyšší výkon a další úroveň přizpůsobení VPN.</string>
     <string name="welcome_plus_feature_security">Pokročilé funkce zabezpečení</string>
     <string name="welcome_unlimited_title">Vítejte na Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Odemkl(a) jste všechny prémiové funkce Proton VPN, Mail, Calendar, Drive, Pass a Wallet — a celkem <b>%1$d&#160;GB</b> úložiště.]]></string>
     <string name="welcome_generic_title">Gratulujeme</string>
     <string name="welcome_generic_description">Navýšili jste své předplatné. Užívejte si pokročilé funkce ochrany soukromí a výkon na vyšší úrovni.</string>
     <!-- Example: Up to 10 devices at once
@@ -1466,8 +1467,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Doporučené</string>
     <string name="settings_split_tunneling_mode_title">Režim</string>
-    <string name="settings_split_tunneling_mode_standard">Exclude</string>
-    <string name="settings_split_tunneling_mode_inverse">Include</string>
+    <string name="settings_split_tunneling_mode_standard">Vyloučit</string>
+    <string name="settings_split_tunneling_mode_inverse">Zahrnout</string>
     <string name="settings_split_tunneling_mode_description_standard">Vybrané aplikace a IP adresy jsou vyloučeny z připojení VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Jen vybrané aplikace a IP adresy se připojí skrze VPN, ostatní síťový provoz nebude chráněn.</string>
     <string name="settings_split_tunneling_excluded_apps">Vyloučené aplikace</string>
@@ -1617,7 +1618,7 @@
     <string name="widget_status_connecting">Připojování</string>
     <string name="widget_sign_in">Přihlásit se</string>
     <string name="widget_toast_added_message">Widget přidán na domovskou obrazovku</string>
-    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_title">Podpora IPv6</string>
     <string name="settings_advanced_ipv6_description">Tuneluje přenos IPv6 skrze VPN. Může zvýšit kompatibilitu se sítěmi IPv6.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Chcete-li tuto adresu používat, musíte povolit připojení IPv6 skrze tunel VPN.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Povolit IPv6</string>

@@ -52,6 +52,7 @@
     <string name="cancel">Ακύρωση</string>
     <string name="close">Κλείσιμο</string>
     <string name="drawerReportProblem">Αναφορά προβλήματος</string>
+    <string name="action_done">Ολοκληρώθηκε</string>
     <string name="action_share">Κοινοποίηση</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Υπό Συντήρηση</string>
@@ -426,7 +427,7 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[Ξεκλειδώστε %1$s σε %2$s με το <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">Αποκτήστε πλήρη κάλυψη απορρήτου με το Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Ξεκλειδώστε όλες τις premium λειτουργίες από τα Proton VPN, Mail, Calendar, Drive και Pass.</string>
+    <string name="upgrade_unlimited_all_apps_description">Ξεκλειδώστε όλες τις premium λειτουργίες στα Proton VPN, Mail, Calendar, Drive και Pass.</string>
     <string name="upgrade_unlimited_more">Και άλλα</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Ξεκλειδώστε όλες τις χώρες</string>
     <string name="upgrade_unlimited_vpn_all_features">Όλα τα άλλα χαρακτηριστικά του VPN Plus</string>
@@ -1545,7 +1546,7 @@
     <string name="widget_status_connecting">Γίνεται σύνδεση</string>
     <string name="widget_sign_in">Σύνδεση</string>
     <string name="widget_toast_added_message">Το widget προστέθηκε στην αρχική οθόνη</string>
-    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_title">Υποστήριξη IPv6</string>
     <string name="settings_advanced_ipv6_description">Προωθεί την IPv6 κίνηση μέσω του VPN. Μπορεί να βελτιώσει τη συμβατότητα με δίκτυα IPv6.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Για να χρησιμοποιήσετε αυτήν τη διεύθυνση, πρέπει να επιτρέψετε συνδέσεις IPv6 μέσω της σήραγγας VPN.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Ενεργοποίηση IPv6</string>

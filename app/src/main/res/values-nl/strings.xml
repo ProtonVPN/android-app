@@ -52,6 +52,7 @@
     <string name="cancel">Annuleren</string>
     <string name="close">Sluiten</string>
     <string name="drawerReportProblem">Een probleem melden</string>
+    <string name="action_done">Klaar</string>
     <string name="action_share">Delen</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">In onderhoud</string>
@@ -1545,7 +1546,7 @@
     <string name="widget_status_connecting">Verbinden</string>
     <string name="widget_sign_in">Aanmelden</string>
     <string name="widget_toast_added_message">Widget toegevoegd aan startscherm</string>
-    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_title">IPv6-ondersteuning</string>
     <string name="settings_advanced_ipv6_description">Tunnelt IPv6 verkeer via het VPN. Kan de compatibiliteit met IPv6 netwerken verbeteren.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Om dit adres te gebruiken, moet u IPv6 verbindingen via de VPN-tunnel toestaan.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">IPv6 inschakelen</string>

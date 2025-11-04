@@ -52,6 +52,7 @@
     <string name="cancel">Avbryt</string>
     <string name="close">Lukk</string>
     <string name="drawerReportProblem">Rapporter en feil</string>
+    <string name="action_done">Fullført</string>
     <string name="action_share">Del</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Under vedlikehold</string>
@@ -425,8 +426,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Lås opp %1$s i %2$s med <b>VPN Plus</b>]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
+    <string name="upgrade_unlimited_all_apps_title">Skaff deg fullstendig personverndekning med Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Lås opp alle premiumfunksjoner fra Proton VPN, E-post, Kalender, Drive og Pass.</string>
     <string name="upgrade_unlimited_more">Og mer</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Lås opp alle land</string>
     <string name="upgrade_unlimited_vpn_all_features">Alle andre VPN Plus-funksjoner</string>
@@ -699,7 +700,7 @@
     <string name="welcome_plus_description">Nyt ekstra personvernfunksjoner, forbedret ytelse og VPN-tilpasning på neste nivå.</string>
     <string name="welcome_plus_feature_security">Avanserte sikkerhetsfunksjoner</string>
     <string name="welcome_unlimited_title">Velkommen til Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Du har låst opp alle premium Proton VPN, E-post, Kalender, Drive, Pass og Wallet-funksjoner – og <b>%1$d&#160;GB</b> total lagringsplass.]]></string>
     <string name="welcome_generic_title">Gratulerer</string>
     <string name="welcome_generic_description">Du har oppgradert abonnementet ditt. Gled deg over avanserte personvernfunksjoner og neste-nivå ytelse.</string>
     <!-- Example: Up to 10 devices at once
@@ -1394,8 +1395,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Anbefalt</string>
     <string name="settings_split_tunneling_mode_title">Modus</string>
-    <string name="settings_split_tunneling_mode_standard">Exclude</string>
-    <string name="settings_split_tunneling_mode_inverse">Include</string>
+    <string name="settings_split_tunneling_mode_standard">Ekskluder</string>
+    <string name="settings_split_tunneling_mode_inverse">Inkluder</string>
     <string name="settings_split_tunneling_mode_description_standard">Valgte apper og IP-adresser er ekskludert fra VPN-tilkoblingen.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Bare valgte apper og IP-adresser kobles til gjennom VPN, all annen trafikk er ubeskyttet.</string>
     <string name="settings_split_tunneling_excluded_apps">Ekskluderte apper</string>
@@ -1545,7 +1546,7 @@
     <string name="widget_status_connecting">Kobler til</string>
     <string name="widget_sign_in">Logg på</string>
     <string name="widget_toast_added_message">Widget lagt til på startskjermen</string>
-    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_title">IPv6-støtte</string>
     <string name="settings_advanced_ipv6_description">Tunnelerer IPv6-trafikk via VPN-en. Kan forbedre kompatibiliteten med IPv6-nettverk.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">For å bruke denne adressen må du tillate IPv6-tilkoblinger gjennom VPN-tunnelen.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Aktiver IPv6</string>

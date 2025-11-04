@@ -52,6 +52,7 @@
     <string name="cancel">취소</string>
     <string name="close">닫기</string>
     <string name="drawerReportProblem">문제 제보하기</string>
+    <string name="action_done">Done</string>
     <string name="action_share">공유</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">점검 중</string>
@@ -1511,7 +1512,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="widget_status_connecting">연결 중</string>
     <string name="widget_sign_in">로그인</string>
     <string name="widget_toast_added_message">위젯이 홈 화면에 추가되었습니다.</string>
-    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_title">IPv6 support</string>
     <string name="settings_advanced_ipv6_description">VPN을 통해 IPv6 트래픽을 터널링합니다. IPv6 네트워크와의 호환성을 향상시킬 수 있습니다.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">이 주소를 사용하려면 VPN 터널을 통해 IPv6 연결을 허용해야 합니다.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">IPv6 활성화</string>

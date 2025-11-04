@@ -52,6 +52,7 @@
     <string name="cancel">取消</string>
     <string name="close">關閉</string>
     <string name="drawerReportProblem">回報問題</string>
+    <string name="action_done">Done</string>
     <string name="action_share">共享</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">維護中</string>
@@ -1509,7 +1510,7 @@
     <string name="widget_status_connecting">連線中</string>
     <string name="widget_sign_in">登入</string>
     <string name="widget_toast_added_message">小工具已新增至主畫面</string>
-    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_title">IPv6 support</string>
     <string name="settings_advanced_ipv6_description">透過 VPN 建立 IPv6 流量通道。可增強與 IPv6 網路的相容性。</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">若要使用此位址，您需要允許 IPv6 連線通過 VPN 通道。</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">啟用 IPv6</string>

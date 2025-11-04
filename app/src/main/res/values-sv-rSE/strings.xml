@@ -52,6 +52,7 @@
     <string name="cancel">Avbryt</string>
     <string name="close">Stäng</string>
     <string name="drawerReportProblem">Rapportera ett problem</string>
+    <string name="action_done">Klar</string>
     <string name="action_share">Dela</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Under underhåll</string>
@@ -425,7 +426,7 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Lås upp %1$s i %2$s med <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_title">Få fullständig täckning för integritet med Proton Unlimited</string>
     <string name="upgrade_unlimited_all_apps_description">Lås upp alla premiumfunktioner från Proton VPN, Mail, Calendar, Drive och Pass.</string>
     <string name="upgrade_unlimited_more">Och mer</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Lås upp alla länder</string>
@@ -1545,7 +1546,7 @@
     <string name="widget_status_connecting">Ansluter</string>
     <string name="widget_sign_in">Logga in</string>
     <string name="widget_toast_added_message">Widget tillagd på startskärm</string>
-    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_title">Stöd för IPv6</string>
     <string name="settings_advanced_ipv6_description">Tunnlar IPv6-trafik genom VPN. Kan förbättra kompatibiliteten med IPv6-nätverk.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">För att använda denna adress måste du tillåta IPv6-anslutningar genom VPN-tunneln.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Aktivera IPv6</string>

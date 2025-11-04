@@ -52,6 +52,7 @@
     <string name="cancel">Mégsem</string>
     <string name="close">Bezárás</string>
     <string name="drawerReportProblem">Hibabejelentés</string>
+    <string name="action_done">Done</string>
     <string name="action_share">Megosztás</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Karbantartás alatt</string>
@@ -1545,7 +1546,7 @@
     <string name="widget_status_connecting">Kapcsolódás</string>
     <string name="widget_sign_in">Bejelentkezés</string>
     <string name="widget_toast_added_message">Widget hozzáadva a kezdőképernyőhöz</string>
-    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_title">IPv6 support</string>
     <string name="settings_advanced_ipv6_description">Átvezeti az IPv6-forgalmat a VPN-en. Ez növelheti az IPv6 hálózatokkal való kompatibilitást.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Ennek a címnek a használatához engedélyeznie kell az IPv6-kapcsolatokat a VPN-alagúton keresztül.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">IPv6 engedélyezése</string>

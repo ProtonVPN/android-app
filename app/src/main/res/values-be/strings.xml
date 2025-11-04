@@ -52,6 +52,7 @@
     <string name="cancel">Скасаваць</string>
     <string name="close">Закрыць</string>
     <string name="drawerReportProblem">Паведаміць аб праблеме</string>
+    <string name="action_done">Гатова</string>
     <string name="action_share">Абагуліць</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">На тэхнічным абслугоўванні</string>
@@ -1617,7 +1618,7 @@
     <string name="widget_status_connecting">Падключэнне</string>
     <string name="widget_sign_in">Увайсці</string>
     <string name="widget_toast_added_message">Віджэт дададзены на галоўны экран</string>
-    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_title">Падтрымка IPv6</string>
     <string name="settings_advanced_ipv6_description">Адпраўляе ў тунэль трафік IPv6 праз VPN. Можа палепшыць сумяшчальнасць з сеткамі IPv6.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Вам неабходна дазволіць падключэнні па IPv6 праз тунэль VPN, каб выкарыстоўваць гэты адрас.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Уключыць IPv6</string>
