@@ -34,7 +34,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
@@ -54,7 +56,7 @@ class AppUpdateManagerImpl @Inject constructor(
 ) : AppUpdateManager() {
     private val updateManager by lazy { AppUpdateManagerFactory.create(appContext) }
 
-    override val checkForUpdateFlow = updateManager.requestUpdateFlow()
+    private val checkForUpdateFlowInternal = updateManager.requestUpdateFlow()
         .map { update ->
             when(update) {
                 is AppUpdateResult.Available -> {
@@ -84,7 +86,13 @@ class AppUpdateManagerImpl @Inject constructor(
                     null
                 }
             }
-        }.shareIn(mainScope, SharingStarted.WhileSubscribed(15_000), replay = 1)
+        }
+
+    override val checkForUpdateFlow = checkForUpdateFlowInternal
+        .onStart { emit(null) } // Emit a value immediately, don't delay the observers' "combine".
+        .shareIn(mainScope, SharingStarted.WhileSubscribed(15_000), replay = 1)
+
+    override suspend fun checkForUpdate(): AppUpdateInfo? = checkForUpdateFlowInternal.firstOrNull()
 
     override fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) {
         val updateToken = (updateInfo as GoogleAppUpdateInfo).updateToken

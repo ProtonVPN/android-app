@@ -32,13 +32,15 @@ open class AppUpdateInfo(
 abstract class AppUpdateManager {
     abstract val checkForUpdateFlow: Flow<AppUpdateInfo?>
 
-    suspend fun checkForUpdate(): AppUpdateInfo? = checkForUpdateFlow.firstOrNull()
+    abstract suspend fun checkForUpdate(): AppUpdateInfo?
 
     abstract fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo)
 }
 
 open class NoopAppUpdateManager : AppUpdateManager() {
     override val checkForUpdateFlow: Flow<AppUpdateInfo?> = flowOf(null)
+
+    override suspend fun checkForUpdate(): AppUpdateInfo? = null
 
     override fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) = Unit
 }
