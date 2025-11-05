@@ -163,7 +163,7 @@ class TvLoginViewModel @Inject constructor(
             )
         }
         currentUser.invalidateCache()
-        state.value = TvLoginViewState.Success
+        loadInitialConfig(userId)
     }
 
     private suspend fun loadInitialConfig(userId: UserId) {
