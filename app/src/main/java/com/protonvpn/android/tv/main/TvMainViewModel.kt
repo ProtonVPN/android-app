@@ -178,7 +178,7 @@ class TvMainViewModel @Inject constructor(
             isFreeUser = vpnUser?.isFreeUser != false,
             serverListVersion = serverListVersion,
             userTier = vpnUser?.userTier ?: VpnUser.FREE_TIER,
-            showAutoConnectSetting = flags.isIPv6FeatureFlagEnabled,
+            showAutoConnectSetting = flags.isTvAutoConnectFeatureFlagEnabled,
             showNetShieldSetting = flags.isTvNetShieldSettingFeatureFlagEnabled,
             showCustomDnsSetting = flags.isTvCustomDnsSettingFeatureFlagEnabled,
             showIpv6Setting = flags.isIPv6FeatureFlagEnabled,
