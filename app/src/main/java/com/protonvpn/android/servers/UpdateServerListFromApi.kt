@@ -35,6 +35,7 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.android.vpn.apiNames
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import dagger.Reusable
@@ -85,7 +86,7 @@ class UpdateServerListFromApi @Inject constructor(
         freeOnlyNeeded: Boolean,
         serverListLastModified: Long
     ): PeriodicActionResult<Result> {
-        val realProtocolsNames = ProtocolSelection.REAL_PROTOCOLS.map { it.apiName }
+        val realProtocolsNames = ProtocolSelection.REAL_PROTOCOLS.apiNames()
         val enableTruncation = truncationFeatureFlagEnabled()
         val requestedMustHaveIDs = if (enableTruncation) getTruncationMustHaveIDs() else emptySet()
         val binaryServerStatusEnabled = binaryServerStatusEnabled()

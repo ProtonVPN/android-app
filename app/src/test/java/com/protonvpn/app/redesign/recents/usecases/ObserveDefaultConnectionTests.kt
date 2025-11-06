@@ -42,6 +42,7 @@ import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
+import com.protonvpn.android.vpn.usecases.FakeIsProTunV1FeatureFlagEnabled
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -129,6 +130,7 @@ class ObserveDefaultConnectionTests {
                 isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(enabled = true),
                 isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(enabled = true),
                 isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(enabled = true),
+                isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(enabled = true)
             )
         )
 

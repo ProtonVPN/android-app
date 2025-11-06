@@ -20,10 +20,15 @@
 package com.protonvpn.android.tv.settings.protocol
 
 import android.os.Bundle
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -55,11 +60,22 @@ class TvSettingsProtocolActivity : BaseTvActivity() {
                     contentAlignment = Alignment.TopCenter,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    TvSettingsProtocolMain(
-                        viewState = viewState,
-                        onSelected = { protocol -> viewModel.onProtocolSelected(getVpnUiDelegate(), protocol) },
-                        modifier = Modifier.widthIn(max = TvUiConstants.SingleColumnWidth),
-                    )
+                    if (viewState != null) {
+                        var locallySelectedProtocol by rememberSaveable {
+                            mutableStateOf(viewState.selectedProtocol)
+                        }
+
+                        BackHandler {
+                            viewModel.onNavigatedBack(getVpnUiDelegate(), locallySelectedProtocol)
+                        }
+
+                        TvSettingsProtocolMain(
+                            selectedProtocol = locallySelectedProtocol,
+                            showProtun = viewState.showProtun,
+                            onSelected = { locallySelectedProtocol = it },
+                            modifier = Modifier.widthIn(max = TvUiConstants.SingleColumnWidth),
+                        )
+                    }
                 }
 
                 if (viewState?.reconnectDialog != null) {

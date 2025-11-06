@@ -58,6 +58,8 @@ class ProtonVpnBackendProviderTests {
     private lateinit var mockOpenVpnBackend: VpnBackend
     @RelaxedMockK
     private lateinit var mockWireGuardBackend: VpnBackend
+    @RelaxedMockK
+    private lateinit var mockProTunBackend: VpnBackend
 
     @MockK
     private lateinit var mockAppConfig: AppConfig
@@ -72,6 +74,7 @@ class ProtonVpnBackendProviderTests {
 
         every { mockOpenVpnBackend.vpnProtocol } returns VpnProtocol.OpenVPN
         every { mockWireGuardBackend.vpnProtocol } returns VpnProtocol.WireGuard
+        every { mockProTunBackend.vpnProtocol } returns VpnProtocol.ProTun
         every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = true)
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
             true, true, true, wireguardTcpEnabled = true, wireguardTlsEnabled = true
@@ -80,6 +83,7 @@ class ProtonVpnBackendProviderTests {
             mockAppConfig,
             mockOpenVpnBackend,
             mockWireGuardBackend,
+            mockProTunBackend,
             SupportsProtocol(createGetSmartProtocols())
         )
     }

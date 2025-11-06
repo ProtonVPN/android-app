@@ -57,5 +57,5 @@ class SupportsProtocol @Inject constructor(
             connectingDomain.supportsRealProtocol(protocol)
 
     private fun ConnectingDomain.supportsRealProtocol(protocol: ProtocolSelection) =
-        getEntryIp(protocol) != null && (protocol.vpn != VpnProtocol.WireGuard || !publicKeyX25519.isNullOrBlank())
+        getEntryIp(protocol) != null && ((protocol.vpn != VpnProtocol.WireGuard && protocol.vpn != VpnProtocol.ProTun) || !publicKeyX25519.isNullOrBlank())
 }

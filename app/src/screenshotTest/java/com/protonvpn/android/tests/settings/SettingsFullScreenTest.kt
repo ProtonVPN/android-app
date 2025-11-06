@@ -317,7 +317,7 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
         dnsOverride = if (isPrivateDnsActive) DnsOverride.SystemPrivateDns else DnsOverride.None
     )
     private val vpnAccelerator = SettingViewState.VpnAccelerator(true, isFree)
-    private val protocol = SettingViewState.Protocol(ProtocolSelection.SMART, overrideInfo?.primaryLabel)
+    private val protocol = SettingViewState.Protocol(ProtocolSelection.SMART, overrideInfo?.primaryLabel, showProTun = true)
     private val altRouting = SettingViewState.AltRouting(true)
     private val customDns = SettingViewState.CustomDns(
         true,

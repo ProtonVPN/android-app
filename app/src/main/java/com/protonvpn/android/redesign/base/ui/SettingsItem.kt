@@ -23,8 +23,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
@@ -40,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
@@ -62,10 +65,11 @@ data class ClickableTextAnnotation(
 fun SettingsItemScaffold(
     titleRow: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    horizontalContentPadding: Dp = 16.dp,
     subtitle: (@Composable () -> Unit)? = null,
     description: (@Composable () -> Unit)? = null,
 ) {
-    Column(modifier.padding(16.dp)) {
+    Column(modifier.padding(horizontal = horizontalContentPadding, vertical = 16.dp)) {
         ProvideTextStyle(ProtonTheme.typography.body1Regular) {
             titleRow()
         }
@@ -142,6 +146,8 @@ fun SettingsToggleItem(
     needsUpgrade: Boolean = false,
     settingsValue: SettingValue? = null, // Needed only for override, value is passed as "value". Simplify this.
     descriptionAnnotation: ClickableTextAnnotation? = null,
+    horizontalContentPadding: Dp = 16.dp,
+    trailingTitleContent: (@Composable () -> Unit)? = null,
     onUpgrade: (() -> Unit)? = null,
     onInfoClick: (() -> Unit)? = null,
 ) {
@@ -158,8 +164,9 @@ fun SettingsToggleItem(
         }
     }
     SettingsItemScaffold(
-        titleRow = { SettingItemTitleRow(name, onInfoClick = onInfoClick, trailingContent = trailingContent) },
+        titleRow = { SettingItemTitleRow(name, onInfoClick = onInfoClick, trailingTitleContent = trailingTitleContent, trailingContent = trailingContent) },
         modifier = itemModifier,
+        horizontalContentPadding = horizontalContentPadding,
         description = description?.let {
             { SettingDescription(it, descriptionAnnotation, modifier = Modifier.padding(end = 8.dp)) }
         }
@@ -195,6 +202,7 @@ private fun SettingItemTitleRow(
     title: String,
     modifier: Modifier = Modifier,
     onInfoClick: (() -> Unit)? = null,
+    trailingTitleContent: @Composable (() -> Unit)? = null,
     trailingContent: @Composable (() -> Unit)? = null
 ) {
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
@@ -211,6 +219,10 @@ private fun SettingItemTitleRow(
                         .padding(8.dp)
                         .size(16.dp)
                 )
+            }
+            if (trailingTitleContent != null) {
+                Spacer(Modifier.width(8.dp))
+                trailingTitleContent()
             }
         }
         if (trailingContent != null) {

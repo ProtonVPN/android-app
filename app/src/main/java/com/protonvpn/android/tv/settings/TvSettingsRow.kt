@@ -87,6 +87,7 @@ fun TvSettingsItemSwitch(
     checked: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    trailingTitleContent: @Composable (() -> Unit)? = null
 ) {
     TvListRow(
         onClick,
@@ -95,7 +96,16 @@ fun TvSettingsItemSwitch(
             toggleableState = ToggleableState(checked)
         },
     ) {
-        Text(title, modifier = Modifier.weight(1f))
+        Row(
+            modifier = Modifier.weight(1f),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(title, modifier = Modifier.weight(1f, fill = false))
+            if (trailingTitleContent != null) {
+                Spacer(modifier = Modifier.width(8.dp))
+                trailingTitleContent()
+            }
+        }
         TvProtonSwitch(
             checked = checked,
             onCheckedChange = {},

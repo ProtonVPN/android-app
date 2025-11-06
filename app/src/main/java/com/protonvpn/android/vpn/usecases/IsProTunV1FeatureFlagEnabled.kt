@@ -37,7 +37,7 @@ class IsProTunV1FeatureFlagEnabledImpl @Inject constructor(
 ) : IsProTunV1FeatureFlagEnabled, VpnFeatureFlagImpl(
     currentUser = currentUser,
     featureFlagManager = featureFlagManager,
-    featureId = FeatureId(id = "IsProTunV1Enabled"),
+    featureId = FeatureId(id = "ProTunV1"),
 )
 
 class FakeIsProTunV1FeatureFlagEnabled(

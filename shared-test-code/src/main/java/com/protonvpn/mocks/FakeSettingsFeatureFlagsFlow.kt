@@ -31,6 +31,7 @@ class FakeSettingsFeatureFlagsFlow(
             isTvNetShieldSettingEnabled = true,
             isTvCustomDnsSettingEnabled = true,
             isTvAutoConnectEnabled = true,
+            isProTunV1Enabled = true,
         )
     )
 ) : Flow<SettingsFeatureFlagsFlow.Flags> by flow

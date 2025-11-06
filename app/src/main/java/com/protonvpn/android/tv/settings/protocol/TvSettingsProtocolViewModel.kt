@@ -21,11 +21,15 @@ package com.protonvpn.android.tv.settings.protocol
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnUiDelegate
+import com.protonvpn.android.vpn.effectiveProtocol
+import com.protonvpn.android.vpn.mapFromProtun
+import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -40,11 +44,13 @@ import javax.inject.Inject
 @HiltViewModel
 class TvSettingsProtocolViewModel @Inject constructor(
     private val userSettingsManager: CurrentUserLocalSettingsManager,
-    private val reconnectHandler: SettingsReconnectHandler
+    private val reconnectHandler: SettingsReconnectHandler,
+    isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
 ) : ViewModel() {
 
     data class ViewState(
         val selectedProtocol: ProtocolSelection,
+        val showProtun: Boolean,
         val reconnectDialog: DontShowAgainStore.Type?
     )
 
@@ -56,12 +62,17 @@ class TvSettingsProtocolViewModel @Inject constructor(
     val eventNavigateBack = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val viewState = combine(
         protocolSetting,
-        reconnectHandler.showReconnectDialogFlow
-    ) { protocol, dialog ->
-        ViewState(selectedProtocol = protocol, reconnectDialog = dialog)
+        reconnectHandler.showReconnectDialogFlow,
+        isProTunV1FeatureFlagEnabled.observe(),
+    ) { protocol, dialog, isProTunV1Enabled ->
+        ViewState(
+            selectedProtocol = protocol.effectiveProtocol(isProTunV1Enabled),
+            showProtun = isProTunV1Enabled,
+            reconnectDialog = dialog
+        )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
-    fun onProtocolSelected(uiVpnUiDelegate: VpnUiDelegate, newProtocol: ProtocolSelection) {
+    fun onNavigatedBack(uiVpnUiDelegate: VpnUiDelegate, newProtocol: ProtocolSelection) {
         viewModelScope.launch {
             val oldValue = protocolSetting.first()
             if (oldValue != newProtocol) {
@@ -70,6 +81,8 @@ class TvSettingsProtocolViewModel @Inject constructor(
                 if (reconnectHandler.showReconnectDialogFlow.value == null) {
                     eventNavigateBack.tryEmit(Unit)
                 }
+            } else {
+                eventNavigateBack.tryEmit(Unit)
             }
         }
     }

@@ -30,8 +30,11 @@ import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.utils.SyncStateFlow
+import com.protonvpn.android.utils.combine
+import com.protonvpn.android.vpn.effectiveProtocol
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
+import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -55,6 +58,7 @@ class SettingsFeatureFlagsFlow @Inject constructor(
     isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
+    isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled
 ) : Flow<SettingsFeatureFlagsFlow.Flags> {
 
     data class Flags(
@@ -63,6 +67,7 @@ class SettingsFeatureFlagsFlow @Inject constructor(
         val isTvAutoConnectEnabled: Boolean,
         val isTvNetShieldSettingEnabled: Boolean,
         val isTvCustomDnsSettingEnabled: Boolean,
+        val isProTunV1Enabled: Boolean,
     )
 
     private val flow: Flow<Flags> = combine(
@@ -71,13 +76,15 @@ class SettingsFeatureFlagsFlow @Inject constructor(
         isTvAutoConnectFeatureFlagEnabled.observe(),
         isTvNetShieldSettingFeatureFlagEnabled.observe(),
         isTvCustomDnsSettingFeatureFlagEnabled.observe(),
-    ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isTvAutoConnectEnabled, isTvNetShieldEnabled, isTvCustomDnsEnabled ->
+        isProTunV1FeatureFlagEnabled.observe()
+    ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isTvAutoConnectEnabled, isTvNetShieldEnabled, isTvCustomDnsEnabled, isProTunV1Enabled ->
         Flags(
             isIPv6Enabled = isIPv6Enabled,
             isDirectLanConnectionsEnabled = isDirectLanConnectionsEnabled,
             isTvAutoConnectEnabled = isTvAutoConnectEnabled,
             isTvNetShieldSettingEnabled = isTvNetShieldEnabled,
-            isTvCustomDnsSettingEnabled = isTvCustomDnsEnabled
+            isTvCustomDnsSettingEnabled = isTvCustomDnsEnabled,
+            isProTunV1Enabled = isProTunV1Enabled,
         )
     }
 
@@ -133,7 +140,8 @@ abstract class BaseApplyEffectiveUserSettings(
             tvAutoConnectOnBoot = if (isTv && flags.isTvAutoConnectEnabled) settings.tvAutoConnectOnBoot else false,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
-            ipV6Enabled = settings.ipV6Enabled && flags.isIPv6Enabled
+            ipV6Enabled = settings.ipV6Enabled && flags.isIPv6Enabled,
+            protocol = settings.protocol.effectiveProtocol(flags.isProTunV1Enabled),
         )
     }
 }

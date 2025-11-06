@@ -34,6 +34,7 @@ data class ProtocolSelection private constructor(
     fun isSupported(featureFlags: FeatureFlags): Boolean {
         return when (vpn) {
             VpnProtocol.OpenVPN -> true
+            VpnProtocol.ProTun -> true
             VpnProtocol.WireGuard -> when (transmission) {
                 TransmissionProtocol.TCP, TransmissionProtocol.TLS -> featureFlags.wireguardTlsEnabled
                 else -> true
@@ -44,6 +45,12 @@ data class ProtocolSelection private constructor(
 
     val displayName: Int get() = when (vpn) {
         VpnProtocol.Smart -> R.string.settingsProtocolNameSmart
+        VpnProtocol.ProTun -> when (transmission) {
+            TransmissionProtocol.UDP -> R.string.settingsProtocolNameSmart
+            TransmissionProtocol.TCP -> R.string.settingsProtocolNameWireguardTCP
+            TransmissionProtocol.TLS -> R.string.settingsProtocolNameWireguardTLS
+            null -> R.string.settingsProtocolNameWireguard
+        }
         VpnProtocol.WireGuard -> when (transmission) {
             TransmissionProtocol.TCP -> R.string.settingsProtocolNameWireguardTCP
             TransmissionProtocol.TLS -> R.string.settingsProtocolNameWireguardTLS
@@ -56,7 +63,7 @@ data class ProtocolSelection private constructor(
     }
 
     // Protocol name as used in API endpoints
-    val apiName: String get() = "${vpn.name}${transmission?.name ?: ""}"
+    val apiName: String get() = "${vpn.apiName}${transmission?.name ?: ""}"
 
     companion object {
         @JvmStatic
@@ -65,13 +72,15 @@ data class ProtocolSelection private constructor(
             transmission: TransmissionProtocol? = null
         ) = ProtocolSelection(
             vpn,
-            if (vpn == VpnProtocol.Smart)
-                null
-            else
-                transmission ?: TransmissionProtocol.UDP
+            when (vpn) {
+                VpnProtocol.Smart -> null
+                VpnProtocol.ProTun -> transmission // null transmission for protun means all, not UDP
+                else -> transmission ?: TransmissionProtocol.UDP
+            }
         )
 
         val SMART = ProtocolSelection(VpnProtocol.Smart)
+        val SMART_PROTUN = ProtocolSelection(VpnProtocol.ProTun, null)
         val STEALTH = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)
         val REAL_PROTOCOLS = listOf(
             ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
@@ -79,8 +88,31 @@ data class ProtocolSelection private constructor(
             ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
             ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
             ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
+            ProtocolSelection(VpnProtocol.ProTun, TransmissionProtocol.UDP),
+            ProtocolSelection(VpnProtocol.ProTun, TransmissionProtocol.TCP),
+            ProtocolSelection(VpnProtocol.ProTun, TransmissionProtocol.TLS)
         )
         val PROTOCOLS_FOR: Map<VpnProtocol, List<ProtocolSelection>> =
             REAL_PROTOCOLS.groupBy { it.vpn }
     }
 }
+
+fun List<ProtocolSelection>.apiNames(): List<String> =
+    map { it.apiName }.distinct()
+
+fun ProtocolSelection.mapToProtun() = when(this) {
+    ProtocolSelection.SMART -> ProtocolSelection.SMART_PROTUN
+    else -> ProtocolSelection(VpnProtocol.ProTun, this.transmission)
+}
+
+fun ProtocolSelection.mapFromProtun() = when {
+    this == ProtocolSelection.SMART_PROTUN -> ProtocolSelection.SMART
+    else -> ProtocolSelection(VpnProtocol.WireGuard, transmission)
+}
+
+fun ProtocolSelection.effectiveProtocol(isProTunV1Enabled: Boolean) =
+    if (!isProTunV1Enabled && vpn == VpnProtocol.ProTun) {
+        mapFromProtun()
+    } else {
+        this
+    }

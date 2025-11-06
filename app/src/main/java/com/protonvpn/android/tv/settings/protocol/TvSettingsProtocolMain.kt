@@ -26,9 +26,11 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -46,14 +48,18 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.tv.dialogs.TvAlertDialog
 import com.protonvpn.android.tv.settings.TvSettingsHeader
 import com.protonvpn.android.tv.settings.TvSettingsItemRadioSmall
+import com.protonvpn.android.tv.settings.TvSettingsItemSwitch
 import com.protonvpn.android.tv.ui.TvUiConstants
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.android.vpn.mapFromProtun
+import com.protonvpn.android.vpn.mapToProtun
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun TvSettingsProtocolMain(
-    viewState: TvSettingsProtocolViewModel.ViewState?,
+    selectedProtocol: ProtocolSelection,
+    showProtun: Boolean,
     onSelected: (ProtocolSelection) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -64,11 +70,16 @@ fun TvSettingsProtocolMain(
             stringResource(R.string.settings_protocol_title),
             modifier = Modifier.padding(top = TvUiConstants.ScreenPaddingVertical)
         )
+        val protonProtocolsEnabled by rememberSaveable(selectedProtocol) {
+            mutableStateOf(selectedProtocol.vpn == VpnProtocol.ProTun)
+        }
+        fun wireguardProtocol(transmissionProtocol: TransmissionProtocol) = ProtocolSelection(
+            if (protonProtocolsEnabled) VpnProtocol.ProTun else VpnProtocol.WireGuard,
+            transmissionProtocol
+        )
 
         val focusRequester = remember { FocusRequester() }
         LaunchedEffect(Unit) { focusRequester.requestFocus() }
-
-        val selectedProtocol = viewState?.selectedProtocol
 
         val openVpnDeprecationDialogForTransmission =
             rememberSaveable(selectedProtocol) { mutableStateOf<TransmissionProtocol?>(null) }
@@ -95,15 +106,64 @@ fun TvSettingsProtocolMain(
         }
 
         LazyColumn {
+            if (showProtun) {
+                item {
+                    TvSettingsItemSwitch(
+                        title = stringResource(R.string.settings_protocol_proton_protocols),
+                        trailingTitleContent = {
+                            LabelBadge(
+                                text = stringResource(R.string.settings_beta_label_badge),
+                                textColor = ProtonTheme.colors.brandLighten40,
+                                borderColor = ProtonTheme.colors.brandLighten40,
+                            )
+                        },
+                        checked = selectedProtocol.vpn == VpnProtocol.ProTun,
+                        onClick = {
+                            onSelected(
+                                if (protonProtocolsEnabled) {
+                                    selectedProtocol.mapFromProtun()
+                                } else {
+                                    selectedProtocol.mapToProtun()
+                                }
+                            )
+                        },
+                        modifier = Modifier.focusRequester(focusRequester)
+                    )
+                }
+                item {
+                    Text(
+                        text = stringResource(id = R.string.settings_protocol_proton_protocols_description),
+                        style = ProtonTheme.typography.body2Regular,
+                        color = ProtonTheme.colors.textWeak,
+                        modifier = Modifier
+                            .padding(horizontal = TvUiConstants.SelectionPaddingHorizontal)
+                            .padding(top = 12.dp, bottom = 16.dp)
+                    )
+                    Divider(
+                        color = ProtonTheme.colors.separatorNorm,
+                        thickness = 1.dp,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                }
+            }
             item {
                 ProtocolItem(
-                    itemProtocol = ProtocolSelection.SMART,
+                    itemProtocol = if (protonProtocolsEnabled) ProtocolSelection.SMART_PROTUN else ProtocolSelection.SMART,
                     title = R.string.settings_protocol_smart_title,
                     description = R.string.settings_protocol_smart_description,
-                    onSelected = onSelected,
+                    onSelected = {
+                        onSelected(
+                            if (protonProtocolsEnabled) ProtocolSelection.SMART_PROTUN
+                            else ProtocolSelection.SMART
+                        )
+                    },
                     selectedProtocol = selectedProtocol,
                     trailingTitleContent = {
-                        ProtocolBadge(stringResource(R.string.settings_protocol_badge_recommended))
+                        LabelBadge(
+                            text = stringResource(R.string.settings_protocol_badge_recommended),
+                            textColor = ProtonTheme.colors.textNorm,
+                            borderColor = ProtonTheme.colors.separatorNorm,
+                        )
                     },
                     modifier = Modifier.focusRequester(focusRequester)
                 )
@@ -114,14 +174,14 @@ fun TvSettingsProtocolMain(
             }
             item {
                 ProtocolItem(
-                    itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
+                    itemProtocol = wireguardProtocol(TransmissionProtocol.UDP),
                     title = R.string.settings_protocol_wireguard_title,
                     description = R.string.settings_protocol_wireguard_udp_description,
                     onSelected = onSelected,
                     selectedProtocol = selectedProtocol,
                 )
             }
-            item {
+            if (!protonProtocolsEnabled) item {
                 ProtocolItem(
                     itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
                     title = R.string.settings_protocol_openvpn_title,
@@ -136,14 +196,14 @@ fun TvSettingsProtocolMain(
             }
             item {
                 ProtocolItem(
-                    itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
+                    itemProtocol = wireguardProtocol(TransmissionProtocol.TCP),
                     title = R.string.settings_protocol_wireguard_title,
                     description = R.string.settings_protocol_wireguard_tcp_description,
                     onSelected = onSelected,
                     selectedProtocol = selectedProtocol,
                 )
             }
-            item {
+            if (!protonProtocolsEnabled) item {
                 ProtocolItem(
                     itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
                     title = R.string.settings_protocol_openvpn_title,
@@ -154,7 +214,7 @@ fun TvSettingsProtocolMain(
             }
             item {
                 ProtocolItem(
-                    itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
+                    itemProtocol = wireguardProtocol(TransmissionProtocol.TLS),
                     title = R.string.settings_protocol_stealth_title,
                     description = R.string.settings_protocol_stealth_description,
                     onSelected = onSelected,
@@ -217,10 +277,10 @@ private fun TvSettingSectionHeading(
 }
 
 @Composable
-private fun ProtocolBadge(
+private fun LabelBadge(
     text: String,
-    textColor: Color = ProtonTheme.colors.textNorm,
-    borderColor: Color = ProtonTheme.colors.separatorNorm,
+    textColor: Color,
+    borderColor: Color,
 ) {
     Text(
         text = text.uppercase(),
@@ -228,8 +288,7 @@ private fun ProtocolBadge(
         color = textColor,
         modifier = Modifier
             .border(width = 1.dp, color = borderColor, shape = ProtonTheme.shapes.small)
+            .background(ProtonTheme.colors.backgroundSecondary, shape = ProtonTheme.shapes.small)
             .padding(horizontal = 6.dp, vertical = 2.dp)
-            .background(ProtonTheme.colors.backgroundSecondary),
-
         )
 }

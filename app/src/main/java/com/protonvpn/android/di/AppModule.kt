@@ -101,10 +101,10 @@ import com.protonvpn.android.ui.promooffers.usecase.IsIapClientSidePromoFeatureF
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.AppIconManagerImpl
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
-import com.protonvpn.android.update.AppUpdateManager
-import com.protonvpn.android.update.AppUpdateManagerImpl
 import com.protonvpn.android.update.AppUpdateBannerStateFlow
 import com.protonvpn.android.update.AppUpdateBannerStateFlowImpl
+import com.protonvpn.android.update.AppUpdateManager
+import com.protonvpn.android.update.AppUpdateManagerImpl
 import com.protonvpn.android.update.IsAppUpdateBannerFeatureFlagEnabled
 import com.protonvpn.android.update.IsAppUpdateBannerFeatureFlagEnabledImpl
 import com.protonvpn.android.update.ShouldShowAppUpdateDotFlow
@@ -125,6 +125,7 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
+import com.protonvpn.android.vpn.protun.ProTunBackend
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDsImpl
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
@@ -221,12 +222,14 @@ object AppModuleProd {
         appConfig: AppConfig,
         wireguardBackend: WireguardBackend,
         openVpnBackend: OpenVpnBackend,
+        proTunBackend: ProTunBackend,
         supportsProtocol: SupportsProtocol,
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
             appConfig,
             openVpnBackend,
             wireguardBackend,
+            proTunBackend,
             supportsProtocol
         )
 

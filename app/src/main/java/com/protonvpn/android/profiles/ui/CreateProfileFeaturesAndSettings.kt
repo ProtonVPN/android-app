@@ -137,6 +137,7 @@ fun ProfileFeaturesAndSettings(
             ProfileProtocolItem(
                 value = state.protocol,
                 onSelect = onProtocolChange,
+                showProTun = state.showProTun
             )
             ProfileNatItem(
                 value = state.natType,
@@ -181,6 +182,7 @@ fun PreviewFeaturesAndSettings() {
                 customDnsSettings = CustomDnsSettings(false),
                 isAutoOpenNew = true,
                 showPrivateBrowsing = true,
+                showProTun = true,
             ),
             onNetShieldChange = {},
             onProtocolChange = {},

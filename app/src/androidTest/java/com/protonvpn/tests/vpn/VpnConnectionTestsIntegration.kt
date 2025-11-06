@@ -200,6 +200,7 @@ class VpnConnectionTestsIntegration {
     private lateinit var featureFlagsFlow: MutableStateFlow<FeatureFlags>
     private lateinit var mockOpenVpn: MockVpnBackend
     private lateinit var mockWireguard: MockVpnBackend
+    private lateinit var mockProTun: MockVpnBackend
     private lateinit var settingsForConnection: SettingsForConnection
     private lateinit var supportsProtocol: SupportsProtocol
     private lateinit var vpnStatusProviderUI: VpnStatusProviderUI
@@ -294,14 +295,16 @@ class VpnConnectionTestsIntegration {
 
         mockOpenVpn = spyk(createMockVpnBackend(currentUser, VpnProtocol.OpenVPN))
         mockWireguard = spyk(createMockVpnBackend(currentUser, VpnProtocol.WireGuard))
+        mockProTun = spyk(createMockVpnBackend(currentUser, VpnProtocol.ProTun))
 
         switchServerFlow = MutableSharedFlow()
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
         val backendProvider = ProtonVpnBackendProvider(
+            config = appConfig,
             openVpn = mockOpenVpn,
             wireGuard = mockWireguard,
-            config = appConfig,
+            proTunBackend = mockProTun,
             supportsProtocol = supportsProtocol
         )
 

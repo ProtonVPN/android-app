@@ -28,7 +28,6 @@ import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateSchedul
 import com.protonvpn.android.appconfig.globalsettings.NoopGlobalSettingsUpdateScheduler
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerScheduler
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
@@ -61,6 +60,7 @@ import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
+import com.protonvpn.android.vpn.protun.ProTunBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import com.protonvpn.mocks.FakeWorkManager
 import com.protonvpn.mocks.MockUserRepository
@@ -206,6 +206,7 @@ class SharedTestAppModule {
         certificateRepository: CertificateRepository,
         openVpnBackend: OpenVpnBackend,
         wireguardBackend: WireguardBackend,
+        proTunBackend: ProTunBackend,
         localAgentUnreachableTracker: LocalAgentUnreachableTracker,
         currentUser: CurrentUser,
         getNetZone: GetNetZone,
@@ -215,6 +216,7 @@ class SharedTestAppModule {
     ): VpnBackendProvider =
         if (TestSettings.mockedConnectionUsed) {
             ProtonVpnBackendProvider(
+                config = appConfig,
                 openVpn = MockVpnBackend(
                     scope,
                     dispatcherProvider,
@@ -243,14 +245,28 @@ class SharedTestAppModule {
                     foregroundActivityTracker,
                     getConnectingDomain,
                 ),
-                config = appConfig,
+                proTunBackend = MockVpnBackend(
+                    scope,
+                    dispatcherProvider,
+                    networkManager,
+                    networkCapabilitiesFlow,
+                    certificateRepository,
+                    settingsForConnection,
+                    VpnProtocol.ProTun,
+                    localAgentUnreachableTracker,
+                    currentUser,
+                    getNetZone,
+                    foregroundActivityTracker,
+                    getConnectingDomain,
+                ),
                 supportsProtocol = supportsProtocol
             )
         } else {
             ProtonVpnBackendProvider(
+                config = appConfig,
                 openVpn = openVpnBackend,
                 wireGuard = wireguardBackend,
-                config = appConfig,
+                proTunBackend = proTunBackend,
                 supportsProtocol = supportsProtocol
             )
         }

@@ -21,7 +21,13 @@ package com.protonvpn.android.models.config
 enum class VpnProtocol {
     OpenVPN,
     WireGuard,
+    ProTun,
     Smart;
 
     fun displayName() = toString()
+
+    val apiName get() = when (this) {
+        ProTun -> WireGuard.name // In interactions with API treat ProTun as WireGuard
+        else -> name
+    }
 }

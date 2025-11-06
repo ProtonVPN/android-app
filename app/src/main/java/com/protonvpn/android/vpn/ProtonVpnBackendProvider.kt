@@ -29,6 +29,7 @@ import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.vpn.protun.ProTunBackend
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.firstOrNull
@@ -39,6 +40,7 @@ class ProtonVpnBackendProvider(
     val config: AppConfig,
     val openVpn: VpnBackend,
     val wireGuard: VpnBackend,
+    val proTunBackend: VpnBackend,
     val supportsProtocol: SupportsProtocol,
 ) : VpnBackendProvider {
 
@@ -53,6 +55,7 @@ class ProtonVpnBackendProvider(
         val scan = when (protocol.vpn) {
             VpnProtocol.OpenVPN -> alwaysScan
             VpnProtocol.WireGuard -> alwaysScan
+            VpnProtocol.ProTun -> false
             VpnProtocol.Smart -> true
         }
         return when (protocol.vpn) {
@@ -60,6 +63,13 @@ class ProtonVpnBackendProvider(
                 openVpn.prepareForConnection(connectIntent, server, setOf(protocol.transmission!!), scan)
             VpnProtocol.WireGuard ->
                 wireGuard.prepareForConnection(connectIntent, server, setOf(protocol.transmission!!), scan)
+            VpnProtocol.ProTun -> {
+                val transmissions = if (protocol.transmission != null)
+                    setOf(protocol.transmission)
+                else
+                    getSmartTransmissionProtocols(VpnProtocol.ProTun, null)
+                proTunBackend.prepareForConnection(connectIntent, server, transmissions, scan)
+            }
             VpnProtocol.Smart -> {
                 getSmartEnabledBackends(server, null).asFlow().map {
                     val transmissionProtocols = getSmartTransmissionProtocols(it.vpnProtocol, null)
@@ -82,7 +92,7 @@ class ProtonVpnBackendProvider(
                         if (openVPNUdpEnabled) add(TransmissionProtocol.UDP)
                         if (openVPNTcpEnabled) add(TransmissionProtocol.TCP)
                     }
-                    VpnProtocol.WireGuard -> {
+                    VpnProtocol.WireGuard, VpnProtocol.ProTun -> {
                         val wireGuardTxxEnabled = config.getFeatureFlags().wireguardTlsEnabled
                         if (wireguardEnabled) add(TransmissionProtocol.UDP)
                         if (wireguardTcpEnabled && wireGuardTxxEnabled) add(TransmissionProtocol.TCP)
@@ -146,6 +156,7 @@ class ProtonVpnBackendProvider(
     private fun getBackendFor(vpnProtocol: VpnProtocol) = when(vpnProtocol) {
         VpnProtocol.OpenVPN -> openVpn
         VpnProtocol.WireGuard -> wireGuard
+        VpnProtocol.ProTun -> proTunBackend
         VpnProtocol.Smart -> null
     }
 

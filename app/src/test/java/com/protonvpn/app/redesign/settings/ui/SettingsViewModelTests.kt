@@ -66,6 +66,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
+import com.protonvpn.android.vpn.usecases.FakeIsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
 import com.protonvpn.mocks.FakeAppUpdateBannerStateFlow
 import com.protonvpn.mocks.FakeGetProfileById
@@ -194,6 +195,7 @@ class SettingsViewModelTests {
                 isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
                 isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
                 isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),
+                isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true)
             )
         )
         val effectiveCurrentUserSettingsFlow = EffectiveCurrentUserSettingsFlow(
@@ -250,6 +252,7 @@ class SettingsViewModelTests {
                 excludedLocationsDao = mockExcludedLocationsDao,
             ),
             translator = translator,
+            isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true)
         )
     }
 

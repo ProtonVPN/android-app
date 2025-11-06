@@ -64,9 +64,11 @@ import com.protonvpn.android.utils.combine
 import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.android.vpn.effectiveProtocol
 import com.protonvpn.android.vpn.getDnsOverride
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
+import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -123,6 +125,7 @@ class SettingsViewModel @Inject constructor(
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     private val isRedesignedBugReportFeatureFlagEnabled: IsRedesignedBugReportFeatureFlagEnabled,
     private val isAutomaticConnectionPreferencesFeatureFlagEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
+    isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
     private val translator: Translator,
 ) : ViewModel() {
 
@@ -230,6 +233,7 @@ class SettingsViewModel @Inject constructor(
         class Protocol(
             protocol: ProtocolSelection,
             overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel.Profile?,
+            val showProTun: Boolean,
             override val iconRes: Int = CoreR.drawable.ic_proton_servers,
         ) : SettingViewState<ProtocolSelection>(
             value = protocol,
@@ -423,12 +427,14 @@ class SettingsViewModel @Inject constructor(
         val isIPv6FeatureFlagEnabled: Boolean,
         val isRedesignedBugReportFeatureFlagEnabled: Boolean,
         val isAutomaticConnectionPreferencesFeatureFlagEnabled: Boolean,
+        val isProTunV1Enabled: Boolean,
     )
 
     private val featureFlagsFlow = combine(
         isIPv6FeatureFlagEnabled.observe(),
         isRedesignedBugReportFeatureFlagEnabled.observe(),
         isAutomaticConnectionPreferencesFeatureFlagEnabled.observe(),
+        isProTunV1FeatureFlagEnabled.observe(),
         ::FeatureFlags,
     )
 
@@ -525,7 +531,11 @@ class SettingsViewModel @Inject constructor(
                     currentModeIps = settings.splitTunneling.currentModeIps(),
                     isFreeUser = isFree,
                 ),
-                protocol = SettingViewState.Protocol(settings.protocol, profileOverrideInfo?.primaryLabel),
+                protocol = SettingViewState.Protocol(
+                    settings.protocol,
+                    profileOverrideInfo?.primaryLabel,
+                    showProTun = featureFlags.isProTunV1Enabled
+                ),
                 defaultConnection = defaultConnectionSetting,
                 altRouting = SettingViewState.AltRouting(settings.apiUseDoh),
                 lanConnections = SettingViewState.LanConnections(

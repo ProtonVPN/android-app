@@ -64,7 +64,7 @@ class PrepareForConnection @Inject constructor(
                 ProtonLogger.log(ConnConnectScan, "${protocol.apiName} not supported on ${server.displayName}")
                 return emptyList()
             }
-            val ports = connectingDomain.getEntryPorts(protocol) ?: getFallbackPorts(protocol, appConfig)
+            val ports = connectingDomain.getEntryPorts(protocol) ?: getFallbackPorts(protocol)
             val entryIp = connectingDomain.getEntryIp(protocol)
             if (entryIp == null || ports.isEmpty())
                 return emptyList()
@@ -77,10 +77,10 @@ class PrepareForConnection @Inject constructor(
 
     private fun getFallbackPorts(
         protocol: ProtocolSelection,
-        appConfig: AppConfig
     ) = when (protocol.vpn) {
         VpnProtocol.OpenVPN -> appConfig.getOpenVPNPorts()
         VpnProtocol.WireGuard -> appConfig.getWireguardPorts()
+        VpnProtocol.ProTun -> appConfig.getWireguardPorts()
         VpnProtocol.Smart -> error("Real protocol expected")
     }.let {
         when (protocol.transmission) {
@@ -109,7 +109,7 @@ class PrepareForConnection @Inject constructor(
         val destinations = transmissionsToConnectingDomains.mapValues { (transmission, connectingDomain) ->
             val protocol = ProtocolSelection(vpnProtocol, transmission)
             val ip = requireNotNull(connectingDomain.getEntryIp(protocol))
-            val allPorts = connectingDomain.getEntryPorts(protocol) ?: getFallbackPorts(protocol, appConfig)
+            val allPorts = connectingDomain.getEntryPorts(protocol) ?: getFallbackPorts(protocol)
             val ports = samplePorts(
                 allPorts, numberOfPorts, if (transmission == TransmissionProtocol.UDP) null else primaryTcpPort)
             ProtonLogger.log(

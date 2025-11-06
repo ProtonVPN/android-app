@@ -27,6 +27,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
@@ -60,6 +61,7 @@ import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
+import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.TransientMustHaves
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -86,6 +88,7 @@ private fun defaultSettingScreenState(
     lanDirectConnectionsFeatureFlagEnabled: Boolean,
     isPrivateDnsEnabled: Boolean,
     isPrivateBrowsingAvailable: Boolean,
+    showProTun: Boolean,
 ) = SettingsScreenState(
     protocol = ProtocolSelection.SMART,
     netShield = true,
@@ -97,6 +100,7 @@ private fun defaultSettingScreenState(
     isAutoOpenNew = isAutoOpenNew,
     isPrivateDnsActive = isPrivateDnsEnabled,
     showPrivateBrowsing = isPrivateBrowsingAvailable,
+    showProTun = showProTun,
 )
 
 @Parcelize
@@ -215,6 +219,7 @@ data class SettingsScreenState(
     val isAutoOpenNew: Boolean,
     val customDnsSettings: CustomDnsSettings?,
     val showPrivateBrowsing: Boolean,
+    val showProTun: Boolean
 ) : Parcelable {
     fun toSettingsOverrides() = SettingsOverrides(
         protocolData = protocol.toData(),
@@ -253,6 +258,7 @@ class CreateEditProfileViewModel @Inject constructor(
     private val transientMustHaves: TransientMustHaves,
     private val autoOpenAppInfoHelper: AutoOpenAppInfoHelper,
     private val getPrivateBrowsingAvailability: GetPrivateBrowsingAvailability,
+    private val isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
 ) : ViewModel() {
 
     private var editedProfileId: Long? = null
@@ -441,6 +447,7 @@ class CreateEditProfileViewModel @Inject constructor(
             lanDirectConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled(),
             isPrivateDnsEnabled = isPrivateDnsActive,
             isPrivateBrowsingAvailable = getPrivateBrowsingAvailability() != PrivateBrowsingAvailability.NotAvailable,
+            showProTun = isProTunV1FeatureFlagEnabled(),
         )
     }
 
@@ -465,11 +472,13 @@ class CreateEditProfileViewModel @Inject constructor(
         val intent = profile.connectIntent
         val isPrivateBrowsingAvailable = getPrivateBrowsingAvailability() != PrivateBrowsingAvailability.NotAvailable
         val directLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled()
+        val isProTunV1FeatureFlagEnabled = isProTunV1FeatureFlagEnabled()
         val defaultSettingScreenState = defaultSettingScreenState(
             isAutoOpenNew = isAutoOpenNew.first(),
             lanDirectConnectionsFeatureFlagEnabled = directLanConnectionsFeatureFlagEnabled,
             isPrivateDnsEnabled = isPrivateDnsActive,
             isPrivateBrowsingAvailable = isPrivateBrowsingAvailable,
+            showProTun = isProTunV1FeatureFlagEnabled,
         )
 
         val lanConnectionsAllowDirect = if (directLanConnectionsFeatureFlagEnabled) {
@@ -486,10 +495,15 @@ class CreateEditProfileViewModel @Inject constructor(
         // enabled for given profile
         val showPrivateBrowsing = isPrivateBrowsingAvailable ||
             (profile.autoOpen is ProfileAutoOpen.Url && profile.autoOpen.openInPrivateMode)
+
+        val protocol = intent.settingsOverrides?.protocolData?.toProtocolSelection()?.takeIf {
+            isProTunV1FeatureFlagEnabled || it.vpn != VpnProtocol.ProTun
+        } ?: defaultSettingScreenState.protocol
+
         return SettingsScreenState(
             netShield = netShield,
             isPrivateDnsActive = isPrivateDnsActive,
-            protocol = intent.settingsOverrides?.protocolData?.toProtocolSelection() ?: defaultSettingScreenState.protocol,
+            protocol = protocol,
             natType = intent.settingsOverrides?.randomizedNat?.let { NatType.fromRandomizedNat(it) } ?: defaultSettingScreenState.natType,
             lanConnections = intent.settingsOverrides?.lanConnections ?: defaultSettingScreenState.lanConnections,
             lanConnectionsAllowDirect = lanConnectionsAllowDirect,
@@ -497,6 +511,7 @@ class CreateEditProfileViewModel @Inject constructor(
             customDnsSettings = intent.settingsOverrides?.customDns ?: defaultSettingScreenState.customDnsSettings,
             isAutoOpenNew = isAutoOpenNew.first(),
             showPrivateBrowsing = showPrivateBrowsing,
+            showProTun = defaultSettingScreenState.showProTun
         )
     }
 

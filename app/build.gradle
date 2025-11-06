@@ -340,6 +340,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  "\"${StringEscapeUtils.escapeJava(testAccountPassword)}\""
             manifestPlaceholders = ["gwpAsanMode": "always"]
+            packaging.jniLibs.keepDebugSymbols.add("**/*.so")
         }
         release {
             minifyEnabled true
@@ -853,7 +854,7 @@ dependencies {
     implementation("androidx.tv:tv-material:1.0.1")
 
     // Proton libs
-    implementation "me.proton.vpn:android-vpn-rust:1.0.12"
+    implementation "me.proton.vpn:vpn-sdk-internal:0.1.1-1.0.15"
     implementation "me.proton.vpn:go-vpn-lib:$govpnlib_version"
     implementation "me.proton.core:domain:$core_version"
     implementation "me.proton.core:network-data:$core_version"

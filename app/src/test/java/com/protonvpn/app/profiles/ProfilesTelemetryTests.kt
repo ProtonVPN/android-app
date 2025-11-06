@@ -65,7 +65,8 @@ class ProfilesTelemetryTests {
         customDnsSettings = CustomDnsSettings(false),
         isAutoOpenNew = true,
         isPrivateDnsActive = false,
-        showPrivateBrowsing = true
+        showPrivateBrowsing = true,
+        showProTun = true
     )
 
     private lateinit var profilesTelemetry: ProfilesTelemetry
@@ -282,7 +283,8 @@ class ProfilesTelemetryTests {
                 customDnsSettings = CustomDnsSettings(false),
                 isAutoOpenNew = true,
                 isPrivateDnsActive = false,
-                showPrivateBrowsing = true
+                showPrivateBrowsing = true,
+                showProTun = true
             ),
         )
         assertEquals("off", settingsDimensions1["netshield_setting"])
@@ -303,7 +305,8 @@ class ProfilesTelemetryTests {
                 customDnsSettings = CustomDnsSettings(false),
                 isAutoOpenNew = true,
                 isPrivateDnsActive = false,
-                showPrivateBrowsing = true
+                showPrivateBrowsing = true,
+                showProTun = true
             )
         )
         assertEquals("f2", settingsDimensions2["netshield_setting"])

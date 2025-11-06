@@ -40,7 +40,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -540,6 +539,7 @@ fun PickServer(
 @Composable
 fun ProfileProtocolItem(
     value: ProtocolSelection,
+    showProTun: Boolean,
     onSelect: (ProtocolSelection) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -554,7 +554,8 @@ fun ProfileProtocolItem(
                     onSelect(it)
                     closeModal()
                 },
-                onDismissRequest = closeModal
+                onDismissRequest = closeModal,
+                showProTun = showProTun
             )
         },
         modifier = modifier
@@ -564,15 +565,26 @@ fun ProfileProtocolItem(
 @Composable
 fun PickProtocol(
     value: ProtocolSelection,
+    showProTun: Boolean,
     onSelect: (ProtocolSelection) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
+    var locallySelectedProtocol by rememberSaveable { mutableStateOf(value) }
     BaseItemPickerDialog(
         R.string.create_profile_pick_protocol_title,
-        onDismissRequest = onDismissRequest
+        onDismissRequest = onDismissRequest,
+        onSave = {
+            onSelect(locallySelectedProtocol)
+            onDismissRequest()
+        }
     ) {
         item {
-            ProtocolSettingsList(value, onSelect, horizontalContentPadding = DIALOG_CONTENT_PADDING)
+            ProtocolSettingsList(
+                locallySelectedProtocol,
+                { locallySelectedProtocol = it },
+                showProTun = showProTun,
+                horizontalContentPadding = DIALOG_CONTENT_PADDING
+            )
         }
     }
 }
@@ -1485,6 +1497,7 @@ private fun ProfileProtocolItemPreview() {
     ProtonVpnPreview {
         ProfileProtocolItem(
             ProtocolSelection.SMART,
+            showProTun = true,
             {}
         )
     }
@@ -1496,6 +1509,7 @@ private fun PickProtocolPreview() {
     ProtonVpnPreview {
         PickProtocol(
             ProtocolSelection.SMART,
+            showProTun = true,
             {},
             {}
         )

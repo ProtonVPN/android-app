@@ -30,10 +30,10 @@ class TelemetryExtensionsTests {
     fun `vpn protocol names`() {
         val protocols = listOf(ProtocolSelection.SMART) + ProtocolSelection.REAL_PROTOCOLS
         val expectedNames = listOf(
-            "smart", "wireguard_udp", "wireguard_tcp", "openvpn_udp", "openvpn_tcp", "wireguard_tls"
+            "smart", "wireguard_udp", "wireguard_tcp", "openvpn_udp", "openvpn_tcp", "wireguard_tls", "protun_udp", "protun_tcp", "protun_tls"
         )
-        protocols.forEachIndexed { index, protocolSelection ->
-            assertEquals(expectedNames[index], protocolSelection.toTelemetry())
-        }
+        assertEquals(
+            expectedNames, protocols.map { it.toTelemetry() }
+        )
     }
 }

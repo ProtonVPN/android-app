@@ -69,6 +69,7 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.usecases.FakeIsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.TransientMustHaves
 import com.protonvpn.mocks.FakeCommonDimensions
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
@@ -133,6 +134,7 @@ class CreateEditProfileViewModelTests {
         isAutoOpenNew = true,
         isPrivateDnsActive = false,
         showPrivateBrowsing = true,
+        showProTun = true,
     )
     // Matches the screen states above.
     private val testProfile = Profile(
@@ -234,6 +236,7 @@ class CreateEditProfileViewModelTests {
             transientMustHaves = TransientMustHaves({ testScope.currentTime }),
             autoOpenAppInfoHelper = mockk(relaxed = true),
             getPrivateBrowsingAvailability = { PrivateBrowsingAvailability.AvailableWithDefault },
+            isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),
         )
         viewModel.localeFlow.value = Locale("en")
     }

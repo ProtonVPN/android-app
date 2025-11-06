@@ -453,7 +453,8 @@ class VpnConnectionManager @Inject constructor(
         lastConnectIntent = preparedConnection.connectionParams.connectIntent
 
         val currentBackend = activeBackend
-        if (currentBackend != null) {
+        // When switching between connections, ProTun to ProTun switch is handled without disconnecting first
+        if (currentBackend != null && !(currentBackend.vpnProtocol == VpnProtocol.ProTun && preparedConnection.backend.vpnProtocol == VpnProtocol.ProTun)) {
             setInternalState(InternalState.SwitchingConnection(activeConnectionParams, preparedConnection.connectionParams, currentBackend))
             val isGuestHoleConnection = preparedConnection.connectionParams.connectIntent is AnyConnectIntent.GuestHole
             disconnectForNewConnection(activeConnectionParams, disconnectTrigger, isGuestHoleConnection)

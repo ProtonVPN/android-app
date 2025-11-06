@@ -28,6 +28,7 @@ import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
@@ -75,6 +76,7 @@ class EffectiveCurrentUserSettingsFlowTests {
                 isTvNetShieldSettingEnabled = true,
                 isTvCustomDnsSettingEnabled = true,
                 isTvAutoConnectEnabled = true,
+                isProTunV1Enabled = true,
             )
         )
         testUserProvider = TestCurrentUserProvider(plusUser)
@@ -200,6 +202,15 @@ class EffectiveCurrentUserSettingsFlowTests {
 
         every { mockIsTv.invoke() } returns true
         assertEquals(profileId, effectiveSettings().defaultProfileId)
+    }
+
+    @Test
+    fun `ProTUN mapped to WireGuard when ProTUN v1 disabled`() = testScope.runTest {
+        featureFlagsFlow.update { it.copy(isProTunV1Enabled = true) }
+        rawSettingsFlow.update { it.copy(protocol = ProtocolSelection.SMART_PROTUN) }
+        assertEquals(ProtocolSelection.SMART_PROTUN, effectiveSettings().protocol)
+        featureFlagsFlow.update { it.copy(isProTunV1Enabled = false) }
+        assertEquals(ProtocolSelection.SMART, effectiveSettings().protocol)
     }
 
     private suspend fun effectiveSettings() = effectiveSettingsFlow.first()
