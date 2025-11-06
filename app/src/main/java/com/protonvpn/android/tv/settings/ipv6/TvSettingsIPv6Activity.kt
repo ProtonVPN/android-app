@@ -59,21 +59,11 @@ class TvSettingsIPv6Activity : BaseTvActivity() {
             ProtonThemeTv {
                 val viewModel: TvSettingsIPv6ViewModel = hiltViewModel()
                 val viewState = viewModel.viewState.collectAsStateWithLifecycle().value
-                var showReconnectDialog by remember { mutableStateOf(false) }
 
                 viewModel.eventChannelReceiver.receiveAsFlow().collectAsEffect { event ->
                     when (event) {
                         TvSettingsIPv6ViewModel.Event.OnClose -> {
                             finish()
-                        }
-
-                        TvSettingsIPv6ViewModel.Event.OnDismissReconnectNowDialog -> {
-                            showReconnectDialog = false
-                        }
-
-                        TvSettingsIPv6ViewModel.Event.OnShowReconnectNowDialog -> {
-                            viewModel.onShowReconnectNowDialog(vpnUiDelegate = getVpnUiDelegate())
-                            showReconnectDialog = true
                         }
                     }
                 }
@@ -86,19 +76,19 @@ class TvSettingsIPv6Activity : BaseTvActivity() {
                             TvSettingsIPv6(
                                 modifier = Modifier.fillMaxWidth(),
                                 viewState = viewState,
-                                onToggled = viewModel::toggle,
+                                onToggled = { viewModel.toggle(getVpnUiDelegate()) },
                             )
                         }
                     )
-                }
 
-                if(showReconnectDialog) {
-                    TvSettingsReconnectDialog(
-                        onReconnectNow = {
-                            viewModel.onReconnectNow(vpnUiDelegate = getVpnUiDelegate())
-                        },
-                        onDismissRequest = viewModel::onDismissReconnectNowDialog,
-                    )
+                    if (viewState.showReconnectDialog) {
+                        TvSettingsReconnectDialog(
+                            onReconnectNow = {
+                                viewModel.onReconnectNow(vpnUiDelegate = getVpnUiDelegate())
+                            },
+                            onDismissRequest = viewModel::onDismissReconnectNowDialog,
+                        )
+                    }
                 }
             }
         }

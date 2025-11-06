@@ -32,17 +32,20 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private val RECONNECT_TYPE = DontShowAgainStore.Type.IPv6ChangeWhenConnected
 
 @HiltViewModel
 class TvSettingsIPv6ViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
     private val settingsReconnectHandler: SettingsReconnectHandler,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
-) : ViewModel() {
+
+    ) : ViewModel() {
 
     private val eventChannel = Channel<Event>(
         capacity = 1,
@@ -50,30 +53,31 @@ class TvSettingsIPv6ViewModel @Inject constructor(
     )
 
     sealed interface Event {
-
         data object OnClose : Event
-
-        data object OnDismissReconnectNowDialog : Event
-
-        data object OnShowReconnectNowDialog : Event
-
     }
 
-    data class ViewState(val isIPv6Enabled: Boolean)
+    data class ViewState(
+        val isIPv6Enabled: Boolean,
+        val showReconnectDialog: Boolean,
+    )
 
     val eventChannelReceiver: ReceiveChannel<Event> = eventChannel
 
-    val viewState: StateFlow<ViewState?> = userSettingsManager.rawCurrentUserSettingsFlow.map { localUserSettings ->
-        ViewState(localUserSettings.ipV6Enabled)
+    val viewState: StateFlow<ViewState?> = combine(
+        userSettingsManager.rawCurrentUserSettingsFlow,
+        settingsReconnectHandler.showReconnectDialogFlow
+    ) { localUserSettings, showReconnectDialog ->
+        ViewState(localUserSettings.ipV6Enabled, showReconnectDialog == RECONNECT_TYPE)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = null,
     )
 
-    fun toggle() {
+    fun toggle(uiVpnUiDelegate: VpnUiDelegate) {
         mainScope.launch {
             userSettingsManager.toggleIPv6()
+            settingsReconnectHandler.reconnectionCheck(uiVpnUiDelegate, RECONNECT_TYPE)
         }
     }
 
@@ -87,26 +91,11 @@ class TvSettingsIPv6ViewModel @Inject constructor(
         closeScreen()
     }
 
-    fun onShowReconnectNowDialog(vpnUiDelegate: VpnUiDelegate) {
-        viewModelScope.launch {
-            settingsReconnectHandler.reconnectionCheck(
-                uiDelegate = vpnUiDelegate,
-                type = DontShowAgainStore.Type.DnsChangeWhenConnected,
-            )
-
-            if (settingsReconnectHandler.showReconnectDialogFlow.value == null) {
-                closeScreen()
-            }
-        }
-    }
-
     fun onDismissReconnectNowDialog() {
         settingsReconnectHandler.dismissReconnectDialog(
             dontShowAgain = false,
-            type = DontShowAgainStore.Type.IPv6ChangeWhenConnected,
+            type = RECONNECT_TYPE,
         )
-
-        eventChannel.trySend(Event.OnDismissReconnectNowDialog)
     }
 
     private fun closeScreen() {
