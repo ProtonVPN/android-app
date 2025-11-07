@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Cancel·la</string>
     <string name="close">Tanca</string>
+    <string name="dialogContinue">Continueu</string>
     <string name="drawerReportProblem">Informeu d\'un problema</string>
     <string name="action_done">Fet</string>
     <string name="action_share">Comparteix</string>
@@ -595,6 +596,9 @@
     <string name="dynamic_report_your_issue_headline">Quin és el problema?</string>
     <string name="update_screen_title">Actualitza Proton VPN</string>
     <string name="update_screen_description">És més probable que tingueu problemes amb versions anteriors de Proton VPN.</string>
+    <string name="update_banner_description_settings">Hi ha disponible una nova versió de l\'aplicació</string>
+    <string name="update_banner_warning_vpn_connected_title">La VPN es desconnectarà breument</string>
+    <string name="update_banner_warning_vpn_connected_message">L\'aplicació s\'ha de reiniciar per finalitzar l\'actualització. Se us reconnectarà automàticament després.</string>
     <string name="dialog_create_account_title">Creeu un compte per continuar</string>
     <string name="dialog_create_account_action_create">Crea un compte</string>
     <string name="dialog_create_account_action_signin">Inicia la sessió</string>

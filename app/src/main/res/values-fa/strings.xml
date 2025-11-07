@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">لغو</string>
     <string name="close">بستن</string>
+    <string name="dialogContinue">Continue</string>
     <string name="drawerReportProblem">گزارش یک اشکال</string>
     <string name="action_done">Done</string>
     <string name="action_share">اشتراک گذاری</string>
@@ -595,6 +596,9 @@
     <string name="dynamic_report_your_issue_headline">What’s the issue?</string>
     <string name="update_screen_title">به‌روزرسانی Proton VPN</string>
     <string name="update_screen_description">اگر از نسخه‌های قدیمی‌تر Proton VPN استفاده می‌کنید احتمال برخورد با اشکال برای شما بالاتر است.</string>
+    <string name="update_banner_description_settings">A new version of the app is available</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN will disconnect briefly</string>
+    <string name="update_banner_warning_vpn_connected_message">The app needs to restart to finish the update. You will be reconnected automatically afterward.</string>
     <string name="dialog_create_account_title">یک حساب کاربری بسازید تا ادامه بدهيد</string>
     <string name="dialog_create_account_action_create">ساختن حساب</string>
     <string name="dialog_create_account_action_signin">ورود</string>

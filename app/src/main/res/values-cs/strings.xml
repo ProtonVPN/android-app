@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
+    <string name="dialogContinue">Pokračovat</string>
     <string name="drawerReportProblem">Nahlásit problém</string>
     <string name="action_done">Hotovo</string>
     <string name="action_share">Sdílení</string>
@@ -627,6 +628,9 @@
     <string name="dynamic_report_your_issue_headline">V čem je problém?</string>
     <string name="update_screen_title">Aktualizovat Proton VPN</string>
     <string name="update_screen_description">Je pravděpodobnější, že u starších verzí Proton VPN budete mít více problémů.</string>
+    <string name="update_banner_description_settings">Nová verze aplikace je k dispozici</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN se na krátkou dobu odpojí</string>
+    <string name="update_banner_warning_vpn_connected_message">Aplikace musí být restartována, aby byla aktualizace dokončena. Poté budete automaticky znovu připojeni.</string>
     <string name="dialog_create_account_title">Pro pokračování si vytvořte účet</string>
     <string name="dialog_create_account_action_create">Vytvořit účet</string>
     <string name="dialog_create_account_action_signin">Přihlásit se</string>

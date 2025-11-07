@@ -51,8 +51,9 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">キャンセル</string>
     <string name="close">閉じる</string>
+    <string name="dialogContinue">続行</string>
     <string name="drawerReportProblem">問題を報告</string>
-    <string name="action_done">Done</string>
+    <string name="action_done">完了</string>
     <string name="action_share">共有</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">メンテナンス中</string>
@@ -418,8 +419,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[<b>VPN Plus</b> を使用して %2$s の %1$s のロックを解除します。]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
+    <string name="upgrade_unlimited_all_apps_title">Proton Unlimitedで完全なプライバシー保護を入手</string>
+    <string name="upgrade_unlimited_all_apps_description">Proton VPN、Mail、Clanedar、Drive、Pass のすべてのプレミアム機能をご利用いただけます。</string>
     <string name="upgrade_unlimited_more">さらに</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">全ての国をアンロック</string>
     <string name="upgrade_unlimited_vpn_all_features">他のすべてのVPN Plus機能</string>
@@ -579,6 +580,9 @@
     <string name="dynamic_report_your_issue_headline">問題は何ですか？</string>
     <string name="update_screen_title">Proton VPN をアップデート</string>
     <string name="update_screen_description">古い Proton VPN には問題がある可能性があります。</string>
+    <string name="update_banner_description_settings">アプリの新しいバージョンが利用可能です</string>
+    <string name="update_banner_warning_vpn_connected_title">VPNは一時的に接続解除されます</string>
+    <string name="update_banner_warning_vpn_connected_message">更新を完了するには、アプリを再起動する必要があります。その後、お客様は自動的に再接続されます。</string>
     <string name="dialog_create_account_title">続行するにはアカウントを作成してください</string>
     <string name="dialog_create_account_action_create">アカウントを作成する</string>
     <string name="dialog_create_account_action_signin">サインイン</string>
@@ -679,7 +683,7 @@
     <string name="welcome_plus_description">特別なプライバシー機能、超高速パフォーマンス、そしてハイレベルなVPNカスタマイズをお楽しみください。</string>
     <string name="welcome_plus_feature_security">高度なセキュリティ機能</string>
     <string name="welcome_unlimited_title">Proton Unlimitedへようこそ</string>
-    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[お客様は、すべてのプレミアムProton VPN、Mail、Calendar、Drive、Pass、Walletの機能をアンロックし、合計<b>%1$d&#160;GB</b>のストレージもご利用いただけるようになりました。]]></string>
     <string name="welcome_generic_title">おめでとうございます！</string>
     <string name="welcome_generic_description">サブスクリプションをアップグレードしました。高度なプライバシー機能と次世代のパフォーマンスをお楽しみください。</string>
     <!-- Example: Up to 10 devices at once
@@ -1359,8 +1363,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">推奨</string>
     <string name="settings_split_tunneling_mode_title">モード</string>
-    <string name="settings_split_tunneling_mode_standard">Exclude</string>
-    <string name="settings_split_tunneling_mode_inverse">Include</string>
+    <string name="settings_split_tunneling_mode_standard">除外</string>
+    <string name="settings_split_tunneling_mode_inverse">含める</string>
     <string name="settings_split_tunneling_mode_description_standard">選択したアプリと IP アドレスは VPN 接続から除外されます.</string>
     <string name="settings_split_tunneling_mode_description_inverse">選択したアプリとIPアドレスだけがVPNを通して接続され、他の全てのトラフィックは保護されません。</string>
     <string name="settings_split_tunneling_excluded_apps">除外されたアプリ</string>
@@ -1510,7 +1514,7 @@
     <string name="widget_status_connecting">接続中</string>
     <string name="widget_sign_in">ログイン</string>
     <string name="widget_toast_added_message">ホーム画面にウィジェットを追加</string>
-    <string name="settings_advanced_ipv6_title">IPv6 support</string>
+    <string name="settings_advanced_ipv6_title">IPv6対応</string>
     <string name="settings_advanced_ipv6_description">VPN経由のIPv6トラフィックをトンネルします。 IPv6ネットワークとの互換性を強化できます。</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">このアドレスを使用するには、VPNトンネルを介してIPv6接続を許可する必要があります。</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">IPv6 を有効にする</string>

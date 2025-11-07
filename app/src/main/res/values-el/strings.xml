@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Ακύρωση</string>
     <string name="close">Κλείσιμο</string>
+    <string name="dialogContinue">Συνέχεια</string>
     <string name="drawerReportProblem">Αναφορά προβλήματος</string>
     <string name="action_done">Ολοκληρώθηκε</string>
     <string name="action_share">Κοινοποίηση</string>
@@ -595,6 +596,9 @@
     <string name="dynamic_report_your_issue_headline">Ποιο είναι το πρόβλημα;</string>
     <string name="update_screen_title">Ενημέρωση Proton VPN</string>
     <string name="update_screen_description">Σε παλαιότερες εκδόσεις του Proton VPN, είναι πιο πιθανό να έχετε προβλήματα.</string>
+    <string name="update_banner_description_settings">Μια νέα έκδοση της εφαρμογής είναι διαθέσιμη</string>
+    <string name="update_banner_warning_vpn_connected_title">Το VPN θα αποσυνδεθεί για λίγο</string>
+    <string name="update_banner_warning_vpn_connected_message">Η εφαρμογή πρέπει να επανεκκινηθεί για να ολοκληρωθεί η ενημέρωση. Στη συνέχεια, θα επανασυνδεθείτε αυτόματα.</string>
     <string name="dialog_create_account_title">Δημιουργήστε έναν λογαριασμό για να συνεχίσετε</string>
     <string name="dialog_create_account_action_create">Δημιουργία λογαριασμού</string>
     <string name="dialog_create_account_action_signin">Σύνδεση</string>

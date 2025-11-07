@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">İptal</string>
     <string name="close">Kapat</string>
+    <string name="dialogContinue">İlerle</string>
     <string name="drawerReportProblem">Sorun bildireceğim</string>
     <string name="action_done">Tamam</string>
     <string name="action_share">Paylaş</string>
@@ -595,6 +596,9 @@
     <string name="dynamic_report_your_issue_headline">Sorun neydi?</string>
     <string name="update_screen_title">Proton VPN uygulamasını güncelle</string>
     <string name="update_screen_description">Eski Proton VPN sürümlerinde sorun yaşamanız daha olasıdır.</string>
+    <string name="update_banner_description_settings">Uygulamanın yeni bir sürümü mevcut.</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN bağlantısı kısa süreli kesilecektir.</string>
+    <string name="update_banner_warning_vpn_connected_message">Güncellemeyi tamamlamak için uygulamanın yeniden başlatılması gerekiyor. Ardından otomatik olarak yeniden bağlanacaksınız.</string>
     <string name="dialog_create_account_title">İlerlemek için bir hesap açın</string>
     <string name="dialog_create_account_action_create">Hesap aç</string>
     <string name="dialog_create_account_action_signin">Oturum aç</string>

@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Скасаваць</string>
     <string name="close">Закрыць</string>
+    <string name="dialogContinue">Працягнуць</string>
     <string name="drawerReportProblem">Паведаміць аб праблеме</string>
     <string name="action_done">Гатова</string>
     <string name="action_share">Абагуліць</string>
@@ -627,6 +628,9 @@
     <string name="dynamic_report_your_issue_headline">У чым ваша праблема?</string>
     <string name="update_screen_title">Абнавіць Proton VPN</string>
     <string name="update_screen_description">Хутчэй за ўсё ў вас з\'явяцца праблемы са старымі версіямі Proton VPN.</string>
+    <string name="update_banner_description_settings">Даступна новая версія праграмы</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN ненадоўга адключыцца</string>
+    <string name="update_banner_warning_vpn_connected_message">Праграме патрабуе перазапуску, каб завяршыць абнаўленне. Пасля гэтага вы будзеце аўтаматычна перападключаны.</string>
     <string name="dialog_create_account_title">Стварыце ўліковы запіс, каб працягнуць</string>
     <string name="dialog_create_account_action_create">Стварыць уліковы запіс</string>
     <string name="dialog_create_account_action_signin">Увайсці</string>

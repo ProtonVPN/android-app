@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Anulare</string>
     <string name="close">Închidere</string>
+    <string name="dialogContinue">Continuare</string>
     <string name="drawerReportProblem">Raportare o problemă</string>
     <string name="action_done">Gata</string>
     <string name="action_share">Partajare</string>
@@ -611,6 +612,9 @@
     <string name="dynamic_report_your_issue_headline">Care este problema?</string>
     <string name="update_screen_title">Actualizare Proton VPN</string>
     <string name="update_screen_description">Este mai probabil să aveți probleme cu versiunile mai vechi ale Proton VPN .</string>
+    <string name="update_banner_description_settings">Este disponibilă o versiune nouă</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN-ul se va deconecta pentru scurt timp</string>
+    <string name="update_banner_warning_vpn_connected_message">Aplicația trebuie să repornească pentru a finaliza actualizarea. Conexiunea va fi refăcută automat ulterior.</string>
     <string name="dialog_create_account_title">Creați un cont pentru a continua</string>
     <string name="dialog_create_account_action_create">Creare cont</string>
     <string name="dialog_create_account_action_signin">Conectare</string>

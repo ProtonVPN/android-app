@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Peruuta</string>
     <string name="close">Sulje</string>
+    <string name="dialogContinue">Continue</string>
     <string name="drawerReportProblem">Ilmoita ongelmasta</string>
     <string name="action_done">Valmis</string>
     <string name="action_share">Jaa</string>
@@ -595,6 +596,9 @@
     <string name="dynamic_report_your_issue_headline">Mikä on ongelmana?</string>
     <string name="update_screen_title">Päivitä Proton VPN</string>
     <string name="update_screen_description">Ongelmia esiintyy todennäköisesti useammin vanhemmissa Proton VPN -versioissa.</string>
+    <string name="update_banner_description_settings">A new version of the app is available</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN will disconnect briefly</string>
+    <string name="update_banner_warning_vpn_connected_message">The app needs to restart to finish the update. You will be reconnected automatically afterward.</string>
     <string name="dialog_create_account_title">Jatka luomalla tili</string>
     <string name="dialog_create_account_action_create">Luo tili</string>
     <string name="dialog_create_account_action_signin">Kirjaudu sisään</string>

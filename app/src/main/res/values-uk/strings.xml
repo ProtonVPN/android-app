@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Скасувати</string>
     <string name="close">Закрити</string>
+    <string name="dialogContinue">Continue</string>
     <string name="drawerReportProblem">Повідомити про проблему</string>
     <string name="action_done">Виконано</string>
     <string name="action_share">Поділитися</string>
@@ -627,6 +628,9 @@
     <string name="dynamic_report_your_issue_headline">У чому проблема?</string>
     <string name="update_screen_title">Оновити Proton VPN</string>
     <string name="update_screen_description">Швидше за все у вас виникли проблеми з застарілою версією Proton VPN.</string>
+    <string name="update_banner_description_settings">A new version of the app is available</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN will disconnect briefly</string>
+    <string name="update_banner_warning_vpn_connected_message">The app needs to restart to finish the update. You will be reconnected automatically afterward.</string>
     <string name="dialog_create_account_title">Щоб продовжити, створіть обліковий запис</string>
     <string name="dialog_create_account_action_create">Створити обліковий запис</string>
     <string name="dialog_create_account_action_signin">Увійти</string>

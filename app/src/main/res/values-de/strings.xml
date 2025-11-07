@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Abbrechen</string>
     <string name="close">Schließen</string>
+    <string name="dialogContinue">Weiter</string>
     <string name="drawerReportProblem">Problem melden</string>
     <string name="action_done">Fertig</string>
     <string name="action_share">Teilen</string>
@@ -595,6 +596,9 @@
     <string name="dynamic_report_your_issue_headline">Beschreibe das Problem</string>
     <string name="update_screen_title">Proton VPN aktualisieren</string>
     <string name="update_screen_description">Bei älteren Versionen von Proton VPN ist die Wahrscheinlichkeit größer, dass Probleme auftreten.</string>
+    <string name="update_banner_description_settings">Eine neue Version der App ist verfügbar</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN wird kurzzeitig getrennt</string>
+    <string name="update_banner_warning_vpn_connected_message">Die App muss neu gestartet werden, um die Aktualisierung abschließen zu können. Anschließend werden Sie automatisch wieder neu verbunden.</string>
     <string name="dialog_create_account_title">Erstelle ein Konto, um fortzufahren.</string>
     <string name="dialog_create_account_action_create">Konto erstellen</string>
     <string name="dialog_create_account_action_signin">Anmelden</string>

@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Stäng</string>
+    <string name="dialogContinue">Fortsätt</string>
     <string name="drawerReportProblem">Rapportera ett problem</string>
     <string name="action_done">Klar</string>
     <string name="action_share">Dela</string>
@@ -595,6 +596,9 @@
     <string name="dynamic_report_your_issue_headline">Vad är problemet?</string>
     <string name="update_screen_title">Uppdatera Proton VPN</string>
     <string name="update_screen_description">Det är mer sannolikt att du har problem med äldre versioner av Proton VPN.</string>
+    <string name="update_banner_description_settings">En ny version av appen är tillgänglig</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN kommer kopplas från kortvarigt</string>
+    <string name="update_banner_warning_vpn_connected_message">Appen måste startas om för att slutföra uppdateringen. Du kommer att återanslutas automatiskt efteråt.</string>
     <string name="dialog_create_account_title">Skapa ett konto för att fortsätta</string>
     <string name="dialog_create_account_action_create">Skapa konto</string>
     <string name="dialog_create_account_action_signin">Logga in</string>

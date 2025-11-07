@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Annuleren</string>
     <string name="close">Sluiten</string>
+    <string name="dialogContinue">Doorgaan</string>
     <string name="drawerReportProblem">Een probleem melden</string>
     <string name="action_done">Klaar</string>
     <string name="action_share">Delen</string>
@@ -595,6 +596,9 @@
     <string name="dynamic_report_your_issue_headline">Wat is het probleem?</string>
     <string name="update_screen_title">Proton VPN bijwerken</string>
     <string name="update_screen_description">U heeft meer kans op problemen op oudere versies van Proton VPN.</string>
+    <string name="update_banner_description_settings">Er is een nieuwe versie van de app beschikbaar</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN wordt even losgekoppeld</string>
+    <string name="update_banner_warning_vpn_connected_message">De app moet herstarten om de update te voltooien. U wordt daarna automatisch opnieuw verbonden.</string>
     <string name="dialog_create_account_title">Maak een account aan om door te gaan</string>
     <string name="dialog_create_account_action_create">Maak account</string>
     <string name="dialog_create_account_action_signin">Log in</string>

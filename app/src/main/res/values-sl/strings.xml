@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Prekliči</string>
     <string name="close">Zapri</string>
+    <string name="dialogContinue">Continue</string>
     <string name="drawerReportProblem">Prijava napake</string>
     <string name="action_done">Done</string>
     <string name="action_share">Deli</string>
@@ -628,6 +629,9 @@
     <string name="dynamic_report_your_issue_headline">Kaj je težava?</string>
     <string name="update_screen_title">Posodobi Proton VPN</string>
     <string name="update_screen_description">Verjetneje boste imeli težave na starejših različicah Proton VPN.</string>
+    <string name="update_banner_description_settings">A new version of the app is available</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN will disconnect briefly</string>
+    <string name="update_banner_warning_vpn_connected_message">The app needs to restart to finish the update. You will be reconnected automatically afterward.</string>
     <string name="dialog_create_account_title">Za nadaljevanje ustvarite račun</string>
     <string name="dialog_create_account_action_create">Ustvarite račun</string>
     <string name="dialog_create_account_action_signin">Prijava</string>

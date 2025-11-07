@@ -51,8 +51,9 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Batal</string>
     <string name="close">Tutup</string>
+    <string name="dialogContinue">Lanjut</string>
     <string name="drawerReportProblem">Laporkan masalah</string>
-    <string name="action_done">Done</string>
+    <string name="action_done">Selesai</string>
     <string name="action_share">Bagikan</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Dalam pemeliharaan</string>
@@ -418,8 +419,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Dapatkan akses ke %1$s di %2$s dengan <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
+    <string name="upgrade_unlimited_all_apps_title">Dapatkan cakupan privasi yang menyeluruh dengan Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Dapatkan akses ke seluruh fitur premium Proton VPN, Mail, Calendar, Drive, dan Pass.</string>
     <string name="upgrade_unlimited_more">Dan masih banyak lagi</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Akses seluruh negara</string>
     <string name="upgrade_unlimited_vpn_all_features">Seluruh fitur VPN Plus lainnya</string>
@@ -579,6 +580,9 @@
     <string name="dynamic_report_your_issue_headline">Masalah apa yang Anda hadapi?</string>
     <string name="update_screen_title">Perbarui Proton VPN</string>
     <string name="update_screen_description">Anda akan cenderung lebih rentan terhadap berbagai masalah apabila Anda menggunakan Proton VPN versi lama.</string>
+    <string name="update_banner_description_settings">Versi baru aplikasi tersedia</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN akan terputus sejenak</string>
+    <string name="update_banner_warning_vpn_connected_message">Aplikasi VPN perlu dimulai ulang untuk menyelesaikan pembaruan. Anda akan terhubung kembali secara otomatis setelahnya.</string>
     <string name="dialog_create_account_title">Buat akun untuk melanjutkan</string>
     <string name="dialog_create_account_action_create">Buat akun</string>
     <string name="dialog_create_account_action_signin">Masuk</string>
@@ -679,7 +683,7 @@
     <string name="welcome_plus_description">Nikmati berbagai fitur privasi tambahan, performa yang jauh lebih cepat, dan opsi kostumisasi VPN lanjutan.</string>
     <string name="welcome_plus_feature_security">Fitur keamanan mutakhir</string>
     <string name="welcome_unlimited_title">Selamat datang di Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Anda telah membuka akses ke seluruh fitur premium Proton VPN, Mail, Calendar, Drive, Pass, dan Wallet — beserta dengan total ruang penyimpanan <b>%1$d&#160;GB</b>.]]></string>
     <string name="welcome_generic_title">Selamat</string>
     <string name="welcome_generic_description">Anda telah meningkatkan paket langganan Anda. Nikmati berbagai fitur privasi mutakhir dan performa tingkat lanjut.</string>
     <!-- Example: Up to 10 devices at once
@@ -1359,8 +1363,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Direkomendasikan</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>
-    <string name="settings_split_tunneling_mode_standard">Exclude</string>
-    <string name="settings_split_tunneling_mode_inverse">Include</string>
+    <string name="settings_split_tunneling_mode_standard">Kecualikan</string>
+    <string name="settings_split_tunneling_mode_inverse">Sertakan</string>
     <string name="settings_split_tunneling_mode_description_standard">Aplikasi dan alamat IP yang terpilih dikecualikan dari koneksi VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Hanya aplikasi dan alamat IP yang dipilih yang akan terhubung melalui VPN, sedangkan lalu lintas lainnya tidak terlindungi.</string>
     <string name="settings_split_tunneling_excluded_apps">Aplikasi yang dikecualikan</string>
@@ -1510,7 +1514,7 @@
     <string name="widget_status_connecting">Menghubungkan</string>
     <string name="widget_sign_in">Masuk</string>
     <string name="widget_toast_added_message">Widget ditambahkan ke layar beranda</string>
-    <string name="settings_advanced_ipv6_title">IPv6 support</string>
+    <string name="settings_advanced_ipv6_title">Dukungan IPv6</string>
     <string name="settings_advanced_ipv6_description">Merutekan lalu lintas IPv6 melalui VPN. Dapat meningkatkan kompatibilitas dengan jaringan IPv6.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Untuk menggunakan alamat ini, Anda perlu untuk memberikan izin kepada koneksi IPv6 untuk melewati terowongan VPN.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Aktifkan IPv6</string>

@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Mégsem</string>
     <string name="close">Bezárás</string>
+    <string name="dialogContinue">Continue</string>
     <string name="drawerReportProblem">Hibabejelentés</string>
     <string name="action_done">Done</string>
     <string name="action_share">Megosztás</string>
@@ -595,6 +596,9 @@
     <string name="dynamic_report_your_issue_headline">Mi a probléma?</string>
     <string name="update_screen_title">Proton VPN frissítése</string>
     <string name="update_screen_description">A Proton VPN régebbi verzióinál nagyobb valószínűséggel jelentkeznek problémák.</string>
+    <string name="update_banner_description_settings">A new version of the app is available</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN will disconnect briefly</string>
+    <string name="update_banner_warning_vpn_connected_message">The app needs to restart to finish the update. You will be reconnected automatically afterward.</string>
     <string name="dialog_create_account_title">Hozzon létre egy fiókot a folytatáshoz</string>
     <string name="dialog_create_account_action_create">Fiók létrehozása</string>
     <string name="dialog_create_account_action_signin">Bejelentkezés</string>

@@ -51,6 +51,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">取消</string>
     <string name="close">關閉</string>
+    <string name="dialogContinue">Continue</string>
     <string name="drawerReportProblem">回報問題</string>
     <string name="action_done">Done</string>
     <string name="action_share">共享</string>
@@ -579,6 +580,9 @@
     <string name="dynamic_report_your_issue_headline">發生什麼事了？</string>
     <string name="update_screen_title">更新 Proton VPN</string>
     <string name="update_screen_description">您的問題可能是因為使用舊版的 Proton VPN。</string>
+    <string name="update_banner_description_settings">A new version of the app is available</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN will disconnect briefly</string>
+    <string name="update_banner_warning_vpn_connected_message">The app needs to restart to finish the update. You will be reconnected automatically afterward.</string>
     <string name="dialog_create_account_title">建立一個帳號以繼續</string>
     <string name="dialog_create_account_action_create">建立帳號</string>
     <string name="dialog_create_account_action_signin">登入</string>
