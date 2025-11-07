@@ -32,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -62,14 +63,21 @@ object BugReportStepsScreen : ScreenNoArg<BugReportNav>("bugReportSteps") {
         onClose: () -> Unit,
         onOpenLink: (String) -> Unit,
         onUpdateApp: (AppUpdateInfo) -> Unit,
-        onReportSubmitted: () -> Unit,
+        onReportSubmitError: (BugReportViewModel.BugReportNetworkError) -> Unit,
+        onReportSubmitSuccess: () -> Unit,
         modifier: Modifier = Modifier,
     ) = addToGraph(this) {
         val viewState = bugReportViewModel.viewStateFlow.collectAsStateWithLifecycle().value
 
         bugReportViewModel.eventChannelReceiver.receiveAsFlow().collectAsEffect { event ->
             when (event) {
-                is BugReportViewModel.Event.OnBugReportSubmitted -> onReportSubmitted()
+                is BugReportViewModel.Event.OnBugReportSubmitError -> {
+                    onReportSubmitError(event.networkError)
+                }
+
+                BugReportViewModel.Event.OnBugReportSubmitSuccess -> {
+                    onReportSubmitSuccess()
+                }
             }
         }
 
@@ -206,6 +214,8 @@ private fun BugReportStepBottomBar(
         }
 
         BugReportViewModel.BugReportSteps.Form -> {
+            val keyboardController = LocalSoftwareKeyboardController.current
+
             BottomAppBar(
                 modifier = modifier
                     .padding(horizontal = 16.dp)
@@ -214,7 +224,11 @@ private fun BugReportStepBottomBar(
                 VpnSolidButton(
                     text = stringResource(id = R.string.send_report),
                     isLoading = isLoading,
-                    onClick = onSubmitReportClick,
+                    onClick = {
+                        keyboardController?.hide()
+
+                        onSubmitReportClick()
+                    },
                 )
             }
         }

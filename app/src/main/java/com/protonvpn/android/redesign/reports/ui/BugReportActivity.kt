@@ -28,7 +28,6 @@ import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.openBrowserLink
-import me.proton.core.presentation.utils.openMarketLink
 
 @AndroidEntryPoint
 class BugReportActivity : AppCompatActivity() {

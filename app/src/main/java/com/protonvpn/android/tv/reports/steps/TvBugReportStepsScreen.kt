@@ -36,6 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.indicators.StepsProgressIndicator
+import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
@@ -43,6 +44,7 @@ import com.protonvpn.android.redesign.reports.ui.BugReportNav
 import com.protonvpn.android.redesign.reports.ui.BugReportViewModel
 import com.protonvpn.android.tv.reports.steps.form.TvBugReportFormScreen
 import com.protonvpn.android.tv.ui.TvUiConstants
+import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
 
 object TvBugReportStepsScreen : ScreenNoArg<BugReportNav>("tvBugReportSteps") {
@@ -51,9 +53,23 @@ object TvBugReportStepsScreen : ScreenNoArg<BugReportNav>("tvBugReportSteps") {
         bugReportViewModel: BugReportViewModel,
         tvBugReportStepsNav: TvBugReportStepsNav,
         onClose: () -> Unit,
+        onReportSubmitError: (BugReportViewModel.BugReportNetworkError) -> Unit,
+        onReportSubmitSuccess: () -> Unit,
         modifier: Modifier = Modifier,
     ) = addToGraph(this) {
         val viewState = bugReportViewModel.viewStateFlow.collectAsStateWithLifecycle().value
+
+        bugReportViewModel.eventChannelReceiver.receiveAsFlow().collectAsEffect { event ->
+            when (event) {
+                is BugReportViewModel.Event.OnBugReportSubmitError -> {
+                    onReportSubmitError(event.networkError)
+                }
+
+                is BugReportViewModel.Event.OnBugReportSubmitSuccess -> {
+                    onReportSubmitSuccess()
+                }
+            }
+        }
 
         viewState?.let { state ->
             TvBugReportStepsRoute(

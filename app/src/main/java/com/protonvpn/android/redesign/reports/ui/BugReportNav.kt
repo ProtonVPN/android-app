@@ -22,7 +22,12 @@ package com.protonvpn.android.redesign.reports.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.navOptions
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
+import com.protonvpn.android.redesign.reports.ui.completion.error.BugReportCompletionErrorScreen
+import com.protonvpn.android.redesign.reports.ui.completion.error.BugReportCompletionErrorScreen.bugReportCompletionErrorScreen
+import com.protonvpn.android.redesign.reports.ui.completion.success.BugReportCompletionSuccessScreen
+import com.protonvpn.android.redesign.reports.ui.completion.success.BugReportCompletionSuccessScreen.bugReportCompletionSuccessScreen
 import com.protonvpn.android.redesign.reports.ui.steps.BugReportStepsScreen
 import com.protonvpn.android.redesign.reports.ui.steps.BugReportStepsScreen.bugReportStepsScreen
 import com.protonvpn.android.redesign.reports.ui.steps.rememberBugReportStepsNav
@@ -50,9 +55,33 @@ class BugReportNav(selfNav: NavHostController) : BaseNav<BugReportNav>(selfNav, 
                 onClose = onClose,
                 onOpenLink = onOpenLink,
                 onUpdateApp = onUpdateApp,
-                onReportSubmitted = {
-                    // Will be implemented in VPNAND-2394
+                onReportSubmitError = { networkError ->
+                    navigateInternal(
+                        screen = BugReportCompletionErrorScreen,
+                        arg = networkError,
+                    )
                 },
+                onReportSubmitSuccess = {
+                    navigateInternal(
+                        screen = BugReportCompletionSuccessScreen,
+                        navOptions = navOptions {
+                            popUpTo(BugReportStepsScreen.route) {
+                                inclusive = true
+                            }
+
+                            launchSingleTop = true
+                        },
+                    )
+                },
+            )
+
+            bugReportCompletionSuccessScreen(
+                onClose = onClose,
+            )
+
+            bugReportCompletionErrorScreen(
+                onClose = onClose,
+                onNavigateBack = ::navigateUp,
             )
         }
     }

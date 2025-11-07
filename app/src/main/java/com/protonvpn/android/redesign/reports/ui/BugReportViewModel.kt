@@ -2,9 +2,11 @@ package com.protonvpn.android.redesign.reports.ui
 
 import android.app.Activity
 import android.util.Patterns
+import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.bugreport.Category
@@ -12,6 +14,7 @@ import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.models.config.bugreport.Suggestion
 import com.protonvpn.android.models.config.bugreport.TYPE_DROPDOWN
+import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.ui.drawer.bugreport.PrepareAndPostBugReport
 import com.protonvpn.android.update.AppUpdateBannerState
 import com.protonvpn.android.update.AppUpdateBannerStateFlow
@@ -37,6 +40,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.builtins.ListSerializer
 import me.proton.core.util.kotlin.takeIfNotBlank
+import me.proton.core.network.domain.ApiResult
 import javax.inject.Inject
 
 @HiltViewModel
@@ -99,9 +103,17 @@ class BugReportViewModel @Inject constructor(
 
     }
 
+    enum class BugReportNetworkError(@param:StringRes val resId: Int) {
+        NoInternet(resId = R.string.dynamic_report_completion_error_description_no_internet),
+        Timeout(resId = R.string.dynamic_report_completion_error_description_timeout),
+        Unknown(resId = R.string.dynamic_report_completion_error_description_generic),
+    }
+
     sealed interface Event {
 
-        data object OnBugReportSubmitted : Event
+        data class OnBugReportSubmitError(val networkError: BugReportNetworkError) : Event
+
+        data object OnBugReportSubmitSuccess : Event
 
     }
 
@@ -253,20 +265,35 @@ class BugReportViewModel @Inject constructor(
         mainScope.launch {
             isLoadingFlow.update { true }
 
-            prepareAndPostBugReport(
+            val networkError = prepareAndPostBugReport(
                 email = viewState.form.email,
                 attachLog = viewState.form.sendLogs,
                 userGeneratedDescription = generateBugReportDescription(
                     form = viewState.form,
                     category = viewState.selectedCategory,
                 ),
-            ).also {
-                // Will be properly implemented in VPNAND-2394
-                eventChannel.send(element = Event.OnBugReportSubmitted)
+            ).getNetworkError()
+
+            val event = if (networkError == null) {
+                Event.OnBugReportSubmitSuccess
+            } else {
+                Event.OnBugReportSubmitError(networkError = networkError)
             }
+
+            eventChannel.send(element = event)
 
             isLoadingFlow.update { false }
         }
+    }
+
+    private fun ApiResult<GenericResponse>.getNetworkError(): BugReportNetworkError? = when (this) {
+        is ApiResult.Error.Timeout -> BugReportNetworkError.Timeout
+        is ApiResult.Error.NoInternet,
+        is ApiResult.Error.Connection -> BugReportNetworkError.NoInternet
+        is ApiResult.Error.Http,
+        is ApiResult.Error.Parse -> BugReportNetworkError.Unknown
+
+        is ApiResult.Success<GenericResponse> -> null
     }
 
     private fun InputField.toFormInput(
