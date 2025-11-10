@@ -131,7 +131,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
         coEvery { mockInAppUpgradeAllowed.invoke() } returns true
 
         val getEligibleIntroductoryOffers =
-            GetEligibleIntroductoryOffers(loadGoogleSubscriptionPlans, mockInAppUpgradeAllowed)
+            GetEligibleIntroductoryOffers(loadGoogleSubscriptionPlans, mockInAppUpgradeAllowed, testScope::currentTime)
 
         featureFlagFlow = MutableStateFlow(true)
         generateNotificationsForIntroductoryOffers = GenerateNotificationsForIntroductoryOffers(
