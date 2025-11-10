@@ -57,6 +57,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 import retrofit2.http.Tag
 
 @Suppress("ComplexInterface", "TooManyFunctions")
@@ -70,7 +71,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         @Query("WithEntriesForProtocols") protocols: String,
         @Query("WithState") withState: Boolean,
         @Query("Tier") userTier: Int?,
-        @Query("IncludeID") includeIDs: Set<String>?,
+        @Query("IncludeID[]", encoded = true) includeIDs: Set<String>?,
     ): Response<ServerListV1>
 
     @GET("vpn/v2/logicals")
@@ -80,7 +81,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         @Query("WithTranslations") language: String,
         @Query("WithEntriesForProtocols") protocols: String,
         @Query("WithState") withState: Boolean,
-        @Query("IncludeID") includeIDs: Set<String>?,
+        @Query("IncludeID[]", encoded = true) includeIDs: Set<String>?,
     ): Response<LogicalsResponse>
 
     @GET("vpn/v1/logicals/lookup/{nameQuery}")

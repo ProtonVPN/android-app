@@ -40,6 +40,7 @@ import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.TimeoutOverride
 import me.proton.core.network.domain.session.SessionId
 import okhttp3.RequestBody
+import java.net.URLEncoder
 import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -79,7 +80,7 @@ open class ProtonApiRetroFit @Inject constructor(
             protocols = protocols.joinToString(","),
             withState = true,
             userTier = if (freeOnly) VpnUser.FREE_TIER else null,
-            includeIDs = mustHaveIDs.takeIf { enableTruncation }
+            includeIDs = mustHaveIDs.takeIf { enableTruncation }?.encodeParamSet()
         )
     }
 
@@ -97,7 +98,7 @@ open class ProtonApiRetroFit @Inject constructor(
             language = lang,
             protocols = protocols.joinToString(","),
             withState = true,
-            includeIDs = mustHaveIDs.takeIf { enableTruncation }
+            includeIDs = mustHaveIDs.takeIf { enableTruncation }?.encodeParamSet()
         )
     }
 
@@ -195,4 +196,7 @@ open class ProtonApiRetroFit @Inject constructor(
             if (enableTruncation)
                 put("x-pm-response-truncation-permitted", "true")
         }
+
+    private fun Set<String>.encodeParamSet(): Set<String> =
+        map { URLEncoder.encode(it, "UTF-8") }.toSet()
 }
