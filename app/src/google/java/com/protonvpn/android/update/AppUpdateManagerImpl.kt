@@ -27,15 +27,19 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.AppUpdateResult
 import com.google.android.play.core.ktx.requestUpdateFlow
+import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
 import java.util.concurrent.CancellationException
@@ -53,11 +57,13 @@ data class GoogleAppUpdateInfo(
 class AppUpdateManagerImpl @Inject constructor(
     @ApplicationContext appContext: Context,
     mainScope: CoroutineScope,
+    dispatcherProvider: DefaultDispatcherProvider,
 ) : AppUpdateManager() {
     private val updateManager by lazy { AppUpdateManagerFactory.create(appContext) }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val checkForUpdateFlowInternal = updateManager.requestUpdateFlow()
-        .map { update ->
+        .mapLatest { update ->
             when(update) {
                 is AppUpdateResult.Available -> {
                     val updateInfo = update.updateInfo
@@ -83,10 +89,10 @@ class AppUpdateManagerImpl @Inject constructor(
                 else -> {
                     val message = "Unable to obtain in-app update info $e"
                     ProtonLogger.logCustom(LogLevel.WARN, LogCategory.APP_UPDATE, message)
-                    null
+                    emit(null)
                 }
             }
-        }
+        }.flowOn(dispatcherProvider.Io)
 
     override val checkForUpdateFlow = checkForUpdateFlowInternal
         .onStart { emit(null) } // Emit a value immediately, don't delay the observers' "combine".
