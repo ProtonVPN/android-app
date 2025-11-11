@@ -35,7 +35,7 @@ fun TvSettingsReconnectDialog(
         confirmText = stringResource(id = R.string.reconnect_now),
         dismissText = stringResource(id = R.string.ok),
         focusedButton = DialogInterface.BUTTON_POSITIVE,
-        onDismiss = onDismissRequest,
+        onDismissRequest = onDismissRequest,
         onConfirm = onReconnectNow,
     )
 }

@@ -90,9 +90,9 @@ class TvSettingsAddCustomDnsActivity : BaseTvActivity() {
                         confirmText = stringResource(id = R.string.got_it),
                         onConfirm = {
                             showNetShieldConflictDialog = false
-
                             finish()
                         },
+                        onDismissRequest = {}
                     )
                 }
             }

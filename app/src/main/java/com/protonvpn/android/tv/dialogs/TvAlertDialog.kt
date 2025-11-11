@@ -52,7 +52,8 @@ fun TvAlertDialog(
     focusedButton: Int,
     description: String? = null,
     dismissText: String? = null,
-    onDismiss: () -> Unit = {},
+    onDismissRequest: () -> Unit,
+    onDismiss: () -> Unit = onDismissRequest,
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -64,7 +65,7 @@ fun TvAlertDialog(
         modifier = Modifier
             .clip(shape = RoundedCornerShape(size = 32.dp))
             .background(color = ProtonTheme.colors.backgroundSecondary),
-        onDismissRequest = onDismiss,
+        onDismissRequest = onDismissRequest,
         shape = ProtonTheme.shapes.large,
         backgroundColor = ProtonTheme.colors.backgroundSecondary,
         contentColor = ProtonTheme.colors.backgroundSecondary,
@@ -138,6 +139,7 @@ private fun PreviewTvAlertDialog() {
             confirmText = "Confirm",
             onConfirm = {},
             dismissText = "Dismiss",
+            onDismissRequest = {}
         )
     }
 }
@@ -152,6 +154,7 @@ private fun PreviewTvAlertNoDismiss() {
             focusedButton = DialogInterface.BUTTON_POSITIVE,
             confirmText = "Confirm",
             onConfirm = {},
+            onDismissRequest = {}
         )
     }
 }
@@ -166,6 +169,7 @@ private fun PreviewTvAlertDialogNoDesc() {
             confirmText = "Confirm",
             onConfirm = {},
             dismissText = "Dismiss",
+            onDismissRequest = {}
         )
     }
 }
@@ -179,6 +183,7 @@ private fun PreviewTvAlertDialogNoDescNoDismiss() {
             focusedButton = DialogInterface.BUTTON_POSITIVE,
             confirmText = "Confirm",
             onConfirm = {},
+            onDismissRequest = {}
         )
     }
 }

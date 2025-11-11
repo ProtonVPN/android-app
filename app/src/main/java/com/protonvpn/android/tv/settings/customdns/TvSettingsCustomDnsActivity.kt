@@ -168,7 +168,7 @@ class TvSettingsCustomDnsActivity : BaseTvActivity() {
                             confirmText = stringResource(id = R.string.delete),
                             dismissText = stringResource(id = R.string.cancel),
                             focusedButton = DialogInterface.BUTTON_POSITIVE,
-                            onDismiss = viewModel::onDismissDeleteCustomDnsDialog,
+                            onDismissRequest = viewModel::onDismissDeleteCustomDnsDialog,
                             onConfirm = {
                                 viewModel.onDeleteCustomDns(
                                     selectedCustomDns = TvSettingsCustomDnsViewModel.SelectedCustomDns(

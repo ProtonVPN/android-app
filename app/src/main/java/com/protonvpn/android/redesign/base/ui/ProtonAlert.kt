@@ -49,8 +49,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.protonvpn.android.R
@@ -79,7 +78,7 @@ private fun Modifier.wideDialog() : Modifier = this.widthIn(max = WIDE_DIALOG_WI
 fun ProtonAlert(
     title: String?,
     @DrawableRes detailsImage: Int? = null,
-    text: String,
+    text: CharSequence,
     textColor: Color = ProtonTheme.colors.textNorm,
     confirmLabel: String,
     onConfirm: (checkBoxValue: Boolean) -> Unit,
@@ -115,11 +114,12 @@ fun ProtonAlert(
                             .clip(RoundedCornerShape(16.dp))
                     )
                 }
-                Text(
-                    text = text,
-                    style = ProtonTheme.typography.body2Regular,
-                    color = textColor
-                )
+                val textStyle = ProtonTheme.typography.body2Regular
+                if (text is AnnotatedString) {
+                    Text(text, style = textStyle, color = textColor)
+                } else {
+                    Text(text.toString(), style = textStyle, color = textColor)
+                }
                 if (checkBox != null) {
                     Spacer(modifier = Modifier.height(20.dp))
                     ProtonDialogCheckbox(
