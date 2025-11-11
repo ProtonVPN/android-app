@@ -350,6 +350,7 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
         showDebugTools = false,
         theme = theme,
         isRedesignedBugReportFeatureFlagEnabled = true,
+        showSingInOnAnotherDeviceQr = true,
     )
 
     val credentiallessAccountViewState =

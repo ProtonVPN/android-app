@@ -300,7 +300,8 @@ fun SettingsView(
                 onAccountClick = onAccountClick,
                 onSignUpClick = onSignUpClick,
                 onSignInClick = onSignInClick,
-                onSignOutClick = onSignOutClick
+                onSignOutClick = onSignOutClick,
+                showSingInOnAnotherDeviceQr = viewState.showSingInOnAnotherDeviceQr
             )
             FeatureCategory(
                 viewState = viewState,
@@ -514,6 +515,7 @@ private fun ColumnScope.FeatureCategory(
 private fun ColumnScope.AccountCategory(
     modifier: Modifier = Modifier,
     state: AccountSettingsViewState,
+    showSingInOnAnotherDeviceQr: Boolean,
     onAccountClick: () -> Unit,
     onSignUpClick: () -> Unit,
     onSignInClick: () -> Unit,
@@ -532,15 +534,17 @@ private fun ColumnScope.AccountCategory(
             initialCount = 1,
             state = state
         )
-        SignInToAnotherDeviceItem(
-            content = { label, onLogOut ->
-                SettingRowWithIcon(
-                    icon = CoreR.drawable.ic_proton_qr_code,
-                    title = label,
-                    onClick = onLogOut
-                )
-            }
-        )
+        if (showSingInOnAnotherDeviceQr) {
+            SignInToAnotherDeviceItem(
+                content = { label, onLogOut ->
+                    SettingRowWithIcon(
+                        icon = CoreR.drawable.ic_proton_qr_code,
+                        title = label,
+                        onClick = onLogOut
+                    )
+                }
+            )
+        }
     }
 }
 
@@ -809,6 +813,7 @@ fun AccountCategoryLoggedInPreview() {
                 onSignUpClick = { },
                 onSignInClick = { },
                 onSignOutClick = { },
+                showSingInOnAnotherDeviceQr = true
             )
         }
     }
@@ -825,6 +830,7 @@ fun AccountCategoryCredentialLessPreview() {
                 onSignUpClick = { },
                 onSignInClick = { },
                 onSignOutClick = { },
+                showSingInOnAnotherDeviceQr = true
             )
         }
     }
