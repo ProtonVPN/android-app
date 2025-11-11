@@ -35,6 +35,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -53,10 +54,13 @@ import com.protonvpn.android.managed.ui.AutoLoginErrorView
 import com.protonvpn.android.managed.ui.AutoLoginView
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
+import com.protonvpn.android.redesign.reports.ui.BugReportActivity
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
+import com.protonvpn.android.ui.drawer.LogActivity
+import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
@@ -183,8 +187,23 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
                     AccountViewModel.State.AutoLoginInProgress ->
                         AutoLoginView()
-                    is AccountViewModel.State.AutoLoginError ->
-                        AutoLoginErrorView(state.e.message, activityViewModel::retryAutoLogin)
+                    is AccountViewModel.State.AutoLoginError -> {
+                        val context = LocalContext.current
+                        AutoLoginErrorView(
+                            state.e.message,
+                            onRetry = activityViewModel::retryAutoLogin,
+                            onReportIssue = {
+                                if (state.showRedesignedBugReport) {
+                                    context.startActivity(Intent(context, BugReportActivity::class.java))
+                                } else {
+                                    context.startActivity(Intent(context, DynamicReportActivity::class.java))
+                                }
+                            },
+                            onShowLog = {
+                                context.startActivity(Intent(context, LogActivity::class.java))
+                            }
+                        )
+                    }
 
                     AccountViewModel.State.Ready -> {
                         val showSignOutDialog = rememberSaveable { mutableStateOf(false) }

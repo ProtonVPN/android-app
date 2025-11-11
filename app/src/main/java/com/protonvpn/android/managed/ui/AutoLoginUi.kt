@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -34,10 +35,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.ProtonSolidButton
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.VpnOutlinedButton
+import com.protonvpn.android.base.ui.VpnSolidButton
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallNorm
+import me.proton.core.compose.theme.headlineNorm
 import me.proton.core.compose.theme.headlineSmallNorm
 
 @Composable
@@ -62,32 +65,57 @@ fun AutoLoginView() {
 }
 
 @Composable
-fun AutoLoginErrorView(message: String?, onRetry: () -> Unit) {
-    Box(
+fun AutoLoginErrorView(
+    message: String?,
+    onRetry: () -> Unit,
+    onReportIssue: () -> Unit,
+    onShowLog: () -> Unit
+) {
+    Column(
         modifier = Modifier
             .fillMaxSize()
+            .navigationBarsPadding()
             .padding(16.dp),
-        contentAlignment = Alignment.Center
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+        Box(
+            modifier = Modifier.weight(1f),
+            contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = stringResource(id = R.string.auto_login_error_title),
-                style = ProtonTheme.typography.headlineSmallNorm
-            )
-            message?.let {
-                Spacer(modifier = Modifier.height(4.dp))
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(
-                    text = message,
-                    style = ProtonTheme.typography.defaultSmallNorm,
+                    text = stringResource(id = R.string.auto_login_error_title),
+                    style = ProtonTheme.typography.headlineNorm,
                     textAlign = TextAlign.Center
                 )
+                message?.let {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = message,
+                        style = ProtonTheme.typography.defaultSmallNorm,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
-            Spacer(modifier = Modifier.height(24.dp))
-            ProtonSolidButton(onClick = onRetry) {
-                Text(text = stringResource(id = R.string.retry))
-            }
+        }
+
+        Column {
+            VpnSolidButton(
+                text = stringResource(id = R.string.retry),
+                onClick = onRetry,
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            VpnOutlinedButton(
+                text = stringResource(id = R.string.settings_report_issue_title),
+                onClick = onReportIssue,
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            VpnOutlinedButton(
+                stringResource(R.string.settings_debug_logs_title),
+                onClick = onShowLog,
+            )
         }
     }
 }
@@ -104,6 +132,11 @@ fun PreviewAutoLoginView() {
 @Composable
 fun PreviewAutoLoginErrorView() {
     ProtonVpnPreview {
-        AutoLoginErrorView("Error message") {}
+        AutoLoginErrorView(
+            message = "Error message",
+            onRetry = {},
+            onReportIssue = {},
+            onShowLog = {}
+        )
     }
 }
