@@ -226,13 +226,13 @@ class BugReportViewModel @Inject constructor(
 
     fun onFormFieldChanged(field: InputField, newValue: String) {
         bugReportFormFlow.update { currentForm ->
+            val updatedInput = field.submitLabel to field.toFormInput(
+                value = newValue,
+                isError = false,
+            )
+
             currentForm.copy(
-                reportInputs = currentForm.reportInputs.toMutableMap().apply {
-                    this[field.submitLabel] = field.toFormInput(
-                        value = newValue,
-                        isError = false,
-                    )
-                }
+                reportInputs = currentForm.reportInputs + updatedInput
             )
         }
     }

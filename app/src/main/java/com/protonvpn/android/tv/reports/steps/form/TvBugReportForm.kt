@@ -128,10 +128,10 @@ fun TvBugReportForm(
                         TvOutlinedTextField(
                             modifier = Modifier.fillMaxWidth(),
                             value = singleLineValue,
-                            onValueChange = { newSingleLIneValue ->
-                                singleLineValue = newSingleLIneValue
+                            onValueChange = { newSingleLineValue ->
+                                singleLineValue = newSingleLineValue
 
-                                onFormFieldChanged(inputField, newSingleLIneValue.text)
+                                onFormFieldChanged(inputField, newSingleLineValue.text)
                             },
                             labelText = labelText,
                             placeholderText = placeholderText,
