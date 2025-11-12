@@ -21,13 +21,15 @@ package com.protonvpn.testSuites
 import com.protonvpn.tests.connection.tv.ConnectionTestsMocked
 import com.protonvpn.tests.login.tv.LoginTestsMocked
 import com.protonvpn.tests.login.tv.LogoutTestsMocked
+import com.protonvpn.tests.reports.tv.TvBugReportTestsMocked
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
-        LoginTestsMocked::class,
-        LogoutTestsMocked::class,
-        ConnectionTestsMocked::class
+    LoginTestsMocked::class,
+    LogoutTestsMocked::class,
+    ConnectionTestsMocked::class,
+    TvBugReportTestsMocked::class,
 )
 class TvSuite

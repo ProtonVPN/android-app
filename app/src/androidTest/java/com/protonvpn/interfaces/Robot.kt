@@ -21,9 +21,12 @@
 
 package com.protonvpn.interfaces
 
+import android.app.Activity
+import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.compose.ui.test.SemanticsNodeInteraction
-import me.proton.core.test.android.robots.CoreRobot
+import androidx.core.view.WindowInsetsCompat
+import me.proton.core.test.android.instrumented.utils.waitUntil
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.wrappers.ComposeInteraction
 import me.proton.test.fusion.ui.compose.wrappers.NodeActions
@@ -45,3 +48,13 @@ interface Robot {
 }
 
 fun <T : Robot> T.verify(block: T.() -> Unit): T = apply { block() }
+
+fun <T : Robot> T.waitUntilKeyboardVisibility(activity: Activity, isVisible: Boolean): T {
+    waitUntil {
+        val rootView = activity.window.decorView as ViewGroup
+        val insets = WindowInsetsCompat.toWindowInsetsCompat(rootView.rootWindowInsets, rootView)
+        return@waitUntil insets.isVisible(WindowInsetsCompat.Type.ime()) == isVisible
+    }
+
+    return this
+}

@@ -5,7 +5,7 @@ import com.protonvpn.tests.login.mobile.LoginTestsBlack
 import com.protonvpn.tests.login.mobile.LoginCredentialessTestsCoreBlack
 import com.protonvpn.tests.login.mobile.LoginSsoTestsCoreBlack
 import com.protonvpn.tests.login.mobile.TwoPassTestsBlack
-import com.protonvpn.tests.reports.BugReportTestsBlack
+import com.protonvpn.tests.reports.mobile.BugReportTestsBlack
 import com.protonvpn.tests.signup.SignupTests
 import org.junit.runner.RunWith
 import org.junit.runners.Suite

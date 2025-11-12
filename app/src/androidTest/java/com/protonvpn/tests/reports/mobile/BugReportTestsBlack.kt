@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.tests.reports
+package com.protonvpn.tests.reports.mobile
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.protonvpn.android.models.config.bugreport.Category
@@ -27,44 +27,39 @@ import com.protonvpn.android.utils.FileUtils
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.interfaces.verify
 import com.protonvpn.robots.mobile.RedesignBugReportRobot
+import com.protonvpn.testRules.AppConfigRefreshTestRule
 import com.protonvpn.testRules.CommonRuleChains.realBackendRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.builtins.ListSerializer
 import me.proton.test.fusion.FusionConfig
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
+import kotlin.collections.orEmpty
 
 @HiltAndroidTest
 class BugReportTestsBlack {
-
-    private lateinit var categories: List<Category>
 
     private val activityComposeRule = createAndroidComposeRule<BugReportActivity>()
         .also(FusionConfig.Compose.testRule::set)
 
     @get:Rule
     val ruleChain: RuleChain = realBackendRule()
+        .around(AppConfigRefreshTestRule())
         .around(activityComposeRule)
+
+    private lateinit var categories: List<Category>
 
     @Before
     fun setUp() {
-        categories = runBlocking {
-            Storage.load<DynamicReportModel>(DynamicReportModel::class.java) {
-                DynamicReportModel(
-                    categories = FileUtils.getObjectFromAssets(
-                        serializer = ListSerializer(elementSerializer = Category.serializer()),
-                        jsonAssetPath = "defaultbugreport.json",
-                    )
-                )
-            }.categories
-        }
+        categories = Storage.load(DynamicReportModel::class.java)
+            ?.categories
+            .orEmpty()
     }
 
     @Test
-    fun sendBugReportSuccessfully_whenCategoryHasSuggestions() {
+    fun sendBugReportSuccess_whenCategoryHasSuggestions() {
         val category = categories.first()
 
         RedesignBugReportRobot
@@ -76,7 +71,7 @@ class BugReportTestsBlack {
     }
 
     @Test
-    fun sendBugReportSuccessfully_whenCategoryHasNoSuggestions() {
+    fun sendBugReportSuccess_whenCategoryHasNoSuggestions() {
         val category = categories.last()
 
         RedesignBugReportRobot

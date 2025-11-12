@@ -59,12 +59,15 @@ object RedesignBugReportRobot : Robot {
         category: Category,
         email: String = "test@email.com",
     ): RedesignBugReportRobot {
+        val reportForm = node.withTag(tag = "BugReportForm")
+
         node.withText(textId = R.string.report_bug_email_label)
             .replaceText(text = email)
 
         category.inputFields.forEachIndexed { index, inputField ->
+            reportForm.scrollToIndex(index = index)
+
             node.withText(text = inputField.label)
-                .scrollTo()
                 .replaceText(text = "${category.label} $index")
         }
 

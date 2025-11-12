@@ -93,9 +93,15 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <!-- adjustResize seems to behave different for different TV versions.-->
+        <!--    - Sometimes it's just ignored, so the keyboard overlaps the TextField and user cannot see what the input is-->
+        <!--    - Sometimes applies the resize but breaks the scroll behavior, so again the user cannot see what the input is-->
+        <!-- By applying adjustPan, even if it's not so beautiful the black pan at the bottom, we ensured that correctly -->
+        <!-- behaves on all TV versions that we tried.-->
         <activity
             android:name=".tv.reports.TvBugReportActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".tv.settings.autoconnect.TvSettingsAutoConnectActivity" />
         <activity
