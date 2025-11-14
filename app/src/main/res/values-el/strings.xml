@@ -1572,4 +1572,9 @@
     <string name="no_connections_action_sign_out">Αποσύνδεση</string>
     <string name="no_connections_help_contact_us"><![CDATA[Χρειάζεστε βοήθεια; <a href="">Επικοινωνήστε μαζί μας</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Εάν ο διαχειριστής σας χρειάζεται βοήθεια με την ενεργοποίηση της πρόσβασης VPN, στείλτε του <a href="">αυτές τις οδηγίες</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Ενεργοποίηση OpenVPN;</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Αυτό το πρωτόκολλο θα καταργηθεί σύντομα, καθώς εστιάζουμε σε ταχύτερες και ασφαλέστερες τεχνολογίες. Σας συνιστούμε να μεταβείτε στο Smart Protocol. <a href="proton.me">Μάθετε περισσότερα</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Αυτό το πρωτόκολλο θα καταργηθεί σύντομα, καθώς εστιάζουμε σε ταχύτερες και ασφαλέστερες τεχνολογίες. Σας συνιστούμε να μεταβείτε στο Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Συνέχεια με OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ενεργοποίηση Smart protocol</string>
 </resources>

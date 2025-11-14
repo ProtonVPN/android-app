@@ -1572,4 +1572,9 @@
     <string name="no_connections_action_sign_out">Uitloggen</string>
     <string name="no_connections_help_contact_us"><![CDATA[Hulp nodig? <a href="">Neem contact met ons op</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Als uw beheerder hulp nodig heeft bij het inschakelen van VPN-toegang, stuur hen dan <a href="">deze instructies</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">OpenVPN inschakelen?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Dit protocol zal spoedig worden verwijderd aangezien we ons richten op snellere en veiligere technologieën. Wij raden u aan over te schakelen op Smart Protocol. <a href="proton.me">Meer informatie</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Dit protocol zal spoedig worden verwijderd aangezien wij ons richten op snellere en veiligere technologieën. Wij raden u aan om over te schakelen naar Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Ga verder met OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Schakel Smart-protocol in</string>
 </resources>

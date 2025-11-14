@@ -1572,4 +1572,9 @@
     <string name="no_connections_action_sign_out">Tanca la sessió</string>
     <string name="no_connections_help_contact_us"><![CDATA[Necessiteu ajuda? <a href="">Contacteu amb nosaltres</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Si el vostre administrador necessita ajuda per habilitar l\'accés a la VPN, envieu-li <a href="">aquestes instruccions</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Voleu habilitar OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Aquest protocol s\'eliminarà aviat, ja que ens centrem en tecnologies més ràpides i segures. Us recomanem canviar a Smart Protocol. <a href="proton.me">Saber-ne més</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Aquest protocol s\'eliminarà aviat, ja que ens centrem en tecnologies més ràpides i segures. Us recomanem canviar a Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continueu amb OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Habiliteu el protocol Smart</string>
 </resources>

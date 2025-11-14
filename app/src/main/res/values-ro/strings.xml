@@ -1608,4 +1608,9 @@
     <string name="no_connections_action_sign_out">Deconectare</string>
     <string name="no_connections_help_contact_us"><![CDATA[Aveți nevoie de ajutor? <a href="">Contactați-ne</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Dacă administratorul are nevoie de ajutor cu activarea accesului VPN, trimiteți-i <a href="">aceste instrucțiuni</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Activați OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Acest protocol va fi eliminat în curând, deoarece ne concentrăm pe tehnologii mai rapide și mai sigure. Vă recomandăm să treceți la Smart Protocol. <a href="proton.me">Detalii</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Acest protocol va fi eliminat în curând, deoarece ne concentrăm pe tehnologii mai rapide și mai sigure. Vă recomandăm să treceți la Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continuare cu OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Activare Smart Protocol</string>
 </resources>

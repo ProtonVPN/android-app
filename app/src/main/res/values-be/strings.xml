@@ -1644,4 +1644,9 @@
     <string name="no_connections_action_sign_out">Выйсці з уліковага запісу</string>
     <string name="no_connections_help_contact_us"><![CDATA[Патрэбна дапамога? <a href="">Звяжыцеся з намі</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Адпраўце свайму адміністратару <a href="">гэтыя інструкцыі</a>, калі яму патрэбна дапамога з уключэннем доступу па VPN.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Уключыць OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Гэты пратакол неўзабаве будзе выдалены, бо ў цяперашні час аддаецца перавага больш хуткім і бяспечным тэхналогіям. Рэкамендуецца пераключыцца на Smart Protocol. <a href="proton.me">Даведацца больш</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Гэты пратакол неўзабаве будзе выдалены, бо ў цяперашні час аддаецца перавага больш хуткім і бяспечным тэхналогіям. Рэкамендуецца пераключыцца на Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Працягнуць з OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Уключыць пратакол Smart</string>
 </resources>

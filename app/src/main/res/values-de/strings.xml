@@ -1572,4 +1572,9 @@
     <string name="no_connections_action_sign_out">Abmelden</string>
     <string name="no_connections_help_contact_us"><![CDATA[Hilfe gewünscht? <a href="">Kontaktieren Sie uns</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Wenn dein Administrator Hilfe bei der Aktivierung des VPN-Zugangs benötigt, sende ihm bitte <a href="">diese Anleitung</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">OpenVPN aktivieren?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Dieses Protokoll wird in Kürze entfernt, da auf eine schnellere und sicherere Technologie umgestellt wird. Es wird empfohlen, auf das Smart-Protokoll umzusteigen. <a href="proton.me">Weitere Informationen</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Dieses Protokoll wird in Kürze entfernt, da auf eine schnellere und sicherere Technologie umgestellt wird. Es wird empfohlen, auf das Smart-Protokoll umzusteigen.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Mit OpenVPN fortfahren</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart Protocol aktivieren</string>
 </resources>

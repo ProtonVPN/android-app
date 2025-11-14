@@ -1644,4 +1644,9 @@
     <string name="no_connections_action_sign_out">Wyloguj</string>
     <string name="no_connections_help_contact_us"><![CDATA[Potrzebujesz pomocy? <a href="">Skontaktuj się z nami</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Jeśli Twój administrator potrzebuje pomocy dotyczącej włączenia dostępu do usługi VPN, wyślij mu <a href="">te instrukcje</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
 </resources>

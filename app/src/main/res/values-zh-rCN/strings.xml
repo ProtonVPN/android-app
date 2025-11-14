@@ -1536,4 +1536,9 @@
     <string name="no_connections_action_sign_out">登出</string>
     <string name="no_connections_help_contact_us"><![CDATA[有问题吗？<a href="">联系我们</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[需要的话，把<a href="">操作说明</a>发给管理员，帮管理员开启 VPN 权限。]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
 </resources>

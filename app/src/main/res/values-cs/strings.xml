@@ -1644,4 +1644,9 @@
     <string name="no_connections_action_sign_out">Odhlásit se</string>
     <string name="no_connections_help_contact_us"><![CDATA[Potřebujete pomoc? <a href="">Kontaktujte nás</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Pokud váš administrátor potřebuje pomoc s povolením přístupu VPN, odešlete mu <a href="">tyto instrukce</a>]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Zapnout OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Tento protokol bude brzy odebrán, protože se zaměřujeme na rychlejší a bezpečnější technologie. Doporučujeme přejít na Smart Protocol. <a href="proton.me">Více informací</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Tento protokol bude brzy odebrán, protože se zaměřujeme na rychlejší a bezpečnější technologie. Doporučujeme přejít na Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Pokračovat s OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Zapnout Smart Protocol</string>
 </resources>

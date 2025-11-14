@@ -1536,4 +1536,9 @@
     <string name="no_connections_action_sign_out">Keluar</string>
     <string name="no_connections_help_contact_us"><![CDATA[Butuh bantuan? <a href="">Hubungi kami</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Apabila administrator Anda memerlukan bantuan untuk mengaktifkan akses VPN, kirimkan <a href="">instruksi ini</a> kepada mereka.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Aktifkan OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Protokol ini akan segera dihapus seiring dengan fokus kami terhadap teknologi yang lebih cepat dan amain. Kami menyarankan Anda untuk beralih ke protokol Smart. <a href="proton.me">Pelajari lebih lanjut</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Protokol ini akan segera dihapus seiring dengan fokus kami terhadap teknologi yang lebih cepat dan amain. Kami menyarankan Anda untuk beralih ke protokol Smart.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Lanjut dengan OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Aktifkan protokol Smart</string>
 </resources>

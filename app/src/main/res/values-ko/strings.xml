@@ -1538,4 +1538,9 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="no_connections_action_sign_out">로그아웃</string>
     <string name="no_connections_help_contact_us"><![CDATA[도움이 필요하세요? <a href="">문의해 주세요</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[귀하의 관리자가 VPN 접근 활성화에 도움이 필요하다면, <a href="">이 지침</a>을 보내십시오.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
 </resources>
