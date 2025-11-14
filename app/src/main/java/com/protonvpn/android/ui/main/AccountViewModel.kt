@@ -151,6 +151,9 @@ class AccountViewModel @Inject constructor(
         autoLoginManager.state.flatMapLatest { autoLoginState ->
             when (autoLoginState) {
                 AutoLoginState.Ongoing -> flowOf(State.AutoLoginInProgress)
+                AutoLoginState.PartiallyLoggedIn ->
+                    // Display regular UI, it will handle any errors related to /vpn/v2
+                    flowOf(State.Ready)
                 AutoLoginState.Success -> flowOf(State.Ready)
                 is AutoLoginState.Error -> flowOf(
                     State.AutoLoginError(

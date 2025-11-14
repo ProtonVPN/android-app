@@ -34,6 +34,7 @@ import com.protonvpn.android.managed.usecase.AutoLogin
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -96,7 +97,8 @@ class AutoLoginManagerTests {
             if (managedConfig.username !in setOf("user", "new_user") || managedConfig.password != "pass") {
                 Result.failure(BadCredentials)
             } else {
-                testCurrentUserProvider.set(null, createAccountUser(UserId("userId"), name = managedConfig.username))
+                val vpnUser = TestUser.plusUser.vpnUser.copy(autoLoginName = managedConfig.username)
+                testCurrentUserProvider.set(vpnUser, createAccountUser(vpnUser.userId))
                 Result.success(UserId("123"))
             }
         }
@@ -187,7 +189,7 @@ class AutoLoginManagerTests {
         advanceTimeBy(501)
         assertTrue(isLoggedIn)
         assertEquals(AutoLoginState.Success, manager.state.first())
-        assertEquals("new_user", testCurrentUserProvider.user?.name)
+        assertEquals("new_user", testCurrentUserProvider.vpnUser?.autoLoginName)
     }
 }
 

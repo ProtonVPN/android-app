@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.managed.usecase
 
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.managed.AutoLoginConfig
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import me.proton.core.account.domain.entity.AccountType
@@ -32,6 +34,8 @@ import javax.inject.Inject
 interface AutoLogin {
     suspend fun execute(config: AutoLoginConfig): Result<UserId>
 }
+
+class AutoLoginException(message: String? = null) : Exception(message)
 
 class AutoLoginImpl @Inject constructor(
     private val createLoginSession: CreateLoginSession,
@@ -52,10 +56,19 @@ class AutoLoginImpl @Inject constructor(
             isTwoPassModeNeeded = sessionInfo.isTwoPassModeNeeded,
             temporaryPassword = sessionInfo.temporaryPassword
         )
-        check(result is PostLoginAccountSetup.Result.AccountReady) {
-            "Unexpected login result: $result"
+        when (result) {
+            is PostLoginAccountSetup.Result.AccountReady ->
+                Result.success(sessionInfo.userId)
+            is PostLoginAccountSetup.Result.Error.UserCheckError ->
+                Result.failure(AutoLoginException(result.error.localizedMessage))
+            else -> {
+                ProtonLogger.logCustom(
+                    LogCategory.MANAGED_CONFIG,
+                    "Unexpected post login result: $result",
+                )
+                Result.failure(AutoLoginException())
+            }
         }
-        Result.success(sessionInfo.userId)
     }.runCatchingCheckedExceptions {
         Result.failure(it)
     }

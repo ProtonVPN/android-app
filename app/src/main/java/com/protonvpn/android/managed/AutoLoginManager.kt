@@ -22,6 +22,7 @@ package com.protonvpn.android.managed
 import android.content.Intent
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.logging.LogCategory
@@ -48,6 +49,7 @@ import javax.inject.Singleton
 sealed class AutoLoginState {
     data object Disabled : AutoLoginState()
     data object Ongoing : AutoLoginState()
+    data object PartiallyLoggedIn : AutoLoginState() // Has User but not VpnUser yet.
     data object Success : AutoLoginState()
     data class Error(val e: Throwable) : AutoLoginState()
 }
@@ -89,11 +91,16 @@ class AutoLoginManager @Inject constructor(
                         _state.value = AutoLoginState.Disabled
                     } else {
                         currentUser.partialJointUserFlow.collect { (user, vpnUser, _) ->
-                            if (user != null && user.name == config.username) {
-                                _state.value = AutoLoginState.Success
-                            } else {
-                                // This will trigger re-login if user is logged out.
-                                login(user, config)
+                            when {
+                                vpnUser != null && vpnUser.autoLoginName == config.username ->
+                                    _state.value = AutoLoginState.Success
+                                vpnUser != null && vpnUser.autoLoginName != config.username ->
+                                    // This will trigger re-login if user is logged out.
+                                    login(vpnUser, config)
+                                user != null ->
+                                    _state.value = AutoLoginState.PartiallyLoggedIn
+                                else ->
+                                    login(null, config)
                             }
                         }
                     }
@@ -101,7 +108,7 @@ class AutoLoginManager @Inject constructor(
         }
     }
 
-    private fun login(loggedInUser: User?, config: AutoLoginConfig) : Job {
+    private fun login(loggedInUser: VpnUser?, config: AutoLoginConfig) : Job {
         val oldLogin = ongoingLogin
         ProtonLogger.logCustom(LogCategory.MANAGED_CONFIG, "Initiating auto-login (replacing ongoing = ${oldLogin != null})")
         val job = mainScope.launch {
@@ -144,7 +151,7 @@ class AutoLoginManager @Inject constructor(
             if (config == null)
                 _state.value = AutoLoginState.Disabled
             else
-                login(currentUser.user(), config)
+                login(currentUser.vpnUser(), config)
         }
     }
 }

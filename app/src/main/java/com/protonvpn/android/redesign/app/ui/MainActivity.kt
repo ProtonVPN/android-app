@@ -190,7 +190,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                     is AccountViewModel.State.AutoLoginError -> {
                         val context = LocalContext.current
                         AutoLoginErrorView(
-                            state.e.message,
+                            state.e.message ?: stringResource(R.string.something_went_wrong),
                             onRetry = activityViewModel::retryAutoLogin,
                             onReportIssue = {
                                 if (state.showRedesignedBugReport) {
