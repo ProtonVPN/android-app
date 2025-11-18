@@ -585,6 +585,7 @@
     <string name="dynamic_report_tips_description">Ces conseils peuvent vous aider à résoudre votre problème plus rapidement.</string>
     <string name="dynamic_report_tips_title">Solutions rapides</string>
     <string name="dynamic_report_logs_title">Envoyer les journaux d\'erreurs</string>
+    <string name="dynamic_report_logs_tooltip">Les journaux d\'erreurs nous indiquent ce qui n\'a pas fonctionné et les actions qui ont conduit au problème. Nous les utiliserons uniquement pour aider nos ingénieurs à résoudre les problèmes.</string>
     <string name="dynamic_report_success_title">Merci pour vos commentaires</string>
     <string name="dynamic_report_success_description">Nous vous répondrons dès que possible.</string>
     <string name="dynamic_report_field_mandatory">Ce champ est obligatoire.</string>

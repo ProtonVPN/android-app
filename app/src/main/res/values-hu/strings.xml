@@ -585,6 +585,7 @@
     <string name="dynamic_report_tips_description">Ezek a tippek segíthetnek problémája gyorsabban megoldásában.</string>
     <string name="dynamic_report_tips_title">Gyors javítások</string>
     <string name="dynamic_report_logs_title">Hibanapló beküldése</string>
+    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
     <string name="dynamic_report_success_title">Köszönjük a visszajelzést</string>
     <string name="dynamic_report_success_description">Felvesszük önnel a kapcsolatot, amint csak lehet.</string>
     <string name="dynamic_report_field_mandatory">Ez a mező kötelező</string>

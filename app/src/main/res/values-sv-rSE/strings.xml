@@ -585,6 +585,7 @@
     <string name="dynamic_report_tips_description">Dessa tips kan hjälpa dig att lösa ditt problem snabbare.</string>
     <string name="dynamic_report_tips_title">Snabba åtgärder</string>
     <string name="dynamic_report_logs_title">Skicka felloggar</string>
+    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
     <string name="dynamic_report_success_title">Tack för din feedback</string>
     <string name="dynamic_report_success_description">Vi återkommer till dig så snart vi kan.</string>
     <string name="dynamic_report_field_mandatory">Detta fält är obligatoriskt</string>

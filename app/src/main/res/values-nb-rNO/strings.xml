@@ -585,6 +585,7 @@
     <string name="dynamic_report_tips_description">Disse tipsene kan bidra til å løse problemet raskere.</string>
     <string name="dynamic_report_tips_title">Hurtigløsninger</string>
     <string name="dynamic_report_logs_title">Send feillogger</string>
+    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
     <string name="dynamic_report_success_title">Takk for tilbakemeldingen din</string>
     <string name="dynamic_report_success_description">Vi kommer tilbake til deg så snart vi kan.</string>
     <string name="dynamic_report_field_mandatory">Dette feltet er obligatorisk</string>
@@ -1572,9 +1573,9 @@
     <string name="no_connections_action_sign_out">Logg av</string>
     <string name="no_connections_help_contact_us"><![CDATA[Trenger du hjelp? <a href="">Kontakt oss</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Hvis administratoren din trenger hjelp med å aktivere VPN-tilgang, sende dem <a href="">disse instruksjonene</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Aktivere OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Denne protokollen vil bli fjernet snart da vi fokuserer på raskere og sikrere teknologier. Vi anbefaler å bytte til Smart Protocol. <a href="proton.me">Lær mer</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Denne protokollen vil bli fjernet snart ettersom vi fokuserer på raskere og sikrere teknologier. Vi anbefaler å bytte til Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Fortsett med OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Aktiver Smart Protocol</string>
 </resources>

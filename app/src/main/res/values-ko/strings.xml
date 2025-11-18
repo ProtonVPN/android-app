@@ -570,6 +570,7 @@
     <string name="dynamic_report_tips_description">이 팁들이 문제를 더 빨리 해결하는데 도움이 될 수 있습니다.</string>
     <string name="dynamic_report_tips_title">빠른 수정</string>
     <string name="dynamic_report_logs_title">오류 로그 보내기</string>
+    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
     <string name="dynamic_report_success_title">피드백 주셔서 감사합니다</string>
     <string name="dynamic_report_success_description">가능한 빨리 다시 뵙겠습니다.</string>
     <string name="dynamic_report_field_mandatory">필수 항목</string>

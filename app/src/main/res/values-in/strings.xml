@@ -569,6 +569,7 @@
     <string name="dynamic_report_tips_description">Tips berikut dapat membantu menyelesaikan masalah Anda dengan lebih cepat.</string>
     <string name="dynamic_report_tips_title">Solusi kilat</string>
     <string name="dynamic_report_logs_title">Kirimkan log error</string>
+    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
     <string name="dynamic_report_success_title">Terima kasih atas tanggapan Anda</string>
     <string name="dynamic_report_success_description">Kami akan kembali menghubungi Anda sesegera mungkin.</string>
     <string name="dynamic_report_field_mandatory">Kolom ini wajib diisi</string>

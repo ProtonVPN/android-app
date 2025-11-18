@@ -585,6 +585,7 @@
     <string name="dynamic_report_tips_description">این راه‌کارها می‌توانند به حل سریع‌تر مشکل شما کمک کنند.</string>
     <string name="dynamic_report_tips_title">راه‌حل‌های سریع</string>
     <string name="dynamic_report_logs_title">ارسال لاگ‌های خطا</string>
+    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
     <string name="dynamic_report_success_title">از بازخوردتان سپاس‌گزاریم</string>
     <string name="dynamic_report_success_description">در سریع‌ترین زمان ممکن به شما پاسخ خواهیم داد.</string>
     <string name="dynamic_report_field_mandatory">این بخش الزامی است</string>

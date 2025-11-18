@@ -569,6 +569,7 @@
     <string name="dynamic_report_tips_description">這些提示可以更快地協助解決您的問題。</string>
     <string name="dynamic_report_tips_title">快速修復</string>
     <string name="dynamic_report_logs_title">傳送錯誤紀錄檔</string>
+    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
     <string name="dynamic_report_success_title">感謝您的回饋</string>
     <string name="dynamic_report_success_description">我們會盡快回覆您。</string>
     <string name="dynamic_report_field_mandatory">此欄位為必填</string>

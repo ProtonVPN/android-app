@@ -585,6 +585,7 @@
     <string name="dynamic_report_tips_description">ეს მინიშნებები დაგეხმარებათ, თქვენი პრობლემა უსწრაფესად გადაჭრათ.</string>
     <string name="dynamic_report_tips_title">სწრაფი ჩასწორებები</string>
     <string name="dynamic_report_logs_title">შეცდომის ჟურნალის გაგზავნა</string>
+    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
     <string name="dynamic_report_success_title">მადლობა გამოხმაურებისთვის</string>
     <string name="dynamic_report_success_description">დავბრუნდებით, რაც შეიძლება მალე.</string>
     <string name="dynamic_report_field_mandatory">ეს ველი სავალდებულოა</string>

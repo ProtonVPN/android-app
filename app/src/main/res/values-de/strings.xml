@@ -585,6 +585,7 @@
     <string name="dynamic_report_tips_description">Diese Tipps können helfen, dein Problem schneller zu lösen.</string>
     <string name="dynamic_report_tips_title">Lösungsvorschläge</string>
     <string name="dynamic_report_logs_title">Fehlerprotokolle senden</string>
+    <string name="dynamic_report_logs_tooltip">Fehlerprotokolle zeigen uns, welche Probleme aufgetreten sind und welche Aktionen zu diesen Problemen geführt haben. Wir verwenden sie ausschließlich, um unseren Technikern bei der Behebung von Problemen zu helfen.</string>
     <string name="dynamic_report_success_title">Vielen Dank für deine Rückmeldung</string>
     <string name="dynamic_report_success_description">Wir melden uns bei dir so schnell wie möglich.</string>
     <string name="dynamic_report_field_mandatory">Das ist ein Pflichtfeld</string>

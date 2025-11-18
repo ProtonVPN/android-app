@@ -585,6 +585,7 @@
     <string name="dynamic_report_tips_description">Nämä vinkit voivat auttaa ratkaisemaan ongelman nopeammin.</string>
     <string name="dynamic_report_tips_title">Pikaratkaisut</string>
     <string name="dynamic_report_logs_title">Lähetä virhelokit</string>
+    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
     <string name="dynamic_report_success_title">Kiitos palautteestasi</string>
     <string name="dynamic_report_success_description">Palaamme asiaan mahdollisimman pian.</string>
     <string name="dynamic_report_field_mandatory">Kenttä on pakollinen</string>

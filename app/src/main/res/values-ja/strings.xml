@@ -569,6 +569,7 @@
     <string name="dynamic_report_tips_description">これらのヒントは、問題をより早く解決するのに役立ちます。</string>
     <string name="dynamic_report_tips_title">迅速な修正</string>
     <string name="dynamic_report_logs_title">エラーログを送信</string>
+    <string name="dynamic_report_logs_tooltip">エラーログには問題の現象と原因が記録されます。ログの内容は問題を解決する目的のみに使用されます。</string>
     <string name="dynamic_report_success_title">ご意見ありがとうございます</string>
     <string name="dynamic_report_success_description">できるだけ早く連絡いたします。</string>
     <string name="dynamic_report_field_mandatory">この項目は必須です</string>
@@ -1536,9 +1537,9 @@
     <string name="no_connections_action_sign_out">サインアウト</string>
     <string name="no_connections_help_contact_us"><![CDATA[ご不明な点がございましたら、<a href="">お問い合わせください</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[管理者が VPN アクセスを有効にするためにサポートを必要としている場合は、<a href="">こちらの手順</a>を送信してください。]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">OpenVPNを有効にしますか？</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[このプロトコルは、より高速で安全な技術に注力するため、まもなく廃止されます。Smart Protocolへの切り替えをお勧めします。<a href="proton.me">詳細はこちら</a>。]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">本プロトコルは、より高速かつ安全な技術に注力するため、まもなく廃止されます。Smart Protocolへの移行をお勧めします。</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">OpenVPNを続行する</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart protocolを有効にする</string>
 </resources>

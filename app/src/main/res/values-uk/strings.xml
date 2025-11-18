@@ -53,7 +53,7 @@
     <string name="close">Закрити</string>
     <string name="dialogContinue">Продовжити</string>
     <string name="drawerReportProblem">Повідомити про проблему</string>
-    <string name="action_done">Виконано</string>
+    <string name="action_done">Готово</string>
     <string name="action_share">Поділитися</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Обслуговується</string>
@@ -444,7 +444,7 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[Розблокуйте %1$s у %2$s з <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">Отримайте повний захист приватності з Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Розблокуйте всі преміум функції від Proton VPN, Пошти, Календаря, Диска та Pass.</string>
+    <string name="upgrade_unlimited_all_apps_description">Розблокуйте всі преміальні функції Proton VPN, Mail, Календаря, Диска та Pass.</string>
     <string name="upgrade_unlimited_more">Та інші можливості</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Розблокуйте всі країни</string>
     <string name="upgrade_unlimited_vpn_all_features">Всі інші функції VPN Plus</string>
@@ -617,6 +617,7 @@
     <string name="dynamic_report_tips_description">Ці поради можуть допомогти швидше розвʼязати вашу проблему.</string>
     <string name="dynamic_report_tips_title">Швидкі виправлення</string>
     <string name="dynamic_report_logs_title">Надіслати журнали помилок</string>
+    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
     <string name="dynamic_report_success_title">Дякуємо за відгук</string>
     <string name="dynamic_report_success_description">Ми зв\'яжемося з вами, як тільки зможемо.</string>
     <string name="dynamic_report_field_mandatory">Це обов\'язкове поле</string>
@@ -628,9 +629,9 @@
     <string name="dynamic_report_your_issue_headline">У чому проблема?</string>
     <string name="update_screen_title">Оновити Proton VPN</string>
     <string name="update_screen_description">Швидше за все у вас виникли проблеми з застарілою версією Proton VPN.</string>
-    <string name="update_banner_description_settings">Доступна нова версія додатку</string>
+    <string name="update_banner_description_settings">Доступна нова версія програми</string>
     <string name="update_banner_warning_vpn_connected_title">VPN ненадовго від\'єднається</string>
-    <string name="update_banner_warning_vpn_connected_message">Програмі потрібно перезапуститися, щоб завершити оновлення. Ви будете автоматично перепідʼєднані після цього.</string>
+    <string name="update_banner_warning_vpn_connected_message">Необхідно перезапустити програму, щоб завершити оновлення. Після перезапуску з\'єднання автоматично відновиться.</string>
     <string name="dialog_create_account_title">Щоб продовжити, створіть обліковий запис</string>
     <string name="dialog_create_account_action_create">Створити обліковий запис</string>
     <string name="dialog_create_account_action_signin">Увійти</string>
@@ -746,7 +747,7 @@
     <string name="welcome_plus_description">Оцініть додаткові функції приватності, вдосконалену продуктивність і налаштування VPN нового рівня.</string>
     <string name="welcome_plus_feature_security">Розширені функції безпеки</string>
     <string name="welcome_unlimited_title">Вітаємо у Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Ви розблокували всі преміум функції Proton VPN, Mail, Календаря, Диска, Pass та Гаманця — і <b>%1$d&#160;ГБ</b> загального сховища.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Ви розблокували всі преміальні функції Proton VPN, Mail, Календаря, Диска, Pass та Гаманця — і <b>%1$d&#160;ГБ</b> сховища.]]></string>
     <string name="welcome_generic_title">Вітаємо</string>
     <string name="welcome_generic_description">Ви оновили свій тарифний план. Оцініть переваги розширених функцій безпеки й продуктивності нового рівня.</string>
     <!-- Example: Up to 10 devices at once
@@ -1644,9 +1645,9 @@
     <string name="no_connections_action_sign_out">Вийти</string>
     <string name="no_connections_help_contact_us"><![CDATA[Потрібна допомога? <a href="">Зв\'яжіться з нами</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Якщо ваш адміністратор потребує допомоги з увімкненням доступу до VPN, надішліть <a href="">ці інструкції</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Увімкнути OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Цей протокол невдовзі буде вилучено, оскільки ми зосереджуємося на швидших і безпечніших технологіях. Рекомендуємо перейти на Smart Protocol. <a href="proton.me">Докладніше</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Цей протокол невдовзі буде вилучено, оскільки ми зосереджуємося на швидших і безпечніших технологіях. Рекомендуємо перейти на Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Продовжити з OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Увімкнути протокол Smart</string>
 </resources>

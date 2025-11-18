@@ -585,6 +585,7 @@
     <string name="dynamic_report_tips_description">Estos consejos podrían ayudarte a resolver tu problema más rápidamente.</string>
     <string name="dynamic_report_tips_title">Soluciones rápidas</string>
     <string name="dynamic_report_logs_title">Enviar registros de errores</string>
+    <string name="dynamic_report_logs_tooltip">Los registros de errores nos muestran qué ha fallado y qué acciones han provocado el problema. Solo los utilizaremos para ayudar a nuestros ingenieros a solucionar los problemas.</string>
     <string name="dynamic_report_success_title">Gracias por tus comentarios</string>
     <string name="dynamic_report_success_description">Nos pondremos en contacto contigo tan pronto como podamos.</string>
     <string name="dynamic_report_field_mandatory">Este campo es obligatorio</string>
@@ -1572,9 +1573,9 @@
     <string name="no_connections_action_sign_out">Cerrar sesión</string>
     <string name="no_connections_help_contact_us"><![CDATA[¿Necesitas ayuda? <a href="">Contáctanos</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Si tu administrador necesita ayuda para activar el acceso a la VPN, envíale <a href="">estas instrucciones</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">¿Activar OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Este protocolo se eliminará pronto ya que nos centramos en tecnologías más rápidas y seguras. Te recomendamos cambiar a Smart Protocol. <a href="proton.me">Más información</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Este protocolo será eliminado pronto ya que nos enfocamos en tecnologías más rápidas y seguras. Te recomendamos cambiar a Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continuar con OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Activar Smart Protocol</string>
 </resources>

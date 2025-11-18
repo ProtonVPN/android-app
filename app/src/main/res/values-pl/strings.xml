@@ -617,6 +617,7 @@
     <string name="dynamic_report_tips_description">Te wskazówki mogą rozwiązać problem.</string>
     <string name="dynamic_report_tips_title">Szybkie rozwiązania</string>
     <string name="dynamic_report_logs_title">Wyślij logi błędów</string>
+    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
     <string name="dynamic_report_success_title">Dziękujemy za opinię</string>
     <string name="dynamic_report_success_description">Skontaktujemy się z Tobą wkrótce.</string>
     <string name="dynamic_report_field_mandatory">Pole jest wymagane</string>

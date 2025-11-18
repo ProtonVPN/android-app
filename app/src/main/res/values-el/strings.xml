@@ -585,6 +585,7 @@
     <string name="dynamic_report_tips_description">Αυτές οι υποδείξεις μπορεί να βοηθήσουν στην ταχύτερη επίλυση του προβλήματός σας.</string>
     <string name="dynamic_report_tips_title">Πρόχειρες λύσεις</string>
     <string name="dynamic_report_logs_title">Αποστολή καταχωρήσεων σφαλμάτων</string>
+    <string name="dynamic_report_logs_tooltip">Τα αρχεία καταγραφής σφαλμάτων μας δείχνουν τι πήγε στραβά και ποιες ενέργειες οδήγησαν στο πρόβλημα. Θα τα χρησιμοποιήσουμε μόνο για να βοηθήσουμε τους μηχανικούς μας να επιλύσουν ζητήματα.</string>
     <string name="dynamic_report_success_title">Ευχαριστούμε για τα σχόλιά σας</string>
     <string name="dynamic_report_success_description">Θα σας απαντήσουμε αμέσως μόλις μπορέσουμε.</string>
     <string name="dynamic_report_field_mandatory">Αυτό το πεδίο είναι υποχρεωτικό</string>

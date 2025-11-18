@@ -585,6 +585,7 @@
     <string name="dynamic_report_tips_description">Deze tips kunnen helpen om uw probleem sneller op te lossen.</string>
     <string name="dynamic_report_tips_title">Snelle oplossingen</string>
     <string name="dynamic_report_logs_title">Foutmeldingslogboeken verzenden</string>
+    <string name="dynamic_report_logs_tooltip">Foutenlogboeken laten ons zien wat er fout ging en welke acties tot het probleem leidden. We gebruiken ze alleen om onze ingenieurs te helpen om problemen op te lossen.</string>
     <string name="dynamic_report_success_title">Bedankt voor uw feedback</string>
     <string name="dynamic_report_success_description">We laten u zo snel als het kan iets weten.</string>
     <string name="dynamic_report_field_mandatory">Dit veld is verplicht</string>

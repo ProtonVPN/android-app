@@ -617,6 +617,7 @@
     <string name="dynamic_report_tips_description">Tyto tipy by mohly pomoci rychleji vyřešit váš problém.</string>
     <string name="dynamic_report_tips_title">Rychlé opravy</string>
     <string name="dynamic_report_logs_title">Odeslat záznamy o chybách</string>
+    <string name="dynamic_report_logs_tooltip">Protokoly chyb nám ukazují, co se pokazilo a které akce vedly k problému. Používáme je výhradně k tomu, abychom pomohli našim technikům opravit problémy.</string>
     <string name="dynamic_report_success_title">Děkujeme za zpětnou vazbu</string>
     <string name="dynamic_report_success_description">Co nejdříve se vám ozveme.</string>
     <string name="dynamic_report_field_mandatory">Pole je povinné</string>
