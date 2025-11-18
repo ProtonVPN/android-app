@@ -3,6 +3,7 @@ package com.protonvpn.android.telemetry.settings
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.toTelemetry
 import com.protonvpn.android.theme.ThemeType
@@ -130,6 +131,36 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
             )
         }
 
+        put(
+            key = DIMENSION_IS_SPLIT_TUNNELING,
+            value = settings.splitTunneling
+                .isEnabled
+                .toTelemetry(),
+        )
+
+        put(
+            key = DIMENSION_SPLIT_TUNNELING_MODE,
+            value = settings.splitTunneling
+                .mode
+                .getTelemetryName(),
+        )
+
+        put(
+            key = DIMENSION_SPLIT_TUNNELING_APPS_COUNT,
+            value = settings.splitTunneling
+                .currentModeApps()
+                .size
+                .toSplitTunnelingCountBucketString(),
+        )
+
+        put(
+            key = DIMENSION_SPLIT_TUNNELING_IPS_COUNT,
+            value = settings.splitTunneling
+                .currentModeIps()
+                .size
+                .toSplitTunnelingCountBucketString(),
+        )
+
         commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
     }
 
@@ -188,6 +219,20 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
         else -> ">=5"
     }
 
+    private fun SplitTunnelingMode.getTelemetryName() = when (this) {
+        SplitTunnelingMode.EXCLUDE_ONLY -> "exclude"
+        SplitTunnelingMode.INCLUDE_ONLY -> "include"
+    }
+
+    private fun Int.toSplitTunnelingCountBucketString() = when {
+        this == 0 -> "0"
+        this == 1 -> "1"
+        this <= 4 -> "2-4"
+        this <= 9 -> "5-9"
+        this <= 19 -> "10-19"
+        else -> ">=20"
+    }
+
     private companion object {
         private const val DIMENSION_APP_ICON = "app_icon"
         private const val DIMENSION_AUTO_CONNECT_ENABLED = "is_auto_connect_enabled"
@@ -203,6 +248,10 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
         private const val DIMENSION_FIRST_CUSTOM_DNS_ADDRESS_FAMILY = "first_custom_dns_address_family"
         private const val DIMENSION_LAN_MODE = "lan_mode"
         private const val DIMENSION_SERVER_LIST_TRUNCATION_PROTECTED_IDS_COUNT = "server_list_truncation_protected_ids_count"
+        private const val DIMENSION_IS_SPLIT_TUNNELING = "is_split_tunneling_enabled"
+        private const val DIMENSION_SPLIT_TUNNELING_MODE = "split_tunneling_mode"
+        private const val DIMENSION_SPLIT_TUNNELING_APPS_COUNT = "split_tunneling_apps_count"
+        private const val DIMENSION_SPLIT_TUNNELING_IPS_COUNT = "split_tunneling_ips_count"
     }
 
 }
