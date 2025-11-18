@@ -845,7 +845,7 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     // Proton libs
-    implementation "me.proton.vpn:android-vpn-rust:1.0.6"
+    implementation "me.proton.vpn:android-vpn-rust:1.0.7"
     implementation "me.proton.vpn:go-vpn-lib:$govpnlib_version"
     implementation "me.proton.core:domain:$core_version"
     implementation "me.proton.core:network-data:$core_version"
