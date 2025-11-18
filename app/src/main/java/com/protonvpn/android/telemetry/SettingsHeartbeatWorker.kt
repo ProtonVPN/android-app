@@ -22,19 +22,19 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.protonvpn.android.telemetry.settings.SendSettingsTelemetrySnapshot
+import com.protonvpn.android.telemetry.settings.SendSettingsTelemetryHeartbeat
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
 @HiltWorker
-class SettingsSnapshotWorker @AssistedInject constructor(
+class SettingsHeartbeatWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val sendSettingsTelemetrySnapshot: SendSettingsTelemetrySnapshot,
+    private val sendSettingsTelemetryHeartbeat: SendSettingsTelemetryHeartbeat,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        sendSettingsTelemetrySnapshot()
+        sendSettingsTelemetryHeartbeat()
 
         return Result.success()
     }

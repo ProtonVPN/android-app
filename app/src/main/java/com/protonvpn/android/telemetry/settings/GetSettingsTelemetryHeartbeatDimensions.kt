@@ -21,7 +21,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetSettingsTelemetrySnapshotDimensions @Inject constructor(
+class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
     private val appIconManager: AppIconManager,
     private val connectivityMonitor: ConnectivityMonitor,
     private val commonDimensions: CommonDimensions,

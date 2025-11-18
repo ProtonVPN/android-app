@@ -8,10 +8,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SendSettingsTelemetrySnapshot @Inject constructor(
+class SendSettingsTelemetryHeartbeat @Inject constructor(
     private val appInUseMonitor: AppInUseMonitor,
     private val helper: TelemetryFlowHelper,
-    private val getSettingsTelemetrySnapshotDimensions: GetSettingsTelemetrySnapshotDimensions
+    private val getSettingsTelemetryHeartbeatDimensions: GetSettingsTelemetryHeartbeatDimensions
 ) {
 
     operator fun invoke() {
@@ -21,14 +21,14 @@ class SendSettingsTelemetrySnapshot @Inject constructor(
             TelemetryEventData(
                 measurementGroup = EVENT_MEASUREMENT_GROUP,
                 eventName = EVENT_NAME,
-                dimensions = getSettingsTelemetrySnapshotDimensions()
+                dimensions = getSettingsTelemetryHeartbeatDimensions()
             )
         }
     }
 
     private companion object {
         private const val EVENT_MEASUREMENT_GROUP = "vpn.any.settings"
-        private const val EVENT_NAME = "settings_snapshot"
+        private const val EVENT_NAME = "settings_heartbeat"
     }
 
 }

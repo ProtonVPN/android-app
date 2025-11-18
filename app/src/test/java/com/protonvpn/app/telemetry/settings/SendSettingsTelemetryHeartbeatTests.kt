@@ -3,8 +3,8 @@ package com.protonvpn.app.telemetry.settings
 import com.protonvpn.android.components.AppInUseMonitor
 import com.protonvpn.android.telemetry.TelemetryEventData
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
-import com.protonvpn.android.telemetry.settings.SendSettingsTelemetrySnapshot
-import com.protonvpn.android.telemetry.settings.GetSettingsTelemetrySnapshotDimensions
+import com.protonvpn.android.telemetry.settings.SendSettingsTelemetryHeartbeat
+import com.protonvpn.android.telemetry.settings.GetSettingsTelemetryHeartbeatDimensions
 import com.protonvpn.mocks.TestTelemetryReporter
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -26,15 +26,15 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SendSettingsTelemetrySnapshotTests {
+class SendSettingsTelemetryHeartbeatTests {
 
     @MockK
     private lateinit var mockAppInUseMonitor: AppInUseMonitor
 
     @MockK
-    private lateinit var mockGetSettingsTelemetrySnapshotDimensions: GetSettingsTelemetrySnapshotDimensions
+    private lateinit var mockGetSettingsTelemetryHeartbeatDimensions: GetSettingsTelemetryHeartbeatDimensions
 
-    private lateinit var sendSettingsTelemetrySnapshot: SendSettingsTelemetrySnapshot
+    private lateinit var sendSettingsTelemetryHeartbeat: SendSettingsTelemetryHeartbeat
 
     private lateinit var testScope: TestScope
 
@@ -57,10 +57,10 @@ class SendSettingsTelemetrySnapshotTests {
 
         testTelemetryReporter = TestTelemetryReporter()
 
-        sendSettingsTelemetrySnapshot = SendSettingsTelemetrySnapshot(
+        sendSettingsTelemetryHeartbeat = SendSettingsTelemetryHeartbeat(
             appInUseMonitor = mockAppInUseMonitor,
             helper = TelemetryFlowHelper(testScope.backgroundScope, testTelemetryReporter),
-            getSettingsTelemetrySnapshotDimensions = mockGetSettingsTelemetrySnapshotDimensions
+            getSettingsTelemetryHeartbeatDimensions = mockGetSettingsTelemetryHeartbeatDimensions
         )
     }
 
@@ -73,7 +73,7 @@ class SendSettingsTelemetrySnapshotTests {
     fun `GIVEN usage time is not met WHEN sending telemetry THEN no events are sent`() = testScope.runTest {
         every { mockAppInUseMonitor.wasInUseIn(durationMs = wasInUseDurationMs) } returns false
 
-        sendSettingsTelemetrySnapshot()
+        sendSettingsTelemetryHeartbeat()
 
         assertTrue(testTelemetryReporter.collectedEvents.isEmpty())
     }
@@ -84,13 +84,13 @@ class SendSettingsTelemetrySnapshotTests {
         val expectedEventCount = 1
         val expectedEventData = TelemetryEventData(
             measurementGroup = "vpn.any.settings",
-            eventName = "settings_snapshot",
+            eventName = "settings_heartbeat",
             dimensions = dimensions,
         )
         every { mockAppInUseMonitor.wasInUseIn(durationMs = wasInUseDurationMs) } returns true
-        coEvery { mockGetSettingsTelemetrySnapshotDimensions.invoke() } returns dimensions
+        coEvery { mockGetSettingsTelemetryHeartbeatDimensions.invoke() } returns dimensions
 
-        sendSettingsTelemetrySnapshot()
+        sendSettingsTelemetryHeartbeat()
 
         assertEquals(expectedEventCount, testTelemetryReporter.collectedEvents.size)
         assertEquals(expectedEventData, testTelemetryReporter.collectedEvents.first())
