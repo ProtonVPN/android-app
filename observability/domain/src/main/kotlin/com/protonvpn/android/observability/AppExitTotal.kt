@@ -29,7 +29,7 @@ import me.proton.core.observability.domain.entity.SchemaId
 @SchemaId("https://proton.me/android_vpn_app_exit_total_v1.schema.json")
 data class AppExitTotal(
     override val Labels: LabelsData,
-    @Required  override val Value: Long = 1
+    @Required  override val Value: Long
 ) : VpnObservabilityData() {
 
     @Serializable
@@ -38,7 +38,7 @@ data class AppExitTotal(
         val appImportance: AppImportance
     )
 
-    constructor(exitReason: ExitReason, appImportance: AppImportance) : this(LabelsData(exitReason, appImportance))
+    constructor(exitReason: ExitReason, appImportance: AppImportance, value: Long) : this(LabelsData(exitReason, appImportance), value)
 
     enum class ExitReason {
         Anr,

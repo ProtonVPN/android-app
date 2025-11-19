@@ -28,6 +28,10 @@ val DEFAULT_SERVER_LIST_REFRESH_BACKGROUND_MINUTES = TimeUnit.DAYS.toMinutes(2)
 const val DEFAULT_ATTEMPT_COUNT = 4
 const val DEFAULT_CHANGE_SHORT_DELAY_SECONDS = 90
 const val DEFAULT_CHANGE_LONG_DELAY_SECONDS = 1200
+
+// Large metrics will use this value multiplier with p = 1 / DEFAULT_LARGE_METRICS_SAMPLING_FACTOR
+const val DEFAULT_LARGE_METRICS_SAMPLING_MULTIPLIER = 100
+
 @Serializable
 data class AppConfigResponse(
     @SerialName(value = "ServerRefreshInterval")
@@ -45,7 +49,9 @@ data class AppConfigResponse(
     @SerialName(value = "DefaultPorts") val defaultPortsConfig: DefaultPortsConfig?,
     @SerialName(value = "FeatureFlags") val featureFlags: FeatureFlags,
     @SerialName(value = "SmartProtocol") val smartProtocolConfig: SmartProtocolConfig?,
-    @SerialName(value = "RatingSettings") val ratingConfig: RatingConfig?
+    @SerialName(value = "RatingSettings") val ratingConfig: RatingConfig?,
+    @SerialName(value = "LargeMetricsSamplingMultiplier")
+    private val largeMetricsSamplingMultiplierInternal: Int? = DEFAULT_LARGE_METRICS_SAMPLING_MULTIPLIER,
 ) {
     // Workaround for GSON problem with deserializing fields with default values
     val changeServerAttemptLimit get() =
@@ -58,4 +64,6 @@ data class AppConfigResponse(
         logicalsRefreshForegroundDelayMinutesInternal ?: DEFAULT_SERVER_LIST_REFRESH_FOREGROUND_MINUTES
     val logicalsRefreshBackgroundDelayMinutes get() =
         logicalsRefreshBackgroundDelayMinutesInternal ?: DEFAULT_SERVER_LIST_REFRESH_BACKGROUND_MINUTES
+    val largeMetricsSamplingMultiplier get() =
+        largeMetricsSamplingMultiplierInternal ?: DEFAULT_LARGE_METRICS_SAMPLING_MULTIPLIER
 }

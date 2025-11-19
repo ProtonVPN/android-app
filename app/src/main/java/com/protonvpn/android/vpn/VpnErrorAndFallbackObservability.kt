@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.vpn
 
+import com.protonvpn.android.appconfig.usecase.LargeMetricsSampler
 import com.protonvpn.android.observability.VpnErrorsTotal
 import com.protonvpn.android.observability.VpnFallbacksTotal
 import com.protonvpn.android.observability.YesNoUnknown
@@ -30,12 +31,15 @@ import javax.inject.Inject
 
 @Reusable
 class VpnErrorAndFallbackObservability @Inject constructor(
-    private val observabilityManager: ObservabilityManager
+    private val observabilityManager: ObservabilityManager,
+    private val largeMetricsSampler: LargeMetricsSampler,
 ) {
 
     fun reportError(error: ErrorType) {
-        val vpnError = VpnErrorsTotal(error.toObservabiliy())
-        observabilityManager.enqueue(vpnError)
+        largeMetricsSampler { multiplier ->
+            val vpnError = VpnErrorsTotal(error.toObservabiliy(), multiplier)
+            observabilityManager.enqueue(vpnError)
+        }
     }
 
     fun reportFallback(fallback: VpnFallbackResult) {

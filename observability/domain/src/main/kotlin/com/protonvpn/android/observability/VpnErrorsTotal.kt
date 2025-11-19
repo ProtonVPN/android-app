@@ -29,10 +29,10 @@ import me.proton.core.observability.domain.entity.SchemaId
 @SchemaId("https://proton.me/android_vpn_vpn_errors_total_v1.schema.json")
 data class VpnErrorsTotal(
     override val Labels: LabelsData,
-    @Required  override val Value: Long = 1
+    @Required  override val Value: Long
 ) : VpnObservabilityData() {
 
-    constructor(errorType: VpnErrorType) : this(LabelsData(errorType))
+    constructor(errorType: VpnErrorType, value: Long) : this(LabelsData(errorType), value)
 
     @Serializable
     data class LabelsData(

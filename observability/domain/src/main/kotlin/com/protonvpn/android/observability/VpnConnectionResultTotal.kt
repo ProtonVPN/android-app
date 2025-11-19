@@ -29,9 +29,9 @@ import me.proton.core.observability.domain.entity.SchemaId
 @SchemaId("https://proton.me/android_vpn_connection_result_total_v1.schema.json")
 data class VpnConnectionResultTotal(
     override val Labels: LabelsData,
-    @Required override val Value: Long = 1
+    @Required override val Value: Long
 ) : VpnObservabilityData() {
-    constructor(result: ResultType) : this(LabelsData(result))
+    constructor(result: ResultType, value: Long) : this(LabelsData(result), value)
 
     @Serializable
     data class LabelsData(

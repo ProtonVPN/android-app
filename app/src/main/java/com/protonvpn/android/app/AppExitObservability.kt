@@ -23,6 +23,7 @@ import android.app.ActivityManager.RunningAppProcessInfo
 import android.app.ApplicationExitInfo
 import android.content.Context
 import android.os.Build
+import com.protonvpn.android.appconfig.usecase.LargeMetricsSampler
 import com.protonvpn.android.observability.AppExitTotal
 import com.protonvpn.android.utils.getAppMainProcessExitReason
 import dagger.Reusable
@@ -39,6 +40,7 @@ class AppExitObservability @Inject constructor(
     private val mainScope: CoroutineScope,
     @ApplicationContext private val appContext: Context,
     private val observabilityManager: dagger.Lazy<ObservabilityManager>,
+    private val largeMetricsSampler: LargeMetricsSampler,
 ) {
 
     fun start() {
@@ -48,9 +50,12 @@ class AppExitObservability @Inject constructor(
                 delay(5.seconds)
                 val exitInfo = appContext.getAppMainProcessExitReason()
                 if (exitInfo != null) {
-                    val exitReason = reasonToObservability(exitInfo.reason, exitInfo.status)
-                    val importance = importanceToObservability(exitInfo.importance)
-                    observabilityManager.get().enqueue(AppExitTotal(exitReason, importance))
+                    largeMetricsSampler { multiplier ->
+                        val exitReason = reasonToObservability(exitInfo.reason, exitInfo.status)
+                        val importance = importanceToObservability(exitInfo.importance)
+                        observabilityManager.get()
+                            .enqueue(AppExitTotal(exitReason, importance, multiplier))
+                    }
                 }
             }
         }

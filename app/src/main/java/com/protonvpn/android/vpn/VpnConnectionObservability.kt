@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.vpn
 
+import com.protonvpn.android.appconfig.usecase.LargeMetricsSampler
 import com.protonvpn.android.observability.VpnConnectionResultTotal
 import com.protonvpn.android.utils.DebugUtils
 import kotlinx.coroutines.CoroutineScope
@@ -33,6 +34,7 @@ class VpnConnectionObservability @Inject constructor(
     mainScope: CoroutineScope,
     vpnStateMonitor: VpnStateMonitor,
     private val observabilityManager: ObservabilityManager,
+    private val largeMetricSampler: LargeMetricsSampler,
 ) {
     init {
         vpnStateMonitor.status.onEach { status ->
@@ -43,7 +45,9 @@ class VpnConnectionObservability @Inject constructor(
                 else -> null
             }
             if (resultType != null) {
-                observabilityManager.enqueue(VpnConnectionResultTotal(resultType))
+                largeMetricSampler { multiplier ->
+                    observabilityManager.enqueue(VpnConnectionResultTotal(resultType, multiplier))
+                }
             }
         }.launchIn(mainScope)
     }
