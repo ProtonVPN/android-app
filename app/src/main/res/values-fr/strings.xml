@@ -86,6 +86,7 @@
     <string name="report_bug_message_label">Message</string>
     <string name="report_bug_message_hint">Décrivez le bug et indiquez comment et où vous l\'avez constaté.</string>
     <string name="send_report">Envoyer le rapport</string>
+    <string name="report_sent">Le rapport a été envoyé.</string>
     <string name="discardChanges">Abandonner les modifications non enregistrées ?</string>
     <string name="discard">Abandonner</string>
     <string name="done">TERMINÉ</string>
@@ -586,6 +587,11 @@
     <string name="dynamic_report_tips_title">Solutions rapides</string>
     <string name="dynamic_report_logs_title">Envoyer les journaux d\'erreurs</string>
     <string name="dynamic_report_logs_tooltip">Les journaux d\'erreurs nous indiquent ce qui n\'a pas fonctionné et les actions qui ont conduit au problème. Nous les utiliserons uniquement pour aider nos ingénieurs à résoudre les problèmes.</string>
+    <string name="dynamic_report_error_title">Nous n\'avons pas pu envoyer votre rapport.</string>
+    <string name="dynamic_report_completion_error_description_generic">Nous n\'avons pas pu envoyer votre rapport. Veuillez réessayer.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Nous n\'avons pas pu envoyer votre rapport. Veuillez vérifier votre connexion et réessayer.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Nous n\'avons pas pu envoyer votre rapport. La connexion a expiré, veuillez réessayer.</string>
+    <string name="dynamic_report_completion_success_title">Merci pour vos commentaires. Nous vous recontacterons dès que possible.</string>
     <string name="dynamic_report_success_title">Merci pour vos commentaires</string>
     <string name="dynamic_report_success_description">Nous vous répondrons dès que possible.</string>
     <string name="dynamic_report_field_mandatory">Ce champ est obligatoire.</string>

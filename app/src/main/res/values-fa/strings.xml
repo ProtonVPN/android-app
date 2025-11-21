@@ -86,6 +86,7 @@
     <string name="report_bug_message_label">پیام</string>
     <string name="report_bug_message_hint">لطفاً اشکال، چگونگی و محل پیدا کردن آن را شرح دهید</string>
     <string name="send_report">ارسال گزارش</string>
+    <string name="report_sent">Report sent</string>
     <string name="discardChanges">تغییرات ذخیره نشده را نادیده می‌گیرید؟</string>
     <string name="discard">لغو</string>
     <string name="done">انجام شد</string>
@@ -586,6 +587,11 @@
     <string name="dynamic_report_tips_title">راه‌حل‌های سریع</string>
     <string name="dynamic_report_logs_title">ارسال لاگ‌های خطا</string>
     <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
+    <string name="dynamic_report_error_title">We couldn’t send your report.</string>
+    <string name="dynamic_report_completion_error_description_generic">We couldn’t send your report. Please try again.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">We couldn’t send your report. Please check your connection and try again.</string>
+    <string name="dynamic_report_completion_error_description_timeout">We couldn’t send your report. Connection timed out, please try again.</string>
+    <string name="dynamic_report_completion_success_title">Thanks for your feedback. We’ll get back to you as soon as we can.</string>
     <string name="dynamic_report_success_title">از بازخوردتان سپاس‌گزاریم</string>
     <string name="dynamic_report_success_description">در سریع‌ترین زمان ممکن به شما پاسخ خواهیم داد.</string>
     <string name="dynamic_report_field_mandatory">این بخش الزامی است</string>

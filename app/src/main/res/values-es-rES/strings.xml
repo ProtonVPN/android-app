@@ -86,6 +86,7 @@
     <string name="report_bug_message_label">Mensaje</string>
     <string name="report_bug_message_hint">Describe el fallo, cómo y dónde lo encontró</string>
     <string name="send_report">Enviar informe</string>
+    <string name="report_sent">Se ha enviado el informe</string>
     <string name="discardChanges">¿Descartar los cambios no guardados?</string>
     <string name="discard">Descartar</string>
     <string name="done">HECHO</string>
@@ -586,6 +587,11 @@
     <string name="dynamic_report_tips_title">Soluciones rápidas</string>
     <string name="dynamic_report_logs_title">Enviar registros de errores</string>
     <string name="dynamic_report_logs_tooltip">Los registros de errores nos muestran qué ha fallado y qué acciones han provocado el problema. Solo los utilizaremos para ayudar a nuestros ingenieros a solucionar los problemas.</string>
+    <string name="dynamic_report_error_title">No pudimos enviar tu informe.</string>
+    <string name="dynamic_report_completion_error_description_generic">No pudimos enviar tu informe. Inténtalo de nuevo.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">No se ha podido enviar tu informe. Verifica la conexión y vuelve a intentarlo.</string>
+    <string name="dynamic_report_completion_error_description_timeout">No se ha podido enviar tu informe. Se agotó el tiempo de espera de la conexión, inténtalo de nuevo.</string>
+    <string name="dynamic_report_completion_success_title">Gracias por tus comentarios. Nos pondremos en contacto contigo lo antes posible.</string>
     <string name="dynamic_report_success_title">Gracias por tus comentarios</string>
     <string name="dynamic_report_success_description">Nos pondremos en contacto contigo tan pronto como podamos.</string>
     <string name="dynamic_report_field_mandatory">Este campo es obligatorio</string>

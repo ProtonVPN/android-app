@@ -86,6 +86,7 @@
     <string name="report_bug_message_label">内容</string>
     <string name="report_bug_message_hint">请描述 bug 的表现以及是怎么触发的</string>
     <string name="send_report">提交反馈</string>
+    <string name="report_sent">Report sent</string>
     <string name="discardChanges">改动不会保存，要清空吗？</string>
     <string name="discard">放弃</string>
     <string name="done">完成</string>
@@ -570,6 +571,11 @@
     <string name="dynamic_report_tips_title">快速修复</string>
     <string name="dynamic_report_logs_title">发送错误日志</string>
     <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
+    <string name="dynamic_report_error_title">We couldn’t send your report.</string>
+    <string name="dynamic_report_completion_error_description_generic">We couldn’t send your report. Please try again.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">We couldn’t send your report. Please check your connection and try again.</string>
+    <string name="dynamic_report_completion_error_description_timeout">We couldn’t send your report. Connection timed out, please try again.</string>
+    <string name="dynamic_report_completion_success_title">Thanks for your feedback. We’ll get back to you as soon as we can.</string>
     <string name="dynamic_report_success_title">感谢您的反馈</string>
     <string name="dynamic_report_success_description">我们会尽快与您联系。</string>
     <string name="dynamic_report_field_mandatory">此栏必填</string>

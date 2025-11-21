@@ -86,6 +86,7 @@
     <string name="report_bug_message_label">Meddelande</string>
     <string name="report_bug_message_hint">Beskriv felet och hur och var du hittade det</string>
     <string name="send_report">Skicka rapport</string>
+    <string name="report_sent">Rapport skickad</string>
     <string name="discardChanges">Kasta osparade ändringar?</string>
     <string name="discard">Kasta</string>
     <string name="done">KLAR</string>
@@ -585,7 +586,12 @@
     <string name="dynamic_report_tips_description">Dessa tips kan hjälpa dig att lösa ditt problem snabbare.</string>
     <string name="dynamic_report_tips_title">Snabba åtgärder</string>
     <string name="dynamic_report_logs_title">Skicka felloggar</string>
-    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
+    <string name="dynamic_report_logs_tooltip">Felloggar visar oss vad som gick fel och vilka åtgärder som ledde till problemet. Vi kommer endast att använda dem för att hjälpa våra ingenjörer att åtgärda problem.</string>
+    <string name="dynamic_report_error_title">Vi kunde inte skicka din rapport.</string>
+    <string name="dynamic_report_completion_error_description_generic">Vi kunde inte skicka din rapport. Försök igen.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Vi kunde inte skicka din rapport. Kontrollera din anslutning och försök igen.</string>
+    <string name="dynamic_report_completion_error_description_timeout">We couldn’t send your report. Connection timed out, please try again.</string>
+    <string name="dynamic_report_completion_success_title">Tack för din feedback. Vi återkommer till dig så snart vi kan.</string>
     <string name="dynamic_report_success_title">Tack för din feedback</string>
     <string name="dynamic_report_success_description">Vi återkommer till dig så snart vi kan.</string>
     <string name="dynamic_report_field_mandatory">Detta fält är obligatoriskt</string>
@@ -1574,8 +1580,8 @@
     <string name="no_connections_help_contact_us"><![CDATA[Behöver du hjälp? <a href="">Kontakta oss</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Om din administratör behöver hjälp med att aktivera VPN-åtkomst, skicka dem <a href="">dessa instruktioner</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_title">Aktivera OpenVPN?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Detta protokoll kommer att tas bort snart eftersom vi fokuserar på snabbare och säkrare teknologier. Vi rekommenderar att byta till Smart Protocol. <a href="proton.me">Lär dig mer</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Detta protokoll kommer att tas bort snart eftersom vi fokuserar på snabbare och säkrare teknologier. Vi rekommenderar att byta till Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Fortsätt med OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Aktivera Smart Protocol</string>
 </resources>

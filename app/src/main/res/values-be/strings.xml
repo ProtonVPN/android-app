@@ -86,6 +86,7 @@
     <string name="report_bug_message_label">Паведамленне</string>
     <string name="report_bug_message_hint">Апішыце праблему і раскажыце нам, як вы знайшлі яе</string>
     <string name="send_report">Адправіць справаздачу</string>
+    <string name="report_sent">Справаздача адпраўлена</string>
     <string name="discardChanges">Скасаваць незахаваныя змены?</string>
     <string name="discard">Скасаваць</string>
     <string name="done">ГАТОВА</string>
@@ -618,6 +619,11 @@
     <string name="dynamic_report_tips_title">Хуткія выпраўленні</string>
     <string name="dynamic_report_logs_title">Адправіць журнал з памылкай</string>
     <string name="dynamic_report_logs_tooltip">Журналы памылак паказваюць, што пайшло не так і якія дзеянні прывялі да праблемы. Дадзеныя файлы выкарыстоўвацца выключна для таго, каб дапамагчы нашым інжынерам выправіць памылкі ў праграме.</string>
+    <string name="dynamic_report_error_title">Не ўдалося адправіць вашу справаздачу.</string>
+    <string name="dynamic_report_completion_error_description_generic">Не ўдалося адправіць вашу справаздачу. Паспрабуйце яшчэ раз.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Не ўдалося адправіць вашу справаздачу. Праверце сваё падключэнне і паспрабуйце яшчэ раз.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Не ўдалося адправіць вашу справаздачу. Час чакання падключэння завяршыўся. Паспрабуйце яшчэ раз.</string>
+    <string name="dynamic_report_completion_success_title">Дзякуй за вашу зваротную сувязь. Вы атрымаеце адказ у хуткім часе.</string>
     <string name="dynamic_report_success_title">Дзякуй за ваш водгук</string>
     <string name="dynamic_report_success_description">Мы звяжамся з вамі ў самы бліжэйшы час.</string>
     <string name="dynamic_report_field_mandatory">Гэта абавязковае поле</string>

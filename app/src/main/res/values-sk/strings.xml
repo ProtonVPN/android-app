@@ -86,6 +86,7 @@
     <string name="report_bug_message_label">Správa</string>
     <string name="report_bug_message_hint">Popíšte, prosím, chybu a ako a kde ste ju našli</string>
     <string name="send_report">Odoslať hlásenie</string>
+    <string name="report_sent">Hlásenie odoslané</string>
     <string name="discardChanges">Zmazať neuložené zmeny?</string>
     <string name="discard">Zahodiť</string>
     <string name="done">HOTOVO</string>
@@ -617,7 +618,12 @@
     <string name="dynamic_report_tips_description">Tieto tipy by mohli pomôcť rýchlejšie vyriešiť váš problém.</string>
     <string name="dynamic_report_tips_title">Rýchle opravy</string>
     <string name="dynamic_report_logs_title">Odoslať záznam chýb</string>
-    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
+    <string name="dynamic_report_logs_tooltip">Chybové logy nám ukazujú, čo sa pokazilo a ktoré kroky viedli k problému. Používame ich výhradne na pomoc našim inžinierom pri riešení problémov.</string>
+    <string name="dynamic_report_error_title">Nepodarilo sa nám odoslať vaše hlásenie.</string>
+    <string name="dynamic_report_completion_error_description_generic">Vašu správu sme nemohli odoslať. Skúste to znova, prosím.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Vašu správu sme nemohli odoslať. Skontrolujte svoje pripojenie a skúste to znova, prosím.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Vaše hlásenie sa nepodarilo odoslať. Časový limit pripojenia vypršal, skúste to znovu, prosím.</string>
+    <string name="dynamic_report_completion_success_title">Ďakujeme za vašu spätnú väzbu. Čo najskôr sa vám ozveme.</string>
     <string name="dynamic_report_success_title">Ďakujeme za vašu spätnú väzbu</string>
     <string name="dynamic_report_success_description">Ozveme sa vám hneď, ako to bude možné.</string>
     <string name="dynamic_report_field_mandatory">Toto pole je povinné.</string>

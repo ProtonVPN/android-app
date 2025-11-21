@@ -86,6 +86,7 @@
     <string name="report_bug_message_label">Nachricht</string>
     <string name="report_bug_message_hint">Bitte beschreibe den Fehler und wie und wo du ihn gefunden hast</string>
     <string name="send_report">Bericht senden</string>
+    <string name="report_sent">Bericht gesendet</string>
     <string name="discardChanges">Noch nicht gespeicherte Änderungen verwerfen?</string>
     <string name="discard">Verwerfen</string>
     <string name="done">FERTIG</string>
@@ -586,6 +587,11 @@
     <string name="dynamic_report_tips_title">Lösungsvorschläge</string>
     <string name="dynamic_report_logs_title">Fehlerprotokolle senden</string>
     <string name="dynamic_report_logs_tooltip">Fehlerprotokolle zeigen uns, welche Probleme aufgetreten sind und welche Aktionen zu diesen Problemen geführt haben. Wir verwenden sie ausschließlich, um unseren Technikern bei der Behebung von Problemen zu helfen.</string>
+    <string name="dynamic_report_error_title">Bericht konnte nicht gesendet werden.</string>
+    <string name="dynamic_report_completion_error_description_generic">Bericht konnte nicht gesendet werden. Bitte erneut versuchen.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Bericht konnte nicht gesendet werden. Bitte überprüfe deine Verbindung und versuche es erneut.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Bericht konnte nicht gesendet werden. Verbindung unterbrochen, bitte erneut versuchen.</string>
+    <string name="dynamic_report_completion_success_title">Vielen Dank für Ihr Feedback. Wir melden uns so schnell wie möglich bei Ihnen.</string>
     <string name="dynamic_report_success_title">Vielen Dank für deine Rückmeldung</string>
     <string name="dynamic_report_success_description">Wir melden uns bei dir so schnell wie möglich.</string>
     <string name="dynamic_report_field_mandatory">Das ist ein Pflichtfeld</string>

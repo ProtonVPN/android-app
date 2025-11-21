@@ -86,6 +86,7 @@
     <string name="report_bug_message_label">Üzenet</string>
     <string name="report_bug_message_hint">Írja le a hibát, és azt, hogy hogyan és hol találta meg</string>
     <string name="send_report">Bejelentés küldése</string>
+    <string name="report_sent">Report sent</string>
     <string name="discardChanges">Elveti a nem mentett módosításokat?</string>
     <string name="discard">Elvetés</string>
     <string name="done">KÉSZ</string>
@@ -586,6 +587,11 @@
     <string name="dynamic_report_tips_title">Gyors javítások</string>
     <string name="dynamic_report_logs_title">Hibanapló beküldése</string>
     <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
+    <string name="dynamic_report_error_title">We couldn’t send your report.</string>
+    <string name="dynamic_report_completion_error_description_generic">We couldn’t send your report. Please try again.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">We couldn’t send your report. Please check your connection and try again.</string>
+    <string name="dynamic_report_completion_error_description_timeout">We couldn’t send your report. Connection timed out, please try again.</string>
+    <string name="dynamic_report_completion_success_title">Thanks for your feedback. We’ll get back to you as soon as we can.</string>
     <string name="dynamic_report_success_title">Köszönjük a visszajelzést</string>
     <string name="dynamic_report_success_description">Felvesszük önnel a kapcsolatot, amint csak lehet.</string>
     <string name="dynamic_report_field_mandatory">Ez a mező kötelező</string>

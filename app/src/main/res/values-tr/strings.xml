@@ -86,6 +86,7 @@
     <string name="report_bug_message_label">İleti</string>
     <string name="report_bug_message_hint">Lütfen hata ile nerede ve nasıl karşılaştığınızı açıklayın</string>
     <string name="send_report">Bildirimi gönder</string>
+    <string name="report_sent">Bildirim gönderildi</string>
     <string name="discardChanges">Kaydedilmemiş değişiklikler yok sayılsın mı?</string>
     <string name="discard">Yok say</string>
     <string name="done">TAMAM</string>
@@ -586,6 +587,11 @@
     <string name="dynamic_report_tips_title">Hızlı çözümler</string>
     <string name="dynamic_report_logs_title">Hata kayıtlarını gönder</string>
     <string name="dynamic_report_logs_tooltip">Hata günlüğü bize neyin yanlış gittiğini ve hangi işlemlerin soruna yol açtığını gösterir. Bunları yalnızca mühendislerimizin sorunları çözmesine yardımcı olmak için kullanacağız.</string>
+    <string name="dynamic_report_error_title">Bildiriminiz gönderilemedi</string>
+    <string name="dynamic_report_completion_error_description_generic">Bildiriminiz gönderilemedi. Lütfen yeniden deneyin.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Bildiriminiz gönderilemedi. Lütfen bağlantınızı denetleyip yeniden deneyin.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Bildiriminiz gönderilemedi. Bağlantı zaman aşımına uğradı. Lütfen yeniden deneyin.</string>
+    <string name="dynamic_report_completion_success_title">Geri bildiriminiz için teşekkür ederiz. En kısa zamanda size geri döneceğiz.</string>
     <string name="dynamic_report_success_title">Geri bildiriminiz için teşekkürler</string>
     <string name="dynamic_report_success_description">Olabilecek en kısa sürede size döneceğiz.</string>
     <string name="dynamic_report_field_mandatory">Bu alanın doldurulması zorunludur</string>

@@ -86,6 +86,7 @@
     <string name="report_bug_message_label">郵件訊息</string>
     <string name="report_bug_message_hint">請描述問題以及發現它的方式與位置</string>
     <string name="send_report">傳送回報</string>
+    <string name="report_sent">Report sent</string>
     <string name="discardChanges">放棄仍未儲存的變更嗎？</string>
     <string name="discard">捨棄</string>
     <string name="done">完成</string>
@@ -570,6 +571,11 @@
     <string name="dynamic_report_tips_title">快速修復</string>
     <string name="dynamic_report_logs_title">傳送錯誤紀錄檔</string>
     <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
+    <string name="dynamic_report_error_title">We couldn’t send your report.</string>
+    <string name="dynamic_report_completion_error_description_generic">We couldn’t send your report. Please try again.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">We couldn’t send your report. Please check your connection and try again.</string>
+    <string name="dynamic_report_completion_error_description_timeout">We couldn’t send your report. Connection timed out, please try again.</string>
+    <string name="dynamic_report_completion_success_title">Thanks for your feedback. We’ll get back to you as soon as we can.</string>
     <string name="dynamic_report_success_title">感謝您的回饋</string>
     <string name="dynamic_report_success_description">我們會盡快回覆您。</string>
     <string name="dynamic_report_field_mandatory">此欄位為必填</string>

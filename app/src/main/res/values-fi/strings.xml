@@ -86,6 +86,7 @@
     <string name="report_bug_message_label">Viesti</string>
     <string name="report_bug_message_hint">Kuvaile vikaa sekä miten ja missä havaitsit sen</string>
     <string name="send_report">Lähetä raportti</string>
+    <string name="report_sent">Report sent</string>
     <string name="discardChanges">Hylätäänkö tallentamattomat muutokset?</string>
     <string name="discard">Hylkää</string>
     <string name="done">VALMIS</string>
@@ -586,6 +587,11 @@
     <string name="dynamic_report_tips_title">Pikaratkaisut</string>
     <string name="dynamic_report_logs_title">Lähetä virhelokit</string>
     <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
+    <string name="dynamic_report_error_title">We couldn’t send your report.</string>
+    <string name="dynamic_report_completion_error_description_generic">We couldn’t send your report. Please try again.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">We couldn’t send your report. Please check your connection and try again.</string>
+    <string name="dynamic_report_completion_error_description_timeout">We couldn’t send your report. Connection timed out, please try again.</string>
+    <string name="dynamic_report_completion_success_title">Thanks for your feedback. We’ll get back to you as soon as we can.</string>
     <string name="dynamic_report_success_title">Kiitos palautteestasi</string>
     <string name="dynamic_report_success_description">Palaamme asiaan mahdollisimman pian.</string>
     <string name="dynamic_report_field_mandatory">Kenttä on pakollinen</string>
