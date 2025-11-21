@@ -2,6 +2,18 @@ include(":detekt-custom-rules")
 
 rootProject.name = "ProtonVPN"
 
+pluginManagement {
+    repositories {
+        val mavenCachePkgUrl = System.getenv("MAVEN_CACHE_PKG_URL")
+        if (!mavenCachePkgUrl.isNullOrBlank()) {
+            maven { url = uri(mavenCachePkgUrl) }
+        }
+        maven { url = java.net.URI("https://plugins.gradle.org/m2/") }
+        mavenCentral()
+        google()
+    }
+}
+
 plugins {
     id("me.proton.core.gradle-plugins.include-core-build") version "1.3.0"
     id("com.gradle.develocity") version "4.1"
@@ -46,3 +58,4 @@ buildCache {
     }
 }
 include(":release_tests")
+include(":baselineprofile")

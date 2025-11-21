@@ -24,4 +24,6 @@ paths = [
     '''^custom/semgrep/rules.yaml$''',
     # Added by CI job
     '''^appetize-information.json$''',
+    # Profile rules are interpreted as secrets
+    '''^app/src/productionGooglePlayStoreRelease/generated/baselineProfiles/(.*)''',
 ]

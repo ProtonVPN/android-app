@@ -42,6 +42,7 @@ buildscript {
     ext.room_version = '2.7.2'
     ext.test_fusion_version = '0.9.97'
     ext.turbine_version = '1.2.0'
+    ext.baselineprofile = '1.4.1'
 
     repositories {
         if (System.getenv("MAVEN_CACHE_PKG_URL")) {
@@ -60,6 +61,7 @@ buildscript {
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath "androidx.room:room-gradle-plugin:$room_version"
+        classpath "androidx.baselineprofile:androidx.baselineprofile.gradle.plugin:$baselineprofile"
         // The newest version fails on Windows: https://issuetracker.google.com/issues/422412664
         classpath 'com.android.compose.screenshot:screenshot-test-gradle-plugin:0.0.1-alpha09'
         // NOTE: Do not place your application dependencies here; they belong
@@ -69,6 +71,7 @@ buildscript {
 plugins {
     id 'com.google.devtools.ksp' version "$ksp_version" apply false
     id 'org.jetbrains.kotlin.plugin.compose' version "$kotlin_version" apply false
+    id 'androidx.baselineprofile' version "$baselineprofile" apply false
 }
 project.ext {
     minSdkVersion = 26

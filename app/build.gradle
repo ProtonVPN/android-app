@@ -44,6 +44,7 @@ plugins {
     id 'com.google.devtools.ksp'
     id 'androidx.room'
     id 'org.jetbrains.kotlin.plugin.compose'
+    id 'androidx.baselineprofile'
 }
 
 apply plugin: 'com.android.application'
@@ -731,6 +732,8 @@ configurations.configureEach {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    implementation "androidx.profileinstaller:profileinstaller:$baselineprofile"
+    baselineProfile project(':baselineprofile')
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.14'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
