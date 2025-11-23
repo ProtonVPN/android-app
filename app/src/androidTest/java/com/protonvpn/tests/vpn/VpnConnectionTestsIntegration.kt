@@ -329,9 +329,9 @@ class VpnConnectionTestsIntegration {
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
         manager = VpnConnectionManager(permissionDelegate, getFeatureFlags, settingsForConnection,
-            backendProvider, networkManager, vpnErrorHandler, monitor, mockVpnBackgroundUiDelegate,
+            { backendProvider }, networkManager, vpnErrorHandler, monitor, mockVpnBackgroundUiDelegate,
             serverManager2, certificateRepository, scope.backgroundScope, clock, mockk(relaxed = true),
-            currentUser, supportsProtocol, mockk(relaxed = true), vpnConnectionTelemetry, mockk(relaxed = true),
+            currentUser, supportsProtocol, { mockk(relaxed = true) }, vpnConnectionTelemetry, mockk(relaxed = true),
             mockk(relaxed = true))
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered

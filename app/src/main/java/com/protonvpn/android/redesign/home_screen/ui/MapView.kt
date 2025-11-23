@@ -80,8 +80,8 @@ class MapView @JvmOverloads constructor(
     private var viewRect = RectF(0f, 0f, 1f, 1f)
     private val pinInterpolator = DecelerateInterpolator(1.5f)
 
-    private val outerPinBitmapDisconnected = BitmapFactory.decodeResource(resources, R.drawable.map_pin_outer_disconnected)
-    private val outerPinBitmapProtected = BitmapFactory.decodeResource(resources, R.drawable.map_pin_outer_protected)
+    private val outerPinBitmapDisconnected by lazy { BitmapFactory.decodeResource(resources, R.drawable.map_pin_outer_disconnected) }
+    private val outerPinBitmapProtected by lazy { BitmapFactory.decodeResource(resources, R.drawable.map_pin_outer_protected) }
     private val innerPinPaintOutside = Paint().apply { color = Color.WHITE }
 
     private lateinit var mapRenderer: TvMapRenderer

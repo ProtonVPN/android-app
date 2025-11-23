@@ -132,7 +132,7 @@ class VpnConnectionManager @Inject constructor(
     private val permissionDelegate: VpnPermissionDelegate,
     private val getFeatureFlags: GetFeatureFlags,
     private val settingsForConnection: SettingsForConnection,
-    private val backendProvider: VpnBackendProvider,
+    private val backendProvider: dagger.Lazy<VpnBackendProvider>,
     private val networkManager: NetworkManager,
     private val vpnErrorHandler: VpnConnectionErrorHandler,
     private val vpnStateMonitor: VpnStateMonitor,
@@ -144,7 +144,7 @@ class VpnConnectionManager @Inject constructor(
     private val currentVpnServiceProvider: CurrentVpnServiceProvider,
     private val currentUser: CurrentUser,
     private val supportsProtocol: SupportsProtocol,
-    powerManager: PowerManager,
+    powerManager: dagger.Lazy<PowerManager>,
     private val vpnConnectionTelemetry: VpnConnectionTelemetry,
     private val autoLoginManager: AutoLoginManager,
     private val vpnErrorAndFallbackObservability: VpnErrorAndFallbackObservability,
@@ -154,8 +154,8 @@ class VpnConnectionManager @Inject constructor(
     private var ongoingConnect: Job? = null
     private var ongoingFallback: Job? = null
 
-    private val connectWakeLock = powerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:connect")
-    private val fallbackWakeLock = powerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:fallback")
+    private val connectWakeLock by lazy { powerManager.get().newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:connect") }
+    private val fallbackWakeLock by lazy { powerManager.get().newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:fallback") }
 
     private var lastConnectIntent: AnyConnectIntent? = null
     private var lastUnreachable = Long.MIN_VALUE
@@ -410,7 +410,7 @@ class VpnConnectionManager @Inject constructor(
         if (!hasNetwork && protocol.vpn == VpnProtocol.Smart)
             protocol = getFallbackSmartProtocol(server)
         var preparedConnection =
-            backendProvider.prepareConnection(protocol, connectIntent, server, alwaysScan = hasNetwork)
+            backendProvider.get().prepareConnection(protocol, connectIntent, server, alwaysScan = hasNetwork)
         if (preparedConnection == null) {
             if (connectIntent is AnyConnectIntent.GuestHole) {
                 // If scanning failed for GH, just try another server to speed things up.
@@ -425,7 +425,7 @@ class VpnConnectionManager @Inject constructor(
             )
 
             // If port scanning fails (because e.g. some temporary network situation) just connect without pinging
-            preparedConnection = backendProvider.prepareConnection(protocol, connectIntent, server, false)
+            preparedConnection = backendProvider.get().prepareConnection(protocol, connectIntent, server, false)
         }
 
         if (preparedConnection == null) {

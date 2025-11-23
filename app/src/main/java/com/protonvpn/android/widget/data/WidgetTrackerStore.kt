@@ -56,7 +56,7 @@ class WidgetTracker @Inject constructor(
     private val mainScope: CoroutineScope,
     widgetTrackerStoreProvider: WidgetTrackerStoreProvider
 ) {
-    private val manager: AppWidgetManager? = AppWidgetManager.getInstance(appContext)
+    private val manager: AppWidgetManager? by lazy { AppWidgetManager.getInstance(appContext) }
 
     private val store = mainScope.async { widgetTrackerStoreProvider.dataStoreWithSuffix("shared") }
 
@@ -73,15 +73,14 @@ class WidgetTracker @Inject constructor(
 
     // If app data was cleared but some widgets were still present we need to restore them.
     private fun firstTimeSetupRestore() {
-        if (manager == null)
-            return
-
-        val providers = getInstalledProvidersForPackageCompat(manager, appContext.packageName)
-        providers.forEach { provider ->
-            val receiverId = provider.provider.className.toWidgetReceiverId()
-            val widgetIds = manager.getAppWidgetIds(provider.provider)
-            if (widgetIds.isNotEmpty() && receiverId != null) {
-                onUpdated(receiverId, widgetIds.toSet())
+        manager?.let { manager ->
+            val providers = getInstalledProvidersForPackageCompat(manager, appContext.packageName)
+            providers.forEach { provider ->
+                val receiverId = provider.provider.className.toWidgetReceiverId()
+                val widgetIds = manager.getAppWidgetIds(provider.provider)
+                if (widgetIds.isNotEmpty() && receiverId != null) {
+                    onUpdated(receiverId, widgetIds.toSet())
+                }
             }
         }
     }

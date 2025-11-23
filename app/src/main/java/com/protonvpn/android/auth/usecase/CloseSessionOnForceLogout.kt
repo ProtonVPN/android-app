@@ -32,11 +32,11 @@ import javax.inject.Singleton
 class CloseSessionOnForceLogout @Inject constructor(
     mainScope: CoroutineScope,
     accountManager: AccountManager,
-    onSessionClosed: OnSessionClosed
+    onSessionClosed: dagger.Lazy<OnSessionClosed>
 ) {
     init {
         accountManager.onSessionState(SessionState.ForceLogout)
-            .onEach { onSessionClosed.invoke(it) }
+            .onEach { onSessionClosed.get().invoke(it) }
             .launchIn(mainScope)
     }
 }

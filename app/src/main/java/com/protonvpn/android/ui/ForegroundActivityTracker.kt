@@ -50,7 +50,9 @@ class ForegroundActivityTracker(
         app: Application,
     ) : this(mainScope, createForegroundActivityFlow(app))
 
-    private val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ROOT)
+    private val dateFormat: DateFormat by lazy(LazyThreadSafetyMode.NONE) {
+        SimpleDateFormat("yyyy-MM-dd", Locale.ROOT)
+    }
 
     val foregroundActivityFlow = internalForegroundActivityFlow
         .stateIn(mainScope, SharingStarted.Eagerly, null)

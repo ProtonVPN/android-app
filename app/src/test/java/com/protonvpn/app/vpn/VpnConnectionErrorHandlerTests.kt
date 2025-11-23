@@ -210,7 +210,7 @@ class VpnConnectionErrorHandlerTests {
         )
         handler = VpnConnectionErrorHandler(testScope.backgroundScope, api, appConfig,
             settingsForConnection, userPlanManager, serverManager2, vpnStateMonitor, serverListUpdater,
-            networkManager, vpnBackendProvider, currentUser, getConnectingDomain, getOnlineServersForIntent, testScope::currentTime, errorUIManager)
+            networkManager, dagger.Lazy { vpnBackendProvider }, currentUser, getConnectingDomain, getOnlineServersForIntent, testScope::currentTime, errorUIManager)
     }
 
     @Test

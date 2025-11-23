@@ -154,7 +154,7 @@ class VpnConnectionErrorHandler @Inject constructor(
     private val stateMonitor: VpnStateMonitor,
     private val serverListUpdater: ServerListUpdater,
     private val networkManager: NetworkManager,
-    private val vpnBackendProvider: VpnBackendProvider,
+    private val vpnBackendProvider: dagger.Lazy<VpnBackendProvider>,
     private val currentUser: CurrentUser,
     private val getConnectingDomain: GetConnectingDomain,
     private val getOnlineServersForIntent: GetOnlineServersForIntent,
@@ -309,7 +309,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             )
         }
 
-        val pingResult = vpnBackendProvider.pingAll(orgIntent, protocol, candidates, orgPhysicalServer) ?: run {
+        val pingResult = vpnBackendProvider.get().pingAll(orgIntent, protocol, candidates, orgPhysicalServer) ?: run {
             ProtonLogger.log(ConnServerSwitchFailed, "No server responded")
             return null
         }

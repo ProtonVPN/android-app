@@ -64,7 +64,7 @@ class WidgetStateUpdater @Inject constructor(
     recentsListViewStateFlow: dagger.Lazy<RecentsListViewStateFlow>,
     currentUser: dagger.Lazy<CurrentUser>,
     appIconManager: dagger.Lazy<AppIconManager>,
-    serverManager2: ServerManager2,
+    serverManager2: dagger.Lazy<ServerManager2>,
     widgetTracker: WidgetTracker,
 ) {
 
@@ -93,12 +93,15 @@ class WidgetStateUpdater @Inject constructor(
             replay = 1,
         )
 
-    private val areVpnServersAvailableFlow = combine(
-        vpnStatusFlow.map { widgetVpnStatus -> widgetVpnStatus == WidgetVpnStatus.Connected },
-        serverManager2.hasAnyCountryFlow,
-        serverManager2.hasAnyGatewaysFlow,
-    ) { isConnected, hasCountries, hasGateways ->
-        isConnected || hasCountries || hasGateways
+    private val areVpnServersAvailableFlow by lazy {
+        val serverManager2 = serverManager2.get()
+        combine(
+            vpnStatusFlow.map { widgetVpnStatus -> widgetVpnStatus == WidgetVpnStatus.Connected },
+            serverManager2.hasAnyCountryFlow,
+            serverManager2.hasAnyGatewaysFlow,
+        ) { isConnected, hasCountries, hasGateways ->
+            isConnected || hasCountries || hasGateways
+        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
