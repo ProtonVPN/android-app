@@ -89,7 +89,7 @@ fun createServer(
         entryLocation = ServerLocation(0f, 0f),
         translations = translations,
         score = score,
-        isOnline = isOnline,
+        rawIsOnline = isOnline,
         isVisible = isVisible,
     )
 

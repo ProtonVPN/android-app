@@ -312,7 +312,7 @@ class ServerListUpdaterTests {
 
     @Test
     fun `free user light list refresh disabled when binary status enabled`() = testScope.runTest {
-        fun applyStatus(server: Server) = server.copy(isOnline = true, isVisible = true, load = 10f, score = 1.0)
+        fun applyStatus(server: Server) = server.copy(rawIsOnline = true, isVisible = true, load = 10f, score = 1.0)
         val expectedServers = LIST_LOGICALS_V2.map { applyStatus(it.toPartialServer()) }
         fakeUpdateWithBinaryStatus.mapsAllServers(::applyStatus)
         binaryStatusFfEnabled.value = true

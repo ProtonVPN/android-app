@@ -252,7 +252,7 @@ class ServerManagerTests {
         val country = serverManager2.getVpnExitCountry("PL", secureCoreCountry = false)
         val expectedServers = setOf(
             server1.copy(load = 100f, score = 0.0),
-            server2.copy(load = 25f, score = 5.0, isOnline = false)
+            server2.copy(load = 25f, score = 5.0, rawIsOnline = false)
         )
         assertEquals(expectedServers, country?.serverList?.toSet())
     }

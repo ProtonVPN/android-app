@@ -33,7 +33,7 @@ import javax.inject.Inject
 class FakeUpdateServersWithBinaryStatus @Inject constructor() : UpdateServersWithBinaryStatus {
 
     var updater: (List<Server>) -> List<Server>? = { list ->
-        list.map { it.copy(isOnline = true, isVisible = true, load = 10f, score = 1.0) }
+        list.map { it.copy(rawIsOnline = true, isVisible = true, load = 10f, score = 1.0) }
     }
 
     fun mapsAllServers(transform: (Server) -> Server) {

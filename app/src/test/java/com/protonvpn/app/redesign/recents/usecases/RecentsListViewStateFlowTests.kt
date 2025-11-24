@@ -292,7 +292,7 @@ class RecentsListViewStateFlowTests {
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
         coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(DefaultRecents.first())
 
-        val offlineSecureCore = serverSecureCore.copy(isOnline = false)
+        val offlineSecureCore = serverSecureCore.copy(rawIsOnline = false)
         serverManager.setServers(listOf(serverCh, serverIs, serverSe, offlineSecureCore), null, null)
 
         val viewState = viewStateFlow.first()
@@ -327,8 +327,8 @@ class RecentsListViewStateFlowTests {
         val servers = listOf(
             serverSecureCore,
             serverCh,
-            serverSe.copy(isOnline = false),
-            serverIs.copy(isOnline = false),
+            serverSe.copy(rawIsOnline = false),
+            serverIs.copy(rawIsOnline = false),
         )
         serverManager.setServers(servers, null, null)
         val viewState = viewStateFlow.first()
@@ -348,7 +348,7 @@ class RecentsListViewStateFlowTests {
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
         val viewStates = viewStateFlow
             .onEach {
-                val offlineSecureCoreServer = serverSecureCore.copy(isOnline = false)
+                val offlineSecureCoreServer = serverSecureCore.copy(rawIsOnline = false)
                 serverManager.setServers(listOf(serverCh, offlineSecureCoreServer), null, null)
             }
             .take(2)

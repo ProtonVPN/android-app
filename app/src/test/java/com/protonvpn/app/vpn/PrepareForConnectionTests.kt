@@ -59,15 +59,15 @@ private val connectingDomainNoDedicatedEntry =
 private val testServer = Server(
     "id", "DE", "DE", "DE#1",
     listOf(connectingDomainTlsOnly, connectingDomainDedicatedTcp), load = 1f, tier = 3, city = "", features = 0,
-    exitLocation = dummyLocation, entryLocation = dummyLocation, score = 1.0, isOnline = true
+    exitLocation = dummyLocation, entryLocation = dummyLocation, score = 1.0, rawIsOnline = true
 )
 private val tlsOnlyServer = Server(
     "id", "DE", "DE", "DE#1", listOf(connectingDomainTlsOnly),
-    load = 1f, tier = 3, city = "", features = 0, exitLocation = dummyLocation, entryLocation = dummyLocation, score = 1.0, isOnline = true
+    load = 1f, tier = 3, city = "", features = 0, exitLocation = dummyLocation, entryLocation = dummyLocation, score = 1.0, rawIsOnline = true
 )
 private val testServerNoDedicatedEntry = Server(
     "id", "DE", "DE", "DE#3", listOf(connectingDomainNoDedicatedEntry),
-    load = 1f, tier = 3, city = "", features = 0, exitLocation = dummyLocation, entryLocation = dummyLocation, score = 1.0, isOnline = true
+    load = 1f, tier = 3, city = "", features = 0, exitLocation = dummyLocation, entryLocation = dummyLocation, score = 1.0, rawIsOnline = true
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)

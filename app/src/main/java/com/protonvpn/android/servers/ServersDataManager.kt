@@ -125,11 +125,11 @@ class ServersDataManager @Inject constructor(
                     val server = if (newValues != null) {
                         // Status update doesn't include physical servers, it's not safe to go from
                         // disabled to enabled without the full information.
-                        val newIsOnline = newValues.isOnline.takeIf { currentServer.online } ?: false
+                        val newIsOnline = newValues.isOnline.takeIf { currentServer.rawIsOnline } ?: false
                         currentServer.copy(
                             score = newValues.score,
                             load = newValues.load,
-                            isOnline = newIsOnline,
+                            rawIsOnline = newIsOnline,
                         )
                     } else {
                         currentServer
