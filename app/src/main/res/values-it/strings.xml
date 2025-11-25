@@ -86,7 +86,7 @@
     <string name="report_bug_message_label">Messaggio</string>
     <string name="report_bug_message_hint">Descrivi il bug e come e dove lo hai trovato</string>
     <string name="send_report">Invia segnalazione</string>
-    <string name="report_sent">Report sent</string>
+    <string name="report_sent">Segnalazione inviata</string>
     <string name="discardChanges">Annullare le modifiche non salvate?</string>
     <string name="discard">Scarta</string>
     <string name="done">FATTO</string>
@@ -586,12 +586,12 @@
     <string name="dynamic_report_tips_description">Questi suggerimenti potrebbero aiutarti a risolvere il problema più velocemente.</string>
     <string name="dynamic_report_tips_title">Soluzioni veloci</string>
     <string name="dynamic_report_logs_title">Invia i log degli errori</string>
-    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
-    <string name="dynamic_report_error_title">We couldn’t send your report.</string>
-    <string name="dynamic_report_completion_error_description_generic">We couldn’t send your report. Please try again.</string>
-    <string name="dynamic_report_completion_error_description_no_internet">We couldn’t send your report. Please check your connection and try again.</string>
-    <string name="dynamic_report_completion_error_description_timeout">We couldn’t send your report. Connection timed out, please try again.</string>
-    <string name="dynamic_report_completion_success_title">Thanks for your feedback. We’ll get back to you as soon as we can.</string>
+    <string name="dynamic_report_logs_tooltip">I log degli errori ci mostrano cosa è andato storto e quali azioni hanno portato al problema. Li useremo sempre e solo per aiutare i nostri ingegneri a risolvere i problemi.</string>
+    <string name="dynamic_report_error_title">Impossibile inviare la segnalazione.</string>
+    <string name="dynamic_report_completion_error_description_generic">Non è stato possibile inviare il tuo rapporto. Riprova.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Non siamo riusciti a inviare la tua segnalazione. Controlla la connessione e riprova.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Non è stato possibile inviare il tuo rapporto. Connessione scaduta, riprova.</string>
+    <string name="dynamic_report_completion_success_title">Grazie per il tuo feedback. Ti risponderemo il prima possibile.</string>
     <string name="dynamic_report_success_title">Grazie per la tua opinione</string>
     <string name="dynamic_report_success_description">Ti risponderemo il prima possibile.</string>
     <string name="dynamic_report_field_mandatory">Il campo è obbligatorio</string>

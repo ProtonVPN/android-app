@@ -86,7 +86,7 @@
     <string name="report_bug_message_label">Mensaje</string>
     <string name="report_bug_message_hint">Describa el error y cómo y dónde lo encontró</string>
     <string name="send_report">Enviar informe</string>
-    <string name="report_sent">Se ha enviado el informe</string>
+    <string name="report_sent">Reporte enviado</string>
     <string name="discardChanges">¿Descartar los cambios sin guardar?</string>
     <string name="discard">Descartar</string>
     <string name="done">HECHO</string>

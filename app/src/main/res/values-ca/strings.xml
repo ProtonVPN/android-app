@@ -586,12 +586,12 @@
     <string name="dynamic_report_tips_description">Aquests consells podrien ajudar a resoldre el vostre problema més ràpid.</string>
     <string name="dynamic_report_tips_title">Solucions ràpides</string>
     <string name="dynamic_report_logs_title">Envia registres d\'error</string>
-    <string name="dynamic_report_logs_tooltip">Els registres d\'errors ens mostren què va sortir malament i quines accions van provocar el problema. Només els utilitzarem per ajudar els nostres enginyers a solucionar problemes.</string>
+    <string name="dynamic_report_logs_tooltip">Els registres d\'errors ens mostren què ha sortit malament i quines accions han provocat el problema. Només els utilitzarem per ajudar els nostres enginyers a solucionar problemes.</string>
     <string name="dynamic_report_error_title">No s\'ha pogut enviar l\'informe.</string>
     <string name="dynamic_report_completion_error_description_generic">No s\'ha pogut enviar l\'informe. Torneu-ho a provar.</string>
     <string name="dynamic_report_completion_error_description_no_internet">No s\'ha pogut enviar l\'informe. Comproveu la connexió i torneu-ho a provar.</string>
-    <string name="dynamic_report_completion_error_description_timeout">No s\'ha pogut enviar l\'informe. S\'ha exhaurit el temps d\'espera de la connexió; torneu-ho a provar.</string>
-    <string name="dynamic_report_completion_success_title">Gràcies pels vostres comentaris. Ens posarem en contacte tan aviat com sigui possible.</string>
+    <string name="dynamic_report_completion_error_description_timeout">No hem pogut enviar el vostre informe. S\'ha esgotat el temps d\'espera de la connexió, torneu-ho a provar.</string>
+    <string name="dynamic_report_completion_success_title">Gràcies pels vostres comentaris. Ens posarem en contacte amb vosaltres tan aviat com puguem.</string>
     <string name="dynamic_report_success_title">Gràcies per la vostra opinió</string>
     <string name="dynamic_report_success_description">Ens posarem en contacte tan aviat com puguem.</string>
     <string name="dynamic_report_field_mandatory">Aquest camp és obligatori.</string>
