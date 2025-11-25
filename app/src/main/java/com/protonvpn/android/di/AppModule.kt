@@ -73,6 +73,8 @@ import com.protonvpn.android.redesign.reports.IsRedesignedBugReportFeatureFlagEn
 import com.protonvpn.android.redesign.reports.IsRedesignedBugReportFeatureFlagEnabledImpl
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapterLegacy
+import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
+import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabledImpl
 import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabled
 import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabledImpl
 import com.protonvpn.android.servers.ServersStore
@@ -465,6 +467,11 @@ object AppModule {
         fun bindIsRedesignedBugReportFeatureFlagEnabled(
             impl: IsRedesignedBugReportFeatureFlagEnabledImpl,
         ): IsRedesignedBugReportFeatureFlagEnabled
+
+        @Binds
+        fun bindIsAutomaticConnectionPreferencesFeatureFlagEnabled(
+            impl: IsAutomaticConnectionPreferencesFeatureFlagEnabledImpl,
+        ): IsAutomaticConnectionPreferencesFeatureFlagEnabled
 
         @Binds
         fun bindIsTvAutoConnectFeatureFlagEnabled(
