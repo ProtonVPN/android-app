@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.vpn
 
+import android.os.Build
 import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.logging.AppDNS
@@ -80,7 +81,7 @@ class VpnDns(
 
     @VisibleForTesting
     suspend fun lookupSuspend(hostname: String): List<InetAddress> = coroutineScope {
-        if (!inTunnel.value) {
+        if (!inTunnel.value || customLookupNotAvailable()) {
             systemResolver(hostname)
         } else {
             // When connected with VPN protocol but not authenticated, system's private DNS
@@ -101,6 +102,11 @@ class VpnDns(
                 throw UnknownHostException("Unable to resolve host \"$hostname\". Please check your connection.")
         }
     }
+
+    private fun customLookupNotAvailable() =
+        // org.xbill.DNS.Lookup crashes on API 25 but it's shouldn't have system DNS setting anyway.
+        // SDK_INT 0 is for JVM unit tests.
+        Build.VERSION.SDK_INT in 1..<26
 }
 
 private fun systemResolver(hostname: String): List<InetAddress> =
