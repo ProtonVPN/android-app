@@ -53,6 +53,7 @@ import com.protonvpn.android.redesign.settings.ui.connectionpreferences.Connecti
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsActions
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsViewModel
 import com.protonvpn.android.redesign.settings.ui.customdns.DnsSettingsScreen
+import com.protonvpn.android.redesign.settings.ui.excludedlocations.ExcludedLocationsSettings
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource

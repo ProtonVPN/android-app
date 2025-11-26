@@ -85,7 +85,8 @@ fun ProtonOutlinedTextField(
     backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
     textHeightIn: Dp = Dp.Unspecified,
     cursorColor: Color = cursorColor(textStyle, isError).value,
-    trailingIcon: @Composable (() -> Unit)? = null
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     val decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit = @Composable { innerTextField ->
         ProtonOutlineDecorationBox(
@@ -102,6 +103,7 @@ fun ProtonOutlinedTextField(
             textHeightIn = textHeightIn,
             interactionSource = interactionSource,
             innerTextField = innerTextField,
+            leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
         )
     }
@@ -151,6 +153,7 @@ fun ProtonOutlinedTextField(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
     textHeightIn: Dp = Dp.Unspecified,
+    leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     val decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit = @Composable { innerTextField ->
@@ -168,6 +171,7 @@ fun ProtonOutlinedTextField(
             textHeightIn = textHeightIn,
             interactionSource = interactionSource,
             innerTextField = innerTextField,
+            leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
         )
     }
@@ -209,6 +213,7 @@ private fun ProtonOutlineDecorationBox(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
     textHeightIn: Dp = Dp.Unspecified,
+    leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     innerTextField: @Composable () -> Unit,
@@ -267,7 +272,7 @@ private fun ProtonOutlineDecorationBox(
                 isError = isError,
                 label = null,
                 placeholder = placeholder,
-                leadingIcon = null,
+                leadingIcon = leadingIcon,
                 trailingIcon = trailingIcon,
                 supportingText = supportingText,
                 colors = colors,

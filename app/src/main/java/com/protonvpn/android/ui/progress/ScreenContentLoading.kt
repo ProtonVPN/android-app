@@ -17,23 +17,39 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.settings.ui
+package com.protonvpn.android.ui.progress
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import com.protonvpn.android.R
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.redesign.base.ui.previews.PreviewBooleanProvider
+import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
-fun ExcludedLocationsSettings(
-    onClose: () -> Unit,
+fun ScreenContentLoading(
     modifier: Modifier = Modifier,
 ) {
-    SubSettingWithLazyContent(
+    Box(
         modifier = modifier,
-        title = stringResource(id = R.string.settings_excluded_locations_title),
-        onClose = onClose,
+        contentAlignment = Alignment.Center,
     ) {
-        // Will be implemented in VPNAND-2442
+        CircularProgressIndicator(
+            color = ProtonTheme.colors.interactionNorm,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun ScreenContentLoadingPreview(
+    @PreviewParameter(PreviewBooleanProvider::class) isDark: Boolean,
+) {
+    ProtonVpnPreview(isDark = isDark) {
+        ScreenContentLoading()
     }
 }

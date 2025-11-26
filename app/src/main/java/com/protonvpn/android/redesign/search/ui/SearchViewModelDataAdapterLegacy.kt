@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.redesign.search.ui
 
-import com.protonvpn.android.servers.Server
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
@@ -32,6 +32,7 @@ import com.protonvpn.android.redesign.countries.ui.toCountryItem
 import com.protonvpn.android.redesign.countries.ui.toServerItem
 import com.protonvpn.android.redesign.search.addServerNameHash
 import com.protonvpn.android.redesign.search.match
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.third_party.ApacheStringUtils
 import com.protonvpn.android.utils.CountryTools
@@ -39,58 +40,62 @@ import com.protonvpn.android.utils.addToList
 import com.protonvpn.android.utils.addToSet
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import java.util.Locale
 import javax.inject.Inject
 
 @Reusable
 class SearchViewModelDataAdapterLegacy @Inject constructor(
+    private val dispatcherProvider: VpnDispatcherProvider,
     private val serverManager2: ServerManager2,
     private val translator: Translator,
 ) : SearchViewModelDataAdapter {
 
     override fun search(term: String, locale: Locale): Flow<Map<ServerFilterType, SearchResults>> =
-        serverManager2.allServersFlow.map { servers ->
-            val normalizedTerm = ApacheStringUtils.stripAccents(term)
+        serverManager2.allServersFlow
+            .map { servers ->
+                val normalizedTerm = ApacheStringUtils.stripAccents(term)
 
-            val allExitCountryCodes = mutableSetOf<String>()
-            val allCitiesEn = mutableMapOf<String, MutableSet<String>>() // Country code to cities
-            val allStatesEn = mutableMapOf<String, MutableSet<String>>() // Country code to states
+                val allExitCountryCodes = mutableSetOf<String>()
+                val allCitiesEn = mutableMapOf<String, MutableSet<String>>() // Country code to cities
+                val allStatesEn = mutableMapOf<String, MutableSet<String>>() // Country code to states
 
-            val serverResults = mutableMapOf<ServerFilterType, MutableList<ServerGroupItemData.Server>>()
+                val serverResults = mutableMapOf<ServerFilterType, MutableList<ServerGroupItemData.Server>>()
 
-            val serverSearchTerm = addServerNameHash(term)
-            val normalizedServerSearchTerm = addServerNameHash(normalizedTerm)
-            // This runs though all servers so all operations should be as fast as possible.
-            servers.forEach { server ->
-                // For servers search for matches in this loop
-                val serverMatch = match(serverSearchTerm, normalizedServerSearchTerm, server.serverName)
-                if (serverMatch != null) {
-                    ServerFilterType.entries.forEach { filter ->
-                        if (filter.isMatching(server))
-                            serverResults.addToList(filter, server.toServerItem(serverMatch))
+                val serverSearchTerm = addServerNameHash(term)
+                val normalizedServerSearchTerm = addServerNameHash(normalizedTerm)
+                // This runs though all servers so all operations should be as fast as possible.
+                servers.forEach { server ->
+                    // For servers search for matches in this loop
+                    val serverMatch = match(serverSearchTerm, normalizedServerSearchTerm, server.serverName)
+                    if (serverMatch != null) {
+                        ServerFilterType.entries.forEach { filter ->
+                            if (filter.isMatching(server))
+                                serverResults.addToList(filter, server.toServerItem(serverMatch))
+                        }
                     }
+
+                    // Gather all cities and states
+                    allExitCountryCodes.add(server.exitCountry)
+                    if (server.city != null) allCitiesEn.addToSet(server.exitCountry, server.city)
+                    if (server.state != null) allStatesEn.addToSet(server.exitCountry, server.state)
                 }
 
-                // Gather all cities and states
-                allExitCountryCodes.add(server.exitCountry)
-                if (server.city != null) allCitiesEn.addToSet(server.exitCountry, server.city)
-                if (server.state != null) allStatesEn.addToSet(server.exitCountry, server.state)
-            }
+                val countriesResult = countriesResult(term, normalizedTerm, allExitCountryCodes, locale)
+                val citiesResult = citiesResult(term, normalizedTerm, allCitiesEn)
+                val statesResult = statesResult(term, normalizedTerm, allStatesEn)
 
-            val countriesResult = countriesResult(term, normalizedTerm, allExitCountryCodes, locale)
-            val citiesResult = citiesResult(term, normalizedTerm, allCitiesEn)
-            val statesResult = statesResult(term, normalizedTerm, allStatesEn)
-
-            ServerFilterType.entries.associateWith { filter ->
-                SearchResults(
-                    countries = countriesResult[filter] ?: emptyList(),
-                    cities = citiesResult[filter] ?: emptyList(),
-                    states = statesResult[filter] ?: emptyList(),
-                    servers = serverResults[filter] ?: emptyList(),
-                )
+                ServerFilterType.entries.associateWith { filter ->
+                    SearchResults(
+                        countries = countriesResult[filter].orEmpty(),
+                        cities = citiesResult[filter].orEmpty(),
+                        states = statesResult[filter].orEmpty(),
+                        servers = serverResults[filter].orEmpty(),
+                    )
+                }
             }
-        }
+            .flowOn(context = dispatcherProvider.Comp)
 
     private suspend fun countriesResult(
         term: String,
