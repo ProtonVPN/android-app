@@ -83,6 +83,7 @@
     <string name="connect">Connect</string>
     <string name="upgrade">Upgrade</string>
     <string name="retry">Retry</string>
+    <string name="select_ellipsis">Select...</string>
     <string name="report_message">Report message</string>
     <string name="report_bug_email_label">Your email</string>
     <string name="report_bug_email_hint">Enter your email address</string>
@@ -647,6 +648,10 @@
     <string name="select_default_connection">Select your default connection</string>
     <string name="settings_default_connection_title">Default connection</string>
     <string name="fastest_country_description">The best server based on your location</string>
+    <string name="settings_connection_preferences_title">Connection preferences</string>
+    <string name="settings_excluded_locations_title">Excluded locations</string>
+    <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
+    <string name="settings_excluded_locations_unavailable">No locations available</string>
     <string name="settings_last_connection_title">Last connection</string>
     <string name="settings_last_connection_description">Your most recently used connection</string>
     <string name="settings_change_icon_title">App icon</string>

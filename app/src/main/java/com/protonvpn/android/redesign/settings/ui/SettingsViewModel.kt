@@ -39,9 +39,11 @@ import com.protonvpn.android.redesign.recents.data.getRecentIdOrNull
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.reports.IsRedesignedBugReportFeatureFlagEnabled
+import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.theme.label
@@ -53,7 +55,6 @@ import com.protonvpn.android.update.AppUpdateBannerState
 import com.protonvpn.android.update.AppUpdateBannerStateFlow
 import com.protonvpn.android.update.AppUpdateInfo
 import com.protonvpn.android.update.AppUpdateManager
-import com.protonvpn.android.update.IsAppUpdateBannerFeatureFlagEnabled
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.combine
 import com.protonvpn.android.vpn.DnsOverride
@@ -72,7 +73,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.shareIn
@@ -96,6 +96,7 @@ class SettingsViewModel @Inject constructor(
     buildConfigInfo: BuildConfigInfo,
     settingsForConnection: SettingsForConnection,
     observeDefaultConnection: ObserveDefaultConnection,
+    serverManager: ServerManager2,
     private val uiStateStorage: UiStateStorage,
     private val recentsManager: RecentsManager,
     private val installedAppsProvider: InstalledAppsProvider,
@@ -112,6 +113,7 @@ class SettingsViewModel @Inject constructor(
     appUpdateBannerStateFlow: AppUpdateBannerStateFlow,
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     private val isRedesignedBugReportFeatureFlagEnabled: IsRedesignedBugReportFeatureFlagEnabled,
+    private val isAutomaticConnectionPreferencesFeatureFlagEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -193,6 +195,15 @@ class SettingsViewModel @Inject constructor(
             val predefinedTitle: Int?,
             val recentLabel: ConnectIntentPrimaryLabel?,
         )
+
+        data class ConnectionPreferencesState(
+            val isFreeUser: Boolean,
+            val defaultConnection: DefaultConnection,
+            val connectIntentPrimaryLabel: ConnectIntentPrimaryLabel?,
+            val predefinedTitle: Int?,
+            val canSelectLocations: Boolean,
+        )
+
         class Protocol(
             protocol: ProtocolSelection,
             overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel.Profile?,
@@ -340,6 +351,8 @@ class SettingsViewModel @Inject constructor(
         val isRedesignedBugReportFeatureFlagEnabled: Boolean,
         val appUpdateBannerState: AppUpdateBannerState,
         val showSingInOnAnotherDeviceQr: Boolean,
+        val connectionPreferences: SettingViewState.ConnectionPreferencesState,
+        val isAutomaticConnectionPreferencesEnabled: Boolean,
     )
 
     enum class UiEvent {
@@ -361,6 +374,19 @@ class SettingsViewModel @Inject constructor(
             }
         }
 
+    private data class FeatureFlags(
+        val isIPv6FeatureFlagEnabled: Boolean,
+        val isRedesignedBugReportFeatureFlagEnabled: Boolean,
+        val isAutomaticConnectionPreferencesFeatureFlagEnabled: Boolean,
+    )
+
+    private val featureFlagsFlow = combine(
+        isIPv6FeatureFlagEnabled.observe(),
+        isRedesignedBugReportFeatureFlagEnabled.observe(),
+        isAutomaticConnectionPreferencesFeatureFlagEnabled.observe(),
+        ::FeatureFlags,
+    )
+
     val viewState =
         combine(
             currentUser.jointUserFlow,
@@ -368,11 +394,11 @@ class SettingsViewModel @Inject constructor(
             // Will return override settings if connected else global
             settingsForConnection.getFlowForCurrentConnection(),
             appFeaturePrefs.isWidgetDiscoveredFlow,
-            isIPv6FeatureFlagEnabled.observe(),
             isPrivateDnsActiveFlow,
-            isRedesignedBugReportFeatureFlagEnabled.observe(),
             acknowledgingAppUpdateBannerStateFlow,
-        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled, isPrivateDnsActive, isRedesignedBugReportFeatureFlagEnabled, appUpdateBannerState ->
+            serverManager.hasAnyCountryFlow,
+            featureFlagsFlow,
+        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isPrivateDnsActive, appUpdateBannerState, hasCountries, featureFlags ->
             val isFree = user?.vpnUser?.isFreeUser == true
             val isCredentialLess = user?.user?.isCredentialLess() == true
             val settings = connectionSettings.connectionSettings
@@ -445,11 +471,19 @@ class SettingsViewModel @Inject constructor(
                         isPrivateDnsActive = isPrivateDnsActive,
                     ),
                 versionName = BuildConfig.VERSION_NAME,
-                ipV6 = if (isIPv6FeatureFlagEnabled) SettingViewState.IPv6(enabled = settings.ipV6Enabled) else null,
+                ipV6 = if (featureFlags.isIPv6FeatureFlagEnabled) SettingViewState.IPv6(enabled = settings.ipV6Enabled) else null,
                 theme = SettingViewState.Theme(settings.theme),
-                isRedesignedBugReportFeatureFlagEnabled = isRedesignedBugReportFeatureFlagEnabled,
+                isRedesignedBugReportFeatureFlagEnabled = featureFlags.isRedesignedBugReportFeatureFlagEnabled,
                 appUpdateBannerState = appUpdateBannerState,
                 showSingInOnAnotherDeviceQr = !managedConfig.isManaged,
+                connectionPreferences = SettingViewState.ConnectionPreferencesState(
+                    isFreeUser = isFree,
+                    defaultConnection = defaultConnection,
+                    connectIntentPrimaryLabel = defaultConnectionSetting?.recentLabel,
+                    predefinedTitle = defaultConnectionSetting?.predefinedTitle,
+                    canSelectLocations = hasCountries,
+                ),
+                isAutomaticConnectionPreferencesEnabled = featureFlags.isAutomaticConnectionPreferencesFeatureFlagEnabled,
             )
         }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(1_000), replay = 1)
 
@@ -465,6 +499,7 @@ class SettingsViewModel @Inject constructor(
     val customDns = viewState.map { it.customDns }.distinctUntilChanged()
     val splitTunneling = viewState.map { it.splitTunneling }.distinctUntilChanged()
     val theme = viewState.map { it.theme.value }.distinctUntilChanged()
+    val connectionPreferences = viewState.map { it.connectionPreferences }.distinctUntilChanged()
 
     data class AdvancedSettingsViewState(
         val altRouting: SettingViewState.AltRouting,

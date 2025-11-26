@@ -156,7 +156,7 @@ private fun DefaultSelectionRow(
 }
 
 @Composable
-private fun IconRecent(
+fun IconRecent(
     modifier: Modifier = Modifier,
 ) {
     Image(

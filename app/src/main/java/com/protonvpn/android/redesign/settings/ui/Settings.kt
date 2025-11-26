@@ -178,6 +178,9 @@ fun SettingsRoute(
                 onDefaultConnectionClick = {
                     onNavigateToSubSetting(SubSettingsScreen.Type.DefaultConnection)
                 },
+                onConnectionPreferencesClick = {
+                    onNavigateToSubSetting(SubSettingsScreen.Type.ConnectionPreferences)
+                },
                 onVpnAcceleratorClick = {
                     onNavigateToSubSetting(SubSettingsScreen.Type.VpnAccelerator)
                 },
@@ -250,6 +253,7 @@ fun SettingsView(
     onSplitTunnelUpgrade: () -> Unit,
     onAlwaysOnClick: () -> Unit,
     onDefaultConnectionClick: () -> Unit,
+    onConnectionPreferencesClick: () -> Unit,
     onProtocolClick: () -> Unit,
     onVpnAcceleratorClick: () -> Unit,
     onVpnAcceleratorUpgrade: () -> Unit,
@@ -315,17 +319,26 @@ fun SettingsView(
                 modifier = horizontalItemPadding,
                 stringResource(id = R.string.settings_connection_category)
             ) {
-                viewState.defaultConnection?.let { connnection ->
-                    val connectionLabel = with(connnection) {
-                        predefinedTitle?.let { stringResource(id = it) } ?: recentLabel?.label()
-                    }
+                if(viewState.isAutomaticConnectionPreferencesEnabled) {
                     SettingRowWithIcon(
-                        icon = connnection.iconRes,
-                        title = stringResource(id = connnection.titleRes),
-                        settingValue = connectionLabel?.let { SettingValue.SettingText(it) },
-                        onClick = onDefaultConnectionClick,
+                        icon = CoreR.drawable.ic_proton_bookmark,
+                        title = stringResource(id = R.string.settings_connection_preferences_title),
+                        onClick = onConnectionPreferencesClick,
                     )
+                } else {
+                    viewState.defaultConnection?.let { connnection ->
+                        val connectionLabel = with(connnection) {
+                            predefinedTitle?.let { stringResource(id = it) } ?: recentLabel?.label()
+                        }
+                        SettingRowWithIcon(
+                            icon = connnection.iconRes,
+                            title = stringResource(id = connnection.titleRes),
+                            settingValue = connectionLabel?.let { SettingValue.SettingText(it) },
+                            onClick = onDefaultConnectionClick,
+                        )
+                    }
                 }
+
                 SettingRowWithIcon(
                     icon = viewState.protocol.iconRes,
                     title = stringResource(id = viewState.protocol.titleRes),

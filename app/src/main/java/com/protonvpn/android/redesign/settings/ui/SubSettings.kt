@@ -49,6 +49,7 @@ import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
+import com.protonvpn.android.redesign.settings.ui.connectionpreferences.ConnectionPreferencesSetting
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsActions
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsViewModel
 import com.protonvpn.android.redesign.settings.ui.customdns.DnsSettingsScreen
@@ -321,6 +322,29 @@ fun SubSettingsRoute(
 
             SubSettingsScreen.Type.DefaultConnection -> {
                 DefaultConnectionSetting(onClose)
+            }
+
+            SubSettingsScreen.Type.ConnectionPreferences -> {
+                val viewState = viewModel.connectionPreferences.collectAsStateWithLifecycle(initialValue = null).value
+
+                viewState?.let { state ->
+                    ConnectionPreferencesSetting(
+                        state = state,
+                        onClose = onClose,
+                        onDefaultConnectionClick = {
+                            onNavigateToSubSetting(SubSettingsScreen.Type.DefaultConnection)
+                        },
+                        onExcludeLocationClick = {
+                            onNavigateToSubSetting(SubSettingsScreen.Type.ExcludedLocations)
+                        },
+                    )
+                }
+            }
+
+            SubSettingsScreen.Type.ExcludedLocations -> {
+                ExcludedLocationsSettings(
+                    onClose = onClose,
+                )
             }
 
             SubSettingsScreen.Type.Theme -> {

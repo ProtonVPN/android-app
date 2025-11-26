@@ -28,6 +28,7 @@ import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.settings.ui.AdvancedSettings
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.SettingsView
@@ -79,6 +80,7 @@ fun SettingsCredentialless() {
             onNetShieldUpgradeClick = {},
             onThirdPartyLicensesClick = {},
             onDefaultConnectionClick = {},
+            onConnectionPreferencesClick = {},
             onAdvancedSettingsClick = {},
             onWidgetClick = {},
             onDebugToolsClick = {},
@@ -117,6 +119,7 @@ fun SettingsPaidProfileConnected() {
             onNetShieldUpgradeClick = {},
             onThirdPartyLicensesClick = {},
             onDefaultConnectionClick = {},
+            onConnectionPreferencesClick = {},
             onAdvancedSettingsClick = {},
             onWidgetClick = {},
             onDebugToolsClick = {}
@@ -296,7 +299,7 @@ fun AddNewDnsScreenErrorPreview() {
 }
 
 private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false, isPrivateDnsActive: Boolean = false) {
-    private val splitTunneling = SettingsViewModel.SettingViewState.SplitTunneling(
+    private val splitTunneling = SettingViewState.SplitTunneling(
         false, SplitTunnelingMode.EXCLUDE_ONLY, listOf(), listOf(), isFree
     )
     val overrideInfo = if (connectedToProfile) SettingsViewModel.ProfileOverrideInfo(ConnectIntentPrimaryLabel.Profile(
@@ -329,6 +332,13 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
         SettingViewState.Nat(NatType.Strict, isFree, overrideInfo?.primaryLabel)
     private val ipV6 = SettingViewState.IPv6(enabled = true)
     private val theme = SettingViewState.Theme(ThemeType.Dark)
+    private val connectionPreferences = SettingViewState.ConnectionPreferencesState(
+        isFreeUser = isFree,
+        defaultConnection = DefaultConnection.FastestConnection,
+        connectIntentPrimaryLabel = null,
+        predefinedTitle = null,
+        canSelectLocations = true,
+    )
 
     val settingsViewState = SettingsViewModel.SettingsViewState(
         appUpdateBannerState = AppUpdateBannerState.Shown(false, AppUpdateInfo(0, 0)),
@@ -351,6 +361,8 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
         theme = theme,
         isRedesignedBugReportFeatureFlagEnabled = true,
         showSingInOnAnotherDeviceQr = true,
+        connectionPreferences = connectionPreferences,
+        isAutomaticConnectionPreferencesEnabled = true,
     )
 
     val credentiallessAccountViewState =
