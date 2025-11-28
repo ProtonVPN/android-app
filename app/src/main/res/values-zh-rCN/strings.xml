@@ -51,9 +51,9 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">取消</string>
     <string name="close">关闭</string>
-    <string name="dialogContinue">Continue</string>
+    <string name="dialogContinue">继续</string>
     <string name="drawerReportProblem">反馈问题</string>
-    <string name="action_done">Done</string>
+    <string name="action_done">完成</string>
     <string name="action_share">分享</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">维护中</string>
@@ -86,7 +86,7 @@
     <string name="report_bug_message_label">内容</string>
     <string name="report_bug_message_hint">请描述 bug 的表现以及是怎么触发的</string>
     <string name="send_report">提交反馈</string>
-    <string name="report_sent">Report sent</string>
+    <string name="report_sent">报告已发送</string>
     <string name="discardChanges">改动不会保存，要清空吗？</string>
     <string name="discard">放弃</string>
     <string name="done">完成</string>
@@ -1319,7 +1319,7 @@
     <string name="settings_account_button_my_account">我的账户</string>
     <string name="settings_account_button_delete_account">删除账号</string>
     <string name="settings_custom_dns_title">自定义DNS</string>
-    <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
+    <string name="settings_custom_dns_description_tv">使用自托管或第三方域名系统 (DNS) 连接 VPN。</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">添加新的DNS服务器</string>
     <string name="settings_add_dns_new_entry_button">添加</string>
@@ -1370,8 +1370,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">推荐</string>
     <string name="settings_split_tunneling_mode_title">模式</string>
-    <string name="settings_split_tunneling_mode_standard">Exclude</string>
-    <string name="settings_split_tunneling_mode_inverse">Include</string>
+    <string name="settings_split_tunneling_mode_standard">排除</string>
+    <string name="settings_split_tunneling_mode_inverse">包含</string>
     <string name="settings_split_tunneling_mode_description_standard">挑选不经 VPN 连接的应用和 IP 地址。</string>
     <string name="settings_split_tunneling_mode_description_inverse">选中的应用和 IP 地址经 VPN 连接，其余全部流量不受保护。</string>
     <string name="settings_split_tunneling_excluded_apps">排除的应用</string>
@@ -1501,7 +1501,7 @@
     <string name="profile_auto_open_app">Open an app</string>
     <string name="create_profile_auto_open_description">当您连接到此配置文件时，将自动打开您选择的网站。</string>
     <string name="create_profile_auto_open_app_input_hint">Select an app</string>
-    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_input_label">应用</string>
     <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
     <string name="profile_auto_open_error_invalid_url">输入一个有效的 URL</string>
     <string name="nps_how_likely_question">您向朋友或同事推荐 Proton VPN 的可能性有多大？</string>
@@ -1547,5 +1547,5 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">启用智能协议</string>
 </resources>

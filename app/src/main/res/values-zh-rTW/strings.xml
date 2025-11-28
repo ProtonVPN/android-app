@@ -51,9 +51,9 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">取消</string>
     <string name="close">關閉</string>
-    <string name="dialogContinue">Continue</string>
+    <string name="dialogContinue">繼續</string>
     <string name="drawerReportProblem">回報問題</string>
-    <string name="action_done">Done</string>
+    <string name="action_done">完成</string>
     <string name="action_share">共享</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">維護中</string>
@@ -86,7 +86,7 @@
     <string name="report_bug_message_label">郵件訊息</string>
     <string name="report_bug_message_hint">請描述問題以及發現它的方式與位置</string>
     <string name="send_report">傳送回報</string>
-    <string name="report_sent">Report sent</string>
+    <string name="report_sent">已傳送回報</string>
     <string name="discardChanges">放棄仍未儲存的變更嗎？</string>
     <string name="discard">捨棄</string>
     <string name="done">完成</string>
@@ -98,8 +98,8 @@
     <string name="try_again">再試一次</string>
     <string name="delete">刪除</string>
     <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Move to top</string>
-    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Move up</string>
-    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Move down</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">向上移動</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">向下移動</string>
     <string name="remove">移除</string>
     <string name="saveButton">儲存</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -278,7 +278,7 @@
     <string name="nameAfricaAndMiddleEast">非洲與中東</string>
     <string name="nameOceania">大洋洲</string>
     <string name="tv_row_settings">設定</string>
-    <string name="tv_card_lan_connections_label">LAN</string>
+    <string name="tv_card_lan_connections_label">區域網路</string>
     <string name="tv_card_split_tunneling_label">分隔通道</string>
     <string name="tv_card_protocol_label">協定</string>
     <string name="tv_dialog_delete_server_title">Delete server %1$s?</string>
@@ -1004,7 +1004,7 @@
     <string name="gateways_title">預設閘道</string>
     <string name="countries_title">國家</string>
     <string name="profiles_title">配置</string>
-    <string name="settings_autoconnect_title">Auto-connect</string>
+    <string name="settings_autoconnect_title">自動連線</string>
     <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">功能</string>
@@ -1072,13 +1072,13 @@
     <string name="country_filter_countries_list_header">國家 (%1$d)</string>
     <string name="country_filter_cities_list_header">城市 (%1$d)</string>
     <string name="country_filter_states_list_header">州 (%1$d)</string>
-    <string name="country_filter_servers_list_header">Servers</string>
+    <string name="country_filter_servers_list_header">伺服器</string>
     <string name="country_filter_secure_core_list_header">雙重路由國家/地區 (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P 國家 (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P 城市 (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P州 (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor 國家/地區 (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor servers</string>
+    <string name="country_filter_tor_servers_list_header">Tor 伺服器</string>
     <string name="country_filter_info_label">資訊</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
@@ -1341,7 +1341,7 @@
     <string name="settings_advanced_allow_lan_title">區域網路連線</string>
     <string name="settings_advanced_allow_lan_description">讓您連接與您的裝置同一區域網路上的印表機、揚聲器和其他裝置。</string>
     <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
-    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
+    <string name="settings_advanced_allow_lan_title_tv">允許內網連線</string>
     <string name="settings_advanced_nat_type_title">NAT 類型</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">選取您的連線要使用的網路位址轉譯類型。%1$s</string>
@@ -1370,8 +1370,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">推薦使用</string>
     <string name="settings_split_tunneling_mode_title">模式</string>
-    <string name="settings_split_tunneling_mode_standard">Exclude</string>
-    <string name="settings_split_tunneling_mode_inverse">Include</string>
+    <string name="settings_split_tunneling_mode_standard">排除</string>
+    <string name="settings_split_tunneling_mode_inverse">包含</string>
     <string name="settings_split_tunneling_mode_description_standard">已選的應用程式及 IP 位址會被排除在 VPN 連線之外.</string>
     <string name="settings_split_tunneling_mode_description_inverse">僅限選取的應用程式和 IP 位址透過 VPN 連線，其餘流量不受保護。</string>
     <string name="settings_split_tunneling_excluded_apps">不包括所有應用</string>
@@ -1501,7 +1501,7 @@
     <string name="profile_auto_open_app">Open an app</string>
     <string name="create_profile_auto_open_description">當您連接到此設定檔時，自動開啟您選擇的網站。</string>
     <string name="create_profile_auto_open_app_input_hint">Select an app</string>
-    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_input_label">應用程式</string>
     <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
     <string name="profile_auto_open_error_invalid_url">輸入有效的網址</string>
     <string name="nps_how_likely_question">您推薦 Proton VPN 給朋友或同事的可能性有多大？</string>
@@ -1547,5 +1547,5 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">啟用 Smart Protocol</string>
 </resources>

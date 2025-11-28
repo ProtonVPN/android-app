@@ -28,7 +28,7 @@
     <string name="login">Conectare</string>
     <string name="menuActionSignOut">Deconectare</string>
     <string name="connectionAllocationHelpTitle">Vă mulțumim pentru achiziționare</string>
-    <string name="connectionAllocationHelpDescription1">Pentru a începe utilizarea Proton VPN atribuiți conexiuni VPN contului sau oricărui cont secundar.</string>
+    <string name="connectionAllocationHelpDescription1">Pentru a începe utilizarea Proton VPN atribuiți contului sau oricărui cont secundar conexiuni VPN.</string>
     <string name="connectionAllocationHelpDescription2">Acest pas va dura doar câteva minute. După aceasta veți putea să vă conectați și să vă protejați toate dispozitivele.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Momentan nu există nici o conexiune VPN activată pentru acest cont. Pentru a începe să utilizați Proton VPN, contactați-vă administratorul contului.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Activare conexiuni VPN</string>
@@ -57,8 +57,8 @@
     <string name="action_share">Partajare</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">În întreținere</string>
-    <string name="restrictedMaintenanceDescription">Serverul la care se încearcă conectarea este în întreținere. Încercați alt server.</string>
-    <string name="errorUserDelinquent"><![CDATA[Contul are în prezent o factură restantă. Vă rugăm să plătiți toate facturile neachitate la&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="restrictedMaintenanceDescription">Serverul la care se dorește conectarea este în întreținere. Încercați alt server.</string>
+    <string name="errorUserDelinquent"><![CDATA[Contul are în prezent o factură restantă. Vă rugăm să plătiți toate facturile neachitate la adresa&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Ați atins numărul maxim de conexiuni simultane permise pentru acest cont. Modificați-vă planul Proton VPN pentru a obține mai multe conexiuni.</string>
     <string name="listItemMaintenance">În întreținere</string>
     <string name="insufficientPermissionsTitle">Este necesară acțiunea utilizatorului</string>

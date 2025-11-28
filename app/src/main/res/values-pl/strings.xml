@@ -51,9 +51,9 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Anuluj</string>
     <string name="close">Zamknij</string>
-    <string name="dialogContinue">Continue</string>
+    <string name="dialogContinue">Kontynuuj</string>
     <string name="drawerReportProblem">Zgłoś problem</string>
-    <string name="action_done">Done</string>
+    <string name="action_done">Gotowe</string>
     <string name="action_share">Udostępnij</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">W trakcie przerwy technicznej</string>
@@ -86,7 +86,7 @@
     <string name="report_bug_message_label">Wiadomość</string>
     <string name="report_bug_message_hint">Opisz błąd i dołącz informację jak i gdzie go znaleźć</string>
     <string name="send_report">Wyślij raport</string>
-    <string name="report_sent">Report sent</string>
+    <string name="report_sent">Raport został wysłany</string>
     <string name="discardChanges">Czy chcesz odrzucić niezapisane zmiany?</string>
     <string name="discard">Odrzuć</string>
     <string name="done">GOTOWE</string>
@@ -325,7 +325,7 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">Obciążenie serwera %1$s%%</string>
-    <string name="tv_recently_used_servers">Recently used servers</string>
+    <string name="tv_recently_used_servers">Ostatnio używane serwery</string>
     <string name="tv_available_servers">Available servers</string>
     <string name="tv_locked_servers">Locked servers</string>
     <string name="tv_other_servers">Other servers</string>
@@ -444,7 +444,7 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odblokuj %1$s w %2$s w planie <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_title">Uzyskaj pełną ochronę prywatności w planie Proton Unlimited</string>
     <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
     <string name="upgrade_unlimited_more">i wiele więcej</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Odblokuj wszystkie kraje</string>
@@ -1079,7 +1079,7 @@
     <string name="gateways_title">Bramy</string>
     <string name="countries_title">Kraje</string>
     <string name="profiles_title">Profile</string>
-    <string name="settings_autoconnect_title">Auto-connect</string>
+    <string name="settings_autoconnect_title">Automatyczne połączenie</string>
     <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funkcje</string>
@@ -1427,7 +1427,7 @@
     <string name="settings_account_button_my_account">Moje konto</string>
     <string name="settings_account_button_delete_account">Usuń konto</string>
     <string name="settings_custom_dns_title">Niestandardowy serwer DNS</string>
-    <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
+    <string name="settings_custom_dns_description_tv">Połącz się z VPN za pomocą własnego serwera DNS.</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Dodaj nowy serwer DNS</string>
     <string name="settings_add_dns_new_entry_button">Dodaj</string>
@@ -1449,7 +1449,7 @@
     <string name="settings_advanced_allow_lan_title">Połączenia LAN</string>
     <string name="settings_advanced_allow_lan_description">Umożliwia połączenie z drukarkami, głośnikami i innymi urządzeniami w sieci lokalnej urządzenia.</string>
     <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
-    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
+    <string name="settings_advanced_allow_lan_title_tv">Zezwalaj na połączenia LAN</string>
     <string name="settings_advanced_nat_type_title">Typ NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Wybierz typ NAT dla połączenia. %1$s</string>
@@ -1478,8 +1478,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Zalecany</string>
     <string name="settings_split_tunneling_mode_title">Tryb</string>
-    <string name="settings_split_tunneling_mode_standard">Exclude</string>
-    <string name="settings_split_tunneling_mode_inverse">Include</string>
+    <string name="settings_split_tunneling_mode_standard">Wyklucz</string>
+    <string name="settings_split_tunneling_mode_inverse">Dołącz</string>
     <string name="settings_split_tunneling_mode_description_standard">Wybrane aplikacje i adresy IP zostaną wykluczone z połączenia VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Tylko wybrane aplikacje i adresy IP zostaną uwzględnione w połączeniu VPN. Pozostały ruch sieciowy będzie niechroniony.</string>
     <string name="settings_split_tunneling_excluded_apps">Wykluczone aplikacje</string>
@@ -1609,7 +1609,7 @@
     <string name="profile_auto_open_app">Open an app</string>
     <string name="create_profile_auto_open_description">Automatycznie otwórz wybraną stronę internetową, kiedy się połączysz z tym profilem.</string>
     <string name="create_profile_auto_open_app_input_hint">Select an app</string>
-    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_input_label">Aplikacja</string>
     <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
     <string name="profile_auto_open_error_invalid_url">Wpisz prawidłowy adres URL</string>
     <string name="nps_how_likely_question">Jak bardzo prawdopodobne jest, że polecisz Proton VPN znajomemu lub współpracownikowi?</string>
@@ -1629,7 +1629,7 @@
     <string name="widget_status_connecting">Łączenie</string>
     <string name="widget_sign_in">Zaloguj się</string>
     <string name="widget_toast_added_message">Widżet został dodany do ekranu głównego</string>
-    <string name="settings_advanced_ipv6_title">IPv6 support</string>
+    <string name="settings_advanced_ipv6_title">Wsparcie IPv6</string>
     <string name="settings_advanced_ipv6_description">Przekieruj ruch IPv6 przez VPN. Opcja może zwiększyć kompatybilność z sieciami IPv6.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Aby użyć tego adresu, zezwól na połączenia IPv6 przez usługę VPN.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Włącz IPv6</string>
@@ -1655,5 +1655,5 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Włącz Smart Protocol</string>
 </resources>

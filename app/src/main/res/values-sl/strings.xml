@@ -51,9 +51,9 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Prekliči</string>
     <string name="close">Zapri</string>
-    <string name="dialogContinue">Continue</string>
+    <string name="dialogContinue">Nadaljujte</string>
     <string name="drawerReportProblem">Prijava napake</string>
-    <string name="action_done">Done</string>
+    <string name="action_done">Končano</string>
     <string name="action_share">Deli</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Vzdrževalna dela v teku</string>
@@ -86,7 +86,7 @@
     <string name="report_bug_message_label">Sporočilo</string>
     <string name="report_bug_message_hint">Opišite napako ter kako in kje ste jo našli</string>
     <string name="send_report">Pošlji poročilo</string>
-    <string name="report_sent">Report sent</string>
+    <string name="report_sent">Poročilo poslano</string>
     <string name="discardChanges">Zavržem neshranjene spremembe?</string>
     <string name="discard">Zavrzi</string>
     <string name="done">KONČANO</string>
@@ -98,8 +98,8 @@
     <string name="try_again">Poskusite ponovno</string>
     <string name="delete">Izbriši</string>
     <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Move to top</string>
-    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Move up</string>
-    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Move down</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Premakni navzgor</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Premakni navzdol</string>
     <string name="remove">Odstrani</string>
     <string name="saveButton">Shrani</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -285,7 +285,7 @@
     <string name="nameOceania">Oceanija</string>
     <string name="tv_row_settings">Nastavitve</string>
     <string name="tv_card_lan_connections_label">LAN</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Razdeljeno tuneliranje</string>
     <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_dialog_delete_server_title">Delete server %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Najljubša</string>
@@ -325,7 +325,7 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">%1$s%% server load</string>
-    <string name="tv_recently_used_servers">Recently used servers</string>
+    <string name="tv_recently_used_servers">Nedavno uporabljeni strežniki</string>
     <string name="tv_available_servers">Available servers</string>
     <string name="tv_locked_servers">Locked servers</string>
     <string name="tv_other_servers">Other servers</string>
@@ -445,7 +445,7 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odklenite %1$s v %2$s z <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_title">Zagotovite si popolno zasebno pokritost s Proton Unlimited</string>
     <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
     <string name="upgrade_unlimited_more">In več</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Odkleni vse države</string>
@@ -557,7 +557,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Brskajte pri še večjih hitrostih (do %1$d Gb/s)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Razdeljeno tuneliranje</string>
     <string name="upsell_card_split_tunneling_description">Brskajte z dveh lokacij hkrati</string>
     <string name="upsell_card_streaming_title">Pretakanje</string>
     <string name="upsell_card_streaming_description">Glejte svoje najljubše filme in serije</string>
@@ -1080,14 +1080,14 @@
     <string name="gateways_title">Prehodi</string>
     <string name="countries_title">Države</string>
     <string name="profiles_title">Profili</string>
-    <string name="settings_autoconnect_title">Auto-connect</string>
+    <string name="settings_autoconnect_title">Samodejna povezava</string>
     <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funkcije</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Razdeljeno tuneliranje</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1148,7 +1148,7 @@
     <string name="country_filter_countries_list_header">Države (%1$d)</string>
     <string name="country_filter_cities_list_header">Mesta (%1$d)</string>
     <string name="country_filter_states_list_header">Države (%1$d)</string>
-    <string name="country_filter_servers_list_header">Servers</string>
+    <string name="country_filter_servers_list_header">Strežnika</string>
     <string name="country_filter_secure_core_list_header">„Secure Core” države (%1$d)</string>
     <string name="country_filter_p2p_list_header">Države P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P mesta (%1$d)</string>
@@ -1409,7 +1409,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="create_profile_type_and_location_title">Izberite vrsto povezave in lokacijo</string>
     <string name="create_profile_features_and_settings_title">Funkcije in nastavitve</string>
     <string name="configure_profile_features_and_settings_title">Nastavi nastavitve profila</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
+    <string name="configure_profile_features_and_settings_description">Nastavitve profila bodo med povezavo zamenjale vaše nastavitve VPN.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
@@ -1451,7 +1451,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_advanced_allow_lan_title">LAN povezave</string>
     <string name="settings_advanced_allow_lan_description">Omogoča povezovanje s tiskalniki, zvočniki in drugimi napravami v lokalnem omrežju.</string>
     <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
-    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
+    <string name="settings_advanced_allow_lan_title_tv">Dovoli LAN povezave</string>
     <string name="settings_advanced_nat_type_title">NAT tip</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Izberite vrsto prevajanja omrežnih naslovov za vašo povezavo. %1$s</string>
@@ -1611,14 +1611,14 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="profile_auto_open_app">Open an app</string>
     <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
     <string name="create_profile_auto_open_app_input_hint">Select an app</string>
-    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_input_label">Aplikacija</string>
     <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
     <string name="profile_auto_open_error_invalid_url">Vnesite veljaven URL</string>
     <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
-    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_additional_comment_title">Sporočite nam, zakaj ste podali to oceno.</string>
     <string name="nps_additional_comment_optional">Neobvezno</string>
-    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
-    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_rating_low_values_explain">0 je zelo malo verjetno</string>
+    <string name="nps_rating_high_values_explain">10 je zelo verjetno</string>
     <string name="nps_toast_submit_message">Hvala! Vaše povratne informacije nam pomagajo izboljšati Proton VPN.</string>
     <string name="nps_submit_error_char_limit">Vaš odgovor mora vsebovati največ 250 znakov.</string>
     <string name="nps_button_submit_title">Deli anonimno</string>
@@ -1649,13 +1649,13 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="no_connections_title">No VPN connections available</string>
     <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
     <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
-    <string name="no_connections_action_refresh">Refresh</string>
-    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_action_refresh">Osveži</string>
+    <string name="no_connections_action_sign_out">Odjavi se</string>
     <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Omogoči Smart Protocol</string>
 </resources>

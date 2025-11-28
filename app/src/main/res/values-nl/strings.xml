@@ -86,7 +86,7 @@
     <string name="report_bug_message_label">Bericht</string>
     <string name="report_bug_message_hint">Beschrijf de bug en hoe en waar u die gevonden hebt</string>
     <string name="send_report">Verstuur melding</string>
-    <string name="report_sent">Report sent</string>
+    <string name="report_sent">Rapport verzonden</string>
     <string name="discardChanges">Niet opgeslagen wijzigingen verwijderen?</string>
     <string name="discard">Weggooien</string>
     <string name="done">KLAAR</string>
@@ -587,11 +587,11 @@
     <string name="dynamic_report_tips_title">Snelle oplossingen</string>
     <string name="dynamic_report_logs_title">Foutmeldingslogboeken verzenden</string>
     <string name="dynamic_report_logs_tooltip">Foutenlogboeken laten ons zien wat er fout ging en welke acties tot het probleem leidden. We gebruiken ze alleen om onze ingenieurs te helpen om problemen op te lossen.</string>
-    <string name="dynamic_report_error_title">We couldn’t send your report.</string>
-    <string name="dynamic_report_completion_error_description_generic">We couldn’t send your report. Please try again.</string>
-    <string name="dynamic_report_completion_error_description_no_internet">We couldn’t send your report. Please check your connection and try again.</string>
-    <string name="dynamic_report_completion_error_description_timeout">We couldn’t send your report. Connection timed out, please try again.</string>
-    <string name="dynamic_report_completion_success_title">Thanks for your feedback. We’ll get back to you as soon as we can.</string>
+    <string name="dynamic_report_error_title">We konden uw rapport niet verzenden.</string>
+    <string name="dynamic_report_completion_error_description_generic">We kunnen uw rapport niet verzenden. Probeer het opnieuw.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">We kunnen uw rapport niet verzenden. Controleer uw verbinding en probeer het opnieuw</string>
+    <string name="dynamic_report_completion_error_description_timeout">We kunnen uw rapport niet verzenden. Verbinding is verlopen, probeer het opnieuw.</string>
+    <string name="dynamic_report_completion_success_title">Bedankt voor uw feedback. We zullen zo snel mogelijk contact met u opnemen.</string>
     <string name="dynamic_report_success_title">Bedankt voor uw feedback</string>
     <string name="dynamic_report_success_description">We laten u zo snel als het kan iets weten.</string>
     <string name="dynamic_report_field_mandatory">Dit veld is verplicht</string>
@@ -1355,7 +1355,7 @@
     <string name="settings_account_button_my_account">Mijn account</string>
     <string name="settings_account_button_delete_account">Account verwijderen</string>
     <string name="settings_custom_dns_title">Aangepaste DNS</string>
-    <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
+    <string name="settings_custom_dns_description_tv">Verbind met VPN met een zelf gehost of een domain name system (DNS) van derden.</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Nieuwe DNS-server toevoegen</string>
     <string name="settings_add_dns_new_entry_button">Voeg toe</string>

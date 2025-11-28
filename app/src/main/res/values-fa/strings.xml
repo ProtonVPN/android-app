@@ -51,9 +51,9 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">لغو</string>
     <string name="close">بستن</string>
-    <string name="dialogContinue">Continue</string>
+    <string name="dialogContinue">ادامه</string>
     <string name="drawerReportProblem">گزارش یک اشکال</string>
-    <string name="action_done">Done</string>
+    <string name="action_done">ﺍﻧﺠﺎﻡ</string>
     <string name="action_share">اشتراک گذاری</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">تحت عملیات نگهداری</string>
@@ -86,7 +86,7 @@
     <string name="report_bug_message_label">پیام</string>
     <string name="report_bug_message_hint">لطفاً اشکال، چگونگی و محل پیدا کردن آن را شرح دهید</string>
     <string name="send_report">ارسال گزارش</string>
-    <string name="report_sent">Report sent</string>
+    <string name="report_sent">گزارش فرستاده شد</string>
     <string name="discardChanges">تغییرات ذخیره نشده را نادیده می‌گیرید؟</string>
     <string name="discard">لغو</string>
     <string name="done">انجام شد</string>
@@ -98,8 +98,8 @@
     <string name="try_again">تلاش دوباره</string>
     <string name="delete">حذف</string>
     <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Move to top</string>
-    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Move up</string>
-    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Move down</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">انتقال به بالا</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">انتقال به پایین</string>
     <string name="remove">حذف</string>
     <string name="saveButton">ذخیره</string>
     <string name="ipWithPlaceholder">نشانی IP: %1$s</string>
@@ -178,8 +178,8 @@
     <string name="accessibility_action_remove_included_app">Remove from included apps</string>
     <string name="accessibility_action_copy_to_clipboard">کپی در کلیپ‌بورد</string>
     <string name="accessibility_action_item_delete">حذف</string>
-    <string name="accessibility_action_item_move_up">Move up</string>
-    <string name="accessibility_action_item_move_down">Move down</string>
+    <string name="accessibility_action_item_move_up">انتقال به بالا</string>
+    <string name="accessibility_action_item_move_down">انتقال به پایین</string>
     <string name="tileConnected">متصل: %1$s</string>
     <string name="openUrlError">%1$s باز نمی‌شود. مرورگر وب روی دستگاه شما شناسایی نشد.</string>
     <string name="loaderErrorTimeout">زمان اتصال گذشت. لطفاً دوباره سعی کنید.</string>
@@ -235,7 +235,7 @@
     <string name="learn_more">بیشتر بدانید</string>
     <string name="netshield_state_on" comment="Describes state, not action">روشن</string>
     <string name="netshield_state_off" comment="Describes state, not action">خاموش</string>
-    <string name="netshield_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">غیرقابل دسترس</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">روشن</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">خاموش</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">روشن</string>
@@ -246,7 +246,7 @@
     <string name="alt_routing_state_off" comment="Describes state, not action">خاموش</string>
     <string name="custom_dns_state_on" comment="Describes state, not action">روشن</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">خاموش</string>
-    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">غیرقابل دسترس</string>
     <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_description">تبلیغات، ردیاب‌ها، و بدافزارها را در وب‌سایت‌ها و برنامه‌ها مسدود می‌کند</string>
     <string name="netshield_what_data_means">NetShield statistics explained</string>
@@ -281,7 +281,7 @@
     <string name="nameOceania">اقیانوسیه</string>
     <string name="tv_row_settings">تنظیمات</string>
     <string name="tv_card_lan_connections_label">LAN</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">تونل‌سازی بخشی</string>
     <string name="tv_card_protocol_label">پروتکل</string>
     <string name="tv_dialog_delete_server_title">Delete server %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">مورد علاقه</string>
@@ -524,7 +524,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">با حتی سرعت‌های بیشتر مرور کنید (تا %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">تونل‌سازی بخشی</string>
     <string name="upsell_card_split_tunneling_description">همزمان از دو مکان مرور کنید</string>
     <string name="upsell_card_streaming_title">پخش آنلاین</string>
     <string name="upsell_card_streaming_description">فیلم‌ها و برنامه‌های تلویزیونی مورد علاقه‌تان را تماشا کنید</string>
@@ -570,7 +570,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">این فناوری به Proton VPN اجازه می‌دهد تا در کشورهایی که ارائهٔ خدمات در آن‌ها دشوار است، سرعت و امنیت بالاتری را ارائه کند.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Server load</string>
+    <string name="server_load_title">بار سرور</string>
     <string name="activity_information_learn_more">بیشتر یاد بگیرید</string>
     <string name="server_load_low">پایین</string>
     <string name="server_load_medium">متوسط</string>
@@ -709,7 +709,7 @@
     <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">Welcome to VPN Plus</string>
     <string name="welcome_plus_description">Enjoy extra privacy features, supercharged performance, and next-level VPN customization.</string>
-    <string name="welcome_plus_feature_security">Advanced security features</string>
+    <string name="welcome_plus_feature_security">ویژگی‌های امنیتی پیشرفته</string>
     <string name="welcome_unlimited_title">Welcome to Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
     <string name="welcome_generic_title">تبریک می‌گوییم</string>
@@ -1036,9 +1036,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">تونل‌سازی بخشی</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill switch</string>
+    <string name="settings_kill_switch_title">سوئیچ کشتار</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">اتصال</string>
     <!-- tag(Redesign_2023) -->
@@ -1046,7 +1046,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">شتاب دهنده VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Advanced settings</string>
+    <string name="settings_advanced_settings_title">تنظیمات پیشرفته</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">عمومی</string>
     <!-- tag(Redesign_2023) -->
@@ -1056,11 +1056,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">پشتیبانی</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Support center</string>
+    <string name="settings_help_center_title">مرکز پشتیبانی</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">Report an issue</string>
+    <string name="settings_report_issue_title">گزارش یک اشکال</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Debug logs</string>
+    <string name="settings_debug_logs_title">لاگ‌های اشکال‌یابی</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">بهبود بخشیدن به Proton</string>
     <!-- tag(Redesign_2023) -->
@@ -1097,7 +1097,7 @@
     <string name="country_filter_countries_list_header">کشورها (%1$d)</string>
     <string name="country_filter_cities_list_header">شهرها (%1$d)</string>
     <string name="country_filter_states_list_header">ایالت‌ها (%1$d)</string>
-    <string name="country_filter_servers_list_header">Servers</string>
+    <string name="country_filter_servers_list_header">سرورها</string>
     <string name="country_filter_secure_core_list_header">کشورهای Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">کشورهای P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">شهرهای P2P (%1$d)</string>
@@ -1134,7 +1134,7 @@
     <string name="accessibility_show_ip">Show IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">بازگشت</string>
-    <string name="accessibility_close">Close</string>
+    <string name="accessibility_close">بستن</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">IP من</string>
     <string name="connection_details_my_ipv4">My IPv4</string>
@@ -1190,7 +1190,7 @@
     <string name="connection_details_download">بارگیری</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN speed</string>
-    <string name="connection_details_section_ip">IP address</string>
+    <string name="connection_details_section_ip">آدرس IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">What is VPN speed?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1213,19 +1213,19 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
     <string name="info_dialog_profiles_title">نوع اتصال</string>
-    <string name="info_dialog_ipaddress_title">IP address</string>
+    <string name="info_dialog_ipaddress_title">آدرس IP</string>
     <string name="info_dialog_ipv6_traffic_title">IPv6 traffic</string>
     <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
     <string name="info_dialog_ipv6_traffic_description">The Internet Protocol (IP) assigns addresses to devices and routes internet traffic. IPv6 is the latest version, offering more addresses and better connectivity, but it is not yet universally adopted.</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">روی این سرور، اشتراک‌گذاری فایل از نوع Peer-to-peer فعال است.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">شما می‌توانید به سایت‌های onion با مرورگر معمولیتون وصل بشید.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_secure_core_description">فعالیت‌های شما توسط ۲ سرور فوق امن VPN رمزنگاری شده است.</string>
     <string name="connection_feature_streaming_title">پخش آنلاین</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_streaming_description">این سرور برای تلویزیون و پخش فیلم بهینه‌سازی شده است.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
     <!--
@@ -1235,7 +1235,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
+    <string name="country_smart_routing_info">سرورهای فیزیکی در %1$s قرار دارند ولی شما با %2$s در حال مرور اینترنت هستید.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1358,14 +1358,14 @@
     <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Add new DNS server</string>
-    <string name="settings_add_dns_new_entry_button">Add</string>
+    <string name="settings_add_dns_new_entry_button">افزودن</string>
     <string name="settings_add_dns_description">Enter the server’s IPv4 or IPv6 address</string>
     <string name="settings_add_dns_invalid_input">Enter a valid IPv4 or IPv6 address</string>
     <string name="settings_add_dns_empty_input">Enter an IPv4 or IPv6 address</string>
     <string name="settings_add_dns_duplicate_input">Server already added</string>
     <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
     <!-- %1$d - Corresponds to number of servers added -->
-    <string name="settings_dns_list_title">Servers (%1$d)</string>
+    <string name="settings_dns_list_title">سرورها (%1$d)</string>
     <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
     <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
@@ -1377,7 +1377,7 @@
     <string name="settings_advanced_allow_lan_title">اتصالات LAN</string>
     <string name="settings_advanced_allow_lan_description">Allows you to connect to printers, speakers, and other devices in your device’s local network.</string>
     <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
-    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
+    <string name="settings_advanced_allow_lan_title_tv">اجازهٔ اتصال به شبکه‌های LAN</string>
     <string name="settings_advanced_nat_type_title">نوع NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
@@ -1419,10 +1419,10 @@
     <string name="settings_split_tunneling_already_excluded">قبلاً جدا شده است</string>
     <string name="settings_split_tunneling_already_included">Already included</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">حذف نشانی IP از لیست؟</string>
-    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_title">طرح زمینه</string>
     <string name="settings_theme_value_auto">Device theme</string>
-    <string name="settings_theme_value_light">Light</string>
-    <string name="settings_theme_value_dark">Dark</string>
+    <string name="settings_theme_value_light">روشن</string>
+    <string name="settings_theme_value_dark">تیره</string>
     <string name="settings_dialog_reconnect">تنظیمات جدید هنگام اتصال بعدی شما اعمال خواهند شد.</string>
     <string name="settings_needs_reconnect_banner">تنظیمات جدید هنگام اتصال بعدی شما اعمال خواهند شد.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
@@ -1537,7 +1537,7 @@
     <string name="profile_auto_open_app">Open an app</string>
     <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
     <string name="create_profile_auto_open_app_input_hint">Select an app</string>
-    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_input_label">برنامه</string>
     <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
     <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
     <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
@@ -1575,8 +1575,8 @@
     <string name="no_connections_title">No VPN connections available</string>
     <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
     <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
-    <string name="no_connections_action_refresh">Refresh</string>
-    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_action_refresh">نوسازی</string>
+    <string name="no_connections_action_sign_out">خروج</string>
     <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>

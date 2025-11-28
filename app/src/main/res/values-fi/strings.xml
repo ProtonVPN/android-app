@@ -51,7 +51,7 @@
     <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Peruuta</string>
     <string name="close">Sulje</string>
-    <string name="dialogContinue">Continue</string>
+    <string name="dialogContinue">Jatka</string>
     <string name="drawerReportProblem">Ilmoita ongelmasta</string>
     <string name="action_done">Valmis</string>
     <string name="action_share">Jaa</string>
@@ -86,7 +86,7 @@
     <string name="report_bug_message_label">Viesti</string>
     <string name="report_bug_message_hint">Kuvaile vikaa sekä miten ja missä havaitsit sen</string>
     <string name="send_report">Lähetä raportti</string>
-    <string name="report_sent">Report sent</string>
+    <string name="report_sent">Raportti on lähetetty</string>
     <string name="discardChanges">Hylätäänkö tallentamattomat muutokset?</string>
     <string name="discard">Hylkää</string>
     <string name="done">VALMIS</string>
@@ -223,12 +223,12 @@
     <string name="settingsTelemetryScreenTitle">Käyttötilastot</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Nämä tilastot eivät sisällä IP-osoitettasi, eikä sinua ole mahdollista tunnistaa niiden perusteella. Emme koskaa jaa niitä ulkopuolisille tahoille. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="netshield_settings_description_not_html">Suojaudu verkkosivustojen ja sovellusten mainoksilta, haittaohjelmilta ja seurannoilta. %1$s</string>
-    <string name="netshield_settings_description_tv">Protects you from third-party ads, trackers, and malware. NetShield doesn\'t block ads that are built into streaming services like YouTube and Netflix.</string>
+    <string name="netshield_settings_description_tv">Suojaa sinua kolmansien osapuolien mainoksilta, seurannoilta ja haittaohjelmilta. NetShield ei estä mainoksia, jotka on sisällytetty suoratoistopalveluihin kuten YouTubeen ja Netflixiin.</string>
     <string name="netshield_settings_more_info_title_tv">Miten NetShield toimii</string>
     <string-array name="netshield_settings_more_info_paragraphs_tv">
-        <item>NetShield blocks DNS requests to third-party domains known for ads, trackers, and malware.</item>
-        <item>This means you won\'t receive ads from your browser or free apps that use third-party ad services.</item>
-        <item>However, it can\'t block ads from streaming platforms like YouTube and Netflix, because their ads come from their own servers.</item>
+        <item>NetShield estää DNS-pyynnöt ulkopuolisilta sivustoilta, jotka tunnetaan mainoksista, seurannoista ja haittaohjelmista.</item>
+        <item>Tämä tarkoittaa, ettet näe mainoksia selaimessasi tai sovelluksissasi, jotka käyttävät kolmannen osapuolen mainospalveluita.</item>
+        <item>Se ei kuitenkaan estä mainoksia YouTuben tai Netflixin kaltaisissa suoratoistopalveluissa, koska niiden mainokset ladataan niiden omilta palvelimilta.</item>
     </string-array>
     <string name="settings_icon_change_description">Naamioi Proton VPN -sovellus huomaamattomalla kuvakkeella. Ilmoituksissa näkyy edelleen Proton VPN:n alkuperäinen nimi ja kuvake. %1$s</string>
     <string name="settings_icon_change_learn_more">Lue lisää</string>
@@ -428,8 +428,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Avaa %1$s %2$s <b>VPN Plus</b> -tilauksella.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
+    <string name="upgrade_unlimited_all_apps_title">Hanki täyden kattavuuden yksityisyyttä Proton Unlimitedilla</string>
+    <string name="upgrade_unlimited_all_apps_description">Avaa kaikki Proton VPN:n, Mailin, Calenderin, Driven ja Passin premium-ominaisuudet.</string>
     <string name="upgrade_unlimited_more">Ja muuta</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Avaa kaikki maat</string>
     <string name="upgrade_unlimited_vpn_all_features">Kaikki muut VPN Plus -ominaisuudet</string>
@@ -531,14 +531,14 @@
     <string name="upsell_card_tor_title">Tor + VPN</string>
     <string name="upsell_card_tor_description">Käytä Tor-verkkoa VPN-yhteytesi välityksellä ja tehosta tietosuojaasi</string>
     <string name="upsell_tv_all_countries_title">Pääsy kaikkiin maihin Plussalla</string>
-    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Unlock %1$s secure servers in %2$s countries. %3$s</string>
+    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Avaa %1$s turvallista palvelinta %2$s eri maassa. %3$s</string>
     <string name="upsell_tv_netshield_title">Nauti mainosvapaasta selauksesta Plussalla</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Estä mainokset, seurannat ja haittaohjelmat <b>NetShieldillä</b>. %1$s]]></string>
     <string name="upsell_tv_split_tunneling_title">Hanki molempien parhaat puolet Plussalla</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>. %1$s]]></string>
-    <string name="upsell_tv_customization_title">Get advanced VPN customization with Plus</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features. %1$s]]></string>
-    <string name="upsell_tv_description_placeholder">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Jaa tietoliikenteesi VPN-tunneliin ja sen ulkopuolelle <b>jaetun tunneloinnin</b> avulla. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Saat edistyneet VPN-mukautukset Plus-versiolla.</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Avaa <b>LAN-yhteydet</b>, <b>Mukautettu DNS</b>, ja kehittyneemmät VPN-ominaisuudet. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Siirry Proton VPN:n sivustolle päivittääksesi tilauksesi.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -586,12 +586,12 @@
     <string name="dynamic_report_tips_description">Nämä vinkit voivat auttaa ratkaisemaan ongelman nopeammin.</string>
     <string name="dynamic_report_tips_title">Pikaratkaisut</string>
     <string name="dynamic_report_logs_title">Lähetä virhelokit</string>
-    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
-    <string name="dynamic_report_error_title">We couldn’t send your report.</string>
-    <string name="dynamic_report_completion_error_description_generic">We couldn’t send your report. Please try again.</string>
-    <string name="dynamic_report_completion_error_description_no_internet">We couldn’t send your report. Please check your connection and try again.</string>
-    <string name="dynamic_report_completion_error_description_timeout">We couldn’t send your report. Connection timed out, please try again.</string>
-    <string name="dynamic_report_completion_success_title">Thanks for your feedback. We’ll get back to you as soon as we can.</string>
+    <string name="dynamic_report_logs_tooltip">Virhelokit kertovat meille mikä meni pieleen ja mitkä tapahtumat johtivat ongelmaan. Käytämme niitä vain auttaaksemme teknikoitamme korjaamaan ongelmia.</string>
+    <string name="dynamic_report_error_title">Raportin lähettäminen epäonnistui.</string>
+    <string name="dynamic_report_completion_error_description_generic">Raportin lähettäminen epäonnistui. Yritä uudestaan.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Raportin lähettäminen epäonnistui. tarkista verkkoyhteytesi ja yritä uudestaan.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Raportin lähettäminen epäonnistui. Yhteys aikakatkaistiin, yritä uudestaan.</string>
+    <string name="dynamic_report_completion_success_title">Kiitos palautteestasi. Palaamme asiaan mahdollisimman pian.</string>
     <string name="dynamic_report_success_title">Kiitos palautteestasi</string>
     <string name="dynamic_report_success_description">Palaamme asiaan mahdollisimman pian.</string>
     <string name="dynamic_report_field_mandatory">Kenttä on pakollinen</string>
@@ -603,9 +603,9 @@
     <string name="dynamic_report_your_issue_headline">Mikä on ongelmana?</string>
     <string name="update_screen_title">Päivitä Proton VPN</string>
     <string name="update_screen_description">Ongelmia esiintyy todennäköisesti useammin vanhemmissa Proton VPN -versioissa.</string>
-    <string name="update_banner_description_settings">A new version of the app is available</string>
-    <string name="update_banner_warning_vpn_connected_title">VPN will disconnect briefly</string>
-    <string name="update_banner_warning_vpn_connected_message">The app needs to restart to finish the update. You will be reconnected automatically afterward.</string>
+    <string name="update_banner_description_settings">Sovelluksesta on saatavilla uusi versio</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN-yhteys katkeaa pian.</string>
+    <string name="update_banner_warning_vpn_connected_message">Päivityksen viimeistelemiseksi sovellus täytyy käynnistää uudelleen. Päivityksen jälkeen sinut yhdistetään automaattisesti uudelleen.</string>
     <string name="dialog_create_account_title">Jatka luomalla tili</string>
     <string name="dialog_create_account_action_create">Luo tili</string>
     <string name="dialog_create_account_action_signin">Kirjaudu sisään</string>
@@ -711,7 +711,7 @@
     <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja uuden tason VPN-mukautuksesta.</string>
     <string name="welcome_plus_feature_security">Edistyneet suojausominaisuudet</string>
     <string name="welcome_unlimited_title">Tervetuloa Proton Unlimitediin</string>
-    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Avasit kaikki Proton VPN:n, Mailin, Calendarin, Driven, Passin ja Walletin premium-ominaisuudet ja <b>%1$d&#160;Gt</b> tallennustilaa.]]></string>
     <string name="welcome_generic_title">Onnittelut</string>
     <string name="welcome_generic_description">Olet päivittänyt tilauksesi. Nauti edistyneistä yksityisyyttäsi tehostavista ominaisuuksista ja huipputason suorituskyvystä.</string>
     <!-- Example: Up to 10 devices at once
@@ -1030,7 +1030,7 @@
     <string name="countries_title">Maat</string>
     <string name="profiles_title">Profiilit</string>
     <string name="settings_autoconnect_title">Automaattinen yhdistäminen</string>
-    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
+    <string name="settings_autoconnect_boot_description">Yhdistää sinut automaattisesti VPN-verkkoon pikayhteydellä heti laitteen käynnistyttyä.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Ominaisuudet</string>
     <!-- tag(Redesign_2023) -->
@@ -1355,7 +1355,7 @@
     <string name="settings_account_button_my_account">Oma tili</string>
     <string name="settings_account_button_delete_account">Poista tili</string>
     <string name="settings_custom_dns_title">Vaihtoehtoinen DNS</string>
-    <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
+    <string name="settings_custom_dns_description_tv">Yhdistä VPN:ään itse isännöidyllä tai kolmannen osapuolen nimipalvelujärjestelmällä (DNS).</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Lisää uusi DNS-palvelin</string>
     <string name="settings_add_dns_new_entry_button">Lisää</string>
@@ -1371,7 +1371,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">Muutokset tulevat voimaan, kun yhdistät uudelleen</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield ei ole käytettävissä</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield ei voi suodattaa mainoksia, seurantaa ja haittaohjelmia, kun käytössä on mukautettu DNS. Lue lisää</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield can not filter out ads, trackers and malware when custom DNS is used.</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield ei kykene suodattamaan mainoksia, seuraimia tai haittaohjelmia kun käytetään mukautettua DNS:ää.</string>
     <string name="settings_advanced_alternative_routing_title">Vaihtoehtoinen reititys</string>
     <string name="settings_advanced_alternative_routing_description">Jos Proton-palvelut on estetty verkkorajoitusten takia, yritämme käyttää vaihtoehtoista verkkoreititystä, jotta voit silti muodostaa yhteyden sivustoihimme.</string>
     <string name="settings_advanced_allow_lan_title">LAN-yhteydet</string>
@@ -1427,14 +1427,14 @@
     <string name="settings_needs_reconnect_banner">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Vaihtoehtoinen DNS ei ole käytettävissä</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Laitteesi käyttää ulkopuolista DNS:ää, joka estää Proton VPN:n vaihtoehtoisen DNS:än toiminnan. Lue lisää</string>
-    <string name="private_dns_conflict_banner_custom_dns_description_tv">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working.</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Laitteesi käyttää ulkopuolista DNS:ää, joka estää Proton VPN:n vaihtoehtoisen DNS:än toiminnan.</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield ei ole käytettävissä</string>
     <string name="private_dns_conflict_banner_netshield_description">Laitteesi käyttää kolmannen osapuolen DNS:ää, joka estää NetShieldin toiminnan. Lue lisää</string>
     <string name="private_dns_conflict_banner_network_settings_button">Verkkoasetukset</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield ei ole käytettävissä</string>
     <string name="custom_dns_conflict_banner_netshield_description">Vaihtoehtoinen DNS on käytössä ja estää NetShieldin toiminnan. Lue lisää</string>
     <string name="custom_dns_conflict_banner_netshield_title_tv">Poista mukautettu DNS käytöstä käyttääksesi NetShieldiä</string>
-    <string name="custom_dns_conflict_banner_netshield_description_tv">Custom DNS is enabled which prevents NetShield from working.</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">Vaihtoehtoinen DNS on käytössä ja estää NetShieldin toiminnan.</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Poista vaihtoehtoinen DNS käytöstä</string>
     <string name="info_secure_core_standard_high_privacy">Korkeampi yksityisyys</string>
     <string name="info_secure_core_standard_lower_latency">Matalammat viiveet</string>
@@ -1531,7 +1531,7 @@
     <string name="create_profile_auto_open_url_private_mode_label">Käytä yksityistä selaustilaa</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Pois</string>
-    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
+    <string name="profile_auto_open_app_failed_to_launch">Yhdistä ja Avaa: sovellusta ei löydy</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_website">Avaa verkkosivusto</string>
     <string name="profile_auto_open_app">Avaa sovellus</string>
@@ -1578,10 +1578,10 @@
     <string name="no_connections_action_refresh">Päivitä</string>
     <string name="no_connections_action_sign_out">Kirjaudu ulos</string>
     <string name="no_connections_help_contact_us"><![CDATA[Tarvitsetko apua? <a href="">Ota meihin yhteyttä</a>]]></string>
-    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Jos järjestelmänvalvojasi tarvitsee apua VPN-yhteyden käyttöönottossa, lähetä heille <a href="">nämä ohjeet</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Käytä OpenVPN:ää?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Tämä protokolla poistetaan pian, sillä keskitymme nopeampiin ja turvallisempiin teknologioihin. Suosittelemme Smart Protocollaan vaihtamista. <a href="proton.me">Lue lisää</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Tämä protokolla poistetaan pian, sillä keskitymme nopeampiin ja turvallisempiin teknologioihin. Suosittelemme Smart Protocollaan vaihtamista.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Jatka OpenVPN:llä</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ota Smart Protocol käyttöön</string>
 </resources>

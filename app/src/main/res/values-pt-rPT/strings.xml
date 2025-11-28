@@ -51,9 +51,9 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Fechar</string>
-    <string name="dialogContinue">Continue</string>
+    <string name="dialogContinue">Continuar</string>
     <string name="drawerReportProblem">Reportar um problema</string>
-    <string name="action_done">Done</string>
+    <string name="action_done">Feito</string>
     <string name="action_share">Partilhar</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Em manutenção</string>
@@ -86,7 +86,7 @@
     <string name="report_bug_message_label">Mensagem</string>
     <string name="report_bug_message_hint">Descreva o erro e como e onde o detetou</string>
     <string name="send_report">Enviar relatório</string>
-    <string name="report_sent">Report sent</string>
+    <string name="report_sent">Relatório enviado</string>
     <string name="discardChanges">Descartar alterações não guardadas?</string>
     <string name="discard">Descartar</string>
     <string name="done">TERMINADO</string>
@@ -98,8 +98,8 @@
     <string name="try_again">Tente de novo</string>
     <string name="delete">Eliminar</string>
     <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Move to top</string>
-    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Move up</string>
-    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Move down</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Mover para cima</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Mover para baixo</string>
     <string name="remove">Remover</string>
     <string name="saveButton">Guardar</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -321,7 +321,7 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">%1$s%% carga do servidor</string>
-    <string name="tv_recently_used_servers">Recently used servers</string>
+    <string name="tv_recently_used_servers">Servidores recentemente utilizados</string>
     <string name="tv_available_servers">Available servers</string>
     <string name="tv_locked_servers">Locked servers</string>
     <string name="tv_other_servers">Other servers</string>
@@ -428,7 +428,7 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Desbloqueie %1$s em %2$s com <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_title">Obtenha uma cobertura de privacidade completa com o Proton Unlimited</string>
     <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
     <string name="upgrade_unlimited_more">E mais</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Desbloqueie todos os países</string>
@@ -1029,7 +1029,7 @@
     <string name="gateways_title">Portas de entrada</string>
     <string name="countries_title">Países</string>
     <string name="profiles_title">Perfis</string>
-    <string name="settings_autoconnect_title">Auto-connect</string>
+    <string name="settings_autoconnect_title">Ligação automática</string>
     <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funcionalidades</string>
@@ -1097,7 +1097,7 @@
     <string name="country_filter_countries_list_header">Países (%1$d)</string>
     <string name="country_filter_cities_list_header">Cidades (%1$d)</string>
     <string name="country_filter_states_list_header">Estados (%1$d)</string>
-    <string name="country_filter_servers_list_header">Servers</string>
+    <string name="country_filter_servers_list_header">Servidores</string>
     <string name="country_filter_secure_core_list_header">Países do Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">Países P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Cidades P2P (%1$d)</string>
@@ -1355,7 +1355,7 @@
     <string name="settings_account_button_my_account">A minha conta</string>
     <string name="settings_account_button_delete_account">Eliminar a conta</string>
     <string name="settings_custom_dns_title">DNS personalizado</string>
-    <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
+    <string name="settings_custom_dns_description_tv">Conecte-se a unha VPN com um sistema de nome de domínio (DNS) auto-hospedado ou de terceiros.</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Adicionar um novo servidor DNS</string>
     <string name="settings_add_dns_new_entry_button">Adicionar</string>
@@ -1377,7 +1377,7 @@
     <string name="settings_advanced_allow_lan_title">Ligações LAN</string>
     <string name="settings_advanced_allow_lan_description">Permite-lhe conectar-se a impressoras, altifalantes e outros dispositivos na rede local do seu dispositivo.</string>
     <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
-    <string name="settings_advanced_allow_lan_title_tv">Allow LAN connections</string>
+    <string name="settings_advanced_allow_lan_title_tv">Permitir ligações LAN</string>
     <string name="settings_advanced_nat_type_title">Tipo de NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Selecione um tipo de tradução de endereços de rede para a sua conexão. %1$s</string>
@@ -1406,8 +1406,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Recomendado</string>
     <string name="settings_split_tunneling_mode_title">Modo</string>
-    <string name="settings_split_tunneling_mode_standard">Exclude</string>
-    <string name="settings_split_tunneling_mode_inverse">Include</string>
+    <string name="settings_split_tunneling_mode_standard">Excluir</string>
+    <string name="settings_split_tunneling_mode_inverse">Incluir</string>
     <string name="settings_split_tunneling_mode_description_standard">As aplicações e endereços IP selecionados estão excluídos da conexão VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Apenas as aplicações e os endereços IP selecionados conectam-se através da VPN, todo o outro tráfego não é protegido.</string>
     <string name="settings_split_tunneling_excluded_apps">Aplicações excluídas</string>
@@ -1537,7 +1537,7 @@
     <string name="profile_auto_open_app">Open an app</string>
     <string name="create_profile_auto_open_description">Abra automaticamente um sítio web da sua escolha quando se conectar a este perfil.</string>
     <string name="create_profile_auto_open_app_input_hint">Select an app</string>
-    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_input_label">Aplicação</string>
     <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
     <string name="profile_auto_open_error_invalid_url">Introduza um URL válido</string>
     <string name="nps_how_likely_question">Qual a probabilidade de recomendar o Proton VPN a um amigo ou colega?</string>
@@ -1575,13 +1575,13 @@
     <string name="no_connections_title">No VPN connections available</string>
     <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
     <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
-    <string name="no_connections_action_refresh">Refresh</string>
-    <string name="no_connections_action_sign_out">Sign out</string>
+    <string name="no_connections_action_refresh">Atualizar</string>
+    <string name="no_connections_action_sign_out">Terminar sessão</string>
     <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ativar Smart Protocol</string>
 </resources>

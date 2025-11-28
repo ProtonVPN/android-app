@@ -86,7 +86,7 @@
     <string name="report_bug_message_label">Повідомлення</string>
     <string name="report_bug_message_hint">Будь ласка, опишіть помилку та як і де ви її знайшли</string>
     <string name="send_report">Надіслати звіт</string>
-    <string name="report_sent">Report sent</string>
+    <string name="report_sent">Звіт надіслано</string>
     <string name="discardChanges">Відхилити незбережені зміни?</string>
     <string name="discard">Відхилити</string>
     <string name="done">ВИКОНАНО</string>
@@ -618,12 +618,12 @@
     <string name="dynamic_report_tips_description">Ці поради можуть допомогти швидше розвʼязати вашу проблему.</string>
     <string name="dynamic_report_tips_title">Швидкі виправлення</string>
     <string name="dynamic_report_logs_title">Надіслати журнали помилок</string>
-    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
-    <string name="dynamic_report_error_title">We couldn’t send your report.</string>
-    <string name="dynamic_report_completion_error_description_generic">We couldn’t send your report. Please try again.</string>
-    <string name="dynamic_report_completion_error_description_no_internet">We couldn’t send your report. Please check your connection and try again.</string>
-    <string name="dynamic_report_completion_error_description_timeout">We couldn’t send your report. Connection timed out, please try again.</string>
-    <string name="dynamic_report_completion_success_title">Thanks for your feedback. We’ll get back to you as soon as we can.</string>
+    <string name="dynamic_report_logs_tooltip">Журнали помилок показують нам, що пішло не так і які дії призвели до проблеми. Ми використовуватимемо їх лише для того, щоб допомогти нашим інженерам виправити проблеми.</string>
+    <string name="dynamic_report_error_title">Не вдалося надіслати ваш звіт.</string>
+    <string name="dynamic_report_completion_error_description_generic">Не вдалося надіслати ваш звіт. Повторіть спробу.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Не вдалося надіслати ваш звіт. Перевірте своє з\'єднання і повторіть спробу.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Не вдалося надіслати ваш звіт. Час очікування з\'єднання вичерпано, повторіть спробу.</string>
+    <string name="dynamic_report_completion_success_title">Дякуємо за ваш відгук. Ми зв\'яжемося з вами якнайшвидше.</string>
     <string name="dynamic_report_success_title">Дякуємо за відгук</string>
     <string name="dynamic_report_success_description">Ми зв\'яжемося з вами, як тільки зможемо.</string>
     <string name="dynamic_report_field_mandatory">Це обов\'язкове поле</string>

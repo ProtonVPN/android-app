@@ -1355,7 +1355,7 @@
     <string name="settings_account_button_my_account">Mitt konto</string>
     <string name="settings_account_button_delete_account">Ta bort konto</string>
     <string name="settings_custom_dns_title">Anpassad DNS</string>
-    <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
+    <string name="settings_custom_dns_description_tv">Anslut till VPN med ett egenhostat eller tredjeparts domännamnssystem (DNS).</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Lägg till ny DNS-server</string>
     <string name="settings_add_dns_new_entry_button">Lägg till</string>
