@@ -95,11 +95,8 @@
 # https://github.com/java-native-access/jna/blob/master/www/FrequentlyAskedQuestions.md#jna-on-android
 -dontwarn java.awt.*
 -keep class com.sun.jna.* { *; }
+-keep class * extends com.sun.jna.* { *; }
 -keepclassmembers class * extends com.sun.jna.* { public *; }
-# Annotated interfaces (including methods which are also kept in implementing classes)
--keep @com.sun.jna.Structure.FieldOrder interface * {
-    *;
-}
 
 # Missing classes from dependencies.
 # This is generated automatically by the Android Gradle plugin.
