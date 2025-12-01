@@ -69,9 +69,13 @@ class PaymentPanelFragment : Fragment() {
                             displayName = state.selectedPlan.displayName,
                             planName = state.selectedPlan.planName,
                             cycles = state.selectedPlanPriceInfo.map { (cycle, priceInfo) ->
+                                // Don't show "/cycle" for welcome offers
+                                val perCycleResId =
+                                    if (priceInfo.formattedRenewPrice == null) planPerCycleResId(cycle)
+                                    else null
                                 ViewState.CycleViewInfo(
                                     cycle,
-                                    planPerCycleResId(cycle),
+                                    perCycleResId,
                                     planCycleLabelResId(cycle),
                                     priceInfo
                                 )

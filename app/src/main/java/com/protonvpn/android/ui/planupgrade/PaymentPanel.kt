@@ -70,7 +70,7 @@ sealed class ViewState(val inProgress: Boolean) {
     ) : ViewState(true)
     data class CycleViewInfo(
         val cycle: PlanCycle,
-        @StringRes val perCycleResId: Int,
+        @StringRes val perCycleResId: Int?,
         @StringRes val cycleLabelResId: Int,
         val priceInfo: CommonUpgradeDialogViewModel.PriceInfo
     )
@@ -325,7 +325,7 @@ private fun CycleSelectionRow(
 @Composable
 private fun PricingCycleInfo(
     formattedPrice: String,
-    @StringRes perCycleResId: Int,
+    @StringRes perCycleResId: Int?,
     formattedPerMonthPrice: String?,
     modifier: Modifier = Modifier
 ) {
@@ -344,13 +344,20 @@ private fun PricingCycleInfo(
     }
 }
 
-
 @Composable
-private fun getPriceAndCycleString(formattedPrice: String, @StringRes cycleResId: Int): AnnotatedString {
-    val text = stringResource(id = R.string.payment_price_with_period, formattedPrice, stringResource(cycleResId))
+private fun getPriceAndCycleString(formattedPrice: String, @StringRes cycleResId: Int?): AnnotatedString {
+    val text = if (cycleResId != null) {
+        stringResource(id = R.string.payment_price_with_period, formattedPrice, stringResource(cycleResId))
+    } else {
+        formattedPrice
+    }
     val priceIndex = text.indexOf(formattedPrice)
     return AnnotatedString.Builder(text).apply {
-        addStyle(ProtonTheme.typography.defaultStrongNorm .toSpanStyle(), priceIndex, priceIndex + formattedPrice.length)
+        addStyle(
+            ProtonTheme.typography.defaultStrongNorm.toSpanStyle(),
+            priceIndex,
+            priceIndex + formattedPrice.length
+        )
     }.toAnnotatedString()
 }
 
@@ -381,11 +388,42 @@ private fun PreviewPlan() {
                         PlanCycle.YEARLY,
                         R.string.payment_price_per_year,
                         R.string.payment_price_cycle_year_label,
-                        CommonUpgradeDialogViewModel.PriceInfo("$120.00", formattedPerMonthPrice = "$10.00", savePercent = -37, formattedRenewPrice = "$150")
+                        CommonUpgradeDialogViewModel.PriceInfo("$120.00", formattedPerMonthPrice = "$10.00", savePercent = -37)
                     ),
                     ViewState.CycleViewInfo(
                         PlanCycle.MONTHLY,
                         R.string.payment_price_per_month,
+                        R.string.payment_price_cycle_month_label,
+                        CommonUpgradeDialogViewModel.PriceInfo("$15.99")
+                    ),
+                ),
+                inProgress = false,
+                buttonLabelOverride = null,
+            ),
+            selectedCycle = PlanCycle.YEARLY,
+            {}, {}, {}, {}, {}
+        )
+    }
+}
+
+@ProtonVpnPreview
+@Composable
+private fun PreviewPlanWithWelcomePrice() {
+    ProtonVpnPreview {
+        PaymentPanel(
+            viewState = ViewState.PlanReady(
+                "VPN Plus",
+                "vpn2022",
+                listOf(
+                    ViewState.CycleViewInfo(
+                        PlanCycle.YEARLY,
+                        null,
+                        R.string.payment_price_cycle_year_label,
+                        CommonUpgradeDialogViewModel.PriceInfo("$120.00", formattedPerMonthPrice = null, savePercent = -37, formattedRenewPrice = "$150")
+                    ),
+                    ViewState.CycleViewInfo(
+                        PlanCycle.MONTHLY,
+                        null,
                         R.string.payment_price_cycle_month_label,
                         CommonUpgradeDialogViewModel.PriceInfo("$15.99")
                     ),

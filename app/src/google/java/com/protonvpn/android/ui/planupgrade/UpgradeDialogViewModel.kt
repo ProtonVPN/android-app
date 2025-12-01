@@ -356,12 +356,13 @@ class UpgradeDialogViewModel(
                     val perMonthPrice = perMonthCurrentPrices[cycleInfo.cycle]
                     val priceAmount = planInstance.price.getValue(currency).current.centsToUnits()
                     val renewPriceAmount = planInstance.price.getValue(currency).default?.centsToUnits()
+                    val showPerMonthPrice =
+                        perMonthPrice != null && cycleInfo.cycle.cycleDurationMonths != 1 && renewPriceAmount == null
                     PriceInfo(
                         formattedPrice = formatPrice(priceAmount, currency),
                         formattedRenewPrice = renewPriceAmount?.let { formatPrice(it, currency) },
                         savePercent = ifOrNull(withSavePercent) { calculateSavingsPercentage(perMonthPrice, maxPerMonthPrice) },
-                        formattedPerMonthPrice =
-                        if (perMonthPrice != null && cycleInfo.cycle.cycleDurationMonths != 1)
+                        formattedPerMonthPrice = if (showPerMonthPrice)
                             formatPrice(perMonthPrice, currency) else null
                     )
                 }

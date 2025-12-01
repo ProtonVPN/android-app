@@ -196,7 +196,7 @@ class UpgradeDialogViewModelTests {
     }
 
     @Test
-    fun `calculate price info with savings`() = testScope.runTest {
+    fun `calculate price info with and without savings`() = testScope.runTest {
         val priceInfo = UpgradeDialogViewModel.calculatePriceInfos(
             listOf(
                 CycleInfo(PlanCycle.MONTHLY, "m"),
@@ -222,7 +222,7 @@ class UpgradeDialogViewModelTests {
                             cycle = 12,
                             description = "12 month",
                             periodEnd = Instant.MAX,
-                            price = mapOf("USD" to DynamicPlanPrice(id = "id", currency = "USD", current = 100_00, default = 120_00))
+                            price = mapOf("USD" to DynamicPlanPrice(id = "id", currency = "USD", current = 100_00, default = null))
                         )
                     )
                 )
@@ -236,7 +236,7 @@ class UpgradeDialogViewModelTests {
                     formattedPrice = formatPrice(100.0, "USD"),
                     savePercent = -44,
                     formattedPerMonthPrice = formatPrice(8.33, "USD"),
-                    formattedRenewPrice = formatPrice(120.0, "USD")
+                    formattedRenewPrice = null
                 ),
                 PlanCycle.MONTHLY to CommonUpgradeDialogViewModel.PriceInfo(
                     formattedPrice = formatPrice(10.0, "USD"),
