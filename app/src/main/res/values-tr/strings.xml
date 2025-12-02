@@ -109,15 +109,15 @@
     <string name="noVpnPermissionMainMessage">Proton VPN bağlantısı kurmak için şunları yapın:</string>
     <string name="noVpnPermissionGrantPermissionTitle">VPN izni verin</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Proton VPN bağlantısı kurmak için Android izinleri vermeniz gerekir. Android \"Bağlantı isteği\" yapıldığında \"Tamam\" üzerine tıklayın.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Diğer VPN uygulamalarının hep açık seçeneğini kapatın</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android birden fazla VPN uygulamasını desteklemez. Proton VPN dışındaki diğer VPN uygulamaları için hep açık seçeneğini kapatın.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Diğer VPN uygulamalarının her zaman açık seçeneğini kapatın</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android birden fazla VPN uygulamasını desteklemez. Proton VPN dışındaki diğer VPN uygulamaları için her zaman açık seçeneğini kapatın.</string>
     <string name="noVpnPermissionProtonAppLabel">Proton VPN uygulaması</string>
     <string name="noVpnPermissionOtherAppLabel">Diğer VPN uygulamaları</string>
     <string name="noVpnPermissionOpenSettings">Android VPN ayarlarını açın</string>
     <string name="noNotificationPermissionGrantTitle">Yakalanmayın…</string>
     <string name="noNotificationPermissionGrantDescription">Bağlantı durumunuzdaki değişikliklerle ilgili uyarılar almak için bildirimleri açın.</string>
     <string name="noNotificationPermissionGrantNowTitle">Bildirimleri aç</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için hep açık seçeneğini kapatın. VPN izinleri isteyen bir pencere görürseniz VPN izinlerini verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için her zaman açık seçeneğini kapatın. VPN izinleri isteyen bir pencere görürseniz VPN izinlerini verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="error_prepare_vpn_settings">Android VPN ayarlarına git</string>
     <string name="error_prepare_vpn_title">Hata: VPN izni sorunu</string>
     <string name="error_server_not_set">Sunucu artık kullanılamıyor</string>

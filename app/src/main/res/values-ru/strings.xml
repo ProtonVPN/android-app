@@ -53,7 +53,7 @@
     <string name="close">Закрыть</string>
     <string name="dialogContinue">Продолжить</string>
     <string name="drawerReportProblem">Сообщить о проблеме</string>
-    <string name="action_done">Продолжить</string>
+    <string name="action_done">Готово</string>
     <string name="action_share">Поделиться</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">На техобслуживании</string>
@@ -324,7 +324,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">Загрузка сервера %1$s%%</string>
+    <string name="tv_server_list_load">%1$s%% нагрузка сервера</string>
     <string name="tv_recently_used_servers">Недавно использованные серверы</string>
     <string name="tv_available_servers">Доступные серверы</string>
     <string name="tv_locked_servers">Заблокированные серверы</string>
