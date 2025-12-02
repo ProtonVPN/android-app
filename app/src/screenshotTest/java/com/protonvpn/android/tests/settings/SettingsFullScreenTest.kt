@@ -334,10 +334,14 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
     private val theme = SettingViewState.Theme(ThemeType.Dark)
     private val connectionPreferences = SettingViewState.ConnectionPreferencesState(
         isFreeUser = isFree,
-        defaultConnection = DefaultConnection.FastestConnection,
-        connectIntentPrimaryLabel = null,
-        predefinedTitle = null,
-        canSelectLocations = true,
+        defaultConnectionPreferences = SettingViewState.ConnectionPreferencesState.DefaultConnectionPreferences(
+            defaultConnection = DefaultConnection.FastestConnection,
+            connectIntentPrimaryLabel = null,
+            predefinedTitle = null,
+        ),
+        excludeLocationsPreferences = SettingViewState.ConnectionPreferencesState.ExcludedLocationsPreferences(
+            canSelectLocations = true,
+        ),
     )
 
     val settingsViewState = SettingsViewModel.SettingsViewState(

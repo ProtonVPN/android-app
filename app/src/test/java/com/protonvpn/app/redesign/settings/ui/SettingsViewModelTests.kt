@@ -430,7 +430,7 @@ class SettingsViewModelTests {
 
             assertEquals(
                 expected = expectedCanSelectLocations,
-                actual = connectionPreferences.canSelectLocations,
+                actual = connectionPreferences.excludeLocationsPreferences.canSelectLocations,
                 message = "Failed when user hasCountries is: $hasCountries",
             )
         }

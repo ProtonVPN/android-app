@@ -31,6 +31,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,7 +44,6 @@ import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.settings.ui.IconRecent
-import com.protonvpn.android.redesign.settings.ui.SettingValue
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.label
@@ -57,69 +57,66 @@ fun ConnectionPreferencesPaidContent(
     onExcludeLocationClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val sectionModifier = remember {
+        Modifier
+            .fillMaxWidth()
+            .padding(
+                start = 16.dp,
+                top = 16.dp,
+                end = 16.dp,
+                bottom = 8.dp,
+            )
+    }
+
     LazyColumn(modifier = modifier) {
         item(key = "default_connection_key") {
-            ConnectionPreferencesSection(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 16.dp,
-                        top = 16.dp,
-                        end = 16.dp,
-                        bottom = 8.dp,
-                    ),
-                onClick = onDefaultConnectionClick,
-                titleText = stringResource(id = R.string.settings_default_connection_title),
-                content = {
-                    ConnectionPreferencesDefaultConnectionIcon(
-                        defaultConnection = state.defaultConnection,
-                        connectIntentPrimaryLabel = state.connectIntentPrimaryLabel,
-                    )
+            with(receiver = state.defaultConnectionPreferences) {
+                ConnectionPreferencesSection(
+                    modifier = sectionModifier,
+                    onClick = onDefaultConnectionClick,
+                    titleText = stringResource(id = R.string.settings_default_connection_title),
+                    content = {
+                        ConnectionPreferencesDefaultConnectionIcon(
+                            defaultConnection = defaultConnection,
+                            connectIntentPrimaryLabel = connectIntentPrimaryLabel,
+                        )
 
-                    Text(
-                        modifier = Modifier.weight(weight = 1f, fill = true),
-                        text = if (state.predefinedTitle == null) {
-                            state.connectIntentPrimaryLabel
-                                ?.label()
-                                ?.let(SettingValue::SettingText)
-                                ?.text
-                                .orEmpty()
-                        } else {
-                            stringResource(id = state.predefinedTitle)
-                        }
-                    )
-                }
-            )
+                        Text(
+                            modifier = Modifier.weight(weight = 1f, fill = true),
+                            text = if (predefinedTitle == null) {
+                                connectIntentPrimaryLabel?.label().orEmpty()
+                            } else {
+                                stringResource(id = predefinedTitle)
+                            }
+                        )
+                    }
+                )
+            }
         }
 
         item(key = "exclude_locations_key") {
-            ConnectionPreferencesSection(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 16.dp,
-                        top = 16.dp,
-                        end = 16.dp,
-                        bottom = 8.dp,
-                    ),
-                titleText = stringResource(id = R.string.settings_excluded_locations_title),
-                descriptionText = stringResource(id = R.string.settings_excluded_locations_description),
-                isEnabled = state.canSelectLocations,
-                onClick = onExcludeLocationClick,
-                content = {
-                    val (textResId, textColor) = if (state.canSelectLocations) {
-                        R.string.select_ellipsis to ProtonTheme.colors.textWeak
-                    } else {
-                        R.string.settings_excluded_locations_unavailable to ProtonTheme.colors.textHint
-                    }
+            with(receiver = state.excludeLocationsPreferences) {
+                ConnectionPreferencesSection(
+                    modifier = sectionModifier,
+                    titleText = stringResource(id = R.string.settings_excluded_locations_title),
+                    descriptionText = stringResource(id = R.string.settings_excluded_locations_description),
+                    isEnabled = canSelectLocations,
+                    onClick = onExcludeLocationClick,
+                    content = {
+                        val (textResId, textColor) = if (canSelectLocations) {
+                            R.string.settings_excluded_locations_selection_hint to ProtonTheme.colors.textWeak
+                        } else {
+                            R.string.settings_excluded_locations_unavailable to ProtonTheme.colors.textHint
+                        }
 
-                    Text(
-                        modifier = Modifier.weight(weight = 1f, fill = true),
-                        text = stringResource(id = textResId),
-                        color = textColor,
-                    )
-                }
-            )
+                        Text(
+                            modifier = Modifier.weight(weight = 1f, fill = true),
+                            text = stringResource(id = textResId),
+                            color = textColor,
+                        )
+                    }
+                )
+            }
         }
     }
 }

@@ -198,11 +198,21 @@ class SettingsViewModel @Inject constructor(
 
         data class ConnectionPreferencesState(
             val isFreeUser: Boolean,
-            val defaultConnection: DefaultConnection,
-            val connectIntentPrimaryLabel: ConnectIntentPrimaryLabel?,
-            val predefinedTitle: Int?,
-            val canSelectLocations: Boolean,
-        )
+            val defaultConnectionPreferences: DefaultConnectionPreferences,
+            val excludeLocationsPreferences: ExcludedLocationsPreferences,
+        ) {
+
+            data class DefaultConnectionPreferences(
+                val defaultConnection: DefaultConnection,
+                val connectIntentPrimaryLabel: ConnectIntentPrimaryLabel?,
+                val predefinedTitle: Int?,
+            )
+
+            data class ExcludedLocationsPreferences(
+                val canSelectLocations: Boolean,
+            )
+
+        }
 
         class Protocol(
             protocol: ProtocolSelection,
@@ -478,10 +488,14 @@ class SettingsViewModel @Inject constructor(
                 showSingInOnAnotherDeviceQr = !managedConfig.isManaged,
                 connectionPreferences = SettingViewState.ConnectionPreferencesState(
                     isFreeUser = isFree,
-                    defaultConnection = defaultConnection,
-                    connectIntentPrimaryLabel = defaultConnectionSetting?.recentLabel,
-                    predefinedTitle = defaultConnectionSetting?.predefinedTitle,
-                    canSelectLocations = hasCountries,
+                    defaultConnectionPreferences = SettingViewState.ConnectionPreferencesState.DefaultConnectionPreferences(
+                        defaultConnection = defaultConnection,
+                        connectIntentPrimaryLabel = defaultConnectionSetting?.recentLabel,
+                        predefinedTitle = defaultConnectionSetting?.predefinedTitle,
+                    ),
+                    excludeLocationsPreferences = SettingViewState.ConnectionPreferencesState.ExcludedLocationsPreferences(
+                        canSelectLocations = hasCountries,
+                    ),
                 ),
                 isAutomaticConnectionPreferencesEnabled = featureFlags.isAutomaticConnectionPreferencesFeatureFlagEnabled,
             )
