@@ -33,6 +33,7 @@ fun ConnectionPreferencesSetting(
     onClose: () -> Unit,
     onDefaultConnectionClick: () -> Unit,
     onExcludeLocationClick: () -> Unit,
+    onUpsellClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     SubSettingWithLazyContent(
@@ -41,7 +42,11 @@ fun ConnectionPreferencesSetting(
         onClose = onClose,
     ) {
         if (state.isFreeUser) {
-            // Will be implemented in VPNAND-2444
+            ConnectionPreferencesFreeContent(
+                modifier = Modifier.fillMaxWidth(),
+                onDefaultConnectionClick = onUpsellClick,
+                onExcludeLocationClick = onUpsellClick,
+            )
         } else {
             ConnectionPreferencesPaidContent(
                 modifier = Modifier.fillMaxWidth(),

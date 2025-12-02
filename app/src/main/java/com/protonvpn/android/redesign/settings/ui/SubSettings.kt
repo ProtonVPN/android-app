@@ -338,6 +338,11 @@ fun SubSettingsRoute(
                         onExcludeLocationClick = {
                             onNavigateToSubSetting(SubSettingsScreen.Type.ExcludedLocations)
                         },
+                        onUpsellClick = {
+                            CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
+                                context = context,
+                            )
+                        },
                     )
                 }
             }
