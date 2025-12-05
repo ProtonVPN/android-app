@@ -27,15 +27,19 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.ui.ServerFilterType
 import com.protonvpn.android.redesign.countries.ui.ServerGroupItemData
 import com.protonvpn.android.redesign.countries.ui.sortedForUi
+import com.protonvpn.android.redesign.excludedlocations.usecases.AddExcludedLocation
 import com.protonvpn.android.redesign.search.TextMatch
 import com.protonvpn.android.redesign.search.ui.SearchResults
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.isEmpty
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapConcat
@@ -49,8 +53,10 @@ import java.util.Locale
 import java.util.UUID
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class ExcludedLocationsViewModel @Inject constructor(
+    private val addExcludedLocation: AddExcludedLocation,
     private val searchDataAdapter: SearchViewModelDataAdapter,
 ) : ViewModel() {
 
@@ -82,11 +88,14 @@ class ExcludedLocationsViewModel @Inject constructor(
                     "$locationType-$countryCode-$locationIdentifier"
                 }
 
+            abstract val locationId: Long?
+
             abstract val countryId: CountryId
 
             abstract val textMatch: TextMatch?
 
             data class Country(
+                override val locationId: Long? = null,
                 override val countryId: CountryId,
                 override val textMatch: TextMatch?,
                 val countryCities: List<City>,
@@ -97,13 +106,17 @@ class ExcludedLocationsViewModel @Inject constructor(
             }
 
             data class State(
+                override val locationId: Long? = null,
                 override val countryId: CountryId,
                 override val textMatch: TextMatch?,
+                val nameEn: String?,
             ) : Location()
 
             data class City(
+                override val locationId: Long? = null,
                 override val countryId: CountryId,
                 override val textMatch: TextMatch?,
+                val nameEn: String?,
             ) : Location()
         }
 
@@ -117,6 +130,12 @@ class ExcludedLocationsViewModel @Inject constructor(
         ) : ViewState()
 
         data object NoLocationResults : ViewState()
+
+    }
+
+    sealed interface Event {
+
+        data object OnExcludedLocationAdded : Event
 
     }
 
@@ -135,6 +154,10 @@ class ExcludedLocationsViewModel @Inject constructor(
                         .orEmpty()
                 }
         }
+
+    private val _eventsFlow = MutableSharedFlow<Event>(extraBufferCapacity = 1)
+
+    val eventsFlow: SharedFlow<Event> = _eventsFlow.asSharedFlow()
 
     val viewStateFlow: StateFlow<ViewState?> = combine(
         searchQueryFlow,
@@ -195,13 +218,14 @@ class ExcludedLocationsViewModel @Inject constructor(
                 .sortedForUi(locale = locale)
                 .map { city ->
                     ExcludedLocationUiItem.Location.City(
-                        countryId = city.countryId!!,
+                        countryId = city.countryId,
                         textMatch = city.textMatch,
+                        nameEn = city.cityStateId.name,
                     )
                 }
 
             ExcludedLocationUiItem.Location.Country(
-                countryId = country.countryId!!,
+                countryId = country.countryId,
                 countryCities = uiCities,
                 textMatch = country.textMatch,
             )
@@ -221,20 +245,25 @@ class ExcludedLocationsViewModel @Inject constructor(
             ?.sortedForUi(locale = locale)
             ?.map { state ->
                 ExcludedLocationUiItem.Location.State(
-                    countryId = state.countryId!!,
+                    countryId = state.countryId,
                     textMatch = state.textMatch,
+                    nameEn = state.cityStateId.name,
                 )
             }
             ?.also { stateUiItems ->
-                addUiItemsSection(textResId = R.string.country_filter_states, uiItems = stateUiItems)
+                addUiItemsSection(
+                    textResId = R.string.country_filter_states,
+                    uiItems = stateUiItems
+                )
             }
 
         cities.takeIfNotEmpty()
             ?.sortedForUi(locale = locale)
             ?.map { city ->
                 ExcludedLocationUiItem.Location.City(
-                    countryId = city.countryId!!,
+                    countryId = city.countryId,
                     textMatch = city.textMatch,
+                    nameEn = city.cityStateId.name,
                 )
             }
             ?.also { cityUiItems ->
@@ -262,7 +291,11 @@ class ExcludedLocationsViewModel @Inject constructor(
     }
 
     fun onExcludedLocationSelected(location: ExcludedLocationUiItem.Location) {
-        // Will be implemented in VPNAND-2443
+        viewModelScope.launch {
+            addExcludedLocation(excludedLocation = location.toExcludedLocation())
+
+            _eventsFlow.emit(value = Event.OnExcludedLocationAdded)
+        }
     }
 
     private companion object {

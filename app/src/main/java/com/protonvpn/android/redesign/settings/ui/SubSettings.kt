@@ -33,9 +33,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -69,6 +71,7 @@ import com.protonvpn.android.widget.ui.WidgetAddScreen
 import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.domain.entity.UserId
+import me.proton.core.presentation.utils.currentLocale
 import me.proton.core.usersettings.presentation.entity.SettingsInput
 import me.proton.core.usersettings.presentation.ui.StartPasswordManagement
 import me.proton.core.usersettings.presentation.ui.StartSecurityKeys
@@ -328,6 +331,12 @@ fun SubSettingsRoute(
             SubSettingsScreen.Type.ConnectionPreferences -> {
                 val viewState = viewModel.connectionPreferences.collectAsStateWithLifecycle(initialValue = null).value
 
+                val locale = LocalConfiguration.current.currentLocale()
+
+                LaunchedEffect(key1 = locale) {
+                    viewModel.onLocaleChanged(newLocale = locale)
+                }
+
                 viewState?.let { state ->
                     ConnectionPreferencesSetting(
                         state = state,
@@ -338,6 +347,7 @@ fun SubSettingsRoute(
                         onExcludeLocationClick = {
                             onNavigateToSubSetting(SubSettingsScreen.Type.ExcludedLocations)
                         },
+                        onDeleteExcludedLocationClick = settingsChangeViewModel::onRemoveExcludedLocation,
                         onUpsellClick = {
                             CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
                                 context = context,

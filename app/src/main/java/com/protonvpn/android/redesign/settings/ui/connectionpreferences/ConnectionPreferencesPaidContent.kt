@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,6 +46,8 @@ import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.settings.ui.IconRecent
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
+import com.protonvpn.android.redesign.settings.ui.excludedlocations.ExcludedLocationIcon
+import com.protonvpn.android.redesign.settings.ui.excludedlocations.ExcludedLocationsViewModel.ExcludedLocationUiItem
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.label
 import me.proton.core.compose.theme.ProtonTheme
@@ -55,6 +58,7 @@ fun ConnectionPreferencesPaidContent(
     state: SettingViewState.ConnectionPreferencesState,
     onDefaultConnectionClick: () -> Unit,
     onExcludeLocationClick: () -> Unit,
+    onDeleteExcludedLocationClick: (ExcludedLocationUiItem.Location) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val sectionModifier = remember {
@@ -117,6 +121,25 @@ fun ConnectionPreferencesPaidContent(
                     }
                 )
             }
+        }
+
+        items(
+            items = state.excludeLocationsPreferences.excludedLocationUiItems,
+            key = { excludedLocationUiItem -> excludedLocationUiItem.id },
+        ) { excludedLocationUiItem ->
+            ConnectionPreferencesExcludedLocationRowItem(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(
+                        onClickLabel = stringResource(id = R.string.settings_excluded_locations_accessibility_label_deletion),
+                        onClick = { onDeleteExcludedLocationClick(excludedLocationUiItem) },
+                    )
+                    .padding(
+                        horizontal = 16.dp,
+                        vertical = 12.dp,
+                    ),
+                excludedLocationUiItem = excludedLocationUiItem,
+            )
         }
     }
 }
@@ -199,5 +222,31 @@ private fun ConnectionPreferencesDefaultConnectionIcon(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun ConnectionPreferencesExcludedLocationRowItem(
+    excludedLocationUiItem: ExcludedLocationUiItem.Location,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(space = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        ExcludedLocationIcon(uiExcludedLocation = excludedLocationUiItem)
+
+        Text(
+            modifier = Modifier.weight(weight = 1f, fill = true),
+            text = excludedLocationUiItem.textMatch?.fullText ?: excludedLocationUiItem.countryId.label(),
+            style = ProtonTheme.typography.body2Regular,
+        )
+
+        Icon(
+            painter = painterResource(id = CoreR.drawable.ic_proton_minus_circle_filled),
+            contentDescription = null,
+            tint = ProtonTheme.colors.iconNorm,
+        )
     }
 }

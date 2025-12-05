@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.search.ui.EmptySearchResult
 import com.protonvpn.android.redesign.settings.ui.SubSettingWithLazyContent
 import com.protonvpn.android.ui.progress.ScreenContentLoading
@@ -51,12 +52,14 @@ fun ExcludedLocationsSettings(
     ) {
         ExcludedLocationsContent(
             modifier = Modifier.fillMaxSize(),
+            onExcludedLocationAdded = onClose,
         )
     }
 }
 
 @Composable
 private fun ExcludedLocationsContent(
+    onExcludedLocationAdded: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = hiltViewModel<ExcludedLocationsViewModel>()
@@ -67,6 +70,14 @@ private fun ExcludedLocationsContent(
 
     LaunchedEffect(key1 = locale) {
         viewModel.onLocaleChanged(newLocale = locale)
+    }
+
+    viewModel.eventsFlow.collectAsEffect { event ->
+        when (event) {
+            ExcludedLocationsViewModel.Event.OnExcludedLocationAdded -> {
+                onExcludedLocationAdded()
+            }
+        }
     }
 
     viewState

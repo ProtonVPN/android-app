@@ -45,7 +45,6 @@ import com.protonvpn.android.profiles.ui.nav.ProfilesScreen
 import com.protonvpn.android.profiles.ui.nav.ProfilesScreen.profiles
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
-import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
@@ -134,7 +133,6 @@ class MainNav(
 
     @Composable
     fun NavHost(
-        settingsChangeViewModel: SettingsChangeViewModel,
         modifier: Modifier,
     ) {
         val mainScreenViewModel = hiltViewModel<MainScreenViewModel>()
@@ -173,8 +171,7 @@ class MainNav(
                     )
 
                     MainTarget.Settings -> settings(
-                        settingsChangeViewModel,
-                        coreNavigation,
+                        coreNavigation = coreNavigation,
                         onNavigateToSubSetting = { type -> rootNav.navigate(SubSettingsScreen, type) },
                         onNavigateToEditProfile = { profileId, profileCreationTarget ->
                             rootNav.navigate(AddEditProfileScreen, AddEditProfileScreen.ProfileCreationArgs(profileId, navigateTo = profileCreationTarget))
@@ -191,7 +188,6 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
     @Composable
     private fun MainScreenNavigation(
         mainNav: MainNav,
-        settingsChangeViewModel: SettingsChangeViewModel,
         modifier: Modifier = Modifier,
     ) {
         val bottomTarget = mainNav.currentBottomBarTargetAsState()
@@ -220,7 +216,6 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
             contentWindowInsets = WindowInsets.systemBars.only(WindowInsetsSides.Horizontal)
         ) { paddingValues ->
             mainNav.NavHost(
-                settingsChangeViewModel,
                 Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
@@ -231,8 +226,7 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
 
     fun SafeNavGraphBuilder<RootNav>.mainScreen(
         mainNav: MainNav,
-        settingsChangeViewModel: SettingsChangeViewModel,
     ) = addToGraph(this) {
-        MainScreenNavigation(mainNav, settingsChangeViewModel)
+        MainScreenNavigation(mainNav = mainNav)
     }
 }

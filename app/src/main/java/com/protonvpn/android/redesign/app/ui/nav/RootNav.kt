@@ -53,7 +53,7 @@ class RootNav(
             modifier = modifier,
             startScreen = MainScreen,
         ) {
-            mainScreen(mainNav, settingsChangeViewModel)
+            mainScreen(mainNav = mainNav)
 
             searchScreen(
                 onBackIconClick = ::navigateUp,

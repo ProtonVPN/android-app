@@ -341,6 +341,7 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
         ),
         excludeLocationsPreferences = SettingViewState.ConnectionPreferencesState.ExcludedLocationsPreferences(
             canSelectLocations = true,
+            excludedLocationUiItems = emptyList(),
         ),
     )
 

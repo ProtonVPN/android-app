@@ -45,7 +45,6 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.redesign.countries.ui.MatchedText
 import com.protonvpn.android.redesign.vpn.ui.label
@@ -204,19 +203,7 @@ private fun ExcludedLocationsRow(
         horizontalArrangement = Arrangement.spacedBy(space = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        when (locationUiItem) {
-            is ExcludedLocationsViewModel.ExcludedLocationUiItem.Location.Country -> {
-                Flag(exitCountry = locationUiItem.countryId)
-            }
-
-            is ExcludedLocationsViewModel.ExcludedLocationUiItem.Location.City,
-            is ExcludedLocationsViewModel.ExcludedLocationUiItem.Location.State -> {
-                Icon(
-                    painter = painterResource(id = CoreR.drawable.ic_proton_map_pin),
-                    contentDescription = null,
-                )
-            }
-        }
+        ExcludedLocationIcon(uiExcludedLocation = locationUiItem)
 
         locationUiItem.textMatch
             ?.let { match ->

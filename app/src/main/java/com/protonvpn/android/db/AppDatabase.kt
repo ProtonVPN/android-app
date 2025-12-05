@@ -27,8 +27,10 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicCallInfo
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdatesDatabase
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDatabase
+import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationEntity
 import com.protonvpn.android.profiles.data.ProfileEntity
 import com.protonvpn.android.profiles.data.VpnProfilesDatabase
+import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationsDatabase
 import com.protonvpn.android.redesign.recents.data.DefaultConnectionEntity
 import com.protonvpn.android.redesign.recents.data.RecentConnectionEntity
 import com.protonvpn.android.redesign.recents.data.RecentsTypeConverters
@@ -144,6 +146,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         AuthDeviceEntity::class,
         MemberDeviceEntity::class,
         // vpn
+        ExcludedLocationEntity::class,
         PeriodicCallInfo::class,
         ProfileEntity::class,
         RecentConnectionEntity::class,
@@ -163,8 +166,9 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         AutoMigration(from = 42, to = 43),
         AutoMigration(from = 45, to = 46, spec = DatabaseMigrations.AutoMigration45to46::class),
         AutoMigration(from = 49, to = 50),
+        AutoMigration(from = 51, to = 52),
     ],
-    version = AppDatabase.version,
+    version = AppDatabase.VERSION,
     exportSchema = true
 )
 @TypeConverters(
@@ -190,6 +194,7 @@ abstract class AppDatabase :
     ChallengeDatabase,
     DeviceRecoveryDatabase,
     EventMetadataDatabase,
+    ExcludedLocationsDatabase,
     FeatureFlagDatabase,
     HumanVerificationDatabase,
     KeySaltDatabase,
@@ -209,7 +214,8 @@ abstract class AppDatabase :
     AuthDatabase {
 
     companion object {
-        const val version = 51
+
+        const val VERSION: Int = 52
 
         @VisibleForTesting
         val migrations = listOf(

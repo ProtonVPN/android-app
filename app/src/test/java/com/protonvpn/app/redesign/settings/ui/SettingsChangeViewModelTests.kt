@@ -24,7 +24,11 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
+import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.redesign.excludedlocations.data.toEntity
+import com.protonvpn.android.redesign.excludedlocations.usecases.RemoveExcludedLocation
 import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
+import com.protonvpn.android.redesign.settings.ui.excludedlocations.toExcludedLocationUiItem
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.settings.data.SplitTunnelingMode
@@ -37,6 +41,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
+import com.protonvpn.app.redesign.excludedlocations.TestExcludedLocation
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -56,6 +61,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import java.util.Locale
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsChangeViewModelTests {
@@ -65,6 +71,9 @@ class SettingsChangeViewModelTests {
 
     @RelaxedMockK
     private lateinit var mockUiDelegate: VpnUiDelegate
+
+    @RelaxedMockK
+    private lateinit var mockExcludedLocationsDao: ExcludedLocationsDao
 
     private lateinit var settingsManager: CurrentUserLocalSettingsManager
 
@@ -89,13 +98,17 @@ class SettingsChangeViewModelTests {
         )
 
         viewModel = SettingsChangeViewModel(
-            settingsManager,
-            SettingsReconnectHandler(
-                testScope.backgroundScope,
-                mockConnectionManager,
-                VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor),
-                dontShowAgainStore,
-                SavedStateHandle(),
+            userSettingsManager = settingsManager,
+            reconnectHandler = SettingsReconnectHandler(
+                mainScope = testScope.backgroundScope,
+                vpnConnectionManager = mockConnectionManager,
+                vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor),
+                dontShowAgainStore = dontShowAgainStore,
+                savedStateHandle = SavedStateHandle(),
+            ),
+            removeExcludedLocation = RemoveExcludedLocation(
+                currentUser = currentUser,
+                excludedLocationsDao = mockExcludedLocationsDao,
             ),
         )
     }
@@ -198,4 +211,17 @@ class SettingsChangeViewModelTests {
         assertEquals(DontShowAgainStore.Choice.Negative, dontShowAgainStore.getChoice(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected))
         coVerify(exactly = 0) { mockConnectionManager.reconnect(any(), any()) }
     }
+
+    @Test
+    fun `WHEN removing excluded location THEN delete excluded location is called`() {
+        val userId = TestUser.plusUser.vpnUser.userId
+        val excludedLocation = TestExcludedLocation.create()
+        val location = excludedLocation.toExcludedLocationUiItem(locale = Locale.ENGLISH, translator = mockk())
+        val expectedExcludedLocationEntity = excludedLocation.toEntity(userId = userId)
+
+        viewModel.onRemoveExcludedLocation(location = location)
+
+        coVerify(exactly = 1) { mockExcludedLocationsDao.delete(entity = expectedExcludedLocationEntity) }
+    }
+
 }

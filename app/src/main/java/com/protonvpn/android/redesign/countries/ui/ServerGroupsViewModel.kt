@@ -443,7 +443,7 @@ internal fun fastestCountryItem(filter: ServerFilterType): ServerGroupItemData.C
         entryCountryId = if (filter == ServerFilterType.SecureCore) CountryId.fastest else null
     )
 
-internal fun List<ServerGroupItemData>.sortedForUi(locale: Locale): List<ServerGroupItemData> {
+internal fun <T : ServerGroupItemData> List<T>.sortedForUi(locale: Locale): List<T> {
     val sortLabel = associateWith { data -> data.getUiSortProperty(locale) }
     return sortedByLocaleAware(locale) { data -> sortLabel[data]!! }
 }
