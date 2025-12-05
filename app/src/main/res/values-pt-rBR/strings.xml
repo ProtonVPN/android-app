@@ -591,7 +591,7 @@
     <string name="dynamic_report_completion_error_description_generic">We couldn’t send your report. Please try again.</string>
     <string name="dynamic_report_completion_error_description_no_internet">We couldn’t send your report. Please check your connection and try again.</string>
     <string name="dynamic_report_completion_error_description_timeout">We couldn’t send your report. Connection timed out, please try again.</string>
-    <string name="dynamic_report_completion_success_title">Thanks for your feedback. We’ll get back to you as soon as we can.</string>
+    <string name="dynamic_report_completion_success_title">Obrigado pelo seu comentário. Entraremos em contato assim que possível.</string>
     <string name="dynamic_report_success_title">Nós lhe agradecemos por seus comentários.</string>
     <string name="dynamic_report_success_description">Retornaremos assim que possível.</string>
     <string name="dynamic_report_field_mandatory">Este campo é obrigatório</string>
@@ -604,8 +604,8 @@
     <string name="update_screen_title">Atualizar Proton VPN</string>
     <string name="update_screen_description">É provável você ter problemas em versões mais antigas do Proton VPN.</string>
     <string name="update_banner_description_settings">Uma nova versão do aplicativo está disponível</string>
-    <string name="update_banner_warning_vpn_connected_title">VPN will disconnect briefly</string>
-    <string name="update_banner_warning_vpn_connected_message">The app needs to restart to finish the update. You will be reconnected automatically afterward.</string>
+    <string name="update_banner_warning_vpn_connected_title">A VPN será desconectada brevemente</string>
+    <string name="update_banner_warning_vpn_connected_message">O aplicativo precisa ser reiniciado para concluir a atualização. Você será reconectado automaticamente em seguida.</string>
     <string name="dialog_create_account_title">Crie uma conta para continuar</string>
     <string name="dialog_create_account_action_create">Criar conta</string>
     <string name="dialog_create_account_action_signin">Iniciar sessão</string>
@@ -630,6 +630,11 @@
     <string name="select_default_connection">Selecione sua conexão padrão</string>
     <string name="settings_default_connection_title">Conexão padrão</string>
     <string name="fastest_country_description">O melhor servidor baseado na sua localização</string>
+    <string name="settings_connection_preferences_title">Connection preferences</string>
+    <string name="settings_excluded_locations_title">Excluded locations</string>
+    <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
+    <string name="settings_excluded_locations_unavailable">No locations available</string>
+    <string name="settings_excluded_locations_selection_hint">Select…</string>
     <string name="settings_last_connection_title">Última conexão</string>
     <string name="settings_last_connection_description">Sua conexão usada mais recentemente</string>
     <string name="settings_change_icon_title">Ícone do aplicativo</string>
@@ -1580,8 +1585,8 @@
     <string name="no_connections_help_contact_us"><![CDATA[Precisa de ajuda? <a href="">Entre em contato</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Se sua administração precisar de ajuda para ativar o acesso VPN, envie <a href="">estas instruções</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_title">Ativar OpenVPN?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Este protocolo será removido em breve, à medida que nos concentramos em tecnologias mais rápidas e seguras. Recomendamos que você mude para o Smart Protocol. <a href="proton.me">Saiba mais</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Este protocolo será removido em breve, à medida que nos concentramos em tecnologias mais rápidas e seguras. Recomendamos que você mude para o Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continuar com OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ativar Smart Protocol</string>
 </resources>

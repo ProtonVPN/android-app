@@ -630,6 +630,11 @@
     <string name="select_default_connection">Válassza ki az alapértelmezett kapcsolatot</string>
     <string name="settings_default_connection_title">Alapértelmezett kapcsolat</string>
     <string name="fastest_country_description">A legjobb szerver az Ön tartózkodási helye alapján</string>
+    <string name="settings_connection_preferences_title">Connection preferences</string>
+    <string name="settings_excluded_locations_title">Excluded locations</string>
+    <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
+    <string name="settings_excluded_locations_unavailable">No locations available</string>
+    <string name="settings_excluded_locations_selection_hint">Select…</string>
     <string name="settings_last_connection_title">Legutóbbi kapcsolat</string>
     <string name="settings_last_connection_description">A legutóbb használt kapcsolata</string>
     <string name="settings_change_icon_title">Alkalmazás ikon</string>

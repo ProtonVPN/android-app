@@ -630,6 +630,11 @@
     <string name="select_default_connection">Standardverbindung auswählen</string>
     <string name="settings_default_connection_title">Standardverbindung</string>
     <string name="fastest_country_description">Der beste Server für deinen Standort</string>
+    <string name="settings_connection_preferences_title">Verbindungseinstellungen</string>
+    <string name="settings_excluded_locations_title">Ausgeschlossene Standorte</string>
+    <string name="settings_excluded_locations_description">Die ausgewählten Standorte werden niemals verwendet, wenn du dich mit dem Schnellsten verbindest.</string>
+    <string name="settings_excluded_locations_unavailable">Keine Standorte verfügbar</string>
+    <string name="settings_excluded_locations_selection_hint">Auswählen …</string>
     <string name="settings_last_connection_title">Letzte Verbindung</string>
     <string name="settings_last_connection_description">Deine zuletzt verwendete Verbindung</string>
     <string name="settings_change_icon_title">App-Symbol</string>

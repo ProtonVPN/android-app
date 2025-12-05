@@ -613,6 +613,11 @@
     <string name="select_default_connection">默认连接选择</string>
     <string name="settings_default_connection_title">默认连接</string>
     <string name="fastest_country_description">从所在位置来看最适合的服务器</string>
+    <string name="settings_connection_preferences_title">Connection preferences</string>
+    <string name="settings_excluded_locations_title">Excluded locations</string>
+    <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
+    <string name="settings_excluded_locations_unavailable">No locations available</string>
+    <string name="settings_excluded_locations_selection_hint">Select…</string>
     <string name="settings_last_connection_title">上次连接</string>
     <string name="settings_last_connection_description">近期连接</string>
     <string name="settings_change_icon_title">应用图标</string>

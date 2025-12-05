@@ -222,12 +222,12 @@
     <string name="settingsSendCrashReportsDescription">クラッシュレポートはバグを修正し、ファイアウォールを検出し、VPN 検閲を回避するために使用されます。</string>
     <string name="settingsTelemetryScreenTitle">使用統計</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[この統計にあなたの IP アドレスは含まれず、あなたを特定することはできません。この統計は第三者に共有しません。<a href="%1$s">詳細</a>]]></string>
-    <string name="netshield_settings_description_not_html">ウェブサイトやアプリの使用中に、広告、マルウェア、トラッカーから身を守りましょう。 %1$s</string>
-    <string name="netshield_settings_description_tv">お客様をサードパーティの広告、トラッカー、マルウェアから保護します。NetShieldは、YouTubeやNetflixのようなストリーミングサービスに組み込まれた広告をブロックしません。</string>
+    <string name="netshield_settings_description_not_html">ウェブサイトやアプリの広告、ウイルス、トラッカーなどから身を守りましょう。%1$s</string>
+    <string name="netshield_settings_description_tv">NetShieldは、サードパーティの広告、トラッカー、マルウェアなどからあなたをから保護します。YouTubeやNetflixのようなストリーミングサービスに組み込まれた広告は、ブロックできません。</string>
     <string name="netshield_settings_more_info_title_tv">NetShieldの仕組み</string>
     <string-array name="netshield_settings_more_info_paragraphs_tv">
         <item>NetShieldは、広告、トラッカー、マルウェアとして知られるサードパーティのドメインへのDNSリクエストをブロックします。</item>
-        <item>これは、お客様のブラウザや、サードパーティの広告サービスを使用している無料アプリからの広告が表示されなくなることを意味します。</item>
+        <item>つまり、サードパーティの広告サービスを使用している無料アプリやブラウザからの広告が、表示されなくなるということです。</item>
         <item>ただし、YouTubeやNetflixのようなストリーミングプラットフォームからの広告はブロックできません。それらの広告は独自のサーバーから配信されるためです。</item>
     </string-array>
     <string name="settings_icon_change_description">Proton VPNアプリを目立たないアイコンで偽装します。通知には引き続きデフォルトのProton VPNの名前とアイコンが表示されます。%1$s</string>
@@ -266,7 +266,7 @@
     <string name="netshield_setting_warning">広告やトラッカーがブロックされていると、一部の Web サイトが正しく読み込まれない場合があります。</string>
     <string name="dialogDontShowAgain">次回から表示しない</string>
     <string name="guestHoleNotificationContent">ネットワークの問題の回避を試みてください。これで Proton VPN にアクセスできるかもしれません。</string>
-    <string name="errorTunMultiUserPermission">デュアルアプリ (デュアルメッセンジャーなど) とスプリットトンネルが競合したため VPN を初期化できませんでした。どちらかを無効にし、デバイスを再起動してください。</string>
+    <string name="errorTunMultiUserPermission">デュアルアプリ (例：デュアルメッセンジャー) とスプリットトンネルが競合したため、VPN の初期化が失敗しました。どちらかを無効にし、デバイスを再起動してください。</string>
     <string name="errorTorrentNotAllowed">このサーバーで P2P は許可されていません</string>
     <string name="error_profile_fallback_unavailable">接続に失敗しました。プロファイルのサーバー選択が利用できません。</string>
     <string name="profileProtocolNotAvailable">このプロフィールの VPN プロトコルは現在利用できません。接続するにはプロトコルを変更してください。</string>
@@ -318,7 +318,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% サーバー負荷</string>
+    <string name="tv_server_list_load">サーバー負荷 %1$s%%</string>
     <string name="tv_recently_used_servers">最近使用したサーバー</string>
     <string name="tv_available_servers">利用可能なサーバー</string>
     <string name="tv_locked_servers">ロックされたサーバー</string>
@@ -517,12 +517,12 @@
     <string name="upsell_tv_all_countries_title">Plusですべての国にアクセス</string>
     <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">%2$sか国にある%1$s台の安全なサーバーをご利用いただけます。%3$s</string>
     <string name="upsell_tv_netshield_title">Plus で広告なしのブラウジングを体験</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[<b>NetShield</b> で広告、トラッカー、マルウェアをブロックします。 %1$s]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[<b>NetShield</b> で、広告、トラッカー、ウイルスなどをブロックしましょう。%1$s]]></string>
     <string name="upsell_tv_split_tunneling_title">Plusで両方の利点を最大限に活用</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[<b>スプリットトンネル</b>を使用して、トラフィックをVPNトンネルと非VPNトンネルに分割します。%1$s]]></string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[<b>スプリットトンネル</b>を使用すると、トラフィックをVPNトンネルと非VPNトンネルに分割できます。%1$s]]></string>
     <string name="upsell_tv_customization_title">Plusで高度なVPNカスタマイズを利用</string>
-    <string name="upsell_tv_customization_description"><![CDATA[<b>LAN 接続</b>、<b>カスタム DNS</b>、およびより高度な VPN 機能 をアンロックします。%1$s]]></string>
-    <string name="upsell_tv_description_placeholder">Proton VPNのウェブサイトにアクセスして、プランをアップグレードしてください。</string>
+    <string name="upsell_tv_customization_description"><![CDATA[<b>LAN 接続</b>、<b>カスタム DNS</b> など、より高度な VPN 機能を入手しましょう。%1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Proton VPNのウェブサイトでプランをアップグレードしましょう。</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -589,7 +589,7 @@
     <string name="update_screen_description">古い Proton VPN には問題がある可能性があります。</string>
     <string name="update_banner_description_settings">アプリの新しいバージョンが利用可能です</string>
     <string name="update_banner_warning_vpn_connected_title">VPNは一時的に接続解除されます</string>
-    <string name="update_banner_warning_vpn_connected_message">更新を完了するには、アプリを再起動する必要があります。その後、お客様は自動的に再接続されます。</string>
+    <string name="update_banner_warning_vpn_connected_message">更新を完了するには、アプリを再起動する必要があります。その後、VPN は自動的に再接続します。</string>
     <string name="dialog_create_account_title">続行するにはアカウントを作成してください</string>
     <string name="dialog_create_account_action_create">アカウントを作成する</string>
     <string name="dialog_create_account_action_signin">サインイン</string>
@@ -613,6 +613,11 @@
     <string name="select_default_connection">デフォルトの接続を選択</string>
     <string name="settings_default_connection_title">デフォルト接続</string>
     <string name="fastest_country_description">あなたの所在地に基づいた最適なサーバー</string>
+    <string name="settings_connection_preferences_title">接続設定</string>
+    <string name="settings_excluded_locations_title">除外された位置</string>
+    <string name="settings_excluded_locations_description">選択された位置は、お客様がFastesに接続される際に使用されることはありません。</string>
+    <string name="settings_excluded_locations_unavailable">利用可能な位置はありません</string>
+    <string name="settings_excluded_locations_selection_hint">選択してください...</string>
     <string name="settings_last_connection_title">最後の接続</string>
     <string name="settings_last_connection_description">最近使用した接続</string>
     <string name="settings_change_icon_title">アプリアイコン</string>
@@ -690,7 +695,7 @@
     <string name="welcome_plus_description">特別なプライバシー機能、超高速パフォーマンス、そしてハイレベルなVPNカスタマイズをお楽しみください。</string>
     <string name="welcome_plus_feature_security">高度なセキュリティ機能</string>
     <string name="welcome_unlimited_title">Proton Unlimitedへようこそ</string>
-    <string name="welcome_unlimited_description"><![CDATA[お客様は、すべてのプレミアムProton VPN、Mail、Calendar、Drive、Pass、Walletの機能をアンロックし、合計<b>%1$d&#160;GB</b>のストレージもご利用いただけるようになりました。]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Proton VPN、Mail、Calendar、Drive、Pass、Walletのすべてのプレミアム機能、および合計<b>%1$d&#160;GB</b>のストレージもご利用いただけるようになりました！]]></string>
     <string name="welcome_generic_title">おめでとうございます！</string>
     <string name="welcome_generic_description">サブスクリプションをアップグレードしました。高度なプライバシー機能と次世代のパフォーマンスをお楽しみください。</string>
     <!-- Example: Up to 10 devices at once
@@ -1005,7 +1010,7 @@
     <string name="countries_title">国</string>
     <string name="profiles_title">プロファイル</string>
     <string name="settings_autoconnect_title">自動接続</string>
-    <string name="settings_autoconnect_boot_description">お客様のデバイスが起動すると、クイック接続を使用してVPNに自動的に接続します。</string>
+    <string name="settings_autoconnect_boot_description">デバイス起動時に、クイック接続で自動的にVPNを接続します。</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">機能</string>
     <!-- tag(Redesign_2023) -->
@@ -1031,7 +1036,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">サポート</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">サポートセンター</string>
+    <string name="settings_help_center_title">ヘルプセンター</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">問題を報告</string>
     <!-- tag(Redesign_2023) -->
@@ -1191,7 +1196,7 @@
     <string name="info_dialog_ipaddress_title">IPアドレス</string>
     <string name="info_dialog_ipv6_traffic_title">IPv6 トラフィック</string>
     <string name="info_dialog_profiles_description">プロファイルはカスタムVPN接続で、ニーズに合わせて素早くアクセスできるように保存できます。\n\nご希望の場所を設定し、セキュリティ、パフォーマンス、ゲーム、その他のシナリオで設定を最適化します。</string>
-    <string name="info_dialog_ipaddress_description">VPN IPはあなたの本当のIPアドレスを隠します。これにより、あなたのブラウジングがVPNの位置から行われているように見えるので、オンライン上の行動があなたの端末にリンクされなくなります。</string>
+    <string name="info_dialog_ipaddress_description">VPNはあなたの本当のIPアドレスを隠します。これにより、あなたがVPNの場所からインターネットに接続しているように見え、オンライン上の行動があなたの端末にリンクされなくなります。</string>
     <string name="info_dialog_ipv6_traffic_description">インターネットプロトコル(IP)は、デバイスにアドレスを割り当て、インターネットトラフィックをルーティングします。 IPv6は最新バージョンで、より多くのアドレスとより良い接続を提供していますが、まだ普遍的に採用されていません。</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">ピアツーピアファイル共有はこのサーバーで有効化されています。</string>
@@ -1390,16 +1395,16 @@
     <string name="settings_dialog_reconnect">新しい設定は次の接続から適用されます。</string>
     <string name="settings_needs_reconnect_banner">新しい設定は次の接続から適用されます。</string>
     <string name="private_dns_conflict_banner_custom_dns_title">カスタム DNS は利用できません</string>
-    <string name="private_dns_conflict_banner_custom_dns_description">お使いのデバイスはサードパーティ製のDNSを使用しており、Proton VPNのカスタムDNSが動作しないようにしています。詳細はこちら</string>
-    <string name="private_dns_conflict_banner_custom_dns_description_tv">お客様のデバイスはサードパーティ製のDNSを使用しており、Proton VPNのカスタムDNSが動作しないようにしています。</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">お使いのデバイスがサードパーティのDNSを使用しているため、Proton VPNのカスタムDNSは使用できません。詳細はこちら</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">お使いのデバイスがサードパーティのDNSを使用しているため、Proton VPNのカスタムDNSは使用できません。</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield は利用できません</string>
-    <string name="private_dns_conflict_banner_netshield_description">お使いのデバイスはサードパーティ製のDNSを使用しており、NetShieldが動作しないようにしています。詳細はこちら</string>
+    <string name="private_dns_conflict_banner_netshield_description">お使いのデバイスがサードパーティのDNSを使用しているため、NetShieldは使用できません。詳細はこちら</string>
     <string name="private_dns_conflict_banner_network_settings_button">ネットワーク設定</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield は利用できません</string>
-    <string name="custom_dns_conflict_banner_netshield_description">NetShield が動作しないようにするカスタム DNS が有効になっています。詳細はこちら</string>
+    <string name="custom_dns_conflict_banner_netshield_description">カスタム DNS が有効になっているため、NetShieldは使用できません。詳細はこちら</string>
     <string name="custom_dns_conflict_banner_netshield_title_tv">NetShield を使用するには、カスタム DNS をオフにしてください。</string>
-    <string name="custom_dns_conflict_banner_netshield_description_tv">NetShield が動作しないようにするカスタム DNS が有効になっています。</string>
-    <string name="custom_dns_conflict_banner_disable_custom_dns_button">カスタム DNS をオフにします</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">カスタム DNS が有効になっているため、NetShieldは使用できません。</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">カスタム DNS を切る</string>
     <string name="info_secure_core_standard_high_privacy">高いプライバシー</string>
     <string name="info_secure_core_standard_lower_latency">低レイテンシー</string>
     <string name="info_secure_core_advanced_privacy">高度なプライバシー</string>
@@ -1492,7 +1497,7 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">新着情報</string>
     <string name="create_profile_auto_open_url_input_label">ウェブサイトURL</string>
-    <string name="create_profile_auto_open_url_private_mode_label">プライベートブラウジングモードを使用</string>
+    <string name="create_profile_auto_open_url_private_mode_label">プライバシーモードを使用</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">オフ</string>
     <string name="profile_auto_open_app_failed_to_launch">接続して起動: アプリが見つかりません</string>
@@ -1522,19 +1527,19 @@
     <string name="widget_sign_in">ログイン</string>
     <string name="widget_toast_added_message">ホーム画面にウィジェットを追加</string>
     <string name="settings_advanced_ipv6_title">IPv6対応</string>
-    <string name="settings_advanced_ipv6_description">VPN経由のIPv6トラフィックをトンネルします。 IPv6ネットワークとの互換性を強化できます。</string>
+    <string name="settings_advanced_ipv6_description">IPv6トラフィックをVPN経由にします。 IPv6ネットワークとのより良い互換性が期待できます。</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">このアドレスを使用するには、VPNトンネルを介してIPv6接続を許可する必要があります。</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">IPv6 を有効にする</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 は無効です</string>
-    <string name="settings_ipv6_enabled_toast">IPv6が有効です</string>
-    <string name="info_dialog_ipv6_traffic_benefits1">IPv6 のみのウェブサイトやサービスへのアクセスを保証します</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 を有効にしました</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">IPv6 のみのサイトやサービスへのアクセスが保証される</string>
     <string name="info_dialog_ipv6_traffic_benefits2">IPv6 に依存するネットワーク上の問題を防止</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks1">古いネットワークやアプリでうまく動作しない可能性があります</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks2">一部のネットワークは IPv6 トラフィックを予期せず処理します</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">古いネットワークやアプリでうまく動作しない可能性がある</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">IPv6 は一部のネットワークではうまく処理されないこともある</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">短所</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">長所</string>
-    <string name="settings_lan_allow_direct_connection_title">直接のデバイス接続を許可</string>
-    <string name="settings_lan_allow_direct_connection_description">スマート TV、Android Auto、独自のネットワークを作成するその他のデバイスに接続します。最大限のセキュリティのために、これらのデバイスに接続する場合にのみ有効にしてください。</string>
+    <string name="settings_lan_allow_direct_connection_title">デバイスとの直接接続を許可</string>
+    <string name="settings_lan_allow_direct_connection_description">スマート TV や Android Autoなど、独自のネットワークを作成するデバイスに接続できます。安全のため、これらのデバイスに接続したい場合のみ、有効にしましょう。</string>
     <!-- No VPN connections -->
     <string name="no_connections_title">VPN接続が利用できません。</string>
     <string name="no_connections_description_loading_error">サーバー一覧を読み込めませんでした。</string>
@@ -1542,10 +1547,10 @@
     <string name="no_connections_action_refresh">再読み込み</string>
     <string name="no_connections_action_sign_out">サインアウト</string>
     <string name="no_connections_help_contact_us"><![CDATA[ご不明な点がございましたら、<a href="">お問い合わせください</a>]]></string>
-    <string name="no_connections_help_follow_instructions"><![CDATA[管理者が VPN アクセスを有効にするためにサポートを必要としている場合は、<a href="">こちらの手順</a>を送信してください。]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[管理者が VPN アクセスを有効にする際に助けが必要な場合、<a href="">こちらの手順</a>が参考になるかもしれません。]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_title">OpenVPNを有効にしますか？</string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[このプロトコルは、より高速で安全な技術に注力するため、まもなく廃止されます。Smart Protocolへの切り替えをお勧めします。<a href="proton.me">詳細はこちら</a>。]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">本プロトコルは、より高速かつ安全な技術に注力するため、まもなく廃止されます。Smart Protocolへの移行をお勧めします。</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">OpenVPNを続行する</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart protocolを有効にする</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">OpenVPNを使用</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart Protocolを使用</string>
 </resources>

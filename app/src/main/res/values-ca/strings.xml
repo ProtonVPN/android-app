@@ -630,6 +630,11 @@
     <string name="select_default_connection">Seleccioneu la connexió per defecte</string>
     <string name="settings_default_connection_title">Connexió per defecte</string>
     <string name="fastest_country_description">El millor servidor basat en la vostra ubicació</string>
+    <string name="settings_connection_preferences_title">Preferències de connexió</string>
+    <string name="settings_excluded_locations_title">Ubicacions excloses</string>
+    <string name="settings_excluded_locations_description">Les ubicacions seleccionades no s\'utilitzaran mai quan us connecteu a Fastest.</string>
+    <string name="settings_excluded_locations_unavailable">No hi ha cap ubicació disponible</string>
+    <string name="settings_excluded_locations_selection_hint">Selecciona...</string>
     <string name="settings_last_connection_title">Última connexió</string>
     <string name="settings_last_connection_description">La vostra connexió utilitzada més recentment</string>
     <string name="settings_change_icon_title">Icona de l\'aplicació</string>

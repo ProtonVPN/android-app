@@ -614,6 +614,11 @@
     <string name="select_default_connection">기본 연결을 선택하세요</string>
     <string name="settings_default_connection_title">기본 연결</string>
     <string name="fastest_country_description">지역에 기반한 최적의 서버</string>
+    <string name="settings_connection_preferences_title">Connection preferences</string>
+    <string name="settings_excluded_locations_title">Excluded locations</string>
+    <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
+    <string name="settings_excluded_locations_unavailable">No locations available</string>
+    <string name="settings_excluded_locations_selection_hint">Select…</string>
     <string name="settings_last_connection_title">최근 연결</string>
     <string name="settings_last_connection_description">가장 최근에 사용한 연결</string>
     <string name="settings_change_icon_title">앱 아이콘</string>

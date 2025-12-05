@@ -630,6 +630,11 @@
     <string name="select_default_connection">Selecteer uw standaardverbinding</string>
     <string name="settings_default_connection_title">Standaardverbinding</string>
     <string name="fastest_country_description">De beste server op basis van uw locatie</string>
+    <string name="settings_connection_preferences_title">Verbindingsvoorkeuren</string>
+    <string name="settings_excluded_locations_title">Uitgesloten locaties</string>
+    <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
+    <string name="settings_excluded_locations_unavailable">No locations available</string>
+    <string name="settings_excluded_locations_selection_hint">Select…</string>
     <string name="settings_last_connection_title">Laatste verbinding</string>
     <string name="settings_last_connection_description">Uw meest recent gebruikte verbinding</string>
     <string name="settings_change_icon_title">App-icoon</string>
