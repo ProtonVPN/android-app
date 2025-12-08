@@ -26,6 +26,7 @@ import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import com.protonvpn.android.utils.stacktraceMessage
 import dagger.Reusable
@@ -50,11 +51,15 @@ class UpdateServersWithBinaryStatusImpl @Inject constructor(
 
     @WorkerThread
     override operator fun invoke(serversToUpdate: List<Server>, statusData: ByteArray): List<Server>? {
-        val uniffiLogicals = serversToUpdate.mapNotNull { server ->
-            server.toUniffiLogical().also {
-                if (it == null) {
-                     logError("missing Server data for status computation ${server.toLog()}")
-                }
+        val validServersToUpdate = ArrayList<Server>(serversToUpdate.size)
+        val uniffiLogicals = ArrayList<UniffiLogical>(serversToUpdate.size)
+        serversToUpdate.forEach { server ->
+            val uniffiLogical = server.toUniffiLogical()
+            if (uniffiLogical != null) {
+                uniffiLogicals.add(uniffiLogical)
+                validServersToUpdate.add(server)
+            } else {
+                logError("missing Server data for status computation ${server.toLog()}")
             }
         }
         if (uniffiLogicals.size != serversToUpdate.size) {
@@ -70,8 +75,8 @@ class UpdateServersWithBinaryStatusImpl @Inject constructor(
                 userLocation = getLastKnownIpLocation(),
                 userCountry = userCountryIpBased()?.countryCode,
             )
-            if (loads.size == serversToUpdate.size) {
-                serversToUpdate.zip(loads) { server, load ->
+            if (loads.size == uniffiLogicals.size) {
+                validServersToUpdate.zip(loads) { server, load ->
                     // Status update doesn't include physical servers, it's not safe to go from
                     // disabled to enabled without the full information.
                     val newIsOnline = load.isEnabled.takeIf { server.rawIsOnline } ?: false
