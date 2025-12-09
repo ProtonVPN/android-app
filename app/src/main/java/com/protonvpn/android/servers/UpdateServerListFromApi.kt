@@ -83,14 +83,16 @@ class UpdateServerListFromApi @Inject constructor(
     suspend operator fun invoke(
         netzone: String?,
         lang: String,
-        freeOnly: Boolean,
+        freeOnlyNeeded: Boolean,
         serverListLastModified: Long
     ): PeriodicActionResult<Result> {
         val realProtocolsNames = ProtocolSelection.REAL_PROTOCOLS.map { it.apiName }
         val enableTruncation = truncationFeatureFlagEnabled()
         val requestedMustHaveIDs = if (enableTruncation) getTruncationMustHaveIDs() else emptySet()
-        val fetchResult = if (binaryServerStatusEnabled()) {
-            DebugUtils.debugAssert("Partial updates are not supported with binary status") { !freeOnly }
+        val binaryServerStatusEnabled = binaryServerStatusEnabled()
+        // Partial updates are not supported with binary status.
+        val freeOnly = freeOnlyNeeded && !binaryServerStatusEnabled
+        val fetchResult = if (binaryServerStatusEnabled) {
             val listResult = api.getServerList(
                 netzone,
                 lang = lang,

@@ -294,7 +294,7 @@ class ServerListUpdater @Inject constructor(
                 updateServerListFromApi(
                     netzone = getNetZone(),
                     lang = Locale.getDefault().language,
-                    freeOnly = freeOnlyUpdateNeeded(),
+                    freeOnlyNeeded = freeOnlyUpdateNeeded(),
                     serverListLastModified = prefs.serverListLastModified
                 )
             }
