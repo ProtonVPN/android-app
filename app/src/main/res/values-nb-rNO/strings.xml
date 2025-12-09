@@ -630,11 +630,11 @@
     <string name="select_default_connection">Velg standardtilkobling</string>
     <string name="settings_default_connection_title">Standard forbindelse</string>
     <string name="fastest_country_description">Den beste tjeneren basert på plasseringen din</string>
-    <string name="settings_connection_preferences_title">Connection preferences</string>
-    <string name="settings_excluded_locations_title">Excluded locations</string>
-    <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
-    <string name="settings_excluded_locations_unavailable">No locations available</string>
-    <string name="settings_excluded_locations_selection_hint">Select…</string>
+    <string name="settings_connection_preferences_title">Tilkoblingspreferanser</string>
+    <string name="settings_excluded_locations_title">Ekskluderte plasseringer</string>
+    <string name="settings_excluded_locations_description">De valgte stedene vil aldri bli valgt når du kobler til den raskeste tjeneren.</string>
+    <string name="settings_excluded_locations_unavailable">Ingen steder tilgjengelig</string>
+    <string name="settings_excluded_locations_selection_hint">Velg…</string>
     <string name="settings_last_connection_title">Siste forbindelse</string>
     <string name="settings_last_connection_description">Den sist brukte tilkoblingen</string>
     <string name="settings_change_icon_title">App-ikon</string>

@@ -631,9 +631,9 @@
     <string name="settings_default_connection_title">Varsayılan bağlantı</string>
     <string name="fastest_country_description">Konumunuza uygun en iyi sunucu</string>
     <string name="settings_connection_preferences_title">Bağlantı ayarları</string>
-    <string name="settings_excluded_locations_title">Hariç tutulan konumlar</string>
-    <string name="settings_excluded_locations_description">Seçilen konumlar En Hızlıya bağlantı kurduğunuzda asla kullanılmayacaktır.</string>
-    <string name="settings_excluded_locations_unavailable">Kullanılabilir konum yok</string>
+    <string name="settings_excluded_locations_title">Katılmayacak konumlar</string>
+    <string name="settings_excluded_locations_description">En hızlı sunucu ile bağlantı kurduğunuzda seçilmiş konumlar asla kullanılmaz.</string>
+    <string name="settings_excluded_locations_unavailable">Kullanılabilecek bir konum yok</string>
     <string name="settings_excluded_locations_selection_hint">Seçin…</string>
     <string name="settings_last_connection_title">Son bağlantı</string>
     <string name="settings_last_connection_description">Son kullandığınız bağlantı</string>

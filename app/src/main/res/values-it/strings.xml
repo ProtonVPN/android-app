@@ -630,11 +630,11 @@
     <string name="select_default_connection">Seleziona la connessione predefinita</string>
     <string name="settings_default_connection_title">Connessione predefinita</string>
     <string name="fastest_country_description">Il miglior server in base alla tua posizione</string>
-    <string name="settings_connection_preferences_title">Connection preferences</string>
-    <string name="settings_excluded_locations_title">Excluded locations</string>
-    <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
-    <string name="settings_excluded_locations_unavailable">No locations available</string>
-    <string name="settings_excluded_locations_selection_hint">Select…</string>
+    <string name="settings_connection_preferences_title">Preferenze di connessione</string>
+    <string name="settings_excluded_locations_title">Località escluse</string>
+    <string name="settings_excluded_locations_description">Le località selezionate non verranno mai usate quando ti connetti a Fastest.</string>
+    <string name="settings_excluded_locations_unavailable">Nessuna azione disponibile</string>
+    <string name="settings_excluded_locations_selection_hint">Seleziona…</string>
     <string name="settings_last_connection_title">Ultima connessione</string>
     <string name="settings_last_connection_description">La connessione utilizzata più recentemente</string>
     <string name="settings_change_icon_title">Icona dell\'app</string>

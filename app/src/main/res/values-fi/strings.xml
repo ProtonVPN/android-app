@@ -630,11 +630,11 @@
     <string name="select_default_connection">Valitse oletusyhteytesi</string>
     <string name="settings_default_connection_title">Oletusyhteys</string>
     <string name="fastest_country_description">Sijaintisi perusteella paras palvelin</string>
-    <string name="settings_connection_preferences_title">Connection preferences</string>
-    <string name="settings_excluded_locations_title">Excluded locations</string>
-    <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
-    <string name="settings_excluded_locations_unavailable">No locations available</string>
-    <string name="settings_excluded_locations_selection_hint">Select…</string>
+    <string name="settings_connection_preferences_title">Yhteysasetukset</string>
+    <string name="settings_excluded_locations_title">Poissuljetut sijainnit</string>
+    <string name="settings_excluded_locations_description">Valittuja sijainteja ei koskaan käytetä, kun yhdistät nopeimpaan sijaintiin.</string>
+    <string name="settings_excluded_locations_unavailable">Sijainteja ei ole saatavilla</string>
+    <string name="settings_excluded_locations_selection_hint">Valitse…</string>
     <string name="settings_last_connection_title">Edellinen yhteys</string>
     <string name="settings_last_connection_description">Viimeksi käyttämäsi yhteys</string>
     <string name="settings_change_icon_title">Sovelluksen kuvake</string>

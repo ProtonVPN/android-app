@@ -632,7 +632,7 @@
     <string name="fastest_country_description">El mejor servidor basado en su ubicación</string>
     <string name="settings_connection_preferences_title">Preferencias de conexión</string>
     <string name="settings_excluded_locations_title">Ubicaciones excluidas</string>
-    <string name="settings_excluded_locations_description">Las ubicaciones seleccionadas no se usarán cuando conectes en modo \'Más rápido\'.</string>
+    <string name="settings_excluded_locations_description">Las ubicaciones seleccionadas no se usarán cuando se conecte en modo Más rápido.</string>
     <string name="settings_excluded_locations_unavailable">No hay ubicaciones disponibles</string>
     <string name="settings_excluded_locations_selection_hint">Seleccionar…</string>
     <string name="settings_last_connection_title">Última conexión</string>
