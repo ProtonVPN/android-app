@@ -26,7 +26,6 @@ import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
-import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import com.protonvpn.android.utils.stacktraceMessage
 import dagger.Reusable
@@ -51,14 +50,16 @@ class UpdateServersWithBinaryStatusImpl @Inject constructor(
 
     @WorkerThread
     override operator fun invoke(serversToUpdate: List<Server>, statusData: ByteArray): List<Server>? {
-        val validServersToUpdate = ArrayList<Server>(serversToUpdate.size)
+        val validServers = ArrayList<Server>(serversToUpdate.size)
+        val invalidServers = ArrayList<Server>()
         val uniffiLogicals = ArrayList<UniffiLogical>(serversToUpdate.size)
         serversToUpdate.forEach { server ->
             val uniffiLogical = server.toUniffiLogical()
             if (uniffiLogical != null) {
                 uniffiLogicals.add(uniffiLogical)
-                validServersToUpdate.add(server)
+                validServers.add(server)
             } else {
+                invalidServers.add(server)
                 logError("missing Server data for status computation ${server.toLog()}")
             }
         }
@@ -76,7 +77,7 @@ class UpdateServersWithBinaryStatusImpl @Inject constructor(
                 userCountry = userCountryIpBased()?.countryCode,
             )
             if (loads.size == uniffiLogicals.size) {
-                validServersToUpdate.zip(loads) { server, load ->
+                invalidServers + validServers.zip(loads) { server, load ->
                     // Status update doesn't include physical servers, it's not safe to go from
                     // disabled to enabled without the full information.
                     val newIsOnline = load.isEnabled.takeIf { server.rawIsOnline } ?: false
