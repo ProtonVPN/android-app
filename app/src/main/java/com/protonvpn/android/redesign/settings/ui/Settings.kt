@@ -64,7 +64,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.LabelBadge
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.update.VpnUpdateBanner
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
@@ -85,6 +84,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorHighlightsFragm
 import com.protonvpn.android.ui.settings.OssLicensesActivity
 import com.protonvpn.android.ui.settings.SettingsTelemetryActivity
 import com.protonvpn.android.update.AppUpdateInfo
+import com.protonvpn.android.update.VpnUpdateBanner
 import com.protonvpn.android.utils.openUrl
 import me.proton.core.accountmanager.presentation.compose.AccountSettingsInfo
 import me.proton.core.accountmanager.presentation.compose.viewmodel.AccountSettingsViewModel
@@ -101,7 +101,6 @@ import me.proton.core.presentation.utils.openMarketLink
 import me.proton.core.telemetry.presentation.ProductMetricsDelegateOwner
 import me.proton.core.telemetry.presentation.compose.LocalProductMetricsDelegateOwner
 import me.proton.core.presentation.R as CoreR
-
 
 @SuppressLint("InlinedApi")
 @Composable
@@ -126,9 +125,14 @@ fun SettingsRoute(
     }
 
     viewModel.event.collectAsEffect { event ->
-        when(event) {
-            SettingsViewModel.UiEvent.NavigateToWidgetInstructions ->
+        when (event) {
+            SettingsViewModel.UiEvent.NavigateToConnectionPreferences -> {
+                onNavigateToSubSetting(SubSettingsScreen.Type.ConnectionPreferences)
+            }
+
+            SettingsViewModel.UiEvent.NavigateToWidgetInstructions -> {
                 onNavigateToSubSetting(SubSettingsScreen.Type.Widget)
+            }
         }
     }
 
@@ -179,7 +183,7 @@ fun SettingsRoute(
                     onNavigateToSubSetting(SubSettingsScreen.Type.DefaultConnection)
                 },
                 onConnectionPreferencesClick = {
-                    onNavigateToSubSetting(SubSettingsScreen.Type.ConnectionPreferences)
+                    viewModel.onOpenConnectionPreferences()
                 },
                 onVpnAcceleratorClick = {
                     onNavigateToSubSetting(SubSettingsScreen.Type.VpnAccelerator)
@@ -323,6 +327,7 @@ fun SettingsView(
                     SettingRowWithIcon(
                         icon = CoreR.drawable.ic_proton_bookmark,
                         title = stringResource(id = R.string.settings_connection_preferences_title),
+                        hasNewLabel = !viewState.connectionPreferences.isFeatureDiscovered,
                         onClick = onConnectionPreferencesClick,
                     )
                 } else {

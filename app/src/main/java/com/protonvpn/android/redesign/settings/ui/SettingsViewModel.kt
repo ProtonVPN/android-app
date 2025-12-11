@@ -207,6 +207,7 @@ class SettingsViewModel @Inject constructor(
         )
 
         data class ConnectionPreferencesState(
+            val isFeatureDiscovered: Boolean,
             val isFreeUser: Boolean,
             val defaultConnectionPreferences: DefaultConnectionPreferences,
             val excludeLocationsPreferences: ExcludedLocationsPreferences,
@@ -377,7 +378,8 @@ class SettingsViewModel @Inject constructor(
     )
 
     enum class UiEvent {
-        NavigateToWidgetInstructions
+        NavigateToConnectionPreferences,
+        NavigateToWidgetInstructions,
     }
 
     // The configuration doesn't change during runtime.
@@ -437,18 +439,29 @@ class SettingsViewModel @Inject constructor(
             }
         }
 
+    private data class FeaturePreferences(
+        val isConnectionPreferencesDiscovered: Boolean,
+        val isWidgetDiscovered: Boolean,
+    )
+
+    private val featurePreferencesFlow = combine(
+        appFeaturePrefs.isConnectionPreferencesDiscoveredFlow,
+        appFeaturePrefs.isWidgetDiscoveredFlow,
+        ::FeaturePreferences,
+    )
+
     val viewState =
         combine(
             currentUser.jointUserFlow,
             observeDefaultConnection(),
             // Will return override settings if connected else global
             settingsForConnection.getFlowForCurrentConnection(),
-            appFeaturePrefs.isWidgetDiscoveredFlow,
+            featurePreferencesFlow,
             isPrivateDnsActiveFlow,
             acknowledgingAppUpdateBannerStateFlow,
             excludedLocationPreferencesFlow,
             featureFlagsFlow,
-        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isPrivateDnsActive, appUpdateBannerState, excludedLocationPreferences, featureFlags ->
+        ) { user, defaultConnection, connectionSettings, featurePreferences, isPrivateDnsActive, appUpdateBannerState, excludedLocationPreferences, featureFlags ->
             val isFree = user?.vpnUser?.isFreeUser == true
             val isCredentialLess = user?.user?.isCredentialLess() == true
             val settings = connectionSettings.connectionSettings
@@ -511,7 +524,7 @@ class SettingsViewModel @Inject constructor(
                 showDebugTools = displayDebugUi,
                 showSignOut = !isCredentialLess && !managedConfig.isManaged,
                 accountScreenEnabled = !managedConfig.isManaged,
-                isWidgetDiscovered = isWidgetDiscovered,
+                isWidgetDiscovered = featurePreferences.isWidgetDiscovered,
                 customDns =
                     SettingViewState.CustomDns(
                         enabled = settings.customDns.effectiveEnabled,
@@ -527,6 +540,7 @@ class SettingsViewModel @Inject constructor(
                 appUpdateBannerState = appUpdateBannerState,
                 showSingInOnAnotherDeviceQr = !managedConfig.isManaged,
                 connectionPreferences = SettingViewState.ConnectionPreferencesState(
+                    isFeatureDiscovered = featurePreferences.isConnectionPreferencesDiscovered,
                     isFreeUser = isFree,
                     defaultConnectionPreferences = SettingViewState.ConnectionPreferencesState.DefaultConnectionPreferences(
                         defaultConnection = defaultConnection,
@@ -639,6 +653,14 @@ class SettingsViewModel @Inject constructor(
 
     fun onLocaleChanged(newLocale: Locale) {
         localeFlow.update { newLocale }
+    }
+
+    fun onOpenConnectionPreferences() {
+        viewModelScope.launch {
+            appFeaturePrefs.isConnectionPreferencesDiscovered = true
+
+            event.emit(value = UiEvent.NavigateToConnectionPreferences)
+        }
     }
 
 }

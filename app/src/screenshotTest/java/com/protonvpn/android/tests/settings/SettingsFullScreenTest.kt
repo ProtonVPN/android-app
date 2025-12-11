@@ -333,6 +333,7 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
     private val ipV6 = SettingViewState.IPv6(enabled = true)
     private val theme = SettingViewState.Theme(ThemeType.Dark)
     private val connectionPreferences = SettingViewState.ConnectionPreferencesState(
+        isFeatureDiscovered = true,
         isFreeUser = isFree,
         defaultConnectionPreferences = SettingViewState.ConnectionPreferencesState.DefaultConnectionPreferences(
             defaultConnection = DefaultConnection.FastestConnection,
