@@ -20,7 +20,6 @@
 package com.protonvpn.android.redesign.excludedlocations.usecases
 
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.excludedlocations.ExcludedLocations
 import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationsDao
 import com.protonvpn.android.redesign.excludedlocations.data.toDomain
@@ -30,7 +29,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import java.util.Locale
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)

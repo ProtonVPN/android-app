@@ -24,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.protonvpn.android.R
-import com.protonvpn.android.redesign.excludedlocations.ExcludedLocation
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
 import com.protonvpn.android.redesign.settings.ui.SubSettingWithLazyContent
 import com.protonvpn.android.redesign.settings.ui.excludedlocations.ExcludedLocationsViewModel.ExcludedLocationUiItem
@@ -36,6 +35,7 @@ fun ConnectionPreferencesSetting(
     onDefaultConnectionClick: () -> Unit,
     onExcludeLocationClick: () -> Unit,
     onDeleteExcludedLocationClick: (ExcludedLocationUiItem.Location) -> Unit,
+    onExcludedLocationsFeatureDiscovered: () -> Unit,
     onUpsellClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -57,6 +57,7 @@ fun ConnectionPreferencesSetting(
                 onDefaultConnectionClick = onDefaultConnectionClick,
                 onExcludeLocationClick = onExcludeLocationClick,
                 onDeleteExcludedLocationClick = onDeleteExcludedLocationClick,
+                onExcludedLocationsFeatureDiscovered = onExcludedLocationsFeatureDiscovered,
             )
         }
     }

@@ -63,25 +63,12 @@ class AppFeaturesPrefs @Inject constructor(
 
     var iapFirstIntroPriceCheckTimestamp: Long by long(0L)
 
-    var isConnectionPreferencesDiscovered: Boolean by boolean(
-        default = CONNECTION_PREFERENCES_DISCOVERED_DEFAULT_VALUE,
-        key = CONNECTION_PREFERENCES_DISCOVERED_KEY,
-    )
-
-    val isConnectionPreferencesDiscoveredFlow: Flow<Boolean> = preferences
-        .observe<Boolean>(key = CONNECTION_PREFERENCES_DISCOVERED_KEY)
-        .map { it ?: CONNECTION_PREFERENCES_DISCOVERED_DEFAULT_VALUE }
-
-    private companion object {
+    companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
         private const val KEY_SHOW_WHATS_NEW = "showWhatsNew"
         private const val KEY_REPORTED_ONBOARDING_EVENTS = "reportedOnboardingEvents"
         private const val KEY_SHOW_ONBOARDING_USER_ID = "showOnboardingUserId"
         private const val KEY_WIDGET_DISCOVERED = "widgetDiscovered"
-
-        private const val CONNECTION_PREFERENCES_DISCOVERED_KEY = "connectionPreferencesDiscovered"
-
-        private const val CONNECTION_PREFERENCES_DISCOVERED_DEFAULT_VALUE = false
     }
 
 }

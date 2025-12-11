@@ -32,6 +32,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +41,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.LabelBadge
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.Flag
@@ -59,8 +61,15 @@ fun ConnectionPreferencesPaidContent(
     onDefaultConnectionClick: () -> Unit,
     onExcludeLocationClick: () -> Unit,
     onDeleteExcludedLocationClick: (ExcludedLocationUiItem.Location) -> Unit,
+    onExcludedLocationsFeatureDiscovered: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    DisposableEffect(key1 = Unit) {
+        onDispose {
+            onExcludedLocationsFeatureDiscovered()
+        }
+    }
+
     val sectionModifier = remember {
         Modifier
             .fillMaxWidth()
@@ -106,6 +115,7 @@ fun ConnectionPreferencesPaidContent(
                     descriptionText = stringResource(id = R.string.settings_excluded_locations_description),
                     isEnabled = canSelectLocations,
                     onClick = onExcludeLocationClick,
+                    showNewLabel = !isFeatureDiscovered,
                     content = {
                         val (textResId, textColor) = if (canSelectLocations) {
                             R.string.settings_excluded_locations_selection_hint to ProtonTheme.colors.textWeak
@@ -151,16 +161,31 @@ private fun ConnectionPreferencesSection(
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
     descriptionText: String? = null,
+    showNewLabel: Boolean = false,
     content: @Composable RowScope.() -> Unit,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
     ) {
-        Text(
-            text = titleText,
-            style = ProtonTheme.typography.body1Regular,
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = titleText,
+                style = ProtonTheme.typography.body1Regular,
+            )
+
+            if (showNewLabel) {
+                LabelBadge(
+                    text = stringResource(R.string.settings_new_label_badge),
+                    textColor = ProtonTheme.colors.notificationWarning,
+                    borderColor = ProtonTheme.colors.notificationWarning,
+                )
+            }
+        }
 
         descriptionText?.let { text ->
             Text(

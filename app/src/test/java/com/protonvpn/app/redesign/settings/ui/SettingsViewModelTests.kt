@@ -435,6 +435,7 @@ class SettingsViewModelTests {
         val expectedExcludeLocationsPreferences = SettingViewState.ConnectionPreferencesState.ExcludedLocationsPreferences(
             canSelectLocations = false,
             excludedLocationUiItems = emptyList(),
+            isFeatureDiscovered = false,
         )
 
         val connectionPreferences = settingsViewModel.viewState.first().connectionPreferences
@@ -450,10 +451,12 @@ class SettingsViewModelTests {
             false to SettingViewState.ConnectionPreferencesState.ExcludedLocationsPreferences(
                 canSelectLocations = false,
                 excludedLocationUiItems = emptyList(),
+                isFeatureDiscovered = false,
             ),
             true to SettingViewState.ConnectionPreferencesState.ExcludedLocationsPreferences(
                 canSelectLocations = true,
                 excludedLocationUiItems = emptyList(),
+                isFeatureDiscovered = false,
             ),
         ).forEach { (hasCountries, expectedExcludeLocationsPreferences) ->
             hasCountriesFlow.update { hasCountries }

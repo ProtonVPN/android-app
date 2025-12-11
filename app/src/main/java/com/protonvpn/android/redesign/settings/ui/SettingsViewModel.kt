@@ -221,7 +221,8 @@ class SettingsViewModel @Inject constructor(
 
             data class ExcludedLocationsPreferences(
                 val canSelectLocations: Boolean,
-                val excludedLocationUiItems: List<ExcludedLocationUiItem.Location>
+                val excludedLocationUiItems: List<ExcludedLocationUiItem.Location>,
+                val isFeatureDiscovered: Boolean,
             )
 
         }
@@ -397,6 +398,27 @@ class SettingsViewModel @Inject constructor(
             }
         }
 
+    private data class FeaturePreferences(
+        val isConnectionPreferencesDiscovered: Boolean,
+        val isExcludedLocationsDiscovered: Boolean,
+        val isWidgetDiscovered: Boolean,
+    )
+
+    private val featurePreferencesFlow = combine(
+        uiStateStorage.state,
+        appFeaturePrefs.isWidgetDiscoveredFlow,
+    ) { uiStoredState, isWidgetDiscovered ->
+        FeaturePreferences(
+            isConnectionPreferencesDiscovered = uiStoredState.isConnectionPreferencesDiscovered,
+            isExcludedLocationsDiscovered = uiStoredState.isExcludedLocationsDiscovered,
+            isWidgetDiscovered = isWidgetDiscovered,
+        )
+    }.shareIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        replay = 1,
+    )
+
     private data class FeatureFlags(
         val isIPv6FeatureFlagEnabled: Boolean,
         val isRedesignedBugReportFeatureFlagEnabled: Boolean,
@@ -419,13 +441,15 @@ class SettingsViewModel @Inject constructor(
                     value = SettingViewState.ConnectionPreferencesState.ExcludedLocationsPreferences(
                         canSelectLocations = false,
                         excludedLocationUiItems = emptyList(),
+                        isFeatureDiscovered = false,
                     )
                 )
             } else {
                 combine(
                     observeExcludedLocations(),
                     serverManager.hasAnyCountryFlow,
-                ) { excludedLocations, hasCountries ->
+                    featurePreferencesFlow,
+                ) { excludedLocations, hasCountries, featurePreferences ->
                     SettingViewState.ConnectionPreferencesState.ExcludedLocationsPreferences(
                         canSelectLocations = hasCountries,
                         excludedLocationUiItems = excludedLocations.allLocations.map { excludedLocation ->
@@ -434,21 +458,11 @@ class SettingsViewModel @Inject constructor(
                                 translator = translator,
                             )
                         },
+                        isFeatureDiscovered = featurePreferences.isExcludedLocationsDiscovered,
                     )
                 }
             }
         }
-
-    private data class FeaturePreferences(
-        val isConnectionPreferencesDiscovered: Boolean,
-        val isWidgetDiscovered: Boolean,
-    )
-
-    private val featurePreferencesFlow = combine(
-        appFeaturePrefs.isConnectionPreferencesDiscoveredFlow,
-        appFeaturePrefs.isWidgetDiscoveredFlow,
-        ::FeaturePreferences,
-    )
 
     val viewState =
         combine(
@@ -657,9 +671,15 @@ class SettingsViewModel @Inject constructor(
 
     fun onOpenConnectionPreferences() {
         viewModelScope.launch {
-            appFeaturePrefs.isConnectionPreferencesDiscovered = true
+            uiStateStorage.update { it.copy(isConnectionPreferencesDiscovered = true) }
 
             event.emit(value = UiEvent.NavigateToConnectionPreferences)
+        }
+    }
+
+    fun onExcludedLocationsDiscovered() {
+        viewModelScope.launch {
+            uiStateStorage.update { it.copy(isExcludedLocationsDiscovered = true) }
         }
     }
 

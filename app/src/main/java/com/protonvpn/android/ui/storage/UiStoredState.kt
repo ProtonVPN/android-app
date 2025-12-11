@@ -45,6 +45,8 @@ data class UiStoredState(
     // if null will be scheduled to be true after 2 days.
     val shouldShowWidgetAdoption: Boolean? = null,
     val searchHistory: List<String> = emptyList(),
+    val isConnectionPreferencesDiscovered: Boolean = false,
+    val isExcludedLocationsDiscovered: Boolean = false,
 ) {
     companion object {
         val Default = UiStoredState()

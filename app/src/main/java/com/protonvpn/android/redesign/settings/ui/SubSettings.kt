@@ -348,6 +348,7 @@ fun SubSettingsRoute(
                             onNavigateToSubSetting(SubSettingsScreen.Type.ExcludedLocations)
                         },
                         onDeleteExcludedLocationClick = settingsChangeViewModel::onRemoveExcludedLocation,
+                        onExcludedLocationsFeatureDiscovered = viewModel::onExcludedLocationsDiscovered,
                         onUpsellClick = {
                             CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
                                 context = context,
