@@ -41,7 +41,7 @@ fun VpnInfoResponse.toVpnUserEntity(
     userId: UserId,
     sessionId: SessionId,
     timestamp: Long,
-    autoLoginName: String?
+    autoLoginId: String?
 ) = VpnUser(
         userId = userId,
         subscribed = subscribed,
@@ -60,5 +60,5 @@ fun VpnInfoResponse.toVpnUserEntity(
         password = vpnInfo.password,
         updateTime = timestamp,
         sessionId = sessionId,
-        autoLoginName = autoLoginName,
+        autoLoginId = autoLoginId,
     )

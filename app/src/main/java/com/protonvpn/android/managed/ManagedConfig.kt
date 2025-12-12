@@ -28,13 +28,37 @@ import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.security.MessageDigest
 import javax.inject.Inject
 import javax.inject.Singleton
 
-data class AutoLoginConfig(
-    val username: String,
-    val password: String,
-)
+sealed class AutoLoginConfig {
+
+    data class UsernamePassword(
+        val username: String,
+        val password: String,
+    ) : AutoLoginConfig()
+
+    data class Token(
+        val token: String,
+        val group: String,
+        val deviceId: String?,
+    ) : AutoLoginConfig()
+
+    val id by lazy { computeId(this) }
+}
+
+private fun computeId(config: AutoLoginConfig): String =
+    when (config) {
+        is AutoLoginConfig.Token -> {
+            MessageDigest.getInstance("SHA-256").apply {
+                update(config.token.toByteArray())
+                update(config.group.toByteArray())
+                config.deviceId?.let { update(it.toByteArray()) }
+            }.digest().joinToString("") { "%02x".format(it) }
+        }
+        is AutoLoginConfig.UsernamePassword -> config.username
+    }
 
 @Singleton
 class ManagedConfig(
@@ -71,14 +95,23 @@ class ManagedConfig(
                 return null
             }
 
-            val username = restrictions.getString("username")
-            val password = restrictions.getString("password")
-            return if (username != null && password != null) {
-                ProtonLogger.logCustom(LogCategory.MANAGED_CONFIG, "Restrictions found")
-                AutoLoginConfig(username, password)
+            val token = restrictions.getString("token")
+            val group = restrictions.getString("group")
+            val deviceId = restrictions.getString("deviceId")
+
+            return if (token != null && group != null) {
+                ProtonLogger.logCustom(LogCategory.MANAGED_CONFIG, "Token restrictions found")
+                AutoLoginConfig.Token(token, group, deviceId)
             } else {
-                ProtonLogger.logCustom(LogCategory.MANAGED_CONFIG, "Unexpected restrictions")
-                null
+                val username = restrictions.getString("username")
+                val password = restrictions.getString("password")
+                if (username != null && password != null) {
+                    ProtonLogger.logCustom(LogCategory.MANAGED_CONFIG, "UsernamePassword Restrictions found")
+                    AutoLoginConfig.UsernamePassword(username, password)
+                } else {
+                    ProtonLogger.logCustom(LogCategory.MANAGED_CONFIG, "Unexpected restrictions")
+                    null
+                }
             }
         }
     }

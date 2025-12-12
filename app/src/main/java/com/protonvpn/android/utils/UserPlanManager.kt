@@ -21,7 +21,6 @@ package com.protonvpn.android.utils
 import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
-import com.protonvpn.android.appconfig.periodicupdates.IsLoggedIn
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.UpdateState
@@ -128,16 +127,16 @@ class UserPlanManager @Inject constructor(
                 val currentUserInfo = currentUser.vpnUser()
                 if (currentUserInfo != null) {
                     val newUserInfo = with(currentUserInfo) {
-                        vpnInfoResponse.toVpnUserEntity(userId, sessionId, wallClock(), autoLoginName)
+                        vpnInfoResponse.toVpnUserEntity(userId, sessionId, wallClock(), autoLoginId)
                     }
                     setVpnUser(newUserInfo)
                     computeUserInfoChanges(currentUserInfo, newUserInfo)
                 } else {
                     val (user, _, sessionId) = currentUser.partialJointUserFlow.first()
                     if (user != null && sessionId != null) {
-                        val autoLoginName = managedConfig.value?.username
+                        val autoLoginId = managedConfig.value?.id
                         val newUserInfo =
-                            vpnInfoResponse.toVpnUserEntity(user.userId, sessionId, wallClock(), autoLoginName)
+                            vpnInfoResponse.toVpnUserEntity(user.userId, sessionId, wallClock(), autoLoginId)
                         setVpnUser(newUserInfo)
                         ProtonLogger.log(UserPlanChanged, "logged in: ${newUserInfo.toLog()}")
                         null

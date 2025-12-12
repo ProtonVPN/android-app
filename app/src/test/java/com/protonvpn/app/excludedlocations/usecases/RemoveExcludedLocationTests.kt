@@ -131,7 +131,7 @@ class RemoveExcludedLocationTests {
                 userId = TestAccount1.userId,
                 sessionId = TestSession1.sessionId,
                 timestamp = 0L,
-                autoLoginName = null,
+                autoLoginId = null,
             )
         testUserProvider.vpnUser = plusVpnUser
         val excludedLocation1 = TestExcludedLocation.create(id = 1L)

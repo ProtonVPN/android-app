@@ -25,7 +25,9 @@ import com.protonvpn.android.managed.AutoLoginConfig
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import me.proton.core.account.domain.entity.AccountType
 import me.proton.core.auth.domain.usecase.CreateLoginSession
+import me.proton.core.auth.domain.usecase.CreateLoginTokenMdmSession
 import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
+import me.proton.core.auth.domain.usecase.PostLoginTokenMdmAccountSetup
 import me.proton.core.crypto.common.keystore.KeyStoreCrypto
 import me.proton.core.crypto.common.keystore.encrypt
 import me.proton.core.domain.entity.UserId
@@ -39,11 +41,18 @@ class AutoLoginException(message: String? = null) : Exception(message)
 
 class AutoLoginImpl @Inject constructor(
     private val createLoginSession: CreateLoginSession,
+    private val createLoginTokenMdmSession: CreateLoginTokenMdmSession,
     private val postLoginAccountSetup: PostLoginAccountSetup,
+    private val postLoginTokenMDMAccountSetup: PostLoginTokenMdmAccountSetup,
     private val keyStoreCrypto: KeyStoreCrypto,
 ) : AutoLogin {
 
-    override suspend fun execute(config: AutoLoginConfig): Result<UserId> = suspend {
+    override suspend fun execute(config: AutoLoginConfig): Result<UserId> = when(config) {
+        is AutoLoginConfig.Token -> loginWithToken(config)
+        is AutoLoginConfig.UsernamePassword -> loginWithUsername(config)
+    }
+
+    private suspend fun loginWithUsername(config: AutoLoginConfig.UsernamePassword): Result<UserId> = suspend {
         val encryptedPassword = config.password.encrypt(keyStoreCrypto)
         val accountType = AccountType.Username
         val sessionInfo =
@@ -68,6 +77,19 @@ class AutoLoginImpl @Inject constructor(
                 )
                 Result.failure(AutoLoginException())
             }
+        }
+    }.runCatchingCheckedExceptions {
+        Result.failure(it)
+    }
+
+    private suspend fun loginWithToken(config: AutoLoginConfig.Token): Result<UserId> = suspend {
+        val sessionInfo =
+            createLoginTokenMdmSession(config.token, config.group, config.deviceId)
+        when (val result = postLoginTokenMDMAccountSetup(sessionInfo.userId)) {
+            is PostLoginAccountSetup.UserCheckResult.Error ->
+                Result.failure(AutoLoginException(result.localizedMessage))
+            PostLoginAccountSetup.UserCheckResult.Success ->
+                Result.success(sessionInfo.userId)
         }
     }.runCatchingCheckedExceptions {
         Result.failure(it)

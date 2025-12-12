@@ -72,14 +72,14 @@ class AutoLoginTestsBlack {
     @Test
     fun successfulAutoLogin() {
         val plusUser = testUserEndToEnd.plusUser
-        autoLoginConfig.value = AutoLoginConfig(plusUser.email, plusUser.password)
+        autoLoginConfig.value = AutoLoginConfig.UsernamePassword(plusUser.email, plusUser.password)
         HomeRobot.verify { isLoggedIn() }
     }
 
     @Test
     fun wrongCredentialsAutoLogin() {
         val badUser = testUserEndToEnd.badUser
-        autoLoginConfig.value = AutoLoginConfig(badUser.email, badUser.password)
+        autoLoginConfig.value = AutoLoginConfig.UsernamePassword(badUser.email, badUser.password)
         HomeRobot.verify { autoLoginIncorrectCredentialsIsDisplayed() }
     }
 
@@ -87,47 +87,45 @@ class AutoLoginTestsBlack {
     fun retryIncorrectLogin() {
         val badUser = testUserEndToEnd.badUser
         val plusUser = testUserEndToEnd.plusUser
-        autoLoginConfig.value = AutoLoginConfig(badUser.email, badUser.password)
+        autoLoginConfig.value = AutoLoginConfig.UsernamePassword(badUser.email, badUser.password)
         HomeRobot.verify { autoLoginIncorrectCredentialsIsDisplayed() }
 
-        autoLoginConfig.value = AutoLoginConfig(plusUser.email, plusUser.password)
+        autoLoginConfig.value = AutoLoginConfig.UsernamePassword(plusUser.email, plusUser.password)
         HomeRobot.verify { isLoggedIn() }
     }
 
     @Test
     fun autoLoggedInUserIsChangedToAnotherOne() {
+        val freeUser = testUserEndToEnd.freeUser
         val plusUser = testUserEndToEnd.plusUser
-        val visionaryUser = testUserEndToEnd.visionaryBlack
-        autoLoginConfig.value = AutoLoginConfig(plusUser.email, plusUser.password)
+        autoLoginConfig.value = AutoLoginConfig.UsernamePassword(freeUser.email, freeUser.password)
         HomeRobot.verify { isLoggedIn() }
 
-        autoLoginConfig.value = AutoLoginConfig(visionaryUser.email, visionaryUser.password)
-        HomeRobot.navigateToSettings()
-            .verify { usernameIsDisplayed(visionaryUser.email) }
+        autoLoginConfig.value = AutoLoginConfig.UsernamePassword(plusUser.email, plusUser.password)
+        HomeRobot.verify { isPlusUserLoggedIn() }
     }
 
     @Test
     fun alreadyLoggedInUserIsChangedToIncorrectCredentialsOne() {
         val badUser = testUserEndToEnd.badUser
         val plusUser = testUserEndToEnd.plusUser
-        autoLoginConfig.value = AutoLoginConfig(plusUser.email, plusUser.password)
+        autoLoginConfig.value = AutoLoginConfig.UsernamePassword(plusUser.email, plusUser.password)
         HomeRobot.verify { isLoggedIn() }
 
-        autoLoginConfig.value = AutoLoginConfig(badUser.email, badUser.password)
+        autoLoginConfig.value = AutoLoginConfig.UsernamePassword(badUser.email, badUser.password)
         HomeRobot.verify { autoLoginIncorrectCredentialsIsDisplayed() }
     }
 
     @Test
     fun manualLoginThenAutoLogin(){
-        val visionaryUser = testUserEndToEnd.visionaryBlack
+        val freeUser = testUserEndToEnd.freeUser
         val plusUser = testUserEndToEnd.plusUser
         AddAccountRobot().signIn()
         LoginRobotVpn.signIn(plusUser)
         HomeRobot.verify { isLoggedIn() }
 
-        autoLoginConfig.value = AutoLoginConfig(visionaryUser.email, visionaryUser.password)
-        HomeRobot.navigateToSettings()
-            .verify { usernameIsDisplayed(visionaryUser.email) }
+        autoLoginConfig.value = AutoLoginConfig.UsernamePassword(freeUser.email, freeUser.password)
+        HomeRobot.verify { isFreeUserLoggedIn() }
     }
 
     companion object AutoLogin {

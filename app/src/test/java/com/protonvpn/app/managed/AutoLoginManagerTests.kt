@@ -94,12 +94,25 @@ class AutoLoginManagerTests {
 
         autoLogin = FakeAutoLogin { managedConfig ->
             delay(500)
-            if (managedConfig.username !in setOf("user", "new_user") || managedConfig.password != "pass") {
-                Result.failure(BadCredentials)
-            } else {
-                val vpnUser = TestUser.plusUser.vpnUser.copy(autoLoginName = managedConfig.username)
-                testCurrentUserProvider.set(vpnUser, createAccountUser(vpnUser.userId))
-                Result.success(UserId("123"))
+            when (managedConfig) {
+                is AutoLoginConfig.Token -> {
+                    if (managedConfig.token != "token" || managedConfig.group.isEmpty()) {
+                        Result.failure(BadCredentials)
+                    } else {
+                        val vpnUser = TestUser.plusUser.vpnUser.copy(autoLoginId = managedConfig.id)
+                        testCurrentUserProvider.set(vpnUser, createAccountUser(vpnUser.userId))
+                        Result.success(UserId("123"))
+                    }
+                }
+                is AutoLoginConfig.UsernamePassword -> {
+                    if (managedConfig.username !in setOf("user", "new_user") || managedConfig.password != "pass") {
+                        Result.failure(BadCredentials)
+                    } else {
+                        val vpnUser = TestUser.plusUser.vpnUser.copy(autoLoginId = managedConfig.id)
+                        testCurrentUserProvider.set(vpnUser, createAccountUser(vpnUser.userId))
+                        Result.success(UserId("123"))
+                    }
+                }
             }
         }
 
@@ -123,8 +136,22 @@ class AutoLoginManagerTests {
     }
 
     @Test
-    fun `auto login succeeds with expected credentials`() = scope.runTest {
-        configFlow.value = AutoLoginConfig("user", "pass")
+    fun `user+pass auto login succeeds with expected credentials`() = scope.runTest {
+        configFlow.value = AutoLoginConfig.UsernamePassword("user", "pass")
+        runCurrent()
+        assertEquals(AutoLoginState.Ongoing, manager.state.first())
+        advanceTimeBy(501)
+        assertTrue(isLoggedIn)
+        assertEquals(AutoLoginState.Success, manager.state.first())
+        verifyOrder {
+            notificationHelper.showInformationNotification(R.string.notification_auto_login_start)
+            notificationHelper.showInformationNotification(R.string.notification_auto_login_success)
+        }
+    }
+
+    @Test
+    fun `token-based auto login succeeds with expected credentials`() = scope.runTest {
+        configFlow.value = AutoLoginConfig.Token("token", "group", "deviceId")
         runCurrent()
         assertEquals(AutoLoginState.Ongoing, manager.state.first())
         advanceTimeBy(501)
@@ -140,7 +167,7 @@ class AutoLoginManagerTests {
     fun `notification is not shown in foreground`() = scope.runTest {
         foregroundActivityFlow.value = mockk(relaxed = true)
         runCurrent()
-        configFlow.value = AutoLoginConfig("user", "pass")
+        configFlow.value = AutoLoginConfig.UsernamePassword("user", "pass")
         advanceTimeBy(501)
         assertTrue(isLoggedIn)
         assertEquals(AutoLoginState.Success, manager.state.first())
@@ -149,7 +176,7 @@ class AutoLoginManagerTests {
 
     @Test
     fun `auto login fails with invalid credentials`() = scope.runTest {
-        configFlow.value = AutoLoginConfig("user", "wrong")
+        configFlow.value = AutoLoginConfig.UsernamePassword("user", "wrong")
         advanceTimeBy(501)
         assertFalse(isLoggedIn)
         assertEquals(AutoLoginState.Error(BadCredentials), manager.state.first())
@@ -161,7 +188,7 @@ class AutoLoginManagerTests {
 
     @Test
     fun `auto login restored after force logout`() = scope.runTest {
-        configFlow.value = AutoLoginConfig("user", "pass")
+        configFlow.value = AutoLoginConfig.UsernamePassword("user", "pass")
         advanceTimeBy(501)
         assertEquals(AutoLoginState.Success, manager.state.first())
 
@@ -177,11 +204,11 @@ class AutoLoginManagerTests {
 
     @Test
     fun `re-login when username change`() = scope.runTest {
-        configFlow.value = AutoLoginConfig("user", "pass")
+        configFlow.value = AutoLoginConfig.UsernamePassword("user", "pass")
         advanceTimeBy(501)
         assertEquals(AutoLoginState.Success, manager.state.first())
 
-        configFlow.value = AutoLoginConfig("new_user", "pass")
+        configFlow.value = AutoLoginConfig.UsernamePassword("new_user", "pass")
         runCurrent()
         assertFalse(isLoggedIn)
         assertEquals(AutoLoginState.Ongoing, manager.state.first())
@@ -189,7 +216,7 @@ class AutoLoginManagerTests {
         advanceTimeBy(501)
         assertTrue(isLoggedIn)
         assertEquals(AutoLoginState.Success, manager.state.first())
-        assertEquals("new_user", testCurrentUserProvider.vpnUser?.autoLoginName)
+        assertEquals("new_user", testCurrentUserProvider.vpnUser?.autoLoginId)
     }
 }
 
