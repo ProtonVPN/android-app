@@ -1583,7 +1583,7 @@
     <string name="no_connections_action_refresh">Päivitä</string>
     <string name="no_connections_action_sign_out">Kirjaudu ulos</string>
     <string name="no_connections_help_contact_us"><![CDATA[Tarvitsetko apua? <a href="">Ota meihin yhteyttä</a>]]></string>
-    <string name="no_connections_help_follow_instructions"><![CDATA[Jos järjestelmänvalvojasi tarvitsee apua VPN-yhteyden käyttöönottossa, lähetä heille <a href="">nämä ohjeet</a>.]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Jos ylläpitäjäsi tarvitsee apua VPN-yhteyden käyttöönottossa, lähetä heille <a href="">nämä ohjeet</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_title">Käytä OpenVPN:ää?</string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Tämä protokolla poistetaan pian, sillä keskitymme nopeampiin ja turvallisempiin teknologioihin. Suosittelemme Smart Protocollaan vaihtamista. <a href="proton.me">Lue lisää</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Tämä protokolla poistetaan pian, sillä keskitymme nopeampiin ja turvallisempiin teknologioihin. Suosittelemme Smart Protocollaan vaihtamista.</string>
