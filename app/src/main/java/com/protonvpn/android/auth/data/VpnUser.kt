@@ -59,7 +59,7 @@ data class VpnUser(
     val groupId: String,
     val updateTime: Long,
     val sessionId: SessionId,
-    val autoLoginName: String?,
+    val autoLoginId: String?,
 ) {
     val accountType get() = if (services == 4)
         "Proton VPN Account" else "Proton Mail Account"

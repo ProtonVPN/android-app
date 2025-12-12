@@ -42,7 +42,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import me.proton.core.user.domain.entity.User
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -92,9 +91,9 @@ class AutoLoginManager @Inject constructor(
                     } else {
                         currentUser.partialJointUserFlow.collect { (user, vpnUser, _) ->
                             when {
-                                vpnUser != null && vpnUser.autoLoginName == config.username ->
+                                vpnUser != null && vpnUser.autoLoginId == config.id ->
                                     _state.value = AutoLoginState.Success
-                                vpnUser != null && vpnUser.autoLoginName != config.username ->
+                                vpnUser != null && vpnUser.autoLoginId != config.id ->
                                     // This will trigger re-login if user is logged out.
                                     login(vpnUser, config)
                                 user != null ->

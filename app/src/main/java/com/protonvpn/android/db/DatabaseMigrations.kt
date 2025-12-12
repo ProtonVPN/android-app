@@ -20,6 +20,7 @@
 package com.protonvpn.android.db
 
 import androidx.room.DeleteColumn
+import androidx.room.RenameColumn
 import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -331,4 +332,11 @@ object DatabaseMigrations {
             db.execSQL("UPDATE unnamedRecentsIntents SET vpn = 'Smart', transmission = NULL WHERE vpn = 'OpenVPN'")
         }
     }
+
+    @RenameColumn(
+        tableName = "VpnUser",
+        fromColumnName = "autoLoginName",
+        toColumnName = "autoLoginId"
+    )
+    class AutoMigration53to54 : AutoMigrationSpec
 }

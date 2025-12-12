@@ -63,6 +63,9 @@ object HomeRobot : Robot {
 
     fun isLoggedIn() = homeButton.await { assertIsDisplayed() }
 
+    fun isFreeUserLoggedIn() = node.withText("Free connection").assertIsDisplayed()
+    fun isPlusUserLoggedIn() = node.withText("Default connection").assertIsDisplayed()
+
     fun isHomeDisplayed() = node.withText(R.string.vpn_status_disabled).assertIsDisplayed()
 
     fun autoLoginIncorrectCredentialsIsDisplayed() = retryButton.await { assertIsDisplayed() }

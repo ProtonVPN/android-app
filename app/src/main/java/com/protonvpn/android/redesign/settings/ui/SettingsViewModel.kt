@@ -377,7 +377,7 @@ class SettingsViewModel @Inject constructor(
         val versionName: String,
         val isRedesignedBugReportFeatureFlagEnabled: Boolean,
         val appUpdateBannerState: AppUpdateBannerState,
-        val showSingInOnAnotherDeviceQr: Boolean,
+        val showAccountCategory: Boolean,
         val connectionPreferences: SettingViewState.ConnectionPreferencesState,
         val isAutomaticConnectionPreferencesEnabled: Boolean,
     )
@@ -563,7 +563,7 @@ class SettingsViewModel @Inject constructor(
                 theme = SettingViewState.Theme(settings.theme),
                 isRedesignedBugReportFeatureFlagEnabled = featureFlags.isRedesignedBugReportFeatureFlagEnabled,
                 appUpdateBannerState = appUpdateBannerState,
-                showSingInOnAnotherDeviceQr = !managedConfig.isManaged,
+                showAccountCategory = !managedConfig.isManaged,
                 connectionPreferences = SettingViewState.ConnectionPreferencesState(
                     isFeatureDiscovered = featurePreferences.isConnectionPreferencesDiscovered,
                     isFreeUser = isFree,

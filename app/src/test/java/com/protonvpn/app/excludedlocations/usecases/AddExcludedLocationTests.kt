@@ -122,7 +122,7 @@ class AddExcludedLocationTests {
                 userId = TestAccount1.userId,
                 sessionId = TestSession1.sessionId,
                 timestamp = 0L,
-                autoLoginName = null,
+                autoLoginId = null,
             )
         val excludedLocation = TestExcludedLocation.create()
         val expectedExcludedLocations = ExcludedLocations(

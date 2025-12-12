@@ -304,14 +304,14 @@ fun SettingsView(
                     profileOverrideInfo = it
                 )
             }
-            AccountCategory(
-                state = accountSettingsViewState,
-                onAccountClick = onAccountClick,
-                onSignUpClick = onSignUpClick,
-                onSignInClick = onSignInClick,
-                onSignOutClick = onSignOutClick,
-                showSingInOnAnotherDeviceQr = viewState.showSingInOnAnotherDeviceQr
-            )
+            if (viewState.showAccountCategory)
+                AccountCategory(
+                    state = accountSettingsViewState,
+                    onAccountClick = onAccountClick,
+                    onSignUpClick = onSignUpClick,
+                    onSignInClick = onSignInClick,
+                    onSignOutClick = onSignOutClick,
+                )
             FeatureCategory(
                 viewState = viewState,
                 onNetShieldClick = onNetShieldClick,
@@ -534,7 +534,6 @@ private fun ColumnScope.FeatureCategory(
 private fun ColumnScope.AccountCategory(
     modifier: Modifier = Modifier,
     state: AccountSettingsViewState,
-    showSingInOnAnotherDeviceQr: Boolean,
     onAccountClick: () -> Unit,
     onSignUpClick: () -> Unit,
     onSignInClick: () -> Unit,
@@ -553,17 +552,15 @@ private fun ColumnScope.AccountCategory(
             initialCount = 1,
             state = state
         )
-        if (showSingInOnAnotherDeviceQr) {
-            SignInToAnotherDeviceItem(
-                content = { label, onLogOut ->
-                    SettingRowWithIcon(
-                        icon = CoreR.drawable.ic_proton_qr_code,
-                        title = label,
-                        onClick = onLogOut
-                    )
-                }
-            )
-        }
+        SignInToAnotherDeviceItem(
+            content = { label, onLogOut ->
+                SettingRowWithIcon(
+                    icon = CoreR.drawable.ic_proton_qr_code,
+                    title = label,
+                    onClick = onLogOut
+                )
+            }
+        )
     }
 }
 
@@ -832,7 +829,6 @@ fun AccountCategoryLoggedInPreview() {
                 onSignUpClick = { },
                 onSignInClick = { },
                 onSignOutClick = { },
-                showSingInOnAnotherDeviceQr = true
             )
         }
     }
@@ -849,7 +845,6 @@ fun AccountCategoryCredentialLessPreview() {
                 onSignUpClick = { },
                 onSignInClick = { },
                 onSignOutClick = { },
-                showSingInOnAnotherDeviceQr = true
             )
         }
     }
