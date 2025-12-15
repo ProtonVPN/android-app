@@ -107,7 +107,6 @@ class UpdateServersWithBinaryStatusImpl @Inject constructor(
             exitLocation = with(exitLocation) { UniffiLocation(latitude, longitude) },
             entryLocation = with(entryLocation) { UniffiLocation(latitude, longitude) },
             exitCountry = exitCountry,
-            features = features.toUInt(),
         )
     }
 
