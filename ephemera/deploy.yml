@@ -1,0 +1,17 @@
+include:
+  # Ephemera deployment - please see rules for this file include
+  - component: gitlab.protontech.ch/proton/devops/cicd-components/kubernetes/ephemera-deploy/standard@1.12.0
+    inputs:
+      cleanup-stage: cleanup
+      deploy: auto
+      environment-claim-template: ephemera/config/ephemera.yml
+
+deploy:review:
+  stage: deploy
+  needs:
+    - ephemera:deploy:env
+  script:
+    - echo "Configuring deployed environment at ${DYNAMIC_DOMAIN}"
+  after_script:
+    - sleep 10
+    - 'curl -s -o /dev/null --show-error -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "_method=put&mockConfig=GET+%2Fcore%2Fv4%2Fnotifications%3A%0D%0A++-+type%3A+json%0D%0A++++body%3A%0D%0A++++++Notifications%3A+%5B%5D%0D%0A" "https://${DYNAMIC_DOMAIN}/api/internal/mock"'

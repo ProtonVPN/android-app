@@ -1,0 +1,29 @@
+apiVersion: testing.ephemera.crossplane.io/v1alpha1
+kind: EnvironmentClaim
+metadata:
+  name: <|ephemera.provider.generate-name|>
+spec:
+  providerConfigRef:
+    name: ephemera
+  forProvider:
+    nameService:
+      app: vpn-android
+      tag: <|NAMESERVICE_REF|>
+      branch: <|NAMESERVICE_REF|>
+      timeoutDelta: 2h
+      deleteDelta: 4h
+    claim:
+      inherits:
+        - backend
+        - frontend-vpn
+        - frontend-verify
+        - default-patches
+      charts:
+        docs-rts-api:
+          enabled: 'false'
+        docs-rts-scheduler:
+          enabled: 'false'
+        docs-rts-worker:
+          enabled: 'false'
+        slim-api-admin:
+          enabled: 'false'
