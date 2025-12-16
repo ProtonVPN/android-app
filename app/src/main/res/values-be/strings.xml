@@ -445,7 +445,7 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[Разблакіруйце %1$s у %2$s з дапамогай <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">Атрымайце ўсёабдымную прыватнасць з Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Разблакіруйце ўсе прэміяльныя функцыі ад Proton VPN, Пошты, Каляндара, Дыска і Pass.</string>
+    <string name="upgrade_unlimited_all_apps_description">Разблакіруйце ўсе прэміяльныя функцыі ад Proton VPN, Mail, Calendar, Drive і Pass.</string>
     <string name="upgrade_unlimited_more">І іншыя функцыі</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Разблакіруйце ўсе краіны</string>
     <string name="upgrade_unlimited_vpn_all_features">Усе іншыя функцыі VPN Plus</string>
@@ -566,7 +566,7 @@
     <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Разблакіруйце %1$s бяспечныя серверы ў %2$s краінах. %3$s</string>
     <string name="upsell_tv_netshield_title">Праглядайце старонкі без рэкламы з дапамогай Plus</string>
     <string name="upsell_tv_netshield_description"><![CDATA[Блакіруйце рэкламу, праграмы сачэння і шкодныя праграмы з дапамогай <b>NetShield</b>. %1$s]]></string>
-    <string name="upsell_tv_split_tunneling_title">Атрымлівайце лепшае ад абодвух светаў з Plus</string>
+    <string name="upsell_tv_split_tunneling_title">Атрымлівайце лепшае абодвух светаў з Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[З функцыяй <b>Split Tunneling</b> вы зможаце дзяліць свой трафік на той, які будзе праходзіць праз тунэлі VPN і на той, які будзе абыходзіцца без іх. %1$s]]></string>
     <string name="upsell_tv_customization_title">Атрымайце пашыраныя налады VPN з Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Разблакіруйце <b>падключэнні па LAN</b>, <b>карыстальніцкія DNS</b> і дадатковыя функцыі VPN. %1$s]]></string>

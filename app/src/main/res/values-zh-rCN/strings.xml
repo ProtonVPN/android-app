@@ -97,7 +97,7 @@
     <string name="something_went_wrong">出错了</string>
     <string name="try_again">重试</string>
     <string name="delete">删除</string>
-    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Move to top</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">置顶</string>
     <string name="menu_option_move_up" comment="command used to move an item one position up in the list">上移</string>
     <string name="menu_option_move_down" comment="command used to move an item one position down in the list">下移</string>
     <string name="remove">移除</string>
@@ -201,7 +201,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">备用线路</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[如果 Proton 被封锁，允许应用尝试其他路径连接 Proton 服务器。<a href="%1$s">了解详情</a>。]]></string>
     <string name="troubleshootGovernmentBlockTitle">政府封锁</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[您所在的国家或地区可能禁止使用 Proton。使用 <a href=\'%1$s\'>Tor</a> 连接 Proton 试试。]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[您所在的国家或地区可能封锁了 Proton。使用 <a href=\'%1$s\'>Tor</a> 连接 Proton 试试。]]></string>
     <string name="settingsKillSwitchEnableTitle">如何启用 Kill Switch</string>
     <string name="settingsKillSwitchEnableStep1">1. 打开您的设备设置</string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -224,7 +224,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[这些统计数据不包含您的IP地址，且无法用于识别您的身份。我们绝不会与第三方共享这些数据。<a href="%1$s">了解详情</a>]]></string>
     <string name="netshield_settings_description_not_html">保护自己免受网站和应用上的广告、恶意软件和跟踪器的侵害。%1$s</string>
     <string name="netshield_settings_description_tv">Protects you from third-party ads, trackers, and malware. NetShield doesn\'t block ads that are built into streaming services like YouTube and Netflix.</string>
-    <string name="netshield_settings_more_info_title_tv">How NetShield works</string>
+    <string name="netshield_settings_more_info_title_tv">NetShield 的原理</string>
     <string-array name="netshield_settings_more_info_paragraphs_tv">
         <item>NetShield blocks DNS requests to third-party domains known for ads, trackers, and malware.</item>
         <item>This means you won\'t receive ads from your browser or free apps that use third-party ad services.</item>
@@ -281,7 +281,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">拆分隧道</string>
     <string name="tv_card_protocol_label">协议</string>
-    <string name="tv_dialog_delete_server_title">删除伺服器 %1$s？</string>
+    <string name="tv_dialog_delete_server_title">删除服务器 %1$s？</string>
     <string name="tv_detail_default_connection_checkbox_short">收藏</string>
     <string name="tv_detail_connect_streaming">开通 Plus 串流</string>
     <string name="tv_detail_connect">连接</string>
@@ -319,10 +319,10 @@
 
          Example: 76% server load -->
     <string name="tv_server_list_load">服务器负载 %1$s%%</string>
-    <string name="tv_recently_used_servers">Recently used servers</string>
-    <string name="tv_available_servers">Available servers</string>
-    <string name="tv_locked_servers">Locked servers</string>
-    <string name="tv_other_servers">Other servers</string>
+    <string name="tv_recently_used_servers">近期用过的服务器</string>
+    <string name="tv_available_servers">供使用服务器</string>
+    <string name="tv_locked_servers">被锁定服务器</string>
+    <string name="tv_other_servers">其他服务器</string>
     <string name="tv_server_list">服务器列表</string>
     <string name="tv_server_list_action_unavailable">不可用</string>
     <string name="notification_subscription_expired_title">Proton VPN 套餐已到期</string>
@@ -376,7 +376,7 @@
     <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b> 功能，为 VPN 连接增添一层额外保护。]]></string>
     <string name="upgrade_p2p_title">解锁点对点（P2P）下载和文件共享功能 </string>
     <string name="upgrade_p2p_text">隐藏 IP 地址的情况下，提高上传下载速度。</string>
-    <string name="upgrade_profiles_title">快速访问您的常用链接</string>
+    <string name="upgrade_profiles_title">快速访问常用连接</string>
     <string name="upgrade_profiles_text">使用 VPN Plus 解锁配置文件</string>
     <string name="upgrade_streaming_title">4K 串流</string>
     <string name="upgrade_streaming_text">无论身处何地，仍可观看想看的电影电视。</string>
@@ -420,8 +420,8 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[开通 <b>VPN Plus</b>，解锁遍及 %2$s的 %1$s。]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
+    <string name="upgrade_unlimited_all_apps_title">开通 Proton Unlimited，隐私全覆盖</string>
+    <string name="upgrade_unlimited_all_apps_description">全面解锁 Proton VPN、Proton Mail、Proton Calendar、Proton Drive 及 Proton Pass的高级功能。</string>
     <string name="upgrade_unlimited_more">还有别的</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">解锁全部地域</string>
     <string name="upgrade_unlimited_vpn_all_features">VPN Plus 的其余全部功能</string>
@@ -487,8 +487,8 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d 余处服务器遍布 %2$s 个地域</string>
-    <string name="upsell_card_customization_title">探索更多…⁠…</string>
+    <string name="upsell_card_countries_description">%1$d 余处服务器遍布 %2$s</string>
+    <string name="upsell_card_customization_title">探索更多……</string>
     <string name="upsell_card_customization_description">解锁更强性能、更多隐私</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="other">保护 %1$d 部设备</item>
@@ -507,7 +507,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">以更快的速度浏览（高达%1$d Gbps）</string>
+    <string name="upsell_card_speed_description">浏览网速快上加快（高达 %1$d Gbps）</string>
     <string name="upsell_card_split_tunneling_title">拆分隧道</string>
     <string name="upsell_card_split_tunneling_description">同时从两地浏览</string>
     <string name="upsell_card_streaming_title">串流中</string>
@@ -614,10 +614,10 @@
     <string name="settings_default_connection_title">默认连接</string>
     <string name="fastest_country_description">从所在位置来看最适合的服务器</string>
     <string name="settings_connection_preferences_title">Connection preferences</string>
-    <string name="settings_excluded_locations_title">Excluded locations</string>
+    <string name="settings_excluded_locations_title">排除的位置</string>
     <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
     <string name="settings_excluded_locations_unavailable">No locations available</string>
-    <string name="settings_excluded_locations_selection_hint">Select…</string>
+    <string name="settings_excluded_locations_selection_hint">选择…</string>
     <string name="settings_last_connection_title">上次连接</string>
     <string name="settings_last_connection_description">近期连接</string>
     <string name="settings_change_icon_title">应用图标</string>
@@ -821,7 +821,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">最快的地域</string>
-    <string name="fastest_country_excluding_my_country">最快的国家/地区（不包括本地）</string>
+    <string name="fastest_country_excluding_my_country">最快的国家 / 地区（不包括本地）</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">最快的免费服务器</string>
     <!-- tag(Redesign_2023)
@@ -1078,11 +1078,11 @@
     <string name="country_filter_cities_list_header">城市（%1$d）</string>
     <string name="country_filter_states_list_header">州（%1$d）</string>
     <string name="country_filter_servers_list_header">服务器</string>
-    <string name="country_filter_secure_core_list_header">Secure Core 国家/地区（%1$d）</string>
+    <string name="country_filter_secure_core_list_header">Secure Core 国家 / 地区（%1$d）</string>
     <string name="country_filter_p2p_list_header">P2P 地域（%1$d）</string>
     <string name="country_filter_p2p_list_header_cities">P2P 城市（%1$d）</string>
     <string name="country_filter_p2p_list_header_states">P2P 状态（%1$d）</string>
-    <string name="country_filter_tor_list_header">Tor 国家/地区（%1$d）</string>
+    <string name="country_filter_tor_list_header">Tor 国家 / 地区（%1$d）</string>
     <string name="country_filter_tor_servers_list_header">Tor 服务器</string>
     <string name="country_filter_info_label">提示</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
@@ -1371,7 +1371,7 @@
     <string name="settings_protocol_openvpn_udp_description">OpenVPN 久经考验，安全成熟，但比其他协议更耗电。</string>
     <string name="settings_protocol_openvpn_tcp_description">OpenVPN 久经考验，安全成熟，网络环境较差依旧稳定，但可能不如其他协议快。</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">隐藏 VPN 连接，避开审查，避免 VPN 受阻。该网关可预防 DPI（深度包检测），不过可能不如别的网关快。Stealth，只有 Proton VPN 有。</string>
+    <string name="settings_protocol_stealth_description">隐藏 VPN 连接，避开审查，避免 VPN 受阻。该协议可预防 DPI（深度包检测），不过可能不如别的协议快。Stealth，只有 Proton VPN 有。</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">推荐</string>
     <string name="settings_split_tunneling_mode_title">模式</string>
@@ -1412,7 +1412,7 @@
     <string name="info_p2p_what_title">P2P 是什么？</string>
     <string name="info_p2p_what_description">点对点（P2P）技术让您能直接与其他设备建立连接并共享文件。我们的P2P服务器经过专门设计，能够为这类文件共享提供专项支持。</string>
     <string name="info_p2p_torrenting_title">Torrenting 是什么？</string>
-    <string name="info_p2p_torrenting_description">通过P2P网络实现大型文件的安全高速共享与下载</string>
+    <string name="info_p2p_torrenting_description">经 P2P 网络快速共享、下载大文件。</string>
     <string name="info_p2p_why_title">为什么在种子下载时使用 P2P 专用服务器？</string>
     <string name="info_p2p_why_description_speed">上传下载更快</string>
     <string name="info_p2p_why_description_logs">不记录活动信息</string>
@@ -1502,12 +1502,12 @@
     <string name="profile_auto_open_off">关闭</string>
     <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_website">Open a website</string>
-    <string name="profile_auto_open_app">Open an app</string>
+    <string name="profile_auto_open_website">打开网站</string>
+    <string name="profile_auto_open_app">打开应用</string>
     <string name="create_profile_auto_open_description">当您连接到此配置文件时，将自动打开您选择的网站。</string>
-    <string name="create_profile_auto_open_app_input_hint">Select an app</string>
+    <string name="create_profile_auto_open_app_input_hint">选择应用</string>
     <string name="create_profile_auto_open_app_input_label">应用</string>
-    <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
+    <string name="create_profile_auto_open_app_no_apps">应用没找到</string>
     <string name="profile_auto_open_error_invalid_url">输入一个有效的 URL</string>
     <string name="nps_how_likely_question">您向朋友或同事推荐 Proton VPN 的可能性有多大？</string>
     <string name="nps_additional_comment_title">请告诉我们您为何给予这样的评价</string>
@@ -1526,7 +1526,7 @@
     <string name="widget_status_connecting">正在连接</string>
     <string name="widget_sign_in">登录</string>
     <string name="widget_toast_added_message">小组件已添加到主屏幕</string>
-    <string name="settings_advanced_ipv6_title">IPv6 support</string>
+    <string name="settings_advanced_ipv6_title">IPv6 支持</string>
     <string name="settings_advanced_ipv6_description">通过 VPN 隧道传输 IPv6 流量。可增强与 IPv6 网络的兼容性。</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">要使用该地址，需要允许通过 VPN 隧道进行 IPv6 连接。</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">启用 IPv6</string>
@@ -1548,9 +1548,9 @@
     <string name="no_connections_action_sign_out">登出</string>
     <string name="no_connections_help_contact_us"><![CDATA[有问题吗？<a href="">联系我们</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[需要的话，把<a href="">操作说明</a>发给管理员，帮管理员开启 VPN 权限。]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">启用 OpenVPN？</string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">改用 OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">启用智能协议</string>
 </resources>
