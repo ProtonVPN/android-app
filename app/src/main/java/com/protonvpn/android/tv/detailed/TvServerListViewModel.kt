@@ -31,6 +31,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
+import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.ServerManager2
@@ -54,7 +55,8 @@ class TvServerListViewModel @Inject constructor(
     val vpnStatusProviderUI: VpnStatusProviderUI,
     val vpnConnectionManager: VpnConnectionManager,
     val currentUser: CurrentUser,
-    private val recentsManager: RecentsManager
+    private val recentsManager: RecentsManager,
+    private val translator: Translator,
 ) : ViewModel() {
 
     val servers = MutableLiveData<ServersViewModel>()
@@ -87,7 +89,7 @@ class TvServerListViewModel @Inject constructor(
         val vpnUser = currentUser.vpnUser()
         val serversVM = linkedMapOf<ServerGroup, List<ServerViewModel>>()
         if (vpnUser?.isUserPlusOrAbove == true) {
-            val cities = vpnCountry.serverList.groupBy { it.displayCity }
+            val cities = vpnCountry.serverList.groupBy { it.displayCity(translator) }
                 .toSortedMap(Comparator { o1, o2 ->
                     // Put servers without city at the end
                     if (o1 == null || o2 == null)

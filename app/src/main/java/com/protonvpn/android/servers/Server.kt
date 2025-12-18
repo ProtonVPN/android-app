@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.servers
 
+import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.servers.api.LogicalServer
 import com.protonvpn.android.servers.api.LogicalServerV1
@@ -104,10 +105,13 @@ data class Server(
     val isStreamingServer: Boolean
         get() = features.hasFlag(SERVER_FEATURE_STREAMING)
 
+    @Deprecated("Use Translator")
     fun getCityTranslation() = translations?.get("City")
+    @Deprecated("Use Translator")
     fun getStateTranslation() = translations?.get("State")
-    val displayCity get() = getCityTranslation() ?: city
-    val displayState get() = getStateTranslation() ?: state
+
+    fun displayCity(translator: Translator): String? = city?.let { translator.getCity(it) }
+    fun displayState(translator: Translator): String? = state?.let { translator.getState(it) }
 
     @Transient
     val serverNumber: Int = computeServerNumber()

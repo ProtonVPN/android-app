@@ -167,7 +167,9 @@ class GetConnectIntentViewState @Inject constructor(
                 entryCountry = null,
             ),
             secondaryLabel = ConnectIntentSecondaryLabel.RawText(
-                connectedServer?.displayState ?: connectedServer?.displayCity ?: translator.getState(connectIntent.stateEn)
+                connectedServer?.displayState(translator)
+                    ?: connectedServer?.displayCity(translator)
+                    ?: translator.getState(connectIntent.stateEn)
             ),
             serverFeatures = effectiveServerFeatures(connectIntent, connectedServer)
         )
@@ -179,7 +181,7 @@ class GetConnectIntentViewState @Inject constructor(
                 entryCountry = null,
             ),
             secondaryLabel = ConnectIntentSecondaryLabel.RawText(
-                connectedServer?.displayCity ?: translator.getCity(connectIntent.cityEn)
+                connectedServer?.displayCity(translator) ?: translator.getCity(connectIntent.cityEn)
             ),
             serverFeatures = effectiveServerFeatures(connectIntent, connectedServer)
         )
@@ -276,7 +278,7 @@ class GetConnectIntentViewState @Inject constructor(
             }
         } else {
             listOfNotNull(
-                displayState ?: displayCity,
+                displayState(translator) ?: displayCity(translator),
                 serverName.dropWhile { it != '#' }
             ).joinToString(" ")
         }

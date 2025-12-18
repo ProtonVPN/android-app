@@ -27,6 +27,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.isVirtualLocation
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
@@ -65,6 +66,7 @@ class ConnectionDetailsViewModel @Inject constructor(
     private val getConnectIntentViewState: GetConnectIntentViewState,
     private val trafficMonitor: TrafficMonitor,
     private val streamingServices: GetStreamingServices,
+    private val translator: Translator,
 ) : ViewModel() {
 
     sealed interface ConnectionDetailsViewState {
@@ -153,7 +155,7 @@ class ConnectionDetailsViewModel @Inject constructor(
                     server
                 ),
                 serverDisplayName = server.serverName,
-                serverCity = server.displayCity,
+                serverCity = server.displayCity(translator),
                 serverGatewayName = server.gatewayName,
                 serverLoad = server.load,
                 protocolDisplay = protocol,
