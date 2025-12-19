@@ -77,7 +77,6 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     suspend fun getServersV1(
         @Tag timeoutOverride: TimeoutOverride,
         @HeaderMap headers: Map<String, String>,
-        @Query("WithTranslations") language: String,
         @Query("WithEntriesForProtocols") protocols: String,
         @Query("WithState") withState: Boolean,
         @Query("Tier") userTier: Int?,
@@ -88,7 +87,6 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     suspend fun getServers(
         @Tag timeoutOverride: TimeoutOverride,
         @HeaderMap headers: Map<String, String>,
-        @Query("WithTranslations") language: String,
         @Query("WithEntriesForProtocols") protocols: String,
         @Query("WithState") withState: Boolean,
         @Query("IncludeID[]", encoded = true) includeIDs: Set<String>?,

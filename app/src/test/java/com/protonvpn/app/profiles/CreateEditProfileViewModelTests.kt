@@ -331,7 +331,7 @@ class CreateEditProfileViewModelTests {
             listOf(regular, p2p, secureCore, gateway)
                 to listOf(ProfileType.Standard, ProfileType.SecureCore, ProfileType.P2P, ProfileType.Gateway)
         ).forEachIndexed { index, (servers, expectedTypes) ->
-            serverManager.setServers(servers, statusId = null, language = null)
+            serverManager.setServers(servers, statusId = null)
 
             assertEquals(
                 "Case $index",
@@ -345,7 +345,7 @@ class CreateEditProfileViewModelTests {
     fun `missing servers fallback - city P2P - drop city, preserve type`() = testScope.runTest {
         val profileId = profilesDao.upsert(testProfileZurichP2P.toProfileEntity())
         val servers = listOf(serverGenevaRegular, serverGenevaP2P, serverZurichRegular)
-        serverManager.setServers(servers, statusId = null, language = null)
+        serverManager.setServers(servers, statusId = null)
         viewModel.setEditedProfileId(profileId, false)
 
         val state = viewModel.typeAndLocationScreenStateFlow.first()
@@ -358,7 +358,7 @@ class CreateEditProfileViewModelTests {
     fun `missing servers fallback - city P2P - drop city and country, preserve type`() = testScope.runTest {
         val profileId = profilesDao.upsert(testProfileZurichP2P.toProfileEntity())
         val servers = listOf(serverGenevaRegular, serverZurichRegular, serverLondonP2P, serverLondonRegular)
-        serverManager.setServers(servers, statusId = null, language = null)
+        serverManager.setServers(servers, statusId = null)
         viewModel.setEditedProfileId(profileId, false)
 
         val state = viewModel.typeAndLocationScreenStateFlow.first()
@@ -370,7 +370,7 @@ class CreateEditProfileViewModelTests {
     @Test
     fun `missing servers fallback - city P2P - no P2P servers`() = testScope.runTest {
         val profileId = profilesDao.upsert(testProfileZurichP2P.toProfileEntity())
-        serverManager.setServers(listOf(serverLondonRegular), statusId = null, language = null)
+        serverManager.setServers(listOf(serverLondonRegular), statusId = null)
         viewModel.setEditedProfileId(profileId, false)
 
         val state = viewModel.typeAndLocationScreenStateFlow.first()
@@ -381,7 +381,7 @@ class CreateEditProfileViewModelTests {
     @Test
     fun `missing servers fallback - city P2P - fallback to gateway`() = testScope.runTest {
         val profileId = profilesDao.upsert(testProfileZurichP2P.toProfileEntity())
-        serverManager.setServers(listOf(serverGateway), statusId = null, language = null)
+        serverManager.setServers(listOf(serverGateway), statusId = null)
         viewModel.setEditedProfileId(profileId, false)
 
         val state = viewModel.typeAndLocationScreenStateFlow.first()
@@ -393,7 +393,7 @@ class CreateEditProfileViewModelTests {
     fun `missing servers fallback - gateway - fallback to fastest country`() = testScope.runTest {
         val gatewayProfile = testProfile.copy(connectIntent = ConnectIntent.Gateway("Gateway", null))
         val profileId = profilesDao.upsert(gatewayProfile.toProfileEntity())
-        serverManager.setServers(listOf(serverLondonRegular), statusId = null, language = null)
+        serverManager.setServers(listOf(serverLondonRegular), statusId = null)
         viewModel.setEditedProfileId(profileId, false)
 
         val state = viewModel.typeAndLocationScreenStateFlow.first()

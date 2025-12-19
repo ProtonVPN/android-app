@@ -64,7 +64,7 @@ fun createInMemoryServerManager(
         physicalUserCountry,
     )
     testScope.launch {
-        serverManager.setServers(initialServers, initialStatusId, "en")
+        serverManager.setServers(initialServers, initialStatusId)
     }
     testScope.runCurrent()
     serverManager.setBuiltInGuestHoleServersForTesting(builtInGuestHoles)

@@ -82,7 +82,6 @@ class UpdateServerListFromApi @Inject constructor(
 
     suspend operator fun invoke(
         netzone: String?,
-        lang: String,
         freeOnlyNeeded: Boolean,
         serverListLastModified: Long
     ): PeriodicActionResult<Result> {
@@ -95,7 +94,6 @@ class UpdateServerListFromApi @Inject constructor(
         val fetchResult = if (binaryServerStatusEnabled) {
             val listResult = api.getServerList(
                 netzone,
-                lang = lang,
                 protocols = realProtocolsNames,
                 lastModified = serverListLastModified,
                 enableTruncation = enableTruncation,
@@ -105,7 +103,6 @@ class UpdateServerListFromApi @Inject constructor(
         } else {
             val listResult = api.getServerListV1(
                 netzone,
-                lang,
                 realProtocolsNames,
                 freeOnly,
                 enableTruncation = enableTruncation,
@@ -134,7 +131,7 @@ class UpdateServerListFromApi @Inject constructor(
 
             debugCountryCheck(newList)
 
-            serverManager.setServers(newList,  statusId = fetchResult.statusId,lang, retainIDs = retainIDs)
+            serverManager.setServers(newList,  statusId = fetchResult.statusId, retainIDs = retainIDs)
             serverManager.updateTimestamp()
             if (!freeOnly)
                 prefs.lastFullUpdateTimestamp = wallClock()

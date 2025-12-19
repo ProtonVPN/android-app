@@ -487,6 +487,6 @@ class ServerListViewModelDataAdapterTests {
     }
 
     private suspend fun setServers(serverList: List<Server>, statusId: LogicalsStatusId? = null) {
-        serverManager.setServers(serverList, statusId, null)
+        serverManager.setServers(serverList, statusId)
     }
 }

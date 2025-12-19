@@ -65,7 +65,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -296,7 +295,6 @@ class ServerListUpdater @Inject constructor(
                 launch { updateServerTranslations() }
                 updateServerListFromApi(
                     netzone = getNetZone(),
-                    lang = Locale.getDefault().language,
                     freeOnlyNeeded = freeOnlyUpdateNeeded(),
                     serverListLastModified = prefs.serverListLastModified
                 )

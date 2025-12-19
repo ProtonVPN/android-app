@@ -127,7 +127,6 @@ class GetDefaultConnectIntentTests {
         serverManager.setServers(
             serverList = servers,
             statusId = "StatusID",
-            language = null,
         )
         val expectedConnectIntent = ConnectIntent.Default
 
@@ -161,7 +160,6 @@ class GetDefaultConnectIntentTests {
         serverManager.setServers(
             serverList = servers,
             statusId = "StatusID",
-            language = null,
         )
         val protocolSelection = ProtocolSelection.SMART
         val expectedConnectIntent = ConnectIntent.Gateway(gatewayName = gatewayName2, serverId = null)

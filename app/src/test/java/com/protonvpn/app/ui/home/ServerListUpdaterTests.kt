@@ -183,13 +183,13 @@ class ServerListUpdaterTests {
         coEvery { mockServerManager.setServers(any(), any(), any()) } answers { allServers = firstArg() }
         every { mockServerManager.allServers } answers { allServers }
         coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
-        coEvery { mockApi.getServerListV1(any(), any(), any(), any(), any(), any(), any()) } answers {
+        coEvery { mockApi.getServerListV1(any(), any(), any(), any(), any(), any()) } answers {
             runWhileGettingServerList()
-            fakeServerListV1Backend.createResponse(freeOnly = arg(3), lastModified = arg(4), enableTruncation = arg(5))
+            fakeServerListV1Backend.createResponse(freeOnly = arg(2), lastModified = arg(3), enableTruncation = arg(4))
         }
-        coEvery { mockApi.getServerList(any(), any(), any(), any(), any(), any()) } answers {
+        coEvery { mockApi.getServerList(any(), any(), any(), any(), any()) } answers {
             runWhileGettingServerList()
-            fakeServerListV2Backend.createResponse(lastModified = arg(3), enableTruncation = arg(4))
+            fakeServerListV2Backend.createResponse(lastModified = arg(2), enableTruncation = arg(3))
         }
         coEvery { mockApi.getBinaryStatus(any()) } returns ApiResult.Success(ByteArray(0))
 
@@ -302,13 +302,13 @@ class ServerListUpdaterTests {
         serverListUpdater.updateServers()
 
         coVerifyOrder {
-            mockApi.getServerListV1(any(), any(), any(), freeOnly = false, any(), any(), any())
+            mockApi.getServerListV1(any(), any(), freeOnly = false, any(), any(), any())
             mockServerManager.setServers(withArg { assertEquals(FULL_LIST, it) }, null, any())
 
-            mockApi.getServerListV1(any(), any(), any(), freeOnly = true, any(), any(), any())
+            mockApi.getServerListV1(any(), any(), freeOnly = true, any(), any(), any())
             mockServerManager.setServers(withArg { assertTrue(it.isModifiedList()) }, null, any())
 
-            mockApi.getServerListV1(any(), any(), any(), freeOnly = false, any(), any(), any())
+            mockApi.getServerListV1(any(), any(), freeOnly = false, any(), any(), any())
         }
     }
 
@@ -332,7 +332,7 @@ class ServerListUpdaterTests {
 
         coVerifyOrder {
             repeat(2) {
-                mockApi.getServerList(any(), any(), any(), any(), any(), any())
+                mockApi.getServerList(any(), any(), any(), any(), any())
                 mockServerManager.setServers(
                     withArg { assertEquals(expectedServers, it) },
                     STATUS_ID,
@@ -348,7 +348,7 @@ class ServerListUpdaterTests {
         coEvery { mockApi.getBinaryStatus(any()) } returns ApiResult.Error.Connection()
 
         serverListUpdater.updateServers()
-        coVerify(exactly = 1) { mockApi.getServerList(any(), any(), any(), any(), any(), any()) }
+        coVerify(exactly = 1) { mockApi.getServerList(any(), any(), any(), any(), any()) }
         coVerify(exactly = 0) { mockServerManager.setServers(any(), any(), any()) }
     }
 
@@ -360,8 +360,8 @@ class ServerListUpdaterTests {
         serverListUpdater.updateServers()
 
         coVerifyOrder {
-            mockApi.getServerListV1(any(), any(), any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2"))
-            mockServerManager.setServers(any(), null, any(), retainIDs = setOf("3"))
+            mockApi.getServerListV1(any(), any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2"))
+            mockServerManager.setServers(any(), null, retainIDs = setOf("3"))
         }
     }
 
@@ -371,8 +371,8 @@ class ServerListUpdaterTests {
         mustHaveIDs = setOf("1", "2", "3")
         serverListUpdater.updateServers()
         coVerifyOrder {
-            mockApi.getServerListV1(any(), any(), any(), any(), any(), enableTruncation = false, mustHaveIDs = emptySet())
-            mockServerManager.setServers(any(), null, any(), retainIDs = emptySet())
+            mockApi.getServerListV1(any(), any(), any(), any(), enableTruncation = false, mustHaveIDs = emptySet())
+            mockServerManager.setServers(any(), null, retainIDs = emptySet())
         }
     }
 
@@ -383,8 +383,8 @@ class ServerListUpdaterTests {
         mustHaveIDs = setOf("1", "2", "3")
         serverListUpdater.updateServers()
         coVerifyOrder {
-            mockApi.getServerListV1(any(), any(), any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2", "3"))
-            mockServerManager.setServers(any(), null, any(), retainIDs = emptySet())
+            mockApi.getServerListV1(any(), any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2", "3"))
+            mockServerManager.setServers(any(), null, retainIDs = emptySet())
         }
     }
 

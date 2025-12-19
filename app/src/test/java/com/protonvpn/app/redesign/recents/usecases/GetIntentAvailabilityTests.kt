@@ -87,7 +87,6 @@ class GetIntentAvailabilityTests {
         serverManager.setServers(
             listOf(serverFreeCh, serverCh, serverLtOffline, serverPlP2P, serverSecureCore, serverGateway),
             statusId = "1",
-            language = null
         )
 
         val cases = listOf(
@@ -107,7 +106,6 @@ class GetIntentAvailabilityTests {
         serverManager.setServers(
             listOf(serverFreeCh, serverCh, serverLtOffline, serverPlP2P, serverSecureCore, serverGateway),
             statusId = "1",
-            language = null
         )
 
         val cases = listOf(
@@ -129,7 +127,7 @@ class GetIntentAvailabilityTests {
         val seattleP2POffline = createServer(exitCountry = "US", city = "Seattle", features = SERVER_FEATURE_P2P, isOnline = false)
         val seattle = createServer(exitCountry = "US", city = "Seattle")
 
-        serverManager.setServers(listOf(newYorkOnline, newYorkOffline, seattleP2POffline, seattle), "1", null)
+        serverManager.setServers(listOf(newYorkOnline, newYorkOffline, seattleP2POffline, seattle), "1")
 
         val cases = listOf(
             ConnectIntent.FastestInCountry(CountryId("US"), emptySet()) to ConnectIntentAvailability.ONLINE,
@@ -150,7 +148,7 @@ class GetIntentAvailabilityTests {
         val gatewayA1 = createServer("A1", exitCountry = "CH", gatewayName = "A", features = SERVER_FEATURE_RESTRICTED, isOnline = false)
         val gatewayB1 = createServer("B1", exitCountry = "CH", gatewayName = "B", features = SERVER_FEATURE_RESTRICTED)
         val gatewayB2 = createServer("B2", exitCountry = "CH", gatewayName = "B", features = SERVER_FEATURE_RESTRICTED, isOnline = false)
-        serverManager.setServers(listOf(gatewayA1, gatewayB1, gatewayB2), "1", null)
+        serverManager.setServers(listOf(gatewayA1, gatewayB1, gatewayB2), "1")
 
         val cases = listOf(
             ConnectIntent.FastestInCountry(CountryId.fastest, emptySet()) to ConnectIntentAvailability.NO_SERVERS,

@@ -77,9 +77,6 @@ class ServerManager @Inject constructor(
     var lastUpdateTimestamp: Long = 0L
         private set
 
-    var translationsLang: String? = null
-        private set
-
     // Expose a version number of the server list so that it can be used in flow operators like
     // combine to react to updates.
     @Transient
@@ -107,8 +104,7 @@ class ServerManager @Inject constructor(
     suspend fun needsUpdate(): Boolean {
         ensureLoaded()
         return lastUpdateTimestamp == 0L || serversData.allServers.isEmpty() ||
-            !haveWireGuardSupport() || serverListAppVersionCode < BuildConfig.VERSION_CODE ||
-            translationsLang != Locale.getDefault().language
+            !haveWireGuardSupport() || serverListAppVersionCode < BuildConfig.VERSION_CODE
     }
 
     val logicalsStatusId get() = serversData.statusId
@@ -126,7 +122,6 @@ class ServerManager @Inject constructor(
             streamingServices = oldManager.streamingServices
             lastUpdateTimestamp = oldManager.lastUpdateTimestamp
             serverListAppVersionCode = oldManager.serverListAppVersionCode
-            translationsLang = oldManager.translationsLang
             hasDownloadedServers = oldManager.hasDownloadedServers
             hasCountries = oldManager.hasCountries
             hasGateways = oldManager.hasGateways
@@ -185,7 +180,7 @@ class ServerManager @Inject constructor(
         DebugUtils.debugAssert("Guest hole servers can only be set when regular servers are not available") {
             !isDownloadedAtLeastOnce
         }
-        setServers(serverList, null, null)
+        setServers(serverList, null)
         lastUpdateTimestamp = 0L
     }
 
@@ -207,7 +202,6 @@ class ServerManager @Inject constructor(
     suspend fun setServers(
         serverList: List<Server>,
         statusId: LogicalsStatusId?,
-        language: String?,
         retainIDs: Set<String> = emptySet()
     ) {
         ensureLoaded()
@@ -215,7 +209,6 @@ class ServerManager @Inject constructor(
 
         lastUpdateTimestamp = wallClock()
         serverListAppVersionCode = BuildConfig.VERSION_CODE
-        translationsLang = language
         Storage.save(this, ServerManager::class.java)
 
         updateInternal()

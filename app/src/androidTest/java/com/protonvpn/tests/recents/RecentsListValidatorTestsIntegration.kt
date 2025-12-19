@@ -137,7 +137,7 @@ class RecentsListValidatorTestsIntegration {
         RecentsListValidator(backgroundScope, recentsDao, serverManager2, currentUser)
 
         val servers = (1..4).map { number -> createServer("server$number") }
-        serverManager.setServers(servers, "StatusID", null)
+        serverManager.setServers(servers, "StatusID")
 
         val connectIntentsForServers = servers.map { server -> ConnectIntent.fromServer(server, emptySet()) }
         connectIntentsForServers.forEach {
@@ -149,7 +149,7 @@ class RecentsListValidatorTestsIntegration {
         assertEquals(connectIntentsForServers.size + 1, recentsDao.getRecentsList(userId1).first().size)
 
         val newServerList = listOf(servers[0], servers[3], createServer("server10"))
-        serverManager.setServers(newServerList, "StatusID", null)
+        serverManager.setServers(newServerList, "StatusID")
 
         // Let RecentsListValidator process the updates.
         idlingResource.waitUntilIdle()
@@ -173,7 +173,7 @@ class RecentsListValidatorTestsIntegration {
         currentUserProvider.user = createAccountUser(userId1)
 
         val servers = (1 .. 6).map { number -> createServer("server$number") }
-        serverManager.setServers(servers, "StatusID", null)
+        serverManager.setServers(servers, "StatusID")
 
         val intents = servers.map { server -> ConnectIntent.fromServer(server, emptySet()) }
         intents

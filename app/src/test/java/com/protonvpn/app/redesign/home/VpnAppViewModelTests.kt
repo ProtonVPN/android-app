@@ -143,7 +143,7 @@ class VpnAppViewModelTests {
     @Test
     fun `GIVEN servers are not loaded AND servers update succeeds with countries WHEN observing loadingState THEN Loaded state is emitted`() = runTest {
         val viewModel = createViewModel()
-        serverManager.setServers(listOf(createServer()), "1", null)
+        serverManager.setServers(listOf(createServer()), "1")
 
         viewModel.loadingState.test {
             runCurrent()
@@ -156,7 +156,7 @@ class VpnAppViewModelTests {
     @Test
     fun `GIVEN servers are not loaded AND servers update succeeds with gateways WHEN observing loadingState THEN Loaded state is emitted`() = runTest {
         val viewModel = createViewModel()
-        serverManager.setServers(listOf(createServer(gatewayName = "gateway")), "1", null)
+        serverManager.setServers(listOf(createServer(gatewayName = "gateway")), "1")
 
         viewModel.loadingState.test {
             runCurrent()
@@ -194,7 +194,7 @@ class VpnAppViewModelTests {
 
     @Test
     fun `GIVEN servers are loaded AND there are countries WHEN observing loadingState THEN Loaded state is emitted`() = runTest {
-        serverManager.setServers(listOf(createServer()), "1", null)
+        serverManager.setServers(listOf(createServer()), "1")
         val viewModel = createViewModel()
         val expectedLoaderState = VpnAppViewModel.LoaderState.Loaded
 
@@ -206,7 +206,7 @@ class VpnAppViewModelTests {
 
     @Test
     fun `GIVEN servers are loaded AND there are gateways WHEN observing loadingState THEN Loaded state is emitted`() = runTest {
-        serverManager.setServers(listOf(createServer(gatewayName = "gateway")), "1", null)
+        serverManager.setServers(listOf(createServer(gatewayName = "gateway")), "1")
         val viewModel = createViewModel()
 
         viewModel.loadingState.test {
@@ -217,7 +217,7 @@ class VpnAppViewModelTests {
 
     @Test
     fun `GIVEN user needs connections assigned WHEN observing loadingState THEN DisabledByAdmin is emitted`() = runTest {
-        serverManager.setServers(listOf(createServer()), "1", null)
+        serverManager.setServers(listOf(createServer()), "1")
         testUserProvider.vpnUser = null
         coEvery { mockApi.getVPNInfo(any()) } returns vpnInfoNeedsConnectionsAssigned
 
@@ -231,7 +231,7 @@ class VpnAppViewModelTests {
 
     @Test
     fun `GIVEN user with assigned connections WHEN connections are removed THEN DisabledByAdmin is emitted`() = runTest {
-        serverManager.setServers(listOf(createServer()), "1", null)
+        serverManager.setServers(listOf(createServer()), "1")
 
         val viewModel = createViewModel()
         userPlanManager.refreshVpnInfo()
@@ -248,7 +248,7 @@ class VpnAppViewModelTests {
 
     @Test
     fun `GIVEN user needs connections assigned WHEN connections are set THEN Loaded is emitted`() = runTest {
-        serverManager.setServers(listOf(createServer()), "1", null)
+        serverManager.setServers(listOf(createServer()), "1")
         coEvery { mockApi.getVPNInfo(any()) } returns vpnInfoNeedsConnectionsAssigned
         testUserProvider.vpnUser = null
 

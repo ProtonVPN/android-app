@@ -105,7 +105,6 @@ class SearchViewModelTests {
                 createServer(exitCountry = "PL", city = "Warsaw", serverName = "PL#1"),
             ),
             null,
-            null,
         )
         viewModel.localeFlow.value = Locale.US
         viewModel.setQuery("po")
@@ -125,7 +124,6 @@ class SearchViewModelTests {
                 createServer(exitCountry = "EN", city = "York"),
                 createServer(exitCountry = "US", city = "New York"),
             ),
-            null,
             null,
         )
         viewModel.localeFlow.value = Locale.US
@@ -149,7 +147,6 @@ class SearchViewModelTests {
 
         serverManager.setServers(
             listOf(createServer(exitCountry = "US", city = "Portland", serverName = "US-CA#10")),
-            null,
             null,
         )
         viewModel.localeFlow.value = Locale.US
@@ -197,7 +194,6 @@ class SearchViewModelTests {
         serverManager.setServers(
             listOf(createServer(serverId = "id1", exitCountry = "CH", serverName = "CH#1")),
             null,
-            null,
         )
         viewModel.localeFlow.value = Locale.US
 
@@ -225,7 +221,7 @@ class SearchViewModelTests {
         val fetchServerByName: FetchServerByName = mockk()
         coEvery { fetchServerByName.invoke("CH#2") } returns FetchServerResult.Success(ch2)
         viewModel.localeFlow.value = Locale.US
-        serverManager.setServers(listOf(ch2), null, null)
+        serverManager.setServers(listOf(ch2), null)
 
         viewModel.stateFlow.test {
             viewModel.setQuery("CH#2")
