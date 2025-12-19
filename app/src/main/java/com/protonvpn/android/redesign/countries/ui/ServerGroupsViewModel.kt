@@ -34,7 +34,10 @@ import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.InfoType
+import com.protonvpn.android.redesign.countries.TranslationsData
 import com.protonvpn.android.redesign.countries.Translator
+import com.protonvpn.android.redesign.countries.city
+import com.protonvpn.android.redesign.countries.state
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -148,7 +151,7 @@ abstract class ServerGroupsViewModel<MainStateT>(
     private val shouldShowcaseRecents: ShouldShowcaseRecents,
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
-    private val translator: Translator,
+    translator: Translator,
     defaultMainSavedState: ServerGroupsMainScreenSaveState,
 ) : ViewModel() {
 
@@ -197,10 +200,17 @@ abstract class ServerGroupsViewModel<MainStateT>(
             userTierFlow,
             localeFlow.filterNotNull(),
             currentConnectionFlow,
-        ) { savedState, userTier, locale, currentConnection ->
+            translator.flow,
+        ) { savedState, userTier, locale, currentConnection, translations ->
             if (savedState != null) {
-                getSubScreenUiItems(savedState, userTier, locale, currentConnection).map { items ->
-                    subScreenState(savedState, items)
+                getSubScreenUiItems(
+                    savedState,
+                    userTier,
+                    locale,
+                    currentConnection,
+                    translations
+                ).map { items ->
+                    subScreenState(savedState, items, translations)
                 }
             } else {
                 flowOf(null)
@@ -211,12 +221,13 @@ abstract class ServerGroupsViewModel<MainStateT>(
         savedState: ServerGroupsSubScreenSaveState,
         userTier: Int?,
         locale: Locale,
-        currentConnection: ActiveConnection?
+        currentConnection: ActiveConnection?,
+        translations: TranslationsData?,
     ): Flow<List<ServerGroupUiItem>> =
         when (savedState) {
             is CitiesScreenSaveState -> when (savedState.selectedFilter) {
                 ServerFilterType.All, ServerFilterType.P2P ->
-                    dataAdapter.cities(savedState.selectedFilter, savedState.countryId)
+                    dataAdapter.cities(savedState.selectedFilter, savedState.countryId, translations)
                 ServerFilterType.SecureCore ->
                     dataAdapter.entryCountries(savedState.countryId)
                 ServerFilterType.Tor ->
@@ -292,6 +303,7 @@ abstract class ServerGroupsViewModel<MainStateT>(
     private suspend fun subScreenState(
         savedState: ServerGroupsSubScreenSaveState,
         items: List<ServerGroupUiItem>,
+        translations: TranslationsData?,
     ): ServerGroupsSubScreenState {
         return when (savedState) {
             is CitiesScreenSaveState -> CitiesScreenState(
@@ -312,7 +324,10 @@ abstract class ServerGroupsViewModel<MainStateT>(
             is ServersScreenSaveState -> ServersScreenState(
                 selectedFilter = savedState.selectedFilter,
                 countryId = savedState.countryId,
-                cityStateDisplay = translator.translateCityState(savedState.cityStateId),
+                cityStateDisplay = translations.translateCityState(
+                    savedState.countryId,
+                    savedState.cityStateId
+                ),
                 items = items
             )
         }
@@ -535,8 +550,9 @@ private fun subScreenHeaderInfo(subScreen: ServerGroupsSubScreenSaveState, filte
     ServerFilterType.Tor -> InfoType.Tor
 }
 
-private fun Translator.translateCityState(cityStateId: CityStateId): String =
-    if (cityStateId.isState)
-        getState(cityStateId.name)
-    else
-        getCity(cityStateId.name)
+private fun TranslationsData?.translateCityState(country: CountryId, cityStateId: CityStateId): String =
+    if (cityStateId.isState) {
+        state(country, cityStateId.name)
+    } else {
+        city(country, cityStateId.name)
+    }

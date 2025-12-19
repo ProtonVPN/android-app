@@ -24,7 +24,10 @@ import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.countries.TranslationsData
 import com.protonvpn.android.redesign.countries.Translator
+import com.protonvpn.android.redesign.countries.city
+import com.protonvpn.android.redesign.countries.state
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
@@ -38,6 +41,11 @@ class GetConnectIntentViewState @Inject constructor(
     private val translator: Translator,
     private val getProfileById: GetProfileById,
 ) {
+    // Ideally the translations would be provided as arguments to the functions on this class to
+    // force the caller to observe the most recent value. In practice languages and translations
+    // change very rarely and usually while the UI is stopped, so it shouldn't be an issue.
+    private val translations: TranslationsData?
+        get() = translator.current
 
     // Note: this is a suspending function being called in a loop which makes it potentially slow.
     // See RecentListViewStateFlow.createRecentsViewState and ProfilesViewModel.toItem
@@ -53,12 +61,16 @@ class GetConnectIntentViewState @Inject constructor(
         // connection time)
         val intent = connectedIntent ?: profile.connectIntent
         val (exit, secondaryLabel) = when(intent) {
-            is ConnectIntent.FastestInCity ->
-                intent.country to ConnectIntentSecondaryLabel.RawText(translator.getCity(intent.cityEn))
+            is ConnectIntent.FastestInCity -> with(intent) {
+                val displayCity = translations.city(country, cityEn)
+                country to ConnectIntentSecondaryLabel.RawText(displayCity)
+            }
             is ConnectIntent.FastestInCountry ->
                 intent.country to ConnectIntentSecondaryLabel.Country(intent.country, null)
-            is ConnectIntent.FastestInState ->
-                intent.country to ConnectIntentSecondaryLabel.RawText(translator.getState(intent.stateEn))
+            is ConnectIntent.FastestInState -> with(intent) {
+                val displayState = translations.state(country, stateEn)
+                country to ConnectIntentSecondaryLabel.RawText(displayState)
+            }
             is ConnectIntent.SecureCore ->
                 intent.exitCountry to ConnectIntentSecondaryLabel.SecureCore(intent.exitCountry, intent.entryCountry)
             is ConnectIntent.Gateway -> {
@@ -163,13 +175,14 @@ class GetConnectIntentViewState @Inject constructor(
     private fun fastestInState(connectIntent: ConnectIntent.FastestInState, connectedServer: Server? = null) =
         ConnectIntentViewState(
             primaryLabel = ConnectIntentPrimaryLabel.Country(
-                exitCountry = connectedServer?.entryCountry?.let { CountryId(it) } ?: connectIntent.country,
+                exitCountry = connectedServer?.entryCountry?.let { CountryId(it) }
+                    ?: connectIntent.country,
                 entryCountry = null,
             ),
             secondaryLabel = ConnectIntentSecondaryLabel.RawText(
-                connectedServer?.displayState(translator)
-                    ?: connectedServer?.displayCity(translator)
-                    ?: translator.getState(connectIntent.stateEn)
+                connectedServer?.displayState(translations)
+                    ?: connectedServer?.displayCity(translations)
+                    ?: translations.state(connectIntent.country, connectIntent.stateEn)
             ),
             serverFeatures = effectiveServerFeatures(connectIntent, connectedServer)
         )
@@ -181,7 +194,8 @@ class GetConnectIntentViewState @Inject constructor(
                 entryCountry = null,
             ),
             secondaryLabel = ConnectIntentSecondaryLabel.RawText(
-                connectedServer?.displayCity(translator) ?: translator.getCity(connectIntent.cityEn)
+                connectedServer?.displayCity(translations)
+                    ?: with(connectIntent) { translations.city(country, cityEn) }
             ),
             serverFeatures = effectiveServerFeatures(connectIntent, connectedServer)
         )
@@ -278,7 +292,7 @@ class GetConnectIntentViewState @Inject constructor(
             }
         } else {
             listOfNotNull(
-                displayState(translator) ?: displayCity(translator),
+                displayState(translations) ?: displayCity(translations),
                 serverName.dropWhile { it != '#' }
             ).joinToString(" ")
         }

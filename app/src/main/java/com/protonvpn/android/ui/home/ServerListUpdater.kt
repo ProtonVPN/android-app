@@ -41,6 +41,7 @@ import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.UpdateServerListFromApi
+import com.protonvpn.android.servers.UpdateServerTranslations
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.servers.api.StreamingServicesResponse
 import com.protonvpn.android.utils.ServerManager
@@ -103,6 +104,7 @@ class ServerListUpdater @Inject constructor(
     private val remoteConfig: ServerListUpdaterRemoteConfig,
     @WallClock private val wallClock: () -> Long,
     private val updateServerListFromApi: UpdateServerListFromApi,
+    private val updateServerTranslations: UpdateServerTranslations,
     private val binaryServerStatusEnabled: IsBinaryServerStatusEnabled,
 ) {
     val ipAddress = prefs.ipAddressFlow
@@ -291,6 +293,7 @@ class ServerListUpdater @Inject constructor(
             exceptionError = UpdateServerListFromApi.Result.Error(null),
         ) {
             guestHole.runWithGuestHoleFallback {
+                launch { updateServerTranslations() }
                 updateServerListFromApi(
                     netzone = getNetZone(),
                     lang = Locale.getDefault().language,

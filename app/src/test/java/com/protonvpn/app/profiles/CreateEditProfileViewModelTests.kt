@@ -75,6 +75,7 @@ import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
+import com.protonvpn.test.shared.InMemoryObjectStore
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
@@ -211,7 +212,7 @@ class CreateEditProfileViewModelTests {
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
         serversAdapter = ProfilesServerDataAdapter(
             serverManager2,
-            Translator(testScope.backgroundScope, serverManager),
+            Translator(testScope.backgroundScope, InMemoryObjectStore(null)),
             UpdateConnectIntentForExistingServers(serverManager2),
         )
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)

@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.countries.ui
 
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.countries.TranslationsData
 import kotlinx.coroutines.flow.Flow
 
 // Adapter separating server data storage from view model.
@@ -35,8 +36,11 @@ interface ServerListViewModelDataAdapter {
     fun countries(filter: ServerFilterType = ServerFilterType.All):
         Flow<List<ServerGroupItemData.Country>>
 
-    fun cities(filter: ServerFilterType = ServerFilterType.All, country: CountryId):
-        Flow<List<ServerGroupItemData.City>>
+    fun cities(
+        filter: ServerFilterType = ServerFilterType.All,
+        country: CountryId,
+        translations: TranslationsData?
+    ): Flow<List<ServerGroupItemData.City>>
 
     fun servers(
         filter: ServerFilterType = ServerFilterType.All,

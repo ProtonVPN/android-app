@@ -19,17 +19,19 @@
 
 package com.protonvpn.android.redesign.countries.ui
 
-import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
-import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
-import com.protonvpn.android.redesign.countries.Translator
+import com.protonvpn.android.redesign.countries.TranslationsData
+import com.protonvpn.android.redesign.countries.city
+import com.protonvpn.android.redesign.countries.state
 import com.protonvpn.android.redesign.search.TextMatch
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.isVirtualLocation
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
+import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
 import com.protonvpn.android.utils.hasFlag
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -40,7 +42,6 @@ import kotlin.math.roundToInt
 
 class ServerListViewModelDataAdapterLegacy @Inject constructor(
     private val serverManager2: ServerManager2,
-    private val translator: Translator,
 ) : ServerListViewModelDataAdapter {
 
     override suspend fun countriesCount(): Int = serverManager2.getCountriesCount()
@@ -82,7 +83,8 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
 
     override fun cities(
         filter: ServerFilterType,
-        country: CountryId
+        country: CountryId,
+        translations: TranslationsData?,
     ): Flow<List<ServerGroupItemData.City>> =
         serverManager2.allServersFlow.map { servers ->
             val filteredServers = servers.asFilteredSequence(filter, country)
@@ -93,7 +95,7 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
                 .groupBy(groupBySelector)
                 .mapNotNull { (cityOrState, servers) ->
                     availableTypes.update(servers)
-                    toCityItem(translator, hasStates, cityOrState, servers)
+                    toCityItem(translations, hasStates, cityOrState, servers)
                 }
         }
 
@@ -192,7 +194,7 @@ fun Server.toServerItem(match: TextMatch? = null) = ServerGroupItemData.Server(
 )
 
 fun toCityItem(
-    translator: Translator,
+    translations: TranslationsData?,
     isState: Boolean,
     cityOrState: String?,
     servers: List<Server>,
@@ -202,11 +204,16 @@ fun toCityItem(
         return null
 
     val server = servers.first()
+    val country = CountryId(server.exitCountry)
     //TODO: what to do with servers without a state if hasStates is true
     return ServerGroupItemData.City(
-        countryId = CountryId(server.exitCountry),
+        countryId = country,
         cityStateId = CityStateId(cityOrState, isState),
-        name = if (isState) translator.getState(cityOrState) else translator.getCity(cityOrState),
+        name = if (isState) {
+            translations.state(country, cityOrState)
+        } else {
+            translations.city(country, cityOrState)
+        },
         inMaintenance = servers.all { !it.online },
         tier = servers.minOf { it.tier },
         textMatch = match,

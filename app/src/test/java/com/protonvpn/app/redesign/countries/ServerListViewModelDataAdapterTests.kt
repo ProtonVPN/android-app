@@ -25,6 +25,8 @@ import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
+import com.protonvpn.android.redesign.countries.TranslationsData
+import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.countries.ui.ServerFilterType
 import com.protonvpn.android.redesign.countries.ui.ServerGroupItemData
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
@@ -59,6 +61,9 @@ class ServerListViewModelDataAdapterTests {
 
     @Inject
     lateinit var adapter: ServerListViewModelDataAdapter
+
+    @Inject
+    lateinit var translator: Translator
 
     @Inject
     lateinit var searchAdapter: SearchViewModelDataAdapter
@@ -125,10 +130,18 @@ class ServerListViewModelDataAdapterTests {
                 createServer(exitCountry = "US", state = "Alabama", city = "Birmingham"),
             )
         )
+        val translations = TranslationsData(
+            cities = mapOf(CountryId("PL") to mapOf("Warsaw" to "Warszawa")),
+            states = emptyMap()
+        )
 
-        val plCities = adapter.cities(country = CountryId("PL")).first()
-        val torCities = adapter.cities(country = CountryId("PL"), filter = ServerFilterType.Tor).first()
-        val states = adapter.cities(country = CountryId("US")).first()
+        val plCities = adapter.cities(country = CountryId("PL"), translations = translations).first()
+        val torCities = adapter.cities(
+            country = CountryId("PL"),
+            filter = ServerFilterType.Tor,
+            translations = translations
+        ).first()
+        val states = adapter.cities(country = CountryId("US"), translations = translations).first()
 
         assertEquals(
             listOf(
@@ -373,6 +386,7 @@ class ServerListViewModelDataAdapterTests {
                 createServer(exitCountry = "US", city = "New York", serverName = "US-NY#2"),
             ),
         )
+        translator.updateTranslations(mapOf("pl" to mapOf("Cracow" to "Kraków")), emptyMap())
     }
 
     @Test

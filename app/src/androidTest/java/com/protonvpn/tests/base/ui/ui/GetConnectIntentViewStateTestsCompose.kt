@@ -41,12 +41,14 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.mocks.FakeGetProfileById
+import com.protonvpn.test.shared.InMemoryObjectStore
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.testRules.setVpnContent
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import me.proton.core.domain.entity.UserId
 import me.proton.test.fusion.Fusion.node
@@ -62,9 +64,8 @@ class GetConnectIntentViewStateTestsCompose : FusionComposeTest() {
     @MockK
     private lateinit var mockServerManager: ServerManager2
 
-    @MockK
-    private lateinit var mockTranslator: Translator
-
+    private lateinit var testScope: TestScope
+    private lateinit var translator: Translator
     private lateinit var getConnectIntentViewState: GetConnectIntentViewState
 
     private val noServerFeatures = EnumSet.noneOf(ServerFeature::class.java)
@@ -108,17 +109,18 @@ class GetConnectIntentViewStateTestsCompose : FusionComposeTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+        testScope = TestScope()
 
         val allServers = listOf(serverCh, serverChFree, serverPl, serverPlNoFeatures, serverLtViaSe, serverPlViaCh, serverGateway)
         coEvery { mockServerManager.getServerById(any()) } answers {
             allServers.find { it.serverId == firstArg() }
         }
         coEvery { mockServerManager.getFreeCountries() } returns listOf(VpnCountry("ch", listOf(serverCh, serverChFree)))
-        every { mockTranslator.getCity(any()) } answers { firstArg() }
-        every { mockTranslator.getState(any()) } answers { firstArg() }
+
+        translator = Translator(testScope.backgroundScope, InMemoryObjectStore(null))
 
         profiles = FakeGetProfileById()
-        getConnectIntentViewState = GetConnectIntentViewState(mockServerManager, mockTranslator, profiles)
+        getConnectIntentViewState = GetConnectIntentViewState(mockServerManager, translator, profiles)
     }
 
     @Test
@@ -254,7 +256,7 @@ class GetConnectIntentViewStateTestsCompose : FusionComposeTest() {
 
     @Test
     fun cityWithTranslation() = runTest {
-        every { mockTranslator.getCity("Zurich") } returns "Zurych"
+        translator.updateTranslations(mapOf("CH" to mapOf("Zurich" to "Zurych")), emptyMap())
         val connectIntent = ConnectIntent.FastestInCity(switzerland, "Zurich", noServerFeatures)
         setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
@@ -264,12 +266,16 @@ class GetConnectIntentViewStateTestsCompose : FusionComposeTest() {
 
     @Test
     fun stateWithTranslation() = runTest {
-        every { mockTranslator.getState("Canton Zurich") } returns "Kanton Zurych"
-        val connectIntent = ConnectIntent.FastestInState(switzerland, "Canton Zurich", noServerFeatures)
+        translator.updateTranslations(
+            cities = emptyMap(),
+            states = mapOf("US" to mapOf("California" to "Kalifornia"))
+        )
+        val connectIntent =
+            ConnectIntent.FastestInState(CountryId("US"), "California", noServerFeatures)
         setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
-        node.withTag("primaryLabel").assertContainsText("Switzerland")
-        node.withTag("secondaryLabel").hasChild(node.withText("Kanton Zurych")).assertIsDisplayed()
+        node.withTag("primaryLabel").assertContainsText("United States")
+        node.withTag("secondaryLabel").hasChild(node.withText("Kalifornia")).assertIsDisplayed()
     }
 
     @Test

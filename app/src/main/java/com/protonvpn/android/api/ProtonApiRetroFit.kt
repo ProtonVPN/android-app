@@ -64,6 +64,10 @@ open class ProtonApiRetroFit @Inject constructor(
         params: RequestBody,
     ) = manager { postBugReport(TimeoutOverride(writeTimeoutSeconds = 20), params) }
 
+    suspend fun getServerCities(languageTag: String) = manager {
+        getServerCities(languageTag)
+    }
+
     open suspend fun getServerListV1(
         netzone: String?,
         lang: String,

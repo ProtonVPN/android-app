@@ -21,20 +21,22 @@ package com.protonvpn.android.profiles.ui
 
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.profiles.usecases.UpdateConnectIntentForExistingServers
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.countries.TranslationsData
 import com.protonvpn.android.redesign.countries.Translator
+import com.protonvpn.android.redesign.countries.city
+import com.protonvpn.android.redesign.countries.state
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.satisfiesFeatures
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.hasFlag
 import dagger.Reusable
 import kotlinx.coroutines.flow.map
 import java.util.EnumSet
 import javax.inject.Inject
-import kotlin.Boolean
 
 @Reusable
 class ProfilesServerDataAdapter @Inject constructor(
@@ -106,7 +108,10 @@ class ProfilesServerDataAdapter @Inject constructor(
                 .map { CityStateId(it, false) to servers.any { it.online } }
                 .toList()
         }
-        .map { (id, online) -> getCityStateViewModel(id, online) }
+        .map { (id, online) ->
+            // Profile edit screen is relatively short lived, it's ok to not observe translations.
+            getCityStateViewModel(translator.current, countryId, id, online)
+        }
     }
 
     suspend fun servers(
@@ -163,12 +168,17 @@ class ProfilesServerDataAdapter @Inject constructor(
         }
     }
 
-    private fun getCityStateViewModel(cityOrState: CityStateId, online: Boolean) = with(cityOrState) {
+    private fun getCityStateViewModel(
+        translations: TranslationsData?,
+        country: CountryId,
+        cityOrState: CityStateId,
+        online: Boolean
+    ) = with(cityOrState) {
         TypeAndLocationScreenState.CityOrStateItem(
             when {
                 isFastest -> null
-                isState -> translator.getState(name)
-                else -> translator.getCity(name)
+                isState -> translations.state(country, name)
+                else -> translations.city(country, name)
             },
             this,
             online,

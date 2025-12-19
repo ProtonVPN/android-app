@@ -64,6 +64,7 @@ import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -217,22 +218,23 @@ class ServerListUpdaterTests {
             getTruncationMustHaveIds,
         )
         serverListUpdater = ServerListUpdater(
-            testScope.backgroundScope,
-            mockApi,
-            mockServerManager,
-            mockCurrentUser,
-            vpnStateMonitor,
-            mockPlanManager,
-            serverListUpdaterPrefs,
-            getNetZone,
-            guestHole,
-            mockPeriodicUpdateManager,
-            emptyFlow(),
-            emptyFlow(),
-            remoteConfig,
-            testScope::currentTime,
-            updateServerListFromApi,
-            binaryServerStatusEnabled,
+            scope = testScope.backgroundScope,
+            api = mockApi,
+            serverManager = mockServerManager,
+            currentUser = mockCurrentUser,
+            vpnStateMonitor = vpnStateMonitor,
+            userPlanManager = mockPlanManager,
+            prefs = serverListUpdaterPrefs,
+            getNetZone = getNetZone,
+            guestHole = guestHole,
+            periodicUpdateManager = mockPeriodicUpdateManager,
+            loggedIn = emptyFlow(),
+            inForeground = emptyFlow(),
+            remoteConfig = remoteConfig,
+            wallClock = testScope::currentTime,
+            updateServerListFromApi = updateServerListFromApi,
+            updateServerTranslations = mockk(relaxed = true),
+            binaryServerStatusEnabled = binaryServerStatusEnabled,
         )
     }
 

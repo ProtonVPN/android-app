@@ -449,13 +449,14 @@ class SettingsViewModel @Inject constructor(
                     observeExcludedLocations(),
                     serverManager.hasAnyCountryFlow,
                     featurePreferencesFlow,
-                ) { excludedLocations, hasCountries, featurePreferences ->
+                    translator.flow,
+                ) { excludedLocations, hasCountries, featurePreferences, translations ->
                     SettingViewState.ConnectionPreferencesState.ExcludedLocationsPreferences(
                         canSelectLocations = hasCountries,
                         excludedLocationUiItems = excludedLocations.allLocations.map { excludedLocation ->
                             excludedLocation.toExcludedLocationUiItem(
                                 locale = locale,
-                                translator = translator,
+                                translations = translations,
                             )
                         },
                         isFeatureDiscovered = featurePreferences.isExcludedLocationsDiscovered,

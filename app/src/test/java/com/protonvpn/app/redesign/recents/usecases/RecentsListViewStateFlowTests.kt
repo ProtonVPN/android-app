@@ -64,6 +64,7 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
 import com.protonvpn.mocks.createInMemoryServerManager
+import com.protonvpn.test.shared.InMemoryObjectStore
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
@@ -186,7 +187,7 @@ class RecentsListViewStateFlowTests {
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
         val getIntentAvailability = GetIntentAvailability(serverManager2, supportsProtocol)
-        val translator = Translator(testScope.backgroundScope, serverManager)
+        val translator = Translator(testScope.backgroundScope, InMemoryObjectStore(null))
         viewStateFlow = RecentsListViewStateFlow(
             recentsManager = mockRecentsManager,
             getConnectIntentViewState = GetConnectIntentViewState(

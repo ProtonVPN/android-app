@@ -18,9 +18,10 @@
  */
 
 package com.protonvpn.android.redesign.settings.ui.excludedlocations
-
-import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.excludedlocations.ExcludedLocation
+import com.protonvpn.android.redesign.countries.TranslationsData
+import com.protonvpn.android.redesign.countries.city
+import com.protonvpn.android.redesign.countries.state
 import com.protonvpn.android.redesign.search.TextMatch
 import com.protonvpn.android.redesign.settings.ui.excludedlocations.ExcludedLocationsViewModel.ExcludedLocationUiItem
 import com.protonvpn.android.utils.CountryTools
@@ -28,10 +29,10 @@ import java.util.Locale
 
 fun ExcludedLocation.toExcludedLocationUiItem(
     locale: Locale,
-    translator: Translator,
+    translations: TranslationsData?,
 ): ExcludedLocationUiItem.Location = when (this) {
     is ExcludedLocation.City -> {
-        val fullText = nameEn?.let(translator::getCity)
+        val fullText = nameEn?.let { translations.city(countryId, it) }
 
         ExcludedLocationUiItem.Location.City(
             locationId = id,
@@ -63,7 +64,7 @@ fun ExcludedLocation.toExcludedLocationUiItem(
     }
 
     is ExcludedLocation.State -> {
-        val fullText = nameEn?.let(translator::getState)
+        val fullText = nameEn?.let { translations.state(countryId, it) }
 
         ExcludedLocationUiItem.Location.State(
             locationId = id,

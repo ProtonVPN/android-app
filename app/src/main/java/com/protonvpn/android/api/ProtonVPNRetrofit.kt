@@ -41,27 +41,37 @@ import com.protonvpn.android.models.vpn.ServerSearchResponse
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.servers.api.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
+import com.protonvpn.android.servers.api.CityTranslationsResponse
 import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.telemetry.StatsBody
 import com.protonvpn.android.ui.promooffers.usecase.PostNps
 import me.proton.core.network.data.protonApi.BaseRetrofitApi
 import me.proton.core.network.domain.TimeoutOverride
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.HeaderMap
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
-import retrofit2.http.QueryMap
 import retrofit2.http.Tag
 
 @Suppress("ComplexInterface", "TooManyFunctions")
 interface ProtonVPNRetrofit : BaseRetrofitApi {
+
+    @GET("vpn/v1/cities/names")
+    suspend fun getServerCities(
+        // The documentation for the x-pm-locale header says:
+        //   "As this takes precedence, this should never be filled unless the user explicitly
+        //   opted-in for the given locale in the current device for this application."
+        // The Android app uses device locale for the app (also for country names) and thus this is
+        // the "explicitly set" language.
+        @Header("x-pm-locale") languageTag: String,
+    ): CityTranslationsResponse
 
     @GET("vpn/v1/logicals")
     suspend fun getServersV1(

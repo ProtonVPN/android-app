@@ -24,13 +24,15 @@ import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.InstalledAppsProvider
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.toProfile
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
-import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
+import com.protonvpn.android.redesign.countries.TranslationsData
+import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.reports.FakeIsRedesignedBugReportFeatureFlagEnabled
@@ -69,6 +71,7 @@ import com.protonvpn.mocks.FakeAppUpdateBannerStateFlow
 import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
+import com.protonvpn.test.shared.InMemoryObjectStore
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -210,9 +213,10 @@ class SettingsViewModelTests {
             vpnStatusProviderUI = vpnStatusProviderUI,
         )
 
+        val translator = Translator(testScope.backgroundScope, InMemoryObjectStore(null))
         val getConnectIntentViewState = GetConnectIntentViewState(
             serverManager = mockServerManager2,
-            translator = mockk(),
+            translator = translator,
             getProfileById = getProfileById,
         )
         isPrivateDnsActive = MutableStateFlow(false)
@@ -239,12 +243,13 @@ class SettingsViewModelTests {
             appUpdateManager = NoopAppUpdateManager(),
             appUpdateBannerStateFlow = FakeAppUpdateBannerStateFlow(),
             serverManager = mockServerManager2,
-            isAutomaticConnectionPreferencesFeatureFlagEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(true),
+            isAutomaticConnectionPreferencesFeatureFlagEnabled =
+                FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(true),
             observeExcludedLocations = ObserveExcludedLocations(
                 currentUser = currentUser,
                 excludedLocationsDao = mockExcludedLocationsDao,
             ),
-            translator = mockk(),
+            translator = translator,
         )
     }
 

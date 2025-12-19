@@ -23,6 +23,8 @@ import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
+import com.protonvpn.android.redesign.countries.city
+import com.protonvpn.android.redesign.countries.state
 import com.protonvpn.android.redesign.countries.ui.ServerFilterType
 import com.protonvpn.android.redesign.countries.ui.ServerGroupItemData
 import com.protonvpn.android.redesign.countries.ui.isMatching
@@ -157,8 +159,8 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
         normalizedTerm: String,
         countriesWithCities: Map<String, Set<String>>,
     ) : Map<ServerFilterType, List<ServerGroupItemData.City>> {
-        val countryToCitiesTranslated = countriesWithCities.mapValues { (_, citiesEn) ->
-            citiesEn.map { it to translator.getCity(it) }
+        val countryToCitiesTranslated = countriesWithCities.mapValues { (country, citiesEn) ->
+            citiesEn.map { it to translator.current.city(CountryId(country), it) }
         }
         return buildMap<ServerFilterType, MutableList<ServerGroupItemData.City>> {
             countryToCitiesTranslated.forEach { (countryCode, cities) ->
@@ -166,7 +168,7 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
                     val match = matchLocalizedAndEnglish(term, normalizedTerm, cityLocalized, cityEn)
                     if (match != null) {
                         addItem(CountryId(countryCode), CityStateId(cityEn, isState = false)) { _ ->
-                            toCityItem(translator, isState = false, cityEn, this, match)
+                            toCityItem(translator.current, isState = false, cityEn, this, match)
                         }
                     }
                 }
@@ -179,8 +181,8 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
         normalizedTerm: String,
         countriesWithStates: Map<String, Set<String>>,
     ) : Map<ServerFilterType, List<ServerGroupItemData.City>> {
-        val countriesWithStatesTranslated = countriesWithStates.mapValues { (_, statesEn) ->
-            statesEn.map { it to translator.getState(it) }
+        val countriesWithStatesTranslated = countriesWithStates.mapValues { (country, statesEn) ->
+            statesEn.map { it to translator.current.state(CountryId(country), it) }
         }
         return buildMap<ServerFilterType, MutableList<ServerGroupItemData.City>> {
             countriesWithStatesTranslated.forEach { (countryCode, states) ->
@@ -188,7 +190,7 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
                     val match = matchLocalizedAndEnglish(term, normalizedTerm, stateLocalized, stateEn)
                     if (match != null)
                         addItem(CountryId(countryCode), CityStateId(stateEn, isState = true)) { _ ->
-                            toCityItem(translator, isState = true, stateEn, this, match)
+                            toCityItem(translator.current, isState = true, stateEn, this, match)
                         }
                 }
             }

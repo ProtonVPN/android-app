@@ -20,14 +20,14 @@
 package com.protonvpn.app.redesign.countries
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
-import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.redesign.countries.city
+import com.protonvpn.android.redesign.countries.state
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.mocks.createInMemoryServerManager
+import com.protonvpn.test.shared.InMemoryObjectStore
 import com.protonvpn.test.shared.MockSharedPreference
-import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.createServer
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -45,85 +45,82 @@ class TranslatorTests {
 
     private lateinit var testScope: TestScope
 
-    private lateinit var serverManager: ServerManager
+    private lateinit var translator: Translator
 
     @Before
     fun setup() {
         Storage.setPreferences(MockSharedPreference())
         val dispatcher = UnconfinedTestDispatcher()
         testScope = TestScope(dispatcher)
-
-        serverManager = createInMemoryServerManager(
-            testScope,
-            TestDispatcherProvider(dispatcher),
-            supportsProtocol = mockk(relaxed = true),
-            emptyList()
-        )
+        translator = Translator(testScope.backgroundScope, InMemoryObjectStore(null))
     }
-
-    private fun TestScope.createTranslator() = Translator(backgroundScope, serverManager)
 
     @Test
     fun `city names are translated correctly`() = testScope.runTest {
-        val servers = listOf(
-            createServer(city = "Zurich", translations = mapOf("City" to "Zurych")),
-            createServer(city = "New York", translations = mapOf("City" to "Nowy Jork"))
-        )
-        serverManager.setServers(servers, null, "pl")
-        val translator = createTranslator()
+        val zurichServer = createServer(exitCountry = "CH", city = "Zurich")
+        val newYorkServer = createServer(exitCountry = "US", city = "New York")
 
-        assertEquals("Zurych", translator.getCity("Zurich"))
-        assertEquals("Nowy Jork", translator.getCity("New York"))
+        translator.updateTranslations(
+            mapOf(
+                "ch" to mapOf("Zurich" to "Zurych"),
+                "us" to mapOf("New York" to "Nowy Jork")
+            ),
+            emptyMap()
+        )
+
+        val translations = translator.current
+        assertEquals("Zurych", translations.city(CountryId("ch"), "Zurich"))
+        assertEquals("Zurych", translations.city(zurichServer))
+        assertEquals("Nowy Jork", translations.city(CountryId("us"), "New York"))
+        assertEquals("Nowy Jork", translations.city(newYorkServer))
     }
 
     @Test
     fun `state names are translated correctly`() = testScope.runTest {
-        val servers = listOf(
-            createServer(state = "California", translations = mapOf("State" to "Kalifornia")),
-            createServer(state = "New York", translations = mapOf("State" to "Nowy Jork"))
-        )
-        serverManager.setServers(servers, null, "pl")
-        val translator = createTranslator()
+        val californiaServer = createServer(exitCountry = "US", state = "California")
+        val newYorkServer = createServer(exitCountry = "US", state = "New York")
 
-        assertEquals("Kalifornia", translator.getState("California"))
-        assertEquals("Nowy Jork", translator.getState("New York"))
+        translator.updateTranslations(
+            cities = emptyMap(),
+            states = mapOf(
+                "us" to mapOf(
+                    "California" to "Kalifornia",
+                    "New York" to "Nowy Jork"
+                ),
+            )
+        )
+
+        val translations = translator.current
+        assertEquals("Kalifornia", translations.state(CountryId("US"), "California"))
+        assertEquals("Kalifornia", translations.state(californiaServer))
+        assertEquals("Nowy Jork", translations.state(CountryId("us"), "New York"))
+        assertEquals("Nowy Jork", translations.state(newYorkServer))
     }
 
     @Test
     fun `when no translation is available then original name is returned`() = testScope.runTest {
-        val servers = listOf(
-            createServer(city = "Zurich", translations = null),
-            createServer(city = "New York", translations = mapOf("City" to null)),
-            createServer(city = "Warsaw", translations = mapOf("City" to "")),
-            createServer(state = "California", translations = null),
-        )
-        serverManager.setServers(servers, null, "pl")
-        val translator = createTranslator()
-
-        assertEquals("Zurich", translator.getCity("Zurich"))
-        assertEquals("New York", translator.getCity("New York"))
-        assertEquals("Warsaw", translator.getCity("Warsaw"))
-        assertEquals("California", translator.getState("California"))
+        val translations = translator.current
+        assertEquals("Zurich", translations.city(CountryId("CH"), "Zurich"))
+        assertEquals("California", translations.state(CountryId("US"), "California"))
     }
 
     @Test
     fun `when server list changes then translations are updated`() = testScope.runTest {
-        val serversPl = listOf(
-            createServer(city = "New York", translations = mapOf("City" to "Nowy Jork")),
-            createServer(state = "North Carolina", translations = mapOf("State" to "Północna Karolina"))
-        )
-        val serversEs = listOf(
-            createServer(city = "New York", translations = mapOf("City" to "Nueva York")),
-            createServer(state = "North Carolina", translations = mapOf("State" to "Carolina del Norte"))
-        )
+        val northCarolinaServer = createServer(exitCountry = "US", state = "North Carolina")
+        val zurichServer = createServer(exitCountry = "CH", city = "Zurich")
 
-        serverManager.setServers(serversPl, null, "pl")
-        val translator = createTranslator()
-        assertEquals("Nowy Jork", translator.getCity("New York"))
-        assertEquals("Północna Karolina", translator.getState("North Carolina"))
+        translator.updateTranslations(
+            cities = mapOf("ch" to mapOf("Zurich" to "Zurych")),
+            states = mapOf("us" to mapOf("North Carolina" to "Północna Karolina")),
+        )
+        assertEquals("Północna Karolina", translator.current.state(northCarolinaServer))
+        assertEquals("Zurych", translator.current.city(zurichServer))
 
-        serverManager.setServers(serversEs, null, "es")
-        assertEquals("Nueva York", translator.getCity("New York"))
-        assertEquals("Carolina del Norte", translator.getState("North Carolina"))
+        translator.updateTranslations(
+            cities = mapOf("ch" to mapOf("Zurich" to "Zúrich")),
+            states = mapOf("us" to mapOf("North Carolina" to "Carolina del Norte"),)
+        )
+        assertEquals("Carolina del Norte", translator.current.state(northCarolinaServer))
+        assertEquals("Zúrich", translator.current.city(zurichServer))
     }
 }

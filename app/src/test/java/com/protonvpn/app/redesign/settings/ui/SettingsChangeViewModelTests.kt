@@ -222,7 +222,7 @@ class SettingsChangeViewModelTests {
     fun `WHEN removing excluded location THEN delete excluded location is called`() {
         val userId = TestUser.plusUser.vpnUser.userId
         val excludedLocation = TestExcludedLocation.create()
-        val location = excludedLocation.toExcludedLocationUiItem(locale = Locale.ENGLISH, translator = mockk())
+        val location = excludedLocation.toExcludedLocationUiItem(locale = Locale.ENGLISH, translations = null)
         val expectedExcludedLocationEntity = excludedLocation.toEntity(userId = userId)
 
         viewModel.onRemoveExcludedLocation(location = location)
@@ -233,7 +233,7 @@ class SettingsChangeViewModelTests {
     @Test
     fun `WHEN removing excluded location THEN excluded location removal event is emitted`() = testScope.runTest {
         val excludedLocation = TestExcludedLocation.create()
-        val location = excludedLocation.toExcludedLocationUiItem(locale = Locale.ENGLISH, translator = mockk())
+        val location = excludedLocation.toExcludedLocationUiItem(locale = Locale.ENGLISH, translations = null)
         val expectedEvent = SettingsChangeViewModel.ExcludedLocationEvent.OnRemoved(location = location)
 
         viewModel.excludedLocationEventsFlow.test {
@@ -249,7 +249,7 @@ class SettingsChangeViewModelTests {
     fun `WHEN adding excluded location THEN insert excluded location is called`() {
         val userId = TestUser.plusUser.vpnUser.userId
         val excludedLocation = TestExcludedLocation.create()
-        val location = excludedLocation.toExcludedLocationUiItem(locale = Locale.ENGLISH, translator = mockk())
+        val location = excludedLocation.toExcludedLocationUiItem(locale = Locale.ENGLISH, translations = null)
         val expectedExcludedLocationEntity = excludedLocation.toEntity(userId = userId)
 
         viewModel.onAddExcludedLocation(location = location)

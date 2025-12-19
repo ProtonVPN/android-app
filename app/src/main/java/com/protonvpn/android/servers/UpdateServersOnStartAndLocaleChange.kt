@@ -36,6 +36,7 @@ class UpdateServersOnStartAndLocaleChange @Inject constructor(
     scope: CoroutineScope,
     @ApplicationContext appContext: Context,
     serverListUpdater: ServerListUpdater,
+    updateTranslations: UpdateServerTranslations,
     currentUser: CurrentUser
 ) {
 
@@ -44,7 +45,7 @@ class UpdateServersOnStartAndLocaleChange @Inject constructor(
         appContext.registerBroadcastReceiver(IntentFilter(Intent.ACTION_LOCALE_CHANGED)) {
             scope.launch {
                 if (currentUser.isLoggedIn())
-                    serverListUpdater.updateServerList(forceFreshUpdate = true)
+                    updateTranslations()
             }
         }
     }

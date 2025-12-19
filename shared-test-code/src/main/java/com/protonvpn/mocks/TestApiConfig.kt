@@ -105,6 +105,7 @@ sealed class TestApiConfig {
                 // Endpoints that are called by the app during tests but can be ignored by returning 422 code.
                 listOf(
                     "/vpn/v2/clientconfig",
+                    "/vpn/v1/cities/names",
                     "/vpn/v1/streamingservices",
                     "/vpn/v1/partners",
                     "/vpn/v1/location",

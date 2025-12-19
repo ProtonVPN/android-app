@@ -19,51 +19,101 @@
 
 package com.protonvpn.android.redesign.countries
 
-import com.protonvpn.android.utils.ServerManager
+import android.content.Context
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.servers.Server
+import com.protonvpn.android.utils.BytesFileWriter
+import com.protonvpn.android.utils.FileObjectStore
+import com.protonvpn.android.utils.KotlinCborObjectSerializer
+import com.protonvpn.android.utils.ObjectStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import me.proton.core.util.kotlin.takeIfNotBlank
+import kotlinx.coroutines.ExperimentalForInheritanceCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+import me.proton.core.util.kotlin.filterNotNullValues
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
+typealias TranslationsMap = Map<CountryId, Map<String, String>>
+
+@Serializable
+data class TranslationsData(
+    val cities: TranslationsMap,
+    val states: TranslationsMap,
+)
+
+@OptIn(ExperimentalForInheritanceCoroutinesApi::class)
 @Singleton
-class Translator @Inject constructor(
+class Translator(
     mainScope: CoroutineScope,
-    private val serverManager: ServerManager
+    private val store: ObjectStore<TranslationsData>
 ) {
-    private var cityTranslations: Map<String, String> = emptyMap()
-    private var stateTranslations: Map<String, String> = emptyMap()
+    @Inject
+    constructor(
+        mainScope: CoroutineScope,
+        @ApplicationContext context: Context,
+        dispatcherProvider: VpnDispatcherProvider
+    ) : this(
+        mainScope,
+        FileObjectStore(
+            File(context.filesDir, "server_translations_data"),
+            mainScope,
+            dispatcherProvider,
+            KotlinCborObjectSerializer(TranslationsData.serializer()),
+            BytesFileWriter(),
+        )
+    )
+
+    private val translations = MutableStateFlow<TranslationsData?>(null)
+    val flow: StateFlow<TranslationsData?> = translations
+
+    val current get() = translations.value
 
     init {
-        serverManager.serverListVersion
-            .onEach {
-                cityTranslations = extractCityTranslations()
-                stateTranslations = extractStateTranslations()
-            }
-            .launchIn(mainScope)
+        mainScope.launch {
+            translations.value = store.read()
+        }
     }
 
-    fun getCity(cityEn: String): String = cityTranslations.getOrDefault(cityEn, cityEn).takeIfNotBlank() ?: cityEn
-    fun getState(stateEn: String): String = stateTranslations.getOrDefault(stateEn, stateEn).takeIfNotBlank() ?: stateEn
+    fun updateTranslations(
+        cities: Map<String, Map<String, String?>>,
+        states: Map<String, Map<String, String?>>
+    ) {
+        val newTranslations = TranslationsData(
+            cities = cities.mapCountryCodesAndFilterOutNulls(),
+            states = states.mapCountryCodesAndFilterOutNulls(),
+        )
+        translations.value = newTranslations
+        store.store(newTranslations)
+    }
 
-    private fun extractCityTranslations(): Map<String, String> =
-        serverManager.allServers
-            .mapNotNull {
-                if (it.city != null && it.getCityTranslation() != null)
-                    it.city to it.getCityTranslation()!!
-                else
-                    null
-            }
-            .associateTo(HashMap()) { it }
-
-    private fun extractStateTranslations(): Map<String, String> =
-        serverManager.allServers
-            .mapNotNull {
-                if (it.state != null && it.getStateTranslation() != null)
-                    it.state to it.getStateTranslation()!!
-                else
-                    null
-            }
-            .associateTo(HashMap()) { it }
+    private fun Map<String, Map<String, String?>>.mapCountryCodesAndFilterOutNulls(): Map<CountryId, Map<String, String>> =
+        entries.associate { (countryCode, translations) ->
+            CountryId(countryCode) to translations.filterNotNullValues()
+        }
 }
+
+fun TranslationsData?.city(country: CountryId, cityEn: String): String {
+    if (this == null) return cityEn
+    return cities
+        .getOrDefault(country, emptyMap())
+        .getOrDefault(cityEn, cityEn)
+}
+
+fun TranslationsData?.state(country: CountryId, stateEn: String): String {
+    if (this == null) return stateEn
+    return states
+        .getOrDefault(country, emptyMap())
+        .getOrDefault(stateEn, stateEn)
+}
+
+fun TranslationsData?.city(server: Server): String? =
+    server.city?.let { city(CountryId(server.exitCountry), server.city) }
+
+fun TranslationsData?.state(server: Server): String? =
+    server.state?.let { state(CountryId(server.exitCountry), server.state) }
