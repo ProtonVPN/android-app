@@ -255,6 +255,7 @@ private fun ConnectionDetailsConnected(
             entryCountry = viewState.entryCountryId,
             gatewayName = viewState.serverGatewayName,
             city = viewState.serverCity,
+            state = viewState.serverState,
             serverName = viewState.serverDisplayName,
             serverLoad = viewState.serverLoad,
             protocol = viewState.protocolDisplay?.let { stringResource(it) },
@@ -702,6 +703,7 @@ private fun ConnectionStats(
     entryCountry: CountryId?,
     gatewayName: String?,
     city: String?,
+    state: String?,
     serverName: String,
     serverLoad: Float,
     protocol: String? = "",
@@ -746,6 +748,13 @@ private fun ConnectionStats(
                 },
                 onOpenUrl = onOpenUrl
             )
+            state?.let {
+                VpnDivider()
+                ConnectionDetailRowWithText(
+                    labelTitle = stringResource(id = R.string.connection_details_state),
+                    contentValue = state
+                )
+            }
             city?.let {
                 VpnDivider()
                 ConnectionDetailRowWithText(
@@ -1000,6 +1009,7 @@ fun ConnectionDetailsPreview() {
             trafficHistory = listOf(TrafficUpdate(0L, 0L, 1156L, 2048L, 1_000_000L, 2_000_000, 2413)),
             serverGatewayName = null,
             serverCity = "Stockholm",
+            serverState = null,
             serverDisplayName = "SE#1",
             serverLoad = 32F,
             protocolDisplay = ProtocolSelection.SMART.displayName,
@@ -1019,6 +1029,7 @@ fun ConnectionStatsPreview() {
             entryCountry = CountryId.iceland,
             gatewayName = null,
             city = "Stockholm",
+            state = null,
             serverName = "SE#1",
             serverLoad = 32F,
             protocol = "WireGuard",

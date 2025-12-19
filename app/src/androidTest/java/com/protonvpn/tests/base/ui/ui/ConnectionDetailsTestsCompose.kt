@@ -68,6 +68,7 @@ class ConnectionDetailsTestsCompose : FusionComposeTest() {
             serverFeatures = emptySet()
         ),
         serverDisplayName = "CH#1",
+        serverState = null,
         serverCity = "Stockholm",
         serverGatewayName = null,
         serverLoad = 50f,

@@ -1183,6 +1183,8 @@
     <string name="connection_details_country">Country</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">City</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">State</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->

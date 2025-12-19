@@ -29,6 +29,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.countries.city
+import com.protonvpn.android.redesign.countries.state
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.isVirtualLocation
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
@@ -80,6 +81,7 @@ class ConnectionDetailsViewModel @Inject constructor(
             val connectIntentViewState: ConnectIntentViewState,
             val serverDisplayName: String,
             val serverCity: String?,
+            val serverState: String?,
             val serverGatewayName: String?,
             val serverLoad: Float,
             @StringRes val protocolDisplay: Int? = null,
@@ -113,16 +115,17 @@ class ConnectionDetailsViewModel @Inject constructor(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
         initialValue = ConnectionDetailsViewState.Connected(
-            "",
-            EMPTY_IP_PAIR,
-            CountryId.fastest,
-            CountryId.fastest,
-            emptyList(),
-            ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.fastest, null), null, emptySet()),
-            "",
-            "",
-            null,
-            0F,
+            userIp = "",
+            vpnIp = EMPTY_IP_PAIR,
+            entryCountryId = CountryId.fastest,
+            exitCountryId = CountryId.fastest,
+            trafficHistory = emptyList(),
+            connectIntentViewState = ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.fastest, null), null, emptySet()),
+            serverDisplayName = "",
+            serverCity = "",
+            serverState = null,
+            serverGatewayName = null,
+            serverLoad = 0F,
             serverFeatures = ServerFeatures()
         )
     )
@@ -158,6 +161,7 @@ class ConnectionDetailsViewModel @Inject constructor(
                 ),
                 serverDisplayName = server.serverName,
                 serverCity = translations.city(server),
+                serverState = translations.state(server),
                 serverGatewayName = server.gatewayName,
                 serverLoad = server.load,
                 protocolDisplay = protocol,
