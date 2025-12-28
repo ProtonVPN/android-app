@@ -131,6 +131,8 @@ import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabl
 import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabledImpl
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabledImpl
+import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
+import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabledImpl
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabledImpl
 import com.protonvpn.android.vpn.usecases.ServerNameTopStrategyEnabled
@@ -462,6 +464,9 @@ object AppModule {
 
         @Binds
         fun bindsIsPrivateBrowsingAvailable(impl: GetPrivateBrowsingAvailabilityImpl): GetPrivateBrowsingAvailability
+
+        @Binds
+        fun bindsIsProTunV1FeatureFlagEnabled(impl: IsProTunV1FeatureFlagEnabledImpl): IsProTunV1FeatureFlagEnabled
 
         @Binds
         fun bindIsRedesignedBugReportFeatureFlagEnabled(
