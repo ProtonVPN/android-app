@@ -111,6 +111,39 @@ class RealConnectionTestsProd {
     }
 
     @Test
+    fun realConnectionProTunSmart() {
+        realConnection(
+            ProtocolSelection(VpnProtocol.ProTun),
+            R.string.settingsProtocolNameWireguard
+        )
+    }
+
+    @Test
+    fun realConnectionProTunUDP() {
+        realConnection(
+            ProtocolSelection(VpnProtocol.ProTun, TransmissionProtocol.UDP),
+            R.string.settingsProtocolNameWireguard
+        )
+    }
+
+    @Test
+    fun realConnectionProTunTCP() {
+        realConnection(
+            ProtocolSelection(VpnProtocol.ProTun, TransmissionProtocol.TCP),
+            R.string.settingsProtocolNameWireguardTCP
+
+        )
+    }
+
+    @Test
+    fun realConnectionProTunTLS() {
+        realConnection(
+            ProtocolSelection(VpnProtocol.ProTun, TransmissionProtocol.TLS),
+            R.string.settingsProtocolNameWireguardTLS
+        )
+    }
+
+    @Test
     fun alwaysOnAutomaticallyConnectsUserToVPN() {
         setupAlwaysOn()
         SettingsRobot.enableAlwaysOn()
