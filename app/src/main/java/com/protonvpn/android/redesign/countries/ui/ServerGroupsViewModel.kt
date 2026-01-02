@@ -529,14 +529,19 @@ private fun subScreenHeaderLabel(hasStates: Boolean, type: ServerGroupsSubScreen
                 R.string.country_filter_states_list_header
             else
                 R.string.country_filter_cities_list_header
-        } else
+        } else {
             R.string.country_filter_servers_list_header
+        }
     ServerFilterType.SecureCore -> R.string.country_filter_secure_core
     ServerFilterType.P2P ->
-        if (hasStates)
-            R.string.country_filter_p2p_list_header_states
-        else
-            R.string.country_filter_p2p_list_header_cities
+        if (type is CitiesScreenSaveState) {
+            if (hasStates)
+                R.string.country_filter_p2p_list_header_states
+            else
+                R.string.country_filter_p2p_list_header_cities
+        } else {
+            R.string.counrty_filter_p2p_servers_list_header
+        }
     ServerFilterType.Tor -> R.string.country_filter_tor_servers_list_header
 }
 

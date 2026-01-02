@@ -1129,6 +1129,7 @@
     <string name="country_filter_p2p_list_header">P2P countries (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P cities (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">P2P servers</string>
     <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor servers</string>
     <string name="country_filter_info_label">Info</string>
