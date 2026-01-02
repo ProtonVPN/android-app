@@ -635,6 +635,10 @@
     <string name="settings_excluded_locations_description">Les ubicacions seleccionades no s\'utilitzaran mai quan us connecteu a Fastest.</string>
     <string name="settings_excluded_locations_unavailable">No hi ha cap ubicació disponible</string>
     <string name="settings_excluded_locations_selection_hint">Selecciona...</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Elimineu-ho de les ubicacions excloses</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Ciutat</string>
+    <string name="settings_excluded_locations_accessibility_label_country">País</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Província</string>
     <string name="settings_last_connection_title">Última connexió</string>
     <string name="settings_last_connection_description">La vostra connexió utilitzada més recentment</string>
     <string name="settings_change_icon_title">Icona de l\'aplicació</string>
@@ -1043,7 +1047,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Tunelització dividida</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Interruptor de bloqueig</string>
+    <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">Connexió</string>
     <!-- tag(Redesign_2023) -->
@@ -1360,7 +1364,7 @@
     <string name="settings_account_button_my_account">El meu compte</string>
     <string name="settings_account_button_delete_account">Eliminar el compte</string>
     <string name="settings_custom_dns_title">DNS personalitzat</string>
-    <string name="settings_custom_dns_description_tv">Connecteu-vos a la VPN amb un sistema de noms de domini (DNS) autoallotjats o de tercers.</string>
+    <string name="settings_custom_dns_description_tv">Connecteu-vos a la VPN amb un sistema de noms de domini (DNS) autoallotjat o de tercers.</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
     <string name="settings_add_dns_title">Afegeix un nou servidor DNS</string>
     <string name="settings_add_dns_new_entry_button">Afegeix</string>
@@ -1376,7 +1380,7 @@
     <string name="settings_changes_apply_on_reconnect_toast">Els canvis s\'apliquen quan us torneu a connectar.</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield no estarà disponible.</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield no pot filtrar anuncis, rastrejadors i programari maliciós quan s\'utilitza el DNS personalitzat. Més informació</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield no pot filtrar anuncis, rastrejadors i programari maliciós quan s\'utilitzin DNS personalitzats.</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">El NetShield no pot filtrar anuncis, rastrejadors i programari maliciós quan s\'utilitzen DNS personalitzats.</string>
     <string name="settings_advanced_alternative_routing_title">Encaminament alternatiu</string>
     <string name="settings_advanced_alternative_routing_description">Si els serveis de Proton estan bloquejats a causa de restriccions de xarxa, intentarem utilitzar un camí de xarxa alternatiu per connectar-vos als nostres llocs.</string>
     <string name="settings_advanced_allow_lan_title">Connexions LAN</string>

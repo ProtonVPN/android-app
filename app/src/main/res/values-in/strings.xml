@@ -618,6 +618,10 @@
     <string name="settings_excluded_locations_description">Lokasi yang dipilih tidak akan pernah digunakan pada saat Anda menyambungkan ke server Tercepat.</string>
     <string name="settings_excluded_locations_unavailable">Tidak ada lokasi yang tersedia</string>
     <string name="settings_excluded_locations_selection_hint">Pilih…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Hapus dari aplikasi yang dikecualikan</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Kota</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Negara</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Negara bagian</string>
     <string name="settings_last_connection_title">Koneksi terakhir</string>
     <string name="settings_last_connection_description">Koneksi yang terakhir Anda gunakan</string>
     <string name="settings_change_icon_title">Ikon aplikasi</string>

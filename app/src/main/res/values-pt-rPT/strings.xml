@@ -635,6 +635,10 @@
     <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
     <string name="settings_excluded_locations_unavailable">No locations available</string>
     <string name="settings_excluded_locations_selection_hint">Select…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Remove from excluded locations</string>
+    <string name="settings_excluded_locations_accessibility_label_city">City</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Country</string>
+    <string name="settings_excluded_locations_accessibility_label_state">State</string>
     <string name="settings_last_connection_title">Última ligação</string>
     <string name="settings_last_connection_description">A sua ligação utilizada mais recentemente</string>
     <string name="settings_change_icon_title">Ícone da app</string>

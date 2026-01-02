@@ -669,6 +669,10 @@
     <string name="settings_excluded_locations_description">Выбраныя месцазнаходжанні ніколі не будуць выкарыстоўвацца пры падключэнні да Fastest.</string>
     <string name="settings_excluded_locations_unavailable">Няма даступных месцазнаходжанняў</string>
     <string name="settings_excluded_locations_selection_hint">Выбраць…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Выдаліць з выключаных месцазнаходжанняў</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Горад</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Краіна</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Штат</string>
     <string name="settings_last_connection_title">Апошняе падключэнне</string>
     <string name="settings_last_connection_description">Ваша апошняе выкарыстанае падключэнне</string>
     <string name="settings_change_icon_title">Значок праграмы</string>
@@ -758,7 +762,7 @@
     <string name="welcome_plus_description">Атрымлівайце асалоду ад дадатковых функцый прыватнасці, палепшанай прадукцыйнасці і больш гнуткага наладжвання вашага падключэння да VPN.</string>
     <string name="welcome_plus_feature_security">Пашыраныя функцыі бяспекі</string>
     <string name="welcome_unlimited_title">Вітаем вас у Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Вы разблакіравалі ўсе прэміяльныя функцыі праграм Proton VPN, Mail, Calendar, Drive, Pass і Wallet. Таксама цяпер вам даступна <b>%1$d&#160;ГБ</b> агульнага сховішча.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Вы разблакіравалі ўсе прэміяльныя функцыі праграм Proton VPN, Mail, Calendar, Drive, Pass і Wallet. Цяпер вам даступна <b>%1$d&#160;ГБ</b> агульнага сховішча.]]></string>
     <string name="welcome_generic_title">Віншуем</string>
     <string name="welcome_generic_description">Вы палепшылі сваю падпіску. Атрымлівайце асалоду ад пашыраных функцый прыватнасці і новага ўзроўню прадукцыйнасці.</string>
     <!-- Example: Up to 10 devices at once

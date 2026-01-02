@@ -635,6 +635,10 @@
     <string name="settings_excluded_locations_description">De geselecteerde locaties zullen nooit gebruikt worden wanneer u verbinding maakt met Fastest.</string>
     <string name="settings_excluded_locations_unavailable">Geen locaties beschikbaar</string>
     <string name="settings_excluded_locations_selection_hint">Selecteren…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Verwijderen uit uitgesloten locaties</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Plaats</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Land</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Land/Staat</string>
     <string name="settings_last_connection_title">Laatste verbinding</string>
     <string name="settings_last_connection_description">Uw meest recent gebruikte verbinding</string>
     <string name="settings_change_icon_title">App-icoon</string>

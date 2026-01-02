@@ -178,8 +178,8 @@
     <string name="accessibility_action_remove_included_app">Retirer de la liste des applications incluses</string>
     <string name="accessibility_action_copy_to_clipboard">Copier dans le presse-papiers</string>
     <string name="accessibility_action_item_delete">Supprimer</string>
-    <string name="accessibility_action_item_move_up">Basculer vers le haut</string>
-    <string name="accessibility_action_item_move_down">Basculer vers le bas</string>
+    <string name="accessibility_action_item_move_up">Déplacer vers le haut</string>
+    <string name="accessibility_action_item_move_down">Déplacer vers le bas</string>
     <string name="tileConnected">Connecté : %1$s</string>
     <string name="openUrlError">%1$s ne peut être ouvert. Le navigateur web n\'a pas été détecté sur votre appareil.</string>
     <string name="loaderErrorTimeout">La connexion a expiré. Nous vous invitons à réessayer.</string>
@@ -268,7 +268,7 @@
     <string name="netshield_setting_warning">Certains sites internet peuvent ne pas se charger correctement quand les publicités et les traqueurs sont bloqués.</string>
     <string name="dialogDontShowAgain">Ne plus afficher</string>
     <string name="guestHoleNotificationContent">Nous essayons de contourner les problèmes de réseau. Cela vous aidera à accéder à Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">La connexion VPN n’a pas pu démarrer à cause d’un conflit entre l’application double (ex. : Dual Messenger) et le partage sélectif du VPN (split tunneling). Désactivez l’une des deux fonctions puis redémarrez votre appareil.</string>
+    <string name="errorTunMultiUserPermission">La connexion VPN n\'a pas pu être initialisée en raison d\'un conflit entre une double application (par exemple Dual Messenger) et le Split tunneling. Nous vous invitons à désactiver l\'un d\'entre eux et à redémarrer votre appareil.</string>
     <string name="errorTorrentNotAllowed">Le P2P n\'est pas autorisé sur ce serveur.</string>
     <string name="error_profile_fallback_unavailable">La connexion n\'a pas abouti. Votre sélection de serveur pour le profil n\'est pas disponible.</string>
     <string name="profileProtocolNotAvailable">Le protocole VPN de ce profil n\'est pas disponible pour le moment. Essayez de changer de protocole pour vous connecter.</string>
@@ -635,6 +635,10 @@
     <string name="settings_excluded_locations_description">Les emplacements sélectionnés ne seront jamais choisis lorsque vous vous connecterez au serveur le plus rapide.</string>
     <string name="settings_excluded_locations_unavailable">Aucun emplacement disponible</string>
     <string name="settings_excluded_locations_selection_hint">Sélectionner…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Retirer des zones géographiques exclues</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Ville</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Pays</string>
+    <string name="settings_excluded_locations_accessibility_label_state">État</string>
     <string name="settings_last_connection_title">Dernière connexion</string>
     <string name="settings_last_connection_description">Votre connexion récente la plus utilisée</string>
     <string name="settings_change_icon_title">Icône de l\'application</string>
@@ -722,8 +726,8 @@
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">Jusqu’à %1$d appareil à la fois.</item>
-        <item quantity="other">Jusqu’à %1$d appareils à la fois.</item>
+        <item quantity="one">Jusqu’à %1$d appareil à la fois</item>
+        <item quantity="other">Jusqu’à %1$d appareils à la fois</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -1061,7 +1065,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Support</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Centre d\'assistance</string>
+    <string name="settings_help_center_title">Espace Aide &amp; Support</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Signaler un problème</string>
     <!-- tag(Redesign_2023) -->
@@ -1142,8 +1146,8 @@
     <string name="accessibility_close">Fermer</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Mon IP</string>
-    <string name="connection_details_my_ipv4">Adresse IPv4</string>
-    <string name="connection_details_my_ipv6">Adresse IPv6</string>
+    <string name="connection_details_my_ipv4">Mon IPv4</string>
+    <string name="connection_details_my_ipv6">Mon IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">IP du VPN</string>
     <string name="connection_details_vpn_ip4_6">Adresse VPN IPv4/IPv6</string>
@@ -1221,7 +1225,7 @@
     <string name="info_dialog_ipaddress_title">Adresse IP</string>
     <string name="info_dialog_ipv6_traffic_title">Trafic IPv6</string>
     <string name="info_dialog_profiles_description">Les profils sont des connexions VPN personnalisées que vous pouvez adapter à vos besoins et enregistrer pour un accès rapide.\n\nDéfinissez votre emplacement préféré et optimisez vos paramètres pour la sécurité, la performance, les jeux vidéos ou tout autre scénario.</string>
-    <string name="info_dialog_ipaddress_description">Votre IP VPN masque votre adresse IP réelle, donnant l\'impression que vous naviguez depuis l\'emplacement du VPN, votre activité en ligne reste ainsi privée et non liée à votre appareil.</string>
+    <string name="info_dialog_ipaddress_description">Votre IP VPN masque votre véritable adresse IP. Cela donne l\'impression que vous naviguez à partir de votre emplacement VPN, de sorte que votre activité en ligne ne puisse pas être liée à votre appareil.</string>
     <string name="info_dialog_ipv6_traffic_description">Un protocole internet ou IP attribue des adresses aux appareils et achemine le trafic internet. Le protocole IPv6 en est la dernière version, offrant un plus grand nombre d\'adresses et une meilleure connectivité, mais il n\'est pas encore universellement adopté.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Le partage de fichiers en peer-to-peer (P2P) est activé sur ce serveur.</string>
@@ -1339,7 +1343,7 @@
     <string name="create_profile_name_error_too_long">Le nom du profil doit contenir 30 caractères ou moins.</string>
     <string name="create_profile_type_and_location_title">Sélectionnez un emplacement et un type de connexion</string>
     <string name="create_profile_features_and_settings_title">Fonctionnalités et paramètres</string>
-    <string name="configure_profile_features_and_settings_title">Configurer les paramètres de profil.</string>
+    <string name="configure_profile_features_and_settings_title">Configurer les paramètres de profil</string>
     <string name="configure_profile_features_and_settings_description">Les paramètres de profil remplaceront vos paramètres VPN lors de la connexion.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
@@ -1371,11 +1375,11 @@
     <string name="settings_advanced_dns_description">Connectez-vous au VPN avec un système de noms de domaine (DNS) autohébergé ou tiers. En savoir plus</string>
     <!-- %1$d - Corresponds to number of servers added -->
     <string name="settings_dns_list_title">Serveurs (%1$d)</string>
-    <string name="settings_dns_list_description">Si votre serveur DNS personnalisé ne fonctionne pas, le DNS standard du VPN sera utilisé</string>
-    <string name="settings_dns_list_description_multiple">Nous essayerons de vous connecter à ces serveurs dans l\'ordre. Si aucun ne fonctionne, le DNS du VPN sera utilisé.</string>
+    <string name="settings_dns_list_description">Si votre serveur DNS personnalisé ne fonctionne pas, le DNS standard du VPN sera utilisé.</string>
+    <string name="settings_dns_list_description_multiple">Nous allons essayer de vous connecter à ces serveurs dans l\'ordre. Si aucun ne fonctionne, le DNS du VPN sera utilisé.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Les modifications s\'appliquent lorsque vous vous reconnectez.</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield sera indisponible.</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_message">Le NetShield ne peut pas bloquer les publicités, les traqueurs et les logiciels malveillants lorsqu\'un DNS personnalisé est utilisé. En savoir plus.</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield ne peut pas bloquer les publicités, les traqueurs et les logiciels malveillants lorsqu\'un DNS personnalisé est utilisé. En savoir plus.</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield ne peut pas bloquer les publicités, les traqueurs et les logiciels malveillants lorsqu\'un DNS personnalisé est utilisé.</string>
     <string name="settings_advanced_alternative_routing_title">Routage alternatif</string>
     <string name="settings_advanced_alternative_routing_description">Si les services Proton sont bloqués en raison de restrictions du réseau, nous essaierons d\'utiliser un routage alternatif du réseau pour vous connecter à nos sites.</string>
@@ -1426,8 +1430,8 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">Retirer l’adresse IP de la liste ?</string>
     <string name="settings_theme_title">Thème</string>
     <string name="settings_theme_value_auto">Thème de l\'appareil</string>
-    <string name="settings_theme_value_light">Mode Clair</string>
-    <string name="settings_theme_value_dark">Mode Sombre</string>
+    <string name="settings_theme_value_light">Clair</string>
+    <string name="settings_theme_value_dark">Sombre</string>
     <string name="settings_dialog_reconnect">Les nouveaux paramètres s\'appliqueront lors de votre prochaine connexion.</string>
     <string name="settings_needs_reconnect_banner">Les nouveaux paramètres s\'appliqueront lors de votre prochaine connexion.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Le DNS personnalisé n\'est pas disponible.</string>

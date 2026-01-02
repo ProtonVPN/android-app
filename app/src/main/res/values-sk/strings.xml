@@ -669,6 +669,10 @@
     <string name="settings_excluded_locations_description">Vybrané lokality sa nikdy nebudú používať, keď sa pripojíte k Najrýchlejšiemu.</string>
     <string name="settings_excluded_locations_unavailable">Žiadne lokality k dispozícii</string>
     <string name="settings_excluded_locations_selection_hint">Vyberte…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Odstrániť z vylúčených lokalít</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Mesto</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Krajina</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Štát</string>
     <string name="settings_last_connection_title">Posledné pripojenie</string>
     <string name="settings_last_connection_description">Vaše naposledy použité pripojenie</string>
     <string name="settings_change_icon_title">Ikona aplikácie</string>

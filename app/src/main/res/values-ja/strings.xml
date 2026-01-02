@@ -618,6 +618,10 @@
     <string name="settings_excluded_locations_description">選択された位置は、お客様がFastesに接続される際に使用されることはありません。</string>
     <string name="settings_excluded_locations_unavailable">利用可能な位置はありません</string>
     <string name="settings_excluded_locations_selection_hint">選択してください...</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">除外する位置から削除</string>
+    <string name="settings_excluded_locations_accessibility_label_city">都市</string>
+    <string name="settings_excluded_locations_accessibility_label_country">国</string>
+    <string name="settings_excluded_locations_accessibility_label_state">州</string>
     <string name="settings_last_connection_title">最後の接続</string>
     <string name="settings_last_connection_description">最近使用した接続</string>
     <string name="settings_change_icon_title">アプリアイコン</string>

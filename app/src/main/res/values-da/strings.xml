@@ -58,8 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Under vedligeholdelse</string>
     <string name="restrictedMaintenanceDescription">Serveren du i øjeblikket forsøger at forbinde til, er under vedligeholdelse. Prøv en anden server.</string>
-    <string name="errorUserDelinquent"><![CDATA[Din konto har i øjeblikket en forfalden faktura. Betal venligst alle ubetalte fakturaer på&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Du har ramt det maksimale antal samtidige forbindelser, der er tilladt for din konto. Opgradér venligst dit Proton VPN-abonnement for at få flere forbindelser.</string>
+    <string name="errorUserDelinquent"><![CDATA[Din konto har i øjeblikket en forfalden faktura, som vi beder dig betale på&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorMaxSessions">Du har ramt det maksimale antal samtidige forbindelser, der er tilladt for din konto. Opgradér dit Proton VPN-abonnement for at få flere forbindelser.</string>
     <string name="listItemMaintenance">Under vedligeholdelse</string>
     <string name="insufficientPermissionsTitle">Brugerhandling påkrævet</string>
     <string name="insufficientPermissionsDetails">Kunne ikke oprette VPN-forbindelse automatisk. Forbind manuelt én gang for at give tilladelser.</string>
@@ -84,7 +84,7 @@
     <string name="report_bug_email_label">Din e-mail</string>
     <string name="report_bug_email_hint">Indtast din e-mailadresse</string>
     <string name="report_bug_message_label">Besked</string>
-    <string name="report_bug_message_hint">Beskriv venligst fejlen samt hvor og hvordan du fandt den</string>
+    <string name="report_bug_message_hint">Beskriv fejlen samt hvor og hvordan du fandt den</string>
     <string name="send_report">Send rapport</string>
     <string name="report_sent">Rapport sendt</string>
     <string name="discardChanges">Vil du kassere ændringer, som ikke er gemt?</string>
@@ -182,7 +182,7 @@
     <string name="accessibility_action_item_move_down">Flyt ned</string>
     <string name="tileConnected">Forbundet: %1$s</string>
     <string name="openUrlError">%1$s kunne ikke åbnes. Webbrowser blev ikke fundet på din enhed.</string>
-    <string name="loaderErrorTimeout">Forbindelse fik timeout. Forsøg venligst igen.</string>
+    <string name="loaderErrorTimeout">Forbindelse fik timeout. Forsøg igen.</string>
     <string name="troubleshootButton">Fejlfinding</string>
     <string name="activityTroubleshootTitle">Fejlfinding</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Mulige løsninger</string>
@@ -230,7 +230,7 @@
         <item>Dette betyder, at du ikke vil modtage annoncer fra din browser eller gratis apps, der anvender annoncetjenester fra tredjepart.</item>
         <item>Imidlertid kan den ikke blokere annoncer fra streamingplatforme som YouTube og Netflix, fordi deres annoncer kommer fra deres egne servere.</item>
     </string-array>
-    <string name="settings_icon_change_description">Skjul Proton VPN-appen med et diskret ikon. Notifikationer vil stadig vise standard Proton VPN-navn og -ikon. %1$s</string>
+    <string name="settings_icon_change_description">Skjul Proton VPN-appen med en diskret ikon. Notifikationer vil stadig vise standard Proton VPN-navn og -ikon. %1$s</string>
     <string name="settings_icon_change_learn_more">Få mere at vide</string>
     <string name="learn_more">Få mere at vide</string>
     <string name="netshield_state_on" comment="Describes state, not action">Tændt</string>
@@ -335,8 +335,8 @@
     <string name="notification_max_sessions_title">Du har nået din øvre grænse for antal enheder</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Afbryd venligst forbindelsen til en anden enhed for at forbinde denne eller opgrader til et Plus-abonnement for at forbinde op til %1$d enhed på samme tid.</item>
-        <item quantity="other">Afbryd venligst forbindelsen til en anden enhed for at forbinde denne eller opgrader til et Plus-abonnement for at forbinde op til %1$d enheder på samme tid.</item>
+        <item quantity="one">Afbryd forbindelsen til en anden enhed for at forbinde denne eller opgrader til et Plus-abonnement for at forbinde op til %1$d enhed på samme tid.</item>
+        <item quantity="other">Afbryd forbindelsen til en anden enhed for at forbinde denne eller opgrader til et Plus-abonnement for at forbinde op til %1$d enheder på samme tid.</item>
     </plurals>
     <string name="notification_max_sessions_content">Afbryd forbindelsen til en anden enhed for at forbinde denne.</string>
     <string name="notification_cancel_to_free">Du er på Free-abonnementet. Free servere og funktioner er tilgængelige.</string>
@@ -523,7 +523,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Surf ved endnu højere hastigheder (op til %1$d Gbps)</string>
+    <string name="upsell_card_speed_description">Surf med endnu højere hastigheder (op til %1$d Gbps)</string>
     <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">Browse fra to steder på én gang</string>
     <string name="upsell_card_streaming_title">Streaming</string>
@@ -588,9 +588,9 @@
     <string name="dynamic_report_logs_title">Send fejllogfiler</string>
     <string name="dynamic_report_logs_tooltip">Fejllogs viser os, hvad der gik galt, og hvilke handlinger der førte til problemet. Vi bruger dem kun til at hjælpe vores teknikere med at rette fejl.</string>
     <string name="dynamic_report_error_title">Vi kunne ikke sende din rapport.</string>
-    <string name="dynamic_report_completion_error_description_generic">Vi kunne ikke sende din rapport. Prøv venligst igen.</string>
-    <string name="dynamic_report_completion_error_description_no_internet">Vi kunne ikke sende din rapport. Tjek venligst din forbindelse, og prøv igen.</string>
-    <string name="dynamic_report_completion_error_description_timeout">Vi kunne ikke sende din rapport. Forbindelsen er udløbet, prøv venligst igen.</string>
+    <string name="dynamic_report_completion_error_description_generic">Vi kunne ikke sende din rapport. Prøv igen.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Vi kunne ikke sende din rapport. Tjek din forbindelse, og prøv igen.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Vi kunne ikke sende din rapport. Forbindelsen er udløbet, prøv igen.</string>
     <string name="dynamic_report_completion_success_title">Tak for din feedback. Vi vender tilbage til dig så snart vi kan.</string>
     <string name="dynamic_report_success_title">Tak for din feedback</string>
     <string name="dynamic_report_success_description">Vi vender tilbage til dig så snart vi kan.</string>
@@ -610,7 +610,7 @@
     <string name="dialog_create_account_action_create">Opret konto</string>
     <string name="dialog_create_account_action_signin">Log ind</string>
     <string name="server_search_menu_title">Søg</string>
-    <string name="search_empty_result_subtitle">Venligst prøv et andet nøgleord.</string>
+    <string name="search_empty_result_subtitle">Prøv et andet nøgleord.</string>
     <string name="search_empty_result_title">Ingen resultater fundet</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Ryd</string>
@@ -635,6 +635,10 @@
     <string name="settings_excluded_locations_description">De valgte placeringer vil aldrig blive brugt, når du forbinder til Hurtigste.</string>
     <string name="settings_excluded_locations_unavailable">Ingen tilgængelige placeringer</string>
     <string name="settings_excluded_locations_selection_hint">Vælg...</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Fjern fra ekskluderede placeringer</string>
+    <string name="settings_excluded_locations_accessibility_label_city">By</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Land</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Stat/Region</string>
     <string name="settings_last_connection_title">Seneste forbindelse</string>
     <string name="settings_last_connection_description">Din senest anvendte forbindelse</string>
     <string name="settings_change_icon_title">App-ikon</string>
@@ -844,8 +848,8 @@
     <string name="server_feature_content_description_tor">tor</string>
     <string name="server_feature_content_description_smart_routing">Smart routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
-    <string name="fastest_country">Hurtigste Land</string>
-    <string name="fastest_country_excluding_my_country">Hurtigste land (undtagen mit land)</string>
+    <string name="fastest_country">Hurtigste land</string>
+    <string name="fastest_country_excluding_my_country">Hurtigste land (undtagen eget land)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Hurtigste gratis server</string>
     <!-- tag(Redesign_2023)
@@ -861,7 +865,7 @@
          %1$s - exit country name in nominative case
          Example: United States via Sweden
      -->
-    <string name="connection_info_secure_core_full_sweden">%1$s vis Sverige</string>
+    <string name="connection_info_secure_core_full_sweden">%1$s via Sverige</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -988,7 +992,7 @@
          a button with this description will be read by a screen reader as:
          "connection details, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_connection_details">forbindelses detaljer</string>
+    <string name="connection_card_accessbility_label_connection_details">forbindelsesdetaljer</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with information about connections in free plan.
          Only used by accessibility services.
@@ -1133,7 +1137,7 @@
     -->
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_subtitle">Forbindelses detaljer</string>
+    <string name="connection_details_subtitle">Forbindelsesdetaljer</string>
     <string name="connection_details_features_title">Funktioner</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Vis IP</string>
@@ -1322,11 +1326,11 @@
         <item quantity="other">%1$d dage</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d t</string>
+    <string name="connection_details_hours_shortened">%1$d time(r)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <string name="connection_details_minutes_shortened">%1$d minut(ter)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d sek</string>
+    <string name="connection_details_seconds_shortened">%1$d sekund(er)</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Forbindelse mislykkedes</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Denne enhed tillader ikke VPN-forbindelser.</string>
     <string name="create_profile_title">Opret profil</string>
@@ -1466,13 +1470,13 @@
     <string name="search_zero_screen_info_countries_examples">Schweiz, Amerika, Italien, Canada...</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
-    <string name="error_fetching_prices">Fejl under hentning af priser.</string>
+    <string name="error_fetching_prices">Fejl under indhentning af priser.</string>
     <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Tilpas din forbindelse ved at afgøre, hvilke apps skal beskyttes af VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Udvalgte apps er udelukket fra VPN-forbindelse.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Kun udvalgte apps får forbindelse via VPN, al anden trafik er ubeskyttet.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_edit">Rediger</string>
+    <string name="profile_action_edit">Redigér</string>
     <string name="profile_action_duplicate">Duplikér</string>
     <string name="profile_action_delete">Slet</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
@@ -1497,7 +1501,7 @@
     <string name="create_profile_pick_server_title">Server</string>
     <string name="create_profile_pick_gateway_title">Gateway</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">Bloker annoncer, trackere og malware på websider og i apps</string>
+    <string name="create_profile_pick_netshield_description">Blokér annoncer, trackere og malware på websider og i apps</string>
     <string name="create_profile_pick_protocol_title">Protokol</string>
     <string name="create_profile_pick_nat_title">NAT type</string>
     <!--
@@ -1580,7 +1584,7 @@
     <string name="no_connections_title">Ingen VPN-forbindelser tilgængelige</string>
     <string name="no_connections_description_loading_error">Vi kunne ikke indlæse serverlisten.</string>
     <string name="no_connections_description_no_servers">Bed din administrator om at aktivere VPN-adgang til din konto.</string>
-    <string name="no_connections_action_refresh">Opdater</string>
+    <string name="no_connections_action_refresh">Opdatér</string>
     <string name="no_connections_action_sign_out">Log ud</string>
     <string name="no_connections_help_contact_us"><![CDATA[Brug for hjælp? <a href="">Kontakt os</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Hvis din administrator har brug for hjælp med at aktivere VPN-adgang, send dem <a href="">disse instruktioner</a>.]]></string>
@@ -1588,5 +1592,5 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Denne protokol vil snart blive fjernet, da vi fokuserer på hurtigere og mere sikre teknologier. Vi anbefaler at skifte til Smart Protocol. <a href="proton.me">Få mere at vide</a>.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Denne protokol vil snart blive fjernet, da vi fokuserer på hurtigere og mere sikre teknologier. Vi anbefaler, at du skifter til Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Fortsæt med OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Aktiver Smart-protokol</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Aktivér Smart-protokol</string>
 </resources>

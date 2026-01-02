@@ -635,6 +635,10 @@
     <string name="settings_excluded_locations_description">Die ausgewählten Standorte werden niemals verwendet, wenn du dich mit dem Schnellsten verbindest.</string>
     <string name="settings_excluded_locations_unavailable">Keine Standorte verfügbar</string>
     <string name="settings_excluded_locations_selection_hint">Auswählen …</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Aus ausgeschlossenen Standorten entfernen</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Ort</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Land</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Bundesland</string>
     <string name="settings_last_connection_title">Letzte Verbindung</string>
     <string name="settings_last_connection_description">Deine zuletzt verwendete Verbindung</string>
     <string name="settings_change_icon_title">App-Symbol</string>

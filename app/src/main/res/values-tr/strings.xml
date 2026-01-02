@@ -635,6 +635,10 @@
     <string name="settings_excluded_locations_description">En hızlı sunucu ile bağlantı kurduğunuzda seçilmiş konumlar asla kullanılmaz.</string>
     <string name="settings_excluded_locations_unavailable">Kullanılabilecek bir konum yok</string>
     <string name="settings_excluded_locations_selection_hint">Seçin…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Katılmayacak konumlardan kaldır</string>
+    <string name="settings_excluded_locations_accessibility_label_city">İl</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Ülke</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Eyalet</string>
     <string name="settings_last_connection_title">Son bağlantı</string>
     <string name="settings_last_connection_description">Son kullandığınız bağlantı</string>
     <string name="settings_change_icon_title">Uygulama simgesi</string>

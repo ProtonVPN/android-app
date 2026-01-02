@@ -618,6 +618,10 @@
     <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
     <string name="settings_excluded_locations_unavailable">No locations available</string>
     <string name="settings_excluded_locations_selection_hint">Select…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Remove from excluded locations</string>
+    <string name="settings_excluded_locations_accessibility_label_city">City</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Country</string>
+    <string name="settings_excluded_locations_accessibility_label_state">State</string>
     <string name="settings_last_connection_title">最後一次連接</string>
     <string name="settings_last_connection_description">您最近一次使用的連線</string>
     <string name="settings_change_icon_title">應用程式圖示</string>

@@ -669,6 +669,10 @@
     <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
     <string name="settings_excluded_locations_unavailable">No locations available</string>
     <string name="settings_excluded_locations_selection_hint">Select…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Видалити з виключених місцезнаходжень</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Місто</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Країна</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Штат</string>
     <string name="settings_last_connection_title">Останнє з\'єднання</string>
     <string name="settings_last_connection_description">Ваше нещодавно використане з\'єднання</string>
     <string name="settings_change_icon_title">Піктограма програми</string>

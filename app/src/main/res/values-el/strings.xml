@@ -635,6 +635,10 @@
     <string name="settings_excluded_locations_description">Οι επιλεγμένες τοποθεσίες δε θα χρησιμοποιηθούν ποτέ όταν συνδέεστε στο Γρηγορότερη.</string>
     <string name="settings_excluded_locations_unavailable">Δεν υπάρχουν διαθέσιμες τοποθεσίες</string>
     <string name="settings_excluded_locations_selection_hint">Επιλογή…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Κατάργηση από τις εξαιρούμενες τοποθεσίες</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Πόλη</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Χώρα</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Πολιτεία</string>
     <string name="settings_last_connection_title">Τελευταία σύνδεση</string>
     <string name="settings_last_connection_description">Η σύνδεση που χρησιμοποιήσατε πιο πρόσφατα</string>
     <string name="settings_change_icon_title">Εικονίδιο εφαρμογής</string>

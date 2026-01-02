@@ -635,6 +635,10 @@
     <string name="settings_excluded_locations_description">Valittuja sijainteja ei koskaan käytetä, kun yhdistät nopeimpaan sijaintiin.</string>
     <string name="settings_excluded_locations_unavailable">Sijainteja ei ole saatavilla</string>
     <string name="settings_excluded_locations_selection_hint">Valitse…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Poista poissuljetuista sijainneista</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Kaupunki</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Maa</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Osavaltio</string>
     <string name="settings_last_connection_title">Edellinen yhteys</string>
     <string name="settings_last_connection_description">Viimeksi käyttämäsi yhteys</string>
     <string name="settings_change_icon_title">Sovelluksen kuvake</string>
