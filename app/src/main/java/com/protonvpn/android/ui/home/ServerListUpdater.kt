@@ -203,6 +203,10 @@ class ServerListUpdater @Inject constructor(
 
     private suspend fun updateLoads(): PeriodicActionResult<out Any> {
         serverManager.ensureLoaded()
+        if (!serverManager.isDownloadedAtLeastOnce) {
+            return PeriodicActionResult(Unit, isSuccess = true)
+        }
+
         val statusId = serverManager.logicalsStatusId
         return if (binaryServerStatusEnabled() && statusId != null) {
             val result = api.getBinaryStatus(statusId)
