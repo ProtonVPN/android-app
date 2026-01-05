@@ -746,6 +746,9 @@ dependencies {
 
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:$kotlin_version"))
 
+    // Temporary, remove when Core updates the dependency.
+    implementation("com.appmattus.certificatetransparency:certificatetransparency-android:2.7.1")
+
     implementation 'dnsjava:dnsjava:3.6.2'
     implementation "net.java.dev.jna:jna:5.16.0@aar"
 
