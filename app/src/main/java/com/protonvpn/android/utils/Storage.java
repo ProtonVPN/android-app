@@ -26,6 +26,8 @@ import androidx.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.protonvpn.android.models.config.VpnProtocol;
+import com.protonvpn.android.models.config.VpnProtocolGsonSerializer;
 
 import java.util.Objects;
 
@@ -38,6 +40,7 @@ public final class Storage {
         new GsonBuilder()
             .enableComplexMapKeySerialization()
             .registerTypeAdapter(ClientId.class, new ClientIdGsonSerializer())
+            .registerTypeAdapter(VpnProtocol.class, new VpnProtocolGsonSerializer())
             .create();
 
     private static SharedPreferences preferences;
@@ -150,5 +153,4 @@ public final class Storage {
     public static void clearAllPreferencesSync() {
         preferences.edit().clear().commit();
     }
-
 }

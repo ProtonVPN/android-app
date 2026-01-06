@@ -325,5 +325,10 @@ object DatabaseMigrations {
     }
 
     @DeleteColumn(tableName = "VpnUser", columnName = "password")
-    class AutoMigration52to53 : AutoMigrationSpec
+    class AutoMigration52to53 : AutoMigrationSpec {
+        override fun onPostMigrate(db: SupportSQLiteDatabase) {
+            db.execSQL("UPDATE profiles SET vpn = 'Smart', transmission = NULL WHERE vpn = 'OpenVPN'")
+            db.execSQL("UPDATE unnamedRecentsIntents SET vpn = 'Smart', transmission = NULL WHERE vpn = 'OpenVPN'")
+        }
+    }
 }

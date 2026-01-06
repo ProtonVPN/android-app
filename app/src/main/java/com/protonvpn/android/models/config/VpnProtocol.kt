@@ -18,6 +18,22 @@
  */
 package com.protonvpn.android.models.config
 
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import java.lang.reflect.Type
+
+@Serializable(with = VpnProtocolSerializer::class)
 enum class VpnProtocol {
     WireGuard,
     ProTun,
@@ -28,5 +44,31 @@ enum class VpnProtocol {
     val apiName get() = when (this) {
         ProTun -> WireGuard.name // In interactions with API treat ProTun as WireGuard
         else -> name
+    }
+}
+
+// Serializer that defaults to VpnProtocol.Smart if the value is unrecognized
+object VpnProtocolSerializer : KSerializer<VpnProtocol> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("VpnProtocol", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: VpnProtocol) {
+        encoder.encodeString(value.name)
+    }
+
+    override fun deserialize(decoder: Decoder): VpnProtocol {
+        val name = decoder.decodeString()
+        return VpnProtocol.entries.find { it.name == name } ?: VpnProtocol.Smart
+    }
+}
+
+class VpnProtocolGsonSerializer : JsonSerializer<VpnProtocol>, JsonDeserializer<VpnProtocol> {
+    override fun serialize(src: VpnProtocol, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
+        return JsonPrimitive(src.name)
+    }
+
+    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): VpnProtocol {
+        val name = json.asString
+        return VpnProtocol.entries.find { it.name == name } ?: VpnProtocol.Smart
     }
 }

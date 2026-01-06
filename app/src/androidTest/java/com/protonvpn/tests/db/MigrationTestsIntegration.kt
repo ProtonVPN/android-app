@@ -43,6 +43,7 @@ import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.settings.data.CustomDnsSettings
+import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
@@ -210,5 +211,35 @@ class MigrationTestsIntegration {
         }
 
         db.close()
+    }
+
+    @Test
+    fun migrateOpenVpnProfileData51to52() = runTest {
+        val openVpnProfileInsert =
+            """
+                INSERT INTO profiles (profileId, userId,       name,    color,    icon, createdAt, connectIntentType, exitCountry, entryCountry,     city, region, gatewayName, serverId, features,  netShield, randomizedNat, lanConnections,         vpn, transmission)
+                              VALUES (        1,  'id1', 'profile1', 'Color2', 'Icon3',      1000, 'FASTEST_IN_CITY',        'CH',         NULL, 'Zurich',   NULL,        NULL,     NULL,       '', 'DISABLED',             0,              1, 'OpenVPN',          'TCP')
+            """.trimMargin()
+
+        helper.createDatabase(dbName, 51).use { db ->
+            db.execSQL(openVpnProfileInsert)
+        }
+        val roomDb: AppDatabase = Room.databaseBuilder(
+            InstrumentationRegistry.getInstrumentation().targetContext,
+            AppDatabase::class.java,
+            dbName
+        )
+            .addMigrations(*AppDatabase.migrations.toTypedArray())
+            .build()
+        try {
+            val profilesDao = roomDb.profilesDao()
+            runBlocking {
+                val profiles = profilesDao.getProfiles(UserId("id1")).first()
+                assertEquals(ProtocolSelection.SMART, profiles.first().connectIntent.settingsOverrides?.protocol)
+            }
+        } finally {
+            // Doesn't implement Closeable so we can't use `use`.
+            roomDb.close()
+        }
     }
 }

@@ -496,7 +496,7 @@ class CreateEditProfileViewModel @Inject constructor(
         val showPrivateBrowsing = isPrivateBrowsingAvailable ||
             (profile.autoOpen is ProfileAutoOpen.Url && profile.autoOpen.openInPrivateMode)
 
-        val protocol = intent.settingsOverrides?.protocolData?.toProtocolSelection()?.takeIf {
+        val protocol = intent.settingsOverrides?.protocol?.takeIf {
             isProTunV1FeatureFlagEnabled || it.vpn != VpnProtocol.ProTun
         } ?: defaultSettingScreenState.protocol
 
