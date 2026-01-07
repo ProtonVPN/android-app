@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.excludedlocations.data
+package com.protonvpn.android.excludedlocations.data
 
 interface ExcludedLocationsDatabase {
 

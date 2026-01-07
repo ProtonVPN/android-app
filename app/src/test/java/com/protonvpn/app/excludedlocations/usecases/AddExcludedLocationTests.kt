@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.app.redesign.excludedlocations.usecases
+package com.protonvpn.app.excludedlocations.usecases
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
@@ -26,10 +26,10 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.models.login.toVpnUserEntity
-import com.protonvpn.android.redesign.excludedlocations.ExcludedLocations
-import com.protonvpn.android.redesign.excludedlocations.usecases.AddExcludedLocation
-import com.protonvpn.android.redesign.excludedlocations.usecases.ObserveExcludedLocations
-import com.protonvpn.app.redesign.excludedlocations.TestExcludedLocation
+import com.protonvpn.android.excludedlocations.ExcludedLocations
+import com.protonvpn.android.excludedlocations.usecases.AddExcludedLocation
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
+import com.protonvpn.app.excludedlocations.TestExcludedLocation
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser

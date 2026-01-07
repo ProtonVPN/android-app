@@ -21,8 +21,7 @@ package com.protonvpn.android.redesign.app.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.redesign.excludedlocations.ExcludedLocation
-import com.protonvpn.android.redesign.excludedlocations.usecases.RemoveExcludedLocation
+import com.protonvpn.android.excludedlocations.usecases.RemoveExcludedLocation
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
 import com.protonvpn.android.redesign.settings.ui.excludedlocations.ExcludedLocationsViewModel.ExcludedLocationUiItem

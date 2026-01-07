@@ -17,33 +17,25 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.excludedlocations
+package com.protonvpn.android.excludedlocations.data
 
-import com.protonvpn.android.redesign.CountryId
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
-data class ExcludedLocations(val allLocations: List<ExcludedLocation>)
+@Dao
+abstract class ExcludedLocationsDao {
 
-sealed interface ExcludedLocation {
+    @Delete
+    abstract suspend fun delete(entity: ExcludedLocationEntity)
 
-    val id: Long
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insert(entity: ExcludedLocationEntity)
 
-    val countryId: CountryId
-
-    data class City(
-        override val id: Long = 0L,
-        override val countryId: CountryId,
-        val nameEn: String?,
-    ) : ExcludedLocation
-
-    data class Country(
-        override val id: Long = 0L,
-        override val countryId: CountryId,
-    ) : ExcludedLocation
-
-    data class State(
-        override val id: Long = 0L,
-        override val countryId: CountryId,
-        val nameEn: String?,
-    ) : ExcludedLocation
+    @Query("SELECT * FROM excludedLocations WHERE userId = :userId")
+    abstract fun observeAll(userId: String): Flow<List<ExcludedLocationEntity>>
 
 }

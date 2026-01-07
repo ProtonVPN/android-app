@@ -20,7 +20,7 @@
 package com.protonvpn.android.redesign.settings.ui.excludedlocations
 
 import com.protonvpn.android.redesign.countries.Translator
-import com.protonvpn.android.redesign.excludedlocations.ExcludedLocation
+import com.protonvpn.android.excludedlocations.ExcludedLocation
 import com.protonvpn.android.redesign.search.TextMatch
 import com.protonvpn.android.redesign.settings.ui.excludedlocations.ExcludedLocationsViewModel.ExcludedLocationUiItem
 import com.protonvpn.android.utils.CountryTools

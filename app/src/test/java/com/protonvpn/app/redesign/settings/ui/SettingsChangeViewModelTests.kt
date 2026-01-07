@@ -24,9 +24,9 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
-import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationsDao
-import com.protonvpn.android.redesign.excludedlocations.data.toEntity
-import com.protonvpn.android.redesign.excludedlocations.usecases.RemoveExcludedLocation
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.data.toEntity
+import com.protonvpn.android.excludedlocations.usecases.RemoveExcludedLocation
 import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
 import com.protonvpn.android.redesign.settings.ui.excludedlocations.toExcludedLocationUiItem
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
@@ -41,7 +41,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
-import com.protonvpn.app.redesign.excludedlocations.TestExcludedLocation
+import com.protonvpn.app.excludedlocations.TestExcludedLocation
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser

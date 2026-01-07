@@ -35,7 +35,7 @@ import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.redesign.countries.Translator
-import com.protonvpn.android.redesign.excludedlocations.usecases.ObserveExcludedLocations
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.getRecentIdOrNull
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection

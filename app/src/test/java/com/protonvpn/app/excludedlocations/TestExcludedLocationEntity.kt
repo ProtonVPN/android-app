@@ -17,10 +17,10 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.app.redesign.excludedlocations
+package com.protonvpn.app.excludedlocations
 
-import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationEntity
-import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationType
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationEntity
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationType
 
 object TestExcludedLocationEntity {
 

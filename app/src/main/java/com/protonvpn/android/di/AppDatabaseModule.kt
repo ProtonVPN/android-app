@@ -26,7 +26,7 @@ import com.protonvpn.android.auth.data.VpnUserDatabase
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.profiles.data.VpnProfilesDatabase
-import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationsDatabase
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDatabase
 import com.protonvpn.android.redesign.recents.data.VpnRecentsDatabase
 import dagger.Binds
 import dagger.Module

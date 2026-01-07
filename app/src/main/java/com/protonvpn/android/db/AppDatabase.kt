@@ -27,10 +27,10 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicCallInfo
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdatesDatabase
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDatabase
-import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationEntity
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationEntity
 import com.protonvpn.android.profiles.data.ProfileEntity
 import com.protonvpn.android.profiles.data.VpnProfilesDatabase
-import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationsDatabase
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDatabase
 import com.protonvpn.android.redesign.recents.data.DefaultConnectionEntity
 import com.protonvpn.android.redesign.recents.data.RecentConnectionEntity
 import com.protonvpn.android.redesign.recents.data.RecentsTypeConverters

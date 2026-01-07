@@ -27,7 +27,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.ui.ServerFilterType
 import com.protonvpn.android.redesign.countries.ui.ServerGroupItemData
 import com.protonvpn.android.redesign.countries.ui.sortedForUi
-import com.protonvpn.android.redesign.excludedlocations.usecases.AddExcludedLocation
+import com.protonvpn.android.excludedlocations.usecases.AddExcludedLocation
 import com.protonvpn.android.redesign.search.TextMatch
 import com.protonvpn.android.redesign.search.ui.SearchResults
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter

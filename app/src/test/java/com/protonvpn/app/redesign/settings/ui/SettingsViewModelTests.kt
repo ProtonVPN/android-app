@@ -29,8 +29,8 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.toProfile
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationsDao
-import com.protonvpn.android.redesign.excludedlocations.usecases.ObserveExcludedLocations
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.reports.FakeIsRedesignedBugReportFeatureFlagEnabled

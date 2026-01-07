@@ -17,12 +17,12 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.excludedlocations.usecases
+package com.protonvpn.android.excludedlocations.usecases
 
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.redesign.excludedlocations.ExcludedLocations
-import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationsDao
-import com.protonvpn.android.redesign.excludedlocations.data.toDomain
+import com.protonvpn.android.excludedlocations.ExcludedLocations
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.data.toDomain
 import dagger.Reusable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow

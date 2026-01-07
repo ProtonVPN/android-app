@@ -17,19 +17,19 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.excludedlocations.usecases
+package com.protonvpn.android.excludedlocations.usecases
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.redesign.excludedlocations.ExcludedLocation
-import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationsDao
-import com.protonvpn.android.redesign.excludedlocations.data.toEntity
+import com.protonvpn.android.excludedlocations.ExcludedLocation
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.data.toEntity
 import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class AddExcludedLocation @Inject constructor(
+class RemoveExcludedLocation @Inject constructor(
     private val currentUser: CurrentUser,
     private val excludedLocationsDao: ExcludedLocationsDao,
 ) {
@@ -40,7 +40,7 @@ class AddExcludedLocation @Inject constructor(
         if(vpnUser == null) {
             ProtonLogger.logCustom(
                 category = LogCategory.SETTINGS,
-                message = "Cannot add excluded location: no VPN user found",
+                message = "Cannot remove excluded location: no VPN user found",
             )
 
             return
@@ -49,13 +49,13 @@ class AddExcludedLocation @Inject constructor(
         if(vpnUser.isFreeUser) {
             ProtonLogger.logCustom(
                 category = LogCategory.SETTINGS,
-                message = "Cannot add excluded location: free VPN user is not allowed",
+                message = "Cannot remove excluded location: free VPN user is not allowed",
             )
 
             return
         }
 
-        excludedLocationsDao.insert(entity = excludedLocation.toEntity(userId = vpnUser.userId))
+        excludedLocationsDao.delete(entity = excludedLocation.toEntity(userId = vpnUser.userId))
     }
 
 }

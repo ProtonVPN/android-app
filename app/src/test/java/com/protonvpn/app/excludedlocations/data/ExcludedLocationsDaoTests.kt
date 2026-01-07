@@ -17,14 +17,14 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.app.redesign.excludedlocations.data
+package com.protonvpn.app.excludedlocations.data
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
-import com.protonvpn.android.redesign.excludedlocations.data.ExcludedLocationsDao
-import com.protonvpn.app.redesign.excludedlocations.TestExcludedLocationEntity
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.app.excludedlocations.TestExcludedLocationEntity
 import com.protonvpn.testsHelper.AccountTestHelper
 import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestAccount1
 import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestSession1
