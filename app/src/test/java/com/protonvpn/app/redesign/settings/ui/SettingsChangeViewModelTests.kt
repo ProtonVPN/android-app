@@ -20,12 +20,14 @@
 package com.protonvpn.app.redesign.settings.ui
 
 import androidx.lifecycle.SavedStateHandle
+import app.cash.turbine.test
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
 import com.protonvpn.android.excludedlocations.data.toEntity
+import com.protonvpn.android.excludedlocations.usecases.AddExcludedLocation
 import com.protonvpn.android.excludedlocations.usecases.RemoveExcludedLocation
 import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
 import com.protonvpn.android.redesign.settings.ui.excludedlocations.toExcludedLocationUiItem
@@ -107,6 +109,10 @@ class SettingsChangeViewModelTests {
                 savedStateHandle = SavedStateHandle(),
             ),
             removeExcludedLocation = RemoveExcludedLocation(
+                currentUser = currentUser,
+                excludedLocationsDao = mockExcludedLocationsDao,
+            ),
+            addExcludedLocation = AddExcludedLocation(
                 currentUser = currentUser,
                 excludedLocationsDao = mockExcludedLocationsDao,
             ),
@@ -222,6 +228,33 @@ class SettingsChangeViewModelTests {
         viewModel.onRemoveExcludedLocation(location = location)
 
         coVerify(exactly = 1) { mockExcludedLocationsDao.delete(entity = expectedExcludedLocationEntity) }
+    }
+
+    @Test
+    fun `WHEN removing excluded location THEN excluded location removal event is emitted`() = testScope.runTest {
+        val excludedLocation = TestExcludedLocation.create()
+        val location = excludedLocation.toExcludedLocationUiItem(locale = Locale.ENGLISH, translator = mockk())
+        val expectedEvent = SettingsChangeViewModel.ExcludedLocationEvent.OnRemoved(location = location)
+
+        viewModel.excludedLocationEventsFlow.test {
+            viewModel.onRemoveExcludedLocation(location = location)
+
+            val event = awaitItem()
+
+            assertEquals(expectedEvent, event)
+        }
+    }
+
+    @Test
+    fun `WHEN adding excluded location THEN insert excluded location is called`() {
+        val userId = TestUser.plusUser.vpnUser.userId
+        val excludedLocation = TestExcludedLocation.create()
+        val location = excludedLocation.toExcludedLocationUiItem(locale = Locale.ENGLISH, translator = mockk())
+        val expectedExcludedLocationEntity = excludedLocation.toEntity(userId = userId)
+
+        viewModel.onAddExcludedLocation(location = location)
+
+        coVerify(exactly = 1) { mockExcludedLocationsDao.insert(entity = expectedExcludedLocationEntity) }
     }
 
 }

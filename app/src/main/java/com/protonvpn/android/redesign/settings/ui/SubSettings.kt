@@ -28,17 +28,25 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
@@ -49,8 +57,12 @@ import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
+import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
+import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.settings.ui.connectionpreferences.ConnectionPreferencesSetting
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsActions
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsViewModel
@@ -69,6 +81,7 @@ import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.utils.openVpnSettings
 import com.protonvpn.android.widget.ui.WidgetAddScreen
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.domain.entity.UserId
 import me.proton.core.presentation.utils.currentLocale
@@ -333,8 +346,37 @@ fun SubSettingsRoute(
 
                 val locale = LocalConfiguration.current.currentLocale()
 
+                val coroutineScope = rememberCoroutineScope()
+
+                val snackbarHostState = remember { SnackbarHostState() }
+
+                val snackbarMessage = stringResource(id = R.string.settings_connection_preferences_snackbar_message_excluded_location_removed)
+
+                val snackbarActionLabel = stringResource(id = R.string.undo)
+
                 LaunchedEffect(key1 = locale) {
                     viewModel.onLocaleChanged(newLocale = locale)
+                }
+
+                settingsChangeViewModel.excludedLocationEventsFlow.collectAsEffect { event ->
+                    when (event) {
+                        is SettingsChangeViewModel.ExcludedLocationEvent.OnRemoved -> {
+                            coroutineScope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = snackbarMessage,
+                                    actionLabel = snackbarActionLabel,
+                                    duration = SnackbarDuration.Short,
+                                    type = ProtonSnackbarType.NORM,
+                                ).also { result ->
+                                    if (result == SnackbarResult.ActionPerformed) {
+                                        settingsChangeViewModel.onAddExcludedLocation(
+                                            location = event.location,
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 viewState?.let { state ->
@@ -354,6 +396,7 @@ fun SubSettingsRoute(
                                 context = context,
                             )
                         },
+                        snackbarHostState = snackbarHostState,
                     )
                 }
             }
@@ -400,18 +443,38 @@ fun BasicSubSetting(
     modifier: Modifier = Modifier,
     title: String,
     onClose: () -> Unit,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     content: @Composable () -> Unit,
 ) {
-    Column(
+    Scaffold(
         modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        SimpleTopAppBar(
-            title = { Text(text = title) },
-            navigationIcon = { TopAppBarBackIcon(onClose) },
-            backgroundColor = Color.Transparent, // Transparent color for seamless dark/light theme change.
-        )
-        content()
+        topBar = {
+            SimpleTopAppBar(
+                navigationIcon = {
+                    TopAppBarBackIcon(onClick = onClose)
+                },
+                title = {
+                    Text(text = title)
+                },
+            )
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                snackbar = { snackbarData ->
+                    ProtonSnackbar(snackbarData = snackbarData)
+                },
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues = paddingValues),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            content()
+        }
     }
 }
 
@@ -442,12 +505,14 @@ fun SubSettingWithLazyContent(
     modifier: Modifier = Modifier,
     title: String,
     onClose: () -> Unit,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     content: @Composable () -> Unit,
 ) {
     BasicSubSetting(
         modifier = modifier,
         title = title,
-        onClose = onClose
+        onClose = onClose,
+        snackbarHostState = snackbarHostState,
     ) {
         Box(
             modifier = Modifier

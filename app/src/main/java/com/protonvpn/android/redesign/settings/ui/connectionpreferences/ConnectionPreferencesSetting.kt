@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.settings.ui.connectionpreferences
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -37,12 +38,14 @@ fun ConnectionPreferencesSetting(
     onDeleteExcludedLocationClick: (ExcludedLocationUiItem.Location) -> Unit,
     onExcludedLocationsFeatureDiscovered: () -> Unit,
     onUpsellClick: () -> Unit,
+    snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
 ) {
     SubSettingWithLazyContent(
         modifier = modifier,
         title = stringResource(id = R.string.settings_connection_preferences_title),
         onClose = onClose,
+        snackbarHostState = snackbarHostState,
     ) {
         if (state.isFreeUser) {
             ConnectionPreferencesFreeContent(

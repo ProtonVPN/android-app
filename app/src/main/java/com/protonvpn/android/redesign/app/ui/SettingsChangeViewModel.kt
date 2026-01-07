@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.app.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.excludedlocations.usecases.AddExcludedLocation
 import com.protonvpn.android.excludedlocations.usecases.RemoveExcludedLocation
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
@@ -33,6 +34,9 @@ import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,9 +45,20 @@ class SettingsChangeViewModel @Inject constructor(
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     private val reconnectHandler: SettingsReconnectHandler,
     private val removeExcludedLocation: RemoveExcludedLocation,
+    private val addExcludedLocation: AddExcludedLocation,
 ) : ViewModel() {
 
+    sealed interface ExcludedLocationEvent {
+
+        data class OnRemoved(val location: ExcludedLocationUiItem.Location) : ExcludedLocationEvent
+
+    }
+
     val showReconnectDialogFlow = reconnectHandler.showReconnectDialogFlow
+
+    private val _excludedLocationEventsFlow = MutableSharedFlow<ExcludedLocationEvent>(extraBufferCapacity = 1)
+
+    val excludedLocationEventsFlow: SharedFlow<ExcludedLocationEvent> = _excludedLocationEventsFlow.asSharedFlow()
 
     fun disableCustomDns(uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
@@ -156,9 +171,17 @@ class SettingsChangeViewModel @Inject constructor(
         }
     }
 
+    fun onAddExcludedLocation(location: ExcludedLocationUiItem.Location) {
+        viewModelScope.launch {
+            addExcludedLocation(excludedLocation = location.toExcludedLocation())
+        }
+    }
+
     fun onRemoveExcludedLocation(location: ExcludedLocationUiItem.Location) {
         viewModelScope.launch {
             removeExcludedLocation(excludedLocation = location.toExcludedLocation())
+
+            _excludedLocationEventsFlow.emit(value = ExcludedLocationEvent.OnRemoved(location = location))
         }
     }
 
