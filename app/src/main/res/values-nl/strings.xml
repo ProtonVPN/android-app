@@ -631,6 +631,7 @@
     <string name="settings_default_connection_title">Standaardverbinding</string>
     <string name="fastest_country_description">De beste server op basis van uw locatie</string>
     <string name="settings_connection_preferences_title">Verbindingsvoorkeuren</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item verwijderd</string>
     <string name="settings_excluded_locations_title">Uitgesloten locaties</string>
     <string name="settings_excluded_locations_description">De geselecteerde locaties zullen nooit gebruikt worden wanneer u verbinding maakt met Fastest.</string>
     <string name="settings_excluded_locations_unavailable">Geen locaties beschikbaar</string>

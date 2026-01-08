@@ -631,6 +631,7 @@
     <string name="settings_default_connection_title">Connessione predefinita</string>
     <string name="fastest_country_description">Il miglior server in base alla tua posizione</string>
     <string name="settings_connection_preferences_title">Preferenze di connessione</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Elemento rimosso</string>
     <string name="settings_excluded_locations_title">Località escluse</string>
     <string name="settings_excluded_locations_description">Le località selezionate non verranno mai usate quando ti connetti a Fastest.</string>
     <string name="settings_excluded_locations_unavailable">Nessuna azione disponibile</string>

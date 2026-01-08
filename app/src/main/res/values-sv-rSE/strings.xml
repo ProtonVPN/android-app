@@ -631,6 +631,7 @@
     <string name="settings_default_connection_title">Standardanslutning</string>
     <string name="fastest_country_description">Den bästa servern baserat på din plats</string>
     <string name="settings_connection_preferences_title">Anslutningspreferenser</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item removed</string>
     <string name="settings_excluded_locations_title">Exkluderade platser</string>
     <string name="settings_excluded_locations_description">De valda platserna kommer aldrig att användas när du ansluter till ”Snabbaste“.</string>
     <string name="settings_excluded_locations_unavailable">Inga platser tillgängliga</string>

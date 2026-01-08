@@ -631,6 +631,7 @@
     <string name="settings_default_connection_title">Standardforbindelse</string>
     <string name="fastest_country_description">Den bedste server baseret på din placering</string>
     <string name="settings_connection_preferences_title">Forbindelsespræferencer</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Element fjernet</string>
     <string name="settings_excluded_locations_title">Ekskluderede placeringer</string>
     <string name="settings_excluded_locations_description">De valgte placeringer vil aldrig blive brugt, når du forbinder til Hurtigste.</string>
     <string name="settings_excluded_locations_unavailable">Ingen tilgængelige placeringer</string>

@@ -614,6 +614,7 @@
     <string name="settings_default_connection_title">デフォルト接続</string>
     <string name="fastest_country_description">あなたの所在地に基づいた最適なサーバー</string>
     <string name="settings_connection_preferences_title">接続設定</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">アイテムが削除されました</string>
     <string name="settings_excluded_locations_title">除外された位置</string>
     <string name="settings_excluded_locations_description">選択された位置は、お客様がFastesに接続される際に使用されることはありません。</string>
     <string name="settings_excluded_locations_unavailable">利用可能な位置はありません</string>

@@ -614,6 +614,7 @@
     <string name="settings_default_connection_title">默认连接</string>
     <string name="fastest_country_description">从所在位置来看最适合的服务器</string>
     <string name="settings_connection_preferences_title">Connection preferences</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item removed</string>
     <string name="settings_excluded_locations_title">排除的位置</string>
     <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
     <string name="settings_excluded_locations_unavailable">No locations available</string>

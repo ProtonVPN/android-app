@@ -631,6 +631,7 @@
     <string name="settings_default_connection_title">Connexió per defecte</string>
     <string name="fastest_country_description">El millor servidor basat en la vostra ubicació</string>
     <string name="settings_connection_preferences_title">Preferències de connexió</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">S\'ha eliminat l\'element</string>
     <string name="settings_excluded_locations_title">Ubicacions excloses</string>
     <string name="settings_excluded_locations_description">Les ubicacions seleccionades no s\'utilitzaran mai quan us connecteu a Fastest.</string>
     <string name="settings_excluded_locations_unavailable">No hi ha cap ubicació disponible</string>

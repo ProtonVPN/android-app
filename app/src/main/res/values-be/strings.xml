@@ -665,6 +665,7 @@
     <string name="settings_default_connection_title">Прадвызначанае падключэнне</string>
     <string name="fastest_country_description">Лепшыя серверы на падставе вашага размяшчэння</string>
     <string name="settings_connection_preferences_title">Параметры падключэння</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item removed</string>
     <string name="settings_excluded_locations_title">Выключаныя месцазнаходжанні</string>
     <string name="settings_excluded_locations_description">Выбраныя месцазнаходжанні ніколі не будуць выкарыстоўвацца пры падключэнні да Fastest.</string>
     <string name="settings_excluded_locations_unavailable">Няма даступных месцазнаходжанняў</string>

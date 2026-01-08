@@ -665,6 +665,7 @@
     <string name="settings_default_connection_title">Výchozí připojení</string>
     <string name="fastest_country_description">Nejlepší server na základě vaší polohy</string>
     <string name="settings_connection_preferences_title">Předvolby připojení</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Položka odebrána</string>
     <string name="settings_excluded_locations_title">Vyloučená umístění</string>
     <string name="settings_excluded_locations_description">Vybraná umístění nebudou nikdy použita, když se připojíte k umístění Nejrychlejší.</string>
     <string name="settings_excluded_locations_unavailable">Nejsou dostupná žádná umístění</string>

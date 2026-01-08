@@ -614,6 +614,7 @@
     <string name="settings_default_connection_title">Koneksi bawaan</string>
     <string name="fastest_country_description">Server terbaik berdasarkan lokasi Anda</string>
     <string name="settings_connection_preferences_title">Preferensi koneksi</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item removed</string>
     <string name="settings_excluded_locations_title">Lokasi yang dikecualikan</string>
     <string name="settings_excluded_locations_description">Lokasi yang dipilih tidak akan pernah digunakan pada saat Anda menyambungkan ke server Tercepat.</string>
     <string name="settings_excluded_locations_unavailable">Tidak ada lokasi yang tersedia</string>

@@ -631,6 +631,7 @@
     <string name="settings_default_connection_title">Connexion par défaut</string>
     <string name="fastest_country_description">Le meilleur serveur selon votre emplacement</string>
     <string name="settings_connection_preferences_title">Préférences de connexion</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">L\'élément a été supprimé.</string>
     <string name="settings_excluded_locations_title">Emplacements exclus</string>
     <string name="settings_excluded_locations_description">Les emplacements sélectionnés ne seront jamais choisis lorsque vous vous connecterez au serveur le plus rapide.</string>
     <string name="settings_excluded_locations_unavailable">Aucun emplacement disponible</string>

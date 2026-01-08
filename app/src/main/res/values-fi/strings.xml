@@ -631,6 +631,7 @@
     <string name="settings_default_connection_title">Oletusyhteys</string>
     <string name="fastest_country_description">Sijaintisi perusteella paras palvelin</string>
     <string name="settings_connection_preferences_title">Yhteysasetukset</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Kohde poistettiin</string>
     <string name="settings_excluded_locations_title">Poissuljetut sijainnit</string>
     <string name="settings_excluded_locations_description">Valittuja sijainteja ei koskaan käytetä, kun yhdistät nopeimpaan sijaintiin.</string>
     <string name="settings_excluded_locations_unavailable">Sijainteja ei ole saatavilla</string>

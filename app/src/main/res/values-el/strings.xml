@@ -631,6 +631,7 @@
     <string name="settings_default_connection_title">Προεπιλεγμένη σύνδεση</string>
     <string name="fastest_country_description">Ο καλύτερος διακομιστής με βάση την τοποθεσία σας</string>
     <string name="settings_connection_preferences_title">Προτιμήσεις σύνδεσης</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Το στοιχείο αφαιρέθηκε</string>
     <string name="settings_excluded_locations_title">Εξαιρούμενες τοποθεσίες</string>
     <string name="settings_excluded_locations_description">Οι επιλεγμένες τοποθεσίες δε θα χρησιμοποιηθούν ποτέ όταν συνδέεστε στο Γρηγορότερη.</string>
     <string name="settings_excluded_locations_unavailable">Δεν υπάρχουν διαθέσιμες τοποθεσίες</string>
