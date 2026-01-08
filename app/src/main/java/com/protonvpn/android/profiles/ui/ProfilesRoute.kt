@@ -33,6 +33,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.fromHtml
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
@@ -40,20 +42,32 @@ import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
+import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeProfilesHighlightsFragment
 import kotlinx.coroutines.launch
+import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun ProfilesRoute(
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
     onNavigateToAddEdit: (profileId: Long?, duplicate: Boolean) -> Unit,
+    onNavigateToConnectionPreferences: () -> Unit,
 ) {
     val viewModel : ProfilesViewModel = hiltViewModel()
     val snackbarHostState = remember { SnackbarHostState() }
+
+    viewModel.eventsFlow.collectAsEffect { event ->
+        when(event) {
+            ProfilesViewModel.Event.OnOpenConnectionPreferences -> {
+                onNavigateToConnectionPreferences()
+            }
+        }
+    }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -115,8 +129,14 @@ fun ProfilesRoute(
         }
 
         val showDialog = viewModel.showDialog.collectAsStateWithLifecycle().value
-        if (showDialog != null)
-            ShowProfileDialog(showDialog, viewModel::dismissDialog)
+
+        if (showDialog != null) {
+            ShowProfileDialog(
+                showDialog = showDialog,
+                onDismiss = viewModel::dismissDialog,
+                onExcludedLocationsClick = viewModel::onOpenConnectionPreferences,
+            )
+        }
     }
 }
 
@@ -124,15 +144,35 @@ fun ProfilesRoute(
 private fun ShowProfileDialog(
     showDialog: ProfilesViewModel.Dialog,
     onDismiss: () -> Unit,
+    onExcludedLocationsClick: () -> Unit,
 ) {
     when (showDialog) {
         is ProfilesViewModel.Dialog.ServerUnavailable ->
             ProtonAlert(
                 title = stringResource(R.string.profile_unavailable_dialog_title),
                 text = stringResource(R.string.profile_unavailable_dialog_message, showDialog.profileName),
+                textColor = ProtonTheme.colors.textWeak,
                 confirmLabel = stringResource(R.string.got_it),
                 onConfirm = { onDismiss() },
                 onDismissRequest = onDismiss
             )
+
+        is ProfilesViewModel.Dialog.ServerLocationExcluded -> {
+            ProtonAlert(
+                title = stringResource(id = R.string.profile_unavailable_dialog_title),
+                text = AnnotatedString.fromHtml(
+                    htmlString = stringResource(
+                        id = R.string.profile_location_excluded_dialog_message,
+                        showDialog.profileName,
+                    )
+                ),
+                textColor = ProtonTheme.colors.textWeak,
+                confirmLabel = stringResource(id = R.string.got_it),
+                onConfirm = { onDismiss() },
+                dismissLabel = stringResource(id = R.string.excluded_locations),
+                onDismissButton = { onExcludedLocationsClick() },
+                onDismissRequest = onDismiss,
+            )
+        }
     }
 }

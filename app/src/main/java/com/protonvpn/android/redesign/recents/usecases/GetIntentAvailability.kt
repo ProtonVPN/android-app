@@ -20,38 +20,79 @@ package com.protonvpn.android.redesign.recents.usecases
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
-import com.protonvpn.android.servers.Server
+import com.protonvpn.android.excludedlocations.ExcludedLocations
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.Reusable
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 @Reusable
 class GetIntentAvailability @Inject constructor(
     private val serverManager: ServerManager2,
     private val supportsProtocol: SupportsProtocol,
+    private val observeExcludedLocations: ObserveExcludedLocations,
 ) {
     // Note: this is a suspending function being called in a loop which makes it potentially slow.
     suspend operator fun invoke(
         connectIntent: ConnectIntent,
         vpnUser: VpnUser?,
-        settingsProtocol: ProtocolSelection
+        settingsProtocol: ProtocolSelection,
     ): ConnectIntentAvailability {
-        val protocol = connectIntent.settingsOverrides?.protocol ?: settingsProtocol
-        return serverManager.forConnectIntent(connectIntent, ConnectIntentAvailability.NO_SERVERS) { servers ->
-            servers.getAvailability(vpnUser, protocol)
+        val excludedLocations = observeExcludedLocations().first()
+
+        return serverManager.forConnectIntent(
+            connectIntent = connectIntent,
+            fallbackResult = ConnectIntentAvailability.NO_SERVERS,
+            excludedLocations = excludedLocations,
+        ) { servers ->
+            if (servers.count() == 0 && connectIntent.isExcluded(excludedLocations)) {
+                ConnectIntentAvailability.EXCLUDED
+            } else {
+                servers.getAvailability(
+                    vpnUser = vpnUser,
+                    protocol = connectIntent.settingsOverrides?.protocol ?: settingsProtocol,
+                )
+            }
         }
+    }
+
+    private fun ConnectIntent.isExcluded(excludedLocations: ExcludedLocations) = when (this) {
+        is ConnectIntent.FastestInCity -> {
+            excludedLocations.isCityExcluded(countryCode = country.countryCode, nameEn = cityEn)
+        }
+
+        is ConnectIntent.FastestInCountry -> {
+            excludedLocations.isCountryExcluded(countryCode = country.countryCode)
+        }
+
+        is ConnectIntent.FastestInState -> {
+            excludedLocations.isStateExcluded(countryCode = country.countryCode, nameEn = stateEn)
+        }
+
+        is ConnectIntent.SecureCore -> {
+            excludedLocations.isCountryExcluded(countryCode = exitCountry.countryCode) ||
+                    excludedLocations.isCountryExcluded(countryCode = entryCountry.countryCode)
+        }
+
+        is ConnectIntent.Gateway,
+        is ConnectIntent.Server -> false
     }
 
     private fun Iterable<Server>.getAvailability(
         vpnUser: VpnUser?,
-        protocol: ProtocolSelection
+        protocol: ProtocolSelection,
     ): ConnectIntentAvailability {
+
         fun Server.hasAvailability(availability: ConnectIntentAvailability) = when (availability) {
-            ConnectIntentAvailability.NO_SERVERS, ConnectIntentAvailability.UNAVAILABLE_PLAN -> true
+            ConnectIntentAvailability.NO_SERVERS,
+            ConnectIntentAvailability.EXCLUDED,
+            ConnectIntentAvailability.UNAVAILABLE_PLAN -> true
             ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> vpnUser.hasAccessToServer(this)
             ConnectIntentAvailability.AVAILABLE_OFFLINE -> supportsProtocol(this, protocol)
             ConnectIntentAvailability.ONLINE -> online

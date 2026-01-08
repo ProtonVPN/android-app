@@ -569,6 +569,7 @@ private fun HomeDialog(dialog: DialogState?, onDismiss: () -> Unit) {
             DialogState.StateInMaintenance -> stringResource(R.string.message_state_servers_in_maintenance)
             DialogState.ServerInMaintenance -> stringResource(R.string.message_server_in_maintenance)
             DialogState.GatewayInMaintenance -> stringResource(R.string.message_gateway_in_maintenance)
+            DialogState.ServerLocationExcluded -> stringResource(R.string.message_server_location_excluded)
             DialogState.ServerNotAvailable -> stringResource(R.string.message_server_not_available)
             is DialogState.ProfileNotAvailable ->
                 stringResource(R.string.profile_unavailable_dialog_message, dialog.profileName)

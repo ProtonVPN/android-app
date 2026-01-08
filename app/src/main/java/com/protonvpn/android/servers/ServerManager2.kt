@@ -21,6 +21,7 @@ package com.protonvpn.android.servers
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.excludedlocations.ExcludedLocations
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.VpnCountry
@@ -89,10 +90,20 @@ class ServerManager2 @Inject constructor(
         return serverManager.getSecureCoreExitCountries()
     }
 
-    suspend fun getBestServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
+    suspend fun getBestServerForConnectIntent(
+        connectIntent: AnyConnectIntent,
+        vpnUser: VpnUser?,
+        protocol: ProtocolSelection,
+        excludedLocations: ExcludedLocations,
+    ): Server? {
         serverManager.ensureLoaded()
-        val protocolOverride = connectIntent.settingsOverrides?.protocol
-        return serverManager.getBestServerForConnectIntent(connectIntent, vpnUser, protocolOverride ?: protocol)
+
+        return serverManager.getBestServerForConnectIntent(
+            connectIntent = connectIntent,
+            vpnUser = vpnUser,
+            protocol = connectIntent.settingsOverrides?.protocol ?: protocol,
+            excludedLocations = excludedLocations,
+        )
     }
 
     suspend fun getRandomServer(vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
@@ -115,10 +126,17 @@ class ServerManager2 @Inject constructor(
     suspend fun <T> forConnectIntent(
         connectIntent: AnyConnectIntent,
         fallbackResult: T,
+        excludedLocations: ExcludedLocations,
         onServers: (Iterable<Server>) -> T,
     ): T {
         serverManager.ensureLoaded()
-        return serverManager.forConnectIntent(connectIntent, fallbackResult, onServers)
+
+        return serverManager.forConnectIntent(
+            connectIntent = connectIntent,
+            fallbackResult = fallbackResult,
+            excludedLocations = excludedLocations,
+            onServers = onServers,
+        )
     }
 
     suspend fun getServerById(id: String): Server? {

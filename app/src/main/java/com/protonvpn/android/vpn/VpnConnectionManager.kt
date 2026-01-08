@@ -29,6 +29,7 @@ import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.logging.ConnConnectConnected
 import com.protonvpn.android.logging.ConnConnectStart
 import com.protonvpn.android.logging.ConnConnectTrigger
@@ -44,12 +45,12 @@ import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
@@ -62,6 +63,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
@@ -148,6 +150,7 @@ class VpnConnectionManager @Inject constructor(
     private val vpnConnectionTelemetry: VpnConnectionTelemetry,
     private val autoLoginManager: AutoLoginManager,
     private val vpnErrorAndFallbackObservability: VpnErrorAndFallbackObservability,
+    private val observeExcludedLocations: ObserveExcludedLocations,
 ) : VpnConnect {
 
     // Note: the jobs are not set to "null" upon completion, check "isActive" to see if still running.
@@ -553,7 +556,12 @@ class VpnConnectionManager @Inject constructor(
         ProtonLogger.log(ConnConnectTrigger, "${connectIntent.toLog()}, reason: ${trigger.description}")
         vpnConnectionTelemetry.onConnectionStart(trigger)
         val vpnUser = currentUser.vpnUser()
-        val server = preferredServer ?: serverManager.getBestServerForConnectIntent(connectIntent, vpnUser, settings.protocol)
+        val server = preferredServer ?: serverManager.getBestServerForConnectIntent(
+            connectIntent = connectIntent,
+            vpnUser = vpnUser,
+            protocol = settings.protocol,
+            excludedLocations = observeExcludedLocations().first(),
+        )
         if (server?.online == true &&
             (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {

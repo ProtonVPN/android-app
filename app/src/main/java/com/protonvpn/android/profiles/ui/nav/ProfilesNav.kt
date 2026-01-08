@@ -33,9 +33,9 @@ import com.protonvpn.android.profiles.ui.CreateEditProfileViewModel
 import com.protonvpn.android.profiles.ui.CreateProfileFeaturesAndSettingsRoute
 import com.protonvpn.android.profiles.ui.CreateProfileNameRoute
 import com.protonvpn.android.profiles.ui.CreateProfileTypeAndLocationRoute
+import com.protonvpn.android.profiles.ui.ProfileLanRoute
 import com.protonvpn.android.profiles.ui.ProfilesRoute
 import com.protonvpn.android.profiles.ui.customdns.ProfileCustomDnsRoute
-import com.protonvpn.android.profiles.ui.ProfileLanRoute
 import com.protonvpn.android.profiles.ui.nav.CreateProfileNameScreen.createProfileName
 import com.protonvpn.android.profiles.ui.nav.ProfileCustomDnsSubcreen.profileCustomDnsScreen
 import com.protonvpn.android.profiles.ui.nav.ProfileFeaturesAndSettingsScreen.profileFeaturesAndSettingsScreen
@@ -52,6 +52,7 @@ import com.protonvpn.android.redesign.base.ui.nav.addToGraph
 import com.protonvpn.android.redesign.base.ui.nav.addToGraphWithSlideAnim
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
+import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import kotlinx.serialization.Serializable
 
 object ProfilesScreen : ScreenNoArg<MainNav>("profiles") {
@@ -59,8 +60,15 @@ object ProfilesScreen : ScreenNoArg<MainNav>("profiles") {
     fun SafeNavGraphBuilder<MainNav>.profiles(
         onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
         onNavigateToAddEdit: (profileId: Long?, duplicate: Boolean) -> Unit,
+        onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
     ) = addToGraph(this) {
-        ProfilesRoute(onNavigateToHomeOnConnect, onNavigateToAddEdit)
+        ProfilesRoute(
+            onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
+            onNavigateToAddEdit = onNavigateToAddEdit,
+            onNavigateToConnectionPreferences = {
+                onNavigateToSubSetting(SubSettingsScreen.Type.ConnectionPreferences)
+            },
+        )
     }
 }
 
@@ -98,7 +106,7 @@ object AddEditProfileScreen : Screen<AddEditProfileScreen.ProfileCreationArgs, R
     fun SafeNavGraphBuilder<RootNav>.addEditProfile(
         onDismiss: () -> Unit,
     ) = addToGraphWithSlideAnim(this) { entry ->
-        val profileArgs = AddEditProfileScreen.getArgs<ProfileCreationArgs>(entry)
+        val profileArgs = getArgs<ProfileCreationArgs>(entry)
         AddEditProfileRoute(
             profileArgs.editingProfileId,
             profileArgs.duplicate,

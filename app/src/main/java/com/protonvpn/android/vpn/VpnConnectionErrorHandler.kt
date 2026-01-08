@@ -24,6 +24,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.ElapsedRealtimeClock
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.logging.ConnServerSwitchFailed
 import com.protonvpn.android.logging.ConnServerSwitchServerSelected
 import com.protonvpn.android.logging.ConnServerSwitchTrigger
@@ -31,16 +32,16 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.UserPlanManager
@@ -48,6 +49,7 @@ import com.protonvpn.android.utils.UserPlanManager.InfoChange.PlanChange
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.UserBecameDelinquent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import me.proton.core.network.domain.ApiResult
@@ -158,7 +160,8 @@ class VpnConnectionErrorHandler @Inject constructor(
     private val getConnectingDomain: GetConnectingDomain,
     private val getOnlineServersForIntent: GetOnlineServersForIntent,
     @ElapsedRealtimeClock private val elapsedMs: () -> Long,
-    @Suppress("unused") errorUIManager: VpnErrorUIManager // Forces creation of a VpnErrorUiManager instance.
+    @Suppress("unused") errorUIManager: VpnErrorUIManager, // Forces creation of a VpnErrorUiManager instance.
+    private val observeExcludedLocations: ObserveExcludedLocations,
 ) {
     private var handlingAuthError = false
     private val stuckHandler = StuckConnectionHandler(elapsedMs)
@@ -199,11 +202,15 @@ class VpnConnectionErrorHandler @Inject constructor(
         vpnUser: VpnUser?
     ): VpnFallbackResult.Switch? {
         val fallbackIntent = ConnectIntent.Default
-        val protocol = settingsForConnection.getFor(fallbackIntent).protocol
-        val fallbackServer =
-            serverManager.getBestServerForConnectIntent(fallbackIntent, vpnUser, protocol)
-                ?.takeIf { it.online }
-                ?: return null
+        val fallbackServer = serverManager.getBestServerForConnectIntent(
+            connectIntent = fallbackIntent,
+            vpnUser = vpnUser,
+            protocol = settingsForConnection.getFor(fallbackIntent).protocol,
+            excludedLocations = observeExcludedLocations().first(),
+        )
+            ?.takeIf(Server::online)
+            ?: return null
+
         for (change in changes) when {
             change is PlanChange && change.isDowngrade -> {
                 return VpnFallbackResult.Switch.SwitchConnectIntent(

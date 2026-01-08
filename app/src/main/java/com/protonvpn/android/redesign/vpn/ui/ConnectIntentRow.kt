@@ -105,7 +105,8 @@ private fun ConnectIntentAvailability.accessibilityAction(): String? =
         ConnectIntentAvailability.ONLINE -> R.string.accessibility_action_connect
         ConnectIntentAvailability.UNAVAILABLE_PLAN -> R.string.accessibility_action_upgrade
         ConnectIntentAvailability.AVAILABLE_OFFLINE,
-        ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> null
+        ConnectIntentAvailability.UNAVAILABLE_PROTOCOL,
+        ConnectIntentAvailability.EXCLUDED,
         ConnectIntentAvailability.NO_SERVERS -> null
     }?.let { stringResource(it) }
 
@@ -115,7 +116,8 @@ private fun ConnectIntentAvailability.extraContentDescription(): String? =
         ConnectIntentAvailability.UNAVAILABLE_PLAN,
         ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> R.string.accessibility_item_unavailable
         ConnectIntentAvailability.AVAILABLE_OFFLINE -> R.string.accessibility_item_in_maintenance
-        ConnectIntentAvailability.ONLINE -> null
+        ConnectIntentAvailability.ONLINE,
+        ConnectIntentAvailability.EXCLUDED,
         ConnectIntentAvailability.NO_SERVERS -> null
     }?.let { stringResource(it) }
 

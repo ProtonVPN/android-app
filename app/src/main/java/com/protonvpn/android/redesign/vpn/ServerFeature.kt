@@ -19,9 +19,10 @@
 
 package com.protonvpn.android.redesign.vpn
 
+import com.protonvpn.android.excludedlocations.ExcludedLocations
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
 import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.utils.hasFlag
 import java.util.EnumSet
 
@@ -39,3 +40,31 @@ enum class ServerFeature(val flag: Int) {
 
 fun Server.satisfiesFeatures(requiredFeatures: Set<ServerFeature>): Boolean =
     requiredFeatures.all { required -> features.hasFlag(required.flag) }
+
+fun Server.isExcluded(
+    excludedLocations: ExcludedLocations,
+    checkSecureCore: Boolean = false,
+): Boolean = when {
+    !excludedLocations.hasExclusions -> false
+
+    excludedLocations.isCountryExcluded(countryCode = exitCountry) -> true
+
+    checkSecureCore && excludedLocations.isCountryExcluded(countryCode = entryCountry) -> true
+
+    state != null && excludedLocations.isStateExcluded(
+        countryCode = exitCountry,
+        nameEn = state,
+    ) -> true
+
+    city != null && excludedLocations.isCityExcluded(
+        countryCode = exitCountry,
+        nameEn = city,
+    ) -> true
+
+    else -> false
+}
+
+fun Server.isNotExcluded(
+    excludedLocations: ExcludedLocations,
+    checkSecureCore: Boolean = false,
+): Boolean = !isExcluded(excludedLocations, checkSecureCore)

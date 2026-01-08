@@ -51,8 +51,11 @@ import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -105,10 +108,24 @@ class ProfilesViewModel @Inject constructor(
     private var selectedProfileId by savedStateHandle.state<Long?>(null, SELECTED_PROFILE_KEY)
 
     sealed class Dialog {
+
+        data class ServerLocationExcluded(val profileName: String) : Dialog()
+
         data class ServerUnavailable(val profileName: String) : Dialog()
+
     }
+
+    sealed interface Event {
+
+        data object OnOpenConnectionPreferences : Event
+
+    }
+
     val showDialog = MutableStateFlow<Dialog?>(null)
     val autoShowInfoSheet = uiStateStorage.state.map { !it.hasShownProfilesInfo }.distinctUntilChanged()
+
+    private val _eventsFlow = MutableSharedFlow<Event>(extraBufferCapacity = 1)
+    val eventsFlow: SharedFlow<Event> = _eventsFlow.asSharedFlow()
 
     val selectedProfile = combine(
         currentUser.vpnUserFlow,
@@ -160,6 +177,8 @@ class ProfilesViewModel @Inject constructor(
             ConnectIntentAvailability.UNAVAILABLE_PROTOCOL,
             ConnectIntentAvailability.AVAILABLE_OFFLINE ->
                 showDialog.value = Dialog.ServerUnavailable(item.profile.name)
+            ConnectIntentAvailability.EXCLUDED ->
+                showDialog.value = Dialog.ServerLocationExcluded(item.profile.name)
             ConnectIntentAvailability.UNAVAILABLE_PLAN -> navigateToUpsell()
             ConnectIntentAvailability.ONLINE -> {
                 mainScope.launch {
@@ -192,6 +211,14 @@ class ProfilesViewModel @Inject constructor(
     fun onAutoShowInfoSheet() {
         mainScope.launch {
             uiStateStorage.update { it.copy(hasShownProfilesInfo = true) }
+        }
+    }
+
+    fun onOpenConnectionPreferences() {
+        showDialog.value = null
+
+        viewModelScope.launch {
+            _eventsFlow.emit(value = Event.OnOpenConnectionPreferences)
         }
     }
 

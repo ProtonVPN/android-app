@@ -95,6 +95,7 @@ class ObserveDefaultConnection @Inject constructor(
                         ConnectIntentAvailability.AVAILABLE_OFFLINE,
                         ConnectIntentAvailability.ONLINE -> currentDefaultConnection
 
+                        ConnectIntentAvailability.EXCLUDED,
                         ConnectIntentAvailability.NO_SERVERS -> null
                     }
                 }

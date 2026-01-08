@@ -31,6 +31,8 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.components.BaseTvActivity
+import com.protonvpn.android.excludedlocations.ExcludedLocation
+import com.protonvpn.android.excludedlocations.ExcludedLocations
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -260,7 +262,12 @@ class TvMainViewModel @Inject constructor(
     @DrawableRes
     private fun profileCardTitleIcon(connectIntent: ConnectIntent): Int {
         val defaultConnection = profileManager.getDefaultOrFastest()
-        val server = serverManager.getBestServerForConnectIntent(connectIntent, currentUser.vpnUserCached(), settingsProtocol)
+        val server = serverManager.getBestServerForConnectIntent(
+            connectIntent = connectIntent,
+            vpnUser = currentUser.vpnUserCached(),
+            protocol = settingsProtocol,
+            excludedLocations = ExcludedLocations(allLocations = emptyList()),
+        )
         return when {
             server == null -> CoreR.drawable.ic_proton_lock_filled
             server.online && connectIntent == ConnectIntent.Default -> CoreR.drawable.ic_proton_bolt

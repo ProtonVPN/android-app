@@ -19,10 +19,11 @@
 
 package com.protonvpn.android.profiles.usecases
 
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.utils.DebugUtils
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -38,26 +39,33 @@ import javax.inject.Inject
 @Reusable
 class UpdateConnectIntentForExistingServers @Inject constructor(
     private val serverManager: ServerManager2,
+    private val observeExcludedLocations: ObserveExcludedLocations,
 ) {
 
-    suspend operator fun invoke(initialIntent: ConnectIntent): ConnectIntent? {
-        var intent: ConnectIntent = initialIntent
+    suspend operator fun invoke(initialIntent: ConnectIntent): ConnectIntent {
+        var connectIntent: ConnectIntent = initialIntent
+
         do {
-            val hasAnyServers = serverManager.forConnectIntent(intent, false) { it.any() }
+            val hasAnyServers = serverManager.forConnectIntent(
+                connectIntent = connectIntent,
+                fallbackResult = false,
+                excludedLocations = observeExcludedLocations().first(),
+                onServers = Iterable<Server>::any,
+            )
             if (hasAnyServers) {
                 break
             }
-            intent = oneStepUp(intent)
-        } while(intent != ConnectIntent.Fastest)
+            connectIntent = oneStepUp(connectIntent)
+        } while(connectIntent != ConnectIntent.Fastest)
 
-        if (intent == ConnectIntent.Fastest && !serverManager.hasAnyCountryFlow.first()) {
+        if (connectIntent == ConnectIntent.Fastest && !serverManager.hasAnyCountryFlow.first()) {
             // If there are no countries, try returning a gateway intent.
-            intent = serverManager.getGateways()
+            connectIntent = serverManager.getGateways()
                 .firstOrNull()
                 ?.let { ConnectIntent.Gateway(it.name(), null) }
-                ?: intent
+                ?: connectIntent
         }
-        return intent
+        return connectIntent
     }
 
     /**

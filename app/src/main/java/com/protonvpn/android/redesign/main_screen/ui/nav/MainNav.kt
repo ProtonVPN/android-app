@@ -159,7 +159,13 @@ class MainNav(
                                     AddEditProfileScreen,
                                     AddEditProfileScreen.ProfileCreationArgs(profileId, duplicate)
                                 )
-                            }
+                            },
+                            onNavigateToSubSetting = { subSettingsType ->
+                                rootNav.navigate(
+                                    screen = SubSettingsScreen,
+                                    arg = subSettingsType,
+                                )
+                            },
                         )
 
                     MainTarget.Gateways ->

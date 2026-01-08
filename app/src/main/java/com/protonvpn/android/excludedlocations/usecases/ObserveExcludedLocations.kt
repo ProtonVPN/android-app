@@ -23,24 +23,31 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.excludedlocations.ExcludedLocations
 import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
 import com.protonvpn.android.excludedlocations.data.toDomain
+import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
 import dagger.Reusable
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @Reusable
 class ObserveExcludedLocations @Inject constructor(
-    private val currentUser: CurrentUser,
+    mainScope: CoroutineScope,
+    currentUser: CurrentUser,
     private val excludedLocationsDao: ExcludedLocationsDao,
+    private val isAutomaticConnectionEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
 ) {
 
-    operator fun invoke(): Flow<ExcludedLocations> = currentUser.vpnUserFlow
+    private val excludedLocationsFlow = currentUser.vpnUserFlow
         .flatMapLatest { vpnUser ->
-            if (vpnUser == null || vpnUser.isFreeUser) {
+            if (vpnUser == null || vpnUser.isFreeUser || !isAutomaticConnectionEnabled()) {
                 flowOf(ExcludedLocations(allLocations = emptyList()))
             } else {
                 excludedLocationsDao.observeAll(userId = vpnUser.userId.id)
@@ -51,5 +58,12 @@ class ObserveExcludedLocations @Inject constructor(
                     }
             }
         }
+        .stateIn(
+            scope = mainScope,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000),
+            initialValue = null,
+        )
+
+    operator fun invoke(): Flow<ExcludedLocations> = excludedLocationsFlow.filterNotNull()
 
 }

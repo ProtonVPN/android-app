@@ -21,7 +21,49 @@ package com.protonvpn.android.excludedlocations
 
 import com.protonvpn.android.redesign.CountryId
 
-data class ExcludedLocations(val allLocations: List<ExcludedLocation>)
+data class ExcludedLocations(val allLocations: List<ExcludedLocation>) {
+
+    val hasExclusions: Boolean = allLocations.isNotEmpty()
+
+    private val excludedCountryCodes by lazy {
+        allLocations.filterIsInstance<ExcludedLocation.Country>()
+            .map { excludedCountry -> excludedCountry.countryId.countryCode }
+            .toSet()
+    }
+
+    private val excludedCountryCities by lazy {
+        allLocations.filterIsInstance<ExcludedLocation.City>()
+            .mapNotNull { excludedCity ->
+                excludedCity.nameEn?.let { excludedCityNameEn ->
+                    excludedCity.countryId.countryCode to excludedCityNameEn
+                }
+            }
+            .toSet()
+    }
+
+    private val excludedCountryStates by lazy {
+        allLocations.filterIsInstance<ExcludedLocation.State>()
+            .mapNotNull { excludedState ->
+                excludedState.nameEn?.let { excludedStateNameEn ->
+                    excludedState.countryId.countryCode to excludedStateNameEn
+                }
+            }
+            .toSet()
+    }
+
+    fun isCountryExcluded(countryCode: String): Boolean {
+        return excludedCountryCodes.contains(countryCode)
+    }
+
+    fun isCityExcluded(countryCode: String, nameEn: String): Boolean {
+        return isCountryExcluded(countryCode) || excludedCountryCities.contains(countryCode to nameEn)
+    }
+
+    fun isStateExcluded(countryCode: String, nameEn: String): Boolean {
+        return isCountryExcluded(countryCode) || excludedCountryStates.contains(countryCode to nameEn)
+    }
+
+}
 
 sealed interface ExcludedLocation {
 

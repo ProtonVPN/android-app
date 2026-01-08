@@ -172,6 +172,8 @@ class HomeViewModel @Inject constructor(
         @Parcelize
         object ServerNotAvailable : DialogState
         @Parcelize
+        object ServerLocationExcluded : DialogState
+        @Parcelize
         data class ProfileNotAvailable(val profileName: String) : DialogState
     }
 
@@ -213,6 +215,7 @@ class HomeViewModel @Inject constructor(
                 ConnectIntentAvailability.UNAVAILABLE_PLAN -> eventNavigateToUpgrade.tryEmit(Unit)
                 ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> dialogState = DialogState.ServerNotAvailable
                 ConnectIntentAvailability.NO_SERVERS -> dialogState = DialogState.ServerNotAvailable
+                ConnectIntentAvailability.EXCLUDED -> dialogState = DialogState.ServerLocationExcluded
                 ConnectIntentAvailability.AVAILABLE_OFFLINE -> dialogState = recent.toMaintenanceDialogType()
                 ConnectIntentAvailability.ONLINE -> {
                     val trigger = if (recent.isPinned) ConnectTrigger.RecentPinned else ConnectTrigger.RecentRegular

@@ -25,6 +25,7 @@ import com.protonvpn.android.appconfig.UserCountryPhysical
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.excludedlocations.ExcludedLocations
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper.ProfileType
@@ -35,6 +36,8 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.isExcluded
+import com.protonvpn.android.redesign.vpn.isNotExcluded
 import com.protonvpn.android.redesign.vpn.satisfiesFeatures
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServersDataManager
@@ -329,10 +332,18 @@ class ServerManager @Inject constructor(
         }
     }
 
-    fun getBestServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? =
-        forConnectIntent(connectIntent, null) { servers ->
-            getBestScoreServer(servers, vpnUser, protocol)
-        }
+    fun getBestServerForConnectIntent(
+        connectIntent: AnyConnectIntent,
+        vpnUser: VpnUser?,
+        protocol: ProtocolSelection,
+        excludedLocations: ExcludedLocations,
+    ): Server? = forConnectIntent(
+        connectIntent = connectIntent,
+        fallbackResult = null,
+        excludedLocations = excludedLocations,
+    ) { servers ->
+        getBestScoreServer(servers, vpnUser, protocol)
+    }
 
     /*
      * Perform operations related to ConnectIntent.
@@ -344,6 +355,7 @@ class ServerManager @Inject constructor(
     fun <T> forConnectIntent(
         connectIntent: AnyConnectIntent,
         fallbackResult: T,
+        excludedLocations: ExcludedLocations,
         onServers: (Iterable<Server>) -> T,
     ): T {
         fun Iterable<Server>.filterFeatures() = filter { it.satisfiesFeatures(connectIntent.features) }
@@ -352,62 +364,103 @@ class ServerManager @Inject constructor(
         fun allRegularServersFor(
             secureCore: Boolean,
             features: Set<ServerFeature>,
-            excludedCountryId: CountryId?
+            excludedCountryId: CountryId?,
+            excludedLocations: ExcludedLocations,
         ): Sequence<Server> {
             var serversSequence = allServersByScore.asSequence()
+
             if (excludedCountryId != null) {
                 serversSequence = serversSequence.filterNot { it.exitCountry == excludedCountryId.countryCode }
             }
+
             return serversSequence.filter {
-                it.isSecureCoreServer == secureCore && it.satisfiesFeatures(features) && !it.isGatewayServer
+                it.isSecureCoreServer == secureCore &&
+                        !it.isGatewayServer &&
+                        it.isNotExcluded(excludedLocations = excludedLocations, checkSecureCore = secureCore) &&
+                        it.satisfiesFeatures(features)
             }
         }
 
         return when (connectIntent) {
             is ConnectIntent.FastestInCountry ->
                 if (connectIntent.country.isFastest) {
-                    val excludedCountry =
-                        ifOrNull(connectIntent.country.isFastestExcludingMyCountry) { physicalUserCountry() }
-                    val servers = allRegularServersFor(secureCore = false, connectIntent.features, excludedCountry)
-                    onServers(servers.asIterable()) ?: fallbackResult
+                    val excludedCountryId = ifOrNull(
+                        predicate = connectIntent.country.isFastestExcludingMyCountry,
+                        block = physicalUserCountry::invoke,
+                    )
+                    val servers = allRegularServersFor(
+                        secureCore = false,
+                        features = connectIntent.features,
+                        excludedCountryId = excludedCountryId,
+                        excludedLocations = excludedLocations,
+                    )
+                    onServers(servers.asIterable())
                 } else {
-                    getVpnExitCountry(
-                        connectIntent.country.countryCode,
-                        false
-                    )?.let { onServers(it.serverList.filterFeatures()) } ?: fallbackResult
+                    getVpnExitCountry(countryCode = connectIntent.country.countryCode, secureCoreCountry = false)
+                        ?.serverList
+                        ?.filterNot { server -> server.isExcluded(excludedLocations) }
+                        ?.filterFeatures()
+                        ?.let { servers ->
+                            onServers(servers)
+                        }
+                        ?: fallbackResult
                 }
 
             is ConnectIntent.FastestInCity -> {
-                getVpnExitCountry(connectIntent.country.countryCode, false)?.let { country ->
-                    onServers(
-                        country.serverList.filter { it.city == connectIntent.cityEn && it.satisfiesFeatures() }
-                    )
-                } ?: fallbackResult
+                getVpnExitCountry(countryCode = connectIntent.country.countryCode, secureCoreCountry = false)
+                    ?.serverList
+                    ?.filter { server ->
+                        server.city == connectIntent.cityEn && server.isNotExcluded(excludedLocations) && server.satisfiesFeatures()
+                    }
+                    ?.let { servers ->
+                        onServers(servers)
+                    }
+                    ?: fallbackResult
             }
 
             is ConnectIntent.FastestInState -> {
-                getVpnExitCountry(connectIntent.country.countryCode, false)?.let { country ->
-                    onServers(
-                        country.serverList.filter { it.state == connectIntent.stateEn && it.satisfiesFeatures() }
-                    )
-                } ?: fallbackResult
+                getVpnExitCountry(countryCode = connectIntent.country.countryCode, secureCoreCountry = false)
+                    ?.serverList
+                    ?.filter { server ->
+                        server.state == connectIntent.stateEn && server.isNotExcluded(excludedLocations) && server.satisfiesFeatures()
+                    }
+                    ?.let { servers ->
+                        onServers(servers)
+                    }
+                    ?: fallbackResult
             }
 
             is ConnectIntent.SecureCore ->
                 if (connectIntent.exitCountry.isFastest) {
-                    val excludedCountry =
-                        ifOrNull(connectIntent.exitCountry.isFastestExcludingMyCountry) { physicalUserCountry() }
-                    val servers = allRegularServersFor(secureCore = true, connectIntent.features, excludedCountry)
-                    onServers(servers.asIterable()) ?: fallbackResult
+                    val excludedCountryId = ifOrNull(
+                        predicate = connectIntent.exitCountry.isFastestExcludingMyCountry,
+                        block = physicalUserCountry::invoke,
+                    )
+                    val servers = allRegularServersFor(
+                        secureCore = true,
+                        features = connectIntent.features,
+                        excludedCountryId = excludedCountryId,
+                        excludedLocations = excludedLocations,
+                    )
+                    onServers(servers.asIterable())
                 } else {
-                    val exitCountry = getVpnExitCountry(connectIntent.exitCountry.countryCode, true)
-                    if (connectIntent.entryCountry.isFastest) {
-                        exitCountry?.let { onServers(it.serverList.filterFeatures()) } ?: fallbackResult
-                    } else {
-                        exitCountry?.serverList?.find {
-                            it.entryCountry == connectIntent.entryCountry.countryCode && it.satisfiesFeatures()
-                        }?.let { onServers(listOf(it)) } ?: fallbackResult
-                    }
+                    getVpnExitCountry(countryCode = connectIntent.exitCountry.countryCode, secureCoreCountry = true)
+                        ?.serverList
+                        ?.let { servers ->
+                            if (connectIntent.entryCountry.isFastest) {
+                                servers.filterNot { server ->
+                                    server.isExcluded(excludedLocations = excludedLocations, checkSecureCore = true)
+                                }.filterFeatures()
+                            } else {
+                                servers.find { server ->
+                                    server.entryCountry == connectIntent.entryCountry.countryCode && server.satisfiesFeatures()
+                                }?.let(::listOf)
+                            }
+                        }
+                        ?.let { servers ->
+                            onServers(servers)
+                        }
+                        ?: fallbackResult
                 }
 
             is ConnectIntent.Gateway ->
