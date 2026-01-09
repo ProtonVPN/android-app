@@ -69,6 +69,7 @@ fun createServer(
     loadPercent: Float = 50f,
     hostCountry: String? = "",
     isVisible: Boolean = true,
+    statusReference: ServerStatusReference? = null,
 ) = Server(
         serverId = serverId,
         entryCountry = entryCountry.uppercase(),
@@ -91,6 +92,7 @@ fun createServer(
         score = score,
         rawIsOnline = isOnline,
         isVisible = isVisible,
+        statusReference = statusReference,
     )
 
 fun createLogicalServer(

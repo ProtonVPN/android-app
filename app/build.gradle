@@ -750,6 +750,7 @@ dependencies {
 
     implementation 'dnsjava:dnsjava:3.6.2'
     implementation "net.java.dev.jna:jna:5.16.0@aar"
+    testImplementation "net.java.dev.jna:jna:5.16.0@jar"
 
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'com.google.android.material:material:1.12.0'
@@ -854,7 +855,7 @@ dependencies {
     implementation("androidx.tv:tv-material:1.0.1")
 
     // Proton libs
-    implementation "me.proton.vpn:vpn-sdk-internal:0.1.1-1.0.15"
+    implementation "me.proton.vpn:vpn-sdk-internal:0.1.1-1.0.16"
     implementation "me.proton.vpn:go-vpn-lib:$govpnlib_version"
     implementation "me.proton.core:domain:$core_version"
     implementation "me.proton.core:network-data:$core_version"
