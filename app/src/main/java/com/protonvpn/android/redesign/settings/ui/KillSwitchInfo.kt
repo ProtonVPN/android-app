@@ -51,6 +51,7 @@ import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonOutlinedButton
@@ -98,8 +99,8 @@ fun KillSwitchInfo(
                 val bulletPointStyle = LocalTextStyle.current.copy(lineHeightStyle = blockLineHeightStyle)
                 val cogwheelId = "cogwheel"
                 val cogwheelInlineIcon = inlineIcon(
-                    20.sp,
-                    20.sp,
+                    1.25.em,
+                    1.25.em,
                     CoreR.drawable.ic_proton_cog_wheel,
                 )
                 val step2InlineContentMap = mapOf(cogwheelId to cogwheelInlineIcon)

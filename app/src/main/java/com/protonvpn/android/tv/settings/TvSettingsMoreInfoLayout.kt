@@ -24,6 +24,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -34,8 +36,6 @@ import androidx.compose.ui.focus.FocusRequester.Companion.Cancel
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
-import androidx.tv.foundation.lazy.list.TvLazyColumn
-import androidx.tv.foundation.lazy.list.itemsIndexed
 import androidx.tv.material3.Text
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -63,7 +63,7 @@ internal fun TvSettingsMoreInfoLayout(
         )
 
         if (focusRequesters.isNotEmpty()) {
-            TvLazyColumn(
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester),

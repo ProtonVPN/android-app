@@ -141,6 +141,7 @@ fun SettingsRoute(
     CompositionLocalProvider(
         LocalProductMetricsDelegateOwner provides ProductMetricsDelegateOwner(accountSettingsViewModel)
     ) {
+        val contactSupportLink = stringResource(R.string.contact_support_link)
         SettingOverrideDialogHandler(onNavigateToEditProfile) { onOverrideSettingClick ->
             SettingsView(
                 viewState = viewState,
@@ -203,7 +204,7 @@ fun SettingsRoute(
                     context.startActivity(intent)
                 },
                 onOnHelpCenterClick = {
-                    context.openUrl(context.getString(R.string.contact_support_link))
+                    context.openUrl(contactSupportLink)
                 },
                 onReportBugClick = {
                     if (viewState.isRedesignedBugReportFeatureFlagEnabled) {

@@ -25,6 +25,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,7 +40,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import androidx.tv.foundation.lazy.list.TvLazyColumn
 import com.protonvpn.android.R
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
@@ -94,8 +94,7 @@ fun TvSettingsProtocolMain(
             )
         }
 
-        // Use TvLazyColumn for its scroll behavior (there is no non-lazy TvColumn).
-        TvLazyColumn {
+        LazyColumn {
             item {
                 ProtocolItem(
                     itemProtocol = ProtocolSelection.SMART,

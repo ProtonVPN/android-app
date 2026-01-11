@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -62,7 +63,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.foundation.lazy.list.itemsIndexed
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
@@ -102,15 +102,11 @@ class TvSettingsCustomDnsActivity : BaseTvActivity() {
                     viewModel.onShowReconnectNowDialog(vpnUiDelegate = getVpnUiDelegate())
                 }
 
+                val applyChangesToastString = stringResource(id = R.string.settings_changes_apply_on_reconnect_toast)
                 LaunchedEffect(key1 = viewState?.areCustomDnsSettingsChanged) {
                     if (viewState?.areCustomDnsSettingsChanged == true && !isSettingsChangedToastShown) {
                         isSettingsChangedToastShown = true
-
-                        Toast.makeText(
-                            context,
-                            context.getString(R.string.settings_changes_apply_on_reconnect_toast),
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                        Toast.makeText(context, applyChangesToastString, Toast.LENGTH_SHORT).show()
                     }
                 }
 

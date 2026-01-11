@@ -790,7 +790,7 @@ dependencies {
     implementation 'com.caverock:androidsvg-aar:1.4'
 
     // Compose
-    def composeBom = platform('androidx.compose:compose-bom:2024.10.01')
+    def composeBom = platform('androidx.compose:compose-bom:2025.12.00')
     implementation composeBom
     androidTestImplementation composeBom
     def composeNavigationVersion = '2.8.5'
@@ -847,6 +847,10 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     ksp "androidx.room:room-compiler:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
+
+    //TODO: remove when updated in core
+    implementation("androidx.tv:tv-foundation:1.0.0-alpha12")
+    implementation("androidx.tv:tv-material:1.0.1")
 
     // Proton libs
     implementation "me.proton.vpn:android-vpn-rust:1.0.12"

@@ -34,6 +34,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -58,10 +62,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.foundation.lazy.list.TvLazyColumn
-import androidx.tv.foundation.lazy.list.items
-import androidx.tv.foundation.lazy.list.itemsIndexed
-import androidx.tv.foundation.lazy.list.rememberTvLazyListState
 import androidx.tv.material3.Checkbox
 import androidx.tv.material3.Icon
 import androidx.tv.material3.ProvideTextStyle
@@ -238,8 +238,8 @@ private fun AppsList(
         ProvideTextStyle(
             ProtonTheme.typography.body2Regular
         ) {
-            val listState = rememberTvLazyListState()
-            TvLazyColumn(
+            val listState = rememberLazyListState()
+            LazyColumn(
                 state = listState,
                 modifier = Modifier.fillMaxHeight()
             ) {
@@ -263,7 +263,7 @@ private fun AppsList(
                         clickLabel = clickLabel,
                         modifier = Modifier
                             .optional({ index == 0 }, Modifier.focusRequester(focusRequester))
-                            .animateItemPlacement()
+                            .animateItem()
                     )
                 }
                 if (systemApps != null) {
@@ -271,7 +271,7 @@ private fun AppsList(
                         SystemAppsCheckboxRow(
                             systemApps,
                             requireNotNull(onToggleLoadSystemApps),
-                            Modifier.animateItemPlacement()
+                            Modifier.animateItem()
                         )
                     }
                     when (systemApps) {
@@ -280,7 +280,7 @@ private fun AppsList(
                                 LaunchedEffect(Unit) {
                                     listState.animateScrollToItem(apps.size + 1)
                                 }
-                                SystemAppsLoadingRow(Modifier.animateItemPlacement())
+                                SystemAppsLoadingRow(Modifier.animateItem())
                             }
                         is SplitTunnelingAppsViewModelHelper.SystemAppsState.Content ->
                             items(systemApps.apps, key = { it.id }, contentType = { "app item" }) { item ->
@@ -289,7 +289,7 @@ private fun AppsList(
                                     itemTrailingIcon,
                                     onClick = { onClick(item) },
                                     clickLabel = clickLabel,
-                                    modifier = Modifier.animateItemPlacement()
+                                    modifier = Modifier.animateItem()
                                 )
                             }
                         is SplitTunnelingAppsViewModelHelper.SystemAppsState.NotLoaded -> {}
@@ -300,7 +300,7 @@ private fun AppsList(
                     Box(
                         Modifier
                             .height(TvUiConstants.ScreenPaddingVertical)
-                            .animateItemPlacement()
+                            .animateItem()
                     )
                 }
             }

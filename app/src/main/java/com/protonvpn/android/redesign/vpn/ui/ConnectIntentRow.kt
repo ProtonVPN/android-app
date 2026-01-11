@@ -66,6 +66,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.times
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
@@ -290,20 +291,21 @@ fun ServerDetailsRow(
     detailsStyle: TextStyle,
     modifier: Modifier = Modifier,
 ) {
-    val inlineContent = remember {
-        mapOf(
-            FREE_USER_FLAGS_PLACEHOLDER to InlineTextContent(
-                // Hardcoded ratio of the dimensions of the flags image...
-                Placeholder(3.5f * detailsStyle.fontSize, detailsStyle.fontSize, PlaceholderVerticalAlign.Center)
-            ) {
-                Image(
-                    painterResource(id = R.drawable.free_countries_flags),
-                    modifier = Modifier.fillMaxSize(),
-                    contentDescription = null
-                )
-            }
-        )
-    }
+    val inlineContent = mapOf(
+        FREE_USER_FLAGS_PLACEHOLDER to InlineTextContent(
+            // Hardcoded ratio of the dimensions of the flags image.
+            // Using em because of the issue with font scaling here when sp is used with
+            // compose 2025.12.00, probably related to this fix: https://issuetracker.google.com/issues/324462728
+            // but requires further investigation.
+            Placeholder(3.5f * 1.em, 1.em, PlaceholderVerticalAlign.Center)
+        ) {
+            Image(
+                painterResource(id = R.drawable.free_countries_flags),
+                modifier = Modifier.fillMaxSize(),
+                contentDescription = null
+            )
+        }
+    )
     val bulletPadding = 8.dp
     val semantics = contentDescriptionOverride?.let { Modifier.semantics { contentDescription = it }} ?: Modifier
     CompositionLocalProvider(LocalContentColor provides ProtonTheme.colors.textWeak) {

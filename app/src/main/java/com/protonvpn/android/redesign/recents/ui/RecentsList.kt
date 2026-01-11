@@ -138,7 +138,7 @@ fun RecentsList(
             val connectionCardModifier = Modifier
                 .padding(top = topPadding, start = horizontalPadding, end = horizontalPadding)
                 .optional({ peekThresholdItem == PeekThresholdItem.ConnectionCard }, peekPositionObserver)
-                .animateItemPlacement()
+                .animateItem()
                 .animateContentSize()
             Column(
                 modifier = connectionCardModifier
@@ -176,7 +176,7 @@ fun RecentsList(
                     Modifier
                         .padding(horizontal = horizontalPadding)
                         .fillMaxWidth()
-                        .animateItemPlacement()
+                        .animateItem()
                         .optional({ peekThresholdItem == PeekThresholdItem.PromoBanner }, bannerPeekObserver)
                 )
             }
@@ -195,7 +195,7 @@ fun RecentsList(
                     modifier = Modifier
                         .padding(horizontal = horizontalPadding)
                         .fillMaxWidth()
-                        .animateItemPlacement()
+                        .animateItem()
                         .optional({ peekThresholdItem == PeekThresholdItem.Header }, peekPositionObserver)
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                 )
@@ -203,7 +203,7 @@ fun RecentsList(
         }
         if (upsellContent != null) {
             item {
-                upsellContent(Modifier.animateItemPlacement(), horizontalPadding)
+                upsellContent(Modifier.animateItem(), horizontalPadding)
             }
         }
         itemsIndexed(viewState.recents, key = { _, item -> item.id }) { index, item ->
@@ -217,7 +217,7 @@ fun RecentsList(
                 exit = ExitTransition.None,
                 modifier = Modifier
                     .padding(horizontal = horizontalPadding)
-                    .animateItemPlacement(),
+                    .animateItem(),
             ) {
                 RecentRow(
                     item = item,
@@ -229,7 +229,7 @@ fun RecentsList(
                 VpnDivider(
                     Modifier
                         .padding(horizontal = horizontalPadding)
-                        .animateItemPlacement())
+                        .animateItem())
             }
         }
     }

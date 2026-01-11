@@ -187,7 +187,7 @@ fun ProfilesList(
             modifier = Modifier.weight(1f),
         ) {
             itemsIndexed(profiles, key = { _, profile -> profile.profile.id }) { index, profile ->
-                Column(modifier = Modifier.animateItemPlacement()) {
+                Column(modifier = Modifier.animateItem()) {
                     ProfileItem(
                         profile = profile,
                         onConnect = onConnect,

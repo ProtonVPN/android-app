@@ -51,7 +51,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
@@ -400,8 +400,8 @@ private fun SubDetailsStreaming(modifier: Modifier) {
             stringResource(id = R.string.info_dialog_how_to_stream_step_3)
         )
 
-        val context = LocalContext.current
-        val numberFormat = remember { NumberFormat.getInstance(context.resources.configuration.currentLocale()) }
+        val configuration = LocalConfiguration.current
+        val numberFormat = remember { NumberFormat.getInstance(configuration.currentLocale()) }
 
         Column(
             modifier = Modifier.semantics(mergeDescendants = true, properties = {})

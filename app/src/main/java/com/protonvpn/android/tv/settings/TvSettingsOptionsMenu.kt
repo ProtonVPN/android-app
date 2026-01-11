@@ -22,12 +22,12 @@ package com.protonvpn.android.tv.settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.tv.foundation.lazy.list.TvLazyColumn
-import androidx.tv.foundation.lazy.list.TvLazyListScope
 
 @Composable
 fun TvSettingsOptionsMenu(
@@ -35,7 +35,7 @@ fun TvSettingsOptionsMenu(
     titleMaxLines: Int = Int.MAX_VALUE,
     titleOverflow: TextOverflow = TextOverflow.Clip,
     modifier: Modifier = Modifier,
-    content: TvLazyListScope.() -> Unit = {},
+    content: LazyListScope.() -> Unit = {},
 ) {
     Column(
         modifier = modifier,
@@ -48,7 +48,7 @@ fun TvSettingsOptionsMenu(
             overflow = titleOverflow,
         )
 
-        TvLazyColumn(
+        LazyColumn(
             modifier = Modifier.fillMaxWidth(),
             content = content,
         )

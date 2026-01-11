@@ -21,6 +21,8 @@ package com.protonvpn.android.tv.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -28,8 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
-import androidx.tv.foundation.lazy.list.TvLazyColumn
-import androidx.tv.foundation.lazy.list.TvLazyListScope
 import com.protonvpn.android.tv.ui.TvUiConstants
 
 @Composable
@@ -40,7 +40,7 @@ fun TvSettingsMainToggleLayout(
     modifier: Modifier = Modifier,
     titleImageRes: Int? = null,
     toggleLabel: String = title,
-    additionalListContent: TvLazyListScope.() -> Unit = {}
+    additionalListContent: LazyListScope.() -> Unit = {}
 ) {
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
@@ -61,7 +61,7 @@ fun TvSettingsMainToggleLayout(
             )
         }
 
-        TvLazyColumn(
+        LazyColumn(
             modifier = Modifier.padding(top = 28.dp)
         ) {
             item {

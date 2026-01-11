@@ -138,6 +138,7 @@ fun DnsSettingsScreen(
     var applySettingsToastShown by rememberSaveable { mutableStateOf(false) }
     var netshieldConfictDialogShown by rememberSaveable { mutableStateOf(false) }
 
+    val applyChangesToastString = stringResource(id = R.string.settings_changes_apply_on_reconnect_toast)
     events.collectAsEffect { event ->
         when (event) {
             DnsSettingViewModelHelper.Event.NetShieldConflictDetected -> {
@@ -149,11 +150,7 @@ fun DnsSettingsScreen(
             DnsSettingViewModelHelper.Event.CustomDnsSettingChangedWhenConnected -> {
                 if (!applySettingsToastShown) {
                     applySettingsToastShown = true
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.settings_changes_apply_on_reconnect_toast),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(context, applyChangesToastString, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -305,13 +302,14 @@ fun CustomDnsScreen(
                     )
                 }
                 dnsViewState.customDns.isNotEmpty() -> {
+                    val copyToClipboardToastTest = stringResource(R.string.copied_to_clipboard)
                     CustomDnsContent(
                         listState = listState,
                         currentDnsList = dnsViewState.customDns,
                         onDnsChange = onDnsChange,
                         onCopyToClipboard = {
                             if (Build.VERSION.SDK_INT < 33) {
-                                context.showToast(context.getString(R.string.copied_to_clipboard))
+                                context.showToast(copyToClipboardToastTest)
                             }
                             clipboardManager.setText(AnnotatedString(it))
                         },
