@@ -82,7 +82,7 @@ fun VpnState.toTileState() = when (this) {
     VpnState.WaitingForNetwork,
     VpnState.Connecting ->
         QuickTileDataStore.TileState.Connecting
-    VpnState.Disabled -> QuickTileDataStore.TileState.Disabled
+    VpnState.Disabled, VpnState.Loading -> QuickTileDataStore.TileState.Disabled
     VpnState.Connected -> QuickTileDataStore.TileState.Connected
     VpnState.Disconnecting -> QuickTileDataStore.TileState.Disconnecting
     is VpnState.Error -> QuickTileDataStore.TileState.Error

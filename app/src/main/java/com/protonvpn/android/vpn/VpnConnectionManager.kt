@@ -723,6 +723,7 @@ class VpnConnectionManager @Inject constructor(
     }
 
     private fun unifiedState(vpnState: VpnState): String = when (vpnState) {
+        VpnState.Loading -> "Loading"
         VpnState.Disabled -> "Disconnected"
         VpnState.ScanningPorts,
         VpnState.CheckingAvailability,

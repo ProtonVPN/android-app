@@ -55,6 +55,7 @@ import com.protonvpn.android.vpn.VpnState.Connecting
 import com.protonvpn.android.vpn.VpnState.Disabled
 import com.protonvpn.android.vpn.VpnState.Disconnecting
 import com.protonvpn.android.vpn.VpnState.Error
+import com.protonvpn.android.vpn.VpnState.Loading
 import com.protonvpn.android.vpn.VpnState.Reconnecting
 import com.protonvpn.android.vpn.VpnState.ScanningPorts
 import com.protonvpn.android.vpn.VpnState.WaitingForNetwork
@@ -293,6 +294,7 @@ class NotificationHelper @Inject constructor(
 
     private fun getIconForState(state: VpnState): Int {
         return when (state) {
+            Loading -> R.drawable.ic_vpn_status_information
             Disabled, is Error -> R.drawable.ic_vpn_status_disconnected
             Connecting, WaitingForNetwork, Disconnecting, CheckingAvailability, ScanningPorts, Reconnecting ->
                 R.drawable.ic_vpn_status_connecting
@@ -303,6 +305,7 @@ class NotificationHelper @Inject constructor(
     private fun getStringFromState(vpnStatus: VpnStateMonitor.Status): String {
         val context = ProtonApplication.getAppContext()
         return when (vpnStatus.state) {
+            Loading -> ""
             CheckingAvailability, ScanningPorts -> context.getString(R.string.loaderCheckingAvailability)
             Disabled -> context.getString(R.string.loaderNotConnected)
             Connecting -> context.getString(R.string.loaderConnectingTo, getServerName(vpnStatus))

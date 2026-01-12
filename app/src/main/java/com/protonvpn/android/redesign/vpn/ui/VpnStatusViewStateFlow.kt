@@ -115,6 +115,7 @@ class VpnStatusViewStateFlow(
         bannerFlow,
     ) { status, locationText, statusBanner ->
         when (status.state) {
+            VpnState.Loading -> VpnStatusViewState.Loading
             VpnState.Connected -> {
                 val connectionParams = status.connectionParams
                 VpnStatusViewState.Connected(connectionParams!!.server.isSecureCoreServer, statusBanner)

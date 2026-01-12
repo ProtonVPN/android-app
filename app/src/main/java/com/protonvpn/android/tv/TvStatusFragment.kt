@@ -70,6 +70,7 @@ class TvStatusFragment : Fragment() {
         val ipString = state.ipToDisplay?.takeIfNotBlank() ?: getString(R.string.stateFragmentUnknownIp)
         textIp.text = getString(R.string.ipWithPlaceholder, ipString)
         when (vpnState) {
+            VpnState.Loading -> ""
             VpnState.Connected -> {
                 textStatus.text = getString(R.string.stateConnectedTo, state.vpnStatus.server?.displayName)
             }

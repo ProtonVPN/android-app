@@ -71,6 +71,7 @@ class WidgetStateUpdater @Inject constructor(
     private val vpnStatusFlow = vpnStatusProviderUi.get().uiStatus
         .map {
             when (it.state) {
+                VpnState.Loading,
                 VpnState.Disabled,
                 VpnState.Disconnecting -> WidgetVpnStatus.Disconnected
 

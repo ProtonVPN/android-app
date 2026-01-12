@@ -34,6 +34,7 @@ interface VpnStateSource {
 }
 
 sealed class VpnState(val isEstablishingConnection: Boolean) {
+    object Loading : VpnState(false)
     object Disabled : VpnState(false)
 
     object ScanningPorts : VpnState(true)
