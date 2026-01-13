@@ -639,7 +639,7 @@
     <string name="settings_excluded_locations_accessibility_label_deletion">Fjern fra ekskluderede placeringer</string>
     <string name="settings_excluded_locations_accessibility_label_city">By</string>
     <string name="settings_excluded_locations_accessibility_label_country">Land</string>
-    <string name="settings_excluded_locations_accessibility_label_state">Stat/Region</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Stat</string>
     <string name="settings_last_connection_title">Seneste forbindelse</string>
     <string name="settings_last_connection_description">Din senest anvendte forbindelse</string>
     <string name="settings_change_icon_title">App-ikon</string>
@@ -1106,12 +1106,13 @@
     <string name="country_filter_all_list_header_free">Plus-lande (%1$d)</string>
     <string name="country_filter_countries_list_header">(%1$d) lande</string>
     <string name="country_filter_cities_list_header">(%1$d) byer</string>
-    <string name="country_filter_states_list_header">Stater/regioner (%1$d)</string>
+    <string name="country_filter_states_list_header">Stater (%1$d)</string>
     <string name="country_filter_servers_list_header">Servere</string>
     <string name="country_filter_secure_core_list_header">lande med Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">(%1$d) lande med P2P</string>
     <string name="country_filter_p2p_list_header_cities">(%1$d) byer med P2P</string>
-    <string name="country_filter_p2p_list_header_states">P2P-stater/regioner (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P-stater (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">P2P-servere</string>
     <string name="country_filter_tor_list_header">lande med Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor-servere</string>
     <string name="country_filter_info_label">Info</string>
@@ -1166,6 +1167,8 @@
     <string name="connection_details_country">Land</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">By</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">Stat</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->

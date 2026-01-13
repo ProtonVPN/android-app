@@ -631,7 +631,7 @@
     <string name="settings_default_connection_title">Connexion par défaut</string>
     <string name="fastest_country_description">Le meilleur serveur selon votre emplacement</string>
     <string name="settings_connection_preferences_title">Préférences de connexion</string>
-    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">L\'élément a été supprimé.</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">L\'élément a été retiré.</string>
     <string name="settings_excluded_locations_title">Emplacements exclus</string>
     <string name="settings_excluded_locations_description">Les emplacements sélectionnés ne seront jamais choisis lorsque vous vous connecterez au serveur le plus rapide.</string>
     <string name="settings_excluded_locations_unavailable">Aucun emplacement disponible</string>
@@ -1112,6 +1112,7 @@
     <string name="country_filter_p2p_list_header">Pays P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Villes P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">États P2P (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">Serveurs P2P</string>
     <string name="country_filter_tor_list_header">Pays Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Serveurs Tor</string>
     <string name="country_filter_info_label">Informations</string>
@@ -1166,6 +1167,8 @@
     <string name="connection_details_country">Pays</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">Ville</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">État</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->

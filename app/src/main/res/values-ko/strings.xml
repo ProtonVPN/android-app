@@ -1088,6 +1088,7 @@
     <string name="country_filter_p2p_list_header">P2P 국가 (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P 도시 (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P 도시 (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">P2P servers</string>
     <string name="country_filter_tor_list_header">Tor 국가 (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor 서버</string>
     <string name="country_filter_info_label">정보</string>
@@ -1142,6 +1143,8 @@
     <string name="connection_details_country">국가</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">시/군/구</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">State</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->

@@ -648,7 +648,7 @@
     <string name="settings_default_connection_title">Conexiune implicită</string>
     <string name="fastest_country_description">Cel mai bun server disponibil</string>
     <string name="settings_connection_preferences_title">Preferințe conexiune</string>
-    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item removed</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Articolul a fost eliminat</string>
     <string name="settings_excluded_locations_title">Locuri excluse</string>
     <string name="settings_excluded_locations_description">Locurile selectate nu vor fi folosite niciodată la conectarea rapidă.</string>
     <string name="settings_excluded_locations_unavailable">Nu există locuri disponibile</string>
@@ -1137,6 +1137,7 @@
     <string name="country_filter_p2p_list_header">Țări P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Orașe P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">Țări P2P (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">Servere P2P</string>
     <string name="country_filter_tor_list_header">Țări Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Servere Tor</string>
     <string name="country_filter_info_label">Informații</string>
@@ -1191,6 +1192,8 @@
     <string name="connection_details_country">Țara</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">Oraș</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">Stat</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->

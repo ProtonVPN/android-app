@@ -1162,6 +1162,7 @@
     <string name="country_filter_p2p_list_header">P2P krajiny (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P mestá (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P štátov (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">P2P servery</string>
     <string name="country_filter_tor_list_header">Tor krajiny (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor servery</string>
     <string name="country_filter_info_label">Informácie</string>
@@ -1216,6 +1217,8 @@
     <string name="connection_details_country">Krajina</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">Mesto</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">Štát</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->

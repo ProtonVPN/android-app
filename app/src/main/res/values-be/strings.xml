@@ -665,7 +665,7 @@
     <string name="settings_default_connection_title">Прадвызначанае падключэнне</string>
     <string name="fastest_country_description">Лепшыя серверы на падставе вашага размяшчэння</string>
     <string name="settings_connection_preferences_title">Параметры падключэння</string>
-    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item removed</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Элемент выдалены</string>
     <string name="settings_excluded_locations_title">Выключаныя месцазнаходжанні</string>
     <string name="settings_excluded_locations_description">Выбраныя месцазнаходжанні ніколі не будуць выкарыстоўвацца пры падключэнні да Fastest.</string>
     <string name="settings_excluded_locations_unavailable">Няма даступных месцазнаходжанняў</string>
@@ -1162,6 +1162,7 @@
     <string name="country_filter_p2p_list_header">Краіны P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Гарады P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">Штаты P2P (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">Серверы P2P</string>
     <string name="country_filter_tor_list_header">Краіны Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Серверы Tor</string>
     <string name="country_filter_info_label">Звесткі</string>
@@ -1216,6 +1217,8 @@
     <string name="connection_details_country">Краіна</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">Горад</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">Штат</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->

@@ -614,7 +614,7 @@
     <string name="settings_default_connection_title">Koneksi bawaan</string>
     <string name="fastest_country_description">Server terbaik berdasarkan lokasi Anda</string>
     <string name="settings_connection_preferences_title">Preferensi koneksi</string>
-    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item removed</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item dihapus</string>
     <string name="settings_excluded_locations_title">Lokasi yang dikecualikan</string>
     <string name="settings_excluded_locations_description">Lokasi yang dipilih tidak akan pernah digunakan pada saat Anda menyambungkan ke server Tercepat.</string>
     <string name="settings_excluded_locations_unavailable">Tidak ada lokasi yang tersedia</string>
@@ -1087,6 +1087,7 @@
     <string name="country_filter_p2p_list_header">Negara P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Kota P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">Negara bagian P2P (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">Server P2P</string>
     <string name="country_filter_tor_list_header">Negara Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Server Tor</string>
     <string name="country_filter_info_label">Info</string>
@@ -1141,6 +1142,8 @@
     <string name="connection_details_country">Negara</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">Kota</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">Negara bagian</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
