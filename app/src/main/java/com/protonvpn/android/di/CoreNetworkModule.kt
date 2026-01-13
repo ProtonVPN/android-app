@@ -53,6 +53,7 @@ import me.proton.core.network.domain.client.ClientVersionValidator
 import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.network.domain.deviceverification.DeviceVerificationListener
 import me.proton.core.network.domain.deviceverification.DeviceVerificationProvider
+import me.proton.core.network.domain.feature.FeatureDisabledListener
 import me.proton.core.network.domain.humanverification.HumanVerificationListener
 import me.proton.core.network.domain.humanverification.HumanVerificationProvider
 import me.proton.core.network.domain.interceptor.InterceptorInfo
@@ -110,25 +111,27 @@ public class CoreNetworkModule {
         @AlternativeApiPins alternativeApiPins: List<String>,
         @SharedOkHttpClient okHttpClient: OkHttpClient,
         interceptors: @JvmSuppressWildcards Set<Pair<InterceptorInfo, Interceptor>>,
+        featureDisabledListener: FeatureDisabledListener,
     ): ApiManagerFactory {
         return ApiManagerFactory(
-            apiUrl,
-            apiClient,
-            clientIdProvider,
-            serverTimeListener,
-            networkManager,
-            networkPrefs,
-            sessionProvider,
-            sessionListener,
-            humanVerificationProvider,
-            humanVerificationListener,
-            deviceVerificationProvider,
-            deviceVerificationListener,
-            missingScopeListener,
-            cookieStore,
-            CoroutineScope(Job() + Dispatchers.Default),
-            certificatePins,
-            alternativeApiPins,
+            baseUrl = apiUrl,
+            apiClient = apiClient,
+            clientIdProvider = clientIdProvider,
+            serverTimeListener = serverTimeListener,
+            networkManager = networkManager,
+            prefs = networkPrefs,
+            sessionProvider = sessionProvider,
+            sessionListener = sessionListener,
+            humanVerificationProvider = humanVerificationProvider,
+            humanVerificationListener = humanVerificationListener,
+            deviceVerificationProvider = deviceVerificationProvider,
+            deviceVerificationListener = deviceVerificationListener,
+            missingScopeListener = missingScopeListener,
+            featureDisabledListener = featureDisabledListener,
+            cookieStore = cookieStore,
+            scope = CoroutineScope(Job() + Dispatchers.Default),
+            certificatePins = certificatePins,
+            alternativeApiPins = alternativeApiPins,
             cache = {
                 Cache(
                     directory = File(context.cacheDir, "http_cache"),

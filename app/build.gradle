@@ -728,6 +728,7 @@ configurations {
 
 configurations.configureEach {
     exclude group: "me.proton.core", module: "notification-dagger"
+    exclude group: "me.proton.crypto", module: "android-golib"
 }
 
 dependencies {
@@ -745,9 +746,6 @@ dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_jdk_version"
 
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:$kotlin_version"))
-
-    // Temporary, remove when Core updates the dependency.
-    implementation("com.appmattus.certificatetransparency:certificatetransparency-android:2.7.1")
 
     implementation 'dnsjava:dnsjava:3.6.2'
     implementation "net.java.dev.jna:jna:5.16.0@aar"
