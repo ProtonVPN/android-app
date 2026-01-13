@@ -79,7 +79,12 @@ import javax.inject.Singleton
 
 private val UNREACHABLE_MIN_INTERVAL_MS = StuckConnectionHandler.STUCK_DURATION_MS + TimeUnit.SECONDS.toMillis(10)
 
-enum class ReasonRestricted { SecureCoreUpgradeNeeded, PlusUpgradeNeeded, Maintenance }
+enum class ReasonRestricted {
+    LocationExcluded,
+    Maintenance,
+    PlusUpgradeNeeded,
+    SecureCoreUpgradeNeeded,
+}
 
 interface VpnUiDelegate {
     fun askForPermissions(intent: Intent, connectIntent: AnyConnectIntent, onPermissionGranted: () -> Unit)
@@ -556,12 +561,14 @@ class VpnConnectionManager @Inject constructor(
         ProtonLogger.log(ConnConnectTrigger, "${connectIntent.toLog()}, reason: ${trigger.description}")
         vpnConnectionTelemetry.onConnectionStart(trigger)
         val vpnUser = currentUser.vpnUser()
+        val excludedLocations = observeExcludedLocations().first()
         val server = preferredServer ?: serverManager.getBestServerForConnectIntent(
             connectIntent = connectIntent,
             vpnUser = vpnUser,
             protocol = settings.protocol,
-            excludedLocations = observeExcludedLocations().first(),
+            excludedLocations = excludedLocations,
         )
+
         if (server?.online == true &&
             (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {
@@ -573,23 +580,30 @@ class VpnConnectionManager @Inject constructor(
                 vpnConnectionTelemetry.onConnectionAbort(sentryInfo = "no protocol supported")
                 delegate.onProtocolNotSupported()
             }
-        } else {
-            val needsFallback = server == null ||
-                delegate.onServerRestricted(
-                    when {
-                        !server.online -> ReasonRestricted.Maintenance
-                        server.isSecureCoreServer && !vpnUser.hasAccessToServer(server) -> ReasonRestricted.SecureCoreUpgradeNeeded
-                        else -> ReasonRestricted.PlusUpgradeNeeded
-                    }
-                ).not()
-            if (needsFallback) {
-                launchFallback {
-                    onServerNotAvailable(connectIntent, server)
-                }
-            } else {
-                // The case has been handled by delegate.onServerRestricted, don't report the event.
-                vpnConnectionTelemetry.onConnectionAbort(report = false)
+            return
+        }
+
+        if (server == null && excludedLocations.hasExclusions) {
+            delegate.onServerRestricted(reason = ReasonRestricted.LocationExcluded)
+            vpnConnectionTelemetry.onConnectionAbort(report = false)
+            return
+        }
+
+        val needsFallback = server == null || delegate.onServerRestricted(
+            when {
+                !server.online -> ReasonRestricted.Maintenance
+                server.isSecureCoreServer && !vpnUser.hasAccessToServer(server) -> ReasonRestricted.SecureCoreUpgradeNeeded
+                else -> ReasonRestricted.PlusUpgradeNeeded
             }
+        ).not()
+
+        if (needsFallback) {
+            launchFallback {
+                onServerNotAvailable(connectIntent, server)
+            }
+        } else {
+            // The case has been handled by delegate.onServerRestricted, don't report the event.
+            vpnConnectionTelemetry.onConnectionAbort(report = false)
         }
     }
 

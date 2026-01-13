@@ -36,7 +36,6 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
-import com.protonvpn.android.redesign.vpn.isExcluded
 import com.protonvpn.android.redesign.vpn.isNotExcluded
 import com.protonvpn.android.redesign.vpn.satisfiesFeatures
 import com.protonvpn.android.servers.Server
@@ -365,7 +364,6 @@ class ServerManager @Inject constructor(
             secureCore: Boolean,
             features: Set<ServerFeature>,
             excludedCountryId: CountryId?,
-            excludedLocations: ExcludedLocations,
         ): Sequence<Server> {
             var serversSequence = allServersByScore.asSequence()
 
@@ -373,94 +371,72 @@ class ServerManager @Inject constructor(
                 serversSequence = serversSequence.filterNot { it.exitCountry == excludedCountryId.countryCode }
             }
 
-            return serversSequence.filter {
-                it.isSecureCoreServer == secureCore &&
-                        !it.isGatewayServer &&
-                        it.isNotExcluded(excludedLocations = excludedLocations, checkSecureCore = secureCore) &&
-                        it.satisfiesFeatures(features)
+            return serversSequence.filter { server ->
+                server.isSecureCoreServer == secureCore &&
+                        !server.isGatewayServer &&
+                        server.satisfiesFeatures(features)
             }
         }
 
         return when (connectIntent) {
             is ConnectIntent.FastestInCountry ->
                 if (connectIntent.country.isFastest) {
-                    val excludedCountryId = ifOrNull(
-                        predicate = connectIntent.country.isFastestExcludingMyCountry,
-                        block = physicalUserCountry::invoke,
-                    )
-                    val servers = allRegularServersFor(
+                    allRegularServersFor(
                         secureCore = false,
                         features = connectIntent.features,
-                        excludedCountryId = excludedCountryId,
-                        excludedLocations = excludedLocations,
+                        excludedCountryId = ifOrNull(
+                            predicate = connectIntent.country.isFastestExcludingMyCountry,
+                            block = physicalUserCountry::invoke,
+                        ),
                     )
-                    onServers(servers.asIterable())
+                        .asIterable()
+                        .filter { server -> server.isNotExcluded(excludedLocations) }
+                        .let { servers -> onServers(servers) }
                 } else {
-                    getVpnExitCountry(countryCode = connectIntent.country.countryCode, secureCoreCountry = false)
-                        ?.serverList
-                        ?.filterNot { server -> server.isExcluded(excludedLocations) }
-                        ?.filterFeatures()
-                        ?.let { servers ->
-                            onServers(servers)
-                        }
-                        ?: fallbackResult
+                    getVpnExitCountry(
+                        connectIntent.country.countryCode,
+                        false
+                    )?.let { onServers(it.serverList.filterFeatures()) } ?: fallbackResult
                 }
 
             is ConnectIntent.FastestInCity -> {
-                getVpnExitCountry(countryCode = connectIntent.country.countryCode, secureCoreCountry = false)
-                    ?.serverList
-                    ?.filter { server ->
-                        server.city == connectIntent.cityEn && server.isNotExcluded(excludedLocations) && server.satisfiesFeatures()
-                    }
-                    ?.let { servers ->
-                        onServers(servers)
-                    }
-                    ?: fallbackResult
+                getVpnExitCountry(connectIntent.country.countryCode, false)?.let { country ->
+                    onServers(
+                        country.serverList.filter { it.city == connectIntent.cityEn && it.satisfiesFeatures() }
+                    )
+                } ?: fallbackResult
             }
 
             is ConnectIntent.FastestInState -> {
-                getVpnExitCountry(countryCode = connectIntent.country.countryCode, secureCoreCountry = false)
-                    ?.serverList
-                    ?.filter { server ->
-                        server.state == connectIntent.stateEn && server.isNotExcluded(excludedLocations) && server.satisfiesFeatures()
-                    }
-                    ?.let { servers ->
-                        onServers(servers)
-                    }
-                    ?: fallbackResult
+                getVpnExitCountry(connectIntent.country.countryCode, false)?.let { country ->
+                    onServers(
+                        country.serverList.filter { it.state == connectIntent.stateEn && it.satisfiesFeatures() }
+                    )
+                } ?: fallbackResult
             }
 
             is ConnectIntent.SecureCore ->
                 if (connectIntent.exitCountry.isFastest) {
-                    val excludedCountryId = ifOrNull(
-                        predicate = connectIntent.exitCountry.isFastestExcludingMyCountry,
-                        block = physicalUserCountry::invoke,
-                    )
-                    val servers = allRegularServersFor(
+                    allRegularServersFor(
                         secureCore = true,
                         features = connectIntent.features,
-                        excludedCountryId = excludedCountryId,
-                        excludedLocations = excludedLocations,
+                        excludedCountryId = ifOrNull(
+                            predicate = connectIntent.exitCountry.isFastestExcludingMyCountry,
+                            block = physicalUserCountry::invoke,
+                        ),
                     )
-                    onServers(servers.asIterable())
+                        .asIterable()
+                        .filter { server -> server.isNotExcluded(excludedLocations) }
+                        .let { servers -> onServers(servers) }
                 } else {
-                    getVpnExitCountry(countryCode = connectIntent.exitCountry.countryCode, secureCoreCountry = true)
-                        ?.serverList
-                        ?.let { servers ->
-                            if (connectIntent.entryCountry.isFastest) {
-                                servers.filterNot { server ->
-                                    server.isExcluded(excludedLocations = excludedLocations, checkSecureCore = true)
-                                }.filterFeatures()
-                            } else {
-                                servers.find { server ->
-                                    server.entryCountry == connectIntent.entryCountry.countryCode && server.satisfiesFeatures()
-                                }?.let(::listOf)
-                            }
-                        }
-                        ?.let { servers ->
-                            onServers(servers)
-                        }
-                        ?: fallbackResult
+                    val exitCountry = getVpnExitCountry(connectIntent.exitCountry.countryCode, true)
+                    if (connectIntent.entryCountry.isFastest) {
+                        exitCountry?.let { onServers(it.serverList.filterFeatures()) } ?: fallbackResult
+                    } else {
+                        exitCountry?.serverList?.find {
+                            it.entryCountry == connectIntent.entryCountry.countryCode && it.satisfiesFeatures()
+                        }?.let { onServers(listOf(it)) } ?: fallbackResult
+                    }
                 }
 
             is ConnectIntent.Gateway ->

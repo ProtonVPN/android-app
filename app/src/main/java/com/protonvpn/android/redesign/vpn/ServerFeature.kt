@@ -41,15 +41,12 @@ enum class ServerFeature(val flag: Int) {
 fun Server.satisfiesFeatures(requiredFeatures: Set<ServerFeature>): Boolean =
     requiredFeatures.all { required -> features.hasFlag(required.flag) }
 
-fun Server.isExcluded(
-    excludedLocations: ExcludedLocations,
-    checkSecureCore: Boolean = false,
-): Boolean = when {
+fun Server.isExcluded(excludedLocations: ExcludedLocations): Boolean = when {
     !excludedLocations.hasExclusions -> false
 
     excludedLocations.isCountryExcluded(countryCode = exitCountry) -> true
 
-    checkSecureCore && excludedLocations.isCountryExcluded(countryCode = entryCountry) -> true
+    isSecureCoreServer && excludedLocations.isCountryExcluded(countryCode = entryCountry) -> true
 
     state != null && excludedLocations.isStateExcluded(
         countryCode = exitCountry,
@@ -64,7 +61,4 @@ fun Server.isExcluded(
     else -> false
 }
 
-fun Server.isNotExcluded(
-    excludedLocations: ExcludedLocations,
-    checkSecureCore: Boolean = false,
-): Boolean = !isExcluded(excludedLocations, checkSecureCore)
+fun Server.isNotExcluded(excludedLocations: ExcludedLocations): Boolean = !isExcluded(excludedLocations)

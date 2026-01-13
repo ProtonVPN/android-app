@@ -60,7 +60,7 @@ class ObserveExcludedLocations @Inject constructor(
         }
         .stateIn(
             scope = mainScope,
-            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000),
+            started = SharingStarted.Eagerly,
             initialValue = null,
         )
 

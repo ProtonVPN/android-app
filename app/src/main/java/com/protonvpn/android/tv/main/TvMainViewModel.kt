@@ -31,7 +31,6 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.components.BaseTvActivity
-import com.protonvpn.android.excludedlocations.ExcludedLocation
 import com.protonvpn.android.excludedlocations.ExcludedLocations
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.redesign.CountryId

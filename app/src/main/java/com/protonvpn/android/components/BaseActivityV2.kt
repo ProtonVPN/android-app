@@ -66,7 +66,7 @@ abstract class BaseActivityV2 : AppCompatActivity(), VpnUiDelegateProvider {
         requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTv())
             SCREEN_ORIENTATION_FULL_USER else SCREEN_ORIENTATION_PORTRAIT
         snackbarHelper = DelegatedSnackbarHelper(this, getContentView(), delegatedSnackManager)
-        vpnUiDelegate = VpnUiActivityDelegateMobile(this) { retryConnection(it) }
+        vpnUiDelegate = VpnUiActivityDelegateMobile(activity = this, retryConnection = ::retryConnection)
     }
 
     fun initToolbarWithUpEnabled(toolbar: Toolbar) {

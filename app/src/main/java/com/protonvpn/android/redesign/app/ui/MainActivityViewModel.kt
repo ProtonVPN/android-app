@@ -22,6 +22,7 @@ package com.protonvpn.android.redesign.app.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.managed.AutoLoginManager
+import com.protonvpn.android.redesign.app.ui.nav.MainNavEvent
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
@@ -32,13 +33,17 @@ import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -79,6 +84,10 @@ class MainActivityViewModel @Inject constructor(
     // Must be fast, it's used in SplashScreen.setKeepOnScreenCondition
     val isMinimalStateReady: Boolean get() = isMinimalStateReadyFlow.value
 
+    private val _navEventsFlow = MutableSharedFlow<MainNavEvent>(extraBufferCapacity = 1)
+
+    val navEventsFlow: SharedFlow<MainNavEvent> = _navEventsFlow.asSharedFlow()
+
     fun connect(vpnUiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent, trigger: ConnectTrigger) {
         vpnConnectionManager.connect(vpnUiDelegate, connectIntent, trigger)
     }
@@ -86,4 +95,11 @@ class MainActivityViewModel @Inject constructor(
     fun retryAutoLogin() {
         autoLoginManager.retry()
     }
+
+    fun onNavigate(navEvent: MainNavEvent) {
+        viewModelScope.launch {
+            _navEventsFlow.emit(value = navEvent)
+        }
+    }
+
 }

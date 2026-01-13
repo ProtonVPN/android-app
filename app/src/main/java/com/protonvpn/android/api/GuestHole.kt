@@ -298,5 +298,6 @@ class GuestHole @Inject constructor(
         override fun shouldSkipAccessRestrictions() = true
         override fun onProtocolNotSupported() {}
         override fun onNoVpnSupport() {}
+        override fun showExcludedLocationDialog() = Unit
     }
 }

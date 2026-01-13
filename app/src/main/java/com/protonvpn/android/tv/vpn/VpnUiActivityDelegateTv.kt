@@ -68,6 +68,14 @@ class VpnUiActivityDelegateTv(
         }
     }
 
+    override fun showExcludedLocationDialog() {
+        showTvDialog(context = activity, focusedButton = DialogInterface.BUTTON_NEUTRAL) {
+            setTitle(R.string.restricted_location_excluded_dialog_title)
+            setMessage(R.string.restricted_location_excluded_dialog_description)
+            setNeutralButton(R.string.got_it, null)
+        }
+    }
+
     override fun onProtocolNotSupported() {
         showTvDialog(activity, focusedButton = DialogInterface.BUTTON_NEUTRAL) {
             setMessage(R.string.profileProtocolNotAvailable)

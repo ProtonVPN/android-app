@@ -52,6 +52,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.managed.ui.AutoLoginErrorView
 import com.protonvpn.android.managed.ui.AutoLoginView
+import com.protonvpn.android.redesign.app.ui.nav.MainNavEvent
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.reports.ui.BugReportActivity
@@ -109,9 +110,11 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     lateinit var widgetActionHandler: WidgetActionHandler
 
     // public for now until there is need to bridge old code, as LocalVpnUiDelegate is not available in non-compose
-    val vpnActivityDelegate = VpnUiActivityDelegateMobile(this) {
-        retryConnectionAfterPermissions(it)
-    }
+    val vpnActivityDelegate = VpnUiActivityDelegateMobile(
+        activity = this,
+        retryConnection = ::retryConnectionAfterPermissions,
+        onNavigate = ::onNavigate,
+    )
 
     private val helper = object : MainActivityHelper(this) {
 
@@ -316,6 +319,11 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
             deepLinkHandler.processDeepLink(intentUri)
         }
     }
+
+    private fun onNavigate(navEvent: MainNavEvent) {
+        activityViewModel.onNavigate(navEvent)
+    }
+
 }
 
 class CoreNavigation(

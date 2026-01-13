@@ -56,11 +56,11 @@ data class ExcludedLocations(val allLocations: List<ExcludedLocation>) {
     }
 
     fun isCityExcluded(countryCode: String, nameEn: String): Boolean {
-        return isCountryExcluded(countryCode) || excludedCountryCities.contains(countryCode to nameEn)
+        return excludedCountryCities.contains(countryCode to nameEn)
     }
 
     fun isStateExcluded(countryCode: String, nameEn: String): Boolean {
-        return isCountryExcluded(countryCode) || excludedCountryStates.contains(countryCode to nameEn)
+        return excludedCountryStates.contains(countryCode to nameEn)
     }
 
 }

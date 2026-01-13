@@ -76,6 +76,7 @@ import com.protonvpn.android.netshield.NetShieldActions
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
+import com.protonvpn.android.redesign.app.ui.nav.MainNavEvent
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.collectAsEffect
@@ -90,6 +91,7 @@ import com.protonvpn.android.redesign.recents.ui.rememberRecentBottomSheetState
 import com.protonvpn.android.redesign.recents.ui.rememberRecentsExpandState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import com.protonvpn.android.redesign.settings.ui.DefaultConnectionSelection
+import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
@@ -125,7 +127,8 @@ typealias ShowcaseRecents = Boolean
 @Composable
 fun HomeRoute(
     mainScreenViewModel: MainScreenViewModel,
-    onConnectionCardClick: () -> Unit
+    onConnectionCardClick: () -> Unit,
+    onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
 ) {
     val activity = LocalActivity.current as ComponentActivity
     val vpnUiDelegate = LocalVpnUiDelegate.current
@@ -219,6 +222,14 @@ fun HomeRoute(
             WidgetAdoptionComponent(homeViewModel::onWidgetAdoptionShown, homeViewModel::onAddWidget)
         WidgetAdoptionUiType.Instructions ->
             WidgetAdoptionComponent(homeViewModel::onWidgetAdoptionShown, null)
+    }
+
+    activityViewModel.navEventsFlow.collectAsEffect { navEvent ->
+        when (navEvent) {
+            is MainNavEvent.OnNavigateToSubSettings -> {
+                onNavigateToSubSetting(navEvent.type)
+            }
+        }
     }
 
     HomeView(

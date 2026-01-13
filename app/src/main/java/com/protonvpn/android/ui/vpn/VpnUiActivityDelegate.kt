@@ -27,6 +27,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.logging.ConnError
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
+import com.protonvpn.android.redesign.app.ui.nav.MainNavEvent
+import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
@@ -65,11 +68,14 @@ abstract class VpnUiActivityDelegate(
     abstract fun showMaintenanceDialog()
     abstract fun showSecureCoreUpgradeDialog()
 
+    abstract fun showExcludedLocationDialog()
+
     override fun onServerRestricted(reason: ReasonRestricted): Boolean {
         when (reason) {
             ReasonRestricted.SecureCoreUpgradeNeeded -> showSecureCoreUpgradeDialog()
             ReasonRestricted.PlusUpgradeNeeded -> showPlusUpgradeDialog()
             ReasonRestricted.Maintenance -> showMaintenanceDialog()
+            ReasonRestricted.LocationExcluded -> showExcludedLocationDialog()
         }
         return true
     }
@@ -77,7 +83,8 @@ abstract class VpnUiActivityDelegate(
 
 class VpnUiActivityDelegateMobile(
     activity: ComponentActivity,
-    retryConnection: ((AnyConnectIntent) -> Unit)? = null
+    retryConnection: ((AnyConnectIntent) -> Unit)? = null,
+    private val onNavigate: ((MainNavEvent) -> Unit)? = null,
 ) : VpnUiActivityDelegate(activity) {
 
     private val noVpnPermissionLauncher = activity.registerForActivityResult(
@@ -106,6 +113,19 @@ class VpnUiActivityDelegateMobile(
             .setTitle(R.string.restrictedMaintenanceTitle)
             .setMessage(R.string.restrictedMaintenanceDescription)
             .setNegativeButton(R.string.got_it, null)
+            .show()
+    }
+
+    override fun showExcludedLocationDialog() {
+        MaterialAlertDialogBuilder(activity)
+            .setTitle(R.string.restricted_location_excluded_dialog_title)
+            .setMessage(R.string.restricted_location_excluded_dialog_description)
+            .setNegativeButton(R.string.excluded_locations) { _, _ ->
+                onNavigate?.invoke(
+                    MainNavEvent.OnNavigateToSubSettings(SubSettingsScreen.Type.ConnectionPreferences)
+                )
+            }
+            .setPositiveButton(R.string.got_it, null)
             .show()
     }
 

@@ -148,7 +148,10 @@ class MainNav(
                 when (target) {
                     MainTarget.Home -> home(
                         mainScreenViewModel = mainScreenViewModel,
-                        onConnectionCardClick = { rootNav.navigate(ConnectionDetailsScreen) }
+                        onConnectionCardClick = { rootNav.navigate(ConnectionDetailsScreen) },
+                        onNavigateToSubSetting = { subSettingsType ->
+                            rootNav.navigate(screen = SubSettingsScreen, arg = subSettingsType)
+                        },
                     )
 
                     MainTarget.Profiles ->
@@ -161,10 +164,7 @@ class MainNav(
                                 )
                             },
                             onNavigateToSubSetting = { subSettingsType ->
-                                rootNav.navigate(
-                                    screen = SubSettingsScreen,
-                                    arg = subSettingsType,
-                                )
+                                rootNav.navigate(screen = SubSettingsScreen, arg = subSettingsType)
                             },
                         )
 
