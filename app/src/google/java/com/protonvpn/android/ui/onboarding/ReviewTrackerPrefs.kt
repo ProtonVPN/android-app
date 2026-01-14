@@ -19,6 +19,7 @@
 package com.protonvpn.android.ui.onboarding
 
 import android.content.SharedPreferences
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
 import me.proton.core.util.android.sharedpreferences.boolean
@@ -27,7 +28,8 @@ import me.proton.core.util.android.sharedpreferences.long
 import javax.inject.Inject
 
 class ReviewTrackerPrefs @Inject constructor(
-    private val prefsProvider: SharedPreferencesProvider
+    private val prefsProvider: SharedPreferencesProvider,
+    @WallClock private val clock: () -> Long,
 ) : PreferencesProvider {
 
     override val preferences: SharedPreferences
@@ -35,12 +37,13 @@ class ReviewTrackerPrefs @Inject constructor(
 
     // At the moment install time is unusable, but let's add it as this comes up multiple times in discussions
     // So it may be worth having this in future
-    var installTimestamp: Long by long(System.currentTimeMillis())
+    var installTimestamp: Long by long(clock())
 
     var firstConnectionTimestamp: Long by long(0)
     var lastReviewTimestamp: Long by long(0)
     var longSessionReached: Boolean by boolean(false)
     var successConnectionsInRow: Int by int(0)
+    var connectionsSinceLastReview: Int by int(0)
 
 
     companion object {

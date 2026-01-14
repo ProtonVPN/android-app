@@ -29,4 +29,6 @@ class TestTelemetryReporter : TelemetryReporter {
     override fun invoke(telemetryEvent: TelemetryEventData, sendImmediately: Boolean) {
         collectedEvents.add(telemetryEvent)
     }
+
+    fun reset() = collectedEvents.clear()
 }

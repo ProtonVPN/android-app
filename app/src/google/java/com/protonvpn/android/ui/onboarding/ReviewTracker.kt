@@ -50,7 +50,8 @@ class ReviewTracker constructor(
     private val foregroundActivityTracker: ForegroundActivityTracker,
     private val reviewTrackerPrefs: ReviewTrackerPrefs,
     trafficMonitor: TrafficMonitor,
-    private val requestReview: suspend (activity: Activity, onComplete: OnCompleteListener<Void>) -> Unit
+    private val telemetry: ReviewTrackerTelemetry,
+    private val requestReview: suspend (activity: Activity, onComplete: () -> Unit) -> Unit
 ) {
 
     @Inject
@@ -63,6 +64,7 @@ class ReviewTracker constructor(
         foregroundActivityTracker: ForegroundActivityTracker,
         reviewTrackerPrefs: ReviewTrackerPrefs,
         trafficMonitor: TrafficMonitor,
+        telemetry: ReviewTrackerTelemetry,
     ) : this(
         wallClock,
         scope,
@@ -72,6 +74,7 @@ class ReviewTracker constructor(
         foregroundActivityTracker,
         reviewTrackerPrefs,
         trafficMonitor,
+        telemetry,
         ::requestInAppReview
     )
 
@@ -111,8 +114,14 @@ class ReviewTracker constructor(
     private suspend fun createInAppReview() {
         foregroundActivityTracker.foregroundActivity?.let {
             requestReview(it) {
+                telemetry.reportReviewRequest(
+                    lastReviewTimestamp = reviewTrackerPrefs.lastReviewTimestamp,
+                    installTimestamp = reviewTrackerPrefs.installTimestamp,
+                    connectionsSinceLastReview = reviewTrackerPrefs.connectionsSinceLastReview
+                )
                 reviewTrackerPrefs.lastReviewTimestamp = wallClock()
                 reviewTrackerPrefs.longSessionReached = false
+                reviewTrackerPrefs.connectionsSinceLastReview = 0
                 log("Review flow was triggered " + reviewTrackerPrefs.lastReviewTimestamp)
             }
         }
@@ -154,12 +163,14 @@ class ReviewTracker constructor(
     }
 
     companion object {
-        private suspend fun requestInAppReview(activity: Activity, onComplete: OnCompleteListener<Void>) {
+        private suspend fun requestInAppReview(activity: Activity, onComplete: () -> Unit) {
             log("Suggest in app review")
             try {
                 val manager = ReviewManagerFactory.create(activity)
                 val reviewInfo = manager.requestReview()
-                manager.launchReviewFlow(activity, reviewInfo).addOnCompleteListener(onComplete)
+                manager
+                    .launchReviewFlow(activity, reviewInfo)
+                    .addOnCompleteListener({ onComplete() })
             } catch (e: Exception) {
                 log("Failure to contact google play: ${e.message}")
             }

@@ -24,14 +24,19 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.RatingConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.telemetry.CommonDimensions
+import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.onboarding.ReviewTracker
 import com.protonvpn.android.ui.onboarding.ReviewTrackerPrefs
+import com.protonvpn.android.ui.onboarding.ReviewTrackerTelemetry
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.mocks.FakeCommonDimensions
+import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -40,19 +45,25 @@ import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.mockkObject
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.yield
 import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.util.concurrent.TimeUnit
+import kotlin.math.max
+import kotlin.test.assertNotNull
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReviewTrackerTests {
@@ -63,22 +74,28 @@ class ReviewTrackerTests {
     private lateinit var appConfig: AppConfig
 
     @RelaxedMockK
-    private lateinit var vpnStateMonitor: VpnStateMonitor
-
-    @RelaxedMockK
     private lateinit var trafficMonitor: TrafficMonitor
 
     @RelaxedMockK
     private lateinit var foregroundActivityTracker: ForegroundActivityTracker
 
+    private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var testCurrentUserProvider: TestCurrentUserProvider
     private lateinit var testScope: TestScope
-    private lateinit var vpnStatus: MutableStateFlow<VpnStateMonitor.Status>
-    private lateinit var vpnConnectionNotificationFlow: MutableSharedFlow<VpnFallbackResult>
-    private lateinit var trafficStatus: MutableLiveData<TrafficUpdate?>
     private lateinit var trackerPrefs: ReviewTrackerPrefs
-    private val CURRENT_TIME = 1651736648L
-    private val CURRENT_TIME_BEFORE = CURRENT_TIME - 500
+    private lateinit var testTelemetry: TestTelemetryReporter
+    private lateinit var testController: TestController
+    private val START_TIME = 1_000_000_000L
+
+    private val RATING_CONFIG = RatingConfig(
+        eligiblePlans = listOf(TestUser.plusUser.planName),
+        successfulConnectionCount = 3,
+        daysSinceLastRatingCount = 1,
+        daysConnectedCount = 1,
+        daysFromFirstConnectionCount = 3
+    )
+
+    private var wasReviewRequested = false
 
     @get:Rule
     var rule = InstantTaskExecutorRule()
@@ -89,26 +106,26 @@ class ReviewTrackerTests {
         MockKAnnotations.init(this)
         mockkObject(CountryTools)
 
+        testScope = TestScope(UnconfinedTestDispatcher())
+        testScope.advanceTimeBy(START_TIME)
+
         testCurrentUserProvider = TestCurrentUserProvider(TestUser.plusUser.vpnUser)
-        trackerPrefs = ReviewTrackerPrefs(MockSharedPreferencesProvider())
-        trafficStatus = MutableLiveData<TrafficUpdate?>()
-        vpnStatus = MutableStateFlow(VpnStateMonitor.Status(VpnState.Disabled, null))
-        vpnConnectionNotificationFlow = MutableSharedFlow()
-        every { vpnStateMonitor.status } returns vpnStatus
-        every { vpnStateMonitor.vpnConnectionNotificationFlow } returns vpnConnectionNotificationFlow
+        trackerPrefs = ReviewTrackerPrefs(MockSharedPreferencesProvider(), testScope::currentTime)
+        val trafficStatus = MutableLiveData<TrafficUpdate?>()
+        testTelemetry = TestTelemetryReporter()
+        vpnStateMonitor = VpnStateMonitor()
         every { trafficMonitor.trafficStatus } returns trafficStatus
         every { foregroundActivityTracker.foregroundActivity } returns mockk()
-        every { appConfig.getRatingConfig() } returns RatingConfig(
-            eligiblePlans = listOf(TestUser.plusUser.planName),
-            successfulConnectionCount = 3,
-            daysSinceLastRatingCount = 1,
-            daysConnectedCount = 1,
-            daysFromFirstConnectionCount = 3
-        )
+        every { appConfig.getRatingConfig() } returns RATING_CONFIG
 
-        testScope = TestScope(UnconfinedTestDispatcher())
+        testController = TestController(testScope, trafficStatus, vpnStateMonitor)
+
+        val commonDimensions = FakeCommonDimensions(
+            mapOf(CommonDimensions.Key.USER_COUNTRY.reportedName to "US")
+        )
+        wasReviewRequested = false
         reviewTracker = ReviewTracker(
-            { CURRENT_TIME },
+            testScope::currentTime,
             testScope.backgroundScope,
             appConfig,
             CurrentUser(testCurrentUserProvider),
@@ -116,93 +133,156 @@ class ReviewTrackerTests {
             foregroundActivityTracker,
             trackerPrefs,
             trafficMonitor,
-            { _, _ -> }
+            ReviewTrackerTelemetry(
+                TelemetryFlowHelper(testScope.backgroundScope, testTelemetry),
+                commonDimensions,
+                testScope::currentTime
+            ),
+            { _, onComplete ->
+                wasReviewRequested = true
+                onComplete()
+            }
         )
     }
 
     @Test
     fun `do not trigger for ineligable plans even if other conditions are met`() = testScope.runTest {
         testCurrentUserProvider.vpnUser = TestUser.freeUser.vpnUser
-        addLongSession()
+        testController.addLongSession()
         assertFalse(reviewTracker.shouldRate())
+        assertFalse(wasReviewRequested)
     }
 
     @Test
     fun `do not trigger if was triggered recently`() = testScope.runTest {
-        trackerPrefs.lastReviewTimestamp = CURRENT_TIME_BEFORE
+        trackerPrefs.lastReviewTimestamp = currentTime - 500
         mockOldConnectionSuccess()
-        addLongSession()
+        testController.addLongSession()
         assertFalse(reviewTracker.shouldRate())
     }
 
     @Test
     fun `trigger if last review was triggered earlier than daysSinceLastRatingCount`() = testScope.runTest {
-        val fakeTimestamp = CURRENT_TIME - TimeUnit.DAYS.toMillis(appConfig.getRatingConfig().daysSinceLastRatingCount.toLong())
+        val fakeTimestamp = currentTime - TimeUnit.DAYS.toMillis(RATING_CONFIG.daysSinceLastRatingCount.toLong())
         mockOldConnectionSuccess()
         trackerPrefs.lastReviewTimestamp = fakeTimestamp
-        addLongSession()
-        assertTrue(reviewTracker.shouldRate())
+        testController.addLongSession()
+        assertTrue(wasReviewRequested)
     }
 
     @Test
     fun `long enough session should trigger review`() = testScope.runTest {
         mockOldConnectionSuccess()
         assertFalse(reviewTracker.shouldRate())
-        addLongSession()
-        assertTrue(reviewTracker.shouldRate())
+        testController.addLongSession()
+        assertTrue(wasReviewRequested)
     }
 
     @Test
     fun `trigger for old connection and multiple succesful connections review`() = testScope.runTest {
         addSuccessfulConnections()
-        assertTrue(reviewTracker.shouldRate())
+        assertTrue(wasReviewRequested)
     }
 
     @Test
     fun `trigger also if connection count exceeds required limit`() = testScope.runTest {
+        every { foregroundActivityTracker.foregroundActivity } returns null
         mockOldConnectionSuccess()
-        trackerPrefs.successConnectionsInRow = appConfig.getRatingConfig().successfulConnectionCount * 2
-        assertTrue(reviewTracker.shouldRate())
+        repeat(RATING_CONFIG.successfulConnectionCount * 2) {
+            testController.reconnect()
+        }
+        assertFalse(wasReviewRequested)
+        every { foregroundActivityTracker.foregroundActivity } returns mockk()
+        testController.connect()
+        assertTrue(wasReviewRequested)
     }
 
     @Test
     fun `shouldRate never return true if app is in background`() = testScope.runTest {
         every { foregroundActivityTracker.foregroundActivity } returns null
-        addLongSession()
+        testController.addLongSession()
         assertFalse(reviewTracker.shouldRate())
     }
 
     @Test
     fun `any vpn error resets success count`() = testScope.runTest {
         addSuccessfulConnections()
-        Assert.assertEquals(appConfig.getRatingConfig().successfulConnectionCount, reviewTracker.connectionCount())
+        Assert.assertEquals(RATING_CONFIG.successfulConnectionCount, reviewTracker.connectionCount())
 
-        vpnConnectionNotificationFlow.emit(VpnFallbackResult.Error(mockk(), mockk(), reason = null))
+        vpnStateMonitor.vpnConnectionNotificationFlow.emit(VpnFallbackResult.Error(mockk(), mockk(), reason = null))
         Assert.assertEquals(0, reviewTracker.connectionCount())
     }
 
     @Test
     fun `do not trigger if first connection was recent`() = testScope.runTest {
         addSuccessfulConnections()
-        trackerPrefs.firstConnectionTimestamp = CURRENT_TIME_BEFORE
+        trackerPrefs.firstConnectionTimestamp = currentTime - 500
         assertFalse(reviewTracker.shouldRate())
+    }
+
+    @Test
+    fun `days since last request reported to telemetry`() = testScope.runTest {
+        testController.connect()
+        val minDays = with(RATING_CONFIG) { max(daysSinceLastRatingCount, daysFromFirstConnectionCount) }
+        listOf(minDays, minDays, minDays + 2).forEach { delayDays ->
+            testTelemetry.reset()
+            testController.advanceTimeBy(delayDays.days)
+            val event = testTelemetry.collectedEvents.last()
+            assertEquals(delayDays.toLong(), event.values["days_since_last_prompt"])
+            assertEquals("rating_booster_prompt_requested", event.eventName)
+            assertEquals("vpn.any.product_prompts", event.measurementGroup)
+        }
     }
 
     private fun addSuccessfulConnections() {
         mockOldConnectionSuccess()
-        repeat(appConfig.getRatingConfig().successfulConnectionCount) {
-            vpnStatus.value = VpnStateMonitor.Status(VpnState.Connected, mockk())
-            vpnStatus.value = VpnStateMonitor.Status(VpnState.Disconnecting, mockk())
+        repeat(RATING_CONFIG.successfulConnectionCount - 1) {
+            testController.reconnect()
         }
     }
 
     private fun mockOldConnectionSuccess() {
-        trackerPrefs.firstConnectionTimestamp = CURRENT_TIME - TimeUnit.DAYS.toMillis(appConfig.getRatingConfig().daysFromFirstConnectionCount.toLong())
+        with(testController) {
+            connect()
+            advanceTimeBy(RATING_CONFIG.daysFromFirstConnectionCount.days)
+        }
     }
 
-    private fun addLongSession() {
-        val sessionLengthSeconds = 172800
-        val startTimestampMs = CURRENT_TIME - sessionLengthSeconds * 1000
-        trafficStatus.value = TrafficUpdate(0, startTimestampMs, 0, 0, 0, 0, sessionLengthSeconds)
+    class TestController(
+        private val testScope: TestScope,
+        private val trafficStatusFlow: MutableLiveData<TrafficUpdate?>,
+        private val vpnStateMonitor: VpnStateMonitor,
+    ) {
+        fun connect() {
+            if (vpnStateMonitor.isConnected) {
+                disconnect()
+            }
+            vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk()))
+            trafficStatusFlow.value = TrafficUpdate(0, testScope.currentTime, 0, 0, 0, 0, 0)
+        }
+
+        fun reconnect() = connect()
+
+        fun disconnect() {
+            vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disconnecting, mockk()))
+            trafficStatusFlow.value = null
+        }
+
+        fun advanceTimeBy(duration: Duration) = advanceTimeBy(duration.inWholeMilliseconds)
+
+        fun advanceTimeBy(milliseconds: Long) {
+            testScope.advanceTimeBy(milliseconds)
+            if (vpnStateMonitor.isConnected) {
+                val previousTrafficStatus = trafficStatusFlow.value
+                assertNotNull(previousTrafficStatus)
+                val newSessionTimeSeconds = previousTrafficStatus.sessionTimeSeconds + milliseconds / 1000
+                trafficStatusFlow.value = TrafficUpdate(0, previousTrafficStatus.sessionStartTimestampMs, 0, 0, 0, 0, newSessionTimeSeconds.toInt())
+            }
+        }
+
+        fun addLongSession() {
+            connect()
+            advanceTimeBy(2.days)
+        }
     }
 }
