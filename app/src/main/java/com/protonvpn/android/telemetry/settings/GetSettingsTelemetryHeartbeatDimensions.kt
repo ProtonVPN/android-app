@@ -8,6 +8,7 @@ import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.toTelemetry
 import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
+import com.protonvpn.android.ui.onboarding.ReviewTracker
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.isIPv6
@@ -32,6 +33,7 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
     private val widgetTracker: WidgetTracker,
     private val isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
     private val observeDefaultConnection: ObserveDefaultConnection,
+    private val reviewTracker: ReviewTracker,
 ) {
 
     suspend operator fun invoke(): Map<String, String> = buildMap {
@@ -159,6 +161,11 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
                 .currentModeIps()
                 .size
                 .toSplitTunnelingCountBucketString(),
+        )
+
+        put(
+            key = "is_rating_booster_eligible",
+            value = reviewTracker.isOrWasEligibleToday()?.toTelemetry() ?: CommonDimensions.NO_VALUE
         )
 
         commonDimensions.add(this, CommonDimensions.Key.USER_TIER)

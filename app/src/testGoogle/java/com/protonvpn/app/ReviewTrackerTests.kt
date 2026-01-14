@@ -234,6 +234,32 @@ class ReviewTrackerTests {
         }
     }
 
+    @Test
+    fun `connections since last request reported to telemetry`() = testScope.runTest {
+        testController.connect()
+        val minDays = with(RATING_CONFIG) { max(daysSinceLastRatingCount, daysFromFirstConnectionCount) }
+        advanceTimeBy(minDays.days)
+        assertFalse(wasReviewRequested) // Not enough connections yet.
+        repeat(RATING_CONFIG.successfulConnectionCount - 1) {
+            testController.reconnect()
+        }
+        assertTrue(wasReviewRequested)
+
+        assertEquals(
+            RATING_CONFIG.successfulConnectionCount.toLong(),
+            testTelemetry.collectedEvents.last().values["connections_since_last_prompt"]
+        )
+
+        testTelemetry.reset()
+        testController.reconnect()
+        testController.advanceTimeBy(RATING_CONFIG.daysSinceLastRatingCount.days)
+        testController.reconnect()
+        assertEquals(
+            2L,
+            testTelemetry.collectedEvents.last().values["connections_since_last_prompt"]
+        )
+    }
+
     private fun addSuccessfulConnections() {
         mockOldConnectionSuccess()
         repeat(RATING_CONFIG.successfulConnectionCount - 1) {

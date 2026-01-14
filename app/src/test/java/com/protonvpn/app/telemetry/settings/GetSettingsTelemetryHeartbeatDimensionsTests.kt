@@ -11,6 +11,7 @@ import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.settings.GetSettingsTelemetryHeartbeatDimensions
 import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
+import com.protonvpn.android.ui.onboarding.ReviewTracker
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.vpn.ConnectivityMonitor
@@ -49,6 +50,9 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
 
     @MockK
     private lateinit var mockObserveDefaultConnection: ObserveDefaultConnection
+
+    @MockK
+    private lateinit var mockReviewTracker: ReviewTracker
 
     @MockK
     private lateinit var mockWidgetTracker: WidgetTracker
@@ -93,12 +97,14 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             isServerListTruncationEnabled = FakeServerListTruncationEnabled(isServerListTruncationEnabledFlow),
             observeDefaultConnection = mockObserveDefaultConnection,
             widgetTracker = mockWidgetTracker,
-            isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true)
+            isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
+            reviewTracker = mockReviewTracker,
         )
 
         every { mockAppIconManager.getCurrentIconData() } returns CustomAppIconData.DEFAULT
         every { mockConnectivityMonitor.isPrivateDnsActive } returns MutableStateFlow(null)
         every { mockObserveDefaultConnection() } returns MutableStateFlow(DefaultConnection.FastestConnection)
+        coEvery { mockReviewTracker.isOrWasEligibleToday() } returns false
         every { mockWidgetTracker.widgetCount } returns MutableStateFlow(0)
         coEvery { mockWidgetTracker.firstWidgetType() } returns null
     }

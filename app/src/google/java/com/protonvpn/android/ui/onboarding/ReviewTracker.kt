@@ -19,6 +19,7 @@
 package com.protonvpn.android.ui.onboarding
 
 import android.app.Activity
+import androidx.annotation.VisibleForTesting
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.play.core.ktx.requestReview
 import com.google.android.play.core.review.ReviewManagerFactory
@@ -39,6 +40,7 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Duration.Companion.milliseconds
 
 @Singleton
 class ReviewTracker constructor(
@@ -104,6 +106,7 @@ class ReviewTracker constructor(
                     reviewTrackerPrefs.firstConnectionTimestamp = wallClock()
 
                 reviewTrackerPrefs.successConnectionsInRow++
+                reviewTrackerPrefs.connectionsSinceLastReview++
                 if (shouldRate()) {
                     createInAppReview()
                 }
@@ -127,6 +130,12 @@ class ReviewTracker constructor(
         }
     }
 
+    suspend fun isOrWasEligibleToday(): Boolean? {
+        val wasEligibleToday = (wallClock() - reviewTrackerPrefs.lastReviewTimestamp).milliseconds.inWholeDays == 0L
+        return isEligibleForReviewNow() || wasEligibleToday
+    }
+
+    @VisibleForTesting
     fun connectionCount(): Int = reviewTrackerPrefs.successConnectionsInRow
 
     private fun getWithDefaultMaxValue(value: Long): Long {
@@ -136,11 +145,26 @@ class ReviewTracker constructor(
             TimeUnit.MILLISECONDS.toDays(wallClock() - value)
     }
 
+    @VisibleForTesting
     suspend fun shouldRate(): Boolean {
+        if (!isEligibleForReviewNow()) return false
+        if (foregroundActivityTracker.foregroundActivity == null) return false
+
+        val ratingConfig = appConfig.getRatingConfig()
+        log("Connections in queue: " + (reviewTrackerPrefs.successConnectionsInRow >= ratingConfig.successfulConnectionCount))
+        log("Long session reached: " + (reviewTrackerPrefs.longSessionReached))
+        log("---------")
+
+        return (reviewTrackerPrefs.successConnectionsInRow >= ratingConfig.successfulConnectionCount ||
+            reviewTrackerPrefs.longSessionReached)
+    }
+
+    private suspend fun isEligibleForReviewNow(): Boolean {
         val ratingConfig = appConfig.getRatingConfig()
 
-        log("User plan eligable for review suggestion: " + ratingConfig.eligiblePlans.contains(currentUser.vpnUser()?.planName))
-        if (!ratingConfig.eligiblePlans.contains(currentUser.vpnUser()?.planName)) return false
+        val isPlanEligible = ratingConfig.eligiblePlans.contains(currentUser.vpnUser()?.planName)
+        log("User plan eligable for review suggestion: $isPlanEligible")
+        if (!isPlanEligible) return false
 
         val firstConnectionDaysAgo = getWithDefaultMaxValue(reviewTrackerPrefs.firstConnectionTimestamp)
         val lastReviewDaysAgo = getWithDefaultMaxValue(reviewTrackerPrefs.lastReviewTimestamp)
@@ -151,15 +175,8 @@ class ReviewTracker constructor(
         // Do not trigger in-app review if it was called recently
         if (ratingConfig.daysSinceLastRatingCount > lastReviewDaysAgo) return false
 
-        // Do not ask to rate if user is not within our app
-        foregroundActivityTracker.foregroundActivity ?: return false
-
-        log("Connections in queue: " + (reviewTrackerPrefs.successConnectionsInRow >= ratingConfig.successfulConnectionCount))
-        log("Long session reached: " + (reviewTrackerPrefs.longSessionReached))
-        log("---------")
-
         return (reviewTrackerPrefs.successConnectionsInRow >= ratingConfig.successfulConnectionCount ||
-            reviewTrackerPrefs.longSessionReached)
+                reviewTrackerPrefs.longSessionReached)
     }
 
     companion object {
@@ -170,7 +187,7 @@ class ReviewTracker constructor(
                 val reviewInfo = manager.requestReview()
                 manager
                     .launchReviewFlow(activity, reviewInfo)
-                    .addOnCompleteListener({ onComplete() })
+                    .addOnCompleteListener { onComplete() }
             } catch (e: Exception) {
                 log("Failure to contact google play: ${e.message}")
             }
