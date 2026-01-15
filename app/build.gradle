@@ -340,7 +340,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  "\"${StringEscapeUtils.escapeJava(testAccountPassword)}\""
             manifestPlaceholders = ["gwpAsanMode": "always"]
-            packaging.jniLibs.keepDebugSymbols.add("**/*.so")
         }
         release {
             minifyEnabled true
@@ -410,6 +409,12 @@ android {
         schemaDirectory "$projectDir/schemas"
         // Using Java generation, kotlin generator generates incorrect code: https://issuetracker.google.com/issues/446633192
         generateKotlin false
+    }
+}
+
+androidComponents {
+    onVariants(selector().withBuildType("debug")) {
+        packaging.jniLibs.keepDebugSymbols.add("**/*.so")
     }
 }
 
