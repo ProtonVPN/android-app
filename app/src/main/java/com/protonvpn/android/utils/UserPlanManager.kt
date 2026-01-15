@@ -70,7 +70,6 @@ class UserPlanManager @Inject constructor(
             val isDowngrade get() = oldUser.userTier > newUser.userTier
         }
         object UserBecameDelinquent : InfoChange()
-        object VpnCredentials : InfoChange()
 
         override fun toString(): String = this.javaClass.simpleName
     }
@@ -156,8 +155,6 @@ class UserPlanManager @Inject constructor(
 
     fun computeUserInfoChanges(currentUserInfo: VpnUser, newUserInfo: VpnUser): List<InfoChange> {
         val changes = mutableListOf<InfoChange>()
-        if (newUserInfo.password != currentUserInfo.password || newUserInfo.name != currentUserInfo.name)
-            changes += InfoChange.VpnCredentials
         if (newUserInfo.isUserDelinquent && !currentUserInfo.isUserDelinquent)
             changes += InfoChange.UserBecameDelinquent
         if (newUserInfo.userTier != currentUserInfo.userTier || newUserInfo.userTierName != currentUserInfo.userTierName)

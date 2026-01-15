@@ -30,13 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextLinkStyles
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.fromHtml
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -45,12 +39,9 @@ import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.LabelBadge
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
 import com.protonvpn.android.redesign.base.ui.SettingsToggleItem
 import com.protonvpn.android.redesign.base.ui.VpnDivider
-import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.mapFromProtun
 import com.protonvpn.android.vpn.mapToProtun
@@ -121,17 +112,6 @@ fun ProtocolSettingsList(
         transmissionProtocol
     )
 
-    val openVpnDeprecationDialogForTransmission =
-        rememberSaveable(currentProtocol) { mutableStateOf<TransmissionProtocol?>(null) }
-
-    openVpnDeprecationDialogForTransmission.value?.let { transmission ->
-        OpenVpnDeprecationDialog(
-            transmission,
-            onProtocolSelected,
-            dismissDialog = { openVpnDeprecationDialogForTransmission.value = null }
-        )
-    }
-
     Column(modifier = modifier) {
         if (showProTun) {
             SettingsToggleItem(
@@ -183,18 +163,6 @@ fun ProtocolSettingsList(
             selectedProtocol = currentProtocol,
             horizontalContentPadding = horizontalContentPadding,
         )
-        if (!protonProtocolsEnabled) {
-            ProtocolItem(
-                itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
-                title = R.string.settings_protocol_openvpn_title,
-                description = R.string.settings_protocol_openvpn_udp_description,
-                onProtocolSelected = {
-                    openVpnDeprecationDialogForTransmission.value = TransmissionProtocol.UDP
-                },
-                selectedProtocol = currentProtocol,
-                horizontalContentPadding = horizontalContentPadding,
-            )
-        }
 
         SettingsSectionHeading(
             text = stringResource(R.string.settings_protocol_section_reliability),
@@ -208,18 +176,6 @@ fun ProtocolSettingsList(
             selectedProtocol = currentProtocol,
             horizontalContentPadding = horizontalContentPadding,
         )
-        if (!protonProtocolsEnabled) {
-            ProtocolItem(
-                itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
-                title = R.string.settings_protocol_openvpn_title,
-                description = R.string.settings_protocol_openvpn_tcp_description,
-                onProtocolSelected = {
-                    openVpnDeprecationDialogForTransmission.value = TransmissionProtocol.TCP
-                },
-                selectedProtocol = currentProtocol,
-                horizontalContentPadding = horizontalContentPadding,
-            )
-        }
         ProtocolItem(
             itemProtocol =  wireguardProtocol(TransmissionProtocol.TLS),
             title = R.string.settings_protocol_stealth_title,
@@ -229,44 +185,6 @@ fun ProtocolSettingsList(
             horizontalContentPadding = horizontalContentPadding,
         )
     }
-}
-
-@Composable
-fun OpenVpnDeprecationDialog(
-    transmission: TransmissionProtocol,
-    selectProtocol: (ProtocolSelection) -> Unit,
-    dismissDialog: () -> Unit,
-) {
-    val context = LocalContext.current
-    val textHtml = stringResource(R.string.settings_protocol_openvpn_deprecation_dialog_description)
-    val text = AnnotatedString.fromHtml(
-        textHtml,
-        linkStyles = TextLinkStyles(
-            style = ProtonTheme.typography.body2Regular.copy(
-                fontWeight = FontWeight.Bold,
-                textDecoration = TextDecoration.Underline
-            ).toSpanStyle(),
-        ),
-        linkInteractionListener = {
-            context.openUrl(Constants.URL_OPENVPN_DEPRECATION)
-        }
-    )
-    ProtonAlert(
-        title = stringResource(R.string.settings_protocol_openvpn_deprecation_dialog_title),
-        text = text,
-        textColor = ProtonTheme.colors.textWeak,
-        onDismissRequest = dismissDialog,
-        confirmLabel = stringResource(R.string.settings_protocol_openvpn_change_dialog_continue_openvpn),
-        dismissLabel = stringResource(R.string.settings_protocol_openvpn_change_dialog_enable_smart),
-        onConfirm = {
-            selectProtocol(ProtocolSelection(VpnProtocol.OpenVPN, transmission))
-            dismissDialog()
-        },
-        onDismissButton = {
-            selectProtocol(ProtocolSelection.SMART)
-            dismissDialog()
-        }
-    )
 }
 
 @Composable

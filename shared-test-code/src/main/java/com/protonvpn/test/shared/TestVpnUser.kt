@@ -42,7 +42,6 @@ object TestVpnUser {
         maxTier = maxTier,
         maxConnect = maxConnect,
         name = "name",
-        password = "pass",
         groupId = "",
         updateTime = 0,
         expirationTime = Integer.MAX_VALUE,

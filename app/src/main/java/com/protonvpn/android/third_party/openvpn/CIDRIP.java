@@ -3,7 +3,7 @@
  * Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
  */
 
-package de.blinkt.openvpn.core;
+package com.protonvpn.android.third_party.openvpn;
 
 import java.util.Locale;
 

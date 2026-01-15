@@ -136,7 +136,7 @@ class SettingsForConnectionTests {
             customDns = CustomDnsSettings(true)
         )
         val overrides = SettingsOverrides(
-            protocolData = ProtocolSelectionData(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
+            protocolData = ProtocolSelectionData(VpnProtocol.ProTun, TransmissionProtocol.TCP),
             netShield = NetShieldProtocol.DISABLED,
             randomizedNat = false,
             lanConnections = false,
@@ -144,7 +144,7 @@ class SettingsForConnectionTests {
             customDns = CustomDnsSettings(false)
         )
         assertEquals(LocalUserSettings.Default.copy(
-            protocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
+            protocol = ProtocolSelection(VpnProtocol.ProTun, TransmissionProtocol.TCP),
             netShield = NetShieldProtocol.DISABLED,
             randomizedNat = false,
             lanConnections = false,
@@ -211,7 +211,7 @@ class SettingsForConnectionTests {
         testUserProvider.vpnUser = TestUser.businessEssential.vpnUser
         rawSettingsFlow.value = LocalUserSettings.Default
         val settingsOverrides = SettingsOverrides(
-            protocolData = ProtocolSelectionData(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
+            protocolData = ProtocolSelectionData(VpnProtocol.ProTun, TransmissionProtocol.TCP),
             netShield = NetShieldProtocol.ENABLED_EXTENDED,
             randomizedNat = false,
             lanConnections = false,

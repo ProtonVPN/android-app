@@ -28,7 +28,6 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.login.Session
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
@@ -262,23 +261,6 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testAuthErrorVpnCredentials() = testScope.runTest {
-        coEvery {
-            userPlanManager.computeUserInfoChanges(any(), any())
-        } returns listOf(UserPlanManager.InfoChange.VpnCredentials)
-        assertEquals(
-            VpnFallbackResult.Switch.SwitchConnectIntent(
-                directConnectionParams.server,
-                directConnectionParams.server,
-                directConnectIntent,
-                directConnectIntent,
-                null
-            ),
-            handler.onAuthError(directConnectionParams)
-        )
-    }
-
-    @Test
     fun testAuthErrorMaxSessions() = testScope.runTest {
         coEvery { userPlanManager.computeUserInfoChanges(any(), any()) } returns listOf()
         coEvery { api.getSession() } returns ApiResult.Success(
@@ -295,7 +277,6 @@ class VpnConnectionErrorHandlerTests {
         failServerName: String? = null,
         failServerEntryIp: String? = null,
         failAll: Boolean = false,
-        useOpenVPN: Boolean = false,
         failSecureCore: Boolean = false,
     ): CapturingSlot<PrepareResult> {
         val result = CapturingSlot<PrepareResult>()
@@ -315,29 +296,16 @@ class VpnConnectionErrorHandlerTests {
                 if (server == null)
                     null
                 else {
-                    val connectionParams = if (useOpenVPN) {
-                        ConnectionParamsOpenVpn(
-                            originalConnectIntent,
-                            server.server,
-                            server.connectingDomain,
-                            server.connectingDomain.getEntryIp(
-                                ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP)),
-                            TransmissionProtocol.UDP,
-                            443,
-                            ipv6SettingEnabled = true,
-                        )
-                    } else {
-                        ConnectionParamsWireguard(
-                            originalConnectIntent,
-                            server.server,
-                            443,
-                            server.connectingDomain,
-                            server.connectingDomain.getEntryIp(
-                                ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP)),
-                            TransmissionProtocol.UDP,
-                            ipv6SettingEnabled = true,
-                        )
-                    }
+                    val connectionParams = ConnectionParamsWireguard(
+                        originalConnectIntent,
+                        server.server,
+                        443,
+                        server.connectingDomain,
+                        server.connectingDomain.getEntryIp(
+                            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP)),
+                        TransmissionProtocol.UDP,
+                        ipv6SettingEnabled = true,
+                    )
                     result.captured = PrepareResult(mockk(), connectionParams)
                     VpnBackendProvider.PingResult(server, listOf(result.captured))
                 }
@@ -523,14 +491,20 @@ class VpnConnectionErrorHandlerTests {
 
     @Test
     fun testUnreachableOrgServerRespondsWithDifferentProtocol() = testScope.runTest {
-        userSettingsFlow.value =
-            userSettingsFlow.value.copy(protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP))
-        preparePings(useOpenVPN = true, failSecureCore = true)
-        val fallback = handler.onUnreachableError(directConnectionParams) as VpnFallbackResult.Switch.SwitchServer
+        val settingsProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)
+        userSettingsFlow.value = userSettingsFlow.value.copy(protocol = settingsProtocol)
+        val connectionParams = ConnectionParamsWireguard(
+            directConnectIntent, directConnectServer, 443, directConnectServer.connectingDomains.first(), null, settingsProtocol.transmission!!, true
+        )
+        preparePings(failSecureCore = true)
+        val fallback = handler.onUnreachableError(connectionParams) as VpnFallbackResult.Switch.SwitchServer
         assertFalse(fallback.compatibleProtocol)
         assertEquals(SwitchServerReason.ServerUnreachable, fallback.reason)
         assertEquals("CA#1", fallback.preparedConnection.connectionParams.server.serverName)
-        assertTrue(fallback.preparedConnection.connectionParams is ConnectionParamsOpenVpn)
+        assertEquals(
+            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
+            fallback.preparedConnection.connectionParams.protocolSelection
+        )
     }
 
     @Test
@@ -695,7 +669,8 @@ class VpnConnectionErrorHandlerTests {
             connectIntent,
             server1,
             server1.connectingDomains.first(),
-            VpnProtocol.OpenVPN
+            VpnProtocol.WireGuard,
+                transmissionProtocol = TransmissionProtocol.TCP
         )
         val result = handler.onUnreachableError(connectionParams)
         assertEquals(

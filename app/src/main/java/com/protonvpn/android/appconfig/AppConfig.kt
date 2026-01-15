@@ -128,8 +128,6 @@ class AppConfig @Inject constructor(
 
     fun isMaintenanceTrackerEnabled(): Boolean = appConfigResponse.featureFlags.maintenanceTrackerEnabled
 
-    fun getOpenVPNPorts(): DefaultPorts = getDefaultPortsConfig().getOpenVPNPorts()
-
     fun getWireguardPorts(): DefaultPorts = getDefaultPortsConfig().getWireguardPorts()
 
     private fun getDefaultPortsConfig(): DefaultPortsConfig =
@@ -192,8 +190,6 @@ class AppConfig @Inject constructor(
         val defaultPorts = DefaultPortsConfig.defaultConfig
         val defaultFeatureFlags = FeatureFlags()
         val defaultSmartProtocolConfig = SmartProtocolConfig(
-            openVPNUdpEnabled = true,
-            openVPNTcpEnabledInternal = true,
             wireguardEnabled = true,
             wireguardTcpEnabled = true,
             wireguardTlsEnabled = true,

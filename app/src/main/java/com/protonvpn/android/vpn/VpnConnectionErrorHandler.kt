@@ -46,7 +46,6 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.PlanChange
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.UserBecameDelinquent
-import com.protonvpn.android.utils.UserPlanManager.InfoChange.VpnCredentials
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
@@ -559,13 +558,6 @@ class VpnConnectionErrorHandler @Inject constructor(
                     val fallback = getCommonFallbackForInfoChanges(orgIntent, connectionParams.server, infoChanges, vpnUser)
                     if (fallback != null)
                         return fallback
-
-                    if (VpnCredentials in infoChanges) {
-                        // Now that credentials are refreshed we can try reconnecting.
-                        return with(connectionParams) {
-                            VpnFallbackResult.Switch.SwitchConnectIntent(server, server, orgIntent, orgIntent)
-                        }
-                    }
 
                     val maxSessions = requireNotNull(vpnUser).maxConnect
                     val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0

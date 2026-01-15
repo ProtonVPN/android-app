@@ -57,7 +57,6 @@ data class VpnUser(
     val maxConnect: Int,
     val name: String,
     val groupId: String,
-    val password: String,
     val updateTime: Long,
     val sessionId: SessionId,
     val autoLoginName: String?,

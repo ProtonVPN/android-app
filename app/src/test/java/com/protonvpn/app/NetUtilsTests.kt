@@ -22,7 +22,7 @@ import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.utils.NetUtils.maskAnyIP
 import com.protonvpn.android.utils.NetUtils.stripIP
 import com.protonvpn.android.utils.jitterMs
-import de.blinkt.openvpn.core.isPrivateOnlyAddress
+import com.protonvpn.android.utils.isPrivateOnlyAddress
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot

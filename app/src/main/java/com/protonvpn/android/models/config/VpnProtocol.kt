@@ -19,7 +19,6 @@
 package com.protonvpn.android.models.config
 
 enum class VpnProtocol {
-    OpenVPN,
     WireGuard,
     ProTun,
     Smart;

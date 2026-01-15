@@ -102,7 +102,7 @@ class LocalUserSettingsUnitTests {
                 "mtuSize": 1000,
                 "netShield": "DISABLED",
                 "protocol": {
-                    "vpn": "OpenVPN",
+                    "vpn": "WireGuard",
                     "transmission": "TCP"
                 },
                 "randomizedNat": false,
@@ -141,7 +141,7 @@ class LocalUserSettingsUnitTests {
             lanConnectionsAllowDirect = true,
             mtuSize = 1000,
             netShield = NetShieldProtocol.DISABLED,
-            protocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
+            protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
             randomizedNat = false,
             splitTunneling = SplitTunnelingSettings(
                 isEnabled = true,

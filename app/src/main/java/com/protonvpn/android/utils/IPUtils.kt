@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.blinkt.openvpn.core
+package com.protonvpn.android.utils
 
 import inet.ipaddr.IPAddressString
 

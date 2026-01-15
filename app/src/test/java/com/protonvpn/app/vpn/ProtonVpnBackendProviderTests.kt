@@ -42,20 +42,16 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class ProtonVpnBackendProviderTests {
 
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
-    @RelaxedMockK
-    private lateinit var mockOpenVpnBackend: VpnBackend
     @RelaxedMockK
     private lateinit var mockWireGuardBackend: VpnBackend
     @RelaxedMockK
@@ -72,16 +68,14 @@ class ProtonVpnBackendProviderTests {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
 
-        every { mockOpenVpnBackend.vpnProtocol } returns VpnProtocol.OpenVPN
         every { mockWireGuardBackend.vpnProtocol } returns VpnProtocol.WireGuard
         every { mockProTunBackend.vpnProtocol } returns VpnProtocol.ProTun
         every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = true)
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
-            true, true, true, wireguardTcpEnabled = true, wireguardTlsEnabled = true
+            wireguardEnabled = true, wireguardTcpEnabled = true, wireguardTlsEnabled = true
         )
         vpnBackendProvider = ProtonVpnBackendProvider(
             mockAppConfig,
-            mockOpenVpnBackend,
             mockWireGuardBackend,
             mockProTunBackend,
             SupportsProtocol(createGetSmartProtocols())
@@ -91,7 +85,6 @@ class ProtonVpnBackendProviderTests {
     @Test
     fun `smart protocol uses only enabled protocols`() = runTest {
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
-            openVPNUdpEnabled = false, openVPNTcpEnabledInternal = true,
             wireguardEnabled = false, wireguardTcpEnabled = false, wireguardTlsEnabled = true
         )
         val server = MockedServers.server
@@ -105,8 +98,6 @@ class ProtonVpnBackendProviderTests {
         coVerify {
             mockWireGuardBackend.prepareForConnection(
                 connectIntent, server, setOf(TransmissionProtocol.TLS), true, any(), any())
-            mockOpenVpnBackend.prepareForConnection(
-                connectIntent, server, setOf(TransmissionProtocol.TCP), true, any(), any())
         }
     }
 
@@ -114,7 +105,6 @@ class ProtonVpnBackendProviderTests {
     fun `disabling WireGuard Txx removes it from Smart protocol`() = runTest {
         every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = false)
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
-            openVPNUdpEnabled = false, openVPNTcpEnabledInternal = false,
             wireguardEnabled = false, wireguardTcpEnabled = true, wireguardTlsEnabled = true
         )
         val server = MockedServers.server
@@ -131,7 +121,6 @@ class ProtonVpnBackendProviderTests {
     @Test
     fun `org protocol is used by pingAll even when disabled for Smart protocol`() = runTest {
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
-            openVPNUdpEnabled = false, openVPNTcpEnabledInternal = false,
             wireguardEnabled = false, wireguardTcpEnabled = false, wireguardTlsEnabled = false
         )
         val server = MockedServers.server

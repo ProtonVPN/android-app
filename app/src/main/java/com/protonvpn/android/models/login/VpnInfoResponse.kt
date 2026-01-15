@@ -57,7 +57,6 @@ fun VpnInfoResponse.toVpnUserEntity(
         maxConnect = vpnInfo.maxConnect,
         name = vpnInfo.name,
         groupId = vpnInfo.groupId.orEmpty(),
-        password = vpnInfo.password,
         updateTime = timestamp,
         sessionId = sessionId,
         autoLoginName = autoLoginName,

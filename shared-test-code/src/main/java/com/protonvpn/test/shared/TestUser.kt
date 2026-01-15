@@ -31,7 +31,6 @@ import me.proton.core.network.domain.session.SessionId
 class TestUser(
     val email: String,
     val password: String,
-    val openVpnPassword: String,
     val planName: String,
     val planDisplayName: String,
     val maxTier: Int,
@@ -39,8 +38,7 @@ class TestUser(
 ) {
     val vpnInfoResponse: VpnInfoResponse
         get() {
-            val info = VPNInfo(1, 0, planName, planDisplayName, maxTier, maxConnect, email, "16",
-                openVpnPassword)
+            val info = VPNInfo(1, 0, planName, planDisplayName, maxTier, maxConnect, email, "16")
             return VpnInfoResponse(1000, info, 4, 4, 0, 0, false)
         }
     val vpnUser: VpnUser
@@ -48,24 +46,24 @@ class TestUser(
 
     companion object {
         @JvmStatic val freeUser: TestUser
-            get() = TestUser("automationFreeUser", "dummy", "test", "free", "free", 0, 1)
+            get() = TestUser("automationFreeUser", "dummy", "free", "free", 0, 1)
         val basicUser: TestUser
-            get() = TestUser("automationBasicUser", "dummy", "testas2", "vpnbasic", "vpnbasic", 1, 2)
+            get() = TestUser("automationBasicUser", "dummy", "vpnbasic", "vpnbasic", 1, 2)
         @JvmStatic val plusUser: TestUser
-            get() = TestUser("automationPlusUser", "dummy", "test", "vpnplus", "vpnplus", 2, 5)
+            get() = TestUser("automationPlusUser", "dummy", "vpnplus", "vpnplus", 2, 5)
 
         val sameIdFreeUser: TestUser
-            get() = TestUser("Testas", "a", "rand", "free", "free", 0, 1)
+            get() = TestUser("Testas", "a", "free", "free", 0, 1)
         val sameIdPlusUser: TestUser
-            get() = TestUser("Testas", "a", "rand", "vpnplus", "vpnplus", 2, 5)
+            get() = TestUser("Testas", "a", "vpnplus", "vpnplus", 2, 5)
         val sameIdUnlimitedUser: TestUser
-            get() = TestUser("Testas", "a", "rand", "vpnunlimited", "vpnunlimited", 2, 5)
+            get() = TestUser("Testas", "a", "vpnunlimited", "vpnunlimited", 2, 5)
         val twofa: TestUser
-            get() = TestUser("twofa", "a", "rand", "vpnplus", "vpnplus", 2, 5)
+            get() = TestUser("twofa", "a", "vpnplus", "vpnplus", 2, 5)
         val twopass: TestUser
-            get() = TestUser("twopasswords", "thisisarandomp45w0rd_*&-/?", "rand", "vpnplus", "vpnplus", 2, 5)
+            get() = TestUser("twopasswords", "thisisarandomp45w0rd_*&-/?", "vpnplus", "vpnplus", 2, 5)
         val businessEssential: TestUser
-            get() = TestUser("businessEssential", "", "", "vpnpro2023", "VPN Essential", 2, 2)
+            get() = TestUser("businessEssential", "", "vpnpro2023", "VPN Essential", 2, 2)
     }
 }
 

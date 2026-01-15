@@ -35,25 +35,25 @@ class TestUserEndToEnd @Inject constructor(
         get() = getFreePlanUser()
     val plusUser: TestUser
         get() = getPlusPlanUser()
-    val badUser: TestUser = TestUser("Testas3", "r4nd0m", "rand", "vpnplus", "vpnplus", 2, 5)
-    val visionaryBlack = TestUser("visionary", "a", "test", "visionary", "visionary", 1, 10)
-    val anyPaidUserProd: TestUser = TestUser(getRandomUsername(), BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", "vpnplus", 2, 5)
+    val badUser: TestUser = TestUser("Testas3", "r4nd0m", "vpnplus", "vpnplus", 2, 5)
+    val visionaryBlack = TestUser("visionary", "a", "visionary", "visionary", 1, 10)
+    val anyPaidUserProd: TestUser = TestUser(getRandomUsername(), BuildConfig.TEST_ACCOUNT_PASSWORD, "vpnplus", "vpnplus", 2, 5)
 
     private fun isAtlas() = environmentConfiguration.proxyToken.isNotBlank()
 
     private fun getPlusPlanUser(): TestUser {
         return if (isAtlas()) {
-            TestUser("vpnplus", "12341234", "test", "vpnplus", "vpnplus", 2, 10)
+            TestUser("vpnplus", "12341234", "vpnplus", "vpnplus", 2, 10)
         } else {
-            TestUser("automationPlusUser", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", "vpnplus", 2, 5)
+            TestUser("automationPlusUser", BuildConfig.TEST_ACCOUNT_PASSWORD, "vpnplus", "vpnplus", 2, 5)
         }
     }
 
     private fun getFreePlanUser(): TestUser {
         return if (isAtlas())
-            TestUser("vpnfree", "12341234", "test", "free", "free", 0, 1)
+            TestUser("vpnfree", "12341234", "free", "free", 0, 1)
         else
-            TestUser("automationFreeUser", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas", "free", "free", 0, 1)
+            TestUser("automationFreeUser", BuildConfig.TEST_ACCOUNT_PASSWORD, "free", "free", 0, 1)
     }
 
     fun getRandomUsername(): String {

@@ -3,7 +3,7 @@
  * Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
  */
 
-package de.blinkt.openvpn.core;
+package com.protonvpn.android.third_party.openvpn;
 
 import android.annotation.TargetApi;
 import android.net.IpPrefix;
@@ -11,7 +11,8 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 
-import java.lang.annotation.Target;
+import com.protonvpn.android.BuildConfig;
+
 import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -23,10 +24,6 @@ import java.util.Locale;
 import java.util.PriorityQueue;
 import java.util.TreeSet;
 import java.util.Vector;
-
-import de.blinkt.openvpn.BuildConfig;
-
-
 
 public class NetworkSpace {
 
@@ -182,7 +179,7 @@ public class NetworkSpace {
                 long part = r.mod(BigInteger.valueOf(0x10000)).longValue();
                 if (ipv6str != null || part != 0) {
                     if (ipv6str == null && !lastPart)
-                            ipv6str = ":";
+                        ipv6str = ":";
 
                     if (lastPart)
                         ipv6str = String.format(Locale.US, "%x", part, ipv6str);

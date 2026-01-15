@@ -124,7 +124,6 @@ import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
-import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.protun.ProTunBackend
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDsImpl
@@ -221,13 +220,11 @@ object AppModuleProd {
     fun provideVpnBackendManager(
         appConfig: AppConfig,
         wireguardBackend: WireguardBackend,
-        openVpnBackend: OpenVpnBackend,
         proTunBackend: ProTunBackend,
         supportsProtocol: SupportsProtocol,
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
             appConfig,
-            openVpnBackend,
             wireguardBackend,
             proTunBackend,
             supportsProtocol

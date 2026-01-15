@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.tv.settings.protocol
 
-import android.content.DialogInterface
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -45,7 +44,6 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.tv.dialogs.TvAlertDialog
 import com.protonvpn.android.tv.settings.TvSettingsHeader
 import com.protonvpn.android.tv.settings.TvSettingsItemRadioSmall
 import com.protonvpn.android.tv.settings.TvSettingsItemSwitch
@@ -80,30 +78,6 @@ fun TvSettingsProtocolMain(
 
         val focusRequester = remember { FocusRequester() }
         LaunchedEffect(Unit) { focusRequester.requestFocus() }
-
-        val openVpnDeprecationDialogForTransmission =
-            rememberSaveable(selectedProtocol) { mutableStateOf<TransmissionProtocol?>(null) }
-
-        if (openVpnDeprecationDialogForTransmission.value != null) {
-            TvAlertDialog(
-                title = stringResource(R.string.settings_protocol_openvpn_deprecation_dialog_title),
-                description = stringResource(R.string.settings_protocol_openvpn_deprecation_dialog_description_tv),
-                confirmText = stringResource(R.string.settings_protocol_openvpn_change_dialog_enable_smart),
-                dismissText = stringResource(R.string.settings_protocol_openvpn_change_dialog_continue_openvpn),
-                onConfirm = {
-                    onSelected(ProtocolSelection.SMART)
-                    openVpnDeprecationDialogForTransmission.value = null
-                },
-                onDismiss = {
-                    onSelected(ProtocolSelection(VpnProtocol.OpenVPN, openVpnDeprecationDialogForTransmission.value))
-                    openVpnDeprecationDialogForTransmission.value = null
-                },
-                onDismissRequest = {
-                    openVpnDeprecationDialogForTransmission.value = null
-                },
-                focusedButton = DialogInterface.BUTTON_POSITIVE
-            )
-        }
 
         LazyColumn {
             if (showProtun) {
@@ -181,15 +155,6 @@ fun TvSettingsProtocolMain(
                     selectedProtocol = selectedProtocol,
                 )
             }
-            if (!protonProtocolsEnabled) item {
-                ProtocolItem(
-                    itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
-                    title = R.string.settings_protocol_openvpn_title,
-                    description = R.string.settings_protocol_openvpn_udp_description,
-                    onSelected = { openVpnDeprecationDialogForTransmission.value = TransmissionProtocol.UDP },
-                    selectedProtocol = selectedProtocol,
-                )
-            }
 
             item {
                 TvSettingSectionHeading(stringResource(R.string.settings_protocol_section_reliability))
@@ -200,15 +165,6 @@ fun TvSettingsProtocolMain(
                     title = R.string.settings_protocol_wireguard_title,
                     description = R.string.settings_protocol_wireguard_tcp_description,
                     onSelected = onSelected,
-                    selectedProtocol = selectedProtocol,
-                )
-            }
-            if (!protonProtocolsEnabled) item {
-                ProtocolItem(
-                    itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
-                    title = R.string.settings_protocol_openvpn_title,
-                    description = R.string.settings_protocol_openvpn_tcp_description,
-                    onSelected = { openVpnDeprecationDialogForTransmission.value = TransmissionProtocol.TCP },
                     selectedProtocol = selectedProtocol,
                 )
             }

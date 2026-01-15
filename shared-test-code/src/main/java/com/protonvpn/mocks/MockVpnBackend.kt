@@ -94,7 +94,14 @@ class MockVpnBackend(
             emptyList()
         } else {
             val connectionParams = object :
-                ConnectionParams(connectIntent, server, getConnectingDomain.random(server, null), protocol, null) {}
+                ConnectionParams(
+                    connectIntent = connectIntent,
+                    server = server,
+                    connectingDomain = getConnectingDomain.random(server, null),
+                    protocol = protocol,
+                    entryIp = null,
+                    transmissionProtocol = transmissionProtocols.first()
+                ) {}
             listOf(PrepareResult(this, connectionParams))
         }
 

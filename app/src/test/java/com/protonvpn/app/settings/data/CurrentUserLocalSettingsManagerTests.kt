@@ -20,6 +20,7 @@
 package com.protonvpn.app.settings.data
 
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -82,7 +83,7 @@ class CurrentUserLocalSettingsManagerTests {
     @Ignore("VPNAND-1381")
     @Test
     fun `only current user's settings are updated`() = testScope.runTest {
-        val user1Protocol = ProtocolSelection(VpnProtocol.OpenVPN)
+        val user1Protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)
         currentUserSettings.updateProtocol(user1Protocol)
         currentUserProvider.vpnUser = TestUser.freeUser.vpnUser
 
@@ -93,7 +94,7 @@ class CurrentUserLocalSettingsManagerTests {
     @Ignore("VPNAND-1381")
     @Test
     fun `when logged in user changes then their settings are emitted`() = testScope.runTest {
-        val user1Protocol = ProtocolSelection(VpnProtocol.OpenVPN)
+        val user1Protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)
         currentUserSettings.updateProtocol(user1Protocol)
 
         val emittedSettings = runWhileCollecting(currentUserSettings.rawCurrentUserSettingsFlow) {

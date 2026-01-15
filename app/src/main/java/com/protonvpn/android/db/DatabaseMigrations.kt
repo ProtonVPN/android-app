@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.db
 
+import androidx.room.DeleteColumn
 import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -322,4 +323,7 @@ object DatabaseMigrations {
             db.execSQL("UPDATE profiles SET exitCountry = 'GB' WHERE exitCountry = 'UK'")
         }
     }
+
+    @DeleteColumn(tableName = "VpnUser", columnName = "password")
+    class AutoMigration52to53 : AutoMigrationSpec
 }

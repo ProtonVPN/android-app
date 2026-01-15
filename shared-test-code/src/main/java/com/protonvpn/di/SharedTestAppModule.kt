@@ -59,7 +59,6 @@ import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.VpnStatusProviderUI
-import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.protun.ProTunBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import com.protonvpn.mocks.FakeWorkManager
@@ -204,7 +203,6 @@ class SharedTestAppModule {
         networkManager: NetworkManager,
         networkCapabilitiesFlow: NetworkCapabilitiesFlow,
         certificateRepository: CertificateRepository,
-        openVpnBackend: OpenVpnBackend,
         wireguardBackend: WireguardBackend,
         proTunBackend: ProTunBackend,
         localAgentUnreachableTracker: LocalAgentUnreachableTracker,
@@ -217,20 +215,6 @@ class SharedTestAppModule {
         if (TestSettings.mockedConnectionUsed) {
             ProtonVpnBackendProvider(
                 config = appConfig,
-                openVpn = MockVpnBackend(
-                    scope,
-                    dispatcherProvider,
-                    networkManager,
-                    networkCapabilitiesFlow,
-                    certificateRepository,
-                    settingsForConnection,
-                    VpnProtocol.OpenVPN,
-                    localAgentUnreachableTracker,
-                    currentUser,
-                    getNetZone,
-                    foregroundActivityTracker,
-                    getConnectingDomain,
-                ),
                 wireGuard = MockVpnBackend(
                     scope,
                     dispatcherProvider,
@@ -264,7 +248,6 @@ class SharedTestAppModule {
         } else {
             ProtonVpnBackendProvider(
                 config = appConfig,
-                openVpn = openVpnBackend,
                 wireGuard = wireguardBackend,
                 proTunBackend = proTunBackend,
                 supportsProtocol = supportsProtocol

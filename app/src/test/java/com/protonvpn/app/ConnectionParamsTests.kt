@@ -115,7 +115,7 @@ class ConnectionParamsTests {
             features = EnumSet.of(ServerFeature.P2P),
             profileId = 5,
             settingsOverrides = SettingsOverrides(
-                protocolData = ProtocolSelectionData(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
+                protocolData = ProtocolSelectionData(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
                 netShield = NetShieldProtocol.ENABLED_EXTENDED,
                 randomizedNat = false,
                 lanConnections = true,

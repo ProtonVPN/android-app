@@ -21,15 +21,14 @@ package com.protonvpn.android.vpn
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.logging.ConnConnectScanResult
 import com.protonvpn.android.logging.LogCategory
-import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.servers.Server
-import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.TransmissionProtocol
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
-import com.protonvpn.android.vpn.protun.ProTunBackend
+import com.protonvpn.android.servers.Server
+import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.firstOrNull
@@ -38,7 +37,6 @@ import me.proton.core.util.kotlin.mapAsync
 
 class ProtonVpnBackendProvider(
     val config: AppConfig,
-    val openVpn: VpnBackend,
     val wireGuard: VpnBackend,
     val proTunBackend: VpnBackend,
     val supportsProtocol: SupportsProtocol,
@@ -53,14 +51,11 @@ class ProtonVpnBackendProvider(
         ProtonLogger.logCustom(LogCategory.CONN_CONNECT,
             "Preparing connection with protocol: ${protocol.toLog()}")
         val scan = when (protocol.vpn) {
-            VpnProtocol.OpenVPN -> alwaysScan
             VpnProtocol.WireGuard -> alwaysScan
             VpnProtocol.ProTun -> false
             VpnProtocol.Smart -> true
         }
         return when (protocol.vpn) {
-            VpnProtocol.OpenVPN ->
-                openVpn.prepareForConnection(connectIntent, server, setOf(protocol.transmission!!), scan)
             VpnProtocol.WireGuard ->
                 wireGuard.prepareForConnection(connectIntent, server, setOf(protocol.transmission!!), scan)
             VpnProtocol.ProTun -> {
@@ -88,10 +83,6 @@ class ProtonVpnBackendProvider(
         mutableSetOf<TransmissionProtocol>().apply {
             with(config.getSmartProtocolConfig()) {
                 when (vpnProtocol) {
-                    VpnProtocol.OpenVPN -> {
-                        if (openVPNUdpEnabled) add(TransmissionProtocol.UDP)
-                        if (openVPNTcpEnabled) add(TransmissionProtocol.TCP)
-                    }
                     VpnProtocol.WireGuard, VpnProtocol.ProTun -> {
                         val wireGuardTxxEnabled = config.getFeatureFlags().wireguardTlsEnabled
                         if (wireguardEnabled) add(TransmissionProtocol.UDP)
@@ -141,9 +132,6 @@ class ProtonVpnBackendProvider(
             val wireGuardEnabled = wireguardEnabled || wireGuardTxxEnabled
             if (wireGuardEnabled && supportsProtocol(server, VpnProtocol.WireGuard))
                 add(wireGuard)
-            val openVpnEnabled = openVPNUdpEnabled || openVPNTcpEnabled
-            if (openVpnEnabled && supportsProtocol(server, VpnProtocol.OpenVPN))
-                add(openVpn)
             if (orgVpnProtocol != null) {
                 getBackendFor(orgVpnProtocol)?.let { orgBackend ->
                     if (!contains(orgBackend))
@@ -154,7 +142,6 @@ class ProtonVpnBackendProvider(
     }
 
     private fun getBackendFor(vpnProtocol: VpnProtocol) = when(vpnProtocol) {
-        VpnProtocol.OpenVPN -> openVpn
         VpnProtocol.WireGuard -> wireGuard
         VpnProtocol.ProTun -> proTunBackend
         VpnProtocol.Smart -> null

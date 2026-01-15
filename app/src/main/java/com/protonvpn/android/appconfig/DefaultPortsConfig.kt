@@ -23,15 +23,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class DefaultPortsConfig(
-    @SerialName(value = "OpenVPN") private val openVpnPorts: DefaultPorts,
     @SerialName(value = "WireGuard") private val wireguardPorts: DefaultPorts
 ) {
-    fun getOpenVPNPorts() =
-        if (openVpnPorts.tcpPorts.isEmpty() || openVpnPorts.udpPorts.isEmpty())
-            openVPNDefaults
-        else
-            openVpnPorts
-
     fun getWireguardPorts() =
         if (wireguardPorts.udpPorts.isEmpty() || wireguardPorts.tcpPorts.isEmpty())
             wireguardDefaults
@@ -41,8 +34,6 @@ class DefaultPortsConfig(
     companion object {
         private val wireguardDefaults =
             DefaultPorts(listOf(51820), listOf(443))
-        private val openVPNDefaults =
-            DefaultPorts(listOf(443), listOf(443))
-        val defaultConfig = DefaultPortsConfig(openVPNDefaults, wireguardDefaults)
+        val defaultConfig = DefaultPortsConfig(wireguardDefaults)
     }
 }

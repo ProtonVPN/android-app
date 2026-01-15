@@ -27,6 +27,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.servers.Server
@@ -326,7 +327,8 @@ class VpnConnectionManagerTests {
                 ConnectIntent.Default,
                 MockedServers.server,
                 MockedServers.server.connectingDomains.first(),
-                VpnProtocol.OpenVPN
+                VpnProtocol.WireGuard,
+                transmissionProtocol = TransmissionProtocol.TLS
             )
             coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
                 PrepareResult(mockBackend, newConnectionParams)

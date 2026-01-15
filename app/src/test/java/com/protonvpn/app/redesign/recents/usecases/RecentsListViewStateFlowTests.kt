@@ -21,6 +21,7 @@ package com.protonvpn.app.redesign.recents.usecases
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -376,7 +377,7 @@ class RecentsListViewStateFlowTests {
 
         val viewStates = viewStateFlow
             .onEach {
-                settingsFlow.update { it.copy(protocol = ProtocolSelection(VpnProtocol.OpenVPN)) }
+                settingsFlow.update { it.copy(protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)) }
             }
             .take(2)
             .toList()

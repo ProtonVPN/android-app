@@ -114,14 +114,6 @@ class UserPlanManagerTests {
     }
 
     @Test
-    fun credentialChangeFiresEvent() = testScope.runTest {
-        launch {
-            assertTrue(UserPlanManager.InfoChange.VpnCredentials in manager.infoChangeFlow.first())
-        }
-        changePlan(TestUser.basicUser.vpnUser, TestUser.plusUser.vpnInfoResponse)
-    }
-
-    @Test
     fun planDowngradeFiresDowngrade() = testScope.runTest {
         launch {
             val planChange = manager.planChangeFlow.first()

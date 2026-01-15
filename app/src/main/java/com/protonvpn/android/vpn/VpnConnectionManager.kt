@@ -216,8 +216,6 @@ class VpnConnectionManager @Inject constructor(
                     }
                 }
 
-                // After auth failure OpenVPN will automatically enter DISABLED state, don't clear fallback to allow
-                // it to finish even when we entered DISABLED state.
                 if (newState == VpnState.Connected)
                     clearOngoingFallback()
 
@@ -439,7 +437,6 @@ class VpnConnectionManager @Inject constructor(
         val wireGuardTxxEnabled = getFeatureFlags.value.wireguardTlsEnabled
         val fallbackOrder = buildList {
             add(ProtocolSelection(VpnProtocol.WireGuard))
-            add(ProtocolSelection(VpnProtocol.OpenVPN))
             if (wireGuardTxxEnabled) {
                 add(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP))
                 add(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
@@ -462,22 +459,6 @@ class VpnConnectionManager @Inject constructor(
         }
 
         val newBackend = preparedConnection.backend
-        if (newBackend.vpnProtocol == VpnProtocol.OpenVPN &&
-            preparedConnection.connectionParams.connectIntent !is AnyConnectIntent.GuestHole
-        ) {
-            val sessionId = currentUser.sessionId()
-            if (sessionId != null) {
-                // OpenVPN needs a certificate to connect, make sure there is one available (it can be expired, it'll be
-                // refreshed via the VPN tunnel if needed).
-                if (!ensureCertificateAvailable(sessionId)) {
-                    // Report LOCAL_AGENT_ERROR, same as other places where CertificateResult.Error is handled.
-                    val error = VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Failed to obtain certificate", isFinal = true)
-                    setInternalState(InternalState.Error(preparedConnection.connectionParams, error, newBackend))
-                    return
-                }
-            }
-        }
-
         with(preparedConnection) {
             val connectIntentInfo = connectionParams.connectIntent.toLog()
             ProtonLogger.log(
@@ -490,15 +471,6 @@ class VpnConnectionManager @Inject constructor(
         newBackend.setSelfState(VpnState.Connecting)
         newBackend.connect(preparedConnection.connectionParams)
         setInternalState(InternalState.Active(preparedConnection.connectionParams, newBackend))
-    }
-
-    private suspend fun ensureCertificateAvailable(sessionId: SessionId): Boolean {
-        var result = certificateRepository.getCertificateWithoutRefresh(sessionId)
-        if (result !is CertificateRepository.CertificateResult.Success) {
-            // No certificate found, is there an issue with CertificateStorage? Try fetching.
-            result = certificateRepository.getCertificate(sessionId)
-        }
-        return result is CertificateRepository.CertificateResult.Success
     }
 
     private fun clearOngoingFallback() {

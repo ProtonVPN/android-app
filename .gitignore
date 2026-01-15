@@ -7,10 +7,7 @@
 /config/detekt/config.yml
 /config/detekt/reports
 /observability/domain/build
-openvpn/build/**
 /captures
 .externalNativeBuild
-openvpn/src/main/cpp/asio/asio/src/doc/
-openvpn/.cxx/
 pmcrypto/build/
 app/src/androidTest/assets/sensitive/

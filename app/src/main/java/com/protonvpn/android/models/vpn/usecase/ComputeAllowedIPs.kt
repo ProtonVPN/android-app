@@ -25,12 +25,12 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
+import com.protonvpn.android.third_party.openvpn.NetworkUtils
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.LOCAL_RANGES_IP_V4
+import com.protonvpn.android.utils.LOCAL_RANGES_IP_V6
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
-import de.blinkt.openvpn.core.LOCAL_RANGES_IP_V4
-import de.blinkt.openvpn.core.LOCAL_RANGES_IP_V6
-import de.blinkt.openvpn.core.NetworkUtils
 import inet.ipaddr.IPAddress
 import inet.ipaddr.IPAddressSeqRange
 import inet.ipaddr.IPAddressString

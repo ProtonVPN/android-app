@@ -31,7 +31,7 @@ Why Proton VPN?
 • No personal data required to sign up
 • Proton VPN's Secure Core architecture allows our secure VPN service to defend against network-based attacks
 • Unique VPN Accelerator technology increases your VPN speeds by over 400%
-• Uses only VPN protocols that are proven to be secure: OpenVPN, IKEv2, and WireGuard (no PPTP and L2TP/IPSec).
+• Offers state-of-the-art security and performance using the WireGuard protocol
 • Independently audited by SEC Consult with all results published on our website
 • Physical data centres accessible only via biometric verification
 • Trusted open-source code that can be reviewed for security by anyone

@@ -3,19 +3,6 @@ path = "/etc/gitleaks/proton.toml"
 
 [allowlist]
 paths = [
-    # OpenVPN test data
-    '''^openvpn/src/main/cpp/asio/asio/src/examples/(.*)''',
-    '''^openvpn/src/main/cpp/openvpn/doc/(.*)''',
-    '''^openvpn/src/main/cpp/openvpn/sample/(.*)''',
-    '''^openvpn/src/main/cpp/openvpn/tests/(.*)''',
-    '''^openvpn/src/test/(.*)''',
-    '''^openvpn/src/main/cpp/openvpn3/doc/(.*)''',
-    '''^openvpn/src/main/cpp/openvpn3/test/(.*)''',
-    # OpenSSL and mbedtls - never modified by us.
-    '''^openvpn/src/main/cpp/openssl/(.*)$''',
-    '''^openvpn/src/main/cpp/mbedtls/(.*)''',
-    # A patch file with false positive - never modified by us.
-    '''^openvpn/src/main/cpp/openvpn/contrib/vcpkg-ports/pkcs11-helper/pkcs11-helper-001-RFC7512.patch''',
     # R8 mapping file, contains function names, line numbers and other symbols that can be picked as false positives.
     '''^app/build/outputs/mapping/(.*)/mapping.txt$''',
     '''^app/build/outputs/mapping/(.*)/seeds.txt$''',

@@ -70,22 +70,6 @@ class RealConnectionTestsProd {
     }
 
     @Test
-    fun realConnectionOpenVpnUDP() {
-        realConnection(
-            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
-            R.string.settingsProtocolNameOpenVpnUdp
-        )
-    }
-
-    @Test
-    fun realConnectionOpenVpnTCP() {
-        realConnection(
-            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
-            R.string.settingsProtocolNameOpenVpnTcp
-        )
-    }
-
-    @Test
     fun realConnectionWireguard() {
         realConnection(
             ProtocolSelection(VpnProtocol.WireGuard),

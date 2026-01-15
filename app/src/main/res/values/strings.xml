@@ -226,8 +226,6 @@
     <string name="settingsProtocolNameWireguard" translatable="false">WireGuard</string>
     <string name="settingsProtocolNameWireguardTCP" translatable="false">WireGuard TCP</string>
     <string name="settingsProtocolNameWireguardTLS" translatable="false">Stealth</string>
-    <string name="settingsProtocolNameOpenVpnTcp" translatable="false">OpenVPN TCP</string>
-    <string name="settingsProtocolNameOpenVpnUdp" translatable="false">OpenVPN UDP</string>
     <string name="settingsEnableTelemetryTitle">Share anonymous usage statistics</string>
     <string name="settingsEnableTelemetryDescription">Usage data helps us overcome VPN blocks and improve app performance.</string>
     <string name="settingsSendCrashReportsTitle">Share anonymous crash reports</string>
@@ -1432,9 +1430,6 @@
     <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
     <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->

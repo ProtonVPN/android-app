@@ -381,7 +381,7 @@ android {
     sourceSets {
         main.res.srcDirs += 'src/main/res_flags'
         main {
-           assets.srcDirs = ['src/main/assets', 'assets', 'ovpnlibs/assets', '../openvpn/build/ovpnassets']
+           assets.srcDirs = ['src/main/assets', 'assets']
         }
         // Screenshot test does not automatically include app resources. Check if it's still needed when updating screenshot test module.
         screenshotTest.res.srcDirs += 'src/main/res'
@@ -1021,6 +1021,4 @@ dependencies {
     // Fusion
     testImplementation "me.proton.test:fusion:$test_fusion_version"
     androidTestImplementation "me.proton.test:fusion:$test_fusion_version"
-
-    implementation project(path: ':openvpn')
 }

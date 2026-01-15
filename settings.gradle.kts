@@ -35,7 +35,6 @@ include(":app")
 include(":detekt-gitlab-output-plugin")
 include(":observability:domain")
 include(":observability:tools")
-include(":openvpn")
 include(":shared-test-code")
 
 develocity {

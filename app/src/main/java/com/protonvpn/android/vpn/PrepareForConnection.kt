@@ -78,7 +78,6 @@ class PrepareForConnection @Inject constructor(
     private fun getFallbackPorts(
         protocol: ProtocolSelection,
     ) = when (protocol.vpn) {
-        VpnProtocol.OpenVPN -> appConfig.getOpenVPNPorts()
         VpnProtocol.WireGuard -> appConfig.getWireguardPorts()
         VpnProtocol.ProTun -> appConfig.getWireguardPorts()
         VpnProtocol.Smart -> error("Real protocol expected")

@@ -101,7 +101,6 @@ dependencies {
     ksp "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
     implementation project(':app')
-    implementation project(path: ':openvpn')
     implementation "me.proton.core:auth-dagger:$core_version"
     implementation "me.proton.core:account-data:$core_version"
     implementation "me.proton.core:account-recovery-dagger:$core_version"

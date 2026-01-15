@@ -33,7 +33,6 @@ data class ProtocolSelection private constructor(
 
     fun isSupported(featureFlags: FeatureFlags): Boolean {
         return when (vpn) {
-            VpnProtocol.OpenVPN -> true
             VpnProtocol.ProTun -> true
             VpnProtocol.WireGuard -> when (transmission) {
                 TransmissionProtocol.TCP, TransmissionProtocol.TLS -> featureFlags.wireguardTlsEnabled
@@ -55,10 +54,6 @@ data class ProtocolSelection private constructor(
             TransmissionProtocol.TCP -> R.string.settingsProtocolNameWireguardTCP
             TransmissionProtocol.TLS -> R.string.settingsProtocolNameWireguardTLS
             else -> R.string.settingsProtocolNameWireguard
-        }
-        VpnProtocol.OpenVPN -> when (transmission) {
-            TransmissionProtocol.TCP -> R.string.settingsProtocolNameOpenVpnTcp
-            else -> R.string.settingsProtocolNameOpenVpnUdp
         }
     }
 
@@ -85,8 +80,6 @@ data class ProtocolSelection private constructor(
         val REAL_PROTOCOLS = listOf(
             ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
             ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
-            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
-            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
             ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
             ProtocolSelection(VpnProtocol.ProTun, TransmissionProtocol.UDP),
             ProtocolSelection(VpnProtocol.ProTun, TransmissionProtocol.TCP),
