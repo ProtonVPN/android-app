@@ -1,7 +1,0 @@
-OpenVPN ChangeLog
-Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
-
-This file is not maintained in this branch of the OpenVPN git repository.
-
-Release branches (release/2.5, release/2.4, etc) have individual ChangeLog
-files with all changes relevant for these releases.

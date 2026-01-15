@@ -1,7 +1,0 @@
-build
-ovpncli_wrap.cxx
-ovpncli_wrap.h
-ovpncli.java
-ovpncliJNI.java
-ClientAPI_*.java
-SWIGTYPE_*.java
