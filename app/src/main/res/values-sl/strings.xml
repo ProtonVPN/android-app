@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">Neveljaven IP naslov</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NOVO</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">Izključeni naslovi IP (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Vključeni naslovi IP (%1$d)</string>
     <string name="settingsExcludedApps">Izvzete aplikacije</string>
@@ -1483,6 +1485,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Samodejno izbere najboljši protokol za vašo povezavo.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Najsodobnejši protokol za varnost in zmogljivost.</string>
     <string name="settings_protocol_wireguard_tcp_description">Najsodobnejši protokol za varnost in zmogljivost.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1492,6 +1495,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_protocol_stealth_description">Zaobide blokade VPN tako, da skrije vašo VPN povezavo pred regulatorji. Ta protokol je odporen na globoko pregledovanje paketov (DPI), vendar morda ni tako hiter kot drugi protokoli. Stealth je protokol, ki je na voljo izključno za Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Priporočeno</string>
+    <string name="settings_protocol_badge_experimental">Experimental</string>
     <string name="settings_split_tunneling_mode_title">Način</string>
     <string name="settings_split_tunneling_mode_standard">Exclude</string>
     <string name="settings_split_tunneling_mode_inverse">Include</string>
@@ -1671,4 +1675,6 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Omogoči Smart Protocol</string>
+    <string name="settings_protocol_proton_protocols">Proton protocols</string>
+    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
 </resources>

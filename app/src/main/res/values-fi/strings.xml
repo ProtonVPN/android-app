@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">Virheellinen IP-osoite</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">UUTTA</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">Poissuljetut IP-osoitteet (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Sisällytetyt IP-osoitteet (%1$d)</string>
     <string name="settingsExcludedApps">Poissuljetut sovellukset</string>
@@ -1409,6 +1411,7 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Valitsee automaattisesti yhteydellesi sopivimman protokollan.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Huippumoderni suojaus- ja suorituskykyprotokolla.</string>
     <string name="settings_protocol_wireguard_tcp_description">Huippumoderni suojaus- ja suorituskykyprotokolla.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1418,6 +1421,7 @@
     <string name="settings_protocol_stealth_description">Kiertää VPN-estot piilottamalla VPN-yhteytesi sensuureilta. Tämä protokolla on DPI-vastustuskykyinen (syvä pakettitarkastus), muttei välttämättä yhtä nopea kuin muut protokollat. Stealth on Proton VPN:n oma protokolla.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Suositus</string>
+    <string name="settings_protocol_badge_experimental">Experimental</string>
     <string name="settings_split_tunneling_mode_title">Tila</string>
     <string name="settings_split_tunneling_mode_standard">Poissulje</string>
     <string name="settings_split_tunneling_mode_inverse">Sisällytä</string>
@@ -1597,4 +1601,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Tämä protokolla poistetaan pian, sillä keskitymme nopeampiin ja turvallisempiin teknologioihin. Suosittelemme Smart Protocollaan vaihtamista.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Jatka OpenVPN:llä</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ota Smart Protocol käyttöön</string>
+    <string name="settings_protocol_proton_protocols">Proton protocols</string>
+    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
 </resources>

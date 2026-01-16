@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">Недійсна IP-адреса</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">НОВЕ</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">Винятки IP-адрес (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Включені IP-адреси (%1$d)</string>
     <string name="settingsExcludedApps">Винятки програм</string>
@@ -1481,6 +1483,7 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Автоматичний вибір найкращого протоколу для вашого з\'єднання.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Найдосконаліший протокол для безпеки та швидкодії.</string>
     <string name="settings_protocol_wireguard_tcp_description">Найдосконаліший протокол для безпеки та швидкодії.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1490,6 +1493,7 @@
     <string name="settings_protocol_stealth_description">Обходить блокування VPN, приховуючи ваше VPN-з\'єднання від цензури. Цей протокол стійкий до DPI (глибока перевірка пакетів), але може бути не таким швидким, як інші протоколи. Stealth – ексклюзивний протокол, доступний лише з Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Рекомендовано</string>
+    <string name="settings_protocol_badge_experimental">Experimental</string>
     <string name="settings_split_tunneling_mode_title">Режим</string>
     <string name="settings_split_tunneling_mode_standard">Виключити</string>
     <string name="settings_split_tunneling_mode_inverse">Включити</string>
@@ -1669,4 +1673,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Цей протокол невдовзі буде вилучено, оскільки ми зосереджуємося на швидших і безпечніших технологіях. Рекомендуємо перейти на Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Продовжити з OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Увімкнути протокол Smart</string>
+    <string name="settings_protocol_proton_protocols">Proton protocols</string>
+    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
 </resources>

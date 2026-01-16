@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">Érvénytelen IP cím</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">Új</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">Kizárt IP címek (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Elfogadott IP címek (%1$d)</string>
     <string name="settingsExcludedApps">Kihagyott alkalmazások</string>
@@ -1409,6 +1411,7 @@
     <string name="settings_protocol_smart_title">Intelligens</string>
     <string name="settings_protocol_smart_description">Automatikusan kiválasztja a legjobb protokollt a kapcsolathoz.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">A legkorszerűbb protokoll a biztonság és a teljesítmény tekintetében.</string>
     <string name="settings_protocol_wireguard_tcp_description">A legkorszerűbb protokoll a biztonság és a teljesítmény tekintetében.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1418,6 +1421,7 @@
     <string name="settings_protocol_stealth_description">Legyőzi a VPN-korlátozásokat azáltal, hogy elrejti a VPN-kapcsolatot a cenzorok elől. Ez a protokoll ellenáll a DPI-nek (deep packet inspection), de nem biztos, hogy olyan gyors, mint más protokollok. A Stealth kizárólag a Proton VPN-hez tartozik.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Ajánlott</string>
+    <string name="settings_protocol_badge_experimental">Experimental</string>
     <string name="settings_split_tunneling_mode_title">Mód</string>
     <string name="settings_split_tunneling_mode_standard">Kihagy</string>
     <string name="settings_split_tunneling_mode_inverse">Tartalmaz</string>
@@ -1597,4 +1601,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Kapcsolja be a Smart protokollt</string>
+    <string name="settings_protocol_proton_protocols">Proton protocols</string>
+    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
 </resources>

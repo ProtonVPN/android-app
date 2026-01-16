@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">O endereço de IP não é válido.</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NOVO</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">Endereços IP excluídos (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Endereços IP incluídos (%1$d)</string>
     <string name="settingsExcludedApps">Aplicativos excluídos</string>
@@ -1409,6 +1411,7 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Seleciona automaticamente o melhor protocolo para sua conexão.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Protocolo de última geração em segurança e desempenho.</string>
     <string name="settings_protocol_wireguard_tcp_description">Protocolo de última geração em segurança e desempenho.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1418,6 +1421,7 @@
     <string name="settings_protocol_stealth_description">Supera bloqueios de VPN ocultando sua conexão VPN dos censores. Esse protocolo é resistente à DPI (inspeção profunda de pacotes), mas pode não ser tão rápido quanto outros protocolos. O Stealth é exclusivo do Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Recomendado</string>
+    <string name="settings_protocol_badge_experimental">Experimental</string>
     <string name="settings_split_tunneling_mode_title">Modo</string>
     <string name="settings_split_tunneling_mode_standard">Excluir</string>
     <string name="settings_split_tunneling_mode_inverse">Incluir</string>
@@ -1597,4 +1601,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Este protocolo será removido em breve, à medida que nos concentramos em tecnologias mais rápidas e seguras. Recomendamos que você mude para o Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continuar com OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ativar Smart Protocol</string>
+    <string name="settings_protocol_proton_protocols">Protocolos da Proton</string>
+    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
 </resources>

@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">IP 位址無效</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">新版本</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">體驗版</string>
     <string name="settingsExcludedIPAddressesListHeader">排除的 IP 位址 (%1$d 個)</string>
     <string name="settingsIncludedIPAddressesListHeader">包含的 IP 位址 (%1$d 個)</string>
     <string name="settingsExcludedApps">排除所有應用程式</string>
@@ -1373,6 +1375,7 @@
     <string name="settings_protocol_smart_title">智慧</string>
     <string name="settings_protocol_smart_description">自動為您選擇最適合的通訊協定。</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">最先進的通訊協定，兼顧安全性和效能。</string>
     <string name="settings_protocol_wireguard_tcp_description">最先進的通訊協定，兼顧安全性和效能。</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1382,6 +1385,7 @@
     <string name="settings_protocol_stealth_description">克服虛擬私有網路封鎖，方法是隱藏您的虛擬私有網路連線避免審查。此協定可抵抗 DPI (深度封包檢測)，但速度可能不及其他協定。Stealth 是 Proton VPN 獨家提供的。</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">推薦使用</string>
+    <string name="settings_protocol_badge_experimental">實驗性</string>
     <string name="settings_split_tunneling_mode_title">模式</string>
     <string name="settings_split_tunneling_mode_standard">排除</string>
     <string name="settings_split_tunneling_mode_inverse">包含</string>
@@ -1561,4 +1565,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">啟用 Smart Protocol</string>
+    <string name="settings_protocol_proton_protocols">Proton 通訊協定</string>
+    <string name="settings_protocol_proton_protocols_description">使用 Proton VPN 的 WireGuard 專用實作。這是一個實驗性功能，因此您可能會遇到一些不穩定情況。</string>
 </resources>

@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">Ongeldig IP-adres</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NIEUW</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">Uitgesloten IP-adressen (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Inbegrepen IP-adressen (%1$d)</string>
     <string name="settingsExcludedApps">Uitgesloten apps</string>
@@ -1112,7 +1114,7 @@
     <string name="country_filter_p2p_list_header">P2P-landen (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P-steden (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P-staten (%1$d)</string>
-    <string name="counrty_filter_p2p_servers_list_header">P2P servers</string>
+    <string name="counrty_filter_p2p_servers_list_header">P2P-servers</string>
     <string name="country_filter_tor_list_header">Tor-landen (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor-servers</string>
     <string name="country_filter_info_label">Info</string>
@@ -1168,7 +1170,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">Stad</string>
     <!-- Label for server location "state", as a state of the USA. -->
-    <string name="connection_details_state">State</string>
+    <string name="connection_details_state">Staat</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1409,6 +1411,7 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Selecteert automatisch het beste protocol voor uw verbinding.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Geavanceerd protocol voor beveiliging en prestaties.</string>
     <string name="settings_protocol_wireguard_tcp_description">Geavanceerd protocol voor beveiliging en prestaties.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1418,6 +1421,7 @@
     <string name="settings_protocol_stealth_description">Negeert VPN-blokkades door uw VPN-verbinding te verbergen voor censors. Dit protocol is bestand tegen DPI (Deep Packet Inspection), maar is niet altijd even snel als andere protocollen. Stealth is exclusief voor Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Aanbevolen</string>
+    <string name="settings_protocol_badge_experimental">Experimental</string>
     <string name="settings_split_tunneling_mode_title">Modus</string>
     <string name="settings_split_tunneling_mode_standard">Exclusief</string>
     <string name="settings_split_tunneling_mode_inverse">Inclusief</string>
@@ -1597,4 +1601,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Dit protocol zal spoedig worden verwijderd aangezien wij ons richten op snellere en veiligere technologieën. Wij raden u aan om over te schakelen naar Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Ga verder met OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Schakel Smart-protocol in</string>
+    <string name="settings_protocol_proton_protocols">Proton protocols</string>
+    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
 </resources>

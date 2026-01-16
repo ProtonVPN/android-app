@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">无效的IP地址</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">新的</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">已排除IP地址 (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">纳入了 IP 地址（%1$d）</string>
     <string name="settingsExcludedApps">排除的应用</string>
@@ -1373,6 +1375,7 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Smart 模式根据网络状况，自动选择最佳协议。</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">安全性和性能上最先进的协议。</string>
     <string name="settings_protocol_wireguard_tcp_description">安全性和性能上最先进的协议。</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1382,6 +1385,7 @@
     <string name="settings_protocol_stealth_description">隐藏 VPN 连接，避开审查，避免 VPN 受阻。该协议可预防 DPI（深度包检测），不过可能不如别的协议快。Stealth，只有 Proton VPN 有。</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">推荐</string>
+    <string name="settings_protocol_badge_experimental">Experimental</string>
     <string name="settings_split_tunneling_mode_title">模式</string>
     <string name="settings_split_tunneling_mode_standard">排除</string>
     <string name="settings_split_tunneling_mode_inverse">包含</string>
@@ -1557,8 +1561,10 @@
     <string name="no_connections_help_contact_us"><![CDATA[有问题吗？<a href="">联系我们</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[需要的话，把<a href="">操作说明</a>发给管理员，帮管理员开启 VPN 权限。]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_title">启用 OpenVPN？</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[该协议将在不久后移除，因为我们正专注于更快速、更安全的技术。我们建议切换到 Smart Protocol。<a href="proton.me">了解更多</a>。]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">该协议将在不久后移除，因为我们正专注于更快速、更安全的技术。我们建议切换到 Smart Protocol。</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">改用 OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">启用智能协议</string>
+    <string name="settings_protocol_proton_protocols">Proton protocols</string>
+    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
 </resources>

@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">Alamat IP tidak valid</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">BARU</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">Alamat IP yang dikecualikan (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Alamat IP yang disertakan (%1$d)</string>
     <string name="settingsExcludedApps">Aplikasi yang dikecualikan</string>
@@ -1373,6 +1375,7 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Memilih protokol terbaik secara otomatis untuk koneksi Anda.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Memilih protokol yang terbaik untuk koneksi Anda [eksperimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Protokol mutakhir untuk keamanan dan performa.</string>
     <string name="settings_protocol_wireguard_tcp_description">Protokol mutakhir untuk keamanan dan performa.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1382,6 +1385,7 @@
     <string name="settings_protocol_stealth_description">Menangkal pemblokiran VPN dengan menyembunyikan koneksi VPN Anda dari sensor. Protokol ini tahan terhadap DPI (inspeksi paket mendalam/deep packet inspection), namun dapat tidak berfungsi secepat protokol lainnya. Stealth tersedia khusus pada Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Direkomendasikan</string>
+    <string name="settings_protocol_badge_experimental">Eksperimental</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>
     <string name="settings_split_tunneling_mode_standard">Kecualikan</string>
     <string name="settings_split_tunneling_mode_inverse">Sertakan</string>
@@ -1561,4 +1565,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Protokol ini akan segera dihapus seiring dengan fokus kami terhadap teknologi yang lebih cepat dan amain. Kami menyarankan Anda untuk beralih ke protokol Smart.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Lanjut dengan OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Aktifkan protokol Smart</string>
+    <string name="settings_protocol_proton_protocols">Protokol Proton</string>
+    <string name="settings_protocol_proton_protocols_description">Gunakan implementasi WireGuard milik Proton VPN. Fitur ini adalah fitur eksperimental, sehingga Anda mungkin akan dapat mengalami ketidakstabilan.</string>
 </resources>

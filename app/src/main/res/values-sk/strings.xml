@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">Neplatná IP adresa</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NOVÉ</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">Vylúčené IP adresy (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Zahrnuté IP adresy (%1$d)</string>
     <string name="settingsExcludedApps">Vylúčené aplikácie</string>
@@ -263,12 +265,12 @@
         <item quantity="other">Zablokovaných reklám</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Sledovač zastavený</item>
-        <item quantity="few">Sledovače zastavené</item>
-        <item quantity="many">Sledovačov zastavených</item>
-        <item quantity="other">Sledovačov zastavených</item>
+        <item quantity="one">zastavený sledovač</item>
+        <item quantity="few">zastavené sledovače</item>
+        <item quantity="many">zastavených sledovačov</item>
+        <item quantity="other">zastavených sledovačov</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Ušetrené dáta</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">ušetrených dát</string>
     <string name="netshield_setting_warning">Niektoré webové lokality sa po zablokovaní reklám a sledovacích zariadení nemusia načítať správne.</string>
     <string name="dialogDontShowAgain">Viac nezobrazovať</string>
     <string name="guestHoleNotificationContent">Snažíme sa obísť problémy so sieťou. Pomôže vám to získať prístup k sieti Proton VPN.</string>
@@ -1481,6 +1483,7 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Automaticky vyberie najlepší protokol pre vaše pripojenie.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Automaticky vyberie najlepší protokol pre vaše pripojenie [experimentálne].</string>
     <string name="settings_protocol_wireguard_udp_description">Najmodernejší protokol z hľadiska bezpečnosti a výkonu.</string>
     <string name="settings_protocol_wireguard_tcp_description">Najmodernejší protokol z hľadiska bezpečnosti a výkonu.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1490,6 +1493,7 @@
     <string name="settings_protocol_stealth_description">Prekonáva blokovanie VPN tým, že skrýva vaše pripojenie VPN pred cenzormi. Tento protokol je odolný voči DPI (hĺbková kontrola paketov), ale nemusí byť taký rýchly ako iné protokoly. Stealth je určený výhradne pre Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Odporúčané</string>
+    <string name="settings_protocol_badge_experimental">Experimentálne</string>
     <string name="settings_split_tunneling_mode_title">Režim</string>
     <string name="settings_split_tunneling_mode_standard">Vylúčiť</string>
     <string name="settings_split_tunneling_mode_inverse">Zahrnúť</string>
@@ -1669,4 +1673,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Tento protokol bude čoskoro odstránený, pretože sa zameriavame na rýchlejšie a bezpečnejšie technológie. Odporúčame prejsť na Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Pokračovať s OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Povoliť Smart protocol</string>
+    <string name="settings_protocol_proton_protocols">Proton protokoly</string>
+    <string name="settings_protocol_proton_protocols_description">Použite vlastnú implementáciu WireGuard od Proton VPN. Ide o experimentálnu funkciu, takže sa môže vyskytnúť určitá nestabilita.</string>
 </resources>

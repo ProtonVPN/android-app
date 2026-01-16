@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">არასწორი IP მისამართი</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">ახალი</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">გამორიცხული IP მისამართები (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">ჩართული IP მისამართები (%1$d)</string>
     <string name="settingsExcludedApps">გამორიცხული აპები</string>
@@ -1409,6 +1411,7 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">ავტომატურად აირჩევს საუკეთესო პროტოკოლს თქვენი მიერთებისთვის.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">ხელოვნების ნიმუში უსაფრთხოებისა და წარმადობისთვის და არა პროტოკოლი.</string>
     <string name="settings_protocol_wireguard_tcp_description">ხელოვნების ნიმუში უსაფრთხოებისა და წარმადობისთვის და არა პროტოკოლი.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1418,6 +1421,7 @@
     <string name="settings_protocol_stealth_description">თავიდან აიცილებს VPN ბლოკებს თქვენი VPN მიერთების ცენსზორებისგან დამალვით. ეს პროტოკოლ DPI-სგან (პაკეტები ღრმა ინსპექცია) დაცულია, მაგრამ შეიძლება, სხვა პროტოკოლებისნაირი ჩქარი არ იყოს. ფუნქცია \'Stealth\' Proton VPN-ის ექსკლუზიურ ფუნქციას წარმოადგენს.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">რეკომენდებულია</string>
+    <string name="settings_protocol_badge_experimental">Experimental</string>
     <string name="settings_split_tunneling_mode_title">რეჟიმი</string>
     <string name="settings_split_tunneling_mode_standard">Exclude</string>
     <string name="settings_split_tunneling_mode_inverse">Include</string>
@@ -1597,4 +1601,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart Protocol-ის ჩართვა</string>
+    <string name="settings_protocol_proton_protocols">Proton protocols</string>
+    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
 </resources>

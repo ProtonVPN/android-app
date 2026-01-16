@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">無効な IP アドレスです</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">新規</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">ベータ</string>
     <string name="settingsExcludedIPAddressesListHeader">除外する IP アドレス (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">含まれているIPアドレス(%1$d)</string>
     <string name="settingsExcludedApps">除外するアプリ</string>
@@ -1373,6 +1375,7 @@
     <string name="settings_protocol_smart_title">スマート</string>
     <string name="settings_protocol_smart_description">接続に最適なプロトコルを自動選択します。</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">接続に最適なプロトコルを自動選択します（試験運用）。</string>
     <string name="settings_protocol_wireguard_udp_description">最新のセキュリティとパフォーマンスを実現するプロトコル。</string>
     <string name="settings_protocol_wireguard_tcp_description">最新のセキュリティとパフォーマンスを実現するプロトコル。</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1382,6 +1385,7 @@
     <string name="settings_protocol_stealth_description">VPN 接続を検閲から隠すことで、VPN ブロックを回避します。このプロトコルは DPI (ディープ パケット インスペクション) に耐性がありますが、他のプロトコルほど高速ではない可能性があります。ステルスは Proton VPN 専用です。</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">推奨</string>
+    <string name="settings_protocol_badge_experimental">試験運用</string>
     <string name="settings_split_tunneling_mode_title">モード</string>
     <string name="settings_split_tunneling_mode_standard">除外</string>
     <string name="settings_split_tunneling_mode_inverse">含める</string>
@@ -1561,4 +1565,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">本プロトコルは、より高速かつ安全な技術に注力するため、まもなく廃止されます。Smart Protocolへの移行をお勧めします。</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">OpenVPNを使用</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart Protocolを使用</string>
+    <string name="settings_protocol_proton_protocols">Protonプロトコル</string>
+    <string name="settings_protocol_proton_protocols_description">Proton VPNに実装されたWireGuardを使用します。試験的な機能のため、不安定になる可能性があります。</string>
 </resources>

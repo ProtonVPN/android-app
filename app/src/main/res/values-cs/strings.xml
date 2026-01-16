@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">Neplatná IP adresa</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NOVÉ</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">Vyloučené IP adresy (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Zahrnuté IP adresy (%1$d)</string>
     <string name="settingsExcludedApps">Vyloučené aplikace</string>
@@ -1481,6 +1483,7 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Automaticky vybere nejlepší protokol pro vaše připojení.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Automaticky vybere nejlepší protokol pro vaše připojení [experimentální].</string>
     <string name="settings_protocol_wireguard_udp_description">Nejmodernější protokol pro zabezpečení a výkon.</string>
     <string name="settings_protocol_wireguard_tcp_description">Nejmodernější protokol pro zabezpečení a výkon.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1490,6 +1493,7 @@
     <string name="settings_protocol_stealth_description">Překonává blokování VPN tím, že skrývá připojení VPN před cenzory. Tento protokol je odolný proti DPI (hloubkové kontrole paketů), ale nemusí být tak rychlý jako jiné protokoly. Stealth je exkluzivní pro Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Doporučené</string>
+    <string name="settings_protocol_badge_experimental">Experimentální</string>
     <string name="settings_split_tunneling_mode_title">Režim</string>
     <string name="settings_split_tunneling_mode_standard">Vyloučit</string>
     <string name="settings_split_tunneling_mode_inverse">Zahrnout</string>
@@ -1669,4 +1673,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Tento protokol bude brzy odebrán, protože se zaměřujeme na rychlejší a bezpečnější technologie. Doporučujeme přejít na Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Pokračovat s OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Zapnout Smart Protocol</string>
+    <string name="settings_protocol_proton_protocols">Protokoly Proton</string>
+    <string name="settings_protocol_proton_protocols_description">Použijte vlastní implementaci protokolu WireGuard v Proton VPN. Jedná se o experimentální funkci, takže se můžete setkat s určitou nestabilitou.</string>
 </resources>

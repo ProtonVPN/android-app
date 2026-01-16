@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">Adresă IP nevalidă</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NOU</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">Adrese IP excluse (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Adrese IP incluse (%1$d)</string>
     <string name="settingsExcludedApps">Aplicații excluse</string>
@@ -267,7 +269,7 @@
         <item quantity="other">Urmăritori opriți</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Date salvate</string>
-    <string name="netshield_setting_warning">Este posibil ca unele site-uri web să nu se încarce corect atunci când anunțurile și instrumentele de urmărire sunt blocate.</string>
+    <string name="netshield_setting_warning">Este posibil ca unele site-uri web să nu se încarce corect atunci când reclamele și instrumentele de urmărire sunt blocate.</string>
     <string name="dialogDontShowAgain">Nu mai arăta</string>
     <string name="guestHoleNotificationContent">Se încearcă evitarea problemelor de rețea. Acest lucru vă va ajuta să accesați Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Nu s-a putut inițializa conexiunea VPN din cauza unui conflict între două aplicații (de exemplu Dual Messenger) și divizarea traficului. Dezactivați una dintre ele și reporniți dispozitivul.</string>
@@ -1445,6 +1447,7 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Autoselectează cel mai bun protocol pentru conexiune.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Selectează automat cel mai bun protocol pentru conexiune [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Protocol de ultimă generație pentru securitate și performanță.</string>
     <string name="settings_protocol_wireguard_tcp_description">Protocol de ultimă generație pentru securitate și performanță.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1454,6 +1457,7 @@
     <string name="settings_protocol_stealth_description">Ocolește blocarea VPN prin ascunderea conexiunii VPN față de cenzori. Acest protocol este rezistent la IPA (inspecția profundă a pachetelor), dar este posibil să nu fie la fel de rapid ca alte protocoale. Stealth este exclusiv pentru Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Recomandat</string>
+    <string name="settings_protocol_badge_experimental">Experimental</string>
     <string name="settings_split_tunneling_mode_title">Mod</string>
     <string name="settings_split_tunneling_mode_standard">Excludere</string>
     <string name="settings_split_tunneling_mode_inverse">Includere</string>
@@ -1633,4 +1637,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Acest protocol va fi eliminat în curând, deoarece ne concentrăm pe tehnologii mai rapide și mai sigure. Vă recomandăm să treceți la Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continuare cu OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Activare Smart Protocol</string>
+    <string name="settings_protocol_proton_protocols">Protocoale Proton</string>
+    <string name="settings_protocol_proton_protocols_description">Utilizați propria implementare WireGuard de la Proton VPN. Aceasta este o funcționalitate experimentală, deci este posibil să întâmpinați unele instabilități.</string>
 </resources>

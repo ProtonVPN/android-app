@@ -134,6 +134,8 @@
     <string name="inputIpAddressErrorInvalid">Μη έγκυρη IP Διεύθυνση</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">ΝΕΟ</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
     <string name="settingsExcludedIPAddressesListHeader">Εξαιρούμενες διευθύνσεις IP (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Συμπεριλαμβανόμενες διευθύνσεις IP (%1$d)</string>
     <string name="settingsExcludedApps">Εξαιρούμενες εφαρμογές</string>
@@ -1409,6 +1411,7 @@
     <string name="settings_protocol_smart_title">Έξυπνο</string>
     <string name="settings_protocol_smart_description">Επιλέγει αυτόματα το καλύτερο πρωτόκολλο για τη σύνδεσή σας.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Επιλέγει αυτόματα το καλύτερο πρωτόκολλο για τη σύνδεσή σας [πειραματικό].</string>
     <string name="settings_protocol_wireguard_udp_description">Πρωτόκολλο τελευταίας τεχνολογίας για ασφάλεια και απόδοση.</string>
     <string name="settings_protocol_wireguard_tcp_description">Πρωτόκολλο τελευταίας τεχνολογίας για ασφάλεια και απόδοση.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
@@ -1418,6 +1421,7 @@
     <string name="settings_protocol_stealth_description">Ξεπερνά τα μπλοκαρίσματα VPN κρύβοντας τη σύνδεσή σας VPN από τους λογοκριτές. Αυτό το πρωτόκολλο είναι ανθεκτικό στο DPI (deep packet inspection), αλλά μπορεί να μην είναι τόσο γρήγορο όσο άλλα πρωτόκολλα. Το Stealth είναι αποκλειστικό για το Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Προτεινόμενο</string>
+    <string name="settings_protocol_badge_experimental">Πειραματικό</string>
     <string name="settings_split_tunneling_mode_title">Λειτουργία</string>
     <string name="settings_split_tunneling_mode_standard">Εξαίρεση</string>
     <string name="settings_split_tunneling_mode_inverse">Συμπερίληψη</string>
@@ -1597,4 +1601,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Αυτό το πρωτόκολλο θα καταργηθεί σύντομα, καθώς εστιάζουμε σε ταχύτερες και ασφαλέστερες τεχνολογίες. Σας συνιστούμε να μεταβείτε στο Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Συνέχεια με OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ενεργοποίηση Smart protocol</string>
+    <string name="settings_protocol_proton_protocols">Πρωτόκολλα Proton</string>
+    <string name="settings_protocol_proton_protocols_description">Χρησιμοποιήστε την εφαρμογή WireGuard της Proton VPN. Πρόκειται για μια πειραματική λειτουργία, οπότε ενδέχεται να αντιμετωπίσετε κάποια αστάθεια.</string>
 </resources>
