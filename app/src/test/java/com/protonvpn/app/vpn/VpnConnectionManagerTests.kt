@@ -27,11 +27,14 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
@@ -131,6 +134,9 @@ class VpnConnectionManagerTests {
     @RelaxedMockK
     private lateinit var mockVpnConnectionTelemetry: VpnConnectionTelemetry
 
+    @RelaxedMockK
+    private lateinit var mockExcludedLocationsDao: ExcludedLocationsDao
+
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var vpnStatusProviderUI: VpnStatusProviderUI
     private lateinit var serverManager: ServerManager
@@ -166,6 +172,7 @@ class VpnConnectionManagerTests {
 
         coEvery { mockCurrentUser.sessionId() } returns SessionId("session id")
         coEvery { mockCurrentUser.vpnUser() } returns vpnUser
+        coEvery { mockCurrentUser.vpnUserFlow } returns flowOf(vpnUser)
 
         every { mockWakeLock.isHeld } returns true
         every { mockPowerManager.newWakeLock(PARTIAL_WAKE_LOCK, any()) } returns mockWakeLock
@@ -182,6 +189,8 @@ class VpnConnectionManagerTests {
         every { mockVpnBackgroundUiDelegate.askForPermissions(any(), any(), any()) } answers {
             arg<() -> Unit>(2).invoke()
         }
+
+        coEvery { mockExcludedLocationsDao.observeAll(any()) } returns flowOf(emptyList())
 
         Storage.setPreferences(MockSharedPreference())
         vpnStateMonitor = VpnStateMonitor()
@@ -210,6 +219,14 @@ class VpnConnectionManagerTests {
             ),
             vpnStatusProviderUI = vpnStatusProviderUI
         )
+
+        val observeExcludedLocations = ObserveExcludedLocations(
+            mainScope = testScope.backgroundScope,
+            currentUser = mockCurrentUser,
+            excludedLocationsDao = mockExcludedLocationsDao,
+            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
+        )
+
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = mockk(relaxed = true),
             settingsForConnection = settingsForConnection,
@@ -229,7 +246,8 @@ class VpnConnectionManagerTests {
             supportsProtocol = supportsProtocol,
             vpnConnectionTelemetry = mockVpnConnectionTelemetry,
             autoLoginManager = mockk(relaxed = true),
-            vpnErrorAndFallbackObservability = mockk(relaxed = true)
+            vpnErrorAndFallbackObservability = mockk(relaxed = true),
+            observeExcludedLocations = observeExcludedLocations,
         )
     }
 

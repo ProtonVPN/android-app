@@ -20,9 +20,13 @@
 package com.protonvpn.app.redesign.recents.usecases
 
 import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.usecases.GetIntentAvailability
+import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
@@ -32,12 +36,23 @@ import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.app.excludedlocations.TestExcludedLocationEntity
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createAccountUser
+import com.protonvpn.test.shared.createConnectIntentFastest
+import com.protonvpn.test.shared.createConnectIntentFastestInCountry
+import com.protonvpn.test.shared.createConnectIntentGateway
+import com.protonvpn.test.shared.createConnectIntentSecureCore
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createServer
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.RelaxedMockK
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -47,8 +62,13 @@ import org.junit.Test
 
 class GetIntentAvailabilityTests {
 
+    @RelaxedMockK
+    private lateinit var mockExcludedLocationsDao: ExcludedLocationsDao
+
     private lateinit var serverManager: ServerManager
     private lateinit var testScope: TestScope
+
+    private lateinit var testUserProvider: TestCurrentUserProvider
 
     private lateinit var getIntentAvailability: GetIntentAvailability
 
@@ -65,6 +85,8 @@ class GetIntentAvailabilityTests {
 
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
+        coEvery { mockExcludedLocationsDao.observeAll(any()) } returns flowOf(emptyList())
         Storage.setPreferences(MockSharedPreference())
         val testDispatcher = StandardTestDispatcher()
         testScope = TestScope(testDispatcher)
@@ -79,7 +101,25 @@ class GetIntentAvailabilityTests {
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
 
-        getIntentAvailability = GetIntentAvailability(serverManager2, supportsProtocol)
+        testUserProvider = TestCurrentUserProvider(
+            vpnUser = null,
+            user = createAccountUser(),
+        )
+
+        val currentUser = CurrentUser(provider = testUserProvider)
+
+        val observeExcludedLocations = ObserveExcludedLocations(
+            mainScope = testScope.backgroundScope,
+            currentUser = currentUser,
+            excludedLocationsDao = mockExcludedLocationsDao,
+            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
+        )
+
+        getIntentAvailability = GetIntentAvailability(
+            serverManager = serverManager2,
+            supportsProtocol = supportsProtocol,
+            observeExcludedLocations = observeExcludedLocations,
+        )
     }
 
     @Test
@@ -157,6 +197,42 @@ class GetIntentAvailabilityTests {
             ConnectIntent.Gateway("B", serverId = "B2") to ConnectIntentAvailability.AVAILABLE_OFFLINE,
         )
         runAvailabilityTestCases(cases, userPlus)
+    }
+
+    @Test
+    fun `GIVEN paid user AND no servers AND excluded locations WHEN getting availability THEN returns expected availability`() = testScope.runTest {
+        val vpnUser = userPlus
+        testUserProvider.vpnUser = vpnUser
+        val excludedLocationEntities = listOf(TestExcludedLocationEntity.create())
+        coEvery { mockExcludedLocationsDao.observeAll(userId = vpnUser.userId.id) } returns flowOf(excludedLocationEntities)
+
+        val casesList = listOf(
+            createConnectIntentFastest() to ConnectIntentAvailability.EXCLUDED,
+            createConnectIntentSecureCore() to ConnectIntentAvailability.EXCLUDED,
+            createConnectIntentFastestInCountry(country = CountryId(countryCode = "LT")) to ConnectIntentAvailability.NO_SERVERS,
+            createConnectIntentSecureCore(exitCountryCode = "NZ") to ConnectIntentAvailability.NO_SERVERS,
+            createConnectIntentGateway() to ConnectIntentAvailability.NO_SERVERS,
+        )
+
+        runAvailabilityTestCases(casesList = casesList, vpnUser = vpnUser)
+    }
+
+    @Test
+    fun `GIVEN free user AND no servers AND excluded locations WHEN getting availability THEN returns expected availability`() = testScope.runTest {
+        val vpnUser = userFree
+        testUserProvider.vpnUser = vpnUser
+        val excludedLocationEntities = listOf(TestExcludedLocationEntity.create())
+        coEvery { mockExcludedLocationsDao.observeAll(userId = vpnUser.userId.id) } returns flowOf(excludedLocationEntities)
+
+        val casesList = listOf(
+            createConnectIntentFastest() to ConnectIntentAvailability.NO_SERVERS,
+            createConnectIntentSecureCore() to ConnectIntentAvailability.NO_SERVERS,
+            createConnectIntentFastestInCountry(country = CountryId(countryCode = "LT")) to ConnectIntentAvailability.NO_SERVERS,
+            createConnectIntentSecureCore(exitCountryCode = "NZ") to ConnectIntentAvailability.NO_SERVERS,
+            createConnectIntentGateway() to ConnectIntentAvailability.NO_SERVERS,
+        )
+
+        runAvailabilityTestCases(casesList = casesList, vpnUser = vpnUser)
     }
 
     private suspend fun runAvailabilityTestCases(casesList: List<Pair<ConnectIntent, ConnectIntentAvailability>>, vpnUser: VpnUser) {

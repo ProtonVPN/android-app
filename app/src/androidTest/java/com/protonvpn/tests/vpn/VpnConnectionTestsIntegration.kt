@@ -38,6 +38,7 @@ import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -47,6 +48,7 @@ import com.protonvpn.android.profiles.data.profileSettingsOverrides
 import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.ProtocolSelectionData
+import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
@@ -101,6 +103,7 @@ import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.runWhileCollecting
+import dagger.Lazy
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -328,11 +331,33 @@ class VpnConnectionTestsIntegration {
             builtInGuestHoles = MockedServers.serverList.filter { supportsProtocol(it, GuestHole.PROTOCOL) }
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
-        manager = VpnConnectionManager(permissionDelegate, getFeatureFlags, settingsForConnection,
-            { backendProvider }, networkManager, vpnErrorHandler, monitor, mockVpnBackgroundUiDelegate,
-            serverManager2, certificateRepository, scope.backgroundScope, clock, mockk(relaxed = true),
-            currentUser, supportsProtocol, { mockk(relaxed = true) }, vpnConnectionTelemetry, mockk(relaxed = true),
-            mockk(relaxed = true))
+        manager = VpnConnectionManager(
+            permissionDelegate = permissionDelegate,
+            getFeatureFlags = getFeatureFlags,
+            settingsForConnection = settingsForConnection,
+            backendProvider = { backendProvider },
+            networkManager = networkManager,
+            vpnErrorHandler = vpnErrorHandler,
+            vpnStateMonitor = monitor,
+            vpnBackgroundUiDelegate = mockVpnBackgroundUiDelegate,
+            serverManager = serverManager2,
+            certificateRepository = certificateRepository,
+            scope = scope.backgroundScope,
+            now = clock,
+            currentVpnServiceProvider = mockk(relaxed = true),
+            currentUser = currentUser,
+            supportsProtocol = supportsProtocol,
+            powerManager = { mockk(relaxed = true) },
+            vpnConnectionTelemetry = vpnConnectionTelemetry,
+            autoLoginManager = mockk(relaxed = true),
+            vpnErrorAndFallbackObservability = mockk(relaxed = true),
+            observeExcludedLocations = ObserveExcludedLocations(
+                mainScope = scope.backgroundScope,
+                currentUser = currentUser,
+                excludedLocationsDao = db.excludedLocationsDao(),
+                isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
+            )
+        )
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 
@@ -454,10 +479,10 @@ class VpnConnectionTestsIntegration {
         val guestHole = GuestHole(
             backgroundScope,
             testDispatcherProvider,
-            dagger.Lazy { serverManager },
+            Lazy { serverManager },
             monitor,
             permissionDelegate,
-            dagger.Lazy { manager },
+            Lazy { manager },
             mockk(relaxed = true),
             foregroundActivityTracker,
             appFeaturesPrefs,
@@ -481,10 +506,10 @@ class VpnConnectionTestsIntegration {
         val guestHole = GuestHole(
             backgroundScope,
             testDispatcherProvider,
-            dagger.Lazy { serverManager },
+            Lazy { serverManager },
             monitor,
             permissionDelegate,
-            dagger.Lazy { manager },
+            Lazy { manager },
             mockk(relaxed = true),
             foregroundActivityTracker,
             appFeaturesPrefs,
@@ -514,10 +539,10 @@ class VpnConnectionTestsIntegration {
         val guestHole = GuestHole(
             backgroundScope,
             testDispatcherProvider,
-            dagger.Lazy { serverManager },
+            Lazy { serverManager },
             monitor,
             permissionDelegate,
-            dagger.Lazy { manager },
+            Lazy { manager },
             mockk(relaxed = true),
             foregroundActivityTracker,
             appFeaturesPrefs,

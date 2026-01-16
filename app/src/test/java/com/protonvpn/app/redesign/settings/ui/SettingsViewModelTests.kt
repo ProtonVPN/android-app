@@ -248,8 +248,10 @@ class SettingsViewModelTests {
             isAutomaticConnectionPreferencesFeatureFlagEnabled =
                 FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(true),
             observeExcludedLocations = ObserveExcludedLocations(
+                mainScope = testScope.backgroundScope,
                 currentUser = currentUser,
                 excludedLocationsDao = mockExcludedLocationsDao,
+                isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
             ),
             translator = translator,
             isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true)

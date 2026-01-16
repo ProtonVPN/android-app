@@ -254,6 +254,7 @@ class VpnConnectionManager @Inject constructor(
                             }
                         }
                         is VpnFallbackResult.Switch -> fallbackConnect(fallback)
+                        is VpnFallbackResult.AllExcluded -> Unit
                     }
                 }
             }.launchIn(scope)
@@ -318,6 +319,8 @@ class VpnConnectionManager @Inject constructor(
                     backend?.setSelfState(VpnState.Error(result.type, isFinal = false))
                 }
             }
+
+            is VpnFallbackResult.AllExcluded -> Unit
         }
     }
 
@@ -334,43 +337,57 @@ class VpnConnectionManager @Inject constructor(
         }
     }
 
-    private suspend fun fallbackConnect(fallback: VpnFallbackResult.Switch) {
-        if (fallback.notifyUser && fallback.reason != null) {
-            vpnStateMonitor.vpnConnectionNotificationFlow.emit(fallback)
+    private suspend fun fallbackConnect(
+        fallback: VpnFallbackResult,
+        vpnUiDelegate: VpnUiDelegate? = null,
+    ) = when (fallback) {
+        is VpnFallbackResult.Error -> Unit
+        is VpnFallbackResult.AllExcluded -> {
+            vpnUiDelegate?.onServerRestricted(reason = ReasonRestricted.LocationExcluded)
+            vpnConnectionTelemetry.onConnectionAbort(report = false)
         }
 
-        when (fallback) {
-            is VpnFallbackResult.Switch.SwitchConnectIntent ->
-                connectWithPermission(
-                    vpnBackgroundUiDelegate,
-                    fallback.toConnectIntent,
-                    preferredServer = fallback.toServer,
-                    triggerAction = ConnectTrigger.Fallback(fallback.log),
-                    disconnectTrigger = DisconnectTrigger.Fallback,
-                    clearFallback = false,
-                )
-            is VpnFallbackResult.Switch.SwitchServer -> {
-                // Do not reconnect if user becomes delinquent
-                if (fallback.reason !is SwitchServerReason.UserBecameDelinquent) {
-                    // Not compatible protocol needs to ask user permission to switch
-                    // If user accepts then continue through broadcast receiver
-                    if (fallback.compatibleProtocol) {
-                        switchServerConnect(fallback)
+        is VpnFallbackResult.Switch -> {
+            if (fallback.notifyUser && fallback.reason != null) {
+                vpnStateMonitor.vpnConnectionNotificationFlow.emit(fallback)
+            }
+
+            when (fallback) {
+                is VpnFallbackResult.Switch.SwitchConnectIntent ->
+                    connectWithPermission(
+                        vpnBackgroundUiDelegate,
+                        fallback.toConnectIntent,
+                        preferredServer = fallback.toServer,
+                        triggerAction = ConnectTrigger.Fallback(fallback.log),
+                        disconnectTrigger = DisconnectTrigger.Fallback,
+                        clearFallback = false,
+                    )
+
+                is VpnFallbackResult.Switch.SwitchServer -> {
+                    // Do not reconnect if user becomes delinquent
+                    if (fallback.reason !is SwitchServerReason.UserBecameDelinquent) {
+                        // Not compatible protocol needs to ask user permission to switch
+                        // If user accepts then continue through broadcast receiver
+                        if (fallback.compatibleProtocol) {
+                            switchServerConnect(fallback)
+                        } else {
+                            vpnConnectionTelemetry.onConnectionAbort(isFailure = true)
+                        }
                     } else {
                         vpnConnectionTelemetry.onConnectionAbort(isFailure = true)
+                        ProtonLogger.log(ConnServerSwitchFailed, "User became delinquent")
                     }
-                } else {
-                    vpnConnectionTelemetry.onConnectionAbort(isFailure = true)
-                    ProtonLogger.log(ConnServerSwitchFailed, "User became delinquent")
                 }
             }
         }
     }
 
-    private suspend fun onServerNotAvailable(connectIntent: AnyConnectIntent, server: Server?) {
+    private suspend fun onServerNotAvailable(
+        connectIntent: AnyConnectIntent,
+        server: Server?,
+        vpnUiDelegate: VpnUiDelegate,
+    ) {
         ProtonLogger.logCustom(LogCategory.CONN, "Current server unavailable")
-        val reason =
-            if (server == null) SwitchServerReason.ServerUnavailable else SwitchServerReason.ServerInMaintenance
         val fallback = if (server == null) {
             vpnErrorHandler.onServerNotAvailable(connectIntent)
         } else {
@@ -379,11 +396,18 @@ class VpnConnectionManager @Inject constructor(
 
         if (fallback != null) {
             vpnErrorAndFallbackObservability.reportFallback(fallback)
-            fallbackConnect(fallback)
+            fallbackConnect(fallback, vpnUiDelegate)
         } else {
             vpnConnectionTelemetry.onConnectionAbort(sentryInfo = "no server available")
             if (connectIntent is ConnectIntent) {
-                vpnErrorAndFallbackObservability.reportFallbackFailure(connectIntent, reason)
+                vpnErrorAndFallbackObservability.reportFallbackFailure(
+                    connectIntent = connectIntent,
+                    reason = if (server == null) {
+                        SwitchServerReason.ServerUnavailable
+                    } else {
+                        SwitchServerReason.ServerInMaintenance
+                    }
+                )
                 vpnBackgroundUiDelegate.showInfoNotification(
                     if (server == null) R.string.error_server_not_set
                     else R.string.restrictedMaintenanceDescription
@@ -583,12 +607,6 @@ class VpnConnectionManager @Inject constructor(
             return
         }
 
-        if (server == null && excludedLocations.hasExclusions) {
-            delegate.onServerRestricted(reason = ReasonRestricted.LocationExcluded)
-            vpnConnectionTelemetry.onConnectionAbort(report = false)
-            return
-        }
-
         val needsFallback = server == null || delegate.onServerRestricted(
             when {
                 !server.online -> ReasonRestricted.Maintenance
@@ -599,7 +617,7 @@ class VpnConnectionManager @Inject constructor(
 
         if (needsFallback) {
             launchFallback {
-                onServerNotAvailable(connectIntent, server)
+                onServerNotAvailable(connectIntent, server, delegate)
             }
         } else {
             // The case has been handled by delegate.onServerRestricted, don't report the event.

@@ -23,6 +23,8 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.login.Session
@@ -32,13 +34,14 @@ import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
-import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.servers.api.ConnectingDomainResponse
 import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
@@ -92,6 +95,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -137,6 +141,9 @@ class VpnConnectionErrorHandlerTests {
     @RelaxedMockK private lateinit var currentUser: CurrentUser
     @RelaxedMockK private lateinit var errorUIManager: VpnErrorUIManager
 
+    @RelaxedMockK
+    private lateinit var mockExcludedLocationsDao: ExcludedLocationsDao
+
     @get:Rule var rule = InstantTaskExecutorRule()
 
     private fun prepareServerManager(serverList: List<Server>) {
@@ -149,13 +156,15 @@ class VpnConnectionErrorHandlerTests {
         coEvery { serverManager2.getOnlineAccessibleServers(any(), any(), any(), any()) } answers {
             servers.filter { it.gatewayName == secondArg() }
         }
-        coEvery { serverManager2.getBestServerForConnectIntent(defaultFallbackConnection, any(), any()) } returns defaultFallbackServer
+
+        coEvery { serverManager2.getBestServerForConnectIntent(defaultFallbackConnection, any(), any(), any()) } returns defaultFallbackServer
 
         coEvery { serverManager2.getServerById(any()) } answers {
             servers.find { it.serverId == arg(0) }
         }
         coEvery { serverManager2.updateServerDomainStatus(any()) } just runs
         every { serverManager2.serverListVersion } returns serverListVersion
+        coEvery { mockExcludedLocationsDao.observeAll(any()) } returns flowOf(emptyList())
     }
 
     @Before
@@ -170,7 +179,10 @@ class VpnConnectionErrorHandlerTests {
 
         infoChangeFlow = MutableSharedFlow()
         every { userPlanManager.infoChangeFlow } returns infoChangeFlow
-        currentUser.mockVpnUser { TestVpnUser.create(maxTier = 2, maxConnect = 2) }
+
+        val vpnUser = TestVpnUser.create(maxTier = 2, maxConnect = 2)
+        currentUser.mockVpnUser { vpnUser }
+        coEvery { currentUser.vpnUserFlow } returns flowOf(vpnUser)
         every { appConfig.isMaintenanceTrackerEnabled() } returns true
         every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
         every { networkManager.isConnectedToNetwork() } returns true
@@ -195,7 +207,20 @@ class VpnConnectionErrorHandlerTests {
         testScope = TestScope(UnconfinedTestDispatcher())
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
-        getOnlineServersForIntent = GetOnlineServersForIntent(serverManager2, supportsProtocol)
+
+        val observeExcludedLocations = ObserveExcludedLocations(
+            mainScope = testScope.backgroundScope,
+            currentUser = currentUser,
+            excludedLocationsDao = mockExcludedLocationsDao,
+            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
+        )
+
+        getOnlineServersForIntent = GetOnlineServersForIntent(
+            serverManager2 = serverManager2,
+            supportsProtocol = supportsProtocol,
+            observeExcludedLocations = observeExcludedLocations,
+        )
+
         val settingsForConnection = SettingsForConnection(
             rawSettingsFlow = userSettingsFlow,
             getProfileById = FakeGetProfileById(),
@@ -207,9 +232,25 @@ class VpnConnectionErrorHandlerTests {
             ),
             vpnStatusProviderUI = vpnStatusProviderUI
         )
-        handler = VpnConnectionErrorHandler(testScope.backgroundScope, api, appConfig,
-            settingsForConnection, userPlanManager, serverManager2, vpnStateMonitor, serverListUpdater,
-            networkManager, dagger.Lazy { vpnBackendProvider }, currentUser, getConnectingDomain, getOnlineServersForIntent, testScope::currentTime, errorUIManager)
+
+        handler = VpnConnectionErrorHandler(
+            scope = testScope.backgroundScope,
+            api = api,
+            appConfig = appConfig,
+            settingsForConnection = settingsForConnection,
+            userPlanManager = userPlanManager,
+            serverManager = serverManager2,
+            stateMonitor = vpnStateMonitor,
+            serverListUpdater = serverListUpdater,
+            networkManager = networkManager,
+            vpnBackendProvider = { vpnBackendProvider },
+            currentUser = currentUser,
+            getConnectingDomain = getConnectingDomain,
+            getOnlineServersForIntent = getOnlineServersForIntent,
+            elapsedMs = testScope::currentTime,
+            errorUIManager = errorUIManager,
+            observeExcludedLocations = observeExcludedLocations,
+        )
     }
 
     @Test

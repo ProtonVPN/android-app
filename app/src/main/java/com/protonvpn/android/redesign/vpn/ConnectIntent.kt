@@ -28,6 +28,7 @@ sealed interface AnyConnectIntent {
     val profileId: Long?
     val features: Set<ServerFeature>
     val settingsOverrides: SettingsOverrides?
+    val canBeExcluded: Boolean
 
     // GuestHole is special, it doesn't get saved to recents nor shown in the UI.
     data class GuestHole(
@@ -36,6 +37,9 @@ sealed interface AnyConnectIntent {
         override val profileId: Long? get() = null
         override val features: Set<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java)
         override val settingsOverrides: SettingsOverrides? = null
+
+        override val canBeExcluded: Boolean = false
+
     }
 }
 
@@ -47,7 +51,11 @@ sealed interface ConnectIntent : AnyConnectIntent {
         override val features: Set<ServerFeature>,
         override val profileId: Long? = null,
         override val settingsOverrides: SettingsOverrides? = null,
-    ) : ConnectIntent
+    ) : ConnectIntent {
+
+        override val canBeExcluded: Boolean = country.isFastest
+
+    }
 
     data class FastestInCity(
         val country: CountryId,
@@ -55,7 +63,11 @@ sealed interface ConnectIntent : AnyConnectIntent {
         override val features: Set<ServerFeature>,
         override val profileId: Long? = null,
         override val settingsOverrides: SettingsOverrides? = null,
-    ) : ConnectIntent
+    ) : ConnectIntent {
+
+        override val canBeExcluded: Boolean = false
+
+    }
 
     data class FastestInState(
         val country: CountryId,
@@ -63,7 +75,11 @@ sealed interface ConnectIntent : AnyConnectIntent {
         override val features: Set<ServerFeature>,
         override val profileId: Long? = null,
         override val settingsOverrides: SettingsOverrides? = null,
-    ) : ConnectIntent
+    ) : ConnectIntent {
+
+        override val canBeExcluded: Boolean = false
+
+    }
 
     data class SecureCore(
         val exitCountry: CountryId,
@@ -71,7 +87,11 @@ sealed interface ConnectIntent : AnyConnectIntent {
         override val profileId: Long? = null,
         override val settingsOverrides: SettingsOverrides? = null,
     ) : ConnectIntent {
+
         override val features: Set<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java)
+
+        override val canBeExcluded: Boolean = exitCountry.isFastest
+
     }
 
     data class Gateway(
@@ -83,6 +103,9 @@ sealed interface ConnectIntent : AnyConnectIntent {
         val fastest = serverId == null
 
         override val features: Set<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java)
+
+        override val canBeExcluded: Boolean = false
+
     }
 
     // Note: it's possible that we'll need more information about the server to be able to handle fallbacks if the
@@ -93,7 +116,11 @@ sealed interface ConnectIntent : AnyConnectIntent {
         override val features: Set<ServerFeature>,
         override val profileId: Long? = null,
         override val settingsOverrides: SettingsOverrides? = null,
-    ) : ConnectIntent
+    ) : ConnectIntent {
+
+        override val canBeExcluded: Boolean = false
+
+    }
 
     companion object {
         val Fastest = FastestInCountry(CountryId.fastest, EnumSet.noneOf(ServerFeature::class.java))

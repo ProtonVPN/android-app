@@ -27,12 +27,15 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
@@ -103,6 +106,8 @@ class GuestHoleVpnConnectionManagerTests {
     private lateinit var mockWakeLock: PowerManager.WakeLock
     @MockK
     private lateinit var mockVpnErrorHandler: VpnConnectionErrorHandler
+    @RelaxedMockK
+    private lateinit var mockExcludedLocationsDao: ExcludedLocationsDao
 
     private lateinit var guestHole: GuestHole
     private lateinit var serverManager: ServerManager
@@ -131,6 +136,8 @@ class GuestHoleVpnConnectionManagerTests {
 
         every { mockVpnErrorHandler.switchConnectionFlow } returns MutableSharedFlow()
 
+        coEvery { mockExcludedLocationsDao.observeAll(any()) } returns flowOf(emptyList())
+
         val networkManager = MockNetworkManager()
         serverManager = createInMemoryServerManager(
             testScope,
@@ -154,11 +161,19 @@ class GuestHoleVpnConnectionManagerTests {
             ),
             vpnStatusProviderUI = vpnStatusUiProvider,
         )
+
+        val observeExcludedLocations = ObserveExcludedLocations(
+            mainScope = testScope.backgroundScope,
+            currentUser = currentUser,
+            excludedLocationsDao = mockExcludedLocationsDao,
+            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
+        )
+
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = fakeVpnPermissionDelegate,
             getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags())),
             settingsForConnection = settingsForConnection,
-            backendProvider = dagger.Lazy { mockBackendProvider },
+            backendProvider = { mockBackendProvider },
             networkManager = networkManager,
             vpnErrorHandler = mockVpnErrorHandler,
             vpnStateMonitor = vpnStateMonitor,
@@ -170,11 +185,13 @@ class GuestHoleVpnConnectionManagerTests {
             currentVpnServiceProvider = mockk(relaxed = true),
             currentUser = currentUser,
             supportsProtocol = supportsProtocol,
-            powerManager = dagger.Lazy { mockPowerManager },
+            powerManager = { mockPowerManager },
             vpnConnectionTelemetry = mockk(relaxed = true),
             autoLoginManager = mockk(relaxed = true),
             vpnErrorAndFallbackObservability = mockk(relaxed = true),
+            observeExcludedLocations = observeExcludedLocations,
         )
+
         guestHole = GuestHole(
             scope = bgScope,
             dispatcherProvider = TestDispatcherProvider(testDispatcher),

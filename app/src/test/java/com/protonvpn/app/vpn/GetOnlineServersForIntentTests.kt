@@ -20,9 +20,13 @@
 package com.protonvpn.app.vpn
 
 import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
@@ -32,22 +36,34 @@ import com.protonvpn.android.servers.api.ServerEntryInfo
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.GetOnlineServersForIntent
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.app.excludedlocations.TestExcludedLocationEntity
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createConnectIntentFastest
+import com.protonvpn.test.shared.createConnectIntentSecureCore
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.RelaxedMockK
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertTrue
 
 class GetOnlineServersForIntentTests {
 
+    @RelaxedMockK
+    private lateinit var mockExcludedLocationsDao: ExcludedLocationsDao
+
+    private lateinit var currentUserProvider: TestCurrentUserProvider
     private lateinit var testScope: TestScope
     private lateinit var getOnlineServersForIntent: GetOnlineServersForIntent
     private lateinit var serverManager: ServerManager2
@@ -58,6 +74,8 @@ class GetOnlineServersForIntentTests {
     fun setup() {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
+
+        coEvery { mockExcludedLocationsDao.observeAll(any()) } returns flowOf(emptyList())
 
         val testDispatcher = StandardTestDispatcher()
         testScope = TestScope(testDispatcher)
@@ -95,7 +113,23 @@ class GetOnlineServersForIntentTests {
             ),
             supportsProtocol
         )
-        getOnlineServersForIntent = GetOnlineServersForIntent(serverManager, supportsProtocol)
+
+        currentUserProvider = TestCurrentUserProvider(vpnUser = vpnUser)
+
+        val currentUser = CurrentUser(provider = currentUserProvider)
+
+        val observeExcludedLocations = ObserveExcludedLocations(
+            mainScope = testScope.backgroundScope,
+            currentUser = currentUser,
+            excludedLocationsDao = mockExcludedLocationsDao,
+            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
+        )
+
+        getOnlineServersForIntent = GetOnlineServersForIntent(
+            serverManager2 = serverManager,
+            supportsProtocol = supportsProtocol,
+            observeExcludedLocations = observeExcludedLocations,
+        )
     }
 
     @Test
@@ -132,4 +166,42 @@ class GetOnlineServersForIntentTests {
         val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, vpnUser.userTier)
         assertEquals(listOf("SE#2"), result.map { it.serverName })
     }
+
+    @Test
+    fun `GIVEN fastest country intent AND excluded locations WHEN getting online servers THEN filters excluded online servers`() = testScope.runTest {
+        val connectIntent = createConnectIntentFastest()
+        val excludedLocationEntities = listOf(
+            TestExcludedLocationEntity.create(countryCode = "CH"),
+            TestExcludedLocationEntity.create(countryCode = "SE"),
+        )
+        coEvery { mockExcludedLocationsDao.observeAll(userId = vpnUser.userId.id) } returns flowOf(excludedLocationEntities)
+
+        val onlineServers = getOnlineServersForIntent(
+            intent = connectIntent,
+            protocolOverride = ProtocolSelection.SMART,
+            maxTier = vpnUser.userTier,
+        )
+
+        assertTrue(actual = onlineServers.isEmpty())
+    }
+
+    @Test
+    fun `GIVEN secure core intent AND excluded locations WHEN getting online servers THEN filters excluded online servers`() = testScope.runTest {
+        listOf(
+            createConnectIntentSecureCore() to "SE",
+            createConnectIntentSecureCore(entryCountryCode = "CH") to "CH",
+        ).forEach { (connectIntent, countryCode) ->
+            val excludedLocationEntities = listOf(TestExcludedLocationEntity.create(countryCode = countryCode))
+            coEvery { mockExcludedLocationsDao.observeAll(userId = vpnUser.userId.id) } returns flowOf(excludedLocationEntities)
+
+            val onlineServers = getOnlineServersForIntent(
+                intent = connectIntent,
+                protocolOverride = ProtocolSelection.SMART,
+                maxTier = vpnUser.userTier,
+            )
+
+            assertTrue(actual = onlineServers.isEmpty(), message = "Failed for country $countryCode")
+        }
+    }
+
 }

@@ -38,6 +38,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.isNotExcluded
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
@@ -47,6 +48,7 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.PlanChange
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.UserBecameDelinquent
+import dagger.Lazy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
@@ -109,6 +111,8 @@ sealed class VpnFallbackResult {
         }
     }
 
+    data class AllExcluded(val connectIntent: ConnectIntent?): VpnFallbackResult()
+
     data class Error(
         val originalParams: ConnectionParams,
         val type: ErrorType,
@@ -155,7 +159,7 @@ class VpnConnectionErrorHandler @Inject constructor(
     private val stateMonitor: VpnStateMonitor,
     private val serverListUpdater: ServerListUpdater,
     private val networkManager: NetworkManager,
-    private val vpnBackendProvider: dagger.Lazy<VpnBackendProvider>,
+    private val vpnBackendProvider: Lazy<VpnBackendProvider>,
     private val currentUser: CurrentUser,
     private val getConnectingDomain: GetConnectingDomain,
     private val getOnlineServersForIntent: GetOnlineServersForIntent,
@@ -276,7 +280,7 @@ class VpnConnectionErrorHandler @Inject constructor(
         orgParams: ConnectionParams?,
         includeOriginalServer: Boolean,
         reason: SwitchServerReason
-    ): VpnFallbackResult.Switch? {
+    ): VpnFallbackResult? {
         if (orgIntent !is ConnectIntent) {
             ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Ignoring reconnection for Guest Hole")
             return null
@@ -315,7 +319,21 @@ class VpnConnectionErrorHandler @Inject constructor(
             )
         }
 
-        val pingResult = vpnBackendProvider.get().pingAll(orgIntent, protocol, candidates, orgPhysicalServer) ?: run {
+        val candidatesAfterExclusions = observeExcludedLocations()
+            .first()
+            .let { excludedLocations ->
+                candidates.filter { physicalServer ->
+                    physicalServer.server.isNotExcluded(excludedLocations)
+                }
+            }
+
+        if (candidatesAfterExclusions.isEmpty() && candidates.isNotEmpty()) {
+            return VpnFallbackResult.AllExcluded(
+                connectIntent = orgParams?.connectIntent as? ConnectIntent,
+            )
+        }
+
+        val pingResult = vpnBackendProvider.get().pingAll(orgIntent, protocol, candidatesAfterExclusions, orgPhysicalServer) ?: run {
             ProtonLogger.log(ConnServerSwitchFailed, "No server responded")
             return null
         }

@@ -73,6 +73,16 @@ class VpnErrorAndFallbackObservability @Inject constructor(
                     originalConnectIntentType = fallback.fromConnectIntent.toObservability(),
                     isProfile = (fallback.fromConnectIntent.profileId != null).toObservability(),
                 )
+            is VpnFallbackResult.AllExcluded -> {
+                // Will be properly implemented in VPNAND-2447. For now we report error.
+                VpnFallbacksTotal(
+                    type = VpnFallbacksTotal.FallbackType.Error,
+                    switchReason = VpnFallbacksTotal.SwitchReason.Error,
+                    switchedToSameServer = YesNoUnknown.No,
+                    originalConnectIntentType = fallback.connectIntent?.toObservability() ?: VpnFallbacksTotal.ConnectIntentType.None,
+                    isProfile = fallback.connectIntent?.let { it.profileId != null }.toObservability(),
+                )
+            }
         }
         observabilityManager.enqueue(vpnFallback)
     }

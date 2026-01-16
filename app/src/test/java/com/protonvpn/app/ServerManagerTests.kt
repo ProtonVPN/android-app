@@ -22,38 +22,49 @@ package com.protonvpn.app
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.excludedlocations.ExcludedLocation
+import com.protonvpn.android.excludedlocations.ExcludedLocations
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
+import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.servers.Server
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.servers.api.LoadUpdate
 import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
 import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.servers.api.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.api.ServerEntryInfo
-import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.redesign.vpn.ServerFeature
-import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.app.excludedlocations.TestExcludedLocation
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createConnectIntentFastest
+import com.protonvpn.test.shared.createConnectIntentSecureCore
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -79,7 +90,11 @@ class ServerManagerTests {
 
     @RelaxedMockK private lateinit var currentUser: CurrentUser
 
+    @RelaxedMockK
+    private lateinit var mockExcludedLocationsDao: ExcludedLocationsDao
+
     private lateinit var currentSettings: MutableStateFlow<LocalUserSettings>
+    private lateinit var observeExcludedLocations: ObserveExcludedLocations
     private lateinit var testDispatcherProvider: TestDispatcherProvider
     private lateinit var testScope: TestScope
 
@@ -104,7 +119,9 @@ class ServerManagerTests {
         Storage.setPreferences(MockSharedPreference())
         mockkObject(CountryTools)
         currentUser.mockVpnUser { plusUser }
+        every { currentUser.vpnUserFlow } returns flowOf(plusUser)
         every { CountryTools.getPreferredLocale() } returns Locale.US
+        coEvery { mockExcludedLocationsDao.observeAll(any()) } returns flowOf(emptyList())
 
         val dispatcher = UnconfinedTestDispatcher()
         testDispatcherProvider = TestDispatcherProvider(dispatcher)
@@ -113,6 +130,13 @@ class ServerManagerTests {
 
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         regularServers = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
+
+        observeExcludedLocations = ObserveExcludedLocations(
+            mainScope = testScope.backgroundScope,
+            currentUser = currentUser,
+            excludedLocationsDao = mockExcludedLocationsDao,
+            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
+        )
 
         // Note: use createServerManagers in each test.
     }
@@ -154,7 +178,7 @@ class ServerManagerTests {
             "1H8EGg3J1QpSDL6K8hGsTvwmHXdtQvnxplUMePE7Hruen5JsRXvaQ75-sXptu03f0TCO-he3ymk0uhrHx6nnGQ=="
         )
         Assert.assertNotNull(server)
-        Assert.assertEquals("CA#2", server?.serverName)
+        assertEquals("CA#2", server?.serverName)
     }
 
     @Test
@@ -172,7 +196,12 @@ class ServerManagerTests {
 
         suspend fun testIntent(expectedServerId: String, connectIntent: ConnectIntent) {
             val protocol = currentSettings.value.protocol
-            val server = serverManager2.getBestServerForConnectIntent(connectIntent, plusUser, protocol)
+            val server = serverManager2.getBestServerForConnectIntent(
+                connectIntent = connectIntent,
+                vpnUser = plusUser,
+                protocol = protocol,
+                excludedLocations = observeExcludedLocations().first(),
+            )
             assertEquals(expectedServerId, server?.serverId)
         }
 
@@ -206,7 +235,12 @@ class ServerManagerTests {
     fun testGetBestServerForConnectIntentWithUnavailableServers() = testScope.runTest {
         suspend fun testIntent(expectedServerId: String?, connectIntent: ConnectIntent, vpnUser: VpnUser) {
             val protocol = currentSettings.value.protocol
-            val server = serverManager2.getBestServerForConnectIntent(connectIntent, vpnUser, protocol)
+            val server = serverManager2.getBestServerForConnectIntent(
+                connectIntent = connectIntent,
+                vpnUser = vpnUser,
+                protocol = protocol,
+                excludedLocations = observeExcludedLocations().first(),
+            )
             assertEquals(expectedServerId, server?.serverId)
         }
 
@@ -282,6 +316,78 @@ class ServerManagerTests {
 
         val serverWithUnsupportedProtocol = serverManager2.getRandomServer(freeUser, ProtocolSelection.SMART)
         assertNull(serverWithUnsupportedProtocol)
+    }
+
+    @Test
+    fun `GIVEN fastest country connect intent AND server country is excluded WHEN getting best server THEN returns null`() = testScope.runTest {
+        val connectIntent = createConnectIntentFastest()
+        val countryCode = "PL"
+        val excludedLocations = listOf(TestExcludedLocation.createCountry(countryCode = countryCode))
+        val servers = listOf(createServer(exitCountry = countryCode))
+        createServerManagers(servers = servers)
+
+        testBestServerExclusion(connectIntent = connectIntent, excludedLocations = excludedLocations)
+    }
+
+    @Test
+    fun `GIVEN fastest country connect intent AND server city is excluded WHEN getting best server THEN returns null`() = testScope.runTest {
+        val connectIntent = createConnectIntentFastest()
+        val countryCode = "DE"
+        val cityEn = "Berlin"
+        val excludedLocations = listOf(TestExcludedLocation.createCity(countryCode = countryCode, nameEn = cityEn))
+        val servers = listOf(createServer(exitCountry = countryCode, city = cityEn))
+        createServerManagers(servers = servers)
+
+        testBestServerExclusion(connectIntent = connectIntent, excludedLocations = excludedLocations)
+    }
+
+    @Test
+    fun `GIVEN fastest country connect intent AND server state is excluded WHEN getting best server THEN returns null`() = testScope.runTest {
+        val connectIntent = createConnectIntentFastest()
+        val countryCode = "US"
+        val stateEn = "California"
+        val excludedLocations = listOf(TestExcludedLocation.createState(countryCode = countryCode, nameEn = stateEn))
+        val servers = listOf(createServer(exitCountry = countryCode, state = stateEn))
+        createServerManagers(servers = servers)
+
+        testBestServerExclusion(connectIntent = connectIntent, excludedLocations = excludedLocations)
+    }
+
+    @Test
+    fun `GIVEN fastest secure core connect intent AND exit country is excluded WHEN getting best server THEN returns null`() = testScope.runTest {
+        val connectIntent = createConnectIntentSecureCore(exitCountryCode = CountryId.fastest.countryCode)
+        val countryCode = "ES"
+        val excludedLocations = listOf(TestExcludedLocation.createCountry(countryCode = countryCode))
+        val servers = listOf(createServer(exitCountry = countryCode, isSecureCore = true))
+        createServerManagers(servers = servers)
+
+        testBestServerExclusion(connectIntent = connectIntent, excludedLocations = excludedLocations)
+    }
+
+    @Test
+    fun `GIVEN fastest secure core connect intent AND entry country is excluded WHEN getting best server THEN returns null`() = testScope.runTest {
+        val connectIntent = createConnectIntentSecureCore(entryCountryCode = CountryId.fastest.countryCode)
+        val countryCode = "MX"
+        val excludedLocations = listOf(TestExcludedLocation.createCountry(countryCode = countryCode))
+        val servers = listOf(createServer(entryCountry = countryCode, isSecureCore = true))
+        createServerManagers(servers = servers)
+
+        testBestServerExclusion(connectIntent = connectIntent, excludedLocations = excludedLocations)
+    }
+
+    private suspend fun testBestServerExclusion(
+        connectIntent: ConnectIntent,
+        excludedLocations: List<ExcludedLocation>,
+        expectedBestServer: Server? = null,
+    ) {
+        val bestServer = serverManager2.getBestServerForConnectIntent(
+            connectIntent = connectIntent,
+            vpnUser = plusUser,
+            protocol = currentSettings.value.protocol,
+            excludedLocations = ExcludedLocations(allLocations = excludedLocations),
+        )
+
+        assertEquals(expectedBestServer, bestServer)
     }
 
     private fun TestScope.createServerManagers(

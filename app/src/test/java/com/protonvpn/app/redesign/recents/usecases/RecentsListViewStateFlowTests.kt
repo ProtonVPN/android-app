@@ -22,6 +22,8 @@ package com.protonvpn.app.redesign.recents.usecases
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -42,6 +44,7 @@ import com.protonvpn.android.redesign.recents.usecases.GetIntentAvailability
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
+import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
@@ -77,6 +80,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.Dispatchers
@@ -123,6 +127,9 @@ class RecentsListViewStateFlowTests {
     @MockK
     private lateinit var mockChangeServerManager: ChangeServerManager
 
+    @RelaxedMockK
+    private lateinit var mockExcludedLocationsDao: ExcludedLocationsDao
+
     private lateinit var vpnStateMonitor: VpnStateMonitor
 
     private lateinit var currentUserProvider: TestCurrentUserProvider
@@ -161,6 +168,7 @@ class RecentsListViewStateFlowTests {
         coEvery { mockRecentsManager.getRecentById(any()) } returns null
         coEvery { mockObserveDefaultConnection() } returns flowOf(DefaultConnection.LastConnection)
         every { mockChangeServerManager.isChangingServer } returns MutableStateFlow(false)
+        coEvery { mockExcludedLocationsDao.observeAll(any()) } returns flowOf(emptyList())
 
         profiles = FakeGetProfileById()
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
@@ -187,8 +195,25 @@ class RecentsListViewStateFlowTests {
             listOf(serverCh, serverIs, serverSe, serverSecureCore)
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
-        val getIntentAvailability = GetIntentAvailability(serverManager2, supportsProtocol)
-        val translator = Translator(testScope.backgroundScope, InMemoryObjectStore(null))
+
+        val observeExcludedLocations = ObserveExcludedLocations(
+            mainScope = testScope.backgroundScope,
+            currentUser = currentUser,
+            excludedLocationsDao = mockExcludedLocationsDao,
+            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
+        )
+
+        val getIntentAvailability = GetIntentAvailability(
+            serverManager = serverManager2,
+            supportsProtocol = supportsProtocol,
+            observeExcludedLocations = observeExcludedLocations,
+        )
+
+        val translator = Translator(
+            mainScope = testScope.backgroundScope,
+            store = InMemoryObjectStore(),
+        )
+
         viewStateFlow = RecentsListViewStateFlow(
             recentsManager = mockRecentsManager,
             getConnectIntentViewState = GetConnectIntentViewState(

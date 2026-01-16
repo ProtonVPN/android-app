@@ -31,6 +31,7 @@ import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
 import com.protonvpn.android.excludedlocations.data.toEntity
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.excludedlocations.usecases.RemoveExcludedLocation
+import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.app.excludedlocations.TestExcludedLocation
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -38,13 +39,22 @@ import com.protonvpn.test.shared.createAccountUser
 import com.protonvpn.testsHelper.AccountTestHelper
 import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestAccount1
 import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestSession1
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.asExecutor
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import kotlin.test.assertEquals
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
 class RemoveExcludedLocationTests {
 
@@ -56,12 +66,24 @@ class RemoveExcludedLocationTests {
 
     private lateinit var removeExcludedLocation: RemoveExcludedLocation
 
+    private lateinit var testScope: TestScope
+
     @Before
     fun setUp() {
+        val testDispatcher = UnconfinedTestDispatcher()
+
+        Dispatchers.setMain(dispatcher = testDispatcher)
+
+        testScope = TestScope(context = testDispatcher)
+
         val db = Room.inMemoryDatabaseBuilder(
-            InstrumentationRegistry.getInstrumentation().targetContext,
-            AppDatabase::class.java,
-        ).buildDatabase()
+            context = InstrumentationRegistry.getInstrumentation().targetContext,
+            klass = AppDatabase::class.java,
+        )
+            .setQueryExecutor(executor = testDispatcher.asExecutor())
+            .setTransactionExecutor(executor = testDispatcher.asExecutor())
+            .allowMainThreadQueries()
+            .buildDatabase()
 
         AccountTestHelper().withAccountManager(db) { accountManager ->
             accountManager.addAccount(
@@ -80,8 +102,10 @@ class RemoveExcludedLocationTests {
         excludedLocationsDao = db.excludedLocationsDao()
 
         observeExcludedLocations = ObserveExcludedLocations(
+            mainScope = testScope.backgroundScope,
             currentUser = currentUser,
             excludedLocationsDao = excludedLocationsDao,
+            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
         )
 
         removeExcludedLocation = RemoveExcludedLocation(
@@ -90,8 +114,13 @@ class RemoveExcludedLocationTests {
         )
     }
 
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
+
     @Test
-    fun `GIVEN there is no vpn user WHEN removing excluded location THEN no excluded location is removed`() = runTest {
+    fun `GIVEN there is no vpn user WHEN removing excluded location THEN no excluded location is removed`() = testScope.runTest {
         testUserProvider.vpnUser = null
         val excludedLocation = TestExcludedLocation.create()
         val expectedExcludedLocations = ExcludedLocations(allLocations = emptyList())
@@ -107,7 +136,7 @@ class RemoveExcludedLocationTests {
     }
 
     @Test
-    fun `GIVEN free vpn user WHEN removing excluded location THEN no excluded location is removed`() = runTest {
+    fun `GIVEN free vpn user WHEN removing excluded location THEN no excluded location is removed`() = testScope.runTest {
         val freeVpnUser = TestUser.freeUser.vpnUser
         testUserProvider.vpnUser = freeVpnUser
         val excludedLocation = TestExcludedLocation.create()
@@ -124,7 +153,7 @@ class RemoveExcludedLocationTests {
     }
 
     @Test
-    fun `GIVEN paid vpn user WHEN removing excluded location THEN excluded location is removed`() = runTest {
+    fun `GIVEN paid vpn user WHEN removing excluded location THEN excluded location is removed`() = testScope.runTest {
         val plusVpnUser = TestUser.plusUser
             .vpnInfoResponse
             .toVpnUserEntity(

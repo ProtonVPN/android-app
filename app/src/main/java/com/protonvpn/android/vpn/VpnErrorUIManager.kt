@@ -162,6 +162,7 @@ class VpnErrorUIManager @Inject constructor(
                 switch.reason is SwitchServerReason.Downgrade ||
                         switch.reason is SwitchServerReason.UserBecameDelinquent
             is VpnFallbackResult.Error -> switch.type == ErrorType.MAX_SESSIONS
+            is VpnFallbackResult.AllExcluded -> false
         }
     }
 
@@ -227,6 +228,8 @@ class VpnErrorUIManager @Inject constructor(
                     )
                 } else null
             }
+
+            is VpnFallbackResult.AllExcluded -> null
         }
     }
 

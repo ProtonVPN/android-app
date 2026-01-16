@@ -30,3 +30,15 @@ fun createConnectIntentGateway(
     profileId = profileId,
     settingsOverrides = settingsOverrides,
 )
+
+fun createConnectIntentSecureCore(
+    exitCountryCode: String = CountryId.fastest.countryCode,
+    entryCountryCode: String = CountryId.fastest.countryCode,
+    profileId: Long? = null,
+    settingsOverrides: SettingsOverrides? = null,
+): ConnectIntent = ConnectIntent.SecureCore(
+    exitCountry = CountryId(countryCode = exitCountryCode),
+    entryCountry = CountryId(countryCode = entryCountryCode),
+    profileId = profileId,
+    settingsOverrides = settingsOverrides,
+)

@@ -27,6 +27,7 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.login.toVpnUserEntity
@@ -51,6 +52,7 @@ import com.protonvpn.android.profiles.usecases.PrivateBrowsingAvailability
 import com.protonvpn.android.profiles.usecases.UpdateConnectIntentForExistingServers
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
+import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
@@ -212,10 +214,24 @@ class CreateEditProfileViewModelTests {
         )
         vpnStateMonitor = VpnStateMonitor()
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
+
+        val observeExcludedLocations = ObserveExcludedLocations(
+            mainScope = testScope.backgroundScope,
+            currentUser = currentUser,
+            excludedLocationsDao = db.excludedLocationsDao(),
+            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
+        )
+
         serversAdapter = ProfilesServerDataAdapter(
-            serverManager2,
-            Translator(testScope.backgroundScope, InMemoryObjectStore(null)),
-            UpdateConnectIntentForExistingServers(serverManager2),
+            serverManager = serverManager2,
+            translator = Translator(
+                mainScope = testScope.backgroundScope,
+                store = InMemoryObjectStore(),
+            ),
+            updateConnectIntentForExistingServers = UpdateConnectIntentForExistingServers(
+                serverManager = serverManager2,
+                observeExcludedLocations = observeExcludedLocations,
+            ),
         )
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         shouldAskForProfileReconnection = ShouldAskForProfileReconnection(vpnStatusProviderUI, profilesDao, createOrUpdate)

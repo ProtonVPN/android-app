@@ -50,7 +50,7 @@ class GetIntentAvailability @Inject constructor(
             fallbackResult = ConnectIntentAvailability.NO_SERVERS,
             excludedLocations = excludedLocations,
         ) { servers ->
-            if (servers.count() == 0 && excludedLocations.hasExclusions) {
+            if (servers.count() == 0 && excludedLocations.hasExclusions && connectIntent.canBeExcluded) {
                 ConnectIntentAvailability.EXCLUDED
             } else {
                 servers.getAvailability(
