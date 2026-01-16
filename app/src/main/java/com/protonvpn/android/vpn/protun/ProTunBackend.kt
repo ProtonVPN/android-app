@@ -33,6 +33,7 @@ import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
+import com.protonvpn.android.utils.ifOrNull
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
@@ -105,6 +106,7 @@ class ProTunBackend @Inject constructor(
         waitForAll: Boolean
     ): List<PrepareResult> {
         val (domain, peers) = preparePeers(server, transmissionProtocols) ?: return emptyList()
+        val transmissionType = ifOrNull (transmissionProtocols.size == 1) { transmissionProtocols.first() }
         return listOf(
             PrepareResult(
                 this,
@@ -113,6 +115,7 @@ class ProTunBackend @Inject constructor(
                     server,
                     domain,
                     peers,
+                    transmissionType,
                     settingsForConnection.getFor(connectIntent).ipV6Enabled
                 )
             )

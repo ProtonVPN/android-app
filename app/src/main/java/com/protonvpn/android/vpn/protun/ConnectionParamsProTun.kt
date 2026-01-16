@@ -19,6 +19,7 @@
 package com.protonvpn.android.vpn.protun
 
 import android.content.Context
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.SplitTunnelAppsConfigurator
@@ -44,15 +45,16 @@ class ConnectionParamsProTun(
     server: Server,
     connectingDomain: ConnectingDomain,
     private val peers: List<Peer>,
+    transmissionType: TransmissionProtocol? = null,
     ipv6SettingEnabled: Boolean,
 ) : ConnectionParams(
     connectIntent,
     server,
     connectingDomain,
-    VpnProtocol.WireGuard,
+    VpnProtocol.ProTun,
     null,
     null,
-    null,
+    transmissionType,
     ipv6SettingEnabled = ipv6SettingEnabled,
 ), java.io.Serializable {
 
