@@ -65,6 +65,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
@@ -298,6 +299,7 @@ abstract class VpnBackend(
     open suspend fun reconnect() {
         lastConnectionParams?.let { params ->
             disconnect()
+            yield()
             // Re-save last connection params, as they may be wiped on disconnect in
             // onDestroyService case
             Storage.save(lastConnectionParams, ConnectionParams::class.java)
@@ -391,6 +393,7 @@ abstract class VpnBackend(
     private var agentConnectionJob: Job? = null
     private var reconnectionJob: Job? = null
     private val agentConstants = LocalAgent.constants()
+    private var changeProtocolStateJob: Job? = null
 
     init {
         networkManager.observe().onEach { status ->
@@ -427,7 +430,8 @@ abstract class VpnBackend(
     }
 
     private fun onVpnProtocolStateChange(value: VpnState) {
-        mainScope.launch(start = CoroutineStart.UNDISPATCHED) {
+        changeProtocolStateJob?.cancel()
+        changeProtocolStateJob = mainScope.launch(start = CoroutineStart.UNDISPATCHED) {
             if (value == VpnState.Connected) {
                 withContext(dispatcherProvider.Io) {
                     // TCP sockets cannot be reused after connecting to another server, force
@@ -439,7 +443,9 @@ abstract class VpnBackend(
             } else {
                 lastKnownExitIp.value = null
             }
-            processCombinedState(value, agent?.lastState)
+            if (isActive) {
+                processCombinedState(value, agent?.lastState)
+            }
         }
     }
 
@@ -572,9 +578,11 @@ abstract class VpnBackend(
                         val settings = settingsForConnection.getFor(lastConnectionParams?.connectIntent)
                         val features = getFeatures(settings)
                         agent = withContext(dispatcherProvider.Comp) {
+                            yield()
                             createAgentConnection(certInfo, hostname, createNativeClient(), features)
                         }
                     } else {
+                        yield()
                         setError(
                             ErrorType.LOCAL_AGENT_ERROR,
                             description = "Failed to get certificate"
