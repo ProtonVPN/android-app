@@ -72,6 +72,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.SimpleModalBottomSheet
+import com.protonvpn.android.excludedlocations.ui.ExcludedLocationsAdoptionBottomSheet
 import com.protonvpn.android.netshield.NetShieldActions
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
@@ -114,7 +115,6 @@ import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnErrorUIManager
-import com.protonvpn.android.widget.WidgetAdoptionUiType
 import com.protonvpn.android.widget.ui.OnboardingWidgetBottomSheetContent
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -155,7 +155,7 @@ fun HomeRoute(
     val prominentPromoBannerState =
         homeViewModel.prominentPromoBannerStateFlow.collectAsStateWithLifecycle().value
     val snackError = homeViewModel.snackbarErrorFlow.collectAsStateWithLifecycle().value
-    val showWidgetAdoption = homeViewModel.showWidgetAdoptionFlow.collectAsStateWithLifecycle().value
+    val adoptionComponent = homeViewModel.adoptionComponentFlow.collectAsStateWithLifecycle().value
 
     // Not using material3 snackbar because of inability to show multiline correctly
     val snackbarHostState = remember { androidx.compose.material.SnackbarHostState() }
@@ -216,13 +216,6 @@ fun HomeRoute(
             }
         )
     }
-    val widgetAdoptionComponent = when(showWidgetAdoption) {
-        WidgetAdoptionUiType.None -> null
-        WidgetAdoptionUiType.AddWidgetButton ->
-            WidgetAdoptionComponent(homeViewModel::onWidgetAdoptionShown, homeViewModel::onAddWidget)
-        WidgetAdoptionUiType.Instructions ->
-            WidgetAdoptionComponent(homeViewModel::onWidgetAdoptionShown, null)
-    }
 
     activityViewModel.navEventsFlow.collectAsEffect { navEvent ->
         when (navEvent) {
@@ -239,7 +232,7 @@ fun HomeRoute(
         upsellCarouselState = upsellCarouselState,
         elapsedRealtimeClock = homeViewModel.elapsedRealtimeClock,
         onDismissDialog = homeViewModel::dismissDialog,
-        onNetshieldValueChanged = { homeViewModel.setNetShieldProtocol(it) },
+        onNetshieldValueChanged = homeViewModel::setNetShieldProtocol,
         onDisableCustomDns = {
             if (homeViewModel.disableCustomDns())
                 settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate)
@@ -249,7 +242,7 @@ fun HomeRoute(
         prominentPromoComponent = prominentBannerPromo,
         connectionCardComponent = connectionCardComponent,
         recentsComponent = recentsComponent,
-        widgetAdoptionComponent = widgetAdoptionComponent
+        adoptionComponent = adoptionComponent,
     )
 
     homeViewModel.eventFlow.collectAsEffect { event ->
@@ -299,7 +292,7 @@ fun HomeView(
     connectionCardComponent: ConnectionCardComponent,
     snackbarHostState: SnackbarHostState,
     recentsComponent: RecentsComponent,
-    widgetAdoptionComponent: WidgetAdoptionComponent?,
+    adoptionComponent: AdoptionComponent?,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -315,14 +308,26 @@ fun HomeView(
             )
         }
     }
-    widgetAdoptionComponent?.let {
-        SimpleModalBottomSheet(
-            onDismissRequest = it.onDismiss,
-        ) {
-            OnboardingWidgetBottomSheetContent(
-                onClose = it.onDismiss,
-                onAddWidget = it.onAddWidget
-            )
+
+    adoptionComponent?.let { component ->
+        when (component) {
+            is AdoptionComponent.ExcludedLocationsAdoptionComponent -> {
+                ExcludedLocationsAdoptionBottomSheet(
+                    onAction = component.onExcludeLocationsClick,
+                    onDismiss = component.onDismiss,
+                )
+            }
+
+            is AdoptionComponent.WidgetAdoptionComponent -> {
+                SimpleModalBottomSheet(
+                    onDismissRequest = component.onDismiss,
+                ) {
+                    OnboardingWidgetBottomSheetContent(
+                        onClose = component.onDismiss,
+                        onAddWidget = component.onAddWidget,
+                    )
+                }
+            }
         }
     }
 
@@ -532,11 +537,6 @@ data class BottomPromoComponent(
     val onClick: (suspend () -> Unit)
 )
 
-data class WidgetAdoptionComponent(
-    val onDismiss: () -> Unit,
-    val onAddWidget: (() -> Unit)?
-)
-
 data class ProminentPromoComponent(
     val state: ProminentBannerState,
     val onDismiss: () -> Unit,
@@ -562,9 +562,23 @@ data class RecentsComponent(
     val recentsExpandState: RecentsExpandState
 )
 
+sealed interface AdoptionComponent {
+
+    data class ExcludedLocationsAdoptionComponent(
+        val onDismiss: () -> Unit,
+        val onExcludeLocationsClick: () -> Unit,
+    ) : AdoptionComponent
+
+    data class WidgetAdoptionComponent(
+        val onDismiss: () -> Unit,
+        val onAddWidget: (() -> Unit)?,
+    ) : AdoptionComponent
+
+}
+
 private suspend fun handleSnackbarError(
     context: Context,
-    snackbarHostState: androidx.compose.material.SnackbarHostState,
+    snackbarHostState: SnackbarHostState,
     snackError: VpnErrorUIManager.SnackError,
 ) {
     val snackbarResult = snackbarHostState.showSnackbar(

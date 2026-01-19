@@ -48,6 +48,8 @@ data class UiStoredState(
     val isConnectionPreferencesDiscovered: Boolean = false,
     val isExcludedLocationsDiscovered: Boolean = false,
     val hasShownConnectionPreferencesSmartDiscovery: Boolean = false,
+    val excludedLocationsAdoptionStartedMillis: Long? = null,
+    val shouldShowExcludedLocationsAdoption: Boolean = false,
 ) {
     companion object {
         val Default = UiStoredState()

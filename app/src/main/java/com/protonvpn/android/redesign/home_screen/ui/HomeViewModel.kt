@@ -30,6 +30,7 @@ import com.protonvpn.android.appconfig.ApiNotificationActions
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.UserCountryIpBased
 import com.protonvpn.android.di.ElapsedRealtimeClock
+import com.protonvpn.android.excludedlocations.usecases.ObserveShowExcludedLocationsAdoption
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
@@ -60,6 +61,7 @@ import com.protonvpn.android.ui.promooffers.PromoOfferButtonActions
 import com.protonvpn.android.ui.promooffers.PromoOfferIapActivity
 import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
 import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -90,6 +92,7 @@ import kotlinx.parcelize.Parcelize
 import me.proton.core.presentation.savedstate.state
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 private const val DialogStateKey = "dialog"
 
@@ -128,11 +131,13 @@ class HomeViewModel @Inject constructor(
     prominentPromoBannerFlow: HomeScreenProminentBannerFlow,
     private val promoOfferButtonActions: PromoOfferButtonActions,
     private val promoOffersPrefs: PromoOffersPrefs,
-    @ElapsedRealtimeClock val elapsedRealtimeClock: () -> Long,
+    @param:ElapsedRealtimeClock val elapsedRealtimeClock: () -> Long,
     private val setNetShield: SetNetShield,
     private val widgetManager: WidgetManager,
     private val disableCustomDnsForCurrentConnection: DisableCustomDnsForCurrentConnection,
     private val isAutomaticConnectionEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
+    observeShowExcludedLocationsAdoption: ObserveShowExcludedLocationsAdoption,
+    private val trafficMonitor: TrafficMonitor,
 ) : ViewModel() {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
@@ -144,8 +149,38 @@ class HomeViewModel @Inject constructor(
             null
     }.distinctUntilChanged()
 
-    val showWidgetAdoptionFlow = widgetManager.showWidgetAdoptionFlow
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(1_000), WidgetAdoptionUiType.None)
+    val adoptionComponentFlow: StateFlow<AdoptionComponent?> = combine(
+        observeShowExcludedLocationsAdoption(),
+        widgetManager.showWidgetAdoptionFlow,
+    ) { showExcludedLocationsAdoption, widgetAdoptionType ->
+        if (showExcludedLocationsAdoption) {
+            AdoptionComponent.ExcludedLocationsAdoptionComponent(
+                onDismiss = ::onExcludedLocationsAdoptionClosed,
+                onExcludeLocationsClick = ::onExcludedLocationsAdoptionOpened,
+            )
+        } else {
+            when (widgetAdoptionType) {
+                WidgetAdoptionUiType.None -> null
+                WidgetAdoptionUiType.AddWidgetButton -> {
+                    AdoptionComponent.WidgetAdoptionComponent(
+                        onDismiss = ::onWidgetAdoptionShown,
+                        onAddWidget = ::onAddWidget,
+                    )
+                }
+
+                WidgetAdoptionUiType.Instructions -> {
+                    AdoptionComponent.WidgetAdoptionComponent(
+                        onDismiss = ::onWidgetAdoptionShown,
+                        onAddWidget = null,
+                    )
+                }
+            }
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(1_000),
+        initialValue = null,
+    )
 
     val mapHighlightState: Flow<Pair<String, CountryHighlight>?> = combine(
         connectionMapHighlightsFlow,
@@ -271,7 +306,7 @@ class HomeViewModel @Inject constructor(
             override val confirmLabelResId: Int = R.string.skip
 
             @IgnoredOnParcel
-            override val cancelLabelResId: Int = R.string.excluded_locations
+            override val cancelLabelResId: Int = R.string.exclude_locations
 
         }
 
@@ -343,29 +378,36 @@ class HomeViewModel @Inject constructor(
         vpnConnectionManager.disconnect(trigger)
 
         viewModelScope.launch {
-            if (
-                !isAutomaticConnectionEnabled() ||
-                uiStateStorage.state.first().hasShownConnectionPreferencesSmartDiscovery ||
-                vpnStatusProviderUI.uiStatus.first().state !is VpnState.Connected
-            ) {
-                return@launch
-            }
+            if (shouldShowSmartConnectionPreferencesDiscovery()) {
+                dialogState = DialogState.SmartConnectionPreferencesDiscovery(
+                    onCancelClick = ::openConnectionPreferences,
+                )
 
-            recentsManager.getMostRecentConnection()
-                .first()
-                ?.takeIf { mostRecentConnection -> mostRecentConnection.connectIntent.canBeExcluded }
-                ?.also { mostRecentConnection ->
-                    if (mostRecentConnection.durationSinceLastConnectionAttempt < 1.minutes) {
-                        dialogState = DialogState.SmartConnectionPreferencesDiscovery(
-                            onCancelClick = ::openConnectionPreferences,
-                        )
-
-                        uiStateStorage.update {
-                            it.copy(hasShownConnectionPreferencesSmartDiscovery = true)
-                        }
-                    }
+                uiStateStorage.update {
+                    it.copy(hasShownConnectionPreferencesSmartDiscovery = true)
                 }
+            }
         }
+    }
+
+    private suspend fun shouldShowSmartConnectionPreferencesDiscovery(): Boolean {
+        if (!isAutomaticConnectionEnabled() || uiStateStorage.state.first().hasShownConnectionPreferencesSmartDiscovery) {
+            return false
+        }
+
+        val vpnUiStatus = vpnStatusProviderUI.uiStatus.first()
+
+        if (
+            vpnUiStatus.state !is VpnState.Connected ||
+            vpnUiStatus.connectIntent?.profileId != null ||
+            vpnUiStatus.connectIntent?.canBeExcluded != true
+        ) {
+            return false
+        }
+
+        val trafficStatus = trafficMonitor.trafficStatus.value ?: return false
+
+        return trafficStatus.sessionTimeSeconds.seconds < 1.minutes
     }
 
     fun dismissDialog() {
@@ -436,6 +478,20 @@ class HomeViewModel @Inject constructor(
             uiStateStorage.update { it.copy(isConnectionPreferencesDiscovered = true) }
 
             _eventFlow.emit(value = Event.OnNavigateToConnectionPreferences)
+        }
+    }
+
+    fun onExcludedLocationsAdoptionClosed() {
+        viewModelScope.launch {
+            uiStateStorage.update { it.copy(shouldShowExcludedLocationsAdoption = false) }
+        }
+    }
+
+    fun onExcludedLocationsAdoptionOpened() {
+        viewModelScope.launch {
+            uiStateStorage.update { it.copy(shouldShowExcludedLocationsAdoption = false) }
+
+            openConnectionPreferences()
         }
     }
 

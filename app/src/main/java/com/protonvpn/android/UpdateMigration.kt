@@ -36,7 +36,7 @@ import javax.inject.Inject
 
 @Reusable
 class UpdateMigration @Inject constructor(
-    @ApplicationContext private val appContext: Context,
+    @param:ApplicationContext private val appContext: Context,
     private val mainScope: CoroutineScope,
     private val appPrefs: dagger.Lazy<AppFeaturesPrefs>,
     private val uiStateStorage: dagger.Lazy<UiStateStorage>,
@@ -57,6 +57,7 @@ class UpdateMigration @Inject constructor(
             whatsNewWidget(strippedOldVersionCode)
             remove_cert_storage_v1(strippedOldVersionCode)
             migrateTvLanSetting(strippedOldVersionCode)
+            adoptExcludedLocations(strippedOldVersionCode)
         }
         if (oldVersionCode == 0 || isUpdatedVersion) {
             Storage.saveInt("VERSION_CODE", newVersionCode)
@@ -111,5 +112,15 @@ class UpdateMigration @Inject constructor(
     }
 
     @SuppressWarnings("MagicNumber")
+    private fun adoptExcludedLocations(oldVersionCode: Int) {
+        if (oldVersionCode <= 5_15_05_02) {
+            mainScope.launch {
+                uiStateStorage.get().update { it.copy(shouldShowExcludedLocationsAdoption = true) }
+            }
+        }
+    }
+
+    @SuppressWarnings("MagicNumber")
     private fun stripArchitecture(versionCode: Int) = versionCode % 100_000_000
+
 }

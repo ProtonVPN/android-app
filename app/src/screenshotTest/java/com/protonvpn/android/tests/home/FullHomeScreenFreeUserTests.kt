@@ -65,7 +65,7 @@ fun FullHomeScreenDisconnected() {
             connectionCardComponent = HomeViewData.connectionCardDisconnectedComponent,
             snackbarHostState = SnackbarHostState(),
             recentsComponent = HomeViewData.recentsComponentDisconnected,
-            widgetAdoptionComponent = null
+            adoptionComponent = null,
         )
     }
 }
@@ -92,7 +92,7 @@ fun FullHomeScreenConnected() {
             connectionCardComponent = HomeViewData.connectionCardConnectedComponent,
             snackbarHostState = SnackbarHostState(),
             recentsComponent = HomeViewData.recentsComponentConnected,
-            widgetAdoptionComponent = null
+            adoptionComponent = null,
         )
     }
 }

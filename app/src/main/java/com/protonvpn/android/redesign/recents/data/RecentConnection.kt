@@ -22,35 +22,21 @@ package com.protonvpn.android.redesign.recents.data
 import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.data.toProfile
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
 
 sealed class RecentConnection {
-
     abstract val id: Long
-
     abstract val isPinned: Boolean
-
     abstract val connectIntent: ConnectIntent
-    
-    protected abstract val lastConnectionAttemptTimestamp: Long
-    
-    val durationSinceLastConnectionAttempt: Duration
-        get() = System.currentTimeMillis()
-            .minus(lastConnectionAttemptTimestamp)
-            .milliseconds
 
     data class UnnamedRecent(
         override val id: Long,
         override val isPinned: Boolean,
         override val connectIntent: ConnectIntent,
-        override val lastConnectionAttemptTimestamp: Long,
     ) : RecentConnection()
 
     data class ProfileRecent(
         override val id: Long,
         override val isPinned: Boolean,
-        override val lastConnectionAttemptTimestamp: Long,
         val profile: Profile,
     ) : RecentConnection() {
         override val connectIntent get() = profile.connectIntent
@@ -66,14 +52,12 @@ fun RecentConnectionWithIntent.toRecentConnection(): RecentConnection {
             id = recent.id,
             isPinned = recent.isPinned,
             profile = profile.toProfile(),
-            lastConnectionAttemptTimestamp = recent.lastConnectionAttemptTimestamp,
         )
     } else {
         RecentConnection.UnnamedRecent(
             id = recent.id,
             isPinned = recent.isPinned,
-            connectIntent = requireNotNull(unnamedRecent).connectIntentData.toConnectIntent(),
-            lastConnectionAttemptTimestamp = recent.lastConnectionAttemptTimestamp,
+            connectIntent = requireNotNull(unnamedRecent).connectIntentData.toConnectIntent()
         )
     }
 }
