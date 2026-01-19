@@ -78,12 +78,9 @@ class UpdateServersWithBinaryStatusImpl @Inject constructor(
             )
             if (loads.size == uniffiLogicals.size) {
                 invalidServers + validServers.zip(loads) { server, load ->
-                    // Status update doesn't include physical servers, it's not safe to go from
-                    // disabled to enabled without the full information.
-                    val newIsOnline = load.isEnabled.takeIf { server.rawIsOnline } ?: false
                     server.copy(
                         isVisible = load.isVisible,
-                        rawIsOnline = newIsOnline,
+                        rawIsOnline = load.isEnabled,
                         load = load.load.toFloat(),
                         score = load.score
                     )
