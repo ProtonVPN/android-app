@@ -41,7 +41,7 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
     @Inject lateinit var workerFactory: HiltWorkerFactory
     @Inject lateinit var onboardingTelemetry: dagger.Lazy<OnboardingTelemetry>
     @Inject lateinit var testNotificationLoader: dagger.Lazy<TestNotificationLoader>
-    @Inject lateinit var updateMigration: UpdateMigration
+    @Inject lateinit var updateMigration: dagger.Lazy<UpdateMigration>
     @Inject lateinit var memoryMonitor: dagger.Lazy<MemoryMonitor>
 
     override fun onCreate() {
@@ -62,7 +62,7 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
                 testNotificationLoader.get().loadTestFile()
             }
 
-            updateMigration.handleUpdate()
+            updateMigration.get().handleUpdate()
             onboardingTelemetry.get().onAppStart()
             memoryMonitor.get().start()
         }

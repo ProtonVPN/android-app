@@ -38,24 +38,28 @@ import javax.inject.Inject
 class UpdateMigration @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val mainScope: CoroutineScope,
-    private val appPrefs: AppFeaturesPrefs,
-    private val uiStateStorage: UiStateStorage,
+    private val appPrefs: dagger.Lazy<AppFeaturesPrefs>,
+    private val uiStateStorage: dagger.Lazy<UiStateStorage>,
     private val updateCertForCurrentUser: dagger.Lazy<UpdateCertForCurrentUser>,
     private val enableTvLanSettingOnMigration: dagger.Lazy<EnableTvLanSettingOnMigration>,
 ) {
+    private val oldVersionCode = Storage.getInt("VERSION_CODE")
+    private val newVersionCode = BuildConfig.VERSION_CODE
+
+    val isUpdatedVersion get() = oldVersionCode != 0 && oldVersionCode != newVersionCode
 
     fun handleUpdate() {
-        val oldVersionCode = Storage.getInt("VERSION_CODE")
-        val newVersionCode = BuildConfig.VERSION_CODE
-        Storage.saveInt("VERSION_CODE", newVersionCode)
-        if (oldVersionCode != 0 && oldVersionCode != newVersionCode) {
-            ProtonLogger.log(AppUpdateUpdated, "new version: " + newVersionCode)
+        if (isUpdatedVersion) {
+            ProtonLogger.log(AppUpdateUpdated, "new version: $newVersionCode")
             val strippedOldVersionCode = stripArchitecture(oldVersionCode)
             clearCertificateData(strippedOldVersionCode)
             promoteProfiles(strippedOldVersionCode)
             whatsNewWidget(strippedOldVersionCode)
             remove_cert_storage_v1(strippedOldVersionCode)
             migrateTvLanSetting(strippedOldVersionCode)
+        }
+        if (oldVersionCode == 0 || isUpdatedVersion) {
+            Storage.saveInt("VERSION_CODE", newVersionCode)
         }
     }
 
@@ -70,13 +74,13 @@ class UpdateMigration @Inject constructor(
     private fun promoteProfiles(oldVersionCode: Int) {
         if (oldVersionCode <= 5_07_80_00) {
             mainScope.launch {
-                uiStateStorage.update { it.copy(shouldPromoteProfiles = true) }
+                uiStateStorage.get().update { it.copy(shouldPromoteProfiles = true) }
             }
         }
         if (oldVersionCode in 5_07_93_00.. 5_08_00_00) {
             // These users have already seen the info dialog as part of shouldPromoteProfiles.
             mainScope.launch {
-                uiStateStorage.update { it.copy(hasShownProfilesInfo = true) }
+                uiStateStorage.get().update { it.copy(hasShownProfilesInfo = true) }
             }
         }
     }
@@ -84,7 +88,7 @@ class UpdateMigration @Inject constructor(
     @SuppressWarnings("MagicNumver")
     private fun whatsNewWidget(oldVersionCode: Int) {
         if (oldVersionCode <= 5_08_85_00) {
-            appPrefs.showWhatsNew = true
+            appPrefs.get().showWhatsNew = true
         }
     }
 

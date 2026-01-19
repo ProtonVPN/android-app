@@ -19,6 +19,7 @@
 package com.protonvpn.android.appconfig
 
 import androidx.annotation.VisibleForTesting
+import com.protonvpn.android.UpdateMigration
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsManager
 import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
@@ -77,7 +78,8 @@ class AppConfig @Inject constructor(
     private val getActiveAuthenticatedAccount: GetActiveAuthenticatedAccount,
     userPlanManager: UserPlanManager,
     @IsLoggedIn loggedIn: Flow<Boolean>,
-    @IsInForeground inForeground: Flow<Boolean>
+    @IsInForeground inForeground: Flow<Boolean>,
+    updateMigration: UpdateMigration,
 ) {
     // This value is used when filtering servers, let's have it cached
     private var smartProtocolsCached: List<ProtocolSelection>? = null
@@ -111,6 +113,11 @@ class AppConfig @Inject constructor(
         userPlanManager.planChangeFlow
             .onEach { forceUpdate(currentUserId()) }
             .launchIn(mainScope)
+        if (updateMigration.isUpdatedVersion) {
+            mainScope.launch {
+                forceUpdate(currentUserId())
+            }
+        }
     }
 
     suspend fun forceUpdate(userId: UserId?): ApiResult<Any> {
