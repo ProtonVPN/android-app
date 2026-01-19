@@ -21,9 +21,11 @@ package com.protonvpn.android.redesign.home_screen.ui
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Parcelable
+import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.ApiNotificationActions
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.UserCountryIpBased
@@ -38,6 +40,7 @@ import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
+import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
@@ -74,15 +77,19 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import me.proton.core.presentation.savedstate.state
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.minutes
 
 private const val DialogStateKey = "dialog"
 
@@ -113,7 +120,7 @@ class HomeViewModel @Inject constructor(
     changeServerViewStateFlow: ChangeServerViewStateFlow,
     private val changeServerManager: ChangeServerManager,
     private val upgradeTelemetry: UpgradeTelemetry,
-    vpnStatusProviderUI: VpnStatusProviderUI,
+    private val vpnStatusProviderUI: VpnStatusProviderUI,
     userCountryIpBased: UserCountryIpBased,
     private val vpnErrorUIManager: VpnErrorUIManager,
     upsellCarouselStateFlow: UpsellCarouselStateFlow,
@@ -125,6 +132,7 @@ class HomeViewModel @Inject constructor(
     private val setNetShield: SetNetShield,
     private val widgetManager: WidgetManager,
     private val disableCustomDnsForCurrentConnection: DisableCustomDnsForCurrentConnection,
+    private val isAutomaticConnectionEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
 ) : ViewModel() {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
@@ -158,29 +166,131 @@ class HomeViewModel @Inject constructor(
     val upsellCarouselState: StateFlow<UpsellCarouselState?> = upsellCarouselStateFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
-    sealed interface DialogState : Parcelable {
+    sealed class DialogState : Parcelable {
+
+        @get:StringRes
+        open val titleResId: Int = R.string.cannot_connect
+
+        @get:StringRes
+        abstract val messageResId: Int
+
+        open val messageArgs: Array<Any> = emptyArray()
+
+        @get:StringRes
+        open val confirmLabelResId: Int = R.string.ok
+
+        @get:StringRes
+        open val cancelLabelResId: Int? = null
+
+        open val onCancelClick: (() -> Unit)? = null
+
         @Parcelize
-        object CountryInMaintenance : DialogState
+        object CountryInMaintenance : DialogState() {
+
+            @IgnoredOnParcel
+            override val messageResId: Int = R.string.message_country_servers_in_maintenance
+
+        }
+
         @Parcelize
-        object CityInMaintenance : DialogState
+        object CityInMaintenance : DialogState() {
+
+            @IgnoredOnParcel
+            override val messageResId: Int = R.string.message_city_servers_in_maintenance
+
+        }
+
         @Parcelize
-        object StateInMaintenance : DialogState
+        object StateInMaintenance : DialogState() {
+
+            @IgnoredOnParcel
+            override val messageResId: Int = R.string.message_state_servers_in_maintenance
+
+        }
+
         @Parcelize
-        object ServerInMaintenance : DialogState
+        object ServerInMaintenance : DialogState() {
+
+            @IgnoredOnParcel
+            override val messageResId: Int = R.string.message_server_in_maintenance
+
+        }
+
         @Parcelize
-        object GatewayInMaintenance : DialogState
+        object GatewayInMaintenance : DialogState() {
+
+            @IgnoredOnParcel
+            override val messageResId: Int = R.string.message_gateway_in_maintenance
+
+        }
+
         @Parcelize
-        object ServerNotAvailable : DialogState
+        object ServerNotAvailable : DialogState() {
+
+            @IgnoredOnParcel
+            override val messageResId: Int = R.string.message_server_not_available
+
+        }
+
         @Parcelize
-        object ServerLocationExcluded : DialogState
+        data class ServerLocationExcluded(
+            override val onCancelClick: (() -> Unit)?,
+        ) : DialogState() {
+
+            @IgnoredOnParcel
+            override val messageResId: Int = R.string.message_server_location_excluded
+
+            @IgnoredOnParcel
+            override val cancelLabelResId: Int = R.string.excluded_locations
+
+        }
+
         @Parcelize
-        data class ProfileNotAvailable(val profileName: String) : DialogState
+        data class ProfileNotAvailable(val profileName: String) : DialogState() {
+
+            @IgnoredOnParcel
+            override val messageResId: Int = R.string.profile_unavailable_dialog_message
+
+            @IgnoredOnParcel
+            override val messageArgs: Array<Any> = arrayOf(profileName)
+
+        }
+
+        @Parcelize
+        data class SmartConnectionPreferencesDiscovery(
+            override val onCancelClick: (() -> Unit)?,
+        ) : DialogState() {
+
+            @IgnoredOnParcel
+            override val titleResId: Int = R.string.connection_preferences_smart_discovery_dialog_title
+
+            @IgnoredOnParcel
+            override val messageResId: Int = R.string.connection_preferences_smart_discovery_dialog_message
+
+            @IgnoredOnParcel
+            override val confirmLabelResId: Int = R.string.skip
+
+            @IgnoredOnParcel
+            override val cancelLabelResId: Int = R.string.excluded_locations
+
+        }
+
+    }
+
+    sealed interface Event {
+
+        data object OnNavigateToConnectionPreferences : Event
+
+        data object OnNavigateToUpgrade : Event
+
     }
 
     private var dialogState by savedStateHandle.state<DialogState?>(null, DialogStateKey)
     val dialogStateFlow = savedStateHandle.getStateFlow<DialogState?>(DialogStateKey, null)
 
-    val eventNavigateToUpgrade = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    private val _eventFlow = MutableSharedFlow<Event>(extraBufferCapacity = 1)
+
+    val eventFlow = _eventFlow.asSharedFlow()
 
     val snackbarErrorFlow = vpnErrorUIManager.snackErrorFlow
 
@@ -212,10 +322,12 @@ class HomeViewModel @Inject constructor(
         if (recent != null) {
             uiStateStorage.update { it.copy(hasUsedRecents = true) }
             when (item.availability) {
-                ConnectIntentAvailability.UNAVAILABLE_PLAN -> eventNavigateToUpgrade.tryEmit(Unit)
+                ConnectIntentAvailability.UNAVAILABLE_PLAN -> _eventFlow.emit(value = Event.OnNavigateToUpgrade)
                 ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> dialogState = DialogState.ServerNotAvailable
                 ConnectIntentAvailability.NO_SERVERS -> dialogState = DialogState.ServerNotAvailable
-                ConnectIntentAvailability.EXCLUDED -> dialogState = DialogState.ServerLocationExcluded
+                ConnectIntentAvailability.EXCLUDED -> {
+                    dialogState = DialogState.ServerLocationExcluded(onCancelClick = ::openConnectionPreferences)
+                }
                 ConnectIntentAvailability.AVAILABLE_OFFLINE -> dialogState = recent.toMaintenanceDialogType()
                 ConnectIntentAvailability.ONLINE -> {
                     val trigger = if (recent.isPinned) ConnectTrigger.RecentPinned else ConnectTrigger.RecentRegular
@@ -229,6 +341,31 @@ class HomeViewModel @Inject constructor(
     fun disconnect(trigger: DisconnectTrigger) {
         ProtonLogger.log(UiDisconnect, "Home: ${trigger.description}")
         vpnConnectionManager.disconnect(trigger)
+
+        viewModelScope.launch {
+            if (
+                !isAutomaticConnectionEnabled() ||
+                uiStateStorage.state.first().hasShownConnectionPreferencesSmartDiscovery ||
+                vpnStatusProviderUI.uiStatus.first().state !is VpnState.Connected
+            ) {
+                return@launch
+            }
+
+            recentsManager.getMostRecentConnection()
+                .first()
+                ?.takeIf { mostRecentConnection -> mostRecentConnection.connectIntent.canBeExcluded }
+                ?.also { mostRecentConnection ->
+                    if (mostRecentConnection.durationSinceLastConnectionAttempt < 1.minutes) {
+                        dialogState = DialogState.SmartConnectionPreferencesDiscovery(
+                            onCancelClick = ::openConnectionPreferences,
+                        )
+
+                        uiStateStorage.update {
+                            it.copy(hasShownConnectionPreferencesSmartDiscovery = true)
+                        }
+                    }
+                }
+        }
     }
 
     fun dismissDialog() {
@@ -290,6 +427,16 @@ class HomeViewModel @Inject constructor(
     @TargetApi(26)
     fun onAddWidget() {
         widgetManager.addWidget()
+    }
+
+    fun openConnectionPreferences() {
+        dismissDialog()
+
+        viewModelScope.launch {
+            uiStateStorage.update { it.copy(isConnectionPreferencesDiscovered = true) }
+
+            _eventFlow.emit(value = Event.OnNavigateToConnectionPreferences)
+        }
     }
 
     private fun RecentConnection.toMaintenanceDialogType() = when(this) {

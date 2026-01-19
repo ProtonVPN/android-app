@@ -47,6 +47,7 @@ data class UiStoredState(
     val searchHistory: List<String> = emptyList(),
     val isConnectionPreferencesDiscovered: Boolean = false,
     val isExcludedLocationsDiscovered: Boolean = false,
+    val hasShownConnectionPreferencesSmartDiscovery: Boolean = false,
 ) {
     companion object {
         val Default = UiStoredState()

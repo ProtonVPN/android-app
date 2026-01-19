@@ -252,9 +252,15 @@ fun HomeRoute(
         widgetAdoptionComponent = widgetAdoptionComponent
     )
 
-    LaunchedEffect(key1 = Unit) {
-        homeViewModel.eventNavigateToUpgrade.collect {
-            CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+    homeViewModel.eventFlow.collectAsEffect { event ->
+        when (event) {
+            HomeViewModel.Event.OnNavigateToConnectionPreferences -> {
+                onNavigateToSubSetting(SubSettingsScreen.Type.ConnectionPreferences)
+            }
+
+            HomeViewModel.Event.OnNavigateToUpgrade -> {
+                CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+            }
         }
     }
 
@@ -512,7 +518,12 @@ fun HomeView(
         }
     }
 
-    HomeDialog(dialogState, onDismiss = onDismissDialog)
+    if (dialogState != null) {
+        HomeDialog(
+            dialogState = dialogState,
+            onDismiss = onDismissDialog,
+        )
+    }
 }
 
 data class BottomPromoComponent(
@@ -572,27 +583,17 @@ private suspend fun handleSnackbarError(
 }
 
 @Composable
-private fun HomeDialog(dialog: DialogState?, onDismiss: () -> Unit) {
-    if (dialog != null) {
-        val message = when (dialog) {
-            DialogState.CountryInMaintenance -> stringResource(R.string.message_country_servers_in_maintenance)
-            DialogState.CityInMaintenance -> stringResource(R.string.message_city_servers_in_maintenance)
-            DialogState.StateInMaintenance -> stringResource(R.string.message_state_servers_in_maintenance)
-            DialogState.ServerInMaintenance -> stringResource(R.string.message_server_in_maintenance)
-            DialogState.GatewayInMaintenance -> stringResource(R.string.message_gateway_in_maintenance)
-            DialogState.ServerLocationExcluded -> stringResource(R.string.message_server_location_excluded)
-            DialogState.ServerNotAvailable -> stringResource(R.string.message_server_not_available)
-            is DialogState.ProfileNotAvailable ->
-                stringResource(R.string.profile_unavailable_dialog_message, dialog.profileName)
-        }
-        ProtonAlert(
-            title = null,
-            text = message,
-            confirmLabel = stringResource(id = R.string.ok),
-            onConfirm = { onDismiss() },
-            onDismissRequest = onDismiss
-        )
-    }
+private fun HomeDialog(dialogState: DialogState, onDismiss: () -> Unit) = with(dialogState) {
+    ProtonAlert(
+        title = stringResource(id = titleResId),
+        text = stringResource(id = messageResId, formatArgs = messageArgs),
+        textColor = ProtonTheme.colors.textWeak,
+        confirmLabel = stringResource(id = confirmLabelResId),
+        onConfirm = { onDismiss() },
+        dismissLabel = cancelLabelResId?.let { stringResource(id = it) },
+        onDismissButton = { onCancelClick?.invoke() },
+        onDismissRequest = onDismiss,
+    )
 }
 
 private fun Modifier.recentsScrollOverlayBackground(
