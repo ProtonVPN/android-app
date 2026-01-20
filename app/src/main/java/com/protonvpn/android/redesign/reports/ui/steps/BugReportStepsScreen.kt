@@ -22,11 +22,13 @@ package com.protonvpn.android.redesign.reports.ui.steps
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomAppBar
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -188,16 +190,16 @@ private fun BugReportStepBottomBar(
     onContactUsClick: () -> Unit,
     onSubmitReportClick: () -> Unit,
     modifier: Modifier = Modifier,
+    windowInsets: WindowInsets = BottomAppBarDefaults.windowInsets,
 ) {
     when (step) {
         BugReportViewModel.BugReportSteps.Menu -> Unit
         BugReportViewModel.BugReportSteps.Suggestions -> {
-            BottomAppBar(
-                modifier = modifier.padding(all = 16.dp),
-            ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+                    modifier = modifier.padding(all = 16.dp)
+                        .windowInsetsPadding(windowInsets),
                 ) {
                     Text(
                         text = stringResource(id = R.string.dynamic_report_suggestion_didnt_work),
@@ -210,27 +212,23 @@ private fun BugReportStepBottomBar(
                         onClick = onContactUsClick,
                     )
                 }
-            }
         }
 
         BugReportViewModel.BugReportSteps.Form -> {
             val keyboardController = LocalSoftwareKeyboardController.current
-
-            BottomAppBar(
+            VpnSolidButton(
+                text = stringResource(id = R.string.send_report),
+                isLoading = isLoading,
+                onClick = {
+                    keyboardController?.hide()
+                    onSubmitReportClick()
+                },
                 modifier = modifier
                     .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp)
+                    .windowInsetsPadding(windowInsets)
                     .imePadding(),
-            ) {
-                VpnSolidButton(
-                    text = stringResource(id = R.string.send_report),
-                    isLoading = isLoading,
-                    onClick = {
-                        keyboardController?.hide()
-
-                        onSubmitReportClick()
-                    },
-                )
-            }
+            )
         }
     }
 }
