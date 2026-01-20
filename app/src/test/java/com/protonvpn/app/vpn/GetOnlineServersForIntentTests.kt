@@ -29,6 +29,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
@@ -56,7 +57,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertFalse
 
 class GetOnlineServersForIntentTests {
 
@@ -136,35 +137,35 @@ class GetOnlineServersForIntentTests {
     fun fastestInCountryMatchesTierAndOnlineSortedByScore() = testScope.runTest {
         val profileIntent = ConnectIntent.FastestInCountry(CountryId("SE"), emptySet())
         val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, VpnUser.FREE_TIER)
-        assertEquals(listOf("SE#3", "SE#2"), result.map { it.serverName })
+        assertEquals(listOf("SE#3", "SE#2"), result.servers.map(Server::serverName))
     }
 
     @Test
     fun fastestInCityWithFeatures() = testScope.runTest {
         val profileIntent = ConnectIntent.FastestInCity(CountryId("CH"), "Zurich", setOf(ServerFeature.P2P))
         val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, vpnUser.userTier)
-        assertEquals(listOf("CH#2"), result.map { it.serverName })
+        assertEquals(listOf("CH#2"), result.servers.map(Server::serverName))
     }
 
     @Test
     fun gatewayWithProtocolOverride() = testScope.runTest {
         val profileIntent = ConnectIntent.Gateway("GT", null)
         val result = getOnlineServersForIntent(profileIntent, ProtocolSelection(VpnProtocol.WireGuard), vpnUser.userTier)
-        assertEquals(listOf("CH-GT#1", "CH-GT#2"), result.map { it.serverName })
+        assertEquals(listOf("CH-GT#1", "CH-GT#2"), result.servers.map(Server::serverName))
     }
 
     @Test
     fun secureCore() = testScope.runTest {
         val profileIntent = ConnectIntent.SecureCore(CountryId("SE"), CountryId.fastest)
         val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, vpnUser.userTier)
-        assertEquals(listOf("SE#4"), result.map { it.serverName })
+        assertEquals(listOf("SE#4"), result.servers.map(Server::serverName))
     }
 
     @Test
     fun server() = testScope.runTest {
         val profileIntent = ConnectIntent.Server("SE#2_id", CountryId("SE"), emptySet())
         val result = getOnlineServersForIntent(profileIntent, ProtocolSelection.SMART, vpnUser.userTier)
-        assertEquals(listOf("SE#2"), result.map { it.serverName })
+        assertEquals(listOf("SE#2"), result.servers.map(Server::serverName))
     }
 
     @Test
@@ -176,13 +177,13 @@ class GetOnlineServersForIntentTests {
         )
         coEvery { mockExcludedLocationsDao.observeAll(userId = vpnUser.userId.id) } returns flowOf(excludedLocationEntities)
 
-        val onlineServers = getOnlineServersForIntent(
+        val onlineServersResult = getOnlineServersForIntent(
             intent = connectIntent,
             protocolOverride = ProtocolSelection.SMART,
             maxTier = vpnUser.userTier,
         )
 
-        assertTrue(actual = onlineServers.isEmpty())
+        assertFalse(actual = onlineServersResult.hasServers)
     }
 
     @Test
@@ -194,13 +195,13 @@ class GetOnlineServersForIntentTests {
             val excludedLocationEntities = listOf(TestExcludedLocationEntity.create(countryCode = countryCode))
             coEvery { mockExcludedLocationsDao.observeAll(userId = vpnUser.userId.id) } returns flowOf(excludedLocationEntities)
 
-            val onlineServers = getOnlineServersForIntent(
+            val onlineServersResult = getOnlineServersForIntent(
                 intent = connectIntent,
                 protocolOverride = ProtocolSelection.SMART,
                 maxTier = vpnUser.userTier,
             )
 
-            assertTrue(actual = onlineServers.isEmpty(), message = "Failed for country $countryCode")
+            assertFalse(actual = onlineServersResult.hasServers, message = "Failed for country $countryCode")
         }
     }
 

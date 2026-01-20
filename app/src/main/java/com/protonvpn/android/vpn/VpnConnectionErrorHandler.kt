@@ -38,10 +38,10 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
-import com.protonvpn.android.redesign.vpn.isNotExcluded
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersResult
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -111,7 +111,7 @@ sealed class VpnFallbackResult {
         }
     }
 
-    data class AllExcluded(val connectIntent: ConnectIntent?): VpnFallbackResult()
+    data class AllExcluded(val connectIntent: ConnectIntent?) : VpnFallbackResult()
 
     data class Error(
         val originalParams: ConnectionParams,
@@ -309,8 +309,28 @@ class VpnConnectionErrorHandler @Inject constructor(
             )
         }
         val considerOriginalServer = includeOriginalServer && !isStuckOnCurrentServer
-        val candidates =
-            getCandidateServers(orgIntent, orgPhysicalServer, protocol, vpnUser, considerOriginalServer, settingsForOrgIntent)
+
+        val candidatesResult = getCandidateServersResult(
+            orgIntent = orgIntent,
+            orgPhysicalServer = orgPhysicalServer,
+            protocol = protocol,
+            vpnUser = vpnUser,
+            includeOrgServer = considerOriginalServer,
+            settingsForOrgIntent = settingsForOrgIntent,
+        )
+
+        if (!candidatesResult.hasServers && candidatesResult.hasAppliedExclusions) {
+            ProtonLogger.log(
+                event = ConnServerSwitchFailed,
+                message = "No servers available after applying location exclusions",
+            )
+
+            return VpnFallbackResult.AllExcluded(
+                connectIntent = orgParams?.connectIntent as? ConnectIntent,
+            )
+        }
+
+        val candidates = candidatesResult.physicalServers
 
         candidates.forEach {
             ProtonLogger.logCustom(
@@ -319,21 +339,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             )
         }
 
-        val candidatesAfterExclusions = observeExcludedLocations()
-            .first()
-            .let { excludedLocations ->
-                candidates.filter { physicalServer ->
-                    physicalServer.server.isNotExcluded(excludedLocations)
-                }
-            }
-
-        if (candidatesAfterExclusions.isEmpty() && candidates.isNotEmpty()) {
-            return VpnFallbackResult.AllExcluded(
-                connectIntent = orgParams?.connectIntent as? ConnectIntent,
-            )
-        }
-
-        val pingResult = vpnBackendProvider.get().pingAll(orgIntent, protocol, candidatesAfterExclusions, orgPhysicalServer) ?: run {
+        val pingResult = vpnBackendProvider.get().pingAll(orgIntent, protocol, candidates, orgPhysicalServer) ?: run {
             ProtonLogger.log(ConnServerSwitchFailed, "No server responded")
             return null
         }
@@ -397,29 +403,44 @@ class VpnConnectionErrorHandler @Inject constructor(
         return responses.firstOrNull { it.connectionParams.protocolSelection == expectedProtocol }
     }
 
-    private suspend fun getCandidateServers(
+    private suspend fun getCandidateServersResult(
         orgIntent: ConnectIntent,
         orgPhysicalServer: PhysicalServer?,
         protocol: ProtocolSelection,
         vpnUser: VpnUser?,
         includeOrgServer: Boolean,
         settingsForOrgIntent: LocalUserSettings
-    ): List<PhysicalServer> {
+    ): ServersResult.Physical {
         val candidateList = mutableListOf<PhysicalServer>()
         if (orgPhysicalServer != null && includeOrgServer)
             candidateList += orgPhysicalServer
 
         val secureCoreExpected = orgIntent.isSecureCore()
         // For profiles we allow switching only to servers compatible with its connect intent
-        val eligibleOnlineServers = if (orgIntent.profileId != null) {
-            getOnlineServersForIntent(orgIntent, settingsForOrgIntent.protocol, vpnUser?.maxTier ?: VpnUser.FREE_TIER)
+        val eligibleOnlineServersResult = if (orgIntent.profileId != null) {
+            getOnlineServersForIntent(
+                intent = orgIntent,
+                protocolOverride = settingsForOrgIntent.protocol,
+                maxTier = vpnUser?.maxTier ?: VpnUser.FREE_TIER,
+            )
         } else {
-            val gatewayName = (orgIntent as? ConnectIntent.Gateway)?.gatewayName
-            serverManager.getOnlineAccessibleServers(secureCoreExpected, gatewayName, vpnUser, protocol)
+            serverManager.getOnlineAccessibleServers(
+                secureCore = secureCoreExpected,
+                gatewayName = (orgIntent as? ConnectIntent.Gateway)?.gatewayName,
+                vpnUser = vpnUser,
+                protocol = protocol,
+                excludedLocations = observeExcludedLocations().first(),
+            )
         }
+
         val orgIsTor = orgPhysicalServer?.server?.isTor == true
         val orgEntryIp = orgPhysicalServer?.connectingDomain?.getEntryIp(protocol)
-        val scoredServers = sortServersByScore(eligibleOnlineServers, orgIntent, vpnUser).filter { candicate ->
+
+        val scoredServers = sortServersByScore(
+            servers = eligibleOnlineServersResult.servers,
+            connectIntent = orgIntent,
+            vpnUser = vpnUser,
+        ).filter { candicate ->
             val ipCondition = orgPhysicalServer == null ||
                 getConnectingDomain.online(candicate, protocol).any { domain ->
                     domain.getEntryIp(protocol) != orgEntryIp
@@ -466,16 +487,32 @@ class VpnConnectionErrorHandler @Inject constructor(
 
         // For secure core add best scoring non-secure server as a last resort fallback
         if (secureCoreExpected && orgIntent.profileId == null) {
-            sortServersByScore(serverManager.getOnlineAccessibleServers(false, null, vpnUser, protocol), orgIntent, vpnUser)
+            serverManager.getOnlineAccessibleServers(
+                secureCore = false,
+                gatewayName = null,
+                vpnUser = vpnUser,
+                protocol = protocol,
+                excludedLocations = observeExcludedLocations().first(),
+            )
+                .let { serversResult ->
+                    sortServersByScore(
+                        servers = serversResult.servers,
+                        connectIntent = orgIntent,
+                        vpnUser = vpnUser,
+                    )
+                }
                 .firstOrNull()
-                ?.let { fallbacks += it }
+                ?.also { fallbacks += it }
         }
 
-        return candidateList.take(FALLBACK_SERVERS_COUNT - fallbacks.size) + fallbacks.mapNotNull { server ->
-            getConnectingDomain.random(server, protocol)?.let {
-                PhysicalServer(server, it)
-            }
-        }
+        return ServersResult.Physical(
+            physicalServers = candidateList.take(FALLBACK_SERVERS_COUNT - fallbacks.size) + fallbacks.mapNotNull { server ->
+                getConnectingDomain.random(server, protocol)?.let { connectingDomain ->
+                    PhysicalServer(server, connectingDomain)
+                }
+            },
+            hasAppliedExclusions = eligibleOnlineServersResult.hasAppliedExclusions,
+        )
     }
 
     private inline fun scoreForCondition(value: Int, predicate: () -> Boolean): Int =

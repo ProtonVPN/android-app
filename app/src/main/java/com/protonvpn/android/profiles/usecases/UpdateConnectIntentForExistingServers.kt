@@ -22,8 +22,8 @@ package com.protonvpn.android.profiles.usecases
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersResult
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -50,7 +50,7 @@ class UpdateConnectIntentForExistingServers @Inject constructor(
                 connectIntent = connectIntent,
                 fallbackResult = false,
                 excludedLocations = observeExcludedLocations().first(),
-                onServers = Iterable<Server>::any,
+                onServersResult = ServersResult::hasServers,
             )
             if (hasAnyServers) {
                 break

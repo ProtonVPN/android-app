@@ -41,6 +41,7 @@ import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersResult
 import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.servers.api.ConnectingDomainResponse
@@ -149,12 +150,12 @@ class VpnConnectionErrorHandlerTests {
     private fun prepareServerManager(serverList: List<Server>) {
         // TODO: consider using the real ServerManager
         val servers = serverList.sortedBy { it.score }
-        coEvery { serverManager2.getOnlineAccessibleServers(false, any(), any(), any()) } returns
-            servers.filter { !it.isSecureCoreServer }
-        coEvery { serverManager2.getOnlineAccessibleServers(true, any(), any(), any()) } returns
-            servers.filter { it.isSecureCoreServer }
-        coEvery { serverManager2.getOnlineAccessibleServers(any(), any(), any(), any()) } answers {
-            servers.filter { it.gatewayName == secondArg() }
+        coEvery { serverManager2.getOnlineAccessibleServers(false, any(), any(), any(), any()) } returns
+            servers.filter { !it.isSecureCoreServer }.let(ServersResult::Regular)
+        coEvery { serverManager2.getOnlineAccessibleServers(true, any(), any(), any(), any()) } returns
+            servers.filter { it.isSecureCoreServer }.let(ServersResult::Regular)
+        coEvery { serverManager2.getOnlineAccessibleServers(any(), any(), any(), any(), any()) } answers {
+            servers.filter { it.gatewayName == secondArg() }.let(ServersResult::Regular)
         }
 
         coEvery { serverManager2.getBestServerForConnectIntent(defaultFallbackConnection, any(), any(), any()) } returns defaultFallbackServer

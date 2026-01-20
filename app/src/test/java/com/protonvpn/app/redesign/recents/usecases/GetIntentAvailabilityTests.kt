@@ -200,10 +200,16 @@ class GetIntentAvailabilityTests {
     }
 
     @Test
-    fun `GIVEN paid user AND no servers AND excluded locations WHEN getting availability THEN returns expected availability`() = testScope.runTest {
+    fun `GIVEN paid user AND available servers are excluded WHEN getting availability THEN returns expected availability`() = testScope.runTest {
         val vpnUser = userPlus
+        val countryCode = "US"
+        val servers = listOf(
+            createServer(exitCountry = countryCode),
+            createServer(exitCountry = countryCode, isSecureCore = true),
+        )
         testUserProvider.vpnUser = vpnUser
-        val excludedLocationEntities = listOf(TestExcludedLocationEntity.create())
+        serverManager.setServers(serverList = servers, statusId = null)
+        val excludedLocationEntities = listOf(TestExcludedLocationEntity.create(countryCode = countryCode))
         coEvery { mockExcludedLocationsDao.observeAll(userId = vpnUser.userId.id) } returns flowOf(excludedLocationEntities)
 
         val casesList = listOf(
@@ -218,15 +224,21 @@ class GetIntentAvailabilityTests {
     }
 
     @Test
-    fun `GIVEN free user AND no servers AND excluded locations WHEN getting availability THEN returns expected availability`() = testScope.runTest {
+    fun `GIVEN free user AND available servers are excluded locations WHEN getting availability THEN returns expected availability`() = testScope.runTest {
         val vpnUser = userFree
+        val countryCode = "US"
+        val servers = listOf(
+            createServer(exitCountry = countryCode),
+            createServer(exitCountry = countryCode, isSecureCore = true),
+        )
         testUserProvider.vpnUser = vpnUser
-        val excludedLocationEntities = listOf(TestExcludedLocationEntity.create())
+        serverManager.setServers(serverList = servers, statusId = null)
+        val excludedLocationEntities = listOf(TestExcludedLocationEntity.create(countryCode = countryCode))
         coEvery { mockExcludedLocationsDao.observeAll(userId = vpnUser.userId.id) } returns flowOf(excludedLocationEntities)
 
         val casesList = listOf(
-            createConnectIntentFastest() to ConnectIntentAvailability.NO_SERVERS,
-            createConnectIntentSecureCore() to ConnectIntentAvailability.NO_SERVERS,
+            createConnectIntentFastest() to ConnectIntentAvailability.UNAVAILABLE_PLAN,
+            createConnectIntentSecureCore() to ConnectIntentAvailability.UNAVAILABLE_PLAN,
             createConnectIntentFastestInCountry(country = CountryId(countryCode = "LT")) to ConnectIntentAvailability.NO_SERVERS,
             createConnectIntentSecureCore(exitCountryCode = "NZ") to ConnectIntentAvailability.NO_SERVERS,
             createConnectIntentGateway() to ConnectIntentAvailability.NO_SERVERS,

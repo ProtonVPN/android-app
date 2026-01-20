@@ -27,6 +27,7 @@ import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.redesign.vpn.isNotExcluded
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -127,7 +128,7 @@ class ServerManager2 @Inject constructor(
         connectIntent: AnyConnectIntent,
         fallbackResult: T,
         excludedLocations: ExcludedLocations,
-        onServers: (Iterable<Server>) -> T,
+        onServersResult: (ServersResult) -> T,
     ): T {
         serverManager.ensureLoaded()
 
@@ -135,7 +136,7 @@ class ServerManager2 @Inject constructor(
             connectIntent = connectIntent,
             fallbackResult = fallbackResult,
             excludedLocations = excludedLocations,
-            onServers = onServers,
+            onServersResult = onServersResult,
         )
     }
 
@@ -162,21 +163,45 @@ class ServerManager2 @Inject constructor(
         secureCore: Boolean,
         gatewayName: String?,
         vpnUser: VpnUser?,
-        protocol: ProtocolSelection
-    ): List<Server> {
+        protocol: ProtocolSelection,
+        excludedLocations: ExcludedLocations,
+    ): ServersResult {
         serverManager.ensureLoaded()
-        val groups = when {
+
+        var hasAppliedExclusions = false
+
+        return when {
             secureCore -> serverManager.getExitCountries(secureCore = true)
             gatewayName != null -> serversByGatewayName(gatewayName)
             else -> serverManager.getExitCountries(secureCore = false)
         }
-        return groups.asSequence().flatMap { group ->
-            group.serverList.filter {
-                it.online && vpnUser.hasAccessToServer(it) && supportsProtocol(it, protocol)
-            }.asSequence()
-        }.sortedBy { it.score }.toList()
+            .asSequence()
+            .flatMap { serverGroup ->
+                serverGroup.serverList
+                    .filter { server ->
+                        server.online &&
+                        vpnUser.hasAccessToServer(server) &&
+                        supportsProtocol(server, protocol) &&
+                        server.isNotExcluded(excludedLocations).also { isNotExcluded ->
+                            if (!isNotExcluded) {
+                                hasAppliedExclusions = true
+                            }
+                        }
+                    }
+                    .asSequence()
+            }
+            .sortedBy(Server::score)
+            .let { serversSequence ->
+                ServersResult.Regular(
+                    servers = serversSequence.toList(),
+                    hasAppliedExclusions = hasAppliedExclusions,
+                )
+            }
     }
 
-    private fun serversByGatewayName(gatewayName: String): List<GatewayGroup> =
-        serverManager.getGateways().find { it.name() == gatewayName }?.let { listOf(it) } ?: emptyList()
+    private fun serversByGatewayName(gatewayName: String): List<GatewayGroup> = serverManager.getGateways()
+        .find { gatewayGroup -> gatewayGroup.name() == gatewayName }
+        ?.let(::listOf)
+        .orEmpty()
+
 }

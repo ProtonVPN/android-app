@@ -164,11 +164,24 @@ class ServerManagerTests {
     fun testOnlineAccessibleServersSeparatesGatewaysFromRegular() = testScope.runTest {
         createServerManagers()
         val gatewayName = gatewayServer.gatewayName
-        val gatewayServers = serverManager2.getOnlineAccessibleServers(false, gatewayName, plusUser, ProtocolSelection.SMART)
-        val regularServers = serverManager2.getOnlineAccessibleServers(false, null, plusUser, ProtocolSelection.SMART)
+        val excludedLocations = observeExcludedLocations().first()
+        val gatewayServersResult = serverManager2.getOnlineAccessibleServers(
+            secureCore = false,
+            gatewayName = gatewayName,
+            vpnUser = plusUser,
+            protocol = ProtocolSelection.SMART,
+            excludedLocations = excludedLocations,
+        )
+        val regularServersResult = serverManager2.getOnlineAccessibleServers(
+            secureCore = false,
+            gatewayName = null,
+            vpnUser = plusUser,
+            protocol = ProtocolSelection.SMART,
+            excludedLocations = excludedLocations,
+        )
 
-        assertEquals(listOf(gatewayServer), gatewayServers)
-        assertFalse(regularServers.contains(gatewayServer))
+        assertEquals(listOf(gatewayServer), gatewayServersResult.servers)
+        assertFalse(regularServersResult.servers.contains(gatewayServer))
     }
 
     @Test

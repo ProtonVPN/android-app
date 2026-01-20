@@ -23,6 +23,7 @@ import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersResult
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -42,13 +43,22 @@ class GetOnlineServersForIntent @Inject constructor(
         intent: ConnectIntent,
         protocolOverride: ProtocolSelection,
         maxTier: Int,
-    ): List<Server> = serverManager2.forConnectIntent(
+    ): ServersResult = serverManager2.forConnectIntent(
         connectIntent = intent,
-        fallbackResult = emptySequence(),
+        fallbackResult = ServersResult.Regular(servers = emptyList()),
         excludedLocations = observeExcludedLocations().first(),
-        onServers = { servers -> servers.sortedBy(Server::score).asSequence() }
-    )
-        .filter { it.tier <= maxTier && it.online && supportsProtocol(it, protocolOverride) }
-        .toList()
+        onServersResult = { serversResult -> serversResult },
+    ).let { serversResult ->
+        ServersResult.Regular(
+            servers = serversResult.servers
+                .sortedBy(Server::score)
+                .asSequence()
+                .filter { server ->
+                    server.tier <= maxTier && server.online && supportsProtocol(server, protocolOverride)
+                }
+                .toList(),
+            hasAppliedExclusions = serversResult.hasAppliedExclusions,
+        )
+    }
 
 }

@@ -49,11 +49,11 @@ class GetIntentAvailability @Inject constructor(
             connectIntent = connectIntent,
             fallbackResult = ConnectIntentAvailability.NO_SERVERS,
             excludedLocations = excludedLocations,
-        ) { servers ->
-            if (servers.count() == 0 && excludedLocations.hasExclusions && connectIntent.canBeExcluded) {
+        ) { serversResult ->
+            if (!serversResult.hasServers && serversResult.hasAppliedExclusions) {
                 ConnectIntentAvailability.EXCLUDED
             } else {
-                servers.getAvailability(
+                serversResult.servers.getAvailability(
                     vpnUser = vpnUser,
                     protocol = connectIntent.settingsOverrides?.protocol ?: settingsProtocol,
                 )
