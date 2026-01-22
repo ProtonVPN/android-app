@@ -1,5 +1,6 @@
 package com.protonvpn.android.telemetry.settings
 
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -34,6 +35,7 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
     private val isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
     private val observeDefaultConnection: ObserveDefaultConnection,
     private val reviewTracker: ReviewTracker,
+    private val observerExcludedLocations: ObserveExcludedLocations,
 ) {
 
     suspend operator fun invoke(): Map<String, String> = buildMap {
@@ -164,8 +166,22 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
         )
 
         put(
-            key = "is_rating_booster_eligible",
-            value = reviewTracker.isOrWasEligibleToday()?.toTelemetry() ?: CommonDimensions.NO_VALUE
+            key = DIMENSION_IS_RATING_BOOSTER_ELIGIBLE,
+            value = reviewTracker.isOrWasEligibleToday()?.toTelemetry() ?: CommonDimensions.NO_VALUE,
+        )
+
+        val excludedLocations = observerExcludedLocations().first()
+
+        put(
+            key = DIMENSION_EXCLUDED_COUNTRIES_COUNT,
+            value = excludedLocations.countryExclusionsCount.toExcludedLocationsCountBucketString(),
+        )
+
+        put(
+            key = DIMENSION_EXCLUDED_CITIES_AND_STATES_COUNT,
+            value = excludedLocations.cityExclusionsCount
+                .plus(excludedLocations.stateExclusionsCount)
+                .toExcludedLocationsCountBucketString(),
         )
 
         commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
@@ -240,6 +256,15 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
         else -> ">=20"
     }
 
+    private fun Int.toExcludedLocationsCountBucketString() = when {
+        this == 0 -> "0"
+        this == 1 -> "1"
+        this <= 5 -> "2-5"
+        this <= 10 -> "6-10"
+        this <= 20 -> "11-20"
+        else -> ">=21"
+    }
+
     private companion object {
         private const val DIMENSION_APP_ICON = "app_icon"
         private const val DIMENSION_AUTO_CONNECT_ENABLED = "is_auto_connect_enabled"
@@ -259,6 +284,9 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
         private const val DIMENSION_SPLIT_TUNNELING_MODE = "split_tunneling_mode"
         private const val DIMENSION_SPLIT_TUNNELING_APPS_COUNT = "split_tunneling_apps_count"
         private const val DIMENSION_SPLIT_TUNNELING_IPS_COUNT = "split_tunneling_ips_count"
+        private const val DIMENSION_IS_RATING_BOOSTER_ELIGIBLE = "is_rating_booster_eligible"
+        private const val DIMENSION_EXCLUDED_COUNTRIES_COUNT = "excluded_countries_count"
+        private const val DIMENSION_EXCLUDED_CITIES_AND_STATES_COUNT = "excluded_cities_count"
     }
 
 }

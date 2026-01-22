@@ -1,5 +1,8 @@
 package com.protonvpn.app.telemetry.settings
 
+import com.protonvpn.android.excludedlocations.ExcludedLocations
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationType
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.settings.data.CustomDnsSettings
@@ -18,6 +21,7 @@ import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.android.widget.WidgetType
 import com.protonvpn.android.widget.data.WidgetTracker
+import com.protonvpn.app.excludedlocations.TestExcludedLocation
 import com.protonvpn.mocks.FakeCommonDimensions
 import com.protonvpn.mocks.FakeGetTruncationMustHaveIDs
 import io.mockk.MockKAnnotations
@@ -29,6 +33,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -53,6 +58,9 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
 
     @MockK
     private lateinit var mockReviewTracker: ReviewTracker
+
+    @MockK
+    private lateinit var mockObserveExcludedLocations: ObserveExcludedLocations
 
     @MockK
     private lateinit var mockWidgetTracker: WidgetTracker
@@ -99,6 +107,7 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             widgetTracker = mockWidgetTracker,
             isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
             reviewTracker = mockReviewTracker,
+            observerExcludedLocations = mockObserveExcludedLocations,
         )
 
         every { mockAppIconManager.getCurrentIconData() } returns CustomAppIconData.DEFAULT
@@ -107,6 +116,7 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
         coEvery { mockReviewTracker.isOrWasEligibleToday() } returns false
         every { mockWidgetTracker.widgetCount } returns MutableStateFlow(0)
         coEvery { mockWidgetTracker.firstWidgetType() } returns null
+        every { mockObserveExcludedLocations() } returns flowOf(ExcludedLocations(allLocations = emptyList()))
     }
 
     @After
@@ -503,6 +513,98 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
                     assertEquals(expectedDimensionValue, dimensions[dimension])
                 }
             }
+        }
+    }
+
+    @Test
+    fun `GIVEN no country in excluded locations WHEN providing dimensions THEN excluded countries dimension is set`() = testScope.runTest {
+        val dimension = "excluded_countries_count"
+        val excludedLocation = TestExcludedLocation.create(type = ExcludedLocationType.City)
+        val excludedLocations = ExcludedLocations(allLocations = listOf(excludedLocation))
+        val expectedDimensionValue = "0"
+        every { mockObserveExcludedLocations() } returns flowOf(value = excludedLocations)
+
+        val dimensions = getSettingsTelemetryHeartbeatDimensions()
+
+        assertEquals(expectedDimensionValue, dimensions[dimension])
+    }
+
+    @Test
+    fun `GIVEN country excluded locations WHEN providing dimensions THEN excluded countries dimension is set`() = testScope.runTest {
+        val dimension = "excluded_countries_count"
+        val bucketTopLimit = 21
+        val excludedLocations = buildList {
+            repeat(times = bucketTopLimit) { id ->
+                add(TestExcludedLocation.create(id = id.toLong(), type = ExcludedLocationType.Country))
+            }
+        }
+
+        listOf(
+            0 to "0",
+            1 to "1",
+            2 to "2-5",
+            5 to "2-5",
+            6 to "6-10",
+            10 to "6-10",
+            11 to "11-20",
+            20 to "11-20",
+            21 to ">=21",
+        ).forEach { (countriesAmount, expectedDimensionValue) ->
+            val excludedLocations = ExcludedLocations(allLocations = excludedLocations.take(countriesAmount))
+            every { mockObserveExcludedLocations() } returns flowOf(value = excludedLocations)
+
+            val dimensions = getSettingsTelemetryHeartbeatDimensions()
+
+            assertEquals(expectedDimensionValue, dimensions[dimension])
+        }
+    }
+
+    @Test
+    fun `GIVEN no city nor state in excluded locations WHEN providing dimensions THEN excluded countries dimension is set`() = testScope.runTest {
+        val dimension = "excluded_cities_count"
+        val excludedLocation = TestExcludedLocation.create(type = ExcludedLocationType.Country)
+        val excludedLocations = ExcludedLocations(allLocations = listOf(excludedLocation))
+        val expectedDimensionValue = "0"
+        every { mockObserveExcludedLocations() } returns flowOf(value = excludedLocations)
+
+        val dimensions = getSettingsTelemetryHeartbeatDimensions()
+
+        assertEquals(expectedDimensionValue, dimensions[dimension])
+    }
+
+    @Test
+    fun `GIVEN city and state excluded locations WHEN providing dimensions THEN excluded cities dimension is set`() = testScope.runTest {
+        val dimension = "excluded_cities_count"
+        val bucketTopLimit = 21
+        val excludedLocations = buildList {
+            repeat(times = bucketTopLimit) { id ->
+                val excludedLocationType = if (id % 2 == 0) {
+                    ExcludedLocationType.City
+                } else {
+                    ExcludedLocationType.State
+                }
+
+                add(TestExcludedLocation.create(id = id.toLong(), type = excludedLocationType))
+            }
+        }
+
+        listOf(
+            0 to "0",
+            1 to "1",
+            2 to "2-5",
+            5 to "2-5",
+            6 to "6-10",
+            10 to "6-10",
+            11 to "11-20",
+            20 to "11-20",
+            21 to ">=21",
+        ).forEach { (countriesAmount, expectedDimensionValue) ->
+            val excludedLocations = ExcludedLocations(allLocations = excludedLocations.take(countriesAmount))
+            every { mockObserveExcludedLocations() } returns flowOf(value = excludedLocations)
+
+            val dimensions = getSettingsTelemetryHeartbeatDimensions()
+
+            assertEquals(expectedDimensionValue, dimensions[dimension])
         }
     }
 
