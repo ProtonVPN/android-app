@@ -19,7 +19,7 @@
  *
  */
 
-package com.protonvpn.android.release_tests.robots
+package com.protonvpn.android.ui_automator_test_util.robots
 
 import me.proton.test.fusion.Fusion.byObject
 

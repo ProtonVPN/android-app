@@ -80,6 +80,7 @@ android {
 }
 
 dependencies {
+    implementation project(":ui_automator_test_util")
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
     implementation 'androidx.test.ext:junit:1.2.1'

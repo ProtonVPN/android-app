@@ -25,13 +25,13 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.protonvpn.android.release_tests.BuildConfig
 import com.protonvpn.android.release_tests.data.LokiConfig
-import com.protonvpn.android.release_tests.data.TestConstants
-import com.protonvpn.android.release_tests.robots.CountriesRobot
-import com.protonvpn.android.release_tests.robots.HomeRobot
-import com.protonvpn.android.release_tests.robots.LoginRobot
 import com.protonvpn.android.release_tests.rules.LaunchVpnAppRule
 import com.protonvpn.android.release_tests.rules.ProtonPermissionsRule
 import com.protonvpn.android.release_tests.rules.ScreenshotTakingRule
+import com.protonvpn.android.ui_automator_test_util.data.TestConstants
+import com.protonvpn.android.ui_automator_test_util.robots.CountriesRobot
+import com.protonvpn.android.ui_automator_test_util.robots.HomeRobot
+import com.protonvpn.android.ui_automator_test_util.robots.LoginRobot
 import me.proton.core.test.performance.MeasurementProfile
 import me.proton.core.test.performance.MeasurementRule
 import me.proton.core.test.performance.annotation.Measure

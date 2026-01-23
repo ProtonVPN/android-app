@@ -452,8 +452,11 @@ sentry {
     includeProguardMapping = true
     uploadNativeSymbols = true
     ignoredBuildTypes = ["debug"]
-    // It would be best to set only the single dimension "openSource" but it doesn't work this way.
-    ignoredFlavors = ["productionVanillaOpenSource"]
+    // It would be best to set only the single dimension:
+    // - "openSource"
+    // - "dev"
+    // but full product flavors need to be supplied.
+    ignoredFlavors = ["productionVanillaOpenSource", "productionGoogleDevRelease"]
 
     // We don't want the sentry plugin to add anything to our builds:
     tracingInstrumentation { enabled = false }

@@ -58,3 +58,4 @@ buildCache {
 }
 include(":release_tests")
 include(":baselineprofile")
+include(":ui_automator_test_util")

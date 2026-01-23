@@ -28,7 +28,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
-import com.protonvpn.android.release_tests.data.TestConstants
+import com.protonvpn.android.ui_automator_test_util.data.TestConstants
 import org.junit.Assert
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
