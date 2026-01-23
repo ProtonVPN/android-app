@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Probíhá údržba</string>
     <string name="restrictedMaintenanceDescription">Server, ke kterému se aktuálně pokoušíte připojit, je v údržbě. Zkuste prosím jiný server.</string>
+    <string name="restricted_location_excluded_dialog_title">Připojení selhalo</string>
+    <string name="restricted_location_excluded_dialog_description">Žádné dostupné servery. Vyberte umístění ručně nebo upravte vyloučená umístění.</string>
     <string name="errorUserDelinquent"><![CDATA[Váš účet má aktuálně fakturu po splatnosti. Zaplaťte prosím všechny nezaplacené faktury na&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Dosáhli jste maximálního počtu souběžných připojení povolených pro váš účet. Pro zvýšení počtu připojení prosíme přejděte na vyšší Proton VPN tarif.</string>
     <string name="listItemMaintenance">Probíhá údržba</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Kopírovat</string>
     <string name="copied_to_clipboard">Zkopírováno do schránky</string>
     <string name="got_it">Rozumím</string>
+    <string name="excluded_locations">Vyloučená umístění</string>
     <string name="something_went_wrong">Něco se pokazilo</string>
     <string name="try_again">Zkuste to znovu</string>
     <string name="delete">Odstranit</string>
@@ -1082,6 +1085,7 @@
     <string name="message_server_in_maintenance">Na serveru probíhá údržba</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server je nedostupný</string>
+    <string name="message_server_location_excluded">Umístění serveru vyloučeno</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Na bráně probíhá údržba</string>
     <!-- tag(Redesign_2023) -->
@@ -1486,9 +1490,6 @@
     <string name="settings_protocol_smart_protun_description">Automaticky vybere nejlepší protokol pro vaše připojení [experimentální].</string>
     <string name="settings_protocol_wireguard_udp_description">Nejmodernější protokol pro zabezpečení a výkon.</string>
     <string name="settings_protocol_wireguard_tcp_description">Nejmodernější protokol pro zabezpečení a výkon.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Zavedený, dobře otestovaný a bezpečný. Oproti jiným protokolům je OpenVPN méně energeticky úsporný.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Zavedený, dobře otestovaný a bezpečný. OpenVPN je spolehlivý ve špatných síťových podmínkách, ale nemusí být tak rychlý jako jiné protokoly.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Překonává blokování VPN tím, že skrývá připojení VPN před cenzory. Tento protokol je odolný proti DPI (hloubkové kontrole paketů), ale nemusí být tak rychlý jako jiné protokoly. Stealth je exkluzivní pro Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1604,6 +1605,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Vámi vybraný server pro %1$s je nedostupný. Vyberte si jiný server a nebo zkuste akci opakovat později.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Vámi vybraný server pro <b>%1$s</b> je nedostupný. Vyberte jiný server, zkontrolujte vyloučená umístění nebo to zkuste znovu později.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ikona %1$d</string>
@@ -1674,5 +1676,5 @@
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Pokračovat s OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Zapnout Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Protokoly Proton</string>
-    <string name="settings_protocol_proton_protocols_description">Použijte vlastní implementaci protokolu WireGuard v Proton VPN. Jedná se o experimentální funkci, takže se můžete setkat s určitou nestabilitou.</string>
+    <string name="settings_protocol_proton_protocols_description">Použijte vlastní implementaci VPN protokolu WireGuard od Proton. Jedná se o experimentální funkci, takže můžete zaznamenat určitou nestabilitu.</string>
 </resources>

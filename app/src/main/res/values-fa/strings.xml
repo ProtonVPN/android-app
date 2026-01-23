@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">تحت عملیات نگهداری</string>
     <string name="restrictedMaintenanceDescription">سروری که می‌خواهید به آن متصل شوید، در دست تعمیر است لطفاً سرور دیگری را انتخاب کنید.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.]]></string>
     <string name="errorMaxSessions">شما به حداکثر تعداد اتصالات همزمان مجاز برای حساب کاربری خود رسیده‌اید. لطفاً برای افزایش تعداد اتصالات، طرح Proton VPN خود را ارتقا دهید.</string>
     <string name="listItemMaintenance">تحت عملیات نگهداری</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">کپی</string>
     <string name="copied_to_clipboard">کپی شد</string>
     <string name="got_it">فهمیدم</string>
+    <string name="excluded_locations">Excluded locations</string>
     <string name="something_went_wrong">مشکلی پیش آمد</string>
     <string name="try_again">تلاش دوباره</string>
     <string name="delete">حذف</string>
@@ -1032,6 +1035,7 @@
     <string name="message_server_in_maintenance">سرور در دست تعمیر است</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server not available</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
     <!-- tag(Redesign_2023) -->
@@ -1414,9 +1418,6 @@
     <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
     <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">پا بر جا، آزمایش شده و امن. OpenVPN در مصرف باتری به خوبی بعضی پروتکل‌های دیگر عمل نمی‌کند.</string>
-    <string name="settings_protocol_openvpn_tcp_description">پا بر جا، آزمایش شده و امن. OpenVPN در شرایط نابه‌سامان شبکه‌ای قابل اطمینان است، ولی به سرعت پروتکل‌های دیگر نمی‌رسد.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1532,6 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Icon %1$d</string>

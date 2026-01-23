@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">На тэхнічным абслугоўванні</string>
     <string name="restrictedMaintenanceDescription">Сервер, да якога вы спрабуеце падключыцца ў дадзены момант, знаходзіцца на тэхнічным абслугоўванні. Выберыце іншы сервер.</string>
+    <string name="restricted_location_excluded_dialog_title">Збой падключэння</string>
+    <string name="restricted_location_excluded_dialog_description">Серверы недаступны. Выберыце месцазнаходжанне ўручную або адрэдагуйце выключаныя месцазнаходжанні.</string>
     <string name="errorUserDelinquent"><![CDATA[Ваш уліковы запіс мае пратэрмінаваны рахунак. Аплаціце ўсе неаплачаныя рахункі на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Вы дасягнулі максімальнай колькасці адначасовых падключэнняў, якія дазволены на вашым уліковым запісе. Палепшыце свой тарыфны план Proton VPN для атрымання большай колькасці адначасовых падключэнняў.</string>
     <string name="listItemMaintenance">На тэхнічным абслугоўванні</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Капіяваць</string>
     <string name="copied_to_clipboard">Скапіявана ў буфер абмену</string>
     <string name="got_it">Зразумела</string>
+    <string name="excluded_locations">Выключаныя месцазнаходжанні</string>
     <string name="something_went_wrong">Нешта пайшло не так</string>
     <string name="try_again">Паспрабаваць яшчэ раз</string>
     <string name="delete">Выдаліць</string>
@@ -135,7 +138,7 @@
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">НОВАЕ</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
-    <string name="settings_beta_label_badge">BETA</string>
+    <string name="settings_beta_label_badge">БЭТА</string>
     <string name="settingsExcludedIPAddressesListHeader">Выключаныя IP-адрасы (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Уключаючы IP-адрасы (%1$d)</string>
     <string name="settingsExcludedApps">Выключаныя праграмы</string>
@@ -1082,6 +1085,7 @@
     <string name="message_server_in_maintenance">Сервер на тэхнічным абслугоўванні</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Сервер недаступны</string>
+    <string name="message_server_location_excluded">Месцазнаходжанне сервера выключана</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Шлюз на тэхнічным абслугоўванні</string>
     <!-- tag(Redesign_2023) -->
@@ -1483,17 +1487,14 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Аўтаматычна выбірае лепшы пратакол для вашага падключэння.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
+    <string name="settings_protocol_smart_protun_description">Аўтаматычна выбірае лепшы пратакол для вашага падключэння [эксперыментальна].</string>
     <string name="settings_protocol_wireguard_udp_description">Перадавы пратакол для бяспекі і прадукцыйнасці.</string>
     <string name="settings_protocol_wireguard_tcp_description">Перадавы пратакол для бяспекі і прадукцыйнасці.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Правераны, добра пратэсціраваны і бяспечны. OpenVPN менш эфектыўна выкарыстоўвае акумулятар у параўнанні з іншымі пратаколамі.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Правераны, добра пратэсціраваны і бяспечны. OpenVPN надзейна працуе нават у сетках з дрэнным злучэннем, але можа быць менш хуткім за іншыя пратаколы.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Пераадольвае блакіроўкі VPN хаваючы ваша падключэнне па VPN ад рэгулятара. Гэты пратакол устойлівы да тэхналогіі DPI (deep packet inspection), але можа саступаць іншым пратаколам па хуткасці перадачы даных. Stealth з\'яўляецца эксклюзіўным пратаколам Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Рэкамендавана</string>
-    <string name="settings_protocol_badge_experimental">Experimental</string>
+    <string name="settings_protocol_badge_experimental">Эксперыментальны</string>
     <string name="settings_split_tunneling_mode_title">Рэжым</string>
     <string name="settings_split_tunneling_mode_standard">Выключыць</string>
     <string name="settings_split_tunneling_mode_inverse">Уключыць</string>
@@ -1604,6 +1605,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Выбраны вамі сервер для %1$s у цяперашні час недаступны. Выберыце іншы сервер або паспрабуйце яшчэ раз пазней.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Выбраны вамі сервер для <b>%1$s</b> недаступны. Выберыце іншы сервер, праверце свае выключаныя месцазнаходжанні або паспрабуйце пазней.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Значок %1$d</string>
@@ -1673,6 +1675,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Гэты пратакол неўзабаве будзе выдалены, бо ў цяперашні час аддаецца перавага больш хуткім і бяспечным тэхналогіям. Рэкамендуецца пераключыцца на Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Працягнуць з OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Уключыць пратакол Smart</string>
-    <string name="settings_protocol_proton_protocols">Proton protocols</string>
-    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
+    <string name="settings_protocol_proton_protocols">Пратаколы Proton</string>
+    <string name="settings_protocol_proton_protocols_description">Выкарыстоўвайце ўласную рэалізацыю WireGuard ад Proton VPN. Гэта эксперыментальная функцыя, таму вы можаце сутыкнуцца з некаторай нестабільнасцю.</string>
 </resources>

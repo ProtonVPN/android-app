@@ -138,7 +138,7 @@ def preferencesKey = System.getenv("DEPRECATED_PREF_KEY") ?: "Key"
 def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath') ? serviceAccountFilePath : "service_account.json"
 def testAccountPassword = System.getenv("TEST_ACCOUNT_PASS") ?: project.hasProperty('testAccountPassword') ? testAccountPassword : "Pass"
 def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
-def supportedLocales = ['b+es+419', 'be', 'ca', 'cs', 'da', 'de', 'el', 'en', 'es-rES', 'es-rMX', 'fa', 'fi', 'fr', 'hu', 'in', 'it', 'ja', 'ka', 'ko', 'nb-rNO', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'sk', 'sl', 'sv-rSE', 'tr', 'uk', 'zh-rCN', 'zh-rTW']
+def supportedLocales = ['ar', 'b+es+419', 'be', 'ca', 'cs', 'da', 'de', 'el', 'en', 'es-rES', 'es-rMX', 'fa', 'fi', 'fr', 'hu', 'in', 'it', 'ja', 'ka', 'ko', 'nb-rNO', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'sk', 'sl', 'sv-rSE', 'tr', 'uk', 'zh-rCN', 'zh-rTW']
 def helpers = new Helpers(rootDir, providers)
 def debugKeystorePath = System.getenv("DEBUG_KEYSTORE_FILE")
 

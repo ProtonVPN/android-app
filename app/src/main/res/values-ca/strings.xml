@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">En manteniment</string>
     <string name="restrictedMaintenanceDescription">El servidor al qual intenteu connectar-vos està en manteniment. Proveu amb un altre servidor.</string>
+    <string name="restricted_location_excluded_dialog_title">Ha fallat la connexió</string>
+    <string name="restricted_location_excluded_dialog_description">No s\'han trobat servidors. Trieu una ubicació manualment o editeu les vostres ubicacions excloses.</string>
     <string name="errorUserDelinquent"><![CDATA[El vostre compte té actualment una factura vençuda. Pagueu totes les factures impagades en &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Heu arribat al nombre màxim de connexions permès per al vostre compte. Milloreu el vostre pla de Proton VPN per a obtenir més connexions.</string>
     <string name="listItemMaintenance">En manteniment</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Copia</string>
     <string name="copied_to_clipboard">S\'ha copiat al porta-retalls.</string>
     <string name="got_it">Ho heu aconseguit</string>
+    <string name="excluded_locations">Ubicacions excloses</string>
     <string name="something_went_wrong">Alguna cosa ha anat malament.</string>
     <string name="try_again">Torna-ho a provar</string>
     <string name="delete">Elimina</string>
@@ -641,7 +644,7 @@
     <string name="settings_excluded_locations_accessibility_label_deletion">Elimineu-ho de les ubicacions excloses</string>
     <string name="settings_excluded_locations_accessibility_label_city">Ciutat</string>
     <string name="settings_excluded_locations_accessibility_label_country">País</string>
-    <string name="settings_excluded_locations_accessibility_label_state">Província</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Estat</string>
     <string name="settings_last_connection_title">Última connexió</string>
     <string name="settings_last_connection_description">La vostra connexió utilitzada més recentment</string>
     <string name="settings_change_icon_title">Icona de l\'aplicació</string>
@@ -1032,6 +1035,7 @@
     <string name="message_server_in_maintenance">Servidor en manteniment</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">El servidor no està disponible.</string>
+    <string name="message_server_location_excluded">Ubicació del servidor exclosa</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">La passarel·la està en manteniment.</string>
     <!-- tag(Redesign_2023) -->
@@ -1170,7 +1174,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">Ciutat</string>
     <!-- Label for server location "state", as a state of the USA. -->
-    <string name="connection_details_state">Província</string>
+    <string name="connection_details_state">Estat</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1414,9 +1418,6 @@
     <string name="settings_protocol_smart_protun_description">Selecciona automàticament el millor protocol per a la vostra connexió [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Protocol d\'última generació en seguretat i rendiment.</string>
     <string name="settings_protocol_wireguard_tcp_description">Protocol d\'última generació en seguretat i rendiment.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Establert, ben provat i segur. L\'OpenVPN és menys eficient en bateria que altres protocols.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Establert, ben provat i segur. OpenVPN és fiable en males condicions de xarxa, però pot no ser tan ràpid com altres protocols.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Supera els bloquejos de VPN en ocultar la connexió VPN dels censors. Aquest protocol és resistent a la DPI (inspecció profunda de paquets), però podria no ser tan ràpid com altres protocols. Stealth és exclusiu de Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1532,6 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">La selecció de servidor per a %1$s no està disponible. Seleccioneu un altre servidor o torneu-ho a provar més tard.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[La vostra selecció de servidor per <b>%1$s</b> no està disponible. Seleccioneu-ne un altre, comproveu les vostres ubicacions excloses o torneu-ho a intentar més tard.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Icona %1$d</string>

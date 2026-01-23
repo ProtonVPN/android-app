@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">維護中</string>
     <string name="restrictedMaintenanceDescription">您目前嘗試連接的伺服器，現正維護中。請試著連接另一臺伺服器。</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[您的帳號目前有繳款單逾期未付。請到&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> 結清所有未付繳款單]]></string>
     <string name="errorMaxSessions">您的帳號已用鑿同時連線上限額度。請升級您的 Proton VPN 方案即可享有更多連線數。</string>
     <string name="listItemMaintenance">維護中</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">複製</string>
     <string name="copied_to_clipboard">已複製到剪貼簿</string>
     <string name="got_it">了解</string>
+    <string name="excluded_locations">Excluded locations</string>
     <string name="something_went_wrong">出了點問題</string>
     <string name="try_again">再試一次</string>
     <string name="delete">刪除</string>
@@ -1007,6 +1010,7 @@
     <string name="message_server_in_maintenance">伺服器維護中</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">伺服器不適用</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">閘道維護中</string>
     <!-- tag(Redesign_2023) -->
@@ -1378,9 +1382,6 @@
     <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">最先進的通訊協定，兼顧安全性和效能。</string>
     <string name="settings_protocol_wireguard_tcp_description">最先進的通訊協定，兼顧安全性和效能。</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">穩定、經過完善測試且安全的。OpenVPN 消耗較多的電力。</string>
-    <string name="settings_protocol_openvpn_tcp_description">穩定、經過完善測試且安全的。OpenVPN 在網路狀況不佳時依然可靠，但可能不如其他通訊協定快速。</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">克服虛擬私有網路封鎖，方法是隱藏您的虛擬私有網路連線避免審查。此協定可抵抗 DPI (深度封包檢測)，但速度可能不及其他協定。Stealth 是 Proton VPN 獨家提供的。</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1496,6 +1497,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">您就 %1$s 選取的伺服器無法使用。請選擇另一個伺服器，又或者稍後再試。</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">圖示 %1$d</string>

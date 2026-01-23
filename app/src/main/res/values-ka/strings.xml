@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">შესაკეთებლადაა</string>
     <string name="restrictedMaintenanceDescription">სერვერი, რომელთანაც მიერთებას ცდილობთ, ტექმომსახურებაშია. სხვა სერვერი სცადეთ.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[თქვენს ანგარიშში ნაპოვნია გადაცილებული ინვოისი. მისი გადახდა შეგიძლიათ მისამართზე &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">მიაღწიეთ თქვენი ანგარიშისთვის დაშვებული შეერთებების მაქსიმალურ რიცხვს. მეტი მიერთების მისაღებად განაახლეთ სატარიფო გეგმა.</string>
     <string name="listItemMaintenance">შესაკეთებლადაა</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">კოპირება</string>
     <string name="copied_to_clipboard">დაკოპირდა გაცვლის ბუფერში</string>
     <string name="got_it">გავიგე</string>
+    <string name="excluded_locations">Excluded locations</string>
     <string name="something_went_wrong">რაღაც არასწორად წავიდა</string>
     <string name="try_again">კიდევ ცდა</string>
     <string name="delete">წაშლა</string>
@@ -1032,6 +1035,7 @@
     <string name="message_server_in_maintenance">სერვერი ტექმომსახურებაშია</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">სერვერი მიუწვდომელია</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">რაუტერი ტექმომსახურებაშია</string>
     <!-- tag(Redesign_2023) -->
@@ -1414,9 +1418,6 @@
     <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">ხელოვნების ნიმუში უსაფრთხოებისა და წარმადობისთვის და არა პროტოკოლი.</string>
     <string name="settings_protocol_wireguard_tcp_description">ხელოვნების ნიმუში უსაფრთხოებისა და წარმადობისთვის და არა პროტოკოლი.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">ცნობილი, დატესტილი და დაცული. OpenVPN ნაკლებად მეგობრობს ელემენტთან, ვიდრე სხვა პროტოკოლები.</string>
-    <string name="settings_protocol_openvpn_tcp_description">გამოცდილი, დატესტილი და დაცული. OpenVPN სანდოა ნელი ქსელის პირობებში, მაგრამ ის ისეთი სწრაფი არაა, როგორც სხვა პროტოკოლები.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">თავიდან აიცილებს VPN ბლოკებს თქვენი VPN მიერთების ცენსზორებისგან დამალვით. ეს პროტოკოლ DPI-სგან (პაკეტები ღრმა ინსპექცია) დაცულია, მაგრამ შეიძლება, სხვა პროტოკოლებისნაირი ჩქარი არ იყოს. ფუნქცია \'Stealth\' Proton VPN-ის ექსკლუზიურ ფუნქციას წარმოადგენს.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1532,6 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">თქვენი სერვერის არჩევანი %1$s-სთვის ხელმიუწვდომელია. აირჩიეთ სხვა სერვერი, ან მოგვიანებით სცადეთ.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">ხატულა %1$d</string>

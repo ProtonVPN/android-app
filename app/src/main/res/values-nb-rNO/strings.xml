@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Under vedlikehold</string>
     <string name="restrictedMaintenanceDescription">Tjeneren du prøver å koble til, er under vedlikehold. Prøv en annen tjener.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[Kontoen din har for øyeblikket en forfalt faktura. Betal alle ubetalte fakturaer på &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Du har truffet maksimalt antall samtidige tilkoblinger som er tillatt for kontoen din. Oppgrader Proton VPN-planen din for å få flere tilkoblinger.</string>
     <string name="listItemMaintenance">Under vedlikehold</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Kopier</string>
     <string name="copied_to_clipboard">Kopiert til utklippstavlen</string>
     <string name="got_it">Skjønner</string>
+    <string name="excluded_locations">Excluded locations</string>
     <string name="something_went_wrong">Noe gikk galt</string>
     <string name="try_again">Prøv igjen</string>
     <string name="delete">Slett</string>
@@ -1032,6 +1035,7 @@
     <string name="message_server_in_maintenance">Tjeneren blir vedlikeholdt</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Tjener ikke tilgjengelig</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Porttjener blir vedlikeholdt</string>
     <!-- tag(Redesign_2023) -->
@@ -1411,17 +1415,14 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Velger automatisk den beste protokollen for tilkoblingen din.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
+    <string name="settings_protocol_smart_protun_description">Velger automatisk den beste protokollen for tilkoblingen din [eksperimentell].</string>
     <string name="settings_protocol_wireguard_udp_description">Toppmoderne protokoll for sikkerhet og ytelse.</string>
     <string name="settings_protocol_wireguard_tcp_description">Toppmoderne protokoll for sikkerhet og ytelse.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Etablert, godt testet og sikker. OpenVPN er mindre batterieffektiv enn noen andre protokoller.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Etablert, godt testet og sikker. OpenVPN er pålitelig under dårlige nettverksforhold, men er kanskje ikke like rask som andre protokoller.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overvinner VPN-blokkeringer ved å skjule VPN-tilkoblingen din fra sensorer. Denne protokollen er DPI (dyp pakkeinspeksjon) motstandsdyktig, men er kanskje ikke så rask som andre protokoller. Stealth er eksklusivt for Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Anbefalt</string>
-    <string name="settings_protocol_badge_experimental">Experimental</string>
+    <string name="settings_protocol_badge_experimental">Eksperimentell</string>
     <string name="settings_split_tunneling_mode_title">Modus</string>
     <string name="settings_split_tunneling_mode_standard">Ekskluder</string>
     <string name="settings_split_tunneling_mode_inverse">Inkluder</string>
@@ -1532,6 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Tjenervalget ditt for %1$s er ikke tilgjengelig. Velg en annen tjener eller prøv igjen senere.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ikon %1$d</string>
@@ -1601,6 +1603,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Denne protokollen vil bli fjernet snart ettersom vi fokuserer på raskere og sikrere teknologier. Vi anbefaler å bytte til Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Fortsett med OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Aktiver Smart Protocol</string>
-    <string name="settings_protocol_proton_protocols">Proton protocols</string>
-    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
+    <string name="settings_protocol_proton_protocols">Proton-protokoller</string>
+    <string name="settings_protocol_proton_protocols_description">Bruk Protons egen implementering av WireGuard. Dette er en eksperimentell funksjon, så du kan oppleve en viss ustabilitet.</string>
 </resources>

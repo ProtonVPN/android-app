@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Im Wartungsmodus</string>
     <string name="restrictedMaintenanceDescription">Der Server, mit dem du dich versuchst zu verbinden, ist zurzeit im Wartungsmodus. Bitte versuche es mit einem anderen Server.</string>
+    <string name="restricted_location_excluded_dialog_title">Verbindung fehlgeschlagen</string>
+    <string name="restricted_location_excluded_dialog_description">Keine Server verfügbar. Wählen Sie manuell einen Standort aus oder bearbeiten Sie Ihre ausgeschlossenen Standorte.</string>
     <string name="errorUserDelinquent"><![CDATA[Dein Konto enthält derzeit eine überfällige Rechnung. Bitte begleiche alle unbezahlten Rechnungen unter&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Du hast das Maximum an gleichzeitigen Verbindungen für dein Konto erreicht. Führe ein Upgrade deines Proton VPN‐Abonnements durch, um zusätzliche Verbindungen zu erhalten.</string>
     <string name="listItemMaintenance">Im Wartungsmodus</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Kopieren</string>
     <string name="copied_to_clipboard">In Zwischenablage kopiert</string>
     <string name="got_it">Verstanden</string>
+    <string name="excluded_locations">Ausgeschlossene Standorte</string>
     <string name="something_went_wrong">Etwas ist schief gelaufen</string>
     <string name="try_again">Erneut versuchen</string>
     <string name="delete">Löschen</string>
@@ -1032,6 +1035,7 @@
     <string name="message_server_in_maintenance">Server wird gewartet</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server nicht verfügbar</string>
+    <string name="message_server_location_excluded">Serverstandort ausgeschlossen</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway wird gewartet</string>
     <!-- tag(Redesign_2023) -->
@@ -1414,9 +1418,6 @@
     <string name="settings_protocol_smart_protun_description">Wählt automatisch das beste Protokoll für deine Verbindung aus [experimentell].</string>
     <string name="settings_protocol_wireguard_udp_description">Hochmodernes Protokoll für Sicherheit und Leistung.</string>
     <string name="settings_protocol_wireguard_tcp_description">Hochmodernes Protokoll für Sicherheit und Leistung.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Bewährt, gut getestet und sicher. OpenVPN ist weniger Akku-effizient als einige andere Protokolle.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Bewährt, gut getestet und sicher. OpenVPN ist bei schlechten Netzwerkbedingungen zuverlässig, aber möglicherweise nicht so schnell wie andere Protokolle.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Umgeht VPN-Sperren, indem es deine VPN-Verbindung vor Zensoren versteckt. Dieses Protokoll ist resistent gegen DPI (Deep Packet Inspection), ist aber möglicherweise nicht so schnell wie andere Protokolle. Stealth gibt es nur bei Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1532,6 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Der Server, den du für %1$s ausgewählt hast, ist derzeit nicht verfügbar. Wähle einen anderen Server oder versuche es später erneut.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Die von dir ausgewählte Serverauswahl für <b>%1$s</b> ist nicht verfügbar. Wähle einen anderen Server, überprüfe deine ausgeschlossenen Standorte oder versuche es später erneut.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Symbol %1$d</string>

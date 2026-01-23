@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Em manutenção</string>
     <string name="restrictedMaintenanceDescription">O servidor a que se está a tentar ligar está em manutenção. Tente outro servidor.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[A sua conta tem atualmente uma fatura em atraso. Pague todas as faturas não liquidadas em&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Atingiu o máximo de ligações simultâneas permitidas na sua conta. Atualize a sua subscrição Proton VPN para obter mais ligações.</string>
     <string name="listItemMaintenance">Em manutenção</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Copiar</string>
     <string name="copied_to_clipboard">Copiado para a área de transferência</string>
     <string name="got_it">Entendido</string>
+    <string name="excluded_locations">Excluded locations</string>
     <string name="something_went_wrong">Ocorreu um erro</string>
     <string name="try_again">Tente de novo</string>
     <string name="delete">Eliminar</string>
@@ -1032,6 +1035,7 @@
     <string name="message_server_in_maintenance">Servidor em manutenção</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Servidor indisponível</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">A porta de entrada está em manutenção.</string>
     <!-- tag(Redesign_2023) -->
@@ -1414,9 +1418,6 @@
     <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Protocolo de última geração em segurança e desempenho.</string>
     <string name="settings_protocol_wireguard_tcp_description">Protocolo de última geração em segurança e desempenho.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Estabelecido, bem testado e seguro. O OpenVPN é menos eficiente com a bateria do que alguns outros protocolos.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Estabelecido, bem testado e seguro. OpenVPN é confiável em condições de rede más, mas pode não ser tão rápido quanto outros protocolos.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Contorna os bloqueios de VPN ao ocultar a sua conexão VPN das autoridades de controlo. Este protocolo é resistente à inspeção profunda de pacotes (DPI, Deep Packet Inspection), mas pode não ser tão rápido quanto outros protocolos. O Stealth é um protocolo exclusivo do Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1532,6 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">A sua seleção de servidor para %1$s não está disponível. Selecione um servidor diferente ou tente novamente mais tarde.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ícone %1$d</string>

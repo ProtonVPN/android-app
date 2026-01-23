@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Huollossa</string>
     <string name="restrictedMaintenanceDescription">Palvelin johon yrität yhdistää on huollossa. Kokeile eri palvelinta.</string>
+    <string name="restricted_location_excluded_dialog_title">Yhteys epäonnistui</string>
+    <string name="restricted_location_excluded_dialog_description">Palvelimia ei ole käytettävissä. Valitse sijainti manuaalisesti tai muokkaa poissuljettuja sijainteja.</string>
     <string name="errorUserDelinquent"><![CDATA[Tililläsi on erääntynyt lasku. Maksa kaikki maksamattomat laskut osoitteessa&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Olet saavuttanut tilillesi sallittujen samanaikaisten yhteyksien enimmäismäärän. Päivitä Proton VPN -tilauksesi saadaksesi lisää yhteyksiä.</string>
     <string name="listItemMaintenance">Huollossa</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Kopioi</string>
     <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
     <string name="got_it">Selvä</string>
+    <string name="excluded_locations">Poissuljetut sijainnit</string>
     <string name="something_went_wrong">Jotain meni pieleen</string>
     <string name="try_again">Yritä uudelleen</string>
     <string name="delete">Poista</string>
@@ -1032,6 +1035,7 @@
     <string name="message_server_in_maintenance">Palvelin on huollossa</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Palvelin ei ole käytettävissä</string>
+    <string name="message_server_location_excluded">Palvelimen sijainti poissuljettu</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Yhdyskäytävä on huollossa</string>
     <!-- tag(Redesign_2023) -->
@@ -1411,17 +1415,14 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Valitsee automaattisesti yhteydellesi sopivimman protokollan.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
+    <string name="settings_protocol_smart_protun_description">Valitsee automaattisesti parhaan protokollan yhteydellesi [kokeellinen].</string>
     <string name="settings_protocol_wireguard_udp_description">Huippumoderni suojaus- ja suorituskykyprotokolla.</string>
     <string name="settings_protocol_wireguard_tcp_description">Huippumoderni suojaus- ja suorituskykyprotokolla.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Vakiintunut, hyvin testattu ja turvallinen. OpenVPN:n virrankulutus ei ole yhtä hyvä kuin joidenkin muiden protokollien.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Vakiintunut, hyvin testattu ja turvallinen. OpenVPN on luotettava huonoissakin verkko-olosuhteissa, muttei välttämättä saavuta muiden porotokollien nopeuksia.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Kiertää VPN-estot piilottamalla VPN-yhteytesi sensuureilta. Tämä protokolla on DPI-vastustuskykyinen (syvä pakettitarkastus), muttei välttämättä yhtä nopea kuin muut protokollat. Stealth on Proton VPN:n oma protokolla.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Suositus</string>
-    <string name="settings_protocol_badge_experimental">Experimental</string>
+    <string name="settings_protocol_badge_experimental">Kokeellinen</string>
     <string name="settings_split_tunneling_mode_title">Tila</string>
     <string name="settings_split_tunneling_mode_standard">Poissulje</string>
     <string name="settings_split_tunneling_mode_inverse">Sisällytä</string>
@@ -1532,6 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Valitsemasi palvelin %1$s ei ole käytettävissä. Valitse toinen palvelin tai kokeile myöhemmin uudelleen.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Valitsemasi palvelin <b>%1$s</b> ei ole käytettävissä. Valitse toinen palvelin, tarkista poissuljetut sijainnit tai yritä myöhemmin uudelleen.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Kuvake %1$d</string>
@@ -1601,6 +1603,6 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Tämä protokolla poistetaan pian, sillä keskitymme nopeampiin ja turvallisempiin teknologioihin. Suosittelemme Smart Protocollaan vaihtamista.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Jatka OpenVPN:llä</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ota Smart Protocol käyttöön</string>
-    <string name="settings_protocol_proton_protocols">Proton protocols</string>
-    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
+    <string name="settings_protocol_proton_protocols">Proton-protokollat</string>
+    <string name="settings_protocol_proton_protocols_description">Käytä Proton VPN:n omaa WireGuard-toteutusta. Tämä on kokeellinen ominaisuus, joten saatat kokea jonkin verran epävakautta.</string>
 </resources>

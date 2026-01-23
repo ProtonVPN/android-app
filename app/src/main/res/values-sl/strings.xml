@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Vzdrževalna dela v teku</string>
     <string name="restrictedMaintenanceDescription">Strežnik, s katerim se trenutno poskušate povezati, je v vzdrževanju. Poskusite z drugim strežnikom.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[Vaš račun ima trenutno zapadli račun. Vse neplačane račune plačajte na &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Dosegli ste največje dovoljeno število hkratnih povezav za vaš račun. Za več povezav nadgradite svoj paket Proton VPN.</string>
     <string name="listItemMaintenance">Vzdrževalna dela v teku</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Kopiraj</string>
     <string name="copied_to_clipboard">Kopirano v odložišče</string>
     <string name="got_it">Razumem</string>
+    <string name="excluded_locations">Excluded locations</string>
     <string name="something_went_wrong">Nekaj je šlo narobe</string>
     <string name="try_again">Poskusite ponovno</string>
     <string name="delete">Izbriši</string>
@@ -1083,6 +1086,7 @@
     <string name="message_server_in_maintenance">Poteka vzdrževanje strežnika</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Strežnik ni na voljo</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Prehod v vzdrževanju</string>
     <!-- tag(Redesign_2023) -->
@@ -1488,9 +1492,6 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Najsodobnejši protokol za varnost in zmogljivost.</string>
     <string name="settings_protocol_wireguard_tcp_description">Najsodobnejši protokol za varnost in zmogljivost.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Uveljavljeno, dobro preizkušeno in varno. OpenVPN je manj učinkovit pri porabi baterije kot nekateri drugi protokoli.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Uveljavljeno, dobro preizkušeno in varno. OpenVPN je zanesljiv v slabih omrežnih pogojih, vendar morda ni tako hiter kot drugi protokoli.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Zaobide blokade VPN tako, da skrije vašo VPN povezavo pred regulatorji. Ta protokol je odporen na globoko pregledovanje paketov (DPI), vendar morda ni tako hiter kot drugi protokoli. Stealth je protokol, ki je na voljo izključno za Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1606,6 +1607,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Vaša izbira strežnika za %1$s ni na voljo. Izberite drug strežnik ali poskusite znova pozneje.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ikona %1$d</string>

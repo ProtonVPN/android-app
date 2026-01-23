@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Karbantartás alatt</string>
     <string name="restrictedMaintenanceDescription">Ez a szerver karbantartás alatt van. Válasszon egy másikat.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[Lejárt számlatartozása van. Kérjük, egyenlítse ki a számlát az&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> címen]]></string>
     <string name="errorMaxSessions">Elérte a csomagban engedélyezett egyidejű csatlakozások maximális számát. Váltson magasabb csomagra, ha egyidejűleg több eszközről szeretné használni a szolgáltatást.</string>
     <string name="listItemMaintenance">Karbantartás alatt</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Másolás</string>
     <string name="copied_to_clipboard">Vágólapra másolva</string>
     <string name="got_it">Értem</string>
+    <string name="excluded_locations">Excluded locations</string>
     <string name="something_went_wrong">Valamilyen hiba történt</string>
     <string name="try_again">Próbálja újra</string>
     <string name="delete">Törlés</string>
@@ -1032,6 +1035,7 @@
     <string name="message_server_in_maintenance">A szerver karbantartás alatt áll</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">A szerver nem érhető el</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Átjáró karbantartás alatt áll</string>
     <!-- tag(Redesign_2023) -->
@@ -1414,9 +1418,6 @@
     <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">A legkorszerűbb protokoll a biztonság és a teljesítmény tekintetében.</string>
     <string name="settings_protocol_wireguard_tcp_description">A legkorszerűbb protokoll a biztonság és a teljesítmény tekintetében.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Bevált, alaposan tesztelt és biztonságos. Az OpenVPN kevésbé energiatakarékos, mint néhány más protokoll.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Bevált, alaposan tesztelt és biztonságos. Az OpenVPN rossz hálózati körülmények között is megbízható, de esetleg lassabb lehet, mint más protokollok.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Legyőzi a VPN-korlátozásokat azáltal, hogy elrejti a VPN-kapcsolatot a cenzorok elől. Ez a protokoll ellenáll a DPI-nek (deep packet inspection), de nem biztos, hogy olyan gyors, mint más protokollok. A Stealth kizárólag a Proton VPN-hez tartozik.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1532,6 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">A %1$s szerver kiválasztása nem érhető el. Válasszon másik szervert, vagy próbálja meg később.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">%1$d ikon</string>

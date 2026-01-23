@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Bakım yapılıyor</string>
     <string name="restrictedMaintenanceDescription">Şu anda bağlanmaya çalıştığınız sunucuda bakım yapılıyor. Lütfen başka bir sunucu deneyin.</string>
+    <string name="restricted_location_excluded_dialog_title">Bağlantı kurulamadı</string>
+    <string name="restricted_location_excluded_dialog_description">Kullanılabilir sunucu yok. Bir konumu manuel olarak seçin veya hariç tutulan konumlarınızı düzenleyin.</string>
     <string name="errorUserDelinquent"><![CDATA[Hesabınızda şu anda ödenmemiş bir fatura var. Lütfen&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> adresinden tüm süresi geçmiş faturaları ödeyin]]></string>
     <string name="errorMaxSessions">Hesabınız için izin verilen en fazla eşzamanlı bağlantı sayısına ulaştınız. Daha fazla bağlantı kullanmak için Proton VPN tarifenizi yükseltin.</string>
     <string name="listItemMaintenance">Bakım yapılıyor</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Kopyala</string>
     <string name="copied_to_clipboard">Panoya kopyalandı</string>
     <string name="got_it">Anladım</string>
+    <string name="excluded_locations">Hariç tutulan konumlar</string>
     <string name="something_went_wrong">Bir şeyler ters gitti</string>
     <string name="try_again">Yeniden dene</string>
     <string name="delete">Sil</string>
@@ -1032,6 +1035,7 @@
     <string name="message_server_in_maintenance">Sunucuda bakım yapılıyor</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Sunucu kullanılamıyor</string>
+    <string name="message_server_location_excluded">Sunucu konumu hariç tutuldu</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Ağ geçidinde bakım yapılıyor</string>
     <!-- tag(Redesign_2023) -->
@@ -1414,9 +1418,6 @@
     <string name="settings_protocol_smart_protun_description">Bağlantınız için en iyi iletişim kuralını otomatik seçer. [deneysel]</string>
     <string name="settings_protocol_wireguard_udp_description">Güvenlik ve başarım için son teknoloji iletişim kuralı.</string>
     <string name="settings_protocol_wireguard_tcp_description">Güvenlik ve başarım için son teknoloji iletişim kuralı.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Oturmuş, iyi sınanmış ve güvenli. OpenVPN diğer iletişim kurallarından daha fazla pil harcayabilir.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Oturmuş, iyi sınanmış ve güvenli. OpenVPN zayıf ağ koşullarında güvenilirdir ancak diğer iletişim kuralları kadar hızlı olmayabilir.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">VPN bağlantınızı sansür uygulamalarından gizleyerek VPN engellemelerini aşar. Bu iletişim kuralı DPİ (derin paket inceleme) uygulamalarına karşı dirençlidir ancak diğer iletişim kuralları kadar hızlı olmayabilir. Stealth, Proton VPN uygulamasına özel bir iletişim kuralıdır.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1532,6 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">%1$s sunucu seçiminiz kullanılamıyor. Başka bir sunucu seçin ya da bir süre sonra yeniden deneyin.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[<b>%1$s</b> için seçtiğiniz sunucu kullanılamıyor. Farklı bir sunucu seçin hariç tutulan konumlarınızı kontrol edin veya daha sonra tekrar deneyin.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">%1$d. simge</string>
@@ -1602,5 +1604,5 @@
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">OpenVPN ile ilerle</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart Protocol kullan</string>
     <string name="settings_protocol_proton_protocols">Proton iletişim kuralları</string>
-    <string name="settings_protocol_proton_protocols_description">WireGuard\'ın Proton VPN\'e özgü uygulamasını kullanın. Bu deneysel bir özelliktir, bu nedenle bazı kararsızlıklar yaşayabilirsiniz.</string>
+    <string name="settings_protocol_proton_protocols_description">Proton VPN uygulamasının kendi WireGuard uyarlamasını kullanın. Bu özellik henüz deneyseldir ve bazı kararsızlıklar yaşayabilirsiniz.</string>
 </resources>

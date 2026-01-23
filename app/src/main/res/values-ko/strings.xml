@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">점검 중</string>
     <string name="restrictedMaintenanceDescription">현재 연결하려는 서버가 점검 중입니다. 다른 서버를 시도하십시오.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[계정에 현재 연체된 금액이 있습니다. &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>에서 연체된 금액을 지불해주세요.]]></string>
     <string name="errorMaxSessions">계정에 허용된 최대 동시 연결 수에 도달했습니다. 더 많은 연결을 얻으려면 Proton VPN 요금제를 업그레이드하세요.</string>
     <string name="listItemMaintenance">점검 중</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">복사</string>
     <string name="copied_to_clipboard">클립보드에 복사됨</string>
     <string name="got_it">알겠습니다</string>
+    <string name="excluded_locations">Excluded locations</string>
     <string name="something_went_wrong">문제가 발생했습니다</string>
     <string name="try_again">다시 시도</string>
     <string name="delete">삭제</string>
@@ -1008,6 +1011,7 @@
     <string name="message_server_in_maintenance">서버가 점검 중입니다</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">서버를 이용할 수 없습니다.</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">게이트웨이가 점검 중입니다.</string>
     <!-- tag(Redesign_2023) -->
@@ -1379,9 +1383,6 @@
     <string name="settings_protocol_smart_protun_description">최적 프로토콜 자동 선택 [실험 기능].</string>
     <string name="settings_protocol_wireguard_udp_description">최첨단 프로토콜을 통해 보안 및 성능을 확보합니다.</string>
     <string name="settings_protocol_wireguard_tcp_description">최첨단 프로토콜을 통해 보안 및 성능을 확보합니다.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">확립되었고, 잘 시험되었으며 안전합니다. OpenVPN은 다른 프로토콜만큼 배터리 효율이 좋지는 않습니다.</string>
-    <string name="settings_protocol_openvpn_tcp_description">확립되었고, 잘 시험되었으며 안전합니다. OpenVPN은 부족한 네트워크 컨디션에서도 안정적이지만 다른 프로토콜만큼 빠르지는 않습니다.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">검열로부터 VPN 연결을 숨겨서 차단을 극복합니다. 이 프로토콜은 DPI(Deep Packet Insptection)에 내성이 있으나 다른 프로토콜만큼 빠르지는 않습니다.
 Stealth는 Proton VPN만의 기능입니다.</string>
@@ -1498,6 +1499,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">선택하신 서버 %1$s가 이용할 수 없는 상태입니다. 다른 서버를 선택하시거나 나중에 다시 시도하세요.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">아이콘 %1$d</string>

@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Under vedligeholdelse</string>
     <string name="restrictedMaintenanceDescription">Serveren du i øjeblikket forsøger at forbinde til, er under vedligeholdelse. Prøv en anden server.</string>
+    <string name="restricted_location_excluded_dialog_title">Forbindelse mislykkedes</string>
+    <string name="restricted_location_excluded_dialog_description">Ingen tilgængelige servere. Vælg en placering manuelt, eller redigér dine udelukkede lokationer.</string>
     <string name="errorUserDelinquent"><![CDATA[Din konto har i øjeblikket en forfalden faktura, som vi beder dig betale på&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Du har ramt det maksimale antal samtidige forbindelser, der er tilladt for din konto. Opgradér dit Proton VPN-abonnement for at få flere forbindelser.</string>
     <string name="listItemMaintenance">Under vedligeholdelse</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Kopiér</string>
     <string name="copied_to_clipboard">Kopieret til udklipsholder</string>
     <string name="got_it">Forstået</string>
+    <string name="excluded_locations">Udelukkede lokationer</string>
     <string name="something_went_wrong">Noget gik galt</string>
     <string name="try_again">Forsøg igen</string>
     <string name="delete">Slet</string>
@@ -1032,6 +1035,7 @@
     <string name="message_server_in_maintenance">Server under vedligeholdelse</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server ikke tilgængelig</string>
+    <string name="message_server_location_excluded">Server-lokation udelukket</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway under vedligeholdelse</string>
     <!-- tag(Redesign_2023) -->
@@ -1414,9 +1418,6 @@
     <string name="settings_protocol_smart_protun_description">Vælger automatisk den bedste protokol til din forbindelse [eksperimentel].</string>
     <string name="settings_protocol_wireguard_udp_description">Banebrydende protokol for sikkerhed og ydeevne.</string>
     <string name="settings_protocol_wireguard_tcp_description">Banebrydende protokol for sikkerhed og ydeevne.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Etableret, velafprøvet og sikker. OpenVPN er mindre batteribesparende end nogle andre protokoller.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Etableret, velafprøvet og sikker. OpenVPN er pålidelig under dårlige netværksforhold, men er måske ikke så hurtig som andre protokoller.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Omgår VPN-blokeringer ved at skjule VPN-forbindelsen for censorer. Protokollen er modstandsdygtig over for DPI (deep packet inspection), men muligvis ikke så hurtig som andre protokoller. Stealth er eksklusivt for Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1532,6 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Dit servervalg for \'%1$s\' er utilgængeligt. Vælg en anden server, eller prøv igen senere.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Dit servervalg for <b>%1$s</b> er utilgængeligt. Vælg en anden server, tjek dine udelukkede lokationer eller prøv igen senere.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ikon %1$d</string>

@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">На техобслуживании</string>
     <string name="restrictedMaintenanceDescription">Сервер, к которому вы сейчас пытаетесь подключиться, находится на техобслуживании. Пожалуйста, попробуйте другой сервер.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[Ваш аккаунт имеет не оплаченный счет. Пожалуйста, оплатите все неоплаченные счета на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Вы одновременно подключили максимальное разрешенное для вашего аккаунта количество устройств. Чтобы подключить больше устройств, пожалуйста, улучшите свой тариф Proton VPN.</string>
     <string name="listItemMaintenance">На техобслуживании</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Копировать</string>
     <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
     <string name="got_it">Я понял</string>
+    <string name="excluded_locations">Excluded locations</string>
     <string name="something_went_wrong">Что-то пошло не так</string>
     <string name="try_again">Попробовать снова</string>
     <string name="delete">Удалить</string>
@@ -1082,6 +1085,7 @@
     <string name="message_server_in_maintenance">Сервер на обслуживании</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Сервер недоступен</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Шлюз на техобслуживании</string>
     <!-- tag(Redesign_2023) -->
@@ -1486,9 +1490,6 @@
     <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Передовой протокол для обеспечения безопасности и производительности.</string>
     <string name="settings_protocol_wireguard_tcp_description">Передовой протокол для обеспечения безопасности и производительности.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Зарекомендовавший себя, хорошо проверенный и безопасный. OpenVPN менее энергоэффективен, чем некоторые другие протоколы.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Зарекомендовавший себя, хорошо проверенный и безопасный. OpenVPN надёжен в условиях плохой сети, но может быть медленнее других протоколов.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Преодолевает блокировки VPN, скрывая ваше подключение к VPN от цензоров. Этот протокол устойчив к DPI (глубокой проверке пакетов), но может быть не таким быстрым, как другие протоколы. Stealth является уникальным для Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1605,6 +1606,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Выбранный сервер для %1$s недоступен. Выберите другой сервер или попробуйте позже.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Иконка %1$d</string>

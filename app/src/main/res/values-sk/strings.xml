@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Prebieha údržba</string>
     <string name="restrictedMaintenanceDescription">Na serveri, ku ktorému sa práve pokúšate pripojiť, prebieha údržba. Skúste iný server, prosím.</string>
+    <string name="restricted_location_excluded_dialog_title">Pripojenie zlyhalo</string>
+    <string name="restricted_location_excluded_dialog_description">K dispozícii nie sú žiadne servery. Vyberte lokalitu ručne alebo upravte vylúčené lokality.</string>
     <string name="errorUserDelinquent"><![CDATA[Váš účet má momentálne faktúru po splatnosti. Všetky nezaplatené faktúry zaplaťte na&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Dosiahli ste maximálny počet súbežných pripojení povolených pre váš účet. Ak chcete zvýšiť počet pripojení, prejdite na vyšší Proton VPN plán.</string>
     <string name="listItemMaintenance">Prebieha údržba</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Kopírovať</string>
     <string name="copied_to_clipboard">Skopírované do schránky</string>
     <string name="got_it">Rozumiem</string>
+    <string name="excluded_locations">Vylúčené lokality</string>
     <string name="something_went_wrong">Niečo sa pokazilo</string>
     <string name="try_again">Skús znova</string>
     <string name="delete">Vymazať</string>
@@ -1082,6 +1085,7 @@
     <string name="message_server_in_maintenance">Na serveri prebieha údržba</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server nie je dostupný</string>
+    <string name="message_server_location_excluded">Poloha servera vylúčená</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Na bráne prebieha údržba</string>
     <!-- tag(Redesign_2023) -->
@@ -1486,9 +1490,6 @@
     <string name="settings_protocol_smart_protun_description">Automaticky vyberie najlepší protokol pre vaše pripojenie [experimentálne].</string>
     <string name="settings_protocol_wireguard_udp_description">Najmodernejší protokol z hľadiska bezpečnosti a výkonu.</string>
     <string name="settings_protocol_wireguard_tcp_description">Najmodernejší protokol z hľadiska bezpečnosti a výkonu.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Zavedený, dobre otestovaný a bezpečný. Oproti iným protokolom je OpenVPN menej energeticky úsporný.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Zavedený, dobre otestovaný a bezpečný. OpenVPN je spoľahlivý v zlých sieťových podmienkach, ale nemusí byť tak rýchly ako iné protokoly.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Prekonáva blokovanie VPN tým, že skrýva vaše pripojenie VPN pred cenzormi. Tento protokol je odolný voči DPI (hĺbková kontrola paketov), ale nemusí byť taký rýchly ako iné protokoly. Stealth je určený výhradne pre Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1604,6 +1605,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Server, ktorý ste vybrali pre %1$s je nedostupný. Vyberte iný server alebo to skúste neskôr.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Váš výber servera pre <b>%1$s</b> nie je k dispozícii. Vyberte iný server, skontrolujte vylúčené lokality alebo to skúste neskôr.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ikona %1$d</string>

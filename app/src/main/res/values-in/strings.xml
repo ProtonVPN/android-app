@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Dalam pemeliharaan</string>
     <string name="restrictedMaintenanceDescription">Server yang Anda coba sambungkan sedang dalam pemeliharaan. Mohon coba server lainnya.</string>
+    <string name="restricted_location_excluded_dialog_title">Koneksi gagal</string>
+    <string name="restricted_location_excluded_dialog_description">Tidak ada server yang tersedia. Silakan pilih lokasi secara manual atau sunting lokasi yang Anda kecualikan.</string>
     <string name="errorUserDelinquent"><![CDATA[Akun Anda saat ini memiliki faktur yang tertunggak. Silakan lunasi seluruh tagihan yang belum lunas pada&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Anda telah mencapai jumlah koneksi serentak yang diizinkan bagi akun Anda. Silakan tingkatkan paket Proton VPN Anda untuk memperoleh lebih banyak koneksi.</string>
     <string name="listItemMaintenance">Dalam pemeliharaan</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Salin</string>
     <string name="copied_to_clipboard">Disalin ke papan klip</string>
     <string name="got_it">Mengerti</string>
+    <string name="excluded_locations">Lokasi yang dikecualikan</string>
     <string name="something_went_wrong">Terdapat suatu kesalahan</string>
     <string name="try_again">Coba lagi</string>
     <string name="delete">Hapus</string>
@@ -1007,6 +1010,7 @@
     <string name="message_server_in_maintenance">Server sedang dalam pemeliharaan</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server tidak tersedia</string>
+    <string name="message_server_location_excluded">Lokasi server dikecualikan</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway dalam pemeliharaan</string>
     <!-- tag(Redesign_2023) -->
@@ -1378,9 +1382,6 @@
     <string name="settings_protocol_smart_protun_description">Memilih protokol yang terbaik untuk koneksi Anda [eksperimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Protokol mutakhir untuk keamanan dan performa.</string>
     <string name="settings_protocol_wireguard_tcp_description">Protokol mutakhir untuk keamanan dan performa.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Mapan, teruji, dan aman. OpenVPN tidak seefisien sebagian protokol lainnya dalam hal penggunaan baterai.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Mapan, teruji, dan aman. OpenVPN dapat diandalkan dalam kondisi jaringan yang buruk, namun dapat tidak berfungsi secepat protokol lainnya.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Menangkal pemblokiran VPN dengan menyembunyikan koneksi VPN Anda dari sensor. Protokol ini tahan terhadap DPI (inspeksi paket mendalam/deep packet inspection), namun dapat tidak berfungsi secepat protokol lainnya. Stealth tersedia khusus pada Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1496,6 +1497,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Pilihan server Anda untuk \'%1$s\' tidak tersedia. Silakan pilih server lain atau coba lagi nanti.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Pilihan server Anda untuk <b>%1$s</b> tidak tersedia. Silakan pilih server yang berbeda, periksa lokasi yang Anda kecualikan, atau coba lagi nanti.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ikon %1$d</string>

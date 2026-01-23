@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">În întreținere</string>
     <string name="restrictedMaintenanceDescription">Serverul la care se dorește conectarea este în întreținere. Încercați alt server.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[Contul are în prezent o factură restantă. Vă rugăm să plătiți toate facturile neachitate la adresa&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Ați atins numărul maxim de conexiuni simultane permise pentru acest cont. Modificați-vă planul Proton VPN pentru a obține mai multe conexiuni.</string>
     <string name="listItemMaintenance">În întreținere</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Copiere</string>
     <string name="copied_to_clipboard">Copiat în memorie.</string>
     <string name="got_it">Am înțeles</string>
+    <string name="excluded_locations">Excluded locations</string>
     <string name="something_went_wrong">Ceva nu a funcționat corect</string>
     <string name="try_again">Reîncercați</string>
     <string name="delete">Ștergere</string>
@@ -1057,6 +1060,7 @@
     <string name="message_server_in_maintenance">Servere în întreținere</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Serverul nu este disponibil</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Poartă de acces în mentenanță</string>
     <!-- tag(Redesign_2023) -->
@@ -1450,9 +1454,6 @@
     <string name="settings_protocol_smart_protun_description">Selectează automat cel mai bun protocol pentru conexiune [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Protocol de ultimă generație pentru securitate și performanță.</string>
     <string name="settings_protocol_wireguard_tcp_description">Protocol de ultimă generație pentru securitate și performanță.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Răspândit, bine testat și sigur. OpenVPN este mai puțin eficient din punct de vedere al bateriei decât alte protocoale.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Răspândit, bine testat și sigur. OpenVPN este fiabil în condiții de rețea precare, dar poate să nu fie la fel de rapid ca alte protocoale.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Ocolește blocarea VPN prin ascunderea conexiunii VPN față de cenzori. Acest protocol este rezistent la IPA (inspecția profundă a pachetelor), dar este posibil să nu fie la fel de rapid ca alte protocoale. Stealth este exclusiv pentru Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1568,6 +1569,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Serverul selectat pentru „%1$s” nu este disponibil. Selectați un server diferit sau încercați mai târziu.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Pictograma %1$d</string>

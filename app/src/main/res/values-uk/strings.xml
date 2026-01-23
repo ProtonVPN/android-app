@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Обслуговується</string>
     <string name="restrictedMaintenanceDescription">Сервер, з яким ви зараз намагаєтеся з\'єднатися, обслуговується. Будь ласка, спробуйте інший сервер.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[У вашому обліковому записі є протермінований рахунок. Будь ласка, сплатіть усі рахунки на сайті&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Ви досягли обмеження кількості одночасних з\'єднань для вашого облікового запису. Щоб отримати більше з\'єднань, передплатіть тарифний план Proton VPN вищого рівня.</string>
     <string name="listItemMaintenance">Обслуговується</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Копіювати</string>
     <string name="copied_to_clipboard">Скопійовано до буфера обміну</string>
     <string name="got_it">Зрозуміло</string>
+    <string name="excluded_locations">Excluded locations</string>
     <string name="something_went_wrong">Виникла проблема</string>
     <string name="try_again">Повторити спробу</string>
     <string name="delete">Видалити</string>
@@ -1082,6 +1085,7 @@
     <string name="message_server_in_maintenance">Сервер обслуговується</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Сервер недоступний</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Мережевий шлюз на обслуговуванні</string>
     <!-- tag(Redesign_2023) -->
@@ -1486,9 +1490,6 @@
     <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
     <string name="settings_protocol_wireguard_udp_description">Найдосконаліший протокол для безпеки та швидкодії.</string>
     <string name="settings_protocol_wireguard_tcp_description">Найдосконаліший протокол для безпеки та швидкодії.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Налагоджений, перевірений і безпечний. OpenVPN менш енергоефективний, ніж деякі інші протоколи.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Налагоджений, перевірений і безпечний. OpenVPN надійний в поганих умовах мережі, але може бути не таким швидким, як інші протоколи.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Обходить блокування VPN, приховуючи ваше VPN-з\'єднання від цензури. Цей протокол стійкий до DPI (глибока перевірка пакетів), але може бути не таким швидким, як інші протоколи. Stealth – ексклюзивний протокол, доступний лише з Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1604,6 +1605,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Сервер, який ви вибрали для %1$s, недоступний. Виберіть інший сервер або повторіть спробу пізніше.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Піктограма %1$d</string>

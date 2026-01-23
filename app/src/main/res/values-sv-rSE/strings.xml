@@ -58,6 +58,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Under underhåll</string>
     <string name="restrictedMaintenanceDescription">Servern som du för närvarande försöker ansluta är under underhåll. Försök med en annan server.</string>
+    <string name="restricted_location_excluded_dialog_title">Anslutning misslyckades</string>
+    <string name="restricted_location_excluded_dialog_description">Inga servrar tillgängliga. Välj en plats manuellt eller redigera dina exkluderade platser.</string>
     <string name="errorUserDelinquent"><![CDATA[Ditt konto har för närvarande en förfallen faktura. Vänligen betala alla obetalda fakturor på&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Du har nått det maximala antalet samtidiga anslutningar som tillåts för ditt konto. Uppgradera ditt Proton VPN-paket för att få fler anslutningar.</string>
     <string name="listItemMaintenance">Under underhåll</string>
@@ -94,6 +96,7 @@
     <string name="copy_to_clipboard">Kopiera</string>
     <string name="copied_to_clipboard">Kopierat till urklipp</string>
     <string name="got_it">Förstått</string>
+    <string name="excluded_locations">Exkluderade platser</string>
     <string name="something_went_wrong">Något gick fel</string>
     <string name="try_again">Försök igen</string>
     <string name="delete">Ta bort</string>
@@ -1032,6 +1035,7 @@
     <string name="message_server_in_maintenance">Server under underhåll</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server ej tillgänglig</string>
+    <string name="message_server_location_excluded">Serverplats exkluderad</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gatewayen underhålls</string>
     <!-- tag(Redesign_2023) -->
@@ -1414,9 +1418,6 @@
     <string name="settings_protocol_smart_protun_description">Väljer automatiskt det bästa protokollet för din anslutning [experimentellt].</string>
     <string name="settings_protocol_wireguard_udp_description">Toppmodernt protokoll för säkerhet och prestanda.</string>
     <string name="settings_protocol_wireguard_tcp_description">Toppmodernt protokoll för säkerhet och prestanda.</string>
-    <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Etablerad, väl beprövad och säker. OpenVPN är mindre batterieffektivt än vissa andra protokoll.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Etablerad, väl beprövad och säker. OpenVPN är pålitligt i dåliga nätverksförhållanden, men kanske inte är lika snabba som andra protokoll.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Övervinner VPN-blockeringar genom att dölja din VPN-anslutning från censureringar. Detta protokoll är DPI-beständigt (deep packet inspection) men kanske inte är lika snabbt som andra protokoll. Stealth är exklusivt för Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1532,6 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Ditt serverval för %1$s är inte tillgängligt. Välj en annan server eller försök igen senare.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Ditt serverval för <b>%1$s</b> är inte tillgängligt. Välj en annan server, kontrollera dina exkluderade platser eller försök igen senare.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ikon %1$d</string>
