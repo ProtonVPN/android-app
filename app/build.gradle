@@ -574,12 +574,20 @@ class Helpers {
         if (override != null)
             return override
 
-        def gitVersionProvider = providers.of(GitFullVersionNameSource.class) {
-            parameters {
-                workingDir = this.workingDir
+        try {
+            def gitVersionProvider = providers.of(GitFullVersionNameSource.class) {
+                parameters {
+                    workingDir = this.workingDir
+                }
             }
+            return gitVersionProvider.get()
+        } catch (Exception e) {
+            // If obtaining version from git fails (e.g. no matching tags in local repo),
+            // fall back to a safe default version string with four numeric components so
+            // other version helpers (like getVersionCode) keep working.
+            println "Warning: unable to obtain version from git: ${e.message}. Falling back to 0.0.0.0"
+            return "0.0.0.0"
         }
-        return gitVersionProvider.get()
     }
 
     String readFileOrDefault(String path, String defaultValue) {
