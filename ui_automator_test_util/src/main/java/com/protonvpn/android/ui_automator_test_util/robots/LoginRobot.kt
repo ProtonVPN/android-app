@@ -25,6 +25,7 @@ import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import com.protonvpn.android.ui_automator_test_util.data.TestConstants
 import me.proton.test.fusion.Fusion.byObject
+import me.proton.test.fusion.Fusion.device
 import me.proton.test.fusion.ui.uiautomator.ByObject
 import org.junit.Assert.assertTrue
 import java.util.regex.Pattern
@@ -76,9 +77,11 @@ object LoginRobot {
     private fun fillSignIn(username: String, password: String) {
         byObject.protonComposeInput("LOGIN_USERNAME_FIELD_TAG")
             .waitForExists(TestConstants.TWO_MINUTES_TIMEOUT).typeText(username)
+        device.pressBack() // Hide keyboard to reveal the "Continue" button on smaller screens.
         byObject.withText("Continue").click()
         byObject.protonComposeInput("LOGIN_PASSWORD_FIELD_TAG")
             .waitForExists(TestConstants.TWO_MINUTES_TIMEOUT).typeText(password)
+        device.pressBack() // Hide keyboard to reveal the "Continue" button on smaller screens.
         byObject.withText("Continue").click()
     }
 
