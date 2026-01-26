@@ -24,7 +24,6 @@ import android.content.IntentFilter
 import android.net.TrafficStats
 import android.os.PowerManager
 import androidx.core.content.getSystemService
-import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.di.WallClock
@@ -38,6 +37,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -56,9 +56,9 @@ class TrafficMonitor @Inject constructor(
         const val TRAFFIC_HISTORY_LENGTH_S = 31L
     }
 
-    val trafficStatus = MutableLiveData<TrafficUpdate?>()
+    val trafficStatus = MutableStateFlow<TrafficUpdate?>(null)
 
-    val trafficHistory = MutableLiveData<List<TrafficUpdate>>(emptyList())
+    val trafficHistory = MutableStateFlow<List<TrafficUpdate>>(emptyList())
 
     private var sessionStart = 0L
     private var sessionDownloaded = 0L

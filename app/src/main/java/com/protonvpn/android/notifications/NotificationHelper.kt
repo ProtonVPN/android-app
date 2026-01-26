@@ -62,6 +62,8 @@ import com.protonvpn.android.vpn.VpnState.WaitingForNetwork
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
@@ -80,16 +82,13 @@ class NotificationHelper @Inject constructor(
 ) {
 
     init {
-        scope.launch {
-            vpnStateMonitor.status.collect {
-                updateNotification()
-            }
-        }
-        scope.launch {
-            trafficMonitor.trafficStatus.observeForever {
-                updateNotification()
-            }
-        }
+        vpnStateMonitor.status.onEach {
+            updateNotification()
+        }.launchIn(scope)
+
+        trafficMonitor.trafficStatus.onEach {
+            updateNotification()
+        }.launchIn(scope)
     }
 
     @Parcelize

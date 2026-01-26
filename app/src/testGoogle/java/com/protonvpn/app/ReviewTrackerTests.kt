@@ -46,6 +46,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
@@ -111,7 +112,7 @@ class ReviewTrackerTests {
 
         testCurrentUserProvider = TestCurrentUserProvider(TestUser.plusUser.vpnUser)
         trackerPrefs = ReviewTrackerPrefs(MockSharedPreferencesProvider(), testScope::currentTime)
-        val trafficStatus = MutableLiveData<TrafficUpdate?>()
+        val trafficStatus = MutableStateFlow<TrafficUpdate?>(null)
         testTelemetry = TestTelemetryReporter()
         vpnStateMonitor = VpnStateMonitor()
         every { trafficMonitor.trafficStatus } returns trafficStatus
@@ -276,7 +277,7 @@ class ReviewTrackerTests {
 
     class TestController(
         private val testScope: TestScope,
-        private val trafficStatusFlow: MutableLiveData<TrafficUpdate?>,
+        private val trafficStatusFlow: MutableStateFlow<TrafficUpdate?>,
         private val vpnStateMonitor: VpnStateMonitor,
     ) {
         fun connect() {

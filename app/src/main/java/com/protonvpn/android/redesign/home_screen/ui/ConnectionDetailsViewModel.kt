@@ -142,7 +142,7 @@ class ConnectionDetailsViewModel @Inject constructor(
             currentUser.vpnUserFlow,
             vpnStateMonitor.exitIp,
             serverListUpdaterPrefs.ipAddress,
-            trafficMonitor.trafficHistory.asFlow(),
+            trafficMonitor.trafficHistory,
             serverFlow,
             translator.flow,
         ) { vpnUser, exitIp, userIp, trafficHistory, server, translations ->

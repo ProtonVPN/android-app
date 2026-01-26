@@ -34,6 +34,7 @@ import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -86,9 +87,9 @@ class ReviewTracker constructor(
             reviewTrackerPrefs.successConnectionsInRow = 0
         }.launchIn(scope)
 
-        trafficMonitor.trafficStatus.observeForever {
-            it?.let {
-                val sessionTimeInMillis = TimeUnit.SECONDS.toMillis(it.sessionTimeSeconds.toLong())
+        trafficMonitor.trafficStatus.filterNotNull()
+            .onEach { update ->
+                val sessionTimeInMillis = TimeUnit.SECONDS.toMillis(update.sessionTimeSeconds.toLong())
                 val toBeEligableInMillis =
                     TimeUnit.DAYS.toMillis(appConfig.getRatingConfig().daysConnectedCount.toLong())
                 if (sessionTimeInMillis > toBeEligableInMillis) {
@@ -97,8 +98,7 @@ class ReviewTracker constructor(
                         if (shouldRate()) createInAppReview()
                     }
                 }
-            }
-        }
+            }.launchIn(scope)
 
         vpnMonitor.status.onEach {
             if (it.state == VpnState.Connected) {
