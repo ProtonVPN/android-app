@@ -26,6 +26,8 @@ import androidx.test.uiautomator.Until
 import com.protonvpn.android.ui_automator_test_util.data.TestConstants
 import me.proton.test.fusion.Fusion.byObject
 import me.proton.test.fusion.ui.uiautomator.ByObject
+import org.junit.Assert.assertTrue
+import java.util.regex.Pattern
 
 object LoginRobot {
     fun signIn(username: String, password: String): LoginRobot {
@@ -43,6 +45,20 @@ object LoginRobot {
             fillSignInLegacy(username, password)
         }
 
+        return this
+    }
+
+    fun signInIfNeeded(username: String, password: String): LoginRobot {
+        val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        val hasSignInOrConnectButton = uiDevice.wait(
+            Until.hasObject(By.text(Pattern.compile("(Sign in|Connect)"))),
+            TestConstants.TWENTY_SECOND_TIMEOUT_MS
+        )
+        assertTrue(hasSignInOrConnectButton)
+        val needsSignin = uiDevice.hasObject(By.text("Sign in"))
+        if (needsSignin) {
+            signIn(username, password)
+        }
         return this
     }
 

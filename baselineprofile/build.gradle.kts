@@ -1,8 +1,12 @@
+import groovy.json.StringEscapeUtils
+
 plugins {
     id("com.android.test")
     id("org.jetbrains.kotlin.android")
     id("androidx.baselineprofile")
 }
+
+val testAccountPass = System.getenv("TEST_ACCOUNT_PASS") ?: project.properties["testAccountPassword"] as? String ?: "Pass"
 
 android {
     namespace = "ch.protonvpn.android.baselineprofile"
@@ -17,11 +21,17 @@ android {
         jvmTarget = "17"
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         minSdk = 28
         targetSdk = 36
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "TEST_ACCOUNT_PASSWORD",  "\"${StringEscapeUtils.escapeJava(testAccountPass)}\"")
     }
 
     targetProjectPath = ":app"
@@ -39,6 +49,8 @@ baselineProfile {
 }
 
 dependencies {
+    implementation(project(":ui_automator_test_util"))
+
     implementation("androidx.test.ext:junit:1.3.0")
     implementation("androidx.test.espresso:espresso-core:3.7.0")
     implementation("androidx.test.uiautomator:uiautomator:2.3.0")

@@ -43,11 +43,12 @@ fun VpnApp(
                 state = state,
                 onRefresh = state.retryAction,
                 onLogout = coreNavigation.onSignOut,
+                modifier = modifier,
             )
         }
 
         LoaderState.Loading -> {
-            FullScreenLoading()
+            FullScreenLoading(modifier = modifier)
         }
 
         LoaderState.Loaded -> {

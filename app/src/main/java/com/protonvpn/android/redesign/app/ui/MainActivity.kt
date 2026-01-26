@@ -37,6 +37,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
@@ -229,7 +231,11 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                             CompositionLocalProvider(
                                 LocalVpnUiDelegate provides this@MainActivity.vpnActivityDelegate
                             ) {
-                                VpnApp(coreNavigation, settingsChangeViewModel)
+                                VpnApp(
+                                    coreNavigation,
+                                    settingsChangeViewModel,
+                                    modifier =  Modifier.semantics { testTagsAsResourceId = true }
+                                )
                             }
                         }
 

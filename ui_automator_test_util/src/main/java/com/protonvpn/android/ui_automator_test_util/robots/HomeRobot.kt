@@ -47,6 +47,11 @@ object HomeRobot {
         return this
     }
 
+    fun waitUntilConnectionCardReady(): HomeRobot {
+        byObject.withResName("connectCardButton").waitForExists(TestConstants.TWENTY_SECOND_TIMEOUT)
+        return this
+    }
+
     fun navigateToCountries(): CountriesRobot {
         byObject.withText("Countries").click()
         return CountriesRobot

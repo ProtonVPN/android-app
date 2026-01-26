@@ -19,6 +19,8 @@
 
 package ch.protonvpn.android.baselineprofile
 
+import android.util.Log
+import androidx.benchmark.Shell
 import androidx.benchmark.macro.BaselineProfileMode
 import androidx.benchmark.macro.CompilationMode
 import androidx.benchmark.macro.StartupMode
@@ -27,6 +29,9 @@ import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
+import com.protonvpn.android.ui_automator_test_util.data.TestConstants
+import com.protonvpn.android.ui_automator_test_util.robots.HomeRobot
+import com.protonvpn.android.ui_automator_test_util.robots.LoginRobot
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -59,29 +64,48 @@ class StartupBenchmarks {
     val rule = MacrobenchmarkRule()
 
     @Test
-    fun startupCompilationNone() =
-        benchmark(CompilationMode.None())
+    fun startupPlusUser_compilatioNone() =
+        startupWithUser(TestConstants.USERNAME, CompilationMode.None())
 
     @Test
-    fun startupCompilationBaselineProfiles() =
-        benchmark(CompilationMode.Partial(BaselineProfileMode.Require))
+    fun startupPlusUser_compilationBaselineProfiles() =
+        startupWithUser(TestConstants.USERNAME, CompilationMode.Partial(BaselineProfileMode.Require))
 
-    // To run startup benchmark:
+    @Test
+    fun startupFreeUser_compilatioNone() =
+        startupWithUser(TestConstants.USERNAME_FREE, CompilationMode.None())
+
+    @Test
+    fun startupFreeUser_compilationBaselineProfiles() =
+        startupWithUser(TestConstants.USERNAME_FREE, CompilationMode.Partial(BaselineProfileMode.Require))
+
+    // To run startup benchmark locally:
+    // - set testAccountPassword in gradle.properties
     // - build and install production*BenchmarkRelease
-    // - login manually
     // - run StartupBenchmarks
-    private fun benchmark(compilationMode: CompilationMode) {
+    private fun startupWithUser(userName: String, compilationMode: CompilationMode) {
         // The application id for the running build variant is read from the instrumentation arguments.
+        val packageName = InstrumentationRegistry.getArguments().getString("targetAppId")
+            ?: throw Exception("targetAppId not passed as instrumentation runner arg")
+        // Clear data to force a new login.
+        val output = Shell.executeScriptCaptureStdoutStderr("pm clear $packageName")
+        Log.i("StartupBenchmarks", "pm clear $packageName output:\n${output.stdout}\n${output.stderr}")
         rule.measureRepeated(
-            packageName = InstrumentationRegistry.getArguments().getString("targetAppId")
-                ?: throw Exception("targetAppId not passed as instrumentation runner arg"),
+            packageName = packageName,
             metrics = listOf(StartupTimingMetric()),
             compilationMode = compilationMode,
             startupMode = StartupMode.COLD,
-            iterations = 5,
+            iterations = 15,
+            setupBlock = {
+                pressHome()
+                startActivityAndWait()
+                LoginRobot.signInIfNeeded(userName, BuildConfig.TEST_ACCOUNT_PASSWORD)
+                    .waitUntilLoggedIn()
+            },
             measureBlock = {
                 pressHome()
                 startActivityAndWait()
+                HomeRobot.waitUntilConnectionCardReady()
             }
         )
     }

@@ -39,11 +39,12 @@ fun NoConnectionsScreen(
     state: LoaderState.Error,
     onRefresh: () -> Unit,
     onLogout: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(color = ProtonTheme.colors.backgroundNorm),
         contentAlignment = Alignment.Center,

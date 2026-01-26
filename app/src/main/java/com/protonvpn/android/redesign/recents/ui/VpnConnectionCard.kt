@@ -54,6 +54,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -176,10 +177,13 @@ fun VpnConnectionCard(
                         }
                     }
                 }
+                val connectButtonModifier = Modifier.testTag("connectCardButton")
                 if (viewState.isConnectedOrConnecting) {
-                    VpnWeakSolidButton(text = stringResource(viewState.mainButtonLabelRes), onClick = onDisconnect)
+                    val text = stringResource(viewState.mainButtonLabelRes)
+                    VpnWeakSolidButton(text = text, onClick = onDisconnect, modifier = connectButtonModifier)
                 } else {
-                    VpnSolidButton(text = stringResource(viewState.mainButtonLabelRes), onClick = onConnect)
+                    val text = stringResource(viewState.mainButtonLabelRes)
+                    VpnSolidButton(text = text, onClick = onConnect, modifier = connectButtonModifier)
                 }
                 if (changeServerButton != null) {
                     Spacer(Modifier.height(8.dp))

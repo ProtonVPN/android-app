@@ -19,10 +19,10 @@
 
 package com.protonvpn.android.redesign.home_screen.ui
 
-import android.app.Activity
 import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.ColumnScope
@@ -264,11 +264,7 @@ fun HomeRoute(
         }
     }
 
-    if (fullyDrawn) {
-        LaunchedEffect(key1 = Unit) {
-            (context as Activity).reportFullyDrawn()
-        }
-    }
+    ReportDrawnWhen { fullyDrawn }
 }
 
 private val ListBgGradientHeightBasic = 100.dp

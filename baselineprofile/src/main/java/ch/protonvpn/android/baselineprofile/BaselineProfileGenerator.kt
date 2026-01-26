@@ -19,10 +19,14 @@
 
 package ch.protonvpn.android.baselineprofile
 
+import android.util.Log
+import androidx.benchmark.Shell
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
+import com.protonvpn.android.ui_automator_test_util.data.TestConstants
+import com.protonvpn.android.ui_automator_test_util.robots.LoginRobot
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -59,28 +63,38 @@ class BaselineProfileGenerator {
 
     // This currently requires to:
     // - build and install productionGooglePlayStoreNonMinifiedRelease
-    // - login manually
     // - ./gradlew :app:generateProductionGooglePlayStoreReleaseBaselineProfile
     // - commit the changes
     // TODO:
-    // - reuse release_test's LoginRobot to automatically login before generating
     // - schedule periodic regeneration of the baseline profile on CI
     // - include TV startup in profile generation
     // - extend the profile with more user flows
     // - include other build flavors
     @Test
-    fun generateMobileStartupBaseline() {
-        // The application id for the running build variant is read from the instrumentation arguments.
-        rule.collect(
-            packageName = InstrumentationRegistry.getArguments().getString("targetAppId")
-                ?: throw Exception("targetAppId not passed as instrumentation runner arg"),
+    fun generateMobileFreeUserStartupBaseline() =
+        generateMobileLoginStartupBaseline(TestConstants.USERNAME_FREE)
 
+    @Test
+    fun generateMobilePlusUserStartupBaseline() =
+        generateMobileLoginStartupBaseline(TestConstants.USERNAME)
+
+    private fun generateMobileLoginStartupBaseline(username: String) {
+        // The application id for the running build variant is read from the instrumentation arguments.
+        val packageName = InstrumentationRegistry.getArguments().getString("targetAppId")
+            ?: throw Exception("targetAppId not passed as instrumentation runner arg")
+        // Clear data to force a new login.
+        val output = Shell.executeScriptCaptureStdoutStderr("pm clear $packageName")
+        Log.i("StartupBenchmarks", "pm clear $packageName output:\n${output.stdout}\n${output.stderr}")
+        rule.collect(
+            packageName = packageName,
             // See: https://d.android.com/topic/performance/baselineprofiles/dex-layout-optimizations
             includeInStartupProfile = true,
             maxIterations = 10
         ) {
             pressHome()
             startActivityAndWait()
+            LoginRobot.signInIfNeeded(TestConstants.USERNAME, BuildConfig.TEST_ACCOUNT_PASSWORD)
+                .waitUntilLoggedIn()
         }
     }
 }
