@@ -19,8 +19,8 @@
 
 package com.protonvpn.android.db
 
+import android.database.Cursor
 import androidx.room.DeleteColumn
-import androidx.room.RenameColumn
 import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -333,10 +333,46 @@ object DatabaseMigrations {
         }
     }
 
-    @RenameColumn(
-        tableName = "VpnUser",
-        fromColumnName = "autoLoginName",
-        toColumnName = "autoLoginId"
-    )
-    class AutoMigration53to54 : AutoMigrationSpec
+    val MIGRATION_53_54 = object : Migration(53, 54) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            // On release branch DB version 53 AutoMigration52to53 was not applied, but rename to
+            // autoLoginId was
+            val fromReleaseBranch = db.query("PRAGMA table_info(VpnUser)").use {
+                cursor -> cursor.haveColumn("autoLoginId")
+            }
+
+            if (fromReleaseBranch) {
+                // Apply missing OpenVPN migration to Smart
+                db.execSQL("UPDATE profiles SET vpn = 'Smart', transmission = NULL WHERE vpn = 'OpenVPN'")
+                db.execSQL("UPDATE unnamedRecentsIntents SET vpn = 'Smart', transmission = NULL WHERE vpn = 'OpenVPN'")
+            }
+
+            // Unify VpnUser from development and release branches (autoLoginName -> autoLoginId)
+            db.execSQL("CREATE TABLE IF NOT EXISTS `_new_VpnUser` (`userId` TEXT NOT NULL, `subscribed` INTEGER NOT NULL, `services` INTEGER NOT NULL, `delinquent` INTEGER NOT NULL, `credit` INTEGER NOT NULL DEFAULT 0, `hasPaymentMethod` INTEGER NOT NULL DEFAULT false, `status` INTEGER NOT NULL, `expirationTime` INTEGER NOT NULL, `planName` TEXT, `planDisplayName` TEXT, `maxTier` INTEGER, `maxConnect` INTEGER NOT NULL, `name` TEXT NOT NULL, `groupId` TEXT NOT NULL, `updateTime` INTEGER NOT NULL, `sessionId` TEXT NOT NULL, `autoLoginId` TEXT, PRIMARY KEY(`userId`), FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )");
+            if (fromReleaseBranch) {
+                db.execSQL("INSERT INTO `_new_VpnUser` " +
+                        "(`userId`,`subscribed`,`services`,`delinquent`,`credit`,`hasPaymentMethod`,`status`,`expirationTime`,`planName`,`planDisplayName`,`maxTier`,`maxConnect`,`name`,`groupId`,`updateTime`,`sessionId`,`autoLoginId`) " +
+                        "SELECT" +
+                        " `userId`,`subscribed`,`services`,`delinquent`,`credit`,`hasPaymentMethod`,`status`,`expirationTime`,`planName`,`planDisplayName`,`maxTier`,`maxConnect`,`name`,`groupId`,`updateTime`,`sessionId`,`autoLoginId` " +
+                        "FROM `VpnUser`");
+            } else {
+                db.execSQL("INSERT INTO `_new_VpnUser` " +
+                        "(`userId`,`subscribed`,`services`,`delinquent`,`credit`,`hasPaymentMethod`,`status`,`expirationTime`,`planName`,`planDisplayName`,`maxTier`,`maxConnect`,`name`,`groupId`,`updateTime`,`sessionId`,`autoLoginId`) " +
+                        "SELECT" +
+                        " `userId`,`subscribed`,`services`,`delinquent`,`credit`,`hasPaymentMethod`,`status`,`expirationTime`,`planName`,`planDisplayName`,`maxTier`,`maxConnect`,`name`,`groupId`,`updateTime`,`sessionId`,`autoLoginName` " +
+                        "FROM `VpnUser`");
+            }
+            db.execSQL("DROP TABLE `VpnUser`");
+            db.execSQL("ALTER TABLE `_new_VpnUser` RENAME TO `VpnUser`");
+            db.execSQL("CREATE INDEX IF NOT EXISTS `index_VpnUser_userId` ON `VpnUser` (`userId`)");
+        }
+    }
+}
+
+private fun Cursor.haveColumn(columnName: String): Boolean {
+    while (moveToNext()) {
+        val nameIndex = getColumnIndex("name")
+        if (getString(nameIndex) == columnName) return true
+    }
+    return false
 }

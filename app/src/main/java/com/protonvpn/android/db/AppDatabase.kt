@@ -168,7 +168,6 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         AutoMigration(from = 49, to = 50),
         AutoMigration(from = 51, to = 52),
         AutoMigration(from = 52, to = 53, spec = DatabaseMigrations.AutoMigration52to53::class),
-        AutoMigration(from = 53, to = 54, spec = DatabaseMigrations.AutoMigration53to54::class),
     ],
     version = AppDatabase.VERSION,
     exportSchema = true
@@ -260,6 +259,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_47_48,
             DatabaseMigrations.MIGRATION_48_49,
             DatabaseMigrations.MIGRATION_50_51,
+            DatabaseMigrations.MIGRATION_53_54,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
