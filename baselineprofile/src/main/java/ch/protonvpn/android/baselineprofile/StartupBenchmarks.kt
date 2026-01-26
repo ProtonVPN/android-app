@@ -65,11 +65,11 @@ class StartupBenchmarks {
 
     @Test
     fun startupPlusUser_compilatioNone() =
-        startupWithUser(TestConstants.USERNAME, CompilationMode.None())
+        startupWithUser(TestConstants.USERNAME_PLUS, CompilationMode.None())
 
     @Test
     fun startupPlusUser_compilationBaselineProfiles() =
-        startupWithUser(TestConstants.USERNAME, CompilationMode.Partial(BaselineProfileMode.Require))
+        startupWithUser(TestConstants.USERNAME_PLUS, CompilationMode.Partial(BaselineProfileMode.Require))
 
     @Test
     fun startupFreeUser_compilatioNone() =

@@ -35,7 +35,7 @@ class SmokeTest {
 
     @Test
     fun testSignIn() {
-        LoginRobot.signIn(TestConstants.USERNAME, BuildConfig.TEST_ACCOUNT_PASSWORD)
+        LoginRobot.signIn(TestConstants.USERNAME_PLUS, BuildConfig.TEST_ACCOUNT_PASSWORD)
             .waitUntilLoggedIn()
     }
 }

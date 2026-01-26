@@ -76,7 +76,7 @@ class BaselineProfileGenerator {
 
     @Test
     fun generateMobilePlusUserStartupBaseline() =
-        generateMobileLoginStartupBaseline(TestConstants.USERNAME)
+        generateMobileLoginStartupBaseline(TestConstants.USERNAME_PLUS)
 
     private fun generateMobileLoginStartupBaseline(username: String) {
         // The application id for the running build variant is read from the instrumentation arguments.
@@ -93,7 +93,7 @@ class BaselineProfileGenerator {
         ) {
             pressHome()
             startActivityAndWait()
-            LoginRobot.signInIfNeeded(TestConstants.USERNAME, BuildConfig.TEST_ACCOUNT_PASSWORD)
+            LoginRobot.signInIfNeeded(TestConstants.USERNAME_PLUS, BuildConfig.TEST_ACCOUNT_PASSWORD)
                 .waitUntilLoggedIn()
         }
     }
