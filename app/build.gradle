@@ -860,7 +860,7 @@ dependencies {
     implementation("androidx.tv:tv-material:1.0.1")
 
     // Proton libs
-    implementation "me.proton.vpn:vpn-sdk-internal:0.1.6-1.0.19"
+    implementation "me.proton.vpn:vpn-sdk-internal:0.1.15-1.0.21"
     implementation "me.proton.vpn:go-vpn-lib:$govpnlib_version"
     implementation "me.proton.core:domain:$core_version"
     implementation "me.proton.core:network-data:$core_version"
