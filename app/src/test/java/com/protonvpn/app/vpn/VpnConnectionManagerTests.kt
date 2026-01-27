@@ -331,7 +331,7 @@ class VpnConnectionManagerTests {
         vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)
         coVerify { mockBackend.connect(connectionParams) }
 
-        verify(exactly = 1) { mockVpnConnectionTelemetry.onConnectionStart(trigger) }
+        verify(exactly = 1) { mockVpnConnectionTelemetry.onConnectionStart(trigger, false) }
     }
 
     @Test
@@ -378,9 +378,9 @@ class VpnConnectionManagerTests {
         vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)
         vpnConnectionManager.reconnect(triggerAction = "test", fakeVpnUiDelegate)
         verifyOrder {
-            mockVpnConnectionTelemetry.onConnectionStart(trigger)
+            mockVpnConnectionTelemetry.onConnectionStart(trigger, false)
             // Reconnect and scanning starts before disconnecting.
-            mockVpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Reconnect)
+            mockVpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Reconnect, false)
             mockVpnConnectionTelemetry.onDisconnectionTrigger(ofType<DisconnectTrigger.Reconnect>(), connectionParams)
         }
     }

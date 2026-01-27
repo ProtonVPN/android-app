@@ -57,7 +57,7 @@ class ConnectionTelemetrySentryDebugEnabled @Inject constructor(
 @Singleton
 class VpnConnectionTelemetry @Inject constructor(
     private val mainScope: CoroutineScope,
-    @ElapsedRealtimeClock private val clock: () -> Long,
+    @param:ElapsedRealtimeClock private val clock: () -> Long,
     private val commonDimensions: CommonDimensions,
     private val vpnStateMonitor: VpnStateMonitor,
     private val connectivityMonitor: ConnectivityMonitor,
@@ -72,7 +72,8 @@ class VpnConnectionTelemetry @Inject constructor(
     private data class ConnectionInitInfo(
         val trigger: ConnectTrigger,
         val timestampMs: Long,
-        val vpnOn: Boolean
+        val vpnOn: Boolean,
+        val hasExcludedLocations: Boolean,
     )
 
     private var connectionInProgress: ConnectionInitInfo? = null
@@ -89,13 +90,19 @@ class VpnConnectionTelemetry @Inject constructor(
         }.launchIn(mainScope)
     }
 
-    fun onConnectionStart(trigger: ConnectTrigger) {
+    fun onConnectionStart(trigger: ConnectTrigger, hasExcludedLocations: Boolean) {
         if (trigger !is ConnectTrigger.Fallback || connectionInProgress == null) {
             connectionInProgress?.let {
                 reportImmediateAbortToSentry("new connection start")
                 sendConnectionEvent(Outcome.ABORTED, it, null)
             }
-            connectionInProgress = ConnectionInitInfo(trigger, clock(), vpnStateMonitor.isConnected)
+
+            connectionInProgress = ConnectionInitInfo(
+                trigger = trigger,
+                timestampMs = clock(),
+                vpnOn = vpnStateMonitor.isConnected,
+                hasExcludedLocations = hasExcludedLocations,
+            )
         }
     }
 
@@ -145,6 +152,7 @@ class VpnConnectionTelemetry @Inject constructor(
                     this["vpn_status"] = if (vpnOn) "on" else "off"
                     this["vpn_trigger"] = trigger.statsName
                     this["is_ipv6_enabled"] = connectionParams?.enableIPv6?.toTelemetry() ?: NO_VALUE
+                    this["has_active_exclusions"] = hasExcludedLocations.toTelemetry()
                     addCommonDimensions(outcome, connectionParams)
                     addServerFeatures(connectionParams?.server)
                 }

@@ -56,6 +56,7 @@ import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Storage
+import dagger.Lazy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -71,7 +72,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
-import me.proton.core.network.domain.session.SessionId
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -139,7 +139,7 @@ class VpnConnectionManager @Inject constructor(
     private val permissionDelegate: VpnPermissionDelegate,
     private val getFeatureFlags: GetFeatureFlags,
     private val settingsForConnection: SettingsForConnection,
-    private val backendProvider: dagger.Lazy<VpnBackendProvider>,
+    private val backendProvider: Lazy<VpnBackendProvider>,
     private val networkManager: NetworkManager,
     private val vpnErrorHandler: VpnConnectionErrorHandler,
     private val vpnStateMonitor: VpnStateMonitor,
@@ -147,11 +147,11 @@ class VpnConnectionManager @Inject constructor(
     private val serverManager: ServerManager2,
     private val certificateRepository: CertificateRepository,
     private val scope: CoroutineScope,
-    @WallClock private val now: () -> Long,
+    @param:WallClock private val now: () -> Long,
     private val currentVpnServiceProvider: CurrentVpnServiceProvider,
     private val currentUser: CurrentUser,
     private val supportsProtocol: SupportsProtocol,
-    powerManager: dagger.Lazy<PowerManager>,
+    powerManager: Lazy<PowerManager>,
     private val vpnConnectionTelemetry: VpnConnectionTelemetry,
     private val autoLoginManager: AutoLoginManager,
     private val vpnErrorAndFallbackObservability: VpnErrorAndFallbackObservability,
@@ -369,7 +369,10 @@ class VpnConnectionManager @Inject constructor(
                         // Not compatible protocol needs to ask user permission to switch
                         // If user accepts then continue through broadcast receiver
                         if (fallback.compatibleProtocol) {
-                            switchServerConnect(fallback)
+                            switchServerConnect(
+                                switch = fallback,
+                                hasExcludedLocations = observeExcludedLocations().first().hasExclusions,
+                            )
                         } else {
                             vpnConnectionTelemetry.onConnectionAbort(isFailure = true)
                         }
@@ -416,10 +419,10 @@ class VpnConnectionManager @Inject constructor(
         }
     }
 
-    private fun switchServerConnect(switch: VpnFallbackResult.Switch.SwitchServer) {
+    private fun switchServerConnect(switch: VpnFallbackResult.Switch.SwitchServer, hasExcludedLocations: Boolean) {
         clearOngoingConnection(clearFallback = false)
         ProtonLogger.log(ConnConnectTrigger, switch.log)
-        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Fallback(switch.log))
+        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Fallback(switch.log), hasExcludedLocations)
         launchConnect {
             preparedConnect(switch.preparedConnection, DisconnectTrigger.Fallback)
         }
@@ -583,9 +586,9 @@ class VpnConnectionManager @Inject constructor(
     ) {
         val settings = settingsForConnection.getFor(connectIntent)
         ProtonLogger.log(ConnConnectTrigger, "${connectIntent.toLog()}, reason: ${trigger.description}")
-        vpnConnectionTelemetry.onConnectionStart(trigger)
-        val vpnUser = currentUser.vpnUser()
         val excludedLocations = observeExcludedLocations().first()
+        vpnConnectionTelemetry.onConnectionStart(trigger, excludedLocations.hasExclusions)
+        val vpnUser = currentUser.vpnUser()
         val server = preferredServer ?: serverManager.getBestServerForConnectIntent(
             connectIntent = connectIntent,
             vpnUser = vpnUser,

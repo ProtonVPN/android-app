@@ -165,6 +165,7 @@ class VpnConnectionTelemetryTests {
             "network_type" to "wifi",
             "entry_ip" to "1.2.3.4",
             "is_ipv6_enabled" to "false",
+            "has_active_exclusions" to "false",
         )
         verify {
             mockTelemetry.event(
@@ -196,7 +197,7 @@ class VpnConnectionTelemetryTests {
         val dimensions = slot<Map<String, String>>()
         every { mockTelemetry.event(any(), any(), any(), capture(dimensions)) } returns Unit
 
-        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.QuickConnect("Test"))
+        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.QuickConnect("Test"), false)
         testScheduler.advanceTimeBy(10)
         vpnConnectionTelemetry.onConnectionAbort()
 
@@ -215,7 +216,8 @@ class VpnConnectionTelemetryTests {
             "port" to "n/a",
             "network_type" to "wifi",
             "entry_ip" to "n/a",
-            "is_ipv6_enabled" to "n/a"
+            "is_ipv6_enabled" to "n/a",
+            "has_active_exclusions" to "false",
         )
         verify {
             mockTelemetry.event(
@@ -240,10 +242,10 @@ class VpnConnectionTelemetryTests {
         val dimensions = slot<Map<String, String>>()
         every { mockTelemetry.event(any(), any(), any(), capture(dimensions)) } returns Unit
 
-        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.QuickConnect("Test"))
+        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.QuickConnect("Test"), false)
         testScheduler.advanceTimeBy(10)
 
-        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Auto("Test"))
+        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Auto("Test"), false)
         verify(exactly = 1) {
             mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any())
         }
@@ -265,7 +267,7 @@ class VpnConnectionTelemetryTests {
     fun `when disconnecting while connecting then aborted outcome is reported`() {
         val dimensions = slot<Map<String, String>>()
         every { mockTelemetry.event(any(), any(), any(), capture(dimensions)) } returns Unit
-        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.QuickConnect("Test"))
+        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.QuickConnect("Test"), false)
         vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.QuickConnect("test"), null)
 
         verify(exactly = 1) {
@@ -278,7 +280,7 @@ class VpnConnectionTelemetryTests {
     fun `when disconnecting due to error while connecting then failure outcome is reported`() {
         val dimensions = slot<Map<String, String>>()
         every { mockTelemetry.event(any(), any(), any(), capture(dimensions)) } returns Unit
-        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.QuickConnect("Test"))
+        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.QuickConnect("Test"), false)
         vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.Error("error"), null)
 
         verify(exactly = 1) {
@@ -307,7 +309,7 @@ class VpnConnectionTelemetryTests {
             mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any())
         }
 
-        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.QuickConnect("Test"))
+        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.QuickConnect("Test"), false)
         vpnConnectionTelemetry.onDisconnectionTrigger(disconnectTrigger, null)
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
         verify { mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_disconnection", any(), any()) }
@@ -375,7 +377,7 @@ class VpnConnectionTelemetryTests {
         )
 
     private fun connectSequence(connectionParams: ConnectionParams) {
-        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Auto("Test"))
+        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Auto("Test"), false)
         testScheduler.advanceTimeBy(10)
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
         testScheduler.runCurrent()
