@@ -83,7 +83,7 @@ class TelemetryUploadWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val mainScope: CoroutineScope,
-    private val telemetry: Telemetry,
+    private val telemetry: dagger.Lazy<Telemetry>,
     private val networkManager: NetworkManager,
 ) : CoroutineWorker(context, params) {
 
@@ -93,7 +93,7 @@ class TelemetryUploadWorker @AssistedInject constructor(
             ProtonLogger.logCustom(LogCategory.TELEMETRY, "UploadWorker: no network, retry layer")
             Result.retry()
         }
-        val result = telemetry.uploadPendingEvents()
+        val result = telemetry.get().uploadPendingEvents()
         when {
             result is Telemetry.UploadResult.Success && result.hasMoreEvents ->
                 TelemetryUploadWorkerScheduler.scheduleUpload(applicationContext, ExistingWorkPolicy.REPLACE, "more events")

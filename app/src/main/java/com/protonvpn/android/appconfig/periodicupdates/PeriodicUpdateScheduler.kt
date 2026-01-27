@@ -119,7 +119,7 @@ class PeriodicUpdateWorkerSchedulerImpl @Inject constructor(
 class PeriodicUpdateWork @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val periodicUpdateManager: PeriodicUpdateManager,
+    private val periodicUpdateManager: dagger.Lazy<PeriodicUpdateManager>,
     private val networkManager: NetworkManager,
     private val dispatcherProvider: VpnDispatcherProvider
 ) : CoroutineWorker(context, params) {
@@ -132,7 +132,7 @@ class PeriodicUpdateWork @AssistedInject constructor(
             return Result.failure()
         withContext(dispatcherProvider.Main) {
             ProtonLogger.logCustom(LogCategory.APP_PERIODIC, "processing triggered by WorkManager")
-            periodicUpdateManager.processPeriodic()
+            periodicUpdateManager.get().processPeriodic()
         }
         return Result.success()
     }

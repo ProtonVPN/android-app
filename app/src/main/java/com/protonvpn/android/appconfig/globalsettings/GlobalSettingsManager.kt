@@ -70,7 +70,7 @@ class NoopGlobalSettingsUpdateScheduler @Inject constructor(): GlobalSettingUpda
 class GlobalSettingsUpdateWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val globalSettingsManager: GlobalSettingsManager,
+    private val globalSettingsManager: dagger.Lazy<GlobalSettingsManager>,
     private val dispatcherProvider: DispatcherProvider
 ) : CoroutineWorker(context, params) {
 
@@ -95,7 +95,7 @@ class GlobalSettingsUpdateWorker @AssistedInject constructor(
             // When more settings are added this will become more complext
             val isEnabled = inputData.getBoolean(KEY_TELEMETRY_ENABLED, false)
             val result = withContext(dispatcherProvider.Main) {
-                globalSettingsManager.uploadGlobalTelemetrySetting(isEnabled)
+                globalSettingsManager.get().uploadGlobalTelemetrySetting(isEnabled)
             }
             if (result) Result.success() else Result.failure()
         } else {
