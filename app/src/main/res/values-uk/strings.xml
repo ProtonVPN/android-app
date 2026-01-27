@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Погода</string>
     <string name="app_icon_name_notes">Нотатки</string>
     <string name="app_icon_name_calculator">Калькулятор</string>
-    <!-- Strings related to login -->
     <string name="login">Увійти</string>
     <string name="menuActionSignOut">Вийти</string>
     <string name="connectionAllocationHelpTitle">Дякуємо за передплату</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Копіювати</string>
     <string name="copied_to_clipboard">Скопійовано до буфера обміну</string>
     <string name="got_it">Зрозуміло</string>
+    <string name="exclude_locations">Виключити розташування</string>
     <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Не вдається підʼєднатися</string>
+    <string name="skip">Пропустити</string>
     <string name="something_went_wrong">Виникла проблема</string>
     <string name="try_again">Повторити спробу</string>
     <string name="delete">Видалити</string>
@@ -613,7 +615,6 @@
     <string name="server_load_medium">Середнє</string>
     <string name="server_load_high">Високе</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Вітаємо у Proton VPN</string>
     <string name="onboarding_welcome_description">Приватний перегляд, доступ до заблокованого вмісту і задоволення від цифрової свободи.</string>
     <string name="onboarding_welcome_action">Розпочнімо</string>
@@ -670,7 +671,7 @@
     <string name="settings_default_connection_title">Типове з\'єднання</string>
     <string name="fastest_country_description">Найкращий сервер на основі вашого розташування</string>
     <string name="settings_connection_preferences_title">Параметри з\'єднання</string>
-    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item removed</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Елемент видалено</string>
     <string name="settings_excluded_locations_title">Винятки розташувань</string>
     <string name="settings_excluded_locations_description">Вибрані розташування ніколи не використовуватимуться для Найшвидшого з\'єднання.</string>
     <string name="settings_excluded_locations_unavailable">Немає доступних розташувань</string>
@@ -1168,7 +1169,7 @@
     <string name="country_filter_p2p_list_header">Країни P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Міста P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">Штати P2P (%1$d)</string>
-    <string name="counrty_filter_p2p_servers_list_header">P2P servers</string>
+    <string name="counrty_filter_p2p_servers_list_header">P2P-сервери</string>
     <string name="country_filter_tor_list_header">Країни Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Сервери Tor</string>
     <string name="country_filter_info_label">Інформація</string>
@@ -1224,7 +1225,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">Місто</string>
     <!-- Label for server location "state", as a state of the USA. -->
-    <string name="connection_details_state">State</string>
+    <string name="connection_details_state">Штат</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1552,7 +1553,6 @@
     <string name="search_zero_screen_info_cities_examples">Нью-Йорк, Лондон, Токіо, Сідней…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Помилка отримання цін.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Налаштуйте з\'єднання, вибравши програми, які захищаються VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Вибрані програми не захищатимуться VPN-з\'єднанням.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Лише вибрані програми під\'єднуються через VPN, а весь інший трафік не захищається.</string>
@@ -1662,7 +1662,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Переваги</string>
     <string name="settings_lan_allow_direct_connection_title">Дозволити прямі з\'єднання пристроїв</string>
     <string name="settings_lan_allow_direct_connection_description">Під\'єднуйтеся до Smart TV, Android Auto та інших пристроїв, що створюють власну мережу. Для максимальної безпеки вмикайте лише під час з\'єднання з цими пристроями.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Немає доступних з\'єднань VPN</string>
     <string name="no_connections_description_loading_error">Не вдалося завантажити список серверів.</string>
     <string name="no_connections_description_no_servers">Попросіть свого адміністратора ввімкнути доступ до VPN для вашого облікового запису.</string>
@@ -1677,4 +1676,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Увімкнути протокол Smart</string>
     <string name="settings_protocol_proton_protocols">Proton protocols</string>
     <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Не та країна, яку ви хотіли?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Якщо є розташування, до якого ви ніколи не хочете підключатися, ви можете вимкнути його з автоматичних підключень.</string>
+    <string name="excluded_locations_adoption_title">Уникайте небажаних розташувань</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Тепер ви можете виключати країни та міста зі списку <b>Найшвидші</b> зʼєднань.]]></string>
 </resources>

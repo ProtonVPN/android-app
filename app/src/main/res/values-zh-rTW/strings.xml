@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">天氣</string>
     <string name="app_icon_name_notes">備注</string>
     <string name="app_icon_name_calculator">計算機</string>
-    <!-- Strings related to login -->
     <string name="login">登入</string>
     <string name="menuActionSignOut">登出</string>
     <string name="connectionAllocationHelpTitle">感謝升級</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">複製</string>
     <string name="copied_to_clipboard">已複製到剪貼簿</string>
     <string name="got_it">了解</string>
+    <string name="exclude_locations">Exclude locations</string>
     <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Cannot connect</string>
+    <string name="skip">Skip</string>
     <string name="something_went_wrong">出了點問題</string>
     <string name="try_again">再試一次</string>
     <string name="delete">刪除</string>
@@ -565,7 +567,6 @@
     <string name="server_load_medium">中</string>
     <string name="server_load_high">高</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">歡迎使用 Proton VPN</string>
     <string name="onboarding_welcome_description">私密瀏覽、存取被封鎖的內容並享受數位自由。</string>
     <string name="onboarding_welcome_action">開始使用</string>
@@ -1444,7 +1445,6 @@
     <string name="search_zero_screen_info_cities_examples">紐約、倫敦、東京、悉尼…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">收取價格時發生錯誤。</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">決定哪些應用程式受 VPN 保護，以自訂您的連線。</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">選取的應用程式排除於 VPN 連線之外。</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">僅限選取的應用程式透過 VPN 連線，其餘流量不受保護。</string>
@@ -1554,7 +1554,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">優點</string>
     <string name="settings_lan_allow_direct_connection_title">允許直接裝置連線</string>
     <string name="settings_lan_allow_direct_connection_description">連接到智慧電視、Android Auto 和其他建立自身網路的裝置。為了獲得最大安全性，僅在連接到這些裝置時啟用。</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">沒有 VPN 連線可供使用</string>
     <string name="no_connections_description_loading_error">我們無法載入伺服器列表。</string>
     <string name="no_connections_description_no_servers">請您的管理員為您的帳號啟用 VPN 服務。</string>
@@ -1569,4 +1568,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">啟用 Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Proton 通訊協定</string>
     <string name="settings_protocol_proton_protocols_description">使用 Proton VPN 的 WireGuard 專用實作。這是一個實驗性功能，因此您可能會遇到一些不穩定情況。</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
+    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
 </resources>

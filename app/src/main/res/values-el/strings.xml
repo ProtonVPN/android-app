@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Καιρός</string>
     <string name="app_icon_name_notes">Σημειώσεις</string>
     <string name="app_icon_name_calculator">Αριθμομηχανή</string>
-    <!-- Strings related to login -->
     <string name="login">Σύνδεση</string>
     <string name="menuActionSignOut">Αποσύνδεση</string>
     <string name="connectionAllocationHelpTitle">Ευχαριστούμε για την αναβάθμιση</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Αντιγραφή</string>
     <string name="copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
     <string name="got_it">Το κατάλαβα</string>
+    <string name="exclude_locations">Εξαίρεση τοποθεσιών</string>
     <string name="excluded_locations">Εξαιρούμενες τοποθεσίες</string>
+    <string name="cannot_connect">Δεν είναι δυνατή η σύνδεση</string>
+    <string name="skip">Παράλειψη</string>
     <string name="something_went_wrong">Κάτι πήγε στραβά</string>
     <string name="try_again">Προσπαθήστε ξανά</string>
     <string name="delete">Διαγραφή</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">Μεσαία</string>
     <string name="server_load_high">Υψηλή</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Καλώς ήρθατε στο Proton VPN</string>
     <string name="onboarding_welcome_description">Περιηγηθείτε ιδιωτικά, αποκτήστε πρόσβαση σε αποκλεισμένο περιεχόμενο και απολαύστε ψηφιακή ελευθερία.</string>
     <string name="onboarding_welcome_action">Ξεκινήστε</string>
@@ -1035,7 +1036,7 @@
     <string name="message_server_in_maintenance">Διακομιστής υπό συντήρηση</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Ο διακομιστής δεν είναι διαθέσιμος</string>
-    <string name="message_server_location_excluded">Η τοποθεσία του διακομιστή αποκλείστηκε</string>
+    <string name="message_server_location_excluded">Η τοποθεσία του διακομιστή εξαιρέθηκε</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Πύλη υπό συντήρηση</string>
     <!-- tag(Redesign_2023) -->
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">Νέα Υόρκη, Λονδίνο, Τόκιο, Σίδνεϊ…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Σφάλμα κατά την ανάκτηση τιμών.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Προσαρμόστε τη σύνδεσή σας αποφασίζοντας ποιες εφαρμογές προστατεύονται από VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Οι επιλεγμένες εφαρμογές εξαιρούνται από τη σύνδεση VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Μόνο επιλεγμένες εφαρμογές συνδέονται μέσω VPN, όλη η άλλη κίνηση είναι απροστάτευτη.</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Πλεονεκτήματα</string>
     <string name="settings_lan_allow_direct_connection_title">Να επιτρέπεται η άμεση σύνδεση συσκευών</string>
     <string name="settings_lan_allow_direct_connection_description">Συνδεθείτε σε Smart TVs, Android Auto και άλλες συσκευές που δημιουργούν το δικό τους δίκτυο. Για μέγιστη ασφάλεια, ενεργοποιείτε το μόνο όταν συνδέεστε με αυτές τις συσκευές.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Δεν υπάρχουν διαθέσιμες συνδέσεις VPN</string>
     <string name="no_connections_description_loading_error">Δεν ήταν δυνατή η φόρτωση της λίστας διακομιστών.</string>
     <string name="no_connections_description_no_servers">Ζητήστε από τον διαχειριστή σας να ενεργοποιήσει την πρόσβαση VPN για τον λογαριασμό σας.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ενεργοποίηση Smart protocol</string>
     <string name="settings_protocol_proton_protocols">Πρωτόκολλα Proton</string>
     <string name="settings_protocol_proton_protocols_description">Χρησιμοποιήστε την εφαρμογή WireGuard της Proton VPN. Πρόκειται για μια πειραματική λειτουργία, οπότε ενδέχεται να αντιμετωπίσετε κάποια αστάθεια.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Δεν είναι η χώρα που θέλατε;</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Εάν υπάρχει μια τοποθεσία στην οποία δεν θέλετε ποτέ να συνδεθείτε, μπορείτε να την εξαιρέσετε από τις αυτόματες συνδέσεις.</string>
+    <string name="excluded_locations_adoption_title">Αποφύγετε ανεπιθύμητες τοποθεσίες</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Τώρα μπορείτε να εξαιρέσετε χώρες και πόλεις από τις <b>Ταχύτερες</b> συνδέσεις.]]></string>
 </resources>

@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Cuaca</string>
     <string name="app_icon_name_notes">Catatan</string>
     <string name="app_icon_name_calculator">Kalkulator</string>
-    <!-- Strings related to login -->
     <string name="login">Masuk</string>
     <string name="menuActionSignOut">Keluar</string>
     <string name="connectionAllocationHelpTitle">Terima kasih telah meningkatkan akun</string>
@@ -58,8 +57,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Dalam pemeliharaan</string>
     <string name="restrictedMaintenanceDescription">Server yang Anda coba sambungkan sedang dalam pemeliharaan. Mohon coba server lainnya.</string>
-    <string name="restricted_location_excluded_dialog_title">Koneksi gagal</string>
-    <string name="restricted_location_excluded_dialog_description">Tidak ada server yang tersedia. Silakan pilih lokasi secara manual atau sunting lokasi yang Anda kecualikan.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[Akun Anda saat ini memiliki faktur yang tertunggak. Silakan lunasi seluruh tagihan yang belum lunas pada&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Anda telah mencapai jumlah koneksi serentak yang diizinkan bagi akun Anda. Silakan tingkatkan paket Proton VPN Anda untuk memperoleh lebih banyak koneksi.</string>
     <string name="listItemMaintenance">Dalam pemeliharaan</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Salin</string>
     <string name="copied_to_clipboard">Disalin ke papan klip</string>
     <string name="got_it">Mengerti</string>
-    <string name="excluded_locations">Lokasi yang dikecualikan</string>
+    <string name="exclude_locations">Exclude locations</string>
+    <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Cannot connect</string>
+    <string name="skip">Skip</string>
     <string name="something_went_wrong">Terdapat suatu kesalahan</string>
     <string name="try_again">Coba lagi</string>
     <string name="delete">Hapus</string>
@@ -565,7 +567,6 @@
     <string name="server_load_medium">Sedang</string>
     <string name="server_load_high">Tinggi</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Selamat datang di Proton VPN</string>
     <string name="onboarding_welcome_description">Jelajahi internet secara privat, akses konten yang diblokir, dan nikmati kebebasan digital.</string>
     <string name="onboarding_welcome_action">Mulai</string>
@@ -1010,7 +1011,7 @@
     <string name="message_server_in_maintenance">Server sedang dalam pemeliharaan</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server tidak tersedia</string>
-    <string name="message_server_location_excluded">Lokasi server dikecualikan</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway dalam pemeliharaan</string>
     <!-- tag(Redesign_2023) -->
@@ -1444,7 +1445,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Terdapat kesalahan dalam memperoleh daftar harga.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi mana saja yang akan terlindung oleh VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplikasi yang dipilih dikecualikan dari koneksi VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Hanya aplikasi yang dipilih yang akan terhubung melalui VPN, lalu lintas lainnya tidak terlindungi.</string>
@@ -1497,7 +1497,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Pilihan server Anda untuk \'%1$s\' tidak tersedia. Silakan pilih server lain atau coba lagi nanti.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[Pilihan server Anda untuk <b>%1$s</b> tidak tersedia. Silakan pilih server yang berbeda, periksa lokasi yang Anda kecualikan, atau coba lagi nanti.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ikon %1$d</string>
@@ -1554,7 +1554,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Kelebihan</string>
     <string name="settings_lan_allow_direct_connection_title">Izinkan koneksi perangkat secara langsung</string>
     <string name="settings_lan_allow_direct_connection_description">Sambungkan ke TV Pintar, Android Auto, dan perangkat lain yang membuat jaringannya sendiri. Untuk keamanan maksimum, aktifkan hanya saat menyambungkan ke perangkat ini.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Tidak ada koneksi VPN yang tersedia</string>
     <string name="no_connections_description_loading_error">Kami tidak dapat memuat daftar server.</string>
     <string name="no_connections_description_no_servers">Mintalah administrator Anda untuk mengaktifkan akses VPN bagi akun Anda.</string>
@@ -1569,4 +1568,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Aktifkan protokol Smart</string>
     <string name="settings_protocol_proton_protocols">Protokol Proton</string>
     <string name="settings_protocol_proton_protocols_description">Gunakan implementasi WireGuard milik Proton VPN. Fitur ini adalah fitur eksperimental, sehingga Anda mungkin akan dapat mengalami ketidakstabilan.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
+    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
 </resources>

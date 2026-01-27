@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Vær</string>
     <string name="app_icon_name_notes">Notater</string>
     <string name="app_icon_name_calculator">Kalkulator</string>
-    <!-- Strings related to login -->
     <string name="login">Logg på</string>
     <string name="menuActionSignOut">Logg av</string>
     <string name="connectionAllocationHelpTitle">Takk for at du oppgraderte</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Kopier</string>
     <string name="copied_to_clipboard">Kopiert til utklippstavlen</string>
     <string name="got_it">Skjønner</string>
+    <string name="exclude_locations">Exclude locations</string>
     <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Cannot connect</string>
+    <string name="skip">Skip</string>
     <string name="something_went_wrong">Noe gikk galt</string>
     <string name="try_again">Prøv igjen</string>
     <string name="delete">Slett</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">Middels</string>
     <string name="server_load_high">Høy</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Velkommen til Proton VPN</string>
     <string name="onboarding_welcome_description">Surf privat, få tilgang til blokkert innhold og nyt digital frihet.</string>
     <string name="onboarding_welcome_action">Kom i gang</string>
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Feil ved henting av priser.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Tilpass tilkoblingen din ved å bestemme hvilke apper som er beskyttet av VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Valgte apper er ekskludert fra VPN-tilkobling.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Bare valgte apper kobles til gjennom VPN, all annen trafikk er ubeskyttet.</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Fordeler</string>
     <string name="settings_lan_allow_direct_connection_title">Tillat direkte enhetstilkoblinger</string>
     <string name="settings_lan_allow_direct_connection_description">Koble til smart-TV-er, Android Auto og andre enheter som oppretter sitt eget nettverk. For maksimal sikkerhet, bare aktiver når du kobler til disse enhetene.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Ingen VPN-tilkoblinger tilgjengelig</string>
     <string name="no_connections_description_loading_error">Vi kunne ikke laste inn tjenerlisten.</string>
     <string name="no_connections_description_no_servers">Be administratoren din om å aktivere VPN-tilgang for kontoen din.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Aktiver Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Proton-protokoller</string>
     <string name="settings_protocol_proton_protocols_description">Bruk Protons egen implementering av WireGuard. Dette er en eksperimentell funksjon, så du kan oppleve en viss ustabilitet.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
+    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
 </resources>

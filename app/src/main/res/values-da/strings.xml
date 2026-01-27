@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Vejr</string>
     <string name="app_icon_name_notes">Notater</string>
     <string name="app_icon_name_calculator">Lommeregner</string>
-    <!-- Strings related to login -->
     <string name="login">Log ind</string>
     <string name="menuActionSignOut">Log ud</string>
     <string name="connectionAllocationHelpTitle">Tak for opgraderingen</string>
@@ -58,8 +57,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Under vedligeholdelse</string>
     <string name="restrictedMaintenanceDescription">Serveren du i øjeblikket forsøger at forbinde til, er under vedligeholdelse. Prøv en anden server.</string>
-    <string name="restricted_location_excluded_dialog_title">Forbindelse mislykkedes</string>
-    <string name="restricted_location_excluded_dialog_description">Ingen tilgængelige servere. Vælg en placering manuelt, eller redigér dine udelukkede lokationer.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[Din konto har i øjeblikket en forfalden faktura, som vi beder dig betale på&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Du har ramt det maksimale antal samtidige forbindelser, der er tilladt for din konto. Opgradér dit Proton VPN-abonnement for at få flere forbindelser.</string>
     <string name="listItemMaintenance">Under vedligeholdelse</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Kopiér</string>
     <string name="copied_to_clipboard">Kopieret til udklipsholder</string>
     <string name="got_it">Forstået</string>
-    <string name="excluded_locations">Udelukkede lokationer</string>
+    <string name="exclude_locations">Udeluk lokationer</string>
+    <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Kan ikke oprette forbindelse</string>
+    <string name="skip">Spring over</string>
     <string name="something_went_wrong">Noget gik galt</string>
     <string name="try_again">Forsøg igen</string>
     <string name="delete">Slet</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">Mellem</string>
     <string name="server_load_high">Høj</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Velkommen til Proton VPN</string>
     <string name="onboarding_welcome_description">Browse privat, få adgang til blokeret indhold, og nyd digital frihed.</string>
     <string name="onboarding_welcome_action">Kom godt i gang</string>
@@ -1035,7 +1036,7 @@
     <string name="message_server_in_maintenance">Server under vedligeholdelse</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server ikke tilgængelig</string>
-    <string name="message_server_location_excluded">Server-lokation udelukket</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway under vedligeholdelse</string>
     <!-- tag(Redesign_2023) -->
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Fejl under indhentning af priser.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Tilpas din forbindelse ved at afgøre, hvilke apps skal beskyttes af VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Udvalgte apps er udelukket fra VPN-forbindelse.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Kun udvalgte apps får forbindelse via VPN, al anden trafik er ubeskyttet.</string>
@@ -1533,7 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Dit servervalg for \'%1$s\' er utilgængeligt. Vælg en anden server, eller prøv igen senere.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[Dit servervalg for <b>%1$s</b> er utilgængeligt. Vælg en anden server, tjek dine udelukkede lokationer eller prøv igen senere.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ikon %1$d</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Fordele</string>
     <string name="settings_lan_allow_direct_connection_title">Tillad direkte enhedsforbindelser</string>
     <string name="settings_lan_allow_direct_connection_description">Forbind til Smart-tv\'er, Android Auto og andre enheder, der opretter deres eget netværk. Af hensyn til maksimal sikkerhed bør du kun aktivere dette, når du forbinder til disse enheder.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Ingen VPN-forbindelser tilgængelige</string>
     <string name="no_connections_description_loading_error">Vi kunne ikke indlæse serverlisten.</string>
     <string name="no_connections_description_no_servers">Bed din administrator om at aktivere VPN-adgang til din konto.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Aktivér Smart-protokol</string>
     <string name="settings_protocol_proton_protocols">Proton-protokoller</string>
     <string name="settings_protocol_proton_protocols_description">Brug Protons egen implementering af WireGuard. Dette er en eksperimentel funktion, så du kan opleve en vis ustabilitet.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Ikke det land, du ønskede?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Hvis der er en placering, du aldrig vil være forbundet til, kan du udelukke den fra automatiske forbindelser.</string>
+    <string name="excluded_locations_adoption_title">Undgå uønskede lokationer</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Du kan nu udelukke lande og byer fra <b>Hurtigste</b> forbindelser.]]></string>
 </resources>

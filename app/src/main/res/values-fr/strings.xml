@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Météo</string>
     <string name="app_icon_name_notes">Notes</string>
     <string name="app_icon_name_calculator">Calculatrice</string>
-    <!-- Strings related to login -->
     <string name="login">Se connecter</string>
     <string name="menuActionSignOut">Se déconnecter</string>
     <string name="connectionAllocationHelpTitle">Merci d\'avoir choisi la version supérieure</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Copier</string>
     <string name="copied_to_clipboard">Copié dans le presse-papiers</string>
     <string name="got_it">J\'ai compris</string>
+    <string name="exclude_locations">Emplacements exclus</string>
     <string name="excluded_locations">Emplacements exclus</string>
+    <string name="cannot_connect">Impossible de se connecter</string>
+    <string name="skip">Ignorer</string>
     <string name="something_went_wrong">Une erreur s\'est produite.</string>
     <string name="try_again">Réessayer</string>
     <string name="delete">Supprimer</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">Moyenne</string>
     <string name="server_load_high">Élevée</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Bienvenue sur Proton VPN</string>
     <string name="onboarding_welcome_description">Naviguez en toute confidentialité, accédez aux contenus bloqués et profitez de la liberté numérique.</string>
     <string name="onboarding_welcome_action">Commencer</string>
@@ -1035,7 +1036,7 @@
     <string name="message_server_in_maintenance">Le serveur est en maintenance.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Le serveur n\'est pas disponible.</string>
-    <string name="message_server_location_excluded">L\'emplacement du serveur a été exclu</string>
+    <string name="message_server_location_excluded">L\'emplacement du serveur a été exclu.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">La passerelle est en maintenance.</string>
     <!-- tag(Redesign_2023) -->
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, Londres, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Une erreur s\'est produite lors de la récupération des tarifs.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Personnalisez votre connexion en décidant quelles applications sont protégées par le VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Les applications sélectionnées sont exclues de la connexion VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Seules les applications sélectionnées se connectent via VPN. Tout autre trafic n\'est pas protégé.</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Avantages</string>
     <string name="settings_lan_allow_direct_connection_title">Autoriser les connexions directes des appareils</string>
     <string name="settings_lan_allow_direct_connection_description">Connectez-vous aux Smart TV, à Android Auto et à d\'autres appareils qui créent leur propre réseau. Pour une sécurité maximale, activez uniquement cette fonction lorsque vous vous connectez à ces appareils.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Aucune connexion VPN disponible</string>
     <string name="no_connections_description_loading_error">Nous n\'avons pas pu charger la liste des serveurs.</string>
     <string name="no_connections_description_no_servers">Demandez à votre administrateur d\'activer l\'accès VPN pour votre compte.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Activer Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Protocoles Proton</string>
     <string name="settings_protocol_proton_protocols_description">Utilisez l\'implémentation de WireGuard spécifique à Proton VPN. Il s\'agit d\'une fonctionnalité expérimentale, vous pourriez donc rencontrer une certaine instabilité.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Ce n\'est pas le pays que vous vouliez ?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Si un emplacement ne doit jamais être utilisé, vous pouvez l\'exclure des connexions automatiques.</string>
+    <string name="excluded_locations_adoption_title">Évitez les emplacements non désirés</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Vous pouvez désormais exclure des pays et des villes des connexions <b>les plus rapides</b>.]]></string>
 </resources>

@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">ამინდი</string>
     <string name="app_icon_name_notes">შენიშვნები</string>
     <string name="app_icon_name_calculator">კალკულატორი</string>
-    <!-- Strings related to login -->
     <string name="login">შესვლა</string>
     <string name="menuActionSignOut">გასვლა</string>
     <string name="connectionAllocationHelpTitle">მადლობა განახლებისთვის</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">კოპირება</string>
     <string name="copied_to_clipboard">დაკოპირდა გაცვლის ბუფერში</string>
     <string name="got_it">გავიგე</string>
+    <string name="exclude_locations">Exclude locations</string>
     <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Cannot connect</string>
+    <string name="skip">Skip</string>
     <string name="something_went_wrong">რაღაც არასწორად წავიდა</string>
     <string name="try_again">კიდევ ცდა</string>
     <string name="delete">წაშლა</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">საშუალო</string>
     <string name="server_load_high">მაღალი</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">მოგესალმებით Proton VPN-ში</string>
     <string name="onboarding_welcome_description">იმუშავეთ ინტერნეტში ინკოგნიტოდ, იქონიეთ წვდომა დაბლოკილ შემცველობასთან და ისიამოვნეთ ციფრული თავისუფლებით.</string>
     <string name="onboarding_welcome_action">დაიწყეთ</string>
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">ნიუ იორკი, ლონდონი, ტოკიო, სიდნეი…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">ფასების გამოთხოვის შეცდომა.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">მოირგეთ თქვენი მიერთება, გადაწყვიტეთ, რომელი აპები იქნებიან VPN-ით დაცული.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">მონიშნული აპები ამოღებულია VPN მიერთებიდან.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">მხოლოდ, არჩეული აპები გამოიყენებენ VPN-ს. დანარჩენი ყველაფერი დაუცველი იქნება.</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
     <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
     <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">No VPN connections available</string>
     <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
     <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart Protocol-ის ჩართვა</string>
     <string name="settings_protocol_proton_protocols">Proton protocols</string>
     <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
+    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
 </resources>

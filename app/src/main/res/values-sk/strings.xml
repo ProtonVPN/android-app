@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Počasie</string>
     <string name="app_icon_name_notes">Poznámky</string>
     <string name="app_icon_name_calculator">Kalkulačka</string>
-    <!-- Strings related to login -->
     <string name="login">Prihlásiť sa</string>
     <string name="menuActionSignOut">Odhlásiť sa</string>
     <string name="connectionAllocationHelpTitle">Ďakujeme za inováciu</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Kopírovať</string>
     <string name="copied_to_clipboard">Skopírované do schránky</string>
     <string name="got_it">Rozumiem</string>
+    <string name="exclude_locations">Vylúčiť lokality</string>
     <string name="excluded_locations">Vylúčené lokality</string>
+    <string name="cannot_connect">Nie je možné pripojiť sa</string>
+    <string name="skip">Preskočiť</string>
     <string name="something_went_wrong">Niečo sa pokazilo</string>
     <string name="try_again">Skús znova</string>
     <string name="delete">Vymazať</string>
@@ -613,7 +615,6 @@
     <string name="server_load_medium">Stredné</string>
     <string name="server_load_high">Vysoké</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Víta vás Proton VPN</string>
     <string name="onboarding_welcome_description">Surfujte v súkromí, získajte prístup k blokovanému obsahu a užívajte si digitálnu slobodu.</string>
     <string name="onboarding_welcome_action">Začíname</string>
@@ -1552,7 +1553,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, Londýn, Tokio, Sydney...</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Chyba pri načítavaní cien.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Prispôsobte si pripojenie tým, že sa rozhodnete, ktoré aplikácie budú chránené pomocou VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Zvolené aplikácie sú vylúčené z vášho VPN pripojenia.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Cez VPN sa pripájajú len vybrané aplikácie, všetka ostatná prevádzka je nechránená.</string>
@@ -1662,7 +1662,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Výhody</string>
     <string name="settings_lan_allow_direct_connection_title">Povoliť priame pripojenia zariadení</string>
     <string name="settings_lan_allow_direct_connection_description">Pripojenie k inteligentným televízorom, systému Android Auto a ďalším zariadeniam, ktoré vytvárajú vlastnú sieť. V záujme maximálneho zabezpečenia povoľte túto funkciu len pri pripájaní k týmto zariadeniam.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">K dispozícii nie sú žiadne VPN pripojenia</string>
     <string name="no_connections_description_loading_error">Nepodarilo sa nám načítať zoznam serverov.</string>
     <string name="no_connections_description_no_servers">Požiadajte svojho správcu, aby pre váš účet povolil prístup cez VPN.</string>
@@ -1677,4 +1676,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Povoliť Smart protocol</string>
     <string name="settings_protocol_proton_protocols">Proton protokoly</string>
     <string name="settings_protocol_proton_protocols_description">Použite vlastnú implementáciu WireGuard od Proton VPN. Ide o experimentálnu funkciu, takže sa môže vyskytnúť určitá nestabilita.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Nie je to krajina, ktorú ste chceli?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Ak existuje lokalita, ku ktorej sa nikdy nechcete pripájať, môžete ju vylúčiť z automatických pripojení.</string>
+    <string name="excluded_locations_adoption_title">Vyhnite sa nežiaducim lokalitám</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Teraz môžete vylúčiť krajiny a mestá z <b>najrýchlejších</b> pripojení.]]></string>
 </resources>

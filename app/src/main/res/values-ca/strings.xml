@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Temps</string>
     <string name="app_icon_name_notes">Notes</string>
     <string name="app_icon_name_calculator">Calculadora</string>
-    <!-- Strings related to login -->
     <string name="login">Inicia la sessió</string>
     <string name="menuActionSignOut">Tanca la sessió</string>
     <string name="connectionAllocationHelpTitle">Gràcies per millorar el vostre pla.</string>
@@ -59,7 +58,7 @@
     <string name="restrictedMaintenanceTitle">En manteniment</string>
     <string name="restrictedMaintenanceDescription">El servidor al qual intenteu connectar-vos està en manteniment. Proveu amb un altre servidor.</string>
     <string name="restricted_location_excluded_dialog_title">Ha fallat la connexió</string>
-    <string name="restricted_location_excluded_dialog_description">No s\'han trobat servidors. Trieu una ubicació manualment o editeu les vostres ubicacions excloses.</string>
+    <string name="restricted_location_excluded_dialog_description">No hi ha cap servidor disponible. Trieu una ubicació manualment o editeu les vostres ubicacions excloses.</string>
     <string name="errorUserDelinquent"><![CDATA[El vostre compte té actualment una factura vençuda. Pagueu totes les factures impagades en &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Heu arribat al nombre màxim de connexions permès per al vostre compte. Milloreu el vostre pla de Proton VPN per a obtenir més connexions.</string>
     <string name="listItemMaintenance">En manteniment</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Copia</string>
     <string name="copied_to_clipboard">S\'ha copiat al porta-retalls.</string>
     <string name="got_it">Ho heu aconseguit</string>
+    <string name="exclude_locations">Excloeu ubicacions</string>
     <string name="excluded_locations">Ubicacions excloses</string>
+    <string name="cannot_connect">No s\'ha pogut connectar</string>
+    <string name="skip">Ometeu-ho</string>
     <string name="something_went_wrong">Alguna cosa ha anat malament.</string>
     <string name="try_again">Torna-ho a provar</string>
     <string name="delete">Elimina</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">Mitjana</string>
     <string name="server_load_high">Alta</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Us donem la benvinguda a Proton VPN</string>
     <string name="onboarding_welcome_description">Navegueu en privat, accediu a continguts bloquejats i gaudiu de llibertat digital.</string>
     <string name="onboarding_welcome_action">Comença</string>
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">Nova York, Londres, Tòquio, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">S\'ha produït un error en obtenir els preus.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Personalitzeu la vostra connexió decidint quines apps estan protegides per VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Les aplicacions seleccionades s\'exclouen de la connexió VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Només les aplicacions seleccionades es connecten mitjançant VPN. La resta del trànsit no està protegit.</string>
@@ -1533,7 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">La selecció de servidor per a %1$s no està disponible. Seleccioneu un altre servidor o torneu-ho a provar més tard.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[La vostra selecció de servidor per <b>%1$s</b> no està disponible. Seleccioneu-ne un altre, comproveu les vostres ubicacions excloses o torneu-ho a intentar més tard.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[La vostra selecció de servidor per a <b>%1$s</b> no està disponible. Seleccioneu-ne un de diferent, comproveu les vostres ubicacions excloses o torneu-ho a intentar més tard.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Icona %1$d</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Avantatges</string>
     <string name="settings_lan_allow_direct_connection_title">Connexions directes de dispositius</string>
     <string name="settings_lan_allow_direct_connection_description">Connecteu-vos a Smart TVs, Android Auto i altres dispositius que creen la seva pròpia xarxa. Per a màxima seguretat, activeu-ho només quan us connecteu a aquests dispositius.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">No hi ha connexions VPN disponibles</string>
     <string name="no_connections_description_loading_error">No s\'ha pogut carregar la llista de servidors.</string>
     <string name="no_connections_description_no_servers">Demaneu a l\'administrador que activi l\'accés a la VPN per al vostre compte.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Habiliteu el protocol Smart</string>
     <string name="settings_protocol_proton_protocols">Protocols Proton</string>
     <string name="settings_protocol_proton_protocols_description">Feu servir la implementació pròpia de WireGuard de Proton VPN. Aquesta és una característica experimental, de manera que podríeu notar certa inestabilitat.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">No és el país que volíeu?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Si hi ha cap ubicació a què no us vulgueu connectar mai, podeu excloure-la de les connexions automàtiques.</string>
+    <string name="excluded_locations_adoption_title">Eviteu ubicacions no desitjades</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Ara podeu excloure països i ciutats de les connexions <b>més ràpides</b>.]]></string>
 </resources>

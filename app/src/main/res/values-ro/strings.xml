@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Meteo</string>
     <string name="app_icon_name_notes">Notițe</string>
     <string name="app_icon_name_calculator">Calculator</string>
-    <!-- Strings related to login -->
     <string name="login">Conectare</string>
     <string name="menuActionSignOut">Deconectare</string>
     <string name="connectionAllocationHelpTitle">Vă mulțumim pentru achiziționare</string>
@@ -58,8 +57,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">În întreținere</string>
     <string name="restrictedMaintenanceDescription">Serverul la care se dorește conectarea este în întreținere. Încercați alt server.</string>
-    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
-    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
+    <string name="restricted_location_excluded_dialog_title">Conexiunea a eșuat</string>
+    <string name="restricted_location_excluded_dialog_description">Nu există servere disponibile. Alegeți manual un loc sau editați locurile excluse.</string>
     <string name="errorUserDelinquent"><![CDATA[Contul are în prezent o factură restantă. Vă rugăm să plătiți toate facturile neachitate la adresa&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Ați atins numărul maxim de conexiuni simultane permise pentru acest cont. Modificați-vă planul Proton VPN pentru a obține mai multe conexiuni.</string>
     <string name="listItemMaintenance">În întreținere</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Copiere</string>
     <string name="copied_to_clipboard">Copiat în memorie.</string>
     <string name="got_it">Am înțeles</string>
-    <string name="excluded_locations">Excluded locations</string>
+    <string name="exclude_locations">Excludere locuri</string>
+    <string name="excluded_locations">Locuri excluse</string>
+    <string name="cannot_connect">Nu se poate conecta</string>
+    <string name="skip">Omitere</string>
     <string name="something_went_wrong">Ceva nu a funcționat corect</string>
     <string name="try_again">Reîncercați</string>
     <string name="delete">Ștergere</string>
@@ -597,7 +599,6 @@
     <string name="server_load_medium">Medie</string>
     <string name="server_load_high">Mare</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Bine ați venit la Proton VPN</string>
     <string name="onboarding_welcome_description">Navigați în privat, accesați conținutul blocat și bucurați-vă de libertatea digitală.</string>
     <string name="onboarding_welcome_action">Să începem</string>
@@ -1060,7 +1061,7 @@
     <string name="message_server_in_maintenance">Servere în întreținere</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Serverul nu este disponibil</string>
-    <string name="message_server_location_excluded">Server location excluded</string>
+    <string name="message_server_location_excluded">Loc server exclus</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Poartă de acces în mentenanță</string>
     <!-- tag(Redesign_2023) -->
@@ -1516,7 +1517,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, Londra, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Eroare la preluarea prețurilor.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Personalizați-vă conexiunea decizând care aplicații sunt protejate de VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplicațiile selectate sunt excluse de la conexiunea prin VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Doar aplicațiile selectate se conectează prin VPN, orice alt trafic nefiind protejat.</string>
@@ -1569,7 +1569,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Serverul selectat pentru „%1$s” nu este disponibil. Selectați un server diferit sau încercați mai târziu.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Selectarea serverului pentru <b>%1$s</b> nu este disponibilă. Selectați un alt server, verificați locurile excluse sau încercați mai târziu.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Pictograma %1$d</string>
@@ -1626,7 +1626,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Avantaje</string>
     <string name="settings_lan_allow_direct_connection_title">Permitere conexiuni directe între dispozitive</string>
     <string name="settings_lan_allow_direct_connection_description">Conectați-vă la televizoare Smart, Android Auto și alte dispozitive care își creează propria rețea. Pentru securitate maximă, activați doar când vă conectați la aceste dispozitive.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Nu există conexiuni VPN disponibile</string>
     <string name="no_connections_description_loading_error">Lista de servere nu a putut fi încărcată.</string>
     <string name="no_connections_description_no_servers">Solicitați administratorului să vă activeze accesul VPN în cont.</string>
@@ -1641,4 +1640,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Activare Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Protocoale Proton</string>
     <string name="settings_protocol_proton_protocols_description">Utilizați propria implementare WireGuard de la Proton VPN. Aceasta este o funcționalitate experimentală, deci este posibil să întâmpinați unele instabilități.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Nu este țara pe care o doriți?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Dacă există un loc la care nu doriți să vă conectați niciodată, îl puteți exclude din conexiunile automate.</string>
+    <string name="excluded_locations_adoption_title">Evitare locuri nedorite</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Acum puteți exclude țări și orașe de la conexiunile <b>cele mai rapide</b>.]]></string>
 </resources>

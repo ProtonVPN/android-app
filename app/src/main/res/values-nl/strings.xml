@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Weer</string>
     <string name="app_icon_name_notes">Notities</string>
     <string name="app_icon_name_calculator">Rekenmachine</string>
-    <!-- Strings related to login -->
     <string name="login">Log in</string>
     <string name="menuActionSignOut">Uitloggen</string>
     <string name="connectionAllocationHelpTitle">Bedankt voor het upgraden</string>
@@ -58,8 +57,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">In onderhoud</string>
     <string name="restrictedMaintenanceDescription">De server waarmee u wil verbinden is momenteel in onderhoud. Kies een andere server.</string>
-    <string name="restricted_location_excluded_dialog_title">Verbinding mislukt</string>
-    <string name="restricted_location_excluded_dialog_description">Geen servers beschikbaar. Kies handmatig een locatie of bewerk de lijst met uitgesloten locaties.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[Uw account heeft momenteel een achterstallige factuur. Gelieve alle onbetaalde facturen te betalen op&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">U heeft het maximum aantal gelijktijdige verbindingen bereikt dat is toegestaan voor uw account. Upgrade uw Proton VPN-abonnement om meer verbindingen te krijgen.</string>
     <string name="listItemMaintenance">In onderhoud</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Kopieer</string>
     <string name="copied_to_clipboard">Gekopieerd naar het klembord</string>
     <string name="got_it">Begrepen</string>
-    <string name="excluded_locations">Uitgesloten locaties</string>
+    <string name="exclude_locations">Locaties uitsluiten</string>
+    <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Kan geen verbinding maken</string>
+    <string name="skip">Overslaan</string>
     <string name="something_went_wrong">Er is iets fout gegaan</string>
     <string name="try_again">Probeer opnieuw</string>
     <string name="delete">Verwijderen</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">Gemiddeld</string>
     <string name="server_load_high">Hoog</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Welkom bij Proton VPN</string>
     <string name="onboarding_welcome_description">Surf privé, bekijk geblokkeerde content en geniet van digitale vrijheid.</string>
     <string name="onboarding_welcome_action">Aan de slag</string>
@@ -1035,7 +1036,7 @@
     <string name="message_server_in_maintenance">Server ondergaat onderhoud</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server niet beschikbaar</string>
-    <string name="message_server_location_excluded">Serverlocatie uitgesloten</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway in onderhoud</string>
     <!-- tag(Redesign_2023) -->
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, Londen, Tokio, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Fout bij het ophalen van de prijzen.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Pas uw verbinding aan door te kiezen welke apps worden beschermd door VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Geselecteerde apps zijn uitgesloten van VPN-verbinding.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Alleen geselecteerde apps verbinden via VPN, al het andere verkeer is onbeschermd.</string>
@@ -1533,7 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Uw serverselectie voor %1$s is niet beschikbaar. Selecteer een andere server of probeer het later opnieuw.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[De geselecteerde server voor <b>%1$s</b> is onbeschikbaar. Selecteer een andere server, controleer uitgesloten locaties of probeer het later opnieuw.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Icoon %1$d</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Voordelen</string>
     <string name="settings_lan_allow_direct_connection_title">Directe apparaatverbindingen toestaan</string>
     <string name="settings_lan_allow_direct_connection_description">Verbinden met Smart-tv\'s, Android Auto en andere apparaten die hun eigen netwerk creëren. Voor maximale beveiliging schakelt u dit alleen in wanneer u verbinding maakt met deze apparaten.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Geen VPN-verbindingen beschikbaar</string>
     <string name="no_connections_description_loading_error">De serverlijst kon niet worden geladen.</string>
     <string name="no_connections_description_no_servers">Vraag uw beheerder om VPN-toegang voor uw account in te schakelen.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Schakel Smart-protocol in</string>
     <string name="settings_protocol_proton_protocols">Proton protocols</string>
     <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Niet het land dat u wenste?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Als er een locatie is waarmee u nooit verbonden wilt worden, kunt u deze uitsluiten van automatische verbindingen.</string>
+    <string name="excluded_locations_adoption_title">Ongewenste locaties vermijden</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[U kunt nu landen en steden uitsluiten van de <b>Snelste</b> verbindingen.]]></string>
 </resources>

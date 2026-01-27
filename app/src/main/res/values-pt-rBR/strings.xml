@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Clima</string>
     <string name="app_icon_name_notes">Notas</string>
     <string name="app_icon_name_calculator">Calculadora</string>
-    <!-- Strings related to login -->
     <string name="login">Iniciar sessão</string>
     <string name="menuActionSignOut">Encerrar sessão</string>
     <string name="connectionAllocationHelpTitle">Nós lhe agradecemos por fazer o upgrade.</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Copiar</string>
     <string name="copied_to_clipboard">Copiado para a área de transferência</string>
     <string name="got_it">Entendi</string>
+    <string name="exclude_locations">Exclude locations</string>
     <string name="excluded_locations">Localizações excluídas</string>
+    <string name="cannot_connect">Cannot connect</string>
+    <string name="skip">Pular</string>
     <string name="something_went_wrong">Algo deu errado</string>
     <string name="try_again">Tentar novamente</string>
     <string name="delete">Excluir</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">Média</string>
     <string name="server_load_high">Alta</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Boas-vindas ao Proton VPN</string>
     <string name="onboarding_welcome_description">Navegue com privacidade, acesse conteúdo bloqueado e desfrute da liberdade digital.</string>
     <string name="onboarding_welcome_action">Comece</string>
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">Nova York, Londres, Tóquio, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Erro ao buscar preços.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Personalize sua conexão decidindo quais aplicativos são protegidos por VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplicativos selecionados são excluídos da conexão VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Apenas aplicativos selecionados se conectam por meio da VPN, o restante do tráfego fica desprotegido.</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Benefícios</string>
     <string name="settings_lan_allow_direct_connection_title">Permitir conexões diretas com dispositivos</string>
     <string name="settings_lan_allow_direct_connection_description">Conecte-se a Smart TVs, Android Auto e outros dispositivos que criam a própria rede. Para máxima segurança, ative apenas ao se conectar a esses dispositivos.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Nenhuma conexão VPN disponível</string>
     <string name="no_connections_description_loading_error">Não foi possível carregar a lista de servidores.</string>
     <string name="no_connections_description_no_servers">Peça à administração para ativar o acesso VPN para sua conta.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ativar Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Protocolos da Proton</string>
     <string name="settings_protocol_proton_protocols_description">Use a implementação própria do WireGuard do Proton VPN. Este é um recurso experimental, portanto, você pode enfrentar alguma instabilidade.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
+    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
 </resources>

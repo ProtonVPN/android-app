@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Надвор\'е</string>
     <string name="app_icon_name_notes">Нататкі</string>
     <string name="app_icon_name_calculator">Калькулятар</string>
-    <!-- Strings related to login -->
     <string name="login">Увайсці</string>
     <string name="menuActionSignOut">Выйсці</string>
     <string name="connectionAllocationHelpTitle">Дзякуй, што палепшылі</string>
@@ -58,8 +57,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">На тэхнічным абслугоўванні</string>
     <string name="restrictedMaintenanceDescription">Сервер, да якога вы спрабуеце падключыцца ў дадзены момант, знаходзіцца на тэхнічным абслугоўванні. Выберыце іншы сервер.</string>
-    <string name="restricted_location_excluded_dialog_title">Збой падключэння</string>
-    <string name="restricted_location_excluded_dialog_description">Серверы недаступны. Выберыце месцазнаходжанне ўручную або адрэдагуйце выключаныя месцазнаходжанні.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[Ваш уліковы запіс мае пратэрмінаваны рахунак. Аплаціце ўсе неаплачаныя рахункі на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Вы дасягнулі максімальнай колькасці адначасовых падключэнняў, якія дазволены на вашым уліковым запісе. Палепшыце свой тарыфны план Proton VPN для атрымання большай колькасці адначасовых падключэнняў.</string>
     <string name="listItemMaintenance">На тэхнічным абслугоўванні</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Капіяваць</string>
     <string name="copied_to_clipboard">Скапіявана ў буфер абмену</string>
     <string name="got_it">Зразумела</string>
-    <string name="excluded_locations">Выключаныя месцазнаходжанні</string>
+    <string name="exclude_locations">Exclude locations</string>
+    <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Cannot connect</string>
+    <string name="skip">Skip</string>
     <string name="something_went_wrong">Нешта пайшло не так</string>
     <string name="try_again">Паспрабаваць яшчэ раз</string>
     <string name="delete">Выдаліць</string>
@@ -186,7 +188,7 @@
     <string name="accessibility_action_item_move_up">Перамясціць уверх</string>
     <string name="accessibility_action_item_move_down">Перамясціць уніз</string>
     <string name="tileConnected">Падключана: %1$s</string>
-    <string name="openUrlError">Не атрымалася адкрыць %1$s. На вашай прыладзе не знойдзены браўзер.</string>
+    <string name="openUrlError">Не атрымалася адкрыць %1$s. На вашай прыладзе не знойдзены вэб-браўзер.</string>
     <string name="loaderErrorTimeout">Час чакання падключэння завяршыўся. Паспрабуйце яшчэ раз.</string>
     <string name="troubleshootButton">Выпраўленне непаладак</string>
     <string name="activityTroubleshootTitle">Выпраўленне непаладак</string>
@@ -263,9 +265,9 @@
     <string name="netshield_data_details">Колькасць непажаданых даных ад рэкламы, праграм сачэння і шкодных праграм, якія заблакіраваў NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">рэклама заблакіравана</item>
-        <item quantity="few">рэкламы заблакіраваны</item>
-        <item quantity="many">рэклам заблакіраваны</item>
-        <item quantity="other">рэклам заблакіраваны</item>
+        <item quantity="few">рэкламы заблакіравана</item>
+        <item quantity="many">рэклам заблакіравана</item>
+        <item quantity="other">рэклам заблакіравана</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
         <item quantity="one">праграма сачэння спынена</item>
@@ -396,7 +398,7 @@
     <string name="upgrade_netshield_title">Атрымайце асалоду ад прагляду старонак у інтэрнэце без рэкламы</string>
     <string name="upgrade_netshield_message"><![CDATA[Блакіруйце рэкламу, праграмы сачэння і шкодныя праграмы з дапамогай <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Двайное шыфраванне</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Дадайце яшчэ адзін слой шыфравання ў сваё злучэнне VPN з дапамогай <b>Secure Core</b>.]]></string>
+    <string name="upgrade_secure_core_message"><![CDATA[Дадайце яшчэ адзін слой шыфравання ў сваё падключэнне па VPN з дапамогай <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Разблакіруйце аднарангавае (P2P) спампоўванне і абагульванне файлаў </string>
     <string name="upgrade_p2p_text">Палепшыце хуткасць спампоўвання і запампоўвання не раскрываючы свой IP-адрас.</string>
     <string name="upgrade_profiles_title">Атрымайце хуткі доступ да падключэнняў, якімі часта карыстаецеся</string>
@@ -550,7 +552,7 @@
     <string name="upsell_card_netshield_title">NetShield</string>
     <string name="upsell_card_netshield_description">Блакіроўка рэкламы, шкодных праграм і праграм сачэння</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
-    <string name="upsell_card_secure_core_description">Дадайце яшчэ адзін слой шыфравання ў ваша падключэнне па VPN</string>
+    <string name="upsell_card_secure_core_description">Дадайце яшчэ адзін слой шыфравання ў сваё падключэнне па VPN</string>
     <string name="upsell_card_p2p_title">Падтрымка P2P</string>
     <string name="upsell_card_p2p_description">Спампоўвайце файлы праз BitTorrent і іншыя пратаколы абагульвання файлаў</string>
     <string name="upsell_card_profiles_title">Профілі</string>
@@ -613,7 +615,6 @@
     <string name="server_load_medium">Сярэдняя</string>
     <string name="server_load_high">Высокая</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Вітаем у Proton VPN</string>
     <string name="onboarding_welcome_description">Прыватны прагляд, доступ да заблакіраванага змесціва і задавальненне ад лічбавай свабоды.</string>
     <string name="onboarding_welcome_action">Пачаць</string>
@@ -632,7 +633,7 @@
     <string name="dynamic_report_success_title">Дзякуй за ваш водгук</string>
     <string name="dynamic_report_success_description">Мы звяжамся з вамі ў самы бліжэйшы час.</string>
     <string name="dynamic_report_field_mandatory">Гэта абавязковае поле</string>
-    <string name="dynamic_report_logs_description">Журнал - гэта тып файла, які паказвае нам дзеянні, якія былі зроблены вамі і прывялі да памылкі. Мы заўсёды выкарыстоўваем яго толькі для таго, каб дапамагчы нашым інжынерам выправіць памылкі.</string>
+    <string name="dynamic_report_logs_description">Журнал - гэта тып файла. Ён паказвае нам дзеянні, якія былі зроблены вамі і прывялі да памылкі. Мы заўсёды выкарыстоўваем яго толькі для таго, каб дапамагчы нашым інжынерам выправіць памылкі.</string>
     <string name="dynamic_report_logs_missing">Журнал з памылкамі дазваляе нам зразумець самую сутнасць вашай праблемы. Калі вы не ўключыце яго, то ў нас не будзе магчымасці даследаваць праблему цалкам.</string>
     <string name="dynamic_report_step1">Крок 1 з 3</string>
     <string name="dynamic_report_step2">Крок 2 з 3</string>
@@ -706,7 +707,7 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">Засталося %1$s %2$s</string>
+    <string name="offer_time_left">Засталося: %1$s %2$s</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
         <item quantity="one">%1$d секунда</item>
@@ -1085,7 +1086,7 @@
     <string name="message_server_in_maintenance">Сервер на тэхнічным абслугоўванні</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Сервер недаступны</string>
-    <string name="message_server_location_excluded">Месцазнаходжанне сервера выключана</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Шлюз на тэхнічным абслугоўванні</string>
     <!-- tag(Redesign_2023) -->
@@ -1248,7 +1249,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Пратакол</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol_description">Пратакол задае інструкцыі вашай прыладзе, згодна з якімі, яна падключаецца і ажыццяўляе камунікацыю з серверам.</string>
+    <string name="connection_details_protocol_description">Пратакол задае інструкцыі, паводле якіх ваша прылада падключаецца да сервера і ажыццяўляе з ім камунікацыю.</string>
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
@@ -1540,7 +1541,7 @@
     <string name="info_p2p_why_description_hide">Хаванне вашага IP-адраса ад вашага пастаўшчыка паслуг інтэрнэту і аднарангавых вузлоў</string>
     <string name="info_dialog_smart_routing_description">Smart Routing выкарыстоўвае віртуальныя серверы, каб забяспечваць пакрыццё VPN у цяжкадаступных краінах.\n\nКалі вы падключаецеся да сервера Smart Routing, то ўсё будзе выглядаць так, быццам вы ажыццяўляеце прагляд з краіны прызначэння, хоць фізічна сервер размяшчаецца ў іншым месцы.\n\nSmart Routing звычайна выкарыстоўваюць для абыходу законаў, якія парушаюць прыватнасць і канфідэнцыяльнасць, а таксама іншых форм цэнзуры.</string>
     <string name="countries_upsell_banner_description">Тарыфны план VPN Plus забяспечвае пакрыццё ўсяго свету</string>
-    <string name="secure_core_upsell_banner_description">Дадайце яшчэ адзін слой шыфравання ў ваша падключэнне па VPN</string>
+    <string name="secure_core_upsell_banner_description">Дадайце яшчэ адзін слой шыфравання ў сваё падключэнне па VPN</string>
     <string name="p2p_upsell_banner_description">Спампоўвайце файлы праз BitTorrent і іншыя пратаколы абагульвання файлаў</string>
     <string name="tor_upsell_banner_description">Выкарыстоўвайце сетку Tor праз ваша падключэнне да VPN для дадатковай прыватнасці</string>
     <string name="vpnplus_upsell_banner_description">Палепшыць да VPN Plus</string>
@@ -1552,7 +1553,6 @@
     <string name="search_zero_screen_info_cities_examples">Нью-Ёрк, Лондан, Токіа, Сіднэй...</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Памылка атрымання цэн.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Наладзьце падключэнне вырашыўшы, якія праграмы будуць абаронены VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Выбраныя праграмы выключаны з вашага падключэння па VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Толькі выбраныя праграмы будуць падключаны праз VPN. Увесь астатні трафік застанецца неабароненым.</string>
@@ -1605,7 +1605,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Выбраны вамі сервер для %1$s у цяперашні час недаступны. Выберыце іншы сервер або паспрабуйце яшчэ раз пазней.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[Выбраны вамі сервер для <b>%1$s</b> недаступны. Выберыце іншы сервер, праверце свае выключаныя месцазнаходжанні або паспрабуйце пазней.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Значок %1$d</string>
@@ -1662,7 +1662,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Перавагі</string>
     <string name="settings_lan_allow_direct_connection_title">Дазволіць прамыя падключэнні прылад</string>
     <string name="settings_lan_allow_direct_connection_description">Падключыць да Smart TV, Android Auto і іншых прылад, якія ствараюць сваю ўласную сетку. Для максімальнай бяспекі ўключайце толькі пры падключэнні да гэтых прылад.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Няма даступных падключэнняў па VPN</string>
     <string name="no_connections_description_loading_error">Немагчыма загрузіць спіс сервераў.</string>
     <string name="no_connections_description_no_servers">Папрасіце свайго адміністратара ўключыць доступ да VPN для вашага ўліковага запісу.</string>
@@ -1677,4 +1676,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Уключыць пратакол Smart</string>
     <string name="settings_protocol_proton_protocols">Пратаколы Proton</string>
     <string name="settings_protocol_proton_protocols_description">Выкарыстоўвайце ўласную рэалізацыю WireGuard ад Proton VPN. Гэта эксперыментальная функцыя, таму вы можаце сутыкнуцца з некаторай нестабільнасцю.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
+    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
 </resources>

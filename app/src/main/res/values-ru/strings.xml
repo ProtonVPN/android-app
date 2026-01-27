@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Погода</string>
     <string name="app_icon_name_notes">Заметки</string>
     <string name="app_icon_name_calculator">Калькулятор</string>
-    <!-- Strings related to login -->
     <string name="login">Войти</string>
     <string name="menuActionSignOut">Выйти</string>
     <string name="connectionAllocationHelpTitle">Спасибо за улучшение тарифа</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Копировать</string>
     <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
     <string name="got_it">Я понял</string>
+    <string name="exclude_locations">Exclude locations</string>
     <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Cannot connect</string>
+    <string name="skip">Skip</string>
     <string name="something_went_wrong">Что-то пошло не так</string>
     <string name="try_again">Попробовать снова</string>
     <string name="delete">Удалить</string>
@@ -613,7 +615,6 @@
     <string name="server_load_medium">Средняя</string>
     <string name="server_load_high">Высокая</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Добро пожаловать в Proton VPN</string>
     <string name="onboarding_welcome_description">Просматривайте сайты в приватно, получайте доступ к заблокированному содержимому и пользуйтесь цифровой свободой.</string>
     <string name="onboarding_welcome_action">Приступить к работе</string>
@@ -1552,7 +1553,6 @@
     <string name="search_zero_screen_info_cities_examples">Нью-Йорк, Лондон, Токио, Сидней…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Ошибка загрузки цен.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Настройте свое подключение, определив, какие приложения будут защищены VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Выбранные приложения исключаются из подключения к VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Через VPN подключаются только выбранные приложения, весь остальной трафик остается незащищенным.</string>
@@ -1663,7 +1663,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Преимущества</string>
     <string name="settings_lan_allow_direct_connection_title">Разрешить прямые подключения устройств</string>
     <string name="settings_lan_allow_direct_connection_description">Подключайтесь к Smart TV, Android Auto и другим устройствам, создающим собственную сеть. Для обеспечения максимальной защищенности всегда включайте эту функцию при подключении к этим устройствам.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Нет доступных VPN-подключений</string>
     <string name="no_connections_description_loading_error">Не удалось загрузить список серверов.</string>
     <string name="no_connections_description_no_servers">Попросите вашего администратора включить доступ к VPN для вашего аккаунта.</string>
@@ -1678,4 +1677,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Включить Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Proton protocols</string>
     <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
+    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
 </resources>

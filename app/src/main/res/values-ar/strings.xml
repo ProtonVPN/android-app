@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">طقس</string>
     <string name="app_icon_name_notes">الملاحظات</string>
     <string name="app_icon_name_calculator">آلة حاسبة</string>
-    <!-- Strings related to login -->
     <string name="login">تسجيل الدخول</string>
     <string name="menuActionSignOut">تسجيل الخروج</string>
     <string name="connectionAllocationHelpTitle">شكراً على الترقية</string>
@@ -58,7 +57,7 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">تحت الصيانة</string>
     <string name="restrictedMaintenanceDescription">إنّ الخادم الذي تحاول الاتصال به حاليًا قيد الصيانة. يرجى تجريب خادم آخر.</string>
-    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_title">فشل الاتصال</string>
     <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[هناك فاتورة متأخرة في حسابك. يرجى دفع جميع الفواتير غير المسددة عبر&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">لقد بلغ حسابك الحد الأقصى من عدد الاتصالات الآنية. لطفًا رقِّ باقتك من Proton VPN لتحصل على المزيد من الاتصالات.</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">نسخ</string>
     <string name="copied_to_clipboard">تم النسخ إلى الحافظة</string>
     <string name="got_it">حسنًا</string>
+    <string name="exclude_locations">Exclude locations</string>
     <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Cannot connect</string>
+    <string name="skip">Skip</string>
     <string name="something_went_wrong">حدث خطأ ما</string>
     <string name="try_again">أعد المحاولة</string>
     <string name="delete">حذف</string>
@@ -647,7 +649,6 @@
     <string name="server_load_medium">متوسطة</string>
     <string name="server_load_high">عالية</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">مرحباً بك في Proton VPN</string>
     <string name="onboarding_welcome_description">تصفح الإنترنت بخصوصية، شاهد أي محتوى محظور، واستمتع بالحرية الرقمية.</string>
     <string name="onboarding_welcome_action">ابدأ</string>
@@ -1627,7 +1628,6 @@
     <string name="search_zero_screen_info_cities_examples">نيويورك، لندن، طوكيو…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">حدث خطأ أثناء جلب الأسعار.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">تعديل إعدادات اتصالك عن طريق تحديد التطبيقات التي يحميها VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">هذه التطبيقات مستبعدة من اتصال VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">ستتصل فقط التطبيقات المحددة عبر VPN، وتبقى جميع حركة المرور الأخرى غير محمية.</string>
@@ -1737,7 +1737,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">الفوائد</string>
     <string name="settings_lan_allow_direct_connection_title">اسمح بالاتصالات المباشرة للأجهزة</string>
     <string name="settings_lan_allow_direct_connection_description">اتصل بأجهزة التلفزيون الذكية و Android Auto والأجهزة الأخرى التي تنشئ شبكتها الخاصة. لتحقيق أقصى قدر من الأمان، قم بالتفعيل فقط عند الاتصال بهذه الأجهزة.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">لا توجد اتصالات VPN متاحة</string>
     <string name="no_connections_description_loading_error">تعذر تحميل قائمة الخوادم</string>
     <string name="no_connections_description_no_servers">اطلب من المسؤول تمكين الوصول إلى VPN لحسابك.</string>
@@ -1752,4 +1751,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">تفعيل Smart protocol</string>
     <string name="settings_protocol_proton_protocols">بروتوكولات Proton</string>
     <string name="settings_protocol_proton_protocols_description">استخدم تطبيق WireGuard الخاص بـ Proton VPN. هذه ميزة تجريبية، لذا قد تواجه بعض عدم الاستقرار.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
+    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
 </resources>

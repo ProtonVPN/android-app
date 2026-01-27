@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Počasí</string>
     <string name="app_icon_name_notes">Poznámky</string>
     <string name="app_icon_name_calculator">Kalkulačka</string>
-    <!-- Strings related to login -->
     <string name="login">Přihlásit se</string>
     <string name="menuActionSignOut">Odhlásit se</string>
     <string name="connectionAllocationHelpTitle">Děkujeme za navýšení</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Kopírovat</string>
     <string name="copied_to_clipboard">Zkopírováno do schránky</string>
     <string name="got_it">Rozumím</string>
+    <string name="exclude_locations">Vyloučit umístění</string>
     <string name="excluded_locations">Vyloučená umístění</string>
+    <string name="cannot_connect">Nelze se připojit</string>
+    <string name="skip">Přeskočit</string>
     <string name="something_went_wrong">Něco se pokazilo</string>
     <string name="try_again">Zkuste to znovu</string>
     <string name="delete">Odstranit</string>
@@ -613,7 +615,6 @@
     <string name="server_load_medium">Střední</string>
     <string name="server_load_high">Vysoká</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Vítejte v Proton VPN</string>
     <string name="onboarding_welcome_description">Procházejte soukromě, přistupujte k blokovanému obsahu a užívejte si digitální svobody.</string>
     <string name="onboarding_welcome_action">Začínáme</string>
@@ -1552,7 +1553,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, Londýn, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Chyba získávání cen.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Přizpůsobte si připojení tím, že se rozhodnete, které aplikace budou chráněny pomocí VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Vybrané aplikace jsou vyloučeny z připojení VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Pouze vybrané aplikace se připojí skrze VPN, ostatní provoz nebude chráněn.</string>
@@ -1662,7 +1662,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Výhody</string>
     <string name="settings_lan_allow_direct_connection_title">Povolit přímé připojení zařízení</string>
     <string name="settings_lan_allow_direct_connection_description">Připojte se k chytrým TV, Android Auto a dalším zařízením, která vytvářejí vlastní síť. Pro maximální zabezpečení povolte tuto funkci pouze při připojování k těmto zařízením.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Nejsou dostupná žádná VPN připojení</string>
     <string name="no_connections_description_loading_error">Nepodařilo se nám načíst seznam serverů.</string>
     <string name="no_connections_description_no_servers">Požádejte svého administrátora, aby povolil přístup k VPN pro váš účet.</string>
@@ -1677,4 +1676,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Zapnout Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Protokoly Proton</string>
     <string name="settings_protocol_proton_protocols_description">Použijte vlastní implementaci VPN protokolu WireGuard od Proton. Jedná se o experimentální funkci, takže můžete zaznamenat určitou nestabilitu.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Chtěli jste jinou zemi?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Pokud se k některému umístění nikdy nechcete připojit, můžete je vyloučit z možností automatického připojení.</string>
+    <string name="excluded_locations_adoption_title">Vyhnout se nechtěným umístěním</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Nyní můžete vyloučit země a města z <b>Nejrychlejších</b> připojení.]]></string>
 </resources>

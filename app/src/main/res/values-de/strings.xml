@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Wetter</string>
     <string name="app_icon_name_notes">Notizen</string>
     <string name="app_icon_name_calculator">Taschenrechner</string>
-    <!-- Strings related to login -->
     <string name="login">Anmelden</string>
     <string name="menuActionSignOut">Abmelden</string>
     <string name="connectionAllocationHelpTitle">Vielen Dank für das Upgrade</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Kopieren</string>
     <string name="copied_to_clipboard">In Zwischenablage kopiert</string>
     <string name="got_it">Verstanden</string>
+    <string name="exclude_locations">Standorte ausschließen</string>
     <string name="excluded_locations">Ausgeschlossene Standorte</string>
+    <string name="cannot_connect">Verbinden nicht möglich</string>
+    <string name="skip">Überspringen</string>
     <string name="something_went_wrong">Etwas ist schief gelaufen</string>
     <string name="try_again">Erneut versuchen</string>
     <string name="delete">Löschen</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">Mittel</string>
     <string name="server_load_high">Hoch</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Willkommen bei Proton VPN</string>
     <string name="onboarding_welcome_description">Surfe privat, greife auf gesperrte Inhalte zu und genieße digitale Freiheit.</string>
     <string name="onboarding_welcome_action">Erste Schritte</string>
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokio, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Fehler beim Abrufen der Preise.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Passe deine Verbindung an, indem du entscheidest, welche Anwendungen durch VPN geschützt werden.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Ausgewählte Anwendungen werden von der VPN-Verbindung ausgeschlossen.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Nur ausgewählte Apps verbinden sich über VPN, der übrige Datenverkehr ist ungeschützt.</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Vorteile</string>
     <string name="settings_lan_allow_direct_connection_title">Direkte Geräteverbindungen zulassen</string>
     <string name="settings_lan_allow_direct_connection_description">Verbinde dich mit Smart TVs, Android Auto und anderen Geräten, die ihr eigenes Netzwerk erstellen. Um maximale Sicherheit zu gewährleisten, aktiviere die Funktion nur, wenn du dich mit diesen Geräten verbindest.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Keine VPN-Verbindungen verfügbar</string>
     <string name="no_connections_description_loading_error">Die Serverliste konnte nicht geladen werden.</string>
     <string name="no_connections_description_no_servers">Bitte deinen Administrator, den VPN-Zugang für dein Konto freizuschalten.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart Protocol aktivieren</string>
     <string name="settings_protocol_proton_protocols">Proton-Protokolle</string>
     <string name="settings_protocol_proton_protocols_description">Verwende die eigene Implementierung von WireGuard durch Proton VPN. Da es sich hierbei um eine experimentelle Funktion handelt, kann es zu Instabilitäten kommen.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Nicht das gewünschte Land?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Wenn es einen Standort gibt, mit dem du niemals verbunden sein möchtest, kannst du ihn vom Automatischen Verbinden ausschließen.</string>
+    <string name="excluded_locations_adoption_title">Unerwünschte Standorte vermeiden</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Länder und Städte können nun von den <b>Schnellsten</b> Verbindungen ausgeschlossen werden.]]></string>
 </resources>

@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Hava durumu</string>
     <string name="app_icon_name_notes">Notlar</string>
     <string name="app_icon_name_calculator">Hesap makinesi</string>
-    <!-- Strings related to login -->
     <string name="login">Oturum aç</string>
     <string name="menuActionSignOut">Oturumu kapat</string>
     <string name="connectionAllocationHelpTitle">Tarifenizi yükselttiğiniz için teşekkürler</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Kopyala</string>
     <string name="copied_to_clipboard">Panoya kopyalandı</string>
     <string name="got_it">Anladım</string>
+    <string name="exclude_locations">Konumları hariç tut</string>
     <string name="excluded_locations">Hariç tutulan konumlar</string>
+    <string name="cannot_connect">Bağlanılamıyor</string>
+    <string name="skip">Atla</string>
     <string name="something_went_wrong">Bir şeyler ters gitti</string>
     <string name="try_again">Yeniden dene</string>
     <string name="delete">Sil</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">Orta</string>
     <string name="server_load_high">Yüksek</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN hizmetine hoş geldiniz</string>
     <string name="onboarding_welcome_description">Gizliliğinizi koruyarak gezinin, engellenen içeriğe erişin ve dijital özgürlüğün tadını çıkarın.</string>
     <string name="onboarding_welcome_action">Başlayalım</string>
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, Londra, Tokyo, Sidney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Fiyatlar alınırken sorun çıktı.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Hangi uygulamaların VPN tarafından korunacağını seçerek bağlantınızı özelleştirin.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Seçilmiş uygulamalar VPN bağlantısına katılmaz.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Yalnızca seçilmiş uygulamalar VPN üzerinden bağlantı kurar, diğer tüm trafik korumasızdır.</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">İyi yanları</string>
     <string name="settings_lan_allow_direct_connection_title">Doğrudan aygıt bağlantılarına izin verilsin</string>
     <string name="settings_lan_allow_direct_connection_description">Akıllı TV, Android Auto ve kendi ağınızdaki diğer aygıtlara bağlanın. En yüksek güvenlik için, yalnızca bu aygıtlara bağlanırken etkinleştirin.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Kullanılabilecek bir VPN bağlantısı yok</string>
     <string name="no_connections_description_loading_error">Sunucu listesi yüklenemedi.</string>
     <string name="no_connections_description_no_servers">Yöneticiniz ile görüşerek hesabınız için VPN özelliğini açmasını isteyin.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart Protocol kullan</string>
     <string name="settings_protocol_proton_protocols">Proton iletişim kuralları</string>
     <string name="settings_protocol_proton_protocols_description">Proton VPN uygulamasının kendi WireGuard uyarlamasını kullanın. Bu özellik henüz deneyseldir ve bazı kararsızlıklar yaşayabilirsiniz.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">İstediğiniz ülke değil mi?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Asla bağlanmak istemediğiniz bir konum varsa otomatik bağlantılardan hariç tutabilirsiniz.</string>
+    <string name="excluded_locations_adoption_title">İstenmeyen konumlardan kaçının</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Artık <b>En Hızlı</b> bağlantılardan ülkeleri ve şehirleri hariç tutabilirsiniz.]]></string>
 </resources>

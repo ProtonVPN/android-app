@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Clima</string>
     <string name="app_icon_name_notes">Notas</string>
     <string name="app_icon_name_calculator">Calculadora</string>
-    <!-- Strings related to login -->
     <string name="login">Iniciar sesión</string>
     <string name="menuActionSignOut">Cerrar sesión</string>
     <string name="connectionAllocationHelpTitle">Gracias por mejorar</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Copiar</string>
     <string name="copied_to_clipboard">Copiado al portapapeles</string>
     <string name="got_it">Entendido</string>
+    <string name="exclude_locations">Excluir ubicaciones</string>
     <string name="excluded_locations">Ubicaciones excluidas</string>
+    <string name="cannot_connect">No se puede conectar</string>
+    <string name="skip">Omitir</string>
     <string name="something_went_wrong">Hubo un problema</string>
     <string name="try_again">Volver a intentar</string>
     <string name="delete">Eliminar</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">Media</string>
     <string name="server_load_high">Alta</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Le damos la bienvenida a Proton VPN</string>
     <string name="onboarding_welcome_description">Navegue de forma privada, acceda a contenido bloqueado y disfrute de la libertad digital.</string>
     <string name="onboarding_welcome_action">Comenzar</string>
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">Nueva York, Londres, Tokio, Sídney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14</string>
     <string name="error_fetching_prices">Error al obtener los precios</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Personalice la conexión al decidir cuáles aplicaciones serán protegidas con VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Las aplicaciones seleccionadas están excluidas de la conexión VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Solo las aplicaciones seleccionadas se conectan mediante VPN. El resto del tráfico no está protegido.</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Beneficios</string>
     <string name="settings_lan_allow_direct_connection_title">Permitir conexiones directas de dispositivos</string>
     <string name="settings_lan_allow_direct_connection_description">Conéctese a Smart TV, Android Auto y otros dispositivos que crean su propia red. Para una seguridad máxima, actívelo solo al conectarse a estos dispositivos.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">No hay conexiones VPN disponibles</string>
     <string name="no_connections_description_loading_error">No pudimos cargar la lista de servidores.</string>
     <string name="no_connections_description_no_servers">Pida a su administrador que active el acceso VPN para su cuenta.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Activar Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Protocolos de Proton</string>
     <string name="settings_protocol_proton_protocols_description">Usa la implementación propia de WireGuard de Proton VPN. Esta es una función experimental, por lo que podría notar algo de inestabilidad al probarla.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">¿No es el país que desea?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Si hay una ubicación a la que nunca desea conectarse, puede excluirla de las conexiones automáticas.</string>
+    <string name="excluded_locations_adoption_title">Evitar ubicaciones no deseadas</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Ahora puede excluir países y ciudades de las conexiones <b>más rápidas</b>.]]></string>
 </resources>

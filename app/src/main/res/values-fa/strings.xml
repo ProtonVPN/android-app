@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">آب و هوا</string>
     <string name="app_icon_name_notes">یادداشت ها</string>
     <string name="app_icon_name_calculator">ماشین حساب</string>
-    <!-- Strings related to login -->
     <string name="login">ورود</string>
     <string name="menuActionSignOut">خروج</string>
     <string name="connectionAllocationHelpTitle">از ارتقای اشتراکتان متشکریم</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">کپی</string>
     <string name="copied_to_clipboard">کپی شد</string>
     <string name="got_it">فهمیدم</string>
+    <string name="exclude_locations">Exclude locations</string>
     <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Cannot connect</string>
+    <string name="skip">Skip</string>
     <string name="something_went_wrong">مشکلی پیش آمد</string>
     <string name="try_again">تلاش دوباره</string>
     <string name="delete">حذف</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">متوسط</string>
     <string name="server_load_high">بالا</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">به Proton VPN خوش آمدید</string>
     <string name="onboarding_welcome_description">به صورت خصوصی وبگردی کنید، به محتوای مسدود شده دسترسی پیدا کنید، و از آزادی دیجیتال لذت ببرید.</string>
     <string name="onboarding_welcome_action">شروع کنید</string>
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Error fetching prices.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
     <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
     <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">No VPN connections available</string>
     <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
     <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Enable Smart protocol</string>
     <string name="settings_protocol_proton_protocols">Proton protocols</string>
     <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
+    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
 </resources>

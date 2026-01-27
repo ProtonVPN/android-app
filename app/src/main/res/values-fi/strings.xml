@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Sää</string>
     <string name="app_icon_name_notes">Muistiinpanot</string>
     <string name="app_icon_name_calculator">Laskin</string>
-    <!-- Strings related to login -->
     <string name="login">Kirjaudu sisään</string>
     <string name="menuActionSignOut">Kirjaudu ulos</string>
     <string name="connectionAllocationHelpTitle">Kiitos päivityksestä</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Kopioi</string>
     <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
     <string name="got_it">Selvä</string>
+    <string name="exclude_locations">Exclude locations</string>
     <string name="excluded_locations">Poissuljetut sijainnit</string>
+    <string name="cannot_connect">Cannot connect</string>
+    <string name="skip">Skip</string>
     <string name="something_went_wrong">Jotain meni pieleen</string>
     <string name="try_again">Yritä uudelleen</string>
     <string name="delete">Poista</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">Keskitasoinen</string>
     <string name="server_load_high">Korkea</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Tervetuloa Proton VPN:ään</string>
     <string name="onboarding_welcome_description">Selaa yksityisesti, pääse estettyyn sisältöön ja nauti digitaalisesta vapaudesta.</string>
     <string name="onboarding_welcome_action">Aloita</string>
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, Lontoo, Tokio, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Virhe noudettaessa hintoja.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Mukauta yhteyttäsi määrittämällä, mitkä sovellukset suojataan VPN:llä.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Valitut sovellukset suljetaan VPN-yhteyden ulkopuolelle.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Vain valitut sovellukset muodostavat yhteyden VPN:n kautta, kaikki muu tietoliikenne on suojaamatonta.</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Edut</string>
     <string name="settings_lan_allow_direct_connection_title">Salli suorat laiteyhteydet</string>
     <string name="settings_lan_allow_direct_connection_description">Yhdistä älytelevisioihin, Android Autoon ja muihin oman verkkonsa luoviin laitteisiin. Parhaan turvallisuuden takaamiseksi ota tämä toiminto käyttöön vain silloin, kun yhdistät näihin laitteisiin.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">VPN-yhteyksiä ei ole käytettävissä</string>
     <string name="no_connections_description_loading_error">Palvelinlistaa ei voitu ladata.</string>
     <string name="no_connections_description_no_servers">Pyydä ylläpitäjääsi antamaan tilillesi VPN-käyttöoikeus.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ota Smart Protocol käyttöön</string>
     <string name="settings_protocol_proton_protocols">Proton-protokollat</string>
     <string name="settings_protocol_proton_protocols_description">Käytä Proton VPN:n omaa WireGuard-toteutusta. Tämä on kokeellinen ominaisuus, joten saatat kokea jonkin verran epävakautta.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
+    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
 </resources>

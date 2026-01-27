@@ -24,7 +24,6 @@
     <string name="app_icon_name_weather">Väder</string>
     <string name="app_icon_name_notes">Anteckningar</string>
     <string name="app_icon_name_calculator">Kalkylator</string>
-    <!-- Strings related to login -->
     <string name="login">Logga in</string>
     <string name="menuActionSignOut">Logga ut</string>
     <string name="connectionAllocationHelpTitle">Tack för att du uppgraderat</string>
@@ -96,7 +95,10 @@
     <string name="copy_to_clipboard">Kopiera</string>
     <string name="copied_to_clipboard">Kopierat till urklipp</string>
     <string name="got_it">Förstått</string>
+    <string name="exclude_locations">Exkludera platser</string>
     <string name="excluded_locations">Exkluderade platser</string>
+    <string name="cannot_connect">Kan inte ansluta</string>
+    <string name="skip">Hoppa över</string>
     <string name="something_went_wrong">Något gick fel</string>
     <string name="try_again">Försök igen</string>
     <string name="delete">Ta bort</string>
@@ -581,7 +583,6 @@
     <string name="server_load_medium">Medium</string>
     <string name="server_load_high">Hög</string>
     <!-- Override Human verification links from core -->
-    <!-- Onboarding -->
     <string name="onboarding_welcome_title">Välkommen till Proton VPN</string>
     <string name="onboarding_welcome_description">Surfa privat, åtkomst till blockerat innehåll och njut av digital frihet.</string>
     <string name="onboarding_welcome_action">Kom igång</string>
@@ -1480,7 +1481,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Fel vid hämtning av priser.</string>
-    <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Anpassa din anslutning genom att bestämma vilka appar som är skyddade av VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Valda appar är exkluderade från VPN-anslutningen.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Endast valda appar ansluter genom VPN, all annan trafik är oskyddad.</string>
@@ -1590,7 +1590,6 @@
     <string name="info_dialog_ipv6_traffic_benefits_title">Fördelar</string>
     <string name="settings_lan_allow_direct_connection_title">Tillåt direkta enhetsanslutningar</string>
     <string name="settings_lan_allow_direct_connection_description">Anslut till Smart-TV, Android Auto och andra enheter som skapar sitt eget nätverk. För maximal säkerhet, aktivera endast när du ansluter till dessa enheter.</string>
-    <!-- No VPN connections -->
     <string name="no_connections_title">Inga VPN-anslutningar tillgängliga</string>
     <string name="no_connections_description_loading_error">Vi kunde inte ladda serverlistan.</string>
     <string name="no_connections_description_no_servers">Be din administratör att aktivera VPN-åtkomst för ditt konto.</string>
@@ -1605,4 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Aktivera Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Proton-protokoll</string>
     <string name="settings_protocol_proton_protocols_description">Använd Protons egen implementering av WireGuard. Detta är en experimentell funktion, så du kan uppleva viss instabilitet.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Inte det land du ville ha?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Om det finns en plats som du aldrig vill vara ansluten till kan du exkludera den från automatiska anslutningar.</string>
+    <string name="excluded_locations_adoption_title">Undvik oönskade platser</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Du kan nu exkludera länder och orter från <b>Snabbaste</b> anslutningar.]]></string>
 </resources>
