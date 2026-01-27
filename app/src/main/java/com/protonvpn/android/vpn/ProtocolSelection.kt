@@ -45,10 +45,10 @@ data class ProtocolSelection private constructor(
     val displayName: Int get() = when (vpn) {
         VpnProtocol.Smart -> R.string.settingsProtocolNameSmart
         VpnProtocol.ProTun -> when (transmission) {
-            TransmissionProtocol.UDP -> R.string.settingsProtocolNameWireguard
-            TransmissionProtocol.TCP -> R.string.settingsProtocolNameWireguardTCP
-            TransmissionProtocol.TLS -> R.string.settingsProtocolNameWireguardTLS
-            null -> R.string.settingsProtocolNameSmart
+            TransmissionProtocol.UDP -> R.string.settingsProtocolNameProtonWireguard
+            TransmissionProtocol.TCP -> R.string.settingsProtocolNameProtonWireguardTCP
+            TransmissionProtocol.TLS -> R.string.settingsProtocolNameProtonStealth
+            null -> R.string.settingsProtocolNameProtonSmart
         }
         VpnProtocol.WireGuard -> when (transmission) {
             TransmissionProtocol.TCP -> R.string.settingsProtocolNameWireguardTCP

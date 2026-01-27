@@ -231,6 +231,10 @@
     <string name="settingsProtocolNameWireguard" translatable="false">WireGuard</string>
     <string name="settingsProtocolNameWireguardTCP" translatable="false">WireGuard TCP</string>
     <string name="settingsProtocolNameWireguardTLS" translatable="false">Stealth</string>
+    <string name="settingsProtocolNameProtonSmart" translatable="false">Smart (Proton)</string>
+    <string name="settingsProtocolNameProtonWireguard" translatable="false">Proton WireGuard</string>
+    <string name="settingsProtocolNameProtonWireguardTCP" translatable="false">Proton WireGuard TCP</string>
+    <string name="settingsProtocolNameProtonStealth" translatable="false">Proton Stealth</string>
     <string name="settingsEnableTelemetryTitle">Share anonymous usage statistics</string>
     <string name="settingsEnableTelemetryDescription">Usage data helps us overcome VPN blocks and improve app performance.</string>
     <string name="settingsSendCrashReportsTitle">Share anonymous crash reports</string>
