@@ -374,6 +374,7 @@ android {
         }
         jniLibs {
             useLegacyPackaging = true
+            keepDebugSymbols.add("**/libandroidvpnrust.so")
         }
     }
 
