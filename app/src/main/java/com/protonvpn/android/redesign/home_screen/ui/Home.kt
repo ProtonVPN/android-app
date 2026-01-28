@@ -599,10 +599,10 @@ private fun HomeDialog(dialogState: DialogState, onDismiss: () -> Unit) = with(d
         text = stringResource(id = messageResId, formatArgs = messageArgs),
         textColor = ProtonTheme.colors.textWeak,
         confirmLabel = stringResource(id = confirmLabelResId),
-        onConfirm = { onDismiss() },
+        onConfirm = { onConfirmClick?.invoke() ?: onDismiss() },
         dismissLabel = cancelLabelResId?.let { stringResource(id = it) },
         onDismissButton = { onCancelClick?.invoke() },
-        onDismissRequest = onDismiss,
+        onDismissRequest = { onDismissed?.invoke() ?: onDismiss() },
     )
 }
 

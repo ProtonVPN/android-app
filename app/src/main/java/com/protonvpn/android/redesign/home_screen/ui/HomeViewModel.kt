@@ -51,6 +51,7 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.usecases.DisableCustomDnsForCurrentConnection
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
+import com.protonvpn.android.telemetry.product.VpnProductPromptTelemetry
 import com.protonvpn.android.tv.main.CountryHighlight
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.promooffers.HomeScreenProminentBannerFlow
@@ -138,6 +139,7 @@ class HomeViewModel @Inject constructor(
     private val isAutomaticConnectionEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
     observeShowExcludedLocationsAdoption: ObserveShowExcludedLocationsAdoption,
     private val trafficMonitor: TrafficMonitor,
+    private val promptTelemetry: VpnProductPromptTelemetry,
 ) : ViewModel() {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
@@ -154,6 +156,11 @@ class HomeViewModel @Inject constructor(
         widgetManager.showWidgetAdoptionFlow,
     ) { showExcludedLocationsAdoption, widgetAdoptionType ->
         if (showExcludedLocationsAdoption) {
+            promptTelemetry.trackPromptDisplayed(
+                type = VpnProductPromptTelemetry.PromptType.FeatureDiscovery,
+                context = VpnProductPromptTelemetry.PromptContext.ConnectionPreferencesAdoption,
+            )
+
             AdoptionComponent.ExcludedLocationsAdoptionComponent(
                 onDismiss = ::onExcludedLocationsAdoptionClosed,
                 onExcludeLocationsClick = ::onExcludedLocationsAdoptionOpened,
@@ -218,6 +225,10 @@ class HomeViewModel @Inject constructor(
         open val cancelLabelResId: Int? = null
 
         open val onCancelClick: (() -> Unit)? = null
+
+        open val onConfirmClick: (() -> Unit)? = null
+
+        open val onDismissed: (() -> Unit)? = null
 
         @Parcelize
         object CountryInMaintenance : DialogState() {
@@ -294,6 +305,8 @@ class HomeViewModel @Inject constructor(
         @Parcelize
         data class SmartConnectionPreferencesDiscovery(
             override val onCancelClick: (() -> Unit)?,
+            override val onConfirmClick: (() -> Unit)?,
+            override val onDismissed: (() -> Unit)?,
         ) : DialogState() {
 
             @IgnoredOnParcel
@@ -379,8 +392,23 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch {
             if (shouldShowSmartConnectionPreferencesDiscovery()) {
+                promptTelemetry.trackPromptDisplayed(
+                    type = VpnProductPromptTelemetry.PromptType.FeatureDiscovery,
+                    context = VpnProductPromptTelemetry.PromptContext.ConnectionPreferencesFirstConnection,
+                )
+
                 dialogState = DialogState.SmartConnectionPreferencesDiscovery(
-                    onCancelClick = ::openConnectionPreferences,
+                    onCancelClick = {
+                        promptTelemetry.trackPromptAction(
+                            type = VpnProductPromptTelemetry.PromptType.FeatureDiscovery,
+                            context = VpnProductPromptTelemetry.PromptContext.ConnectionPreferencesFirstConnection,
+                            action = VpnProductPromptTelemetry.PromptAction.Configure,
+                        )
+
+                        openConnectionPreferences()
+                    },
+                    onConfirmClick = ::dismissSmartConnectionPreferencesDiscoveryDialog,
+                    onDismissed = ::dismissSmartConnectionPreferencesDiscoveryDialog,
                 )
 
                 uiStateStorage.update {
@@ -408,6 +436,16 @@ class HomeViewModel @Inject constructor(
         val trafficStatus = trafficMonitor.trafficStatus.value ?: return false
 
         return trafficStatus.sessionTimeSeconds.seconds < 1.minutes
+    }
+
+    private fun dismissSmartConnectionPreferencesDiscoveryDialog() {
+        promptTelemetry.trackPromptAction(
+            type = VpnProductPromptTelemetry.PromptType.FeatureDiscovery,
+            context = VpnProductPromptTelemetry.PromptContext.ConnectionPreferencesFirstConnection,
+            action = VpnProductPromptTelemetry.PromptAction.Dismiss,
+        )
+
+        dismissDialog()
     }
 
     fun dismissDialog() {
@@ -483,12 +521,24 @@ class HomeViewModel @Inject constructor(
 
     fun onExcludedLocationsAdoptionClosed() {
         viewModelScope.launch {
+            promptTelemetry.trackPromptAction(
+                type = VpnProductPromptTelemetry.PromptType.FeatureDiscovery,
+                context = VpnProductPromptTelemetry.PromptContext.ConnectionPreferencesAdoption,
+                action = VpnProductPromptTelemetry.PromptAction.Dismiss,
+            )
+
             uiStateStorage.update { it.copy(shouldShowExcludedLocationsAdoption = false) }
         }
     }
 
     fun onExcludedLocationsAdoptionOpened() {
         viewModelScope.launch {
+            promptTelemetry.trackPromptAction(
+                type = VpnProductPromptTelemetry.PromptType.FeatureDiscovery,
+                context = VpnProductPromptTelemetry.PromptContext.ConnectionPreferencesAdoption,
+                action = VpnProductPromptTelemetry.PromptAction.Configure,
+            )
+
             uiStateStorage.update { it.copy(shouldShowExcludedLocationsAdoption = false) }
 
             openConnectionPreferences()
