@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.excludedlocations.usecases
 
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.ui.storage.UiStateStorage
 import dagger.Reusable
@@ -30,9 +31,14 @@ import javax.inject.Inject
 
 @Reusable
 class ObserveShowExcludedLocationsAdoption @Inject constructor(
+    currentUser: CurrentUser,
     uiStateStorage: UiStateStorage,
     private val isAutomaticConnectionEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
 ) {
+
+    private val isPaidUserFlow = currentUser.vpnUserFlow
+        .map { vpnUser -> vpnUser != null && !vpnUser.isFreeUser }
+        .distinctUntilChanged()
 
     private val shouldShowExcludedLocationsAdoptionFlow = uiStateStorage.state
         .map { it.shouldShowExcludedLocationsAdoption }
@@ -40,9 +46,10 @@ class ObserveShowExcludedLocationsAdoption @Inject constructor(
 
     operator fun invoke(): Flow<Boolean> = combine(
         isAutomaticConnectionEnabled.observe(),
+        isPaidUserFlow,
         shouldShowExcludedLocationsAdoptionFlow,
-    ) { isAutomaticConnectionEnabled, shouldShowExcludedLocationsAdoption ->
-        isAutomaticConnectionEnabled && shouldShowExcludedLocationsAdoption
+    ) { isAutomaticConnectionEnabled, isPaidUser, shouldShowExcludedLocationsAdoption ->
+        isAutomaticConnectionEnabled && isPaidUser && shouldShowExcludedLocationsAdoption
     }
 
 }

@@ -29,6 +29,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.ApiNotificationActions
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.UserCountryIpBased
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.excludedlocations.usecases.ObserveShowExcludedLocationsAdoption
 import com.protonvpn.android.logging.ProtonLogger
@@ -140,6 +141,7 @@ class HomeViewModel @Inject constructor(
     observeShowExcludedLocationsAdoption: ObserveShowExcludedLocationsAdoption,
     private val trafficMonitor: TrafficMonitor,
     private val promptTelemetry: VpnProductPromptTelemetry,
+    private val currentUser: CurrentUser,
 ) : ViewModel() {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
@@ -414,7 +416,13 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun shouldShowSmartConnectionPreferencesDiscovery(): Boolean {
-        if (!isAutomaticConnectionEnabled() || uiStateStorage.state.first().hasShownConnectionPreferencesSmartDiscovery) {
+        val vpnUser = currentUser.vpnUser() ?: return false
+
+        if (
+            !isAutomaticConnectionEnabled() ||
+            vpnUser.isFreeUser ||
+            uiStateStorage.state.first().hasShownConnectionPreferencesSmartDiscovery
+        ) {
             return false
         }
 
