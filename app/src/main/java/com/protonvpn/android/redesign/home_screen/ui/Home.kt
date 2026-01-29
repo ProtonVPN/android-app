@@ -265,6 +265,18 @@ fun HomeRoute(
     }
 
     ReportDrawnWhen { fullyDrawn }
+
+    if (adoptionComponent != null) {
+        LaunchedEffect(key1 = adoptionComponent) {
+            when (adoptionComponent) {
+                is AdoptionComponent.ExcludedLocationsAdoptionComponent -> {
+                    homeViewModel.onExcludedLocationsAdoptionShown()
+                }
+
+                is AdoptionComponent.WidgetAdoptionComponent -> Unit
+            }
+        }
+    }
 }
 
 private val ListBgGradientHeightBasic = 100.dp

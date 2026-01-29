@@ -123,7 +123,7 @@ class RemoveExcludedLocationTests {
     fun `GIVEN there is no vpn user WHEN removing excluded location THEN no excluded location is removed`() = testScope.runTest {
         testUserProvider.vpnUser = null
         val excludedLocation = TestExcludedLocation.create()
-        val expectedExcludedLocations = ExcludedLocations(allLocations = emptyList())
+        val expectedExcludedLocations = ExcludedLocations.Empty
         excludedLocationsDao.insert(entity = excludedLocation.toEntity(userId = TestAccount1.userId))
 
         removeExcludedLocation(excludedLocation = excludedLocation)
@@ -140,7 +140,7 @@ class RemoveExcludedLocationTests {
         val freeVpnUser = TestUser.freeUser.vpnUser
         testUserProvider.vpnUser = freeVpnUser
         val excludedLocation = TestExcludedLocation.create()
-        val expectedExcludedLocations = ExcludedLocations(allLocations = emptyList())
+        val expectedExcludedLocations = ExcludedLocations.Empty
         excludedLocationsDao.insert(entity = excludedLocation.toEntity(userId = TestAccount1.userId))
 
         removeExcludedLocation(excludedLocation = TestExcludedLocation.create())

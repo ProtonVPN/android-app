@@ -265,7 +265,8 @@ class VpnConnectionErrorHandlerTests {
                 defaultFallbackServer,
                 directConnectIntent,
                 defaultFallbackConnection,
-                SwitchServerReason.UserBecameDelinquent
+                SwitchServerReason.UserBecameDelinquent,
+                hasExcludedLocations = false,
             ),
             handler.onAuthError(directConnectionParams)
         )
@@ -284,7 +285,8 @@ class VpnConnectionErrorHandlerTests {
                 defaultFallbackServer,
                 directConnectIntent,
                 defaultFallbackConnection,
-                SwitchServerReason.Downgrade("vpnplus", "free")
+                SwitchServerReason.Downgrade("vpnplus", "free"),
+                hasExcludedLocations = false,
             ),
             handler.onAuthError(directConnectionParams))
 
@@ -296,7 +298,8 @@ class VpnConnectionErrorHandlerTests {
                 defaultFallbackServer,
                 directConnectionParams.connectIntent as ConnectIntent,
                 defaultFallbackConnection,
-                SwitchServerReason.Downgrade("vpnplus", "free")
+                SwitchServerReason.Downgrade("vpnplus", "free"),
+                hasExcludedLocations = false,
             ),
             handler.onAuthError(directConnectionParams)
         )
@@ -385,7 +388,9 @@ class VpnConnectionErrorHandlerTests {
                 SwitchServerReason.ServerInMaintenance,
                 notifyUser = true, // Country is not compatible
                 compatibleProtocol = true,
-                switchedSecureCore = false),
+                switchedSecureCore = false,
+                hasExcludedLocations = false,
+            ),
             fallback
         )
 
@@ -412,7 +417,9 @@ class VpnConnectionErrorHandlerTests {
                 SwitchServerReason.ServerInMaintenance,
                 notifyUser = true, // Country is not compatible
                 compatibleProtocol = true,
-                switchedSecureCore = false),
+                switchedSecureCore = false,
+                hasExcludedLocations = false,
+                ),
             fallback
         )
 
@@ -434,7 +441,9 @@ class VpnConnectionErrorHandlerTests {
                 SwitchServerReason.ServerUnreachable,
                 notifyUser = false, // CA#2 is compatible with CA#1, switch silently
                 compatibleProtocol = true,
-                switchedSecureCore = false),
+                switchedSecureCore = false,
+                hasExcludedLocations = false,
+            ),
             fallback
         )
     }
@@ -638,7 +647,8 @@ class VpnConnectionErrorHandlerTests {
                 SwitchServerReason.ServerUnreachable,
                 compatibleProtocol = true,
                 switchedSecureCore = false,
-                notifyUser = false
+                notifyUser = false,
+                hasExcludedLocations = false,
             ),
             fallback
         )
@@ -759,7 +769,8 @@ class VpnConnectionErrorHandlerTests {
                 defaultFallbackServer,
                 currentConnectIntent,
                 defaultFallbackConnection,
-                SwitchServerReason.Downgrade("vpnplus", "free")
+                SwitchServerReason.Downgrade("vpnplus", "free"),
+                hasExcludedLocations = false,
             )
         )
 
@@ -770,7 +781,8 @@ class VpnConnectionErrorHandlerTests {
                 defaultFallbackServer,
                 currentConnectIntent,
                 defaultFallbackConnection,
-                SwitchServerReason.UserBecameDelinquent
+                SwitchServerReason.UserBecameDelinquent,
+                hasExcludedLocations = false,
             )
         )
     }

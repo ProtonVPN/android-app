@@ -19,11 +19,14 @@
 
 package com.protonvpn.app.telemetry.settings
 
-import com.protonvpn.android.excludedlocations.ExcludedLocations
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationEntity
 import com.protonvpn.android.excludedlocations.data.ExcludedLocationType
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
+import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -40,19 +43,20 @@ import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.android.widget.WidgetType
 import com.protonvpn.android.widget.data.WidgetTracker
-import com.protonvpn.app.excludedlocations.TestExcludedLocation
+import com.protonvpn.app.excludedlocations.TestExcludedLocationEntity
 import com.protonvpn.mocks.FakeCommonDimensions
 import com.protonvpn.mocks.FakeGetTruncationMustHaveIDs
+import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import junit.framework.TestCase.assertEquals
+import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -61,6 +65,7 @@ import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -78,8 +83,8 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
     @MockK
     private lateinit var mockReviewTracker: ReviewTracker
 
-    @MockK
-    private lateinit var mockObserveExcludedLocations: ObserveExcludedLocations
+    @RelaxedMockK
+    private lateinit var mockExcludedLocationsDao: ExcludedLocationsDao
 
     @MockK
     private lateinit var mockWidgetTracker: WidgetTracker
@@ -96,7 +101,33 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
 
     private lateinit var testDispatcher: CoroutineDispatcher
 
+    private lateinit var isAutomaticConnectionEnabled: FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
+
+    private lateinit var observeExcludedLocations: ObserveExcludedLocations
+
+    private lateinit var testUserProvider: TestCurrentUserProvider
+
+    private val excludeLocationEntitiesFlow = MutableStateFlow(value = emptyList<ExcludedLocationEntity>())
+
+    private val freeVpnUser = TestUser.freeUser.vpnUser
+
+    private val plusVpnUser = TestUser.plusUser.vpnUser
+
     private val userTier = "paid"
+
+    private val vpnUsers = listOf(freeVpnUser, plusVpnUser)
+
+    private val excludedLocationsBuckets = listOf(
+        0 to "0",
+        1 to "1",
+        2 to "2-5",
+        5 to "2-5",
+        6 to "6-10",
+        10 to "6-10",
+        11 to "11-20",
+        20 to "11-20",
+        21 to ">=21",
+    )
 
     @Before
     fun setup() {
@@ -115,6 +146,19 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
 
         localUserSettingsFlow = MutableStateFlow(value = LocalUserSettings())
 
+        isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(true)
+
+        testUserProvider = TestCurrentUserProvider(vpnUser = plusVpnUser)
+
+        every { mockExcludedLocationsDao.observeAll(userId = any()) } returns excludeLocationEntitiesFlow
+
+        observeExcludedLocations = ObserveExcludedLocations(
+            mainScope = testScope.backgroundScope,
+            currentUser = CurrentUser(provider = testUserProvider),
+            excludedLocationsDao = mockExcludedLocationsDao,
+            isAutomaticConnectionEnabled = isAutomaticConnectionEnabled,
+        )
+
         getSettingsTelemetryHeartbeatDimensions = GetSettingsTelemetryHeartbeatDimensions(
             appIconManager = mockAppIconManager,
             connectivityMonitor = mockConnectivityMonitor,
@@ -126,7 +170,8 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             widgetTracker = mockWidgetTracker,
             isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
             reviewTracker = mockReviewTracker,
-            observerExcludedLocations = mockObserveExcludedLocations,
+            observerExcludedLocations = observeExcludedLocations,
+            isAutomaticConnectionEnabled = isAutomaticConnectionEnabled,
         )
 
         every { mockAppIconManager.getCurrentIconData() } returns CustomAppIconData.DEFAULT
@@ -135,7 +180,6 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
         coEvery { mockReviewTracker.isOrWasEligibleToday() } returns false
         every { mockWidgetTracker.widgetCount } returns MutableStateFlow(0)
         coEvery { mockWidgetTracker.firstWidgetType() } returns null
-        every { mockObserveExcludedLocations() } returns flowOf(ExcludedLocations(allLocations = emptyList()))
     }
 
     @After
@@ -538,64 +582,72 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
     @Test
     fun `GIVEN no country in excluded locations WHEN providing dimensions THEN excluded countries dimension is set`() = testScope.runTest {
         val dimension = "excluded_countries_count"
-        val excludedLocation = TestExcludedLocation.create(type = ExcludedLocationType.City)
-        val excludedLocations = ExcludedLocations(allLocations = listOf(excludedLocation))
+        val excludedLocationEntities = listOf(TestExcludedLocationEntity.create(type = ExcludedLocationType.City))
         val expectedDimensionValue = "0"
-        every { mockObserveExcludedLocations() } returns flowOf(value = excludedLocations)
+        vpnUsers.forEach { vpnUser ->
+            testUserProvider.vpnUser = vpnUser
+            excludeLocationEntitiesFlow.value = excludedLocationEntities
 
-        val dimensions = getSettingsTelemetryHeartbeatDimensions()
+            val dimensions = getSettingsTelemetryHeartbeatDimensions()
 
-        assertEquals(expectedDimensionValue, dimensions[dimension])
+            assertEquals(
+                expected = expectedDimensionValue,
+                actual = dimensions[dimension],
+                message = "Failed for vpn user: $vpnUser",
+            )
+        }
     }
 
     @Test
     fun `GIVEN country excluded locations WHEN providing dimensions THEN excluded countries dimension is set`() = testScope.runTest {
         val dimension = "excluded_countries_count"
         val bucketTopLimit = 21
-        val excludedLocations = buildList {
+        val excludedLocationEntities = buildList {
             repeat(times = bucketTopLimit) { id ->
-                add(TestExcludedLocation.create(id = id.toLong(), type = ExcludedLocationType.Country))
+                add(TestExcludedLocationEntity.create(id = id.toLong(), type = ExcludedLocationType.Country))
             }
         }
+        vpnUsers.forEach { vpnUser ->
+            testUserProvider.vpnUser = vpnUser
 
-        listOf(
-            0 to "0",
-            1 to "1",
-            2 to "2-5",
-            5 to "2-5",
-            6 to "6-10",
-            10 to "6-10",
-            11 to "11-20",
-            20 to "11-20",
-            21 to ">=21",
-        ).forEach { (countriesAmount, expectedDimensionValue) ->
-            val excludedLocations = ExcludedLocations(allLocations = excludedLocations.take(countriesAmount))
-            every { mockObserveExcludedLocations() } returns flowOf(value = excludedLocations)
+            excludedLocationsBuckets.forEach { (locationsAmount, expectedDimensionValue) ->
+                excludeLocationEntitiesFlow.value = excludedLocationEntities.take(locationsAmount)
 
-            val dimensions = getSettingsTelemetryHeartbeatDimensions()
+                val dimensions = getSettingsTelemetryHeartbeatDimensions()
 
-            assertEquals(expectedDimensionValue, dimensions[dimension])
+                assertEquals(
+                    expected = expectedDimensionValue,
+                    actual = dimensions[dimension],
+                    message = "Failed for vpn user $vpnUser and locations amount $locationsAmount",
+                )
+            }
         }
     }
 
     @Test
     fun `GIVEN no city nor state in excluded locations WHEN providing dimensions THEN excluded countries dimension is set`() = testScope.runTest {
         val dimension = "excluded_cities_count"
-        val excludedLocation = TestExcludedLocation.create(type = ExcludedLocationType.Country)
-        val excludedLocations = ExcludedLocations(allLocations = listOf(excludedLocation))
+        val excludedLocationEntities = listOf(TestExcludedLocationEntity.create(type = ExcludedLocationType.Country))
         val expectedDimensionValue = "0"
-        every { mockObserveExcludedLocations() } returns flowOf(value = excludedLocations)
+        vpnUsers.forEach { vpnUser ->
+            testUserProvider.vpnUser = vpnUser
+            excludeLocationEntitiesFlow.value = excludedLocationEntities
 
-        val dimensions = getSettingsTelemetryHeartbeatDimensions()
+            val dimensions = getSettingsTelemetryHeartbeatDimensions()
 
-        assertEquals(expectedDimensionValue, dimensions[dimension])
+            assertEquals(
+                expected = expectedDimensionValue,
+                actual = dimensions[dimension],
+                message = "Failed for vpn user: $vpnUser",
+            )
+        }
     }
 
     @Test
     fun `GIVEN city and state excluded locations WHEN providing dimensions THEN excluded cities dimension is set`() = testScope.runTest {
         val dimension = "excluded_cities_count"
         val bucketTopLimit = 21
-        val excludedLocations = buildList {
+        val excludedLocationEntities = buildList {
             repeat(times = bucketTopLimit) { id ->
                 val excludedLocationType = if (id % 2 == 0) {
                     ExcludedLocationType.City
@@ -603,27 +655,40 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
                     ExcludedLocationType.State
                 }
 
-                add(TestExcludedLocation.create(id = id.toLong(), type = excludedLocationType))
+                add(TestExcludedLocationEntity.create(id = id.toLong(), type = excludedLocationType))
             }
         }
 
-        listOf(
-            0 to "0",
-            1 to "1",
-            2 to "2-5",
-            5 to "2-5",
-            6 to "6-10",
-            10 to "6-10",
-            11 to "11-20",
-            20 to "11-20",
-            21 to ">=21",
-        ).forEach { (countriesAmount, expectedDimensionValue) ->
-            val excludedLocations = ExcludedLocations(allLocations = excludedLocations.take(countriesAmount))
-            every { mockObserveExcludedLocations() } returns flowOf(value = excludedLocations)
+        vpnUsers.forEach { vpnUser ->
+            testUserProvider.vpnUser = vpnUser
+
+            excludedLocationsBuckets.forEach { (locationsAmount, expectedDimensionValue) ->
+                excludeLocationEntitiesFlow.value = excludedLocationEntities.take(locationsAmount)
+
+                val dimensions = getSettingsTelemetryHeartbeatDimensions()
+
+                assertEquals(
+                    expected = expectedDimensionValue,
+                    actual = dimensions[dimension],
+                    message = "Failed for vpn user $vpnUser and locations amount $locationsAmount",
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `GIVEN automatic connection feature flag is disabled WHEN providing dimensions THEN excluded location dimensions are not set`() = testScope.runTest {
+        val excludedCountriesDimension = "excluded_countries_count"
+        val excludedCitiesDimension = "excluded_cities_count"
+        vpnUsers.forEach { vpnUser ->
+            val message = "Failed for vpn user: $vpnUser"
+            testUserProvider.vpnUser = vpnUser
+            isAutomaticConnectionEnabled.setEnabled(isEnabled = false)
 
             val dimensions = getSettingsTelemetryHeartbeatDimensions()
 
-            assertEquals(expectedDimensionValue, dimensions[dimension])
+            assertNull(actual = dimensions[excludedCountriesDimension], message = message)
+            assertNull(actual = dimensions[excludedCitiesDimension], message = message)
         }
     }
 

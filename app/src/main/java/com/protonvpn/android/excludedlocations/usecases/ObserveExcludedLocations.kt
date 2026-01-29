@@ -29,6 +29,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -40,15 +42,15 @@ import javax.inject.Inject
 @Reusable
 class ObserveExcludedLocations @Inject constructor(
     mainScope: CoroutineScope,
-    currentUser: CurrentUser,
+    private val currentUser: CurrentUser,
     private val excludedLocationsDao: ExcludedLocationsDao,
     private val isAutomaticConnectionEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
 ) {
 
     private val excludedLocationsFlow = currentUser.vpnUserFlow
         .flatMapLatest { vpnUser ->
-            if (vpnUser == null || vpnUser.isFreeUser || !isAutomaticConnectionEnabled()) {
-                flowOf(ExcludedLocations(allLocations = emptyList()))
+            if (vpnUser == null) {
+                flowOf(ExcludedLocations.Empty)
             } else {
                 excludedLocationsDao.observeAll(userId = vpnUser.userId.id)
                     .map { excludedLocationEntities ->
@@ -64,6 +66,22 @@ class ObserveExcludedLocations @Inject constructor(
             initialValue = null,
         )
 
-    operator fun invoke(): Flow<ExcludedLocations> = excludedLocationsFlow.filterNotNull()
+    operator fun invoke(skipFreeUsers: Boolean = true): Flow<ExcludedLocations> = combine(
+        isAutomaticConnectionEnabled.observe(),
+        currentUser.vpnUserFlow,
+        ::Pair,
+    )
+        .flatMapLatest { (isAutomaticConnectionEnabled, vpnUser) ->
+            if (
+                !isAutomaticConnectionEnabled ||
+                vpnUser == null ||
+                (vpnUser.isFreeUser && skipFreeUsers)
+            ) {
+                flowOf(value = ExcludedLocations.Empty)
+            } else {
+                excludedLocationsFlow.filterNotNull()
+            }
+        }
+        .distinctUntilChanged()
 
 }

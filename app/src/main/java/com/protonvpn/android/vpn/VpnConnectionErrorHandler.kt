@@ -24,6 +24,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.ElapsedRealtimeClock
+import com.protonvpn.android.excludedlocations.ExcludedLocations
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.logging.ConnServerSwitchFailed
 import com.protonvpn.android.logging.ConnServerSwitchServerSelected
@@ -84,6 +85,7 @@ sealed class VpnFallbackResult {
         abstract val notifyUser: Boolean
         abstract val fromServer: Server?
         abstract val toServer: Server
+        abstract val hasExcludedLocations: Boolean
 
         data class SwitchConnectIntent(
             override val fromServer: Server?,
@@ -91,6 +93,7 @@ sealed class VpnFallbackResult {
             val fromConnectIntent: ConnectIntent,
             val toConnectIntent: ConnectIntent,
             override val reason: SwitchServerReason? = null,
+            override val hasExcludedLocations: Boolean,
         ) : Switch() {
             override val notifyUser = reason != null
             override val log get() = "SwitchConnectIntent: ${toConnectIntent.toLog()} reason: $reason"
@@ -104,6 +107,7 @@ sealed class VpnFallbackResult {
             val compatibleProtocol: Boolean,
             val switchedSecureCore: Boolean,
             override val notifyUser: Boolean,
+            override val hasExcludedLocations: Boolean,
         ) : Switch() {
             override val toServer get() = preparedConnection.connectionParams.server
             override val log get() = "SwitchServer ${preparedConnection.connectionParams.info} " +
@@ -206,11 +210,12 @@ class VpnConnectionErrorHandler @Inject constructor(
         vpnUser: VpnUser?
     ): VpnFallbackResult.Switch? {
         val fallbackIntent = ConnectIntent.Default
+        val excludedLocations = observeExcludedLocations().first()
         val fallbackServer = serverManager.getBestServerForConnectIntent(
             connectIntent = fallbackIntent,
             vpnUser = vpnUser,
             protocol = settingsForConnection.getFor(fallbackIntent).protocol,
-            excludedLocations = observeExcludedLocations().first(),
+            excludedLocations = excludedLocations,
         )
             ?.takeIf(Server::online)
             ?: return null
@@ -222,7 +227,11 @@ class VpnConnectionErrorHandler @Inject constructor(
                     toServer = fallbackServer,
                     fromConnectIntent = currentIntent,
                     toConnectIntent = fallbackIntent,
-                    SwitchServerReason.Downgrade(change.oldUser.userTierName, change.newUser.userTierName)
+                    reason = SwitchServerReason.Downgrade(
+                        fromTier = change.oldUser.userTierName,
+                        toTier = change.newUser.userTierName,
+                    ),
+                    hasExcludedLocations = excludedLocations.hasExclusions,
                 )
             }
             change is UserBecameDelinquent ->
@@ -231,7 +240,8 @@ class VpnConnectionErrorHandler @Inject constructor(
                     toServer = fallbackServer,
                     fromConnectIntent = currentIntent,
                     toConnectIntent = fallbackIntent,
-                    SwitchServerReason.UserBecameDelinquent
+                    reason = SwitchServerReason.UserBecameDelinquent,
+                    hasExcludedLocations = excludedLocations.hasExclusions,
                 )
             else -> {}
         }
@@ -310,6 +320,8 @@ class VpnConnectionErrorHandler @Inject constructor(
         }
         val considerOriginalServer = includeOriginalServer && !isStuckOnCurrentServer
 
+        val excludedLocations = observeExcludedLocations().first()
+
         val candidatesResult = getCandidateServersResult(
             orgIntent = orgIntent,
             orgPhysicalServer = orgPhysicalServer,
@@ -317,6 +329,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             vpnUser = vpnUser,
             includeOrgServer = considerOriginalServer,
             settingsForOrgIntent = settingsForOrgIntent,
+            excludedLocations = excludedLocations,
         )
 
         if (!candidatesResult.hasServers && candidatesResult.hasAppliedExclusions) {
@@ -378,7 +391,8 @@ class VpnConnectionErrorHandler @Inject constructor(
             reason,
             notifyUser = !isCompatible,
             compatibleProtocol = expectedProtocolConnection != null,
-            switchedSecureCore = switchedSecureCore
+            switchedSecureCore = switchedSecureCore,
+            hasExcludedLocations = excludedLocations.hasExclusions,
         )
     }
 
@@ -409,7 +423,8 @@ class VpnConnectionErrorHandler @Inject constructor(
         protocol: ProtocolSelection,
         vpnUser: VpnUser?,
         includeOrgServer: Boolean,
-        settingsForOrgIntent: LocalUserSettings
+        settingsForOrgIntent: LocalUserSettings,
+        excludedLocations: ExcludedLocations,
     ): ServersResult.Physical {
         val candidateList = mutableListOf<PhysicalServer>()
         if (orgPhysicalServer != null && includeOrgServer)
@@ -429,7 +444,7 @@ class VpnConnectionErrorHandler @Inject constructor(
                 gatewayName = (orgIntent as? ConnectIntent.Gateway)?.gatewayName,
                 vpnUser = vpnUser,
                 protocol = protocol,
-                excludedLocations = observeExcludedLocations().first(),
+                excludedLocations = excludedLocations,
             )
         }
 
@@ -492,7 +507,7 @@ class VpnConnectionErrorHandler @Inject constructor(
                 gatewayName = null,
                 vpnUser = vpnUser,
                 protocol = protocol,
-                excludedLocations = observeExcludedLocations().first(),
+                excludedLocations = excludedLocations,
             )
                 .let { serversResult ->
                     sortServersByScore(

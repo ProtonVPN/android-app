@@ -118,7 +118,7 @@ class AddExcludedLocationTests {
     @Test
     fun `GIVEN there is no vpn user WHEN adding excluded location THEN no excluded location is added`() = testScope.runTest {
         testUserProvider.vpnUser = null
-        val expectedExcludedLocations = ExcludedLocations(allLocations = emptyList())
+        val expectedExcludedLocations = ExcludedLocations.Empty
 
         addExcludedLocation(excludedLocation = TestExcludedLocation.create())
 
@@ -132,7 +132,7 @@ class AddExcludedLocationTests {
     @Test
     fun `GIVEN free vpn user WHEN adding excluded location THEN no excluded location is added`() = testScope.runTest {
         testUserProvider.vpnUser = TestUser.freeUser.vpnUser
-        val expectedExcludedLocations = ExcludedLocations(allLocations = emptyList())
+        val expectedExcludedLocations = ExcludedLocations.Empty
 
         addExcludedLocation(excludedLocation = TestExcludedLocation.create())
 

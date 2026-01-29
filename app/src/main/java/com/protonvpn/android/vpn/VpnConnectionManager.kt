@@ -369,10 +369,7 @@ class VpnConnectionManager @Inject constructor(
                         // Not compatible protocol needs to ask user permission to switch
                         // If user accepts then continue through broadcast receiver
                         if (fallback.compatibleProtocol) {
-                            switchServerConnect(
-                                switch = fallback,
-                                hasExcludedLocations = observeExcludedLocations().first().hasExclusions,
-                            )
+                            switchServerConnect(switch = fallback)
                         } else {
                             vpnConnectionTelemetry.onConnectionAbort(isFailure = true)
                         }
@@ -419,10 +416,10 @@ class VpnConnectionManager @Inject constructor(
         }
     }
 
-    private fun switchServerConnect(switch: VpnFallbackResult.Switch.SwitchServer, hasExcludedLocations: Boolean) {
+    private fun switchServerConnect(switch: VpnFallbackResult.Switch.SwitchServer) {
         clearOngoingConnection(clearFallback = false)
         ProtonLogger.log(ConnConnectTrigger, switch.log)
-        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Fallback(switch.log), hasExcludedLocations)
+        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Fallback(switch.log), switch.hasExcludedLocations)
         launchConnect {
             preparedConnect(switch.preparedConnection, DisconnectTrigger.Fallback)
         }

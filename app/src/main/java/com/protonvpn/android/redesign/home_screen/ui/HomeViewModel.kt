@@ -156,11 +156,6 @@ class HomeViewModel @Inject constructor(
         widgetManager.showWidgetAdoptionFlow,
     ) { showExcludedLocationsAdoption, widgetAdoptionType ->
         if (showExcludedLocationsAdoption) {
-            promptTelemetry.trackPromptDisplayed(
-                type = VpnProductPromptTelemetry.PromptType.FeatureDiscovery,
-                context = VpnProductPromptTelemetry.PromptContext.ConnectionPreferencesAdoption,
-            )
-
             AdoptionComponent.ExcludedLocationsAdoptionComponent(
                 onDismiss = ::onExcludedLocationsAdoptionClosed,
                 onExcludeLocationsClick = ::onExcludedLocationsAdoptionOpened,
@@ -517,6 +512,13 @@ class HomeViewModel @Inject constructor(
 
             _eventFlow.emit(value = Event.OnNavigateToConnectionPreferences)
         }
+    }
+
+    fun onExcludedLocationsAdoptionShown() {
+        promptTelemetry.trackPromptDisplayed(
+            type = VpnProductPromptTelemetry.PromptType.FeatureDiscovery,
+            context = VpnProductPromptTelemetry.PromptContext.ConnectionPreferencesAdoption,
+        )
     }
 
     fun onExcludedLocationsAdoptionClosed() {

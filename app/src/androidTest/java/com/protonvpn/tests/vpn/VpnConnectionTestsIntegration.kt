@@ -563,11 +563,12 @@ class VpnConnectionTestsIntegration {
     fun whenAuthErrorRequiresFallbackThenVpnConnectionIsReestablished() = scope.runTest {
         mockWireguard.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL, isFinal = false)
         val fallbackResult = VpnFallbackResult.Switch.SwitchConnectIntent(
-            serverWireguard,
-            fallbackServer,
-            connectIntentFastest,
-            connectIntentFastest,
-            SwitchServerReason.Downgrade("PLUS", "FREE")
+            fromServer = serverWireguard,
+            toServer = fallbackServer,
+            fromConnectIntent = connectIntentFastest,
+            toConnectIntent = connectIntentFastest,
+            reason = SwitchServerReason.Downgrade("PLUS", "FREE"),
+            hasExcludedLocations = false,
         )
         coEvery { vpnErrorHandler.onAuthError(any()) } answers {
             // Next connect attempt should succeed
@@ -637,9 +638,16 @@ class VpnConnectionTestsIntegration {
         val fallbackConnection = mockProTun
             .prepareForConnection(connectIntentFastest, fallbackServer, setOf(TransmissionProtocol.TCP), true)
             .first()
-        val fallbackResult = VpnFallbackResult.Switch.SwitchServer(serverWireguard,
-            connectIntentFastest, fallbackConnection, SwitchServerReason.ServerUnreachable,
-            compatibleProtocol = false, switchedSecureCore = false, notifyUser = true)
+        val fallbackResult = VpnFallbackResult.Switch.SwitchServer(
+            fromServer = serverWireguard,
+            connectIntent = connectIntentFastest,
+            preparedConnection = fallbackConnection,
+            reason = SwitchServerReason.ServerUnreachable,
+            compatibleProtocol = false,
+            switchedSecureCore = false,
+            notifyUser = true,
+            hasExcludedLocations = false,
+        )
         coEvery { vpnErrorHandler.onUnreachableError(any()) } returns fallbackResult
 
         val fallbacks = runWhileCollecting(monitor.vpnConnectionNotificationFlow) {
@@ -666,11 +674,12 @@ class VpnConnectionTestsIntegration {
         Assert.assertEquals(VpnState.Connected, monitor.state)
 
         val fallbackResult = VpnFallbackResult.Switch.SwitchConnectIntent(
-            serverWireguard,
-            fallbackServer,
-            connectIntentFastest,
-            connectIntentFastest,
-            SwitchServerReason.Downgrade("PLUS", "FREE")
+            fromServer = serverWireguard,
+            toServer = fallbackServer,
+            fromConnectIntent = connectIntentFastest,
+            toConnectIntent = connectIntentFastest,
+            reason = SwitchServerReason.Downgrade("PLUS", "FREE"),
+            hasExcludedLocations = false,
         )
         switchServerFlow.emit(fallbackResult)
 
@@ -687,11 +696,12 @@ class VpnConnectionTestsIntegration {
         coEvery {
             vpnErrorHandler.onServerInMaintenance(offlineServerConnectIntent, null)
         } returns VpnFallbackResult.Switch.SwitchConnectIntent(
-            offlineServer,
-            serverWireguard,
+            fromServer = offlineServer,
+            toServer = serverWireguard,
             fromConnectIntent = offlineServerConnectIntent,
             toConnectIntent = offlineServerConnectIntent,
-            SwitchServerReason.ServerInMaintenance
+            reason = SwitchServerReason.ServerInMaintenance,
+            hasExcludedLocations = false,
         )
 
         // Returning false means fallback will be used.
@@ -715,11 +725,12 @@ class VpnConnectionTestsIntegration {
             }
         }
         val fallbackResult = VpnFallbackResult.Switch.SwitchConnectIntent(
-            serverWireguard,
-            fallbackServer,
-            connectIntentFastest,
-            connectIntentFastest,
-            SwitchServerReason.Downgrade("PLUS", "FREE")
+            fromServer = serverWireguard,
+            toServer = fallbackServer,
+            fromConnectIntent = connectIntentFastest,
+            toConnectIntent = connectIntentFastest,
+            reason = SwitchServerReason.Downgrade("PLUS", "FREE"),
+            hasExcludedLocations = false,
         )
         switchServerFlow.emit(fallbackResult)
 
@@ -901,7 +912,7 @@ class VpnConnectionTestsIntegration {
     @Test
     fun testUnreachableInternalWhenLocalAgentUnreachableTrackerSignalsFallback() = scope.runTest {
         var nativeClient: VpnBackend.VpnAgentClient? = null
-        mockWireguard.setAgentProvider { certificate, _, client ->
+        mockWireguard.setAgentProvider { _, _, client ->
             nativeClient = client
             mockAgent
         }
@@ -910,6 +921,7 @@ class VpnConnectionTestsIntegration {
             toServer = createServer(),
             fromConnectIntent = connectIntentFastest,
             toConnectIntent = ConnectIntent.Default,
+            hasExcludedLocations = false,
         )
 
         manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
@@ -970,7 +982,12 @@ class VpnConnectionTestsIntegration {
     @Test
     fun whenProfileFallbackOnConnectThenTelemetryReportsASingleEvent() = scope.runTest {
         val switch = VpnFallbackResult.Switch.SwitchConnectIntent(
-            null, MockedServers.server, connectIntentFastest, connectIntentFastest, SwitchServerReason.ServerUnavailable
+            fromServer = null,
+            toServer = MockedServers.server,
+            fromConnectIntent = connectIntentFastest,
+            toConnectIntent = connectIntentFastest,
+            reason = SwitchServerReason.ServerUnavailable,
+            hasExcludedLocations = false,
         )
         fallbackOnConnectReportsSingleEventTest(switch, "success")
     }
@@ -996,7 +1013,12 @@ class VpnConnectionTestsIntegration {
         manager.connect(mockVpnUiDelegate, connectIntentCountry, trigger)
 
         val switch = VpnFallbackResult.Switch.SwitchConnectIntent(
-            null, MockedServers.server, connectIntentFastest, connectIntentFastest, SwitchServerReason.ServerUnavailable
+            fromServer = null,
+            toServer = MockedServers.server,
+            fromConnectIntent = connectIntentFastest,
+            toConnectIntent = connectIntentFastest,
+            reason = SwitchServerReason.ServerUnavailable,
+            hasExcludedLocations = false,
         )
         switchServerFlow.emit(switch)
 
@@ -1072,13 +1094,14 @@ class VpnConnectionTestsIntegration {
         )
         val fallbackConnection = PrepareResult(backend, fallbackConnectionParams)
         return VpnFallbackResult.Switch.SwitchServer(
-            null,
-            orgConnectIntent,
-            fallbackConnection,
-            SwitchServerReason.ServerUnavailable,
+            fromServer = null,
+            connectIntent = orgConnectIntent,
+            preparedConnection = fallbackConnection,
+            reason = SwitchServerReason.ServerUnavailable,
             compatibleProtocol = compatibleProtocol,
             switchedSecureCore = false,
-            notifyUser = false
+            notifyUser = false,
+            hasExcludedLocations = false,
         )
     }
 }

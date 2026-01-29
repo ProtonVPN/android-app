@@ -25,17 +25,11 @@ data class ExcludedLocations(val allLocations: List<ExcludedLocation>) {
 
     val hasExclusions: Boolean = allLocations.isNotEmpty()
 
-    val countryExclusionsCount: Int by lazy {
-        allLocations.filterIsInstance<ExcludedLocation.Country>().size
-    }
+    val countryExclusionsCount: Int = allLocations.filterIsInstance<ExcludedLocation.Country>().size
 
-    val cityExclusionsCount: Int by lazy {
-        allLocations.filterIsInstance<ExcludedLocation.City>().size
-    }
+    val cityExclusionsCount: Int = allLocations.filterIsInstance<ExcludedLocation.City>().size
 
-    val stateExclusionsCount: Int by lazy {
-        allLocations.filterIsInstance<ExcludedLocation.State>().size
-    }
+    val stateExclusionsCount: Int = allLocations.filterIsInstance<ExcludedLocation.State>().size
 
     private val excludedCountryCodes by lazy {
         allLocations.filterIsInstance<ExcludedLocation.Country>()
@@ -73,6 +67,12 @@ data class ExcludedLocations(val allLocations: List<ExcludedLocation>) {
 
     fun isStateExcluded(countryCode: String, nameEn: String): Boolean {
         return excludedCountryStates.contains(countryCode to nameEn)
+    }
+
+    companion object {
+
+        val Empty: ExcludedLocations = ExcludedLocations(allLocations = emptyList())
+
     }
 
 }

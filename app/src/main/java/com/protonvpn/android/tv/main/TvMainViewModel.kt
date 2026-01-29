@@ -265,7 +265,7 @@ class TvMainViewModel @Inject constructor(
             connectIntent = connectIntent,
             vpnUser = currentUser.vpnUserCached(),
             protocol = settingsProtocol,
-            excludedLocations = ExcludedLocations(allLocations = emptyList()),
+            excludedLocations = ExcludedLocations.Empty,
         )
         return when {
             server == null -> CoreR.drawable.ic_proton_lock_filled
