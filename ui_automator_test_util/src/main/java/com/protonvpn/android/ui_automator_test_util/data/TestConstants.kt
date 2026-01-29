@@ -27,7 +27,7 @@ object TestConstants {
     const val USERNAME_PLUS = "automationPlusUser"
     const val USERNAME_FREE = "automationFreeUser"
     const val TEST_PACKAGE = "ch.protonvpn.android.dev"
-    val TWENTY_SECOND_TIMEOUT = 20000.milliseconds
+    val TWENTY_SECOND_TIMEOUT = 20.seconds
     val TWO_MINUTES_TIMEOUT = 2.minutes
 
     val FIVE_SECONDS_TIMEOUT_MS = 5.seconds.inWholeMilliseconds

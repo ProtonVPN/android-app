@@ -29,9 +29,12 @@ import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.Until
 import com.protonvpn.android.ui_automator_test_util.data.TestConstants
 import com.protonvpn.android.ui_automator_test_util.robots.HomeRobot
 import com.protonvpn.android.ui_automator_test_util.robots.LoginRobot
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -79,11 +82,24 @@ class StartupBenchmarks {
     fun startupFreeUser_compilationBaselineProfiles() =
         startupWithUser(TestConstants.USERNAME_FREE, CompilationMode.Partial(BaselineProfileMode.Require))
 
+    @Test
+    fun startupFreeUserWithBanner_compilationBaselineProfiles() =
+        startupWithUser(
+            TestConstants.USERNAME_FREE,
+            CompilationMode.Partial(BaselineProfileMode.Require),
+            expectPromoOffer = true,
+        )
+
     // To run startup benchmark locally:
+    // - sign in to Google Play Store
     // - set testAccountPassword in gradle.properties
     // - build and install production*BenchmarkRelease
     // - run StartupBenchmarks
-    private fun startupWithUser(userName: String, compilationMode: CompilationMode) {
+    private fun startupWithUser(
+        userName: String,
+        compilationMode: CompilationMode,
+        expectPromoOffer: Boolean = false
+    ) {
         // The application id for the running build variant is read from the instrumentation arguments.
         val packageName = InstrumentationRegistry.getArguments().getString("targetAppId")
             ?: throw Exception("targetAppId not passed as instrumentation runner arg")
@@ -99,8 +115,28 @@ class StartupBenchmarks {
             setupBlock = {
                 pressHome()
                 startActivityAndWait()
-                LoginRobot.signInIfNeeded(userName, BuildConfig.TEST_ACCOUNT_PASSWORD)
-                    .waitUntilLoggedIn()
+                if (LoginRobot.isSigninNeeded()) {
+                    LoginRobot.signIn(userName, BuildConfig.TEST_ACCOUNT_PASSWORD)
+                        .waitUntilLoggedIn()
+                    if (expectPromoOffer) {
+                        val hasBanner = device.wait(
+                            Until.hasObject(By.res("promoOfferBanner")),
+                            30_000
+                        )
+                        assertTrue(hasBanner)
+
+                        // Reopen the UI to trigger the one-time splash screen.
+                        pressHome()
+                        device.wait({ false }, 1_000)
+                        startActivityAndWait()
+                        val hasSplashOffer = device.wait(
+                            Until.hasObject(By.text("Claim offer")),
+                            10_000
+                        )
+                        assertTrue(hasSplashOffer)
+                        device.findObject(By.desc("Close"))
+                    }
+                }
             },
             measureBlock = {
                 pressHome()

@@ -49,6 +49,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -121,7 +122,7 @@ fun PromoOfferBanner(
     modifier: Modifier = Modifier,
 ) {
     Box(
-      modifier = modifier
+      modifier = modifier.testTag("promoOfferBanner")
     ) {
         BannerWithCountdown(
             onClick,

@@ -49,6 +49,16 @@ object LoginRobot {
         return this
     }
 
+    fun isSigninNeeded(): Boolean {
+        val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        val hasSignInOrConnectButton = uiDevice.wait(
+            Until.hasObject(By.text(Pattern.compile("(Sign in|Connect)"))),
+            TestConstants.TWENTY_SECOND_TIMEOUT_MS
+        )
+        assertTrue(hasSignInOrConnectButton)
+        return uiDevice.hasObject(By.text("Sign in"))
+    }
+
     fun signInIfNeeded(username: String, password: String): LoginRobot {
         val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         val hasSignInOrConnectButton = uiDevice.wait(

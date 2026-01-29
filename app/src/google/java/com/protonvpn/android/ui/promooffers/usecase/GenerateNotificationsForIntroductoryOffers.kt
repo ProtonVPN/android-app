@@ -44,7 +44,8 @@ import me.proton.core.util.kotlin.startsWith
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-private val PROMO_ACTIVITY_PERIOD_START_MS = TimeUnit.HOURS.toMillis(5)
+private val PROMO_ACTIVITY_PERIOD_START_MS =
+    if (BuildConfig.BUILD_TYPE == "benchmarkRelease") 0L else TimeUnit.HOURS.toMillis(5)
 private val PROMO_ACTIVITY_PERIOD_END_MS = TimeUnit.DAYS.toMillis(3)
 private const val CAMPAIGN_NAME = "internal_intro_price"
 private const val NOTIFICATION_REFERENCE_BANNER = "IntroPricePromoBanner"
