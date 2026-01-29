@@ -38,6 +38,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.Suite
 
 /**
  * This test class benchmarks the speed of app startup.
@@ -59,90 +60,107 @@ import org.junit.runner.RunWith
  * For more information, see the [Macrobenchmark documentation](https://d.android.com/macrobenchmark#create-macrobenchmark)
  * and the [instrumentation arguments documentation](https://d.android.com/topic/performance/benchmarking/macrobenchmark-instrumentation-args).
  **/
+
+// To run startup benchmark locally:
+// - sign in to Google Play Store
+// - set testAccountPassword in gradle.properties
+// - build and install production*BenchmarkRelease
+// - run StartupBenchmarks
+@RunWith(Suite::class)
+@Suite.SuiteClasses(
+    StartupBenchmarks::class,
+    StartupBenchmarksNoBaselineProfile::class,
+)
+class StartupBenchmarksAll
+
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class StartupBenchmarks {
+class StartupBenchmarksNoBaselineProfile {
 
     @get:Rule
     val rule = MacrobenchmarkRule()
 
     @Test
-    fun startupPlusUser_compilatioNone() =
-        startupWithUser(TestConstants.USERNAME_PLUS, CompilationMode.None())
+    fun startupFreeUser() =
+        startupWithUser(rule, TestConstants.USERNAME_FREE, CompilationMode.None())
 
     @Test
-    fun startupPlusUser_compilationBaselineProfiles() =
-        startupWithUser(TestConstants.USERNAME_PLUS, CompilationMode.Partial(BaselineProfileMode.Require))
+    fun startupPlusUser() =
+        startupWithUser(rule, TestConstants.USERNAME_PLUS, CompilationMode.None())
+}
+
+@RunWith(AndroidJUnit4::class)
+@LargeTest
+class StartupBenchmarks {
+    @get:Rule
+    val rule = MacrobenchmarkRule()
 
     @Test
-    fun startupFreeUser_compilatioNone() =
-        startupWithUser(TestConstants.USERNAME_FREE, CompilationMode.None())
+    fun startupPlusUser() =
+        startupWithUser(rule, TestConstants.USERNAME_PLUS, CompilationMode.Partial(BaselineProfileMode.Require))
 
     @Test
-    fun startupFreeUser_compilationBaselineProfiles() =
-        startupWithUser(TestConstants.USERNAME_FREE, CompilationMode.Partial(BaselineProfileMode.Require))
+    fun startupFreeUser() =
+        startupWithUser(rule, TestConstants.USERNAME_FREE, CompilationMode.Partial(BaselineProfileMode.Require))
 
     @Test
-    fun startupFreeUserWithBanner_compilationBaselineProfiles() =
+    fun startupFreeUserWithBanner() =
         startupWithUser(
+            rule,
             TestConstants.USERNAME_FREE,
             CompilationMode.Partial(BaselineProfileMode.Require),
             expectPromoOffer = true,
         )
+}
 
-    // To run startup benchmark locally:
-    // - sign in to Google Play Store
-    // - set testAccountPassword in gradle.properties
-    // - build and install production*BenchmarkRelease
-    // - run StartupBenchmarks
-    private fun startupWithUser(
-        userName: String,
-        compilationMode: CompilationMode,
-        expectPromoOffer: Boolean = false
-    ) {
-        // The application id for the running build variant is read from the instrumentation arguments.
-        val packageName = InstrumentationRegistry.getArguments().getString("targetAppId")
-            ?: throw Exception("targetAppId not passed as instrumentation runner arg")
-        // Clear data to force a new login.
-        val output = Shell.executeScriptCaptureStdoutStderr("pm clear $packageName")
-        Log.i("StartupBenchmarks", "pm clear $packageName output:\n${output.stdout}\n${output.stderr}")
-        rule.measureRepeated(
-            packageName = packageName,
-            metrics = listOf(StartupTimingMetric()),
-            compilationMode = compilationMode,
-            startupMode = StartupMode.COLD,
-            iterations = 15,
-            setupBlock = {
-                pressHome()
-                startActivityAndWait()
-                if (LoginRobot.isSigninNeeded()) {
-                    LoginRobot.signIn(userName, BuildConfig.TEST_ACCOUNT_PASSWORD)
-                        .waitUntilLoggedIn()
-                    if (expectPromoOffer) {
-                        val hasBanner = device.wait(
-                            Until.hasObject(By.res("promoOfferBanner")),
-                            30_000
-                        )
-                        assertTrue(hasBanner)
+private fun startupWithUser(
+    rule: MacrobenchmarkRule,
+    userName: String,
+    compilationMode: CompilationMode,
+    expectPromoOffer: Boolean = false
+) {
+    // The application id for the running build variant is read from the instrumentation arguments.
+    val packageName = InstrumentationRegistry.getArguments().getString("targetAppId")
+        ?: throw Exception("targetAppId not passed as instrumentation runner arg")
+    // Clear data to force a new login.
+    val output = Shell.executeScriptCaptureStdoutStderr("pm clear $packageName")
+    Log.i("StartupBenchmarks", "pm clear $packageName output:\n${output.stdout}\n${output.stderr}")
+    rule.measureRepeated(
+        packageName = packageName,
+        metrics = listOf(StartupTimingMetric()),
+        compilationMode = compilationMode,
+        startupMode = StartupMode.COLD,
+        iterations = 15,
+        setupBlock = {
+            pressHome()
+            startActivityAndWait()
+            if (LoginRobot.isSigninNeeded()) {
+                LoginRobot.signIn(userName, BuildConfig.TEST_ACCOUNT_PASSWORD)
+                    .waitUntilLoggedIn()
+                if (expectPromoOffer) {
+                    val hasBanner = device.wait(
+                        Until.hasObject(By.res("promoOfferBanner")),
+                        30_000
+                    )
+                    assertTrue(hasBanner)
 
-                        // Reopen the UI to trigger the one-time splash screen.
-                        pressHome()
-                        device.wait({ false }, 1_000)
-                        startActivityAndWait()
-                        val hasSplashOffer = device.wait(
-                            Until.hasObject(By.text("Claim offer")),
-                            10_000
-                        )
-                        assertTrue(hasSplashOffer)
-                        device.findObject(By.desc("Close"))
-                    }
+                    // Reopen the UI to trigger the one-time splash screen.
+                    pressHome()
+                    device.wait({ false }, 1_000)
+                    startActivityAndWait()
+                    val hasSplashOffer = device.wait(
+                        Until.hasObject(By.text("Claim offer")),
+                        10_000
+                    )
+                    assertTrue(hasSplashOffer)
+                    device.findObject(By.desc("Close"))
                 }
-            },
-            measureBlock = {
-                pressHome()
-                startActivityAndWait()
-                HomeRobot.waitUntilConnectionCardReady()
             }
-        )
-    }
+        },
+        measureBlock = {
+            pressHome()
+            startActivityAndWait()
+            HomeRobot.waitUntilConnectionCardReady()
+        }
+    )
 }
