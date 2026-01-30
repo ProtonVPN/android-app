@@ -69,6 +69,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -149,6 +150,7 @@ class TvMainViewModel @Inject constructor(
     data class MainViewState(
         val isFreeUser: Boolean,
         val serverListVersion: Int,
+        val recentsVersion: Int,
         val userTier: Int,
         val showAutoConnectSetting: Boolean,
         val showNetShieldSetting: Boolean,
@@ -172,27 +174,34 @@ class TvMainViewModel @Inject constructor(
 
     val mainViewState = combine(
         serverManager.serverListVersion,
+        recentsManager.version,
         currentUser.vpnUserFlow,
         featureFlagsFlow,
-    ) { serverListVersion, vpnUser, flags ->
+    ) { serverListVersion, recentsVersion, vpnUser, flags ->
         MainViewState(
             isFreeUser = vpnUser?.isFreeUser != false,
             serverListVersion = serverListVersion,
+            recentsVersion = recentsVersion,
             userTier = vpnUser?.userTier ?: VpnUser.FREE_TIER,
             showAutoConnectSetting = flags.isTvAutoConnectFeatureFlagEnabled,
             showNetShieldSetting = flags.isTvNetShieldSettingFeatureFlagEnabled,
             showCustomDnsSetting = flags.isTvCustomDnsSettingFeatureFlagEnabled,
             showIpv6Setting = flags.isIPv6FeatureFlagEnabled,
         )
-    }.onStart {
-        // The main TV UI is synchronous and assumes all servers are loaded - changing this is tricky.
-        // Therefore let's delay the main state until servers are loaded.
-        serverManager.ensureLoaded()
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.Lazily,
-        null
-    ).filterNotNull()
+    }
+        .onStart {
+            // The main TV UI is synchronous and assumes all servers are loaded - changing this is tricky.
+            // Therefore let's delay the main state until servers are loaded.
+            serverManager.ensureLoaded()
+        }
+        // Quick updates cause the Leanback UI to show cut-off recent connection flag, use small
+        // debounce to avoid the situation.
+        .debounce(50)
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Lazily,
+            null
+        ).filterNotNull()
 
     fun setSelectedCountry(flag: String?) {
         selectedCountryFlag.value = flag

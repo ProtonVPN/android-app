@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
@@ -12,8 +13,11 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
@@ -40,7 +44,10 @@ class RecentsManagerTests {
         Storage.setPreferences(MockSharedPreference())
         every { vpnStatusProviderUI.status } returns vpnStatus
         testScope = TestScope(UnconfinedTestDispatcher())
-        manager = RecentsManager(testScope.backgroundScope, vpnStatusProviderUI, mockk())
+        val mockServerManager = mockk<ServerManager>().apply {
+            coEvery { ensureLoaded() } just Runs
+        }
+        manager = RecentsManager(testScope.backgroundScope, vpnStatusProviderUI, mockServerManager)
     }
 
     private fun addRecent(connectionParams: ConnectionParams) {

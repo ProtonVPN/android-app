@@ -44,6 +44,7 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -71,9 +72,9 @@ class TvServerListViewModel @Inject constructor(
             }
         }
         viewModelScope.launch {
-            recentsManager.update.collect {
-                updateRecents(country)
-            }
+            recentsManager.version
+                .drop(1) // Drop the first state, this only cares about subsequent updates.
+                .collect { updateRecents(country) }
         }
     }
 

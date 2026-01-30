@@ -25,15 +25,13 @@ import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
-import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.removeFirst
 import java.lang.reflect.Type
@@ -43,7 +41,7 @@ import javax.inject.Singleton
 
 @Singleton
 class RecentsManager @Inject constructor(
-    @Transient private val scope: CoroutineScope,
+    @Transient private val mainScope: CoroutineScope,
     @Transient private val vpnStatusProviderUI: VpnStatusProviderUI,
     serverManager: ServerManager,
 ) : java.io.Serializable {
@@ -60,40 +58,45 @@ class RecentsManager @Inject constructor(
     // Country code -> Servers
     private val recentServers = LinkedHashMap<String, ArrayDeque<Server>>()
 
-    @Transient val update = MutableSharedFlow<Unit>()
+    @Transient val version = MutableStateFlow<Int>(0)
 
     init {
-        Storage.load(RecentsManager::class.java)?.let { loadedRecents ->
-            // Remove migration in some time.
-            if (loadedRecents.migrateRecentConnections.isNotEmpty()) {
-                recentCountries.addAll(
-                    loadedRecents.migrateRecentConnections.filter { it.country.isNotBlank() }.map { it.country }
-                )
-                // This migration will be saved when the recents are updated. Let's not do this here, while still
-                // executing the constructor.
-            }
-            // Older version might have these fields missing.
-            if (loadedRecents.recentCountries != null)
-                recentCountries.addAll(loadedRecents.recentCountries)
-            if (loadedRecents.recentServers != null) {
-                recentServers.putAll(
-                    loadedRecents.recentServers
-                        .mapValues { (_, servers) ->
-                            servers.mapNotNullTo(ArrayDeque()) { serverManager.getServerById(it.serverId) }
-                        }
-                        .filter { (_, servers) -> servers.isNotEmpty() }
-                )
+        mainScope.launch {
+            serverManager.ensureLoaded()
+            Storage.load(RecentsManager::class.java)?.let { loadedRecents ->
+                // Remove migration in some time.
+                if (loadedRecents.migrateRecentConnections.isNotEmpty()) {
+                    recentCountries.addAll(
+                        loadedRecents.migrateRecentConnections.filter { it.country.isNotBlank() }
+                            .map { it.country }
+                    )
+                    // This migration will be saved when the recents are updated. Let's not do this here, while still
+                    // executing the constructor.
+                }
+                // Older version might have these fields missing.
+                if (loadedRecents.recentCountries != null)
+                    recentCountries.addAll(loadedRecents.recentCountries)
+                if (loadedRecents.recentServers != null) {
+                    recentServers.putAll(
+                        loadedRecents.recentServers
+                            .mapValues { (_, servers) ->
+                                servers.mapNotNullTo(ArrayDeque()) { serverManager.getServerById(it.serverId) }
+                            }
+                            .filter { (_, servers) -> servers.isNotEmpty() }
+                    )
+                }
+                version.update { it + 1 }
             }
         }
 
-        scope.launch {
+        mainScope.launch {
             vpnStatusProviderUI.status.collect { status ->
                 if (status.state == VpnState.Connected) {
                     status.connectionParams?.let { params ->
                         addToRecentServers(params.server)
                         addToRecentCountries(params.server)
                         Storage.save(this@RecentsManager, RecentsManager::class.java)
-                        update.emit(Unit)
+                        version.update { it + 1 }
                     }
                 }
             }
