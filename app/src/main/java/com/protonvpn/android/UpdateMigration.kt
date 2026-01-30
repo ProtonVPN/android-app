@@ -113,7 +113,7 @@ class UpdateMigration @Inject constructor(
 
     @SuppressWarnings("MagicNumber")
     private fun adoptExcludedLocations(oldVersionCode: Int) {
-        if (oldVersionCode <= 5_15_05_02) {
+        if (oldVersionCode <= 5_15_51_00) {
             mainScope.launch {
                 uiStateStorage.get().update { it.copy(shouldShowExcludedLocationsAdoption = true) }
             }
