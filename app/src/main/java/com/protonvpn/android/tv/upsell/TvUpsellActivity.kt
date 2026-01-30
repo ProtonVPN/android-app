@@ -38,6 +38,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -86,6 +87,8 @@ private fun TvUpsellLayout(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(key1 = Unit) {
@@ -130,7 +133,7 @@ private fun TvUpsellLayout(
                 text = AnnotatedString.fromHtml(
                     htmlString = stringResource(
                         id = viewState.descriptionResId,
-                        *viewState.descriptionPlaceholders
+                        *viewState.descriptionPlaceholders(context)
                             .toTypedArray()
                             .plus(stringResource(id = viewState.descriptionPlaceholderResId)),
                     )

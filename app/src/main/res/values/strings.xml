@@ -555,7 +555,14 @@
     <string name="upsell_card_tor_title">Tor over VPN</string>
     <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
     <string name="upsell_tv_all_countries_title">Access all countries with Plus</string>
-    <string name="upsell_tv_all_countries_description" comment="the first 2 placeholders will be replaced by the amount of servers and countries">Unlock %1$s secure servers in %2$s countries. %3$s</string>
+    <!-- Format for upselling countries on TV".
+        %1$s - replaced with upgrade_plus_servers_new plurals key (e.g. 1 secure server or 10 secure servers)
+        %2$s - replaced with upgrade_plus_countries plurals key (e.g. 1 country or 10 countries)
+        %3$s - replaced with upsell_tv_description_placeholder
+
+        Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
+    -->
+    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s. %3$s</string>
     <string name="upsell_tv_netshield_title">Enjoy ad-free browsing with Plus</string>
     <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>. %1$s]]></string>
     <string name="upsell_tv_split_tunneling_title">Get the best of both worlds with Plus</string>

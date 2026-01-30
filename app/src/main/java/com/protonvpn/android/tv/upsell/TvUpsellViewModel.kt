@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.tv.upsell
 
+import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
@@ -48,7 +49,7 @@ class TvUpsellViewModel @Inject constructor(
         @DrawableRes val imageResId: Int,
         @StringRes val titleResId: Int,
         @StringRes val descriptionResId: Int,
-        val descriptionPlaceholders: List<String> = emptyList(),
+        val descriptionPlaceholders: (Context) -> List<String> = { emptyList() },
     ) {
 
         @StringRes
@@ -68,10 +69,20 @@ class TvUpsellViewModel @Inject constructor(
                     imageResId = R.drawable.worldwide_coverage_tv,
                     titleResId = R.string.upsell_tv_all_countries_title,
                     descriptionResId = R.string.upsell_tv_all_countries_description,
-                    descriptionPlaceholders = listOf(
-                        serverListUpdaterPrefs.vpnServerCount.toString(),
-                        serverListUpdaterPrefs.vpnCountryCount.toString(),
-                    ),
+                    descriptionPlaceholders = { context ->
+                        listOf(
+                            context.resources.getQuantityString(
+                                R.plurals.upgrade_plus_servers_new,
+                                serverListUpdaterPrefs.vpnServerCount,
+                                serverListUpdaterPrefs.vpnServerCount,
+                            ),
+                            context.resources.getQuantityString(
+                                R.plurals.upgrade_plus_countries,
+                                serverListUpdaterPrefs.vpnCountryCount,
+                                serverListUpdaterPrefs.vpnCountryCount,
+                            ),
+                        )
+                    },
                 )
 
                 PaidFeature.CustomDns,
