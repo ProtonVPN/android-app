@@ -58,7 +58,7 @@
     <string name="restrictedMaintenanceTitle">Bakım yapılıyor</string>
     <string name="restrictedMaintenanceDescription">Şu anda bağlanmaya çalıştığınız sunucuda bakım yapılıyor. Lütfen başka bir sunucu deneyin.</string>
     <string name="restricted_location_excluded_dialog_title">Bağlantı kurulamadı</string>
-    <string name="restricted_location_excluded_dialog_description">Kullanılabilir sunucu yok. Bir konumu manuel olarak seçin veya hariç tutulan konumlarınızı düzenleyin.</string>
+    <string name="restricted_location_excluded_dialog_description">Kullanılabilecek bir sunucu yok. El ile bir konum seçin veya katılmayacak konumlarınızı düzenleyin.</string>
     <string name="errorUserDelinquent"><![CDATA[Hesabınızda şu anda ödenmemiş bir fatura var. Lütfen&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> adresinden tüm süresi geçmiş faturaları ödeyin]]></string>
     <string name="errorMaxSessions">Hesabınız için izin verilen en fazla eşzamanlı bağlantı sayısına ulaştınız. Daha fazla bağlantı kullanmak için Proton VPN tarifenizi yükseltin.</string>
     <string name="listItemMaintenance">Bakım yapılıyor</string>
@@ -95,9 +95,9 @@
     <string name="copy_to_clipboard">Kopyala</string>
     <string name="copied_to_clipboard">Panoya kopyalandı</string>
     <string name="got_it">Anladım</string>
-    <string name="exclude_locations">Konumları hariç tut</string>
-    <string name="excluded_locations">Hariç tutulan konumlar</string>
-    <string name="cannot_connect">Bağlanılamıyor</string>
+    <string name="exclude_locations">Konumlar katılmasın</string>
+    <string name="excluded_locations">Katılmayacak konumlar</string>
+    <string name="cannot_connect">Bağlantı kurulamadı</string>
     <string name="skip">Atla</string>
     <string name="something_went_wrong">Bir şeyler ters gitti</string>
     <string name="try_again">Yeniden dene</string>
@@ -1036,7 +1036,7 @@
     <string name="message_server_in_maintenance">Sunucuda bakım yapılıyor</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Sunucu kullanılamıyor</string>
-    <string name="message_server_location_excluded">Sunucu konumu hariç tutuldu</string>
+    <string name="message_server_location_excluded">Sunucu konumu katılmıyor</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Ağ geçidinde bakım yapılıyor</string>
     <!-- tag(Redesign_2023) -->
@@ -1533,7 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">%1$s sunucu seçiminiz kullanılamıyor. Başka bir sunucu seçin ya da bir süre sonra yeniden deneyin.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[<b>%1$s</b> için seçtiğiniz sunucu kullanılamıyor. Farklı bir sunucu seçin hariç tutulan konumlarınızı kontrol edin veya daha sonra tekrar deneyin.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[<b>%1$s</b> için seçtiğiniz sunucu kullanılamıyor. Farklı bir sunucu seçin katılmayacak konumlarınızı denetleyin veya bir süre sonra yeniden deneyin.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">%1$d. simge</string>
@@ -1605,7 +1605,7 @@
     <string name="settings_protocol_proton_protocols">Proton iletişim kuralları</string>
     <string name="settings_protocol_proton_protocols_description">Proton VPN uygulamasının kendi WireGuard uyarlamasını kullanın. Bu özellik henüz deneyseldir ve bazı kararsızlıklar yaşayabilirsiniz.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">İstediğiniz ülke değil mi?</string>
-    <string name="connection_preferences_smart_discovery_dialog_message">Asla bağlanmak istemediğiniz bir konum varsa otomatik bağlantılardan hariç tutabilirsiniz.</string>
-    <string name="excluded_locations_adoption_title">İstenmeyen konumlardan kaçının</string>
-    <string name="excluded_locations_adoption_description"><![CDATA[Artık <b>En Hızlı</b> bağlantılardan ülkeleri ve şehirleri hariç tutabilirsiniz.]]></string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Asla bağlanmak istemediğiniz bir konum varsa otomatik bağlantılara katılmayacak olarak ayarlayabilirsiniz.</string>
+    <string name="excluded_locations_adoption_title">İstemediğiniz konumlara bağlanmayın</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Artık <b>En hızlı</b> bağlantı seçeneğine ülkelerin ve illerin katılmamasını sağlayabilirsiniz.]]></string>
 </resources>

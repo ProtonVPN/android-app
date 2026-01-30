@@ -573,7 +573,7 @@
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
     <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
+    <string name="payment_auto_renew_message_annual">اشتراک به‌صورت خودکار با مبلغ %1$s در سال تمدید می‌شود</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">این فناوری به Proton VPN اجازه می‌دهد تا در کشورهایی که ارائهٔ خدمات در آن‌ها دشوار است، سرعت و امنیت بالاتری را ارائه کند.</string>
     <string name="tor_title">Tor</string>
@@ -1408,7 +1408,7 @@
     <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">داده‌هایی که وارد شبکه‌تان می‌شود را محدود می‌کند. این گزینه امن‌تر است، اما می‌تواند اتصالات همتا به همتا (P2P) بازی‌های آنلاین را دشوار کند.</string>
     <string name="settings_advanced_nat_type_moderate_description">همراه با بعضی محدودیت‌ها بر داده‌هایی که وارد شبکه‌تان می‌شود. این گزینه برای بازی کردن آنلاین بهترین است.</string>
-    <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
+    <string name="settings_split_tunneling_description">با تعیین اینکه کدام برنامه‌ها و آدرس‌های IP توسط VPN محافظت شوند، اتصال خود را شخصی‌سازی کنید. %1$s</string>
     <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
     <string name="settings_protocol_description_no_link">یک پروتکل VPN تشخیص می‌دهد چگونه داده‌ها بین یک سرور VPN و دستگاهتان تبادل شوند.</string>
     <string name="settings_protocol_section_speed">سرعت (UDP)</string>
@@ -1427,10 +1427,10 @@
     <string name="settings_split_tunneling_mode_title">Mode</string>
     <string name="settings_split_tunneling_mode_standard">Exclude</string>
     <string name="settings_split_tunneling_mode_inverse">Include</string>
-    <string name="settings_split_tunneling_mode_description_standard">برنامه‌ها و نشانی‌های IP انتخاب شده از اتصال VPN مستثنی می‌شوند.</string>
-    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
+    <string name="settings_split_tunneling_mode_description_standard">برنامه‌ها و آدرس‌های IP انتخاب‌شده از اتصال VPN مستثنا شده‌ اند.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">تنها برنامه‌ها و آدرس‌های IP انتخاب‌شده از طریق VPN متصل می‌شوند و سایر ترافیک‌ها بدون محافظت هستند.</string>
     <string name="settings_split_tunneling_excluded_apps">Excluded apps</string>
-    <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
+    <string name="settings_split_tunneling_excluded_ips">آدرس‌های IP مستثناشده</string>
     <string name="settings_split_tunneling_included_apps">Included apps</string>
     <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">هیچ</string>

@@ -58,7 +58,7 @@
     <string name="restrictedMaintenanceTitle">تحت الصيانة</string>
     <string name="restrictedMaintenanceDescription">إنّ الخادم الذي تحاول الاتصال به حاليًا قيد الصيانة. يرجى تجريب خادم آخر.</string>
     <string name="restricted_location_excluded_dialog_title">فشل الاتصال</string>
-    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
+    <string name="restricted_location_excluded_dialog_description">لا توجد خوادم متاحة. قم باختيار موقع بشكل يدوي أو تعديل المواقع المستبعدة.</string>
     <string name="errorUserDelinquent"><![CDATA[هناك فاتورة متأخرة في حسابك. يرجى دفع جميع الفواتير غير المسددة عبر&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">لقد بلغ حسابك الحد الأقصى من عدد الاتصالات الآنية. لطفًا رقِّ باقتك من Proton VPN لتحصل على المزيد من الاتصالات.</string>
     <string name="listItemMaintenance">تحت الصيانة</string>
@@ -95,10 +95,10 @@
     <string name="copy_to_clipboard">نسخ</string>
     <string name="copied_to_clipboard">تم النسخ إلى الحافظة</string>
     <string name="got_it">حسنًا</string>
-    <string name="exclude_locations">Exclude locations</string>
-    <string name="excluded_locations">Excluded locations</string>
-    <string name="cannot_connect">Cannot connect</string>
-    <string name="skip">Skip</string>
+    <string name="exclude_locations">المواقع المستبعدة</string>
+    <string name="excluded_locations">المواقع المستبعدة</string>
+    <string name="cannot_connect">لا يمكن الاتصال</string>
+    <string name="skip">تخطي</string>
     <string name="something_went_wrong">حدث خطأ ما</string>
     <string name="try_again">أعد المحاولة</string>
     <string name="delete">حذف</string>
@@ -261,7 +261,7 @@
     <string name="netshield_ads_title">الإعلانات</string>
     <string name="netshield_ads_details">الإعلانات ومتعقبي الإعلانات غير المرئية</string>
     <string name="netshield_trackers_title">برمجيات التعقب</string>
-    <string name="netshield_trackers_details">ملفات تعريف الارتباط والمتعقبات الأخرى التي تخزن وتشارك المعلومات حول نشاطك على الإنترنت</string>
+    <string name="netshield_trackers_details">ملفات تعريف الارتباط وأدوات التتبع الأخرى التي تخزن وتشارك معلومات حول نشاطك على الإنترنت</string>
     <string name="netshield_data_title">البيانات</string>
     <string name="netshield_data_details">كمية البيانات التي تم توفيرها بحظر الإعلانات والتعقب والبرامج الخبيثة من قبل NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
@@ -1163,7 +1163,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_protocol_title">البروتوكول</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_vpn_accelerator_title">مسرّع الVPN</string>
+    <string name="settings_vpn_accelerator_title">مسرع VPN</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_advanced_settings_title">الإعدادات المتقدمة</string>
     <!-- tag(Redesign_2023) -->

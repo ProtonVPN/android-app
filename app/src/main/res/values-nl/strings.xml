@@ -57,8 +57,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">In onderhoud</string>
     <string name="restrictedMaintenanceDescription">De server waarmee u wil verbinden is momenteel in onderhoud. Kies een andere server.</string>
-    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
-    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
+    <string name="restricted_location_excluded_dialog_title">Verbinding mislukt</string>
+    <string name="restricted_location_excluded_dialog_description">Geen servers beschikbaar. Kies handmatig een locatie of bewerk uw uitgesloten locaties.</string>
     <string name="errorUserDelinquent"><![CDATA[Uw account heeft momenteel een achterstallige factuur. Gelieve alle onbetaalde facturen te betalen op&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">U heeft het maximum aantal gelijktijdige verbindingen bereikt dat is toegestaan voor uw account. Upgrade uw Proton VPN-abonnement om meer verbindingen te krijgen.</string>
     <string name="listItemMaintenance">In onderhoud</string>
@@ -96,7 +96,7 @@
     <string name="copied_to_clipboard">Gekopieerd naar het klembord</string>
     <string name="got_it">Begrepen</string>
     <string name="exclude_locations">Locaties uitsluiten</string>
-    <string name="excluded_locations">Excluded locations</string>
+    <string name="excluded_locations">Uitgesloten locaties</string>
     <string name="cannot_connect">Kan geen verbinding maken</string>
     <string name="skip">Overslaan</string>
     <string name="something_went_wrong">Er is iets fout gegaan</string>
@@ -1036,7 +1036,7 @@
     <string name="message_server_in_maintenance">Server ondergaat onderhoud</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server niet beschikbaar</string>
-    <string name="message_server_location_excluded">Server location excluded</string>
+    <string name="message_server_location_excluded">Serverlocatie uitgesloten</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway in onderhoud</string>
     <!-- tag(Redesign_2023) -->
@@ -1416,14 +1416,14 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Selecteert automatisch het beste protocol voor uw verbinding.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
+    <string name="settings_protocol_smart_protun_description">Selecteert automatisch het beste protocol voor uw verbinding [experimenteel].</string>
     <string name="settings_protocol_wireguard_udp_description">Geavanceerd protocol voor beveiliging en prestaties.</string>
     <string name="settings_protocol_wireguard_tcp_description">Geavanceerd protocol voor beveiliging en prestaties.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Negeert VPN-blokkades door uw VPN-verbinding te verbergen voor censors. Dit protocol is bestand tegen DPI (Deep Packet Inspection), maar is niet altijd even snel als andere protocollen. Stealth is exclusief voor Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Aanbevolen</string>
-    <string name="settings_protocol_badge_experimental">Experimental</string>
+    <string name="settings_protocol_badge_experimental">Experimenteel</string>
     <string name="settings_split_tunneling_mode_title">Modus</string>
     <string name="settings_split_tunneling_mode_standard">Exclusief</string>
     <string name="settings_split_tunneling_mode_inverse">Inclusief</string>
@@ -1533,7 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Uw serverselectie voor %1$s is niet beschikbaar. Selecteer een andere server of probeer het later opnieuw.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Uw serverselectie voor <b>%1$s</b> is onbeschikbaar. Selecteer een andere server, controleer uw uitgesloten locaties of probeer het later opnieuw.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Icoon %1$d</string>
@@ -1602,8 +1602,8 @@
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Dit protocol zal spoedig worden verwijderd aangezien wij ons richten op snellere en veiligere technologieën. Wij raden u aan om over te schakelen naar Smart Protocol.</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Ga verder met OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Schakel Smart-protocol in</string>
-    <string name="settings_protocol_proton_protocols">Proton protocols</string>
-    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
+    <string name="settings_protocol_proton_protocols">Proton protocollen</string>
+    <string name="settings_protocol_proton_protocols_description">Gebruik Proton VPN\'s eigen implementatie van WireGuard. Dit is een experimentele functie, dus u kunt enige instabiliteit ervaren.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">Niet het land dat u wenste?</string>
     <string name="connection_preferences_smart_discovery_dialog_message">Als er een locatie is waarmee u nooit verbonden wilt worden, kunt u deze uitsluiten van automatische verbindingen.</string>
     <string name="excluded_locations_adoption_title">Ongewenste locaties vermijden</string>

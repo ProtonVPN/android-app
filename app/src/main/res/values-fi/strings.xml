@@ -95,10 +95,10 @@
     <string name="copy_to_clipboard">Kopioi</string>
     <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
     <string name="got_it">Selvä</string>
-    <string name="exclude_locations">Exclude locations</string>
+    <string name="exclude_locations">Poissulje sijainnit</string>
     <string name="excluded_locations">Poissuljetut sijainnit</string>
-    <string name="cannot_connect">Cannot connect</string>
-    <string name="skip">Skip</string>
+    <string name="cannot_connect">Ei voida yhdistää</string>
+    <string name="skip">Ohita</string>
     <string name="something_went_wrong">Jotain meni pieleen</string>
     <string name="try_again">Yritä uudelleen</string>
     <string name="delete">Poista</string>
@@ -1604,8 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ota Smart Protocol käyttöön</string>
     <string name="settings_protocol_proton_protocols">Proton-protokollat</string>
     <string name="settings_protocol_proton_protocols_description">Käytä Proton VPN:n omaa WireGuard-toteutusta. Tämä on kokeellinen ominaisuus, joten saatat kokea jonkin verran epävakautta.</string>
-    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
-    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
-    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
-    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Eikö tämä ole haluamasi maa?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Jos on olemassa sijainti, johon et koskaan halua muodostaa yhteyttä, voit sulkea sen pois automaattisista yhteyksistä.</string>
+    <string name="excluded_locations_adoption_title">Vältä ei-toivottuja sijainteja</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Voit nyt poissulkea maita ja kaupunkeja pois <b>Nopeimmat</b> yhteyksistä.]]></string>
 </resources>

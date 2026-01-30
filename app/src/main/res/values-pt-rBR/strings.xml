@@ -58,7 +58,7 @@
     <string name="restrictedMaintenanceTitle">Em manutenção</string>
     <string name="restrictedMaintenanceDescription">O servidor que você está tentando conectar está em manutenção. Tente outro servidor.</string>
     <string name="restricted_location_excluded_dialog_title">Erro na conexão</string>
-    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
+    <string name="restricted_location_excluded_dialog_description">Nenhum servidor disponível. Escolha um local manualmente ou edite seus locais excluídos.</string>
     <string name="errorUserDelinquent"><![CDATA[A sua conta tem uma fatura em atraso. Pague todas as faturas pendentes em &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Você atingiu o número máximo de conexões simultâneas permitidas para sua conta. Faça o upgrade do seu plano Proton VPN para ter mais conexões.</string>
     <string name="listItemMaintenance">Em manutenção</string>
@@ -95,9 +95,9 @@
     <string name="copy_to_clipboard">Copiar</string>
     <string name="copied_to_clipboard">Copiado para a área de transferência</string>
     <string name="got_it">Entendi</string>
-    <string name="exclude_locations">Exclude locations</string>
+    <string name="exclude_locations">Excluir localizações</string>
     <string name="excluded_locations">Localizações excluídas</string>
-    <string name="cannot_connect">Cannot connect</string>
+    <string name="cannot_connect">Não foi possível conectar</string>
     <string name="skip">Pular</string>
     <string name="something_went_wrong">Algo deu errado</string>
     <string name="try_again">Tentar novamente</string>
@@ -1036,7 +1036,7 @@
     <string name="message_server_in_maintenance">Servidor em manutenção</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Servidor indisponível</string>
-    <string name="message_server_location_excluded">Server location excluded</string>
+    <string name="message_server_location_excluded">Localização do servidor excluída</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway em manutenção</string>
     <!-- tag(Redesign_2023) -->
@@ -1533,7 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Sua seleção de servidor para %1$s não está disponível. Selecione um servidor diferente ou tente novamente mais tarde.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Seu servidor selecionado para <b>%1$s</b> está indisponível. Selecione um servidor diferente, verifique suas localizações excluídas ou tente novamente mais tarde.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ícone %1$d</string>
@@ -1604,8 +1604,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ativar Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Protocolos da Proton</string>
     <string name="settings_protocol_proton_protocols_description">Use a implementação própria do WireGuard do Proton VPN. Este é um recurso experimental, portanto, você pode enfrentar alguma instabilidade.</string>
-    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
-    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
-    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
-    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Não é o país que você queria?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Caso haja alguma localização à qual você nunca queira se conectar, você pode excluí-la das conexões automáticas.</string>
+    <string name="excluded_locations_adoption_title">Evite locais indesejados</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Agora você pode excluir países e cidades das conexões <b>mais rápidas</b>.]]></string>
 </resources>

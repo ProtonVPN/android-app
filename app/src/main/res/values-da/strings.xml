@@ -57,8 +57,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Under vedligeholdelse</string>
     <string name="restrictedMaintenanceDescription">Serveren du i øjeblikket forsøger at forbinde til, er under vedligeholdelse. Prøv en anden server.</string>
-    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
-    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
+    <string name="restricted_location_excluded_dialog_title">Forbindelse mislykkedes</string>
+    <string name="restricted_location_excluded_dialog_description">Ingen tilgængelige servere. Vælg en placering manuelt, eller rediger dine udelukkede lokationer.</string>
     <string name="errorUserDelinquent"><![CDATA[Din konto har i øjeblikket en forfalden faktura, som vi beder dig betale på&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Du har ramt det maksimale antal samtidige forbindelser, der er tilladt for din konto. Opgradér dit Proton VPN-abonnement for at få flere forbindelser.</string>
     <string name="listItemMaintenance">Under vedligeholdelse</string>
@@ -96,7 +96,7 @@
     <string name="copied_to_clipboard">Kopieret til udklipsholder</string>
     <string name="got_it">Forstået</string>
     <string name="exclude_locations">Udeluk lokationer</string>
-    <string name="excluded_locations">Excluded locations</string>
+    <string name="excluded_locations">Udelukkede lokationer</string>
     <string name="cannot_connect">Kan ikke oprette forbindelse</string>
     <string name="skip">Spring over</string>
     <string name="something_went_wrong">Noget gik galt</string>
@@ -271,7 +271,7 @@
         <item quantity="one">Tracker stoppet</item>
         <item quantity="other">Trackere stoppet</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data gemt</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data sparet</string>
     <string name="netshield_setting_warning">Nogle hjemmesider kan ikke indlæse korrekt, når annoncer og trackers er blokeret.</string>
     <string name="dialogDontShowAgain">Vis ikke igen</string>
     <string name="guestHoleNotificationContent">Forsøger at omgå netværksproblemer. Dette vil hjælpe dig med at få adgang til Proton VPN.</string>
@@ -1036,7 +1036,7 @@
     <string name="message_server_in_maintenance">Server under vedligeholdelse</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server ikke tilgængelig</string>
-    <string name="message_server_location_excluded">Server location excluded</string>
+    <string name="message_server_location_excluded">Server-lokation udelukket</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway under vedligeholdelse</string>
     <!-- tag(Redesign_2023) -->
@@ -1533,7 +1533,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Dit servervalg for \'%1$s\' er utilgængeligt. Vælg en anden server, eller prøv igen senere.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Dit servervalg for <b>%1$s</b> er utilgængeligt. Vælg en anden server, tjek dine udelukkede lokationer eller prøv igen senere.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ikon %1$d</string>

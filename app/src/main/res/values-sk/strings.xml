@@ -903,7 +903,7 @@
     <string name="server_feature_content_description_tor">tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
-    <string name="fastest_country">Najrýchlejšia krajina</string>
+    <string name="fastest_country">Najrýchlejší v krajine</string>
     <string name="fastest_country_excluding_my_country">Najrýchlejšia krajina (okrem mojej)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Najrýchlejší bezplatný server</string>

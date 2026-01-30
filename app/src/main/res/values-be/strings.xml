@@ -57,8 +57,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">На тэхнічным абслугоўванні</string>
     <string name="restrictedMaintenanceDescription">Сервер, да якога вы спрабуеце падключыцца ў дадзены момант, знаходзіцца на тэхнічным абслугоўванні. Выберыце іншы сервер.</string>
-    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
-    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
+    <string name="restricted_location_excluded_dialog_title">Збой падключэння</string>
+    <string name="restricted_location_excluded_dialog_description">Серверы недаступны. Выберыце месцазнаходжанне ўручную або адрэдагуйце выключаныя месцазнаходжанні.</string>
     <string name="errorUserDelinquent"><![CDATA[Ваш уліковы запіс мае пратэрмінаваны рахунак. Аплаціце ўсе неаплачаныя рахункі на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Вы дасягнулі максімальнай колькасці адначасовых падключэнняў, якія дазволены на вашым уліковым запісе. Палепшыце свой тарыфны план Proton VPN для атрымання большай колькасці адначасовых падключэнняў.</string>
     <string name="listItemMaintenance">На тэхнічным абслугоўванні</string>
@@ -95,10 +95,10 @@
     <string name="copy_to_clipboard">Капіяваць</string>
     <string name="copied_to_clipboard">Скапіявана ў буфер абмену</string>
     <string name="got_it">Зразумела</string>
-    <string name="exclude_locations">Exclude locations</string>
-    <string name="excluded_locations">Excluded locations</string>
-    <string name="cannot_connect">Cannot connect</string>
-    <string name="skip">Skip</string>
+    <string name="exclude_locations">Выключыць месцазнаходжанні</string>
+    <string name="excluded_locations">Выключаныя месцазнаходжанні</string>
+    <string name="cannot_connect">Немагчыма падключыцца</string>
+    <string name="skip">Прапусціць</string>
     <string name="something_went_wrong">Нешта пайшло не так</string>
     <string name="try_again">Паспрабаваць яшчэ раз</string>
     <string name="delete">Выдаліць</string>
@@ -113,7 +113,7 @@
     <string name="noVpnPermissionMainTitle">Дзеянне, якія неабходны для падключэння да VPN</string>
     <string name="noVpnPermissionMainMessage">Для падключэння да Proton VPN, зрабіце наступнае:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Даць дазвол на VPN</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">Android патрабуецца ваш дазвол на падключэнне да Proton VPN. Ухваліце яго націснуўшы на кнопку \"Добра\" пасля таго, як убачыце акно \"Запыт на падключэнне\" ад вашай сістэмы.</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android патрабуецца ваш дазвол на падключэнне да Proton VPN. Ухваліце яго націснуўшы на кнопку \"OK\" пасля таго, як убачыце акно \"Запыт на падключэнне\" ад вашай сістэмы.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Адключыце пастаяннае падключэнне для іншых праграм VPN</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android не падтрымлівае некалькі праграм VPN. Адключыце пастаяннае падключэнне для якой-небудзь праграмы VPN, акрамя Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Праграма Proton VPN</string>
@@ -202,7 +202,7 @@
     <string name="troubleshootProxyFirewallProblemTitle">Канфлікт з проксі або міжсеткавым экранам</string>
     <string name="troubleshootProxyFirewallProblemDescription">Адключыце ўсе проксі, міжсеткавыя экраны або звярніцеся да свайго сеткавага адміністратара.</string>
     <string name="troubleshootProtonDownTitle">Proton не працуе</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[Праверце <a href=\"%1$s\">статус Proton,</a> каб даведацца пра статус нашай сістэмы.]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Праверце <a href=\"%1$s\">статус Proton</a>, каб даведацца пра статус нашай сістэмы.]]></string>
     <string name="troubleshootContactUsSectionTitle">Усё яшчэ неабходна дапамога? Вы можаце звязацца непасрэдна з намі</string>
     <string name="troubleshootCustomerSupport">Падтрымка кліентаў</string>
     <string name="settingsAllowAlternativeRoutingTitle">Альтэрнатыўная маршрутызацыя</string>
@@ -255,7 +255,7 @@
     <string name="custom_dns_state_off" comment="Describes state, not action">Выключана</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Недаступна</string>
     <string name="custom_dns_item_removed_snackbar">Элемент выдалены</string>
-    <string name="netshield_free_description">Блакіроўка рэкламы, праграм сачэння і шкодных праграм на вэб-сайтах і ў праграмах</string>
+    <string name="netshield_free_description">Блакіроўка рэкламы, праграм сачэння, шкодных праграм на вэб-сайтах і праграмах</string>
     <string name="netshield_what_data_means">Тлумачэнне статыстыкі NetShield</string>
     <string name="netshield_ads_title">Рэклама</string>
     <string name="netshield_ads_details">Рэклама і нябачныя праграмы сачэння</string>
@@ -997,7 +997,7 @@
         <item quantity="many">Аўтаматычны выбар з %1$d краін</item>
         <item quantity="other">Аўтаматычны выбар з %1$d краін</item>
     </plurals>
-    <string name="connection_info_auto_selected_free_countries_plain">Аўтавыбар з бясплатных краін.</string>
+    <string name="connection_info_auto_selected_free_countries_plain">Аўтаматычны выбар з бясплатных краін.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1040,7 +1040,7 @@
          Fastest country
          Germany
      -->
-    <string name="connection_card_label_connected">Бяспечны прагляд з краіны</string>
+    <string name="connection_card_label_connected">Бяспечны прагляд з</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with details of the current VPN connection.
          Only used by accessibility services.
@@ -1086,7 +1086,7 @@
     <string name="message_server_in_maintenance">Сервер на тэхнічным абслугоўванні</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Сервер недаступны</string>
-    <string name="message_server_location_excluded">Server location excluded</string>
+    <string name="message_server_location_excluded">Месцазнаходжанне сервера выключана</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Шлюз на тэхнічным абслугоўванні</string>
     <!-- tag(Redesign_2023) -->
@@ -1582,7 +1582,7 @@
     <string name="create_profile_pick_server_title">Сервер</string>
     <string name="create_profile_pick_gateway_title">Шлюз</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">Блакіроўка рэкламы, праграм сачэння і шкодных праграм на вэб-сайтах і ў праграмах</string>
+    <string name="create_profile_pick_netshield_description">Блакіроўка рэкламы, праграм сачэння, шкодных праграм на вэб-сайтах і ў праграмах</string>
     <string name="create_profile_pick_protocol_title">Пратакол</string>
     <string name="create_profile_pick_nat_title">Тып NAT</string>
     <!--
@@ -1605,7 +1605,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Выбраны вамі сервер для %1$s у цяперашні час недаступны. Выберыце іншы сервер або паспрабуйце яшчэ раз пазней.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Выбраны вамі сервер для <b>%1$s</b> недаступны. Выберыце іншы сервер, праверце свае выключаныя месцазнаходжанні або паспрабуйце пазней.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Значок %1$d</string>
@@ -1676,8 +1676,8 @@
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Уключыць пратакол Smart</string>
     <string name="settings_protocol_proton_protocols">Пратаколы Proton</string>
     <string name="settings_protocol_proton_protocols_description">Выкарыстоўвайце ўласную рэалізацыю WireGuard ад Proton VPN. Гэта эксперыментальная функцыя, таму вы можаце сутыкнуцца з некаторай нестабільнасцю.</string>
-    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
-    <string name="connection_preferences_smart_discovery_dialog_message">If there’s a location you never want to be connected to, you can exclude it from automatic connections.</string>
-    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
-    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Не тая краіна, якую хацелі?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Калі ёсць месцазнаходжанне, да якога вы ніколі не хочаце падключацца, вы можаце выключыць яго з аўтаматычных падключэнняў.</string>
+    <string name="excluded_locations_adoption_title">Пазбягайце непажаданых месцазнаходжанняў</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Цяпер вы можаце выключыць краіны і гарады з <b>Найхутчэйшых</b> падключэнняў.]]></string>
 </resources>

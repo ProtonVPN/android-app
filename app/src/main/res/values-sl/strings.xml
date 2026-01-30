@@ -241,18 +241,18 @@
     <string name="settings_icon_change_learn_more">Več informacij</string>
     <string name="learn_more">Izvedi več</string>
     <string name="netshield_state_on" comment="Describes state, not action">Vključeno</string>
-    <string name="netshield_state_off" comment="Describes state, not action">Izključeno</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Izklopljeno</string>
     <string name="netshield_state_unavailable" comment="Describes state, not action">Ni na voljo</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Vključeno</string>
-    <string name="split_tunneling_state_off" comment="Describes state, not action">Izključeno</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Izklopljeno</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">Vključeno</string>
-    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Izključeno</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Izklopljeno</string>
     <string name="lan_state_on" comment="Describes state, not action">Vključeno</string>
-    <string name="lan_state_off" comment="Describes state, not action">Izključeno</string>
+    <string name="lan_state_off" comment="Describes state, not action">Izklopljeno</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Vključeno</string>
-    <string name="alt_routing_state_off" comment="Describes state, not action">Izključeno</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Izklopljeno</string>
     <string name="custom_dns_state_on" comment="Describes state, not action">Vključeno</string>
-    <string name="custom_dns_state_off" comment="Describes state, not action">Izključeno</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Izklopljeno</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Ni na voljo</string>
     <string name="custom_dns_item_removed_snackbar">Predmet odstranjen</string>
     <string name="netshield_free_description">Blokirajte oglase, sledilnike in zlonamerno programsko opremo na spletnih mestih in v aplikacijah</string>
@@ -1623,7 +1623,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="create_profile_auto_open_url_input_label">URL spletne strani</string>
     <string name="create_profile_auto_open_url_private_mode_label">Use private browsing mode</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_off">Izključeno</string>
+    <string name="profile_auto_open_off">Izklopljeno</string>
     <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_website">Open a website</string>
