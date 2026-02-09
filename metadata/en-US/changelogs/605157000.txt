@@ -1,0 +1,2 @@
+What's new
+Control where your VPN auto-connects. Exclude specific countries or cities from Fastest Country and Random connections. Faster downloads and less storage used: Removing OpenVPN reduces app size by 36%. Also improved speed and efficiency, as WireGuard and Stealth protocols now handle all connections.
