@@ -352,7 +352,6 @@ class ServerListUpdaterTests {
         // 304 does not result in a call to setServers but will refresh timestamp.
         assertEquals(listOf("id1"), serverManager.allServers.map { it.serverId })
         assertEquals(firstUpdateTimestamp, serverListUpdaterPrefs.serverListLastModified)
-        // TODO: The following fails, fix it? Is the comment above correct?
         assertEquals(currentTime, serverManager.lastUpdateTimestamp)
 
         // Make new version available

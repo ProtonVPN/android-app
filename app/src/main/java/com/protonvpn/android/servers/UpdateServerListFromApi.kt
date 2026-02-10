@@ -122,7 +122,6 @@ class UpdateServerListFromApi @Inject constructor(
             debugCountryCheck(fetchResult.newServers)
 
             serverManager.setServers(fetchResult.newServers,  statusId = fetchResult.statusId, retainIDs = retainIDs)
-            serverManager.updateTimestamp()
         }
 
         return when(fetchResult) {
@@ -137,8 +136,10 @@ class UpdateServerListFromApi @Inject constructor(
                 PeriodicActionResult(Result.Error(null), isSuccess = false)
 
             is FetchResult.NewServers,
-            is FetchResult.NotModified ->
+            is FetchResult.NotModified -> {
+                serverManager.updateTimestamp()
                 PeriodicActionResult(Result.Success, isSuccess = true)
+            }
         }
     }
 
