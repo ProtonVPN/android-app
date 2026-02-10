@@ -36,19 +36,20 @@ import com.protonvpn.android.servers.api.LogicalServerV1
 import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.servers.api.ServerListV1
-import com.protonvpn.android.servers.toPartialServer
-import com.protonvpn.android.servers.toServers
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.home.ServerListUpdaterRemoteConfig
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.mocks.FakeUpdateServersWithBinaryStatus
+import com.protonvpn.mocks.createInMemoryServerManager
+import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestDispatcherProvider
@@ -59,7 +60,6 @@ import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
@@ -80,7 +80,6 @@ import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -88,6 +87,8 @@ import org.junit.Test
 import retrofit2.Response
 import java.util.Date
 import java.util.concurrent.TimeUnit
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 
 private const val TEST_IP = "1.2.3.4"
 private val DUMMY_USER_LOCATION = UserLocation(TEST_IP, "pl", "ISP", latitude = 0f, longitude = 0f)
@@ -109,8 +110,6 @@ class ServerListUpdaterTests {
     private lateinit var mockApi: ProtonApiRetroFit
     @MockK
     private lateinit var guestHole: GuestHole
-    @RelaxedMockK
-    private lateinit var mockServerManager: ServerManager
     @MockK
     private lateinit var mockCurrentUser: CurrentUser
     @RelaxedMockK
@@ -129,6 +128,7 @@ class ServerListUpdaterTests {
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var mustHaveIDs: Set<String>
     private lateinit var binaryStatusFfEnabled: MutableStateFlow<Boolean>
+    private lateinit var serverManager: ServerManager
     private lateinit var truncationEnabled: MutableStateFlow<Boolean>
     private lateinit var runWhileGettingServerList: () -> Unit
 
@@ -143,6 +143,7 @@ class ServerListUpdaterTests {
         // Move wall clock away from epoch
         testScope.advanceTimeBy(TimeUnit.DAYS.toMillis(100))
 
+        Storage.setPreferences(MockSharedPreference())
         serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         serverListUpdaterPrefs.ipAddress = OLD_IP
         vpnStateMonitor = VpnStateMonitor()
@@ -169,11 +170,6 @@ class ServerListUpdaterTests {
         coEvery { mockCurrentUser.isLoggedIn() } returns true
         coEvery { mockCurrentUser.eventVpnLogin } returns emptyFlow()
         coEvery { mockCurrentUser.vpnUser() } returns TestUser.freeUser.vpnUser
-        coEvery { mockServerManager.isDownloadedAtLeastOnce } returns true
-        coEvery { mockServerManager.needsUpdate() } returns false
-        var allServers = emptyList<Server>()
-        coEvery { mockServerManager.setServers(any(), any(), any()) } answers { allServers = firstArg() }
-        every { mockServerManager.allServers } answers { allServers }
         coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
         coEvery { mockApi.getServerListV1(any(), any(), any(), any(), any()) } answers {
             runWhileGettingServerList()
@@ -190,6 +186,7 @@ class ServerListUpdaterTests {
 
         mustHaveIDs = emptySet()
         binaryStatusFfEnabled = MutableStateFlow(false)
+        serverManager = createInMemoryServerManager(testScope, TestDispatcherProvider(testDispatcher), initialServers = emptyList())
         truncationEnabled = MutableStateFlow(true)
         val getNetZone = GetNetZone(serverListUpdaterPrefs)
         val serverListTruncationFF = FakeServerListTruncationEnabled(truncationEnabled)
@@ -202,7 +199,7 @@ class ServerListUpdaterTests {
             mockApi,
             TestDispatcherProvider(testDispatcher),
             testScope::currentTime,
-            mockServerManager,
+            serverManager,
             serverListUpdaterPrefs,
             fakeUpdateWithBinaryStatus,
             binaryServerStatusEnabled,
@@ -212,7 +209,7 @@ class ServerListUpdaterTests {
         serverListUpdater = ServerListUpdater(
             scope = testScope.backgroundScope,
             api = mockApi,
-            serverManager = mockServerManager,
+            serverManager = serverManager,
             currentUser = mockCurrentUser,
             vpnStateMonitor = vpnStateMonitor,
             userPlanManager = mockPlanManager,
@@ -283,19 +280,26 @@ class ServerListUpdaterTests {
 
         serverListUpdater.updateServers()
         coVerify(exactly = 1) { mockApi.getServerList(any(), any(), any(), any(), any()) }
-        coVerify(exactly = 0) { mockServerManager.setServers(any(), any(), any()) }
+        assertTrue(serverManager.allServers.isEmpty())
     }
 
     @Test
     fun `only additional must-have IDs are retained`() = testScope.runTest {
+        binaryStatusFfEnabled.value = true
         truncationEnabled.value = true
+        serverManager.setServers(
+            listOf(createServer("1"), createServer("2"), createServer("3")),
+            statusId = null
+        )
         mustHaveIDs = setOf("1", "2")
+        fakeServerListV2Backend.logicals = listOf(createLogicalServer("2"))
         runWhileGettingServerList = { mustHaveIDs = setOf("1", "2", "3") }
         serverListUpdater.updateServers()
 
-        coVerifyOrder {
-            mockApi.getServerListV1(any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2"))
-            mockServerManager.setServers(any(), null, retainIDs = setOf("3"))
+        // "1" is not retained:
+        assertEquals(setOf("2", "3"), serverManager.allServers.mapTo(HashSet()) { it.serverId })
+        coVerify {
+            mockApi.getServerList(any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2"))
         }
     }
 
@@ -304,48 +308,64 @@ class ServerListUpdaterTests {
         truncationEnabled.value = false
         mustHaveIDs = setOf("1", "2", "3")
         serverListUpdater.updateServers()
-        coVerifyOrder {
+        coVerify {
             mockApi.getServerListV1(any(), any(), any(), enableTruncation = false, mustHaveIDs = emptySet())
-            mockServerManager.setServers(any(), null, retainIDs = emptySet())
         }
     }
 
     @Test
     fun `don't retain server IDs if truncation not applied`() = testScope.runTest {
+        binaryStatusFfEnabled.value = true
         truncationEnabled.value = true
-        fakeServerListV1Backend.applyTruncation = false
+        fakeServerListV2Backend.applyTruncation = false
+        fakeServerListV2Backend.logicals = listOf(createLogicalServer("1"))
+        serverManager.setServers(
+            listOf(createServer("1"), createServer("2"), createServer("3")),
+            statusId = null
+        )
         mustHaveIDs = setOf("1", "2", "3")
         serverListUpdater.updateServers()
-        coVerifyOrder {
-            mockApi.getServerListV1(any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2", "3"))
-            mockServerManager.setServers(any(), null, retainIDs = emptySet())
+
+        assertEquals(setOf("1"), serverManager.allServers.toIds())
+        coVerify {
+            mockApi.getServerList(any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2", "3"))
         }
     }
 
     @Test
     fun `no refresh if client already have newest version`() = testScope.runTest {
+        binaryStatusFfEnabled.value = true
         val successResult = UpdateServerListFromApi.Result.Success
+        val firstUpdateTimestamp = currentTime
+        fakeServerListV2Backend.logicals = listOf(createLogicalServer("id1"))
+        fakeServerListV2Backend.serverLastModified = { firstUpdateTimestamp }
         val result1 = serverListUpdater.updateServers()
         assertEquals(successResult, result1.result)
-        coVerify(exactly = 1) { mockServerManager.setServers(any(), null, any()) }
+        assertEquals(listOf("id1"), serverManager.allServers.map { it.serverId })
+        assertEquals(firstUpdateTimestamp, serverManager.lastUpdateTimestamp)
 
         // Version will not change for the next call
-        var lastModifiedOverride = serverListUpdaterPrefs.serverListLastModified
-        fakeServerListV1Backend.serverLastModified = { lastModifiedOverride }
-
+        advanceTimeBy(5.minutes)
+        fakeServerListV2Backend.logicals = listOf(createLogicalServer("id2"))
         val result2 = serverListUpdater.updateServers()
         assertEquals(successResult, result2.result)
         // 304 does not result in a call to setServers but will refresh timestamp.
-        coVerify(exactly = 1) { mockServerManager.setServers(any(), null, any()) }
-        coVerify(exactly = 1) { mockServerManager.updateTimestamp() }
+        assertEquals(listOf("id1"), serverManager.allServers.map { it.serverId })
+        assertEquals(firstUpdateTimestamp, serverListUpdaterPrefs.serverListLastModified)
+        // TODO: The following fails, fix it? Is the comment above correct?
+        assertEquals(currentTime, serverManager.lastUpdateTimestamp)
 
         // Make new version available
-        lastModifiedOverride += TimeUnit.HOURS.toMillis(1)
+        fakeServerListV2Backend.serverLastModified = { currentTime }
+        advanceTimeBy(1.hours)
         val result3 = serverListUpdater.updateServers()
         assertEquals(successResult, result3.result)
-        assertEquals(lastModifiedOverride, serverListUpdaterPrefs.serverListLastModified)
-        coVerify(exactly = 2) { mockServerManager.setServers(any(), null, any()) }
+        assertEquals(currentTime, serverListUpdaterPrefs.serverListLastModified)
+        assertEquals(currentTime, serverManager.lastUpdateTimestamp)
+        assertEquals(listOf("id2"), serverManager.allServers.map { it.serverId })
     }
+
+    private fun List<Server>.toIds() = mapTo(HashSet()) { it.serverId }
 }
 
 private abstract class FakeServerListBackend(
@@ -395,9 +415,9 @@ private class FakeServerListV1Backend(
         isListTruncated: Boolean,
         headers: Headers
     ): Response<ServerListV1> = Response.success(
-            ServerListV1(list, LogicalsMetadata(listIsTruncated = isListTruncated)),
-            headers
-        )
+        ServerListV1(list, LogicalsMetadata(listIsTruncated = isListTruncated)),
+        headers
+    )
 }
 
 private class FakeServerListV2Backend(
