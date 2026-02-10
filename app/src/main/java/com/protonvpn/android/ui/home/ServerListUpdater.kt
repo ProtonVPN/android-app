@@ -39,6 +39,7 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.utils.ServerManager
@@ -86,6 +87,7 @@ class ServerListUpdater @Inject constructor(
     private val scope: CoroutineScope,
     private val api: ProtonApiRetroFit,
     private val serverManager: ServerManager,
+    private val serversDataManager: ServersDataManager,
     private val currentUser: CurrentUser,
     private val vpnStateMonitor: VpnStateMonitor,
     userPlanManager: UserPlanManager,
@@ -118,7 +120,7 @@ class ServerListUpdater @Inject constructor(
     )
 
     suspend fun needsUpdate() = serverManager.needsUpdate() ||
-        wallClock() - serverManager.lastUpdateTimestamp >= 4 * remoteConfig.first().foregroundDelayMs
+        wallClock() - serversDataManager.lastUpdateTimestamp >= 4 * remoteConfig.first().foregroundDelayMs
 
     init {
         migrateIpAddress()

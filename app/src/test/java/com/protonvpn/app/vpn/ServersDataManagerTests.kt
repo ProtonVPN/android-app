@@ -31,9 +31,11 @@ import com.protonvpn.test.shared.createServer
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -62,6 +64,7 @@ class ServersDataManagerTests {
             TestDispatcherProvider(testDispatcher),
             store,
             fakeServerStateUpdater,
+            testScope::currentTime,
         )
     }
 
@@ -89,7 +92,7 @@ class ServersDataManagerTests {
             null,
             retainIDs = setOf("1", "2")
         )
-        assertEquals(setOf("1", "2", "4"), manager.allServers.toIds())
+        assertEquals(setOf("1", "2", "4"), manager.allServers().toIds())
     }
 
     @Test
@@ -105,18 +108,20 @@ class ServersDataManagerTests {
         val statusId = "status ID"
         manager.replaceServers(servers, statusId, emptySet())
 
-        assertEquals(setOf("1", "3", "5"), manager.allServers.toIds())
-        assertEquals(setOf("1"), manager.vpnCountries.find { it.flag == "PL" }?.serverList?.toIds())
-        assertEquals(setOf("3"), manager.gateways.find { it.name() == "company" }?.serverList?.toIds())
-        assertEquals(setOf("5"), manager.secureCoreExitCountries.find { it.flag == "PL" }?.serverList?.toIds())
+        val afterReplace = manager.serverLists.first()
+        assertEquals(setOf("1", "3", "5"), afterReplace.allServers.toIds())
+        assertEquals(setOf("1"), afterReplace.vpnCountries.find { it.flag == "PL" }?.serverList?.toIds())
+        assertEquals(setOf("3"), afterReplace.gateways.find { it.name() == "company" }?.serverList?.toIds())
+        assertEquals(setOf("5"), afterReplace.secureCoreExitCountries.find { it.flag == "PL" }?.serverList?.toIds())
 
         fakeServerStateUpdater.mapsAllServers { it.copy(isVisible = true) }
         manager.updateBinaryLoads(statusId, ByteArray(0))
 
-        assertEquals(setOf("1", "2", "3", "4", "5", "6"), manager.allServers.toIds())
-        assertEquals(setOf("1", "2"), manager.vpnCountries.find { it.flag == "PL" }?.serverList?.toIds())
-        assertEquals(setOf("3", "4"), manager.gateways.find { it.name() == "company" }?.serverList?.toIds())
-        assertEquals(setOf("5", "6"), manager.secureCoreExitCountries.find { it.flag == "PL" }?.serverList?.toIds())
+        val afterUpdate = manager.serverLists.first()
+        assertEquals(setOf("1", "2", "3", "4", "5", "6"), afterUpdate.allServers.toIds())
+        assertEquals(setOf("1", "2"), afterUpdate.vpnCountries.find { it.flag == "PL" }?.serverList?.toIds())
+        assertEquals(setOf("3", "4"), afterUpdate.gateways.find { it.name() == "company" }?.serverList?.toIds())
+        assertEquals(setOf("5", "6"), afterUpdate.secureCoreExitCountries.find { it.flag == "PL" }?.serverList?.toIds())
     }
 
     @Test
@@ -130,11 +135,13 @@ class ServersDataManagerTests {
         manager.replaceServers(servers, statusIdCurrent, emptySet())
         manager.updateBinaryLoads(statusIdOld, ByteArray(0))
 
-        assertEquals(listOf(50f, 50f), manager.allServers.map { it.load })
+        assertEquals(listOf(50f, 50f), manager.allServers().map { it.load })
 
         manager.updateBinaryLoads(statusIdCurrent, ByteArray(0))
-        assertEquals(listOf(newLoad, newLoad), manager.allServers.map { it.load })
+        assertEquals(listOf(newLoad, newLoad), manager.allServers().map { it.load })
     }
+
+    private suspend fun ServersDataManager.allServers() = serverLists.first().allServers
 
     private fun Iterable<Server>.toIds(): Set<String> = this.map { it.serverId }.toSet()
 }

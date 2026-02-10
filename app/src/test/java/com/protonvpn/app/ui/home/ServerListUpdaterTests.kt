@@ -30,6 +30,7 @@ import com.protonvpn.android.models.vpn.data.LogicalsMetadata
 import com.protonvpn.android.servers.FakeIsBinaryServerStatusFeatureFlagEnabled
 import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
 import com.protonvpn.android.servers.Server
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.api.LogicalServer
 import com.protonvpn.android.servers.api.LogicalServerV1
@@ -49,6 +50,7 @@ import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.mocks.FakeUpdateServersWithBinaryStatus
 import com.protonvpn.mocks.createInMemoryServerManager
+import com.protonvpn.mocks.createInMemoryServersDataManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
@@ -128,6 +130,7 @@ class ServerListUpdaterTests {
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var mustHaveIDs: Set<String>
     private lateinit var binaryStatusFfEnabled: MutableStateFlow<Boolean>
+    private lateinit var serversDataManager: ServersDataManager
     private lateinit var serverManager: ServerManager
     private lateinit var truncationEnabled: MutableStateFlow<Boolean>
     private lateinit var runWhileGettingServerList: () -> Unit
@@ -186,7 +189,8 @@ class ServerListUpdaterTests {
 
         mustHaveIDs = emptySet()
         binaryStatusFfEnabled = MutableStateFlow(false)
-        serverManager = createInMemoryServerManager(testScope, TestDispatcherProvider(testDispatcher), initialServers = emptyList())
+        serversDataManager = createInMemoryServersDataManager(testScope, TestDispatcherProvider(testDispatcher))
+        serverManager = createInMemoryServerManager(testScope, serversDataManager)
         truncationEnabled = MutableStateFlow(true)
         val getNetZone = GetNetZone(serverListUpdaterPrefs)
         val serverListTruncationFF = FakeServerListTruncationEnabled(truncationEnabled)
@@ -198,8 +202,8 @@ class ServerListUpdaterTests {
         val updateServerListFromApi = UpdateServerListFromApi(
             mockApi,
             TestDispatcherProvider(testDispatcher),
-            testScope::currentTime,
             serverManager,
+            serversDataManager,
             serverListUpdaterPrefs,
             fakeUpdateWithBinaryStatus,
             binaryServerStatusEnabled,
@@ -210,6 +214,7 @@ class ServerListUpdaterTests {
             scope = testScope.backgroundScope,
             api = mockApi,
             serverManager = serverManager,
+            serversDataManager = serversDataManager,
             currentUser = mockCurrentUser,
             vpnStateMonitor = vpnStateMonitor,
             userPlanManager = mockPlanManager,
@@ -342,7 +347,7 @@ class ServerListUpdaterTests {
         val result1 = serverListUpdater.updateServers()
         assertEquals(successResult, result1.result)
         assertEquals(listOf("id1"), serverManager.allServers.map { it.serverId })
-        assertEquals(firstUpdateTimestamp, serverManager.lastUpdateTimestamp)
+        assertEquals(firstUpdateTimestamp, serversDataManager.lastUpdateTimestamp)
 
         // Version will not change for the next call
         advanceTimeBy(5.minutes)
@@ -352,7 +357,7 @@ class ServerListUpdaterTests {
         // 304 does not result in a call to setServers but will refresh timestamp.
         assertEquals(listOf("id1"), serverManager.allServers.map { it.serverId })
         assertEquals(firstUpdateTimestamp, serverListUpdaterPrefs.serverListLastModified)
-        assertEquals(currentTime, serverManager.lastUpdateTimestamp)
+        assertEquals(currentTime, serversDataManager.lastUpdateTimestamp)
 
         // Make new version available
         fakeServerListV2Backend.serverLastModified = { currentTime }
@@ -360,7 +365,7 @@ class ServerListUpdaterTests {
         val result3 = serverListUpdater.updateServers()
         assertEquals(successResult, result3.result)
         assertEquals(currentTime, serverListUpdaterPrefs.serverListLastModified)
-        assertEquals(currentTime, serverManager.lastUpdateTimestamp)
+        assertEquals(currentTime, serversDataManager.lastUpdateTimestamp)
         assertEquals(listOf("id2"), serverManager.allServers.map { it.serverId })
     }
 

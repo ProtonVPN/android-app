@@ -38,6 +38,22 @@ import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runCurrent
 
 @OptIn(ExperimentalCoroutinesApi::class)
+fun createInMemoryServersDataManager(
+    testScope: TestScope,
+    testDispatcherProvider: TestDispatcherProvider,
+    initialServers: List<Server> = emptyList(),
+    initialStatusId: LogicalsStatusId? = null,
+    updateWithBinaryStatus: UpdateServersWithBinaryStatus = FakeUpdateServersWithBinaryStatus(),
+): ServersDataManager {
+    val serverStore = createInMemoryServersStore(initialServers, initialStatusId)
+    return ServersDataManager(
+        testDispatcherProvider,
+        serverStore,
+        updateWithBinaryStatus,
+        testScope::currentTime
+    )
+}
+
 fun createInMemoryServerManager(
     testScope: TestScope,
     testDispatcherProvider: TestDispatcherProvider,
@@ -45,22 +61,32 @@ fun createInMemoryServerManager(
     initialStatusId: LogicalsStatusId? = null,
     updateWithBinaryStatus: UpdateServersWithBinaryStatus = FakeUpdateServersWithBinaryStatus(),
     physicalUserCountry: UserCountryPhysical = createNoopUserCountry(),
+) =
+    createInMemoryServerManager(
+        testScope = testScope,
+        serversDataManager =
+            createInMemoryServersDataManager(
+                testScope = testScope,
+                testDispatcherProvider = testDispatcherProvider,
+                initialServers = initialServers,
+                initialStatusId = initialStatusId,
+                updateWithBinaryStatus = updateWithBinaryStatus,
+            ),
+        physicalUserCountry = physicalUserCountry,
+    )
+
+@OptIn(ExperimentalCoroutinesApi::class)
+fun createInMemoryServerManager(
+    testScope: TestScope,
+    serversDataManager: ServersDataManager,
+    physicalUserCountry: UserCountryPhysical = createNoopUserCountry(),
 ): ServerManager {
-    val serverStore = createInMemoryServersStore(initialServers, initialStatusId)
-    val serversDataManager = ServersDataManager(
-        testDispatcherProvider,
-        serverStore,
-        updateWithBinaryStatus,
-    )
-    val serverManager = ServerManager(
-        testScope.backgroundScope,
-        testScope::currentTime,
-        serversDataManager,
-        physicalUserCountry,
-    )
-    testScope.launch {
-        serverManager.setServers(initialServers, initialStatusId)
-    }
+    val serverManager =
+        ServerManager(
+            testScope.backgroundScope,
+            serversDataManager,
+            physicalUserCountry,
+        )
     testScope.runCurrent()
     return serverManager
 }

@@ -48,8 +48,8 @@ import javax.inject.Inject
 class UpdateServerListFromApi @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val dispatcherProvider: DispatcherProvider,
-    @WallClock private val wallClock: () -> Long,
     private val serverManager: ServerManager,
+    private val serversDataManager: ServersDataManager,
     private val prefs: ServerListUpdaterPrefs,
     private val updateWithBinaryStatus: UpdateServersWithBinaryStatus,
     private val binaryServerStatusEnabled: IsBinaryServerStatusEnabled,
@@ -137,7 +137,7 @@ class UpdateServerListFromApi @Inject constructor(
 
             is FetchResult.NewServers,
             is FetchResult.NotModified -> {
-                serverManager.updateTimestamp()
+                serversDataManager.updateLastUpdateTimestamp()
                 PeriodicActionResult(Result.Success, isSuccess = true)
             }
         }

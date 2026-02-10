@@ -23,7 +23,6 @@ import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.appconfig.UserCountryPhysical
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
-import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.excludedlocations.ExcludedLocations
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.profiles.Profile
@@ -40,6 +39,7 @@ import com.protonvpn.android.redesign.vpn.isExcluded
 import com.protonvpn.android.redesign.vpn.satisfiesFeatures
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServersDataManager
+import com.protonvpn.android.servers.ServersDataManager.ServerLists
 import com.protonvpn.android.servers.ServersResult
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.servers.api.LoadUpdate
@@ -47,9 +47,13 @@ import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
@@ -58,6 +62,7 @@ import javax.inject.Singleton
 @Serializable
 data class ServerManagerState(
     val serverListAppVersionCode: Int = 0,
+    @Deprecated("The timestamp is now stored by ServersDataManager.")
     val lastUpdateTimestamp: Long = 0L,
 
     /** Can be checked even before servers are loaded from storage */
@@ -68,9 +73,8 @@ data class ServerManagerState(
 @Deprecated("Use ServerManager2 in new code")
 @Singleton
 class ServerManager @Inject constructor(
-    private val mainScope: CoroutineScope,
-    @WallClock private val wallClock: () -> Long,
-    val serversData: ServersDataManager,
+    mainScope: CoroutineScope,
+    val serversDataManager: ServersDataManager,
     val physicalUserCountry: UserCountryPhysical,
 ) {
     private var savedState: ServerManagerState
@@ -82,23 +86,25 @@ class ServerManager @Inject constructor(
     // combine to react to updates.
     val serverListVersion = MutableStateFlow(0)
 
-    val lastUpdateTimestamp get() = savedState.lastUpdateTimestamp
-
+    val isDownloadedAtLeastOnce get() = serversDataManager.lastUpdateTimestamp > 0
     /** Can be checked even before servers are loaded from storage */
-    val isDownloadedAtLeastOnce get() = savedState.lastUpdateTimestamp > 0
-    val isDownloadedAtLeastOnceFlow = serverListVersion.map { isDownloadedAtLeastOnce }.distinctUntilChanged()
     val hasCountriesFlow = serverListVersion.map { savedState.hasCountries }.distinctUntilChanged()
     val hasGatewaysFlow = serverListVersion.map { savedState.hasGateways }.distinctUntilChanged()
 
+    // The cached values are to be used only by legacy code.
+    private val serversDataCachedFlow =
+        serversDataManager.serverLists.stateIn(mainScope, SharingStarted.Eagerly, ServerLists.Empty)
+    private val serversDataCached get() = serversDataCachedFlow.value // May be empty.
+
     suspend fun needsUpdate(): Boolean {
-        ensureLoaded()
-        return savedState.lastUpdateTimestamp == 0L || serversData.allServers.isEmpty() ||
+        val serversData = serversDataManager.serverLists.first()
+        return serversDataManager.lastUpdateTimestamp == 0L || serversData.allServers.isEmpty() ||
             !haveWireGuardSupport() || savedState.serverListAppVersionCode < BuildConfig.VERSION_CODE
     }
 
-    val logicalsStatusId get() = serversData.statusId
-    val allServers get() = serversData.allServers
-    val allServersByScore get() = serversData.allServersByScore
+    val logicalsStatusId get() = serversDataCached.statusId
+    val allServers get() = serversDataCached.allServers
+    val allServersByScore get() = serversDataCached.allServersByScore
 
     val freeCountries
         get() = getVpnCountries()
@@ -114,7 +120,7 @@ class ServerManager @Inject constructor(
         }
 
         mainScope.launch {
-            val loaded = serversData.load()
+            val loaded = serversDataManager.load()
             if (!loaded) {
                 // We had servers saved but failed to load them, reset state.
                 updateAndSave(
@@ -124,12 +130,26 @@ class ServerManager @Inject constructor(
                         hasCountries = false,
                     )
                 )
+            } else if (
+                serversDataManager.lastUpdateTimestamp == 0L &&
+                savedState.lastUpdateTimestamp > 0
+            ) {
+                serversDataManager.updateLastUpdateTimestamp(savedState.lastUpdateTimestamp)
+                updateAndSave(savedState.copy(lastUpdateTimestamp = 0L))
             }
-
             // Notify of loaded state and update after everything has been updated.
             isLoaded.value = true
-            onServersUpdate()
         }
+        serversDataManager.serverLists.onEach { serversData ->
+            updateAndSave(
+                savedState.copy(
+                    serverListAppVersionCode = BuildConfig.VERSION_CODE,
+                    hasGateways = serversData.gateways.isNotEmpty(),
+                    hasCountries = serversData.vpnCountries.isNotEmpty(),
+                )
+            )
+            serverListVersion.value++
+        }.launchIn(mainScope)
     }
 
     suspend fun ensureLoaded() {
@@ -137,18 +157,14 @@ class ServerManager @Inject constructor(
     }
 
     fun getExitCountries(secureCore: Boolean) = if (secureCore)
-        serversData.secureCoreExitCountries else serversData.vpnCountries
-
-    private fun onServersUpdate() {
-        ++serverListVersion.value
-    }
+        serversDataCached.secureCoreExitCountries else serversDataCached.vpnCountries
 
     override fun toString(): String {
-        val lastUpdateTimestampLog = savedState.lastUpdateTimestamp
+        val lastUpdateTimestampLog = serversDataManager.lastUpdateTimestamp
                 .takeIf { it != 0L }
                 ?.let { ProtonLogger.formatTime(it) }
-        return "vpnCountries: ${serversData.vpnCountries.size} gateways: ${serversData.gateways.size}" +
-            " exit: ${serversData.secureCoreExitCountries.size} " +
+        return "vpnCountries: ${serversDataCached.vpnCountries.size} gateways: ${serversDataCached.gateways.size}" +
+            " exit: ${serversDataCached.secureCoreExitCountries.size} " +
             "ServerManager Updated: $lastUpdateTimestampLog"
     }
 
@@ -190,55 +206,35 @@ class ServerManager @Inject constructor(
         retainIDs: Set<String> = emptySet()
     ) {
         ensureLoaded()
-        serversData.replaceServers(serverList, statusId, retainIDs)
-
-        updateAndSave(
-            savedState.copy(
-                lastUpdateTimestamp = wallClock(),
-                serverListAppVersionCode = BuildConfig.VERSION_CODE,
-                hasGateways = serversData.gateways.isNotEmpty(),
-                hasCountries = serversData.vpnCountries.isNotEmpty(),
-            )
-        )
-        onServersUpdate()
-    }
-
-    fun updateTimestamp() {
-        updateAndSave(
-            savedState.copy(lastUpdateTimestamp = wallClock())
-        )
+        serversDataManager.replaceServers(serverList, statusId, retainIDs)
     }
 
     suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
         ensureLoaded()
-        serversData.updateServerDomainStatus(connectingDomain)
-        onServersUpdate()
+        serversDataManager.updateServerDomainStatus(connectingDomain)
     }
 
     suspend fun updateLoads(loadsList: List<LoadUpdate>) {
         ensureLoaded()
-        serversData.updateLoads(loadsList)
-        onServersUpdate()
+        serversDataManager.updateLoads(loadsList)
     }
 
     suspend fun updateBinaryLoads(statusId: LogicalsStatusId, loads: ByteArray) {
         ensureLoaded()
-        serversData.updateBinaryLoads(statusId, loads)
-        onServersUpdate()
+        serversDataManager.updateBinaryLoads(statusId, loads)
     }
 
     suspend fun updateOrAddServer(server: Server) {
         ensureLoaded()
-        serversData.updateOrAddServer(server)
-        onServersUpdate()
+        serversDataManager.updateOrAddServer(server)
     }
 
     fun getServerById(id: String) =
         allServers.firstOrNull { it.serverId == id } ?: guestHoleServers?.firstOrNull { it.serverId == id }
 
-    fun getVpnCountries(): List<VpnCountry> = serversData.vpnCountries.sortedByLocaleAware { it.countryName }
+    fun getVpnCountries(): List<VpnCountry> = serversDataCached.vpnCountries.sortedByLocaleAware { it.countryName }
 
-    fun getGateways(): List<GatewayGroup> = serversData.gateways
+    fun getGateways(): List<GatewayGroup> = serversDataCached.gateways
 
     @Deprecated("Use the suspending getVpnExitCountry from ServerManager2")
     fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? =
@@ -283,7 +279,7 @@ class ServerManager @Inject constructor(
     }
 
     fun getSecureCoreExitCountries(): List<VpnCountry> =
-        serversData.secureCoreExitCountries.sortedByLocaleAware { it.countryName }
+        serversDataCached.secureCoreExitCountries.sortedByLocaleAware { it.countryName }
 
     @Deprecated("Use getServerForConnectIntent")
     fun getServerForProfile(
@@ -475,7 +471,7 @@ class ServerManager @Inject constructor(
     }
 
     private fun haveWireGuardSupport() =
-        serversData.allServers.any { server -> server.connectingDomains.any { it.publicKeyX25519 != null } }
+        serversDataCached.allServers.any { server -> server.connectingDomains.any { it.publicKeyX25519 != null } }
 
     private fun <T> Server?.handleServersResult(
         onServersResult: (ServersResult) -> T,

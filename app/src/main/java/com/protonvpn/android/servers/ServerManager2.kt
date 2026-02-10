@@ -58,8 +58,6 @@ class ServerManager2 @Inject constructor(
     }
 
     /** The first value is emitted before servers are loaded */
-    val isDownloadedAtLeastOnceFlow = serverManager.isDownloadedAtLeastOnceFlow
-    /** The first value is emitted before servers are loaded */
     val hasAnyCountryFlow = serverManager.hasCountriesFlow
     /** The first value is emitted before servers are loaded */
     val hasAnyGatewaysFlow = serverManager.hasGatewaysFlow

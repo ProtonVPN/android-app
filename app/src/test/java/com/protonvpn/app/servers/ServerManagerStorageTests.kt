@@ -35,6 +35,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.currentTime
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -62,6 +63,7 @@ class ServerManagerStorageTests {
             testDispatcherProvider,
             createInMemoryServersStore(emptyList(), ""),
             FakeUpdateServersWithBinaryStatus(),
+            testScope::currentTime,
         )
     }
 
@@ -75,14 +77,14 @@ class ServerManagerStorageTests {
         }
         val serverManager = ServerManager(
             mainScope = testScope.backgroundScope,
-            wallClock = testScope::currentTime,
-            serversData = serversDataManager,
-            createNoopUserCountry(),
+            serversDataManager = serversDataManager,
+            physicalUserCountry = createNoopUserCountry(),
         )
-
-        assertTrue(serverManager.isDownloadedAtLeastOnce)
-        assertEquals(1769690569069L, serverManager.lastUpdateTimestamp)
         assertTrue(serverManager.hasCountriesFlow.first())
         assertFalse(serverManager.hasGatewaysFlow.first())
+
+        serverManager.ensureLoaded()
+        assertTrue(serverManager.isDownloadedAtLeastOnce)
+        assertEquals(1769690569069L, serversDataManager.lastUpdateTimestamp)
     }
 }

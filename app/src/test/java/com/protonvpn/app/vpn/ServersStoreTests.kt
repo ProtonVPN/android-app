@@ -50,6 +50,7 @@ class ServersStoreTests {
     private val tmpFile = File("servers${FileObjectStore.TMP_SUFFIX}")
     private val serversStatusId = "statusId"
     private val servers = MockedServers.serverList
+    private val timestamp = 1234L
 
     private suspend fun createAndLoadServersStore(testFile: File = File("servers")) =
         ServersStore.create(
@@ -80,31 +81,34 @@ class ServersStoreTests {
     fun `basic store, read and clear`() = testScope.runTest {
         val store = createAndLoadServersStore(testFile)
 
-        store.save(servers, serversStatusId)
+        store.save(servers, serversStatusId, timestamp)
         assertTrue(testFile.exists())
 
         val store2 = createAndLoadServersStore(testFile)
         assertEquals(servers, store2.allServers)
         assertEquals(serversStatusId, store2.serversStatusId)
+        assertEquals(timestamp, store2.lastUpdateTimestamp)
         store.clear()
 
         val store3 = createAndLoadServersStore(testFile)
         assertEquals(emptyList(), store3.allServers)
         assertEquals(null, store3.serversStatusId)
+        assertEquals(0, store3.lastUpdateTimestamp)
         assertFalse(testFile.exists())
     }
 
     @Test
     fun `recover from interrupted rename`() = testScope.runTest {
         val store = createAndLoadServersStore(testFile)
-        store.save(servers, serversStatusId)
+        store.save(servers, serversStatusId, timestamp)
 
         // Tmp write was successful but the rename failed
         testFile.renameTo(tmpFile)
 
         val store2 = createAndLoadServersStore(testFile)
         assertEquals(servers, store2.allServers)
-        assertEquals(serversStatusId, store.serversStatusId)
+        assertEquals(serversStatusId, store2.serversStatusId)
+        assertEquals(timestamp, store2.lastUpdateTimestamp)
         assertTrue(testFile.exists())
         assertFalse(tmpFile.exists())
     }
@@ -112,7 +116,7 @@ class ServersStoreTests {
     @Test
     fun `recover from unfinished write`() = testScope.runTest {
         val store = createAndLoadServersStore(testFile)
-        store.save(servers, serversStatusId)
+        store.save(servers, serversStatusId, timestamp)
 
         // Tmp write was interrupted but test file exists
         tmpFile.writeText("corrupted")
@@ -120,6 +124,7 @@ class ServersStoreTests {
         val store2 = createAndLoadServersStore(testFile)
         assertEquals(servers, store2.allServers)
         assertEquals(serversStatusId, store2.serversStatusId)
+        assertEquals(timestamp, store2.lastUpdateTimestamp)
         assertTrue(testFile.exists())
         assertFalse(tmpFile.exists())
     }
@@ -127,7 +132,7 @@ class ServersStoreTests {
     @Test
     fun `recover from unfinished first save`() = testScope.runTest {
         val store = createAndLoadServersStore(testFile)
-        store.save(servers, serversStatusId)
+        store.save(servers, serversStatusId, timestamp)
 
         testFile.delete()
         tmpFile.writeText("corrupted")
@@ -135,5 +140,6 @@ class ServersStoreTests {
         val store2 = createAndLoadServersStore(testFile)
         assertEquals(emptyList(), store2.allServers)
         assertEquals(null, store2.serversStatusId)
+        assertEquals(0, store2.lastUpdateTimestamp)
     }
 }

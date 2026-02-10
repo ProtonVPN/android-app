@@ -20,13 +20,17 @@
 package com.protonvpn.android.servers
 
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
-import com.protonvpn.android.servers.api.ConnectingDomain
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.models.vpn.GatewayGroup
-import com.protonvpn.android.servers.api.LoadUpdate
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.servers.api.ConnectingDomain
+import com.protonvpn.android.servers.api.LoadUpdate
 import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.utils.replace
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -38,43 +42,46 @@ class ServersDataManager @Inject constructor(
     private val dispatcherProvider: VpnDispatcherProvider,
     private val serversStore: ServersStore,
     private val updateServersWithBinaryStatus: UpdateServersWithBinaryStatus,
+    @WallClock private val wallClock: () -> Long,
 ) {
-    private data class ServerLists(
+    data class ServerLists(
         val allServers: List<Server>,
         val allServersByScore: List<Server>,
         val vpnCountries: List<VpnCountry>,
         val secureCoreExitCountries: List<VpnCountry>,
         val gateways: List<GatewayGroup>,
         val statusId: LogicalsStatusId? = null,
-    )
+    ) {
+        companion object {
+            val Empty = ServerLists(
+                allServers = emptyList(),
+                allServersByScore = emptyList(),
+                vpnCountries = emptyList(),
+                secureCoreExitCountries = emptyList(),
+                gateways = emptyList(),
+                statusId = null,
+            )
+        }
+    }
+
+    private val serverListsFlow = MutableStateFlow<ServerLists?>(null)
+    val serverLists: Flow<ServerLists> = serverListsFlow.filterNotNull()
+    var lastUpdateTimestamp: Long = 0
+        private set
 
     private data class UpdateResult(
         val statusId: LogicalsStatusId?,
         val servers: List<Server>,
+        val serverListUpdateTimestamp: Long?,
     )
 
     // Protect all modifications with the mutex. Use updateWithMutex for common cases.
     private val updateMutex = Mutex()
-    private var serverLists = ServerLists(
-        allServers = emptyList(),
-        allServersByScore = emptyList(),
-        vpnCountries = emptyList(),
-        secureCoreExitCountries = emptyList(),
-        gateways = emptyList(),
-        statusId = null,
-    )
-
-    val statusId: LogicalsStatusId? get() = serverLists.statusId
-    val allServers: List<Server> get() = serverLists.allServers
-    val allServersByScore: List<Server> get() = serverLists.allServersByScore
-    val vpnCountries: List<VpnCountry> get() = serverLists.vpnCountries
-    val secureCoreExitCountries: List<VpnCountry> get() = serverLists.secureCoreExitCountries
-    val gateways: List<GatewayGroup> get() = serverLists.gateways
 
     // Load servers from storage. Returns true if servers were loaded successfully.
     suspend fun load(): Boolean {
         val loaded = serversStore.load()
-        updateWithMutex(saveToStorage = false) { with(serversStore) { UpdateResult(serversStatusId, allServers) } }
+        updateWithMutex(saveToStorage = false) { with(serversStore) { UpdateResult(serversStatusId, allServers, lastUpdateTimestamp) } }
         return loaded
     }
 
@@ -87,17 +94,18 @@ class ServersDataManager @Inject constructor(
                         if (server.serverId in retainIDs)
                             missingServerIDs.remove(server.serverId)
                     }
-                    val retainedServers = allServers.filter { it.serverId in missingServerIDs }
-                    UpdateResult(newStatusId, serverList + retainedServers)
+                    val retainedServers = currentServers().allServers.filter { it.serverId in missingServerIDs }
+                    UpdateResult(newStatusId, serverList + retainedServers, wallClock())
                 }
             } else {
-                UpdateResult(newStatusId, serverList)
+                UpdateResult(newStatusId, serverList, wallClock())
             }
         }
     }
 
     suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
         updateWithMutex {
+            val allServers = currentServers().allServers
             val updatedServers = buildList(allServers.size) {
                 allServers.forEach { currentServer ->
                     val server = if (currentServer.connectingDomains.any { it.id == connectingDomain.id }) {
@@ -112,15 +120,15 @@ class ServersDataManager @Inject constructor(
                     add(server)
                 }
             }
-            UpdateResult(statusId, updatedServers)
+            UpdateResult(currentServers().statusId, updatedServers, serverListUpdateTimestamp = null)
         }
     }
 
     suspend fun updateLoads(loadsList: List<LoadUpdate>) {
         updateWithMutex {
             val loadsMap: Map<String, LoadUpdate> = loadsList.associateBy { it.id }
-            val updatedServers = buildList(allServers.size) {
-                allServers.forEach { currentServer ->
+            val updatedServers = buildList(currentServers().allServers.size) {
+                currentServers().allServers.forEach { currentServer ->
                     val newValues = loadsMap[currentServer.serverId]
                     val server = if (newValues != null) {
                         // Status update doesn't include physical servers, it's not safe to go from
@@ -137,15 +145,23 @@ class ServersDataManager @Inject constructor(
                     add(server)
                 }
             }
-            UpdateResult(statusId, updatedServers)
+            UpdateResult(currentServers().statusId, updatedServers, serverListUpdateTimestamp = null)
         }
     }
 
     suspend fun updateBinaryLoads(statusId: LogicalsStatusId, statusData: ByteArray) {
         updateWithMutex {
-            if (statusId != this.statusId) return@updateWithMutex null
+            if (statusId != currentServers().statusId) return@updateWithMutex null
             val updatedServers = updateServersWithBinaryStatus(serversStore.allServers, statusData)
-            updatedServers?.let { UpdateResult(statusId, updatedServers) }
+            updatedServers?.let {
+                UpdateResult(statusId, updatedServers, serverListUpdateTimestamp = null)
+            }
+        }
+    }
+
+    suspend fun updateLastUpdateTimestamp(timestamp: Long = wallClock()) {
+        updateWithMutex {
+            UpdateResult(currentServers().statusId, currentServers().allServers, timestamp)
         }
     }
 
@@ -153,11 +169,12 @@ class ServersDataManager @Inject constructor(
         updateWithMutex {
             withContext(dispatcherProvider.Comp) {
                 UpdateResult(
-                    statusId,
-                    allServers.toMutableList().apply {
+                    currentServers().statusId,
+                    currentServers().allServers.toMutableList().apply {
                         removeIf { it.serverId == server.serverId }
                         add(server)
-                    }
+                    },
+                    wallClock()
                 )
             }
         }
@@ -168,24 +185,31 @@ class ServersDataManager @Inject constructor(
         updateBlock: suspend () -> UpdateResult?,
     ) {
         updateMutex.withLock {
-            val updateResult: Pair<List<Server>, ServerLists>? = withContext(dispatcherProvider.Comp) {
+            val updateResult: Triple<List<Server>, ServerLists, Long?>? = withContext(dispatcherProvider.Comp) {
                 val update = updateBlock() ?: return@withContext null
                 val newServers = update.servers.filter { it.isVisible }
                 val groupedServers = async { updateServerLists(newServers, update.statusId) }
                 val sortedServers = async { newServers.sortedBy { it.score } }
                 val newServerLists = groupedServers.await()
                     .copy(allServersByScore = sortedServers.await())
-                update.servers to newServerLists
+                Triple(update.servers,newServerLists, update.serverListUpdateTimestamp)
             }
             if (updateResult != null) {
-                val (allServers, newServerLists) = updateResult
-                if (saveToStorage) {
-                    serversStore.save(allServers, newServerLists.statusId)
+                val (allServers, newServerLists, updateTimestamp) = updateResult
+                if (updateTimestamp != null) {
+                    lastUpdateTimestamp = updateTimestamp
                 }
-                serverLists = newServerLists
+                if (saveToStorage) {
+                    serversStore.save(allServers, newServerLists.statusId, lastUpdateTimestamp)
+                }
+
+                serverListsFlow.value = newServerLists
             }
         }
     }
+
+    // Use only when protected by the updateMutex.
+    private fun currentServers() = serverListsFlow.value ?: ServerLists.Empty
 
     companion object {
         private fun updateServerLists(newServerList: List<Server>, statusId: LogicalsStatusId?): ServerLists {

@@ -38,11 +38,14 @@ class ServersStore(
         private set
     var allServers: List<Server> = emptyList()
         private set
+    var lastUpdateTimestamp: Long = 0
+        private set
 
     suspend fun load(): Boolean {
         val data = store.read()
         if (data != null) {
             serversStatusId = data.statusFileId
+            lastUpdateTimestamp = data.updateTimestamp
             allServers = if (data.allServers.isEmpty() && data.vpnCountries.isNotEmpty()) {
                 extractServers(data.vpnCountries, data.secureCoreEntryCountries, data.secureCoreExitCountries)
             } else {
@@ -52,10 +55,11 @@ class ServersStore(
         return data != null
     }
 
-    fun save(newServers: List<Server>, newStatusId: LogicalsStatusId?) {
+    fun save(newServers: List<Server>, newStatusId: LogicalsStatusId?, updateTimestamp: Long) {
         serversStatusId = newStatusId
         allServers = newServers
-        val data = ServersSerializationData(allServers, serversStatusId)
+        lastUpdateTimestamp = updateTimestamp
+        val data = ServersSerializationData(allServers, serversStatusId, updateTimestamp)
         store.store(data)
     }
 
@@ -94,6 +98,7 @@ class ServersStore(
 class ServersSerializationData(
     val allServers: List<Server> = emptyList(),
     val statusFileId: String? = null,
+    val updateTimestamp: Long = 0,
 
     // Deprecated, used only for migration.
     val vpnCountries: List<VpnCountry> = emptyList(),
