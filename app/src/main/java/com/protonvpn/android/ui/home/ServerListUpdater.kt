@@ -39,7 +39,6 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.utils.ServerManager
@@ -60,7 +59,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -118,14 +116,6 @@ class ServerListUpdater @Inject constructor(
         ::updateLocationIfVpnOff,
         PeriodicUpdateSpec(LOCATION_CALL_DELAY, setOf(inForeground, isDisconnected))
     )
-
-    @VisibleForTesting
-    suspend fun freeOnlyUpdateNeeded() =
-        freeOnlyUpdateAllowed() &&
-        wallClock() - prefs.lastFullUpdateTimestamp < FULL_SERVER_LIST_CALL_DELAY
-
-    private suspend fun freeOnlyUpdateAllowed() =
-        !binaryServerStatusEnabled() && currentUser.vpnUser()?.isFreeUser == true
 
     suspend fun needsUpdate() = serverManager.needsUpdate() ||
         wallClock() - serverManager.lastUpdateTimestamp >= 4 * remoteConfig.first().foregroundDelayMs
@@ -193,7 +183,7 @@ class ServerListUpdater @Inject constructor(
             }
             result
         } else {
-            val result = api.getLoads(getNetZone(), freeOnlyUpdateAllowed())
+            val result = api.getLoads(getNetZone())
             if (result is ApiResult.Success) {
                 serverManager.updateLoads(result.value.loadsList)
             }
@@ -248,7 +238,6 @@ class ServerListUpdater @Inject constructor(
         if (forceFreshUpdate) {
             // Force update regardless of the timestamp.
             prefs.serverListLastModified = 0
-            prefs.lastFullUpdateTimestamp = 0
         }
         return periodicUpdateManager.executeNow(serverListUpdate)
     }
@@ -271,7 +260,6 @@ class ServerListUpdater @Inject constructor(
             guestHole.runWithGuestHoleFallback {
                 updateServerListFromApi(
                     netzone = getNetZone(),
-                    freeOnlyNeeded = freeOnlyUpdateNeeded(),
                     serverListLastModified = prefs.serverListLastModified
                 )
             }
@@ -293,14 +281,5 @@ class ServerListUpdater @Inject constructor(
         val FULL_SERVER_LIST_CALL_DELAY = TimeUnit.DAYS.toMillis(2)
         private val SERVER_COUNT_CALL_DELAY = TimeUnit.DAYS.toMillis(7)
         private val SERVER_COUNT_ERROR_DELAY = TimeUnit.DAYS.toMillis(1)
-    }
-}
-
-@VisibleForTesting
-fun List<Server>.updateTier(update: List<Server>, tier: Int, retainIDs: Set<String>) : List<Server> {
-    val updateIDs = update.mapTo(mutableSetOf()) { it.serverId }
-    return update + filter {
-        // keep servers that are not in the update if they are from different tier or in the retainIDs
-        it.serverId !in updateIDs && (it.tier != tier || it.serverId in retainIDs)
     }
 }

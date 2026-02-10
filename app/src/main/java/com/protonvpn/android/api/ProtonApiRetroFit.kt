@@ -33,9 +33,9 @@ import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.vpn.CertificateRequestBody
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
+import com.protonvpn.android.promooffers.usecase.PostNps
 import com.protonvpn.android.telemetry.StatsBody
 import com.protonvpn.android.telemetry.StatsEvent
-import com.protonvpn.android.promooffers.usecase.PostNps
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.TimeoutOverride
 import me.proton.core.network.domain.session.SessionId
@@ -71,7 +71,6 @@ open class ProtonApiRetroFit @Inject constructor(
     open suspend fun getServerListV1(
         netzone: String?,
         protocols: List<String>,
-        freeOnly: Boolean,
         lastModified: Long,
         enableTruncation: Boolean,
         mustHaveIDs: Set<String>?,
@@ -81,7 +80,7 @@ open class ProtonApiRetroFit @Inject constructor(
             headers = createLogicalsHeaders(netzone, lastModified, enableTruncation),
             protocols = protocols.joinToString(","),
             withState = true,
-            userTier = if (freeOnly) VpnUser.FREE_TIER else null,
+            userTier = null,
             includeIDs = mustHaveIDs.takeIf { enableTruncation }?.encodeParamSet()
         )
     }
@@ -105,11 +104,11 @@ open class ProtonApiRetroFit @Inject constructor(
     open suspend fun getServerByName(nameQuery: String) =
         manager { getServerByName(nameQuery) }
 
-    open suspend fun getLoads(netzone: String?, freeOnly: Boolean) =
+    open suspend fun getLoads(netzone: String?) =
         manager {
             getLoads(
-                createNetZoneHeaders(netzone),
-                if (freeOnly) VpnUser.FREE_TIER else null
+                headers = createNetZoneHeaders(netzone),
+                userTier = null
             )
         }
 

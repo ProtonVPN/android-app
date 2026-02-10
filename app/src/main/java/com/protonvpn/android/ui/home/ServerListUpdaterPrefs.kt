@@ -53,7 +53,6 @@ class ServerListUpdaterPrefs @Inject constructor(
     var lastKnownIpLongitude: Float? by float()
     var lastKnownIpLatitude: Float? by float()
 
-    var lastFullUpdateTimestamp: Long by long(0)
     var serverListLastModified: Long by long(0)
     var vpnServerCount: Int by int(Constants.FALLBACK_SERVER_COUNT)
     var vpnCountryCount: Int by int(Constants.FALLBACK_COUNTRY_COUNT)
@@ -61,6 +60,7 @@ class ServerListUpdaterPrefs @Inject constructor(
     // Removed (keeping for reference to avoid reusing names by mistake):
     // var lastNetzoneForLogicals: String? by string()
     // var loadsUpdateTimestamp: Long by long(0)
+    // var lastFullUpdateTimestamp: Long by long(0)
 
     companion object {
         private const val PREFS_NAME = "ServerListUpdater"

@@ -42,7 +42,6 @@ import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.home.ServerListUpdaterRemoteConfig
-import com.protonvpn.android.ui.home.updateTier
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnState
@@ -97,13 +96,8 @@ private const val BACKGROUND_DELAY_MS = 1000L
 private const val FOREGROUND_DELAY_MS = 100L
 
 private val FULL_LIST_LOGICALS_V1 = MockedServers.logicalsList
-private val FREE_LIST_LOGICALS_V1_MODIFIED = listOf(
-    MockedServers.logicalsList.first { it.serverName == "SE#3" }.copy(load = 50f)
-)
 private val LIST_LOGICALS_V2 = listOf(createLogicalServer("ID1"), createLogicalServer("ID2"))
 private val STATUS_ID: LogicalsStatusId = "StatusId"
-private val FULL_LIST = FULL_LIST_LOGICALS_V1.toServers()
-private val FREE_LIST_MODIFIED  = FREE_LIST_LOGICALS_V1_MODIFIED.toServers()
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ServerListUpdaterTests {
@@ -163,7 +157,6 @@ class ServerListUpdaterTests {
         fakeUpdateWithBinaryStatus = FakeUpdateServersWithBinaryStatus()
         fakeServerListV1Backend = FakeServerListV1Backend(
             serverLastModified = { testScope.currentTime },
-            freeLogicals = FREE_LIST_LOGICALS_V1_MODIFIED,
             fullLogicals = FULL_LIST_LOGICALS_V1
         )
         fakeServerListV2Backend = FakeServerListV2Backend(
@@ -182,9 +175,9 @@ class ServerListUpdaterTests {
         coEvery { mockServerManager.setServers(any(), any(), any()) } answers { allServers = firstArg() }
         every { mockServerManager.allServers } answers { allServers }
         coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
-        coEvery { mockApi.getServerListV1(any(), any(), any(), any(), any(), any()) } answers {
+        coEvery { mockApi.getServerListV1(any(), any(), any(), any(), any()) } answers {
             runWhileGettingServerList()
-            fakeServerListV1Backend.createResponse(freeOnly = arg(2), lastModified = arg(3), enableTruncation = arg(4))
+            fakeServerListV1Backend.createResponse(lastModified = arg(2), enableTruncation = arg(3))
         }
         coEvery { mockApi.getServerList(any(), any(), any(), any(), any()) } answers {
             runWhileGettingServerList()
@@ -283,63 +276,6 @@ class ServerListUpdaterTests {
     }
 
     @Test
-    fun `free user gets light list refresh`() = testScope.runTest {
-        binaryStatusFfEnabled.value = false
-        // First update is full
-        assertFalse(serverListUpdater.freeOnlyUpdateNeeded())
-        serverListUpdater.updateServers()
-
-        // Not enough time passed for full refresh
-        advanceTimeBy(1)
-        assertTrue(serverListUpdater.freeOnlyUpdateNeeded())
-        serverListUpdater.updateServers()
-
-        // Full update needed again
-        advanceTimeBy(ServerListUpdater.FULL_SERVER_LIST_CALL_DELAY)
-        assertFalse(serverListUpdater.freeOnlyUpdateNeeded())
-        serverListUpdater.updateServers()
-
-        coVerifyOrder {
-            mockApi.getServerListV1(any(), any(), freeOnly = false, any(), any(), any())
-            mockServerManager.setServers(withArg { assertEquals(FULL_LIST, it) }, null, any())
-
-            mockApi.getServerListV1(any(), any(), freeOnly = true, any(), any(), any())
-            mockServerManager.setServers(withArg { assertTrue(it.isModifiedList()) }, null, any())
-
-            mockApi.getServerListV1(any(), any(), freeOnly = false, any(), any(), any())
-        }
-    }
-
-    @Test
-    fun `free user light list refresh disabled when binary status enabled`() = testScope.runTest {
-        fun applyStatus(server: Server) = server.copy(rawIsOnline = true, isVisible = true, load = 10f, score = 1.0)
-        val expectedServers = LIST_LOGICALS_V2.map { applyStatus(it.toPartialServer()) }
-        fakeUpdateWithBinaryStatus.mapsAllServers(::applyStatus)
-        binaryStatusFfEnabled.value = true
-        truncationEnabled.value = true
-
-        // First update is full
-        assertFalse(serverListUpdater.freeOnlyUpdateNeeded())
-        serverListUpdater.updateServers()
-
-        // Not enough time passed for full refresh
-        advanceTimeBy(1)
-        // Second update is also full
-        assertFalse(serverListUpdater.freeOnlyUpdateNeeded())
-        serverListUpdater.updateServers()
-
-        coVerifyOrder {
-            repeat(2) {
-                mockApi.getServerList(any(), any(), any(), any(), any())
-                mockServerManager.setServers(
-                    withArg { assertEquals(expectedServers, it) },
-                    STATUS_ID,
-                    any())
-            }
-        }
-    }
-
-    @Test
     fun `when logicals is successful but binary status fails then no servers are updated`() = testScope.runTest {
         binaryStatusFfEnabled.value = true
         truncationEnabled.value = true
@@ -358,7 +294,7 @@ class ServerListUpdaterTests {
         serverListUpdater.updateServers()
 
         coVerifyOrder {
-            mockApi.getServerListV1(any(), any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2"))
+            mockApi.getServerListV1(any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2"))
             mockServerManager.setServers(any(), null, retainIDs = setOf("3"))
         }
     }
@@ -369,7 +305,7 @@ class ServerListUpdaterTests {
         mustHaveIDs = setOf("1", "2", "3")
         serverListUpdater.updateServers()
         coVerifyOrder {
-            mockApi.getServerListV1(any(), any(), any(), any(), enableTruncation = false, mustHaveIDs = emptySet())
+            mockApi.getServerListV1(any(), any(), any(), enableTruncation = false, mustHaveIDs = emptySet())
             mockServerManager.setServers(any(), null, retainIDs = emptySet())
         }
     }
@@ -381,7 +317,7 @@ class ServerListUpdaterTests {
         mustHaveIDs = setOf("1", "2", "3")
         serverListUpdater.updateServers()
         coVerifyOrder {
-            mockApi.getServerListV1(any(), any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2", "3"))
+            mockApi.getServerListV1(any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2", "3"))
             mockServerManager.setServers(any(), null, retainIDs = emptySet())
         }
     }
@@ -410,40 +346,6 @@ class ServerListUpdaterTests {
         assertEquals(lastModifiedOverride, serverListUpdaterPrefs.serverListLastModified)
         coVerify(exactly = 2) { mockServerManager.setServers(any(), null, any()) }
     }
-
-    @Test
-    fun updateTier() {
-        // Updating tier 0 with empty list removes all tier 0 servers
-        assertEquals(FULL_LIST.filter { it.tier != 0 }, FULL_LIST.updateTier(emptyList(), 0, emptySet()))
-        assertTrue(FULL_LIST.updateTier(FREE_LIST_MODIFIED, 0, emptySet()).isModifiedList())
-    }
-
-    @Test
-    fun updateTierWithIncludeID() {
-        val initialList = listOf(
-            createServer(serverId = "1", tier = 0, serverName = "1"),
-            createServer(serverId = "2", tier = 0), // not included in update -> out
-            createServer(serverId = "3", tier = 1), // tier=1 should stay
-            createServer(serverId = "4", tier = 0), // Retained because of retainIDs
-        )
-        val update = listOf(
-            createServer(serverId = "1", tier = 0, serverName = "1-modified"),
-            createServer(serverId = "5", tier = 1), // tier=1 in update because of includeIDs
-        )
-        assertEquals(
-            setOf(
-                createServer(serverId = "1", tier = 0, serverName = "1-modified"),
-                createServer(serverId = "3", tier = 1),
-                createServer(serverId = "4", tier = 0),
-                createServer(serverId = "5", tier = 1)
-            ),
-            initialList.updateTier(update, tier = 0, retainIDs = setOf("4")).toSet()
-        )
-    }
-
-    private fun List<Server>.isModifiedList() =
-        filter { it.tier != 0 } == FULL_LIST.filter { it.tier != 0 } // Same paid servers
-            && filter { it.tier == 0 } == FREE_LIST_MODIFIED // Free servers come from new update
 }
 
 private abstract class FakeServerListBackend(
@@ -478,17 +380,14 @@ private abstract class FakeServerListBackend(
 
 private class FakeServerListV1Backend(
     serverLastModified: () -> Long,
-    var freeLogicals: List<LogicalServerV1>,
     var fullLogicals: List<LogicalServerV1>,
 ) : FakeServerListBackend(serverLastModified) {
 
     fun createResponse(
-        freeOnly: Boolean,
         lastModified: Long,
         enableTruncation: Boolean,
     ) = createResponse(lastModified, enableTruncation) { isListTruncated, headers ->
-        val list = if (freeOnly) freeLogicals else fullLogicals
-        response(list, isListTruncated, headers)
+        response(fullLogicals, isListTruncated, headers)
     }
 
     private fun response(

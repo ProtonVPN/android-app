@@ -22,7 +22,6 @@ package com.protonvpn.android.servers
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
 import com.protonvpn.android.appconfig.periodicupdates.toPeriodicActionResultWithCustomValue
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ApiLogResponse
 import com.protonvpn.android.logging.ProtonLogger
@@ -30,7 +29,6 @@ import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
-import com.protonvpn.android.ui.home.updateTier
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
@@ -83,15 +81,12 @@ class UpdateServerListFromApi @Inject constructor(
 
     suspend operator fun invoke(
         netzone: String?,
-        freeOnlyNeeded: Boolean,
         serverListLastModified: Long
     ): PeriodicActionResult<Result> {
         val realProtocolsNames = ProtocolSelection.REAL_PROTOCOLS.apiNames()
         val enableTruncation = truncationFeatureFlagEnabled()
         val requestedMustHaveIDs = if (enableTruncation) getTruncationMustHaveIDs() else emptySet()
         val binaryServerStatusEnabled = binaryServerStatusEnabled()
-        // Partial updates are not supported with binary status.
-        val freeOnly = freeOnlyNeeded && !binaryServerStatusEnabled
         val fetchResult = if (binaryServerStatusEnabled) {
             val listResult = api.getServerList(
                 netzone,
@@ -105,7 +100,6 @@ class UpdateServerListFromApi @Inject constructor(
             val listResult = api.getServerListV1(
                 netzone,
                 realProtocolsNames,
-                freeOnly,
                 enableTruncation = enableTruncation,
                 lastModified = serverListLastModified,
                 mustHaveIDs = requestedMustHaveIDs,
@@ -122,20 +116,13 @@ class UpdateServerListFromApi @Inject constructor(
                 emptySet()
             }
 
-            val newList = if (freeOnly) {
-                serverManager.allServers.updateTier(fetchResult.newServers, VpnUser.FREE_TIER, retainIDs)
-            } else {
-                fetchResult.newServers
-            }
             if (fetchResult.lastModified != null)
                 prefs.serverListLastModified = fetchResult.lastModified.time
 
-            debugCountryCheck(newList)
+            debugCountryCheck(fetchResult.newServers)
 
-            serverManager.setServers(newList,  statusId = fetchResult.statusId, retainIDs = retainIDs)
+            serverManager.setServers(fetchResult.newServers,  statusId = fetchResult.statusId, retainIDs = retainIDs)
             serverManager.updateTimestamp()
-            if (!freeOnly)
-                prefs.lastFullUpdateTimestamp = wallClock()
         }
 
         return when(fetchResult) {
