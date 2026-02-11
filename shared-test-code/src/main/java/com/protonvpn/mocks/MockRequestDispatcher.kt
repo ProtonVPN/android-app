@@ -108,6 +108,7 @@ class MockRuleBuilder(private val rulesSink: MutableList<MockRequestDispatcher.R
     }
 
     fun respond(bodyText: String) = responseWithHeaders(MockResponse().setResponseCode(200).setBody(bodyText))
+    fun respond(bodyBuffer: Buffer) = responseWithHeaders(MockResponse().setResponseCode(200).setBody(bodyBuffer))
     fun respond(responseCode: Int) = responseWithHeaders(MockResponse().setResponseCode(responseCode))
     fun respond(responseCode: Int, bodyText: String) =
         responseWithHeaders(MockResponse().setResponseCode(responseCode).setBody(bodyText))

@@ -32,6 +32,8 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.AssetsBuiltInGuestHoles
 import com.protonvpn.android.api.BuiltInGuestHoles
 import com.protonvpn.android.api.GuestHole
+import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.api.ProtonApiRetroFitImpl
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
@@ -262,7 +264,18 @@ object AppModuleProd {
         ): GlobalSettingUpdateScheduler
 
         @Binds
+        fun bindIsBinaryServerStatusFeatureFlagEnabled(
+            impl: IsBinaryServerStatusFeatureFlagEnabledImpl
+        ): IsBinaryServerStatusFeatureFlagEnabled
+
+        @Binds
+        fun bindServerListTruncationEnabled(impl: ServerListTruncationEnabledImpl): ServerListTruncationEnabled
+
+        @Binds
         fun bindSharedPrefsProvider(provider: AndroidSharedPreferencesProvider): SharedPreferencesProvider
+
+        @Binds
+        fun bindProtonApiRetrofit(impl: ProtonApiRetroFitImpl): ProtonApiRetroFit
 
         @Binds
         fun bindPeriodicUpdateWorkerScheduler(sched: PeriodicUpdateWorkerSchedulerImpl): PeriodicUpdateWorkerScheduler
@@ -442,11 +455,6 @@ object AppModule {
         ): IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled
 
         @Binds
-        fun bindIsBinaryServerStatusFeatureFlagEnabled(
-            impl: IsBinaryServerStatusFeatureFlagEnabledImpl
-        ): IsBinaryServerStatusFeatureFlagEnabled
-
-        @Binds
         fun bindBuiltInGuestHolesProvider(impl: AssetsBuiltInGuestHoles): BuiltInGuestHoles
 
         @Binds
@@ -506,9 +514,6 @@ object AppModule {
         @Singleton
         @Binds
         fun bindServerListViewModelDataAdapter(impl: ServerListViewModelDataAdapterLegacy): ServerListViewModelDataAdapter
-
-        @Binds
-        fun bindServerListTruncationEnabled(impl: ServerListTruncationEnabledImpl): ServerListTruncationEnabled
 
         @Binds
         fun bindServerNameTopStrategyEnabled(impl: ServerNameTopStrategyEnabledImpl): ServerNameTopStrategyEnabled

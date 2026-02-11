@@ -21,54 +21,150 @@ package com.protonvpn.android.api
 import android.os.Build
 import com.protonvpn.android.api.data.DebugApiPrefs
 import com.protonvpn.android.appconfig.AppConfigResponse
+import com.protonvpn.android.appconfig.ForkedSessionResponse
+import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.appconfig.UserCountryTelephonyBased
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.SessionForkBody
+import com.protonvpn.android.models.login.SessionForkResponse
 import com.protonvpn.android.models.login.SessionListResponse
+import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.CertificateRequestBody
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
+import com.protonvpn.android.models.vpn.ServerSearchResponse
+import com.protonvpn.android.models.vpn.UserLocation
+import com.protonvpn.android.promooffers.data.ApiNotificationsResponse
 import com.protonvpn.android.promooffers.usecase.PostNps
+import com.protonvpn.android.servers.api.CityTranslationsResponse
+import com.protonvpn.android.servers.api.ConnectingDomainResponse
+import com.protonvpn.android.servers.api.LoadsResponse
+import com.protonvpn.android.servers.api.LogicalsResponse
+import com.protonvpn.android.servers.api.ServerListV1
+import com.protonvpn.android.servers.api.ServersCountResponse
+import com.protonvpn.android.servers.api.StreamingServicesResponse
 import com.protonvpn.android.telemetry.StatsBody
 import com.protonvpn.android.telemetry.StatsEvent
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.TimeoutOverride
 import me.proton.core.network.domain.session.SessionId
 import okhttp3.RequestBody
+import retrofit2.Response
 import java.net.URLEncoder
 import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
+interface ProtonApiRetroFit {
+
+    suspend fun getAppConfig(sessionId: SessionId?, netzone: String?): ApiResult<AppConfigResponse>
+
+    suspend fun getDynamicReportConfig(sessionId: SessionId?): ApiResult<DynamicReportModel>
+
+    suspend fun getLocation(): ApiResult<UserLocation>
+
+    suspend fun postBugReport(params: RequestBody): ApiResult<GenericResponse>
+
+    suspend fun getServerCities(languageTag: String): ApiResult<CityTranslationsResponse>
+
+    suspend fun getServerListV1(
+        netzone: String?,
+        protocols: List<String>,
+        lastModified: Long,
+        enableTruncation: Boolean,
+        mustHaveIDs: Set<String>?,
+    ): ApiResult<Response<ServerListV1>>
+
+    suspend fun getServerList(
+        netzone: String?,
+        protocols: List<String>,
+        lastModified: Long,
+        enableTruncation: Boolean,
+        mustHaveIDs: Set<String>?,
+    ): ApiResult<Response<LogicalsResponse>>
+
+    suspend fun getServerByName(nameQuery: String): ApiResult<ServerSearchResponse>
+
+    suspend fun getLoads(netzone: String?): ApiResult<LoadsResponse>
+
+    suspend fun getBinaryStatus(statusId: String): ApiResult<ByteArray>
+
+    suspend fun getStreamingServices(): ApiResult<StreamingServicesResponse>
+
+    suspend fun getServerCountryCount(): ApiResult<ServersCountResponse>
+
+    suspend fun getSessionForkSelector(): ApiResult<SessionForkSelectorResponse>
+
+    suspend fun getForkedSession(selector: String): ApiResult<ForkedSessionResponse>
+
+    suspend fun postSessionFork(
+        childClientId: String,
+        payload: String,
+        isIndependent: Boolean,
+        userCode: String? = null,
+    ): ApiResult<SessionForkResponse>
+
+    suspend fun getConnectingDomain(domainId: String): ApiResult<ConnectingDomainResponse>
+
+    suspend fun getVPNInfo(sessionId: SessionId? = null): ApiResult<VpnInfoResponse>
+
+    suspend fun getApiNotifications(
+        supportedFormats: List<String>,
+        fullScreenImageWidthPx: Int,
+        fullScreenImageHeightPx: Int,
+    ): ApiResult<ApiNotificationsResponse>
+
+    suspend fun logout(): ApiResult<GenericResponse>
+
+    suspend fun getSession(): ApiResult<SessionListResponse>
+
+    suspend fun getAvailableDomains(): ApiResult<GenericResponse>
+
+    suspend fun triggerHumanVerification(): ApiResult<GenericResponse>
+
+    suspend fun getCertificate(sessionId: SessionId, clientPublicKey: String): ApiResult<CertificateResponse>
+
+    suspend fun postPromoCode(code: String): ApiResult<GenericResponse>
+
+    suspend fun dismissNps(): ApiResult<GenericResponse>
+
+    suspend fun postNps(data: PostNps.NpsData): ApiResult<GenericResponse>
+
+    suspend fun postStats(events: List<StatsEvent>): ApiResult<GenericResponse>
+
+    suspend fun putTelemetryGlobalSetting(isEnabled: Boolean): ApiResult<GlobalSettingsResponse>
+}
+
 @Singleton
-open class ProtonApiRetroFit @Inject constructor(
+class ProtonApiRetroFitImpl @Inject constructor(
     private val manager: VpnApiManager,
     private val userCountryTelephonyBased: UserCountryTelephonyBased,
     private val debugApiPrefs: DebugApiPrefs?,
-) {
-    open suspend fun getAppConfig(sessionId: SessionId?, netzone: String?): ApiResult<AppConfigResponse> =
+) : ProtonApiRetroFit {
+
+    override suspend fun getAppConfig(sessionId: SessionId?, netzone: String?): ApiResult<AppConfigResponse> =
         manager(sessionId) { getAppConfig(createNetZoneHeaders(netzone)) }
 
-    open suspend fun getDynamicReportConfig(sessionId: SessionId?) =
+    override suspend fun getDynamicReportConfig(sessionId: SessionId?) =
         manager(sessionId) { getDynamicReportConfig() }
 
-    open suspend fun getLocation() =
+    override suspend fun getLocation() =
         manager { getLocation() }
 
-    open suspend fun postBugReport(
+    override suspend fun postBugReport(
         params: RequestBody,
     ) = manager { postBugReport(TimeoutOverride(writeTimeoutSeconds = 20), params) }
 
-    suspend fun getServerCities(languageTag: String) = manager {
+    override suspend fun getServerCities(languageTag: String) = manager {
         getServerCities(languageTag)
     }
 
-    open suspend fun getServerListV1(
+    override suspend fun getServerListV1(
         netzone: String?,
         protocols: List<String>,
         lastModified: Long,
@@ -85,7 +181,7 @@ open class ProtonApiRetroFit @Inject constructor(
         )
     }
 
-    suspend fun getServerList(
+    override suspend fun getServerList(
         netzone: String?,
         protocols: List<String>,
         lastModified: Long,
@@ -101,10 +197,10 @@ open class ProtonApiRetroFit @Inject constructor(
         )
     }
 
-    open suspend fun getServerByName(nameQuery: String) =
+    override suspend fun getServerByName(nameQuery: String) =
         manager { getServerByName(nameQuery) }
 
-    open suspend fun getLoads(netzone: String?) =
+    override suspend fun getLoads(netzone: String?) =
         manager {
             getLoads(
                 headers = createNetZoneHeaders(netzone),
@@ -112,32 +208,32 @@ open class ProtonApiRetroFit @Inject constructor(
             )
         }
 
-    open suspend fun getBinaryStatus(statusId: String) =
+    override suspend fun getBinaryStatus(statusId: String) =
         manager { getBinaryStatus(statusId) }
 
-    open suspend fun getStreamingServices() =
+    override suspend fun getStreamingServices() =
         manager { getStreamingServices() }
 
-    open suspend fun getServerCountryCount() =
+    override suspend fun getServerCountryCount() =
         manager { getServersCount() }
 
-    open suspend fun getSessionForkSelector() =
+    override suspend fun getSessionForkSelector() =
         manager { getSessionForkSelector() }
 
-    open suspend fun getForkedSession(selector: String) =
+    override suspend fun getForkedSession(selector: String) =
         manager { getForkedSession(selector) }
 
-    open suspend fun postSessionFork(
-        childClientId: String, payload: String, isIndependent: Boolean, userCode: String? = null
+    override suspend fun postSessionFork(
+        childClientId: String, payload: String, isIndependent: Boolean, userCode: String?
     ) = manager { postSessionFork(SessionForkBody(payload, childClientId, if (isIndependent) 1 else 0, userCode)) }
 
-    open suspend fun getConnectingDomain(domainId: String) =
+    override suspend fun getConnectingDomain(domainId: String) =
         manager { getServerDomain(domainId) }
 
-    open suspend fun getVPNInfo(sessionId: SessionId? = null) =
+    override suspend fun getVPNInfo(sessionId: SessionId?) =
         manager(sessionId) { getVPNInfo() }
 
-    open suspend fun getApiNotifications(
+    override suspend fun getApiNotifications(
         supportedFormats: List<String>,
         fullScreenImageWidthPx: Int,
         fullScreenImageHeightPx: Int
@@ -145,37 +241,37 @@ open class ProtonApiRetroFit @Inject constructor(
         getApiNotifications(supportedFormats.joinToString(","), fullScreenImageWidthPx, fullScreenImageHeightPx)
     }
 
-    open suspend fun logout() =
+    override suspend fun logout() =
         manager { postLogout() }
 
-    open suspend fun getSession(): ApiResult<SessionListResponse> =
+    override suspend fun getSession(): ApiResult<SessionListResponse> =
         manager { getSession() }
 
-    open suspend fun getAvailableDomains(): ApiResult<GenericResponse> =
+    override suspend fun getAvailableDomains(): ApiResult<GenericResponse> =
         manager { getAvailableDomains() }
 
-    open suspend fun triggerHumanVerification(): ApiResult<GenericResponse> =
+    override suspend fun triggerHumanVerification(): ApiResult<GenericResponse> =
         manager { triggerHumanVerification() }
 
-    open suspend fun getCertificate(sessionId: SessionId, clientPublicKey: String): ApiResult<CertificateResponse> =
+    override suspend fun getCertificate(sessionId: SessionId, clientPublicKey: String): ApiResult<CertificateResponse> =
         manager(sessionId) {
             getCertificate(CertificateRequestBody(
                 clientPublicKey, "EC", Build.MODEL, "session", emptyList()))
         }
 
-    open suspend fun postPromoCode(code: String): ApiResult<GenericResponse> =
+    override suspend fun postPromoCode(code: String): ApiResult<GenericResponse> =
         manager { postPromoCode(PromoCodesBody("VPN", listOf(code))) }
 
-    suspend fun dismissNps(): ApiResult<GenericResponse> =
+    override suspend fun dismissNps(): ApiResult<GenericResponse> =
         manager { postDismissNps() }
 
-    suspend fun postNps(data: PostNps.NpsData): ApiResult<GenericResponse> =
+    override suspend fun postNps(data: PostNps.NpsData): ApiResult<GenericResponse> =
         manager { postNps(data) }
 
-    suspend fun postStats(events: List<StatsEvent>): ApiResult<GenericResponse> =
+    override suspend fun postStats(events: List<StatsEvent>): ApiResult<GenericResponse> =
         manager { postStats(StatsBody(events)) }
 
-    suspend fun putTelemetryGlobalSetting(isEnabled: Boolean): ApiResult<GlobalSettingsResponse> =
+    override suspend fun putTelemetryGlobalSetting(isEnabled: Boolean): ApiResult<GlobalSettingsResponse> =
         manager { putTelemetryGlobalSetting(UpdateGlobalTelemetry(isEnabled)) }
 
     private fun createNetZoneHeaders(netzone: String?) =

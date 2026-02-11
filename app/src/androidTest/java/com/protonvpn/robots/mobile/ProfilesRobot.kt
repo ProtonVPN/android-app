@@ -72,7 +72,7 @@ object ProfileAddEditRobot : Robot {
         return this
     }
 
-    fun selectCountry(@StringRes country: Int): ProfileAddEditRobot {
+    fun selectCountry(country: String): ProfileAddEditRobot {
         node.useUnmergedTree()
             .withTag("profileCountryDropdown")
             .click()

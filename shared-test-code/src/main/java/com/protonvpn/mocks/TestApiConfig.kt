@@ -22,14 +22,20 @@ package com.protonvpn.mocks
 import com.protonvpn.android.promooffers.data.ApiNotificationsResponse
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.vpn.CertificateResponse
+import com.protonvpn.android.servers.api.LogicalsResponse
+import com.protonvpn.android.servers.api.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createLogicalServer
 import me.proton.core.featureflag.data.remote.response.GetUnleashTogglesResponse
 import me.proton.core.network.data.protonApi.GenericResponse
 import me.proton.core.network.domain.HttpResponseCodes
 import me.proton.core.network.domain.ResponseCodes
+import okio.Buffer
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 sealed class TestApiConfig {
     object Backend : TestApiConfig()
@@ -53,6 +59,7 @@ sealed class TestApiConfig {
             }
         }
 
+        @OptIn(ExperimentalEncodingApi::class)
         private fun addBasicRules(dispatcher: MockRequestDispatcher) {
             dispatcher.addRules {
                 rule(get, path eq "/vpn/v1/featureconfig/dynamic-bug-reports") {
@@ -75,6 +82,26 @@ sealed class TestApiConfig {
                         MockedServers.logicalsList
                     }
                     respond(ServerListV1(servers))
+                }
+                rule(get, path eq "/vpn/v2/logicals") {
+                    val servers = listOf(
+                        createLogicalServer(
+                            "CH1",
+                            exitCountry = "CH",
+                            entryCountry = "US",
+                            statusIndex = 0u,
+                            features = SERVER_FEATURE_SECURE_CORE
+                        ),
+                        createLogicalServer("PL1", exitCountry = "PL", statusIndex = 1u),
+                        createLogicalServer("US1", exitCountry = "US", statusIndex = 2u),
+                        createLogicalServer("AR1", exitCountry = "AR", statusIndex = 3u),
+                    )
+                    respond(LogicalsResponse("StatusID", servers))
+                }
+                rule(get, path startsWith "/vpn/v2/status/StatusID/binary") {
+                    // Status for 4 servers.
+                    val bytes = Base64.decode("AQAAAAMyAAAAPwMZAABAPwMyAAAAPwMZAABAPw==")
+                    respond(Buffer().write(bytes))
                 }
 
                 rule(post, path eq "/vpn/v1/certificate") {

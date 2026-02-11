@@ -22,12 +22,15 @@ import android.content.Context
 import androidx.room.Room
 import androidx.work.WorkManager
 import com.protonvpn.TestSettings
+import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.api.ProtonApiRetroFitImpl
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.UserCountryTelephonyBased
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateScheduler
 import com.protonvpn.android.appconfig.globalsettings.NoopGlobalSettingsUpdateScheduler
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerScheduler
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.bugreport.BugReportConfigStoreProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
@@ -36,8 +39,9 @@ import com.protonvpn.android.di.AppModuleProd
 import com.protonvpn.android.di.CoreBaseNetworkModule
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
-import com.protonvpn.android.bugreport.BugReportConfigStoreProvider
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.servers.FakeIsBinaryServerStatusFeatureFlagEnabled
+import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabled
 import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.telemetry.NoopSnapshotScheduler
 import com.protonvpn.android.telemetry.NoopTelemetryUploadScheduler
@@ -60,11 +64,14 @@ import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.protun.ProTunBackend
+import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
+import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import com.protonvpn.mocks.FakeWorkManager
 import com.protonvpn.mocks.MockUserRepository
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.NoopPeriodicUpdateWorkerScheduler
+import com.protonvpn.mocks.TestProtonApiRetroFitWrapper
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
@@ -191,6 +198,11 @@ class SharedTestAppModule {
     }
 
     @Provides
+    @Singleton
+    fun provideTestProtonApiRetroFit(realImpl: ProtonApiRetroFitImpl): TestProtonApiRetroFitWrapper =
+        TestProtonApiRetroFitWrapper(realImpl)
+
+    @Provides
     fun provideVpnPrepareDelegate(@ApplicationContext context: Context): VpnPermissionDelegate =
         if (TestSettings.mockedConnectionUsed) {
             VpnPermissionDelegate { null }
@@ -274,6 +286,13 @@ class SharedTestAppModule {
     @Singleton
     fun provideTestCurrentUserProvider() = TestCurrentUserProvider(null)
 
+    @Provides
+    fun providesFakeIsBinaryServerStatusFeatureFlagEnabled() =
+        FakeIsBinaryServerStatusFeatureFlagEnabled(true)
+
+    @Provides
+    fun providesFakeServerListTruncationEnabled() = FakeServerListTruncationEnabled(true)
+
     @Module
     @TestInstallIn(
         components = [SingletonComponent::class],
@@ -285,7 +304,18 @@ class SharedTestAppModule {
         fun bindGlobalSettingsUpdateScheduler(scheduler: NoopGlobalSettingsUpdateScheduler): GlobalSettingUpdateScheduler
 
         @Binds
+        fun bindIsBinaryServerStatusFeatureFlagEnabled(
+            impl: FakeIsBinaryServerStatusFeatureFlagEnabled
+        ): IsBinaryServerStatusFeatureFlagEnabled
+
+        @Binds
+        fun bindServerListTruncationEnabled(impl: FakeServerListTruncationEnabled): ServerListTruncationEnabled
+
+        @Binds
         fun bindPeriodicUpdateWorkerScheduler(sched: NoopPeriodicUpdateWorkerScheduler): PeriodicUpdateWorkerScheduler
+
+        @Binds
+        fun bindProtonApiRetroFit(impl: TestProtonApiRetroFitWrapper): ProtonApiRetroFit
 
         @Binds
         fun bindSharedPrefsProvider(provider: MockSharedPreferencesProvider): SharedPreferencesProvider

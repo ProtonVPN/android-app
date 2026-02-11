@@ -24,6 +24,7 @@ import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatus
+import com.protonvpn.android.servers.UpdateServersWithBinaryStatusImpl
 import com.protonvpn.mocks.FakeUpdateServersWithBinaryStatus
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
@@ -79,6 +80,6 @@ object TestScopeAppModule {
         fun provideCurrentUserProvider(impl: TestCurrentUserProvider): CurrentUserProvider
 
         @Binds
-        fun bindUpdateServersWithBinaryStatus(fake: FakeUpdateServersWithBinaryStatus): UpdateServersWithBinaryStatus
+        fun bindUpdateServersWithBinaryStatus(impl: UpdateServersWithBinaryStatusImpl): UpdateServersWithBinaryStatus
     }
 }

@@ -19,6 +19,7 @@
 
 package com.protonvpn.mocks
 
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateScheduler
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerScheduler
 import javax.inject.Inject
 

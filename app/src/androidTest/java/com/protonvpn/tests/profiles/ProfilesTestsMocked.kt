@@ -89,7 +89,7 @@ class ProfilesTestsMocked {
             .setProfileName(profileName)
             .next()
             .selectProfileType(R.string.create_profile_type_secure_core)
-            .selectCountry(R.string.widget_preview_france)
+            .selectCountry("Switzerland")
             .next()
             .save()
             .verify { profileExists(profileName) }
