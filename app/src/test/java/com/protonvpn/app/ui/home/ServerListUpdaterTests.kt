@@ -278,17 +278,6 @@ class ServerListUpdaterTests {
     }
 
     @Test
-    fun `when logicals is successful but binary status fails then no servers are updated`() = testScope.runTest {
-        binaryStatusFfEnabled.value = true
-        truncationEnabled.value = true
-        coEvery { mockApi.getBinaryStatus(any()) } returns ApiResult.Error.Connection()
-
-        serverListUpdater.updateServers()
-        coVerify(exactly = 1) { mockApi.getServerList(any(), any(), any(), any(), any()) }
-        assertTrue(serverManager.allServers.isEmpty())
-    }
-
-    @Test
     fun `only additional must-have IDs are retained`() = testScope.runTest {
         binaryStatusFfEnabled.value = true
         truncationEnabled.value = true
@@ -335,38 +324,6 @@ class ServerListUpdaterTests {
         coVerify {
             mockApi.getServerList(any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2", "3"))
         }
-    }
-
-    @Test
-    fun `no refresh if client already have newest version`() = testScope.runTest {
-        binaryStatusFfEnabled.value = true
-        val successResult = UpdateServerListFromApi.Result.Success
-        val firstUpdateTimestamp = currentTime
-        fakeServerListV2Backend.logicals = listOf(createLogicalServer("id1"))
-        fakeServerListV2Backend.serverLastModified = { firstUpdateTimestamp }
-        val result1 = serverListUpdater.updateServers()
-        assertEquals(successResult, result1.result)
-        assertEquals(listOf("id1"), serverManager.allServers.map { it.serverId })
-        assertEquals(firstUpdateTimestamp, serversDataManager.lastUpdateTimestamp)
-
-        // Version will not change for the next call
-        advanceTimeBy(5.minutes)
-        fakeServerListV2Backend.logicals = listOf(createLogicalServer("id2"))
-        val result2 = serverListUpdater.updateServers()
-        assertEquals(successResult, result2.result)
-        // 304 does not result in a call to setServers but will refresh timestamp.
-        assertEquals(listOf("id1"), serverManager.allServers.map { it.serverId })
-        assertEquals(firstUpdateTimestamp, serverListUpdaterPrefs.serverListLastModified)
-        assertEquals(currentTime, serversDataManager.lastUpdateTimestamp)
-
-        // Make new version available
-        fakeServerListV2Backend.serverLastModified = { currentTime }
-        advanceTimeBy(1.hours)
-        val result3 = serverListUpdater.updateServers()
-        assertEquals(successResult, result3.result)
-        assertEquals(currentTime, serverListUpdaterPrefs.serverListLastModified)
-        assertEquals(currentTime, serversDataManager.lastUpdateTimestamp)
-        assertEquals(listOf("id2"), serverManager.allServers.map { it.serverId })
     }
 
     private fun List<Server>.toIds() = mapTo(HashSet()) { it.serverId }

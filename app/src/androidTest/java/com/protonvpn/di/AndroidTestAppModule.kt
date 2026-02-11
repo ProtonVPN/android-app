@@ -18,11 +18,15 @@
  */
 package com.protonvpn.di
 
+import android.os.SystemClock
+import android.os.SystemClock.elapsedRealtime
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
 import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.auth.usecase.SetVpnUserImpl
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
+import com.protonvpn.android.di.ElapsedRealtimeClock
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatus
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatusImpl
 import com.protonvpn.testsHelper.EspressoDispatcherProvider
@@ -44,6 +48,14 @@ object AndroidTestScopeAppModule {
     @Provides
     @Singleton
     fun provideMainScope(): CoroutineScope = MainScope()
+
+    @Provides
+    @WallClock
+    fun provideWallClock(): () -> Long = System::currentTimeMillis
+
+    @Provides
+    @ElapsedRealtimeClock
+    fun provideElapsedRealtimeClock(): () -> Long = SystemClock::elapsedRealtime
 
     @Provides
     fun provideQuark(environmentConfiguration: EnvironmentConfiguration): Quark =

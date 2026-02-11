@@ -188,6 +188,14 @@ object AppModuleProd {
     @Singleton
     fun provideMainScope(): CoroutineScope = MainScope()
 
+    @Provides
+    @WallClock
+    fun provideWallClock(): () -> Long = System::currentTimeMillis
+
+    @Provides
+    @ElapsedRealtimeClock
+    fun provideElapsedRealtimeClock(): () -> Long = SystemClock::elapsedRealtime
+
     @Singleton
     @Provides
     @BaseProtonApiUrl
@@ -336,14 +344,6 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRandom(): Random = Random
-
-    @Provides
-    @WallClock
-    fun provideWallClock(): () -> Long = System::currentTimeMillis
-
-    @Provides
-    @ElapsedRealtimeClock
-    fun provideElapsedRealtimeClock(): () -> Long = SystemClock::elapsedRealtime
 
     @Provides
     @Singleton

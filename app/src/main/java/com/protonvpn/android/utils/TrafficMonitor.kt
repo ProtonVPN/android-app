@@ -123,34 +123,46 @@ class TrafficMonitor @Inject constructor(
                     val monotonicTimestamp = monotonicClock()
                     val elapsedMillis = monotonicTimestamp - lastMonotonicTimestamp
                     val elapsedSeconds = elapsedMillis / 1000f
+                    // In practice elapsedSeconds is very unlikely to be 0, but it does happen
+                    // occasionally.
+                    // It can also happen in some integration tests with test clock.
+                    if (elapsedSeconds > 0.0f) {
 
-                    // Speeds need to be divided by two due to TrafficStats calculating both phone and VPN
-                    // interfaces which leads to doubled data. NetworkStatsManager may have solved this
-                    // problem but is only available from marshmallow.
-                    val totalDownload = TrafficStats.getTotalRxBytes()
-                    val totalUpload = TrafficStats.getTotalTxBytes()
-                    val downloaded = (totalDownload - lastTotalDownload).coerceAtLeast(0) / 2
-                    val uploaded = (totalUpload - lastTotalUpload).coerceAtLeast(0) / 2
-                    val downloadSpeed = (downloaded / elapsedSeconds).roundToLong()
-                    val uploadSpeed = (uploaded / elapsedSeconds).roundToLong()
+                        // Speeds need to be divided by two due to TrafficStats calculating both phone and VPN
+                        // interfaces which leads to doubled data. NetworkStatsManager may have solved this
+                        // problem but is only available from marshmallow.
+                        val totalDownload = TrafficStats.getTotalRxBytes()
+                        val totalUpload = TrafficStats.getTotalTxBytes()
+                        val downloaded = (totalDownload - lastTotalDownload).coerceAtLeast(0) / 2
+                        val uploaded = (totalUpload - lastTotalUpload).coerceAtLeast(0) / 2
+                        val downloadSpeed = (downloaded / elapsedSeconds).roundToLong()
+                        val uploadSpeed = (uploaded / elapsedSeconds).roundToLong()
 
-                    sessionDownloaded += downloaded
-                    sessionUploaded += uploaded
+                        sessionDownloaded += downloaded
+                        sessionUploaded += uploaded
 
-                    val sessionTimeSeconds = ((wallClock() - sessionStart) / 1000).toInt()
-                    val update = TrafficUpdate(
-                        monotonicTimestamp, sessionStart, downloadSpeed, uploadSpeed, sessionDownloaded,
-                        sessionUploaded, sessionTimeSeconds
-                    )
-                    trafficStatus.value = update
-                    trafficHistory.value = (trafficHistory.value!! + update)
-                        .takeLastWhile {
-                            it.monotonicTimestampMs > monotonicTimestamp - TimeUnit.SECONDS.toMillis(TRAFFIC_HISTORY_LENGTH_S)
-                        }
+                        val sessionTimeSeconds = ((wallClock() - sessionStart) / 1000).toInt()
+                        val update = TrafficUpdate(
+                            monotonicTimestamp,
+                            sessionStart,
+                            downloadSpeed,
+                            uploadSpeed,
+                            sessionDownloaded,
+                            sessionUploaded,
+                            sessionTimeSeconds
+                        )
+                        trafficStatus.value = update
+                        trafficHistory.value = (trafficHistory.value!! + update)
+                            .takeLastWhile {
+                                it.monotonicTimestampMs > monotonicTimestamp - TimeUnit.SECONDS.toMillis(
+                                    TRAFFIC_HISTORY_LENGTH_S
+                                )
+                            }
 
-                    lastTotalDownload = totalDownload
-                    lastTotalUpload = totalUpload
-                    lastMonotonicTimestamp = monotonicTimestamp
+                        lastTotalDownload = totalDownload
+                        lastTotalUpload = totalUpload
+                        lastMonotonicTimestamp = monotonicTimestamp
+                    }
 
                     delay(1000)
                 }

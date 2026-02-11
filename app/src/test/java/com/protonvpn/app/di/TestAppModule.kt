@@ -20,9 +20,13 @@
 
 package com.protonvpn.app.di
 
+import android.os.SystemClock
+import android.os.SystemClock.elapsedRealtime
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
+import com.protonvpn.android.di.ElapsedRealtimeClock
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatus
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatusImpl
 import com.protonvpn.mocks.FakeUpdateServersWithBinaryStatus
@@ -41,6 +45,7 @@ import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.setMain
 import javax.inject.Singleton
 
@@ -62,6 +67,14 @@ object TestScopeAppModule {
     @Provides
     @Singleton
     fun provideMainScope(testScope: TestScope): CoroutineScope = testScope.backgroundScope
+
+    @Provides
+    @WallClock
+    fun provideWallClock(testScope: TestScope): () -> Long = testScope::currentTime
+
+    @Provides
+    @ElapsedRealtimeClock
+    fun provideElapsedRealtimeClock(testScope: TestScope): () -> Long = testScope::currentTime
 
     @Provides
     @Singleton
