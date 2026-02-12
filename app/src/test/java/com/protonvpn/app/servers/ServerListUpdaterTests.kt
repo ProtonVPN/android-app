@@ -34,10 +34,7 @@ import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.app.testRules.RobolectricHiltAndroidRule
 import com.protonvpn.mocks.TestProtonApiRetroFitWrapper
 import com.protonvpn.test.shared.createLogicalServer
-import com.protonvpn.test.shared.createServer
 import dagger.hilt.android.testing.HiltAndroidTest
-import io.mockk.coEvery
-import io.mockk.coVerify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
@@ -61,7 +58,6 @@ import org.robolectric.RobolectricTestRunner
 import retrofit2.Response
 import java.time.Instant
 import java.util.Base64
-import java.util.Date
 import javax.inject.Inject
 import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.days

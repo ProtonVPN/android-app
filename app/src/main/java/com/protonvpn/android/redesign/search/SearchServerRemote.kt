@@ -23,6 +23,7 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.ServerSearchResponse
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import com.protonvpn.android.vpn.usecases.TransientMustHaves
 import dagger.Reusable
@@ -59,6 +60,7 @@ class SearchServerRemote @Inject constructor(
     private val fetchServerByName: FetchServerByName,
     private val transientMustHaves: TransientMustHaves,
     private val serverManager: ServerManager2,
+    private val serversDataManager: ServersDataManager,
 ) {
 
     suspend operator fun invoke(query: String): FetchServerResult {
@@ -73,7 +75,7 @@ class SearchServerRemote @Inject constructor(
             val result = fetchServerByName(serverTerm)
             if (result is FetchServerResult.Success) {
                 transientMustHaves.add(result.server.serverId)
-                serverManager.updateOrAddServer(result.server)
+                serversDataManager.updateOrAddServer(result.server)
             }
             result
         } else {

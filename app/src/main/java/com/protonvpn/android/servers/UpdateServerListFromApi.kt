@@ -108,7 +108,6 @@ class UpdateServerListFromApi @Inject constructor(
         }
 
         if (fetchResult is FetchResult.NewServers) {
-            serverManager.ensureLoaded()
             val retainIDs = if (fetchResult.isListTruncated == true) {
                 // retain only those ID that were not in must-haves for this call
                 getTruncationMustHaveIDs() - requestedMustHaveIDs
@@ -121,7 +120,11 @@ class UpdateServerListFromApi @Inject constructor(
 
             debugCountryCheck(fetchResult.newServers)
 
-            serverManager.setServers(fetchResult.newServers,  statusId = fetchResult.statusId, retainIDs = retainIDs)
+            serversDataManager.replaceServers(
+                fetchResult.newServers,
+                newStatusId = fetchResult.statusId,
+                retainIDs = retainIDs
+            )
         }
 
         return when(fetchResult) {

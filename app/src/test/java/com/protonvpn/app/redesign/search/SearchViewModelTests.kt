@@ -34,6 +34,7 @@ import com.protonvpn.android.redesign.search.ui.SearchViewModel
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewState
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -325,6 +326,7 @@ class SearchViewModelInjector @Inject constructor(
     private val vpnStatusProviderUI: VpnStatusProviderUI,
     private val translator: Translator,
     private val serverManager: ServerManager2,
+    private val serversDataManager: ServersDataManager,
     private val transientMustHaves: TransientMustHaves,
 ) {
     fun getViewModel(
@@ -346,6 +348,7 @@ class SearchViewModelInjector @Inject constructor(
             fetchServerByName,
             transientMustHaves,
             serverManager,
+            serversDataManager,
         )
     )
 }

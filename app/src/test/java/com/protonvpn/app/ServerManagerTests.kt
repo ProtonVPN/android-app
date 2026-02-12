@@ -33,6 +33,7 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.servers.api.LoadUpdate
 import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
@@ -47,6 +48,7 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.app.excludedlocations.TestExcludedLocation
 import com.protonvpn.mocks.createInMemoryServerManager
+import com.protonvpn.mocks.createInMemoryServersDataManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
@@ -84,6 +86,7 @@ import kotlin.test.assertNotNull
 @OptIn(ExperimentalCoroutinesApi::class)
 class ServerManagerTests {
 
+    private lateinit var serversDataManager: ServersDataManager
     private lateinit var manager: ServerManager
     private lateinit var serverManager2: ServerManager2
 
@@ -303,7 +306,7 @@ class ServerManagerTests {
             LoadUpdate("server2", load = 25f, score = 5.0, status = 0),
         )
         createServerManagers(servers = listOf(server1, server2))
-        manager.updateLoads(newLoads)
+        serversDataManager.updateLoads(newLoads)
 
         val country = serverManager2.getVpnExitCountry("PL", secureCoreCountry = false)
         val expectedServers = setOf(
@@ -319,7 +322,7 @@ class ServerManagerTests {
         val newLoads = listOf(LoadUpdate("server", load = 50f, score = 0.5, status = 1))
 
         createServerManagers(servers = listOf(server))
-        manager.updateLoads(newLoads)
+        serversDataManager.updateLoads(newLoads)
         val country = serverManager2.getVpnExitCountry("PL", secureCoreCountry = false)
         val expectedServer = server.copy(load = 50f, score = 0.5)
         assertEquals(listOf(expectedServer), country?.serverList)
@@ -417,11 +420,8 @@ class ServerManagerTests {
         supportedSmartProtocols: List<ProtocolSelection> = ProtocolSelection.REAL_PROTOCOLS
     ) {
         val getSmartProtocols = createGetSmartProtocols(supportedSmartProtocols)
-        manager = createInMemoryServerManager(
-            this,
-            testDispatcherProvider,
-            servers,
-        )
+        serversDataManager = createInMemoryServersDataManager(testScope, testDispatcherProvider, servers)
+        manager = createInMemoryServerManager(this, serversDataManager)
         serverManager2 = ServerManager2(manager, getSmartProtocols)
     }
 

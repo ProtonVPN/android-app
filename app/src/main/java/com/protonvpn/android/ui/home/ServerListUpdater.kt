@@ -38,8 +38,8 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.UserLocation
-import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
 import com.protonvpn.android.servers.ServersDataManager
+import com.protonvpn.android.servers.UpdateLoadsFromApi
 import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.utils.ServerManager
@@ -100,7 +100,7 @@ class ServerListUpdater @Inject constructor(
     private val remoteConfig: ServerListUpdaterRemoteConfig,
     @WallClock private val wallClock: () -> Long,
     private val updateServerListFromApi: UpdateServerListFromApi,
-    private val binaryServerStatusEnabled: IsBinaryServerStatusEnabled,
+    private val updateLoadsFromApi: UpdateLoadsFromApi,
 ) {
     val ipAddress = prefs.ipAddressFlow
 
@@ -134,7 +134,7 @@ class ServerListUpdater @Inject constructor(
         }.launchIn(scope)
 
         periodicUpdateManager.registerAction(
-            "server_loads", ::updateLoads, PeriodicUpdateSpec(LOADS_CALL_DELAY, setOf(loggedIn, inForeground))
+            "server_loads", updateLoadsFromApi::invoke, PeriodicUpdateSpec(LOADS_CALL_DELAY, setOf(loggedIn, inForeground))
         )
         periodicUpdateManager.registerApiCall(
             "server_country_count",
@@ -170,28 +170,6 @@ class ServerListUpdater @Inject constructor(
         if (backgroundDelayMs > 0)
             add(PeriodicUpdateSpec(backgroundDelayMs, setOf(loggedIn)))
     }.toTypedArray().takeIf { it.isNotEmpty() }
-
-    private suspend fun updateLoads(): PeriodicActionResult<out Any> {
-        serverManager.ensureLoaded()
-        if (!serverManager.isDownloadedAtLeastOnce) {
-            return PeriodicActionResult(Unit, isSuccess = true)
-        }
-
-        val statusId = serverManager.logicalsStatusId
-        return if (binaryServerStatusEnabled() && statusId != null) {
-            val result = api.getBinaryStatus(statusId)
-            if (result is ApiResult.Success) {
-                serverManager.updateBinaryLoads(statusId, result.value)
-            }
-            result
-        } else {
-            val result = api.getLoads(getNetZone())
-            if (result is ApiResult.Success) {
-                serverManager.updateLoads(result.value.loadsList)
-            }
-            result
-        }.toPeriodicActionResult()
-    }
 
     @VisibleForTesting
     suspend fun updateLocationIfVpnOff(): PeriodicActionResult<out Any> {

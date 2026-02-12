@@ -98,7 +98,6 @@ class ServerManager2 @Inject constructor(
     ): Server? {
         serverManager.ensureLoaded()
 
-        val protocolOverride = connectIntent.settingsOverrides?.protocol
         return serverManager.getBestServerForConnectIntent(
             connectIntent = connectIntent,
             vpnUser = vpnUser,
@@ -153,10 +152,6 @@ class ServerManager2 @Inject constructor(
 
     suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
         serverManager.updateServerDomainStatus(connectingDomain)
-    }
-
-    suspend fun updateOrAddServer(server: Server) {
-        serverManager.updateOrAddServer(server)
     }
 
     // Sorted by score (best at front)

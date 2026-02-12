@@ -102,7 +102,6 @@ class ServerManager @Inject constructor(
             !haveWireGuardSupport() || savedState.serverListAppVersionCode < BuildConfig.VERSION_CODE
     }
 
-    val logicalsStatusId get() = serversDataCached.statusId
     val allServers get() = serversDataCached.allServers
     val allServersByScore get() = serversDataCached.allServersByScore
 
@@ -200,6 +199,7 @@ class ServerManager @Inject constructor(
         return servers.takeRandomStable(serverCount).shuffled().distinct()
     }
 
+    @VisibleForTesting
     suspend fun setServers(
         serverList: List<Server>,
         statusId: LogicalsStatusId?,
@@ -212,21 +212,6 @@ class ServerManager @Inject constructor(
     suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
         ensureLoaded()
         serversDataManager.updateServerDomainStatus(connectingDomain)
-    }
-
-    suspend fun updateLoads(loadsList: List<LoadUpdate>) {
-        ensureLoaded()
-        serversDataManager.updateLoads(loadsList)
-    }
-
-    suspend fun updateBinaryLoads(statusId: LogicalsStatusId, loads: ByteArray) {
-        ensureLoaded()
-        serversDataManager.updateBinaryLoads(statusId, loads)
-    }
-
-    suspend fun updateOrAddServer(server: Server) {
-        ensureLoaded()
-        serversDataManager.updateOrAddServer(server)
     }
 
     fun getServerById(id: String) =
