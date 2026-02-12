@@ -24,6 +24,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.ElapsedRealtimeClock
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.excludedlocations.ExcludedLocations
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.logging.ConnServerSwitchFailed
@@ -43,14 +44,18 @@ import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.servers.ServersResult
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.ui.home.ServerListUpdaterRemoteConfig
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.PlanChange
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.UserBecameDelinquent
 import dagger.Lazy
+import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
@@ -153,6 +158,59 @@ class StuckConnectionHandler(val elapsedMs: () -> Long) {
     }
 }
 
+@Reusable
+class VpnConnectionErrorHandlerServerUpdater @Inject constructor(
+    private val api: ProtonApiRetroFit,
+    private val serverListUpdater: ServerListUpdater,
+    private val serversDataManager: ServersDataManager,
+    private val serverManager: ServerManager,
+    private val remoteConfig: ServerListUpdaterRemoteConfig,
+    @WallClock private val wallClock: () -> Long
+) {
+    enum class ConnectingDomainCheckResult {
+        IS_ONLINE,
+        IS_OFFLINE,
+        CHECK_FAILED
+    }
+
+    private suspend fun serverListIsStale() = serverManager.needsUpdate() ||
+            wallClock() - serversDataManager.lastUpdateTimestamp >= 4 * remoteConfig.first().foregroundDelayMs
+
+    suspend fun updateServerListIfStale() {
+        if (serverListIsStale())
+            serverListUpdater.updateServers()
+    }
+
+    suspend fun refreshConnectingDomain(domainId: String): ConnectingDomainCheckResult {
+        val result = api.getConnectingDomain(domainId)
+        return when {
+            result is ApiResult.Success -> {
+                val connectingDomain = result.value.connectingDomain
+                if (!connectingDomain.isOnline) {
+                    ProtonLogger.logCustom(
+                        LogCategory.CONN_SERVER_SWITCH,
+                        "Current server is in maintenance (${connectingDomain.entryDomain})"
+                    )
+                    serversDataManager.updateServerDomainStatus(connectingDomain)
+                    serverListUpdater.updateServerList()
+                    ConnectingDomainCheckResult.IS_OFFLINE
+                } else {
+                    ConnectingDomainCheckResult.IS_ONLINE
+                }
+            }
+
+            result is ApiResult.Error.Http && result.httpCode == HttpResponseCodes.HTTP_UNPROCESSABLE -> {
+                serverListUpdater.updateServerList()
+                ConnectingDomainCheckResult.IS_OFFLINE
+            }
+
+            else ->
+                ConnectingDomainCheckResult.CHECK_FAILED
+        }
+    }
+
+}
+
 @Singleton
 class VpnConnectionErrorHandler @Inject constructor(
     scope: CoroutineScope,
@@ -162,7 +220,7 @@ class VpnConnectionErrorHandler @Inject constructor(
     private val userPlanManager: UserPlanManager,
     private val serverManager: ServerManager2,
     private val stateMonitor: VpnStateMonitor,
-    private val serverListUpdater: ServerListUpdater,
+    private val serverUpdater: VpnConnectionErrorHandlerServerUpdater,
     private val networkManager: NetworkManager,
     private val vpnBackendProvider: Lazy<VpnBackendProvider>,
     private val currentUser: CurrentUser,
@@ -304,9 +362,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             return null
         }
 
-        if (serverListUpdater.needsUpdate()) {
-            serverListUpdater.updateServerList()
-        }
+        serverUpdater.updateServerListIfStale()
 
         val settingsForOrgIntent = settingsForConnection.getFor(orgIntent)
         val vpnUser = currentUser.vpnUser()
@@ -663,27 +719,9 @@ class VpnConnectionErrorHandler @Inject constructor(
 
         ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Checking if server is not in maintenance")
         val domainId = connectionParams.connectingDomain?.id ?: return null
-        val result = api.getConnectingDomain(domainId)
-        var findNewServer = false
-        when {
-            result is ApiResult.Success -> {
-                val connectingDomain = result.value.connectingDomain
-                if (!connectingDomain.isOnline) {
-                    ProtonLogger.logCustom(
-                        LogCategory.CONN_SERVER_SWITCH,
-                        "Current server is in maintenance (${connectingDomain.entryDomain})"
-                    )
-                    serverManager.updateServerDomainStatus(connectingDomain)
-                    serverListUpdater.updateServerList()
-                    findNewServer = true
-                }
-            }
-
-            result is ApiResult.Error.Http && result.httpCode == HttpResponseCodes.HTTP_UNPROCESSABLE -> {
-                serverListUpdater.updateServerList()
-                findNewServer = true
-            }
-        }
+        val result = serverUpdater.refreshConnectingDomain(domainId)
+        val findNewServer =
+            result == VpnConnectionErrorHandlerServerUpdater.ConnectingDomainCheckResult.IS_OFFLINE
         return if (findNewServer)
             onServerInMaintenance(connectionParams.connectIntent, connectionParams)
                 ?: connectionParams.connectIntent.profileId?.let {

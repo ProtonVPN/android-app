@@ -64,6 +64,7 @@ import com.protonvpn.android.vpn.SwitchServerReason
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler.Companion.SERVER_ERROR_COOLDOWN_MS
+import com.protonvpn.android.vpn.VpnConnectionErrorHandlerServerUpdater
 import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
@@ -136,7 +137,7 @@ class VpnConnectionErrorHandlerTests {
     @RelaxedMockK private lateinit var userPlanManager: UserPlanManager
     @MockK private lateinit var appConfig: AppConfig
     @MockK private lateinit var serverManager2: ServerManager2
-    @RelaxedMockK private lateinit var serverListUpdater: ServerListUpdater
+    @RelaxedMockK private lateinit var mockServerUpdater: VpnConnectionErrorHandlerServerUpdater
     @RelaxedMockK private lateinit var networkManager: NetworkManager
     @RelaxedMockK private lateinit var vpnBackendProvider: VpnBackendProvider
     @RelaxedMockK private lateinit var currentUser: CurrentUser
@@ -231,7 +232,6 @@ class VpnConnectionErrorHandlerTests {
             ),
             vpnStatusProviderUI = vpnStatusProviderUI
         )
-
         handler = VpnConnectionErrorHandler(
             scope = testScope.backgroundScope,
             api = api,
@@ -240,7 +240,7 @@ class VpnConnectionErrorHandlerTests {
             userPlanManager = userPlanManager,
             serverManager = serverManager2,
             stateMonitor = vpnStateMonitor,
-            serverListUpdater = serverListUpdater,
+            serverUpdater = mockServerUpdater,
             networkManager = networkManager,
             vpnBackendProvider = { vpnBackendProvider },
             currentUser = currentUser,
@@ -359,13 +359,9 @@ class VpnConnectionErrorHandlerTests {
     }
 
     private fun putDomainInMaintenance(maintenanceId: String) {
-        val idSlot = slot<String>()
-        coEvery { api.getConnectingDomain(capture(idSlot)) } answers {
-            val mockedDomain = mockk<ConnectingDomain>(relaxed = true)
-            every { mockedDomain.isOnline } returns (idSlot.captured != maintenanceId)
-            every { mockedDomain.id } returns idSlot.captured
-            ApiResult.Success(ConnectingDomainResponse(mockedDomain))
-        }
+        coEvery {
+            mockServerUpdater.refreshConnectingDomain(maintenanceId)
+        } returns VpnConnectionErrorHandlerServerUpdater.ConnectingDomainCheckResult.IS_OFFLINE
     }
 
     @Test
@@ -393,8 +389,28 @@ class VpnConnectionErrorHandlerTests {
             fallback
         )
 
-        coVerify(exactly = 1) { serverListUpdater.updateServerList() }
-        coVerify(exactly = 1) { serverManager2.updateServerDomainStatus(any()) }
+        coVerify(exactly = 1) { mockServerUpdater.refreshConnectingDomain(any()) }
+    }
+
+    @Test
+    fun testServerRemovedIsConsideredOffline() = testScope.runTest {
+        val maintenanceDomain = directConnectionParams.connectingDomain!!
+        coEvery { api.getConnectingDomain(maintenanceDomain.id!!) } answers {
+            ApiResult.Error.Http(HttpResponseCodes.HTTP_UNPROCESSABLE, "domain doesn't exist")
+        }
+
+        val serverUpdater = VpnConnectionErrorHandlerServerUpdater(
+            api = api,
+            serverListUpdater = mockk(relaxed = true),
+            serversDataManager = mockk(relaxed = true),
+            serverManager = mockk(relaxed = true),
+            remoteConfig = mockk(relaxed = true),
+            wallClock = this::currentTime
+        )
+        assertEquals(
+            VpnConnectionErrorHandlerServerUpdater.ConnectingDomainCheckResult.IS_OFFLINE,
+            serverUpdater.refreshConnectingDomain(maintenanceDomain.id!!)
+        )
     }
 
     @Test
@@ -402,9 +418,7 @@ class VpnConnectionErrorHandlerTests {
         coEvery { userPlanManager.computeUserInfoChanges(any(), any()) } returns listOf()
 
         val maintenanceDomain = directConnectionParams.connectingDomain!!
-        coEvery { api.getConnectingDomain(maintenanceDomain.id!!) } answers {
-            ApiResult.Error.Http(HttpResponseCodes.HTTP_UNPROCESSABLE, "domain doesn't exist")
-        }
+        putDomainInMaintenance(maintenanceDomain.id!!)
 
         val pingResult = preparePings(failCountry = directConnectServer.exitCountry, failSecureCore = true)
         val fallback = handler.onAuthError(directConnectionParams)
@@ -422,7 +436,7 @@ class VpnConnectionErrorHandlerTests {
             fallback
         )
 
-        coVerify(exactly = 1) { serverListUpdater.updateServerList() }
+        coVerify(exactly = 1) { mockServerUpdater.updateServerListIfStale() }
     }
 
     @Test
@@ -626,10 +640,8 @@ class VpnConnectionErrorHandlerTests {
         )
         val initialServers = initialLogicals.toServers()
         val updatedServers = updatedLogicals.toServers()
-        coEvery { serverListUpdater.needsUpdate() } returns true
-        coEvery { serverListUpdater.updateServerList() } answers {
+        coEvery { mockServerUpdater.updateServerListIfStale() } answers {
             prepareServerManager(updatedServers)
-            UpdateServerListFromApi.Result.Success
         }
 
         prepareServerManager(initialServers)

@@ -198,8 +198,6 @@ class ServerListUpdaterTests {
         serverListUpdater = ServerListUpdater(
             scope = testScope.backgroundScope,
             api = mockApi,
-            serverManager = serverManager,
-            serversDataManager = serversDataManager,
             currentUser = currentUser,
             vpnStateMonitor = vpnStateMonitor,
             userPlanManager = mockPlanManager,
@@ -210,7 +208,6 @@ class ServerListUpdaterTests {
             loggedIn = emptyFlow(),
             inForeground = emptyFlow(),
             remoteConfig = remoteConfig,
-            wallClock = testScope::currentTime,
             updateServerListFromApi = updateServerListFromApi,
             updateLoadsFromApi = mockk(relaxed = true),
         )

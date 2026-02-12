@@ -86,8 +86,6 @@ class ServerListUpdaterRemoteConfig(
 class ServerListUpdater @Inject constructor(
     private val scope: CoroutineScope,
     private val api: ProtonApiRetroFit,
-    private val serverManager: ServerManager,
-    private val serversDataManager: ServersDataManager,
     private val currentUser: CurrentUser,
     private val vpnStateMonitor: VpnStateMonitor,
     userPlanManager: UserPlanManager,
@@ -98,7 +96,6 @@ class ServerListUpdater @Inject constructor(
     @IsLoggedIn private val loggedIn: Flow<Boolean>,
     @IsInForeground private val inForeground: Flow<Boolean>,
     private val remoteConfig: ServerListUpdaterRemoteConfig,
-    @WallClock private val wallClock: () -> Long,
     private val updateServerListFromApi: UpdateServerListFromApi,
     private val updateLoadsFromApi: UpdateLoadsFromApi,
 ) {
@@ -118,9 +115,6 @@ class ServerListUpdater @Inject constructor(
         ::updateLocationIfVpnOff,
         PeriodicUpdateSpec(LOCATION_CALL_DELAY, setOf(inForeground, isDisconnected))
     )
-
-    suspend fun needsUpdate() = serverManager.needsUpdate() ||
-        wallClock() - serversDataManager.lastUpdateTimestamp >= 4 * remoteConfig.first().foregroundDelayMs
 
     init {
         migrateIpAddress()
