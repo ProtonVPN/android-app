@@ -57,7 +57,6 @@ class SyncStateFlow<T>(
     override val value: T get() = if (_state.isCompleted) {
         _state.getCompleted().value
     } else runBlocking {
-        android.util.Log.w("SyncStateFlow", "blocking read")
         _state.await().value
     }
 

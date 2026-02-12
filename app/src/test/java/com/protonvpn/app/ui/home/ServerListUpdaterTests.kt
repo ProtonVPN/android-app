@@ -19,7 +19,6 @@
 
 package com.protonvpn.app.ui.home
 
-import android.telephony.TelephonyManager
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
@@ -54,6 +53,7 @@ import com.protonvpn.mocks.createInMemoryServersDataManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createLogicalServer
@@ -62,7 +62,6 @@ import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -82,15 +81,12 @@ import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
 import java.util.Date
 import java.util.concurrent.TimeUnit
-import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.minutes
 
 private const val TEST_IP = "1.2.3.4"
 private val DUMMY_USER_LOCATION = UserLocation(TEST_IP, "pl", "ISP", latitude = 0f, longitude = 0f)
@@ -112,12 +108,8 @@ class ServerListUpdaterTests {
     private lateinit var mockApi: ProtonApiRetroFit
     @MockK
     private lateinit var guestHole: GuestHole
-    @MockK
-    private lateinit var mockCurrentUser: CurrentUser
     @RelaxedMockK
     private lateinit var mockPlanManager: UserPlanManager
-    @RelaxedMockK
-    private lateinit var mockTelephonyManager: TelephonyManager
     @RelaxedMockK
     private lateinit var mockPeriodicUpdateManager: PeriodicUpdateManager
 
@@ -129,7 +121,6 @@ class ServerListUpdaterTests {
     private lateinit var testScope: TestScope
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var mustHaveIDs: Set<String>
-    private lateinit var binaryStatusFfEnabled: MutableStateFlow<Boolean>
     private lateinit var serversDataManager: ServersDataManager
     private lateinit var serverManager: ServerManager
     private lateinit var truncationEnabled: MutableStateFlow<Boolean>
@@ -170,10 +161,7 @@ class ServerListUpdaterTests {
         )
         runWhileGettingServerList = {}
         coEvery { guestHole.runWithGuestHoleFallback(any<suspend () -> Any?>()) } coAnswers { firstArg<suspend () -> Any?>()() }
-        coEvery { mockCurrentUser.isLoggedIn() } returns true
-        coEvery { mockCurrentUser.eventVpnLogin } returns emptyFlow()
-        coEvery { mockCurrentUser.vpnUser() } returns TestUser.freeUser.vpnUser
-        coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
+        val currentUser = CurrentUser(TestCurrentUserProvider(TestUser.freeUser.vpnUser))
         coEvery { mockApi.getServerListV1(any(), any(), any(), any(), any()) } answers {
             runWhileGettingServerList()
             fakeServerListV1Backend.createResponse(lastModified = arg(2), enableTruncation = arg(3))
@@ -184,18 +172,14 @@ class ServerListUpdaterTests {
         }
         coEvery { mockApi.getBinaryStatus(any()) } returns ApiResult.Success(ByteArray(0))
 
-        every { mockTelephonyManager.phoneType } returns TelephonyManager.PHONE_TYPE_GSM
-        every { mockTelephonyManager.networkCountryIso } returns "ch"
-
         mustHaveIDs = emptySet()
-        binaryStatusFfEnabled = MutableStateFlow(false)
         serversDataManager = createInMemoryServersDataManager(testScope, TestDispatcherProvider(testDispatcher))
         serverManager = createInMemoryServerManager(testScope, serversDataManager)
         truncationEnabled = MutableStateFlow(true)
         val getNetZone = GetNetZone(serverListUpdaterPrefs)
         val serverListTruncationFF = FakeServerListTruncationEnabled(truncationEnabled)
         val binaryServerStatusEnabled = IsBinaryServerStatusEnabled(
-            isBinaryServerStatusFeatureFlagEnabled = FakeIsBinaryServerStatusFeatureFlagEnabled(binaryStatusFfEnabled),
+            isBinaryServerStatusFeatureFlagEnabled = FakeIsBinaryServerStatusFeatureFlagEnabled(true),
             isServerListTruncationFeatureFlagEnabled = serverListTruncationFF
         )
         val getTruncationMustHaveIds = GetTruncationMustHaveIDs { _, _ -> mustHaveIDs }
@@ -215,7 +199,7 @@ class ServerListUpdaterTests {
             api = mockApi,
             serverManager = serverManager,
             serversDataManager = serversDataManager,
-            currentUser = mockCurrentUser,
+            currentUser = currentUser,
             vpnStateMonitor = vpnStateMonitor,
             userPlanManager = mockPlanManager,
             prefs = serverListUpdaterPrefs,
@@ -279,7 +263,6 @@ class ServerListUpdaterTests {
 
     @Test
     fun `only additional must-have IDs are retained`() = testScope.runTest {
-        binaryStatusFfEnabled.value = true
         truncationEnabled.value = true
         serverManager.setServers(
             listOf(createServer("1"), createServer("2"), createServer("3")),
@@ -309,7 +292,6 @@ class ServerListUpdaterTests {
 
     @Test
     fun `don't retain server IDs if truncation not applied`() = testScope.runTest {
-        binaryStatusFfEnabled.value = true
         truncationEnabled.value = true
         fakeServerListV2Backend.applyTruncation = false
         fakeServerListV2Backend.logicals = listOf(createLogicalServer("1"))
