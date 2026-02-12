@@ -80,9 +80,13 @@ class ServersDataManager @Inject constructor(
 
     // Load servers from storage. Returns true if servers were loaded successfully.
     suspend fun load(): Boolean {
-        // TODO: load under the mutex so that other modifications are enqueued while loading.
-        val loaded = serversStore.load()
-        updateWithMutex(saveToStorage = false) { with(serversStore) { UpdateResult(serversStatusId, allServers, lastUpdateTimestamp) } }
+        var loaded = false
+        updateWithMutex(saveToStorage = false) {
+            loaded = serversStore.load()
+            with(serversStore) {
+                UpdateResult(serversStatusId, allServers, lastUpdateTimestamp)
+            }
+        }
         return loaded
     }
 

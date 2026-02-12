@@ -46,6 +46,7 @@ import com.protonvpn.android.servers.api.LoadUpdate
 import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -118,7 +119,10 @@ class ServerManager @Inject constructor(
             savedState = ServerManagerState()
         }
 
-        mainScope.launch {
+        mainScope.launch(start = CoroutineStart.UNDISPATCHED) {
+            // Starts undispatched to call load() immediately. This makes sure initialization
+            // happens before any other calls to ServersDataManager.
+            // It's not very robust, we should improve it in the future.
             val loaded = serversDataManager.load()
             if (!loaded) {
                 // We had servers saved but failed to load them, reset state.
