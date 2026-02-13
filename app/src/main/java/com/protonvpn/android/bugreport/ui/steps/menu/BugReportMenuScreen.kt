@@ -31,7 +31,7 @@ object BugReportMenuScreen : ScreenNoArg<BugReportStepsNav>("bugReportStepMenu")
 
     fun SafeNavGraphBuilder<BugReportStepsNav>.bugReportMenuScreen(
         viewState: BugReportViewModel.ViewState,
-        onUpdateApp: (AppUpdateInfo) -> Unit,
+        onUpdateApp: suspend () -> Unit,
         onCategorySelected: (Category) -> Unit,
         onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
     ) = addToGraph(this) {

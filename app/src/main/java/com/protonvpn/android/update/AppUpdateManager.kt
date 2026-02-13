@@ -24,23 +24,26 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 
-open class AppUpdateInfo(
+data class AppUpdateInfo(
     val stalenessDays: Int,
     val availableVersionCode: Int,
 )
 
-abstract class AppUpdateManager {
-    abstract val checkForUpdateFlow: Flow<AppUpdateInfo?>
+interface AppUpdateManager {
+    val checkForUpdateFlow: Flow<AppUpdateInfo?>
+    suspend fun checkForUpdate(): AppUpdateInfo?
 
-    abstract suspend fun checkForUpdate(): AppUpdateInfo?
-
-    abstract fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo)
+    /**
+     * Launches update flow if there is an update available.
+     * Otherwise does nothing
+     */
+    suspend fun launchUpdateFlow(activity: Activity)
 }
 
-open class NoopAppUpdateManager : AppUpdateManager() {
+open class NoopAppUpdateManager : AppUpdateManager {
     override val checkForUpdateFlow: Flow<AppUpdateInfo?> = flowOf(null)
 
     override suspend fun checkForUpdate(): AppUpdateInfo? = null
 
-    override fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) = Unit
+    override suspend fun launchUpdateFlow(activity: Activity) = Unit
 }

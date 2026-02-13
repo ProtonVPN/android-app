@@ -26,6 +26,7 @@ import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.AppUpdateResult
+import com.google.android.play.core.ktx.requestAppUpdateInfo
 import com.google.android.play.core.ktx.requestUpdateFlow
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.logging.LogCategory
@@ -42,23 +43,17 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.launch
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
 import javax.inject.Singleton
 
-data class GoogleAppUpdateInfo(
-    val updateToken: com.google.android.play.core.appupdate.AppUpdateInfo,
-): AppUpdateInfo(
-    stalenessDays = updateToken.clientVersionStalenessDays() ?: 0,
-    availableVersionCode = updateToken.availableVersionCode(),
-)
-
 @Singleton
 class AppUpdateManagerImpl @Inject constructor(
     @ApplicationContext appContext: Context,
-    mainScope: CoroutineScope,
+    private val mainScope: CoroutineScope,
     dispatcherProvider: DefaultDispatcherProvider,
-) : AppUpdateManager() {
+) : AppUpdateManager {
     private val updateManager by lazy { AppUpdateManagerFactory.create(appContext) }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -73,7 +68,10 @@ class AppUpdateManagerImpl @Inject constructor(
                         updateAvailability == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
                     ) {
                         logUpdateInfo(updateInfo)
-                        GoogleAppUpdateInfo(updateInfo)
+                        AppUpdateInfo(
+                            stalenessDays = updateInfo.clientVersionStalenessDays() ?: 0,
+                            availableVersionCode = updateInfo.availableVersionCode()
+                        )
                     } else {
                         null
                     }
@@ -100,10 +98,10 @@ class AppUpdateManagerImpl @Inject constructor(
 
     override suspend fun checkForUpdate(): AppUpdateInfo? = checkForUpdateFlowInternal.firstOrNull()
 
-    override fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) {
-        val updateToken = (updateInfo as GoogleAppUpdateInfo).updateToken
+    override suspend fun launchUpdateFlow(activity: Activity) {
+        val updateInfo = updateManager.requestAppUpdateInfo()
         updateManager.startUpdateFlow(
-            updateToken,
+            updateInfo,
             activity,
             AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE)
         )

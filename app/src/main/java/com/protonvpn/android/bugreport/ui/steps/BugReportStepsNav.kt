@@ -24,7 +24,7 @@ class BugReportStepsNav(
     @Composable
     fun NavHost(
         viewState: BugReportViewModel.ViewState,
-        onUpdateApp: (AppUpdateInfo) -> Unit,
+        onUpdateApp: suspend () -> Unit,
         onOpenLink: (String) -> Unit,
         onSelectCategory: (Category) -> Unit,
         onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,

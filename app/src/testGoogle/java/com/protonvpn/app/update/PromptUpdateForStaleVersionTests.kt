@@ -59,7 +59,7 @@ class PromptUpdateForStaleVersionTests {
         MockKAnnotations.init(this)
 
         coEvery { mockIsFeatureEnabled.invoke() } returns true
-        coEvery { mockAppUpdateManager.launchUpdateFlow(any(), any()) } just Runs
+        coEvery { mockAppUpdateManager.launchUpdateFlow(any()) } just Runs
 
         clockTime = 1.minutes
         prefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
@@ -104,7 +104,7 @@ class PromptUpdateForStaleVersionTests {
     fun `when an update is launched the prompts are shown according to schedule`() = runTest {
         mockStaleUpdateWithClock(UPDATE_STALENESS_THRESHOLD)
         assertNotNull(updatePrompt.getUpdatePrompt())
-        updatePrompt.launchUpdateFlow(mockk(), mockk())
+        updatePrompt.launchUpdateFlow(mockk())
         assertNull(updatePrompt.getUpdatePrompt())
 
         val scheduledIntervals = listOf(21, 13, 8, 5, 3, 2, 2, 2)
@@ -114,14 +114,14 @@ class PromptUpdateForStaleVersionTests {
 
             clockTime += 1.minutes
             assertNotNull("prompt on before interval $index: $interval", updatePrompt.getUpdatePrompt())
-            updatePrompt.launchUpdateFlow(mockk(), mockk())
+            updatePrompt.launchUpdateFlow(mockk())
         }
     }
 
     @Test
     fun `when an update is launched the prompts are shown according to schedule with respect to previous prompt`() = runTest {
         mockStaleUpdateWithClock(UPDATE_STALENESS_THRESHOLD)
-        updatePrompt.launchUpdateFlow(mockk(), mockk())
+        updatePrompt.launchUpdateFlow(mockk())
 
         val scheduledIntervals = listOf(21, 13, 8, 5, 3, 2, 2, 2)
         scheduledIntervals.forEachIndexed { index, interval ->
@@ -131,21 +131,21 @@ class PromptUpdateForStaleVersionTests {
             // Longer delay:
             clockTime += 10.days
             assertNotNull("prompt on before interval $index: $interval", updatePrompt.getUpdatePrompt())
-            updatePrompt.launchUpdateFlow(mockk(), mockk())
+            updatePrompt.launchUpdateFlow(mockk())
         }
     }
 
     @Test
     fun `after update prompt intervals start from the first`() = runTest {
         mockStaleUpdateWithClock(UPDATE_STALENESS_THRESHOLD)
-        updatePrompt.launchUpdateFlow(mockk(), mockk())
+        updatePrompt.launchUpdateFlow(mockk())
         clockTime += 1.minutes
 
         mockStaleUpdateWithClock(0)
         clockTime += UPDATE_STALENESS_THRESHOLD.days
         assertNotNull(updatePrompt.getUpdatePrompt())
 
-        updatePrompt.launchUpdateFlow(mockk(), mockk())
+        updatePrompt.launchUpdateFlow(mockk())
 
         clockTime += 20.days
         assertNull(updatePrompt.getUpdatePrompt())
@@ -158,7 +158,7 @@ class PromptUpdateForStaleVersionTests {
     fun `when update is pending and time moves backwards things don't explode`() = runTest {
         clockTime += 100.days
         mockStaleUpdateWithClock(UPDATE_STALENESS_THRESHOLD)
-        updatePrompt.launchUpdateFlow(mockk(), mockk())
+        updatePrompt.launchUpdateFlow(mockk())
 
         clockTime -= 20.days
 

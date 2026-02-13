@@ -46,7 +46,7 @@ import me.proton.core.presentation.R as CoreR
 @Composable
 fun BugReportMenu(
     viewState: BugReportViewModel.ViewState,
-    onUpdateApp: (AppUpdateInfo) -> Unit,
+    onUpdateApp: suspend () -> Unit,
     onCategoryClick: (Category) -> Unit,
     onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
     modifier: Modifier = Modifier,

@@ -67,11 +67,11 @@ class UpdatePromptForStaleVersion @Inject constructor(
         }
     }
 
-    fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) {
+    suspend fun launchUpdateFlow(activity: Activity) {
         ProtonLogger.logCustom(LogCategory.APP_UPDATE, "In-app update started")
         appFeaturesPrefs.lastUpdatePromptTimestamp = clock()
         appFeaturesPrefs.lastUpdatePromptTryCount++
-        appUpdateManager.launchUpdateFlow(activity, updateInfo)
+        appUpdateManager.launchUpdateFlow(activity)
     }
 
     private fun isNextPromptDue(): Boolean {

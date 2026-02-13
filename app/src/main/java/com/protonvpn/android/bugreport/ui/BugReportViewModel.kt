@@ -200,8 +200,8 @@ class BugReportViewModel @Inject constructor(
         savedStateHandle[SELECTED_CATEGORY_KEY] = null
     }
 
-    fun onAppUpdateStart(activity: Activity, appUpdateInfo: AppUpdateInfo) {
-        appUpdateManager.launchUpdateFlow(activity, appUpdateInfo)
+    suspend fun onAppUpdateStart(activity: Activity) {
+        appUpdateManager.launchUpdateFlow(activity)
     }
 
     fun onSelectCategory(category: Category) {

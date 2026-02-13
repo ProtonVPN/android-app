@@ -279,7 +279,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                 delay(AppUpdateCheckDelay)
                 val appUpdate = promptUpdate.getUpdatePrompt()
                 if (appUpdate != null) {
-                    promptUpdate.launchUpdateFlow(this@MainActivity, appUpdate)
+                    promptUpdate.launchUpdateFlow(this@MainActivity)
                 }
             }
         }

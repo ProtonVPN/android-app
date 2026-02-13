@@ -40,7 +40,7 @@ class BugReportNav(selfNav: NavHostController) : BaseNav<BugReportNav>(selfNav, 
         bugReportViewModel: BugReportViewModel,
         onClose: () -> Unit,
         onOpenLink: (String) -> Unit,
-        onUpdateApp: (AppUpdateInfo) -> Unit,
+        onUpdateApp: suspend () -> Unit,
         modifier: Modifier = Modifier,
     ) {
         val bugReportStepsNav = rememberBugReportStepsNav()

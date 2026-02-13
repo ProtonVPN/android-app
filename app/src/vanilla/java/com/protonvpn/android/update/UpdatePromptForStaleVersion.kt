@@ -28,5 +28,5 @@ class UpdatePromptForStaleVersion @Inject constructor() {
 
     // Matches the interface in other variants.
     suspend fun getUpdatePrompt(): AppUpdateInfo? = null
-    fun launchUpdateFlow(activity: Activity, updateInfo: AppUpdateInfo) = Unit
+    fun launchUpdateFlow(activity: Activity) = Unit
 }

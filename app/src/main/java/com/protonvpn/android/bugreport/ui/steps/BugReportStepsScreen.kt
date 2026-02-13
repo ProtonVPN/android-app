@@ -64,7 +64,7 @@ object BugReportStepsScreen : ScreenNoArg<BugReportNav>("bugReportSteps") {
         bugReportStepsNav: BugReportStepsNav,
         onClose: () -> Unit,
         onOpenLink: (String) -> Unit,
-        onUpdateApp: (AppUpdateInfo) -> Unit,
+        onUpdateApp: suspend () -> Unit,
         onReportSubmitError: (BugReportViewModel.BugReportNetworkError) -> Unit,
         onReportSubmitSuccess: () -> Unit,
         modifier: Modifier = Modifier,

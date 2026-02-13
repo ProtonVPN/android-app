@@ -653,8 +653,8 @@ class SettingsViewModel @Inject constructor(
 
     fun setNewAppIcon(newIcon: CustomAppIconData) = appIconManager.setNewAppIcon(newIcon)
 
-    fun onAppUpdateClick(activity: Activity, appUpdateInfo: AppUpdateInfo) {
-        appUpdateManager.launchUpdateFlow(activity, appUpdateInfo)
+    suspend fun onAppUpdateClick(activity: Activity) {
+        appUpdateManager.launchUpdateFlow(activity)
     }
 
     @TargetApi(26)

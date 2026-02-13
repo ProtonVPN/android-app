@@ -20,6 +20,7 @@
 package com.protonvpn.android.update
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,11 +34,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,16 +49,19 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.base.ui.previews.PreviewBooleanProvider
+import com.protonvpn.android.redesign.base.ui.ProtonAlert
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
+import kotlin.time.Duration.Companion.seconds
 import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun VpnUpdateBanner(
     message: String,
     viewState: AppUpdateBannerState,
-    onAppUpdate: (AppUpdateInfo) -> Unit,
+    onAppUpdate: suspend () -> Unit,
     modifier: Modifier = Modifier
 ) {
     AnimatedVisibility(
@@ -62,12 +69,20 @@ fun VpnUpdateBanner(
         visible = viewState is AppUpdateBannerState.Shown
     ) {
         var vpnConnectedWarningShown by rememberSaveable { mutableStateOf(false) }
+
+        var isProcessing by remember { mutableStateOf(false) }
+        val contentAlpha by animateFloatAsState(targetValue = if (isProcessing) 0.5f else 1f)
+        val coroutineScope = rememberCoroutineScope()
         val launchUpdate = {
-            if (viewState is AppUpdateBannerState.Shown) {
-                onAppUpdate(viewState.appUpdateInfo)
+            if (!isProcessing) {
+                coroutineScope.launch {
+                    isProcessing = true
+                    onAppUpdate()
+                    isProcessing = false
+                }
             }
         }
-        val onClick = {
+        val onClick: () -> Unit = {
             if ((viewState as? AppUpdateBannerState.Shown)?.showVpnConnectedWarning == true) {
                 vpnConnectedWarningShown = true
             } else {
@@ -77,7 +92,7 @@ fun VpnUpdateBanner(
         UpdateBanner(
             message = message,
             onClick = onClick,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().graphicsLayer { alpha = contentAlpha }
         )
         if (vpnConnectedWarningShown) {
             val dismissDialog = { vpnConnectedWarningShown = false }

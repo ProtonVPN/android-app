@@ -148,8 +148,8 @@ fun SettingsRoute(
                 onSignUpClick = onSignUpClick,
                 onSignInClick = onSignInClick,
                 onSignOutClick = onSignOutClick,
-                onAppUpdateClick = { updateInfo ->
-                    viewModel.onAppUpdateClick(activity, updateInfo)
+                onAppUpdateClick = {
+                    viewModel.onAppUpdateClick(activity)
                 },
                 onAccountClick = {
                     if (viewState.accountScreenEnabled)
@@ -242,7 +242,7 @@ fun SettingsView(
     modifier: Modifier = Modifier,
     viewState: SettingsViewModel.SettingsViewState,
     accountSettingsViewState: AccountSettingsViewState,
-    onAppUpdateClick: (AppUpdateInfo) -> Unit,
+    onAppUpdateClick: suspend () -> Unit,
     onAccountClick: () -> Unit,
     onSignUpClick: () -> Unit,
     onSignInClick: () -> Unit,
