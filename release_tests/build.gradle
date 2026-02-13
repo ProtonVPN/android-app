@@ -20,15 +20,13 @@ import groovy.json.StringEscapeUtils
  */
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.proton.vpn.android.application)
 }
 
 def debugKeystorePath = file(new File(rootDir, "app/${System.getenv("DEBUG_KEYSTORE_FILE")}"))
 
 android {
     namespace "com.protonvpn.android.release_tests"
-    compileSdk rootProject.ext.compileSdkVersion
 
     signingConfigs {
         release {
@@ -41,8 +39,6 @@ android {
 
     defaultConfig {
         applicationId "com.protonvpn.android.release_tests"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdk 35
         versionCode 1
         versionName "1.0"
         def lokiEndpoint = System.getenv("LOKI_ENDPOINT")
@@ -63,19 +59,13 @@ android {
     buildFeatures {
         buildConfig = true
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
         }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 

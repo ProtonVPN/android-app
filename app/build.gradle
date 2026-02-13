@@ -37,7 +37,7 @@ buildscript {
 }
 
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.proton.vpn.android.application)
     alias(libs.plugins.android.compose.screenshot)
     alias(libs.plugins.androidx.baselineprofile)
     alias(libs.plugins.androidx.room)
@@ -45,7 +45,6 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.jacoco)
     alias(libs.plugins.jaredsburrows.gradle.license)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.serialization)
@@ -143,8 +142,6 @@ def debugKeystorePath = System.getenv("DEBUG_KEYSTORE_FILE")
 android {
     namespace "com.protonvpn.android"
     testNamespace 'com.protonvpn'
-    ndkVersion rootProject.ext.compileNdkVersion
-    compileSdk rootProject.ext.compileSdkVersion
     useLibrary 'org.apache.http.legacy'
     signingConfigs {
         if (debugKeystorePath) {
@@ -163,8 +160,6 @@ android {
     }
     defaultConfig {
         applicationId appId
-        minSdkVersion rootProject.ext.minSdkVersion // See also build flavors.
-        targetSdkVersion 35
         multiDexEnabled true
         versionName helpers.fullVersionName
         versionCode helpers.getVersionCode()
@@ -387,17 +382,15 @@ android {
         // Adds exported schema location as test app assets.
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
+
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_17
-        sourceCompatibility JavaVersion.VERSION_17
         coreLibraryDesugaringEnabled = true
     }
+
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-        freeCompilerArgs += [
-                "-Xopt-in=kotlin.RequiresOptIn"
-        ]
+        freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
     }
+
     lint {
         // In our process we might temporarily have extra translations that will get removed on
         // next update.

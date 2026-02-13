@@ -17,33 +17,24 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-plugins {
-    alias(libs.plugins.proton.vpn.android.library)
-}
+package com.protonvpn.android.build.logic.plugins
 
-android {
-    namespace = "com.protonvpn.android.ui_automator_test_util"
+import com.protonvpn.android.build.logic.domain.dependencies.PluginDependency
+import com.protonvpn.android.build.logic.domain.plugins.AndroidApplicationConventionPlugin
+import org.gradle.api.Project
 
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
-    }
+internal class ProtonVpnAndroidApplicationConventionPlugin : AndroidApplicationConventionPlugin() {
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+    override fun apply(project: Project) = with(receiver = project) {
+        applyPlugins(
+            pluginDependencies = arrayOf(
+                PluginDependency.AndroidApplication,
+                PluginDependency.KotlinAndroid,
             )
-        }
-    }
-}
+        )
 
-dependencies {
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.test.uiautomator)
-    implementation(libs.okhttp3)
-    implementation(libs.proton.test.fusion)
-    implementation(libs.proton.core.test.performance)
-    implementation(libs.androidx.test.rules)
+        configureAndroidApplication()
+        configureKotlinOptions()
+    }
+
 }

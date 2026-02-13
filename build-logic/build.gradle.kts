@@ -18,32 +18,26 @@
  */
 
 plugins {
-    alias(libs.plugins.proton.vpn.android.library)
+    `kotlin-dsl`
 }
 
-android {
-    namespace = "com.protonvpn.android.ui_automator_test_util"
-
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-}
+group = "com.protonvpn.android.build.logic"
 
 dependencies {
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.test.uiautomator)
-    implementation(libs.okhttp3)
-    implementation(libs.proton.test.fusion)
-    implementation(libs.proton.core.test.performance)
-    implementation(libs.androidx.test.rules)
+    compileOnly(libs.android.tools.build.gradle)
+    compileOnly(libs.kotlin.gradle.plugin)
+}
+
+gradlePlugin {
+    plugins {
+        register("android-application") {
+            id = "me.proton.vpn.android.application"
+            implementationClass = "com.protonvpn.android.build.logic.plugins.ProtonVpnAndroidApplicationConventionPlugin"
+        }
+
+        register("android-library") {
+            id = "me.proton.vpn.android.library"
+            implementationClass = "com.protonvpn.android.build.logic.plugins.ProtonVpnAndroidLibraryConventionPlugin"
+        }
+    }
 }

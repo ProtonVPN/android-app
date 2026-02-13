@@ -20,6 +20,8 @@
 rootProject.name = "ProtonVPN"
 
 pluginManagement {
+    includeBuild("build-logic")
+
     repositories {
         val mavenCachePkgUrl = System.getenv("MAVEN_CACHE_PKG_URL")
         if (!mavenCachePkgUrl.isNullOrBlank()) {

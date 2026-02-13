@@ -17,33 +17,17 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-plugins {
-    alias(libs.plugins.proton.vpn.android.library)
-}
+rootProject.name = "build-logic"
 
-android {
-    namespace = "com.protonvpn.android.ui_automator_test_util"
-
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
         }
     }
-}
-
-dependencies {
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.test.uiautomator)
-    implementation(libs.okhttp3)
-    implementation(libs.proton.test.fusion)
-    implementation(libs.proton.core.test.performance)
-    implementation(libs.androidx.test.rules)
 }

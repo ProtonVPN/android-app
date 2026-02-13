@@ -92,6 +92,7 @@ airbnb-lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "
 airbnb-lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "airbnb-lottie-version" }
 android-flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "android-flexbox-version" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "android-material-version" }
+android-tools-build-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "agp-version" }
 android-tools-desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "android-tools-version" }
 androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-activity-version" }
 androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidx-arch-core-version" }
@@ -184,6 +185,7 @@ google-truth = { group = "com.google.truth", name = "truth", version.ref = "goog
 java-jna = { group = "net.java.dev.jna", name = "jna", version.ref = "java-jna-version" }
 junit = { group = "junit", name = "junit", version.ref = "junit-version" }
 kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlin-version" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test" }
 kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-version" }
@@ -317,5 +319,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp-version" }
 owasp-dependencycheck = { id = "org.owasp.dependencycheck", version.ref = "owasp-dependencycheck-version" }
 proton-core-env-config = { id = "me.proton.core.gradle-plugins.environment-config", version.ref = "proton-core-env-config-version" }
+proton-vpn-android-application = { id = "me.proton.vpn.android.application" }
+proton-vpn-android-library = { id = "me.proton.vpn.android.library" }
 sentry = { id = "io.sentry.android.gradle", version.ref = "sentry-plugin-version" }
 triplet-play = { id = "com.github.triplet.play", version.ref = "triplet-play-version" }
