@@ -35,11 +35,12 @@ import com.protonvpn.android.logging.ProtonLogger
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
@@ -56,41 +57,49 @@ class AppUpdateManagerImpl @Inject constructor(
 ) : AppUpdateManager {
     private val updateManager by lazy { AppUpdateManagerFactory.create(appContext) }
 
+    // updateManager.requestUpdateFlow() doesn't return a new value after an update has been
+    // cancelled by the user, resulting in the update banner being hidden.
+    // Use this trigger to force a new check when update finishes or fails.
+    private val triggerUpdateCheck = MutableSharedFlow<Unit>()
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val checkForUpdateFlowInternal = updateManager.requestUpdateFlow()
-        .mapLatest { update ->
-            when(update) {
-                is AppUpdateResult.Available -> {
-                    val updateInfo = update.updateInfo
-                    val updateAvailability = updateInfo.updateAvailability()
+    private val checkForUpdateFlowInternal =
+        triggerUpdateCheck.flatMapLatest {
+            updateManager.requestUpdateFlow()
+                .mapLatest { update ->
+                    when (update) {
+                        is AppUpdateResult.Available -> {
+                            val updateInfo = update.updateInfo
+                            val updateAvailability = updateInfo.updateAvailability()
 
-                    if (updateAvailability == UpdateAvailability.UPDATE_AVAILABLE ||
-                        updateAvailability == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
-                    ) {
-                        logUpdateInfo(updateInfo)
-                        AppUpdateInfo(
-                            stalenessDays = updateInfo.clientVersionStalenessDays() ?: 0,
-                            availableVersionCode = updateInfo.availableVersionCode()
-                        )
-                    } else {
-                        null
+                            if (updateAvailability == UpdateAvailability.UPDATE_AVAILABLE ||
+                                updateAvailability == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
+                            ) {
+                                logUpdateInfo(updateInfo)
+                                AppUpdateInfo(
+                                    stalenessDays = updateInfo.clientVersionStalenessDays() ?: 0,
+                                    availableVersionCode = updateInfo.availableVersionCode()
+                                )
+                            } else {
+                                null
+                            }
+                        }
+
+                        is AppUpdateResult.Downloaded -> null
+                        is AppUpdateResult.InProgress -> null
+                        AppUpdateResult.NotAvailable -> null
                     }
-                }
-
-                is AppUpdateResult.Downloaded -> null
-                is AppUpdateResult.InProgress -> null
-                AppUpdateResult.NotAvailable -> null
-            }
-        }.catch { e ->
-            when (e) {
-                is CancellationException -> throw e
-                else -> {
-                    val message = "Unable to obtain in-app update info $e"
-                    ProtonLogger.logCustom(LogLevel.WARN, LogCategory.APP_UPDATE, message)
-                    emit(null)
-                }
-            }
-        }.flowOn(dispatcherProvider.Io)
+                }.catch { e ->
+                    when (e) {
+                        is CancellationException -> throw e
+                        else -> {
+                            val message = "Unable to obtain in-app update info $e"
+                            ProtonLogger.logCustom(LogLevel.WARN, LogCategory.APP_UPDATE, message)
+                            emit(null)
+                        }
+                    }
+                }.flowOn(dispatcherProvider.Io)
+        }.onStart { triggerUpdateCheck.emit(Unit) }
 
     override val checkForUpdateFlow = checkForUpdateFlowInternal
         .onStart { emit(null) } // Emit a value immediately, don't delay the observers' "combine".
@@ -104,7 +113,11 @@ class AppUpdateManagerImpl @Inject constructor(
             updateInfo,
             activity,
             AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE)
-        )
+        ).apply {
+            addOnFailureListener { triggerUpdateCheck }
+            addOnSuccessListener { triggerUpdateCheck }
+            addOnCanceledListener { triggerUpdateCheck }
+        }
     }
 
     private fun logUpdateInfo(updateInfo: com.google.android.play.core.appupdate.AppUpdateInfo) {
