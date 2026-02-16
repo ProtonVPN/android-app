@@ -32,6 +32,7 @@ import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
@@ -61,22 +62,23 @@ class CurrentStateLoggerGlobal(private val appContext: Context) {
 @Singleton
 class CurrentStateLogger @Inject constructor(
     private val mainScope: CoroutineScope,
-    private val vpnStateMonitor: VpnStateMonitor,
-    private val connectivityMonitor: ConnectivityMonitor,
-    private val currentUser: CurrentUser,
-    private val effectiveUserSettings: EffectiveCurrentUserSettings,
-    private val powerStateLogger: PowerStateLogger,
-    private val settingChangesLogger: SettingChangesLogger
+    private val vpnStateMonitor: dagger.Lazy<VpnStateMonitor>,
+    private val connectivityMonitor: dagger.Lazy<ConnectivityMonitor>,
+    private val currentUser: dagger.Lazy<CurrentUser>,
+    private val effectiveUserSettings: dagger.Lazy<EffectiveCurrentUserSettings>,
+    private val powerStateLogger: dagger.Lazy<PowerStateLogger>,
+    private val settingChangesLogger: dagger.Lazy<SettingChangesLogger>
 ) {
-    fun logCurrentState() {
+    fun logCurrentState(delayMs: Long = 0) {
         mainScope.launch(mainScope.coroutineContext) {
-            val vpnUser = currentUser.vpnUser()
-            val settings = effectiveUserSettings.effectiveSettings.first()
-            val settingsText = settingChangesLogger.getCurrentSettingsForLog(settings)
+            delay(delayMs)
+            val vpnUser = currentUser.get().vpnUser()
+            val settings = effectiveUserSettings.get().effectiveSettings.first()
+            val settingsText = settingChangesLogger.get().getCurrentSettingsForLog(settings)
             ProtonLogger.log(UserPlanCurrent, vpnUser?.toLog() ?: "no user logged in")
-            ProtonLogger.log(NetworkCurrent, connectivityMonitor.getCurrentStateForLog())
-            ProtonLogger.log(ConnCurrentState, vpnStateMonitor.state.toString())
-            ProtonLogger.log(OsPowerCurrent, powerStateLogger.getStatusString())
+            ProtonLogger.log(NetworkCurrent, connectivityMonitor.get().getCurrentStateForLog())
+            ProtonLogger.log(ConnCurrentState, vpnStateMonitor.get().state.toString())
+            ProtonLogger.log(OsPowerCurrent, powerStateLogger.get().getStatusString())
             ProtonLogger.log(SettingsCurrent, "\n$settingsText")
             ProtonLogger.logCustom(LogCategory.APP, timezoneInfo())
             ProtonLogger.logCustom(LogCategory.APP, "Sentry ID: ${SentryIntegration.getInstallationId()}")

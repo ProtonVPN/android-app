@@ -173,7 +173,7 @@ open class ProtonApplication : Application() {
             ProtonLogger.log(AppProcessStart, "==============================")
             val uptimeS = SystemClock.elapsedRealtime() / 1000
             ProtonLogger.log(AppProcessStart, "version: ${BuildConfig.VERSION_NAME}")
-            ProtonLogger.log(AppProcessStart,"system: build ${Build.DISPLAY} uptime ${uptimeS}s")
+            ProtonLogger.log(AppProcessStart,"system: ${Build.MANUFACTURER} ${Build.MODEL} ${Build.DISPLAY} (API ${Build.VERSION.SDK_INT}); uptime ${uptimeS}s")
             if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= 26) {
                 val webViewApp = WebView.getCurrentWebViewPackage()
                 val webViewAppString =
@@ -197,7 +197,7 @@ open class ProtonApplication : Application() {
 
         // Logging
         dependencies.appStartExitLogger.log()
-        dependencies.currentStateLogger.logCurrentState()
+        dependencies.currentStateLogger.logCurrentState(1_000)
         dependencies.logcatLogCapture
         dependencies.powerStateLogger
         dependencies.settingChangesLogger
