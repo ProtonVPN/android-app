@@ -36,6 +36,7 @@ import me.proton.core.network.domain.session.SessionId
 import me.proton.vpn.sdk.api.InitialConfig
 import me.proton.vpn.sdk.api.InterfaceConfig
 import me.proton.vpn.sdk.api.IpNetworkPrefix
+import me.proton.vpn.sdk.api.PacketCaptureInfo
 import me.proton.vpn.sdk.api.Peer
 import me.proton.vpn.sdk.api.SplitTunnelAppsConfig
 import me.proton.vpn.sdk.api.SplitTunnelMode
@@ -68,6 +69,7 @@ class ConnectionParamsProTun(
         sessionId: SessionId?,
         certificateRepository: CertificateRepository,
         computeAllowedIPs: ComputeAllowedIPs,
+        pcapFile: PacketCaptureInfo?,
     ): InitialConfig {
         val allowedIps =
             if (connectIntent is AnyConnectIntent.GuestHole) {
@@ -84,7 +86,7 @@ class ConnectionParamsProTun(
         )
 
         val privateKey = certificateRepository.getX25519Key(sessionId)
-        return InitialConfig(iface, privateKey, peers)
+        return InitialConfig(iface, privateKey, peers, pcapFile)
     }
 
     fun splitTunnelAppsConfig(

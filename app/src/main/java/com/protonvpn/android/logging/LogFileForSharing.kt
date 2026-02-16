@@ -19,15 +19,11 @@
 
 package com.protonvpn.android.logging
 
-import android.content.ClipData
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import androidx.core.content.FileProvider
-import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.utils.createSendFileIntent
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.io.File
 import javax.inject.Inject
 
 @Reusable
@@ -36,18 +32,6 @@ class LogFileForSharing @Inject constructor(
 ) {
     suspend operator fun invoke(): Intent? {
         val file = ProtonLogger.getLogFileForSharing()
-        return file?.let { createIntent(it) }
-    }
-
-    private fun createIntent(file: File): Intent {
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "*/*"
-
-        val contentUri: Uri =
-            FileProvider.getUriForFile(appContext, "${BuildConfig.APPLICATION_ID}.fileprovider", file)
-        intent.putExtra(Intent.EXTRA_STREAM, contentUri)
-        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        intent.clipData = ClipData.newRawUri("", contentUri)
-        return Intent.createChooser(intent, "Share log")
+        return file?.let { appContext.createSendFileIntent(it, "Share log") }
     }
 }

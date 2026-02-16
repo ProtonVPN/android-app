@@ -43,9 +43,13 @@ import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.vpn.sdk.api.ProtonVpnSdk
@@ -70,11 +74,14 @@ class ProTunBackend @Inject constructor(
     @SharedOkHttpClient okHttp: OkHttpClient,
     private val sdk: ProtonVpnSdk,
     private val computeAllowedIPs: ComputeAllowedIPs,
-    private val preparePeers: PreparePeersForConnectionProTun
+    private val preparePeers: PreparePeersForConnectionProTun,
+    private val packetCapture: PacketCapture,
 ) : VpnBackend(
     settingsForConnection, certificateRepository, networkManager, networkCapabilitiesFlow, VpnProtocol.ProTun, mainScope,
     dispatcherProvider, localAgentUnreachableTracker, currentUser, getNetZone, foregroundActivityTracker, okHttp, shouldWaitForTunnelVerified = false
 ) {
+    private var observePcapJob: Job? = null
+
     init {
         sdk.connectionManager.state.onEach { state ->
             ProtonLogger.logCustom(
@@ -124,15 +131,30 @@ class ProTunBackend @Inject constructor(
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)
-        val wireGuardParams = connectionParams as ConnectionParamsProTun
-        val settings = settingsForConnection.getFor(wireGuardParams.connectIntent)
+        val protunParams = connectionParams as ConnectionParamsProTun
+        val settings = settingsForConnection.getFor(protunParams.connectIntent)
         val sessionId = currentUser.sessionId()
-        val config = wireGuardParams.getTunnelConfig(
-            context, settings, sessionId, certificateRepository, computeAllowedIPs)
+        val config = protunParams.getTunnelConfig(
+            context,
+            settings,
+            sessionId,
+            certificateRepository,
+            computeAllowedIPs,
+            packetCapture.activeFileFlow.first()
+        )
         sdk.connectionManager.connect(config)
+
+        observePcapJob = mainScope.launch {
+            packetCapture.activeFileFlow
+                .drop(1)
+                .collect { pcapFile -> sdk.connectionManager.setPacketCaptureEnabled(pcapFile) }
+        }
     }
 
     override suspend fun closeVpnTunnel(withStateChange: Boolean) {
+        observePcapJob?.cancel()
+        observePcapJob = null
+
         sdk.connectionManager.disconnect()
         if (withStateChange) {
             // Set state to disabled right away to give app some time to close notification

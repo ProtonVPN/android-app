@@ -48,12 +48,14 @@ fun VpnSolidButton(
     enabled: Boolean = true,
     isExternalLink: Boolean = false,
     isLoading: Boolean = false,
+    colors: ButtonColors = ButtonDefaults.protonButtonColors(isLoading)
 ) {
     ProtonSolidButton(
         modifier = modifier.fillMaxWidth(),
         onClick = onClick,
         enabled = enabled,
         loading = isLoading,
+        colors = colors
     ) {
         VpnButtonContent(
             text = text,

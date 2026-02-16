@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.settings.ui
 
 import android.content.Intent
 import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -76,6 +77,7 @@ import com.protonvpn.android.ui.settings.SettingsSplitTunnelAppsActivity
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelIpsActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
+import com.protonvpn.android.utils.createSendFileIntent
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.utils.openVpnSettings
 import com.protonvpn.android.vpn.ui.LocalVpnUiDelegate
@@ -271,15 +273,28 @@ fun SubSettingsRoute(
             SubSettingsScreen.Type.DebugTools -> {
                 val debugToolsViewModel = hiltViewModel<DebugToolsViewModel>()
                 val state = debugToolsViewModel.state.collectAsStateWithLifecycle(initialValue = null).value
-                DebugTools(
-                    onClose = onClose,
-                    onConnectGuestHole = debugToolsViewModel::connectGuestHole,
-                    onRefreshConfig = debugToolsViewModel::refreshConfig,
-                    netzone = state?.netzone ?: "",
-                    country = state?.country ?: "",
-                    setNetzone = debugToolsViewModel::setNetzone,
-                    setCountry = debugToolsViewModel::setCountry,
-                )
+                debugToolsViewModel.events.collectAsEffect { event ->
+                    when (event) {
+                        is DebugToolsViewModel.Event.SendPcap ->
+                            context.startActivity(context.createSendFileIntent(event.file, "Share pcap"))
+                        DebugToolsViewModel.Event.ShowNoPcapFound ->
+                            Toast.makeText(context, "No PCAP captured.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                if (state != null) {
+                    DebugTools(
+                        state = state,
+                        onClose = onClose,
+                        onConnectGuestHole = debugToolsViewModel::connectGuestHole,
+                        onRefreshConfig = debugToolsViewModel::refreshConfig,
+                        setNetzone = debugToolsViewModel::setNetzone,
+                        setCountry = debugToolsViewModel::setCountry,
+                        setPcapActive = debugToolsViewModel::setPcapActive,
+                        onRemovePcapFile = debugToolsViewModel::removePcapFile,
+                        onSetMaxPcapSizeMB = debugToolsViewModel::setMaxPcapSizeMB,
+                        onSharePcapFile = debugToolsViewModel::sharePcapFile,
+                    )
+                }
             }
 
             SubSettingsScreen.Type.NatType -> {

@@ -24,6 +24,7 @@ import android.app.Application
 import android.app.ApplicationExitInfo
 import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
+import android.content.ClipData
 import android.content.Context
 import android.content.Context.RECEIVER_NOT_EXPORTED
 import android.content.ContextWrapper
@@ -52,9 +53,11 @@ import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsClient
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -376,3 +379,15 @@ fun BroadcastReceiver.launchAsyncReceive(scope: CoroutineScope, block: suspend (
 
 inline fun <reified T> ifOrNull(predicate: Boolean, block: () -> T): T? =
     if (predicate) block() else null
+
+fun Context.createSendFileIntent(file: File, title: String): Intent {
+    val intent = Intent(Intent.ACTION_SEND)
+    intent.type = "*/*"
+
+    val contentUri: Uri =
+        FileProvider.getUriForFile(this, "${BuildConfig.APPLICATION_ID}.fileprovider", file)
+    intent.putExtra(Intent.EXTRA_STREAM, contentUri)
+    intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    intent.clipData = ClipData.newRawUri("", contentUri)
+    return Intent.createChooser(intent, title)
+}
