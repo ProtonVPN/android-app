@@ -111,7 +111,7 @@ class UpdateSettingsOnVpnUserChangeTests {
             testScope.backgroundScope,
             mockCurrentUser,
             mockServerManager2,
-            mockProfileManager,
+            { mockProfileManager },
             userSettingsManager,
             mockPlanManager,
             mockIsTv,

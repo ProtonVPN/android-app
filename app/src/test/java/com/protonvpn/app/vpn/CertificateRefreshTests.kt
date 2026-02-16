@@ -180,7 +180,7 @@ class CertificateRefreshTests {
             scope,
             { mockStorage },
             mockKeyProvider,
-            mockApi,
+            { mockApi },
             dagger.Lazy { mockServerClock },
             mockPlanManager,
             mockCurrentUser,

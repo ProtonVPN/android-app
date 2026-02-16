@@ -43,7 +43,7 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
     mainScope: CoroutineScope,
     private val currentUser: CurrentUser,
     private val serverManager: ServerManager2,
-    private val profileManager: ProfileManager,
+    private val profileManager: dagger.Lazy<ProfileManager>,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     private val userPlanManager: UserPlanManager,
     private val isTv: IsTvCheck,
@@ -53,9 +53,10 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
         mainScope.launch {
             currentUser.vpnUserFlow.collect { vpnUser ->
                 if (vpnUser != null) {
+                    val defaultOrFastest = profileManager.get().getDefaultOrFastest()
                     val defaultProfileServer =
                         serverManager.getServerForProfile(
-                            profileManager.getDefaultOrFastest(), vpnUser, effectiveCurrentUserSettings.protocol.first())
+                            defaultOrFastest, vpnUser, effectiveCurrentUserSettings.protocol.first())
                     userSettingsManager.update { current ->
                         // Note: when a different user logs in they will initially have the other user's server list
                         // so it's likely the defaultProfileServer isn't found and the default profile gets reset.

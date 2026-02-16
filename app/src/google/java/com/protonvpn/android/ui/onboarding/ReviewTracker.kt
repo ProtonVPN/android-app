@@ -47,7 +47,7 @@ import javax.inject.Singleton
 import kotlin.time.Duration.Companion.milliseconds
 
 @Singleton
-class ReviewTracker constructor(
+class ReviewTracker(
     @WallClock private val wallClock: () -> Long,
     scope: CoroutineScope,
     private val ratingConfigFlow: GetRatingConfig,
@@ -56,7 +56,7 @@ class ReviewTracker constructor(
     private val foregroundActivityTracker: ForegroundActivityTracker,
     private val reviewTrackerPrefs: ReviewTrackerPrefs,
     trafficMonitor: TrafficMonitor,
-    private val telemetry: ReviewTrackerTelemetry,
+    private val telemetry: dagger.Lazy<ReviewTrackerTelemetry>,
     private val requestReview: suspend (activity: Activity, onComplete: () -> Unit) -> Unit
 ) {
 
@@ -70,7 +70,7 @@ class ReviewTracker constructor(
         foregroundActivityTracker: ForegroundActivityTracker,
         reviewTrackerPrefs: ReviewTrackerPrefs,
         trafficMonitor: TrafficMonitor,
-        telemetry: ReviewTrackerTelemetry,
+        telemetry: dagger.Lazy<ReviewTrackerTelemetry>,
     ) : this(
         wallClock,
         scope,
@@ -122,7 +122,7 @@ class ReviewTracker constructor(
     private suspend fun createInAppReview() {
         foregroundActivityTracker.foregroundActivity?.let {
             requestReview(it) {
-                telemetry.reportReviewRequest(
+                telemetry.get().reportReviewRequest(
                     lastReviewTimestamp = reviewTrackerPrefs.lastReviewTimestamp,
                     installTimestamp = reviewTrackerPrefs.installTimestamp,
                     connectionsSinceLastReview = reviewTrackerPrefs.connectionsSinceLastReview

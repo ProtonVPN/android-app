@@ -30,6 +30,7 @@ import com.protonvpn.android.promooffers.data.PromoOffersPrefs
 import com.protonvpn.android.promooffers.ui.toIapParams
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.promooffers.ui.PromoOfferIapActivity
+import com.protonvpn.android.utils.getValue
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -66,14 +67,16 @@ class NpsActivityOpener @Inject constructor() {
 class OneTimePopupNotificationTrigger @Inject constructor(
     mainScope: CoroutineScope,
     foregroundActivityTracker: ForegroundActivityTracker,
-    private val apiNotificationManager: ApiNotificationManager,
-    private val ensureIapOfferStillValid: EnsureIapOfferStillValid,
+    private val apiNotificationManager: dagger.Lazy<ApiNotificationManager>,
+    lazyEnsureIapOfferStillValid: dagger.Lazy<EnsureIapOfferStillValid>,
     currentUser: CurrentUser,
-    private val promoOffersPrefs: PromoOffersPrefs,
+    lazyPromoOffersPrefs: dagger.Lazy<PromoOffersPrefs>,
     private val promoActivityOpener: PromoActivityOpener,
     private val promoIapOpener: PromoIapActivityOpener,
     private val npsActivityOpener: NpsActivityOpener
 ) {
+    private val promoOffersPrefs by lazyPromoOffersPrefs
+    private val ensureIapOfferStillValid by lazyEnsureIapOfferStillValid
 
     private val NPS_NOTIFICATION_DELAY = 2000L
 
@@ -95,7 +98,7 @@ class OneTimePopupNotificationTrigger @Inject constructor(
     }
 
     private suspend fun onOneTimeNotificationOpportunity(activity: Activity) {
-        val oneTimeNotification = apiNotificationManager.activeListFlow
+        val oneTimeNotification = apiNotificationManager.get().activeListFlow
             .first()
             .firstOrNull { notification ->
                 (notification.isOneTimeNotification() || notification.isNpsType() ||

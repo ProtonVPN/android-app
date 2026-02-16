@@ -96,12 +96,12 @@ class OneTimePopupNotificationTriggerTests {
         oneTimePopupNotificationTrigger = OneTimePopupNotificationTrigger(
             mainScope = testScope.backgroundScope,
             foregroundActivityTracker = foregroundActivityTracker,
-            apiNotificationManager = mockApiNotificationManager,
+            apiNotificationManager = { mockApiNotificationManager },
             currentUser = CurrentUser(testUserProvider),
-            promoOffersPrefs = promoOffersPrefs,
+            lazyPromoOffersPrefs = { promoOffersPrefs },
             promoActivityOpener = mockPromoActivityOpener,
             promoIapOpener = mockPromoIapActivityOpener,
-            ensureIapOfferStillValid = mockEnsureIapOfferStillValid,
+            lazyEnsureIapOfferStillValid = { mockEnsureIapOfferStillValid },
             npsActivityOpener = mockNpsActivityOpener
         )
     }

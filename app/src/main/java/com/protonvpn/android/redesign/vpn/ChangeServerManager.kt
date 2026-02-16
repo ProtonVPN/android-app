@@ -57,7 +57,7 @@ class ChangeServerManager @Inject constructor(
     private val mainScope: CoroutineScope,
     vpnStatusProviderUI: VpnStatusProviderUI,
     private val changeServerConfigFlow: ChangeServerConfigFlow,
-    private val vpnConnectionManager: VpnConnectionManager,
+    private val vpnConnectionManager: dagger.Lazy<VpnConnectionManager>,
     private val serverManager: ServerManager2,
     private val changeServerPrefs: ChangeServerPrefs,
     private val currentUser: CurrentUser,
@@ -98,7 +98,7 @@ class ChangeServerManager @Inject constructor(
             val server = serverManager.getRandomServer(currentUser.vpnUser(), userSettings.protocol.first())
             // The server should never be null, worst case the same server that is connected should be returned.
             if (server != null) {
-                vpnConnectionManager.connect(
+                vpnConnectionManager.get().connect(
                     vpnUiDelegate,
                     ConnectIntent.fromServer(server, emptySet()),
                 ConnectTrigger.ChangeServer

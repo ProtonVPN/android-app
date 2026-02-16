@@ -120,6 +120,11 @@ class ReviewTrackerTests {
             mapOf(CommonDimensions.Key.USER_COUNTRY.reportedName to "US")
         )
         wasReviewRequested = false
+        val reviewTrackerTelemetry = ReviewTrackerTelemetry(
+            TelemetryFlowHelper(testScope.backgroundScope, testTelemetry),
+            commonDimensions,
+            testScope::currentTime
+        )
         reviewTracker = ReviewTracker(
             testScope::currentTime,
             testScope.backgroundScope,
@@ -129,11 +134,7 @@ class ReviewTrackerTests {
             foregroundActivityTracker,
             trackerPrefs,
             trafficMonitor,
-            ReviewTrackerTelemetry(
-                TelemetryFlowHelper(testScope.backgroundScope, testTelemetry),
-                commonDimensions,
-                testScope::currentTime
-            ),
+            { reviewTrackerTelemetry },
             { _, onComplete ->
                 wasReviewRequested = true
                 onComplete()

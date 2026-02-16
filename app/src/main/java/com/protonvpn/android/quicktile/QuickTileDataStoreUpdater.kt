@@ -43,7 +43,7 @@ class QuickTileDataStoreUpdater @Inject constructor(
     private val mainScope: CoroutineScope,
     private val currentUser: CurrentUser,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
-    private val dataStore: QuickTileDataStore,
+    private val dataStore: dagger.Lazy<QuickTileDataStore>,
     private val recentsManager: RecentsManager,
     private val profilesDao: ProfilesDao,
     private val observeDefaultConnection: ObserveDefaultConnection,
@@ -61,7 +61,7 @@ class QuickTileDataStoreUpdater @Inject constructor(
             }
         }
         .distinctUntilChanged()
-        .onEach { data -> dataStore.store(data) }
+        .onEach { data -> dataStore.get().store(data) }
         .launchIn(mainScope)
     }
 

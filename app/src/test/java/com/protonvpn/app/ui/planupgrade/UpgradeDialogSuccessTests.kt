@@ -23,6 +23,7 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.managed.ManagedConfig
+import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess
 import com.protonvpn.android.utils.UserPlanManager
@@ -99,9 +100,9 @@ class UpgradeDialogSuccessTests {
             foregroundActivityTracker,
             userPlanManager,
             currentUser,
-            mockk(relaxed = true),
+            { mockk<UpgradeTelemetry>(relaxed = true) },
             showDialog,
-            purchaseManager
+            { purchaseManager }
         )
     }
 

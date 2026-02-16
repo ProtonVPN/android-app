@@ -119,7 +119,7 @@ class ChangeServerTests {
             testScope.backgroundScope,
             vpnStatusProviderUI,
             changeServerConfigFlow,
-            mockVpnConnectionManager,
+            { mockVpnConnectionManager },
             mockServerManager,
             changeServerPrefs,
             currentUser,

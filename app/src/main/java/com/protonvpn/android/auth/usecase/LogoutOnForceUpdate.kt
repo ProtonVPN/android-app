@@ -31,13 +31,13 @@ class LogoutOnForceUpdate @Inject constructor(
     mainScope: CoroutineScope,
     apiClient: VpnApiClient,
     currentUser: CurrentUser,
-    logout: Logout
+    logout: dagger.Lazy<Logout>
 ) {
     init {
         apiClient.eventForceUpdate
             .onEach {
                 if (currentUser.isLoggedIn())
-                    logout()
+                    logout.get().invoke()
             }
             .launchIn(mainScope)
     }

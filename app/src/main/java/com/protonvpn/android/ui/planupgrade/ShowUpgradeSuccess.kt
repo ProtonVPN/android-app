@@ -40,9 +40,9 @@ class ShowUpgradeSuccess(
     foregroundActivityTracker: ForegroundActivityTracker,
     userPlanManager: UserPlanManager,
     private val currentUser: CurrentUser,
-    private val upgradeTelemetry: UpgradeTelemetry,
+    private val upgradeTelemetry: dagger.Lazy<UpgradeTelemetry>,
     private val startUpgradeActivity: (Context, String, Boolean) -> Unit,
-    private val purchaseManager: PurchaseManager
+    private val purchaseManager: dagger.Lazy<PurchaseManager>
 ) {
     private var doNotShowForPlan: String = ""
 
@@ -52,8 +52,8 @@ class ShowUpgradeSuccess(
         foregroundActivityTracker: ForegroundActivityTracker,
         userPlanManager: UserPlanManager,
         currentUser: CurrentUser,
-        upgradeTelemetry: UpgradeTelemetry,
-        purchaseManager: PurchaseManager
+        upgradeTelemetry: dagger.Lazy<UpgradeTelemetry>,
+        purchaseManager: dagger.Lazy<PurchaseManager>,
     ) : this(
         mainScope,
         foregroundActivityTracker,
@@ -75,9 +75,9 @@ class ShowUpgradeSuccess(
                 val upgradedUser = planUpgrade.newUser
                 if (shouldShowUpgradeSuccess(upgradedUser)) {
                     val newPlan = upgradedUser.userTierName
-                    val purchase = purchaseManager.getPurchase(newPlan)
+                    val purchase = purchaseManager.get().getPurchase(newPlan)
                     if (purchase == null) {
-                        upgradeTelemetry.onUpgradeSuccess(newPlan, UpgradeFlowType.EXTERNAL)
+                        upgradeTelemetry.get().onUpgradeSuccess(newPlan, UpgradeFlowType.EXTERNAL)
                     }
                     showPlanUpgradeSuccess(
                         activity,

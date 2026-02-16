@@ -87,7 +87,7 @@ class CertificateRepository @Inject constructor(
     private val mainScope: CoroutineScope,
     lazyCertificateStorage: dagger.Lazy<CertificateStorage>,
     private val keyProvider: CertificateKeyProvider,
-    private val api: ProtonApiRetroFit,
+    private val api: dagger.Lazy<ProtonApiRetroFit>,
     private val serverClock: dagger.Lazy<ServerClock>,
     userPlanManager: UserPlanManager,
     private val currentUser: CurrentUser,
@@ -185,7 +185,7 @@ class CertificateRepository @Inject constructor(
     ): PeriodicActionResult<out CertificateResult> {
         val info = getCertInfo(sessionId) ?: keyProvider.generateCertInfo()
         ProtonLogger.log(UserCertRefresh, "retry count: ${info.refreshCount}")
-        return when (val response = api.getCertificate(sessionId, info.publicKeyPem)) {
+        return when (val response = api.get().getCertificate(sessionId, info.publicKeyPem)) {
             is ApiResult.Success -> {
                 val cert = response.value
                 val newInfo = info.copy(

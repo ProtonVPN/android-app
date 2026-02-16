@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.SystemClock
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.utils.ReschedulableTask
+import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.utils.jitterMs
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -16,10 +17,11 @@ import javax.inject.Singleton
 class MaintenanceTracker @Inject constructor(
     val scope: CoroutineScope,
     @ApplicationContext val appContext: Context,
-    private val appConfig: AppConfig,
+    lazyAppConfig: dagger.Lazy<AppConfig>,
     private val vpnStateMonitor: VpnStateMonitor,
-    private val vpnConnectionErrorHandler: VpnConnectionErrorHandler,
+    private val vpnConnectionErrorHandler: dagger.Lazy<VpnConnectionErrorHandler>,
 ) {
+    private val appConfig by lazyAppConfig
 
     init {
         scope.launch {
@@ -40,7 +42,7 @@ class MaintenanceTracker @Inject constructor(
 
     private val task = ReschedulableTask(scope, ::now) {
         if (vpnStateMonitor.isConnected && appConfig.isMaintenanceTrackerEnabled()) {
-            vpnConnectionErrorHandler.maintenanceCheck()
+            vpnConnectionErrorHandler.get().maintenanceCheck()
             scheduleIn(getScheduleDelay())
         }
     }
