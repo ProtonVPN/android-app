@@ -23,6 +23,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.PowerManager
+import com.protonvpn.android.concurrency.Once
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -34,7 +35,7 @@ class PowerStateLogger @Inject constructor(
     private val powerManager: dagger.Lazy<PowerManager>,
     private val batteryManager: dagger.Lazy<BatteryManager?>
 ) {
-    init {
+    private val registerBroadcastReceiver = Once {
         val filter = IntentFilter().apply {
             addAction(PowerManager.ACTION_DEVICE_IDLE_MODE_CHANGED)
             addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
@@ -48,6 +49,8 @@ class PowerStateLogger @Inject constructor(
     }
 
     fun getStatusString(): String {
+        registerBroadcastReceiver.invokeOnce() // Status is logged for the first time soon after app start.
+
         val batteryManager = batteryManager.get()
         val powerManager = powerManager.get()
         val packageName = context.packageName

@@ -81,14 +81,22 @@ class TrafficMonitor @Inject constructor(
             }
         }
 
-        context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_SCREEN_OFF)) {
-            ProtonLogger.logCustom(LogCategory.UI, "Screen off")
-            stopUpdateJob()
+        val onOffFilter = IntentFilter().apply {
+            addAction(Intent.ACTION_SCREEN_OFF)
+            addAction(Intent.ACTION_SCREEN_ON)
         }
-        context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_SCREEN_ON)) {
-            ProtonLogger.logCustom(LogCategory.UI, "Screen on")
-            if (vpnStateMonitor.state == VpnState.Connected)
-                startUpdateJob()
+        context.registerBroadcastReceiver(onOffFilter) { intent ->
+            when (intent?.action) {
+                Intent.ACTION_SCREEN_OFF -> {
+                    ProtonLogger.logCustom(LogCategory.UI, "Screen off")
+                    stopUpdateJob()
+                }
+                Intent.ACTION_SCREEN_ON -> {
+                    ProtonLogger.logCustom(LogCategory.UI, "Screen on")
+                    if (vpnStateMonitor.state == VpnState.Connected)
+                        startUpdateJob()
+                }
+            }
         }
     }
 

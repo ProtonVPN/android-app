@@ -35,6 +35,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.protonvpn.android.R
+import com.protonvpn.android.concurrency.Once
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.widget.data.WidgetTracker
@@ -80,6 +81,11 @@ class WidgetManager @Inject constructor(
         val WIDGET_ADDED_ACTION = "intent.action.WIDGET_ADDED";
     }
 
+    private val registerOnAddedReceiver = Once {
+        context.registerBroadcastReceiver(IntentFilter(WIDGET_ADDED_ACTION)) {
+            Toast.makeText(context, R.string.widget_toast_added_message, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     private val hasAddedWidget: StateFlow<Boolean?> = widgetTracker.haveWidgets
 
@@ -115,9 +121,6 @@ class WidgetManager @Inject constructor(
                     workManager.cancelUniqueWork(UNIQUE_WORK_NAME)
                 }
             }
-        }
-        context.registerBroadcastReceiver(IntentFilter(WIDGET_ADDED_ACTION)) {
-            Toast.makeText(context, R.string.widget_toast_added_message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -160,6 +163,7 @@ class WidgetManager @Inject constructor(
                 null,
                 successPendingIntent
             )
+            registerOnAddedReceiver.invokeOnce()
         } catch (_: IllegalStateException) {
             // The app is not in foreground - this can happen rarely if the app goes to background right after user
             // taps the button.
