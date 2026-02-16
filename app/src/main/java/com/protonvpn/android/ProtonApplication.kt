@@ -63,6 +63,7 @@ import com.protonvpn.android.ui.onboarding.ReviewTracker
 import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess
 import com.protonvpn.android.utils.SentryIntegration.initSentry
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.VpnCoreLogger
 import com.protonvpn.android.utils.initPurchaseHandler
 import com.protonvpn.android.utils.isMainProcess
@@ -141,6 +142,7 @@ open class ProtonApplication : Application() {
         val updateSettingsOnVpnUserChange: UpdateSettingsOnVpnUserChange?
         val updateSettingsOnFeatureFlagChange: UpdateSettingsOnFeatureFlagChange?
         val updateServerTranslations: UpdateServerTranslations
+        val userPlanManager: UserPlanManager
         val vpnConnectionObservability: VpnConnectionObservability?
         val vpnConnectionTelemetry: VpnConnectionTelemetry
         val widgetStateUpdater: WidgetStateUpdater
@@ -226,6 +228,7 @@ open class ProtonApplication : Application() {
         dependencies.updateSettingsOnVpnUserChange
         dependencies.updateSettingsOnFeatureFlagChange
         dependencies.updateServerTranslations
+        dependencies.userPlanManager
         dependencies.showUpgradeSuccess
         dependencies.streamingServicesUpdater
         dependencies.vpnConnectionObservability
