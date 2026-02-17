@@ -86,12 +86,16 @@ class TvServerListViewModel @Inject constructor(
         recentsManager.getRecentServers(country)?.map(::ServerViewModel)
 
     private suspend fun populateServerList(country: String) {
-        val vpnCountry = serverManager.getVpnExitCountry(country, false) ?: return
+        val countryServers = serverManager
+            .getVpnExitCountry(country, false)
+            ?.serverList
+            ?.sortedBy { it.load }
+            ?: return
 
         val vpnUser = currentUser.vpnUser()
         val serversVM = linkedMapOf<ServerGroup, List<ServerViewModel>>()
         if (vpnUser?.isUserPlusOrAbove == true) {
-            val cities = vpnCountry.serverList.groupBy { translator.current.city(it) }
+            val cities = countryServers.groupBy { translator.current.city(it) }
                 .toSortedMap(Comparator { o1, o2 ->
                     // Put servers without city at the end
                     if (o1 == null || o2 == null)
@@ -103,7 +107,7 @@ class TvServerListViewModel @Inject constructor(
                 serversVM[group] = servers.sortedByDescending { it.isPlusServer }.map { ServerViewModel(it) }
             }
         } else {
-            val groups = vpnCountry.serverList.groupBy {
+            val groups = countryServers.groupBy {
                 vpnUser.hasAccessToServer(it)
             }.mapKeys { (available, _) ->
                 if (available) ServerGroup.Available else ServerGroup.Locked
