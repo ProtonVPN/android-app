@@ -68,7 +68,7 @@ class WidgetManager @Inject constructor(
     @ApplicationContext private val context: Context,
     widgetTracker: WidgetTracker,
     private val uiStateStorage: UiStateStorage,
-    private val workManager: WorkManager,
+    private val workManager: dagger.Lazy<WorkManager>,
 ) {
     // This may be null on some devices, e.g. TVs.
     private val widgetManager: AppWidgetManager? by lazy(LazyThreadSafetyMode.NONE) {
@@ -113,14 +113,14 @@ class WidgetManager @Inject constructor(
                 val workRequest = OneTimeWorkRequestBuilder<WidgetAdoptionWorker>()
                     .setInitialDelay(2, TimeUnit.DAYS)
                     .build()
-                workManager
+                workManager.get()
                     .enqueueUniqueWork(UNIQUE_WORK_NAME, ExistingWorkPolicy.KEEP, workRequest)
             }
         }
         scope.launch {
             hasAddedWidget.collect { hasAdded ->
                 if (hasAdded == true) {
-                    workManager.cancelUniqueWork(UNIQUE_WORK_NAME)
+                    workManager.get().cancelUniqueWork(UNIQUE_WORK_NAME)
                 }
             }
         }

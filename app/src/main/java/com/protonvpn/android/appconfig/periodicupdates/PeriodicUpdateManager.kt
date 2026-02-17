@@ -26,6 +26,7 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.getValue
 import io.sentry.Sentry
 import io.sentry.SentryLevel
 import kotlinx.coroutines.CompletableDeferred
@@ -205,12 +206,17 @@ class PeriodicUpdateManagerImpl @Inject constructor(
     private val mainScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     @WallClock private val clock: () -> Long,
-    private val periodicUpdatesDao: PeriodicUpdatesDao,
-    private val periodicUpdateScheduler: PeriodicUpdateScheduler,
-    private val appInUseMonitor: AppInUseMonitor,
-    private val networkManager: NetworkManager,
-    private val random: Random
+    periodicUpdatesDaoLazy: dagger.Lazy<PeriodicUpdatesDao>,
+    periodicUpdateSchedulerLazy: dagger.Lazy<PeriodicUpdateScheduler>,
+    appInUseMonitorLazy: dagger.Lazy<AppInUseMonitor>,
+    networkManagerLazy: dagger.Lazy<NetworkManager>,
+    private val random: dagger.Lazy<Random>,
 ) : PeriodicUpdateManager {
+
+    private val periodicUpdatesDao by periodicUpdatesDaoLazy
+    private val periodicUpdateScheduler by periodicUpdateSchedulerLazy
+    private val appInUseMonitor by appInUseMonitorLazy
+    private val networkManager by networkManagerLazy
 
     private val allConditions = MutableStateFlow<Set<UpdateCondition>>(emptySet())
     private val trueConditionsFlow: Flow<Set<UpdateCondition>> = allConditions.flatMapLatest { conditions ->
@@ -424,7 +430,7 @@ class PeriodicUpdateManagerImpl @Inject constructor(
         return this + (this.coerceAtMost(scaledMaxDelayMs) * ratio).toLong()
     }
 
-    private fun randomJitterRatio() = random.nextFloat() * MAX_JITTER_RATIO
+    private fun randomJitterRatio() = random.get().nextFloat() * MAX_JITTER_RATIO
 
     private fun Action.allConditions() =
         this.updateSpecs.flatMapTo(mutableSetOf()) { specs -> specs.updateConditions }

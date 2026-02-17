@@ -119,11 +119,11 @@ class PeriodicUpdateManagerTests {
             testScope.backgroundScope,
             TestDispatcherProvider(dispatcher),
             testScope::currentTime,
-            periodicUpdatesDao,
-            mockScheduler,
-            mockAppInUseMonitor,
-            networkManager,
-            mockRandom
+            { periodicUpdatesDao },
+            { mockScheduler },
+            { mockAppInUseMonitor },
+            { networkManager },
+            { mockRandom },
         )
     }
 

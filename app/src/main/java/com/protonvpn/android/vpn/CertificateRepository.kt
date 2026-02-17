@@ -85,7 +85,7 @@ class CertificateKeyProvider @Inject constructor() {
 @OptIn(kotlin.time.ExperimentalTime::class)
 class CertificateRepository @Inject constructor(
     private val mainScope: CoroutineScope,
-    lazyCertificateStorage: dagger.Lazy<CertificateStorage>,
+    certificateStorageLazy: dagger.Lazy<CertificateStorage>,
     private val keyProvider: CertificateKeyProvider,
     private val api: dagger.Lazy<ProtonApiRetroFit>,
     private val serverClock: dagger.Lazy<ServerClock>,
@@ -105,7 +105,7 @@ class CertificateRepository @Inject constructor(
         mainScope.launch {
             logCurrentCert()
         }
-        lazyCertificateStorage.get()
+        certificateStorageLazy.get()
     }
 
     private val guestX25519Key by lazy { keyProvider.generateX25519Base64() }

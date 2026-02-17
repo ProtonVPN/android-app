@@ -44,9 +44,9 @@ class QuickTileDataStoreUpdater @Inject constructor(
     private val currentUser: CurrentUser,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
     private val dataStore: dagger.Lazy<QuickTileDataStore>,
-    private val recentsManager: RecentsManager,
-    private val profilesDao: ProfilesDao,
-    private val observeDefaultConnection: ObserveDefaultConnection,
+    private val recentsManager: dagger.Lazy<RecentsManager>,
+    private val profilesDao: dagger.Lazy<ProfilesDao>,
+    private val observeDefaultConnection: dagger.Lazy<ObserveDefaultConnection>,
 ) {
     @OptIn(ExperimentalCoroutinesApi::class)
     fun start() {
@@ -70,8 +70,8 @@ class QuickTileDataStoreUpdater @Inject constructor(
         if (!isPlus) {
             flowOf(false)
         } else combine(
-            observeDefaultConnection(),
-            recentsManager.getMostRecentConnection(),
+            observeDefaultConnection.get().invoke(),
+            recentsManager.get().getMostRecentConnection(),
         ) { defaultConnection, mostRecentConnection ->
             defaultConnection to mostRecentConnection
         }.flatMapLatest { (defaultConnection, mostRecentConnection) ->
@@ -80,12 +80,12 @@ class QuickTileDataStoreUpdater @Inject constructor(
                 DefaultConnection.LastConnection ->
                     mostRecentConnection?.connectIntent?.profileId
                 is DefaultConnection.Recent ->
-                    recentsManager.getRecentById(defaultConnection.recentId)?.connectIntent?.profileId
+                    recentsManager.get().getRecentById(defaultConnection.recentId)?.connectIntent?.profileId
             }
             if (profileId == null) {
                 flowOf(false)
             } else {
-                profilesDao.getProfileByIdFlow(profileId).map { profile ->
+                profilesDao.get().getProfileByIdFlow(profileId).map { profile ->
                     profile?.autoOpen !is ProfileAutoOpen.None
                 }
             }
