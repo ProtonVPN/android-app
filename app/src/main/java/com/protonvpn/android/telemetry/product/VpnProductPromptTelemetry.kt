@@ -27,7 +27,7 @@ import javax.inject.Singleton
 
 @Singleton
 class VpnProductPromptTelemetry @Inject constructor(
-    private val telemetryHelper: TelemetryFlowHelper,
+    private val telemetryHelper: dagger.Lazy<TelemetryFlowHelper>,
     private val commonDimensions: CommonDimensions,
 ) {
 
@@ -68,7 +68,7 @@ class VpnProductPromptTelemetry @Inject constructor(
     }
 
     private fun sendEvent(eventName: String, dimensions: Map<String, String>) {
-        telemetryHelper.event {
+        telemetryHelper.get().event {
             TelemetryEventData(
                 measurementGroup = MEASUREMENT_GROUP,
                 eventName = eventName,

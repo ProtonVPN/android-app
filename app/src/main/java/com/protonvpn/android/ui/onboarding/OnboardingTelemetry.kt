@@ -27,7 +27,7 @@ import com.protonvpn.android.telemetry.TelemetryEventData
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.planupgrade.BaseUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
+import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
@@ -47,8 +47,10 @@ class OnboardingTelemetry @Inject constructor(
     private val currentUser: CurrentUser,
     private val commonDimensions: CommonDimensions,
     private val appFeaturesPrefs: AppFeaturesPrefs,
-    private val helper: TelemetryFlowHelper,
+    telemetryHelperLazy: dagger.Lazy<TelemetryFlowHelper>,
 ) {
+    private val helper by telemetryHelperLazy
+
     private enum class EventName {
         FIRST_LAUNCH, SIGNUP_START, ONBOARDING_START, PAYMENT_DONE, FIRST_CONNECTION;
 

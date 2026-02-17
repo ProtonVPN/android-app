@@ -89,7 +89,7 @@ class UpgradeTelemetryTests {
             commonDimensions,
             currentUser,
             clock = { fakeTime },
-            helper
+            { helper }
         )
     }
 

@@ -131,7 +131,7 @@ class VpnConnectionTelemetryTests {
             commonDimensions,
             vpnStateMonitor,
             mockConnectivityMonitor,
-            TelemetryFlowHelper(telemetryScope.backgroundScope, DefaultTelemetryReporter(mockTelemetry)),
+            { TelemetryFlowHelper(telemetryScope.backgroundScope, DefaultTelemetryReporter(mockTelemetry)) },
             mockConnectionTelemetrySentryDebugEnabled,
         )
         vpnConnectionTelemetry.start()

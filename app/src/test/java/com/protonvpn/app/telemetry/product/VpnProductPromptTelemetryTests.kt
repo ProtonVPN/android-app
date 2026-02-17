@@ -74,11 +74,12 @@ class VpnProductPromptTelemetryTests {
 
         testTelemetryReporter = TestTelemetryReporter()
 
+        val telemetryFlowHelper = TelemetryFlowHelper(
+            mainScope = testScope.backgroundScope,
+            telemetry = testTelemetryReporter,
+        )
         vpnProductPromptTelemetry = VpnProductPromptTelemetry(
-            telemetryHelper = TelemetryFlowHelper(
-                mainScope = testScope.backgroundScope,
-                telemetry = testTelemetryReporter,
-            ),
+            telemetryHelper = { telemetryFlowHelper },
             commonDimensions = FakeCommonDimensions(dimensions = mapOf("user_tier" to userTier)),
         )
     }

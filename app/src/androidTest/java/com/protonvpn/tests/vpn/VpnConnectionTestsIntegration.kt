@@ -310,13 +310,15 @@ class VpnConnectionTestsIntegration {
         val mockConnectivityMonitor = mockk<ConnectivityMonitor>()
         every { mockConnectivityMonitor.defaultNetworkTransports } returns setOf(ConnectivityMonitor.Transport.WIFI)
         coEvery { mockConnectionTelemetrySentryDebugEnabled.invoke() } returns true
+        val telemetryFlowHelper =
+            TelemetryFlowHelper(scope.backgroundScope, DefaultTelemetryReporter(mockTelemetry))
         val vpnConnectionTelemetry = VpnConnectionTelemetry(
             scope.backgroundScope,
             clock,
             DefaultCommonDimensions(currentUser, monitor, serverListUpdaterPrefs, FakeIsCredentialLessEnabled(true)),
             monitor,
             mockConnectivityMonitor,
-            TelemetryFlowHelper(scope.backgroundScope, DefaultTelemetryReporter(mockTelemetry)),
+            { telemetryFlowHelper },
             mockConnectionTelemetrySentryDebugEnabled,
         ).apply { start() }
 

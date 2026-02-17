@@ -24,6 +24,7 @@ import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
+import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -61,9 +62,10 @@ class VpnConnectionTelemetry @Inject constructor(
     private val commonDimensions: CommonDimensions,
     private val vpnStateMonitor: VpnStateMonitor,
     private val connectivityMonitor: ConnectivityMonitor,
-    private val helper: TelemetryFlowHelper,
+    private val telemetryHelperLazy: dagger.Lazy<TelemetryFlowHelper>,
     private val isSentryDebugEnabled: ConnectionTelemetrySentryDebugEnabled,
 ) {
+    private val helper by telemetryHelperLazy
 
     private enum class Outcome(val statsKeyword: String) {
         SUCCESS("success"), FAILURE("failure"), ABORTED("aborted")

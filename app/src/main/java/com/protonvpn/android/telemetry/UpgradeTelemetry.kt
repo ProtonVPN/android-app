@@ -23,6 +23,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
+import com.protonvpn.android.utils.getValue
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -67,8 +68,9 @@ class UpgradeTelemetry @Inject constructor(
     private val commonDimensions: CommonDimensions,
     private val currentUser: CurrentUser,
     @WallClock private val clock: () -> Long,
-    private val helper: TelemetryFlowHelper
+    telemetryHelperLazy: dagger.Lazy<TelemetryFlowHelper>,
 ) {
+    private val helper by telemetryHelperLazy
 
     private var currentUpgradeFlow: UpgradeFlow? = null
     private val currentDimensions get() = currentUpgradeFlow?.getCurrentDimensions()

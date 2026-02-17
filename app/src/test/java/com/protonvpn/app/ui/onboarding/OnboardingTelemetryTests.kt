@@ -205,7 +205,7 @@ class OnboardingTelemetryTests {
         currentUser,
         DefaultCommonDimensions(currentUser, vpnStateMonitor, serverListPrefs, FakeIsCredentialLessEnabled(true)),
         appFeaturesPrefs,
-        TelemetryFlowHelper(testScope.backgroundScope, DefaultTelemetryReporter(mockTelemetry))
+        { TelemetryFlowHelper(testScope.backgroundScope, DefaultTelemetryReporter(mockTelemetry)) },
     )
 
 }
