@@ -545,7 +545,7 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s. %3$s</string>
+    <string name="upsell_tv_all_countries_description">Desbloqueie %1$s em %2$s. %3$s</string>
     <string name="upsell_tv_netshield_title">Desfrute de navegação sem anúncios com o Plus</string>
     <string name="upsell_tv_netshield_description"><![CDATA[Bloqueie anúncios, rastreadores e malware com o <b>NetShield</b>. %1$s]]></string>
     <string name="upsell_tv_split_tunneling_title">Obtenha o melhor dos dois mundos com o Plus</string>

@@ -56,7 +56,7 @@
     <string name="action_share">Абагуліць</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">На тэхнічным абслугоўванні</string>
-    <string name="restrictedMaintenanceDescription">Сервер, да якога вы спрабуеце падключыцца ў дадзены момант, знаходзіцца на тэхнічным абслугоўванні. Выберыце іншы сервер.</string>
+    <string name="restrictedMaintenanceDescription">Сервер, да якога вы спрабуеце падключыцца, знаходзіцца на тэхнічным абслугоўванні. Выберыце іншы сервер.</string>
     <string name="restricted_location_excluded_dialog_title">Збой падключэння</string>
     <string name="restricted_location_excluded_dialog_description">Серверы недаступны. Выберыце месцазнаходжанне ўручную або адрэдагуйце выключаныя месцазнаходжанні.</string>
     <string name="errorUserDelinquent"><![CDATA[Ваш уліковы запіс мае пратэрмінаваны рахунак. Аплаціце ўсе неаплачаныя рахункі на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -630,7 +630,7 @@
     <string name="dynamic_report_contact_us">Звязацца з намі</string>
     <string name="dynamic_report_tips_description">Гэтыя парады дапамогуць хутчэй вырашыць вашу праблему.</string>
     <string name="dynamic_report_tips_title">Хуткія выпраўленні</string>
-    <string name="dynamic_report_logs_title">Адправіць журнал з памылкай</string>
+    <string name="dynamic_report_logs_title">Адправіць журналы з памылкамі</string>
     <string name="dynamic_report_logs_tooltip">Журналы памылак паказваюць, што пайшло не так і якія дзеянні прывялі да праблемы. Дадзеныя файлы выкарыстоўвацца выключна для таго, каб дапамагчы нашым інжынерам выправіць памылкі ў праграме.</string>
     <string name="dynamic_report_error_title">Не ўдалося адправіць вашу справаздачу.</string>
     <string name="dynamic_report_completion_error_description_generic">Не ўдалося адправіць вашу справаздачу. Паспрабуйце яшчэ раз.</string>
@@ -650,7 +650,7 @@
     <string name="update_screen_description">Хутчэй за ўсё ў вас з\'явяцца праблемы са старымі версіямі Proton VPN.</string>
     <string name="update_banner_description_settings">Даступна новая версія праграмы</string>
     <string name="update_banner_warning_vpn_connected_title">VPN ненадоўга адключыцца</string>
-    <string name="update_banner_warning_vpn_connected_message">Праграме патрабуе перазапуску, каб завяршыць абнаўленне. Пасля гэтага вы будзеце аўтаматычна перападключаны.</string>
+    <string name="update_banner_warning_vpn_connected_message">Праграма патрабуе перазапуск, каб завяршыць абнаўленне. Пасля гэтага вы будзеце аўтаматычна перападключаны.</string>
     <string name="dialog_create_account_title">Стварыце ўліковы запіс, каб працягнуць</string>
     <string name="dialog_create_account_action_create">Стварыць уліковы запіс</string>
     <string name="dialog_create_account_action_signin">Увайсці</string>
@@ -1240,7 +1240,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_question">Што такое загружанасць сервера?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_description">Загружанасць сервера паказвае на колькі вычарпана максімальная ёмістасць сервера.\n\nВысокая загружанасць сервера можа запаволіць ваша падключэнне.</string>
+    <string name="connection_details_server_load_description">Загружанасць сервера паказвае на колькі вычарпана яго максімальная ёмістасць.\n\nВысокая загружанасць сервера можа запаволіць ваша падключэнне.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_title">Нізкая (1-75%)</string>
     <!-- tag(Redesign_2023) -->
@@ -1272,7 +1272,7 @@
     <string name="connection_details_vpn_speed_question">Што такое хуткасць VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
-    <string name="info_dialog_secure_core_description">Secure Core злучае вас з прызначаным серверам праз прамежкавы сервер VPN, які мае максімальны параметры бяспекі.\n\nНайвышэйшы ўзровень абароны можа стаць прычынай высокай затрымкі і запаволення хуткасці.</string>
+    <string name="info_dialog_secure_core_description">Secure Core падключае вас да прызначанага сервера праз прамежкавы сервер VPN, які мае максімальныя параметры бяспекі.\n\nНайвышэйшы ўзровень абароны можа стаць прычынай высокай затрымкі і запаволення хуткасці.</string>
     <string name="info_secure_core_standard_header">Стандартнае падключэнне па VPN</string>
     <string name="info_secure_core_secure_header">Падключэнне VPN Secure Core</string>
     <string name="info_dialog_tor_description">Падключайцеся да сервера Tor, каб атрымаць доступ да схаваных сэрвісаў і сайтаў onion праз любы браўзер.</string>
@@ -1479,8 +1479,8 @@
     <string name="settings_advanced_allow_lan_title_tv">Дазволіць падключэнні па лакальнай сетцы</string>
     <string name="settings_advanced_nat_type_title">Тып NAT</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Выберыце тып пераўтварэння сеткавых адрасоў для вашага падключэння. %1$s</string>
-    <string name="settings_advanced_nat_type_description_no_learn">Выберыце тып пераўтварэння сеткавых адрасоў для вашага падключэння.</string>
+    <string name="settings_advanced_nat_type_description">Выберыце тып трансляцыі сеткавых адрасоў для вашага падключэння. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Выберыце тып трансляцыі сеткавых адрасоў для вашага падключэння.</string>
     <string name="settings_advanced_nat_type_strict">Абмежаваны (тып 3)</string>
     <string name="settings_advanced_nat_type_strict_short">Тып 3</string>
     <string name="settings_advanced_nat_type_moderate">Умераны (тып 2)</string>
@@ -1673,7 +1673,7 @@
     <string name="no_connections_description_loading_error">Немагчыма загрузіць спіс сервераў.</string>
     <string name="no_connections_description_no_servers">Папрасіце свайго адміністратара ўключыць доступ да VPN для вашага ўліковага запісу.</string>
     <string name="no_connections_action_refresh">Абнавіць</string>
-    <string name="no_connections_action_sign_out">Выйсці з уліковага запісу</string>
+    <string name="no_connections_action_sign_out">Выйсці</string>
     <string name="no_connections_help_contact_us"><![CDATA[Неабходна дапамога? <a href="">Звяжыцеся з намі</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Адпраўце свайму адміністратару <a href="">гэтыя інструкцыі</a>, калі яму патрэбна дапамога з уключэннем доступу па VPN.]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_title">Уключыць OpenVPN?</string>
