@@ -55,6 +55,7 @@ import android.net.NetworkCapabilities.TRANSPORT_WIFI
 import android.net.NetworkCapabilities.TRANSPORT_WIFI_AWARE
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.NetworkChanged
@@ -77,6 +78,7 @@ private const val UNSUPPORTED_TRANSPORT: Int = -1 // The TRANSPORT_* constants a
 @Singleton
 class ConnectivityMonitor @Inject constructor(
     mainScope: CoroutineScope,
+    dispatcherProvider: VpnDispatcherProvider,
     @ApplicationContext context: Context
 ) {
     private data class NetworkTransports(
@@ -207,15 +209,17 @@ class ConnectivityMonitor @Inject constructor(
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mainScope.launch {
+            mainScope.launch(dispatcherProvider.Io) {
                 registerNetworkCallbacksWithRetry()
             }
         }
-        context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)) {
-            ProtonLogger.logCustom(
-                LogCategory.NETWORK,
-                "Airplane mode: " + it?.getBooleanExtra("state", false)
-            )
+        mainScope.launch(dispatcherProvider.Io) {
+            context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)) {
+                ProtonLogger.logCustom(
+                    LogCategory.NETWORK,
+                    "Airplane mode: " + it?.getBooleanExtra("state", false)
+                )
+            }
         }
     }
 

@@ -25,6 +25,7 @@ import android.net.TrafficStats
 import android.os.PowerManager
 import androidx.core.content.getSystemService
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
@@ -39,6 +40,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -48,6 +50,7 @@ import kotlin.math.roundToLong
 class TrafficMonitor @Inject constructor(
     @ApplicationContext private val context: Context,
     private val scope: CoroutineScope,
+    dispatcherProvider: VpnDispatcherProvider,
     @ElapsedRealtimeClock private val monotonicClock: () -> Long,
     @WallClock private val wallClock: () -> Long,
     private val vpnStateMonitor: VpnStateMonitor,
@@ -80,7 +83,17 @@ class TrafficMonitor @Inject constructor(
                 resetSession()
             }
         }
+        scope.launch(dispatcherProvider.Io) {
+            registerBroadcastReceivers()
+            withContext(dispatcherProvider.Main) {
+                // Start job in case state has changed before broadcast receivers were registered.
+                if (vpnStateMonitor.state == VpnState.Connected)
+                    startUpdateJobIfScreenOn()
+            }
+        }
+    }
 
+    private fun registerBroadcastReceivers() {
         val onOffFilter = IntentFilter().apply {
             addAction(Intent.ACTION_SCREEN_OFF)
             addAction(Intent.ACTION_SCREEN_ON)
@@ -115,13 +128,18 @@ class TrafficMonitor @Inject constructor(
 
     private fun startUpdating() {
         endUpdating()
-        if (context.getSystemService<PowerManager>()?.isInteractive != false)
-            startUpdateJob()
+        startUpdateJobIfScreenOn()
     }
 
     private fun endUpdating() {
         trafficStatus.value = null
         stopUpdateJob()
+    }
+
+    private fun startUpdateJobIfScreenOn() {
+        if (context.getSystemService<PowerManager>()?.isInteractive != false) {
+            startUpdateJob()
+        }
     }
 
     private fun startUpdateJob() {

@@ -71,7 +71,9 @@ class WidgetManager @Inject constructor(
     private val workManager: WorkManager,
 ) {
     // This may be null on some devices, e.g. TVs.
-    private val widgetManager: AppWidgetManager? = AppWidgetManager.getInstance(context)
+    private val widgetManager: AppWidgetManager? by lazy(LazyThreadSafetyMode.NONE) {
+        AppWidgetManager.getInstance(context)
+    }
 
     companion object {
         // Some manufacturers override native picker with their own implementation
