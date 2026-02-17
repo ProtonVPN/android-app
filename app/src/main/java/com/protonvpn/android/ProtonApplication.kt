@@ -241,7 +241,6 @@ open class ProtonApplication : Application() {
         // Start last.
         dependencies.periodicUpdateManager.start()
 
-        dependencies.isTv.logDebugInfo()
         if (!dependencies.isTv()) {
             dependencies.oneTimePopupNotificationTrigger
         }

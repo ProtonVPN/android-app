@@ -41,51 +41,42 @@ class IsTvCheck @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val appFeaturesPrefs: AppFeaturesPrefs
 ) {
-    private val isTvByAppContext: Boolean = appContext.isTV()
     private val wasLaunchedForTv: Boolean get() = appFeaturesPrefs.wasLaunchedForTv
 
-    operator fun invoke() = wasLaunchedForTv || isTvByAppContext
+    operator fun invoke() = wasLaunchedForTv || isTvByAppContext()
 
     fun onUiLaunched(isTvIntent: Boolean) {
         ProtonLogger.logCustom(LogCategory.APP, "launching UI, is TV intent: $isTvIntent")
         appFeaturesPrefs.wasLaunchedForTv = isTvIntent
     }
 
-    // This object is created before logging is set up, so logging can't be done during construction.
-    fun logDebugInfo() {
-        appContext.isTV(true)
-        ProtonLogger.logCustom(LogCategory.APP, "Was launched for TV: $wasLaunchedForTv")
+    private fun isTvByAppContext(): Boolean {
+        val wasDetectedTv = appFeaturesPrefs.wasTvDetected
+        return if (wasDetectedTv != null) {
+            wasDetectedTv
+        } else {
+            appContext.isTV().also {
+                appFeaturesPrefs.wasTvDetected = it
+            }
+        }
     }
 
     /**
      * Consider using IsTvCheck in non-UI code to make it unit-testable.
      */
-    private fun Context.isTV(log: Boolean = false): Boolean {
+    private fun Context.isTV(): Boolean {
         val uiMode: Int = resources.configuration.uiMode
         val uiModeType = uiMode and Configuration.UI_MODE_TYPE_MASK
 
-        val featureTv = packageManager.hasSystemFeature(PackageManager.FEATURE_TELEVISION)
-        val featureLeanback = packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK)
-        val featureLiveTv = packageManager.hasSystemFeature(PackageManager.FEATURE_LIVE_TV)
-        val featureFireTv = packageManager.hasSystemFeature("amazon.hardware.fire_tv")
-        val displayDiagonalApprox = displayDiagonalApprox()
-
-        if (log) {
-            val message = "isTv context: " +
-                "uiModeType: $uiModeType; FEATURE_TELEVISION: $featureTv; FEATURE_LEANBACK: $featureLeanback; " +
-                "FEATURE_LIVE_TV: $featureLiveTv; Amazon FireTV: $featureFireTv; diagonal: ~$displayDiagonalApprox"
-            ProtonLogger.logCustom(LogCategory.APP, message)
-        }
-
         return if (BuildConfig.FLAVOR_distribution == Constants.DISTRIBUTION_AMAZON || Build.MANUFACTURER == "Amazon") {
             // https://developer.amazon.com/docs/fire-tv/identify-amazon-fire-tv-devices.html
-            featureFireTv
+            packageManager.hasSystemFeature("amazon.hardware.fire_tv")
         } else {
             uiModeType == Configuration.UI_MODE_TYPE_TELEVISION ||
-                featureTv ||
-                featureLeanback ||
-                featureFireTv ||
-                featureLiveTv && displayDiagonalApprox >= 10f
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_TELEVISION) ||
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK) ||
+                    packageManager.hasSystemFeature("amazon.hardware.fire_tv") ||
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_LIVE_TV) && displayDiagonalApprox() >= 10f
         }
     }
 

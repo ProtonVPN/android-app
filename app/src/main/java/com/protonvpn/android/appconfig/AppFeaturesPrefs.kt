@@ -49,6 +49,7 @@ class AppFeaturesPrefs @Inject constructor(
     val showWhatsNewFlow: Flow<Boolean> = preferences.observe<Boolean>(KEY_SHOW_WHATS_NEW).map { it ?: false }
 
     var wasLaunchedForTv by boolean(default = false)
+    var wasTvDetected: Boolean? by boolean()
 
     var reportedOnboardingEvents by list<String>(key = KEY_REPORTED_ONBOARDING_EVENTS, default = emptyList())
 
