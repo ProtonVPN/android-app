@@ -46,12 +46,10 @@ import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.takeWhile
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultWeak
 import me.proton.core.compose.theme.headlineNorm
@@ -62,24 +60,25 @@ import javax.inject.Singleton
 @Singleton
 class NotificationPermissionManager @Inject constructor(
     scope: CoroutineScope,
-    @ApplicationContext private val appContext: Context,
     vpnStateMonitor: VpnStateMonitor,
     private val foregroundActivityTracker: ForegroundActivityTracker,
     private val notificationPrefs: NotificationPermissionPrefs,
     private val isTv: IsTvCheck,
 ) {
     init {
-        if (!appContext.isNotificationPermissionGranted()) {
-            vpnStateMonitor.status
-                .takeWhile { !notificationPrefs.rationaleDismissed }
-                .distinctUntilChanged()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            !notificationPrefs.rationaleDismissed
+        ) {
+            var collectJob: Job? = null
+            collectJob = vpnStateMonitor.status
                 .onEach { status ->
-                    if (status.state == VpnState.Connected && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    if (notificationPrefs.rationaleDismissed) {
+                        collectJob?.cancel()
+                    } else if (status.state == VpnState.Connected) {
                         checkAndRequestNotificationPermission()
                     }
                 }
                 .launchIn(scope)
-
         }
     }
 
