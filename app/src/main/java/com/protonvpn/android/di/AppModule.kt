@@ -99,6 +99,8 @@ import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabledImpl
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabled
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabledImpl
+import com.protonvpn.android.tv.usecases.TvHideServerListForFreeUser
+import com.protonvpn.android.tv.usecases.TvHideServerListForFreeUserImpl
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.AppIconManagerImpl
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
@@ -500,6 +502,11 @@ object AppModule {
         fun bindIsAppUpdateBannerFeatureFlagEnabled(
             impl: IsAppUpdateBannerFeatureFlagEnabledImpl
         ): IsAppUpdateBannerFeatureFlagEnabled
+
+        @Binds
+        fun bindTvServerListForFreeUserEnabled(
+            impl: TvHideServerListForFreeUserImpl
+        ): TvHideServerListForFreeUser
 
         @Binds
         fun bindPeriodicUpdateManager(impl: PeriodicUpdateManagerImpl): PeriodicUpdateManager

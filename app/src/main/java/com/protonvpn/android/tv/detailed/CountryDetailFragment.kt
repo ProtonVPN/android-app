@@ -133,6 +133,8 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
             defaultConnection.isChecked = viewState.isDefaultCountry
             defaultConnection.isVisible = viewState.isAccessible
 
+            openServerList.isVisible = viewState.showOpenServerList
+
             connectStreaming.setStartDrawable(if (viewState.isPlusUser) 0 else CoreR.drawable.ic_proton_lock_filled)
             connectStreaming.setText(viewState.connectButtonText)
             connectStreaming.isVisible = viewState.showConnectToStreaming

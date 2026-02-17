@@ -25,8 +25,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.BaseTvActivity
-import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -35,11 +33,9 @@ import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.SetFavoriteCountry
+import com.protonvpn.android.tv.usecases.TvHideServerListForFreeUser
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
-import com.protonvpn.android.tv.vpn.createProfileForCountry
 import com.protonvpn.android.userstorage.ProfileManager
-import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnState
@@ -63,6 +59,7 @@ data class ViewState(
     val showConnectButtons: Boolean,
     val showConnectFastest: Boolean,
     val showConnectToStreaming: Boolean,
+    val showOpenServerList: Boolean,
     @StringRes val connectButtonText: Int,
     @StringRes val disconnectButtonText: Int,
 )
@@ -76,7 +73,8 @@ class CountryDetailViewModel @Inject constructor(
     private val connectHelper: TvUiConnectDisconnectHelper,
     private val profileManager: ProfileManager,
     private val setFavoriteCountry: SetFavoriteCountry,
-    private val currentUser: CurrentUser
+    private val currentUser: CurrentUser,
+    private val tvHideServerListForFreeUser: TvHideServerListForFreeUser,
 ) : ViewModel() {
 
     fun getState(countryCode: String): Flow<ViewState> = flow {
@@ -89,8 +87,9 @@ class CountryDetailViewModel @Inject constructor(
 
     private fun getViewState(countryCard: CountryCard, hasStreamingServices: Boolean): Flow<ViewState> = combine(
         vpnStatusProviderUI.status,
-        currentUser.vpnUserFlow
-    ) { vpnStatus, vpnUser ->
+        currentUser.vpnUserFlow,
+        tvHideServerListForFreeUser.observe()
+    ) { vpnStatus, vpnUser, tvHideServerListForFreeUser ->
         val country = countryCard.vpnCountry
         val isPlusUser = vpnUser?.isUserPlusOrAbove == true
         ViewState(
@@ -104,6 +103,7 @@ class CountryDetailViewModel @Inject constructor(
             hasAccessToStreaming = isPlusUser,
             showConnectFastest = showConnectToFastest(country, vpnStatus, vpnUser),
             showConnectToStreaming = showConnectToStreaming(country, vpnStatus, vpnUser),
+            showOpenServerList = !tvHideServerListForFreeUser || vpnUser?.isUserPlusOrAbove == true,
             connectButtonText = if (isPlusUser) R.string.tv_detail_connect else R.string.tv_detail_connect_streaming,
             disconnectButtonText = disconnectText(country, vpnStatus, vpnUser)
         )
