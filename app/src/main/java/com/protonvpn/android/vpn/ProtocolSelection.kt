@@ -42,6 +42,9 @@ data class ProtocolSelection private constructor(
         }
     }
 
+    fun isSmartProtocol() =
+        vpn == VpnProtocol.Smart || (vpn == VpnProtocol.ProTun && transmission == null)
+
     val displayName: Int get() = when (vpn) {
         VpnProtocol.Smart -> R.string.settingsProtocolNameSmart
         VpnProtocol.ProTun -> when (transmission) {

@@ -85,9 +85,13 @@ class VpnConnectionTelemetry @Inject constructor(
         vpnStateMonitor.status.onEach { status ->
             val state = status.state
             when {
-                state is VpnState.Connected -> onConnectingFinished(Outcome.SUCCESS, status.connectionParams)
+                state is VpnState.Connected -> onConnectingFinished(
+                    Outcome.SUCCESS,
+                    localAgentErrorCode = null,
+                    status.connectionParams
+                )
                 state is VpnState.Error && state.isFinal ->
-                    onConnectingFinished(Outcome.FAILURE, status.connectionParams)
+                    onConnectingFinished(Outcome.FAILURE, state.localAgentErrorCode, status.connectionParams)
             }
         }.launchIn(mainScope)
     }
@@ -96,7 +100,7 @@ class VpnConnectionTelemetry @Inject constructor(
         if (trigger !is ConnectTrigger.Fallback || connectionInProgress == null) {
             connectionInProgress?.let {
                 reportImmediateAbortToSentry("new connection start")
-                sendConnectionEvent(Outcome.ABORTED, it, null)
+                sendConnectionEvent(Outcome.ABORTED, null, it, null)
             }
 
             connectionInProgress = ConnectionInitInfo(
@@ -111,15 +115,23 @@ class VpnConnectionTelemetry @Inject constructor(
     fun onConnectionAbort(isFailure: Boolean = false, report: Boolean = true, sentryInfo: String? = null) {
         if (report) {
             if (!isFailure && sentryInfo != null) reportImmediateAbortToSentry(sentryInfo)
-            onConnectingFinished(if (isFailure) Outcome.FAILURE else Outcome.ABORTED, null)
+            onConnectingFinished(
+                if (isFailure) Outcome.FAILURE else Outcome.ABORTED,
+                localAgentErrorCode = null,
+                connectionParams = null,
+            )
         } else {
             connectionInProgress = null
         }
     }
 
-    private fun onConnectingFinished(outcome: Outcome, connectionParams: ConnectionParams?) {
+    private fun onConnectingFinished(
+        outcome: Outcome,
+        localAgentErrorCode: Long?,
+        connectionParams: ConnectionParams?
+    ) {
         connectionInProgress?.let {
-            sendConnectionEvent(outcome, it, connectionParams)
+            sendConnectionEvent(outcome, localAgentErrorCode, it, connectionParams)
         }
         connectionInProgress = null
     }
@@ -132,7 +144,7 @@ class VpnConnectionTelemetry @Inject constructor(
         ) {
             val outcome = if (trigger.isSuccess) Outcome.ABORTED else Outcome.FAILURE
             if (outcome == Outcome.ABORTED) reportImmediateAbortToSentry("disconnect")
-            onConnectingFinished(outcome, connectionParams)
+            onConnectingFinished(outcome, localAgentErrorCode = null, connectionParams)
         } else if (lastConnectTimestampMs != null) { // Only log events when previously connected.
             sendDisconnectEvent(trigger, connectionParams)
             lastConnectTimestampMs = null
@@ -141,6 +153,7 @@ class VpnConnectionTelemetry @Inject constructor(
 
     private fun sendConnectionEvent(
         outcome: Outcome,
+        localAgentErrorCode: Long?,
         connectionInfo: ConnectionInitInfo,
         connectionParams: ConnectionParams?
     ) {
@@ -155,6 +168,11 @@ class VpnConnectionTelemetry @Inject constructor(
                     this["vpn_trigger"] = trigger.statsName
                     this["is_ipv6_enabled"] = connectionParams?.enableIPv6?.toTelemetry() ?: NO_VALUE
                     this["has_active_exclusions"] = hasExcludedLocations.toTelemetry()
+                    val protocol = connectionParams?.protocolSelection
+                    if (protocol != null) {
+                        this["is_smart_protocol"] = protocol.isSmartProtocol().toTelemetry()
+                    }
+                    localAgentErrorCode?.let { this["failure_reason"] = it.toString() }
                     addCommonDimensions(outcome, connectionParams)
                     addServerFeatures(connectionParams?.server)
                 }

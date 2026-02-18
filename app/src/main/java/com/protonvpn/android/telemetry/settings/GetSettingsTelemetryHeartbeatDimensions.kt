@@ -20,6 +20,7 @@
 package com.protonvpn.android.telemetry.settings
 
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
@@ -35,6 +36,7 @@ import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.isIPv6
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
+import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import com.protonvpn.android.widget.WidgetType
 import com.protonvpn.android.widget.data.WidgetTracker
@@ -57,6 +59,7 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
     private val reviewTracker: ReviewTracker,
     private val observerExcludedLocations: ObserveExcludedLocations,
     private val isAutomaticConnectionEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
+    private val isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
 ) {
 
     suspend operator fun invoke(): Map<String, String> = buildMap {
@@ -207,6 +210,11 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
             )
         }
 
+        put(
+            key = DIMENSION_IS_PROTUN_ENABLED,
+            value = isProTunEnabledTelemetry(settings.protocol.vpn, isProTunV1FeatureFlagEnabled())
+        )
+
         commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
     }
 
@@ -288,6 +296,13 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
         else -> ">=21"
     }
 
+    private fun isProTunEnabledTelemetry(vpnProtocol: VpnProtocol, isProTunV1FeatureFlagEnabled: Boolean) =
+        when {
+            !isProTunV1FeatureFlagEnabled -> CommonDimensions.NO_VALUE
+            vpnProtocol == VpnProtocol.ProTun -> "true"
+            else -> "false"
+        }
+
     private companion object {
         private const val DIMENSION_APP_ICON = "app_icon"
         private const val DIMENSION_AUTO_CONNECT_ENABLED = "is_auto_connect_enabled"
@@ -298,6 +313,7 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
         private const val DIMENSION_IS_SYSTEM_CUSTOM_DNS_ENABLED = "is_system_custom_dns_enabled"
         private const val DIMENSION_IS_IPV6_ENABLED = "is_ipv6_enabled"
         private const val DIMENSION_IS_CUSTOM_DNS_ENABLED = "is_custom_dns_enabled"
+        private const val DIMENSION_IS_PROTUN_ENABLED = "is_protun_enabled"
         private const val DIMENSION_CUSTOM_DNS_COUNT = "custom_dns_count"
         private const val DIMENSION_UI_THEME = "ui_theme"
         private const val DIMENSION_FIRST_CUSTOM_DNS_ADDRESS_FAMILY = "first_custom_dns_address_family"

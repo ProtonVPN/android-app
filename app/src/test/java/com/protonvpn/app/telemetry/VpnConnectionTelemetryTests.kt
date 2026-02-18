@@ -166,6 +166,7 @@ class VpnConnectionTelemetryTests {
             "entry_ip" to "1.2.3.4",
             "is_ipv6_enabled" to "false",
             "has_active_exclusions" to "false",
+            "is_smart_protocol" to "false",
         )
         verify {
             mockTelemetry.event(

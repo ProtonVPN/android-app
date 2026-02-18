@@ -155,7 +155,7 @@ abstract class VpnBackend(
                     agentConstants.errorCodeMaxSessionsPro,
                     agentConstants.errorCodeMaxSessionsUnknown,
                     agentConstants.errorCodeMaxSessionsVisionary ->
-                        setError(ErrorType.MAX_SESSIONS)
+                        setError(ErrorType.MAX_SESSIONS, localAgentErrorCode = code)
 
                     agentConstants.errorCodeBadCertSignature,
                     agentConstants.errorCodeCertificateRevoked ->
@@ -165,23 +165,23 @@ abstract class VpnBackend(
                         reconnectLocalAgent(needNewCertificate = true, reason = "local agent: certificate expired")
 
                     agentConstants.errorCodeKeyUsedMultipleTimes ->
-                        setError(ErrorType.KEY_USED_MULTIPLE_TIMES)
+                        setError(ErrorType.KEY_USED_MULTIPLE_TIMES, localAgentErrorCode = code)
 
                     agentConstants.errorCodeUserTorrentNotAllowed ->
-                        setError(ErrorType.TORRENT_NOT_ALLOWED)
+                        setError(ErrorType.TORRENT_NOT_ALLOWED, localAgentErrorCode = code)
 
                     agentConstants.errorCodeUserBadBehavior ->
-                        setError(ErrorType.POLICY_VIOLATION_BAD_BEHAVIOUR)
+                        setError(ErrorType.POLICY_VIOLATION_BAD_BEHAVIOUR, localAgentErrorCode = code)
 
                     agentConstants.errorCodePolicyViolationLowPlan ->
-                        setError(ErrorType.POLICY_VIOLATION_LOW_PLAN)
+                        setError(ErrorType.POLICY_VIOLATION_LOW_PLAN, localAgentErrorCode = code)
 
                     agentConstants.errorCodePolicyViolationDelinquent ->
-                        setError(ErrorType.POLICY_VIOLATION_DELINQUENT)
+                        setError(ErrorType.POLICY_VIOLATION_DELINQUENT, localAgentErrorCode = code)
 
                     agentConstants.errorCodeServerError,
                     agentConstants.errorCodeUnknown ->
-                        setError(ErrorType.SERVER_ERROR)
+                        setError(ErrorType.SERVER_ERROR, localAgentErrorCode = code)
 
                     agentConstants.errorCodeRestrictedServer ->
                         // Server should unblock eventually, but we need to keep track and provide watchdog if necessary.
@@ -189,7 +189,7 @@ abstract class VpnBackend(
 
                     else -> {
                         if (isFinalError)
-                            setError(ErrorType.LOCAL_AGENT_ERROR, description = description)
+                            setError(ErrorType.LOCAL_AGENT_ERROR, description = description, localAgentErrorCode = code)
                     }
                 }
             }
@@ -351,7 +351,7 @@ abstract class VpnBackend(
     // original object have "this" reference in a field, copy of that field in spyk() will point to the old object.
     private fun createNativeClient() = VpnAgentClient()
 
-    private fun setError(error: ErrorType, disconnectVPN: Boolean = true, description: String? = null) {
+    private fun setError(error: ErrorType, disconnectVPN: Boolean = true, description: String? = null, localAgentErrorCode: Long? = null) {
         description?.let {
             ProtonLogger.log(ConnError, it)
         }
@@ -372,7 +372,7 @@ abstract class VpnBackend(
                 val status = "protocol state: $vpnProtocolState, protocol: ${lastConnectionParams?.protocolSelection}"
                 Sentry.captureMessage("Timed out waiting for backend to close: $status")
             }
-            selfStateFlow.value = VpnState.Error(error, description, isFinal = disconnectVPN)
+            selfStateFlow.value = VpnState.Error(error, description, isFinal = disconnectVPN, localAgentErrorCode)
         }
     }
 

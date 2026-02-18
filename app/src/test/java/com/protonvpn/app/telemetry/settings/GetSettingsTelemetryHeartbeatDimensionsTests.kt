@@ -40,6 +40,7 @@ import com.protonvpn.android.ui.onboarding.ReviewTracker
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.vpn.ConnectivityMonitor
+import com.protonvpn.android.vpn.usecases.FakeIsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.android.widget.WidgetType
 import com.protonvpn.android.widget.data.WidgetTracker
@@ -172,6 +173,7 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             reviewTracker = mockReviewTracker,
             observerExcludedLocations = observeExcludedLocations,
             isAutomaticConnectionEnabled = isAutomaticConnectionEnabled,
+            isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true)
         )
 
         every { mockAppIconManager.getCurrentIconData() } returns CustomAppIconData.DEFAULT

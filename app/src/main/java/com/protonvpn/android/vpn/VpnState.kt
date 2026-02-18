@@ -44,7 +44,8 @@ sealed class VpnState(val isEstablishingConnection: Boolean) {
     data class Error(
         val type: ErrorType,
         val description: String? = null,
-        val isFinal: Boolean
+        val isFinal: Boolean,
+        val localAgentErrorCode: Long? = null
     ) : VpnState(isEstablishingConnection = !isFinal) {
         override fun toString() = "$name($type) + $description"
     }
