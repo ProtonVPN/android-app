@@ -31,6 +31,7 @@ import io.sentry.Sentry
 import io.sentry.SentryOptions
 import io.sentry.android.core.SentryAndroid
 import io.sentry.protocol.User
+import me.proton.core.util.android.device.isDeviceRooted
 import me.proton.core.util.android.sentry.project.AccountSentryHubBuilder
 import java.util.UUID
 
@@ -40,6 +41,8 @@ object SentryIntegration {
     private const val SENTRY_ENABLED_KEY = "sentry_is_enabled"
 
     private lateinit var application: Application
+
+    private val isRooted by lazy { isDeviceRooted(application) }
 
     @EntryPoint
     @InstallIn(SingletonComponent::class)
@@ -75,6 +78,8 @@ object SentryIntegration {
         SentryAndroid.init(application) { options ->
             options.dsn = sentryDsn
             options.release = BuildConfig.VERSION_NAME
+            // Check for root involves multiple binder calls, delay it until onBeforeSend.
+            options.isEnableRootCheck = false
             options.isEnableAutoSessionTracking = false
             options.isEnableActivityLifecycleBreadcrumbs = false // We log our own breadcrumbs.
             options.isEnableUserInteractionBreadcrumbs = false
@@ -84,6 +89,7 @@ object SentryIntegration {
             options.setBeforeSend { event, _ ->
                 val deps = EntryPointAccessors.fromApplication(application, HiltEntryPoint::class.java)
                 SentryFingerprints.setFingerprints(event)
+                event.setTag("os.rooted", if (isRooted) "yes" else "no")
                 event.setTag("isTv", deps.isTv().toString())
                 event
             }
