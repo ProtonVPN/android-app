@@ -23,6 +23,7 @@ import android.app.ApplicationExitInfo
 import android.content.Context
 import android.os.Build
 import android.os.SystemClock
+import android.webkit.WebView
 import com.protonvpn.android.api.DohEnabled
 import com.protonvpn.android.app.AppExitObservability
 import com.protonvpn.android.app.AppStartExitLogger
@@ -34,6 +35,7 @@ import com.protonvpn.android.logging.CurrentStateLogger
 import com.protonvpn.android.logging.CurrentStateLoggerGlobal
 import com.protonvpn.android.logging.FileLogWriter
 import com.protonvpn.android.logging.GlobalSentryLogWriter
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogWriter
 import com.protonvpn.android.logging.LogcatLogWriter
 import com.protonvpn.android.logging.PowerStateLogger
@@ -46,10 +48,12 @@ import com.protonvpn.android.notifications.NotificationPermissionManager
 import com.protonvpn.android.profiles.usecases.PopulateInitialProfiles
 import com.protonvpn.android.profiles.usecases.ProfileAutoOpenHandler
 import com.protonvpn.android.profiles.usecases.UpdateProfileLastConnected
+import com.protonvpn.android.promooffers.usecase.OneTimePopupNotificationTrigger
 import com.protonvpn.android.quicktile.QuickTileDataStoreUpdater
 import com.protonvpn.android.redesign.recents.usecases.ConnectingUpdatesRecents
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
 import com.protonvpn.android.redesign.upgrade.usecase.PurchasesEnabledUpdater
+import com.protonvpn.android.servers.StreamingServicesUpdater
 import com.protonvpn.android.servers.UpdateServerTranslations
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.theme.UpdateAndroidAppTheme
@@ -57,8 +61,6 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.onboarding.ReviewTracker
 import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess
-import com.protonvpn.android.promooffers.usecase.OneTimePopupNotificationTrigger
-import com.protonvpn.android.servers.StreamingServicesUpdater
 import com.protonvpn.android.utils.SentryIntegration.initSentry
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.VpnCoreLogger
@@ -170,6 +172,12 @@ open class ProtonApplication : Application() {
             val uptimeS = SystemClock.elapsedRealtime() / 1000
             ProtonLogger.log(AppProcessStart, "version: ${BuildConfig.VERSION_NAME}")
             ProtonLogger.log(AppProcessStart,"system: build ${Build.DISPLAY} uptime ${uptimeS}s")
+            if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= 26) {
+                val webViewApp = WebView.getCurrentWebViewPackage()
+                val webViewAppString =
+                    if (webViewApp != null) with(webViewApp) { "$packageName $versionName" } else "null"
+                ProtonLogger.logCustom(LogCategory.HV, "WebView package: $webViewAppString")
+            }
 
             initNotificationChannel(this)
 
