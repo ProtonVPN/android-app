@@ -89,7 +89,7 @@ class AutoConnectOnBootWorker  @AssistedInject constructor(
     )
 
     private suspend fun connect(settings: LocalUserSettings) {
-        val profile = tvProfileManager.get().getDefaultOrFastestSync()
+        val profile = tvProfileManager.get().getDefaultOrFastest()
         serverManager.get().ensureLoaded()
         val intent = createIntentForDefaultProfile(
             serverManager.get(),

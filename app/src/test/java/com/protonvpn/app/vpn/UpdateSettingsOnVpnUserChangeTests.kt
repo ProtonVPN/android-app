@@ -95,6 +95,7 @@ class UpdateSettingsOnVpnUserChangeTests {
         defaultProfile = Profile(ServerWrapper.makeWithServer(MockedServers.server), null)
 
         every { mockProfileManager.getDefaultOrFastestSync() } returns defaultProfile
+        coEvery { mockProfileManager.getDefaultOrFastest() } returns defaultProfile
         every { mockDefaultServer.tier } returns 0
         every { mockPlanManager.planChangeFlow } returns planFlow
         coEvery { mockServerManager2.getServerForProfile(defaultProfile, any(), any()) } answers {

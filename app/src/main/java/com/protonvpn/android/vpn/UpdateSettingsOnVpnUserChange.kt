@@ -53,7 +53,7 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
         mainScope.launch {
             currentUser.vpnUserFlow.collect { vpnUser ->
                 if (vpnUser != null) {
-                    val defaultOrFastest = profileManager.get().getDefaultOrFastestSync()
+                    val defaultOrFastest = profileManager.get().getDefaultOrFastest()
                     val defaultProfileServer =
                         serverManager.getServerForProfile(
                             defaultOrFastest,

@@ -26,6 +26,7 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -53,6 +54,13 @@ class ProfileManager @VisibleForTesting constructor(
         getSavedProfiles().find { it.id == effectiveUserSettings.value.defaultProfileId }
 
     fun getDefaultOrFastestSync() = findDefaultProfileSync() ?: fastestProfile
+
+    suspend fun findDefaultProfile(): Profile? {
+        val defaultProfileId = effectiveUserSettings.first().defaultProfileId
+        return getSavedProfiles().find { it.id == defaultProfileId }
+    }
+
+    suspend fun getDefaultOrFastest() = findDefaultProfile() ?: fastestProfile
 
     fun addToProfileList(profileToSave: Profile) {
         if (!savedProfiles.profileList.contains(profileToSave)) {
