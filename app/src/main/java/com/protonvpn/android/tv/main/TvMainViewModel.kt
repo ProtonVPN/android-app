@@ -47,6 +47,7 @@ import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUser
+import com.protonvpn.android.tv.usecases.TvDisableRecentsForFreeUser
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
 import com.protonvpn.android.tv.vpn.createIntentForDefaultProfile
 import com.protonvpn.android.tv.vpn.getConnectCountry
@@ -100,6 +101,7 @@ class TvMainViewModel @Inject constructor(
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     private val tvDisableFavoriteCountryForFreeUser: TvDisableFavoriteCountryForFreeUser,
+    private val tvDisableRecentsForFreeUser: TvDisableRecentsForFreeUser,
 ) : ViewModel() {
 
     data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)
@@ -253,24 +255,26 @@ class TvMainViewModel @Inject constructor(
                 )
             )
         }
-        recentsManager.getRecentCountries()
-            .filterNot { country ->
-                vpnStatusProviderUI.isConnectingToCountry(country) ||
-                    getConnectCountry(profileManager.getDefaultOrFastest()) == country
-            }
-            .take(RecentsManager.RECENT_MAX_SIZE - shouldAddFavorite.toInt())
-            .forEach { country ->
-                val connectIntent = createIntentForCountry(country)
-                recentsList.add(
-                    ConnectIntentCard(
-                        title = CountryTools.getFullName(country),
-                        titleDrawable = profileCardTitleIcon(connectIntent),
-                        backgroundImage = CountryTools.getLargeFlagResource(context, country),
-                        connectIntent = connectIntent,
-                        connectCountry = country
+        if (!isFree || !tvDisableRecentsForFreeUser()) {
+            recentsManager.getRecentCountries()
+                .filterNot { country ->
+                    vpnStatusProviderUI.isConnectingToCountry(country) ||
+                            getConnectCountry(profileManager.getDefaultOrFastest()) == country
+                }
+                .take(RecentsManager.RECENT_MAX_SIZE - shouldAddFavorite.toInt())
+                .forEach { country ->
+                    val connectIntent = createIntentForCountry(country)
+                    recentsList.add(
+                        ConnectIntentCard(
+                            title = CountryTools.getFullName(country),
+                            titleDrawable = profileCardTitleIcon(connectIntent),
+                            backgroundImage = CountryTools.getLargeFlagResource(context, country),
+                            connectIntent = connectIntent,
+                            connectCountry = country
+                        )
                     )
-                )
-            }
+                }
+        }
         return recentsList
     }
 
