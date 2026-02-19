@@ -53,6 +53,7 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
+import com.protonvpn.android.tv.usecases.FakeTvDisableFavoriteCountryForFreeUser
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.ui.storage.UiStateStorage
@@ -192,7 +193,8 @@ class SettingsViewModelTests {
                 isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
                 isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
                 isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),
-                isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true)
+                isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),
+                tvDisableFavoriteCountryForFreeUser = FakeTvDisableFavoriteCountryForFreeUser(enabled = false)
             )
         )
         val effectiveCurrentUserSettingsFlow = EffectiveCurrentUserSettingsFlow(

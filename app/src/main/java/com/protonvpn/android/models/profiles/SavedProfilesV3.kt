@@ -27,7 +27,7 @@ class SavedProfilesV3(val profileList: MutableList<Profile>) {
     companion object {
         // Use hardcoded IDs for prebaked profiles.
         // It's not strictly necessary but should make things a bit more robust.
-        private val FASTEST_PROFILE_ID: UUID? =
+        val FASTEST_PROFILE_ID: UUID? =
             UUID.fromString("82c935d8-2968-4cc5-8ea7-8d73270efe57")
 
         fun defaultProfiles(): SavedProfilesV3 {

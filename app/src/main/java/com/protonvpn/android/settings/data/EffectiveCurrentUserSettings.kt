@@ -22,6 +22,7 @@ package com.protonvpn.android.settings.data
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
+import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
@@ -29,6 +30,7 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
+import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUser
 import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.utils.combine
 import com.protonvpn.android.vpn.effectiveProtocol
@@ -58,7 +60,8 @@ class SettingsFeatureFlagsFlow @Inject constructor(
     isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
-    isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled
+    isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
+    tvDisableFavoriteCountryForFreeUser: TvDisableFavoriteCountryForFreeUser,
 ) : Flow<SettingsFeatureFlagsFlow.Flags> {
 
     data class Flags(
@@ -68,6 +71,7 @@ class SettingsFeatureFlagsFlow @Inject constructor(
         val isTvNetShieldSettingEnabled: Boolean,
         val isTvCustomDnsSettingEnabled: Boolean,
         val isProTunV1Enabled: Boolean,
+        val tvDisableFavoriteCountryForFreeUser: Boolean,
     )
 
     private val flow: Flow<Flags> = combine(
@@ -76,8 +80,9 @@ class SettingsFeatureFlagsFlow @Inject constructor(
         isTvAutoConnectFeatureFlagEnabled.observe(),
         isTvNetShieldSettingFeatureFlagEnabled.observe(),
         isTvCustomDnsSettingFeatureFlagEnabled.observe(),
-        isProTunV1FeatureFlagEnabled.observe()
-    ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isTvAutoConnectEnabled, isTvNetShieldEnabled, isTvCustomDnsEnabled, isProTunV1Enabled ->
+        isProTunV1FeatureFlagEnabled.observe(),
+        tvDisableFavoriteCountryForFreeUser.observe(),
+    ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isTvAutoConnectEnabled, isTvNetShieldEnabled, isTvCustomDnsEnabled, isProTunV1Enabled, tvDisableFavoriteCountryForFreeUser ->
         Flags(
             isIPv6Enabled = isIPv6Enabled,
             isDirectLanConnectionsEnabled = isDirectLanConnectionsEnabled,
@@ -85,6 +90,7 @@ class SettingsFeatureFlagsFlow @Inject constructor(
             isTvNetShieldSettingEnabled = isTvNetShieldEnabled,
             isTvCustomDnsSettingEnabled = isTvCustomDnsEnabled,
             isProTunV1Enabled = isProTunV1Enabled,
+            tvDisableFavoriteCountryForFreeUser,
         )
     }
 
@@ -125,8 +131,14 @@ abstract class BaseApplyEffectiveUserSettings(
             if (isUserPlusOrAbove) settings.splitTunneling
             else SplitTunnelingSettings(isEnabled = false)
         val lanConnections = isUserPlusOrAbove && settings.lanConnections
+        val defaultProfileId = when {
+            isUserPlusOrAbove -> settings.defaultProfileId
+            flags.tvDisableFavoriteCountryForFreeUser -> SavedProfilesV3.FASTEST_PROFILE_ID
+            isTv -> settings.defaultProfileId
+            else -> null
+        }
         return settings.copy(
-            defaultProfileId = if (isUserPlusOrAbove || isTv) settings.defaultProfileId else null,
+            defaultProfileId = defaultProfileId,
             lanConnections = lanConnections,
             lanConnectionsAllowDirect =
                 lanConnections && settings.lanConnectionsAllowDirect && flags.isDirectLanConnectionsEnabled,

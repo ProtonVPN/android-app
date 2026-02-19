@@ -34,6 +34,7 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.SetFavoriteCountry
 import com.protonvpn.android.tv.usecases.TvHideServerListForFreeUser
+import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUser
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -60,6 +61,7 @@ data class ViewState(
     val showConnectFastest: Boolean,
     val showConnectToStreaming: Boolean,
     val showOpenServerList: Boolean,
+    val showAddFavorite: Boolean,
     @StringRes val connectButtonText: Int,
     @StringRes val disconnectButtonText: Int,
 )
@@ -75,6 +77,7 @@ class CountryDetailViewModel @Inject constructor(
     private val setFavoriteCountry: SetFavoriteCountry,
     private val currentUser: CurrentUser,
     private val tvHideServerListForFreeUser: TvHideServerListForFreeUser,
+    private val tvDisableFavoriteCountryForFreeUser: TvDisableFavoriteCountryForFreeUser,
 ) : ViewModel() {
 
     fun getState(countryCode: String): Flow<ViewState> = flow {
@@ -88,8 +91,9 @@ class CountryDetailViewModel @Inject constructor(
     private fun getViewState(countryCard: CountryCard, hasStreamingServices: Boolean): Flow<ViewState> = combine(
         vpnStatusProviderUI.status,
         currentUser.vpnUserFlow,
-        tvHideServerListForFreeUser.observe()
-    ) { vpnStatus, vpnUser, tvHideServerListForFreeUser ->
+        tvHideServerListForFreeUser.observe(),
+        tvDisableFavoriteCountryForFreeUser.observe()
+    ) { vpnStatus, vpnUser, tvHideServerListForFreeUser, tvDisableFavoriteCountryForFreeUser ->
         val country = countryCard.vpnCountry
         val isPlusUser = vpnUser?.isUserPlusOrAbove == true
         ViewState(
@@ -105,7 +109,8 @@ class CountryDetailViewModel @Inject constructor(
             showConnectToStreaming = showConnectToStreaming(country, vpnStatus, vpnUser),
             showOpenServerList = !tvHideServerListForFreeUser || vpnUser?.isUserPlusOrAbove == true,
             connectButtonText = if (isPlusUser) R.string.tv_detail_connect else R.string.tv_detail_connect_streaming,
-            disconnectButtonText = disconnectText(country, vpnStatus, vpnUser)
+            disconnectButtonText = disconnectText(country, vpnStatus, vpnUser),
+            showAddFavorite = !tvDisableFavoriteCountryForFreeUser || vpnUser?.isUserPlusOrAbove == true
         )
     }
 

@@ -39,6 +39,7 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
+import com.protonvpn.android.tv.usecases.FakeTvDisableFavoriteCountryForFreeUser
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -108,7 +109,8 @@ class SettingsForConnectionTests {
                     isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
                     isTvNetShieldSettingFeatureFlagEnabled = isTvNetShieldEnabled,
                     isTvCustomDnsSettingFeatureFlagEnabled = isTvCustomDnsEnabled,
-                    isProTunV1FeatureFlagEnabled = isProTunV1Enabled
+                    isProTunV1FeatureFlagEnabled = isProTunV1Enabled,
+                    tvDisableFavoriteCountryForFreeUser = FakeTvDisableFavoriteCountryForFreeUser(false),
                 )
             ),
             vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)

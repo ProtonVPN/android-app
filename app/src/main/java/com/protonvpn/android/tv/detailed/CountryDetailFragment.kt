@@ -131,7 +131,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
             countryDescription.setText(viewState.countryContentDescription)
 
             defaultConnection.isChecked = viewState.isDefaultCountry
-            defaultConnection.isVisible = viewState.isAccessible
+            defaultConnection.isVisible = viewState.isAccessible && viewState.showAddFavorite
 
             openServerList.isVisible = viewState.showOpenServerList
 

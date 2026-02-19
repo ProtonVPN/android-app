@@ -109,7 +109,8 @@
             android:layout_marginStart="32dp"
             android:buttonTint="@color/tvAccent"
             android:text="@string/tv_detail_default_connection_checkbox_short"
-            android:foreground="@drawable/tv_focus_foreground" />
+            android:foreground="@drawable/tv_focus_foreground"
+            android:visibility="gone" />
     </LinearLayout>
 
     <HorizontalScrollView

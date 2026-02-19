@@ -79,8 +79,8 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.relativePadding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TvHomeFragment : BaseTvBrowseFragment() {
@@ -230,7 +230,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
         }
     }
 
-    private fun setupRowAdapter(viewState: TvMainViewModel.MainViewState) {
+    private suspend fun setupRowAdapter(viewState: TvMainViewModel.MainViewState) {
         rowsAdapter?.createRows(
             isFreeUser = viewState.isFreeUser,
             showNetShieldSetting = viewState.showNetShieldSetting,
@@ -246,7 +246,9 @@ class TvHomeFragment : BaseTvBrowseFragment() {
 
     private fun monitorVpnState() {
         viewModel.vpnConnectionState.observe(viewLifecycleOwner, Observer {
-            rowsAdapter?.updateRecentsRow()
+            viewLifecycleOwner.lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
+                rowsAdapter?.updateRecentsRow()
+            }
         })
     }
 
@@ -260,7 +262,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
         }
     }
 
-    private fun ArrayObjectAdapter.updateRecentsRow() {
+    private suspend fun ArrayObjectAdapter.updateRecentsRow() {
         val recentsRow = CardRow(
             title = R.string.quickConnect,
             icon = R.drawable.ic_proton_power_off_32,
@@ -270,7 +272,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
         addOrReplace(0, createRow(recentsRow, 0))
     }
 
-    private fun ArrayObjectAdapter.createRows(
+    private suspend fun ArrayObjectAdapter.createRows(
         isFreeUser: Boolean,
         showAutoConnectSetting: Boolean,
         showNetShieldSetting: Boolean,

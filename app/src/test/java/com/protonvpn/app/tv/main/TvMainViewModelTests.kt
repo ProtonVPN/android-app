@@ -62,6 +62,7 @@ import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -117,6 +118,7 @@ class TvMainViewModelTests {
 
         vpnUserFlow = MutableStateFlow(TestUser.plusUser.vpnUser)
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
+        coEvery { mockCurrentUser.vpnUser() } answers { vpnUserFlow.value }
         every { mockCurrentUser.vpnUserCached() } answers { vpnUserFlow.value }
 
         val userSettingsManager =

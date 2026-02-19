@@ -46,6 +46,7 @@ import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.GetCountryCard
+import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUser
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
 import com.protonvpn.android.tv.vpn.createIntentForDefaultProfile
 import com.protonvpn.android.tv.vpn.getConnectCountry
@@ -98,6 +99,7 @@ class TvMainViewModel @Inject constructor(
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
+    private val tvDisableFavoriteCountryForFreeUser: TvDisableFavoriteCountryForFreeUser,
 ) : ViewModel() {
 
     data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)
@@ -222,13 +224,17 @@ class TvMainViewModel @Inject constructor(
         }
     }
 
-    fun getRecentCardList(context: Context): List<Card> {
+    suspend fun getRecentCardList(context: Context): List<Card> {
         val recentsList = mutableListOf<Card>()
+        val isFree = currentUser.vpnUser()?.isFreeUser == true
+        val disableFavoriteCountry = tvDisableFavoriteCountryForFreeUser() && isFree
         recentsList.add(constructQuickConnect(context))
 
         val defaultConnection = createIntentForDefaultProfile(profileManager.getDefaultOrFastest())
         val defaultConnectCountry = getConnectCountry(profileManager.getDefaultOrFastest())
-        val shouldAddFavorite = (isConnected() || isEstablishingConnection()) &&
+        val shouldAddFavorite =
+            !disableFavoriteCountry &&
+            (isConnected() || isEstablishingConnection()) &&
             !vpnStatusProviderUI.isConnectingToCountry(defaultConnectCountry)
 
         if (shouldAddFavorite) {

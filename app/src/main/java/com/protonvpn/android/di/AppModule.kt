@@ -99,6 +99,8 @@ import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabledImpl
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabled
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabledImpl
+import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUser
+import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUserImpl
 import com.protonvpn.android.tv.usecases.TvHideServerListForFreeUser
 import com.protonvpn.android.tv.usecases.TvHideServerListForFreeUserImpl
 import com.protonvpn.android.ui.settings.AppIconManager
@@ -502,6 +504,11 @@ object AppModule {
         fun bindIsAppUpdateBannerFeatureFlagEnabled(
             impl: IsAppUpdateBannerFeatureFlagEnabledImpl
         ): IsAppUpdateBannerFeatureFlagEnabled
+
+        @Binds
+        fun bindTvDisableFavoriteCountryForFreeUser(
+            impl: TvDisableFavoriteCountryForFreeUserImpl
+        ): TvDisableFavoriteCountryForFreeUser
 
         @Binds
         fun bindTvServerListForFreeUserEnabled(
