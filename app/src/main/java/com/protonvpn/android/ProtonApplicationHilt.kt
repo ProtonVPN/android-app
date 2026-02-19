@@ -19,13 +19,16 @@
 
 package com.protonvpn.android
 
+import android.os.Build
 import android.webkit.WebView
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.startup.AppInitializer
 import androidx.work.Configuration
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.MemoryMonitor
-import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.promooffers.data.TestNotificationLoader
+import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
 import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.utils.isMainProcess
 import dagger.hilt.android.HiltAndroidApp
@@ -59,6 +62,13 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
             if (BuildConfig.DEBUG) {
                 // nosemgrep: gitlab.mobsf.kotlin-webview-rule-android_kotlin_webview_debug
                 WebView.setWebContentsDebuggingEnabled(true)
+                if (Build.VERSION.SDK_INT >= 26) {
+                    val webViewApp = WebView.getCurrentWebViewPackage()
+                    val webViewAppString =
+                        if (webViewApp != null) with(webViewApp) { "$packageName $versionName" } else "null"
+                    ProtonLogger.logCustom(LogCategory.HV, "WebView package: $webViewAppString")
+                }
+
                 testNotificationLoader.get().loadTestFile()
             }
 
