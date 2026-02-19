@@ -49,10 +49,10 @@ class ProfileManager @VisibleForTesting constructor(
     @VisibleForTesting
     fun getSavedProfiles(): List<Profile> = savedProfiles.profileList
 
-    fun findDefaultProfile(): Profile? =
+    fun findDefaultProfileSync(): Profile? =
         getSavedProfiles().find { it.id == effectiveUserSettings.value.defaultProfileId }
 
-    fun getDefaultOrFastest() = findDefaultProfile() ?: fastestProfile
+    fun getDefaultOrFastestSync() = findDefaultProfileSync() ?: fastestProfile
 
     fun addToProfileList(profileToSave: Profile) {
         if (!savedProfiles.profileList.contains(profileToSave)) {

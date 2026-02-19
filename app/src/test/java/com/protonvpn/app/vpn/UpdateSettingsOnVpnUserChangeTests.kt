@@ -24,8 +24,8 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -94,7 +94,7 @@ class UpdateSettingsOnVpnUserChangeTests {
         planFlow = MutableSharedFlow()
         defaultProfile = Profile(ServerWrapper.makeWithServer(MockedServers.server), null)
 
-        every { mockProfileManager.getDefaultOrFastest() } returns defaultProfile
+        every { mockProfileManager.getDefaultOrFastestSync() } returns defaultProfile
         every { mockDefaultServer.tier } returns 0
         every { mockPlanManager.planChangeFlow } returns planFlow
         coEvery { mockServerManager2.getServerForProfile(defaultProfile, any(), any()) } answers {

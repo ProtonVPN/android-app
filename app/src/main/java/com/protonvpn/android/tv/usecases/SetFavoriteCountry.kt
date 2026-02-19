@@ -35,7 +35,7 @@ class SetFavoriteCountry @Inject constructor(
 ) {
 
     operator fun invoke(countryCode: String?) {
-        profileManager.deleteProfile(profileManager.findDefaultProfile())
+        profileManager.deleteProfile(profileManager.findDefaultProfileSync())
         if (countryCode != null) {
             val newDefaultProfile = createProfileForCountry(countryCode)
             profileManager.addToProfileList(newDefaultProfile)

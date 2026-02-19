@@ -238,8 +238,8 @@ class TvMainViewModel @Inject constructor(
         val disableFavoriteCountry = isTvFavoriteCountryForFreeUserDisabled() && isFree
         recentsList.add(constructQuickConnect(context, disableFavoriteCountry))
 
-        val defaultConnection = createIntentForDefaultProfile(profileManager.getDefaultOrFastest())
-        val defaultConnectCountry = getConnectCountry(profileManager.getDefaultOrFastest())
+        val defaultConnection = createIntentForDefaultProfile(profileManager.getDefaultOrFastestSync())
+        val defaultConnectCountry = getConnectCountry(profileManager.getDefaultOrFastestSync())
         val shouldAddFavorite =
             !disableFavoriteCountry &&
             (isConnected() || isEstablishingConnection()) &&
@@ -249,7 +249,7 @@ class TvMainViewModel @Inject constructor(
             recentsList.add(
                 ConnectIntentCard(
                     title = context.getString(
-                        if (profileManager.getDefaultOrFastest().isPreBakedProfile)
+                        if (profileManager.getDefaultOrFastestSync().isPreBakedProfile)
                             R.string.tv_quick_connect_recommened
                         else
                             R.string.tv_quick_connect_favourite
@@ -265,7 +265,7 @@ class TvMainViewModel @Inject constructor(
             recentsManager.getRecentCountries()
                 .filterNot { country ->
                     vpnStatusProviderUI.isConnectingToCountry(country) ||
-                            getConnectCountry(profileManager.getDefaultOrFastest()) == country
+                            getConnectCountry(profileManager.getDefaultOrFastestSync()) == country
                 }
                 .take(RecentsManager.RECENT_MAX_SIZE - shouldAddFavorite.toInt())
                 .forEach { country ->
@@ -286,7 +286,7 @@ class TvMainViewModel @Inject constructor(
 
     @DrawableRes
     private fun profileCardTitleIcon(connectIntent: ConnectIntent): Int {
-        val defaultConnection = profileManager.getDefaultOrFastest()
+        val defaultConnection = profileManager.getDefaultOrFastestSync()
         val server = serverManager.getBestServerForConnectIntent(
             connectIntent = connectIntent,
             vpnUser = currentUser.vpnUserCached(),
@@ -305,7 +305,7 @@ class TvMainViewModel @Inject constructor(
 
     @DrawableRes
     private fun quickConnectTitleIcon(freeUser: Boolean, tvDisableFavoriteCountryForFreeUser: Boolean): Int {
-        val defaultConnection = profileManager.getDefaultOrFastest()
+        val defaultConnection = profileManager.getDefaultOrFastestSync()
         val server = serverManager.getServerForProfile(defaultConnection, currentUser.vpnUserCached(), settingsProtocol, smartProtocols)
         return when {
             isConnected() || isEstablishingConnection() -> 0
@@ -327,7 +327,7 @@ class TvMainViewModel @Inject constructor(
         val labelRes = when {
             isConnected() -> R.string.disconnect
             isEstablishingConnection() -> R.string.cancel
-            profileManager.getDefaultOrFastest().isPreBakedProfile ->
+            profileManager.getDefaultOrFastestSync().isPreBakedProfile ->
                 if (freeUser && tvDisableFavoriteCountryForFreeUser) R.string.fastest_country
                 else R.string.tv_quick_connect_recommened
             else -> R.string.tv_quick_connect_favourite
@@ -357,7 +357,7 @@ class TvMainViewModel @Inject constructor(
     suspend fun quickConnectFlag() = when {
         isConnected() || isEstablishingConnection() -> vpnStatusProviderUI.connectingToServer?.exitCountry
         currentUser.vpnUser()?.isFreeUser == true && isTvFavoriteCountryForFreeUserDisabled() -> null
-        else -> getConnectCountry(profileManager.getDefaultOrFastest())
+        else -> getConnectCountry(profileManager.getDefaultOrFastestSync())
     }
 
     private suspend fun quickConnectBackground(context: Context) =
@@ -369,7 +369,7 @@ class TvMainViewModel @Inject constructor(
         } else {
             connectHelper.connect(
                 activity,
-                createIntentForDefaultProfile(profileManager.getDefaultOrFastest()),
+                createIntentForDefaultProfile(profileManager.getDefaultOrFastestSync()),
                 ConnectTrigger.QuickConnect("quick connect (TV)")
             )
         }

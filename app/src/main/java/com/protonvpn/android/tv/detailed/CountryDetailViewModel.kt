@@ -100,7 +100,7 @@ class CountryDetailViewModel @Inject constructor(
             countryCard = countryCard,
             countryContentDescription = getCountryDescription(country, hasStreamingServices, vpnUser),
             isConnectedToThisCountry = vpnStatus.isConnectingToCountry(country.flag),
-            isDefaultCountry = profileManager.findDefaultProfile()?.wrapper?.country == country.flag,
+            isDefaultCountry = profileManager.findDefaultProfileSync()?.wrapper?.country == country.flag,
             isAccessible = country.hasAccessibleServer(vpnUser),
             showConnectButtons = showConnectButtons(country, vpnStatus, vpnUser),
             isPlusUser = isPlusUser,

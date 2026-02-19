@@ -100,7 +100,7 @@ class ProfileManagerTests {
     @Test
     fun `when defaultProfileId is invalid then defaultConnection falls back to saved profiles`() = testScope.runTest {
         effectiveUserSettings.update { settings -> settings.copy(defaultProfileId = UUID.randomUUID()) }
-        val profile = profileManager.getDefaultOrFastest()
+        val profile = profileManager.getDefaultOrFastestSync()
         assertEquals(profileManager.getSavedProfiles().first(), profile)
     }
 

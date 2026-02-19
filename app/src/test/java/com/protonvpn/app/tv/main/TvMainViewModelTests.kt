@@ -274,7 +274,7 @@ class TvMainViewModelTests {
 
         // Note: this assumes that defaultConnection is for the fastest server.
         val firstDefaultServer = serverManager.getServerForProfile(
-            profileManager.getDefaultOrFastest(),
+            profileManager.getDefaultOrFastestSync(),
             vpnUserFlow.value,
             userSettingsCached.value.protocol,
             smartProtocols = ProtocolSelection.REAL_PROTOCOLS,
@@ -293,7 +293,7 @@ class TvMainViewModelTests {
             serverManager.setServers(listOf(server2), null)
         }
         val secondDefaultServer = serverManager.getServerForProfile(
-            profileManager.getDefaultOrFastest(),
+            profileManager.getDefaultOrFastestSync(),
             vpnUserFlow.value,
             userSettingsCached.value.protocol,
             smartProtocols = ProtocolSelection.REAL_PROTOCOLS,
