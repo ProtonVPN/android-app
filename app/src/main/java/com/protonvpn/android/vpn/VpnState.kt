@@ -22,7 +22,6 @@ import android.content.Context
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import kotlinx.coroutines.flow.MutableStateFlow
-import java.util.Locale
 
 interface VpnStateSource {
     val selfStateFlow: MutableStateFlow<VpnState>
@@ -53,7 +52,7 @@ sealed class VpnState(val isEstablishingConnection: Boolean) {
     object Connected : VpnState(false)
     object Disconnecting : VpnState(false)
 
-    val name = javaClass.simpleName.toUpperCase(Locale.ROOT)
+    val name = javaClass.simpleName.uppercase()
     override fun toString() = name
 }
 

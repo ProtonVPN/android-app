@@ -28,7 +28,7 @@ abstract class AbstractCardPresenter<C, T : BaseCardView>(val context: Context) 
     override fun onCreateViewHolder(parent: ViewGroup) =
         ViewHolder(onCreateView())
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, item: Any) {
+    override fun onBindViewHolder(viewHolder: ViewHolder, item: Any?) {
         onBindViewHolder(item as C, viewHolder.view as T)
     }
 

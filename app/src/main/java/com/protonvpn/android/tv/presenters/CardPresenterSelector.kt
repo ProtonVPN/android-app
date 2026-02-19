@@ -22,17 +22,16 @@ import android.content.Context
 import androidx.leanback.widget.Presenter
 import androidx.leanback.widget.PresenterSelector
 import com.protonvpn.android.tv.models.Card
+import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.IconCard
-import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.QuickConnectCard
-import java.util.HashMap
 
 class CardPresenterSelector(private val context: Context) : PresenterSelector() {
 
     private val presenters = HashMap<Class<*>, Presenter>()
 
-    override fun getPresenter(item: Any): Presenter {
+    override fun getPresenter(item: Any?): Presenter {
         require(item is Card) { "Expected item of type '${Card::class.java.name}'" }
 
         return presenters.getOrPut(item.javaClass) {
