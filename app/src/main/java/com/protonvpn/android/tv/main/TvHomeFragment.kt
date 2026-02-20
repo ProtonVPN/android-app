@@ -93,21 +93,23 @@ class TvHomeFragment : BaseTvBrowseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, row ->
-            if (item != null) {
-                val selectedCountry = when (item) {
-                    is CountryCard -> item.vpnCountry.flag
-                    is QuickConnectCard -> viewModel.quickConnectFlag
-                    is ConnectIntentCard -> item.connectCountry
-                    else -> null
+            lifecycleScope.launch {
+                if (item != null) {
+                    val selectedCountry = when (item) {
+                        is CountryCard -> item.vpnCountry.flag
+                        is QuickConnectCard -> viewModel.quickConnectFlag()
+                        is ConnectIntentCard -> item.connectCountry
+                        else -> null
+                    }
+                    viewModel.setSelectedCountry(selectedCountry)
                 }
-                viewModel.setSelectedCountry(selectedCountry)
-            }
 
-            if(row != null) {
-                rowsAdapter?.let { adapter ->
-                    val selectedRowIndex = adapter.indexOf(row)
-                    val lastRowIndex = adapter.size().minus(1)
-                    viewModel.onLastRowSelection(selected = selectedRowIndex == lastRowIndex)
+                if (row != null) {
+                    rowsAdapter?.let { adapter ->
+                        val selectedRowIndex = adapter.indexOf(row)
+                        val lastRowIndex = adapter.size().minus(1)
+                        viewModel.onLastRowSelection(selected = selectedRowIndex == lastRowIndex)
+                    }
                 }
             }
         }

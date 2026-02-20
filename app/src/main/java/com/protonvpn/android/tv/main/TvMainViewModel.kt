@@ -215,7 +215,7 @@ class TvMainViewModel @Inject constructor(
     }
 
     suspend fun getCountryCardMap(): Map<CountryTools.Continent?, List<CountryCard>> {
-        val vpnUser = currentUser.vpnUserCached()
+        val vpnUser = currentUser.vpnUser()
         val countrySortComparator = if (vpnUser?.isFreeUser == true && tvFreeUserAlphabeticalSortingForCountries()) {
             compareBy<CountryCard> { !it.vpnCountry.hasOnlineServer() }
         } else {
@@ -236,7 +236,7 @@ class TvMainViewModel @Inject constructor(
         val recentsList = mutableListOf<Card>()
         val isFree = currentUser.vpnUser()?.isFreeUser == true
         val disableFavoriteCountry = tvDisableFavoriteCountryForFreeUser() && isFree
-        recentsList.add(constructQuickConnect(context))
+        recentsList.add(constructQuickConnect(context, disableFavoriteCountry))
 
         val defaultConnection = createIntentForDefaultProfile(profileManager.getDefaultOrFastest())
         val defaultConnectCountry = getConnectCountry(profileManager.getDefaultOrFastest())
@@ -304,30 +304,43 @@ class TvMainViewModel @Inject constructor(
     }
 
     @DrawableRes
-    private fun quickConnectTitleIcon(): Int {
+    private fun quickConnectTitleIcon(freeUser: Boolean, tvDisableFavoriteCountryForFreeUser: Boolean): Int {
         val defaultConnection = profileManager.getDefaultOrFastest()
         val server = serverManager.getServerForProfile(defaultConnection, currentUser.vpnUserCached(), settingsProtocol, smartProtocols)
         return when {
             isConnected() || isEstablishingConnection() -> 0
             server?.online == true ->
-                if (defaultConnection.isPreBakedProfile) CoreR.drawable.ic_proton_bolt else CoreR.drawable.ic_proton_star
+                when {
+                    defaultConnection.isPreBakedProfile && freeUser && tvDisableFavoriteCountryForFreeUser -> 0
+                    defaultConnection.isPreBakedProfile -> CoreR.drawable.ic_proton_bolt
+                    else -> CoreR.drawable.ic_proton_star
+                }
             else -> CoreR.drawable.ic_proton_wrench
         }
     }
 
-    private fun constructQuickConnect(context: Context): Card {
+    private suspend fun constructQuickConnect(
+        context: Context,
+        tvDisableFavoriteCountryForFreeUser: Boolean
+    ): Card {
+        val freeUser = currentUser.vpnUser()?.isFreeUser == true
         val labelRes = when {
             isConnected() -> R.string.disconnect
             isEstablishingConnection() -> R.string.cancel
-            profileManager.getDefaultOrFastest().isPreBakedProfile -> R.string.tv_quick_connect_recommened
+            profileManager.getDefaultOrFastest().isPreBakedProfile ->
+                if (freeUser && tvDisableFavoriteCountryForFreeUser) R.string.fastest_country
+                else R.string.tv_quick_connect_recommened
             else -> R.string.tv_quick_connect_favourite
         }
         return QuickConnectCard(
             title = Title(
                 text = context.getString(labelRes),
-                resId = quickConnectTitleIcon(),
-                backgroundColorRes = if (isConnected() || isEstablishingConnection())
-                    R.color.tvAlert else R.color.tvGridItemOverlay
+                resId = quickConnectTitleIcon(freeUser, tvDisableFavoriteCountryForFreeUser),
+                backgroundColorRes = when {
+                    isConnected() || isEstablishingConnection() -> R.color.tvAlert
+                    freeUser && tvDisableFavoriteCountryForFreeUser -> R.color.tvGridItemOverlayFastest
+                    else -> R.color.tvGridItemOverlay
+                }
             ),
             backgroundImage = DrawableImage(
                 resId = quickConnectBackground(context),
@@ -341,13 +354,14 @@ class TvMainViewModel @Inject constructor(
 
     fun isEstablishingConnection() = vpnStatusProviderUI.isEstablishingConnection
 
-    val quickConnectFlag get() = if (isConnected() || isEstablishingConnection())
-        vpnStatusProviderUI.connectingToServer?.exitCountry
-    else
-        getConnectCountry(profileManager.getDefaultOrFastest())
+    suspend fun quickConnectFlag() = when {
+        isConnected() || isEstablishingConnection() -> vpnStatusProviderUI.connectingToServer?.exitCountry
+        currentUser.vpnUser()?.isFreeUser == true && tvDisableFavoriteCountryForFreeUser() -> null
+        else -> getConnectCountry(profileManager.getDefaultOrFastest())
+    }
 
-    private fun quickConnectBackground(context: Context) =
-        CountryTools.getLargeFlagResource(context, quickConnectFlag)
+    private suspend fun quickConnectBackground(context: Context) =
+        quickConnectFlag()?.let { CountryTools.getLargeFlagResource(context, it) } ?: R.drawable.tv_fastest_flag
 
     fun onQuickConnectAction(activity: BaseTvActivity) {
         if (vpnStatusProviderUI.isConnected || vpnStatusProviderUI.isEstablishingConnection) {

@@ -42,6 +42,9 @@ import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
+import com.protonvpn.android.tv.usecases.FakeTvDisableFavoriteCountryForFreeUser
+import com.protonvpn.android.tv.usecases.FakeTvDisableRecentsForFreeUser
+import com.protonvpn.android.tv.usecases.FakeTvFreeUserAlphabeticalSortingForCountries
 import com.protonvpn.android.tv.usecases.SetFavoriteCountry
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.CountryTools
@@ -76,6 +79,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -172,6 +176,9 @@ class TvMainViewModelTests {
             isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
             isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),
             isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true),
+            tvDisableFavoriteCountryForFreeUser = FakeTvDisableFavoriteCountryForFreeUser(false),
+            tvDisableRecentsForFreeUser = FakeTvDisableRecentsForFreeUser(false),
+            tvFreeUserAlphabeticalSortingForCountries = FakeTvFreeUserAlphabeticalSortingForCountries(false)
         )
     }
 
@@ -181,7 +188,7 @@ class TvMainViewModelTests {
     }
 
     @Test
-    fun `quick connect country shown in recents when there are no recent countries`() {
+    fun `quick connect country shown in recents when there are no recent countries`() = runTest {
         val recents = viewModel.getRecentCardList(mockContext)
         assertEquals(1, recents.size)
         val recent = recents[0]
@@ -189,7 +196,7 @@ class TvMainViewModelTests {
     }
 
     @Test
-    fun `recently connected country shown after quick connect`() {
+    fun `recently connected country shown after quick connect`() = runTest {
         val server = MockedServers.server
         val connectionParams = ConnectionParams(countryConnectIntent(server.exitCountry), server, null, null)
 
@@ -205,7 +212,7 @@ class TvMainViewModelTests {
     }
 
     @Test
-    fun `favorite hides recommended profile`() {
+    fun `favorite hides recommended profile`() = runTest {
         val server = MockedServers.server
 
         setFavoriteCountry(server.exitCountry)
@@ -217,7 +224,7 @@ class TvMainViewModelTests {
     }
 
     @Test
-    fun `recent country same as default connection is hidden from recents`() {
+    fun `recent country same as default connection is hidden from recents`() = runTest {
         val server = MockedServers.server
         val connectionParams = ConnectionParams(countryConnectIntent(server.exitCountry), server, null, null)
 
@@ -236,7 +243,7 @@ class TvMainViewModelTests {
     }
 
     @Test
-    fun `country being connected to is hidden from recents even if different server is used`() {
+    fun `country being connected to is hidden from recents even if different server is used`() = runTest {
         val server1 = MockedServers.server
         val server2 = MockedServers.serverList[1]
         assertEquals("Both servers in this test need to be in the same country", server1.exitCountry, server2.exitCountry)
@@ -259,7 +266,7 @@ class TvMainViewModelTests {
     }
 
     @Test
-    fun `country of fastest profile is added to recents and shown when fastest country changes`() {
+    fun `country of fastest profile is added to recents and shown when fastest country changes`() = runTest {
         val server1 = MockedServers.server
         val server2 = MockedServers.serverList[2]
         assertNotEquals("Servers in this test need to be in different countries", server1.exitCountry, server2.exitCountry)
