@@ -1,0 +1,1618 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_icon_name_classic">Classic</string>
+    <string name="app_icon_name_dark">Dark</string>
+    <string name="app_icon_name_retro">Retro</string>
+    <string name="app_icon_name_weather">Weather</string>
+    <string name="app_icon_name_notes">Mga Tala</string>
+    <string name="app_icon_name_calculator">Calculator</string>
+    <string name="login">Mag-sign in</string>
+    <string name="menuActionSignOut">Mag-sign out</string>
+    <string name="connectionAllocationHelpTitle">Salamat sa pag-upgrade</string>
+    <string name="connectionAllocationHelpDescription1">Upang simulan ang paggamit mo sa Proton VPN, mangyaring magtalaga ng mga koneksyon ng VPN sa account mo o anumang iba pang sub-account.</string>
+    <string name="connectionAllocationHelpDescription2">Ang hakbang na ito ay tatagal lamang ng ilang minuto. Pagkatapos, makakapag-sign in ka na at mapoprotektahan ang lahat ng device mo.</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Kasalukuyang walang naka-enable na koneksyon ng VPN para sa account na ito. Upang simulan ang paggamit mo sa Proton VPN, mangyaring makipag-ugnayan sa administrator mo. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">I-enable ang mga koneksyon ng VPN</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Mag-sign in muli</string>
+    <!-- tag(Redesign_2023) "OK" button on dialogs -->
+    <string name="ok">OK</string>
+    <string name="dialogLearnMore">Matuto pa</string>
+    <string name="connected">Konektado</string>
+    <string name="buttonConnect">Kumonekta</string>
+    <string name="loaderConnectingTo">Kumokonekta sa %1$s</string>
+    <string name="loaderNotConnected">Hindi konektado (Hindi protektado)</string>
+    <string name="loaderConnectedTo">Konektado sa %1$s</string>
+    <string name="loaderDisconnecting">Nag-di-disconnect</string>
+    <string name="loaderReconnecting">Kumokonektang muli</string>
+    <string name="loaderReconnectNoNetwork">Naghihintay ng magagamit na network</string>
+    <string name="loaderCheckingAvailability">Sinusuri ang availability ng server</string>
+    <string name="quickConnect">Mabilis na pagkonekta</string>
+    <!-- Displays a percentage value. Please use %% sign for %.
+         Example value: "70%" -->
+    <string name="serverLoad">%1$s%%</string>
+    <string name="cancel">Kanselahin</string>
+    <string name="close">Isara</string>
+    <string name="dialogContinue">Magpatuloy</string>
+    <string name="drawerReportProblem">Mag-ulat ng isyu</string>
+    <string name="action_done">Tapos na</string>
+    <string name="action_share">I-share</string>
+    <string name="accountFree">Proton Free</string>
+    <string name="restrictedMaintenanceTitle">Sumasailalim sa maintenance</string>
+    <string name="restrictedMaintenanceDescription">Ang server na sinusubukan mong konektahan ay sumasailalim sa maintenance. Pakisubukan ang ibang server.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
+    <string name="errorUserDelinquent"><![CDATA[Kasalukuyang may overdue na invoice ang account mo. Pakibayaran ang lahat ng hindi nabayarang invoice sa &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>.]]></string>
+    <string name="errorMaxSessions">Naabot mo na ang maximum na bilang ng magkakasabay na koneksyon na pinapayagan para sa account mo. Paki-upgrade ang Proton VPN plan mo para makakuha ng karagdagang mga koneksyon.</string>
+    <string name="listItemMaintenance">Sumasailalim sa maintenance</string>
+    <string name="insufficientPermissionsTitle">Kinakailangan ang aksyon ng user</string>
+    <string name="insufficientPermissionsDetails">Hindi makapagtatag ng koneksyon ng VPN nang kusa. Mangyaring kumonekta nang manu-mano nang isang beses para magbigay ng mga pahintulot.</string>
+    <string name="log_title">Log</string>
+    <string name="disconnect">I-disconnect</string>
+    <string name="state_connecting">Kumokonekta…</string>
+    <string name="state_connected">Konektado</string>
+    <string name="state_disconnecting">Nag-di-disconnect…</string>
+    <string name="state_error">Error</string>
+    <string name="error_server_list_load_failed">Pakisuri ang koneksyon mo at subukang muli.</string>
+    <string name="error_server_unreachable">Hindi makakonekta sa VPN. Pakisuri ang koneksyon mo at subukang muli.</string>
+    <string name="error_auth_failed">Nabigo ang pag-authenticate ng user.</string>
+    <string name="error_generic">Hindi tukoy na aberya habang kumokonekta</string>
+    <string name="error_generic_with_reason">Hindi makapagtatag ng koneksyon ng VPN ang Proton VPN. Pakisubukang muli sa ilang sandali.<br/><br/> Mga detalye: %1$s</string>
+    <string name="reconnect">Kumonektang muli</string>
+    <string name="reconnect_now">Kumonektang muli ngayon</string>
+    <string name="try_reconnecting">Subukang kumonektang muli</string>
+    <string name="connect">Kumonekta</string>
+    <string name="upgrade">I-upgrade</string>
+    <string name="retry">Subukang muli</string>
+    <string name="report_message">Mensahe ng ulat</string>
+    <string name="report_bug_email_label">Email mo</string>
+    <string name="report_bug_email_hint">Ilagay ang email address mo</string>
+    <string name="report_bug_message_label">Mensahe</string>
+    <string name="report_bug_message_hint">Pakilarawan ang bug at kung paano at saan ito nahanap.</string>
+    <string name="send_report">Ipadala ang ulat</string>
+    <string name="report_sent">Ipinadala ang ulat</string>
+    <string name="discardChanges">I-discard ang mga pagbabagong hindi na-save?</string>
+    <string name="discard">Itapon</string>
+    <string name="done">TAPOS NA</string>
+    <string name="add">MAGDAGDAG</string>
+    <string name="copy_to_clipboard">Kopyahin</string>
+    <string name="copied_to_clipboard">Nakopya sa clipboard</string>
+    <string name="got_it">Naintindihan</string>
+    <string name="exclude_locations">Exclude locations</string>
+    <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Cannot connect</string>
+    <string name="skip">Skip</string>
+    <string name="something_went_wrong">Nagkaroon ng problema</string>
+    <string name="try_again">Subukang muli</string>
+    <string name="delete">Burahin</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Ilipat sa itaas</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Ilipat pataas</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Ilipat pababa</string>
+    <string name="remove">Alisin</string>
+    <string name="saveButton">I-save</string>
+    <string name="ipWithPlaceholder">IP: %1$s</string>
+    <string name="activityLicensesTitle">Mga lisensya ng third party</string>
+    <string name="stateFragmentUnknownIp">Hindi alam</string>
+    <string name="noVpnPermissionMainTitle">Kailangan ng aksyon upang kumonekta sa VPN</string>
+    <string name="noVpnPermissionMainMessage">Upang kumonekta sa Proton VPN, gawin ang sumusunod:</string>
+    <string name="noVpnPermissionGrantPermissionTitle">Magbigay ng pahintulot sa VPN</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Kailangan ng Android ang pahintulot mo upang kumonekta sa Proton VPN. Ibigay ito sa pamamagitan ng pag-tap sa \"OK\" kapag lumabas ang window ng \"Request ng koneksyon\" mula sa Android.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">I-disable ang laging naka-on na VPN para sa ibang app</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Hindi suportado ng Android ang maraming VPN app. I-disable ang laging naka-on na VPN para sa anumang VPN app bukod sa Proton VPN.</string>
+    <string name="noVpnPermissionProtonAppLabel">Proton VPN app</string>
+    <string name="noVpnPermissionOtherAppLabel">Iba pang mga VPN app</string>
+    <string name="noVpnPermissionOpenSettings">Buksan ang mga setting ng Android VPN</string>
+    <string name="noNotificationPermissionGrantTitle">Huwag mahuli…</string>
+    <string name="noNotificationPermissionGrantDescription">I-enable ang mga abiso upang maalertuhan tungkol sa mga pagbabago sa status ng koneksyon mo.</string>
+    <string name="noNotificationPermissionGrantNowTitle">I-enable ang mga abiso</string>
+    <string name="error_prepare_vpn_description"><![CDATA[Mangyaring i-disable ang laging naka-on na VPN para sa lahat ng iba pang VPN app sa mga setting ng system ng Android VPN dahil pinipigilan nito ang Proton VPN na magtatag ng koneksyon ng VPN. Mangyaring magbigay din ng mga pahintulot sa VPN kung lumabas ang dialog na nagre-request nito. Maaaring kailanganing i-uninstall ang iba pang VPN app upang maiwasan ang mga conflict. Pagkatapos, pakisubukang muli. <a href="%1$s">Matuto pa</a>.]]></string>
+    <string name="error_prepare_vpn_settings">Pumunta sa mga setting ng Android VPN</string>
+    <string name="error_prepare_vpn_title">Error: Problema sa pahintulot ng VPN</string>
+    <string name="error_server_not_set">Hindi na available ang server</string>
+    <string name="bugReportErrorEmptyEmail">Hindi pwedeng walang laman ang email</string>
+    <string name="bugReportErrorInvalidEmail">Hindi valid na email address</string>
+    <string name="bugReportLabelVpnLogsTitle">Isama ang mga log ng error</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Nagpapadala ito ng mga lokal na log ng error (hindi kami naglo-log ng aktibidad) upang matulungan kaming ayusin ang problema.</string>
+    <string name="profileFastest">Pinakamabilis</string>
+    <string name="profileRandom">Random</string>
+    <string name="loaderErrorNoInternet">Walang koneksyon sa internet</string>
+    <string name="loaderErrorGeneric">Nagkaroon ng problema</string>
+    <string name="inputIpAddressLabel">IP address</string>
+    <string name="inputIpAddressHelp">Ilagay ang IPv4 o IPv6 address ng server</string>
+    <string name="inputIpAddressErrorInvalid">Hindi valid na IP address</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">BAGO</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
+    <string name="settingsExcludedIPAddressesListHeader">Mga ibinukod na IP address (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Mga isinamang IP address (%1$d)</string>
+    <string name="settingsExcludedApps">Mga ibinukod na app</string>
+    <string name="settingsExcludedAppsEmpty">Magdagdag ng mga app na ibubukod sa traffic ng VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Magdagdag ng mga app na isasama sa traffic ng VPN.</string>
+    <string name="settingsExcludedAppsSelectedHeader">Mga ibinukod na app (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Mga isinamang app (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Lahat ng iba pang regular na app (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Lahat ng iba pang system app (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Lahat ng iba pang app (%1$d)</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">Ipakita ang mga system app</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Ipakita ang mga system app</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Ang mga app na ito ay ibinukod sa koneksyon ng VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Ang mga app na ito lang ang kumokonekta sa pamamagitan ng VPN.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Idagdag sa mga ibinukod na app</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Alisin sa mga ibinukod na app</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Idagdag sa mga isinamang app</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Alisin sa mga isinamang app</string>
+    <string name="accessibility_action_copy_to_clipboard">Kopyahin sa clipboard</string>
+    <string name="accessibility_action_item_delete">Burahin</string>
+    <string name="accessibility_action_item_move_up">Ilipat pataas</string>
+    <string name="accessibility_action_item_move_down">Ilipat pababa</string>
+    <string name="tileConnected">Konektado: %1$s</string>
+    <string name="openUrlError">Hindi mabuksan ang %1$s. Walang na-detect na web browser sa device mo.</string>
+    <string name="loaderErrorTimeout">Nag-time out ang koneksyon. Pakisubukang muli.</string>
+    <string name="troubleshootButton">I-troubleshoot</string>
+    <string name="activityTroubleshootTitle">Pag-troubleshoot</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">Mga posibleng solusyon</string>
+    <string name="troubleshootNoInternetDescription">Pakitiyak na gumagana ang iyong koneksyon sa internet.</string>
+    <string name="troubleshootNoInternetTitle">Walang koneksyon sa internet</string>
+    <string name="troubleshootIspProblemTitle">Problema sa Internet Service Provider (ISP)</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Subukang kumonekta sa Proton mula sa ibang network (o gamitin ang <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootAntivirusProblemTitle">Pag-interfere ng antivirus</string>
+    <string name="troubleshootAntivirusProblemDescription">Pansamantalang i-disable o alisin ang antivirus software mo.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Pag-interfere ng proxy/firewall</string>
+    <string name="troubleshootProxyFirewallProblemDescription">I-disable ang anumang proxy o firewall o makipag-ugnayan sa iyong administrator ng network.</string>
+    <string name="troubleshootProtonDownTitle">Down ang Proton</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Tingnan ang <a href=\"%1$s\">Proton Status</a> para sa status ng system.]]></string>
+    <string name="troubleshootContactUsSectionTitle">Kailangan pa rin ng tulong? Direktang makipag-ugnayan sa amin.</string>
+    <string name="troubleshootCustomerSupport">Suporta sa customer</string>
+    <string name="settingsAllowAlternativeRoutingTitle">Alternatibong pag-route</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Kung sakaling naka-block ang Proton, payagan ang app na subukan ang mga alternatibong path upang maabot ang mga server ng Proton. <a href="%1$s">Matuto pa</a>.]]></string>
+    <string name="troubleshootGovernmentBlockTitle">Pag-block ng gobyerno</string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Maaaring bina-block ng bansa mo ang access sa Proton. Subukang gamitin ang <a href=\'%1$s\'>Tor</a> para ma-access ang Proton.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Paano i-enable ang kill switch</string>
+    <string name="settingsKillSwitchEnableStep1">1. Buksan ang mga setting ng device mo</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Hanapin ang Proton VPN at i-tap ang %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">mga setting</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. I-enable ang \"<b>Laging naka-on na VPN</b>\" at \"<b>I-block ang mga koneksyon na walang VPN</b>\"]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Mga Setting</string>
+    <string name="settingsKillSwitchLearnMoreButton">Ano ang kill switch?</string>
+    <string name="settingsKillSwitchWarningMain">Kapag naka-on ang kill switch, hindi ka makakakonekta sa:</string>
+    <string name="settingsKillSwitchWarningPoint1">Mga website at app na ibinukod sa iyong koneksyon ng VPN sa pamamagitan ng split tunneling</string>
+    <string name="settingsKillSwitchWarningPoint2">Mga device sa iyong local area network (LAN)</string>
+    <string name="settingsEnableTelemetryTitle">I-share ang anonymous na statistics ng paggamit</string>
+    <string name="settingsEnableTelemetryDescription">Nakakatulong ang data ng paggamit upang malampasan namin ang mga block sa VPN at mapahusay ang performance ng app.</string>
+    <string name="settingsSendCrashReportsTitle">I-share ang mga anonymous na ulat ng pag-crash</string>
+    <string name="settingsSendCrashReportsDescription">Nakakatulong ang mga ulat ng pag-crash upang maayos namin ang mga bug, ma-detect ang mga firewall at maiwasan ang mga block sa VPN.</string>
+    <string name="settingsTelemetryScreenTitle">Statistics ng paggamit</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Hindi naglalaman ang statistics na ito ng iyong IP address, at hindi magagamit ang mga ito upang matukoy ka. Hinding-hindi namin isi-share ang mga ito sa mga third party. <a href="%1$s">Matuto pa</a>.]]></string>
+    <string name="netshield_settings_description_not_html">Protektahan ang sarili mula sa mga ad, malware at tracker sa mga website at app. %1$s</string>
+    <string name="netshield_settings_description_tv">Pinoprotektahan ka mula sa mga third-party na ad, tracker, at malware. Hindi bina-block ng NetShield ang mga ad na nakapaloob sa mga streaming service tulad ng YouTube at Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Paano gumagana ang NetShield</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>Bina-block ng NetShield ang mga DNS request sa mga third-party domain na kilala sa mga ad, tracker, at malware.</item>
+        <item>Ibig sabihin nito, hindi ka makakatanggap ng mga ad mula sa browser mo o mga libreng app na gumagamit ng mga third-party ad service.</item>
+        <item>Gayunpaman, hindi nito ma-block ang mga ad mula sa mga streaming platform tulad ng YouTube at Netflix dahil ang kanilang mga ad ay nagmumula sa sarili nilang mga server.</item>
+    </string-array>
+    <string name="settings_icon_change_description">Ikubli ang Proton VPN app gamit ang isang discreet na icon. Ipapakita pa rin ng mga abiso ang default na pangalan at icon ng Proton VPN. %1$s</string>
+    <string name="settings_icon_change_learn_more">Matuto pa</string>
+    <string name="learn_more">Matuto pa</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Naka-on</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Naka-off</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Hindi available</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Naka-on</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Naka-off</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Naka-on</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Naka-off</string>
+    <string name="lan_state_on" comment="Describes state, not action">Naka-on</string>
+    <string name="lan_state_off" comment="Describes state, not action">Naka-off</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Naka-on</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Naka-off</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Naka-on</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Naka-off</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Hindi available</string>
+    <string name="custom_dns_item_removed_snackbar">Inalis ang item</string>
+    <string name="netshield_free_description">I-block ang mga ad, tracker at malware sa mga website at app</string>
+    <string name="netshield_what_data_means">Ipinaliwanag ang statistics ng NetShield</string>
+    <string name="netshield_ads_title">Mga Ad</string>
+    <string name="netshield_ads_details">Mga advertisement at hindi nakikitang ad tracker</string>
+    <string name="netshield_trackers_title">Mga Tracker</string>
+    <string name="netshield_trackers_details">Mga cookie at iba pang tracker na nag-iimbak at nagsi-share ng impormasyon tungkol sa iyong aktibidad sa internet</string>
+    <string name="netshield_data_title">Data</string>
+    <string name="netshield_data_details">Ang dami ng hindi gustong data mula sa mga ad, tracker, at malware na na-block ng NetShield</string>
+    <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
+        <item quantity="one">Na-block na ad</item>
+        <item quantity="other">Mga na-block na ad</item>
+    </plurals>
+    <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
+        <item quantity="one">Tracker na nahinto</item>
+        <item quantity="other">Mga tracker na nahinto</item>
+    </plurals>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data na na-save</string>
+    <string name="netshield_setting_warning">Maaaring hindi mag-load nang maayos ang ilang website kapag naka-block ang mga ad at tracker.</string>
+    <string name="dialogDontShowAgain">Huwag ipakitang muli</string>
+    <string name="guestHoleNotificationContent">Sinusubukang lampasan ang mga isyu sa network. Makakatulong ito na ma-access mo ang Proton VPN.</string>
+    <string name="errorTunMultiUserPermission">Hindi masimulan ang koneksyon ng VPN dahil sa conflict sa pagitan ng dual-app (halimbawa, Dual Messenger) at split tunneling. Mangyaring i-disable ang isa sa mga iyon at i-reboot ang device mo.</string>
+    <string name="errorTorrentNotAllowed">Hindi pinapayagan ang P2P sa server na ito</string>
+    <string name="error_profile_fallback_unavailable">Nabigo ang koneksyon. Hindi available ang piniling server para sa profile.</string>
+    <string name="profileProtocolNotAvailable">Kasalukuyang hindi available ang protocol ng VPN ng profile na ito. Upang kumonekta, subukang palitan ang protocol.</string>
+    <string name="stateConnectedTo">Konektado sa %1$s</string>
+    <string name="stateNotConnected">Hindi ka konektado</string>
+    <string name="nameEurope">Europe</string>
+    <string name="nameAmerica">America</string>
+    <string name="nameAsia">Asia</string>
+    <string name="nameAfricaAndMiddleEast">Africa &amp; Middle East</string>
+    <string name="nameOceania">Oceania</string>
+    <string name="tv_row_settings">Mga Setting</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_dialog_delete_server_title">Burahin ang server na %1$s?</string>
+    <string name="tv_detail_default_connection_checkbox_short">Paborito</string>
+    <string name="tv_detail_connect_streaming">Mag-stream gamit ang Plus</string>
+    <string name="tv_detail_connect">Kumonekta</string>
+    <string name="tv_detail_description_streaming_country">I-stream ang paborito mong content. I-access ang mas maraming app gamit ang Proton VPN Plus plan.</string>
+    <string name="tv_detail_description_no_streaming_country">Mag-stream ng mas marami pang paboritong content gamit ang Proton VPN Plus plan.</string>
+    <string name="tv_detail_description_country_not_available">Hindi available ang bansang ito. Magkaroon ng mas maraming opsyon sa streaming gamit ang Proton VPN Plus plan.</string>
+    <string name="tv_detail_description_plus">I-stream ang mga paborito mong video, pelikula o sports gamit ang iyong mga app.</string>
+    <string name="tv_login_title_signin">Mag-sign in sa Proton VPN</string>
+    <string name="tv_login_title_welcome">I-stream ang paborito mong video content</string>
+    <string name="tv_login_welcome_description">Manood ng video content mula sa mahigit 50 bansa, kasama ang YouTube at Twitch. Mag-stream ng Netflix, Amazon Prime at Hulu gamit ang Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Kunin ang Proton VPN account mo sa <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_button">Mag-sign in</string>
+    <string name="tv_login_step1_description"><![CDATA[Pumunta sa <b>%1$s</b> sa iyong mobile device o computer]]></string>
+    <string name="tv_login_step2_description">Mag-sign in sa Proton VPN</string>
+    <string name="tv_login_step3_description">Ilagay ang code:</string>
+    <string name="tv_login_timer_label">Mag-e-expire ang code na ito sa:</string>
+    <string name="tv_login_refresh">I-refresh</string>
+    <string name="tv_login_title_loading">Naglo-load…</string>
+    <string name="tv_login_title_refresh">Nag-expire na ang session mo. I-click ang refresh upang magsimulang muli.</string>
+    <string name="tv_upgrade_title">Magsimulang mag-stream gamit ang Plus</string>
+    <string name="back">Bumalik</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Bisitahin ang <b>%1$s</b> upang mag-upgrade sa Proton VPN Plus ngayon.]]></string>
+    <string name="tv_upgrade_description">Kumuha ng Proton VPN Plus na plan upang ma-access ang 500+ server sa buong mundo at mga na-optimize na opsyon sa streaming para sa Netflix, Amazon Prime Video, Disney+ at marami pa.</string>
+    <string name="tv_vpn_error_dialog_title">Nabigo ang koneksyon ng VPN</string>
+    <string name="tv_signout_label">Mag-sign out</string>
+    <string name="tv_signout_dialog_title">Sigurado ka bang gusto mong mag-sign out?</string>
+    <string name="tv_signout_dialog_description_connected">Idi-disconnect nito ang TV mo mula sa anumang server ng VPN.</string>
+    <string name="tv_signout_dialog_ok">Mag-sign out</string>
+    <string name="tv_quick_connect_recommened">Inirerekomenda</string>
+    <string name="tv_quick_connect_favourite">Paborito</string>
+    <string name="tv_country_maintenance_dialog_title">Hindi available ang bansa</string>
+    <string name="tv_country_maintenance_dialog_description">Subukang muli mamaya o pumili ng ibang bansa.</string>
+    <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+         Example: 76% server load -->
+    <string name="tv_server_list_load">%1$s%% server load</string>
+    <string name="tv_recently_used_servers">Mga kamakailang ginamit na server</string>
+    <string name="tv_available_servers">Mga available na server</string>
+    <string name="tv_locked_servers">Mga naka-lock na server</string>
+    <string name="tv_other_servers">Iba pang mga server</string>
+    <string name="tv_server_list">Listahan ng server</string>
+    <string name="tv_server_list_action_unavailable">Hindi available</string>
+    <string name="notification_subscription_expired_title">Nag-expire na ang Proton VPN subscription plan mo</string>
+    <string name="notification_subscription_expired_content">Kinailangan naming i-downgrade ang plan mo, ngunit muli ka naming ikinokonekta sa pinakamabilis na server na available sa plan na iyon.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">Na-downgrade ang subscription mo.</string>
+    <string name="notification_delinquent_title">May mga pending na invoice ang Proton VPN account mo</string>
+    <string name="notification_delinquent_content">Mangyaring maglaan ng oras upang i-update ang iyong impormasyon sa pagsingil upang manatiling aktibo ang subscription mo.</string>
+    <string name="notification_max_sessions_title">Naabot mo na ang maximum na limitasyon ng device mo</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="notification_max_sessions_upsell_content">
+        <item quantity="one">Mangyaring mag-disconnect ng ibang device upang maikonekta ito o mag-upgrade sa Plus upang makakuha ng hanggang %1$d device na nakakonekta nang sabay.</item>
+        <item quantity="other">Mangyaring mag-disconnect ng ibang device upang maikonekta ito o mag-upgrade sa Plus upang makakuha ng hanggang %1$d device na nakakonekta nang sabay.</item>
+    </plurals>
+    <string name="notification_max_sessions_content">Mangyaring mag-disconnect ng ibang device upang maikonekta ito.</string>
+    <string name="notification_cancel_to_free">Nasa Free plan ka. Available ang mga libreng server at feature.</string>
+    <string name="notification_cancel_to_basic">Nasa Basic plan ka. Available ang mga Basic &amp; Free server at feature.</string>
+    <string name="notification_cancel_to_delinquent">Maa-access mong muli ang mga premium feature pagkatapos mabayaran ang mga pending na invoice.</string>
+    <string name="reconnect_from_server">Mula sa server: </string>
+    <string name="reconnect_to_server">Patungo sa server: </string>
+    <string name="no_thanks">Huwag na</string>
+    <string name="enable">I-enable</string>
+    <string name="notification_smart_protocol_disabled_title">Kasalukuyang naka-disable ang Smart Protocol</string>
+    <string name="notification_smart_protocol_disabled_content">Na-detect ng Proton VPN na pinipigilan ng kasalukuyan mong network ang koneksyon sa VPN. Maaaring ma-bypass ng pag-enable sa Smart Protocol ang mga limitasyong ito.</string>
+    <string name="upsell_advanced_features">Mga advanced na feature: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_streaming_services">I-access ang mga streaming service (Netflix, Disney+ atbp.) mula saanman sa mundo</string>
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_servers">
+        <item quantity="one">%1$d server</item>
+        <item quantity="other">%1$d server</item>
+    </plurals>
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_countries">
+        <item quantity="one">%1$d bansa</item>
+        <item quantity="other">%1$d bansa</item>
+    </plurals>
+    <string name="upsell_upgrade_again">Mag-upgrade muli upang ma-enjoy ang lahat ng feature:</string>
+    <plurals name="upgrade_devices_title">
+        <item quantity="one">Protektahan ang %1$d device nang sabay</item>
+        <item quantity="other">Protektahan ang %1$d device nang sabay</item>
+    </plurals>
+    <string name="upgrade_devices_text">Available ang Proton VPN sa 8 magkakaibang platform.</string>
+    <string name="upgrade_plus_title">I-upgrade ang privacy mo</string>
+    <string name="upgrade_plus_message">Magkaroon ng mga advanced na feature sa privacy at mas mabilis na speed gamit ang VPN Plus.</string>
+    <string name="upgrade_netshield_title">I-enjoy ang pag-browse nang walang ad</string>
+    <string name="upgrade_netshield_message"><![CDATA[I-block ang mga ad, tracker at malware gamit ang <b>NetShield</b>.]]></string>
+    <string name="upgrade_secure_core_title">Doblehin ang encryption</string>
+    <string name="upgrade_secure_core_message"><![CDATA[Magdagdag ng isa pang layer ng encryption sa iyong koneksyon ng VPN gamit ang <b>Secure Core</b>.]]></string>
+    <string name="upgrade_p2p_title">I-unlock ang mga peer-to-peer (P2P) download at pagbabahagi ng file </string>
+    <string name="upgrade_p2p_text">Pahusayin ang bilis ng pag-upload at pag-download mo habang itinatago ang IP address mo.</string>
+    <string name="upgrade_profiles_title">Magkaroon ng mabilis na access sa iyong mga madalas na koneksyon</string>
+    <string name="upgrade_profiles_text">I-unlock ang mga profile gamit ang VPN Plus</string>
+    <string name="upgrade_streaming_title">Mag-stream sa 4K</string>
+    <string name="upgrade_streaming_text">I-enjoy ang mga paborito mong pelikula at palabas sa TV mula saanman sa mundo.</string>
+    <string name="upgrade_tor_title">I-access ang Tor network sa isang tap</string>
+    <string name="upgrade_tor_text">Kumonekta sa mga nakatagong serbisyo at onion site gamit ang iyong regular na browser.</string>
+    <string name="upgrade_vpn_accelerator_title">Mag-browse nang mas mabilis pa</string>
+    <!--
+        %1$s - speed in Gbps
+        Example:
+        Unlock faster, less crowded servers with speeds of up to 10 Gbps.
+    -->
+    <string name="upgrade_vpn_accelerator_message">I-unlock ang mas mabilis, hindi siksikang mga server na may bilis na hanggang %1$d Gbps.</string>
+    <string name="upgrade_split_tunneling_title">Kunin ang pinakamahusay mula sa dalawang mundo</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Hatiin ang traffic sa mga VPN at non-VPN tunnel gamit ang <b>split tunneling</b>.]]></string>
+    <string name="upgrade_customization_title">I-unlock ang advanced na customization ng VPN</string>
+    <string name="upgrade_customization_message"><![CDATA[I-unlock ang <b>mga koneksyon ng LAN</b>, <b>Custom DNS</b> at <b>NAT type 2</b> gamit ang VPN Plus.]]></string>
+    <string name="upgrade_all_countries_title">I-access ang lahat ng bansa</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d ligtas na server</item>
+        <item quantity="other">%d ligtas na server</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="upgrade_plus_countries">
+        <item quantity="one">%d bansa</item>
+        <item quantity="other">%d bansa</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_servers_new"
+     %2$s - replaced with "upgrade_plus_countries"
+
+     Example:
+     Unlock 1300+ secure servers in 61 countries with VPN Plus.
+     -->
+    <string name="upgrade_plus_countries_title_new"><![CDATA[I-unlock ang %1$s sa %2$s gamit ang <b>VPN Plus</b>.]]></string>
+    <string name="mail_app_name" translateable="false">Proton Mail</string>
+    <string name="upgrade_unlimited_all_apps_title">Magkaroon ng kumpletong privacy coverage gamit ang Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">I-unlock ang lahat ng premium na feature mula sa Proton VPN, Mail, Calendar, Drive at Pass.</string>
+    <string name="upgrade_unlimited_more">At marami pa</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">I-unlock ang lahat ng bansa</string>
+    <string name="upgrade_unlimited_vpn_all_features">Lahat ng iba pang feature ng VPN Plus</string>
+    <string name="upgrade_unlimited_vpn_any_location">Pumili ng anumang lokasyon</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Mas mataas pang bilis ng VPN</string>
+    <plurals name="upgrade_unlimited_vpn_many_devices">
+        <item quantity="one">Protektahan ang %1$d device nang sabay</item>
+        <item quantity="other">Protektahan ang %1$d device nang sabay</item>
+    </plurals>
+    <string name="upgrade_unlimited_vpn_streaming">Ligtas na streaming</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker at proteksyon sa malware</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">Dobleng VPN</string>
+    <string name="upgrade_unlimited_vpn_p2p">Suporta sa P2P</string>
+    <plurals name="upgrade_unlimited_mail_custom_domains">
+        <item quantity="one">%1$d custom email domain</item>
+        <item quantity="other">%1$d custom email domain</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_attachments">
+        <item quantity="one">%1$d MB attachment</item>
+        <item quantity="other">%1$d MB attachment</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_many_addresses">
+        <item quantity="one">%1$d email address</item>
+        <item quantity="other">%1$d email address</item>
+    </plurals>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited na folder at filter</string>
+    <string name="upgrade_unlimited_mail_dark_web">Pagsubaybay sa Dark Web</string>
+    <string name="upgrade_unlimited_mail_aliases">Unlimited na hide-my-email alias</string>
+    <string name="upgrade_unlimited_mail_autoreply">Auto-reply</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Naka-schedule na pagpapadala</string>
+    <plurals name="upgrade_unlimited_calendar_calendars">
+        <item quantity="one">%1$d personal na kalendaryo</item>
+        <item quantity="other">%1$d personal na kalendaryo</item>
+    </plurals>
+    <string name="upgrade_unlimited_calendar_sharing">Pag-share ng kalendaryo</string>
+    <string name="upgrade_unlimited_calendar_invites">Magpadala at tumanggap ng mga imbitasyon</string>
+    <string name="upgrade_unlimited_drive_encryption">Naka-encrypt na file storage</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d GB na kabuuang storage para sa mga larawan, file at mail</string>
+    <string name="upgrade_unlimited_drive_link_share">I-share ang mga larawan at file gamit ang link</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Advanced na seguridad sa pag-share</string>
+    <string name="upgrade_unlimited_drive_version_history">History ng bersyon</string>
+    <string name="upgrade_unlimited_pass_manager">Naka-encrypt na tagapamahala ng password</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Unlimited na login at hide-my-email alias</string>
+    <plurals name="upgrade_unlimited_pass_vaults">
+        <item quantity="one">%1$d vault</item>
+        <item quantity="other">%1$d vault</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_logins">Unlimited na login</string>
+    <string name="upgrade_unlimited_pass_aliases">Unlimited na hide-my-email alias</string>
+    <string name="upgrade_unlimited_pass_credit_cards">Unlimited na credit card</string>
+    <string name="upgrade_unlimited_pass_devices">Unlimited na device</string>
+    <plurals name="upgrade_unlimited_pass_users">
+        <item quantity="one">I-share sa hanggang %1$d iba pa</item>
+        <item quantity="other">I-share sa hanggang %1$d iba pa</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_2fa_auth">Integrated na 2FA authenticator</string>
+    <string name="upgrade_not_now_button">Huwag muna</string>
+    <!-- Content description for plan selection list.
+         Only used by accessibility services.
+
+         Example:
+         When the plan selection control is focused, and the first plan name is "VPN Plus"
+         TalkBack will read:
+         "VPN Plus, 1 of 2, in list Upgrade options" -->
+    <string name="upgrade_plan_selection_content_description">Mga opsyon sa pag-upgrade</string>
+    <string name="upsell_card_countries_title">Pandaigdigang coverage</string>
+    <!-- Parameters:
+        %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">%1$d+ lokasyon ng server sa %2$s</string>
+    <string name="upsell_card_customization_title">At marami pang iba…</string>
+    <string name="upsell_card_customization_description">I-unlock ang mas maraming feature sa performance at privacy</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="one">Protektahan ang %1$d device</item>
+        <item quantity="other">Protektahan ang %1$d device</item>
+    </plurals>
+    <string name="upsell_card_devices_description">Seguridad at privacy sa lahat ng device mo</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">I-block ang mga ad, malware at tracker</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">Magdagdag ng isa pang layer ng encryption sa iyong koneksyon ng VPN</string>
+    <string name="upsell_card_p2p_title">Suporta sa P2P</string>
+    <string name="upsell_card_p2p_description">Mag-download ng mga file sa pamamagitan ng BitTorrent at iba pang protocol sa pagbabahagi ng file</string>
+    <string name="upsell_card_profiles_title">Mga Profile</string>
+    <string name="upsell_card_profiles_description">Gumawa ng mga custom na koneksyon ng VPN</string>
+    <string name="upsell_card_speed_title">Mas mabilis na pag-browse</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">Mag-browse nang mas mabilis pa (hanggang %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_description">Mag-browse mula sa dalawang lokasyon nang sabay</string>
+    <string name="upsell_card_streaming_title">Streaming</string>
+    <string name="upsell_card_streaming_description">Panoorin ang mga paborito mong pelikula at palabas sa TV</string>
+    <string name="upsell_card_tor_title">Tor over VPN</string>
+    <string name="upsell_card_tor_description">Gamitin ang Tor network sa iyong koneksyon ng VPN para sa karagdagang privacy</string>
+    <string name="upsell_tv_all_countries_title">I-access ang lahat ng bansa gamit ang Plus</string>
+    <!-- Format for upselling countries on TV".
+        %1$s - replaced with upgrade_plus_servers_new plurals key (e.g. 1 secure server or 10 secure servers)
+        %2$s - replaced with upgrade_plus_countries plurals key (e.g. 1 country or 10 countries)
+        %3$s - replaced with upsell_tv_description_placeholder
+
+        Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
+    -->
+    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s. %3$s</string>
+    <string name="upsell_tv_netshield_title">I-enjoy ang pag-browse nang walang ad gamit ang Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[I-block ang mga ad, tracker at malware gamit ang <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Kunin ang pinakamahusay mula sa dalawang mundo gamit ang Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Hatiin ang traffic sa mga VPN at non-VPN tunnel gamit ang <b>split tunneling</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Magkaroon ng advanced na VPN customization gamit ang Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[I-unlock ang <b>mga koneksyon ng LAN</b>, <b>Custom DNS</b> at mas advanced na mga feature ng VPN. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Pumunta sa website ng Proton VPN para i-upgrade ang plan mo.</string>
+    <!-- Format for price per period of time.
+        %1$s - replaced with price and currency (e.g. "$100")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
+
+        Examples:
+        50 PLN /month
+        $100 /year
+    -->
+    <string name="payment_price_with_period">%1$s /%2$s</string>
+    <string name="payment_price_per_month">buwan</string>
+    <string name="payment_price_per_year">taon</string>
+    <string name="payment_price_per_2years">2 taon</string>
+    <string name="payment_price_cycle_month_label">1 buwan</string>
+    <string name="payment_price_cycle_year_label">1 taon</string>
+    <string name="payment_price_cycle_2years_label">2 taon</string>
+    <string name="payment_select_your_plan">Piliin ang iyong plan</string>
+    <!-- Label on a button for purchasing a subscription.
+         Parameter: %1$s - plan name
+         Plan names are not translated.
+
+         Example: "Get VPN Plus", "Get Proton Unlimited". -->
+    <string name="payment_button_get_plan">Kunin ang %1$s</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_monthly">Welcome offer. Awtomatikong magre-renew sa halagang %1$s/buwan.</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_annual">Welcome offer. Awtomatikong magre-renew sa halagang %1$s/taon.</string>
+    <string name="payment_auto_renew_message_monthly">Awtomatikong magre-renew ang subscription sa halagang %1$s/buwan</string>
+    <string name="payment_auto_renew_message_annual">Awtomatikong magre-renew ang subscription sa halagang %1$s/taon</string>
+    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_description">Pinapayagan ng teknolohiyang ito ang Proton VPN na magbigay ng mas mabilis at ligtas na serbisyo sa mga bansang mahirap serbisyuhan.</string>
+    <string name="tor_title">Tor</string>
+    <string name="server_load_title">Load ng server</string>
+    <string name="activity_information_learn_more">Matuto Pa</string>
+    <string name="server_load_low">Mababa</string>
+    <string name="server_load_medium">Katamtaman</string>
+    <string name="server_load_high">Mataas</string>
+    <!-- Override Human verification links from core -->
+    <string name="onboarding_welcome_title">Welcome sa Proton VPN</string>
+    <string name="onboarding_welcome_description">Mag-browse nang pribado, i-access ang naka-block na content at i-enjoy ang digital na kalayaan.</string>
+    <string name="onboarding_welcome_action">Magsimula</string>
+    <string name="upgrade_success_get_started_button">Magsimula</string>
+    <string name="dynamic_report_suggestion_didnt_work">Hindi gumana?</string>
+    <string name="dynamic_report_contact_us">Makipag-ugnayan sa amin</string>
+    <string name="dynamic_report_tips_description">Maaaring makatulong ang mga tip na ito upang mas mabilis na maayos ang isyu mo.</string>
+    <string name="dynamic_report_tips_title">Mabibilis na solusyon</string>
+    <string name="dynamic_report_logs_title">Ipadala ang mga log ng error</string>
+    <string name="dynamic_report_logs_tooltip">Ipinapakita ng mga error log kung ano ang naging mali at kung aling mga aksyon ang nagdulot ng problema. Gagamitin lang namin ang mga ito para tulungan ang aming mga engineer na ayusin ang mga isyu.</string>
+    <string name="dynamic_report_error_title">Hindi namin maipadala ang ulat mo.</string>
+    <string name="dynamic_report_completion_error_description_generic">Hindi namin maipadala ang ulat mo. Pakisubukang muli.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Hindi namin maipadala ang ulat mo. Pakisuri ang koneksyon mo at subukang muli.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Hindi namin maipadala ang ulat mo. Nag-time out ang koneksyon. Pakisubukang muli.</string>
+    <string name="dynamic_report_completion_success_title">Salamat sa iyong feedback. Babalikan ka namin sa lalong madaling panahon.</string>
+    <string name="dynamic_report_success_title">Salamat sa iyong feedback</string>
+    <string name="dynamic_report_success_description">Babalikan ka namin sa lalong madaling panahon.</string>
+    <string name="dynamic_report_field_mandatory">Kinakailangan ang field na ito</string>
+    <string name="dynamic_report_logs_description">Ang log ay isang uri ng file na nagpapakita sa amin ng mga aksyong ginawa mo na nagdulot ng error. Gagamitin lang namin ito upang matulungan ang aming mga engineer na ayusin ang mga bug.</string>
+    <string name="dynamic_report_logs_missing">Nakakatulong ang mga log ng error upang malaman namin ang pinagmulan ng isyu mo. Kung hindi mo isasama ang mga ito, maaaring hindi kami lubos na makapag-imbestiga.</string>
+    <string name="dynamic_report_step1">Hakbang 1 ng 3</string>
+    <string name="dynamic_report_step2">Hakbang 2 ng 3</string>
+    <string name="dynamic_report_step3">Hakbang 3 ng 3</string>
+    <string name="dynamic_report_your_issue_headline">Ano ang isyu?</string>
+    <string name="update_screen_title">I-update ang Proton VPN</string>
+    <string name="update_screen_description">Mas malaki ang posibilidad na magkaroon ka ng isyu sa mga lumang bersyon ng Proton VPN.</string>
+    <string name="update_banner_description_settings">May available na bagong bersyon ng app</string>
+    <string name="update_banner_warning_vpn_connected_title">Saglit na mag-di-disconnect ang VPN</string>
+    <string name="update_banner_warning_vpn_connected_message">Kailangang i-restart ang app para matapos ang update. Awtomatiko kang ikokonektang muli pagkatapos.</string>
+    <string name="dialog_create_account_title">Gumawa ng account upang magpatuloy</string>
+    <string name="dialog_create_account_action_create">Gumawa ng account</string>
+    <string name="dialog_create_account_action_signin">Mag-sign in</string>
+    <string name="server_search_menu_title">Hanapin</string>
+    <string name="search_empty_result_subtitle">Pakisubukan ang ibang keyword</string>
+    <string name="search_empty_result_title">Walang nakitang resulta</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">I-clear</string>
+    <!-- Example: Want to connect to Italy? -->
+    <string name="upgrade_country_title">Gustong kumonekta sa isang partikular na bansa?</string>
+    <string name="upgrade_country_message"><![CDATA[I-unlock ang <b>pagpili ng bansa</b> gamit ang VPN Plus.]]></string>
+    <string name="free_connections_info_message">Awtomatiko kang ikinokonekta ng Proton Free sa pinakamabilis na available na server. Karaniwang ito ang pinakamalapit na server sa lokasyon mo.</string>
+    <string name="free_connections_info_server_locations">Mga lokasyon ng libreng server (%1$d)</string>
+    <string name="free_connections_info_banner_text">Magkaroon ng pandaigdigang coverage gamit ang VPN Plus</string>
+    <string name="free_connection_info_title">Mga libreng koneksyon</string>
+    <string name="search_upsell_banner_title">Mag-stream mula kahit saan</string>
+    <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
+    <plurals name="search_upsell_banner_message">
+        <item quantity="one">I-unlock ang naka-geoblock na content mula sa %1$d bansa gamit ang VPN Plus</item>
+        <item quantity="other">I-unlock ang naka-geoblock na content mula sa %1$d bansa gamit ang VPN Plus</item>
+    </plurals>
+    <string name="select_default_connection">Piliin ang iyong default na koneksyon</string>
+    <string name="settings_default_connection_title">Default na koneksyon</string>
+    <string name="fastest_country_description">Ang pinakamahusay na server batay sa lokasyon mo</string>
+    <string name="settings_connection_preferences_title">Mga kagustuhan sa koneksyon</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Inalis ang item</string>
+    <string name="settings_excluded_locations_title">Mga ibinukod na lokasyon</string>
+    <string name="settings_excluded_locations_description">Hindi kailanman gagamitin ang mga piniling lokasyon kapag kumonekta ka sa Fastest.</string>
+    <string name="settings_excluded_locations_unavailable">Walang available na lokasyon</string>
+    <string name="settings_excluded_locations_selection_hint">Pumili…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Alisin sa mga ibinukod na lokasyon</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Lungsod</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Bansa</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Estado</string>
+    <string name="settings_last_connection_title">Huling koneksyon</string>
+    <string name="settings_last_connection_description">Ang pinakahuli mong ginamit na koneksyon</string>
+    <string name="settings_change_icon_title">Icon ng app</string>
+    <string name="settings_change_icon_details">I-customize kung paano lumalabas ang Proton VPN app sa device mo. Bakit?</string>
+    <string name="settings_change_icon_confirmation_title">Palitan ang icon ng app?</string>
+    <string name="settings_change_icon_confirmation_details">Isasara nito ang Proton VPN app. Upang i-restart ang Proton VPN, i-tap lang ang bago mong icon ng app.</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
+    <string name="settings_change_icon_header_discreet">Discreet na icon ng app</string>
+    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_selection_title">Subukan ang Proton VPN widget</string>
+    <string name="settings_widget_selection_description">Tingnan ang status ng koneksyon mo at i-access ang mga paborito mong koneksyon ng VPN mula sa home screen.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">Upang magdagdag ng widget, pindutin at i-hold lang ang anumang bahagi ng home screen mo at piliin ang %1$s mula sa menu ng widget.</string>
+    <string name="settings_widget_selection_button_title">Magdagdag ng widget</string>
+    <string name="setting_widget_try_title">Subukan ang Proton VPN widget</string>
+    <!-- Content description used by accessibility services for a button for dismissing (hiding)
+         a notification banner (usually used for special offers). -->
+    <string name="notification_banner_dismiss_accessibility_label">I-dismiss ang banner</string>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">%1$s %2$s ang natitira</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="one">%1$d segundo</item>
+        <item quantity="other">%1$d segundo</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="one">%1$d minuto</item>
+        <item quantity="other">%1$d minuto</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="one">%1$d oras</item>
+        <item quantity="other">%1$d oras</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="one">%1$d araw</item>
+        <item quantity="other">%1$d araw</item>
+    </plurals>
+    <string name="server_change_max_reached">Naabot mo na ang maximum na bilang ng libreng pagpapalit ng server sa ngayon.</string>
+    <string name="server_change_upsell">Magkaroon ng unlimited na pagpapalit gamit ang VPN Plus.</string>
+    <string name="server_change_button_title">Palitan ang server</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services.
+
+        %1$s - replaced with "time_left_minutes"
+        %2$s - replaced with "time_left_seconds"
+        Example:
+        Available in 1 minute 23 seconds.
+      -->
+    <string name="server_change_button_time_left_content_description">Available sa %1$s %2$s</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services and only if time left is less than 1 minute.
+
+        %1$s - replaced with "time_left_seconds"
+        Example:
+        Available in 23 seconds.
+      -->
+    <string name="server_change_button_time_left_seconds_content_description">Available sa %1$s</string>
+    <string name="server_change_progress_finished_contend_description">Available na ngayon</string>
+    <string name="not_wanted_country_title">Hindi ang bansang gusto mo?</string>
+    <string name="not_wanted_country_description">Mag-upgrade upang pumili ng anumang server</string>
+    <string name="whats_new_title">Ano ang bago</string>
+    <string name="whats_new_profiles_title">Bumalik na ang mga profile</string>
+    <string name="whats_new_profiles_description">Gumawa at mag-save ng mga custom na koneksyon na may napiling lokasyon, server at protocol.</string>
+    <string name="whats_new_widget_title">Ipinapakilala ang mga widget</string>
+    <string name="whats_new_widget_description">Maaari mo nang tingnan at pamahalaan ang iyong VPN nang hindi umaalis sa home screen.</string>
+    <string name="whats_new_add_widget_button">Magdagdag ng widget</string>
+    <string name="welcome_plus_title">Welcome sa VPN Plus</string>
+    <string name="welcome_plus_description">I-enjoy ang mga karagdagang feature sa privacy, pinahusay na performance, at next-level na customization ng VPN.</string>
+    <string name="welcome_plus_feature_security">Mga advanced na feature sa seguridad</string>
+    <string name="welcome_unlimited_title">Welcome sa Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Na-unlock mo ang lahat ng premium na feature ng Proton VPN, Mail, Calendar, Drive, Pass at Wallet — at <b>%1$d&#160;GB</b> na kabuuang storage.]]></string>
+    <string name="welcome_generic_title">Congratulations</string>
+    <string name="welcome_generic_description">Na-upgrade mo na ang subscription mo. I-enjoy ang mga advanced na feature sa privacy at next-level na performance.</string>
+    <!-- Example: Up to 10 devices at once
+         In practice one will never be a value here -->
+    <plurals name="welcome_plus_feature_devices">
+        <item quantity="one">Hanggang %1$d device nang sabay</item>
+        <item quantity="other">Hanggang %1$d device nang sabay</item>
+    </plurals>
+    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ new servers
+     -->
+    <plurals name="welcome_plus_servers">
+        <item quantity="one">%d bagong server</item>
+        <item quantity="other">%d+ bagong server</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="welcome_plus_countries">
+        <item quantity="one">%d bansa</item>
+        <item quantity="other">%d bansa</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "welcome_plus_servers"
+     %2$s - replaced with "welcome_plus_countries"
+
+     Example:
+     1800+ new servers in 68 countries
+     -->
+    <string name="welcome_plus_feature_servers_count">%1$s sa %2$s</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">external link</string>
+    <string name="no_logs_banner_title">Certified no-logs VPN</string>
+    <string name="no_logs_banner_description">Pinoprotektahan ng mga batas sa privacy ng Switzerland ang iyong aktibidad sa VPN. Hinding-hindi ka namin ita-track online o ibabahagi ang iyong impormasyon sa mga third party.</string>
+    <!-- tag(Redesign_2023) Bottom bar label for home screen -->
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_gateways">Mga Gateway</string>
+    <string name="bottom_nav_profiles">Mga Profile</string>
+    <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
+    <string name="bottom_nav_countries">Mga Bansa</string>
+    <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
+    <string name="botton_nav_settings">Mga Setting</string>
+    <!-- tag(Redesign_2023)
+         Text added to button labels that open a UI element (e.g. a panel).
+         Only used by accessibility services.
+         Example:
+         a button with label "connection details" and this action label will be read by a screen
+         reader as:
+         "Connection details, button. Double tap to open"
+    -->
+    <string name="accessibility_action_open">buksan</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that initiate a VPN connection.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland will be read by a screen reader as:
+         "Switzerland. Double tap to connect"
+        -->
+    <string name="accessibility_action_connect">kumonekta</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that redirect the user to upgrade their subscription plan.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland that requires upgrading subscription to become
+         available will be read by a screen reader as:
+         "Unavailable, Switzerland. Double tap to upgrade"
+        -->
+    <string name="accessibility_action_upgrade">mag-upgrade</string>
+    <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">hanapin</string>
+    <!-- Name of action for opening a screen/panel for an item.
+         The action is listed in a menu of additional actions available to accessibility services.
+
+         Example:
+         - item in a list of countries has a custom action to open list of cities in the country
+         - item in a list of cities has a custom action to open list of servers in the city
+         -->
+    <string name="accessibility_menu_action_open">Buksan</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable because servers
+         are in maintenance.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are in maintenance will be read by a
+         screen reader as:
+         "in maintenance, Switzerland"
+     -->
+    <string name="accessibility_item_in_maintenance">sumasailalim sa maintenance</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are unavailable will be read by a screen
+         reader as:
+         "unavailable, Switzerland"
+     -->
+    <string name="accessibility_item_unavailable">hindi available</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when there is active connection to it.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland when there is a VPN connection to a server in this country
+         will be read by a screen reader as:
+         "Switzerland, connected"
+     -->
+    <string name="accessibility_item_connected">konektado</string>
+    <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
+    <string name="server_feature_label_p2p">P2P</string>
+    <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
+    <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
+    <string name="fastest_country">Pinakamabilis na bansa</string>
+    <string name="fastest_country_excluding_my_country">Pinakamabilis na bansa (maliban sa aking bansa)</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
+    <string name="fastest_free_server">Pinakamabilis na libreng server</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Iceland
+     -->
+    <string name="connection_info_secure_core_full_iceland">%1$s via Iceland</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Sweden
+     -->
+    <string name="connection_info_secure_core_full_sweden">%1$s via Sweden</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_switzerland">%1$s via Switzerland</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - exit country name in nominative case
+         %2$s - entry country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_iceland">via Iceland</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_sweden">via Sweden</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_switzerland">via Switzerland</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - entry country name in nominative case
+         Example: via Switzerland
+    -->
+    <string name="connection_info_secure_core_entry_other">via %1$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         three countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+
+     -->
+    <string name="connection_info_auto_selected_free_countries">Awtomatikong pinili mula sa [flags]</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         several countries. Used instead of connection_info_auto_selected_free_countries when there
+         are more than 3 countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+         $1%d - replaced with number of additional countries (beyond the 3 flags).
+
+         Example, if there are 5 countries to select from the text will be:
+         Auto selected from [flags]+2
+         -->
+    <string name="connection_info_auto_selected_free_countries_more">Awtomatikong pinili mula sa [flags]+%1$d</string>
+    <!-- tag(Redesign_2023)
+         Accessibility label describing a connection to a free server that is automatically selected
+         from one in several countries. Placed directly below fastest_free_server.
+         This text replaces connection_info_auto_selected_free_servers for screen readers.
+         $1%d - replaced with number of countries.
+         -->
+    <plurals name="connection_info_accessibility_auto_selected_free_countries">
+        <item quantity="one">Awtomatikong pinili mula sa %1$d bansa</item>
+        <item quantity="other">Awtomatikong pinili mula sa %1$d bansa</item>
+    </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Awtomatikong pinili mula sa mga libreng bansa</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         are that of the previous connection.
+
+         Example:
+         Last connected to
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         -->
+    <string name="connection_card_label_last_connected">Huling kumonekta sa</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">Default na koneksyon</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Libreng koneksyon</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is being established.
+     -->
+    <string name="connection_card_label_connecting">Kumokonekta sa…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It\'s shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Nagpapalit ng server…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is established and the user
+         is safely browsing as if they were in the location indicated in the connection card.
+
+         Example:
+         Browsing safely from
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         Germany
+     -->
+    <string name="connection_card_label_connected">Ligtas na nagba-browse mula sa</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with details of the current VPN connection.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "connection details, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_connection_details">mga detalye ng koneksyon</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with information about connections in free plan.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "more information about free connections, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_free_connections">karagdagang impormasyon tungkol sa mga libreng koneksyon</string>
+    <!-- tag(Redesign_2023)
+         Displayed above the list of recently made connections.
+     -->
+    <string name="recents_headline">Mga recent</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">Tuklasin ang VPN Plus</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_pin">I-pin</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_unpin">I-unpin</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_remove">Alisin</string>
+    <!-- tag(Redesign_2023)
+         State description of a pinned recent item.
+         Only used by accessibility service.
+    -->
+    <string name="recent_action_accessibility_state_pinned">Naka-pin</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_country_servers_in_maintenance">Ang lahat ng server sa bansang ito ay sumasailalim sa maintenance</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_city_servers_in_maintenance">Ang lahat ng server sa lungsod na ito ay sumasailalim sa maintenance</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">Ang lahat ng server sa estadong ito ay sumasailalim sa maintenance</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_in_maintenance">Sumasailalim sa maintenance ang server</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_not_available">Hindi available ang server</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
+    <string name="message_gateway_in_maintenance">Sumasailalim sa maintenance ang gateway</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out">Mag-sign out</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_title">Mga Setting</string>
+    <string name="gateways_title">Mga Gateway</string>
+    <string name="countries_title">Mga Bansa</string>
+    <string name="profiles_title">Mga Profile</string>
+    <string name="settings_autoconnect_title">Auto-connect</string>
+    <string name="settings_autoconnect_boot_description">Awtomatikong kinokonekta ka sa VPN gamit ang quick-connect kapag nag-launch na ang device mo</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_features">Mga Feature</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_netshield_title">NetShield</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_kill_switch_title">Kill switch</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_connection_category">Koneksyon</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_protocol_title">Protocol</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_advanced_settings_title">Advanced na mga setting</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_general">Pangkalahatan</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_account">Account</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_notifications_title">Mga Abiso</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_support">Suporta</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_help_center_title">Support center</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_report_issue_title">Mag-ulat ng isyu</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_debug_logs_title">Mga log ng debug</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_improve_proton">Pahusayin ang Proton</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_fight_censorship_title">Tulungan kaming labanan ang censorship</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_rate_us_title">I-rate ang Proton VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_app_version">Bersyon ng app: %1$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_third_party_licenses">Mga lisensya ng third party</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_title">Mag-sign out?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_message">Madi-disconnect ka sa VPN.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_dont_ask_again">Huwag na akong tanunging muli</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_action">Mag-sign out</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_action_cancel">Kanselahin</string>
+    <string name="dialog_action_change_icon">Palitan ang icon</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">Lahat</string>
+    <string name="country_filter_cities">Mga Lungsod</string>
+    <string name="country_filter_states">Mga Estado</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">Lahat ng bansa (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Mga bansang Plus (%1$d)</string>
+    <string name="country_filter_countries_list_header">Mga bansa (%1$d)</string>
+    <string name="country_filter_cities_list_header">Mga lungsod (%1$d)</string>
+    <string name="country_filter_states_list_header">Mga estado (%1$d)</string>
+    <string name="country_filter_servers_list_header">Mga server</string>
+    <string name="country_filter_secure_core_list_header">Mga bansang Secure Core (%1$d)</string>
+    <string name="country_filter_p2p_list_header">Mga bansang P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">Mga lungsod na P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">Mga estadong P2P (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">Mga P2P server</string>
+    <string name="country_filter_tor_list_header">Mga bansang Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Mga Tor server</string>
+    <string name="country_filter_info_label">Impormasyon</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is connected and network is protected
+    -->
+    <string name="vpn_status_connected">Protektado</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is not connected and network is not protected
+    -->
+    <string name="vpn_status_disabled">Hindi ka protektado</string>
+    <!-- tag(Redesign_2023)
+         Text is shown while connection is being established
+    -->
+    <string name="vpn_status_connecting">Pinoprotektahan ang iyong digital na pagkakakilanlan</string>
+    <!-- tag(Redesign_2023)
+         Displays Country name and IP of user if he is not connected.
+         First parameter is country, second is IP.
+         Ex: Poland · 192.1.1.1.1
+    -->
+    <string name="vpn_status_disabled_location">%1$s · %2$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_subtitle">Mga detalye ng koneksyon</string>
+    <string name="connection_details_features_title">Mga Feature</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_show_ip">Ipakita ang IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_back">Bumalik</string>
+    <string name="accessibility_close">Isara</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_my_ip">Aking IP</string>
+    <string name="connection_details_my_ipv4">Aking IPv4</string>
+    <string name="connection_details_my_ipv6">Aking IPv6</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
+    -->
+    <string name="connection_details_connected_for">Konektado nang</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server">Server</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_gateway">Gateway</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_country">Bansa</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_city">Lungsod</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">Estado</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
+    -->
+    <string name="connection_details_server_load">Load ng server</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_question">Ano ang load ng server?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_description">Ipinapakita ng load ng server kung gaano kalapit ang isang server sa maximum na kapasidad nito. \n\nMaaaring pabagalin ng mataas na load ng server ang koneksyon mo.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_title">Mababa (1–75%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_description">Napakabilis na speed</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_title">Katamtaman (76–90%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_description">Malamang na hindi makaapekto sa bilis ng VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_title">Mataas (91–100%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_description">Maaaring tumakbo ang VPN nang mas mabagal kaysa normal </string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol">Protocol</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol_description">Ang protocol ay isang set ng mga tagubilin na sinusunod ng device mo upang kumonekta at makipag-ugnayan sa isang server.</string>
+    <!-- tag(Redesign_2023)
+         Label in front of upload speed in connection details. It is followed by upload speed number and unit.
+    -->
+    <string name="connection_details_upload">I-upload</string>
+    <!-- tag(Redesign_2023)
+         Label in front of download speed in connection details. It is followed by download speed number and unit.
+    -->
+    <string name="connection_details_download">I-download</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_section_vpn_speed">Bilis ng VPN</string>
+    <string name="connection_details_section_ip">IP address</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_question">Ano ang bilis ng VPN?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Ikinokonekta ka ng Secure Core sa iyong destinasyong server sa pamamagitan ng pangalawang server ng VPN na may maximum na seguridad.\n\nAng mas mataas na antas ng proteksyon na ito ay maaaring magdulot ng mas mataas na latency at mas mabagal na speed.</string>
+    <string name="info_secure_core_standard_header">Standard na koneksyon ng VPN</string>
+    <string name="info_secure_core_secure_header">Secure Core na koneksyon ng VPN</string>
+    <string name="info_dialog_tor_description">Kumonekta sa isang Tor server upang ma-access ang mga nakatagong serbisyo at onion site gamit ang anumang browser.</string>
+    <string name="info_dialog_button_learn_more_tor">Paano i-access ang Tor network</string>
+    <string name="info_dialog_button_learn_more_p2p">Paano mag-torrent gamit ang P2P</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Ano ang IP address?</string>
+    <string name="info_dialog_button_learn_more_streaming">Kailangan ng tulong sa streaming?</string>
+    <string name="info_dialog_streaming_title">Streaming</string>
+    <string name="info_dialog_streaming_description">Idinisenyo ang mga streaming server para sa mabilis at ligtas na playback ng palabas sa TV at pelikula.</string>
+    <string name="info_dialog_how_to_stream">Paano mag-stream:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Pumunta sa mga setting ng telepono mo at i-off ang mga serbisyo ng lokasyon</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">I-restart ang iyong streaming service</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Kumonekta sa anumang Plus server at magsimulang mag-stream</string>
+    <string name="info_dialog_profiles_title">Mga Profile</string>
+    <string name="info_dialog_ipaddress_title">IP address</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6 traffic</string>
+    <string name="info_dialog_profiles_description">Ang mga profile ay mga custom na koneksyon ng VPN na maaari mong iakma sa iyong mga pangangailangan at i-save para sa mabilis na access.\n\nItakda ang gusto mong lokasyon at i-optimize ang mga setting para sa seguridad, performance, gaming, o anumang iba pang sitwasyon.</string>
+    <string name="info_dialog_ipaddress_description">Itinatago ng VPN IP ang totoo mong IP address. Dahil dito, nagmumukhang nagba-browse ka mula sa lokasyon ng VPN, kaya hindi maiuugnay ang iyong online na aktibidad sa device mo.</string>
+    <string name="info_dialog_ipv6_traffic_description">Ang Internet Protocol (IP) ay nagtatalaga ng mga address sa mga device at nagra-route ng internet traffic. Ang IPv6 ang pinakabagong bersyon, na nag-aalok ng mas maraming address at mas mahusay na connectivity, ngunit hindi pa ito malawakang ginagamit.</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">Naka-enable ang peer-to-peer na pagbabahagi ng file sa server na ito.</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">Maaari kang kumonekta sa mga .onion site gamit ang iyong regular na browser.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">Naka-encrypt ang iyong aktibidad sa likod ng 2 server ng VPN na may mataas na seguridad.</string>
+    <string name="connection_feature_streaming_title">Streaming</string>
+    <string name="connection_feature_streaming_description">Na-optimize ang server na ito para sa playback ng palabas sa TV at pelikula.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <string name="connection_feature_smart_routing_description">Ikinokonekta ka sa destinasyong bansa sa pamamagitan ng mga server na pisikal na matatagpuan sa ibang lugar</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
+    -->
+    <string name="country_smart_routing_info">Pisikal na matatagpuan ang mga server sa %1$s, ngunit lalabas na nagba-browse ka mula sa %2$s.</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Impormasyon</string>
+    <!-- tag(Redesign_2023)
+         Used for button title to learn more about different contexts
+    -->
+    <string name="connection_details_learn_more">Matuto pa</string>
+    <!-- tag(Redesign_2023)
+        Used to describe IP which is not known
+    -->
+    <string name="connection_details_unknown_ip">Hindi alam</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_description">Ipinapakita ng graph na ito ang bilis ng kasalukuyan mong aktibidad sa pag-upload at pag-download. Malamang na hindi pabagalin ng iyong koneksyon ng VPN ang normal na online na aktibidad.</string>
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
+    <string name="speed_graph_title">Bilis %1$s</string>
+    <string name="bytes_per_second">B/s</string>
+    <string name="kilobytes_per_second">KB/s</string>
+    <string name="megabytes_per_second">MB/s</string>
+    <string name="gigabytes_per_second">GB/s</string>
+    <string name="terabytes_per_second">TB/s</string>
+    <plurals name="full_name_speed_bytes_per_second">
+        <item quantity="one">%1$s Byte kada segundo</item>
+        <item quantity="other">%1$s Byte kada segundo</item>
+    </plurals>
+    <plurals name="full_name_speed_kilobytes_per_second">
+        <item quantity="one">%1$s Kilobyte kada segundo</item>
+        <item quantity="other">%1$s Kilobyte kada segundo</item>
+    </plurals>
+    <plurals name="full_name_speed_megabytes_per_second">
+        <item quantity="one">%1$s Megabyte kada segundo</item>
+        <item quantity="other">%1$s Megabyte kada segundo</item>
+    </plurals>
+    <plurals name="full_name_speed_gigabytes_per_second">
+        <item quantity="one">%1$s Gigabyte kada segundo</item>
+        <item quantity="other">%1$s Gigabyte kada segundo</item>
+    </plurals>
+    <plurals name="full_name_speed_terabytes_per_second">
+        <item quantity="one">%1$s Terabyte kada segundo</item>
+        <item quantity="other">%1$s Terabyte kada segundo</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_bytes">
+        <item quantity="one">%1$s Byte</item>
+        <item quantity="other">%1$s Byte</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_kilobytes">
+        <item quantity="one">%1$s Kilobyte</item>
+        <item quantity="other">%1$s Kilobyte</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_megabytes">
+        <item quantity="one">%1$s Megabyte</item>
+        <item quantity="other">%1$s Megabyte</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_gigabytes">
+        <item quantity="one">%1$s Gigabyte</item>
+        <item quantity="other">%1$s Gigabyte</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_terabytes">
+        <item quantity="one">%1$s Terabyte</item>
+        <item quantity="other">%1$s Terabyte</item>
+    </plurals>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
+    <!-- tag(Redesign_2023)
+         Shown at the top status view if app detects that there is no usable network to connect to VPN
+    -->
+    <string name="error_vpn_waiting_for_network">Naghihintay ng network</string>
+    <!-- tag(Redesign_2023) -->
+    <plurals name="connection_details_days">
+        <item quantity="one">%1$d araw</item>
+        <item quantity="other">%1$d araw</item>
+    </plurals>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_hours_shortened">%1$d oras</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_seconds_shortened">%1$d seg</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Nabigo ang koneksyon</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Hindi pinapayagan ng device na ito ang mga koneksyon ng VPN.</string>
+    <string name="create_profile_title">Gumawa ng profile</string>
+    <!-- Title for the screen where user can edit a profile.
+         %1$s - name of the profile being edited. -->
+    <string name="edit_profile_title">I-edit ang %1$s</string>
+    <string name="edit_profile_dialog_action">I-edit ang profile</string>
+    <string name="create_profile_name_hint">Pangalan ng profile</string>
+    <string name="create_profile_name_error_empty">Ilagay ang pangalan ng profile</string>
+    <string name="create_profile_name_error_too_long">Dapat 30 character o mas mababa ang pangalan ng profile</string>
+    <string name="create_profile_type_and_location_title">Piliin ang uri ng koneksyon at lokasyon</string>
+    <string name="create_profile_features_and_settings_title">Mga feature at setting</string>
+    <string name="configure_profile_features_and_settings_title">I-configure ang mga setting ng profile</string>
+    <string name="configure_profile_features_and_settings_description">Mao-override ng mga setting ng profile ang iyong mga setting ng VPN kapag nakakonekta.</string>
+    <!--
+        First input will be for current step, second one will be for total number of steps
+        Example: Step 3 of 7
+     -->
+    <string name="create_profile_steps">Hakbang %1$d ng %2$d</string>
+    <string name="create_profile_button_next">Susunod</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Pataasin ang bilis ng koneksyon nang hanggang 400%% gamit ang mga teknolohiyang nagpapahusay ng performance. %1$s</string>
+    <string name="settings_account_settings_title">Mga setting ng account</string>
+    <string name="settings_account_change_password">Palitan ang password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Hindi nakatakda</string>
+    <string name="settings_account_security_keys">Mga Security Key</string>
+    <!-- Label of a button that opens user\'s account page -->
+    <string name="settings_account_button_my_account">Aking account</string>
+    <string name="settings_account_button_delete_account">Burahin ang account</string>
+    <string name="settings_custom_dns_title">Custom DNS</string>
+    <string name="settings_custom_dns_description_tv">Kumonekta sa VPN gamit ang isang self-hosted o third-party domain name system (DNS).</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Magdagdag ng bagong DNS server</string>
+    <string name="settings_add_dns_new_entry_button">Idagdag</string>
+    <string name="settings_add_dns_description">Ilagay ang IPv4 o IPv6 address ng server</string>
+    <string name="settings_add_dns_invalid_input">Maglagay ng valid na IPv4 o IPv6 address</string>
+    <string name="settings_add_dns_empty_input">Maglagay ng IPv4 o IPv6 address</string>
+    <string name="settings_add_dns_duplicate_input">Naidagdag na ang server</string>
+    <string name="settings_advanced_dns_description">Kumonekta sa VPN gamit ang isang self-hosted o third-party domain name system (DNS). Matuto pa.</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Mga server (%1$d)</string>
+    <string name="settings_dns_list_description">Kung hindi gumana ang iyong custom DNS server, gagamitin ang standard VPN DNS.</string>
+    <string name="settings_dns_list_description_multiple">Susubukan naming kumonekta sa mga server na ito nang sunud-sunod. Kung walang gumana sa mga ito, gagamitin ang VPN DNS.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Mag-a-apply ang mga pagbabago kapag kumonekta kang muli</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">Hindi magiging available ang NetShield</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">Hindi mafi-filter ng NetShield ang mga ad, tracker at malware kapag ginamit ang custom DNS. Matuto pa.</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">Hindi mafi-filter ng NetShield ang mga ad, tracker at malware kapag ginamit ang custom DNS.</string>
+    <string name="settings_advanced_alternative_routing_title">Alternatibong pag-route</string>
+    <string name="settings_advanced_alternative_routing_description">Kung naka-block ang mga serbisyo ng Proton dahil sa mga paghihigpit sa network, susubukan naming gumamit ng alternatibong pag-route ng network upang ikonekta ka sa aming mga site.</string>
+    <string name="settings_advanced_allow_lan_title">Mga koneksyon ng LAN</string>
+    <string name="settings_advanced_allow_lan_description">Pinapayagan kang kumonekta sa mga printer, speaker at iba pang device sa lokal na network ng device mo</string>
+    <string name="settings_advanced_allow_lan_description_tv">Kumonekta sa mga speaker, computer at iba pang device sa lokal na network</string>
+    <string name="settings_advanced_allow_lan_title_tv">Payagan ang mga koneksyon ng LAN</string>
+    <string name="settings_advanced_nat_type_title">Uri ng NAT</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Pumili ng uri ng network address translation para sa iyong koneksyon. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Pumili ng uri ng network address translation para sa iyong koneksyon.</string>
+    <string name="settings_advanced_nat_type_strict">Strict (uri 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Uri 3</string>
+    <string name="settings_advanced_nat_type_moderate">Moderate (uri 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Uri 2</string>
+    <string name="settings_advanced_nat_type_strict_description">Nililimitahan ang data na pumapasok sa iyong network. Mas ligtas ang opsyong ito ngunit maaaring magpahirap sa mga koneksyon sa peer-to-peer gaming.</string>
+    <string name="settings_advanced_nat_type_moderate_description">May ilang limitasyon sa data na pumapasok sa iyong network. Ang opsyong ito ay pinakamahusay para sa online video gaming.</string>
+    <string name="settings_split_tunneling_description">I-customize ang iyong koneksyon sa pamamagitan ng pagpapasya kung aling mga app at IP address ang protektado ng VPN. %1$s</string>
+    <string name="settings_protocol_description">Tinutukoy ng VPN protocol kung paano gumagalaw ang data sa pagitan ng isang server ng VPN at ng iyong device. %1$s</string>
+    <string name="settings_protocol_description_no_link">Tinutukoy ng VPN protocol kung paano gumagalaw ang data sa pagitan ng isang server ng VPN at ng iyong device.</string>
+    <string name="settings_protocol_section_speed">Bilis (UDP)</string>
+    <string name="settings_protocol_section_reliability">Reliability (TCP)</string>
+    <string name="settings_protocol_smart_title">Smart</string>
+    <string name="settings_protocol_smart_description">Awtomatikong pinipili ang pinakamahusay na protocol para sa iyong koneksyon</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Awtomatikong pinipili ang pinakamahusay na protocol para sa iyong koneksyon [experimental]</string>
+    <string name="settings_protocol_wireguard_udp_description">State-of-the-art na protocol para sa seguridad at performance</string>
+    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art na protocol para sa seguridad at performance</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Nilalampasan ang mga pag-block sa VPN sa pamamagitan ng pagtatago ng iyong koneksyon ng VPN mula sa mga censor. Ang protocol na ito ay DPI (deep packet inspection) resistant, ngunit maaaring hindi kasing bilis ng ibang mga protocol. Ang Stealth ay eksklusibo sa Proton VPN.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Inirerekomenda</string>
+    <string name="settings_protocol_badge_experimental">Experimental</string>
+    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_standard">Ibukod</string>
+    <string name="settings_split_tunneling_mode_inverse">Isama</string>
+    <string name="settings_split_tunneling_mode_description_standard">Ang mga piniling app at IP address ay ibinukod sa koneksyon ng VPN.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Ang mga piniling app at IP address lang ang kumokonekta sa pamamagitan ng VPN. Ang lahat ng iba pang traffic ay hindi protektado.</string>
+    <string name="settings_split_tunneling_excluded_apps">Mga ibinukod na app</string>
+    <string name="settings_split_tunneling_excluded_ips">Mga ibinukod na IP address</string>
+    <string name="settings_split_tunneling_included_apps">Mga isinamang app</string>
+    <string name="settings_split_tunneling_included_ips">Mga isinamang IP address</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Wala</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s at %3$d pa</string>
+    <string name="settings_split_tunneling_already_excluded">Ibinukod na</string>
+    <string name="settings_split_tunneling_already_included">Isinama na</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Alisin ang IP address sa listahan?</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_theme_value_auto">Tema ng device</string>
+    <string name="settings_theme_value_light">Light</string>
+    <string name="settings_theme_value_dark">Dark</string>
+    <string name="settings_dialog_reconnect">Mag-a-apply ang mga bagong setting sa susunod mong pagkonekta.</string>
+    <string name="settings_needs_reconnect_banner">Mag-a-apply ang mga bagong setting sa susunod mong pagkonekta.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Hindi available ang Custom DNS</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Gumagamit ang device mo ng isang third-party DNS na pumipigil sa paggana ng Custom DNS ng Proton VPN. Matuto pa.</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Gumagamit ang device mo ng isang third-party DNS na pumipigil sa paggana ng Custom DNS ng Proton VPN.</string>
+    <string name="private_dns_conflict_banner_netshield_title">Hindi available ang NetShield</string>
+    <string name="private_dns_conflict_banner_netshield_description">Gumagamit ang device mo ng isang third-party DNS na pumipigil sa paggana ng NetShield. Matuto pa.</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Mga setting ng network</string>
+    <string name="custom_dns_conflict_banner_netshield_title">Hindi available ang NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Naka-enable ang Custom DNS na pumipigil sa paggana ng NetShield. Matuto pa.</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">I-off ang custom DNS para magamit ang NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">Naka-enable ang Custom DNS na pumipigil sa paggana ng NetShield.</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">I-off ang custom DNS</string>
+    <string name="info_secure_core_standard_high_privacy">Mataas na privacy</string>
+    <string name="info_secure_core_standard_lower_latency">Mas mababang latency</string>
+    <string name="info_secure_core_advanced_privacy">Advanced na privacy</string>
+    <string name="info_secure_core_higher_latency">Mas mataas na latency</string>
+    <string name="info_p2p_what_title">Ano ang P2P?</string>
+    <string name="info_p2p_what_description">Pinapayagan ka ng peer-to-peer (P2P) na teknolohiya na kumonekta at magbahagi ng mga file nang direkta sa ibang device.\n\nAng aming mga P2P server ay espesyal na idinisenyo upang suportahan ang ganitong uri ng pagbabahagi ng file.</string>
+    <string name="info_p2p_torrenting_title">Ano ang torrenting?</string>
+    <string name="info_p2p_torrenting_description">Ang mabilis na pagbabahagi at pag-download ng malalaking file sa P2P network</string>
+    <string name="info_p2p_why_title">Bakit gagamit ng P2P server kapag nagto-torrent?</string>
+    <string name="info_p2p_why_description_speed">Mas mabilis na pag-upload at pag-download</string>
+    <string name="info_p2p_why_description_logs">Walang log ng aktibidad</string>
+    <string name="info_p2p_why_description_hide">Itago ang iyong IP address mula sa iyong service provider at mga peer</string>
+    <string name="info_dialog_smart_routing_description">Gumagamit ang Smart Routing ng mga virtual server upang magbigay ng VPN coverage sa mga bansang mahirap abutin.\n\nKapag kumonekta ka sa isang Smart Routing server, lalabas na nagba-browse ka sa iyong destinasyong bansa, kahit na ang pisikal na server ay matatagpuan sa ibang lugar.  \n\nKaraniwang ginagamit ang Smart Routing upang malampasan ang mga batas sa anti-privacy at iba pang anyo ng censorship.</string>
+    <string name="countries_upsell_banner_description">Magkaroon ng pandaigdigang coverage gamit ang VPN Plus</string>
+    <string name="secure_core_upsell_banner_description">Magdagdag ng isa pang layer ng encryption sa iyong koneksyon ng VPN</string>
+    <string name="p2p_upsell_banner_description">Mag-download ng mga file sa pamamagitan ng BitTorrent at iba pang protocol sa pagbabahagi ng file</string>
+    <string name="tor_upsell_banner_description">Gamitin ang Tor network sa iyong koneksyon ng VPN para sa karagdagang privacy</string>
+    <string name="vpnplus_upsell_banner_description">Mag-upgrade sa VPN Plus</string>
+    <string name="search_zero_screen_title">Subukang maghanap ng…</string>
+    <string name="search_zero_screen_info_countries_title">Mga Bansa</string>
+    <string name="search_zero_screen_info_cities_title">Mga Lungsod</string>
+    <string name="search_zero_screen_info_servers_title">Mga Server</string>
+    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
+    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Error sa pagkuha ng mga presyo</string>
+    <string name="tv_settings_split_tunneling_description">I-customize ang iyong koneksyon sa pamamagitan ng pagpapasya kung aling mga app ang protektado ng VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Ang mga piniling app ay ibinukod sa koneksyon ng VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Ang mga piniling app lang ang kumokonekta sa pamamagitan ng VPN. Ang lahat ng iba pang traffic ay hindi protektado.</string>
+    <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_edit">I-edit</string>
+    <string name="profile_action_duplicate">I-duplicate</string>
+    <string name="profile_action_delete">Burahin</string>
+    <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="profile_needs_reconnect">Ire-restart nito ang iyong koneksyon.</string>
+    <string name="profile_overrides_setting">Ang mga setting na ito ay konektado sa <b>%1$s</b> at mapapamahalaan lang sa Mga Profile.</string>
+    <string name="initial_profile_name_streaming_us">Streaming US</string>
+    <string name="initial_profile_name_work_school">Trabaho/Paaralan</string>
+    <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
+    <string name="initial_profile_name_gaming">Gaming</string>
+    <string name="initial_profile_name_max_security">Max na seguridad</string>
+    <string name="create_profile_pick_country_title">Bansa</string>
+    <string name="create_profile_pick_type_title">Uri</string>
+    <string name="create_profile_type_standard">Standard</string>
+    <string name="create_profile_type_secure_core">Secure Core</string>
+    <string name="create_profile_type_p2p">P2P</string>
+    <string name="create_profile_gateway">Gateway</string>
+    <string name="create_profile_pick_state_title">Estado</string>
+    <string name="create_profile_pick_city_title">Lungsod</string>
+    <string name="create_profile_pick_server_title">Server</string>
+    <string name="create_profile_pick_gateway_title">Gateway</string>
+    <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_netshield_description">I-block ang mga ad, tracker at malware sa mga website at app</string>
+    <string name="create_profile_pick_protocol_title">Protocol</string>
+    <string name="create_profile_pick_nat_title">Uri ng NAT</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (kopya)</string>
+    <string name="create_profile_fastest_city">Pinakamabilis</string>
+    <string name="create_profile_fastest_state">Pinakamabilis</string>
+    <string name="create_profile_fastest_server">Pinakamabilis</string>
+    <string name="create_profile_pick_middle_country_title">Gitnang bansa</string>
+    <string name="profiles_zero_state_title">Gumawa ng iyong unang profile</string>
+    <string name="profiles_zero_state_description">Ang mga profile ay mga naka-save mong koneksyon na may napiling lokasyon, server at protocol.</string>
+    <string name="profiles_button_create_profile">Gumawa ng profile</string>
+    <string name="profile_deleted_snackbar_message">Nabura ang profile</string>
+    <string name="profile_connected_edit_setting">Nakakonekta ang setting na ito sa iyong aktibong profile. \n\nI-edit ang iyong profile para gumawa ng mga pagbabago o i-disconnect para i-edit ang iyong pangkalahatang mga setting ng VPN.</string>
+    <string name="profile_connected_dialog_title">Pamahalaan ang %1$s sa Mga Profile</string>
+    <string name="undo">Bawiin</string>
+    <string name="profile_unavailable_dialog_title">Hindi available ang profile</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
+    <string name="profile_unavailable_dialog_message">Hindi available ang pinili mong server para sa %1$s. Pumili ng ibang server o subukang muli mamaya.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">Icon %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">Kulay %1$d</string>
+    <string name="generic_info_label">Impormasyon</string>
+    <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
+         Please don't use & in translation and capitalize key words. -->
+    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Bago</string>
+    <string name="create_profile_auto_open_url_input_label">URL ng website</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Gumamit ng mode na pribadong pag-browse</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Naka-off</string>
+    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: hindi nakita ang application</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_website">Magbukas ng website</string>
+    <string name="profile_auto_open_app">Magbukas ng app</string>
+    <string name="create_profile_auto_open_description">Awtomatikong buksan ang napili mong website kapag kumonekta ka sa profile na ito.</string>
+    <string name="create_profile_auto_open_app_input_hint">Pumili ng app</string>
+    <string name="create_profile_auto_open_app_input_label">App</string>
+    <string name="create_profile_auto_open_app_no_apps">Walang nakitang app.</string>
+    <string name="profile_auto_open_error_invalid_url">Maglagay ng valid na URL</string>
+    <string name="nps_how_likely_question">Gaano ka-malamang na irerekomenda mo ang Proton VPN sa isang kaibigan o katrabaho?</string>
+    <string name="nps_additional_comment_title">Ipaalam sa amin kung bakit ibinigay mo ang rating na iyon</string>
+    <string name="nps_additional_comment_optional">Opsyonal</string>
+    <string name="nps_rating_low_values_explain">Ang 0 ay talagang hindi malamang</string>
+    <string name="nps_rating_high_values_explain">Ang 10 ay talagang malamang</string>
+    <string name="nps_toast_submit_message">Salamat sa pagbabahagi. Nakakatulong ang iyong feedback na mapabuti namin ang Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Ang iyong sagot ay dapat 250 character o mas maikli</string>
+    <string name="nps_button_submit_title">Ibahagi nang anonymous</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_spain">Spain</string>
+    <string name="widget_preview_germany">Germany</string>
+    <string name="widget_preview_france">France</string>
+    <string name="widget_status_unprotected">Hindi protektado</string>
+    <string name="widget_status_error">Error</string>
+    <string name="widget_status_connecting">Kumokonekta</string>
+    <string name="widget_sign_in">Mag-sign in</string>
+    <string name="widget_toast_added_message">Naidagdag ang widget sa home screen</string>
+    <string name="settings_advanced_ipv6_title">Suporta sa IPv6</string>
+    <string name="settings_advanced_ipv6_description">Ipinapadaan ang IPv6 traffic sa VPN. Maaaring pahusayin ang compatibility sa mga IPv6 network.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Upang magamit ang address na ito, kailangan mong payagan ang mga koneksyon ng IPv6 sa pamamagitan ng VPN tunnel.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">I-enable ang IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">Naka-disable ang IPv6</string>
+    <string name="settings_ipv6_enabled_toast">Naka-enable ang IPv6</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Tinitiyak ang access sa mga website at serbisyong IPv6-only</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Pinipigilan ang mga isyu sa mga network na umaasa sa IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">Maaaring hindi gumana nang maayos sa mga lumang network o app</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Hindi mahulaan kung paano hina-handle ng ilang mga network ang traffic ng IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Mga Kahinaan</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Mga Benepisyo</string>
+    <string name="settings_lan_allow_direct_connection_title">Payagan ang direktang koneksyon ng device</string>
+    <string name="settings_lan_allow_direct_connection_description">Kumonekta sa mga Smart TV, Android Auto, at iba pang device na gumagawa ng sarili nilang network. Para sa maximum na seguridad, i-enable lang kapag kumokonekta sa mga device na ito.</string>
+    <string name="no_connections_title">Walang available na koneksyon ng VPN</string>
+    <string name="no_connections_description_loading_error">Hindi namin ma-load ang listahan ng mga server.</string>
+    <string name="no_connections_description_no_servers">Hilingin sa iyong administrator na i-enable ang access sa VPN para sa account mo.</string>
+    <string name="no_connections_action_refresh">I-refresh</string>
+    <string name="no_connections_action_sign_out">Mag-sign out</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Kailangan ng tulong? <a href="">Makipag-ugnayan sa amin</a>.]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Kung kailangan ng iyong administrator ng tulong sa pag-enable ng access sa VPN, ipadala sa kanila <a href="">ang mga tagubiling ito</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">I-enable ang OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Aalisin na sa lalong madaling panahon ang protocol na ito habang nagpo-focus kami sa mas mabilis at mas secure na mga teknolohiya. Inirerekomenda naming lumipat sa Smart Protocol. <a href="proton.me">Matuto pa</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Aalisin na sa lalong madaling panahon ang protocol na ito habang nagpo-focus kami sa mas mabilis at mas secure na mga teknolohiya. Inirerekomenda naming lumipat sa Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Magpatuloy sa OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">I-enable ang Smart Protocol</string>
+    <string name="settings_protocol_proton_protocols">Mga protocol ng Proton</string>
+    <string name="settings_protocol_proton_protocols_description">Gamitin ang sariling implementasyon ng Proton VPN ng WireGuard. Isa itong experimental na feature, kaya maaari kang makaranas ng ilang instability.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">If there are locations you don’t want to be automatically connected to, you can exclude them from Fastest country.</string>
+    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
+</resources>

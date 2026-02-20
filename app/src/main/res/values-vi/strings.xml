@@ -1,0 +1,1582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_icon_name_classic">Cổ điển</string>
+    <string name="app_icon_name_dark">Tối</string>
+    <string name="app_icon_name_retro">Hoài cổ</string>
+    <string name="app_icon_name_weather">Thời tiết</string>
+    <string name="app_icon_name_notes">Ghi chú</string>
+    <string name="app_icon_name_calculator">Máy tính</string>
+    <string name="login">Đăng nhập</string>
+    <string name="menuActionSignOut">Đăng xuất</string>
+    <string name="connectionAllocationHelpTitle">Cảm ơn bạn đã nâng cấp</string>
+    <string name="connectionAllocationHelpDescription1">Để bắt đầu sử dụng Proton VPN, vui lòng gán kết nối VPN cho tài khoản của bạn hoặc bất kỳ tài khoản phụ nào khác.</string>
+    <string name="connectionAllocationHelpDescription2">Bước này sẽ chỉ mất vài phút. Sau đó, bạn có thể đăng nhập để bảo vệ tất cả các thiết bị của mình.</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Hiện tài khoản này chưa được kích hoạt kết nối VPN. Để bắt đầu sử dụng Proton VPN, vui lòng liên hệ với quản trị viên. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Kích hoạt kết nối VPN</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Đăng nhập lại</string>
+    <!-- tag(Redesign_2023) "OK" button on dialogs -->
+    <string name="ok">OK</string>
+    <string name="dialogLearnMore">Tìm hiểu thêm</string>
+    <string name="connected">Đã kết nối</string>
+    <string name="buttonConnect">Kết nối</string>
+    <string name="loaderConnectingTo">Đang kết nối đến %1$s</string>
+    <string name="loaderNotConnected">Không được kết nối (Không được bảo vệ)</string>
+    <string name="loaderConnectedTo">Đã kết nối đến %1$s</string>
+    <string name="loaderDisconnecting">Đang ngắt kết nối</string>
+    <string name="loaderReconnecting">Đang kết nối lại</string>
+    <string name="loaderReconnectNoNetwork">Đang chờ mạng có thể sử dụng</string>
+    <string name="loaderCheckingAvailability">Kiểm tra tính khả dụng của máy chủ</string>
+    <string name="quickConnect">Kết nối nhanh</string>
+    <!-- Displays a percentage value. Please use %% sign for %.
+         Example value: "70%" -->
+    <string name="serverLoad">%1$s%%</string>
+    <string name="cancel">Hủy bỏ</string>
+    <string name="close">Đóng</string>
+    <string name="dialogContinue">Tiếp tục</string>
+    <string name="drawerReportProblem">Báo cáo sự cố</string>
+    <string name="action_done">Xong</string>
+    <string name="action_share">Chia sẻ</string>
+    <string name="accountFree">Proton Free</string>
+    <string name="restrictedMaintenanceTitle">Đang được bảo trì</string>
+    <string name="restrictedMaintenanceDescription">Máy chủ mà bạn đang cố gắng kết nối đang được bảo trì. Vui lòng thử một máy chủ khác.</string>
+    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
+    <string name="errorUserDelinquent"><![CDATA[Tài khoản hiện có một hóa đơn quá hạn. Vui lòng thanh toán tất cả các hóa đơn chưa thanh toán tại&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorMaxSessions">Đã đạt đến số lượng kết nối đồng thời tối đa mà tài khoản cho phép. Vui lòng nâng cấp gói Proton VPN để có thêm kết nối.</string>
+    <string name="listItemMaintenance">Đang được bảo trì</string>
+    <string name="insufficientPermissionsTitle">Yêu cầu hành động của người dùng</string>
+    <string name="insufficientPermissionsDetails">Không thể tự động thiết lập kết nối VPN. Vui lòng kết nối thủ công một lần để cấp quyền.</string>
+    <string name="log_title">Nhật ký</string>
+    <string name="disconnect">Ngắt kết nối</string>
+    <string name="state_connecting">Đang kết nối…</string>
+    <string name="state_connected">Đã kết nối</string>
+    <string name="state_disconnecting">Đang ngắt kết nối…</string>
+    <string name="state_error">Lỗi</string>
+    <string name="error_server_list_load_failed">Vui lòng kiểm tra kết nối và thử lại.</string>
+    <string name="error_server_unreachable">Không thể kết nối đến VPN. Vui lòng kiểm tra kết nối mạng rồi thử lại.</string>
+    <string name="error_auth_failed">Xác thực người dùng thất bại.</string>
+    <string name="error_generic">Lỗi không xác định trong khi kết nối.</string>
+    <string name="error_generic_with_reason">Proton VPN không thể thiết lập kết nối VPN. Vui lòng thử lại trong chốc lát. <br/><br/> Chi tiết: %1$s</string>
+    <string name="reconnect">Kết nối lại</string>
+    <string name="reconnect_now">Kết nối lại ngay</string>
+    <string name="try_reconnecting">Thử kết nối lại</string>
+    <string name="connect">Kết nối</string>
+    <string name="upgrade">Nâng cấp</string>
+    <string name="retry">Thử lại</string>
+    <string name="report_message">Báo cáo thư</string>
+    <string name="report_bug_email_label">Email của bạn</string>
+    <string name="report_bug_email_hint">Nhập địa chỉ email của bạn</string>
+    <string name="report_bug_message_label">Thư</string>
+    <string name="report_bug_message_hint">Vui lòng mô tả lỗi, cũng như cách thức và vị trí tìm thấy lỗi đó</string>
+    <string name="send_report">Gửi báo cáo</string>
+    <string name="report_sent">Báo cáo đã gửi</string>
+    <string name="discardChanges">Hủy bỏ các thay đổi chưa lưu?</string>
+    <string name="discard">Hủy bỏ</string>
+    <string name="done">XONG</string>
+    <string name="add">THÊM</string>
+    <string name="copy_to_clipboard">Sao chép</string>
+    <string name="copied_to_clipboard">Đã sao chép vào bảng tạm</string>
+    <string name="got_it">Đã hiểu</string>
+    <string name="exclude_locations">Exclude locations</string>
+    <string name="excluded_locations">Excluded locations</string>
+    <string name="cannot_connect">Cannot connect</string>
+    <string name="skip">Skip</string>
+    <string name="something_went_wrong">Đã xảy ra sự cố</string>
+    <string name="try_again">Thử lại</string>
+    <string name="delete">Xóa</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Di chuyển lên đầu</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Di chuyển lên</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Di chuyển xuống</string>
+    <string name="remove">Xóa</string>
+    <string name="saveButton">Lưu</string>
+    <string name="ipWithPlaceholder">IP: %1$s</string>
+    <string name="activityLicensesTitle">Giấy phép của bên thứ ba</string>
+    <string name="stateFragmentUnknownIp">Không xác định</string>
+    <string name="noVpnPermissionMainTitle">Hành động cần thiết để kết nối với VPN</string>
+    <string name="noVpnPermissionMainMessage">Để kết nối với Proton VPN, vui lòng thực hiện như sau:</string>
+    <string name="noVpnPermissionGrantPermissionTitle">Cấp quyền VPN</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android cần quyền để kết nối với Proton VPN. Cấp quyền bằng cách chạm vào \"OK\" khi cửa sổ \"Yêu cầu kết nối\" của Android xuất hiện.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Vô hiệu hóa chế độ luôn bật cho các ứng dụng VPN khác</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android không hỗ trợ nhiều ứng dụng VPN. Vô hiệu hóa chế độ luôn bật cho mọi ứng dụng VPN, trừ Proton VPN.</string>
+    <string name="noVpnPermissionProtonAppLabel">Ứng dụng Proton VPN</string>
+    <string name="noVpnPermissionOtherAppLabel">Các ứng dụng VPN khác</string>
+    <string name="noVpnPermissionOpenSettings">Mở cài đặt VPN Android</string>
+    <string name="noNotificationPermissionGrantTitle">Đừng để bỏ lỡ...</string>
+    <string name="noNotificationPermissionGrantDescription">Kích hoạt thông báo để nhận cảnh báo về những thay đổi trạng thái kết nối của bạn.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Kích hoạt thông báo</string>
+    <string name="error_prepare_vpn_description"><![CDATA[Vui lòng vô hiệu hóa VPN luôn bật cho tất cả các ứng dụng VPN khác trong cài đặt hệ thống VPN Android, vì cài đặt này ngăn Proton VPN thiết lập kết nối VPN. Đồng thời, vui lòng cấp quyền VPN nếu hộp thoại yêu cầu quyền VPN xuất hiện. Để tránh xung đột, có thể sẽ cần phải gỡ cài đặt các ứng dụng VPN khác. Sau đó, vui lòng thử lại. <a href="%1$s">Tìm hiểu thêm</a>]]></string>
+    <string name="error_prepare_vpn_settings">Đi đến cài đặt VPN Android</string>
+    <string name="error_prepare_vpn_title">Lỗi: Sự cố quyền VPN</string>
+    <string name="error_server_not_set">Máy chủ không còn khả dụng</string>
+    <string name="bugReportErrorEmptyEmail">Không được để trống email</string>
+    <string name="bugReportErrorInvalidEmail">Địa chỉ email không hợp lệ</string>
+    <string name="bugReportLabelVpnLogsTitle">Bao gồm nhật ký lỗi</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Điều này sẽ gửi nhật ký lỗi cục bộ (chúng tôi không ghi nhật ký hoạt động) để giúp chúng tôi khắc phục sự cố của bạn</string>
+    <string name="profileFastest">Nhanh nhất</string>
+    <string name="profileRandom">Ngẫu nhiên</string>
+    <string name="loaderErrorNoInternet">Không có kết nối internet</string>
+    <string name="loaderErrorGeneric">Đã xảy ra sự cố</string>
+    <string name="inputIpAddressLabel">Địa chỉ IP</string>
+    <string name="inputIpAddressHelp">Nhập địa chỉ IPv4 hoặc IPv6 của máy chủ</string>
+    <string name="inputIpAddressErrorInvalid">Địa chỉ IP không hợp lệ</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">MỚI</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
+    <string name="settingsExcludedIPAddressesListHeader">Địa chỉ IP bị loại trừ (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Địa chỉ IP được đưa vào (%1$d)</string>
+    <string name="settingsExcludedApps">Ứng dụng bị loại trừ</string>
+    <string name="settingsExcludedAppsEmpty">Thêm ứng dụng để loại trừ khỏi lưu lượng VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Thêm ứng dụng để đưa vào lưu lượng VPN.</string>
+    <string name="settingsExcludedAppsSelectedHeader">Ứng dụng bị loại trừ (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Ứng dụng được đưa vào (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Tất cả ứng dụng thông thường khác (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Tất cả ứng dụng hệ thống khác (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Tất cả ứng dụng khác (%1$d)</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">Hiển thị ứng dụng hệ thống</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Hiển thị ứng dụng hệ thống</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Những ứng dụng này bị loại trừ khỏi kết nối VPN của bạn.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Chỉ những ứng dụng này kết nối qua VPN.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Thêm vào ứng dụng bị loại trừ</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Xóa khỏi ứng dụng bị loại trừ</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Thêm vào ứng dụng được đưa vào</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Xóa khỏi ứng dụng được đưa vào</string>
+    <string name="accessibility_action_copy_to_clipboard">Sao chép vào bảng tạm</string>
+    <string name="accessibility_action_item_delete">Xóa</string>
+    <string name="accessibility_action_item_move_up">Di chuyển lên</string>
+    <string name="accessibility_action_item_move_down">Di chuyển xuống</string>
+    <string name="tileConnected">Đã kết nối: %1$s</string>
+    <string name="openUrlError">Không thể mở %1$s. Không phát hiện trình duyệt web trên thiết bị của bạn.</string>
+    <string name="loaderErrorTimeout">Kết nối đã hết thời gian chờ. Vui lòng thử lại.</string>
+    <string name="troubleshootButton">Xử lý sự cố</string>
+    <string name="activityTroubleshootTitle">Đang xử lý sự cố</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">Các giải pháp tiềm năng</string>
+    <string name="troubleshootNoInternetDescription">Vui lòng đảm bảo kết nối internet đang hoạt động.</string>
+    <string name="troubleshootNoInternetTitle">Không có kết nối internet</string>
+    <string name="troubleshootIspProblemTitle">Sự cố với Nhà cung cấp dịch vụ internet (ISP)</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Hãy thử kết nối với Proton từ một mạng khác (hoặc sử dụng <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootAntivirusProblemTitle">Xung đột với phần mềm chống vi-rút</string>
+    <string name="troubleshootAntivirusProblemDescription">Hãy tạm thời vô hiệu hóa hoặc xóa phần mềm chống vi-rút.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Xung đột với proxy/tường lửa</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Vô hiệu hóa mọi proxy hoặc tường lửa, hoặc liên hệ với quản trị viên mạng.</string>
+    <string name="troubleshootProtonDownTitle">Proton đang dừng hoạt động</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Kiểm tra <a href=\"%1$s\">Trạng thái Proton</a> để xem trạng thái hệ thống.]]></string>
+    <string name="troubleshootContactUsSectionTitle">Bạn cần trợ giúp thêm? Hãy liên hệ trực tiếp với chúng tôi</string>
+    <string name="troubleshootCustomerSupport">Bộ phận hỗ trợ khách hàng</string>
+    <string name="settingsAllowAlternativeRoutingTitle">Định tuyến thay thế</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Trong trường hợp Proton bị chặn, hãy cho phép ứng dụng thử các đường dẫn thay thế để truy cập máy chủ Proton. <a href="%1$s">Tìm hiểu thêm</a>.]]></string>
+    <string name="troubleshootGovernmentBlockTitle">Bị chặn theo yêu cầu từ chính phủ</string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Quốc gia của bạn có thể đang chặn truy cập vào Proton. Hãy thử sử dụng <a href=\'%1$s\'>Tor</a> để truy cập Proton.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Cách kích hoạt công tắc ngắt</string>
+    <string name="settingsKillSwitchEnableStep1">1. Mở cài đặt thiết bị</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Tìm Proton VPN và chạm vào %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">cài đặt</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Kích hoạt \"<b>VPN luôn bật</b>\" và \"<b>Chặn kết nối khi không có VPN</b>\"]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Cài đặt</string>
+    <string name="settingsKillSwitchLearnMoreButton">Công tắc ngắt là gì?</string>
+    <string name="settingsKillSwitchWarningMain">Khi bật công tắc ngắt, bạn sẽ không thể kết nối với:</string>
+    <string name="settingsKillSwitchWarningPoint1">Loại trừ các trang web và ứng dụng khỏi kết nối VPN nhờ tính năng tách đường hầm</string>
+    <string name="settingsKillSwitchWarningPoint2">Các thiết bị trên mạng cục bộ (LAN) của bạn</string>
+    <string name="settingsEnableTelemetryTitle">Chia sẻ thống kê mức sử dụng ẩn danh</string>
+    <string name="settingsEnableTelemetryDescription">Số liệu sử dụng giúp chúng tôi vượt qua chặn VPN và nâng cao hiệu năng ứng dụng.</string>
+    <string name="settingsSendCrashReportsTitle">Chia sẻ báo cáo sự cố ẩn danh</string>
+    <string name="settingsSendCrashReportsDescription">Báo cáo sự cố giúp chúng tôi sửa lỗi, phát hiện tường lửa và tránh bị chặn VPN.</string>
+    <string name="settingsTelemetryScreenTitle">Thống kê mức sử dụng</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Các thống kê này không chứa địa chỉ IP của bạn và không thể dùng để nhận dạng bạn. Chúng tôi sẽ tuyệt đối không chia sẻ thông tin này với bên thứ ba. <a href="%1$s">Tìm hiểu thêm</a>]]></string>
+    <string name="netshield_settings_description_not_html">Bảo vệ bản thân khỏi quảng cáo, phần mềm độc hại và trình theo dõi trên các trang web và ứng dụng. %1$s</string>
+    <string name="netshield_settings_description_tv">Bảo vệ bạn khỏi quảng cáo, trình theo dõi và phần mềm độc hại của bên thứ ba. NetShield không chặn quảng cáo được tích hợp vào các dịch vụ phát trực tuyến như YouTube và Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Cách hoạt động của NetShield</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield chặn các yêu cầu DNS đến các miền bên thứ ba đã ghi nhận có quảng cáo, trình theo dõi và phần mềm độc hại.</item>
+        <item>Điều này có nghĩa là bạn sẽ không nhận quảng cáo từ trình duyệt hoặc các ứng dụng miễn phí sử dụng dịch vụ quảng cáo của bên thứ ba.</item>
+        <item>Tuy nhiên, tính năng này không thể chặn quảng cáo từ các nền tảng phát trực tuyến như YouTube và Netflix, vì quảng cáo của họ đến từ máy chủ riêng của họ.</item>
+    </string-array>
+    <string name="settings_icon_change_description">Ngụy trang ứng dụng Proton VPN bằng một biểu tượng kín đáo. Tuy nhiên, thông báo vẫn hiển thị tên và biểu tượng mặc định của Proton VPN. %1$s</string>
+    <string name="settings_icon_change_learn_more">Tìm hiểu thêm</string>
+    <string name="learn_more">Tìm hiểu thêm</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Bật</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Tắt</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Không khả dụng</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Bật</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Tắt</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Bật</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Tắt</string>
+    <string name="lan_state_on" comment="Describes state, not action">Bật</string>
+    <string name="lan_state_off" comment="Describes state, not action">Tắt</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Bật</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Tắt</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Bật</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Tắt</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Không khả dụng</string>
+    <string name="custom_dns_item_removed_snackbar">Mục đã xóa</string>
+    <string name="netshield_free_description">Chặn quảng cáo, trình theo dõi và phần mềm độc hại trên các trang web và ứng dụng</string>
+    <string name="netshield_what_data_means">Giải thích thống kê NetShield</string>
+    <string name="netshield_ads_title">Quảng cáo</string>
+    <string name="netshield_ads_details">Quảng cáo và trình theo dõi quảng cáo ẩn</string>
+    <string name="netshield_trackers_title">Trình theo dõi</string>
+    <string name="netshield_trackers_details">Cookie và các trình theo dõi khác lưu trữ và chia sẻ thông tin về hoạt động trực tuyến của bạn</string>
+    <string name="netshield_data_title">Dữ liệu</string>
+    <string name="netshield_data_details">Lượng dữ liệu không mong muốn từ quảng cáo, trình theo dõi và phần mềm độc hại mà NetShield đã chặn</string>
+    <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
+        <item quantity="other">Quảng cáo đã chặn</item>
+    </plurals>
+    <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
+        <item quantity="other">Trình theo dõi đã chặn</item>
+    </plurals>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dữ liệu đã lưu</string>
+    <string name="netshield_setting_warning">Một số trang web có thể không tải đúng cách khi chặn quảng cáo và trình theo dõi.</string>
+    <string name="dialogDontShowAgain">Không hiển thị lại</string>
+    <string name="guestHoleNotificationContent">Đang cố gắng khắc phục sự cố mạng. Việc này sẽ giúp bạn truy cập Proton VPN.</string>
+    <string name="errorTunMultiUserPermission">Không thể khởi tạo kết nối VPN do xung đột giữa ứng dụng kép (ví dụ Dual Messenger) và tách đường hầm. Vui lòng vô hiệu hóa một trong hai tính năng và khởi động lại thiết bị.</string>
+    <string name="errorTorrentNotAllowed">Máy chủ này không cho phép P2P</string>
+    <string name="error_profile_fallback_unavailable">Kết nối thất bại. Máy chủ đã chọn cho hồ sơ không khả dụng.</string>
+    <string name="profileProtocolNotAvailable">Giao thức VPN của hồ sơ này hiện không khả dụng. Để kết nối, hãy thử thay đổi giao thức.</string>
+    <string name="stateConnectedTo">Đã kết nối đến %1$s</string>
+    <string name="stateNotConnected">Bạn chưa được kết nối</string>
+    <string name="nameEurope">Châu Âu</string>
+    <string name="nameAmerica">Châu Mỹ</string>
+    <string name="nameAsia">Châu Á</string>
+    <string name="nameAfricaAndMiddleEast">Châu Phi &amp; Trung Đông</string>
+    <string name="nameOceania">Châu Đại Dương</string>
+    <string name="tv_row_settings">Cài đặt</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
+    <string name="tv_card_split_tunneling_label">Tách đường hầm</string>
+    <string name="tv_card_protocol_label">Giao thức</string>
+    <string name="tv_dialog_delete_server_title">Xóa máy chủ %1$s?</string>
+    <string name="tv_detail_default_connection_checkbox_short">Yêu thích</string>
+    <string name="tv_detail_connect_streaming">Phát trực tuyến với gói Plus</string>
+    <string name="tv_detail_connect">Kết nối</string>
+    <string name="tv_detail_description_streaming_country">Phát trực tuyến nội dung yêu thích. Truy cập nhiều ứng dụng hơn với gói Proton VPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">Phát trực tuyến nhiều nội dung yêu thích hơn với gói Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Quốc gia này không khả dụng. Nhận thêm tùy chọn phát trực tuyến với gói Proton VPN Plus.</string>
+    <string name="tv_detail_description_plus">Phát trực tuyến video, phim hoặc chương trình thể thao yêu thích bằng ứng dụng của bạn.</string>
+    <string name="tv_login_title_signin">Đăng nhập Proton VPN</string>
+    <string name="tv_login_title_welcome">Phát trực tuyến nội dung video yêu thích</string>
+    <string name="tv_login_welcome_description">Xem nội dung video từ hơn 50 quốc gia, bao gồm YouTube và Twitch. Phát trực tuyến Netflix, Amazon Prime và Hulu với Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Nhận tài khoản Proton VPN của bạn tại <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_button">Đăng nhập</string>
+    <string name="tv_login_step1_description"><![CDATA[Đi đến <b>%1$s</b> trên điện thoại hoặc máy tính của bạn]]></string>
+    <string name="tv_login_step2_description">Đăng nhập Proton VPN</string>
+    <string name="tv_login_step3_description">Nhập mã:</string>
+    <string name="tv_login_timer_label">Mã này hết hạn sau:</string>
+    <string name="tv_login_refresh">Làm mới</string>
+    <string name="tv_login_title_loading">Đang tải…</string>
+    <string name="tv_login_title_refresh">Phiên đã hết hạn. Nhấp làm mới để bắt đầu lại.</string>
+    <string name="tv_upgrade_title">Bắt đầu phát trực tuyến với gói Plus</string>
+    <string name="back">Trở lại</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Truy cập <b>%1$s</b> để nâng cấp lên Proton VPN Plus ngay.]]></string>
+    <string name="tv_upgrade_description">Mua gói Proton VPN Plus để truy cập hơn 500 máy chủ trên toàn thế giới và các tùy chọn phát trực tuyến tối ưu cho Netflix, Amazon Prime Video, Disney+ và nhiều dịch vụ khác.</string>
+    <string name="tv_vpn_error_dialog_title">Kết nối VPN thất bại</string>
+    <string name="tv_signout_label">Đăng xuất</string>
+    <string name="tv_signout_dialog_title">Bạn có chắc muốn đăng xuất không?</string>
+    <string name="tv_signout_dialog_description_connected">Thao tác này sẽ ngắt kết nối TV khỏi mọi máy chủ VPN.</string>
+    <string name="tv_signout_dialog_ok">Đăng xuất</string>
+    <string name="tv_quick_connect_recommened">Được đề xuất</string>
+    <string name="tv_quick_connect_favourite">Yêu thích</string>
+    <string name="tv_country_maintenance_dialog_title">Quốc gia không khả dụng</string>
+    <string name="tv_country_maintenance_dialog_description">Vui lòng thử lại sau hoặc chọn một quốc gia khác.</string>
+    <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+         Example: 76% server load -->
+    <string name="tv_server_list_load">%1$s%% tải máy chủ</string>
+    <string name="tv_recently_used_servers">Máy chủ đã dùng gần đây</string>
+    <string name="tv_available_servers">Máy chủ khả dụng</string>
+    <string name="tv_locked_servers">Máy chủ bị khóa</string>
+    <string name="tv_other_servers">Máy chủ khác</string>
+    <string name="tv_server_list">Danh sách máy chủ</string>
+    <string name="tv_server_list_action_unavailable">Không khả dụng</string>
+    <string name="notification_subscription_expired_title">Gói đăng ký Proton VPN của bạn đã hết hạn</string>
+    <string name="notification_subscription_expired_content">Chúng tôi phải hạ cấp gói, nhưng đang kết nối lại bạn với máy chủ nhanh nhất hiện có trong gói đó.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">Gói đăng ký của bạn đã bị hạ cấp.</string>
+    <string name="notification_delinquent_title">Tài khoản Proton VPN có hóa đơn đang chờ xử lý</string>
+    <string name="notification_delinquent_content">Vui lòng dành chút thời gian cập nhật thông tin thanh toán để duy trì gói đăng ký.</string>
+    <string name="notification_max_sessions_title">Đã đạt đến giới hạn thiết bị tối đa của bạn</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="notification_max_sessions_upsell_content">
+        <item quantity="other">Vui lòng ngắt kết nối một thiết bị khác để kết nối thiết bị này hoặc nâng cấp lên gói Plus để kết nối tối đa %1$d thiết bị cùng lúc.</item>
+    </plurals>
+    <string name="notification_max_sessions_content">Vui lòng ngắt kết nối một thiết bị khác để kết nối thiết bị này.</string>
+    <string name="notification_cancel_to_free">Bạn đang dùng gói Free, có sẵn các máy chủ và tính năng của gói Free.</string>
+    <string name="notification_cancel_to_basic">Bạn đang dùng gói Basic, có sẵn các máy chủ và tính năng của gói Basic &amp; Free.</string>
+    <string name="notification_cancel_to_delinquent">Bạn sẽ truy cập lại được các tính năng cao cấp sau khi thanh toán các hóa đơn đang chờ xử lý.</string>
+    <string name="reconnect_from_server">Từ máy chủ: </string>
+    <string name="reconnect_to_server">Tới máy chủ: </string>
+    <string name="no_thanks">Không, cảm ơn</string>
+    <string name="enable">Kích hoạt</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol hiện đang bị vô hiệu hóa</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN phát hiện mạng hiện tại đang ngăn kết nối đến VPN. Kích hoạt Smart Protocol có thể giúp vượt qua những hạn chế này.</string>
+    <string name="upsell_advanced_features">Các tính năng nâng cao: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_streaming_services">Truy cập các dịch vụ phát trực tuyến (Netflix, Disney+, v.v.) ở bất kỳ đâu trên thế giới</string>
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_servers">
+        <item quantity="other">%1$d máy chủ</item>
+    </plurals>
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_countries">
+        <item quantity="other">%1$d quốc gia</item>
+    </plurals>
+    <string name="upsell_upgrade_again">Nâng cấp lại để tận hưởng tất cả các tính năng:</string>
+    <plurals name="upgrade_devices_title">
+        <item quantity="other">Bảo vệ %1$d thiết bị cùng lúc</item>
+    </plurals>
+    <string name="upgrade_devices_text">Proton VPN có sẵn trên 8 nền tảng khác nhau.</string>
+    <string name="upgrade_plus_title">Nâng cấp quyền riêng tư của bạn</string>
+    <string name="upgrade_plus_message">Tận hưởng các tính năng nâng cao về quyền riêng tư và tốc độ cao hơn với VPN Plus.</string>
+    <string name="upgrade_netshield_title">Tận hưởng duyệt web không quảng cáo</string>
+    <string name="upgrade_netshield_message"><![CDATA[Chặn quảng cáo, trình theo dõi và phần mềm độc hại bằng <b>NetShield</b>.]]></string>
+    <string name="upgrade_secure_core_title">Mã hóa gấp đôi</string>
+    <string name="upgrade_secure_core_message"><![CDATA[Thêm một lớp mã hóa khác cho kết nối VPN với <b>Secure Core</b>.]]></string>
+    <string name="upgrade_p2p_title">Mở khóa tải xuống ngang hàng (P2P) và chia sẻ tệp</string>
+    <string name="upgrade_p2p_text">Cải thiện tốc độ tải lên và tải xuống trong khi ẩn địa chỉ IP.</string>
+    <string name="upgrade_profiles_title">Truy cập nhanh vào các kết nối thường xuyên của bạn</string>
+    <string name="upgrade_profiles_text">Mở khóa hồ sơ với VPN Plus</string>
+    <string name="upgrade_streaming_title">Phát trực tuyến chuẩn 4K</string>
+    <string name="upgrade_streaming_text">Tận hưởng phim và chương trình truyền hình yêu thích từ bất cứ đâu trên thế giới.</string>
+    <string name="upgrade_tor_title">Truy cập mạng Tor chỉ bằng một lần chạm</string>
+    <string name="upgrade_tor_text">Kết nối với các dịch vụ ẩn và trang web onion bằng trình duyệt thông thường.</string>
+    <string name="upgrade_vpn_accelerator_title">Duyệt web với tốc độ cao hơn nữa</string>
+    <!--
+        %1$s - speed in Gbps
+        Example:
+        Unlock faster, less crowded servers with speeds of up to 10 Gbps.
+    -->
+    <string name="upgrade_vpn_accelerator_message">Mở khóa các máy chủ nhanh hơn, ít người dùng hơn với tốc độ lên đến %1$d Gbps.</string>
+    <string name="upgrade_split_tunneling_title">Tận dụng lợi ích từ cả hai</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Phân chia lưu lượng truy cập thành các đường hầm VPN và không phải VPN với tính năng <b>tách đường hầm</b>.]]></string>
+    <string name="upgrade_customization_title">Mở khóa tùy chỉnh VPN nâng cao</string>
+    <string name="upgrade_customization_message"><![CDATA[Mở khóa <b>kết nối LAN</b>, <b>DNS tùy chỉnh</b> và <b>NAT loại 2</b> với VPN Plus.]]></string>
+    <string name="upgrade_all_countries_title">Truy cập tất cả quốc gia</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="other">%d máy chủ bảo mật</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="upgrade_plus_countries">
+        <item quantity="other">%d quốc gia</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_servers_new"
+     %2$s - replaced with "upgrade_plus_countries"
+
+     Example:
+     Unlock 1300+ secure servers in 61 countries with VPN Plus.
+     -->
+    <string name="upgrade_plus_countries_title_new"><![CDATA[Mở khóa %1$s tại %2$s với <b>VPN Plus</b>.]]></string>
+    <string name="mail_app_name" translateable="false">Proton Mail</string>
+    <string name="upgrade_unlimited_all_apps_title">Nhận bảo vệ quyền riêng tư toàn diện với Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">Mở khóa tất cả tính năng cao cấp từ Proton VPN, Mail, Calendar, Drive và Pass.</string>
+    <string name="upgrade_unlimited_more">Và hơn thế nữa</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">Mở khóa tất cả quốc gia</string>
+    <string name="upgrade_unlimited_vpn_all_features">Tất cả tính năng khác của VPN Plus</string>
+    <string name="upgrade_unlimited_vpn_any_location">Chọn vị trí bất kì</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Tốc độ VPN cao hơn nữa</string>
+    <plurals name="upgrade_unlimited_vpn_many_devices">
+        <item quantity="other">Bảo vệ %1$d thiết bị cùng lúc</item>
+    </plurals>
+    <string name="upgrade_unlimited_vpn_streaming">Phát trực tuyến an toàn</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Chặn quảng cáo và bảo vệ khỏi phần mềm độc hại</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">VPN kép</string>
+    <string name="upgrade_unlimited_vpn_p2p">Hỗ trợ P2P</string>
+    <plurals name="upgrade_unlimited_mail_custom_domains">
+        <item quantity="other">%1$d miền email tùy chỉnh</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_attachments">
+        <item quantity="other">%1$d MB tập tin đính kèm</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_many_addresses">
+        <item quantity="other">%1$d địa chỉ email</item>
+    </plurals>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Thư mục và bộ lọc không giới hạn</string>
+    <string name="upgrade_unlimited_mail_dark_web">Giám sát Dark Web</string>
+    <string name="upgrade_unlimited_mail_aliases">Biệt danh hide-my-email không giới hạn</string>
+    <string name="upgrade_unlimited_mail_autoreply">Tự động trả lời</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Gửi theo lịch trình</string>
+    <plurals name="upgrade_unlimited_calendar_calendars">
+        <item quantity="other">%1$d lịch cá nhân</item>
+    </plurals>
+    <string name="upgrade_unlimited_calendar_sharing">Chia sẻ lịch</string>
+    <string name="upgrade_unlimited_calendar_invites">Gửi và nhận lời mời</string>
+    <string name="upgrade_unlimited_drive_encryption">Lưu trữ tệp được mã hóa</string>
+    <string name="upgrade_unlimited_drive_storage_size">Tổng dung lượng lưu trữ %1$d GB cho ảnh, tệp và thư</string>
+    <string name="upgrade_unlimited_drive_link_share">Chia sẻ ảnh và tệp qua liên kết</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Bảo mật chia sẻ nâng cao</string>
+    <string name="upgrade_unlimited_drive_version_history">Lịch sử phiên bản</string>
+    <string name="upgrade_unlimited_pass_manager">Trình quản lý mật khẩu mã hóa</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Đăng nhập và biệt danh hide-my-email không giới hạn</string>
+    <plurals name="upgrade_unlimited_pass_vaults">
+        <item quantity="other">%1$d kho</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_logins">Đăng nhập không giới hạn</string>
+    <string name="upgrade_unlimited_pass_aliases">Biệt danh hide-my-email không giới hạn</string>
+    <string name="upgrade_unlimited_pass_credit_cards">Thẻ tín dụng không giới hạn</string>
+    <string name="upgrade_unlimited_pass_devices">Số lượng thiết bị không giới hạn</string>
+    <plurals name="upgrade_unlimited_pass_users">
+        <item quantity="other">Chia sẻ với tối đa %1$d người khác</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_2fa_auth">Trình xác thực 2FA được tích hợp</string>
+    <string name="upgrade_not_now_button">Để sau</string>
+    <!-- Content description for plan selection list.
+         Only used by accessibility services.
+
+         Example:
+         When the plan selection control is focused, and the first plan name is "VPN Plus"
+         TalkBack will read:
+         "VPN Plus, 1 of 2, in list Upgrade options" -->
+    <string name="upgrade_plan_selection_content_description">Tùy chọn nâng cấp</string>
+    <string name="upsell_card_countries_title">Phủ sóng toàn cầu</string>
+    <!-- Parameters:
+        %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">%1$d+ vị trí máy chủ tại %2$s</string>
+    <string name="upsell_card_customization_title">Và nhiều hơn nữa…</string>
+    <string name="upsell_card_customization_description">Mở khóa nhiều tính năng hiệu năng và quyền riêng tư hơn nữa</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="other">Bảo vệ %1$d thiết bị</item>
+    </plurals>
+    <string name="upsell_card_devices_description">Bảo mật và quyền riêng tư trên tất cả thiết bị</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">Chặn quảng cáo, phần mềm độc hại và trình theo dõi</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">Thêm một lớp mã hóa khác cho kết nối VPN</string>
+    <string name="upsell_card_p2p_title">Hỗ trợ P2P</string>
+    <string name="upsell_card_p2p_description">Tải xuống tệp qua BitTorrent và các giao thức chia sẻ tệp khác</string>
+    <string name="upsell_card_profiles_title">Hồ sơ</string>
+    <string name="upsell_card_profiles_description">Tạo kết nối VPN tùy chỉnh</string>
+    <string name="upsell_card_speed_title">Duyệt web nhanh hơn</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">Duyệt web với tốc độ cao hơn nữa (lên đến %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">Tách đường hầm</string>
+    <string name="upsell_card_split_tunneling_description">Duyệt từ hai vị trí cùng lúc</string>
+    <string name="upsell_card_streaming_title">Phát trực tuyến</string>
+    <string name="upsell_card_streaming_description">Xem phim và chương trình truyền hình yêu thích</string>
+    <string name="upsell_card_tor_title">Kết nối Tor sau VPN</string>
+    <string name="upsell_card_tor_description">Sử dụng mạng Tor sau khi kết nối VPN để tăng cường quyền riêng tư</string>
+    <string name="upsell_tv_all_countries_title">Truy cập tất cả quốc gia với gói Plus</string>
+    <!-- Format for upselling countries on TV".
+        %1$s - replaced with upgrade_plus_servers_new plurals key (e.g. 1 secure server or 10 secure servers)
+        %2$s - replaced with upgrade_plus_countries plurals key (e.g. 1 country or 10 countries)
+        %3$s - replaced with upsell_tv_description_placeholder
+
+        Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
+    -->
+    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s. %3$s</string>
+    <string name="upsell_tv_netshield_title">Tận hưởng duyệt web không quảng cáo với gói Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Chặn quảng cáo, trình theo dõi và phần mềm độc hại bằng <b>NetShield</b>. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">Tận dụng lợi ích từ cả hai với gói Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Phân chia lưu lượng truy cập thành các đường hầm VPN và không phải VPN với tính năng <b>tách đường hầm</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">Nhận tùy chỉnh VPN nâng cao với gói Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Mở khóa <b>kết nối LAN</b>, <b>DNS tùy chỉnh</b> và các tính năng VPN nâng cao khác. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">Truy cập trang web Proton VPN để nâng cấp gói.</string>
+    <!-- Format for price per period of time.
+        %1$s - replaced with price and currency (e.g. "$100")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
+
+        Examples:
+        50 PLN /month
+        $100 /year
+    -->
+    <string name="payment_price_with_period">%1$s/%2$s</string>
+    <string name="payment_price_per_month">tháng</string>
+    <string name="payment_price_per_year">năm</string>
+    <string name="payment_price_per_2years">2 năm</string>
+    <string name="payment_price_cycle_month_label">1 tháng</string>
+    <string name="payment_price_cycle_year_label">1 năm</string>
+    <string name="payment_price_cycle_2years_label">2 năm</string>
+    <string name="payment_select_your_plan">Chọn gói của bạn</string>
+    <!-- Label on a button for purchasing a subscription.
+         Parameter: %1$s - plan name
+         Plan names are not translated.
+
+         Example: "Get VPN Plus", "Get Proton Unlimited". -->
+    <string name="payment_button_get_plan">Mua %1$s</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_monthly">Ưu đãi chào mừng. Tự động gia hạn với mức phí %1$s/tháng</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_annual">Ưu đãi chào mừng. Tự động gia hạn ở mức %1$s/năm</string>
+    <string name="payment_auto_renew_message_monthly">Gói đăng ký tự động gia hạn với mức phí %1$s/tháng</string>
+    <string name="payment_auto_renew_message_annual">Gói đăng ký tự động gia hạn với mức phí %1$s/năm</string>
+    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_description">Công nghệ này cho phép Proton VPN cung cấp tốc độ và bảo mật cao hơn ở các quốc gia khó phục vụ.</string>
+    <string name="tor_title">Tor</string>
+    <string name="server_load_title">Tải máy chủ</string>
+    <string name="activity_information_learn_more">Tìm hiểu Thêm</string>
+    <string name="server_load_low">Thấp</string>
+    <string name="server_load_medium">Trung bình</string>
+    <string name="server_load_high">Cao</string>
+    <!-- Override Human verification links from core -->
+    <string name="onboarding_welcome_title">Chào mừng bạn đến với Proton VPN</string>
+    <string name="onboarding_welcome_description">Duyệt web một cách riêng tư, truy cập các nội dung bị chặn và tận hưởng sự tự do trên nền tảng kỹ thuật số.</string>
+    <string name="onboarding_welcome_action">Bắt đầu</string>
+    <string name="upgrade_success_get_started_button">Bắt đầu</string>
+    <string name="dynamic_report_suggestion_didnt_work">Không hiệu quả?</string>
+    <string name="dynamic_report_contact_us">Liên hệ với chúng tôi</string>
+    <string name="dynamic_report_tips_description">Những mẹo này có thể giúp giải quyết vấn đề của bạn nhanh hơn.</string>
+    <string name="dynamic_report_tips_title">Sửa chữa nhanh</string>
+    <string name="dynamic_report_logs_title">Gửi nhật ký lỗi</string>
+    <string name="dynamic_report_logs_tooltip">Nhật ký lỗi giúp chúng tôi hiểu sự cố và nguyên nhân gây ra sự cố. Chúng tôi sẽ chỉ sử dụng nhật ký để hỗ trợ kỹ sư khắc phục sự cố.</string>
+    <string name="dynamic_report_error_title">Không thể gửi báo cáo của bạn.</string>
+    <string name="dynamic_report_completion_error_description_generic">Không thể gửi báo cáo. Vui lòng thử lại.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Không thể gửi báo cáo. Vui lòng kiểm tra kết nối và thử lại.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Không thể gửi báo cáo của bạn. Kết nối đã hết thời gian chờ, vui lòng thử lại.</string>
+    <string name="dynamic_report_completion_success_title">Cảm ơn phản hồi của bạn. Chúng tôi sẽ phản hồi sớm nhất có thể.</string>
+    <string name="dynamic_report_success_title">Cảm ơn phản hồi của bạn</string>
+    <string name="dynamic_report_success_description">Chúng tôi sẽ phản hồi bạn sớm nhất có thể.</string>
+    <string name="dynamic_report_field_mandatory">Trường này là bắt buộc</string>
+    <string name="dynamic_report_logs_description">Nhật ký là một loại tệp cho chúng tôi biết các hành động bạn đã thực hiện gây ra lỗi. Chúng tôi sẽ chỉ sử dụng nhật ký để giúp kỹ sư sửa lỗi.</string>
+    <string name="dynamic_report_logs_missing">Nhật ký lỗi giúp chúng tôi tìm ra nguyên nhân gốc rễ sự cố của bạn. Nếu bạn không cung cấp nhật ký, chúng tôi có thể không điều tra đầy đủ được.</string>
+    <string name="dynamic_report_step1">Bước 1/3</string>
+    <string name="dynamic_report_step2">Bước 2/3</string>
+    <string name="dynamic_report_step3">Bước 3/3</string>
+    <string name="dynamic_report_your_issue_headline">Bạn gặp sự cố gì?</string>
+    <string name="update_screen_title">Cập nhật Proton VPN</string>
+    <string name="update_screen_description">Bạn sẽ dễ gặp sự cố hơn nếu dùng các phiên bản đã lỗi thời của Proton VPN.</string>
+    <string name="update_banner_description_settings">Ứng dụng đã có phiên bản mới</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN sẽ ngắt kết nối trong giây lát</string>
+    <string name="update_banner_warning_vpn_connected_message">Ứng dụng cần khởi động lại để hoàn tất cập nhật. Bạn sẽ được tự động kết nối lại sau đó.</string>
+    <string name="dialog_create_account_title">Tạo tài khoản để tiếp tục</string>
+    <string name="dialog_create_account_action_create">Tạo tài khoản</string>
+    <string name="dialog_create_account_action_signin">Đăng nhập</string>
+    <string name="server_search_menu_title">Tìm kiếm</string>
+    <string name="search_empty_result_subtitle">Vui lòng thử một từ khóa khác</string>
+    <string name="search_empty_result_title">Không tìm thấy kết quả</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">Xóa</string>
+    <!-- Example: Want to connect to Italy? -->
+    <string name="upgrade_country_title">Muốn kết nối đến một quốc gia cụ thể?</string>
+    <string name="upgrade_country_message"><![CDATA[Mở khóa <b>chọn quốc gia</b> với VPN Plus.]]></string>
+    <string name="free_connections_info_message">Proton Free tự động kết nối bạn với máy chủ nhanh nhất hiện có. Thông thường, đây sẽ là máy chủ gần nhất với vị trí của bạn.</string>
+    <string name="free_connections_info_server_locations">Các vị trí máy chủ miễn phí (%1$d)</string>
+    <string name="free_connections_info_banner_text">Nhận phạm vi phủ sóng toàn cầu với VPN Plus</string>
+    <string name="free_connection_info_title">Các kết nối miễn phí</string>
+    <string name="search_upsell_banner_title">Phát trực tuyến từ bất cứ đâu</string>
+    <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
+    <plurals name="search_upsell_banner_message">
+        <item quantity="other">Mở khóa nội dung bị chặn địa lý từ %1$d quốc gia với VPN Plus</item>
+    </plurals>
+    <string name="select_default_connection">Chọn kết nối mặc định</string>
+    <string name="settings_default_connection_title">Kết nối mặc định</string>
+    <string name="fastest_country_description">Máy chủ tốt nhất dựa trên vị trí hiện tại</string>
+    <string name="settings_connection_preferences_title">Tùy chọn kết nối</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Mục đã xóa</string>
+    <string name="settings_excluded_locations_title">Vị trí bị loại trừ</string>
+    <string name="settings_excluded_locations_description">Các vị trí đã chọn sẽ không bao giờ được sử dụng khi bạn kết nối với Fastest.</string>
+    <string name="settings_excluded_locations_unavailable">Không có vị trí khả dụng</string>
+    <string name="settings_excluded_locations_selection_hint">Chọn…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Xóa khỏi các vị trí bị loại trừ</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Thành phố</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Quốc gia</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Bang</string>
+    <string name="settings_last_connection_title">Kết nối gần nhất</string>
+    <string name="settings_last_connection_description">Kết nối sử dụng gần đây nhất</string>
+    <string name="settings_change_icon_title">Biểu tượng ứng dụng</string>
+    <string name="settings_change_icon_details">Tùy chỉnh giao diện hiển thị của ứng dụng Proton VPN trên thiết bị. Tại sao nên làm vậy?</string>
+    <string name="settings_change_icon_confirmation_title">Đổi biểu tượng ứng dụng?</string>
+    <string name="settings_change_icon_confirmation_details">Việc này sẽ đóng ứng dụng Proton VPN. Để khởi động lại Proton VPN, chỉ cần chạm vào biểu tượng ứng dụng mới.</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
+    <string name="settings_change_icon_header_discreet">Biểu tượng ứng dụng kín đáo</string>
+    <string name="settings_widget_title">Tiện ích</string>
+    <string name="settings_widget_selection_title">Thử tiện ích Proton VPN</string>
+    <string name="settings_widget_selection_description">Xem trạng thái kết nối và truy cập các kết nối VPN yêu thích từ màn hình chính.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">Để thêm tiện ích, chỉ cần nhấn và giữ vị trí bất kỳ trên màn hình chính, sau đó chọn %1$s từ menu tiện ích.</string>
+    <string name="settings_widget_selection_button_title">Thêm tiện ích</string>
+    <string name="setting_widget_try_title">Thử tiện ích Proton VPN</string>
+    <!-- Content description used by accessibility services for a button for dismissing (hiding)
+         a notification banner (usually used for special offers). -->
+    <string name="notification_banner_dismiss_accessibility_label">Bỏ qua biểu ngữ</string>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">Còn lại %1$s %2$s</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="other">%1$d giây</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="other">%1$d phút</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="other">%1$d giờ</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="other">%1$d ngày</item>
+    </plurals>
+    <string name="server_change_max_reached">Hiện bạn đã đạt đến giới hạn tối đa số lần thay đổi máy chủ Free.</string>
+    <string name="server_change_upsell">Thay đổi không giới hạn với VPN Plus.</string>
+    <string name="server_change_button_title">Đổi máy chủ</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services.
+
+        %1$s - replaced with "time_left_minutes"
+        %2$s - replaced with "time_left_seconds"
+        Example:
+        Available in 1 minute 23 seconds.
+      -->
+    <string name="server_change_button_time_left_content_description">Khả dụng sau %1$s %2$s</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services and only if time left is less than 1 minute.
+
+        %1$s - replaced with "time_left_seconds"
+        Example:
+        Available in 23 seconds.
+      -->
+    <string name="server_change_button_time_left_seconds_content_description">Khả dụng sau %1$s</string>
+    <string name="server_change_progress_finished_contend_description">Hiện đang khả dụng</string>
+    <string name="not_wanted_country_title">Không phải quốc gia bạn muốn?</string>
+    <string name="not_wanted_country_description">Nâng cấp để chọn bất kỳ máy chủ nào</string>
+    <string name="whats_new_title">Có gì mới</string>
+    <string name="whats_new_profiles_title">Hồ sơ đã khả dụng trở lại</string>
+    <string name="whats_new_profiles_description">Tạo và lưu các kết nối tùy chỉnh với vị trí, máy chủ và giao thức do bạn chọn.</string>
+    <string name="whats_new_widget_title">Thêm tiện ích</string>
+    <string name="whats_new_widget_description">Hiện bạn có thể xem và quản lý VPN mà không cần rời khỏi màn hình chính.</string>
+    <string name="whats_new_add_widget_button">Thêm tiện ích</string>
+    <string name="welcome_plus_title">Chào mừng đến với VPN Plus</string>
+    <string name="welcome_plus_description">Tận hưởng các tính năng quyền riêng tư bổ sung, hiệu năng tăng cường và tùy chỉnh VPN cao cấp hơn.</string>
+    <string name="welcome_plus_feature_security">Các tính năng bảo mật nâng cao</string>
+    <string name="welcome_unlimited_title">Chào mừng đến với Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Bạn đã mở khóa tất cả tính năng cao cấp của Proton VPN, Mail, Calendar, Drive, Pass và Wallet — cùng tổng dung lượng lưu trữ <b>%1$d&#160;GB</b>.]]></string>
+    <string name="welcome_generic_title">Xin chúc mừng</string>
+    <string name="welcome_generic_description">Bạn đã nâng cấp gói đăng ký. Tận hưởng các tính năng quyền riêng tư nâng cao và hiệu năng cao cấp hơn.</string>
+    <!-- Example: Up to 10 devices at once
+         In practice one will never be a value here -->
+    <plurals name="welcome_plus_feature_devices">
+        <item quantity="other">Tối đa %1$d thiết bị cùng lúc</item>
+    </plurals>
+    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ new servers
+     -->
+    <plurals name="welcome_plus_servers">
+        <item quantity="other">Hơn %d máy chủ mới</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="welcome_plus_countries">
+        <item quantity="other">%d quốc gia</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "welcome_plus_servers"
+     %2$s - replaced with "welcome_plus_countries"
+
+     Example:
+     1800+ new servers in 68 countries
+     -->
+    <string name="welcome_plus_feature_servers_count">%1$s tại %2$s</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">liên kết ngoài</string>
+    <string name="no_logs_banner_title">VPN được chứng nhận không ghi nhật ký</string>
+    <string name="no_logs_banner_description">Hoạt động VPN của bạn được bảo vệ bởi luật quyền riêng tư của Thụy Sĩ. Chúng tôi sẽ không bao giờ theo dõi trực tuyến hoặc chia sẻ thông tin của bạn với bên thứ ba.</string>
+    <!-- tag(Redesign_2023) Bottom bar label for home screen -->
+    <string name="bottom_nav_home">Trang chủ</string>
+    <string name="bottom_nav_gateways">Các cổng</string>
+    <string name="bottom_nav_profiles">Bản Mẫu</string>
+    <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
+    <string name="bottom_nav_countries">Quốc gia</string>
+    <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
+    <string name="botton_nav_settings">Cài đặt</string>
+    <!-- tag(Redesign_2023)
+         Text added to button labels that open a UI element (e.g. a panel).
+         Only used by accessibility services.
+         Example:
+         a button with label "connection details" and this action label will be read by a screen
+         reader as:
+         "Connection details, button. Double tap to open"
+    -->
+    <string name="accessibility_action_open">mở</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that initiate a VPN connection.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland will be read by a screen reader as:
+         "Switzerland. Double tap to connect"
+        -->
+    <string name="accessibility_action_connect">kết nối</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that redirect the user to upgrade their subscription plan.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland that requires upgrading subscription to become
+         available will be read by a screen reader as:
+         "Unavailable, Switzerland. Double tap to upgrade"
+        -->
+    <string name="accessibility_action_upgrade">nâng cấp</string>
+    <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">tìm kiếm</string>
+    <!-- Name of action for opening a screen/panel for an item.
+         The action is listed in a menu of additional actions available to accessibility services.
+
+         Example:
+         - item in a list of countries has a custom action to open list of cities in the country
+         - item in a list of cities has a custom action to open list of servers in the city
+         -->
+    <string name="accessibility_menu_action_open">Mở</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable because servers
+         are in maintenance.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are in maintenance will be read by a
+         screen reader as:
+         "in maintenance, Switzerland"
+     -->
+    <string name="accessibility_item_in_maintenance">đang bảo trì</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are unavailable will be read by a screen
+         reader as:
+         "unavailable, Switzerland"
+     -->
+    <string name="accessibility_item_unavailable">không khả dụng</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when there is active connection to it.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland when there is a VPN connection to a server in this country
+         will be read by a screen reader as:
+         "Switzerland, connected"
+     -->
+    <string name="accessibility_item_connected">đã kết nối</string>
+    <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
+    <string name="server_feature_label_p2p">P2P</string>
+    <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
+    <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_content_description_p2p">ngang hàng</string>
+    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
+    <string name="fastest_country">Quốc gia nhanh nhất</string>
+    <string name="fastest_country_excluding_my_country">Quốc gia nhanh nhất (trừ quốc gia của tôi)</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
+    <string name="fastest_free_server">Máy chủ miễn phí nhanh nhất</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Iceland
+     -->
+    <string name="connection_info_secure_core_full_iceland">%1$s qua Iceland</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Sweden
+     -->
+    <string name="connection_info_secure_core_full_sweden">%1$s qua Thụy Điển</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_switzerland">%1$s qua Thụy Sĩ</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - exit country name in nominative case
+         %2$s - entry country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_other">%1$s qua %2$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_iceland">qua Iceland</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_sweden">qua Thụy Điển</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_switzerland">qua Thụy Sĩ</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">qua Secure Core</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - entry country name in nominative case
+         Example: via Switzerland
+    -->
+    <string name="connection_info_secure_core_entry_other">qua %1$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         three countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+
+     -->
+    <string name="connection_info_auto_selected_free_countries">Tự động chọn từ [flags]</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         several countries. Used instead of connection_info_auto_selected_free_countries when there
+         are more than 3 countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+         $1%d - replaced with number of additional countries (beyond the 3 flags).
+
+         Example, if there are 5 countries to select from the text will be:
+         Auto selected from [flags]+2
+         -->
+    <string name="connection_info_auto_selected_free_countries_more">Tự động chọn từ [flags]+%1$d</string>
+    <!-- tag(Redesign_2023)
+         Accessibility label describing a connection to a free server that is automatically selected
+         from one in several countries. Placed directly below fastest_free_server.
+         This text replaces connection_info_auto_selected_free_servers for screen readers.
+         $1%d - replaced with number of countries.
+         -->
+    <plurals name="connection_info_accessibility_auto_selected_free_countries">
+        <item quantity="other">Tự động chọn từ %1$d quốc gia</item>
+    </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Tự động chọn từ các quốc gia miễn phí.</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         are that of the previous connection.
+
+         Example:
+         Last connected to
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         -->
+    <string name="connection_card_label_last_connected">Kết nối gần đây nhất với</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">Kết nối mặc định</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Kết nối miễn phí</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is being established.
+     -->
+    <string name="connection_card_label_connecting">Đang kết nối đến…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It\'s shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Đang đổi máy chủ…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is established and the user
+         is safely browsing as if they were in the location indicated in the connection card.
+
+         Example:
+         Browsing safely from
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         Germany
+     -->
+    <string name="connection_card_label_connected">Duyệt web an toàn từ</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with details of the current VPN connection.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "connection details, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_connection_details">chi tiết kết nối</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with information about connections in free plan.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "more information about free connections, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_free_connections">thêm thông tin về kết nối miễn phí</string>
+    <!-- tag(Redesign_2023)
+         Displayed above the list of recently made connections.
+     -->
+    <string name="recents_headline">Gần đây</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">Khám phá VPN Plus</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_pin">Ghim</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_unpin">Bỏ ghim</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_remove">Xóa</string>
+    <!-- tag(Redesign_2023)
+         State description of a pinned recent item.
+         Only used by accessibility service.
+    -->
+    <string name="recent_action_accessibility_state_pinned">Đã ghim</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_country_servers_in_maintenance">Tất cả máy chủ tại quốc gia này đang được bảo trì</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_city_servers_in_maintenance">Tất cả máy chủ ở thành phố này đang được bảo trì</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">Tất cả máy chủ ở bang này đang được bảo trì</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_in_maintenance">Máy chủ đang được bảo trì</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_not_available">Máy chủ không khả dụng</string>
+    <string name="message_server_location_excluded">Server location excluded</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
+    <string name="message_gateway_in_maintenance">Cổng đang được bảo trì</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out">Đăng xuất</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_title">Cài đặt</string>
+    <string name="gateways_title">Các cổng</string>
+    <string name="countries_title">Quốc gia</string>
+    <string name="profiles_title">Hồ sơ</string>
+    <string name="settings_autoconnect_title">Tự động kết nối</string>
+    <string name="settings_autoconnect_boot_description">Tự động kết nối bạn với VPN bằng cách sử dụng kết nối nhanh sau khi thiết bị khởi chạy.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_features">Tính năng</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_netshield_title">NetShield</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_split_tunneling_title">Tách đường hầm</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_kill_switch_title">Công tắc ngắt</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_connection_category">Kết nối</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_protocol_title">Giao thức</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_advanced_settings_title">Cài đặt nâng cao</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_general">Chung</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_account">Tài khoản</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_notifications_title">Thông báo</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_support">Hỗ trợ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_help_center_title">Trung tâm hỗ trợ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_report_issue_title">Báo cáo sự cố</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_debug_logs_title">Nhật ký gỡ lỗi</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_improve_proton">Cải thiện Proton</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_fight_censorship_title">Hãy giúp chúng tôi chống lại kiểm duyệt</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_rate_us_title">Đánh giá Proton VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_app_version">Phiên bản ứng dụng: %1$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_third_party_licenses">Giấy phép của bên thứ ba</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_title">Đăng xuất?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_message">Bạn sẽ bị ngắt kết nối khỏi VPN.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_dont_ask_again">Không hỏi lại lần nữa</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_action">Đăng xuất</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_action_cancel">Hủy bỏ</string>
+    <string name="dialog_action_change_icon">Đổi biểu tượng</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">Tất cả</string>
+    <string name="country_filter_cities">Thành phố</string>
+    <string name="country_filter_states">Bang</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">Tất cả quốc gia (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Quốc gia Plus (%1$d)</string>
+    <string name="country_filter_countries_list_header">Quốc gia (%1$d)</string>
+    <string name="country_filter_cities_list_header">Thành phố (%1$d)</string>
+    <string name="country_filter_states_list_header">Bang (%1$d)</string>
+    <string name="country_filter_servers_list_header">Máy chủ</string>
+    <string name="country_filter_secure_core_list_header">Quốc gia hỗ trợ Secure Core (%1$d)</string>
+    <string name="country_filter_p2p_list_header">Quốc gia hỗ trợ P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">Thành phố hỗ trợ P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">Bang hỗ trợ P2P (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">Máy chủ P2P</string>
+    <string name="country_filter_tor_list_header">Quốc gia hỗ trợ Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Máy chủ Tor</string>
+    <string name="country_filter_info_label">Thông tin</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">Tải: %1$s%%</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is connected and network is protected
+    -->
+    <string name="vpn_status_connected">Được bảo vệ</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is not connected and network is not protected
+    -->
+    <string name="vpn_status_disabled">Bạn không được bảo vệ</string>
+    <!-- tag(Redesign_2023)
+         Text is shown while connection is being established
+    -->
+    <string name="vpn_status_connecting">Bảo vệ danh tính kỹ thuật số của bạn</string>
+    <!-- tag(Redesign_2023)
+         Displays Country name and IP of user if he is not connected.
+         First parameter is country, second is IP.
+         Ex: Poland · 192.1.1.1.1
+    -->
+    <string name="vpn_status_disabled_location">%1$s · %2$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_subtitle">Chi tiết kết nối</string>
+    <string name="connection_details_features_title">Tính năng</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_show_ip">Hiện IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_back">Trở lại</string>
+    <string name="accessibility_close">Đóng</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_my_ip">IP của tôi</string>
+    <string name="connection_details_my_ipv4">IPv4 của tôi</string>
+    <string name="connection_details_my_ipv6">IPv6 của tôi</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_ip">IP VPN</string>
+    <string name="connection_details_vpn_ip4_6">IPv4/IPv6 VPN</string>
+    <string name="connection_details_vpn_ipv4">IPv4 VPN</string>
+    <string name="connection_details_vpn_ipv6">IPv6 VPN</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
+    -->
+    <string name="connection_details_connected_for">Đã kết nối trong</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server">Máy chủ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_gateway">Cổng</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_country">Quốc gia</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_city">Thành phố</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">Bang</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
+    -->
+    <string name="connection_details_server_load">Tải máy chủ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_question">Mức tải máy chủ là gì?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_description">Mức tải máy chủ cho biết khoảng cách để một máy chủ đạt tới mức công suất tối đa. \n\nMức tải máy chủ cao có thể làm chậm kết nối.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_title">Thấp (1–75%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_description">Tốc độ cực nhanh</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_title">Trung bình (76–90%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_description">Hầu như không ảnh hưởng tốc độ VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_title">Cao (91–100%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_description">VPN có thể chạy chậm hơn bình thường </string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol">Giao thức</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol_description">Giao thức là tập hợp các hướng dẫn mà thiết bị tuân theo để kết nối và giao tiếp với máy chủ.</string>
+    <!-- tag(Redesign_2023)
+         Label in front of upload speed in connection details. It is followed by upload speed number and unit.
+    -->
+    <string name="connection_details_upload">Tải lên</string>
+    <!-- tag(Redesign_2023)
+         Label in front of download speed in connection details. It is followed by download speed number and unit.
+    -->
+    <string name="connection_details_download">Tải xuống</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_section_vpn_speed">Tốc độ VPN</string>
+    <string name="connection_details_section_ip">Địa chỉ IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_question">Tốc độ VPN là gì?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core kết nối bạn đến máy chủ đích thông qua máy chủ VPN thứ hai có độ bảo mật tối đa.\n\nMức độ bảo vệ cao hơn này có thể gây tăng độ trễ và giảm tốc độ.</string>
+    <string name="info_secure_core_standard_header">Kết nối VPN tiêu chuẩn</string>
+    <string name="info_secure_core_secure_header">Kết nối VPN Secure Core</string>
+    <string name="info_dialog_tor_description">Kết nối với máy chủ Tor để truy cập các dịch vụ ẩn và trang web onion bằng bất kỳ trình duyệt nào.</string>
+    <string name="info_dialog_button_learn_more_tor">Cách truy cập mạng Tor</string>
+    <string name="info_dialog_button_learn_more_p2p">Cách tải torrent với P2P</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Địa chỉ IP là gì?</string>
+    <string name="info_dialog_button_learn_more_streaming">Cần trợ giúp phát trực tuyến?</string>
+    <string name="info_dialog_streaming_title">Phát trực tuyến</string>
+    <string name="info_dialog_streaming_description">Máy chủ phát trực tuyến được thiết kế để phát chương trình truyền hình và phim nhanh chóng và bảo mật.</string>
+    <string name="info_dialog_how_to_stream">Cách phát trực tuyến:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Vào cài đặt điện thoại và tắt dịch vụ định vị</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">Khởi động lại dịch vụ phát trực tuyến</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Kết nối với bất kỳ máy chủ Plus nào và bắt đầu phát trực tuyến</string>
+    <string name="info_dialog_profiles_title">Hồ sơ</string>
+    <string name="info_dialog_ipaddress_title">Địa chỉ IP</string>
+    <string name="info_dialog_ipv6_traffic_title">Lưu lượng IPv6</string>
+    <string name="info_dialog_profiles_description">Hồ sơ là các kết nối VPN tùy chỉnh mà bạn có thể điều chỉnh theo nhu cầu và lưu lại để truy cập nhanh.\n\nĐặt vị trí ưu tiên và tối ưu hóa cài đặt cho bảo mật, hiệu năng, chơi game hoặc bất kỳ tình huống nào khác.</string>
+    <string name="info_dialog_ipaddress_description">IP VPN che giấu địa chỉ IP thực của bạn. Điều này khiến bạn trông như đang duyệt web từ vị trí VPN, vì vậy hoạt động trực tuyến sẽ không liên kết với thiết bị của bạn.</string>
+    <string name="info_dialog_ipv6_traffic_description">Giao thức Internet (IP) gán địa chỉ cho các thiết bị và định tuyến lưu lượng internet. IPv6 là phiên bản mới nhất, cung cấp nhiều địa chỉ hơn và kết nối tốt hơn, nhưng chưa được áp dụng phổ biến.</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">Máy chủ này có bật chia sẻ tệp ngang hàng.</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">Bạn có thể kết nối với các trang .onion bằng trình duyệt thường.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">Hoạt động của bạn được mã hóa sau 2 máy chủ VPN bảo mật cao.</string>
+    <string name="connection_feature_streaming_title">Phát trực tuyến</string>
+    <string name="connection_feature_streaming_description">Máy chủ này được tối ưu để phát chương trình truyền hình và phim.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <string name="connection_feature_smart_routing_description">Kết nối bạn đến quốc gia đích thông qua các máy chủ được đặt vật lý ở nơi khác.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
+    -->
+    <string name="country_smart_routing_info">Máy chủ được đặt vật lý tại %1$s, nhưng bạn sẽ trông như đang duyệt web từ %2$s.</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Thông tin</string>
+    <!-- tag(Redesign_2023)
+         Used for button title to learn more about different contexts
+    -->
+    <string name="connection_details_learn_more">Tìm hiểu thêm</string>
+    <!-- tag(Redesign_2023)
+        Used to describe IP which is not known
+    -->
+    <string name="connection_details_unknown_ip">Không xác định</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_description">Biểu đồ này hiển thị tốc độ hoạt động tải lên và tải xuống hiện tại. Kết nối VPN hầu như không làm chậm hoạt động trực tuyến bình thường.</string>
+    <string name="speed_bytes_per_second">%1$s B/giây</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/giây</string>
+    <string name="speed_megabytes_per_second">%1$s MB/giây</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/giây</string>
+    <string name="speed_terabytes_per_second">%1$s TB/giây</string>
+    <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
+    <string name="speed_graph_title">Tốc độ %1$s</string>
+    <string name="bytes_per_second">B/giây</string>
+    <string name="kilobytes_per_second">KB/giây</string>
+    <string name="megabytes_per_second">MB/giây</string>
+    <string name="gigabytes_per_second">GB/giây</string>
+    <string name="terabytes_per_second">MB/giây</string>
+    <plurals name="full_name_speed_bytes_per_second">
+        <item quantity="other">%1$s Byte mỗi giây</item>
+    </plurals>
+    <plurals name="full_name_speed_kilobytes_per_second">
+        <item quantity="other">%1$s Kilobyte mỗi giây</item>
+    </plurals>
+    <plurals name="full_name_speed_megabytes_per_second">
+        <item quantity="other">%1$s Megabyte mỗi giây</item>
+    </plurals>
+    <plurals name="full_name_speed_gigabytes_per_second">
+        <item quantity="other">%1$s Gigabyte mỗi giây</item>
+    </plurals>
+    <plurals name="full_name_speed_terabytes_per_second">
+        <item quantity="other">%1$s Terabyte mỗi giây</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_bytes">
+        <item quantity="other">%1$s Byte</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_kilobytes">
+        <item quantity="other">%1$s Kilobyte</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_megabytes">
+        <item quantity="other">%1$s Megabyte</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_gigabytes">
+        <item quantity="other">%1$s Gigabyte</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_terabytes">
+        <item quantity="other">%1$s Terabyte</item>
+    </plurals>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
+    <!-- tag(Redesign_2023)
+         Shown at the top status view if app detects that there is no usable network to connect to VPN
+    -->
+    <string name="error_vpn_waiting_for_network">Đang chờ mạng</string>
+    <!-- tag(Redesign_2023) -->
+    <plurals name="connection_details_days">
+        <item quantity="other">%1$d ngày</item>
+    </plurals>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_hours_shortened">%1$d giờ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_minutes_shortened">%1$d phút</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_seconds_shortened">%1$d giây</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Kết nối thất bại</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Thiết bị này không cho phép kết nối VPN.</string>
+    <string name="create_profile_title">Tạo hồ sơ</string>
+    <!-- Title for the screen where user can edit a profile.
+         %1$s - name of the profile being edited. -->
+    <string name="edit_profile_title">Chỉnh sửa %1$s</string>
+    <string name="edit_profile_dialog_action">Chỉnh sửa hồ sơ</string>
+    <string name="create_profile_name_hint">Tên hồ sơ</string>
+    <string name="create_profile_name_error_empty">Nhập tên hồ sơ</string>
+    <string name="create_profile_name_error_too_long">Tên hồ sơ phải từ 30 ký tự trở xuống</string>
+    <string name="create_profile_type_and_location_title">Chọn loại kết nối và vị trí</string>
+    <string name="create_profile_features_and_settings_title">Tính năng và cài đặt</string>
+    <string name="configure_profile_features_and_settings_title">Cấu hình cài đặt hồ sơ</string>
+    <string name="configure_profile_features_and_settings_description">Cài đặt hồ sơ sẽ ghi đè cài đặt VPN khi được kết nối.</string>
+    <!--
+        First input will be for current step, second one will be for total number of steps
+        Example: Step 3 of 7
+     -->
+    <string name="create_profile_steps">Bước %1$d của %2$d</string>
+    <string name="create_profile_button_next">Tiếp</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Tăng tốc độ kết nối lên đến 400%% với các công nghệ tăng cường hiệu năng. %1$s</string>
+    <string name="settings_account_settings_title">Cài đặt tài khoản</string>
+    <string name="settings_account_change_password">Đổi mật khẩu</string>
+    <string name="settings_account_recovery_email">Thư khôi phục</string>
+    <string name="settings_account_recovery_email_not_set">Chưa đặt</string>
+    <string name="settings_account_security_keys">Khóa bảo mật</string>
+    <!-- Label of a button that opens user\'s account page -->
+    <string name="settings_account_button_my_account">Tài khoản của tôi</string>
+    <string name="settings_account_button_delete_account">Xóa tài khoản</string>
+    <string name="settings_custom_dns_title">DNS tùy chỉnh</string>
+    <string name="settings_custom_dns_description_tv">Kết nối VPN với hệ thống tên miền (DNS) tự lưu trữ hoặc của bên thứ ba.</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Thêm máy chủ DNS mới</string>
+    <string name="settings_add_dns_new_entry_button">Thêm</string>
+    <string name="settings_add_dns_description">Nhập địa chỉ IPv4 hoặc IPv6 của máy chủ</string>
+    <string name="settings_add_dns_invalid_input">Nhập một địa chỉ IPv4 hoặc IPv6 hợp lệ</string>
+    <string name="settings_add_dns_empty_input">Nhập một địa chỉ IPv4 hoặc IPv6</string>
+    <string name="settings_add_dns_duplicate_input">Máy chủ đã được thêm rồi</string>
+    <string name="settings_advanced_dns_description">Kết nối VPN với hệ thống tên miền (DNS) tự lưu trữ hoặc của bên thứ ba. Tìm hiểu thêm</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Máy chủ (%1$d)</string>
+    <string name="settings_dns_list_description">Nếu máy chủ DNS tùy chỉnh không hoạt động, DNS VPN tiêu chuẩn sẽ được sử dụng.</string>
+    <string name="settings_dns_list_description_multiple">Chúng tôi sẽ thử kết nối với các máy chủ này theo thứ tự. Nếu không máy chủ nào hoạt động, DNS VPN sẽ được sử dụng.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Thay đổi áp dụng khi kết nối lại</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield sẽ không khả dụng</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield không thể lọc quảng cáo, trình theo dõi và phần mềm độc hại khi sử dụng DNS tùy chỉnh. Tìm hiểu thêm</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield không thể lọc quảng cáo, trình theo dõi và phần mềm độc hại khi sử dụng DNS tùy chỉnh.</string>
+    <string name="settings_advanced_alternative_routing_title">Định tuyến thay thế</string>
+    <string name="settings_advanced_alternative_routing_description">Nếu dịch vụ Proton bị chặn do hạn chế mạng, chúng tôi sẽ thử dùng định tuyến mạng thay thế để kết nối bạn với trang web.</string>
+    <string name="settings_advanced_allow_lan_title">Kết nối LAN</string>
+    <string name="settings_advanced_allow_lan_description">Cho phép kết nối với máy in, loa và các thiết bị khác trong mạng cục bộ của thiết bị.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Kết nối với loa, máy tính và các thiết bị khác trên mạng cục bộ</string>
+    <string name="settings_advanced_allow_lan_title_tv">Cho phép kết nối LAN</string>
+    <string name="settings_advanced_nat_type_title">Loại NAT</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Chọn loại dịch địa chỉ mạng cho kết nối. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Chọn loại dịch địa chỉ mạng cho kết nối.</string>
+    <string name="settings_advanced_nat_type_strict">Nghiêm ngặt (loại 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Loại 3</string>
+    <string name="settings_advanced_nat_type_moderate">Trung bình (loại 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Loại 2</string>
+    <string name="settings_advanced_nat_type_strict_description">Hạn chế dữ liệu vào mạng. Tùy chọn này bảo mật hơn nhưng có thể làm cho kết nối chơi game ngang hàng khó khăn hơn.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Một số hạn chế về dữ liệu vào mạng. Tùy chọn này là tốt nhất để chơi game trực tuyến.</string>
+    <string name="settings_split_tunneling_description">Tùy chỉnh kết nối bằng cách quyết định ứng dụng và địa chỉ IP nào được VPN bảo vệ. %1$s</string>
+    <string name="settings_protocol_description">Giao thức VPN xác định cách dữ liệu di chuyển giữa máy chủ VPN và thiết bị của bạn. %1$s</string>
+    <string name="settings_protocol_description_no_link">Giao thức VPN xác định cách dữ liệu di chuyển giữa máy chủ VPN và thiết bị của bạn.</string>
+    <string name="settings_protocol_section_speed">Tốc độ (UDP)</string>
+    <string name="settings_protocol_section_reliability">Độ tin cậy (TCP)</string>
+    <string name="settings_protocol_smart_title">Smart</string>
+    <string name="settings_protocol_smart_description">Tự động chọn giao thức tốt nhất cho kết nối.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Tự động chọn giao thức tốt nhất cho kết nối [thử nghiệm].</string>
+    <string name="settings_protocol_wireguard_udp_description">Giao thức hiện đại nhất về khả năng bảo mật và hiệu năng.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Giao thức hiện đại về khả năng bảo mật và hiệu năng.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Vượt qua trình chặn VPN bằng cách ẩn kết nối VPN khỏi bị kiểm duyệt. Giao thức này kháng DPI (kiểm tra gói chuyên sâu), nhưng có thể không nhanh bằng các giao thức khác. Stealth chỉ có độc quyền trong Proton VPN.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Được đề xuất</string>
+    <string name="settings_protocol_badge_experimental">Thử nghiệm</string>
+    <string name="settings_split_tunneling_mode_title">Chế độ</string>
+    <string name="settings_split_tunneling_mode_standard">Loại trừ</string>
+    <string name="settings_split_tunneling_mode_inverse">Được đưa vào</string>
+    <string name="settings_split_tunneling_mode_description_standard">Các ứng dụng và địa chỉ IP đã chọn bị loại trừ khỏi kết nối VPN.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Chỉ các ứng dụng và địa chỉ IP đã chọn kết nối qua VPN, mọi lưu lượng khác đều không được bảo vệ.</string>
+    <string name="settings_split_tunneling_excluded_apps">Ứng dụng bị loại trừ</string>
+    <string name="settings_split_tunneling_excluded_ips">Địa chỉ IP bị loại trừ</string>
+    <string name="settings_split_tunneling_included_apps">Ứng dụng được đưa vào</string>
+    <string name="settings_split_tunneling_included_ips">Địa chỉ IP được đưa vào</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Không có</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s và %3$d mục khác</string>
+    <string name="settings_split_tunneling_already_excluded">Đã được loại trừ</string>
+    <string name="settings_split_tunneling_already_included">Đã được đưa vào</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Xóa địa chỉ IP khỏi danh sách?</string>
+    <string name="settings_theme_title">Chủ đề</string>
+    <string name="settings_theme_value_auto">Chủ đề thiết bị</string>
+    <string name="settings_theme_value_light">Sáng</string>
+    <string name="settings_theme_value_dark">Tối</string>
+    <string name="settings_dialog_reconnect">Cài đặt mới sẽ áp dụng vào lần kết nối tiếp theo.</string>
+    <string name="settings_needs_reconnect_banner">Cài đặt mới sẽ áp dụng vào lần kết nối tiếp theo.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">DNS tùy chỉnh không khả dụng</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Thiết bị đang sử dụng DNS của bên thứ ba, ngăn DNS tùy chỉnh của Proton VPN hoạt động. Tìm hiểu thêm</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Thiết bị đang sử dụng DNS của bên thứ ba, ngăn DNS tùy chỉnh của Proton VPN hoạt động.</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield không khả dụng</string>
+    <string name="private_dns_conflict_banner_netshield_description">Thiết bị đang sử dụng DNS của bên thứ ba, ngăn NetShield hoạt động. Tìm hiểu thêm</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Cài đặt mạng</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield không khả dụng</string>
+    <string name="custom_dns_conflict_banner_netshield_description">DNS tùy chỉnh đang kích hoạt, ngăn NetShield hoạt động. Tìm hiểu thêm</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Tắt DNS tùy chỉnh để sử dụng NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">DNS tùy chỉnh đang bật, ngăn NetShield hoạt động.</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Tắt DNS tùy chỉnh</string>
+    <string name="info_secure_core_standard_high_privacy">Quyền riêng tư cao</string>
+    <string name="info_secure_core_standard_lower_latency">Độ trễ thấp hơn</string>
+    <string name="info_secure_core_advanced_privacy">Quyền riêng tư nâng cao</string>
+    <string name="info_secure_core_higher_latency">Độ trễ cao hơn</string>
+    <string name="info_p2p_what_title">P2P là gì?</string>
+    <string name="info_p2p_what_description">Công nghệ ngang hàng (P2P) cho phép kết nối và chia sẻ tệp trực tiếp với các thiết bị khác.\n\nMáy chủ P2P của chúng tôi được thiết kế đặc biệt để hỗ trợ loại chia sẻ tệp này.</string>
+    <string name="info_p2p_torrenting_title">Tải torrent là gì?</string>
+    <string name="info_p2p_torrenting_description">Là hành động chia sẻ và tải xuống nhanh chóng các tệp lớn qua mạng P2P.</string>
+    <string name="info_p2p_why_title">Tại sao nên dùng máy chủ P2P khi tải torrent?</string>
+    <string name="info_p2p_why_description_speed">Tăng tốc độ tải lên và tải xuống</string>
+    <string name="info_p2p_why_description_logs">Không có nhật ký hoạt động</string>
+    <string name="info_p2p_why_description_hide">Ẩn địa chỉ IP khỏi nhà cung cấp dịch vụ và các máy ngang hàng</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing sử dụng máy chủ ảo để cung cấp phạm vi phủ sóng VPN ở các quốc gia khó tiếp cận.\n\nKhi kết nối với máy chủ Smart Routing, bạn sẽ xuất hiện như đang duyệt web ở quốc gia đích, mặc dù máy chủ vật lý được đặt ở nơi khác.  \n\nSmart Routing thường được sử dụng để vượt qua các luật chống quyền riêng tư và các hình thức kiểm duyệt khác.</string>
+    <string name="countries_upsell_banner_description">Nhận phạm vi phủ sóng toàn cầu với VPN Plus</string>
+    <string name="secure_core_upsell_banner_description">Thêm một lớp mã hóa khác cho kết nối VPN</string>
+    <string name="p2p_upsell_banner_description">Tải xuống tệp qua BitTorrent và các giao thức chia sẻ tệp khác</string>
+    <string name="tor_upsell_banner_description">Sử dụng mạng Tor sau khi kết nối VPN để tăng cường quyền riêng tư</string>
+    <string name="vpnplus_upsell_banner_description">Nâng cấp lên VPN Plus</string>
+    <string name="search_zero_screen_title">Thử tìm kiếm…</string>
+    <string name="search_zero_screen_info_countries_title">Quốc gia</string>
+    <string name="search_zero_screen_info_cities_title">Thành phố</string>
+    <string name="search_zero_screen_info_servers_title">Máy chủ</string>
+    <string name="search_zero_screen_info_countries_examples">Thụy Sĩ, Hoa Kỳ, Ý, Canada…</string>
+    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Lỗi khi tìm nạp giá.</string>
+    <string name="tv_settings_split_tunneling_description">Tùy chỉnh kết nối bằng cách quyết định ứng dụng nào được VPN bảo vệ.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Các ứng dụng đã chọn bị loại trừ khỏi kết nối VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Chỉ các ứng dụng đã chọn kết nối qua VPN, mọi lưu lượng khác đều không được bảo vệ.</string>
+    <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_edit">Chỉnh sửa</string>
+    <string name="profile_action_duplicate">Tạo bản sao</string>
+    <string name="profile_action_delete">Xóa</string>
+    <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="profile_needs_reconnect">Thao tác này sẽ khởi động lại kết nối.</string>
+    <string name="profile_overrides_setting">Các cài đặt này được liên kết với <b>%1$s</b> và chỉ có thể quản lý trong Hồ sơ.</string>
+    <string name="initial_profile_name_streaming_us">Phát trực tuyến Hoa Kỳ</string>
+    <string name="initial_profile_name_work_school">Công việc/Trường học</string>
+    <string name="initial_profile_name_anti_censorship">Chống kiểm duyệt</string>
+    <string name="initial_profile_name_gaming">Chơi game</string>
+    <string name="initial_profile_name_max_security">Bảo mật tối đa</string>
+    <string name="create_profile_pick_country_title">Quốc gia</string>
+    <string name="create_profile_pick_type_title">Loại</string>
+    <string name="create_profile_type_standard">Tiêu chuẩn</string>
+    <string name="create_profile_type_secure_core">Secure Core</string>
+    <string name="create_profile_type_p2p">P2P</string>
+    <string name="create_profile_gateway">Cổng</string>
+    <string name="create_profile_pick_state_title">Bang</string>
+    <string name="create_profile_pick_city_title">Thành phố</string>
+    <string name="create_profile_pick_server_title">Máy chủ</string>
+    <string name="create_profile_pick_gateway_title">Cổng</string>
+    <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_netshield_description">Chặn quảng cáo, trình theo dõi và phần mềm độc hại trên các trang web và ứng dụng</string>
+    <string name="create_profile_pick_protocol_title">Giao thức</string>
+    <string name="create_profile_pick_nat_title">Loại NAT</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (sao chép)</string>
+    <string name="create_profile_fastest_city">Nhanh nhất</string>
+    <string name="create_profile_fastest_state">Nhanh nhất</string>
+    <string name="create_profile_fastest_server">Nhanh nhất</string>
+    <string name="create_profile_pick_middle_country_title">Quốc gia trung gian</string>
+    <string name="profiles_zero_state_title">Tạo hồ sơ đầu tiên</string>
+    <string name="profiles_zero_state_description">Hồ sơ là các kết nối đã lưu với lựa chọn vị trí, máy chủ và giao thức của bạn.</string>
+    <string name="profiles_button_create_profile">Tạo hồ sơ</string>
+    <string name="profile_deleted_snackbar_message">Hồ sơ đã xóa</string>
+    <string name="profile_connected_edit_setting">Cài đặt này được liên kết với hồ sơ đang hoạt động. \n\nChỉnh sửa hồ sơ để thay đổi, hoặc ngắt kết nối để chỉnh sửa cài đặt VPN chung.</string>
+    <string name="profile_connected_dialog_title">Quản lý %1$s trong Hồ sơ</string>
+    <string name="undo">Hoàn tác</string>
+    <string name="profile_unavailable_dialog_title">Hồ sơ không khả dụng</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
+    <string name="profile_unavailable_dialog_message">Lựa chọn máy chủ cho %1$s không khả dụng. Chọn một máy chủ khác hoặc thử lại sau.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">Biểu tượng %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">Màu %1$d</string>
+    <string name="generic_info_label">Thông tin</string>
+    <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
+         Please don't use & in translation and capitalize key words. -->
+    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Mới</string>
+    <string name="create_profile_auto_open_url_input_label">URL trang web</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Sử dụng chế độ duyệt web riêng tư</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Tắt</string>
+    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: không tìm thấy ứng dụng</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_website">Mở trang web</string>
+    <string name="profile_auto_open_app">Mở ứng dụng</string>
+    <string name="create_profile_auto_open_description">Tự động mở một trang web bạn chọn khi kết nối với hồ sơ này.</string>
+    <string name="create_profile_auto_open_app_input_hint">Chọn ứng dụng</string>
+    <string name="create_profile_auto_open_app_input_label">Ứng dụng</string>
+    <string name="create_profile_auto_open_app_no_apps">Không tìm thấy ứng dụng.</string>
+    <string name="profile_auto_open_error_invalid_url">Nhập một URL hợp lệ</string>
+    <string name="nps_how_likely_question">Khả năng bạn giới thiệu Proton VPN cho bạn bè hoặc đồng nghiệp là bao nhiêu?</string>
+    <string name="nps_additional_comment_title">Vui lòng cho chúng tôi biết lý do bạn đưa ra đánh giá đó</string>
+    <string name="nps_additional_comment_optional">Tùy chọn</string>
+    <string name="nps_rating_low_values_explain">0 gần như không xảy ra</string>
+    <string name="nps_rating_high_values_explain">10 gần như chắc chắn xảy ra</string>
+    <string name="nps_toast_submit_message">Cảm ơn đã chia sẻ. Phản hồi của bạn giúp chúng tôi cải thiện Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Câu trả lời nên từ 250 ký tự trở xuống</string>
+    <string name="nps_button_submit_title">Chia sẻ ẩn danh</string>
+    <string name="widget_preview_switzerland">Thụy Sĩ</string>
+    <string name="widget_preview_spain">Tây Ban Nha</string>
+    <string name="widget_preview_germany">Đức</string>
+    <string name="widget_preview_france">Pháp</string>
+    <string name="widget_status_unprotected">Không được bảo vệ</string>
+    <string name="widget_status_error">Lỗi</string>
+    <string name="widget_status_connecting">Đang kết nối</string>
+    <string name="widget_sign_in">Dăng nhập</string>
+    <string name="widget_toast_added_message">Đã thêm tiện ích vào màn hình chính</string>
+    <string name="settings_advanced_ipv6_title">Hỗ trợ IPv6</string>
+    <string name="settings_advanced_ipv6_description">Đưa lưu lượng IPv6 qua đường hầm VPN. Có thể tăng cường khả năng tương thích với mạng IPv6.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Để sử dụng địa chỉ này, cần cho phép kết nối IPv6 qua đường hầm VPN.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Kích hoạt IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">Đã vô hiệu hóa IPv6</string>
+    <string name="settings_ipv6_enabled_toast">Đã kích hoạt IPv6</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Đảm bảo quyền truy cập vào các trang web và dịch vụ chỉ hỗ trợ IPv6</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Ngăn ngừa sự cố trên các mạng dựa vào IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">Có thể không hoạt động hiệu quả với mạng hoặc ứng dụng cũ hơn</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Một số mạng xử lý lưu lượng IPv6 không ổn định</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Hạn chế</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Lợi ích</string>
+    <string name="settings_lan_allow_direct_connection_title">Cho phép kết nối thiết bị trực tiếp</string>
+    <string name="settings_lan_allow_direct_connection_description">Kết nối với Smart TV, Android Auto và các thiết bị khác tự tạo mạng riêng. Để giữ bảo mật tối đa, chỉ bật khi kết nối với các thiết bị này.</string>
+    <string name="no_connections_title">Không có kết nối VPN khả dụng</string>
+    <string name="no_connections_description_loading_error">Không thể tải danh sách máy chủ.</string>
+    <string name="no_connections_description_no_servers">Yêu cầu quản trị viên kích hoạt quyền truy cập VPN cho tài khoản của bạn.</string>
+    <string name="no_connections_action_refresh">Làm mới</string>
+    <string name="no_connections_action_sign_out">Đăng xuất</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Cần trợ giúp? <a href="">Liên hệ với chúng tôi</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Nếu quản trị viên cần trợ giúp kích hoạt quyền truy cập VPN, hãy gửi cho họ <a href="">hướng dẫn này</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">Kích hoạt OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Giao thức này sẽ sớm bị loại bỏ vì chúng tôi tập trung vào các công nghệ nhanh hơn và bảo mật hơn. Chúng tôi khuyên bạn nên chuyển sang Smart Protocol. <a href="proton.me">Tìm hiểu thêm</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Giao thức này sẽ sớm bị loại bỏ vì chúng tôi tập trung vào các công nghệ nhanh hơn và bảo mật hơn. Chúng tôi khuyên bạn nên chuyển sang Smart Protocol.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Tiếp tục với OpenVPN</string>
+    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Kích hoạt giao thức Smart</string>
+    <string name="settings_protocol_proton_protocols">Giao thức Proton</string>
+    <string name="settings_protocol_proton_protocols_description">Sử dụng phiên bản WireGuard do Proton VPN tự triển khai. Đây là tính năng thử nghiệm nên bạn có thể gặp phải một số tình trạng không ổn định.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">If there are locations you don’t want to be automatically connected to, you can exclude them from Fastest country.</string>
+    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
+</resources>

@@ -1569,7 +1569,7 @@
     <string name="no_connections_help_contact_us"><![CDATA[有问题吗？<a href="">联系我们</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[需要的话，把<a href="">操作说明</a>发给管理员，帮管理员开启 VPN 权限。]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_title">启用 OpenVPN？</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[该协议将在不久后移除，因为我们正专注于更快速、更安全的技术。我们建议切换到 Smart Protocol。<a href="proton.me">了解更多</a>。]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[该协议将在不久后移除，因为我们正专注于更快速、更安全的技术。我们建议切换到 Smart Protocol。<a href="proton.me">了解详情</a>。]]></string>
     <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">该协议将在不久后移除，因为我们正专注于更快速、更安全的技术。我们建议切换到 Smart Protocol。</string>
     <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">改用 OpenVPN</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">启用智能协议</string>

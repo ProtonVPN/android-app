@@ -298,12 +298,12 @@
     <string name="tv_detail_default_connection_checkbox_short">Абранае</string>
     <string name="tv_detail_connect_streaming">Трансляцыя з Plus</string>
     <string name="tv_detail_connect">Падключыцца</string>
-    <string name="tv_detail_description_streaming_country">Глядзіце сваё абранае змесціва. Атрымайце доступ да большай колькасці праграм на тарыфным плане Proton VPN Plus.</string>
-    <string name="tv_detail_description_no_streaming_country">Прымайце больш улюблёнага змесціва з дапамогай тарыфнага плана Proton VPN Plus.</string>
+    <string name="tv_detail_description_streaming_country">Трансліруйце сваё абранае змесціва. Атрымайце доступ да большай колькасці праграм на тарыфным плане Proton VPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">Трансліруйце больш абранага змесціва з дапамогай тарыфнага плана Proton VPN Plus.</string>
     <string name="tv_detail_description_country_not_available">Гэта краіна недаступна. Атрымайце больш параметраў трансляцыі з тарыфным планам Proton VPN Plus.</string>
-    <string name="tv_detail_description_plus">Глядзіце сваё абранае відэа, фільмы або спартыўныя перадачы ў сваіх праграмах.</string>
+    <string name="tv_detail_description_plus">Трансліруйце сваё абранае відэа, фільмы або спартыўныя перадачы ў сваіх праграмах.</string>
     <string name="tv_login_title_signin">Увайдзіце ў Proton VPN</string>
-    <string name="tv_login_title_welcome">Глядзіце сваё абранае відэа</string>
+    <string name="tv_login_title_welcome">Трансліруйце сваё абранае відэа</string>
     <string name="tv_login_welcome_description">Глядзіце відэа больш чым з 50 краін, уключаючы YouTube, Twitch, Netflix, Amazon Prime і Hulu з Proton VPN Plus.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Атрымайце свой уліковы запіс Proton VPN на <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Увайсці</string>
@@ -565,7 +565,7 @@
     <string name="upsell_card_speed_description">Карыстайцеся інтэрнэтам на самай высокай хуткасці (да %1$d Гбіт/с)</string>
     <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
     <string name="upsell_card_split_tunneling_description">Праглядайце з двух месцазнаходжанняў адначасова</string>
-    <string name="upsell_card_streaming_title">Трансляцыі</string>
+    <string name="upsell_card_streaming_title">Трансляцыя</string>
     <string name="upsell_card_streaming_description">Глядзіце свае абраныя фільмы і тэлеперадачы</string>
     <string name="upsell_card_tor_title">Tor праз VPN</string>
     <string name="upsell_card_tor_description">Выкарыстоўвайце сетку Tor праз ваша падключэнне да VPN для дадатковай прыватнасці</string>
@@ -636,7 +636,7 @@
     <string name="dynamic_report_completion_error_description_generic">Не ўдалося адправіць вашу справаздачу. Паспрабуйце яшчэ раз.</string>
     <string name="dynamic_report_completion_error_description_no_internet">Не ўдалося адправіць вашу справаздачу. Праверце сваё падключэнне і паспрабуйце яшчэ раз.</string>
     <string name="dynamic_report_completion_error_description_timeout">Не ўдалося адправіць вашу справаздачу. Час чакання падключэння завяршыўся. Паспрабуйце яшчэ раз.</string>
-    <string name="dynamic_report_completion_success_title">Дзякуй за вашу зваротную сувязь. Вы атрымаеце адказ у хуткім часе.</string>
+    <string name="dynamic_report_completion_success_title">Дзякуй за водгук. Вы атрымаеце адказ у бліжэйшы час.</string>
     <string name="dynamic_report_success_title">Дзякуй за ваш водгук</string>
     <string name="dynamic_report_success_description">Мы звяжамся з вамі ў самы бліжэйшы час.</string>
     <string name="dynamic_report_field_mandatory">Гэта абавязковае поле</string>
@@ -676,7 +676,7 @@
     </plurals>
     <string name="select_default_connection">Выберыце ваша прадвызначанае падключэнне</string>
     <string name="settings_default_connection_title">Прадвызначанае падключэнне</string>
-    <string name="fastest_country_description">Лепшыя серверы на падставе вашага размяшчэння</string>
+    <string name="fastest_country_description">Лепшыя серверы на падставе вашага месцазнаходжання</string>
     <string name="settings_connection_preferences_title">Параметры падключэння</string>
     <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Элемент выдалены</string>
     <string name="settings_excluded_locations_title">Выключаныя месцазнаходжанні</string>
@@ -1541,7 +1541,7 @@
     <string name="info_p2p_what_title">Што такое P2P?</string>
     <string name="info_p2p_what_description">Тэхналогія аднарангавай сеткі (P2P) дазваляе вам падключацца і абагульваць файлы наўпрост з іншымі прыладамі\n\nНашы серверы P2P спецыяльна распрацаваны для падтрымкі гэтага тыпу абагульвання файламі.</string>
     <string name="info_p2p_torrenting_title">Што ўяўляе сабой праца з торэнтамі?</string>
-    <string name="info_p2p_torrenting_description">Гэта хуткае абагульванне і спампоўванне вялікіх файлаў праз сетку P2P.</string>
+    <string name="info_p2p_torrenting_description">Хуткае абагульванне і спампоўванне вялікіх файлаў праз сетку P2P.</string>
     <string name="info_p2p_why_title">Навошта выкарыстоўваць сервер P2P падчас працы з торэнтамі?</string>
     <string name="info_p2p_why_description_speed">Павялічаныя хуткасці запампоўвання і спампоўвання</string>
     <string name="info_p2p_why_description_logs">Адсутнасць журналаў актыўнасці</string>

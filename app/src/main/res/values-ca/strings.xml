@@ -231,7 +231,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Aquestes estadístiques no contenen la vostra adreça IP i no es poden utilitzar per identificar-vos. Mai les compartirem amb tercers. <a href="%1$s">Més informació</a>]]></string>
     <string name="netshield_settings_description_not_html">Protegiu-vos dels anuncis, programari maliciós, rastrejadors en llocs web i aplicacions. %1$s</string>
     <string name="netshield_settings_description_tv">Us protegeix dels anuncis de tercers, rastrejadors i programari maliciós. NetShield no bloqueja anuncis integrats en serveis de reproducció en continu com YouTube i Netflix.</string>
-    <string name="netshield_settings_more_info_title_tv">Com funciona NetShield</string>
+    <string name="netshield_settings_more_info_title_tv">Com funciona el NetShield</string>
     <string-array name="netshield_settings_more_info_paragraphs_tv">
         <item>NetShield bloqueja les sol·licituds DNS a dominis de tercers coneguts per anuncis, rastrejadors i programari maliciós.</item>
         <item>Això vol dir que no rebreu anuncis del navegador o aplicacions gratuïtes que utilitzin serveis d\'anuncis de tercers.</item>
@@ -644,10 +644,10 @@
     <string name="settings_default_connection_title">Connexió per defecte</string>
     <string name="fastest_country_description">El millor servidor basat en la vostra ubicació</string>
     <string name="settings_connection_preferences_title">Preferències de connexió</string>
-    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">S\'ha eliminat l\'element</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">S\'ha esborrat l\'element</string>
     <string name="settings_excluded_locations_title">Ubicacions excloses</string>
     <string name="settings_excluded_locations_description">Les ubicacions seleccionades no s\'utilitzaran mai quan us connecteu a Fastest.</string>
-    <string name="settings_excluded_locations_unavailable">No hi ha cap ubicació disponible</string>
+    <string name="settings_excluded_locations_unavailable">No hi ha ubicacions disponibles</string>
     <string name="settings_excluded_locations_selection_hint">Selecciona...</string>
     <string name="settings_excluded_locations_accessibility_label_deletion">Elimineu-ho de les ubicacions excloses</string>
     <string name="settings_excluded_locations_accessibility_label_city">Ciutat</string>
