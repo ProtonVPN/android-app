@@ -103,6 +103,8 @@ import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUser
 import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUserImpl
 import com.protonvpn.android.tv.usecases.TvDisableRecentsForFreeUser
 import com.protonvpn.android.tv.usecases.TvDisableRecentsForFreeUserImpl
+import com.protonvpn.android.tv.usecases.TvFreeUserAlphabeticalSortingForCountries
+import com.protonvpn.android.tv.usecases.TvFreeUserAlphabeticalSortingForCountriesImpl
 import com.protonvpn.android.tv.usecases.TvHideServerListForFreeUser
 import com.protonvpn.android.tv.usecases.TvHideServerListForFreeUserImpl
 import com.protonvpn.android.ui.settings.AppIconManager
@@ -516,6 +518,11 @@ object AppModule {
         fun bindTvDisableRecentsForFreeUser(
             impl: TvDisableRecentsForFreeUserImpl
         ): TvDisableRecentsForFreeUser
+
+        @Binds
+        fun bindTvFreeUserAlphabeticalSortingForCountries(
+            impl: TvFreeUserAlphabeticalSortingForCountriesImpl
+        ): TvFreeUserAlphabeticalSortingForCountries
 
         @Binds
         fun bindTvServerListForFreeUserEnabled(

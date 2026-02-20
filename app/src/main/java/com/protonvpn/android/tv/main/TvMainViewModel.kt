@@ -48,6 +48,7 @@ import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUser
 import com.protonvpn.android.tv.usecases.TvDisableRecentsForFreeUser
+import com.protonvpn.android.tv.usecases.TvFreeUserAlphabeticalSortingForCountries
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
 import com.protonvpn.android.tv.vpn.createIntentForDefaultProfile
 import com.protonvpn.android.tv.vpn.getConnectCountry
@@ -102,6 +103,7 @@ class TvMainViewModel @Inject constructor(
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     private val tvDisableFavoriteCountryForFreeUser: TvDisableFavoriteCountryForFreeUser,
     private val tvDisableRecentsForFreeUser: TvDisableRecentsForFreeUser,
+    private val tvFreeUserAlphabeticalSortingForCountries: TvFreeUserAlphabeticalSortingForCountries,
 ) : ViewModel() {
 
     data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)
@@ -212,18 +214,22 @@ class TvMainViewModel @Inject constructor(
         selectedCountryFlag.value = flag
     }
 
-    fun getCountryCardMap(): Map<CountryTools.Continent?, List<CountryCard>> {
-        return serverManager.getVpnCountries().groupBy({
-            val continent = CountryTools.oldMapLocations[it.flag]?.continent
-            DebugUtils.debugAssert("Unknown location for ${it.flag}") { continent != null || it.flag == "XX" }
-            continent
-        }, { country ->
-            getCountryCard(country)
-        }).mapValues { continent ->
-            continent.value.sortedWith(compareBy {
-                !it.vpnCountry.hasAccessibleOnlineServer(currentUser.vpnUserCached())
-            })
+    suspend fun getCountryCardMap(): Map<CountryTools.Continent?, List<CountryCard>> {
+        val vpnUser = currentUser.vpnUserCached()
+        val countrySortComparator = if (vpnUser?.isFreeUser == true && tvFreeUserAlphabeticalSortingForCountries()) {
+            compareBy<CountryCard> { !it.vpnCountry.hasOnlineServer() }
+        } else {
+            compareBy { !it.vpnCountry.hasAccessibleOnlineServer(vpnUser) }
         }
+        return serverManager.getVpnCountries()
+            .groupBy({
+                val continent = CountryTools.oldMapLocations[it.flag]?.continent
+                DebugUtils.debugAssert("Unknown location for ${it.flag}") { continent != null || it.flag == "XX" }
+                continent
+            }, { country ->
+                getCountryCard(country)
+            })
+            .mapValues { continent -> continent.value.sortedWith(countrySortComparator) }
     }
 
     suspend fun getRecentCardList(context: Context): List<Card> {

@@ -41,6 +41,8 @@ sealed class ServerGroup {
     fun hasAccessibleOnlineServer(vpnUser: VpnUser?): Boolean =
         serverList.any { vpnUser.hasAccessToServer(it) && it.online }
 
+    fun hasOnlineServer(): Boolean = serverList.any { it.online }
+
     fun isUnderMaintenance(): Boolean = !serverList.any { it.online }
 }
 
