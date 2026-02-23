@@ -30,7 +30,7 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
-import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUser
+import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.utils.combine
 import com.protonvpn.android.vpn.effectiveProtocol
@@ -61,7 +61,7 @@ class SettingsFeatureFlagsFlow @Inject constructor(
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
     isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
-    tvDisableFavoriteCountryForFreeUser: TvDisableFavoriteCountryForFreeUser,
+    isTvFavoriteCountryForFreeUserDisabled: IsTvFavoriteCountryForFreeUserDisabled,
 ) : Flow<SettingsFeatureFlagsFlow.Flags> {
 
     data class Flags(
@@ -81,7 +81,7 @@ class SettingsFeatureFlagsFlow @Inject constructor(
         isTvNetShieldSettingFeatureFlagEnabled.observe(),
         isTvCustomDnsSettingFeatureFlagEnabled.observe(),
         isProTunV1FeatureFlagEnabled.observe(),
-        tvDisableFavoriteCountryForFreeUser.observe(),
+        isTvFavoriteCountryForFreeUserDisabled.observe(),
     ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isTvAutoConnectEnabled, isTvNetShieldEnabled, isTvCustomDnsEnabled, isProTunV1Enabled, tvDisableFavoriteCountryForFreeUser ->
         Flags(
             isIPv6Enabled = isIPv6Enabled,

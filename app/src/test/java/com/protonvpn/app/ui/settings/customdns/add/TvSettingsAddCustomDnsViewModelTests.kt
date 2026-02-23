@@ -33,7 +33,7 @@ import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.customdns.add.TvSettingsAddCustomDnsViewModel
-import com.protonvpn.android.tv.usecases.FakeTvDisableFavoriteCountryForFreeUser
+import com.protonvpn.android.tv.usecases.FakeIsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
@@ -112,7 +112,7 @@ class TvSettingsAddCustomDnsViewModelTests {
                     isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
                     isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),
                     isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),
-                    tvDisableFavoriteCountryForFreeUser = FakeTvDisableFavoriteCountryForFreeUser(false),
+                    isTvFavoriteCountryForFreeUserDisabled = FakeIsTvFavoriteCountryForFreeUserDisabled(false),
                 )
             ),
             vpnStatusProviderUI = VpnStatusProviderUI(

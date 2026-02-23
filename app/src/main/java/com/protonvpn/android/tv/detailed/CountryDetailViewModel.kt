@@ -33,8 +33,8 @@ import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.SetFavoriteCountry
-import com.protonvpn.android.tv.usecases.TvHideServerListForFreeUser
-import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUser
+import com.protonvpn.android.tv.usecases.IsTvHideServerListForFreeUserEnabled
+import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -76,8 +76,8 @@ class CountryDetailViewModel @Inject constructor(
     private val profileManager: ProfileManager,
     private val setFavoriteCountry: SetFavoriteCountry,
     private val currentUser: CurrentUser,
-    private val tvHideServerListForFreeUser: TvHideServerListForFreeUser,
-    private val tvDisableFavoriteCountryForFreeUser: TvDisableFavoriteCountryForFreeUser,
+    private val isTvHideServerListForFreeUserEnabled: IsTvHideServerListForFreeUserEnabled,
+    private val isTvFavoriteCountryForFreeUserDisabled: IsTvFavoriteCountryForFreeUserDisabled,
 ) : ViewModel() {
 
     fun getState(countryCode: String): Flow<ViewState> = flow {
@@ -91,8 +91,8 @@ class CountryDetailViewModel @Inject constructor(
     private fun getViewState(countryCard: CountryCard, hasStreamingServices: Boolean): Flow<ViewState> = combine(
         vpnStatusProviderUI.status,
         currentUser.vpnUserFlow,
-        tvHideServerListForFreeUser.observe(),
-        tvDisableFavoriteCountryForFreeUser.observe()
+        isTvHideServerListForFreeUserEnabled.observe(),
+        isTvFavoriteCountryForFreeUserDisabled.observe()
     ) { vpnStatus, vpnUser, tvHideServerListForFreeUser, tvDisableFavoriteCountryForFreeUser ->
         val country = countryCard.vpnCountry
         val isPlusUser = vpnUser?.isUserPlusOrAbove == true

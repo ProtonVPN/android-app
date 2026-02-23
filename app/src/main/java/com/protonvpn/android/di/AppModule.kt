@@ -99,14 +99,14 @@ import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabledImpl
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabled
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabledImpl
-import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUser
-import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUserImpl
-import com.protonvpn.android.tv.usecases.TvDisableRecentsForFreeUser
-import com.protonvpn.android.tv.usecases.TvDisableRecentsForFreeUserImpl
-import com.protonvpn.android.tv.usecases.TvFreeUserAlphabeticalSortingForCountries
-import com.protonvpn.android.tv.usecases.TvFreeUserAlphabeticalSortingForCountriesImpl
-import com.protonvpn.android.tv.usecases.TvHideServerListForFreeUser
-import com.protonvpn.android.tv.usecases.TvHideServerListForFreeUserImpl
+import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
+import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabledImpl
+import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabled
+import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabledImpl
+import com.protonvpn.android.tv.usecases.IsTvFreeUserAlphabeticalSortingForCountriesEnabled
+import com.protonvpn.android.tv.usecases.IsIsTvFreeUserAlphabeticalSortingForCountriesEnabledEnabledImpl
+import com.protonvpn.android.tv.usecases.IsTvHideServerListForFreeUserEnabled
+import com.protonvpn.android.tv.usecases.IsTvHideServerListForFreeUserEnabledImpl
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.AppIconManagerImpl
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
@@ -511,23 +511,23 @@ object AppModule {
 
         @Binds
         fun bindTvDisableFavoriteCountryForFreeUser(
-            impl: TvDisableFavoriteCountryForFreeUserImpl
-        ): TvDisableFavoriteCountryForFreeUser
+            impl: IsTvFavoriteCountryForFreeUserDisabledImpl
+        ): IsTvFavoriteCountryForFreeUserDisabled
 
         @Binds
         fun bindTvDisableRecentsForFreeUser(
-            impl: TvDisableRecentsForFreeUserImpl
-        ): TvDisableRecentsForFreeUser
+            impl: IsTvRecentsForFreeUserDisabledImpl
+        ): IsTvRecentsForFreeUserDisabled
 
         @Binds
         fun bindTvFreeUserAlphabeticalSortingForCountries(
-            impl: TvFreeUserAlphabeticalSortingForCountriesImpl
-        ): TvFreeUserAlphabeticalSortingForCountries
+            impl: IsIsTvFreeUserAlphabeticalSortingForCountriesEnabledEnabledImpl
+        ): IsTvFreeUserAlphabeticalSortingForCountriesEnabled
 
         @Binds
         fun bindTvServerListForFreeUserEnabled(
-            impl: TvHideServerListForFreeUserImpl
-        ): TvHideServerListForFreeUser
+            impl: IsTvHideServerListForFreeUserEnabledImpl
+        ): IsTvHideServerListForFreeUserEnabled
 
         @Binds
         fun bindPeriodicUpdateManager(impl: PeriodicUpdateManagerImpl): PeriodicUpdateManager

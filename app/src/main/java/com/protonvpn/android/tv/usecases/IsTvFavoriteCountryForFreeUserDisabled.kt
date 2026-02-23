@@ -23,24 +23,23 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
-import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import dagger.Reusable
 import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
 import javax.inject.Inject
 
-interface TvDisableRecentsForFreeUser: VpnFeatureFlag
+interface IsTvFavoriteCountryForFreeUserDisabled: VpnFeatureFlag
 
 @Reusable
-class TvDisableRecentsForFreeUserImpl @Inject constructor(
+class IsTvFavoriteCountryForFreeUserDisabledImpl @Inject constructor(
     currentUser: CurrentUser,
     featureFlagManager: FeatureFlagManager,
-) : TvDisableRecentsForFreeUser, VpnFeatureFlagImpl(
+) : IsTvFavoriteCountryForFreeUserDisabled, VpnFeatureFlagImpl(
     currentUser = currentUser,
     featureFlagManager = featureFlagManager,
-    featureId = FeatureId(id = "TvDisableRecentsForFreeUser"),
+    featureId = FeatureId(id = "TvDisableFavoriteCountryForFreeUser"),
 )
 
-class FakeTvDisableRecentsForFreeUser(
+class FakeIsTvFavoriteCountryForFreeUserDisabled(
     enabled: Boolean,
-) : TvDisableRecentsForFreeUser, FakeVpnFeatureFlag(enabled)
+) : IsTvFavoriteCountryForFreeUserDisabled, FakeVpnFeatureFlag(enabled)

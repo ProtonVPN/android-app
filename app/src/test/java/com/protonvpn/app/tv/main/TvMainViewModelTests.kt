@@ -22,8 +22,6 @@ package com.protonvpn.app.tv.main
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.R
-import com.protonvpn.android.appconfig.FeatureFlags
-import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.SavedProfilesV3
@@ -42,9 +40,9 @@ import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
-import com.protonvpn.android.tv.usecases.FakeTvDisableFavoriteCountryForFreeUser
-import com.protonvpn.android.tv.usecases.FakeTvDisableRecentsForFreeUser
-import com.protonvpn.android.tv.usecases.FakeTvFreeUserAlphabeticalSortingForCountries
+import com.protonvpn.android.tv.usecases.FakeIsTvFavoriteCountryForFreeUserDisabled
+import com.protonvpn.android.tv.usecases.FakeIsTvRecentsForFreeUserDisabled
+import com.protonvpn.android.tv.usecases.FakeIsTvFreeUserAlphabeticalSortingForCountriesEnabled
 import com.protonvpn.android.tv.usecases.SetFavoriteCountry
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.CountryTools
@@ -176,9 +174,9 @@ class TvMainViewModelTests {
             isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
             isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),
             isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true),
-            tvDisableFavoriteCountryForFreeUser = FakeTvDisableFavoriteCountryForFreeUser(false),
-            tvDisableRecentsForFreeUser = FakeTvDisableRecentsForFreeUser(false),
-            tvFreeUserAlphabeticalSortingForCountries = FakeTvFreeUserAlphabeticalSortingForCountries(false)
+            isTvFavoriteCountryForFreeUserDisabled = FakeIsTvFavoriteCountryForFreeUserDisabled(false),
+            isTvRecentsForFreeUserDisabled = FakeIsTvRecentsForFreeUserDisabled(false),
+            isTvFreeUserAlphabeticalSortingForCountriesEnabled = FakeIsTvFreeUserAlphabeticalSortingForCountriesEnabled(false)
         )
     }
 

@@ -46,9 +46,9 @@ import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.GetCountryCard
-import com.protonvpn.android.tv.usecases.TvDisableFavoriteCountryForFreeUser
-import com.protonvpn.android.tv.usecases.TvDisableRecentsForFreeUser
-import com.protonvpn.android.tv.usecases.TvFreeUserAlphabeticalSortingForCountries
+import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
+import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabled
+import com.protonvpn.android.tv.usecases.IsTvFreeUserAlphabeticalSortingForCountriesEnabled
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
 import com.protonvpn.android.tv.vpn.createIntentForDefaultProfile
 import com.protonvpn.android.tv.vpn.getConnectCountry
@@ -101,9 +101,9 @@ class TvMainViewModel @Inject constructor(
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
-    private val tvDisableFavoriteCountryForFreeUser: TvDisableFavoriteCountryForFreeUser,
-    private val tvDisableRecentsForFreeUser: TvDisableRecentsForFreeUser,
-    private val tvFreeUserAlphabeticalSortingForCountries: TvFreeUserAlphabeticalSortingForCountries,
+    private val isTvFavoriteCountryForFreeUserDisabled: IsTvFavoriteCountryForFreeUserDisabled,
+    private val isTvRecentsForFreeUserDisabled: IsTvRecentsForFreeUserDisabled,
+    private val isTvFreeUserAlphabeticalSortingForCountriesEnabled: IsTvFreeUserAlphabeticalSortingForCountriesEnabled,
 ) : ViewModel() {
 
     data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)
@@ -216,7 +216,7 @@ class TvMainViewModel @Inject constructor(
 
     suspend fun getCountryCardMap(): Map<CountryTools.Continent?, List<CountryCard>> {
         val vpnUser = currentUser.vpnUser()
-        val countrySortComparator = if (vpnUser?.isFreeUser == true && tvFreeUserAlphabeticalSortingForCountries()) {
+        val countrySortComparator = if (vpnUser?.isFreeUser == true && isTvFreeUserAlphabeticalSortingForCountriesEnabled()) {
             compareBy<CountryCard> { !it.vpnCountry.hasOnlineServer() }
         } else {
             compareBy { !it.vpnCountry.hasAccessibleOnlineServer(vpnUser) }
@@ -235,7 +235,7 @@ class TvMainViewModel @Inject constructor(
     suspend fun getRecentCardList(context: Context): List<Card> {
         val recentsList = mutableListOf<Card>()
         val isFree = currentUser.vpnUser()?.isFreeUser == true
-        val disableFavoriteCountry = tvDisableFavoriteCountryForFreeUser() && isFree
+        val disableFavoriteCountry = isTvFavoriteCountryForFreeUserDisabled() && isFree
         recentsList.add(constructQuickConnect(context, disableFavoriteCountry))
 
         val defaultConnection = createIntentForDefaultProfile(profileManager.getDefaultOrFastest())
@@ -261,7 +261,7 @@ class TvMainViewModel @Inject constructor(
                 )
             )
         }
-        if (!isFree || !tvDisableRecentsForFreeUser()) {
+        if (!isFree || !isTvRecentsForFreeUserDisabled()) {
             recentsManager.getRecentCountries()
                 .filterNot { country ->
                     vpnStatusProviderUI.isConnectingToCountry(country) ||
@@ -356,7 +356,7 @@ class TvMainViewModel @Inject constructor(
 
     suspend fun quickConnectFlag() = when {
         isConnected() || isEstablishingConnection() -> vpnStatusProviderUI.connectingToServer?.exitCountry
-        currentUser.vpnUser()?.isFreeUser == true && tvDisableFavoriteCountryForFreeUser() -> null
+        currentUser.vpnUser()?.isFreeUser == true && isTvFavoriteCountryForFreeUserDisabled() -> null
         else -> getConnectCountry(profileManager.getDefaultOrFastest())
     }
 
