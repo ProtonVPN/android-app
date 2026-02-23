@@ -92,7 +92,8 @@
     <string name="send_report">Send report</string>
     <string name="report_sent">Report sent</string>
     <string name="discardChanges">Discard unsaved changes?</string>
-    <string name="discard">Discard</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">DONE</string>
     <string name="add">ADD</string>
     <string name="copy_to_clipboard">Copy</string>

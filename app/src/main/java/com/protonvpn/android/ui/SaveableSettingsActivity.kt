@@ -80,8 +80,8 @@ abstract class SaveableSettingsActivity<VM : SaveableSettingsViewModel> : BaseAc
     private fun showDiscardChangesDialog() {
         MaterialAlertDialogBuilder(this)
             .setMessage(R.string.discardChanges)
-            .setPositiveButton(R.string.discard) { _, _ -> viewModel.onDiscardChanges() }
-            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(R.string.discardChangesButtonDiscard) { _, _ -> viewModel.onDiscardChanges() }
+            .setNegativeButton(R.string.discardChangesButtonKeepEditing, null)
             .show()
     }
 
