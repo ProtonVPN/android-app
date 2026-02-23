@@ -42,8 +42,6 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.ChangeServerConfigFlow
 import com.protonvpn.android.appconfig.DefaultChangeServerConfigFlow
 import com.protonvpn.android.appconfig.DefaultUserCountryTelephonyBased
-import com.protonvpn.android.promooffers.data.GlideImagePrefetcher
-import com.protonvpn.android.promooffers.data.ImagePrefetcher
 import com.protonvpn.android.appconfig.UserCountryTelephonyBased
 import com.protonvpn.android.appconfig.VpnFeatureFlagContextProvider
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateScheduler
@@ -62,6 +60,8 @@ import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.managed.usecase.AutoLogin
 import com.protonvpn.android.managed.usecase.AutoLoginImpl
+import com.protonvpn.android.mmp.IsMmpFeatureFlagEnabled
+import com.protonvpn.android.mmp.IsMmpFeatureFlagEnabledImpl
 import com.protonvpn.android.models.vpn.usecase.ProvideLocalNetworks
 import com.protonvpn.android.models.vpn.usecase.ProvideLocalNetworksImpl
 import com.protonvpn.android.profiles.usecases.GetPrivateBrowsingAvailability
@@ -70,6 +70,10 @@ import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
 import com.protonvpn.android.profiles.usecases.IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled
 import com.protonvpn.android.profiles.usecases.IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabledImpl
+import com.protonvpn.android.promooffers.data.GlideImagePrefetcher
+import com.protonvpn.android.promooffers.data.ImagePrefetcher
+import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabled
+import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabledImpl
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapterLegacy
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
@@ -97,8 +101,6 @@ import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabledImpl
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabledImpl
-import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabled
-import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabledImpl
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabledImpl
 import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabled
@@ -528,6 +530,9 @@ object AppModule {
         fun bindTvServerListForFreeUserEnabled(
             impl: IsTvHideServerListForFreeUserEnabledImpl
         ): IsTvHideServerListForFreeUserEnabled
+
+        @Binds
+        fun bindIsMmpFeatureFlagEnabled(impl: IsMmpFeatureFlagEnabledImpl): IsMmpFeatureFlagEnabled
 
         @Binds
         fun bindPeriodicUpdateManager(impl: PeriodicUpdateManagerImpl): PeriodicUpdateManager
