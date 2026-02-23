@@ -53,8 +53,8 @@ class VpnApiClient @Inject constructor(
                 Build.MODEL).replaceNonAscii()
 
     override val connectTimeoutSeconds get() = 5L
-    override val readTimeoutSeconds get() = 10L
-    override val writeTimeoutSeconds get() = 10L
+    override val readTimeoutSeconds get() = 20L
+    override val writeTimeoutSeconds get() = 20L
     override val callTimeoutSeconds get() = 30L
 
     override val pingTimeoutSeconds: Int get() = 5
