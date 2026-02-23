@@ -35,6 +35,7 @@ enum class LogCategory(private val categoryName: String) {
     HV("HV"),
     LOCAL_AGENT("LOCAL_AGENT"),
     MANAGED_CONFIG("MANAGED_CONFIG"),
+    MMP("MMP"),
     NETWORK("NETWORK"),
     OS("OS"),
     OS_POWER("OS.POWER"),
