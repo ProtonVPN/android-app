@@ -4,6 +4,7 @@ agp-version = "8.9.1"
 airbnb-lottie-version = "6.6.7"
 android-compose-screenshot-version = "0.0.1-alpha09"
 android-flexbox-version = "3.0.0"
+android-installreferrer-version = "2.2"
 android-material-version = "1.12.0"
 android-tools-version = "2.1.5"
 androidx-activity-version = "1.12.4"
@@ -91,6 +92,7 @@ accompanist-systemuicontroller = { group = "com.google.accompanist", name = "acc
 airbnb-lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "airbnb-lottie-version" }
 airbnb-lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "airbnb-lottie-version" }
 android-flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "android-flexbox-version" }
+android-installreferrer = { group = "com.android.installreferrer", name = "installreferrer", version.ref = "android-installreferrer-version" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "android-material-version" }
 android-tools-build-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "agp-version" }
 android-tools-desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "android-tools-version" }
