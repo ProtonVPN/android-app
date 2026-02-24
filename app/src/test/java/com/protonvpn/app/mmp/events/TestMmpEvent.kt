@@ -17,27 +17,21 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.mmp.events.data
+package com.protonvpn.app.mmp.events
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import com.protonvpn.android.mmp.events.MmpEvent
+import com.protonvpn.android.mmp.events.MmpEventType
 
-@Dao
-abstract class MmpEventsDao {
+object TestMmpEvent {
 
-    @Delete
-    abstract suspend fun delete(entity: MmpEventEntity)
-
-    @Delete
-    abstract suspend fun delete(entities: List<MmpEventEntity>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insert(entity: MmpEventEntity)
-
-    @Query("SELECT * FROM mmpEvents ORDER BY timestamp")
-    abstract suspend fun getAll(): List<MmpEventEntity>
+    fun create(
+        timestamp: Long = 0L,
+        sessionStartTimestamp: Long? = null,
+        type: MmpEventType = MmpEventType.Install,
+    ): MmpEvent = MmpEvent(
+        timestamp = timestamp,
+        sessionStartTimestamp = sessionStartTimestamp,
+        eventType = type,
+    )
 
 }
