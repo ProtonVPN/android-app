@@ -27,6 +27,7 @@ import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.profiles.data.VpnProfilesDatabase
 import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDatabase
+import com.protonvpn.android.mmp.events.data.MmpEventsDatabase
 import com.protonvpn.android.redesign.recents.data.VpnRecentsDatabase
 import dagger.Binds
 import dagger.Module
@@ -81,6 +82,9 @@ object AppDatabaseDaoModule {
     @Provides
     fun provideExcludedLocationsDao(db: ExcludedLocationsDatabase) = db.excludedLocationsDao()
 
+    @Provides
+    fun provideMmpEventsDao(db: MmpEventsDatabase) = db.mmpEventsDao()
+
 }
 
 @Module
@@ -112,6 +116,9 @@ abstract class AppDatabaseBindsModule {
 
     @Binds
     abstract fun provideKeySaltDatabase(appDatabase: AppDatabase): KeySaltDatabase
+
+    @Binds
+    abstract fun provideMmpEventsDatabase(appDatabase: AppDatabase): MmpEventsDatabase
 
     @Binds
     abstract fun provideNotificationDatabase(appDatabase: AppDatabase): NotificationDatabase
