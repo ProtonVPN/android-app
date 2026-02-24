@@ -39,7 +39,7 @@ class GetMmpReferrer @Inject constructor(
 
         return mmpReferrerStorage.getMmpReferrer() ?: withContext(context = NonCancellable) {
             fetchMmpReferrer.getMmpReferrer()?.also { remoteMmpReferrer ->
-                mmpReferrerStorage.setMmpReferrer(mmpReferrer = remoteMmpReferrer)
+                mmpReferrerStorage.updateMmpReferrer { remoteMmpReferrer }
             }
         }
     }

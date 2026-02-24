@@ -22,6 +22,7 @@ package com.protonvpn.android.mmp.events
 import kotlinx.serialization.Serializable
 
 data class MmpEvent(
+    val id: Long = 0L,
     val timestamp: Long,
     val sessionStartTimestamp: Long?,
     private val eventType: MmpEventType,

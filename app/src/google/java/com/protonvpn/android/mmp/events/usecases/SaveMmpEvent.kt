@@ -19,24 +19,26 @@
 
 package com.protonvpn.android.mmp.events.usecases
 
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.mmp.IsMmpFeatureFlagEnabled
 import com.protonvpn.android.mmp.events.MmpEvent
 import com.protonvpn.android.mmp.events.MmpEventType
 import com.protonvpn.android.mmp.events.data.MmpEventsDao
 import com.protonvpn.android.mmp.events.data.toEntity
 import com.protonvpn.android.mmp.referrer.data.MmpReferrerStorage
+import com.protonvpn.android.mmp.referrer.usecases.GetMmpReferrer
 import dagger.Reusable
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
-import me.proton.core.network.domain.server.ServerClock
 import javax.inject.Inject
 
 @Reusable
 class SaveMmpEvent @Inject constructor(
     private val isMmpEnabled: IsMmpFeatureFlagEnabled,
     private val mmpEventsDao: MmpEventsDao,
+    private val getMmpReferrer: GetMmpReferrer,
     private val mmpReferrerStorage: MmpReferrerStorage,
-    private val serverClock: ServerClock,
+    @param:WallClock private val now: () -> Long,
 ) {
 
     suspend operator fun invoke(
@@ -46,19 +48,26 @@ class SaveMmpEvent @Inject constructor(
         if (!isMmpEnabled()) return@withContext
 
         if (isSessionRestartRequired) {
-            mmpReferrerStorage.getMmpReferrer()?.let { currentMmpReferrer ->
-                mmpReferrerStorage.setMmpReferrer(
-                    mmpReferrer = currentMmpReferrer.copy(sessionStartTimestamp = null),
-                )
+            mmpReferrerStorage.updateMmpReferrer { localMmpReferrer ->
+                localMmpReferrer.copy(sessionStartTimestamp = null)
             }
         }
+
         val mmpEvent = MmpEvent(
-            timestamp = serverClock.getCurrentTime().toEpochMilli(),
-            sessionStartTimestamp = mmpReferrerStorage.getMmpReferrer()?.sessionStartTimestamp,
+            timestamp = now().truncateToDayMillis(),
+            sessionStartTimestamp = getMmpReferrer()?.sessionStartTimestamp?.truncateToDayMillis(),
             eventType = eventType,
         )
 
         mmpEventsDao.insert(entity = mmpEvent.toEntity())
+    }
+
+    private fun Long.truncateToDayMillis() = this - (this % ONE_DAY_MILLIS)
+
+    private companion object {
+
+        private const val ONE_DAY_MILLIS = 24 * 60 * 60 * 1_000
+
     }
 
 }

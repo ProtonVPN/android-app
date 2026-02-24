@@ -21,17 +21,31 @@ package com.protonvpn.app.mmp.events
 
 import com.protonvpn.android.mmp.events.MmpEvent
 import com.protonvpn.android.mmp.events.MmpEventType
+import com.protonvpn.android.mmp.events.data.MmpEventEntity
 
 object TestMmpEvent {
 
     fun create(
+        id: Long = 0L,
         timestamp: Long = 0L,
         sessionStartTimestamp: Long? = null,
         type: MmpEventType = MmpEventType.Install,
     ): MmpEvent = MmpEvent(
+        id = id,
         timestamp = timestamp,
         sessionStartTimestamp = sessionStartTimestamp,
         eventType = type,
+    )
+
+    fun create(entity: MmpEventEntity): MmpEvent = create(
+        id = entity.id,
+        timestamp = entity.timestamp,
+        sessionStartTimestamp = entity.sessionStartTimestamp,
+        type = when(entity.type) {
+            MmpEvent.Type.Install -> MmpEventType.Install
+            MmpEvent.Type.Open -> MmpEventType.Open
+            MmpEvent.Type.Subscription -> MmpEventType.Subscription(subscriptionDetails = entity.subscriptionDetails!!)
+        },
     )
 
 }

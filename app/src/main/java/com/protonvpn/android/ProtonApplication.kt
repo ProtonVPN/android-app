@@ -26,6 +26,7 @@ import android.os.SystemClock
 import android.webkit.WebView
 import com.protonvpn.android.api.DohEnabled
 import com.protonvpn.android.app.AppExitObservability
+import com.protonvpn.android.app.AppMmpObservability
 import com.protonvpn.android.app.AppStartExitLogger
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout
@@ -110,6 +111,7 @@ open class ProtonApplication : Application() {
     internal interface DependencyEntryPoints {
         val accountStateHandler: AccountStateHandler
         val appExitObservability: AppExitObservability
+        val appMmpObservability: AppMmpObservability
         val appStartExitLogger: AppStartExitLogger
         val autoConnectBootController: AutoConnectBootReceiverController
         val autoLoginManager: AutoLoginManager?
@@ -207,6 +209,7 @@ open class ProtonApplication : Application() {
 
         dependencies.accountStateHandler.start()
         dependencies.appExitObservability.start()
+        dependencies.appMmpObservability.start()
         dependencies.autoConnectBootController.start()
         dependencies.autoLoginManager
         dependencies.certificateRepository

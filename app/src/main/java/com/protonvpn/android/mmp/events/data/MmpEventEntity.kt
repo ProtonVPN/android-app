@@ -42,6 +42,7 @@ private fun MmpEventEntity.toDomain(): MmpEvent? = when (type) {
     MmpEvent.Type.Subscription -> subscriptionDetails?.let(MmpEventType::Subscription)
 }?.let { eventType ->
     MmpEvent(
+        id = id,
         timestamp = timestamp,
         sessionStartTimestamp = sessionStartTimestamp,
         eventType = eventType,
@@ -51,6 +52,7 @@ private fun MmpEventEntity.toDomain(): MmpEvent? = when (type) {
 fun List<MmpEvent>.toEntities(): List<MmpEventEntity> = map(MmpEvent::toEntity)
 
 fun MmpEvent.toEntity(): MmpEventEntity = MmpEventEntity(
+    id = id,
     timestamp = timestamp,
     type = type,
     sessionStartTimestamp = sessionStartTimestamp,

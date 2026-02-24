@@ -29,6 +29,8 @@ import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.mmp.events.data.MmpEventRequestBody
+import com.protonvpn.android.mmp.events.data.MmpEventResponse
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.SessionForkBody
@@ -139,6 +141,9 @@ interface ProtonApiRetroFit {
     suspend fun postStats(events: List<StatsEvent>): ApiResult<GenericResponse>
 
     suspend fun putTelemetryGlobalSetting(isEnabled: Boolean): ApiResult<GlobalSettingsResponse>
+
+    suspend fun postMmpEvents(body: List<MmpEventRequestBody>): ApiResult<MmpEventResponse>
+
 }
 
 @Singleton
@@ -275,6 +280,9 @@ class ProtonApiRetroFitImpl @Inject constructor(
 
     override suspend fun putTelemetryGlobalSetting(isEnabled: Boolean): ApiResult<GlobalSettingsResponse> =
         manager { putTelemetryGlobalSetting(UpdateGlobalTelemetry(isEnabled)) }
+
+    override suspend fun postMmpEvents(body: List<MmpEventRequestBody>): ApiResult<MmpEventResponse> =
+        manager { postMmpEvents(body = body) }
 
     private fun createNetZoneHeaders(netzone: String?) =
         mutableMapOf<String, String>().apply {

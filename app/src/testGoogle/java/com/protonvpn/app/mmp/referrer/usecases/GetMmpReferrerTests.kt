@@ -95,7 +95,7 @@ class GetMmpReferrerTests {
     fun `GIVEN feature flag enabled AND referrer is stored locally WHEN getting referrer THEN return referrer from local data source`() = testScope.runTest {
         isMmpEnabled.setEnabled(isEnabled = true)
         val expectedMmpReferrer = TestMmpReferrer.create()
-        mmpReferrerStorage.setMmpReferrer(mmpReferrer = expectedMmpReferrer)
+        mmpReferrerStorage.updateMmpReferrer { expectedMmpReferrer }
 
         val referrer = getMmpReferrer()
 
@@ -105,7 +105,7 @@ class GetMmpReferrerTests {
     @Test
     fun `GIVEN feature flag disabled AND referrer is stored locally WHEN getting referrer THEN returns null`() = testScope.runTest {
         isMmpEnabled.setEnabled(isEnabled = false)
-        mmpReferrerStorage.setMmpReferrer(mmpReferrer = TestMmpReferrer.create())
+        mmpReferrerStorage.updateMmpReferrer { TestMmpReferrer.create() }
 
         val referrer = getMmpReferrer()
 

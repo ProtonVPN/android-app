@@ -23,6 +23,8 @@ import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
+import com.protonvpn.android.mmp.events.data.MmpEventRequestBody
+import com.protonvpn.android.mmp.events.data.MmpEventResponse
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.login.FeatureResponse
 import com.protonvpn.android.models.login.GenericResponse
@@ -183,6 +185,9 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @PUT("core/v4/settings/telemetry")
     suspend fun putTelemetryGlobalSetting(@Body body: UpdateGlobalTelemetry): GlobalSettingsResponse
+
+    @POST("growth/v1/measurements")
+    suspend fun postMmpEvents(@Body body: List<MmpEventRequestBody>): MmpEventResponse
 
     companion object {
         const val HEADER_NETZONE = "x-pm-netzone"

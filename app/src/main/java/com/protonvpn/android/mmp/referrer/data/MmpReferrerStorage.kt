@@ -26,9 +26,10 @@ import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 
 @Reusable
-class MmpReferrerStorage(
+class MmpReferrerStorage @Inject constructor(
     mainScope: CoroutineScope,
     private val localDataStoreFactory: LocalDataStoreFactory,
 ) {
@@ -52,8 +53,8 @@ class MmpReferrerStorage(
         .first()
         .takeIf { it.asid.isNotEmpty() && it.referrerLink.isNotEmpty() }
 
-    suspend fun setMmpReferrer(mmpReferrer: MmpReferrer) {
-        getDataStore().updateData { mmpReferrer }
+    suspend fun updateMmpReferrer(transform: suspend (MmpReferrer) -> MmpReferrer) {
+        getDataStore().updateData(transform = transform)
     }
 
     private suspend fun getDataStore() = deferredDataStore.await()

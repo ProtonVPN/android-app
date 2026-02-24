@@ -24,6 +24,8 @@ import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
+import com.protonvpn.android.mmp.events.data.MmpEventRequestBody
+import com.protonvpn.android.mmp.events.data.MmpEventResponse
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.SessionForkResponse
@@ -42,11 +44,11 @@ import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.servers.api.StreamingServicesResponse
 import com.protonvpn.android.telemetry.StatsEvent
-import java.util.concurrent.atomic.AtomicReference
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
 import okhttp3.RequestBody
 import retrofit2.Response
+import java.util.concurrent.atomic.AtomicReference
 
 class TestProtonApiRetroFitWrapper(private val apiHolder: AtomicReference<ProtonApiRetroFit>) :
     ProtonApiRetroFit {
@@ -164,4 +166,9 @@ class TestProtonApiRetroFitWrapper(private val apiHolder: AtomicReference<Proton
     override suspend fun putTelemetryGlobalSetting(
         isEnabled: Boolean
     ): ApiResult<GlobalSettingsResponse> = api.putTelemetryGlobalSetting(isEnabled)
+
+    override suspend fun postMmpEvents(
+        body: List<MmpEventRequestBody>,
+    ): ApiResult<MmpEventResponse> = api.postMmpEvents(body)
+
 }

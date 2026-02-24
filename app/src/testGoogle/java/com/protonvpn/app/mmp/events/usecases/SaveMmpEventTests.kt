@@ -29,24 +29,25 @@ import com.protonvpn.android.mmp.events.data.MmpEventsDao
 import com.protonvpn.android.mmp.events.data.toDomain
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
 import com.protonvpn.android.mmp.referrer.data.MmpReferrerStorage
+import com.protonvpn.android.mmp.referrer.usecases.FetchMmpReferrer
+import com.protonvpn.android.mmp.referrer.usecases.GetMmpReferrer
 import com.protonvpn.app.mmp.events.TestMmpEvent
 import com.protonvpn.app.mmp.referrer.TestMmpReferrer
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import io.mockk.MockKAnnotations
-import io.mockk.every
+import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
-import me.proton.core.network.domain.server.ServerClock
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import java.time.Instant
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -56,7 +57,7 @@ import kotlin.test.assertTrue
 class SaveMmpEventTests {
 
     @MockK
-    private lateinit var mockServerClock: ServerClock
+    private lateinit var mockFetchMmpReferrer: FetchMmpReferrer
 
     private lateinit var appDatabase: AppDatabase
 
@@ -92,11 +93,18 @@ class SaveMmpEventTests {
             localDataStoreFactory = InMemoryDataStoreFactory(),
         )
 
+        val getMmpReferrer = GetMmpReferrer(
+            isMmpEnabled = isMmpEnabled,
+            mmpReferrerStorage = mmpReferrerStorage,
+            fetchMmpReferrer = mockFetchMmpReferrer,
+        )
+
         saveMmpEvent = SaveMmpEvent(
             isMmpEnabled = isMmpEnabled,
             mmpEventsDao = mmpEventsDao,
+            getMmpReferrer = getMmpReferrer,
             mmpReferrerStorage = mmpReferrerStorage,
-            serverClock = mockServerClock,
+            now = testScope::currentTime,
         )
     }
 
@@ -120,12 +128,13 @@ class SaveMmpEventTests {
         val eventType = MmpEventType.Install
         val expectedMmpEvents = listOf(
             TestMmpEvent.create(
+                id = 1,
                 type = eventType,
                 timestamp = currentTime,
                 sessionStartTimestamp = null,
             )
         )
-        every { mockServerClock.getCurrentTime() } returns Instant.ofEpochMilli(currentTime)
+        coEvery { mockFetchMmpReferrer.getMmpReferrer() } returns null
 
         saveMmpEvent(eventType = eventType)
 
@@ -135,18 +144,20 @@ class SaveMmpEventTests {
     @Test
     fun `GIVEN feature flag is enabled AND referrer WHEN saving event THEN event is saved`() = testScope.runTest {
         isMmpEnabled.setEnabled(isEnabled = true)
-        val sessionStartTimestamp = 162827328732
+        val sessionStartTimestamp = 1776180474817
         val mmpReferrer = TestMmpReferrer.create(sessionStartTimestamp = sessionStartTimestamp)
         val eventType = MmpEventType.Install
+        advanceTimeBy(delayTimeMillis = sessionStartTimestamp)
+        val expectedTruncatedTimestamp = 1776124800000
         val expectedMmpEvents = listOf(
             TestMmpEvent.create(
+                id = 1,
                 type = eventType,
-                timestamp = currentTime,
-                sessionStartTimestamp = sessionStartTimestamp,
+                timestamp = expectedTruncatedTimestamp,
+                sessionStartTimestamp = expectedTruncatedTimestamp,
             )
         )
-        mmpReferrerStorage.setMmpReferrer(mmpReferrer = mmpReferrer)
-        every { mockServerClock.getCurrentTime() } returns Instant.ofEpochMilli(currentTime)
+        mmpReferrerStorage.updateMmpReferrer { mmpReferrer }
 
         saveMmpEvent(eventType = eventType)
 
@@ -159,8 +170,7 @@ class SaveMmpEventTests {
         val sessionStartTimestamp = 162827328732
         val mmpReferrer = TestMmpReferrer.create(sessionStartTimestamp = sessionStartTimestamp)
         val eventType = MmpEventType.Install
-        mmpReferrerStorage.setMmpReferrer(mmpReferrer = mmpReferrer)
-        every { mockServerClock.getCurrentTime() } returns Instant.ofEpochMilli(currentTime)
+        mmpReferrerStorage.updateMmpReferrer { mmpReferrer }
 
         saveMmpEvent(eventType = eventType)
 
@@ -177,13 +187,13 @@ class SaveMmpEventTests {
         val eventType = MmpEventType.Install
         val expectedMmpEvents = listOf(
             TestMmpEvent.create(
+                id = 1,
                 type = eventType,
                 timestamp = currentTime,
                 sessionStartTimestamp = null,
             )
         )
-        mmpReferrerStorage.setMmpReferrer(mmpReferrer = mmpReferrer)
-        every { mockServerClock.getCurrentTime() } returns Instant.ofEpochMilli(currentTime)
+        mmpReferrerStorage.updateMmpReferrer { mmpReferrer }
 
         saveMmpEvent(eventType = eventType, isSessionRestartRequired = true)
 
@@ -195,8 +205,7 @@ class SaveMmpEventTests {
         isMmpEnabled.setEnabled(isEnabled = true)
         val mmpReferrer = TestMmpReferrer.create(sessionStartTimestamp = 179927328711)
         val eventType = MmpEventType.Install
-        mmpReferrerStorage.setMmpReferrer(mmpReferrer = mmpReferrer)
-        every { mockServerClock.getCurrentTime() } returns Instant.ofEpochMilli(currentTime)
+        mmpReferrerStorage.updateMmpReferrer { mmpReferrer }
 
         saveMmpEvent(eventType = eventType, isSessionRestartRequired = true)
 
