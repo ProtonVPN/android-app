@@ -680,7 +680,7 @@
     <string name="settings_connection_preferences_title">Параметры падключэння</string>
     <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Элемент выдалены</string>
     <string name="settings_excluded_locations_title">Выключаныя месцазнаходжанні</string>
-    <string name="settings_excluded_locations_description">Выбраныя месцазнаходжанні ніколі не будуць выкарыстоўвацца пры падключэнні да Fastest.</string>
+    <string name="settings_excluded_locations_description">Выбраныя месцазнаходжанні ніколі не будуць выкарыстоўвацца пры падключэнні праз профіль \"Найхутчэйшыя\".</string>
     <string name="settings_excluded_locations_unavailable">Няма даступных месцазнаходжанняў</string>
     <string name="settings_excluded_locations_selection_hint">Выбраць…</string>
     <string name="settings_excluded_locations_accessibility_label_deletion">Выдаліць з выключаных месцазнаходжанняў</string>
@@ -1572,7 +1572,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">Гэта перазапусціць ваша падключэнне.</string>
-    <string name="profile_overrides_setting">Гэтыя налады падключаны да <b>%1$s</b> і імі можна кіраваць толькі ў профілі.</string>
+    <string name="profile_overrides_setting">Гэтыя налады падключаны да <b>%1$s</b> і імі можна кіраваць толькі ў профілях.</string>
     <string name="initial_profile_name_streaming_us">Трансляцыі ЗША</string>
     <string name="initial_profile_name_work_school">Праца/школа</string>
     <string name="initial_profile_name_anti_censorship">Супрацьдзеянне цэнзуры</string>
