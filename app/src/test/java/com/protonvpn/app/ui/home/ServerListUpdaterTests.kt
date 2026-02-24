@@ -75,6 +75,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import okhttp3.Headers
@@ -90,7 +91,8 @@ import java.util.Date
 import java.util.concurrent.TimeUnit
 
 private const val TEST_IP = "1.2.3.4"
-private val DUMMY_USER_LOCATION = UserLocation(TEST_IP, "pl", "ISP", latitude = 0f, longitude = 0f)
+private val DUMMY_USER_LOCATION =
+    UserLocation(TEST_IP, "pl", "ISP", latitude = 10f, longitude = 20f)
 private const val OLD_IP = "10.0.0.1"
 private const val BACKGROUND_DELAY_MS = 1000L
 private const val FOREGROUND_DELAY_MS = 100L
@@ -210,6 +212,7 @@ class ServerListUpdaterTests {
             remoteConfig = remoteConfig,
             updateServerListFromApi = updateServerListFromApi,
             updateLoadsFromApi = mockk(relaxed = true),
+            binaryServerStatusEnabled = binaryServerStatusEnabled,
         )
     }
 
@@ -252,11 +255,14 @@ class ServerListUpdaterTests {
     }
 
     @Test
-    fun `location update triggers server list update`() = testScope.runTest {
+    fun `location update triggers binary status update update`() = testScope.runTest {
         coEvery { mockApi.getLocation() } returns ApiResult.Success(DUMMY_USER_LOCATION)
         serverListUpdater.updateLocationIfVpnOff()
+        runCurrent()
+        advanceTimeBy(170) // Wait for debounce to trigger.
 
-        coVerify { mockPeriodicUpdateManager.executeNow<Any, Any>(match { it.id == "server_list" }) }
+        coVerify(exactly = 0) { mockPeriodicUpdateManager.executeNow<Any, Any>(match { it.id == "server_list" }) }
+        coVerify { mockPeriodicUpdateManager.executeNow<Any, Any>(match { it.id == "server_loads" }) }
     }
 
     @Test

@@ -50,8 +50,10 @@ class ServerListUpdaterPrefs @Inject constructor(
 
     // Used in calculations for finding the most suitable VPN servers to connect to.
     // These values are only processed within the application and never sent out.
-    var lastKnownIpLongitude: Float? by float()
-    var lastKnownIpLatitude: Float? by float()
+    var lastKnownIpLongitude: Float? by float(key = KEY_IP_LONGITUDE)
+    var lastKnownIpLatitude: Float? by float(key = KEY_IP_LATITUDE)
+    val lastKnownIpLongitudeFlow: Flow<Float?> = preferences.observe(key = KEY_IP_LONGITUDE)
+    val lastKnownIpLatitudeFlow: Flow<Float?> = preferences.observe(key = KEY_IP_LATITUDE)
 
     var serverListLastModified: Long by long(0)
     var vpnServerCount: Int by int(Constants.FALLBACK_SERVER_COUNT)
@@ -66,5 +68,7 @@ class ServerListUpdaterPrefs @Inject constructor(
         private const val PREFS_NAME = "ServerListUpdater"
         private const val KEY_IP_ADDRESS = "ipAddress"
         private const val KEY_COUNTRY = "lastKnownCountry"
+        private const val KEY_IP_LATITUDE = "lastKnownIpLatitude"
+        private const val KEY_IP_LONGITUDE = "lastKnownIpLongitude"
     }
 }

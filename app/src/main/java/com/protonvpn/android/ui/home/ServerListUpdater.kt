@@ -34,15 +34,13 @@ import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
 import com.protonvpn.android.appconfig.periodicupdates.toPeriodicActionResult
 import com.protonvpn.android.appconfig.periodicupdates.withUpdateState
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.UserLocation
-import com.protonvpn.android.servers.ServersDataManager
+import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
 import com.protonvpn.android.servers.UpdateLoadsFromApi
 import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.api.ServersCountResponse
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnState
@@ -50,13 +48,18 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.Reusable
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ExperimentalForInheritanceCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -82,6 +85,7 @@ class ServerListUpdaterRemoteConfig(
         })
 }
 
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 @Singleton
 class ServerListUpdater @Inject constructor(
     private val scope: CoroutineScope,
@@ -95,9 +99,10 @@ class ServerListUpdater @Inject constructor(
     private val periodicUpdateManager: PeriodicUpdateManager,
     @IsLoggedIn private val loggedIn: Flow<Boolean>,
     @IsInForeground private val inForeground: Flow<Boolean>,
-    private val remoteConfig: ServerListUpdaterRemoteConfig,
+    remoteConfig: ServerListUpdaterRemoteConfig,
     private val updateServerListFromApi: UpdateServerListFromApi,
     private val updateLoadsFromApi: UpdateLoadsFromApi,
+    binaryServerStatusEnabled: IsBinaryServerStatusEnabled,
 ) {
     val ipAddress = prefs.ipAddressFlow
 
@@ -110,6 +115,10 @@ class ServerListUpdater @Inject constructor(
     private val isDisconnected = vpnStateMonitor.status.map { it.state == VpnState.Disabled }
 
     private val serverListUpdate = UpdateAction("server_list", ::updateServers)
+    private val serverLoadsUpdate = UpdateAction(
+        "server_loads",
+        updateLoadsFromApi::invoke,
+    )
     private val locationUpdate = periodicUpdateManager.registerAction(
         "location",
         ::updateLocationIfVpnOff,
@@ -127,25 +136,50 @@ class ServerListUpdater @Inject constructor(
                 periodicUpdateManager.registerUpdateAction(serverListUpdate, *updateSpec)
         }.launchIn(scope)
 
-        periodicUpdateManager.registerAction(
-            "server_loads", updateLoadsFromApi::invoke, PeriodicUpdateSpec(LOADS_CALL_DELAY, setOf(loggedIn, inForeground))
-        )
         periodicUpdateManager.registerApiCall(
             "server_country_count",
             ::updateServerCountryCount,
             PeriodicUpdateSpec(SERVER_COUNT_CALL_DELAY, SERVER_COUNT_ERROR_DELAY, setOf(inForeground))
+        )
+        periodicUpdateManager.registerUpdateAction(
+            serverLoadsUpdate,
+            PeriodicUpdateSpec(LOADS_CALL_DELAY, setOf(loggedIn, inForeground))
         )
 
         vpnStateMonitor.onDisconnectedByUser.onEach {
             periodicUpdateManager.executeNow(locationUpdate)
         }.launchIn(scope)
 
-        prefs.ipAddressFlow
-            .drop(1) // Skip initial value, observe only updates.
-            .onEach {
-                if (currentUser.isLoggedIn()) periodicUpdateManager.executeNow(serverListUpdate)
-            }
-            .launchIn(scope)
+        binaryServerStatusEnabled.observe()
+            .flatMapLatest { binaryStatusEnabled ->
+                if (binaryStatusEnabled) {
+                    combine(
+                        prefs.lastKnownCountryFlow,
+                        prefs.lastKnownIpLatitudeFlow,
+                        prefs.lastKnownIpLongitudeFlow,
+                        ::Triple
+                    )
+                        .drop(1) // Skip initial value, observe only updates.
+                        // The components are updated individually, use debounce to collapse them into one update.
+                        .debounce(150)
+                        .distinctUntilChanged()
+                        .onEach {
+                            if (currentUser.isLoggedIn()) {
+                                // Actually if we cached binary status data we could just recalculate
+                                // the scores for new location without fetching data.
+                                periodicUpdateManager.executeNow(serverLoadsUpdate)
+                            }
+                        }
+                } else {
+                    prefs.ipAddressFlow
+                        .drop(1) // Skip initial value, observe only updates.
+                        .onEach {
+                            if (currentUser.isLoggedIn()) {
+                                periodicUpdateManager.executeNow(serverListUpdate)
+                            }
+                        }
+                }
+            }.launchIn(scope)
         currentUser.eventVpnLogin
             .onEach {
                 updateServerList(forceFreshUpdate = true)
