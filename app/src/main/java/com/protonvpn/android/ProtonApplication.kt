@@ -172,7 +172,10 @@ open class ProtonApplication : Application() {
 
             ProtonLogger.log(AppProcessStart, "==============================")
             val uptimeS = SystemClock.elapsedRealtime() / 1000
-            ProtonLogger.log(AppProcessStart, "version: ${BuildConfig.VERSION_NAME}")
+            ProtonLogger.log(
+                AppProcessStart,
+                "version: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+            )
             ProtonLogger.log(AppProcessStart,"system: ${Build.MANUFACTURER} ${Build.MODEL} ${Build.DISPLAY} (API ${Build.VERSION.SDK_INT}); uptime ${uptimeS}s")
             if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= 26) {
                 val webViewApp = WebView.getCurrentWebViewPackage()
