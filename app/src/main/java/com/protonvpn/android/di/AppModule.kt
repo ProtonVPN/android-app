@@ -80,6 +80,8 @@ import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapterLegacy
 import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabledImpl
+import com.protonvpn.android.restrictonsupsell.IsStreamingRestrictionUpsellEnabled
+import com.protonvpn.android.restrictonsupsell.IsStreamingRestrictionUpsellEnabledImpl
 import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabled
 import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabledImpl
 import com.protonvpn.android.servers.ServersStore
@@ -101,14 +103,14 @@ import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabledImpl
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabledImpl
+import com.protonvpn.android.tv.usecases.IsIsTvFreeUserAlphabeticalSortingForCountriesEnabledEnabledImpl
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabledImpl
-import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabled
-import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabledImpl
 import com.protonvpn.android.tv.usecases.IsTvFreeUserAlphabeticalSortingForCountriesEnabled
-import com.protonvpn.android.tv.usecases.IsIsTvFreeUserAlphabeticalSortingForCountriesEnabledEnabledImpl
 import com.protonvpn.android.tv.usecases.IsTvHideServerListForFreeUserEnabled
 import com.protonvpn.android.tv.usecases.IsTvHideServerListForFreeUserEnabledImpl
+import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabled
+import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabledImpl
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.AppIconManagerImpl
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
@@ -490,6 +492,11 @@ object AppModule {
         fun bindIsAutomaticConnectionPreferencesFeatureFlagEnabled(
             impl: IsAutomaticConnectionPreferencesFeatureFlagEnabledImpl,
         ): IsAutomaticConnectionPreferencesFeatureFlagEnabled
+
+        @Binds
+        fun bindIsStreamingRestrictionsUpsellEnabled(
+            impl: IsStreamingRestrictionUpsellEnabledImpl
+        ): IsStreamingRestrictionUpsellEnabled
 
         @Binds
         fun bindIsTvAutoConnectFeatureFlagEnabled(

@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.utils
 
+import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.base.data.VpnFeatureFlag
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ChannelResult
 import kotlinx.coroutines.channels.awaitClose
@@ -49,6 +51,19 @@ fun <T> Flow<T>.withPrevious(): Flow<Pair<T, T>> = flow {
     }
 }
 
+// Returns transformed flow if predicate is true for the value, otherwise empty flow.
+@OptIn(ExperimentalCoroutinesApi::class)
+fun <T, R> Flow<T>.flatMapLatestIf(
+    predicate: (T) -> Boolean,
+    transform: suspend (T) -> Flow<R>
+): Flow<R> = flatMapLatest { value ->
+    if (predicate(value)) {
+        transform(value)
+    } else {
+        emptyFlow()
+    }
+}
+
 // Returns transformed flow if there is a value, otherwise empty flow.
 @OptIn(ExperimentalCoroutinesApi::class)
 fun <T, R> Flow<T?>.flatMapLatestNotNull(transform: suspend (T) -> Flow<R>): Flow<R> =
@@ -56,6 +71,13 @@ fun <T, R> Flow<T?>.flatMapLatestNotNull(transform: suspend (T) -> Flow<R>): Flo
         if (value == null) emptyFlow()
         else transform(value)
     }
+
+fun <R> VpnFeatureFlag.flatMapLatestIfEnabled(block: suspend () -> Flow<R>) =
+    observe().flatMapLatestIf({ it }) { block() }
+
+fun <R> Flow<VpnUser?>.flatMapLatestFreeUser(
+    transform: suspend (VpnUser?) -> Flow<R>
+): Flow<R> = flatMapLatestIf({ vpnUser -> vpnUser?.isFreeUser == true }, transform)
 
 /**
  * A convenience operator for simple cases of mapping one StateFlow to another.

@@ -56,6 +56,7 @@ import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
@@ -386,6 +387,8 @@ abstract class VpnBackend(
             internalVpnProtocolState.value = value
             if (hasChanged) onVpnProtocolStateChange(value)
         }
+
+    val eventRestrictions = MutableSharedFlow<VpnConnectionRestrictions>(extraBufferCapacity = 1)
 
     final override val selfStateFlow = MutableStateFlow<VpnState>(VpnState.Disabled)
     private var agent: AgentConnectionInterface? = null

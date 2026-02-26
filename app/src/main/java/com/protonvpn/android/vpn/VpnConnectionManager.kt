@@ -71,6 +71,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
 import java.util.UUID
@@ -268,14 +269,23 @@ class VpnConnectionManager @Inject constructor(
         }.launchIn(scope)
         scope.launch {
             activeBackendFlow.collectLatest { backend ->
-                if (backend == null)
+                if (backend == null) {
                     vpnStateMonitor.internalVpnProtocolState.value = VpnState.Disabled
-                else {
+                } else {
                     backend.internalVpnProtocolState.collect { state ->
                         vpnStateMonitor.internalVpnProtocolState.value = state
                     }
                 }
             }
+        }
+        scope.launch {
+            activeBackendFlow
+                .filterNotNull()
+                .collectLatest { backend ->
+                    backend.eventRestrictions.collect { state ->
+                        vpnStateMonitor.eventRestrictions.emit(state)
+                    }
+                }
         }
     }
 

@@ -61,6 +61,7 @@ abstract class VpnStatusProvider {
     // Internal state of a VPN protocol (like WireGuard). Doesn't take into account local agent and
     // VpnConnectionManager states.
     val internalVpnProtocolState = MutableStateFlow<VpnState>(Disabled)
+    val eventRestrictions = MutableSharedFlow<VpnConnectionRestrictions>(extraBufferCapacity = 1)
 }
 
 @Parcelize

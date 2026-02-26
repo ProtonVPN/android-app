@@ -50,6 +50,7 @@ import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnConnectionRestrictions
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -78,6 +79,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -288,6 +290,7 @@ class GuestHoleVpnConnectionManagerTests {
         every { mock.internalVpnProtocolState } answers { backendStateFlow }
         every { mock.lastKnownExitIp } returns MutableStateFlow(null)
         every { mock.netShieldStatsFlow } returns MutableStateFlow(NetShieldStats())
+        every { mock.eventRestrictions } returns MutableSharedFlow()
 
         coEvery { mock.connect(any()) } coAnswers { connectAnswer(firstArg(), backendStateFlow) }
         coEvery { mock.disconnect() } coAnswers { disconnectAnswer(backendStateFlow) }
