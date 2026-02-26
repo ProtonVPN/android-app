@@ -23,6 +23,8 @@ import android.content.Context
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.logging.AppUpdateUpdated
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.mmp.events.MmpEventType
+import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
 import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.notifications.NotificationChannels
 import com.protonvpn.android.promooffers.data.ApiNotificationManager
@@ -49,11 +51,13 @@ class UpdateMigration @Inject constructor(
     private val streamingServicesUpdater: dagger.Lazy<StreamingServicesUpdater>,
     private val apiNotificationManager: dagger.Lazy<ApiNotificationManager>,
     private val notificationChannels: dagger.Lazy<NotificationChannels>,
+    private val saveMmpEvent: dagger.Lazy<SaveMmpEvent>,
 ) {
     private val oldVersionCode = Storage.getInt(KEY_VERSION_CODE)
     private val newVersionCode = BuildConfig.VERSION_CODE
+    private val isNewInstall = oldVersionCode == 0
 
-    val isUpdatedVersion get() = oldVersionCode != 0 && oldVersionCode != newVersionCode
+    val isUpdatedVersion get() = !isNewInstall && oldVersionCode != newVersionCode
 
     fun handleUpdate() {
         if (isUpdatedVersion) {
@@ -69,8 +73,14 @@ class UpdateMigration @Inject constructor(
             removeLegacyStorage(strippedOldVersionCode)
             updateNotificationChannels(strippedOldVersionCode)
         }
-        if (oldVersionCode == 0 || isUpdatedVersion) {
+        if (isNewInstall || isUpdatedVersion) {
             Storage.saveInt("VERSION_CODE", newVersionCode)
+        }
+
+        if (isNewInstall) {
+            mainScope.launch {
+                saveMmpEvent.get().invoke(eventType = MmpEventType.Install)
+            }
         }
     }
 
@@ -162,9 +172,7 @@ class UpdateMigration @Inject constructor(
     @SuppressWarnings("MagicNumber")
     private fun stripArchitecture(versionCode: Int) = versionCode % 100_000_000
 
-    companion object {
+    private companion object {
         private const val KEY_VERSION_CODE = "VERSION_CODE"
-
-        fun isFirstStart() = Storage.getInt(KEY_VERSION_CODE) == 0
     }
 }
