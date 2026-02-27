@@ -58,7 +58,6 @@ class StreamingUpsellRestrictionsNotificationTriggerTests {
     @Before
     fun setup() {
         vpnStateMonitor = VpnStateMonitor()
-
         testScope = TestScope()
         val restrictionsUpsellStoreProvider =
             RestrictionsUpsellStoreProvider(InMemoryDataStoreFactory())

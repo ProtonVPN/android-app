@@ -29,7 +29,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -59,6 +61,13 @@ class ForegroundActivityTracker(
     val isInForegroundFlow = foregroundActivityFlow.map {
         it != null
     }.distinctUntilChanged().stateIn(mainScope, SharingStarted.Eagerly, false)
+
+    val foregroundBackgroundTransitionFlow: Flow<Pair<Boolean, Boolean>> = isInForegroundFlow
+        // Don't use scan() with foregroundActivityFlow because it will leak activities.
+        .scan(Pair(false, false)) { (_, wasInForeground), inForeground ->
+            Pair(wasInForeground, inForeground)
+        }
+        .drop(1) // Scan's initial value can be ignored.
 
     val foregroundActivity: Activity? get() = foregroundActivityFlow.value
 

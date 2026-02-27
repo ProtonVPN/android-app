@@ -383,7 +383,7 @@ class UpgradeVpnAcceleratorHighlightsFragment : UpgradeHighlightsFragmentWithSou
 }
 
 @AndroidEntryPoint
-class UpgradeStreamingHighlightsFragment : UpgradeHighlightsFragment() {
+class UpgradeStreamingHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.STREAMING) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -391,6 +391,19 @@ class UpgradeStreamingHighlightsFragment : UpgradeHighlightsFragment() {
             imageResource = R.drawable.upgrade_streaming,
             title = getString(R.string.upgrade_streaming_title),
             message = getString(R.string.upgrade_streaming_text)
+        )
+    }
+}
+
+@AndroidEntryPoint
+class UpgradeStreamingBlockFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.STREAMING_ACTIVITY) {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.set(
+            imageResource = R.drawable.upgrade_streaming,
+            title = getString(R.string.upgrade_streaming_block_title),
+            message = getString(R.string.upgrade_streaming_block_text)
         )
     }
 }

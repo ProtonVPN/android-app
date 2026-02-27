@@ -23,10 +23,10 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
-import javax.inject.Inject
-import javax.inject.Singleton
 import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface IsStreamingRestrictionUpsellEnabled : VpnFeatureFlag
 

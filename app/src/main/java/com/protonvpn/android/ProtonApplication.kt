@@ -53,6 +53,7 @@ import com.protonvpn.android.quicktile.QuickTileDataStoreUpdater
 import com.protonvpn.android.redesign.recents.usecases.ConnectingUpdatesRecents
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
 import com.protonvpn.android.redesign.upgrade.usecase.PurchasesEnabledUpdater
+import com.protonvpn.android.restrictonsupsell.StreamingUpsellRestrictionsDialogTrigger
 import com.protonvpn.android.servers.StreamingServicesUpdater
 import com.protonvpn.android.servers.UpdateServerTranslations
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
@@ -137,6 +138,7 @@ open class ProtonApplication : Application() {
         val serverListUpdater: ServerListUpdater
         val showUpgradeSuccess: ShowUpgradeSuccess?
         val streamingServicesUpdater: StreamingServicesUpdater
+        val streamingUpsellRestrictionsDialogTrigger: StreamingUpsellRestrictionsDialogTrigger
         val updateAndroidAppTheme: UpdateAndroidAppTheme
         val updateProfileLastConnected: UpdateProfileLastConnected
         val updateSettingsOnVpnUserChange: UpdateSettingsOnVpnUserChange?
@@ -234,6 +236,7 @@ open class ProtonApplication : Application() {
         dependencies.userPlanManager
         dependencies.showUpgradeSuccess
         dependencies.streamingServicesUpdater
+        dependencies.streamingUpsellRestrictionsDialogTrigger.start()
         dependencies.vpnConnectionObservability
         dependencies.vpnConnectionTelemetry.start()
         dependencies.widgetStateUpdater.start()

@@ -57,6 +57,7 @@ enum class UpgradeSource {
     SECURE_CORE,
     SPLIT_TUNNELING,
     STREAMING,
+    STREAMING_ACTIVITY,
     VPN_ACCELERATOR,
     PROMO_OFFER;
 

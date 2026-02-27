@@ -81,17 +81,12 @@ class OneTimePopupNotificationTrigger @Inject constructor(
     private val NPS_NOTIFICATION_DELAY = 2000L
 
     init {
-        // Don't use scan() with foregroundActivityFlow because it will leak activities.
-        foregroundActivityTracker.isInForegroundFlow
-            .scan(Pair(false, false)) { (_, wasInForeground), inForeground ->
-                Pair(wasInForeground, inForeground)
-            }
-            .drop(1) // Scan's initial value can be ignored.
+        foregroundActivityTracker.foregroundBackgroundTransitionFlow
             .onEach { (wasInForeground, isInForeground) ->
                 val loggedIn = currentUser.isLoggedIn()
-                val foregroundActiviy = foregroundActivityTracker.foregroundActivity
-                if (loggedIn && !wasInForeground && isInForeground && foregroundActiviy != null) {
-                    onOneTimeNotificationOpportunity(foregroundActiviy)
+                val foregroundActivity = foregroundActivityTracker.foregroundActivity
+                if (loggedIn && !wasInForeground && isInForeground && foregroundActivity != null) {
+                    onOneTimeNotificationOpportunity(foregroundActivity)
                 }
             }
             .launchIn(mainScope)

@@ -19,9 +19,14 @@
 
 package com.protonvpn.android.restrictonsupsell
 
+import android.app.Activity
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeStreamingBlockFragment
 import com.protonvpn.android.utils.flatMapLatestFreeUser
+import dagger.Reusable
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Duration.Companion.hours
@@ -31,8 +36,16 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.jetbrains.annotations.VisibleForTesting
 
 private val UpsellDialogSinceLastEventMs = 1.hours.inWholeMilliseconds
+
+@Reusable
+class OpenUpgradeStreamingBlockDialog @Inject constructor() {
+    operator fun invoke(activity: Activity) {
+        PlusOnlyUpgradeDialogActivity.launch<UpgradeStreamingBlockFragment>(activity)
+    }
+}
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @Singleton
@@ -43,7 +56,9 @@ constructor(
     private val isStreamingRestrictionUpsellEnabled: IsStreamingRestrictionUpsellEnabled,
     private val eventStreamingRestricted: StreamingUpsellRestrictionsFlow,
     private val currentUser: CurrentUser,
+    private val foregroundActivityTracker: ForegroundActivityTracker,
     private val restrictionsUpsellStore: RestrictionsUpsellStore,
+    private val openUpgradeDialog: OpenUpgradeStreamingBlockDialog,
     @param:WallClock private val now: () -> Long,
 ) {
 
@@ -62,8 +77,21 @@ constructor(
                 }
             }
             .launchIn(mainScope)
+
+        foregroundActivityTracker.foregroundBackgroundTransitionFlow
+            .onEach { (wasInForeground, isInForeground) ->
+                if (!wasInForeground && isInForeground && shouldShowUpsellDialogOnOpen()) {
+                    val foregroundActivity = foregroundActivityTracker.foregroundActivity
+                    if (foregroundActivity != null) {
+                        onShowUpsellDialogShown()
+                        openUpgradeDialog(foregroundActivity)
+                    }
+                }
+            }
+            .launchIn(mainScope)
     }
 
+    @VisibleForTesting
     suspend fun shouldShowUpsellDialogOnOpen(): Boolean {
         if (!isStreamingRestrictionUpsellEnabled() || currentUser.vpnUser()?.isFreeUser != true) {
             return false
@@ -77,6 +105,7 @@ constructor(
         return withinTime && !wasShownForThisConnection
     }
 
+    @VisibleForTesting
     fun onShowUpsellDialogShown() {
         mainScope.launch {
             restrictionsUpsellStore.update { current ->
