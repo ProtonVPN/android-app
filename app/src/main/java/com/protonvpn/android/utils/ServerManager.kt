@@ -42,7 +42,6 @@ import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.servers.ServersDataManager.ServerLists
 import com.protonvpn.android.servers.ServersResult
 import com.protonvpn.android.servers.api.ConnectingDomain
-import com.protonvpn.android.servers.api.LoadUpdate
 import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.CoroutineScope
@@ -56,6 +55,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -140,6 +140,10 @@ class ServerManager @Inject constructor(
                 serversDataManager.updateLastUpdateTimestamp(savedState.lastUpdateTimestamp)
                 updateAndSave(savedState.copy(lastUpdateTimestamp = 0L))
             }
+            // Yield to allow pending work to process, most importantly serversDataCachedFlow.
+            // This is a hack, once we rewrite the TV UI all the synchronous getters will be
+            // removed and this will not be needed.
+            yield()
             // Notify of loaded state and update after everything has been updated.
             isLoaded.value = true
         }
