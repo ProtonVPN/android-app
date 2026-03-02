@@ -33,6 +33,7 @@ import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.restrictions
+import io.mockk.mockk
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.days
@@ -41,6 +42,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 
@@ -70,13 +72,17 @@ class StreamingUpsellRestrictionsNotificationTriggerTests {
             StreamingUpsellRestrictionsFlow(isFfEnabled, vpnStateMonitor, currentUser)
         notificationTrigger =
             StreamingUpsellRestrictionsNotificationTrigger(
+                mainScope = testScope.backgroundScope,
                 eventStreamingRestricted = restrictionsFlow,
                 restrictionsUpsellStore = restrictionsUpsellStore,
                 now = testScope::currentTime,
+                showNotification = mockk(relaxed = true),
             )
 
         // Start the test some time after the epoch.
         testScope.advanceTimeBy(10.days)
+        notificationTrigger.start()
+        testScope.runCurrent()
     }
 
     @Test

@@ -27,9 +27,6 @@ import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeStreamingBlockFragment
 import com.protonvpn.android.utils.flatMapLatestFreeUser
 import dagger.Reusable
-import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.time.Duration.Companion.hours
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -37,6 +34,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.VisibleForTesting
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.time.Duration.Companion.hours
 
 private val UpsellDialogSinceLastEventMs = 1.hours.inWholeMilliseconds
 
@@ -83,12 +83,16 @@ constructor(
                 if (!wasInForeground && isInForeground && shouldShowUpsellDialogOnOpen()) {
                     val foregroundActivity = foregroundActivityTracker.foregroundActivity
                     if (foregroundActivity != null) {
-                        onShowUpsellDialogShown()
-                        openUpgradeDialog(foregroundActivity)
+                        showNow(foregroundActivity)
                     }
                 }
             }
             .launchIn(mainScope)
+    }
+
+    fun showNow(activity: Activity) {
+        onShowUpsellDialogShown()
+        openUpgradeDialog(activity)
     }
 
     @VisibleForTesting

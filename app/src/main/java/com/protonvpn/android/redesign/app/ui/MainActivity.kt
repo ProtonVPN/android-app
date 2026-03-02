@@ -60,6 +60,7 @@ import com.protonvpn.android.redesign.app.ui.nav.MainNavEvent
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.bugreport.ui.BugReportActivity
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.restrictonsupsell.StreamingUpsellRestrictionsDialogTrigger
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
@@ -112,6 +113,8 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     lateinit var handleCoreDeepLink: HandleDeeplinkIntent
     @Inject
     lateinit var widgetActionHandler: WidgetActionHandler
+    @Inject
+    lateinit var streamingUpsellRestrictionsDialogTrigger: StreamingUpsellRestrictionsDialogTrigger
 
     // public for now until there is need to bridge old code, as LocalVpnUiDelegate is not available in non-compose
     val vpnActivityDelegate = VpnUiActivityDelegateMobile(
@@ -311,6 +314,11 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                 widgetActionHandler.onIntent(vpnActivityDelegate, intent)
             }
         }
+        if (intent.action == Intent.ACTION_MAIN &&
+            intent.getBooleanExtra(EXTRA_SHOW_STREAMING_RESTRICTION_UPSELL, false)
+        ) {
+            streamingUpsellRestrictionsDialogTrigger.showNow(this)
+        }
     }
 
     private fun retryConnectionAfterPermissions(connectIntent: AnyConnectIntent) {
@@ -332,6 +340,9 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
         activityViewModel.onNavigate(navEvent)
     }
 
+    companion object {
+        const val EXTRA_SHOW_STREAMING_RESTRICTION_UPSELL = "ShowStreamingRestrictionUpsell"
+    }
 }
 
 class CoreNavigation(
