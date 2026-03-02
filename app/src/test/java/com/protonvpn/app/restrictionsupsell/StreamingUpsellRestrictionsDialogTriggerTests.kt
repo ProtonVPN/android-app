@@ -27,6 +27,7 @@ import com.protonvpn.android.restrictonsupsell.RestrictionsUpsellStore
 import com.protonvpn.android.restrictonsupsell.RestrictionsUpsellStoreProvider
 import com.protonvpn.android.restrictonsupsell.StreamingUpsellRestrictionsDialogTrigger
 import com.protonvpn.android.restrictonsupsell.StreamingUpsellRestrictionsFlow
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.vpn.VpnConnectionRestriction
 import com.protonvpn.android.vpn.VpnConnectionRestrictions
@@ -42,6 +43,13 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
+import java.util.EnumSet
+import java.util.UUID
+import kotlin.test.assertEquals
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -50,24 +58,18 @@ import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import java.util.EnumSet
-import java.util.UUID
-import kotlin.test.assertEquals
-import kotlin.time.Duration.Companion.days
-import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.minutes
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class StreamingUpsellRestrictionsDialogTriggerTests {
 
     @MockK private lateinit var mockDialogOpener: OpenUpgradeStreamingBlockDialog
+    @MockK private lateinit var mockIsTvCheck: IsTvCheck
 
     private lateinit var testForegroundActivityFlow: MutableStateFlow<Activity?>
     private lateinit var testScope: TestScope
+    private lateinit var testUserProvider: TestCurrentUserProvider
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var restrictionsUpsellStore: RestrictionsUpsellStore
 
@@ -80,23 +82,31 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
         vpnStateMonitor = VpnStateMonitor()
         testScope = TestScope()
         every { mockDialogOpener.invoke(any()) } just Runs
+        every { mockIsTvCheck.invoke() } returns false
         val restrictionsUpsellStoreProvider =
             RestrictionsUpsellStoreProvider(InMemoryDataStoreFactory())
-        val isFfEnabled = FakeIsStreamingRestrictionUpsellEnabled(true)
-        val testUserProvider = TestCurrentUserProvider(TestUser.freeUser.vpnUser)
-        val currentUser = CurrentUser(testUserProvider)
+        testUserProvider = TestCurrentUserProvider(TestUser.freeUser.vpnUser)
         restrictionsUpsellStore =
-            RestrictionsUpsellStore({ restrictionsUpsellStoreProvider }, currentUser)
-        val restrictionsFlow =
-            StreamingUpsellRestrictionsFlow(isFfEnabled, vpnStateMonitor, currentUser)
+            RestrictionsUpsellStore(
+                { restrictionsUpsellStoreProvider },
+                CurrentUser(testUserProvider),
+            )
         testForegroundActivityFlow = MutableStateFlow(null)
+    }
+
+    private fun TestScope.createAndStartDialogTrigger() {
+        val isFfEnabled = FakeIsStreamingRestrictionUpsellEnabled(true)
+        val currentUser = CurrentUser(testUserProvider)
         val foregroundActivityTracker =
             ForegroundActivityTracker(testScope.backgroundScope, testForegroundActivityFlow)
+        val restrictionsFlow =
+            StreamingUpsellRestrictionsFlow(isFfEnabled, vpnStateMonitor, currentUser)
 
         dialogTrigger =
             StreamingUpsellRestrictionsDialogTrigger(
                 mainScope = testScope.backgroundScope,
                 isStreamingRestrictionUpsellEnabled = isFfEnabled,
+                isTv = mockIsTvCheck,
                 eventStreamingRestricted = restrictionsFlow,
                 foregroundActivityTracker = foregroundActivityTracker,
                 currentUser = currentUser,
@@ -106,14 +116,15 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
             )
 
         // Start the test some time after the epoch.
-        testScope.advanceTimeBy(10.days)
+        advanceTimeBy(10.days)
         dialogTrigger.start()
-        testScope.runCurrent() // Let it initialize the flows.
+        runCurrent() // Let it initialize the flows.
     }
 
     @Test
     fun `WHEN streaming restriction is emitted THEN store gets lastEventTimestamp and lastEventConnectionId`() =
         testScope.runTest {
+            createAndStartDialogTrigger()
             val connectionId = UUID.randomUUID()
             val eventTime = currentTime
             vpnStateMonitor.eventRestrictions.tryEmit(
@@ -128,46 +139,50 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
     @Test
     fun `GIVEN no event WHEN shouldShowUpsellDialogOnOpen THEN returns false`() =
         testScope.runTest {
-            assertFalse(dialogTrigger.shouldShowUpsellDialogOnOpen())
+            createAndStartDialogTrigger()
+            runCurrentAndGoForeground()
+            verify(exactly = 0) { mockDialogOpener.invoke(any()) }
         }
 
     @Test
     fun `GIVEN event within last hour and dialog not shown for this connection WHEN shouldShowUpsellDialogOnOpen THEN returns true`() =
         testScope.runTest {
+            createAndStartDialogTrigger()
             vpnStateMonitor.eventRestrictions.tryEmit(
                 restrictions(VpnConnectionRestriction.Streaming)
             )
-            runCurrent()
-            advanceTimeBy(45.minutes)
-            assertTrue(dialogTrigger.shouldShowUpsellDialogOnOpen())
+            runCurrentAndGoForeground(advanceTimeBy = 45.minutes)
+            verify { mockDialogOpener.invoke(any()) }
         }
 
     @Test
     fun `GIVEN event within last hour but dialog already shown for this connection WHEN shouldShowUpsellDialogOnOpen THEN returns false`() =
         testScope.runTest {
+            createAndStartDialogTrigger()
             vpnStateMonitor.eventRestrictions.tryEmit(
                 restrictions(VpnConnectionRestriction.Streaming)
             )
             runCurrent()
             dialogTrigger.onShowUpsellDialogShown()
-            runCurrent()
-            assertFalse(dialogTrigger.shouldShowUpsellDialogOnOpen())
+            runCurrentAndGoForeground()
+            verify(exactly = 0) { mockDialogOpener.invoke(any()) }
         }
 
     @Test
     fun `GIVEN event more than 1 hour ago WHEN shouldShowUpsellDialogOnOpen THEN returns false`() =
         testScope.runTest {
+            createAndStartDialogTrigger()
             vpnStateMonitor.eventRestrictions.tryEmit(
                 restrictions(VpnConnectionRestriction.Streaming)
             )
-            runCurrent()
-            advanceTimeBy(2.hours)
-            assertFalse(dialogTrigger.shouldShowUpsellDialogOnOpen())
+            runCurrentAndGoForeground(2.hours)
+            verify(exactly = 0) { mockDialogOpener.invoke(any()) }
         }
 
     @Test
     fun `GIVEN events more 1 hour ago WHEN event happens less than 1 hour ago THEN shouldShowUpsellDialogOnOpen returns true`() =
         testScope.runTest {
+            createAndStartDialogTrigger()
             vpnStateMonitor.eventRestrictions.tryEmit(
                 restrictions(VpnConnectionRestriction.Streaming)
             )
@@ -176,14 +191,14 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
             vpnStateMonitor.eventRestrictions.tryEmit(
                 restrictions(VpnConnectionRestriction.Streaming)
             )
-            runCurrent()
-            advanceTimeBy(30.minutes)
-            assertTrue(dialogTrigger.shouldShowUpsellDialogOnOpen())
+            runCurrentAndGoForeground(30.minutes)
+            verify { mockDialogOpener.invoke(any()) }
         }
 
     @Test
     fun `GIVEN two connections event for A then B and dialog shown for A only WHEN shouldShowUpsellDialogOnOpen THEN returns true for B`() =
         testScope.runTest {
+            createAndStartDialogTrigger()
             val connectionIdA = UUID.randomUUID()
             val connectionIdB = UUID.randomUUID()
             vpnStateMonitor.eventRestrictions.tryEmit(
@@ -195,48 +210,50 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
             vpnStateMonitor.eventRestrictions.tryEmit(
                 restrictions(VpnConnectionRestriction.Streaming, id = connectionIdB)
             )
-            runCurrent()
-            assertTrue(dialogTrigger.shouldShowUpsellDialogOnOpen())
+            runCurrentAndGoForeground()
+            verify { mockDialogOpener.invoke(any()) }
         }
 
     @Test
     fun `GIVEN two connections event for A and dialog shown for A and no new event for B WHEN shouldShowUpsellDialogOnOpen THEN returns false`() =
         testScope.runTest {
+            createAndStartDialogTrigger()
             val connectionIdA = UUID.randomUUID()
             vpnStateMonitor.eventRestrictions.tryEmit(
                 restrictions(VpnConnectionRestriction.Streaming, id = connectionIdA)
             )
             runCurrent()
             dialogTrigger.onShowUpsellDialogShown()
-            runCurrent()
-            assertFalse(dialogTrigger.shouldShowUpsellDialogOnOpen())
+            runCurrentAndGoForeground()
+            verify(exactly = 0) { mockDialogOpener.invoke(any()) }
         }
 
     @Test
     fun `WHEN onShowUpsellDialogShown THEN lastDialogConnectionId equals lastEventConnectionId and shouldShowUpsellDialogOnOpen returns false until new connection event`() =
         testScope.runTest {
+            createAndStartDialogTrigger()
             val connectionId = UUID.randomUUID()
             vpnStateMonitor.eventRestrictions.tryEmit(
                 restrictions(VpnConnectionRestriction.Streaming, id = connectionId)
             )
-            runCurrent()
-            assertTrue(dialogTrigger.shouldShowUpsellDialogOnOpen())
-            dialogTrigger.onShowUpsellDialogShown()
-            runCurrent()
+            runCurrentAndGoForeground()
+            verify(exactly = 1) { mockDialogOpener.invoke(any()) }
+            runCurrentAndGoForeground()
             val state = restrictionsUpsellStore.state.first().streaming
             assertEquals(connectionId.toString(), state.lastDialogConnectionId)
-            assertFalse(dialogTrigger.shouldShowUpsellDialogOnOpen())
+            verify(exactly = 1) { mockDialogOpener.invoke(any()) }
             val connectionId2 = UUID.randomUUID()
             vpnStateMonitor.eventRestrictions.tryEmit(
                 restrictions(VpnConnectionRestriction.Streaming, id = connectionId2)
             )
-            runCurrent()
-            assertTrue(dialogTrigger.shouldShowUpsellDialogOnOpen())
+            runCurrentAndGoForeground()
+            verify(exactly = 2) { mockDialogOpener.invoke(any()) }
         }
 
     @Test
     fun `WHEN app goes to foreground multiple times THEN dialog is triggered only once`() =
         testScope.runTest {
+            createAndStartDialogTrigger()
             val streamingRestriction =
                 VpnConnectionRestrictions(
                     EnumSet.of(VpnConnectionRestriction.Streaming),
@@ -244,13 +261,30 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
                 )
 
             vpnStateMonitor.eventRestrictions.tryEmit(streamingRestriction)
-            testForegroundActivityFlow.tryEmit(mockk())
-            runCurrent()
+            runCurrentAndGoForeground()
             verify(exactly = 1) { mockDialogOpener.invoke(any()) }
 
-            testForegroundActivityFlow.tryEmit(null)
-            testForegroundActivityFlow.tryEmit(mockk())
-            runCurrent()
+            runCurrentAndGoForeground()
             verify(exactly = 1) { mockDialogOpener.invoke(any()) }
         }
+
+    @Test
+    fun `GIVEN TV WHEN conditions for dialog are met THEN no dialog is triggered`() =
+        testScope.runTest {
+            every { mockIsTvCheck.invoke() } returns true
+            createAndStartDialogTrigger() // The TV check is performed right on start.
+            vpnStateMonitor.eventRestrictions.tryEmit(
+                restrictions(VpnConnectionRestriction.Streaming)
+            )
+            runCurrentAndGoForeground()
+            verify(exactly = 0) { mockDialogOpener.invoke(any()) }
+        }
+
+    private fun TestScope.runCurrentAndGoForeground(advanceTimeBy: Duration = 0.minutes) {
+        testForegroundActivityFlow.tryEmit(null)
+        advanceTimeBy(advanceTimeBy)
+        runCurrent()
+        testForegroundActivityFlow.tryEmit(mockk())
+        runCurrent()
+    }
 }

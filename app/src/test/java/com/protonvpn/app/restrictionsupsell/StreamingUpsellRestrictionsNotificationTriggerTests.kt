@@ -76,6 +76,7 @@ class StreamingUpsellRestrictionsNotificationTriggerTests {
                 eventStreamingRestricted = restrictionsFlow,
                 restrictionsUpsellStore = restrictionsUpsellStore,
                 now = testScope::currentTime,
+                isTv = mockk(relaxed = true),
                 showNotification = mockk(relaxed = true),
             )
 

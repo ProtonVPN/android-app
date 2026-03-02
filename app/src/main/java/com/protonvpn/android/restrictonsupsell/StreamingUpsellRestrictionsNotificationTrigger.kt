@@ -29,6 +29,7 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
 import com.protonvpn.android.redesign.app.ui.MainActivity
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.Constants
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -80,12 +81,16 @@ class StreamingUpsellRestrictionsNotificationTrigger @Inject constructor(
     eventStreamingRestricted: StreamingUpsellRestrictionsFlow,
     private val restrictionsUpsellStore: RestrictionsUpsellStore,
     private val showNotification: ShowStreamingUpsellNotification,
+    private val isTv: IsTvCheck,
     @param:WallClock private val now: () -> Long,
 ) {
 
     @VisibleForTesting
     val eventNotification =
         eventStreamingRestricted.filter {
+            // TV upsell will be implemented in the future.
+            if (isTv()) return@filter false
+
             // Don't use restrictionsUpsellStore.state in combine to avoid initializing the store
             // on app start.
             val lastNotificationTimestamp =
