@@ -89,7 +89,8 @@
     <string name="send_report">Надіслати звіт</string>
     <string name="report_sent">Звіт надіслано</string>
     <string name="discardChanges">Відхилити незбережені зміни?</string>
-    <string name="discard">Відхилити</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">ВИКОНАНО</string>
     <string name="add">ДОДАТИ</string>
     <string name="copy_to_clipboard">Копіювати</string>

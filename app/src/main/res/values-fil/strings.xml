@@ -89,7 +89,8 @@
     <string name="send_report">Ipadala ang ulat</string>
     <string name="report_sent">Ipinadala ang ulat</string>
     <string name="discardChanges">I-discard ang mga pagbabagong hindi na-save?</string>
-    <string name="discard">Itapon</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">TAPOS NA</string>
     <string name="add">MAGDAGDAG</string>
     <string name="copy_to_clipboard">Kopyahin</string>

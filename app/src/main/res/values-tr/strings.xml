@@ -89,7 +89,8 @@
     <string name="send_report">Bildirimi gönder</string>
     <string name="report_sent">Bildirim gönderildi</string>
     <string name="discardChanges">Kaydedilmemiş değişiklikler yok sayılsın mı?</string>
-    <string name="discard">Yok say</string>
+    <string name="discardChangesButtonDiscard">Değişiklileri yok say</string>
+    <string name="discardChangesButtonKeepEditing">Düzenlemeye devam et</string>
     <string name="done">TAMAM</string>
     <string name="add">EKLE</string>
     <string name="copy_to_clipboard">Kopyala</string>

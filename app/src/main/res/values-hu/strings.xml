@@ -89,7 +89,8 @@
     <string name="send_report">Bejelentés küldése</string>
     <string name="report_sent">Jelentés elküldve</string>
     <string name="discardChanges">Elveti a nem mentett módosításokat?</string>
-    <string name="discard">Elvetés</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">KÉSZ</string>
     <string name="add">EZT</string>
     <string name="copy_to_clipboard">Másolás</string>

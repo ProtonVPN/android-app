@@ -89,7 +89,8 @@
     <string name="send_report">レポートを送信</string>
     <string name="report_sent">レポートを送信しました</string>
     <string name="discardChanges">保存されていない変更を削除しますか?</string>
-    <string name="discard">破棄</string>
+    <string name="discardChangesButtonDiscard">変更を破棄</string>
+    <string name="discardChangesButtonKeepEditing">編集を続ける</string>
     <string name="done">完了</string>
     <string name="add">追加</string>
     <string name="copy_to_clipboard">コピー</string>

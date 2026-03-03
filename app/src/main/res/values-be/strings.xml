@@ -27,8 +27,8 @@
     <string name="login">Увайсці</string>
     <string name="menuActionSignOut">Выйсці</string>
     <string name="connectionAllocationHelpTitle">Дзякуй, што палепшылі</string>
-    <string name="connectionAllocationHelpDescription1">Пачынаючы знаёмства з Proton VPN, прызначце падключэнні па VPN вашаму ўліковаму запісу або любым іншым падпарадкаваным уліковым запісам.</string>
-    <string name="connectionAllocationHelpDescription2">Гэты этап зойме ўсяго некалькі хвілін. Пасля гэтага ў вас будзе магчымасць уваходзіць і абараняць усе вашы прылады.</string>
+    <string name="connectionAllocationHelpDescription1">Пачынаючы знаёмства з Proton VPN, прызначце падключэнні па VPN свайму ўліковаму запісу або любым іншым падпарадкаваным уліковым запісам.</string>
+    <string name="connectionAllocationHelpDescription2">Гэты этап зойме ўсяго некалькі хвілін. Пасля гэтага ў вас будзе магчымасць уваходзіць і абараняць усе свае прылады.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">У дадзены момант не выяўлена ўключаных падключэнняў па VPN для гэтага ўліковага запісу. Звяжыцеся са сваім адміністратарам, каб пачаць знаёмства з Proton VPN. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Уключыць падключэнні па VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Увайсці яшчэ раз</string>
@@ -73,11 +73,11 @@
     <string name="error_server_list_load_failed">Праверце сваё падключэнне да інтэрнэту і паспрабуйце яшчэ раз.</string>
     <string name="error_server_unreachable">Немагчыма падключыцца па VPN. Праверце сваё падключэнне да сеткі і паспрабуйце яшчэ раз.</string>
     <string name="error_auth_failed">Збой аўтэнтыфікацыі карыстальніка.</string>
-    <string name="error_generic">Падчас падключэння адбылася невядомая памылка.</string>
+    <string name="error_generic">Пры падключэнні адбыўся невядомы збой.</string>
     <string name="error_generic_with_reason">Proton VPN не можа ўсталяваць падключэнне па VPN. Паспрабуйце яшчэ раз праз некалькі секунд.<br/><br/> Падрабязнасці: %1$s</string>
     <string name="reconnect">Перападключыцца</string>
     <string name="reconnect_now">Перападключыцца</string>
-    <string name="try_reconnecting">Паспрабуйце падключыцца паўторна</string>
+    <string name="try_reconnecting">Паспрабуйце перападключыцца</string>
     <string name="connect">Падключыцца</string>
     <string name="upgrade">Палепшыць</string>
     <string name="retry">Паўтарыць</string>
@@ -89,7 +89,8 @@
     <string name="send_report">Адправіць справаздачу</string>
     <string name="report_sent">Справаздача адпраўлена</string>
     <string name="discardChanges">Скасаваць незахаваныя змены?</string>
-    <string name="discard">Скасаваць</string>
+    <string name="discardChangesButtonDiscard">Адхіліць змены</string>
+    <string name="discardChangesButtonKeepEditing">Працягнуць рэдагаванне</string>
     <string name="done">ГАТОВА</string>
     <string name="add">ДАДАЦЬ</string>
     <string name="copy_to_clipboard">Капіяваць</string>
@@ -129,7 +130,7 @@
     <string name="bugReportErrorEmptyEmail">Адрас электроннай пошты не можа быць пустым</string>
     <string name="bugReportErrorInvalidEmail">Памылковы адрас электроннай пошты</string>
     <string name="bugReportLabelVpnLogsTitle">Уключыць журнал з памылкамі</string>
-    <string name="bugReportErrorLabelVpnLogsDescription">Адпраўляе лакальны журнал з памылкамі (мы не адпраўляем журнал з актыўнасцю), каб дапамагчы вырашыць вашу праблему</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Адпраўляе лакальны журнал з памылкамі (журнал з актыўнасцю адпраўляцца не будзе), каб дапамагчы вырашыць вашу праблему</string>
     <string name="profileFastest">Найхутчэйшы</string>
     <string name="profileRandom">Выпадковы</string>
     <string name="loaderErrorNoInternet">Няма падключэння да інтэрнэту</string>
@@ -228,7 +229,7 @@
     <string name="settingsSendCrashReportsTitle">Абагульванне ананімных справаздач аб збоях</string>
     <string name="settingsSendCrashReportsDescription">Справаздачы аб збоях дапамагаюць нам выпраўляць памылкі, вызначаць міжсеткавыя экраны, а таксама пазбягаць блакіровак VPN.</string>
     <string name="settingsTelemetryScreenTitle">Статыстыка выкарыстання</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Вашы даныя ніколі не будуць абагульвацца са староннімі асобамі. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="netshield_settings_description_not_html">Абараніце сябе ад рэкламы, шкодных праграм і праграм адсочвання на вэб-сайтах і ў праграмах. %1$s</string>
     <string name="netshield_settings_description_tv">Абараняе вас ад старонняй рэкламы, праграм сачэння і шкодных праграм. NetShield не блакіруе рэкламу, якая ўбудавана ў такія сэрвісы прагляду, як YouTube і Netflix.</string>
     <string name="netshield_settings_more_info_title_tv">Як працуе NetShield</string>
@@ -271,9 +272,9 @@
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
         <item quantity="one">праграма сачэння спынена</item>
-        <item quantity="few">праграмы сачэння спынены</item>
-        <item quantity="many">праграм сачэння спынены</item>
-        <item quantity="other">праграм сачэння спынены</item>
+        <item quantity="few">праграмы сачэння спынена</item>
+        <item quantity="many">праграм сачэння спынена</item>
+        <item quantity="other">праграм сачэння спынена</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">даных захавана</string>
     <string name="netshield_setting_warning">Некаторыя вэб-сайты могуць некарэктна загружацца, калі рэклама і праграмы сачэння заблакіраваны.</string>
@@ -282,7 +283,7 @@
     <string name="errorTunMultiUserPermission">Немагчыма ініцыялізаваць падключэнне па VPN. Прычынай можа быць канфлікт паміж праграмай для падвойнага ўліковага запісу (напрыклад, Dual Messenger) і Split Tunneling. Адключыце адну з іх і перазапусціце прыладу.</string>
     <string name="errorTorrentNotAllowed">Трафік P2P забаронены на гэтым серверы</string>
     <string name="error_profile_fallback_unavailable">Збой падключэння. Выбар сервера для профілю недаступны.</string>
-    <string name="profileProtocolNotAvailable">Гэты профіль пратакола VPN у цяперашні момант недаступны. Для падключэння, паспрабуйце змяніць пратакол.</string>
+    <string name="profileProtocolNotAvailable">Гэты профіль пратакола VPN у цяперашні момант недаступны. Паспрабуйце змяніць пратакол, каб падключыцца.</string>
     <string name="stateConnectedTo">Падключана да %1$s</string>
     <string name="stateNotConnected">Вы не падключаны</string>
     <string name="nameEurope">Еўропа</string>
@@ -339,7 +340,7 @@
     <string name="tv_server_list">Спіс сервераў</string>
     <string name="tv_server_list_action_unavailable">Недаступна</string>
     <string name="notification_subscription_expired_title">Ваша падпіска на тарыфны план Proton VPN пратэрмінавана</string>
-    <string name="notification_subscription_expired_content">Нам давялося панізіць ваш тарыфны план, але мы зноў падключаем вас да самага хуткага сервера, даступнага на гэтым тарыфным плане.</string>
+    <string name="notification_subscription_expired_content">Ваш тарыфны план быў паніжаны. У цяперашні час адбываецца перападключэнне да найхутчэйшага сервера, які даступны на гэтым тарыфным плане.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Ваша падпіска была паніжана.</string>
     <string name="notification_delinquent_title">У вашым уліковым запісе Proton VPN ёсць неаплачаныя рахункі</string>
     <string name="notification_delinquent_content">Знайдзіце крыху часу, каб абнавіць сваю плацежную інфармацыю. Гэта дзеянне дазволіць вашай падпісцы заставацца ў актыўным стане.</string>
@@ -399,10 +400,10 @@
     <string name="upgrade_netshield_message"><![CDATA[Блакіруйце рэкламу, праграмы сачэння і шкодныя праграмы з дапамогай <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Двайное шыфраванне</string>
     <string name="upgrade_secure_core_message"><![CDATA[Дадайце яшчэ адзін слой шыфравання ў сваё падключэнне па VPN з дапамогай <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Разблакіруйце аднарангавае (P2P) спампоўванне і абагульванне файлаў </string>
+    <string name="upgrade_p2p_title">Разблакіруйце аднарангавыя спампоўванні (P2P) і абагульванне файлаў </string>
     <string name="upgrade_p2p_text">Палепшыце хуткасць спампоўвання і запампоўвання не раскрываючы свой IP-адрас.</string>
     <string name="upgrade_profiles_title">Атрымайце хуткі доступ да падключэнняў, якімі часта карыстаецеся</string>
-    <string name="upgrade_profiles_text">Атрымайце доступ да профіляў з VPN Plus</string>
+    <string name="upgrade_profiles_text">Разблакіруйце профілі з дапамогай VPN Plus</string>
     <string name="upgrade_streaming_title">Прагляд у 4K</string>
     <string name="upgrade_streaming_text">Атрымлівайце асалоду ад прагляду абраных фільмаў і тэлеперадач з любой краіны ў свеце.</string>
     <string name="upgrade_tor_title">Доступ да сеткі Tor у адзін націск</string>
@@ -416,7 +417,7 @@
     <string name="upgrade_vpn_accelerator_message">Вам стануць даступны больш хуткія і менш загружаныя серверы з хуткасцю да %1$d Гбіт/с.</string>
     <string name="upgrade_split_tunneling_title">Атрымлівайце лепшае ад абодвух светаў</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[З функцыяй <b>Split Tunneling</b> вы зможаце дзяліць свой трафік на той, які будзе праходзіць праз тунэлі VPN і на той, які будзе абыходзіцца без іх.]]></string>
-    <string name="upgrade_customization_title">Атрымайце доступ да пашыраных наладаў VPN</string>
+    <string name="upgrade_customization_title">Атрымайце доступ да пашыраных налад VPN</string>
     <string name="upgrade_customization_message"><![CDATA[Разблакіруйце <b>падключэнні па LAN</b>, <b>карыстальніцкія DNS</b> і <b>NAT тып 2</b> з дапамогай VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Доступ да ўсіх краін</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -638,7 +639,7 @@
     <string name="dynamic_report_completion_error_description_timeout">Не ўдалося адправіць вашу справаздачу. Час чакання падключэння завяршыўся. Паспрабуйце яшчэ раз.</string>
     <string name="dynamic_report_completion_success_title">Дзякуй за водгук. Вы атрымаеце адказ у бліжэйшы час.</string>
     <string name="dynamic_report_success_title">Дзякуй за ваш водгук</string>
-    <string name="dynamic_report_success_description">Мы звяжамся з вамі ў самы бліжэйшы час.</string>
+    <string name="dynamic_report_success_description">Вы атрымаеце зваротную сувязь у самы бліжэйшы час.</string>
     <string name="dynamic_report_field_mandatory">Гэта абавязковае поле</string>
     <string name="dynamic_report_logs_description">Журнал - гэта тып файла. Ён паказвае нам дзеянні, якія былі зроблены вамі і прывялі да памылкі. Мы заўсёды выкарыстоўваем яго толькі для таго, каб дапамагчы нашым інжынерам выправіць памылкі.</string>
     <string name="dynamic_report_logs_missing">Журнал з памылкамі дазваляе нам зразумець самую сутнасць вашай праблемы. Калі вы не ўключыце яго, то ў нас не будзе магчымасці даследаваць праблему цалкам.</string>
@@ -743,7 +744,7 @@
         <item quantity="many">%1$d дзён</item>
         <item quantity="other">%1$d дзён</item>
     </plurals>
-    <string name="server_change_max_reached">На цяперашні момант вы дасягнулі максімальнай колькасці змяненняў сервераў з пазнакай Free.</string>
+    <string name="server_change_max_reached">На цяперашні момант вы дасягнулі максімальнай колькасці змяненняў для сервераў Free.</string>
     <string name="server_change_upsell">Змяняйце серверы без абмежаванняў з VPN Plus</string>
     <string name="server_change_button_title">Змяніць сервер</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
@@ -765,7 +766,7 @@
     <string name="server_change_button_time_left_seconds_content_description">Даступна ў %1$s</string>
     <string name="server_change_progress_finished_contend_description">Даступна зараз</string>
     <string name="not_wanted_country_title">Не тая краіна, якую хацелі?</string>
-    <string name="not_wanted_country_description">Палепшыць свой тарыфны план, каб выбіраць любы сервер</string>
+    <string name="not_wanted_country_description">Палепшыце свой тарыфны план, каб выбіраць любы сервер</string>
     <string name="whats_new_title">Што новага</string>
     <string name="whats_new_profiles_title">Профілі зноў сталі даступны</string>
     <string name="whats_new_profiles_description">Стварайце і захоўвайце карыстальніцкія падключэнні з выбраным месцазнаходжаннем, серверам і пратаколам.</string>
@@ -775,7 +776,7 @@
     <string name="welcome_plus_title">Вітаем у VPN Plus</string>
     <string name="welcome_plus_description">Атрымлівайце асалоду ад дадатковых функцый прыватнасці, палепшанай прадукцыйнасці і больш гнуткага наладжвання вашага падключэння да VPN.</string>
     <string name="welcome_plus_feature_security">Пашыраныя функцыі бяспекі</string>
-    <string name="welcome_unlimited_title">Вітаем вас у Proton Unlimited</string>
+    <string name="welcome_unlimited_title">Вітаем у Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[Вы разблакіравалі ўсе прэміяльныя функцыі праграм Proton VPN, Mail, Calendar, Drive, Pass і Wallet. Цяпер вам даступна <b>%1$d&#160;ГБ</b> агульнага сховішча.]]></string>
     <string name="welcome_generic_title">Віншуем</string>
     <string name="welcome_generic_description">Вы палепшылі сваю падпіску. Атрымлівайце асалоду ад пашыраных функцый прыватнасці і новага ўзроўню прадукцыйнасці.</string>
@@ -826,7 +827,7 @@
      -->
     <string name="accessibility_external_link_suffix">знешняя спасылка</string>
     <string name="no_logs_banner_title">Сертыфікаваны VPN без журналаў</string>
-    <string name="no_logs_banner_description">Ваша актыўнасць VPN абаронена швейцарскімі законамі аб прыватнасці. Мы ніколі не будзем адсочваць вашу дзейнасць у інтэрнэце або дзяліцца гэтай інфармацыяй з іншымі асобамі.</string>
+    <string name="no_logs_banner_description">Ваша актыўнасць VPN абаронена швейцарскімі законамі аб прыватнасці. Нашы праграмныя прадукты ніколі не адсочваюць вашу актыўнасць у інтэрнэце, а звесткі не абагульваюцца са староннімі асобамі.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Галоўная</string>
     <string name="bottom_nav_gateways">Шлюзы</string>
@@ -1191,7 +1192,7 @@
     <!-- tag(Redesign_2023)
          Indicates that VPN is not connected and network is not protected
     -->
-    <string name="vpn_status_disabled">Вы не абаронены</string>
+    <string name="vpn_status_disabled">Вы неабаронены</string>
     <!-- tag(Redesign_2023)
          Text is shown while connection is being established
     -->
@@ -1472,7 +1473,7 @@
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield не зможа адфільтраваць рэкламу, праграмы сачэння і шкодныя праграмы, калі выкарыстоўваецца карыстальніцкі DNS. Даведацца больш</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield не зможа адфільтраваць рэкламу, праграмы сачэння і шкодныя праграмы, калі выкарыстоўваецца карыстальніцкі DNS.</string>
     <string name="settings_advanced_alternative_routing_title">Альтэрнатыўная маршрутызацыя</string>
-    <string name="settings_advanced_alternative_routing_description">Будзе зроблена спроба скарыстацца альтэрнатыўным сеткавым маршрутам для падключэння да нашых сайтаў, калі сэрвісы Proton заблакіраваны з прычыны абмежавання сеткі.</string>
+    <string name="settings_advanced_alternative_routing_description">Будзе зроблена спроба скарыстацца альтэрнатыўным сеткавым маршрутам для падключэння да нашых сайтаў, калі сэрвісы Proton заблакіраваны з-за абмежавання сеткі.</string>
     <string name="settings_advanced_allow_lan_title">Падключэнні па LAN</string>
     <string name="settings_advanced_allow_lan_description">Дазваляе вам падключацца да прынтараў, дынамікаў і іншых прылад, якія знаходзяцца ў вашай лакальнай сетцы.</string>
     <string name="settings_advanced_allow_lan_description_tv">Падключайцеся да дынамікаў, камп\'ютараў і іншых прылад у вашай лакальнай сетцы</string>
@@ -1540,9 +1541,9 @@
     <string name="info_secure_core_higher_latency">Вышэйшая затрымка</string>
     <string name="info_p2p_what_title">Што такое P2P?</string>
     <string name="info_p2p_what_description">Тэхналогія аднарангавай сеткі (P2P) дазваляе вам падключацца і абагульваць файлы наўпрост з іншымі прыладамі\n\nНашы серверы P2P спецыяльна распрацаваны для падтрымкі гэтага тыпу абагульвання файламі.</string>
-    <string name="info_p2p_torrenting_title">Што ўяўляе сабой праца з торэнтамі?</string>
+    <string name="info_p2p_torrenting_title">Што такое торэнт?</string>
     <string name="info_p2p_torrenting_description">Хуткае абагульванне і спампоўванне вялікіх файлаў праз сетку P2P.</string>
-    <string name="info_p2p_why_title">Навошта выкарыстоўваць сервер P2P падчас працы з торэнтамі?</string>
+    <string name="info_p2p_why_title">Навошта выкарыстоўваць сервер P2P пры працы з торэнтамі?</string>
     <string name="info_p2p_why_description_speed">Павялічаныя хуткасці запампоўвання і спампоўвання</string>
     <string name="info_p2p_why_description_logs">Адсутнасць журналаў актыўнасці</string>
     <string name="info_p2p_why_description_hide">Хавайце свой IP-адрас ад вашага пастаўшчыка паслуг інтэрнэту і аднарангавых вузлоў</string>
@@ -1650,7 +1651,7 @@
     <string name="widget_preview_spain">Іспанія</string>
     <string name="widget_preview_germany">Германія</string>
     <string name="widget_preview_france">Францыя</string>
-    <string name="widget_status_unprotected">Не абаронена</string>
+    <string name="widget_status_unprotected">Неабаронена</string>
     <string name="widget_status_error">Памылка</string>
     <string name="widget_status_connecting">Падключэнне</string>
     <string name="widget_sign_in">Увайсці</string>
@@ -1670,7 +1671,7 @@
     <string name="settings_lan_allow_direct_connection_title">Дазволіць прамыя падключэнні прылад</string>
     <string name="settings_lan_allow_direct_connection_description">Падключайцеся да Smart TV, Android Auto і іншых прылад, якія ствараюць сваю ўласную сетку. Для максімальнай бяспекі ўключайце гэту функцыю толькі пры падключэнні да гэтых прылад.</string>
     <string name="no_connections_title">Няма даступных падключэнняў па VPN</string>
-    <string name="no_connections_description_loading_error">Немагчыма загрузіць спіс сервераў.</string>
+    <string name="no_connections_description_loading_error">Не ўдалося загрузіць спіс сервераў.</string>
     <string name="no_connections_description_no_servers">Папрасіце свайго адміністратара ўключыць доступ да VPN для вашага ўліковага запісу.</string>
     <string name="no_connections_action_refresh">Абнавіць</string>
     <string name="no_connections_action_sign_out">Выйсці</string>

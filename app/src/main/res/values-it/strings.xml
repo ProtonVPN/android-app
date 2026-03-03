@@ -89,7 +89,8 @@
     <string name="send_report">Invia segnalazione</string>
     <string name="report_sent">Segnalazione inviata</string>
     <string name="discardChanges">Annullare le modifiche non salvate?</string>
-    <string name="discard">Scarta</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">FATTO</string>
     <string name="add">AGGIUNGI</string>
     <string name="copy_to_clipboard">Copia</string>

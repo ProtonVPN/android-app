@@ -89,7 +89,8 @@
     <string name="send_report">Envoyer le rapport</string>
     <string name="report_sent">Le rapport a été envoyé.</string>
     <string name="discardChanges">Abandonner les modifications non enregistrées ?</string>
-    <string name="discard">Abandonner</string>
+    <string name="discardChangesButtonDiscard">Abandonner les modifications</string>
+    <string name="discardChangesButtonKeepEditing">Poursuivre les modifications</string>
     <string name="done">TERMINÉ</string>
     <string name="add">AJOUTER</string>
     <string name="copy_to_clipboard">Copier</string>

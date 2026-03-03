@@ -89,7 +89,8 @@
     <string name="send_report">Pošlji poročilo</string>
     <string name="report_sent">Poročilo poslano</string>
     <string name="discardChanges">Zavržem neshranjene spremembe?</string>
-    <string name="discard">Zavrzi</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">KONČANO</string>
     <string name="add">Dodaj</string>
     <string name="copy_to_clipboard">Kopiraj</string>

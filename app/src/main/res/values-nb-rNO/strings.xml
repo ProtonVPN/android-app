@@ -89,7 +89,8 @@
     <string name="send_report">Send rapport</string>
     <string name="report_sent">Rapporten er sendt</string>
     <string name="discardChanges">Vil du forkaste endringer som ikke er lagret?</string>
-    <string name="discard">Forkast</string>
+    <string name="discardChangesButtonDiscard">Forkast endringer</string>
+    <string name="discardChangesButtonKeepEditing">Fortsett å redigere</string>
     <string name="done">UTFØRT</string>
     <string name="add">LEGG TIL</string>
     <string name="copy_to_clipboard">Kopier</string>

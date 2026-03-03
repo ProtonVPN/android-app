@@ -89,7 +89,8 @@
     <string name="send_report">Verstuur melding</string>
     <string name="report_sent">Rapport verzonden</string>
     <string name="discardChanges">Niet opgeslagen wijzigingen verwijderen?</string>
-    <string name="discard">Weggooien</string>
+    <string name="discardChangesButtonDiscard">Wijzigingen annuleren</string>
+    <string name="discardChangesButtonKeepEditing">Doorgaan met bewerken</string>
     <string name="done">KLAAR</string>
     <string name="add">TOEVOEGEN</string>
     <string name="copy_to_clipboard">Kopieer</string>

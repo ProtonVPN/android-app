@@ -89,7 +89,8 @@
     <string name="send_report">Odeslat hlášení</string>
     <string name="report_sent">Hlášení odesláno</string>
     <string name="discardChanges">Smazat neuložené úpravy?</string>
-    <string name="discard">Zahodit</string>
+    <string name="discardChangesButtonDiscard">Zahodit změny</string>
+    <string name="discardChangesButtonKeepEditing">Pokračovat v editaci</string>
     <string name="done">HOTOVO</string>
     <string name="add">PŘIDAT</string>
     <string name="copy_to_clipboard">Kopírovat</string>

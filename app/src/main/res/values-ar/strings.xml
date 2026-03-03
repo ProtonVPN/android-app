@@ -89,7 +89,8 @@
     <string name="send_report">ارسل التقرير</string>
     <string name="report_sent">تم إرسال التقرير</string>
     <string name="discardChanges">محو التغييرات غير المحفوظة ؟</string>
-    <string name="discard">تجاهل</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">تمّ</string>
     <string name="add">إضافة</string>
     <string name="copy_to_clipboard">نسخ</string>

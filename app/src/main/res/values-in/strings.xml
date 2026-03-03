@@ -89,7 +89,8 @@
     <string name="send_report">Kirim laporan</string>
     <string name="report_sent">Laporan terkirim</string>
     <string name="discardChanges">Buang perubahan yang belum disimpan?</string>
-    <string name="discard">Hapus</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">SELESAI</string>
     <string name="add">TAMBAH</string>
     <string name="copy_to_clipboard">Salin</string>

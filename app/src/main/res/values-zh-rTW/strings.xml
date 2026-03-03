@@ -89,7 +89,8 @@
     <string name="send_report">傳送回報</string>
     <string name="report_sent">已傳送回報</string>
     <string name="discardChanges">放棄仍未儲存的變更嗎？</string>
-    <string name="discard">捨棄</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">完成</string>
     <string name="add">加入</string>
     <string name="copy_to_clipboard">複製</string>

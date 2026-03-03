@@ -89,7 +89,8 @@
     <string name="send_report">ส่งรายงาน</string>
     <string name="report_sent">ส่งรายงานแล้ว</string>
     <string name="discardChanges">ละทิ้งการเปลี่ยนแปลงที่ยังไม่ได้บันทึกหรือไม่?</string>
-    <string name="discard">ละทิ้ง</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">เสร็จสิ้น</string>
     <string name="add">เพิ่ม</string>
     <string name="copy_to_clipboard">คัดลอก</string>

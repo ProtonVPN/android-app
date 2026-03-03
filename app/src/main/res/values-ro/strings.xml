@@ -89,7 +89,8 @@
     <string name="send_report">Trimitere raport</string>
     <string name="report_sent">Raport trimis</string>
     <string name="discardChanges">Anulați modificările nesalvate?</string>
-    <string name="discard">Renunțare</string>
+    <string name="discardChangesButtonDiscard">Ignorare modificări</string>
+    <string name="discardChangesButtonKeepEditing">Continuare editare</string>
     <string name="done">GATA</string>
     <string name="add">ADĂUGARE</string>
     <string name="copy_to_clipboard">Copiere</string>

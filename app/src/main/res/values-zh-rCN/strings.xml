@@ -89,7 +89,8 @@
     <string name="send_report">提交反馈</string>
     <string name="report_sent">报告已发送</string>
     <string name="discardChanges">改动不会保存，要清空吗？</string>
-    <string name="discard">放弃</string>
+    <string name="discardChangesButtonDiscard">放弃更改</string>
+    <string name="discardChangesButtonKeepEditing">继续编辑</string>
     <string name="done">完成</string>
     <string name="add">添加</string>
     <string name="copy_to_clipboard">复制</string>
@@ -395,7 +396,7 @@
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">服务器更快、不堵，速度高达 %1$d Gbps。</string>
+    <string name="upgrade_vpn_accelerator_message">解锁速度高达 %1$d Gbps 的更快、负载更低的服务器。</string>
     <string name="upgrade_split_tunneling_title">两全其美</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[<b>隧道拆分</b>功能，自定义经 VPN 和绕过 VPN 的流量。]]></string>
     <string name="upgrade_customization_title">VPN 高级自定义</string>

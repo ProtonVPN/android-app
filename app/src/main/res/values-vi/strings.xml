@@ -89,7 +89,8 @@
     <string name="send_report">Gửi báo cáo</string>
     <string name="report_sent">Báo cáo đã gửi</string>
     <string name="discardChanges">Hủy bỏ các thay đổi chưa lưu?</string>
-    <string name="discard">Hủy bỏ</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">XONG</string>
     <string name="add">THÊM</string>
     <string name="copy_to_clipboard">Sao chép</string>

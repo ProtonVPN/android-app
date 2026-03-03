@@ -89,7 +89,8 @@
     <string name="send_report">Enviar relatório</string>
     <string name="report_sent">Relatório enviado</string>
     <string name="discardChanges">Descartar alterações não salvas?</string>
-    <string name="discard">Descartar</string>
+    <string name="discardChangesButtonDiscard">Descartar as alterações</string>
+    <string name="discardChangesButtonKeepEditing">Continuar editando</string>
     <string name="done">CONCLUÍDO</string>
     <string name="add">ADICIONAR</string>
     <string name="copy_to_clipboard">Copiar</string>

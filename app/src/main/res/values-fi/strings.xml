@@ -89,7 +89,8 @@
     <string name="send_report">Lähetä raportti</string>
     <string name="report_sent">Raportti on lähetetty</string>
     <string name="discardChanges">Hylätäänkö tallentamattomat muutokset?</string>
-    <string name="discard">Hylkää</string>
+    <string name="discardChangesButtonDiscard">Hylkää muutokset</string>
+    <string name="discardChangesButtonKeepEditing">Jatka muokkausta</string>
     <string name="done">VALMIS</string>
     <string name="add">LISÄÄ</string>
     <string name="copy_to_clipboard">Kopioi</string>

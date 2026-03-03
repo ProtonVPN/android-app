@@ -89,7 +89,8 @@
     <string name="send_report">Send rapport</string>
     <string name="report_sent">Rapport sendt</string>
     <string name="discardChanges">Vil du kassere ændringer, som ikke er gemt?</string>
-    <string name="discard">Kassér</string>
+    <string name="discardChangesButtonDiscard">Kassér ændringer</string>
+    <string name="discardChangesButtonKeepEditing">Fortsæt redigering</string>
     <string name="done">UDFØRT</string>
     <string name="add">TILFØJ</string>
     <string name="copy_to_clipboard">Kopiér</string>

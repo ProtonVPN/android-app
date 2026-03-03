@@ -89,7 +89,8 @@
     <string name="send_report">Skicka rapport</string>
     <string name="report_sent">Rapport skickad</string>
     <string name="discardChanges">Kasta osparade ändringar?</string>
-    <string name="discard">Kasta</string>
+    <string name="discardChangesButtonDiscard">Kasta ändringar</string>
+    <string name="discardChangesButtonKeepEditing">Fortsätt redigera</string>
     <string name="done">KLAR</string>
     <string name="add">LÄGG TILL</string>
     <string name="copy_to_clipboard">Kopiera</string>

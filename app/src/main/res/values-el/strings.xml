@@ -89,7 +89,8 @@
     <string name="send_report">Αποστολή αναφοράς</string>
     <string name="report_sent">Η αναφορά εστάλη</string>
     <string name="discardChanges">Απόρριψη μη αποθηκευμένων αλλαγών;</string>
-    <string name="discard">Απόρριψη</string>
+    <string name="discardChangesButtonDiscard">Απόρριψη αλλαγών</string>
+    <string name="discardChangesButtonKeepEditing">Συνέχιση επεξεργασίας</string>
     <string name="done">ΟΛΟΚΛΗΡΩΣΗ</string>
     <string name="add">ΠΡΟΣΘΗΚΗ</string>
     <string name="copy_to_clipboard">Αντιγραφή</string>

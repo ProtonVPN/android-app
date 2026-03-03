@@ -89,7 +89,8 @@
     <string name="send_report">Wyślij raport</string>
     <string name="report_sent">Raport został wysłany</string>
     <string name="discardChanges">Czy chcesz odrzucić niezapisane zmiany?</string>
-    <string name="discard">Odrzuć</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">GOTOWE</string>
     <string name="add">DODAJ</string>
     <string name="copy_to_clipboard">Kopiuj</string>

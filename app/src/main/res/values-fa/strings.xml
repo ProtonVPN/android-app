@@ -89,7 +89,8 @@
     <string name="send_report">ارسال گزارش</string>
     <string name="report_sent">گزارش فرستاده شد</string>
     <string name="discardChanges">تغییرات ذخیره نشده را نادیده می‌گیرید؟</string>
-    <string name="discard">لغو</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">انجام شد</string>
     <string name="add">اضافه کردن</string>
     <string name="copy_to_clipboard">کپی</string>

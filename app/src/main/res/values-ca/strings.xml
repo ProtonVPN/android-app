@@ -89,7 +89,8 @@
     <string name="send_report">Envia l\'informe</string>
     <string name="report_sent">S\'ha enviat l\'informe</string>
     <string name="discardChanges">Voleu descartar els canvis que no s\'han desat?</string>
-    <string name="discard">Descarta</string>
+    <string name="discardChangesButtonDiscard">Descartar els canvis</string>
+    <string name="discardChangesButtonKeepEditing">Continuar editant</string>
     <string name="done">FET</string>
     <string name="add">AFEGEIX</string>
     <string name="copy_to_clipboard">Copia</string>

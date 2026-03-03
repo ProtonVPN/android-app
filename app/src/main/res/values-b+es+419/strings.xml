@@ -89,7 +89,8 @@
     <string name="send_report">Enviar informe</string>
     <string name="report_sent">Reporte enviado</string>
     <string name="discardChanges">¿Descartar los cambios sin guardar?</string>
-    <string name="discard">Descartar</string>
+    <string name="discardChangesButtonDiscard">Descartar los cambios</string>
+    <string name="discardChangesButtonKeepEditing">Seguir editando</string>
     <string name="done">HECHO</string>
     <string name="add">AÑADIR</string>
     <string name="copy_to_clipboard">Copiar</string>

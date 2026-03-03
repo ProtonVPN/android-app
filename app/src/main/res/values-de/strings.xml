@@ -89,7 +89,8 @@
     <string name="send_report">Bericht senden</string>
     <string name="report_sent">Bericht gesendet</string>
     <string name="discardChanges">Noch nicht gespeicherte Änderungen verwerfen?</string>
-    <string name="discard">Verwerfen</string>
+    <string name="discardChangesButtonDiscard">Änderungen verwerfen</string>
+    <string name="discardChangesButtonKeepEditing">Bearbeitung fortsetzen</string>
     <string name="done">FERTIG</string>
     <string name="add">HINZUFÜGEN</string>
     <string name="copy_to_clipboard">Kopieren</string>

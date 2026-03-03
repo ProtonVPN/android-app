@@ -89,7 +89,8 @@
     <string name="send_report">ანგარიშის გაგზავნა</string>
     <string name="report_sent">ანგარიში გაგზავნილია</string>
     <string name="discardChanges">მოვაშორო შეუნახავი ცვლილებები?</string>
-    <string name="discard">მოცილება</string>
+    <string name="discardChangesButtonDiscard">Discard changes</string>
+    <string name="discardChangesButtonKeepEditing">Keep editing</string>
     <string name="done">დასრულება</string>
     <string name="add">დამატება</string>
     <string name="copy_to_clipboard">კოპირება</string>
