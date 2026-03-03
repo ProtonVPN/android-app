@@ -20,7 +20,6 @@
 package com.protonvpn.android.telemetry
 
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
-import com.protonvpn.android.settings.data.LocalUserSettings
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import me.proton.core.domain.entity.UserId
@@ -31,7 +30,7 @@ import javax.inject.Inject
 class IsVpnTelemetryEnabled @Inject constructor(
     private val effectiveCurrentUserSettings: EffectiveCurrentUserSettings
 ) : IsTelemetryEnabled {
-    override suspend fun invoke(userId: UserId?): Boolean =
-        if (userId == null) LocalUserSettings.Default.telemetry
-        else effectiveCurrentUserSettings.telemetry.first()
+
+    override suspend fun invoke(userId: UserId?): Boolean = effectiveCurrentUserSettings.telemetry.first()
+
 }
