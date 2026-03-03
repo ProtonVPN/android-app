@@ -13,4 +13,8 @@ paths = [
     '''^appetize-information.json$''',
     # Profile rules are interpreted as secrets
     '''^app/src/productionGooglePlayStoreRelease/generated/baselineProfiles/(.*)''',
+    # Data in these JSON files triggers the proton-aead-jwt-signing-key rule.
+    '''^app/src/main/assets/GuestHoleServers.json$''',
+    '''^app/src/main/java/com/protonvpn/android/utils/Constants.kt$''',
+    '''^app/src/main/res/raw/add_widget_animation.json$'''
 ]
