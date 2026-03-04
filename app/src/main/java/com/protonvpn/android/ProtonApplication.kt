@@ -43,7 +43,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.ProtonLoggerImpl
 import com.protonvpn.android.logging.SettingChangesLogger
 import com.protonvpn.android.managed.AutoLoginManager
-import com.protonvpn.android.notifications.NotificationHelper.Companion.initNotificationChannel
+import com.protonvpn.android.notifications.NotificationChannels
 import com.protonvpn.android.notifications.NotificationPermissionManager
 import com.protonvpn.android.profiles.usecases.PopulateInitialProfiles
 import com.protonvpn.android.profiles.usecases.ProfileAutoOpenHandler
@@ -188,7 +188,7 @@ open class ProtonApplication : Application() {
                 ProtonLogger.logCustom(LogCategory.HV, "WebView package: $webViewAppString")
             }
 
-            initNotificationChannel(this)
+            NotificationChannels.createChannels(this)
 
             CoreLogger.set(VpnCoreLogger())
         }

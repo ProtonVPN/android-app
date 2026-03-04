@@ -384,23 +384,7 @@ class NotificationHelper @Inject constructor(
     }
 
     companion object {
-        const val CHANNEL_ID = "com.protonvpn.android"
         const val PENDING_REQUEST_STATUS = 0
         const val PENDING_REQUEST_OTHER = 1
-
-        fun initNotificationChannel(context: Context) {
-            val channelOneName = "ProtonChannel"
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val notificationChannel = NotificationChannel(
-                    CHANNEL_ID, channelOneName,
-                    NotificationManager.IMPORTANCE_LOW)
-                notificationChannel.enableLights(true)
-                notificationChannel.setShowBadge(true)
-                notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-                val manager =
-                    context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                manager.createNotificationChannel(notificationChannel)
-            }
-        }
     }
 }
