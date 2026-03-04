@@ -224,6 +224,7 @@ class VpnConnectionErrorHandler @Inject constructor(
     private val networkManager: NetworkManager,
     private val vpnBackendProvider: Lazy<VpnBackendProvider>,
     private val currentUser: CurrentUser,
+    private val certificateRepository: dagger.Lazy<CertificateRepository>,
     private val getSmartProtocols: GetSmartProtocols,
     private val getConnectingDomain: GetConnectingDomain,
     private val getOnlineServersForIntent: GetOnlineServersForIntent,
@@ -280,7 +281,22 @@ class VpnConnectionErrorHandler @Inject constructor(
             ?.takeIf(Server::online)
             ?: return null
 
+        if (changes.isNotEmpty()) {
+            currentUser.sessionId()?.let { sessionId ->
+                certificateRepository.get().updateCertOnPlanChange(sessionId)
+            }
+        }
+
         for (change in changes) when {
+            change is PlanChange && change.oldUser.isFreeUser && !change.newUser.isFreeUser -> {
+                return VpnFallbackResult.Switch.SwitchConnectIntent(
+                    fromServer = currentServer,
+                    toServer = fallbackServer,
+                    fromConnectIntent = currentIntent,
+                    toConnectIntent = fallbackIntent,
+                    hasExcludedLocations = excludedLocations.hasExclusions,
+                )
+            }
             change is PlanChange && change.isDowngrade -> {
                 return VpnFallbackResult.Switch.SwitchConnectIntent(
                     fromServer = currentServer,

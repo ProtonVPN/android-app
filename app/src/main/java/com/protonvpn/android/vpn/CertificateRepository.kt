@@ -89,7 +89,6 @@ class CertificateRepository @Inject constructor(
     private val keyProvider: CertificateKeyProvider,
     private val api: dagger.Lazy<ProtonApiRetroFit>,
     private val serverClock: dagger.Lazy<ServerClock>,
-    userPlanManager: UserPlanManager,
     private val currentUser: CurrentUser,
     private val periodicUpdateManager: PeriodicUpdateManager,
     @IsLoggedIn loggedIn: Flow<Boolean>
@@ -121,22 +120,6 @@ class CertificateRepository @Inject constructor(
         // refresh fails MAX_REFRESH_COUNT.
         PeriodicUpdateSpec(FALLBACK_REFRESH_DELAY_MS, setOf(loggedIn))
     )
-
-    init {
-        userPlanManager.infoChangeFlow.onEach { changes ->
-            for (change in changes) when (change) {
-                is UserPlanManager.InfoChange.PlanChange,
-                is UserPlanManager.InfoChange.UserBecameDelinquent -> {
-                    ProtonLogger.log(UserCertRefresh, "reason: user plan change: $change")
-                    currentUser.sessionId()?.let { sessionId ->
-                        clearCert(sessionId)
-                        updateCertificate(sessionId, cancelOngoing = true)
-                    }
-                }
-                else -> {}
-            }
-        }.launchIn(mainScope)
-    }
 
     suspend fun generateNewKey(sessionId: SessionId): CertInfo = withContext(mainScope.coroutineContext) {
         val info = keyProvider.generateCertInfo()
@@ -273,6 +256,11 @@ class CertificateRepository @Inject constructor(
     suspend fun clear(sessionId: SessionId) = withContext(mainScope.coroutineContext) {
         certRequests.remove(sessionId)?.cancel()
         certificateStorage.remove(sessionId)
+    }
+
+    suspend fun updateCertOnPlanChange(sessionId: SessionId) {
+        clearCert(sessionId)
+        updateCertificate(sessionId, cancelOngoing = true)
     }
 
     // Invalidates cert for given session, keeping the keys

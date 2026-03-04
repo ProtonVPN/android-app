@@ -117,30 +117,6 @@ class CertificateRefreshTests {
     }
 
     @Test
-    fun `certificateRepository clears and refreshes valid certificate when plan changes`() = runTest(UnconfinedTestDispatcher()) {
-        createRepository(backgroundScope)
-        coEvery {
-            mockPeriodicUpdateManager.executeNow<SessionId, CertificateRepository.CertificateResult>(any(), SESSION_ID)
-        } returns
-            CertificateRepository.CertificateResult.Success(CERTIFICATE_RESPONSE.certificate, CERT_INFO.privateKeyPem)
-        coVerify(exactly = 0) { mockPeriodicUpdateManager.executeNow<Any, Any>(any(), any()) }
-
-        infoChangeFlow.emit(
-            listOf(UserPlanManager.InfoChange.PlanChange(TestUser.freeUser.vpnUser, TestUser.plusUser.vpnUser))
-        )
-
-        val clearedCertInfo = CertInfo(
-            CERT_INFO.privateKeyPem,
-            CERT_INFO.publicKeyPem,
-            CERT_INFO.x25519Base64
-        )
-        coVerify {
-            mockPeriodicUpdateManager.executeNow<SessionId, Any>(match { it.id == "vpn_certificate" }, SESSION_ID)
-        }
-        coVerify { mockStorage.put(SESSION_ID, clearedCertInfo) }
-    }
-
-    @Test
     fun `updateCertificateInternal computes next update time at cert refresh time`() = runTest {
         val repository = createRepository(backgroundScope)
         val result = repository.updateCertificateInternal(SESSION_ID)
@@ -182,7 +158,6 @@ class CertificateRefreshTests {
             mockKeyProvider,
             { mockApi },
             dagger.Lazy { mockServerClock },
-            mockPlanManager,
             mockCurrentUser,
             mockPeriodicUpdateManager,
             flowOf(true)

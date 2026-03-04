@@ -41,19 +41,16 @@ import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersResult
-import com.protonvpn.android.servers.UpdateServerListFromApi
-import com.protonvpn.android.servers.api.ConnectingDomain
-import com.protonvpn.android.servers.api.ConnectingDomainResponse
 import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
 import com.protonvpn.android.servers.api.ServerEntryInfo
 import com.protonvpn.android.servers.toServers
 import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
-import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.GetOnlineServersForIntent
 import com.protonvpn.android.vpn.PhysicalServer
@@ -81,6 +78,7 @@ import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.CapturingSlot
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -142,6 +140,7 @@ class VpnConnectionErrorHandlerTests {
     @RelaxedMockK private lateinit var vpnBackendProvider: VpnBackendProvider
     @RelaxedMockK private lateinit var currentUser: CurrentUser
     @RelaxedMockK private lateinit var errorUIManager: VpnErrorUIManager
+    @MockK private lateinit var mockCertificateRepository: CertificateRepository
 
     @RelaxedMockK
     private lateinit var mockExcludedLocationsDao: ExcludedLocationsDao
@@ -181,6 +180,7 @@ class VpnConnectionErrorHandlerTests {
 
         infoChangeFlow = MutableSharedFlow()
         every { userPlanManager.infoChangeFlow } returns infoChangeFlow
+        coEvery { mockCertificateRepository.updateCertOnPlanChange(any()) } just Runs
 
         val vpnUser = TestVpnUser.create(maxTier = 2, maxConnect = 2)
         currentUser.mockVpnUser { vpnUser }
@@ -191,6 +191,7 @@ class VpnConnectionErrorHandlerTests {
         coEvery { api.getSession() } returns ApiResult.Success(SessionListResponse(1000, listOf()))
         serverListVersion = MutableStateFlow(0)
         prepareServerManager(MockedServers.serverList)
+
 
         val getSmartProtocols = createGetSmartProtocols()
         val getConnectingDomain = GetConnectingDomain(getSmartProtocols)
@@ -244,6 +245,7 @@ class VpnConnectionErrorHandlerTests {
             networkManager = networkManager,
             vpnBackendProvider = { vpnBackendProvider },
             currentUser = currentUser,
+            certificateRepository = { mockCertificateRepository },
             getSmartProtocols = getSmartProtocols,
             getConnectingDomain = getConnectingDomain,
             getOnlineServersForIntent = getOnlineServersForIntent,
@@ -768,13 +770,18 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testTrackingVpnInfoChanges() = testScope.runTest {
+    fun testUserPlanDowngrade() = testScope.runTest {
         val currentServer: Server = createServer("id")
         val currentConnectIntent = ConnectIntent.fromServer(currentServer, emptySet())
 
         currentUser.mockVpnUser { TestVpnUser.create(maxTier = 0) }
         testTrackingVpnInfoChanges(
-            listOf(UserPlanManager.InfoChange.PlanChange(TestUser.plusUser.vpnUser, TestUser.freeUser.vpnUser)),
+            listOf(
+                UserPlanManager.InfoChange.PlanChange(
+                    TestUser.plusUser.vpnUser,
+                    TestUser.freeUser.vpnUser
+                )
+            ),
             VpnFallbackResult.Switch.SwitchConnectIntent(
                 currentServer,
                 defaultFallbackServer,
@@ -784,6 +791,36 @@ class VpnConnectionErrorHandlerTests {
                 hasExcludedLocations = false,
             )
         )
+    }
+
+    @Test
+    fun testUserPlanUpgrade() = testScope.runTest {
+        val currentServer: Server = createServer("id")
+        val currentConnectIntent = ConnectIntent.fromServer(currentServer, emptySet())
+
+        currentUser.mockVpnUser { TestVpnUser.create(maxTier = 2) }
+        testTrackingVpnInfoChanges(
+            listOf(
+                UserPlanManager.InfoChange.PlanChange(
+                    TestUser.freeUser.vpnUser,
+                    TestUser.plusUser.vpnUser
+                )
+            ),
+            VpnFallbackResult.Switch.SwitchConnectIntent(
+                currentServer,
+                defaultFallbackServer,
+                currentConnectIntent,
+                defaultFallbackConnection,
+                null,
+                hasExcludedLocations = false,
+            )
+        )
+    }
+
+    @Test
+    fun testUserDelinquent() = testScope.runTest {
+        val currentServer: Server = createServer("id")
+        val currentConnectIntent = ConnectIntent.fromServer(currentServer, emptySet())
 
         testTrackingVpnInfoChanges(
             listOf(UserPlanManager.InfoChange.UserBecameDelinquent),
@@ -805,6 +842,7 @@ class VpnConnectionErrorHandlerTests {
         launch {
             val event = handler.switchConnectionFlow.first() as VpnFallbackResult.Switch.SwitchConnectIntent
             assertEquals(fallback.reason, event.reason)
+            coVerify(exactly = 1) { mockCertificateRepository.updateCertOnPlanChange(any()) }
         }
         infoChangeFlow.emit(infoChange)
     }

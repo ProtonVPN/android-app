@@ -691,7 +691,7 @@ class VpnConnectionManager @Inject constructor(
 
     // Will do complete reconnection, which may result in different protocol or server
     // if compared to original connection
-    fun reconnect(triggerAction: String, uiDelegate: VpnUiDelegate) {
+    fun reconnect(triggerAction: String, uiDelegate: VpnUiDelegate = vpnBackgroundUiDelegate) {
         scope.launch {
             val currentConnectionParams = activeConnectionParams
             if (currentConnectionParams != null) {
