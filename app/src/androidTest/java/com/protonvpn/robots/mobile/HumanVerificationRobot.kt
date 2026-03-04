@@ -36,21 +36,11 @@ import java.util.concurrent.TimeUnit
 object HumanVerificationRobot : Robot {
     private val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
-    fun verifyViaCaptchaSlow(): HumanVerificationRobot {
-        // We have no reliable and FAST way to detect if captcha was loaded.
-        // Intentionally fail captcha
+    fun verifyViaCaptcha(): HumanVerificationRobot {
         onWebView().withTimeout(30_000L, TimeUnit.MILLISECONDS)
             .check(webContent(hasElementWithId("ic-arrows-switch")))
-        Thread.sleep(5000)
-        uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB)
-        uiDevice.pressEnter()
-        // Press retry
-        Thread.sleep(1000)
-        uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB)
-        uiDevice.pressEnter()
-        // Solve captcha. (It helps, because captcha is preloaded and there is no delay in loading it.)
-        Thread.sleep(1000)
-        uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB)
+        uiDevice.wait(Until.hasObject(By.text("Reset puzzle piece")), 20_000)
+        uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB) // Navigate to "Next"
         uiDevice.pressEnter()
         return this
     }

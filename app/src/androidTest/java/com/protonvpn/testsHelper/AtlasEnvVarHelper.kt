@@ -44,7 +44,17 @@ class AtlasEnvVarHelper @Inject constructor(
         postAtlasEnvVariable("")
     }
 
-    inline fun withAtlasEnvVar(variableOverride: AtlasEnvVarHelper.() -> Unit, block: () -> Unit) {
+    /**
+     * Runs code with the provided environment variables.
+     * BE CAREFUL: env variables will affect all tests running at the same time (other devices and
+     * shards). If you must use this, restore the env vars as quickly as possible to avoid affecting
+     * other tests.
+     * In the long run we need a better approach.
+     */
+    inline fun withDangerousAtlasEnvVar(
+        variableOverride: AtlasEnvVarHelper.() -> Unit,
+        block: () -> Unit
+    ) {
         try{
             variableOverride()
             block()
