@@ -19,9 +19,6 @@
 
 package com.protonvpn.android.servers
 
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
@@ -32,25 +29,17 @@ import com.protonvpn.android.appconfig.periodicupdates.toPeriodicActionResult
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.redesign.countries.Translator
-import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.utils.DefaultLocaleProvider
 import dagger.Reusable
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.days
-import kotlin.time.Duration.Companion.seconds
 
 private val UpdateDelay = 4.days.inWholeMilliseconds
 
 @Reusable
 class UpdateServerTranslations @Inject constructor(
-    @ApplicationContext appContext: Context,
-    mainScope: CoroutineScope,
     private val api: dagger.Lazy<ProtonApiRetroFit>,
     private val translator: dagger.Lazy<Translator>,
     private val getLocale: dagger.Lazy<DefaultLocaleProvider>,
@@ -63,13 +52,8 @@ class UpdateServerTranslations @Inject constructor(
         PeriodicUpdateSpec(UpdateDelay, setOf(inForeground))
     )
 
-    init {
-        mainScope.launch {
-            delay(5.seconds)
-            appContext.registerBroadcastReceiver(IntentFilter(Intent.ACTION_LOCALE_CHANGED)) {
-                mainScope.launch { periodicUpdateManager.executeNow(action) }
-            }
-        }
+    suspend fun forceUpdate() {
+        periodicUpdateManager.executeNow(action)
     }
 
     private suspend fun updateTranslations(): PeriodicActionResult<ApiResult<*>> {
