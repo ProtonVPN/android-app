@@ -33,6 +33,7 @@ import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
 import com.protonvpn.android.redesign.app.ui.isMainActivity
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.getValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -42,6 +43,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import me.proton.core.notification.domain.usecase.GetNotificationChannelId
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -63,6 +65,7 @@ class AutoLoginManager @Inject constructor(
     lazyNotificationHelper: dagger.Lazy<NotificationHelper>,
     lazyResetUiForAutoLogin: dagger.Lazy<ResetUiForAutoLogin>,
     lazyLogout: dagger.Lazy<Logout>,
+    private val getAccountChannelId: dagger.Lazy<GetNotificationChannelId>,
 ) {
     private var ongoingLogin : Job? = null
     private val _state = MutableStateFlow<AutoLoginState?>(null)
@@ -140,8 +143,13 @@ class AutoLoginManager @Inject constructor(
     }
 
     private fun notifyIfInBackground(@StringRes messageRes: Int) {
-        if (!isInForeground)
-            notificationHelper.showInformationNotification(messageRes)
+        if (!isInForeground) {
+            notificationHelper.showSimpleNotification(
+                content = messageRes,
+                notificationId = Constants.NOTIFICATION_AUTOLOGIN_ID,
+                notificationChannelId = getAccountChannelId.get().invoke()
+            )
+        }
     }
 
     fun retry() {

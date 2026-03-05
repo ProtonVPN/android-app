@@ -28,6 +28,7 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.notifications.NotificationChannels
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.servers.Server
@@ -242,9 +243,10 @@ class GuestHole @Inject constructor(
             }
         }
         try {
-            notificationHelper.showInformationNotification(
+            notificationHelper.showSimpleNotification(
                 R.string.guestHoleNotificationContent,
-                notificationId = Constants.NOTIFICATION_GUESTHOLE_ID
+                notificationId = Constants.NOTIFICATION_GUESTHOLE_ID,
+                notificationChannelId = NotificationChannels.ID_CONNECTION_TIPS,
             )
             getGuestHoleServers().any { server ->
                 executeConnected(delegate, server) {

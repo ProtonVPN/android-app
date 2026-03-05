@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.vpn
 import android.content.Intent
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
+import com.protonvpn.android.notifications.NotificationChannels
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.vpn.ReasonRestricted
@@ -36,23 +37,24 @@ class VpnBackgroundUiDelegate @Inject constructor (
 
     override fun askForPermissions(intent: Intent, connectIntent: AnyConnectIntent, onPermissionGranted: () -> Unit) {
         // Can't ask for permissions when in background.
-        notificationHelper.showInformationNotification(
+        showErrorNotification(
             R.string.insufficientPermissionsDetails,
             R.string.insufficientPermissionsTitle,
-            icon = R.drawable.ic_vpn_status_disconnected
         )
     }
 
     override fun onServerRestricted(reason: ReasonRestricted): Boolean = false
 
     override fun onProtocolNotSupported() {
-        notificationHelper.showInformationNotification(
-            R.string.profileProtocolNotAvailable,
-            icon = R.drawable.ic_vpn_status_disconnected
-        )
+        showErrorNotification(R.string.profileProtocolNotAvailable)
     }
 
-    fun showInfoNotification(@StringRes textRes: Int) {
-        notificationHelper.showInformationNotification(textRes)
+    fun showErrorNotification(@StringRes textRes: Int, @StringRes titleRes: Int? = null) {
+        notificationHelper.showSimpleNotification(
+            content = textRes,
+            title = titleRes,
+            icon = R.drawable.ic_vpn_status_disconnected,
+            notificationChannelId = NotificationChannels.ID_CONNECTION_ERRORS,
+        )
     }
 }

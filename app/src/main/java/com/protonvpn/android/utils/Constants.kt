@@ -30,6 +30,7 @@ object Constants {
     const val NOTIFICATION_INFO_ID = 7
     const val NOTIFICATION_GUESTHOLE_ID = 8
     const val NOTIFICATION_STREAMING_BLOCKED_ID = 9
+    const val NOTIFICATION_AUTOLOGIN_ID = 10
 
     const val TV_SIGNUP_LINK = "protonvpn.com/signup"
     const val TV_UPGRADE_LINK = "account.protonvpn.com/account"

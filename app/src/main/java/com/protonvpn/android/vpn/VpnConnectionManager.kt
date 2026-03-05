@@ -71,7 +71,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
 import java.util.UUID
@@ -418,7 +417,7 @@ class VpnConnectionManager @Inject constructor(
                         SwitchServerReason.ServerInMaintenance
                     }
                 )
-                vpnBackgroundUiDelegate.showInfoNotification(
+                vpnBackgroundUiDelegate.showErrorNotification(
                     if (server == null) R.string.error_server_not_set
                     else R.string.restrictedMaintenanceDescription
                 )

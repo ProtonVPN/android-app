@@ -33,6 +33,7 @@ import com.protonvpn.android.managed.ResetUiForAutoLogin
 import com.protonvpn.android.managed.usecase.AutoLogin
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser
@@ -53,6 +54,7 @@ import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import me.proton.core.domain.entity.UserId
+import me.proton.core.notification.domain.usecase.GetNotificationChannelId
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -80,6 +82,8 @@ class AutoLoginManagerTests {
 
     private val isLoggedIn get() = testCurrentUserProvider.user != null
 
+    private val notificationChannelId = "AccountChannelId"
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -89,7 +93,7 @@ class AutoLoginManagerTests {
         testCurrentUserProvider = TestCurrentUserProvider(null)
         foregroundActivityFlow = MutableStateFlow(null)
         foregroundActivityTracker = ForegroundActivityTracker(scope.backgroundScope, foregroundActivityFlow)
-        coEvery { notificationHelper.showInformationNotification(any()) } returns Unit
+        coEvery { notificationHelper.showSimpleNotification(any(), any(), any(), any(), any(), any()) } returns Unit
         coEvery { logout.invoke() } answers { testCurrentUserProvider.set(null, null) }
 
         autoLogin = FakeAutoLogin { managedConfig ->
@@ -124,7 +128,8 @@ class AutoLoginManagerTests {
             { foregroundActivityTracker },
             { notificationHelper },
             { resetUiForAutoLogin },
-            { logout }
+            { logout },
+            { GetNotificationChannelId { notificationChannelId } }
         )
     }
 
@@ -144,8 +149,16 @@ class AutoLoginManagerTests {
         assertTrue(isLoggedIn)
         assertEquals(AutoLoginState.Success, manager.state.first())
         verifyOrder {
-            notificationHelper.showInformationNotification(R.string.notification_auto_login_start)
-            notificationHelper.showInformationNotification(R.string.notification_auto_login_success)
+            notificationHelper.showSimpleNotification(
+                R.string.notification_auto_login_start,
+                notificationId = Constants.NOTIFICATION_AUTOLOGIN_ID,
+                notificationChannelId = notificationChannelId,
+            )
+            notificationHelper.showSimpleNotification(
+                R.string.notification_auto_login_success,
+                notificationId = Constants.NOTIFICATION_AUTOLOGIN_ID,
+                notificationChannelId = notificationChannelId,
+            )
         }
     }
 
@@ -158,8 +171,16 @@ class AutoLoginManagerTests {
         assertTrue(isLoggedIn)
         assertEquals(AutoLoginState.Success, manager.state.first())
         verifyOrder {
-            notificationHelper.showInformationNotification(R.string.notification_auto_login_start)
-            notificationHelper.showInformationNotification(R.string.notification_auto_login_success)
+            notificationHelper.showSimpleNotification(
+                R.string.notification_auto_login_start,
+                notificationId = Constants.NOTIFICATION_AUTOLOGIN_ID,
+                notificationChannelId = notificationChannelId
+            )
+            notificationHelper.showSimpleNotification(
+                R.string.notification_auto_login_success,
+                notificationId = Constants.NOTIFICATION_AUTOLOGIN_ID,
+                notificationChannelId = notificationChannelId
+            )
         }
     }
 
@@ -171,7 +192,13 @@ class AutoLoginManagerTests {
         advanceTimeBy(501)
         assertTrue(isLoggedIn)
         assertEquals(AutoLoginState.Success, manager.state.first())
-        verify(exactly = 0) { notificationHelper.showInformationNotification(R.string.notification_auto_login_success) }
+        verify(exactly = 0) {
+            notificationHelper.showSimpleNotification(
+                R.string.notification_auto_login_success,
+                notificationId = any(),
+                notificationChannelId = any()
+            )
+        }
     }
 
     @Test
@@ -181,8 +208,16 @@ class AutoLoginManagerTests {
         assertFalse(isLoggedIn)
         assertEquals(AutoLoginState.Error(BadCredentials), manager.state.first())
         verifyOrder {
-            notificationHelper.showInformationNotification(R.string.notification_auto_login_start)
-            notificationHelper.showInformationNotification(R.string.notification_auto_login_error)
+            notificationHelper.showSimpleNotification(
+                R.string.notification_auto_login_start,
+                notificationId = Constants.NOTIFICATION_AUTOLOGIN_ID,
+                notificationChannelId = notificationChannelId
+            )
+            notificationHelper.showSimpleNotification(
+                R.string.notification_auto_login_error,
+                notificationId = Constants.NOTIFICATION_AUTOLOGIN_ID,
+                notificationChannelId = notificationChannelId
+            )
         }
     }
 
