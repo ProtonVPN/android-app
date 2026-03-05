@@ -24,6 +24,7 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.logging.AppUpdateUpdated
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.CertificateData
+import com.protonvpn.android.notifications.NotificationChannels
 import com.protonvpn.android.promooffers.data.ApiNotificationManager
 import com.protonvpn.android.servers.StreamingServicesUpdater
 import com.protonvpn.android.settings.usecases.EnableTvLanSettingOnMigration
@@ -48,7 +49,7 @@ class UpdateMigration @Inject constructor(
     private val streamingServicesUpdater: dagger.Lazy<StreamingServicesUpdater>,
     private val apiNotificationManager: dagger.Lazy<ApiNotificationManager>,
 ) {
-    private val oldVersionCode = Storage.getInt("VERSION_CODE")
+    private val oldVersionCode = Storage.getInt(KEY_VERSION_CODE)
     private val newVersionCode = BuildConfig.VERSION_CODE
 
     val isUpdatedVersion get() = oldVersionCode != 0 && oldVersionCode != newVersionCode
@@ -65,6 +66,7 @@ class UpdateMigration @Inject constructor(
             adoptExcludedLocations(strippedOldVersionCode)
             updateStreamingServices(strippedOldVersionCode)
             removeLegacyStorage(strippedOldVersionCode)
+            updateNotificationChannels(strippedOldVersionCode)
         }
         if (oldVersionCode == 0 || isUpdatedVersion) {
             Storage.saveInt("VERSION_CODE", newVersionCode)
@@ -150,6 +152,18 @@ class UpdateMigration @Inject constructor(
     }
 
     @SuppressWarnings("MagicNumber")
+    private fun updateNotificationChannels(oldVersionCode: Int) {
+        if (oldVersionCode <= 5_17_03_00) {
+            NotificationChannels.createChannels(appContext)
+        }
+    }
+
+    @SuppressWarnings("MagicNumber")
     private fun stripArchitecture(versionCode: Int) = versionCode % 100_000_000
 
+    companion object {
+        private const val KEY_VERSION_CODE = "VERSION_CODE"
+
+        fun isFirstStart() = Storage.getInt(KEY_VERSION_CODE) == 0
+    }
 }

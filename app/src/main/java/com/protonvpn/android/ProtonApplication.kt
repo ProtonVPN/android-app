@@ -188,7 +188,9 @@ open class ProtonApplication : Application() {
                 ProtonLogger.logCustom(LogCategory.HV, "WebView package: $webViewAppString")
             }
 
-            NotificationChannels.createChannels(this)
+            if (UpdateMigration.isFirstStart()) {
+                NotificationChannels.createChannels(this)
+            }
 
             CoreLogger.set(VpnCoreLogger())
         }
