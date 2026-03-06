@@ -25,5 +25,5 @@ import java.util.UUID
 
 fun restrictions(
     vararg restrictions: VpnConnectionRestriction,
-    id: UUID = UUID.randomUUID(),
+    id: UUID = UUID.fromString("c49ca1e9-5c88-4f5b-a9b6-9ab79a867e47"),
 ) = VpnConnectionRestrictions(restrictions.toSet(), id)

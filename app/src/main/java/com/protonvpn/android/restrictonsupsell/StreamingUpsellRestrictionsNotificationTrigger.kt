@@ -95,7 +95,7 @@ class StreamingUpsellRestrictionsNotificationTrigger @Inject constructor(
             // on app start.
             val lastNotificationTimestamp =
                 restrictionsUpsellStore.state.first().streaming.lastNotificationTimestamp
-            lastNotificationTimestamp + NotificationRepeatIntervalMs <= now()
+            lastNotificationTimestamp <= now() - NotificationRepeatIntervalMs
         }
 
     fun start() {

@@ -29,8 +29,8 @@ import com.protonvpn.android.ui.planupgrade.UpgradeStreamingBlockFragment
 import com.protonvpn.android.utils.flatMapLatestFreeUser
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -39,8 +39,10 @@ import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 
 private val UpsellDialogSinceLastEventMs = 1.hours.inWholeMilliseconds
+private val UpsellDialogMinIntervalMs = 1.minutes.inWholeMilliseconds
 
 @Reusable
 class OpenUpgradeStreamingBlockDialog @Inject constructor() {
@@ -64,6 +66,10 @@ constructor(
     private val openUpgradeDialog: OpenUpgradeStreamingBlockDialog,
     @param:WallClock private val now: () -> Long,
 ) {
+    // There are two independent paths to show the upsell dialog and they are difficult to
+    // synchronize. Use this lastShownTimestamp to make sure we don't show the dialog twice within
+    // a short time frame.
+    private var lastShownTimestamp: Long? = null
 
     fun start() {
         // TV upsell will be implemented in the future.
@@ -96,7 +102,13 @@ constructor(
             .launchIn(mainScope)
     }
 
-    fun showNow(activity: Activity) {
+    suspend fun showNow(activity: Activity) {
+        // Ideally the upsell notification should be hidden when the user upgrades but it should
+        // be a rare case and checking user type here is much simpler.
+        if (currentUser.vpnUser()?.isFreeUser != true) return
+        val lastShown = lastShownTimestamp
+        if (lastShown != null && lastShown > now() - UpsellDialogMinIntervalMs) return
+
         onShowUpsellDialogShown()
         openUpgradeDialog(activity)
     }
@@ -114,9 +126,9 @@ constructor(
         return withinTime && !wasShownForThisConnection
     }
 
-    @VisibleForTesting
-    fun onShowUpsellDialogShown() {
-        mainScope.launch {
+    private fun onShowUpsellDialogShown() {
+        lastShownTimestamp = now()
+        mainScope.launch(start = CoroutineStart.UNDISPATCHED) {
             restrictionsUpsellStore.update { current ->
                 val streaming =
                     current.streaming.copy(

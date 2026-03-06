@@ -27,17 +27,12 @@ import com.protonvpn.android.restrictonsupsell.RestrictionsUpsellStoreProvider
 import com.protonvpn.android.restrictonsupsell.StreamingUpsellRestrictionsFlow
 import com.protonvpn.android.restrictonsupsell.StreamingUpsellRestrictionsNotificationTrigger
 import com.protonvpn.android.vpn.VpnConnectionRestriction
-import com.protonvpn.android.vpn.VpnConnectionRestrictions
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.restrictions
 import io.mockk.mockk
-import java.util.UUID
-import kotlin.test.Test
-import kotlin.time.Duration.Companion.days
-import kotlin.time.Duration.Companion.hours
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
@@ -45,6 +40,9 @@ import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import kotlin.test.Test
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class StreamingUpsellRestrictionsNotificationTriggerTests {

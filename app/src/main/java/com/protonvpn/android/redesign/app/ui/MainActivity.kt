@@ -317,7 +317,9 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
         if (intent.action == Intent.ACTION_MAIN &&
             intent.getBooleanExtra(EXTRA_SHOW_STREAMING_RESTRICTION_UPSELL, false)
         ) {
-            streamingUpsellRestrictionsDialogTrigger.showNow(this)
+            lifecycleScope.launch {
+                streamingUpsellRestrictionsDialogTrigger.showNow(this@MainActivity)
+            }
         }
     }
 
