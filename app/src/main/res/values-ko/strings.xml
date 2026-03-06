@@ -618,7 +618,7 @@
     <string name="upgrade_country_message"><![CDATA[VPN Plus로 <b>국가 선택</b>을 잠금 해제하세요.]]></string>
     <string name="free_connections_info_message">Proton Free가 사용 가능한 가장 빠른 서버에 자동으로 연결합니다. 보통 소재한 곳에서 가장 가까운 서버가 선택됩니다.</string>
     <string name="free_connections_info_server_locations">무료 서버 지역 (%1$d)</string>
-    <string name="free_connections_info_banner_text">전세계 커버리지를 VPN Plus로 누려보세요</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">무료 연결</string>
     <string name="search_upsell_banner_title">언제 어디서나 스트리밍</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1442,7 +1442,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="info_p2p_why_description_logs">활동 로그가 없습니다</string>
     <string name="info_p2p_why_description_hide">사용자의 IP 주소를 서비스 제공자와 피어로부터 숨깁니다</string>
     <string name="info_dialog_smart_routing_description">Smart Routing은 가상 서버를 이용하여 접근이 어려운 국가에 VPN 커버리지를 제공합니다.\n\nSmart Routing 서버에 접속했다면 물리적 서버의 위치와 상관없이 목적지 국가에서 탐색하는 것으로 보이게 됩니다.\n\nSmart Routing은 보통 안티-프라이버시 법령과 기타 유형의 검열을 우회하는 데 쓸모가 있습니다.</string>
-    <string name="countries_upsell_banner_description">VPN Plus 전세계적 커버리지 받기</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">VPN 연결에 암호화 계층 추가</string>
     <string name="p2p_upsell_banner_description">BitTorrent와 다른 파일 공유 프로토콜로 파일을 다운로드하세요</string>
     <string name="tor_upsell_banner_description">추가적인 개인 정보 보호를 위해 VPN 연결을 통해 Tor 네트워크를 사용하세요</string>

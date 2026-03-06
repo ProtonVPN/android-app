@@ -649,7 +649,7 @@
     <string name="upgrade_country_message"><![CDATA[Deblocați <b>selectarea țărilor</b> cu VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton gratuit vă conectează automat la cel mai rapid server disponibil. Acesta va fi în mod normal cel mai apropiat server de locul de unde vă conectați.</string>
     <string name="free_connections_info_server_locations">Locuri servere gratuite (%1$d)</string>
-    <string name="free_connections_info_banner_text">Obțineți acoperire la nivel mondial cu VPN Plus</string>
+    <string name="free_connections_info_banner_text">Accesați toate țările cu VPN Plus</string>
     <string name="free_connection_info_title">Conexiuni gratuite</string>
     <string name="search_upsell_banner_title">Vizionați transmisii în flux de oriunde</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1512,7 +1512,7 @@
     <string name="info_p2p_why_description_logs">Fără jurnale de activitate</string>
     <string name="info_p2p_why_description_hide">Vă ascundeți adresa IP față de furnizorul de servicii și față de partenerii de transfer</string>
     <string name="info_dialog_smart_routing_description">Smart Routing folosește servere virtuale pentru a oferi acoperire VPN în țările greu accesibile.\n\nCând vă conectați la un server Smart Routing, veți părea că navigați în țara de destinație, chiar dacă serverul fizic este situat în altă parte.\n\nSmart Routing este de obicei folosit pentru a evita legile anti-confidențialitate și alte forme de cenzură.</string>
-    <string name="countries_upsell_banner_description">Obțineți acoperire la nivel mondial cu VPN Plus</string>
+    <string name="countries_upsell_banner_description">Accesați toate țările cu VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Adăugați încă un nivel de criptare a conexiunii VPN</string>
     <string name="p2p_upsell_banner_description">Descărcați fișiere prin BitTorrent și alte protocoale de partajare fișiere</string>
     <string name="tor_upsell_banner_description">Utilizați rețeaua Tor prin conexiunea VPN pentru intimitate suplimentară</string>

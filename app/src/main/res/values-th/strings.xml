@@ -617,7 +617,7 @@
     <string name="upgrade_country_message"><![CDATA[ปลดล็อก <b>การเลือกประเทศ</b> ด้วย VPN Plus]]></string>
     <string name="free_connections_info_message">Proton Free จะเชื่อมต่อคุณกับเซิร์ฟเวอร์ที่เร็วที่สุดที่มีอยู่โดยอัตโนมัติ โดยปกติจะเป็นเซิร์ฟเวอร์ที่ใกล้กับตำแหน่งของคุณมากที่สุด</string>
     <string name="free_connections_info_server_locations">ตำแหน่งเซิร์ฟเวอร์ฟรี (%1$d)</string>
-    <string name="free_connections_info_banner_text">รับความครอบคลุมทั่วโลกด้วย VPN Plus</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">การเชื่อมต่อฟรี</string>
     <string name="search_upsell_banner_title">สตรีมได้จากทุกที่</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1440,7 +1440,7 @@
     <string name="info_p2p_why_description_logs">ไม่มีการบันทึกกิจกรรม</string>
     <string name="info_p2p_why_description_hide">ซ่อนที่อยู่ IP ของคุณจากผู้ให้บริการและเพื่อนร่วมเครือข่าย</string>
     <string name="info_dialog_smart_routing_description">Smart Routing ใช้เซิร์ฟเวอร์เสมือนเพื่อมอบความครอบคลุม VPN ในประเทศที่เข้าถึงยาก\n\nเมื่อคุณเชื่อมต่อกับเซิร์ฟเวอร์ Smart Routing คุณจะปรากฏเหมือนว่ากำลังท่องเว็บในประเทศปลายทาง แม้ว่าเซิร์ฟเวอร์จริงจะตั้งอยู่ที่อื่น  \n\nโดยทั่วไป Smart Routing จะใช้เพื่อหลีกเลี่ยงกฎหมายต่อต้านความเป็นส่วนตัวและการเซ็นเซอร์รูปแบบอื่น</string>
-    <string name="countries_upsell_banner_description">รับความครอบคลุมทั่วโลกด้วย VPN Plus</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">เพิ่มเลเยอร์การเข้ารหัสลับอีกชั้นให้กับการเชื่อมต่อ VPN ของคุณ</string>
     <string name="p2p_upsell_banner_description">ดาวน์โหลดไฟล์ผ่าน BitTorrent และโปรโตคอลการแชร์ไฟล์อื่นๆ</string>
     <string name="tor_upsell_banner_description">ใช้เครือข่าย Tor ผ่านการเชื่อมต่อ VPN ของคุณเพื่อความเป็นส่วนตัวพิเศษ</string>

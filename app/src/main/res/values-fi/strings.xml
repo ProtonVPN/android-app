@@ -633,7 +633,7 @@
     <string name="upgrade_country_message"><![CDATA[Avaa <b>maavalinta</b> VPN Plus -tilauksella.]]></string>
     <string name="free_connections_info_message">Proton Free yhdistää automaattisesti nopeimpaan käytettävissä olevaan palvelimeen. Yleensä tämä on lähinnä sijaintiasi oleva palvelin.</string>
     <string name="free_connections_info_server_locations">Ilmaiset palvelinsijainnnit (%1$d)</string>
-    <string name="free_connections_info_banner_text">Hanki maailmanlaajuinen kattavuus VPN Plus -tilauksella</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">Ilmaisyhteydet</string>
     <string name="search_upsell_banner_title">Suoratoista mistä tahansa</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1476,7 +1476,7 @@
     <string name="info_p2p_why_description_logs">Ei toimintalokeja</string>
     <string name="info_p2p_why_description_hide">Piilota IP-osoitteesi palveluntarjoajaltasi ja vertaisilta</string>
     <string name="info_dialog_smart_routing_description">Smart Routing käyttää virtuaalipalvelimia tarjotakseen VPN-verkon kattavuuden vaikeasti saavutettavissa maissa.\n\nKun muodostat yhteyden Smart Routing -palvelimeen, näytät selaavasi kohdemaastasi, vaikka fyysinen palvelin sijaitsee muualla.  \n\nSmart Routingia käytetään yleensä yksityisyydensuojan vastaisten lakien ja muunlaisen sensuurin kiertämiseen</string>
-    <string name="countries_upsell_banner_description">Hanki maailmanlaajuinen kattavuus VPN Plus -tilauksella</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Lisää VPN-yhteyteesi toinen salauskerros</string>
     <string name="p2p_upsell_banner_description">Lataa tiedostoja mm. BitTorrentin kaltaisilla tiedonsiirtoprotokollilla</string>
     <string name="tor_upsell_banner_description">Käytä Tor-verkkoa VPN-yhteytesi välityksellä ja tehosta tietosuojaasi</string>

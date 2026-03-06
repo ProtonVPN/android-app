@@ -633,7 +633,7 @@
     <string name="upgrade_country_message"><![CDATA[Lås op for <b>landevalg</b> med VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free forbinder dig automatisk, til den hurtigste tilgængelige server. Dette vil normalt være den server der er tættest på din lokation.</string>
     <string name="free_connections_info_server_locations">Gratis serverlokationer (%1$d)</string>
-    <string name="free_connections_info_banner_text">Få verdensomspændende dækning med VPN Plus</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">Gratis forbindelser</string>
     <string name="search_upsell_banner_title">Stream hvor som helst</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1476,7 +1476,7 @@
     <string name="info_p2p_why_description_logs">Ingen aktivitetslogs</string>
     <string name="info_p2p_why_description_hide">Skjul din IP-adresse for din serviceudbyder og andre brugere</string>
     <string name="info_dialog_smart_routing_description">Smart Routing bruger virtuelle servere til at give VPN-dækning i svært tilgængelige lande.\n\nNår du opretter forbindelse til en Smart Routing-server, ser det ud til, at du surfer i dit destinationsland, selvom den fysiske server er placeret et andet sted. \n\nSmart Routing bruges typisk til at omgå anti-privacy love og andre former for censur.</string>
-    <string name="countries_upsell_banner_description">Få verdensomspændende dækning med VPN Plus</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Tilføj endnu et lag kryptering til din VPN-forbindelse</string>
     <string name="p2p_upsell_banner_description">Overfør filer via BitTorrent og andre fildelingsprotokoller</string>
     <string name="tor_upsell_banner_description">Brug Tor-netværket via din VPN-forbindelse for ekstra diskretion</string>

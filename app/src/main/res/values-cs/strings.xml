@@ -665,7 +665,7 @@
     <string name="upgrade_country_message"><![CDATA[Odemkněte <b>výběr země</b> s VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free vás automaticky připojí k nejrychlejšímu dostupnému serveru. Obvykle se jedná o server, který je nejblíže vaší poloze.</string>
     <string name="free_connections_info_server_locations">Umístění Free serverů (%1$d)</string>
-    <string name="free_connections_info_banner_text">Získejte celosvětové pokrytí díky VPN Plus</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">Připojení Free</string>
     <string name="search_upsell_banner_title">Streamujte odkudkoliv</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1548,7 +1548,7 @@
     <string name="info_p2p_why_description_logs">Žádné logy aktivity</string>
     <string name="info_p2p_why_description_hide">Skryjte svoji IP adresu přes poskytovatelem internetu a ostatními</string>
     <string name="info_dialog_smart_routing_description">Smart Routing využívá virtuální servery k poskytování VPN v těžko dostupných zemích.\n\nKdyž se připojíte k serveru Smart Routing, bude se zdát, že prohlížíte ve své cílové zemi, i když je fyzický server umístěn jinde.\n\nSmart Routing se obvykle používá k obcházení zákonů potlačujících ochranu soukromí a jiných forem cenzury.</string>
-    <string name="countries_upsell_banner_description">Získejte celosvětové pokrytí díky VPN Plus</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Přidejte další úroveň šifrování vašemu VPN připojení</string>
     <string name="p2p_upsell_banner_description">Stahujte soubory přes BitTorrent a jiné protokoly ke sdílení souborů</string>
     <string name="tor_upsell_banner_description">Zvyšte svoje soukromí přistupováním k Toru přes VPN</string>

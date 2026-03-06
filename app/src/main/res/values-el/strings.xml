@@ -633,7 +633,7 @@
     <string name="upgrade_country_message"><![CDATA[Ξεκλειδώστε την <b>επιλογή χώρας</b> με το VPN Plus.]]></string>
     <string name="free_connections_info_message">Το Proton Free σας συνδέει αυτόματα στον ταχύτερο διαθέσιμο διακομιστή. Αυτός θα είναι συνήθως ο πλησιέστερος διακομιστής στην τοποθεσία σας.</string>
     <string name="free_connections_info_server_locations">Τοποθεσίες δωρεάν διακομιστών (%1$d)</string>
-    <string name="free_connections_info_banner_text">Αποκτήστε παγκόσμια κάλυψη με το VPN Plus</string>
+    <string name="free_connections_info_banner_text">Πρόσβαση σε όλες τις χώρες με το VPN Plus</string>
     <string name="free_connection_info_title">Δωρεάν συνδέσεις</string>
     <string name="search_upsell_banner_title">Μεταδώστε ροή από οπουδήποτε</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1476,7 +1476,7 @@
     <string name="info_p2p_why_description_logs">Χωρίς αρχεία καταγραφής</string>
     <string name="info_p2p_why_description_hide">Απόκρυψη της διεύθυνσης IP σας από τον πάροχο υπηρεσιών και τους συναδέλφους σας</string>
     <string name="info_dialog_smart_routing_description">Το Smart Routing χρησιμοποιεί εικονικούς διακομιστές για να παρέχει κάλυψη VPN σε δυσπρόσιτες χώρες.\n\nΌταν συνδέεστε σε ένα Smart Routing διακομιστή, θα φαίνεται ότι περιηγείστε στη χώρα προορισμού σας, παρόλο που ο φυσικός διακομιστής βρίσκεται αλλού.  \n\nΤο Smart Routing χρησιμοποιείται συνήθως για την παράκαμψη των νόμων κατά της ιδιωτικότητας και άλλων μορφών λογοκρισίας.</string>
-    <string name="countries_upsell_banner_description">Αποκτήστε παγκόσμια κάλυψη με το VPN Plus</string>
+    <string name="countries_upsell_banner_description">Πρόσβαση σε όλες τις χώρες με το VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Επιπρόσθετο επίπεδο κρυπτογράφησης στη σύνδεση VPN σας</string>
     <string name="p2p_upsell_banner_description">Λήψη αρχείων μέσω BitTorrent και άλλων πρωτοκόλλων κοινής χρήσης αρχείων</string>
     <string name="tor_upsell_banner_description">Χρησιμοποιήστε το δίκτυο Tor μέσω της σύνδεσής σας VPN για επιπλέον ιδιωτικότητα</string>

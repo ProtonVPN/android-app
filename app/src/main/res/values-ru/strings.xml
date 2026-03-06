@@ -665,7 +665,7 @@
     <string name="upgrade_country_message"><![CDATA[Разблокируйте <b>выбор страны</b> с помощью VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free автоматически подключает вас к самому быстрому из доступных серверов. Обычно это ближайший к вашему местоположению сервер.</string>
     <string name="free_connections_info_server_locations">Месторасположение серверов Free (%1$d)</string>
-    <string name="free_connections_info_banner_text">Получите глобальное покрытие с помощью VPN Plus</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">Бесплатные подключения</string>
     <string name="search_upsell_banner_title">Смотрите видео из любой точки мира</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1548,7 +1548,7 @@
     <string name="info_p2p_why_description_logs">Нет журналов действий</string>
     <string name="info_p2p_why_description_hide">Скрывайте свой IP-адрес от поставщика услуг и других пользователей</string>
     <string name="info_dialog_smart_routing_description">Smart Routing использует виртуальные серверы для обеспечения покрытия VPN в труднодоступных странах.\n\nКогда вы подключаетесь к серверу Smart Routing, создается впечатление, что вы находитесь в стране назначения, хотя физический сервер расположен в другом месте.\n\nSmart Routing обычно используется для обхода законов, ограничивающих конфиденциальность, и других форм цензуры.</string>
-    <string name="countries_upsell_banner_description">Получите глобальное покрытие с помощью VPN Plus</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Добавьте ещё один уровень шифрования к VPN-подключению</string>
     <string name="p2p_upsell_banner_description">Скачивайте файлы через BitTorrent и другие протоколы обмена файлами</string>
     <string name="tor_upsell_banner_description">Используйте сеть Tor через VPN-подключение для дополнительной приватности</string>

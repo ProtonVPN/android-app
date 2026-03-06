@@ -617,7 +617,7 @@
     <string name="upgrade_country_message"><![CDATA[Akses fitur <b>pemilihan negara</b> dengan VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free akan menghubungkan Anda secara otomatis ke server tercepat yang tersedia. Pada umumnya, server ini adalah server yang terletak paling dekat dengan lokasi Anda.</string>
     <string name="free_connections_info_server_locations">Lokasi server Free (%1$d)</string>
-    <string name="free_connections_info_banner_text">Dapatkan cakupan server di seluruh dunia dengan VPN Plus</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">Koneksi Free</string>
     <string name="search_upsell_banner_title">Streaming di mana saja</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1440,7 +1440,7 @@
     <string name="info_p2p_why_description_logs">Tanpa log aktivitas</string>
     <string name="info_p2p_why_description_hide">Sembunyikan alamat IP Anda dari penyedia layanan internet dan komputer lain</string>
     <string name="info_dialog_smart_routing_description">Smart Routing menggunakan server virtual untuk menyediakan VPN di negara dengan pembatasan internet yang ketat.\n\nPada saat Anda terhubung ke server dengan Smart Routing, Anda akan terlihat seolah-olah Anda sedang menjelajah dari negara tujuan Anda, meskipun server yang melayani Anda secara fisik terletak di tempat lain.  \n\nSmart Routing pada umumnya digunakan untuk menghindari undang-undang anti-privasi dan bentuk sensor lainnya.</string>
-    <string name="countries_upsell_banner_description">Dapatkan cakupan global dengan VPN Plus</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Tambahkan lapisan enkripsi lain ke koneksi VPN Anda</string>
     <string name="p2p_upsell_banner_description">Unduh file melalui BitTorrent dan protokol berbagi file lainnya</string>
     <string name="tor_upsell_banner_description">Gunakan jaringan Tor melalui koneksi VPN Anda untuk privasi tambahan</string>

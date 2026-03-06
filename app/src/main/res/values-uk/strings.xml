@@ -665,7 +665,7 @@
     <string name="upgrade_country_message"><![CDATA[Розблокуйте <b>вибір країни</b> з VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free автоматично під\'єднається до найшвидшого доступного сервера. Зазвичай – найближчий до вашого розташування.</string>
     <string name="free_connections_info_server_locations">Розташування серверів Free (%1$d)</string>
-    <string name="free_connections_info_banner_text">Користуйтеся світовим покриттям з VPN Plus</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">Безплатні з\'єднання</string>
     <string name="search_upsell_banner_title">Дивіться трансляції звідусіль</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1548,7 +1548,7 @@
     <string name="info_p2p_why_description_logs">Без журналів активності</string>
     <string name="info_p2p_why_description_hide">Приховайте вашу IP-адресу від постачальника послуг та однорангових вузлів</string>
     <string name="info_dialog_smart_routing_description">Технологія Smart Routing використовує віртуальні сервери для забезпечення покриття VPN у країнах з ускладненим доступом.\n\nПід час з\'єднання з сервером Smart Routing здаватиметься, наче ви користуєтесь інтернетом у країні призначення, навіть попри інше фізичне розташування сервера.  \n\nSmart Routing зазвичай використовується для обходу законодавчих обмежень щодо приватності та інших форм цензури.</string>
-    <string name="countries_upsell_banner_description">Користуйтеся світовим покриттям з VPN Plus</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Додайте ще один рівень шифрування до свого VPN-з\'єднання</string>
     <string name="p2p_upsell_banner_description">Завантажуйте файли через BitTorrent й інші протоколи обміну файлами</string>
     <string name="tor_upsell_banner_description">Користуйтеся мережею Tor через VPN-з\'єднання для додаткової приватності</string>

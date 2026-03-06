@@ -633,7 +633,7 @@
     <string name="upgrade_country_message"><![CDATA[I-unlock ang <b>pagpili ng bansa</b> gamit ang VPN Plus.]]></string>
     <string name="free_connections_info_message">Awtomatiko kang ikinokonekta ng Proton Free sa pinakamabilis na available na server. Karaniwang ito ang pinakamalapit na server sa lokasyon mo.</string>
     <string name="free_connections_info_server_locations">Mga lokasyon ng libreng server (%1$d)</string>
-    <string name="free_connections_info_banner_text">Magkaroon ng pandaigdigang coverage gamit ang VPN Plus</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">Mga libreng koneksyon</string>
     <string name="search_upsell_banner_title">Mag-stream mula kahit saan</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1476,7 +1476,7 @@
     <string name="info_p2p_why_description_logs">Walang log ng aktibidad</string>
     <string name="info_p2p_why_description_hide">Itago ang iyong IP address mula sa iyong service provider at mga peer</string>
     <string name="info_dialog_smart_routing_description">Gumagamit ang Smart Routing ng mga virtual server upang magbigay ng VPN coverage sa mga bansang mahirap abutin.\n\nKapag kumonekta ka sa isang Smart Routing server, lalabas na nagba-browse ka sa iyong destinasyong bansa, kahit na ang pisikal na server ay matatagpuan sa ibang lugar.  \n\nKaraniwang ginagamit ang Smart Routing upang malampasan ang mga batas sa anti-privacy at iba pang anyo ng censorship.</string>
-    <string name="countries_upsell_banner_description">Magkaroon ng pandaigdigang coverage gamit ang VPN Plus</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Magdagdag ng isa pang layer ng encryption sa iyong koneksyon ng VPN</string>
     <string name="p2p_upsell_banner_description">Mag-download ng mga file sa pamamagitan ng BitTorrent at iba pang protocol sa pagbabahagi ng file</string>
     <string name="tor_upsell_banner_description">Gamitin ang Tor network sa iyong koneksyon ng VPN para sa karagdagang privacy</string>

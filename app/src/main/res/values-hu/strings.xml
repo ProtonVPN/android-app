@@ -633,7 +633,7 @@
     <string name="upgrade_country_message"><![CDATA[Oldja fel az <b>ország választást</b> a VPN Plusszal.]]></string>
     <string name="free_connections_info_message">A Proton Free automatikusan a leggyorsabb elérhető szerverhez csatlakozik. Ez általában a legközelebbi szerver lesz.</string>
     <string name="free_connections_info_server_locations">Ingyenes szerver helyek (%1$d)</string>
-    <string name="free_connections_info_banner_text">Világszintű lefedettség a VPN Plusszal</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">Free kapcsolatok</string>
     <string name="search_upsell_banner_title">Videózás bárhonnan</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1476,7 +1476,7 @@
     <string name="info_p2p_why_description_logs">Nincs naplózás</string>
     <string name="info_p2p_why_description_hide">IP-címének elrejtése az internet szolgáltató és a kapcsolódó felek elől</string>
     <string name="info_dialog_smart_routing_description">A Smart Routing virtuális szervereket használ, hogy VPN-lefedettséget biztosítson a nehezen elérhető országokban.\n\nAmikor csatlakozik egy Smart Routing szerverhez, úgy tűnik, hogy a célországban böngészik, még akkor is, ha a fizikai szerver máshol található.  \n\nA Smart Routingot általában a magánszférát megsértő törvények és a cenzúra egyéb formáinak kijátszására használják.</string>
-    <string name="countries_upsell_banner_description">Világszintű lefedettség a VPN Plusszal</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Még egy titkosítási réteg hozzáadása a VPN-kapcsolathoz</string>
     <string name="p2p_upsell_banner_description">Fájlok letöltése BitTorrent és más fájlmegosztó protokollokon keresztül</string>
     <string name="tor_upsell_banner_description">Használja a Tor hálózatot a VPN kapcsolatán keresztül, további adatvédelemért</string>

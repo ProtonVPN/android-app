@@ -633,7 +633,7 @@
     <string name="upgrade_country_message"><![CDATA[Accédez à la <b>sélection de pays</b> en passant à VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free vous connecte automatiquement au serveur disponible le plus rapide. Il s\'agit normalement du serveur le plus proche de votre emplacement.</string>
     <string name="free_connections_info_server_locations">Emplacements des serveurs Free (%1$d)</string>
-    <string name="free_connections_info_banner_text">Profitez de serveurs dans le monde entier en passant à VPN Plus.</string>
+    <string name="free_connections_info_banner_text">Accédez à tous les pays avec VPN Plus</string>
     <string name="free_connection_info_title">Connexions gratuites</string>
     <string name="search_upsell_banner_title">Profitez du streaming où que vous soyez.</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1476,7 +1476,7 @@
     <string name="info_p2p_why_description_logs">Aucune activité enregistrée</string>
     <string name="info_p2p_why_description_hide">Masquez votre adresse IP à votre fournisseur de service et aux autres utilisateurs.</string>
     <string name="info_dialog_smart_routing_description">L\'option Smart Routing utilise des serveurs virtuels pour fournir une couverture VPN dans des pays difficiles d\'accès.\n\nQuand vous vous connectez à un serveur Smart Routing, vous semblez naviguer dans votre pays de destination, même si le serveur physique est situé ailleurs.  \n\nLa fonctionnalité Smart Routing est généralement utilisée pour contourner les lois qui restreignent la protection de la vie privée et d\'autres formes de censure.</string>
-    <string name="countries_upsell_banner_description">Profitez de serveurs dans le monde entier en passant à VPN Plus.</string>
+    <string name="countries_upsell_banner_description">Accédez à tous les pays avec VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Ajoutez une couche de chiffrement à votre connexion VPN.</string>
     <string name="p2p_upsell_banner_description">Téléchargez des fichiers depuis BitTorrent ou d\'autres protocoles de partage de fichier.</string>
     <string name="tor_upsell_banner_description">Utilisez le réseau Tor via votre connexion VPN pour une meilleure protection de votre vie privée.</string>

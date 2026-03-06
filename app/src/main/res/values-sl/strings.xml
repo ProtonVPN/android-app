@@ -666,7 +666,7 @@
     <string name="upgrade_country_message"><![CDATA[Odklenite <b>izbiro držav</b> z VPN Plus.]]></string>
     <string name="free_connections_info_message">Brezplačni Proton vas samodejno poveže z najhitrejšim razpoložljivim strežnikom. To bo običajno vaši lokaciji najbližji strežnik.</string>
     <string name="free_connections_info_server_locations">Lokacije brezplačnih strežnikov (%1$d)</string>
-    <string name="free_connections_info_banner_text">Zagotovite si svetovno pokritost z VPN Plus</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">Brezplačne povezave</string>
     <string name="search_upsell_banner_title">Pretakajte od koder koli</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1550,7 +1550,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="info_p2p_why_description_logs">Ni dnevnikov dejavnosti</string>
     <string name="info_p2p_why_description_hide">Skrijte svoj naslov IP pred ponudnikom storitev in podobnimi</string>
     <string name="info_dialog_smart_routing_description">Smart Routing uporablja virtualne strežnike za zagotavljanje pokritosti VPN v težko dostopnih državah.\n\nKo se povežete s strežnikom Smart Routing, bo videti, kot da brskate v ciljni državi, čeprav je fizični strežnik drugje.  \n\nPametno usmerjanje se običajno uporablja za izogibanje zakonom proti zasebnosti in drugim oblikam cenzure.</string>
-    <string name="countries_upsell_banner_description">Zagotovite si svetovno pokritost z VPN Plus</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Dodajte še eno plast šifriranja svoji VPN povezavi</string>
     <string name="p2p_upsell_banner_description">​Prenesite datoteke prek BitTorrenta in drugih protokolov za skupno rabo datotek</string>
     <string name="tor_upsell_banner_description">Za dodatno zasebnost uporabite omrežje Tor prek povezave VPN</string>

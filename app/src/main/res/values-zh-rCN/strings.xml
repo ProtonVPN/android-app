@@ -617,7 +617,7 @@
     <string name="upgrade_country_message"><![CDATA[开通 VPN Plus 即可解锁 <b>自选国家/地区</b> 功能。]]></string>
     <string name="free_connections_info_message">Proton Free 自动连接到可供使用的服务器中最快的那一个。通常会是离您最近的服务器。</string>
     <string name="free_connections_info_server_locations">免费服务器位置 (%1$d)</string>
-    <string name="free_connections_info_banner_text">开通 VPN Plus，获得全球覆盖</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">免费连接</string>
     <string name="search_upsell_banner_title">从任何地方串流视频</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1440,7 +1440,7 @@
     <string name="info_p2p_why_description_logs">不记录活动信息</string>
     <string name="info_p2p_why_description_hide">对网络运营商和其他人隐藏 IP 地址</string>
     <string name="info_dialog_smart_routing_description">利用虚拟服务器，Smart Routing 把可以选择的 VPN 位置扩展到不易设立服务器的地域。\n\n连接到 Smart Routing 服务器后，尽管服务器在目标地域之外，但您看起来就像是在目标地域浏览互联网。  \n\nSmart Routing 可用于绕过反隐私法及其他形式的审查。</string>
-    <string name="countries_upsell_banner_description">开通 VPN Plus，获得全球覆盖</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">为 VPN 连接增添一层额外保护</string>
     <string name="p2p_upsell_banner_description">通过 BitTorrent 和其他文件共享协议下载文件</string>
     <string name="tor_upsell_banner_description">经 Tor 网络连接 VPN，更强隐私</string>

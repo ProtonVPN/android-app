@@ -617,7 +617,7 @@
     <string name="upgrade_country_message"><![CDATA[Mở khóa <b>chọn quốc gia</b> với VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free tự động kết nối bạn với máy chủ nhanh nhất hiện có. Thông thường, đây sẽ là máy chủ gần nhất với vị trí của bạn.</string>
     <string name="free_connections_info_server_locations">Các vị trí máy chủ miễn phí (%1$d)</string>
-    <string name="free_connections_info_banner_text">Nhận phạm vi phủ sóng toàn cầu với VPN Plus</string>
+    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
     <string name="free_connection_info_title">Các kết nối miễn phí</string>
     <string name="search_upsell_banner_title">Phát trực tuyến từ bất cứ đâu</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1440,7 +1440,7 @@
     <string name="info_p2p_why_description_logs">Không có nhật ký hoạt động</string>
     <string name="info_p2p_why_description_hide">Ẩn địa chỉ IP khỏi nhà cung cấp dịch vụ và các máy ngang hàng</string>
     <string name="info_dialog_smart_routing_description">Smart Routing sử dụng máy chủ ảo để cung cấp phạm vi phủ sóng VPN ở các quốc gia khó tiếp cận.\n\nKhi kết nối với máy chủ Smart Routing, bạn sẽ xuất hiện như đang duyệt web ở quốc gia đích, mặc dù máy chủ vật lý được đặt ở nơi khác.  \n\nSmart Routing thường được sử dụng để vượt qua các luật chống quyền riêng tư và các hình thức kiểm duyệt khác.</string>
-    <string name="countries_upsell_banner_description">Nhận phạm vi phủ sóng toàn cầu với VPN Plus</string>
+    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Thêm một lớp mã hóa khác cho kết nối VPN</string>
     <string name="p2p_upsell_banner_description">Tải xuống tệp qua BitTorrent và các giao thức chia sẻ tệp khác</string>
     <string name="tor_upsell_banner_description">Sử dụng mạng Tor sau khi kết nối VPN để tăng cường quyền riêng tư</string>

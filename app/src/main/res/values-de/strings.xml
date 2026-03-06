@@ -633,7 +633,7 @@
     <string name="upgrade_country_message"><![CDATA[Freischalten der <b>Länderauswahl</b> mit VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free verbindet dich automatisch mit dem schnellsten verfügbaren Server. Dies ist normalerweise der Server, der deinem Standort am nächsten ist.</string>
     <string name="free_connections_info_server_locations">Verfügbare Serverstandorte (%1$d)</string>
-    <string name="free_connections_info_banner_text">Erhalte weltweite Abdeckung mit VPN Plus</string>
+    <string name="free_connections_info_banner_text">Zugang zu allen Ländern mit VPN Plus</string>
     <string name="free_connection_info_title">Kostenlose Verbindungen</string>
     <string name="search_upsell_banner_title">Streamen von überall</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1476,7 +1476,7 @@
     <string name="info_p2p_why_description_logs">Keine Aktivitätsprotokollierung</string>
     <string name="info_p2p_why_description_hide">Verstecke deine IP-Adresse vor deinem Dienstanbieter und anderen Nutzern</string>
     <string name="info_dialog_smart_routing_description">Smart Routing verwendet virtuelle Server, um VPN-Abdeckung in schwer zugänglichen Ländern zu bieten.\n\nWenn du eine Verbindung zu einem Smart Routing-Server herstellst, scheint es, als würdest du in deinem Zielland surfen, obwohl sich der physische Server anderswo befindet.  \n\nSmart Routing wird in der Regel verwendet, um Anti-Datenschutzgesetze und andere Formen der Zensur zu umgehen.</string>
-    <string name="countries_upsell_banner_description">Erhalte weltweite Abdeckung mit VPN Plus</string>
+    <string name="countries_upsell_banner_description">Zugang zu allen Ländern mit VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Füge deiner VPN-Verbindung eine weitere Verschlüsselungsebene hinzu</string>
     <string name="p2p_upsell_banner_description">Herunterladen von Dateien über BitTorrent und andere Dateifreigabeprotokolle</string>
     <string name="tor_upsell_banner_description">Verwende das Tor-Netzwerk über deine VPN-Verbindung für mehr Privatsphäre</string>

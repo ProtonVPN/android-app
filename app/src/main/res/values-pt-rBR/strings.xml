@@ -633,7 +633,7 @@
     <string name="upgrade_country_message"><![CDATA[Desbloqueie a <b>seleção de países</b> com VPN Plus.]]></string>
     <string name="free_connections_info_message">O Proton Free automaticamente se conecta ao servidor grátis mais rápido. Normalmente será o servidor mais próximo da sua localização.</string>
     <string name="free_connections_info_server_locations">Localizações dos servidores gratuitos (%1$d)</string>
-    <string name="free_connections_info_banner_text">Obtenha cobertura global com VPN Plus</string>
+    <string name="free_connections_info_banner_text">Acesse todos os países com o VPN Plus</string>
     <string name="free_connection_info_title">Conexões gratuitas</string>
     <string name="search_upsell_banner_title">Transmita de qualquer lugar</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1476,7 +1476,7 @@
     <string name="info_p2p_why_description_logs">Sem registros de atividades</string>
     <string name="info_p2p_why_description_hide">Oculte seu endereço IP do seu provedor de serviços e de seus pares</string>
     <string name="info_dialog_smart_routing_description">O Smart Routing utiliza servidores virtuais para fornecer cobertura VPN em países de difícil acesso.\n\nAo se conectar a um servidor Smart Routing, você parecerá estar navegando no seu país de destino, mesmo que o servidor físico esteja localizado em outro lugar.  \n\nO Smart Routing é normalmente utilizado para contornar leis anti-privacidade e outras formas de censura.</string>
-    <string name="countries_upsell_banner_description">Obtenha cobertura global com o VPN Plus</string>
+    <string name="countries_upsell_banner_description">Acesse todos os países com o VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Adicione outra camada de criptografia à sua conexão VPN</string>
     <string name="p2p_upsell_banner_description">Baixe arquivos via BitTorrent e outros protocolos de compartilhamento de arquivos</string>
     <string name="tor_upsell_banner_description">Use a rede Tor sobre sua conexão VPN para privacidade extra</string>

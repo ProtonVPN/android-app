@@ -89,8 +89,8 @@
     <string name="send_report">ارسل التقرير</string>
     <string name="report_sent">تم إرسال التقرير</string>
     <string name="discardChanges">محو التغييرات غير المحفوظة ؟</string>
-    <string name="discardChangesButtonDiscard">Discard changes</string>
-    <string name="discardChangesButtonKeepEditing">Keep editing</string>
+    <string name="discardChangesButtonDiscard">تجاهل التغييرات</string>
+    <string name="discardChangesButtonKeepEditing">متابعة التعديل</string>
     <string name="done">تمّ</string>
     <string name="add">إضافة</string>
     <string name="copy_to_clipboard">نسخ</string>
@@ -699,7 +699,7 @@
     <string name="upgrade_country_message"><![CDATA[احصل على قدرة <b>اختيار البلد</b> مع اشتراك VPN Plus.]]></string>
     <string name="free_connections_info_message">يقوم Proton المجاني بوصلك تلقائياً إلى أسرع خادم متاح. سيكون هذا عادةً أقرب خادم لموقعك.</string>
     <string name="free_connections_info_server_locations">عدد مواقع الخادم المجانية (%1$d)</string>
-    <string name="free_connections_info_banner_text">احصل على تغطية عالمية مع VPN Plus</string>
+    <string name="free_connections_info_banner_text">الوصول إلى جميع البلدان باستخدام VPN Plus</string>
     <string name="free_connection_info_title">الاتصالات مجانية</string>
     <string name="search_upsell_banner_title">المشاهدة من أي مكان</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1623,7 +1623,7 @@
     <string name="info_p2p_why_description_logs">لا سجلات نشاط</string>
     <string name="info_p2p_why_description_hide">إخفاء عنوان IP الخاص بك عن مزود الخدمة والآخرين</string>
     <string name="info_dialog_smart_routing_description">يستخدم التوجيه الذكي خوادم افتراضية لتوفير تغطية VPN في البلدان التي يصعب الوصول إليها.\n\nعند الاتصال بخادم التوجيه الذكي، ستبدو أنك بصدد التصفح في بلد الوجهة الخاصة بك، على الرغم من أن الخادم الفعلي موجود في مكان آخر.  \n\nيتم استخدام الطرق الذكية عادة للتمحور حول قوانين مكافحة الخصوصية وغيرها من أشكال الرقابة.</string>
-    <string name="countries_upsell_banner_description">احصل على تغطية عالمية مع VPN Plus</string>
+    <string name="countries_upsell_banner_description">الوصول إلى جميع البلدان باستخدام VPN Plus</string>
     <string name="secure_core_upsell_banner_description">اضف طبقة اضافية من التشفير لاتصال VPN الخاص بك</string>
     <string name="p2p_upsell_banner_description">تنزيل الملفات من خلال BitTorrent وبروتوكولات مشاركة الملفات الأخرى</string>
     <string name="tor_upsell_banner_description">استخدم شبكة Tor عبر اتصال VPN الخاص بك لمزيد من الخصوصية</string>

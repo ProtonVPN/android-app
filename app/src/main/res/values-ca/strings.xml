@@ -633,7 +633,7 @@
     <string name="upgrade_country_message"><![CDATA[Desbloquegeu la <b>selecció de països</b> amb VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free us connecta automàticament al servidor més ràpid disponible. Normalment, serà el servidor més proper a la vostra ubicació.</string>
     <string name="free_connections_info_server_locations">Ubicacions de servidors gratuïts (%1$d)</string>
-    <string name="free_connections_info_banner_text">Obtingueu una cobertura mundial amb VPN Plus.</string>
+    <string name="free_connections_info_banner_text">Accediu a tots els països amb VPN Plus</string>
     <string name="free_connection_info_title">Connexions gratuïtes</string>
     <string name="search_upsell_banner_title">Gaudiu de l\'estríming allà on sigueu.</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1476,7 +1476,7 @@
     <string name="info_p2p_why_description_logs">No hi ha registres d\'activitat</string>
     <string name="info_p2p_why_description_hide">Oculteu la vostra adreça IP del proveïdor de serveis i d\'altres usuaris.</string>
     <string name="info_dialog_smart_routing_description">Smart Routing utilitza servidors virtuals per oferir cobertura VPN en països de difícil accés.\n\nQuan us connecteu a un servidor Smart Routing, us semblarà que esteu navegant al vostre país de destinació, tot i que el servidor físic es troba en un altre lloc. \n\nSmart Routing s\'usa normalment per evitar les lleis contra la privadesa i altres formes de censura.</string>
-    <string name="countries_upsell_banner_description">Obtingueu una cobertura mundial amb VPN Plus.</string>
+    <string name="countries_upsell_banner_description">Accediu a tots els països amb el VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Afegiu una altra capa de xifratge a la vostra connexió VPN.</string>
     <string name="p2p_upsell_banner_description">Descarregueu fitxers a través de BitTorrent i altres protocols de compartició de fitxers</string>
     <string name="tor_upsell_banner_description">Utilitzeu la xarxa Tor a través d\'una connexió VPN per a una privacitat addicional</string>
