@@ -27,6 +27,7 @@ import com.protonvpn.android.userstorage.StoreProvider
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.Serializable
+import me.proton.core.domain.entity.UserId
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -68,8 +69,17 @@ class UiStateStorage @Inject constructor(
 
     val state: Flow<UiStoredState> = currentUserStoreProvider.dataFlowOrDefaultIfNoUser(UiStoredState.Default)
 
+    suspend fun stateForUser(userId: UserId): Flow<UiStoredState> =
+        currentUserStoreProvider.getDataStoreForUser(userId).data
+
     suspend fun update(transform: (current: UiStoredState) -> UiStoredState) =
         currentUserStoreProvider.updateForCurrentUser(transform)
+
+    suspend fun updateForUser(
+        userId: UserId,
+        transform: (current: UiStoredState) -> UiStoredState
+    ) = currentUserStoreProvider.getDataStoreForUser(userId).updateData(transform)
+
 }
 
 @Singleton

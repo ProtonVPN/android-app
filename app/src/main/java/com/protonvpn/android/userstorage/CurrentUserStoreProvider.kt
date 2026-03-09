@@ -68,8 +68,8 @@ class CurrentUserStoreProvider<T>(
         .distinctUntilChanged()
         .map { suffix -> suffix?.let { storeProvider.dataStoreWithSuffix(suffix) } }
 
-    suspend fun getDataStoreForUser(vpnUser: VpnUser): DataStore<T> =
-        storeProvider.dataStoreWithSuffix(vpnUser.userId.toDataStoreSuffix())
+    suspend fun getDataStoreForUser(userId: UserId): DataStore<T> =
+        storeProvider.dataStoreWithSuffix(userId.toDataStoreSuffix())
 
     fun dataFlowOrDefaultIfNoUser(default: T): Flow<T> =
         data.flatMapLatest { dataStore -> dataStore?.data ?: flowOf(default) }

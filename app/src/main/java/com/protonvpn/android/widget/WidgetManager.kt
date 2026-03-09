@@ -34,7 +34,9 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.protonvpn.android.R
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.Once
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
@@ -43,13 +45,16 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.proton.core.domain.entity.UserId
 import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -67,6 +72,7 @@ class WidgetManager @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     @ApplicationContext private val context: Context,
     widgetTracker: WidgetTracker,
+    private val currentUser: CurrentUser,
     private val uiStateStorage: UiStateStorage,
     private val workManager: dagger.Lazy<WorkManager>,
 ) {
@@ -108,19 +114,25 @@ class WidgetManager @Inject constructor(
 
     init {
         scope.launch {
-            if (uiStateStorage.state.first().shouldShowWidgetAdoption == null) {
+            delay(10_000L)
+            val userId = currentUser.vpnUserFlow.filterNotNull().first().userId
+            if (uiStateStorage.stateForUser(userId).first().shouldShowWidgetAdoption == null) {
                 uiStateStorage.update { it.copy(shouldShowWidgetAdoption = false) }
-                val workRequest = OneTimeWorkRequestBuilder<WidgetAdoptionWorker>()
+                val workRequest = WidgetAdoptionWorker.createOneTimeRequestBuilder(userId)
                     .setInitialDelay(2, TimeUnit.DAYS)
                     .build()
                 workManager.get()
-                    .enqueueUniqueWork(UNIQUE_WORK_NAME, ExistingWorkPolicy.KEEP, workRequest)
+                    .enqueueUniqueWork(
+                        WidgetAdoptionWorker.UNIQUE_NAME,
+                        ExistingWorkPolicy.KEEP,
+                        workRequest
+                    )
             }
         }
         scope.launch {
             hasAddedWidget.collect { hasAdded ->
                 if (hasAdded == true) {
-                    workManager.get().cancelUniqueWork(UNIQUE_WORK_NAME)
+                    workManager.get().cancelUniqueWork(WidgetAdoptionWorker.UNIQUE_NAME)
                 }
             }
         }
@@ -173,9 +185,6 @@ class WidgetManager @Inject constructor(
     }
 }
 
-
-private const val UNIQUE_WORK_NAME = "WidgetAdoptionUpdate"
-
 @HiltWorker
 class WidgetAdoptionWorker @AssistedInject constructor(
     @Assisted context: Context,
@@ -184,7 +193,22 @@ class WidgetAdoptionWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        uiStorage.update { it.copy(shouldShowWidgetAdoption = true) }
+        val userId = inputData.getString(INPUT_USER_ID)
+        if (userId != null) {
+            uiStorage.updateForUser(UserId(userId)) { it.copy(shouldShowWidgetAdoption = true) }
+        } else {
+            // Work scheduled by older version of the app will execute this path.
+            uiStorage.update { it.copy(shouldShowWidgetAdoption = true) }
+        }
         return Result.success()
+    }
+
+    companion object {
+        private const val INPUT_USER_ID = "UserId"
+        const val UNIQUE_NAME = "WidgetAdoptionUpdate"
+
+        fun createOneTimeRequestBuilder(userId: UserId) =
+            OneTimeWorkRequestBuilder<WidgetAdoptionWorker>()
+                .setInputData(workDataOf(INPUT_USER_ID to userId.id))
     }
 }
