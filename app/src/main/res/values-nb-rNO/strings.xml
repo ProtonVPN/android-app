@@ -633,7 +633,7 @@
     <string name="upgrade_country_message"><![CDATA[Lås opp <b>valg av land</b> med VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free kobler deg automatisk til den raskeste tilgjengelige tjeneren. Dette vil normalt være den nærmeste tjeneren til din plassering.</string>
     <string name="free_connections_info_server_locations">Gratis tjenerplasseringer (%1$d)</string>
-    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
+    <string name="free_connections_info_banner_text">Få tilgang til alle land med VPN Plus</string>
     <string name="free_connection_info_title">Gratis forbindelser</string>
     <string name="search_upsell_banner_title">Strøm fra hvor som helst</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1476,7 +1476,7 @@
     <string name="info_p2p_why_description_logs">Ingen aktivitetslogger</string>
     <string name="info_p2p_why_description_hide">Skjul IP-adressen din for tjenesteleverandøren og noder</string>
     <string name="info_dialog_smart_routing_description">Smart Routing bruker virtuelle tjenere for å gi VPN-dekning i vanskelig tilgjengelige land.\n\nNår du kobler til en Smart Routing-tjener, ser det ut til at du surfer i destinasjonslandet ditt, selv om den fysiske tjeneren befinner seg et annet sted.  \n\nSmart Routing brukes vanligvis til å omgå personvernlover og andre former for sensur.</string>
-    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
+    <string name="countries_upsell_banner_description">Få tilgang til alle land med VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Legg til et ekstra krypteringslag til VPN-tilkoblingen din.</string>
     <string name="p2p_upsell_banner_description">Last ned filer gjennom BitTorrent og andre fildelingsprotokoller</string>
     <string name="tor_upsell_banner_description">Bruk Tor-nettverket over VPN-tilkoblingen for ekstra personvern</string>

@@ -57,8 +57,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">შესაკეთებლადაა</string>
     <string name="restrictedMaintenanceDescription">სერვერი, რომელთანაც მიერთებას ცდილობთ, ტექმომსახურებაშია. სხვა სერვერი სცადეთ.</string>
-    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
-    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
+    <string name="restricted_location_excluded_dialog_title">შეერთების შეცდომა</string>
+    <string name="restricted_location_excluded_dialog_description">სერვერები ხელმისაწვდომი არა. აირჩიეთ მდებარეობა ხელით, ან ჩაასწორეთ თქვენი გამორიცხული მდებარეობები.</string>
     <string name="errorUserDelinquent"><![CDATA[თქვენს ანგარიშში ნაპოვნია გადაცილებული ინვოისი. მისი გადახდა შეგიძლიათ მისამართზე &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">მიაღწიეთ თქვენი ანგარიშისთვის დაშვებული შეერთებების მაქსიმალურ რიცხვს. მეტი მიერთების მისაღებად განაახლეთ სატარიფო გეგმა.</string>
     <string name="listItemMaintenance">შესაკეთებლადაა</string>
@@ -89,21 +89,21 @@
     <string name="send_report">ანგარიშის გაგზავნა</string>
     <string name="report_sent">ანგარიში გაგზავნილია</string>
     <string name="discardChanges">მოვაშორო შეუნახავი ცვლილებები?</string>
-    <string name="discardChangesButtonDiscard">Discard changes</string>
-    <string name="discardChangesButtonKeepEditing">Keep editing</string>
+    <string name="discardChangesButtonDiscard">ცვლილებების გაუქმება</string>
+    <string name="discardChangesButtonKeepEditing">ჩასწორების გაგრძელება</string>
     <string name="done">დასრულება</string>
     <string name="add">დამატება</string>
     <string name="copy_to_clipboard">კოპირება</string>
     <string name="copied_to_clipboard">დაკოპირდა გაცვლის ბუფერში</string>
     <string name="got_it">გავიგე</string>
-    <string name="exclude_locations">Exclude locations</string>
-    <string name="excluded_locations">Excluded locations</string>
-    <string name="cannot_connect">Cannot connect</string>
-    <string name="skip">Skip</string>
+    <string name="exclude_locations">მდებარეობების გამორიცხვა</string>
+    <string name="excluded_locations">გამორიცხული მდებარეობები</string>
+    <string name="cannot_connect">დაკავშირება შეუძლებელია</string>
+    <string name="skip">გამოტოვება</string>
     <string name="something_went_wrong">რაღაც არასწორად წავიდა</string>
     <string name="try_again">კიდევ ცდა</string>
     <string name="delete">წაშლა</string>
-    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Move to top</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">თავში ატანა</string>
     <string name="menu_option_move_up" comment="command used to move an item one position up in the list">მაღლა ატანა</string>
     <string name="menu_option_move_down" comment="command used to move an item one position down in the list">დაბლა ჩატანა</string>
     <string name="remove">წაშლა</string>
@@ -136,19 +136,19 @@
     <string name="loaderErrorNoInternet">ინტერნეტი არ გაქვთ</string>
     <string name="loaderErrorGeneric">რაღაც არასწორად წავიდა</string>
     <string name="inputIpAddressLabel">IP მისამართი</string>
-    <string name="inputIpAddressHelp">Enter the server’s IPv4 or IPv6 address</string>
+    <string name="inputIpAddressHelp">შეიყვანეთ სერვერის IPv4, ან IPv6 მისამართი</string>
     <string name="inputIpAddressErrorInvalid">არასწორი IP მისამართი</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">ახალი</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
-    <string name="settings_beta_label_badge">BETA</string>
+    <string name="settings_beta_label_badge">ბეტა</string>
     <string name="settingsExcludedIPAddressesListHeader">გამორიცხული IP მისამართები (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">ჩართული IP მისამართები (%1$d)</string>
     <string name="settingsExcludedApps">გამორიცხული აპები</string>
     <string name="settingsExcludedAppsEmpty">VPN-ის ტრაფიკიდან ამოღებული აპები.</string>
     <string name="settingsIncludedAppsEmpty">VPN ტრაფიკში ჩასმული აპები:</string>
     <string name="settingsExcludedAppsSelectedHeader">გამორიცხული აპები (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">ჩასმული აპები (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">ყველა ხვა ჩვეულებრივი აპი (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">ყველა სხვა სისტემური აპი (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">ყველა სხვა აპი (%1$d)</string>
@@ -162,28 +162,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Add to excluded apps</string>
+    <string name="accessibility_action_add_excluded_app">დამატება ამოღებულ აპებში</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Remove from excluded apps</string>
+    <string name="accessibility_action_remove_excluded_app">წაშლა ამოღებული აპებიდან</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Add to included apps</string>
+    <string name="accessibility_action_add_included_app">დამატება ჩასმულ აპებში</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Remove from included apps</string>
+    <string name="accessibility_action_remove_included_app">წაშლა ჩასმული აპებიდან</string>
     <string name="accessibility_action_copy_to_clipboard">ბუფერში კოპირება</string>
     <string name="accessibility_action_item_delete">წაშლა</string>
     <string name="accessibility_action_item_move_up">მაღლა ატანა</string>
@@ -230,13 +230,13 @@
     <string name="settingsSendCrashReportsDescription">ავარიის ანგარიშები გვეხმარება შეცდომების გამოსწორებაში, ფეიერვოლების აღმოჩენაში და VPN ბლოკების თავიდან აცილებაში.</string>
     <string name="settingsTelemetryScreenTitle">გამოყენების სტატისტიკა</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[ეს სტატისტიკა თქვენს IP-ს არ შეიცავს და ის თქვენს ამოსაცნობად გამოყენებული ვერ იქნება. ჩვენ მას მესამე პირებს არასოდეს ვუზიარებთ. <a href="%1$s">გაიგეთ მეტი</a>]]></string>
-    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. %1$s</string>
-    <string name="netshield_settings_description_tv">Protects you from third-party ads, trackers, and malware. NetShield doesn\'t block ads that are built into streaming services like YouTube and Netflix.</string>
-    <string name="netshield_settings_more_info_title_tv">How NetShield works</string>
+    <string name="netshield_settings_description_not_html">დაიცავით თავი რეკლამებისგან, მავნე პროგრამებისგან და ტრეკერებისგან აპებში და ვებგვერდებზე. %1$s</string>
+    <string name="netshield_settings_description_tv">გიცავთ მესამე პირების რეკლამებისგან, ტრეკერებისგან და მავნე პროგრამებისგან. NetShield არ ბლოკავს რეკლამებს, რომლებიც ჩაშენებულია სტრიმინგ სერვისებში, როგორიცაა YouTube და Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">როგორ მუშაობს NetShield</string>
     <string-array name="netshield_settings_more_info_paragraphs_tv">
-        <item>NetShield blocks DNS requests to third-party domains known for ads, trackers, and malware.</item>
-        <item>This means you won\'t receive ads from your browser or free apps that use third-party ad services.</item>
-        <item>However, it can\'t block ads from streaming platforms like YouTube and Netflix, because their ads come from their own servers.</item>
+        <item>NetShield ბლოკავს DNS მოთხოვნებს მესამე პირების დომენებისთვის, რომლებიც ცნობილია რეკლამებით, ტრეკერებით და მავნე პროგრამებით.</item>
+        <item>ეს ნიშნავს, რომ თქვენ არ მიიღებთ რეკლამებს თქვენი ბრაუზერიდან ან უფასო აპებიდან, რომლებიც იყენებენ მესამე პირების სარეკლამო სერვისებს.</item>
+        <item>თუმცა, ის ვერ დაბლოკავს რეკლამებს სტრიმინგ პლატფორმებიდან, როგორიცაა YouTube და Netflix, რადგან მათი რეკლამები მათივე სერვერებიდან მოდის.</item>
     </string-array>
     <string name="settings_icon_change_description">დამალეთ Proton VPN განხვავებული ხატულით. გაფრთხილებები ნაგულისხმევ Proton VPN სახელს და ხატულა გაჩვენებთ. %1$s</string>
     <string name="settings_icon_change_learn_more">გაიგეთ მეტი</string>
@@ -255,11 +255,11 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">ჩართ</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">გამორთული</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">ხელმიუწვდომელია</string>
-    <string name="custom_dns_item_removed_snackbar">Item removed</string>
+    <string name="custom_dns_item_removed_snackbar">ელემენტი წაშლილია</string>
     <string name="netshield_free_description">დაბლოკეთ რეკლამები, ტრეკერები და საზიანო პროგრამები ვებგვერდებზე და აპებში</string>
-    <string name="netshield_what_data_means">NetShield statistics explained</string>
+    <string name="netshield_what_data_means">NetShield-ის სტატისტიკის განმარტება</string>
     <string name="netshield_ads_title">რეკლამა</string>
-    <string name="netshield_ads_details">Advertisements and invisible ad trackers</string>
+    <string name="netshield_ads_details">რეკლამა და უხილავი რეკლამის ტრეკერები</string>
     <string name="netshield_trackers_title">ტრეკერები</string>
     <string name="netshield_trackers_details">ქუქიები და სხვა ტრეკერები, რომლებიც იმახსოვრებენ და აზიარებენ თქვენს აქტივობას ინტერნეტში</string>
     <string name="netshield_data_title">მონაცემები</string>
@@ -276,7 +276,7 @@
     <string name="netshield_setting_warning">ზოგიერთი ვებგვერდი, შეიძლება, სწორად არ ჩაიტვირთოს, თუ რეკლამას და ტრეკერებს დაბლოკავთ.</string>
     <string name="dialogDontShowAgain">აღარ მაჩვენო</string>
     <string name="guestHoleNotificationContent">ქსელის პრობლემის გვერდის ავლის მცდელობა. ეს Proton VPN-თან წვდომაში დაგეხმარებათ.</string>
-    <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>
+    <string name="errorTunMultiUserPermission">VPN შეერთების ინიციალიზაცია შეუძლებელია ორმაგ-აპს (Dual Messenger-ი, მაგალითად) და Split Tunneling-ს შორის. გამორთეთ ერთ-ერთი და გადატვირთეთ მოწყობილობა.</string>
     <string name="errorTorrentNotAllowed">ამ სერვერზე P2P დაუშვებელია</string>
     <string name="error_profile_fallback_unavailable">მიერთება ჩავარდა. თქვენი სერვერის არჩევანი პროფილისთვის ხელმისაწვდომი არაა.</string>
     <string name="profileProtocolNotAvailable">ამ პროფილის VPN პროტოკოლი ამჟამად ხელმიუწვდომელია. დასაკავშირებლად, სცადეთ, პროტოკოლი შეცვალოთ.</string>
@@ -291,7 +291,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">პროტოკოლი</string>
-    <string name="tv_dialog_delete_server_title">Delete server %1$s?</string>
+    <string name="tv_dialog_delete_server_title">წაიშალოს სერვერი %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">რჩეული</string>
     <string name="tv_detail_connect_streaming">Plus-ით სტრიმინგი</string>
     <string name="tv_detail_connect">დაკავშირება</string>
@@ -328,11 +328,11 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% server load</string>
+    <string name="tv_server_list_load">სერვერის დატვირთვა %1$s%%</string>
     <string name="tv_recently_used_servers">ახლახან გამოყენებული სერვერები</string>
-    <string name="tv_available_servers">Available servers</string>
-    <string name="tv_locked_servers">Locked servers</string>
-    <string name="tv_other_servers">Other servers</string>
+    <string name="tv_available_servers">ხელმისაწვდომი სერვერები</string>
+    <string name="tv_locked_servers">დაბლოკილი სერვერები</string>
+    <string name="tv_other_servers">სხვა სერვერები</string>
     <string name="tv_server_list">სერვერების სია</string>
     <string name="tv_server_list_action_unavailable">ხელმიუწვდომელია</string>
     <string name="notification_subscription_expired_title">Proton VPN-ის თქვენს გამოწერის გეგმას ვადა გაუვიდა</string>
@@ -437,7 +437,7 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[განბლოკეთ %1$s %2$s-ში <b>VPN Plus</b>-თან ერთად.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">მიიღეთ კონფიდენციალობის სრული დაფარვა Proton Unlimited-თან ერთად</string>
-    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
+    <string name="upgrade_unlimited_all_apps_description">განბლოკეთ Proton VPN-ის, Mail-ის, Calendar-ის, Drive-ისა და Pass-ის ყველა ფასიანი ფუნქცია.</string>
     <string name="upgrade_unlimited_more">და სხვა</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">ყველა ქვეყნის განბლოკვა</string>
     <string name="upgrade_unlimited_vpn_all_features">ყველა სხვა VPN Plus-ის ფუნქცია</string>
@@ -538,7 +538,7 @@
     <string name="upsell_card_streaming_description">უყურეთ თქვენს საყვარელ ფილმებსა და სერიალებს</string>
     <string name="upsell_card_tor_title">Tor VPN-ის ზემოდან</string>
     <string name="upsell_card_tor_description">გამოიყენეთ Tor-ის ქსელი თქვენი VPN მიერთების ზემოდან, დამატებითი კონფიდენციალობისთვის</string>
-    <string name="upsell_tv_all_countries_title">Access all countries with Plus</string>
+    <string name="upsell_tv_all_countries_title">მიიღეთ წვდომა ყველა ქვეყანაზე Plus-თან ერთად</string>
     <!-- Format for upselling countries on TV".
         %1$s - replaced with upgrade_plus_servers_new plurals key (e.g. 1 secure server or 10 secure servers)
         %2$s - replaced with upgrade_plus_countries plurals key (e.g. 1 country or 10 countries)
@@ -546,14 +546,14 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s. %3$s</string>
-    <string name="upsell_tv_netshield_title">Enjoy ad-free browsing with Plus</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>. %1$s]]></string>
-    <string name="upsell_tv_split_tunneling_title">Get the best of both worlds with Plus</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>. %1$s]]></string>
-    <string name="upsell_tv_customization_title">Get advanced VPN customization with Plus</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features. %1$s]]></string>
-    <string name="upsell_tv_description_placeholder">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_all_countries_description">განბლოკეთ %1$s %2$s-ში. %3$s</string>
+    <string name="upsell_tv_netshield_title">ისიამოვნეთ ურეკლამო ინტერნეტით Plus-ით</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[დაბლოკეთ რეკლამა, ტრეკერები და მავნე პროგრამები <b>NetShield</b>-ით. %1$s]]></string>
+    <string name="upsell_tv_split_tunneling_title">მიიღეთ საუკეთესო ორივე სამყაროდან Plus-ით</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[გაჰყავით თქვენი ტრაფიკი VPN და არა-VPN ტრაფიკად <b>გაყოფილი გვირაბით</b>. %1$s]]></string>
+    <string name="upsell_tv_customization_title">მიიღეთ VPN-ის დამატებითი პარამეტრები Plus-ით</string>
+    <string name="upsell_tv_customization_description"><![CDATA[განბლოკეთ <b>LAN კავშირები</b>, <b>მორგებული DNS</b> და მეტი მოწინავე VPN-ის ფუნქცია. %1$s]]></string>
+    <string name="upsell_tv_description_placeholder">გადადით Proton VPN-ის ვებსაიტზე თქვენი სატარიფო გეგმის განახლებისთვის.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -600,12 +600,12 @@
     <string name="dynamic_report_tips_description">ეს მინიშნებები დაგეხმარებათ, თქვენი პრობლემა უსწრაფესად გადაჭრათ.</string>
     <string name="dynamic_report_tips_title">სწრაფი ჩასწორებები</string>
     <string name="dynamic_report_logs_title">შეცდომის ჟურნალის გაგზავნა</string>
-    <string name="dynamic_report_logs_tooltip">Error logs show us what went wrong, and which actions led to the problem. We’ll only ever use them to help our engineers fix issues.</string>
-    <string name="dynamic_report_error_title">We couldn’t send your report.</string>
-    <string name="dynamic_report_completion_error_description_generic">We couldn’t send your report. Please try again.</string>
-    <string name="dynamic_report_completion_error_description_no_internet">We couldn’t send your report. Please check your connection and try again.</string>
-    <string name="dynamic_report_completion_error_description_timeout">We couldn’t send your report. Connection timed out, please try again.</string>
-    <string name="dynamic_report_completion_success_title">Thanks for your feedback. We’ll get back to you as soon as we can.</string>
+    <string name="dynamic_report_logs_tooltip">შეცდომის ჟურნალი გვიჩვენებს, რა წავიდა არასწორად და რომელმა ქმედებებმა გამოიწვია პრობლემა. ჩვენ მათ, მხოლოდ, ჩვენი ინჟინრებისთვის პროგრამის შეცდომის გასწორების გასაადვილებლად ვიყენებთ.</string>
+    <string name="dynamic_report_error_title">ჩვენ ვერ შევძელით თქვენი ანგარიშის გაგზავნა.</string>
+    <string name="dynamic_report_completion_error_description_generic">თქვენი ანგარიში ვერ გავგზავნეთ. კიდევ სცადეთ.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">თქვენი ანგარიში ვერ გავგზავნეთ. შეამოწმეთ კავშირი და კიდევ სცადეთ.</string>
+    <string name="dynamic_report_completion_error_description_timeout">თქვენი ანგარიში ვერ გავგზავნეთ. დაკავშირების მოლოდინის ვადა ამოიწურა. კიდევ სცადეთ.</string>
+    <string name="dynamic_report_completion_success_title">მადლობა გამოხმაურებისთვის. დაგიკავშირდებით, როგორც კი შევძლებთ.</string>
     <string name="dynamic_report_success_title">მადლობა გამოხმაურებისთვის</string>
     <string name="dynamic_report_success_description">დავბრუნდებით, რაც შეიძლება მალე.</string>
     <string name="dynamic_report_field_mandatory">ეს ველი სავალდებულოა</string>
@@ -614,12 +614,12 @@
     <string name="dynamic_report_step1">ნაბიჯი 1 3-დან</string>
     <string name="dynamic_report_step2">ნაბიჯი 2 3-დან</string>
     <string name="dynamic_report_step3">ნაბიჯი 3 3-დან</string>
-    <string name="dynamic_report_your_issue_headline">What’s the issue?</string>
+    <string name="dynamic_report_your_issue_headline">რა პრობლემა გაქვთ?</string>
     <string name="update_screen_title">Proton VPN-ის განახლება</string>
     <string name="update_screen_description">Proton VPN-ის ძველ ვერსიებზე პრობლემები გექნებათ.</string>
-    <string name="update_banner_description_settings">A new version of the app is available</string>
-    <string name="update_banner_warning_vpn_connected_title">VPN will disconnect briefly</string>
-    <string name="update_banner_warning_vpn_connected_message">The app needs to restart to finish the update. You will be reconnected automatically afterward.</string>
+    <string name="update_banner_description_settings">ხელმისაწვდომია აპლიკაციის ახალი ვერსია</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN ცოტა ხნით გაითიშება</string>
+    <string name="update_banner_warning_vpn_connected_message">აპს განახლების დასასრულებლად გადატვირთვა სჭირდება. ამის შემდეგ დაკავშირება ავტომატურად მოხდება.</string>
     <string name="dialog_create_account_title">გასაგრძელებლად შექმენით ანგარიში</string>
     <string name="dialog_create_account_action_create">ანგარიშის შექმნა</string>
     <string name="dialog_create_account_action_signin">შესვლა</string>
@@ -633,7 +633,7 @@
     <string name="upgrade_country_message"><![CDATA[განბლოკეთ <b>ქვეყნის არჩევანი</b> VPN Plus-თან ერთად.]]></string>
     <string name="free_connections_info_message">Proton Free ავტომატურად მიუერთდება უსწრაფეს ხელმისაწვდომ სერვერს. ეს ჩვეულებრივ თქვენს მდებარეობასთან არსებული უახლოესი სერვერია.</string>
     <string name="free_connections_info_server_locations">უფასო სერვერის მდებარეობები (%1$d)</string>
-    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
+    <string name="free_connections_info_banner_text">მიიღეთ წვდომა ყველა ქვეყანაზე VPN Plus-თან ერთად</string>
     <string name="free_connection_info_title">უფასო მიერთებები</string>
     <string name="search_upsell_banner_title">დასტრიმეთ ნებისმიერი ადგილიდან</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -644,16 +644,16 @@
     <string name="select_default_connection">აირჩიეთ თქვენი ნაგულისხმევი მიერთება</string>
     <string name="settings_default_connection_title">ნაგულისხმევი მიერთება</string>
     <string name="fastest_country_description">საუკეთესო სერვერი თქვენს მდებარეობაზე დაყრდნობით</string>
-    <string name="settings_connection_preferences_title">Connection preferences</string>
-    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item removed</string>
-    <string name="settings_excluded_locations_title">Excluded locations</string>
-    <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
-    <string name="settings_excluded_locations_unavailable">No locations available</string>
-    <string name="settings_excluded_locations_selection_hint">Select…</string>
-    <string name="settings_excluded_locations_accessibility_label_deletion">Remove from excluded locations</string>
-    <string name="settings_excluded_locations_accessibility_label_city">City</string>
-    <string name="settings_excluded_locations_accessibility_label_country">Country</string>
-    <string name="settings_excluded_locations_accessibility_label_state">State</string>
+    <string name="settings_connection_preferences_title">კავშირის პარამეტრები</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">ელემენტი წაშლილია</string>
+    <string name="settings_excluded_locations_title">გამორიცხული მდებარეობები</string>
+    <string name="settings_excluded_locations_description">არჩეული მდებარეობები არასოდეს იქნება გამოყენებული, როდესაც დაუკავშირდებით ყველაზე სწრაფს.</string>
+    <string name="settings_excluded_locations_unavailable">მდებარეობები ხელმისაწვდომი არაა</string>
+    <string name="settings_excluded_locations_selection_hint">აირჩიეთ…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">წაშლა ამოღებული მდებარეობებიდან</string>
+    <string name="settings_excluded_locations_accessibility_label_city">ქალაქი</string>
+    <string name="settings_excluded_locations_accessibility_label_country">ქვეყანა</string>
+    <string name="settings_excluded_locations_accessibility_label_state">შტატი</string>
     <string name="settings_last_connection_title">ბოლო მიერთება</string>
     <string name="settings_last_connection_description">ბოლოს გამოყენებული მიერთება</string>
     <string name="settings_change_icon_title">აპის ხატულა</string>
@@ -735,7 +735,7 @@
     <string name="welcome_plus_description">ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით, ჩქაროსნული წარმადობით და შემდეგ დონეზე აყვანილი VPN-ის მორგებით.</string>
     <string name="welcome_plus_feature_security">დამატებითი უსაფრთხოების ფუნქციები</string>
     <string name="welcome_unlimited_title">მოგესალმებათ Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features — and <b>%1$d&#160;GB</b> total storage.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[თქვენ განბლოკეთ Proton VPN, Mail, Calendar, Drive, Pass და Wallet-ის ყველა პრემიუმ ფუნქცია — და ჯამში <b>%1$d&#160;GB</b> საცავი.]]></string>
     <string name="welcome_generic_title">გილოცავთ</string>
     <string name="welcome_generic_description">თქვენ ასწიეთ თქვენი ტარიფი. ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით და შემდეგი დონის წარმადობით.</string>
     <!-- Example: Up to 10 devices at once
@@ -1044,7 +1044,7 @@
     <string name="message_server_in_maintenance">სერვერი ტექმომსახურებაშია</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">სერვერი მიუწვდომელია</string>
-    <string name="message_server_location_excluded">Server location excluded</string>
+    <string name="message_server_location_excluded">სერვერის მდებარეობა გამორიცხულია</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">რაუტერი ტექმომსახურებაშია</string>
     <!-- tag(Redesign_2023) -->
@@ -1055,7 +1055,7 @@
     <string name="countries_title">ქვეყნები</string>
     <string name="profiles_title">პროფილები</string>
     <string name="settings_autoconnect_title">ავტომატური დაკავშირება</string>
-    <string name="settings_autoconnect_boot_description">Automatically connects you to VPN using quick-connect once your device has launched.</string>
+    <string name="settings_autoconnect_boot_description">ავტომატურად დაგაკავშირებთ VPN-ს სწრაფი კავშირის გამოყენებით მოწყობილობის გაშვებისთანავე.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">ფუნქციები</string>
     <!-- tag(Redesign_2023) -->
@@ -1127,14 +1127,14 @@
     <string name="country_filter_p2p_list_header">P2P ქვეყნები (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P ქალაქები (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P შტატები (%1$d)</string>
-    <string name="counrty_filter_p2p_servers_list_header">P2P servers</string>
+    <string name="counrty_filter_p2p_servers_list_header">P2P სერვერები</string>
     <string name="country_filter_tor_list_header">Tor ქვეყნები (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor servers</string>
+    <string name="country_filter_tor_servers_list_header">Tor-ის სერვერები</string>
     <string name="country_filter_info_label">ინფო</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">დატვირთვა: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1163,8 +1163,8 @@
     <string name="accessibility_close">დახურვა</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">ჩემი IP</string>
-    <string name="connection_details_my_ipv4">My IPv4</string>
-    <string name="connection_details_my_ipv6">My IPv6</string>
+    <string name="connection_details_my_ipv4">ჩემი IPv4</string>
+    <string name="connection_details_my_ipv6">ჩემი IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
@@ -1183,7 +1183,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">ქალაქი</string>
     <!-- Label for server location "state", as a state of the USA. -->
-    <string name="connection_details_state">State</string>
+    <string name="connection_details_state">შტატი</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1242,10 +1242,10 @@
     <string name="info_dialog_how_to_stream_step_3">დაუკავშირდით ნებისმიერ Plus სერვერს და დაიწყეთ სტრიმინგი</string>
     <string name="info_dialog_profiles_title">პროფილები</string>
     <string name="info_dialog_ipaddress_title">IP მისამართი</string>
-    <string name="info_dialog_ipv6_traffic_title">IPv6 traffic</string>
-    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
-    <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
-    <string name="info_dialog_ipv6_traffic_description">The Internet Protocol (IP) assigns addresses to devices and routes internet traffic. IPv6 is the latest version, offering more addresses and better connectivity, but it is not yet universally adopted.</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6 ტრაფიკი</string>
+    <string name="info_dialog_profiles_description">პროფილები მორგებული VPN კავშირებია, რომლებიც შეგიძლიათ, თქვენს საჭიროებებზე მოირგოთ და შეინახოთ სწრაფი წვდომისთვის.\n\nდააყენეთ თქვენი სასურველი მდებარეობა და ოპტიმიზაცია გაუკეთეთ თქვენს პარამეტრებს უსაფრთხოების, მუშაობის, თამაშის ან ნებისმიერი სხვა სცენარისთვის.</string>
+    <string name="info_dialog_ipaddress_description">თქვენი VPN IP თქვენს ნამდვილ IP მისამართს ნიღბავს. ეს ქმნის შთაბეჭდილებას, თითქოს ინტერნეტსი თქვენი VPN-ის მდებარეობიდან მუშაობდეთ. ამიტომ თქვენი ინტერნეტ-აქტივობა არ შეიძლება იყოს დაკავშირებული თქვენს მოწყობილობასთან.</string>
+    <string name="info_dialog_ipv6_traffic_description">ინტერნეტის პროტოკოლი (IP) ანიჭებს მისამართებს მოწყობილობებს და მართავს ინტერნეტ ტრაფიკს. IPv6 არის უახლესი ვერსია, რომელიც გვთავაზობს მეტ მისამართს და უკეთეს კავშირს, მაგრამ ის ჯერ არ არის უნივერსალურად მიღებული.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">ამ სერვერზე ჩართულია გამჭოლი ფაილი გაზიარება.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1362,7 +1362,7 @@
     <string name="create_profile_name_error_too_long">პროფილის სახელი 30 ან ნაკლებ სიმბოლოს უნდა შეიცავდეს</string>
     <string name="create_profile_type_and_location_title">აირჩიეთ კავშირის ტიპი და მდებარეობა</string>
     <string name="create_profile_features_and_settings_title">თვისებები და პარამეტრებ</string>
-    <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
+    <string name="configure_profile_features_and_settings_title">პროფილის პარამეტრების მორგება</string>
     <string name="configure_profile_features_and_settings_description">პროფილის პარამეტრები გადაფარავენ თქვენი VPN-ის პარამეტრებს, როცა მიერთებულია.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
@@ -1373,7 +1373,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
+    <string name="settings_vpn_accelerator_description">გაზარდეთ თქვენი მიერთების სიჩქარე 400%%-ით წარმადობის გაუმჯობესების ტექნოლოგიების საშუალებით. %1$s</string>
     <string name="settings_account_settings_title">ანგარიშის მორგება</string>
     <string name="settings_account_change_password">პაროლის შეცვლა</string>
     <string name="settings_account_recovery_email">აღდგენის ელფოსტა</string>
@@ -1382,29 +1382,29 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">ჩემი ანგარიში</string>
     <string name="settings_account_button_delete_account">ანგარიშის წაშლა</string>
-    <string name="settings_custom_dns_title">Custom DNS</string>
-    <string name="settings_custom_dns_description_tv">Connect to VPN with a self-hosted or third-party domain name system (DNS).</string>
+    <string name="settings_custom_dns_title">მორგებული DNS</string>
+    <string name="settings_custom_dns_description_tv">დაუკავშირდით VPN-ს თვითჰოსტინგით ან მესამე მხარის დომენური სახელის სისტემით (DNS).</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
-    <string name="settings_add_dns_title">Add new DNS server</string>
+    <string name="settings_add_dns_title">ახალი DNS სერვერის დამატება</string>
     <string name="settings_add_dns_new_entry_button">დამატება</string>
-    <string name="settings_add_dns_description">Enter the server’s IPv4 or IPv6 address</string>
-    <string name="settings_add_dns_invalid_input">Enter a valid IPv4 or IPv6 address</string>
-    <string name="settings_add_dns_empty_input">Enter an IPv4 or IPv6 address</string>
-    <string name="settings_add_dns_duplicate_input">Server already added</string>
-    <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
+    <string name="settings_add_dns_description">შეიყვანეთ სერვერის IPv4, ან IPv6 მისამართი</string>
+    <string name="settings_add_dns_invalid_input">შეიყვანეთ სწორი IPv4 ან IPv6 მისამართი</string>
+    <string name="settings_add_dns_empty_input">შეიყვანეთ IPv4 ან IPv6 მისამართი</string>
+    <string name="settings_add_dns_duplicate_input">სერვერი უკვე დამატებულია</string>
+    <string name="settings_advanced_dns_description">დაუკავშირდით VPN-ს თვითჰოსტინგით ან მესამე მხარის დომენური სახელის სისტემით (DNS). გაიგეთ მეტი</string>
     <!-- %1$d - Corresponds to number of servers added -->
     <string name="settings_dns_list_title">სერვერები (%1$d)</string>
-    <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
-    <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
-    <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield will be unavailable</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield can not filter out ads, trackers and malware when custom DNS is used. Learn more</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield can not filter out ads, trackers and malware when custom DNS is used.</string>
+    <string name="settings_dns_list_description">თუ თქვენი მორგებული DNS სერვერი არ მუშაობს, გამოყენებული იქნება სტანდარტული VPN DNS.</string>
+    <string name="settings_dns_list_description_multiple">ჩვენ ვცდით, ამ სერვერებს მიმდევრობით დავუკავშირდეთ. თუ არცერთი მათგანი იმუშავებს, გამოყენებული იქნება VPN DNS.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">ცვლილებები ძალაში ხელახლა დაკავშირებისას შევა</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield ხელმიუწვდომელი იქნება</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield-ს არ შეუძლია რეკლამების, ტრეკერების და მავნე პროგრამების გაფილტვრა მორგებული DNS-ის გამოყენებისას. გაიგეთ მეტი</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield-ს არ შეუძლია რეკლამების, ტრეკერების და მავნე პროგრამების გაფილტვრა მორგებული DNS-ის გამოყენებისას.</string>
     <string name="settings_advanced_alternative_routing_title">ალტერნატიული რაუტინგი</string>
     <string name="settings_advanced_alternative_routing_description">თუ Proton-ის სერვისები დაბლოკილია ქსელის შეზღუდვების გამო, ჩვენ ალტერნატიულ ქსელის რაუტინგს ვცდით, რომ ჩვენს საიტებთან დაგაკავშიროთ.</string>
     <string name="settings_advanced_allow_lan_title">LAN შეერთებები</string>
     <string name="settings_advanced_allow_lan_description">საშუალებას გაძლევთ, დაუკავშირდეთ პრინტერებს, დინამიკებს და სხვა მოწყობილობებს თქვენი მოწყობილობის ლოკალურ ქსელში.</string>
-    <string name="settings_advanced_allow_lan_description_tv">Connect to speakers, computers, and other devices on your local network</string>
+    <string name="settings_advanced_allow_lan_description_tv">დაუკავშირდით დინამიკებს, კომპიუტერებს და სხვა მოწყობილობებს თქვენს ლოკალურ ქსელში</string>
     <string name="settings_advanced_allow_lan_title_tv">LAN შეერთებების ნების დართვა</string>
     <string name="settings_advanced_nat_type_title">NAT-ის ტიპი</string>
     <!-- %1$s - will have translated learn_more value -->
@@ -1424,17 +1424,17 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">ავტომატურად აირჩევს საუკეთესო პროტოკოლს თქვენი მიერთებისთვის.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
+    <string name="settings_protocol_smart_protun_description">ავტომატურად ირჩევს საუკეთესო პროტოკოლს თქვენი კავშირისთვის [ექსპერიმენტული].</string>
     <string name="settings_protocol_wireguard_udp_description">ხელოვნების ნიმუში უსაფრთხოებისა და წარმადობისთვის და არა პროტოკოლი.</string>
     <string name="settings_protocol_wireguard_tcp_description">ხელოვნების ნიმუში უსაფრთხოებისა და წარმადობისთვის და არა პროტოკოლი.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">თავიდან აიცილებს VPN ბლოკებს თქვენი VPN მიერთების ცენსზორებისგან დამალვით. ეს პროტოკოლ DPI-სგან (პაკეტები ღრმა ინსპექცია) დაცულია, მაგრამ შეიძლება, სხვა პროტოკოლებისნაირი ჩქარი არ იყოს. ფუნქცია \'Stealth\' Proton VPN-ის ექსკლუზიურ ფუნქციას წარმოადგენს.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">რეკომენდებულია</string>
-    <string name="settings_protocol_badge_experimental">Experimental</string>
+    <string name="settings_protocol_badge_experimental">ექსპერიმენტული</string>
     <string name="settings_split_tunneling_mode_title">რეჟიმი</string>
-    <string name="settings_split_tunneling_mode_standard">Exclude</string>
-    <string name="settings_split_tunneling_mode_inverse">Include</string>
+    <string name="settings_split_tunneling_mode_standard">გამორიცხვა</string>
+    <string name="settings_split_tunneling_mode_inverse">ჩასმა</string>
     <string name="settings_split_tunneling_mode_description_standard">მონიშნული აპები და IP მისამართები ამოღებულია VPN მიერთებიდან.</string>
     <string name="settings_split_tunneling_mode_description_inverse">მხოლოდ, არჩეული აპები და IP მისამართები გავლენ VPN-ის გავლით. დანარჩენი ყველაფერი დაუცველი იქნება.</string>
     <string name="settings_split_tunneling_excluded_apps">გამორიცხული აპები</string>
@@ -1447,22 +1447,22 @@
     <string name="settings_split_tunneling_already_included">უკვე ჩასმულია</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">წავშალო IP მისამართი სიიდან?</string>
     <string name="settings_theme_title">თემა</string>
-    <string name="settings_theme_value_auto">Device theme</string>
+    <string name="settings_theme_value_auto">მოწყობილობის თემა</string>
     <string name="settings_theme_value_light">ღია</string>
     <string name="settings_theme_value_dark">ბნელი</string>
     <string name="settings_dialog_reconnect">ახალი პარამეტრები ძალაში შემდეგი შეერთებისას შევა.</string>
     <string name="settings_needs_reconnect_banner">ახალი პარამეტრები ძალაში შემდეგი შეერთებისას შევა.</string>
-    <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
-    <string name="private_dns_conflict_banner_custom_dns_description">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working. Learn more</string>
-    <string name="private_dns_conflict_banner_custom_dns_description_tv">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working.</string>
-    <string name="private_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
-    <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
-    <string name="private_dns_conflict_banner_network_settings_button">Network settings</string>
-    <string name="custom_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
-    <string name="custom_dns_conflict_banner_netshield_description">Custom DNS is enabled which prevents NetShield from working. Learn more</string>
-    <string name="custom_dns_conflict_banner_netshield_title_tv">Turn off custom DNS to use NetShield</string>
-    <string name="custom_dns_conflict_banner_netshield_description_tv">Custom DNS is enabled which prevents NetShield from working.</string>
-    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Turn off custom DNS</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">მორგებული DNS მიუწვდომელია</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">თქვენი მოწყობილობა იყენებს მესამე პირების DNS-ს, რაც ხელს უშლის Proton VPN-ის მორგებული DNS-ის მუშაობას. გაიგეთ მეტი</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">თქვენი მოწყობილობა იყენებს მესამე პირების DNS-ს, რაც ხელს უშლის Proton VPN-ის მორგებული DNS-ის მუშაობას.</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield ხელმიუწვდომელია</string>
+    <string name="private_dns_conflict_banner_netshield_description">თქვენი მოწყობილობა იყენებს მესამე პირების DNS-ს, რაც ხელს უშლის NetShield-ის მუშაობას. შეიტყვეთ მეტი</string>
+    <string name="private_dns_conflict_banner_network_settings_button">ქსელის მორგება</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield ხელმიუწვდომელია</string>
+    <string name="custom_dns_conflict_banner_netshield_description">მორგებული DNS ჩართულია, რაც ხელს უშლის NetShield-ის მუშაობას. გაიგეთ მეტი</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">NetShield-ის გამოსაყენებლად გამორთეთ მორგებული DNS</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">მორგებული DNS ჩართულია, რაც ხელს უშლის NetShield-ის მუშაობას.</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">მორგებული DNS-ის გამორთვა</string>
     <string name="info_secure_core_standard_high_privacy">მაღალი კონფიდენციალობა</string>
     <string name="info_secure_core_standard_lower_latency">დაბალი შეყოვნება</string>
     <string name="info_secure_core_advanced_privacy">დამატებითი პირადულობა</string>
@@ -1476,7 +1476,7 @@
     <string name="info_p2p_why_description_logs">აქტივობის ჟურნალის შესახებ</string>
     <string name="info_p2p_why_description_hide">დამალეთ თქვენი IP მისამართი თქვენი ინტერნეტპროვაიდერისგან და პარტნორებისგან</string>
     <string name="info_dialog_smart_routing_description">Smart Routing იყენებს ვირტუალურ სერვერბს, რომ  VPN დაფარვა ძნელად ხელმსაწვდომ ქვეყნებშიც იყო ხელმისაწვდომი.\n\nროცა უერთდებით Smart Routing სერვერს, გამოჩნდება, რომ თქვენ სამიზნე ქვეყანაში ხართ მაშინაც კი, თუ ფიზიკური სერვერი სადმე სხვაგანაა.  \n\nSmart Routing, ჩვეულებრივ, ანტი-კონფიდენციალობის კანონებისა და სხვა ფორმის ცენზურის თავის დასაღწევად გამოიყენება.</string>
-    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
+    <string name="countries_upsell_banner_description">მიიღეთ წვდომა ყველა ქვეყანაზე VPN Plus-თან ერთად</string>
     <string name="secure_core_upsell_banner_description">დაამატეთ თქვენს VPN-ს უსაფრთხოების კიდევ ერთი დონე</string>
     <string name="p2p_upsell_banner_description">გადმოწერეთ ფაილები BitTorrent-ით და სხვა ფაილების გაზიარების პროტოკოლებით</string>
     <string name="tor_upsell_banner_description">გამოიყენეთ Tor-ის ქსელი თქვენი VPN მიერთების ზემოდან, დამატებითი კონფიდენციალობისთვის</string>
@@ -1541,7 +1541,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">თქვენი სერვერის არჩევანი %1$s-სთვის ხელმიუწვდომელია. აირჩიეთ სხვა სერვერი, ან მოგვიანებით სცადეთ.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[თქვენი სერვერის არჩევანი <b>%1$s</b> -სთვის ხელმიუწვდომელია. აირჩიეთ სხვა სერვერი, შეამოწმეთ თქვენი ამოღებული მდებარეობები, ან მოგვიანებით სცადეთ.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">ხატულა %1$d</string>
@@ -1555,17 +1555,17 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">ახალი</string>
     <string name="create_profile_auto_open_url_input_label">ვებსაიტის URL</string>
-    <string name="create_profile_auto_open_url_private_mode_label">Use private browsing mode</string>
+    <string name="create_profile_auto_open_url_private_mode_label">ინკოგნიტო რეჟიმის გამოყენება</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">გამორთული</string>
-    <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
+    <string name="profile_auto_open_app_failed_to_launch">დაკავშირება და გაგრძელება: აპლიკაცია აღმოჩენილი არაა</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_website">Open a website</string>
-    <string name="profile_auto_open_app">Open an app</string>
+    <string name="profile_auto_open_website">ვებსაიტის გახსნა</string>
+    <string name="profile_auto_open_app">აპის გახსნა</string>
     <string name="create_profile_auto_open_description">ავტომატურად გაიხსნება ვებგვერდი, რომელსაც აირჩევთ, როცა ამ პროფილს მიუერთედებით.</string>
-    <string name="create_profile_auto_open_app_input_hint">Select an app</string>
+    <string name="create_profile_auto_open_app_input_hint">აირჩიეთ აპლიკაცია</string>
     <string name="create_profile_auto_open_app_input_label">აპი</string>
-    <string name="create_profile_auto_open_app_no_apps">No apps found.</string>
+    <string name="create_profile_auto_open_app_no_apps">აპები აღმოჩენილი არაა.</string>
     <string name="profile_auto_open_error_invalid_url">შეიყვანეთ სწორი ბმული</string>
     <string name="nps_how_likely_question">რამხელაა შანსი, რომ Proton VPN-ს რეკომენდაციას გაუწევთ მეგობართან, ან კოლეგასთან?</string>
     <string name="nps_additional_comment_title">გვითხარით, რატომ მოგვეცით ეს რეიტინგი</string>
@@ -1584,36 +1584,36 @@
     <string name="widget_status_connecting">დაკავშირება</string>
     <string name="widget_sign_in">შესვლა</string>
     <string name="widget_toast_added_message">ვიჯეტი დაემატა საწყის ეკრანზე</string>
-    <string name="settings_advanced_ipv6_title">IPv6 support</string>
-    <string name="settings_advanced_ipv6_description">Tunnels IPv6 traffic through the VPN. Can enhance compatibility with IPv6 networks.</string>
-    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">To use this address, you need to allow IPv6 connections through the VPN tunnel.</string>
-    <string name="setting_ipv6_disabled_dialog_action_enable">Enable IPv6</string>
-    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is disabled</string>
-    <string name="settings_ipv6_enabled_toast">IPv6 enabled</string>
-    <string name="info_dialog_ipv6_traffic_benefits1">Ensures access to IPv6-only websites and services</string>
-    <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks1">May not work well with older networks or apps</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks2">Some networks handle IPv6 traffic unpredictably</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks_title">Drawbacks</string>
-    <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
-    <string name="settings_lan_allow_direct_connection_title">Allow direct device connections</string>
-    <string name="settings_lan_allow_direct_connection_description">Connect to Smart TVs, Android Auto, and other devices that create their own network. For maximum security, only enable when connecting to these devices.</string>
-    <string name="no_connections_title">No VPN connections available</string>
-    <string name="no_connections_description_loading_error">We couldn’t load the server list.</string>
-    <string name="no_connections_description_no_servers">Ask your administrator to enable VPN access for your account.</string>
+    <string name="settings_advanced_ipv6_title">IPv6-ის მხარდაჭერა</string>
+    <string name="settings_advanced_ipv6_description">გაატარებს IPv6 ტრაფიკს VPN-ის ტუნელში. შეიძლება, გააუმჯობესოს თავსებადობა IPv6 ქსელებთან.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">იმისათვის, რომ ეს მისამართი გამოიყენოთ, გჭირდებათ VPN გვირაბში IPv6 კავშირები დაუშვათ.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">IPv6-ის ჩართვა</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 გამორთულია</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 ჩართულია</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">უზრუნველყოფს IPv6-ით მომუშავე ვებსაიტებსა და სერვისებზე წვდომას</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">ხელს უშლის პრობლემებს ქსელებში, რომლებიც იყენებენ IPv6-ს</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">შეიძლება არ იმუშაოს კარგად ძველ ქსელებთან ან აპებთან</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">ზოგიერთი ქსელი IPv6 ტრაფიკს არაპროგნოზირებადად ამუშავებს</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">წუნები</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">უპირატესობები</string>
+    <string name="settings_lan_allow_direct_connection_title">პირდაპირ მოწყობილობებთან კავშირის დაშვება</string>
+    <string name="settings_lan_allow_direct_connection_description">დაუკავშირდით Smart TV-ებს, Android Auto-ს და სხვა მოწყობილობებს, რომლებიც ქმნიან საკუთარ ქსელს. მაქსიმალური უსაფრთხოებისთვის, ჩართეთ, მხოლოდ, ამ მოწყობილობებთან დაკავშირებისას.</string>
+    <string name="no_connections_title">VPN კავშირები ხელმისაწვდომი არაა</string>
+    <string name="no_connections_description_loading_error">სერვერების სიის ჩატვირთვა შეუძლებელია.</string>
+    <string name="no_connections_description_no_servers">სთხოვეთ თქვენს ადმინისტრატორს, თქვენს ანგარიშზე VPN-თან წვდომა ჩართოს.</string>
     <string name="no_connections_action_refresh">განახლება</string>
     <string name="no_connections_action_sign_out">გასვლა</string>
-    <string name="no_connections_help_contact_us"><![CDATA[Need help? <a href="">Contact us</a>]]></string>
-    <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
+    <string name="no_connections_help_contact_us"><![CDATA[დახმარება გჭირდებათ? <a href="">დაგვიკავშირდით</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[თუ თქვენს ადმინისტრატორს სჭირდება დახმარება VPN-ზე წვდომის ჩასართავად, გაუგზავნეთ <a href="">ეს ინსტრუქციები</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_title">ჩაირთოს OpenVPN?</string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[ეს პროტოკოლი მალე წაიშლება, რადგან ჩვენ ყურადღებას უფრო სწრაფ და უსაფრთხო ტექნოლოგიებზე ვამახვილებთ. გირჩევთ, გადახვიდეთ Smart Protocol-ზე. <a href="proton.me">გაიგეთ მეტი</a>.]]></string>
+    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">ეს პროტოკოლი მალე წაიშლება, რადგან ჩვენ ყურადღებას უფრო სწრაფ და უსაფრთხო ტექნოლოგიებზე ვამახვილებთ. გირჩევთ, გადახვიდეთ Smart Protocol-ზე.</string>
+    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">OpenVPN-ით გაგრძელება</string>
     <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart Protocol-ის ჩართვა</string>
-    <string name="settings_protocol_proton_protocols">Proton protocols</string>
-    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
-    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
-    <string name="connection_preferences_smart_discovery_dialog_message">If there are locations you don’t want to be automatically connected to, you can exclude them from Fastest country.</string>
-    <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
-    <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
+    <string name="settings_protocol_proton_protocols">Proton-ის პროტოკოლები</string>
+    <string name="settings_protocol_proton_protocols_description">გამოიყენეთ Proton VPN-ის WireGuard-ის საკუთარი ვარიანტი. ეს ექსპერიმენტული ფუნქციაა, ასე რომ, შეიძლება, არასტაბილურობას გადააწყდეთ.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">ის ქვეყანა არაა, რომელიც გნებავდათ?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">თუ არსებობს მდებარეობები, რომელთაგანაც არ გსურთ ავტომატურად დაკავშირება, შეგიძლიათ გამორიცხოთ ისინი „ყველაზე სწრაფი ქვეყნიდან“.</string>
+    <string name="excluded_locations_adoption_title">არასასურველი მდებარეობების აცილება</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[ახლა შეგიძლიათ ქვეყნებისა და ქალაქების გამორიცხვა <b>ყველაზე სწრაფი</b> კავშირებიდან.]]></string>
 </resources>

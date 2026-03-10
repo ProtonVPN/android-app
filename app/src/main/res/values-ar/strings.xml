@@ -18,144 +18,144 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="app_icon_name_classic">تقليدي</string>
+    <string name="app_icon_name_classic">الأصلي</string>
     <string name="app_icon_name_dark">داكن</string>
-    <string name="app_icon_name_retro">ريترو</string>
-    <string name="app_icon_name_weather">طقس</string>
+    <string name="app_icon_name_retro">نمط قديم</string>
+    <string name="app_icon_name_weather">الطقس</string>
     <string name="app_icon_name_notes">الملاحظات</string>
-    <string name="app_icon_name_calculator">آلة حاسبة</string>
+    <string name="app_icon_name_calculator">الحاسبة</string>
     <string name="login">تسجيل الدخول</string>
     <string name="menuActionSignOut">تسجيل الخروج</string>
-    <string name="connectionAllocationHelpTitle">شكراً على الترقية</string>
-    <string name="connectionAllocationHelpDescription1">لتبدأ رحلتك في Proton VPN رجاءً قم بتعيين اتصالات VPN إلى حسابك أو أي حساب فرعي آخر.</string>
-    <string name="connectionAllocationHelpDescription2">ستأخذ هذه الخطوة بضعة دقائق. بعد ذلك سوف تكون قادراً على تسجيل الدخول وحماية جميع أجهزتك.</string>
-    <string name="connectionAllocationHelpDescription1AskAdmin">لا يوجد حالياً اتصالات VPN مُفعّلة لهذا الحساب. لكي تبدأ رحلتك مع Proton VPN رجاءً تواصل مع مسؤولك. </string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">فَعِل اتصالات VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">قم بتسجيل الدخول مرة أخرى</string>
+    <string name="connectionAllocationHelpTitle">شكرًا على الترقية</string>
+    <string name="connectionAllocationHelpDescription1">لبدء استخدام Proton VPN، يُرجى تخصيص اتصالات VPN لحسابك أو لأي حساب فرعي.</string>
+    <string name="connectionAllocationHelpDescription2">لن تستغرق هذه الخطوة سوى بضع دقائق، لتتمكن بعدها من تسجيل الدخول وحماية جميع أجهزتك.</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">لا يوجد اتصال VPN متاح لهذا الحساب. يُرجى التواصل مع المسؤول لبدء استخدام Proton VPN. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">تفعيل اتصالات VPN</string>
+    <string name="connectionAllocationHelpLoginAgainButton">تسجيل الدخول مرة أخرى</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
-    <string name="ok">حسنًا</string>
-    <string name="dialogLearnMore">لمعرفة المزيد</string>
-    <string name="connected">متّصل</string>
-    <string name="buttonConnect">اتصل</string>
-    <string name="loaderConnectingTo">جاري الاتصال بـ %1$s</string>
-    <string name="loaderNotConnected">غير متصل (غير محمي)</string>
-    <string name="loaderConnectedTo">متصل بـ %1$s</string>
-    <string name="loaderDisconnecting">جارٍ قطع الاتصال</string>
-    <string name="loaderReconnecting">جارٍ إعادة الاتصال</string>
-    <string name="loaderReconnectNoNetwork">في انتظار شبكة مستقرة</string>
-    <string name="loaderCheckingAvailability">جارٍ التحقق مِن جاهزية الخادم</string>
+    <string name="ok">موافق</string>
+    <string name="dialogLearnMore">معرفة المزيد</string>
+    <string name="connected">مُتصل</string>
+    <string name="buttonConnect">اتصال</string>
+    <string name="loaderConnectingTo">يتم الاتصال بخادم %1$s</string>
+    <string name="loaderNotConnected">غير متصل (بدون حماية)</string>
+    <string name="loaderConnectedTo">متصل بخادم %1$s</string>
+    <string name="loaderDisconnecting">يتم قطع الاتصال</string>
+    <string name="loaderReconnecting">يتم إعادة الاتصال</string>
+    <string name="loaderReconnectNoNetwork">بانتظار شبكة مستقرة</string>
+    <string name="loaderCheckingAvailability">التحقق من توافر الخادم</string>
     <string name="quickConnect">اتصال سريع</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">إلغاء</string>
-    <string name="close">أغلق</string>
-    <string name="dialogContinue">متابعة</string>
+    <string name="close">إغلاق</string>
+    <string name="dialogContinue">استمرار</string>
     <string name="drawerReportProblem">الإبلاغ عن مشكلة</string>
     <string name="action_done">تم</string>
     <string name="action_share">مشاركة</string>
     <string name="accountFree">Proton Free</string>
-    <string name="restrictedMaintenanceTitle">تحت الصيانة</string>
-    <string name="restrictedMaintenanceDescription">إنّ الخادم الذي تحاول الاتصال به حاليًا قيد الصيانة. يرجى تجريب خادم آخر.</string>
-    <string name="restricted_location_excluded_dialog_title">فشل الاتصال</string>
-    <string name="restricted_location_excluded_dialog_description">لا توجد خوادم متاحة. قم باختيار موقع بشكل يدوي أو تعديل المواقع المستبعدة.</string>
-    <string name="errorUserDelinquent"><![CDATA[هناك فاتورة متأخرة في حسابك. يرجى دفع جميع الفواتير غير المسددة عبر&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">لقد بلغ حسابك الحد الأقصى من عدد الاتصالات الآنية. لطفًا رقِّ باقتك من Proton VPN لتحصل على المزيد من الاتصالات.</string>
-    <string name="listItemMaintenance">تحت الصيانة</string>
-    <string name="insufficientPermissionsTitle">مطلوب إجراء من المستخدم</string>
-    <string name="insufficientPermissionsDetails">تعذر إنشاء اتصال VPN تلقائياً. الرجاء الاتصال يدوياً لمنح الأذونات.</string>
-    <string name="log_title">السِجل</string>
-    <string name="disconnect">اقطع الاتصال</string>
-    <string name="state_connecting">جاري الاتصال…</string>
-    <string name="state_connected">متّصل</string>
-    <string name="state_disconnecting">جار ايقاف الاتصال...</string>
+    <string name="restrictedMaintenanceTitle">قيد الصيانة</string>
+    <string name="restrictedMaintenanceDescription">الخادم الذي تحاول الاتصال به قيد الصيانة حالياً. يُرجى الاتصال بخادم آخر</string>
+    <string name="restricted_location_excluded_dialog_title">تعذر الاتصال</string>
+    <string name="restricted_location_excluded_dialog_description">لا توجد خوادم متاحة. قم باختيار الموقع بشكل يدوي أو عدل قائمة المواقع المستبعدة.</string>
+    <string name="errorUserDelinquent"><![CDATA[توجد مبالغ متأخرة على حسابك. يُرجى دفع المستحقات غير المسددة من خلال&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorMaxSessions">لقد بلغت الحد الأقصى لعدد الاتصالات المتزامنة المسموح بها لحسابك. يُرجى ترقية باقة Proton VPN للحصول على اتصالات إضافية.</string>
+    <string name="listItemMaintenance">قيد الصيانة</string>
+    <string name="insufficientPermissionsTitle">مطلوب اتخاذ إجراء</string>
+    <string name="insufficientPermissionsDetails">تعذر إنشاء اتصال VPN تلقائي. يُرجى الاتصال يدوياً لمرة واحدة لمنح الصلاحيات المطلوبة.</string>
+    <string name="log_title">السجل</string>
+    <string name="disconnect">قطع الاتصال</string>
+    <string name="state_connecting">يتم الاتصال الآن...</string>
+    <string name="state_connected">مُتصل</string>
+    <string name="state_disconnecting">يتم قطع الاتصال...</string>
     <string name="state_error">خطأ</string>
-    <string name="error_server_list_load_failed">يرجى التحقق من اتصالك وحاول مرة أخرى.</string>
-    <string name="error_server_unreachable">لم يتم الاتصال بشبكة VPN. يرجى التأكد من توفر الإنترنت ثم حاول مجدداً.</string>
-    <string name="error_auth_failed">فشلت مصادقة المستخدم.</string>
-    <string name="error_generic">فشل غير معروف خلال محاولة الاتصال.</string>
-    <string name="error_generic_with_reason">لم يستطع Proton VPN تأسيس اتصال VPN. الرجاء المحاول مجدداً بعد لحظات.<br/><br/>التفاصيل: %1$s</string>
-    <string name="reconnect">أعد الاتصال</string>
-    <string name="reconnect_now">محاولة الاتصال مجددا</string>
+    <string name="error_server_list_load_failed">تأكد من الاتصال بالإنترنت ثم حاول مجدداً.</string>
+    <string name="error_server_unreachable">تعذر الاتصال بـ VPN. يُرجى التحقق من اتصالك والمحاولة مرة أخرى.</string>
+    <string name="error_auth_failed">فشل مصادقة المستخدم.</string>
+    <string name="error_generic">حدث خطأ غير معروف أثناء الاتصال.</string>
+    <string name="error_generic_with_reason">تعذر على Proton VPN إنشاء اتصال. يُرجى المحاولة مرة أخرى بعد ثواني قليلة.<br/><br/> التفاصيل: %1$s</string>
+    <string name="reconnect">إعادة الاتصال</string>
+    <string name="reconnect_now">إعادة الاتصال الآن</string>
     <string name="try_reconnecting">حاول إعادة الاتصال</string>
-    <string name="connect">اتصل</string>
-    <string name="upgrade">الترقية</string>
-    <string name="retry">أعد المحاولة</string>
-    <string name="report_message">رسالة التقرير</string>
-    <string name="report_bug_email_label">ايميلك الخاص</string>
+    <string name="connect">اتصال</string>
+    <string name="upgrade">ترقية</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="report_message">تقرير الرسالة</string>
+    <string name="report_bug_email_label">بريدك الإلكتروني</string>
     <string name="report_bug_email_hint">أدخل بريدك الإلكتروني</string>
-    <string name="report_bug_message_label">رسالة</string>
-    <string name="report_bug_message_hint">رجاءاً صِف الخلل، كيف و متى اكتشفته</string>
-    <string name="send_report">ارسل التقرير</string>
+    <string name="report_bug_message_label">الرسالة</string>
+    <string name="report_bug_message_hint">يُرجى وصف الخلل، وكيف وأين وجدته</string>
+    <string name="send_report">إرسال التقرير</string>
     <string name="report_sent">تم إرسال التقرير</string>
-    <string name="discardChanges">محو التغييرات غير المحفوظة ؟</string>
-    <string name="discardChangesButtonDiscard">تجاهل التغييرات</string>
+    <string name="discardChanges">تجاهل التعديلات الحالية؟</string>
+    <string name="discardChangesButtonDiscard">تجاهل التعديلات</string>
     <string name="discardChangesButtonKeepEditing">متابعة التعديل</string>
-    <string name="done">تمّ</string>
+    <string name="done">تم</string>
     <string name="add">إضافة</string>
     <string name="copy_to_clipboard">نسخ</string>
     <string name="copied_to_clipboard">تم النسخ إلى الحافظة</string>
-    <string name="got_it">حسنًا</string>
+    <string name="got_it">فهمت</string>
     <string name="exclude_locations">المواقع المستبعدة</string>
     <string name="excluded_locations">المواقع المستبعدة</string>
-    <string name="cannot_connect">لا يمكن الاتصال</string>
+    <string name="cannot_connect">تعذر الاتصال</string>
     <string name="skip">تخطي</string>
     <string name="something_went_wrong">حدث خطأ ما</string>
-    <string name="try_again">أعد المحاولة</string>
+    <string name="try_again">إعادة المحاولة</string>
     <string name="delete">حذف</string>
-    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">الانتقال إلى الأعلى</string>
-    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">تحريك لأعلى</string>
-    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">تحريك لأسفل</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">نقل للقمة</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">نقل للأعلى</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">نقل للأسفل</string>
     <string name="remove">إزالة</string>
-    <string name="saveButton">احفظ</string>
+    <string name="saveButton">حفظ</string>
     <string name="ipWithPlaceholder">عنوان IP: %1$s</string>
-    <string name="activityLicensesTitle">تراخيص الأطراف الثالثة</string>
+    <string name="activityLicensesTitle">ترخيص الطرف الثالث</string>
     <string name="stateFragmentUnknownIp">غير معروف</string>
-    <string name="noVpnPermissionMainTitle">الإجراء اللازم للاتصال بـ VPN</string>
-    <string name="noVpnPermissionMainMessage">للاتصال بـProtonVPN، يرجى فعل التالي :</string>
-    <string name="noVpnPermissionGrantPermissionTitle">منح إذن الـVPN</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">يطلب نظام أندرويد إذنك للاتصال بـProtonVPN، للمنح اضغط \"حسناً\" عندما تظهر لك نافذة \"طلب الاتصال\" من النظام</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">عطّل خِيار \"يعمل دائمًا\" لتطبيقات VPN الأخرى</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">النظام لا يدعم تعدد تطبيقات VPN. عطّل خِيار \"يعمل دائمًا\" لأي تطبيق VPN غير تطبيق Proton VPN.</string>
-    <string name="noVpnPermissionProtonAppLabel">تطبيق ProtonVpn</string>
-    <string name="noVpnPermissionOtherAppLabel">تطبيقات VPN اخرى</string>
-    <string name="noVpnPermissionOpenSettings">الولوج لإعدادات VPN للأندرويد</string>
-    <string name="noNotificationPermissionGrantTitle">لا تغفل…</string>
-    <string name="noNotificationPermissionGrantDescription">فعّل الإشعارات ليتم تنبيهك بشأن التغييرات التي تطرأ على حالة الاتصال الخاصة بك.</string>
+    <string name="noVpnPermissionMainTitle">إجراء مطلوب للاتصال بـ VPN</string>
+    <string name="noVpnPermissionMainMessage">للاتصال بـ Proton VPN، يُرجى اتباع الخطوات التالية:</string>
+    <string name="noVpnPermissionGrantPermissionTitle">منح صلاحية VPN</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">يطلب Android إذنك للاتصال بـ Proton VPN. يُرجى السماح بالضغط على \"موافق\" عندما تظهر نافذة \"طلب الاتصال\" الخاصة بالنظام.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">تعطيل وضع الاتصال الدائم لتطبيقات VPN الأخرى</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">لا يسمح Android بتطبيقات VPN المتعددة. عطل وضع الاتصال الدائم لأي تطبيق باستثناء Proton VPN.</string>
+    <string name="noVpnPermissionProtonAppLabel">تطبيق Proton VPN</string>
+    <string name="noVpnPermissionOtherAppLabel">تطبيقات VPN الأخرى</string>
+    <string name="noVpnPermissionOpenSettings">فتح إعدادات VPN في Android</string>
+    <string name="noNotificationPermissionGrantTitle">كن على اطلاع دائم...</string>
+    <string name="noNotificationPermissionGrantDescription">فعل الإشعارات لتبقى على اطلاع دائم بحالة حمايتك وتنبيهك في حال انقطع الاتصال.</string>
     <string name="noNotificationPermissionGrantNowTitle">تفعيل الإشعارات</string>
-    <string name="error_prepare_vpn_description"><![CDATA[يرجى إبطال خِيار " VPN يعمل دائمًا" لكل تطبيقات VPN من على إعدادات النظام الخاصة بVPN، لان ذلك يمنع تطبيق Proton VPN من إنشاء اتصال VPN.يُرجى أيضًا منح السماح إذا ظهرت نافذة طلب السماح للVPN، قد تضطر لحذف تطبيقاتVPN أخرى لتفادي التعارض بينها. بعد ذلك، يُرجى المحاولة مجددًا. <a href="%1$s">اعلم اكثر</a>]]></string>
-    <string name="error_prepare_vpn_settings">اذهب إلى إعدادات VPN للأندرويد</string>
-    <string name="error_prepare_vpn_title">خطأ: مشكلة في إذونات الVPN</string>
-    <string name="error_server_not_set">الخادم لم يـعد متوفرا</string>
-    <string name="bugReportErrorEmptyEmail">خانة البريد لا يمكن أن تكون فارغة</string>
-    <string name="bugReportErrorInvalidEmail">عنوان البريد غير صحيح</string>
-    <string name="bugReportLabelVpnLogsTitle">اشمل سجلات الخطأ</string>
-    <string name="bugReportErrorLabelVpnLogsDescription">سيقوم هذا الخِيار بإرسال سجلات الخلل (لا نقوم بتسجيل نشاطك) لمساعدتنا لإصلاح المشكلة</string>
-    <string name="profileFastest">الأسرع</string>
-    <string name="profileRandom">عشوائي</string>
+    <string name="error_prepare_vpn_description"><![CDATA[يُرجى تعطيل وضع الاتصال الدائم لجميع تطبيقات VPN الأخرى في إعدادات VPN الخاصة بنظام Android، حيث يمنع ذلك Proton VPN من إنشاء الاتصال. يُرجى منح صلاحيات VPN المطلوبة عند ظهور نافذة تطلب منك ذلك. قد يتطلب الأمر إلغاء تثبيت تطبيقات VPN الأخرى لتجنب التعارض. بعد ذلك، يُرجى المحاولة مرة أخرى. <a href="%1$s">معرفة المزيد</a>]]></string>
+    <string name="error_prepare_vpn_settings">الانتقال إلى إعدادات VPN لنظام Android</string>
+    <string name="error_prepare_vpn_title">خطأ: مشكلة في إذن VPN</string>
+    <string name="error_server_not_set">الخادم غير متوفر</string>
+    <string name="bugReportErrorEmptyEmail">البريد الإلكتروني مطلوب</string>
+    <string name="bugReportErrorInvalidEmail">بريد إلكتروني غير صالح</string>
+    <string name="bugReportLabelVpnLogsTitle">إرفاق سجلات الأخطاء</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">يُرسل هذا الاختيار سجلات الأخطاء المحفوظة في هاتفك (نحن لا نتتبع نشاطك) لمساعدتنا في حل المشكلة</string>
+    <string name="profileFastest">أسرع خادم</string>
+    <string name="profileRandom">خادم عشوائي</string>
     <string name="loaderErrorNoInternet">لا يوجد اتصال بالإنترنت</string>
     <string name="loaderErrorGeneric">حدث خطأ ما</string>
     <string name="inputIpAddressLabel">عنوان IP</string>
-    <string name="inputIpAddressHelp">ادخل عنوان الخادم(IPv4 أو IPv6)</string>
+    <string name="inputIpAddressHelp">يُرجى إدخال عنوان IPv4 أو IPv6 الخاص بالخادم</string>
     <string name="inputIpAddressErrorInvalid">عنوان IP غير صالح</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">جديد</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
     <string name="settings_beta_label_badge">تجريبي</string>
-    <string name="settingsExcludedIPAddressesListHeader">عناوين IP مستثناة (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">عناوين IP المضمنة (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">عناوين IP المستبعدة (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">عناوين IP المضافة (%1$d)</string>
     <string name="settingsExcludedApps">التطبيقات المستبعدة</string>
-    <string name="settingsExcludedAppsEmpty">اضف تطبيقات لتستثنى من اتصالات الـ VPN</string>
-    <string name="settingsIncludedAppsEmpty">اضف تطبيقات لتستثنى من اتصالات الـ VPN</string>
-    <string name="settingsExcludedAppsSelectedHeader">التطبيقات المستبعدة(%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">التطبيقات المدرجة (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">جميع التطبيقات العادية الأخرى (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">جميع تطبيقات النظام الأخرى (%1$d)</string>
+    <string name="settingsExcludedAppsEmpty">أضف التطبيقات التي تريد أن تستبعداها من اتصال VPN.</string>
+    <string name="settingsIncludedAppsEmpty">أضف التطبيقات التي تريد أن تشملها في اتصال VPN.</string>
+    <string name="settingsExcludedAppsSelectedHeader">التطبيقات المستبعدة (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">التطبيقات المضافة (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">جميع تطبيقات المستخدم (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">جميع تطبيقات النظام (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">جميع التطبيقات الأخرى (%1$d)</string>
-    <string name="settingsExcludedAppsLoadSystemAppsButton">اظهار تطبيقات النظام</string>
-    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">اظهار تطبيقات النظام</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">إظهار تطبيقات النظام</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">إظهار تطبيقات النظام</string>
     <string name="settingsSplitTunnelingExcludedAppsList">هذه التطبيقات مستبعدة من اتصال VPN.</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">تتصل فقط هذه التطبيقات عبر VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">تعمل هذه التطبيقات فقط عبر اتصال VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -176,202 +176,200 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">إضافة إلى التطبيقات المدرجة</string>
+    <string name="accessibility_action_add_included_app">إضافة إلى التطبيقات المشمولة</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">إزالة من التطبيقات المدرجة</string>
+    <string name="accessibility_action_remove_included_app">إزالة من التطبيقات المشمولة</string>
     <string name="accessibility_action_copy_to_clipboard">نسخ إلى الحافظة</string>
     <string name="accessibility_action_item_delete">حذف</string>
     <string name="accessibility_action_item_move_up">تحريك للأعلى</string>
     <string name="accessibility_action_item_move_down">تحريك للأسفل</string>
-    <string name="tileConnected">متصل: %1$s</string>
-    <string name="openUrlError">تعذر فتح %1$s. لم يتم العثور على أي متصفح للويب على جهازك.</string>
-    <string name="loaderErrorTimeout">انتهت مهلة الاتصال. الرجاء المحاولة مرة أخرى.</string>
-    <string name="troubleshootButton">مكتشف الأخطاء</string>
+    <string name="tileConnected">مُتصل: %1$s</string>
+    <string name="openUrlError">تعذر فتح %1$s. لم يتم العثور على متصفح مثبت على جهازك.</string>
+    <string name="loaderErrorTimeout">انتهت مهلة الاتصال. يُرجى المحاولة مرة أخرى.</string>
+    <string name="troubleshootButton">استكشاف الأخطاء</string>
     <string name="activityTroubleshootTitle">استكشاف الأخطاء</string>
-    <string name="troubleshootPotentialSolutionsSectionTitle">حلول ممكنة</string>
-    <string name="troubleshootNoInternetDescription">رجاءً تأكد أنَّ اتصالك بالإنترنت يعمل.</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">الحلول المحتملة</string>
+    <string name="troubleshootNoInternetDescription">يُرجى التأكد من أن اتصالك بالإنترنت يعمل.</string>
     <string name="troubleshootNoInternetTitle">لا يوجد اتصال بالإنترنت</string>
-    <string name="troubleshootIspProblemTitle">مشكلة متعلّقة بمزود خدمة الإنترنت</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[جرب الاتصال ب Proton من شبكة مختلفة (أو استخدم <a href=\'%1$s\'>تور</a>)]]></string>
-    <string name="troubleshootAntivirusProblemTitle">تشويش من مضاد الفيروسات</string>
-    <string name="troubleshootAntivirusProblemDescription">عطِّل أو أزل برنامج مضاد الفيروسات مؤقتاً.</string>
-    <string name="troubleshootProxyFirewallProblemTitle">تشويش من البروكسي/جدار الحماية</string>
-    <string name="troubleshootProxyFirewallProblemDescription">عطّل كافة وكلاء البروكسي أو جدران حماية، أو قم بالإتصال بمدير شبكتك.</string>
-    <string name="troubleshootProtonDownTitle">بروتون خارج عن الخدمة</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[تحقق من <a href=\"%1$s\">حالة Proton</a> لأجل وضعية نظامنا.]]></string>
-    <string name="troubleshootContactUsSectionTitle">مازلت بحاجة للمساعدة؟ اتصل بنا مباشرة</string>
-    <string name="troubleshootCustomerSupport">دعم العملاء</string>
-    <string name="settingsAllowAlternativeRoutingTitle">المسار البديل</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[في حالة كون Proton محظور، اسمح للتطبيق بالاتصال بخوادم Proton بطرق مختلفة. <a href="%1$s"> لمعرفة اكثر</a>]]></string>
-    <string name="troubleshootGovernmentBlockTitle">حجب من طرف الحكومة</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[قد تقوم دولتك بحظر الوصول إلى Proton. حاول استخدام <a href=\'%1$s\'>تور</a> للوصول إلى Proton.]]></string>
-    <string name="settingsKillSwitchEnableTitle">كيفية تفعيل مفتاح الإيقاف</string>
+    <string name="troubleshootIspProblemTitle">مشكلة في مزود خدمة الإنترنت (ISP)</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[حاول الاتصال بـ Proton عبر شبكة مختلفة (أو استخدم <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootAntivirusProblemTitle">تعارض مع مضاد الفيروسات</string>
+    <string name="troubleshootAntivirusProblemDescription">عطل مضاد الفيروسات مؤقتاً أو قم بإزالته.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">تعارض مع البروكسي/جدار الحماية</string>
+    <string name="troubleshootProxyFirewallProblemDescription">عطل البروكسي أو جدار الحماية، أو تواصل مع مسؤول الشبكة.</string>
+    <string name="troubleshootProtonDownTitle">Proton خارج الخدمة</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[تحقق من <a href=\"%1$s\">وضع Proton</a> لمتابعة حالة النظام.]]></string>
+    <string name="troubleshootContactUsSectionTitle">هل تحتاج لمساعدة إضافية؟ تواصل معنا مباشرة.</string>
+    <string name="troubleshootCustomerSupport">فريق الدعم</string>
+    <string name="settingsAllowAlternativeRoutingTitle">التوجيه البديل</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[في حال حظر Proton، سيحاول التطبيق استخدام مسارات بديلة للوصول إلى خوادم Proton. <a href="%1$s">معرفة المزيد</a>.]]></string>
+    <string name="troubleshootGovernmentBlockTitle">حظر من جانب الحكومة</string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[قد تحظر دولتك الوصول إلى Proton. حاول استخدام <a href=\'%1$s\'>Tor</a> للوصول إلى Proton.]]></string>
+    <string name="settingsKillSwitchEnableTitle">كيفية تفعيل مفتاح الإيقاف (Kill Switch)</string>
     <string name="settingsKillSwitchEnableStep1">1. افتح إعدادات جهازك</string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsKillSwitchEnableStep2">2. حدد Proton VPN و انقر %1$s</string>
+    <string name="settingsKillSwitchEnableStep2">2. ابحث عن Proton VPN واضغط على %1$s</string>
     <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">الإعدادات</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. تفعيل \"<b>VPN قيد التشغيل دائمًا</b>\" و \"<b>حظر الاتصالات بدون VPN</b>\"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3.فعل كل من / "<b>الاتصال الدائم</b>/" و /"<b>حظر الاتصال بدون VPN</b>/"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">الإعدادات</string>
-    <string name="settingsKillSwitchLearnMoreButton">ما هو مفتاح الإيقاف؟</string>
-    <string name="settingsKillSwitchWarningMain">عندما يكون مفتاح الإيقاف قيد التشغيل، لن تتمكن من الاتصال بـ:</string>
-    <string name="settingsKillSwitchWarningPoint1">مواقع الويب والتطبيقات المستبعدة من اتصال VPN الخاص بك من خلال تقسيم الاتصال النفقي</string>
-    <string name="settingsKillSwitchWarningPoint2">الأجهزة على شبكة المنطقة المحلية (LAN)</string>
+    <string name="settingsKillSwitchLearnMoreButton">ما هو مفتاح الإيقاف (Kill Switch)؟</string>
+    <string name="settingsKillSwitchWarningMain">عند تفعيل مفتاح الإيقاف (Kill Switch)، لن تتمكن من الاتصال بـ:</string>
+    <string name="settingsKillSwitchWarningPoint1">المواقع والتطبيقات المستبعدة من اتصال VPN عبر تقسيم النفق (Split Tunneling)</string>
+    <string name="settingsKillSwitchWarningPoint2">الأجهزة على شبكتك المحلية (LAN)</string>
     <string name="settingsEnableTelemetryTitle">مشاركة بيانات الاستخدام بشكل مجهول</string>
-    <string name="settingsEnableTelemetryDescription">إن بيانات الاستخدام تساعدنا على تجاوز حظر VPN وتحسين أداء التطبيق.</string>
+    <string name="settingsEnableTelemetryDescription">تُساهم بيانات الاستخدام في تخطي قيود حظر VPN وتعزيز استقرار أداء التطبيق.</string>
     <string name="settingsSendCrashReportsTitle">مشاركة تقارير الأعطال بشكل مجهول</string>
-    <string name="settingsSendCrashReportsDescription">تقارير الأعطال تساعدنا على إصلاح المشاكل، اكتشاف الجدران الحماية، وتفادي حظر VPN</string>
+    <string name="settingsSendCrashReportsDescription">تُساهم تقارير الأعطال في معالجة الأخطاء، ورصد جدران الحماية، وتفادي قيود حظر VPN.</string>
     <string name="settingsTelemetryScreenTitle">بيانات الاستخدام</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[هذه البيانات لا تحوي عنوان IP، ولا يمكن استخدامها للتعرّف عليك.
-لن نقوم أبدا بمشاركة بياناتك مع أطراف أخرى. <a href="%1$s">اعرف أكثر</a>]]></string>
-    <string name="netshield_settings_description_not_html">احمِ نفسك من الإعلانات والبرامج الضارة وأدوات التتبع على مواقع الويب والتطبيقات. %1$s</string>
-    <string name="netshield_settings_description_tv">يحميك من الإعلانات والمتتبعات والبرامج الضارة التابعة لجهات خارجية. لا يحظر NetShield الإعلانات المضمنة في خدمات البث مثل YouTube وNetflix.</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[لا تتضمن هذه البيانات عنوان IP الخاص بك، ولا تكشف عن هويتك بأي حال. نلتزم بعدم مشاركتها مع أي أطراف ثالثة. <a href="%1$s">معرفة المزيد</a>]]></string>
+    <string name="netshield_settings_description_not_html">احمي خصوصيتك بحظر الإعلانات والبرمجيات الخبيثة وأدوات التتبع عبر المواقع والتطبيقات. %1$s</string>
+    <string name="netshield_settings_description_tv">يوفر حماية من إعلانات الطرف الثالث، وأدوات التتبع، والبرمجيات الخبيثة. علماً بأن NetShield لا يحظر الإعلانات المدمجة برمجياً في محتوى منصات البث مثل YouTube و Netflix.</string>
     <string name="netshield_settings_more_info_title_tv">كيف يعمل NetShield</string>
     <string-array name="netshield_settings_more_info_paragraphs_tv">
-        <item>يحظر NetShield طلبات DNS لنطاقات الجهات الخارجية المعروفة بالإعلانات والمتتبعات والبرامج الضارة.</item>
-        <item>وهذا يعني أنك لن تتلقى إعلانات من متصفحك أو تطبيقاتك المجانية التي تستخدم خدمات إعلانية تابعة لجهات خارجية.</item>
-        <item>ومع ذلك، لا يمكنه حظر الإعلانات من منصات البث مثل YouTube وNetflix، لأن إعلاناتها تأتي من خوادمها الخاصة.</item>
+        <item>يعمل NetShield على حظر طلبات DNS الخاصة بنطاقات الأطراف الثالثة المعروفة بالإعلانات وأدوات التتبع والبرمجيات الخبيثة.</item>
+        <item>وهذا يعني أنك لن تتلقى إعلانات عبر متصفحك أو في التطبيقات المجانية التي تعتمد على مزودي إعلانات الطرف ثالثة.</item>
+        <item>إلا أن الحظر لا يشمل إعلانات منصات البث مثل YouTube و Netflix؛ نظراً لأن هذه الإعلانات تصدر مباشرة من خوادمها الخاصة وليس عبر أطراف ثالثة.</item>
     </string-array>
-    <string name="settings_icon_change_description">إخفاء تطبيق Proton VPN باستخدام أيقونة سريّة. ستظل الإشعارات تعرض اسم ورمز Proton VPN. %1$s</string>
-    <string name="settings_icon_change_learn_more">لمعرفة المزيد</string>
-    <string name="learn_more">لمعرفة المزيد</string>
+    <string name="settings_icon_change_description">قم بإخفاء تطبيق Proton VPN باستخدام أيقونة غير ملفتة. لكن ستظل الإشعارات تعرض اسم وأيقونة Proton VPN الافتراضية. %1$s</string>
+    <string name="settings_icon_change_learn_more">معرفة المزيد</string>
+    <string name="learn_more">معرفة المزيد</string>
     <string name="netshield_state_on" comment="Describes state, not action">مفعل</string>
-    <string name="netshield_state_off" comment="Describes state, not action">متوقف</string>
+    <string name="netshield_state_off" comment="Describes state, not action">معطل</string>
     <string name="netshield_state_unavailable" comment="Describes state, not action">غير متاح</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">مفعل</string>
-    <string name="split_tunneling_state_off" comment="Describes state, not action">متوقف</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">معطل</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">مفعل</string>
-    <string name="vpn_accelerator_state_off" comment="Describes state, not action">متوقف</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">معطل</string>
     <string name="lan_state_on" comment="Describes state, not action">مفعل</string>
-    <string name="lan_state_off" comment="Describes state, not action">متوقف</string>
+    <string name="lan_state_off" comment="Describes state, not action">معطل</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">مفعل</string>
-    <string name="alt_routing_state_off" comment="Describes state, not action">متوقف</string>
-    <string name="custom_dns_state_on" comment="Describes state, not action">تشغيل</string>
-    <string name="custom_dns_state_off" comment="Describes state, not action">تعطيل</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">معطل</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">مفعل</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">معطل</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">غير متاح</string>
-    <string name="custom_dns_item_removed_snackbar">تمت إزالة العنصر</string>
-    <string name="netshield_free_description">حظر الإعلانات وأدوات التتبع والبرامج الضارة على مواقع الويب والتطبيقات</string>
-    <string name="netshield_what_data_means">إحصائيات NetShield موضحة</string>
+    <string name="custom_dns_item_removed_snackbar">تم إزالة العنصر</string>
+    <string name="netshield_free_description">حظر الإعلانات وأدوات التتبع والبرمجيات الخبيثة في المواقع والتطبيقات</string>
+    <string name="netshield_what_data_means">شرح إحصائيات NetShield</string>
     <string name="netshield_ads_title">الإعلانات</string>
-    <string name="netshield_ads_details">الإعلانات ومتعقبي الإعلانات غير المرئية</string>
-    <string name="netshield_trackers_title">برمجيات التعقب</string>
-    <string name="netshield_trackers_details">ملفات تعريف الارتباط وأدوات التتبع الأخرى التي تخزن وتشارك معلومات حول نشاطك على الإنترنت</string>
+    <string name="netshield_ads_details">الإعلانات وأدوات تتبع الإعلانات الخفية</string>
+    <string name="netshield_trackers_title">أدوات التتبع</string>
+    <string name="netshield_trackers_details">ملفات تعريف الارتباط وأدوات التتبع الأخرى التي تعمل على تخزين ومشاركة بيانات نشاطك عبر الإنترنت.</string>
     <string name="netshield_data_title">البيانات</string>
-    <string name="netshield_data_details">كمية البيانات التي تم توفيرها بحظر الإعلانات والتعقب والبرامج الخبيثة من قبل NetShield</string>
+    <string name="netshield_data_details">إجمالي البيانات التي تم توفيرها بحظر الإعلانات وأدوات التتبع والبرمجيات الخبيثة بواسطة NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="zero">تم حظر الإعلان</item>
-        <item quantity="one">تم حظر الإعلان</item>
-        <item quantity="two">إعلانان محجوبان</item>
-        <item quantity="few">تم حظر الإعلانات</item>
-        <item quantity="many">تم حظر الإعلانات</item>
-        <item quantity="other">تم حظر الإعلانات</item>
+        <item quantity="zero">إعلانات محظورة</item>
+        <item quantity="one">إعلان محظور</item>
+        <item quantity="two">إعلان محظور</item>
+        <item quantity="few">إعلانات محظورة</item>
+        <item quantity="many">إعلان محظور</item>
+        <item quantity="other">إعلان محظور</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="zero">لا متتبعات محجوبة</item>
-        <item quantity="one">متتبع واحد محجوب</item>
-        <item quantity="two">متتبعان محجوبان</item>
-        <item quantity="few">متتبعات محجوبة</item>
-        <item quantity="many">متتبعات محجوبة</item>
-        <item quantity="other">متتبعات محجوبة</item>
+        <item quantity="zero">أدوات تتبع محظورة</item>
+        <item quantity="one">أداة تتبع محظورة</item>
+        <item quantity="two">أداة تتبع محظورة</item>
+        <item quantity="few">أدوات تتبع محظورة</item>
+        <item quantity="many">أداة تتبع محظورة</item>
+        <item quantity="other">أدوات تتبع محظورة</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">البيانات الموفرة</string>
-    <string name="netshield_setting_warning">قد لا تقوم بعض المواقع بالتحميل بشكل صحيح عندما يتم حظر الإعلانات والتتبع.</string>
-    <string name="dialogDontShowAgain">لا تظهر مرة أخرى</string>
-    <string name="guestHoleNotificationContent">محاولة التحايل على مشكلات الشبكة. هذا سوف يساعدك في الوصول إلى Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">لم يتم تهيئة اتصال VPN بسبب تعارض مع تطبيق منسوخ (مثل تطبيق مراسلات منسوخ) و مع الانقسام النفقي، رجاءً عطّل احدها و أعِد تشغيل جهازك</string>
-    <string name="errorTorrentNotAllowed">P2P غير مسموح على هذا الخادم</string>
-    <string name="error_profile_fallback_unavailable">فشل الاتصال. الخادم المُختار في الملف الشخصي غير متوفر.</string>
-    <string name="profileProtocolNotAvailable">إن بروتوكول VPN حالياً غير متوفر. للاتصال، حاول تغيير البروتوكول</string>
-    <string name="stateConnectedTo">متصل بـ %1$s</string>
-    <string name="stateNotConnected">إنّك غير متصل</string>
+    <string name="netshield_setting_warning">قد يؤدي حظر الإعلانات وأدوات التتبع إلى عدم تحميل بعض المواقع بشكل سليم.</string>
+    <string name="dialogDontShowAgain">عدم الإظهار مجدداً</string>
+    <string name="guestHoleNotificationContent">نحاول تجاوز مشاكل الشبكة لمساعدتك على الوصول إلى تطبيق Proton VPN.</string>
+    <string name="errorTunMultiUserPermission">تعذر بدء اتصال VPN لوجود تعارض بين التطبيقات المزدوجة (مثل Dual Messenger) والانقسام النفقي. يُرجى إيقاف إحداهما وإعادة تشغيل جهازك.</string>
+    <string name="errorTorrentNotAllowed">P2P غير متاح على هذا الخادم</string>
+    <string name="error_profile_fallback_unavailable">تعذر الاتصال لأن الخادم المُحدد في ملف الاتصال غير متاح حاليًا.</string>
+    <string name="profileProtocolNotAvailable">بروتوكول VPN المُحدد في ملف الاتصال غير متاح حاليًا. لتتمكن من الاتصال، حاول تغيير البروتوكول.</string>
+    <string name="stateConnectedTo">متصل بخادم %1$s</string>
+    <string name="stateNotConnected">غير متصل بـ VPN</string>
     <string name="nameEurope">أوروبا</string>
     <string name="nameAmerica">أمريكا</string>
     <string name="nameAsia">آسيا</string>
-    <string name="nameAfricaAndMiddleEast">أفريقيا والشرق الأوسط</string>
+    <string name="nameAfricaAndMiddleEast">إفريقيا والشرق الأوسط</string>
     <string name="nameOceania">أوقيانوسيا</string>
     <string name="tv_row_settings">الإعدادات</string>
     <string name="tv_card_lan_connections_label">LAN</string>
-    <string name="tv_card_split_tunneling_label">تقسيم الاتصال النفقي</string>
+    <string name="tv_card_split_tunneling_label">الانقسام النفقي</string>
     <string name="tv_card_protocol_label">البروتوكول</string>
     <string name="tv_dialog_delete_server_title">هل تريد حذف الخادم %1$s؟</string>
     <string name="tv_detail_default_connection_checkbox_short">المفضلة</string>
     <string name="tv_detail_connect_streaming">شاهد مع Plus</string>
-    <string name="tv_detail_connect">اتصل</string>
-    <string name="tv_detail_description_streaming_country">شاهد المحتوى المفضل. استفد من تطبيقات اكثر مع اشتراك Proton VPN Plus.</string>
-    <string name="tv_detail_description_no_streaming_country">شاهد المحتوى المفضل مع اشتراك Proton VPN Plus.</string>
-    <string name="tv_detail_description_country_not_available">هذا البلد غير متوفر. احصل على خيارات اكثر للمشاهدة مع اشتراك Proton VPN Plus.</string>
-    <string name="tv_detail_description_plus">يمكنك بث مقاطع الفيديو أو الأفلام أو الرياضات المفضلة لديك باستخدام تطبيقاتك.</string>
-    <string name="tv_login_title_signin">تسجيل دخول في Proton VPN</string>
-    <string name="tv_login_title_welcome">قم ببث محتوى الفيديو المفضل لك</string>
-    <string name="tv_login_welcome_description">شاهد الفيديوهات من اكثر من 50 بلد. من ضمنها يوتيوب و تويتش.
-شاهد نتفليكس، Amazon Prime، و Hulu مع Proton VPN Plus.</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[احصل على حساب Proton VPN من <b>%1$s</b>]]></string>
+    <string name="tv_detail_connect">اتصال</string>
+    <string name="tv_detail_description_streaming_country">استمتع بمشاهدة محتواك المفضل، وافتح المزيد من التطبيقات مع باقة Proton VPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">استمتع بمشاهدة المزيد من محتواك المفضل مع باقة Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">هذه الدولة غير متوفرة. استمتع بخيارات مشاهدة أوسع مع باقة Proton VPN Plus.</string>
+    <string name="tv_detail_description_plus">استمتع بمشاهدة فيديوهاتك، وأفلامك، ومبارياتك المفضلة عبر تطبيقاتك.</string>
+    <string name="tv_login_title_signin">تسجيل الدخول إلى Proton VPN</string>
+    <string name="tv_login_title_welcome">استمتع بمشاهدة محتوى الفيديو المفضل لديك.</string>
+    <string name="tv_login_welcome_description">استمتع بمشاهدة محتوى الفيديو في أكثر من 50 دولة عبر YouTube و Twitch، وافتح عالمًا من المشاهدة مع Netflix و Amazon Prime و Hulu عبر باقة Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[أنشئ حسابك في Proton VPN من خلال <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">تسجيل الدخول</string>
-    <string name="tv_login_step1_description"><![CDATA[ادخل على <b>%1$s</b> من على هاتفك او حاسوبك]]></string>
-    <string name="tv_login_step2_description">تسجيل دخول في Proton VPN</string>
-    <string name="tv_login_step3_description">ادخل الكود</string>
-    <string name="tv_login_timer_label">هذا الكود ينتهي صلاحيته في:</string>
+    <string name="tv_login_step1_description"><![CDATA[انتقل إلى <b>%1$s</b> باستخدام هاتفك أو الكمبيوتر.]]></string>
+    <string name="tv_login_step2_description">تسجيل الدخول إلى Proton VPN</string>
+    <string name="tv_login_step3_description">يُرجى إدخال الرمز:</string>
+    <string name="tv_login_timer_label">تنتهي صلاحية الرمز خلال:</string>
     <string name="tv_login_refresh">تحديث</string>
-    <string name="tv_login_title_loading">جار التحميل...</string>
-    <string name="tv_login_title_refresh">لقد انتهت جلستك. اضغط تحديث للبدء مجدداً.</string>
+    <string name="tv_login_title_loading">جاري التحميل...</string>
+    <string name="tv_login_title_refresh">انتهت صلاحية الجلسة. يُرجى الضغط على تحديث للبدء من جديد.</string>
     <string name="tv_upgrade_title">ابدأ المشاهدة مع Plus</string>
-    <string name="back">العودة</string>
-    <string name="tv_upgrade_url_details"><![CDATA[قم بزيارة <b>%1$s</b> لترقية إلى Proton VPN Plus الآن.]]></string>
-    <string name="tv_upgrade_description">اشترك في Proton VPN Plus للاستفادة من اكثر من 500 خادم حول العالم و خيارات مخصصة لمشاهدة +Netflix, Amazon Prime Video, Disney, و غيرها الكثير.</string>
-    <string name="tv_vpn_error_dialog_title">فشل اتصال VPN</string>
+    <string name="back">رجوع</string>
+    <string name="tv_upgrade_url_details"><![CDATA[تفضل بزيارة <b>%1$s</b> للترقية إلى باقة Proton VPN Plus الآن.]]></string>
+    <string name="tv_upgrade_description">استمتع بالوصول إلى أكثر من 500 خادم حول العالم مع باقة Proton VPN Plus، وافتح عالمًا من المشاهدة الخاصة لكل من Netflix و Amazon Prime Video و +Disney وغيرها الكثير.</string>
+    <string name="tv_vpn_error_dialog_title">تعذر الاتصال بـ VPN</string>
     <string name="tv_signout_label">تسجيل الخروج</string>
-    <string name="tv_signout_dialog_title">هل أنت متأكد من أنك تريد تسجيل الخروج ؟</string>
-    <string name="tv_signout_dialog_description_connected">هذا سيقطع اتصال تلفازك عن اي خادم VPN</string>
+    <string name="tv_signout_dialog_title">هل تود تسجيل الخروج فعلاً؟</string>
+    <string name="tv_signout_dialog_description_connected">يُرجى العلم أن هذا سيؤدي إلى قطع اتصال VPN الخاص بالتلفزيون عن أي خادم.</string>
     <string name="tv_signout_dialog_ok">تسجيل الخروج</string>
-    <string name="tv_quick_connect_recommened">يوصى به</string>
+    <string name="tv_quick_connect_recommened">موصى به</string>
     <string name="tv_quick_connect_favourite">المفضلة</string>
-    <string name="tv_country_maintenance_dialog_title">البلد غير متوفر</string>
-    <string name="tv_country_maintenance_dialog_description">الرجاء المحاولة مرة أخرى لاحقاً أو تحديد بلد آخر.</string>
+    <string name="tv_country_maintenance_dialog_title">الدولة غير متاحة</string>
+    <string name="tv_country_maintenance_dialog_description">يُرجى المحاولة مرة أخرى لاحقًا أو اختيار دولة مختلفة.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% تحميل الخادم</string>
+    <string name="tv_server_list_load">الضغط على الخادم %1$s%%</string>
     <string name="tv_recently_used_servers">الخوادم المستخدمة مؤخرًا</string>
     <string name="tv_available_servers">الخوادم المتاحة</string>
     <string name="tv_locked_servers">الخوادم المقفلة</string>
-    <string name="tv_other_servers">خوادم أخرى</string>
+    <string name="tv_other_servers">الخوادم الأخرى</string>
     <string name="tv_server_list">قائمة الخوادم</string>
     <string name="tv_server_list_action_unavailable">غير متاح</string>
-    <string name="notification_subscription_expired_title">انتهى اشتراك Proton VPN الخاص بك</string>
-    <string name="notification_subscription_expired_content">كان علينا خفض مستوى اشتراكك، لكننا نعيد توصيلك إلى أسرع خادم متاح في الاشتراك الحالي.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">تم تخفيض اشتراكك.</string>
-    <string name="notification_delinquent_title">يوجد فواتير لك قيد المعالجة على حساب Proton VPN</string>
-    <string name="notification_delinquent_content">يرجى أخذ لحظة لتحديث معلومات الفوترة الخاصة بك للحفاظ على اشتراكك فعّال.</string>
-    <string name="notification_max_sessions_title">لقد بلغت الحد الأقصى للأجهزة المستخدمة</string>
+    <string name="notification_subscription_expired_title">انتهت صلاحية اشتراكك في Proton VPN</string>
+    <string name="notification_subscription_expired_content">تم تغيير باقتك، ونعمل على إعادة توصيلك بأسرع خادم متاح لك الآن.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">تم تغيير فئة اشتراكك.</string>
+    <string name="notification_delinquent_title">لديك فواتير غير مسددة في Proton VPN</string>
+    <string name="notification_delinquent_content">يُرجى تحديث بيانات الدفع للحفاظ على اشتراكك.</string>
+    <string name="notification_max_sessions_title">لقد بلغت الحد الأقصى للأجهزة المسموح به</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="zero">يُرجى قطع اتصال جهاز آخر لتوصيل هذا الجهاز، أو الترقية إلى VPN Plus للحصول على اتصال لما يصل إلى %1$d من الأجهزة في نفس الوقت.</item>
-        <item quantity="one">يُرجى قطع اتصال جهاز آخر لتوصيل هذا الجهاز، أو الترقية إلى VPN Plus للحصول على اتصال لجهاز واحد (%1$d) في نفس الوقت.</item>
-        <item quantity="two">يُرجى قطع اتصال جهاز آخر لتوصيل هذا الجهاز، أو الترقية إلى VPN Plus للحصول على اتصال لما يصل إلى جهازين (%1$d) في نفس الوقت.</item>
-        <item quantity="few">يُرجى قطع اتصال جهاز آخر لتوصيل هذا الجهاز، أو الترقية إلى VPN Plus للحصول على اتصال لما يصل إلى %1$d أجهزة في نفس الوقت.</item>
-        <item quantity="many">يُرجى قطع اتصال جهاز آخر لتوصيل هذا الجهاز، أو الترقية إلى VPN Plus للحصول على اتصال لما يصل إلى %1$d جهازًا في نفس الوقت.</item>
-        <item quantity="other">يُرجى قطع اتصال جهاز آخر لتوصيل هذا الجهاز، أو الترقية إلى VPN Plus للحصول على اتصال لما يصل إلى %1$d جهاز في نفس الوقت.</item>
+        <item quantity="zero">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
+        <item quantity="one">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
+        <item quantity="two">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
+        <item quantity="few">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d أجهزة.</item>
+        <item quantity="many">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
+        <item quantity="other">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
     </plurals>
-    <string name="notification_max_sessions_content">رجاءاً قم بفصل جهاز آخر لتستطيع الاتصال بهذا الجهاز.</string>
-    <string name="notification_cancel_to_free">أنت الآن على الاشتراك المجاني. الخوادم المجانية و ميزاتها متوفرة فقط.</string>
-    <string name="notification_cancel_to_basic">أنت الآن مشترك Basic، كلا من خوادم Basic &amp; المجانية وميزاتهما متوفرة لك.</string>
-    <string name="notification_cancel_to_delinquent">ستتمكن من الاستفادة من الميزات المدفوعة مجدداً بعد دفع الفواتير المستحقة.</string>
+    <string name="notification_max_sessions_content">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز.</string>
+    <string name="notification_cancel_to_free">أنت الآن على الباقة المجانية، وتتوفر لك الخوادم والمميزات المجانية.</string>
+    <string name="notification_cancel_to_basic">أنت الآن على الباقة الأساسية، وتتوفر لك الخوادم والمميزات الأساسية والمجانية.</string>
+    <string name="notification_cancel_to_delinquent">بمجرد سداد الفواتير المستحقة، ستتمكن من استخدام المميزات المدفوعة مجدداً.</string>
     <string name="reconnect_from_server">من الخادم: </string>
-    <string name="reconnect_to_server">الي الخادم: </string>
+    <string name="reconnect_to_server">إلى الخادم: </string>
     <string name="no_thanks">لا شكرًا</string>
     <string name="enable">تفعيل</string>
     <string name="notification_smart_protocol_disabled_title">البروتوكول الذكي معطل حالياً</string>
-    <string name="notification_smart_protocol_disabled_content">اكتشف Proton VPN أن شبكتك الحالية تمنع الاتصال بشبكة VPN. تمكين البروتوكول الذكي قد يتجاوز هذه القيود.</string>
-    <string name="upsell_advanced_features">الميزات المتقدمة: NetShield، Secure Core، تور، P2P</string>
-    <string name="upsell_streaming_services">استفد من خدمات المشاهدة (Netflix، Disney+، إلخ) أينما كنت في العالم</string>
+    <string name="notification_smart_protocol_disabled_content">لاحظنا أن شبكتك الحالية تمنع الاتصال بـ VPN؛ قد يساعدك تفعيل البروتوكول الذكي في تجاوز هذه القيود.</string>
+    <string name="upsell_advanced_features">المميزات المتقدمة: NetShield و Secure Core و Tor و P2P</string>
+    <string name="upsell_streaming_services">استمتع بمشاهدة Netflix و +Disney ومنصات البث الأخرى من أي مكان في العالم.</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
@@ -379,10 +377,10 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
         <item quantity="zero">%1$d خادم</item>
-        <item quantity="one">خادم %1$d</item>
-        <item quantity="two">خادمان %1$d</item>
+        <item quantity="one">%1$d خادم</item>
+        <item quantity="two">%1$d خادم</item>
         <item quantity="few">%1$d خوادم</item>
-        <item quantity="many">%1$d خادمًا</item>
+        <item quantity="many">%1$d خادم</item>
         <item quantity="other">%1$d خادم</item>
     </plurals>
     <!-- Number of countries available in the service.
@@ -392,26 +390,26 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
         <item quantity="zero">%1$d دولة</item>
-        <item quantity="one">دولة %1$d</item>
-        <item quantity="two">دولتان %1$d</item>
+        <item quantity="one">%1$d دولة</item>
+        <item quantity="two">%1$d دولة</item>
         <item quantity="few">%1$d دول</item>
-        <item quantity="many">%1$d دولةً</item>
+        <item quantity="many">%1$d دولة</item>
         <item quantity="other">%1$d دولة</item>
     </plurals>
-    <string name="upsell_upgrade_again">قم بترقية الاشتراك مرة أخرى للاستمتاع بجميع الميزات:</string>
+    <string name="upsell_upgrade_again">اشترك مجدداً لاستعادة جميع المميزات:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="zero">حماية %1$d من الأجهزة دفعة واحدة</item>
-        <item quantity="one">حماية جهاز واحد (%1$d) دفعة واحدة</item>
-        <item quantity="two">حماية جهازين (%1$d) دفعة واحدة</item>
-        <item quantity="few">حماية %1$d أجهزة دفعة واحدة</item>
-        <item quantity="many">حماية %1$d جهازًا دفعة واحدة</item>
-        <item quantity="other">حماية %1$d جهاز دفعة واحدة</item>
+        <item quantity="zero">حماية %1$d جهاز في وقت واحد</item>
+        <item quantity="one">حماية %1$d جهاز في وقت واحد</item>
+        <item quantity="two">حماية %1$d جهاز في وقت واحد</item>
+        <item quantity="few">حماية %1$d أجهزة في وقت واحد</item>
+        <item quantity="many">حماية %1$d جهاز في وقت واحد</item>
+        <item quantity="other">حماية %1$d جهاز في وقت واحد</item>
     </plurals>
     <string name="upgrade_devices_text">يتوفر Proton VPN على 8 منصات مختلفة.</string>
-    <string name="upgrade_plus_title">قم بترقية خصوصيتك</string>
-    <string name="upgrade_plus_message">احصل على ميزات الخصوصية المتقدمة وسرعة أعلى مع VPN Plus.</string>
+    <string name="upgrade_plus_title">عزز حماية خصوصيتك</string>
+    <string name="upgrade_plus_message">استفد من مميزات الخصوصية المتقدمة والسرعة الفائقة مع باقة VPN Plus.</string>
     <string name="upgrade_netshield_title">استمتع بتصفح خالي من الإعلانات</string>
-    <string name="upgrade_netshield_message"><![CDATA[حجب الإعلانات والتتبع والبرامج الخبيثة باستخدام <b>NetShield</b>.]]></string>
+    <string name="upgrade_netshield_message"><![CDATA[تخلص من الإعلانات وأدوات التتبع والبرمجيات الخبيثة بفضل تقنية <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">ضاعف مستوى التشفير</string>
     <string name="upgrade_secure_core_message"><![CDATA[أضف طبقة أخرى من التشفير إلى اتصال VPN مع <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">احصل على تنزيلات من النظير إلى النظير (P2P) ومشاركة الملفات </string>

@@ -665,7 +665,7 @@
     <string name="upgrade_country_message"><![CDATA[Odomknite <b>výber krajiny</b> s VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free vás automaticky pripojí k najrýchlejšiemu dostupnému serveru. Zvyčajne je to server, ktorý je najbližšie k vašej polohe.</string>
     <string name="free_connections_info_server_locations">Umiestnenia bezplatných serverov (%1$d)</string>
-    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
+    <string name="free_connections_info_banner_text">Prístup ku všetkým krajinám s VPN Plus</string>
     <string name="free_connection_info_title">Bezplatné pripojenia</string>
     <string name="search_upsell_banner_title">Streamujte odkiaľkoľvek</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1548,7 +1548,7 @@
     <string name="info_p2p_why_description_logs">Žiadne protokoly aktivít</string>
     <string name="info_p2p_why_description_hide">Skryte svoju IP adresu pred poskytovateľom služieb a partnermi</string>
     <string name="info_dialog_smart_routing_description">Smart Routing používa virtuálne servery na zabezpečenie pokrytia VPN v ťažko dostupných krajinách.\n\nPri pripojení k serveru Smart Routing sa bude zdať, že surfujete v cieľovej krajine, hoci fyzický server sa nachádza inde.  \n\nSmart Routing sa zvyčajne používa na obchádzanie zákonov proti ochrane súkromia a iných foriem cenzúry.</string>
-    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
+    <string name="countries_upsell_banner_description">Prístup ku všetkým krajinám s VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Pridajte ďalšiu úroveň šifrovania k vášmu VPN pripojeniu</string>
     <string name="p2p_upsell_banner_description">Sťahujte súbory cez BitTorrent a iné protokoly na zdieľanie súborov</string>
     <string name="tor_upsell_banner_description">Použite sieť Tor nad vaším VPN pripojením pre väčšie súkromie</string>

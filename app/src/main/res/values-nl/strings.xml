@@ -633,7 +633,7 @@
     <string name="upgrade_country_message"><![CDATA[Ontgrendel <b>landkeuze</b> met VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free connecteert u automatisch met de snelste beschikbare server. Dit zal normaal gezien de dichtstbijzijnde server zijn.</string>
     <string name="free_connections_info_server_locations">Gratis serverlocaties (%1$d)</string>
-    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
+    <string name="free_connections_info_banner_text">Krijg toegang tot alle landen met VPN Plus</string>
     <string name="free_connection_info_title">Gratis verbindingen</string>
     <string name="search_upsell_banner_title">Streamen vanaf elke locatie</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1476,7 +1476,7 @@
     <string name="info_p2p_why_description_logs">Geen activiteitenlogs</string>
     <string name="info_p2p_why_description_hide">Verberg uw IP-adres van uw internet provider en andere gebruikers.</string>
     <string name="info_dialog_smart_routing_description">Smart Routing gebruikt virtuele servers om VPN-dekking te bieden in moeilijk te bereiken landen.\n\nWanneer u verbinding maakt met een slimme routeringsserver, dan lijkt u te bladeren in het land van bestemming Hoewel de fysieke server zich ergens anders bevindt.  \n\nSmart Routing wordt meestal gebruikt om anti-privacywetten en andere vormen van censuur te omzeilen.</string>
-    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
+    <string name="countries_upsell_banner_description">Krijg toegang tot alle landen met VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Voeg een extra laag encryptie toe aan uw VPN-verbinding</string>
     <string name="p2p_upsell_banner_description">Download bestanden via BitTorrent en andere bestanden delen protocollen</string>
     <string name="tor_upsell_banner_description">Gebruik het Tor netwerk via uw VPN-verbinding voor extra privacy</string>
