@@ -32,6 +32,7 @@ import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import com.protonvpn.interfaces.Robot
 import java.util.concurrent.TimeUnit
+import kotlin.test.assertNotNull
 
 object HumanVerificationRobot : Robot {
     private val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
@@ -39,7 +40,8 @@ object HumanVerificationRobot : Robot {
     fun verifyViaCaptcha(): HumanVerificationRobot {
         onWebView().withTimeout(30_000L, TimeUnit.MILLISECONDS)
             .check(webContent(hasElementWithId("ic-arrows-switch")))
-        uiDevice.wait(Until.hasObject(By.text("Reset puzzle piece")), 20_000)
+        val resetButton = uiDevice.wait(Until.hasObject(By.text("Reset puzzle piece")), 30_000)
+        assertNotNull(resetButton)
         uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB) // Navigate to "Next"
         uiDevice.pressEnter()
         return this
