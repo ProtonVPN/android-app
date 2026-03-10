@@ -53,9 +53,7 @@ class OpenUpgradeStreamingBlockDialog @Inject constructor() {
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @Singleton
-class StreamingUpsellRestrictionsDialogTrigger
-@Inject
-constructor(
+class StreamingUpsellRestrictionsDialogTrigger @Inject constructor(
     private val mainScope: CoroutineScope,
     private val isStreamingRestrictionUpsellEnabled: IsStreamingRestrictionUpsellEnabled,
     private val isTv: IsTvCheck,

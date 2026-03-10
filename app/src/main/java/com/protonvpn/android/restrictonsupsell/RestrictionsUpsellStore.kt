@@ -48,9 +48,10 @@ data class RestrictionsUpsellStoredState(val streaming: RestrictionState) {
 }
 
 @Singleton
-class RestrictionsUpsellStore
-@Inject
-constructor(provider: dagger.Lazy<RestrictionsUpsellStoreProvider>, currentUser: CurrentUser) {
+class RestrictionsUpsellStore @Inject constructor(
+    provider: dagger.Lazy<RestrictionsUpsellStoreProvider>,
+    currentUser: CurrentUser
+) {
     private val currentUserStoreProvider by lazy {
         CurrentUserStoreProvider(provider.get(), currentUser)
     }

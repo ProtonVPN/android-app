@@ -45,9 +45,7 @@ import kotlinx.coroutines.flow.onEach
 private val NotificationRepeatIntervalMs = 1.days.inWholeMilliseconds
 
 @Reusable
-class ShowStreamingUpsellNotification
-@Inject
-constructor(
+class ShowStreamingUpsellNotification @Inject constructor(
     @param:ApplicationContext private val appContext: Context,
     private val notificationManager: NotificationManagerCompat,
     private val createLaunchIntent: CreateLaunchIntent,
