@@ -1,0 +1,2 @@
+What's new
+Fixed a crash that could occur when resuming the app on TV.
