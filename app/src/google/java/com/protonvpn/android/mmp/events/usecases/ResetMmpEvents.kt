@@ -17,30 +17,27 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.mmp.events.data
+package com.protonvpn.android.mmp.events.usecases
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import com.protonvpn.android.mmp.events.data.MmpEventsDao
+import com.protonvpn.android.mmp.referrer.data.MmpReferrerStorage
+import dagger.Reusable
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-@Dao
-abstract class MmpEventsDao {
+@Reusable
+class ResetMmpEvents @Inject constructor(
+    private val mmpEventsDao: MmpEventsDao,
+    private val mmpReferrerStorage: MmpReferrerStorage,
+) {
 
-    @Delete
-    abstract suspend fun delete(entity: MmpEventEntity)
+    suspend operator fun invoke() = withContext(context = NonCancellable) {
+        mmpEventsDao.deleteAll()
 
-    @Delete
-    abstract suspend fun delete(entities: List<MmpEventEntity>)
-
-    @Query("DELETE FROM mmpEvents")
-    abstract suspend fun deleteAll()
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insert(entity: MmpEventEntity)
-
-    @Query("SELECT * FROM mmpEvents ORDER BY timestamp")
-    abstract suspend fun getAll(): List<MmpEventEntity>
+        mmpReferrerStorage.updateMmpReferrer { localMmpReferrer ->
+            localMmpReferrer.copy(sessionStartTimestamp = null)
+        }
+    }
 
 }

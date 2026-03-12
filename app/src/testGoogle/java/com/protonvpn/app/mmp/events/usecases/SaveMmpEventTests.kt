@@ -31,6 +31,8 @@ import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
 import com.protonvpn.android.mmp.referrer.data.MmpReferrerStorage
 import com.protonvpn.android.mmp.referrer.usecases.FetchMmpReferrer
 import com.protonvpn.android.mmp.referrer.usecases.GetMmpReferrer
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.app.mmp.events.TestMmpEvent
 import com.protonvpn.app.mmp.referrer.TestMmpReferrer
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
@@ -38,6 +40,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
@@ -69,6 +72,8 @@ class SaveMmpEventTests {
 
     private lateinit var testScope: TestScope
 
+    private lateinit var localUserSettingsFlow: MutableStateFlow<LocalUserSettings>
+
     private lateinit var saveMmpEvent: SaveMmpEvent
 
     @Before
@@ -93,14 +98,22 @@ class SaveMmpEventTests {
             localDataStoreFactory = InMemoryDataStoreFactory(),
         )
 
+        localUserSettingsFlow = MutableStateFlow(value = LocalUserSettings.Default)
+
         val getMmpReferrer = GetMmpReferrer(
             isMmpEnabled = isMmpEnabled,
             mmpReferrerStorage = mmpReferrerStorage,
             fetchMmpReferrer = mockFetchMmpReferrer,
         )
 
+        val userSettings = EffectiveCurrentUserSettings(
+            mainScope = testScope.backgroundScope,
+            effectiveCurrentUserSettingsFlow = localUserSettingsFlow,
+        )
+
         saveMmpEvent = SaveMmpEvent(
             isMmpEnabled = isMmpEnabled,
+            userSettings = userSettings,
             mmpEventsDao = mmpEventsDao,
             getMmpReferrer = getMmpReferrer,
             mmpReferrerStorage = mmpReferrerStorage,
@@ -116,6 +129,16 @@ class SaveMmpEventTests {
     @Test
     fun `GIVEN feature flag is disabled WHEN saving event THEN event is not saved`() = testScope.runTest {
         isMmpEnabled.setEnabled(isEnabled = false)
+
+        saveMmpEvent(eventType = MmpEventType.Install)
+
+        assertTrue(actual = mmpEventsDao.getAll().isEmpty())
+    }
+
+    @Test
+    fun `GIVEN feature flag is enabled AND telemetry is disabled WHEN saving event THEN event is not saved`() = testScope.runTest {
+        isMmpEnabled.setEnabled(isEnabled = true)
+        localUserSettingsFlow.value = LocalUserSettings.Default.copy(telemetry = false)
 
         saveMmpEvent(eventType = MmpEventType.Install)
 

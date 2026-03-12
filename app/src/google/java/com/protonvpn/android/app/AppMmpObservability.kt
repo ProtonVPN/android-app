@@ -24,12 +24,14 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
 import com.protonvpn.android.mmp.IsMmpFeatureFlagEnabled
 import com.protonvpn.android.mmp.events.usecases.GetMmpEvents
+import com.protonvpn.android.mmp.events.usecases.ResetMmpEvents
 import com.protonvpn.android.mmp.events.usecases.SendMmpEvents
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import dagger.Lazy
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -38,8 +40,10 @@ import kotlin.time.Duration.Companion.days
 @Reusable
 class AppMmpObservability @Inject constructor(
     private val isMmpEnabled: IsMmpFeatureFlagEnabled,
-    private val periodicUpdateManager: Lazy<PeriodicUpdateManager>,
+    private val userSettings: EffectiveCurrentUserSettings,
     private val mainScope: CoroutineScope,
+    private val periodicUpdateManager: Lazy<PeriodicUpdateManager>,
+    private val resetMmpEvents: Lazy<ResetMmpEvents>,
     sendMmpEvents: Lazy<SendMmpEvents>,
     getMmpEvents: Lazy<GetMmpEvents>,
 ) {
@@ -52,18 +56,26 @@ class AppMmpObservability @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun start() {
-        isMmpEnabled.observe()
-            .filter { isMmpEnabled -> isMmpEnabled }
-            .onEach {
-                periodicUpdateManager.get().registerUpdateAction(
-                    action = updateMmpEventsAction,
-                    updateSpec = arrayOf(
-                        PeriodicUpdateSpec(
-                            intervalMs = sendMmpEventsIntervalMillis,
-                            conditions = emptySet(),
+        combine(
+            isMmpEnabled.observe(),
+            userSettings.telemetry,
+        ) { isMmpEnabled, isTelemetryEnabled -> isMmpEnabled && isTelemetryEnabled }
+            .onEach { isSendingMmpEventsAllowed ->
+                if (isSendingMmpEventsAllowed) {
+                    periodicUpdateManager.get().registerUpdateAction(
+                        action = updateMmpEventsAction,
+                        updateSpec = arrayOf(
+                            PeriodicUpdateSpec(
+                                intervalMs = sendMmpEventsIntervalMillis,
+                                conditions = emptySet(),
+                            ),
                         ),
-                    ),
-                )
+                    )
+                } else {
+                    periodicUpdateManager.get().unregister(action = updateMmpEventsAction)
+
+                    resetMmpEvents.get().invoke()
+                }
             }
             .launchIn(scope = mainScope)
     }

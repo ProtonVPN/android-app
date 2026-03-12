@@ -41,6 +41,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -81,16 +82,23 @@ class SendMmpEventsTests {
 
         val context = InstrumentationRegistry.getInstrumentation().targetContext
 
+        val testDispatcher = UnconfinedTestDispatcher()
+
+        val testExecutor = testDispatcher.asExecutor()
+
         appDatabase = Room.inMemoryDatabaseBuilder(
             context = context,
             klass = AppDatabase::class.java,
-        ).buildDatabase()
+        )
+            .setQueryExecutor(executor = testExecutor)
+            .setTransactionExecutor(executor = testExecutor)
+            .buildDatabase()
 
         mmpEventsDao = appDatabase.mmpEventsDao()
 
         isMmpEnabled = FakeIsMmpFeatureFlagEnabled(enabled = true)
 
-        testScope = TestScope(context = UnconfinedTestDispatcher())
+        testScope = TestScope(context = testDispatcher)
 
         mmpReferrerStorage = MmpReferrerStorage(
             mainScope = testScope.backgroundScope,

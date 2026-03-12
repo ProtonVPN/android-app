@@ -27,14 +27,17 @@ import com.protonvpn.android.mmp.events.data.MmpEventsDao
 import com.protonvpn.android.mmp.events.data.toEntity
 import com.protonvpn.android.mmp.referrer.data.MmpReferrerStorage
 import com.protonvpn.android.mmp.referrer.usecases.GetMmpReferrer
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import dagger.Reusable
 import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @Reusable
 class SaveMmpEvent @Inject constructor(
     private val isMmpEnabled: IsMmpFeatureFlagEnabled,
+    private val userSettings: EffectiveCurrentUserSettings,
     private val mmpEventsDao: MmpEventsDao,
     private val getMmpReferrer: GetMmpReferrer,
     private val mmpReferrerStorage: MmpReferrerStorage,
@@ -45,7 +48,7 @@ class SaveMmpEvent @Inject constructor(
         eventType: MmpEventType,
         isSessionRestartRequired: Boolean = false,
     ) = withContext(context = NonCancellable) {
-        if (!isMmpEnabled()) return@withContext
+        if (!(isMmpEnabled() && userSettings.telemetry.first())) return@withContext
 
         if (isSessionRestartRequired) {
             mmpReferrerStorage.updateMmpReferrer { localMmpReferrer ->
