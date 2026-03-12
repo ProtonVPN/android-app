@@ -99,13 +99,13 @@ class ManagedConfig(
             val group = restrictions.getString("group")
             val deviceId = restrictions.getString("deviceId")
 
-            return if (token != null && group != null) {
+            return if (!token.isNullOrBlank() && group != null) {
                 ProtonLogger.logCustom(LogCategory.MANAGED_CONFIG, "Token restrictions found")
                 AutoLoginConfig.Token(token, group, deviceId)
             } else {
                 val username = restrictions.getString("username")
                 val password = restrictions.getString("password")
-                if (username != null && password != null) {
+                if (!username.isNullOrBlank() && !password.isNullOrBlank()) {
                     ProtonLogger.logCustom(LogCategory.MANAGED_CONFIG, "UsernamePassword Restrictions found")
                     AutoLoginConfig.UsernamePassword(username, password)
                 } else {

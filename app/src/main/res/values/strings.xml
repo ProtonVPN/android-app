@@ -1529,6 +1529,9 @@
     <string name="notification_auto_login_error" translatable="false">There was a problem setting up ProtonVPN. Click to open the app.</string>
     <string name="app_restrictions_username_title" translatable="false">Username</string>
     <string name="app_restrictions_password_title" translatable="false">Password</string>
+    <string name="app_restrictions_token_title" translatable="false">Token</string>
+    <string name="app_restrictions_group_title" translatable="false">Group</string>
+    <string name="app_restrictions_device_id_title" translatable="false">DeviceID</string>
     <string name="profile_action_edit">Edit</string>
     <string name="profile_action_duplicate">Duplicate</string>
     <string name="profile_action_delete">Delete</string>

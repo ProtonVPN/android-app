@@ -28,4 +28,22 @@
         android:key="password"
         android:restrictionType="string"
         android:title="@string/app_restrictions_password_title"/>
+
+    <restriction
+        android:defaultValue=""
+        android:key="token"
+        android:restrictionType="string"
+        android:title="@string/app_restrictions_token_title"/>
+
+    <restriction
+        android:defaultValue=""
+        android:key="group"
+        android:restrictionType="string"
+        android:title="@string/app_restrictions_group_title"/>
+
+    <restriction
+        android:defaultValue=""
+        android:key="deviceId"
+        android:restrictionType="string"
+        android:title="@string/app_restrictions_device_id_title"/>
 </restrictions>
