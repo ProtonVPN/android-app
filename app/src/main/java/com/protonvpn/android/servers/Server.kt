@@ -20,7 +20,6 @@
 package com.protonvpn.android.servers
 
 import com.protonvpn.android.redesign.countries.TranslationsData
-import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.countries.city
 import com.protonvpn.android.redesign.countries.state
 import com.protonvpn.android.servers.api.ConnectingDomain
@@ -28,7 +27,6 @@ import com.protonvpn.android.servers.api.LogicalServer
 import com.protonvpn.android.servers.api.LogicalServerV1
 import com.protonvpn.android.servers.api.SERVER_FEATURE_IPV6
 import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
-import com.protonvpn.android.servers.api.SERVER_FEATURE_PARTNER_SERVER
 import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.servers.api.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.servers.api.SERVER_FEATURE_STREAMING
@@ -95,9 +93,6 @@ data class Server(
 
     val isSecureCoreServer: Boolean
         get() = features.hasFlag(SERVER_FEATURE_SECURE_CORE)
-
-    val isPartneshipServer: Boolean
-        get() = features.hasFlag(SERVER_FEATURE_PARTNER_SERVER)
 
     val isP2pServer: Boolean
         get() = features.hasFlag(SERVER_FEATURE_P2P)

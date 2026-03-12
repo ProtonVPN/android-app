@@ -24,12 +24,12 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
-import com.protonvpn.android.servers.api.SERVER_FEATURE_PARTNER_SERVER
 import com.protonvpn.android.servers.api.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.servers.api.SERVER_FEATURE_STREAMING
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.telemetry.ConnectionTelemetrySentryDebugEnabled
 import com.protonvpn.android.telemetry.DefaultCommonDimensions
 import com.protonvpn.android.telemetry.DefaultTelemetryReporter
@@ -88,7 +88,7 @@ class VpnConnectionTelemetryTests {
 
     private val plusServer = createServer(
         serverName = "PLUS#1",
-        features = SERVER_FEATURE_STREAMING or SERVER_FEATURE_PARTNER_SERVER,
+        features = SERVER_FEATURE_STREAMING or SERVER_FEATURE_RESTRICTED,
         tier = 2,
         exitCountry = "CH"
     )
@@ -101,7 +101,7 @@ class VpnConnectionTelemetryTests {
     )
     private val freeServer = createServer(
         serverName = "FREE#1",
-        features = SERVER_FEATURE_PARTNER_SERVER,
+        features = SERVER_FEATURE_P2P,
         tier = 0,
         exitCountry = "CH"
     )
@@ -156,7 +156,7 @@ class VpnConnectionTelemetryTests {
             "vpn_status" to "off",
             "vpn_trigger" to "auto",
             "server" to "PLUS#1",
-            "server_features" to "partnership,streaming",
+            "server_features" to "restricted,streaming",
             "vpn_country" to "CH",
             "user_country" to "PL",
             "isp" to "Test ISP",
@@ -188,7 +188,7 @@ class VpnConnectionTelemetryTests {
         connectSequence(connectionParams)
 
         verify { mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any()) }
-        assertEquals("free,partnership", dimensions.captured["server_features"])
+        assertEquals("free,p2p", dimensions.captured["server_features"])
     }
 
     @Test

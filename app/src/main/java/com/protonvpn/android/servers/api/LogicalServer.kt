@@ -29,7 +29,7 @@ const val SERVER_FEATURE_P2P = 4
 const val SERVER_FEATURE_STREAMING = 8
 const val SERVER_FEATURE_IPV6 = 16
 const val SERVER_FEATURE_RESTRICTED = 32
-const val SERVER_FEATURE_PARTNER_SERVER = 64
+//deprecated: const val SERVER_FEATURE_PARTNER_SERVER = 64
 
 @Serializable
 data class LogicalServerV1(

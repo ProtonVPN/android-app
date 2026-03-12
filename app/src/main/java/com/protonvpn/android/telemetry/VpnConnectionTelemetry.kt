@@ -216,7 +216,7 @@ class VpnConnectionTelemetry @Inject constructor(
                 if (server.isFreeServer) add("free")
                 if (server.isTor) add("tor")
                 if (server.isP2pServer) add("p2p")
-                if (server.isPartneshipServer) add("partnership")
+                if (server.isGatewayServer) add("restricted")
                 if (server.isStreamingServer) add("streaming")
             }
             featureNames.sorted().joinToString(",")
