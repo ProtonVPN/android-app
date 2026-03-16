@@ -41,6 +41,7 @@ import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser
 import io.mockk.MockKAnnotations
@@ -313,6 +314,7 @@ class ApiNotificationManagerTests {
     ) = ApiNotificationManager(
         appContext = mockContext,
         mainScope = testScope.backgroundScope,
+        dispatcherProvider = TestDispatcherProvider(testDispatcher),
         wallClockMs = { testScope.currentTime },
         appConfig = mockAppConfig,
         apiNotificationsStore = apiNotificationsStore,

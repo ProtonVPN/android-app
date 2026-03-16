@@ -20,11 +20,8 @@
 package com.protonvpn.android.promooffers.data
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import androidx.annotation.VisibleForTesting
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
@@ -44,6 +41,7 @@ import com.protonvpn.android.promooffers.usecase.GenerateNotificationsForIntrodu
 import com.protonvpn.android.promooffers.usecase.isIntroductoryPriceOffer
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.getValue
+import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -57,6 +55,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
@@ -65,54 +64,36 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.mapAsync
 import me.proton.core.util.kotlin.mapNotNullAsync
 import me.proton.core.util.kotlin.serialize
 import me.proton.core.util.kotlin.startsWith
 import me.proton.core.util.kotlin.takeIfNotEmpty
-import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.resume
 
 private val MIN_NOTIFICATION_REFRESH_INTERVAL_MS = TimeUnit.HOURS.toMillis(3)
 
 fun interface ImagePrefetcher {
-    suspend fun prefetch(url: String): Boolean
+    fun prefetch(url: String): Boolean
 }
 
 @Singleton
 class GlideImagePrefetcher @Inject constructor(
     @ApplicationContext private val appContext: Context
 ) : ImagePrefetcher {
-    override suspend fun prefetch(url: String): Boolean = suspendCancellableCoroutine { continuation ->
-        val target = object : CustomTarget<File>() {
-            override fun onResourceReady(
-                resource: File,
-                transition: Transition<in File>?
-            ) {
-                continuation.resume(true)
-            }
-
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                continuation.resume(false)
-            }
-
-            override fun onDestroy() {
-                super.onDestroy()
-                continuation.cancel()
-            }
-
-            override fun onLoadCleared(placeholder: Drawable?) {
-                continuation.cancel()
-            }
-
+    override fun prefetch(url: String): Boolean {
+        val future = Glide.with(appContext).download(url).submit()
+        return {
+            future.get()
+            true
+        }.runCatchingCheckedExceptions {
+            false
         }
-        Glide.with(appContext).download(url).into(target)
     }
 }
 
@@ -129,6 +110,7 @@ class ApiNotificationManager @Inject constructor(
     private val currentUser: CurrentUser,
     private val userPlanManager: UserPlanManager,
     private val generateNotificationsForIntroductoryOffers: GenerateNotificationsForIntroductoryOffers,
+    private val dispatcherProvider: DispatcherProvider,
     lazyImagePrefetcher: dagger.Lazy<ImagePrefetcher>,
     private val periodicUpdateManager: PeriodicUpdateManager,
     @IsInForeground private val inForeground: Flow<Boolean>,
@@ -163,6 +145,7 @@ class ApiNotificationManager @Inject constructor(
             }
         }
         .distinctUntilChanged()
+        .flowOn(dispatcherProvider.Io)
         .shareIn(mainScope, SharingStarted.Eagerly, replay = 1)
 
     // Active notifications are sorted by end time - the ones that end sooner are first.
