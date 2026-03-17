@@ -71,7 +71,7 @@ class HomeScreenPromoOfferBannerTests {
 
         promoOffersPrefs = PromoOffersPrefs(MockSharedPreferencesProvider())
         homeScreenBannerFlow =
-            HomeScreenPromoBannerFlow(mockNotificationManager, promoOffersPrefs)
+            HomeScreenPromoBannerFlow(mockNotificationManager, promoOffersPrefs, mockEnsureIapOfferStillValid)
     }
 
     @Test
@@ -143,6 +143,34 @@ class HomeScreenPromoOfferBannerTests {
         homeScreenBannerFlow(isNighMode = true).test {
             assertEquals(uiBanner, awaitItem())
             promoOffersPrefs.addVisitedOffer("id")
+            assertEquals(null, awaitItem())
+        }
+    }
+
+    @Test
+    fun `notification with IAP is displayed only when eligible`() = runTest {
+        val productDetails = ApiNotificationProductDetailsGoogle("plan", PlanCycle.MONTHLY)
+        val action = ApiNotificationOfferButton(
+            action = "IapPopup",
+            panel = mockFullScreenImagePanel(
+                lightThemeImageUrl = "image url",
+                darkModeImageUrl = "image url",
+                iapProductDetails = ApiNotificationProductDetails(google = productDetails)
+            )
+        )
+        val banner = mockFullScreenImagePanel("image url", "image url", "alternative text", button = action)
+        val offer = mockOffer("id", type = ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER, panel = banner)
+        activeNotifications.value = listOf(offer)
+
+        val uiBanner = PromoOfferBannerState(
+            "image url", "alternative text", action, isDismissible = false, endTimestamp = null, notificationId = "id", reference = null
+        )
+
+        homeScreenBannerFlow(isNighMode = true).test {
+            assertEquals(uiBanner, awaitItem())
+        }
+        coEvery { mockEnsureIapOfferStillValid.invoke(any()) } returns false
+        homeScreenBannerFlow(isNighMode = true).test {
             assertEquals(null, awaitItem())
         }
     }
