@@ -353,6 +353,8 @@
     <string name="enable">เปิดใช้งาน</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol ถูกปิดใช้งานในขณะนี้</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN ตรวจพบว่าเครือข่ายปัจจุบันของคุณกำลังป้องกันการเชื่อมต่อกับ VPN การเปิดใช้งาน Smart Protocol อาจช่วยข้ามข้อจำกัดเหล่านี้ได้</string>
+    <string name="notification_streaming_blocked_title">Blocked website?</string>
+    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
     <string name="upsell_advanced_features">คุณสมบัติขั้นสูง: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">เข้าถึงบริการการสตรีม (Netflix, Disney+ ฯลฯ) ได้ทุกที่ในโลก</string>
     <!-- Number of servers available in the service.
@@ -388,6 +390,8 @@
     <string name="upgrade_profiles_text">ปลดล็อกโปรไฟล์ด้วย VPN Plus</string>
     <string name="upgrade_streaming_title">สตรีมในระดับ 4K</string>
     <string name="upgrade_streaming_text">เพลิดเพลินกับภาพยนตร์และรายการทีวีที่คุณชื่นชอบจากทุกที่ในโลก</string>
+    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
+    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
     <string name="upgrade_tor_title">เข้าถึงเครือข่าย Tor ในแตะเดียว</string>
     <string name="upgrade_tor_text">เชื่อมต่อกับบริการที่ซ่อนอยู่และไซต์ Onion ด้วยเบราว์เซอร์ปกติของคุณ</string>
     <string name="upgrade_vpn_accelerator_title">ท่องเว็บด้วยความเร็วที่สูงยิ่งขึ้น</string>
@@ -1440,6 +1444,12 @@
     <string name="info_p2p_why_description_logs">ไม่มีการบันทึกกิจกรรม</string>
     <string name="info_p2p_why_description_hide">ซ่อนที่อยู่ IP ของคุณจากผู้ให้บริการและเพื่อนร่วมเครือข่าย</string>
     <string name="info_dialog_smart_routing_description">Smart Routing ใช้เซิร์ฟเวอร์เสมือนเพื่อมอบความครอบคลุม VPN ในประเทศที่เข้าถึงยาก\n\nเมื่อคุณเชื่อมต่อกับเซิร์ฟเวอร์ Smart Routing คุณจะปรากฏเหมือนว่ากำลังท่องเว็บในประเทศปลายทาง แม้ว่าเซิร์ฟเวอร์จริงจะตั้งอยู่ที่อื่น  \n\nโดยทั่วไป Smart Routing จะใช้เพื่อหลีกเลี่ยงกฎหมายต่อต้านความเป็นส่วนตัวและการเซ็นเซอร์รูปแบบอื่น</string>
+    <string name="notifications_channel_connection_status_name">Connection status</string>
+    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_errors_name">Connection errors</string>
+    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_tips_name">Connection tips</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">เพิ่มเลเยอร์การเข้ารหัสลับอีกชั้นให้กับการเชื่อมต่อ VPN ของคุณ</string>
     <string name="p2p_upsell_banner_description">ดาวน์โหลดไฟล์ผ่าน BitTorrent และโปรโตคอลการแชร์ไฟล์อื่นๆ</string>
@@ -1456,7 +1466,6 @@
     <string name="tv_settings_split_tunneling_description">ปรับแต่งการเชื่อมต่อของคุณโดยตัดสินใจว่าแอปใดบ้างที่ได้รับการปกป้องโดย VPN</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">แอปที่เลือกจะถูกยกเว้นจากการเชื่อมต่อ VPN</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">เฉพาะแอปที่เลือกเท่านั้นที่เชื่อมต่อผ่าน VPN ทราฟฟิกอื่นๆ ทั้งหมดจะไม่ได้รับการปกป้อง</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">แก้ไข</string>
     <string name="profile_action_duplicate">ทำซ้ำ</string>
     <string name="profile_action_delete">ลบ</string>

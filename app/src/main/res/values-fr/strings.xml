@@ -356,6 +356,8 @@
     <string name="enable">Activer</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol est actuellement désactivé.</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN a détecté que votre réseau actuel empêche une connexion au VPN. L\'activation de Smart Protocol pourrait contourner ces limitations.</string>
+    <string name="notification_streaming_blocked_title">Site bloqué ?</string>
+    <string name="notification_streaming_blocked_text">Certains sites web et services de streaming bloquent les utilisateurs de VPN gratuits. Passez à Proton VPN Plus pour contourner ces blocages.</string>
     <string name="upsell_advanced_features">Fonctionnalités avancées : NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Accédez aux services de streaming (Netflix, Disney+…) partout dans le monde</string>
     <!-- Number of servers available in the service.
@@ -394,6 +396,8 @@
     <string name="upgrade_profiles_text">Accédez aux profils en passant à VPN Plus.</string>
     <string name="upgrade_streaming_title">Streaming en 4K</string>
     <string name="upgrade_streaming_text">Profitez de vos films et séries préférés partout dans le monde.</string>
+    <string name="upgrade_streaming_block_title">Passez à l\'abonnement supérieur pour contourner les blocages VPN</string>
+    <string name="upgrade_streaming_block_text">Les serveurs VPN Plus vous permettent de regarder vos films et séries préférés du monde entier.</string>
     <string name="upgrade_tor_title">Accédez au réseau Tor en un clin d\'œil</string>
     <string name="upgrade_tor_text">Connectez-vous à des services masqués et des sites cachés (onion) avec votre navigateur habituel.</string>
     <string name="upgrade_vpn_accelerator_title">Profitez d\'une navigation ultra-rapide</string>
@@ -1476,6 +1480,12 @@
     <string name="info_p2p_why_description_logs">Aucune activité enregistrée</string>
     <string name="info_p2p_why_description_hide">Masquez votre adresse IP à votre fournisseur de service et aux autres utilisateurs.</string>
     <string name="info_dialog_smart_routing_description">L\'option Smart Routing utilise des serveurs virtuels pour fournir une couverture VPN dans des pays difficiles d\'accès.\n\nQuand vous vous connectez à un serveur Smart Routing, vous semblez naviguer dans votre pays de destination, même si le serveur physique est situé ailleurs.  \n\nLa fonctionnalité Smart Routing est généralement utilisée pour contourner les lois qui restreignent la protection de la vie privée et d\'autres formes de censure.</string>
+    <string name="notifications_channel_connection_status_name">État de la connexion</string>
+    <string name="notifications_channel_connection_status_description">Indique le serveur auquel vous êtes connecté et la vitesse de votre VPN.</string>
+    <string name="notifications_channel_connection_errors_name">Erreurs de connexion</string>
+    <string name="notifications_channel_connection_errors_description">Vous alerte sur les problèmes qui suspendent ou arrêtent votre connexion VPN.</string>
+    <string name="notifications_channel_connection_tips_name">Conseils de connexion</string>
+    <string name="notifications_channel_connection_tips_description">Conseils contextuels qui vous aideront à tirer le meilleur parti de Proton VPN.</string>
     <string name="countries_upsell_banner_description">Accédez à tous les pays avec VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Ajoutez une couche de chiffrement à votre connexion VPN.</string>
     <string name="p2p_upsell_banner_description">Téléchargez des fichiers depuis BitTorrent ou d\'autres protocoles de partage de fichier.</string>
@@ -1492,7 +1502,6 @@
     <string name="tv_settings_split_tunneling_description">Personnalisez votre connexion en décidant quelles applications sont protégées par le VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Les applications sélectionnées sont exclues de la connexion VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Seules les applications sélectionnées se connectent via VPN. Tout autre trafic n\'est pas protégé.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Modifier</string>
     <string name="profile_action_duplicate">Dupliquer</string>
     <string name="profile_action_delete">Supprimer</string>

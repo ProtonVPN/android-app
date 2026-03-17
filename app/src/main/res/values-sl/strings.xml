@@ -362,6 +362,8 @@
     <string name="enable">Omogoči</string>
     <string name="notification_smart_protocol_disabled_title">Pametni protokol je trenutno onemogočen</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN je zaznal, da vaše trenutno omrežje preprečuje povezavo z VPN. Če omogočite pametni protokol, lahko zaobidete te omejitve.</string>
+    <string name="notification_streaming_blocked_title">Blokirano spletno mesto?</string>
+    <string name="notification_streaming_blocked_text">Nekatera spletna mesta in storitve pretakanja blokirajo uporabnike brezplačnih VPN-jev. Nadgradite na Proton VPN Plus, da zaobidete te blokade.</string>
     <string name="upsell_advanced_features">Napredne funkcije: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Dostopajte do storitev pretakanja (Netflix, Disney+ itd.) kjer koli na svetu</string>
     <!-- Number of servers available in the service.
@@ -406,6 +408,8 @@
     <string name="upgrade_profiles_text">Odklenite profile z VPN Plus</string>
     <string name="upgrade_streaming_title">Pretakajte v 4K</string>
     <string name="upgrade_streaming_text">Uživajte v svojih najljubših filmih in serijah kjer koli na svetu.</string>
+    <string name="upgrade_streaming_block_title">Nadgradite, da obidete blokade VPN</string>
+    <string name="upgrade_streaming_block_text">Strežniki VPN Plus vam omogočajo uživanje v vaših najljubših filmih in TV-oddajah z vsega sveta.</string>
     <string name="upgrade_tor_title">Dostopajte do omrežja Tor z enim dotikom</string>
     <string name="upgrade_tor_text">Povežite se s skritimi storitvami in Tor spletnimi mesti z običajnim brskalnikom.
 ​</string>
@@ -1550,6 +1554,12 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="info_p2p_why_description_logs">Ni dnevnikov dejavnosti</string>
     <string name="info_p2p_why_description_hide">Skrijte svoj naslov IP pred ponudnikom storitev in podobnimi</string>
     <string name="info_dialog_smart_routing_description">Smart Routing uporablja virtualne strežnike za zagotavljanje pokritosti VPN v težko dostopnih državah.\n\nKo se povežete s strežnikom Smart Routing, bo videti, kot da brskate v ciljni državi, čeprav je fizični strežnik drugje.  \n\nPametno usmerjanje se običajno uporablja za izogibanje zakonom proti zasebnosti in drugim oblikam cenzure.</string>
+    <string name="notifications_channel_connection_status_name">Stanje povezave</string>
+    <string name="notifications_channel_connection_status_description">Prikaže, s katerim strežnikom ste povezani, in hitrost vašega VPN.</string>
+    <string name="notifications_channel_connection_errors_name">Napaka v povezavi</string>
+    <string name="notifications_channel_connection_errors_description">Opozori vas na težave, ki ustavijo ali zaustavijo vašo povezavo VPN.</string>
+    <string name="notifications_channel_connection_tips_name">Nasveti za povezavo</string>
+    <string name="notifications_channel_connection_tips_description">Kontekstualni nasveti, ki vam pomagajo kar najbolje izkoristiti Proton VPN.</string>
     <string name="countries_upsell_banner_description">Dostopajte do vseh držav s storitvijo VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Dodajte še eno plast šifriranja svoji VPN povezavi</string>
     <string name="p2p_upsell_banner_description">​Prenesite datoteke prek BitTorrenta in drugih protokolov za skupno rabo datotek</string>
@@ -1566,7 +1576,6 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="tv_settings_split_tunneling_description">Prilagodite svojo povezavo tako, da določite, katere aplikacije so zaščitene s storitvijo VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Izbrane aplikacije so izključene iz povezave VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Samo izbrane aplikacije se povežejo prek VPN, ves ostali promet je nezaščiten.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Uredi</string>
     <string name="profile_action_duplicate">Podvoji</string>
     <string name="profile_action_delete">Izbriši</string>

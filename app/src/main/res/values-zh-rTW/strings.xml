@@ -353,6 +353,8 @@
     <string name="enable">啟用</string>
     <string name="notification_smart_protocol_disabled_title">智慧通訊協定目前已停用</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN 偵測到您目前的網路正阻止 VPN 連線。啟用智慧通訊協定或可繞過限制。</string>
+    <string name="notification_streaming_blocked_title">網站被封鎖？</string>
+    <string name="notification_streaming_blocked_text">有些網站和串流平台會封鎖免費 VPN 使用者。升級至 Proton VPN Plus 以繞過這些封鎖。</string>
     <string name="upsell_advanced_features">進階功能：NetShield、Secure Core、Tor、P2P</string>
     <string name="upsell_streaming_services">在全球的任何地方存取串流服務（Netflix、DIsney+ 等等）</string>
     <!-- Number of servers available in the service.
@@ -388,6 +390,8 @@
     <string name="upgrade_profiles_text">使用 VPN Plus 解鎖帳戶</string>
     <string name="upgrade_streaming_title">使用4K影音串流</string>
     <string name="upgrade_streaming_text">盡情觀看您喜愛的電影與電視節目，不受地域隔閡。</string>
+    <string name="upgrade_streaming_block_title">升級以繞過 VPN 封鎖</string>
+    <string name="upgrade_streaming_block_text">VPN Plus 伺服器讓您能觀賞來自世界各地的喜愛電影與電視節目。</string>
     <string name="upgrade_tor_title">一按及存取Tor網路</string>
     <string name="upgrade_tor_text">以您一貫的瀏覽器，連接隱藏服務與 onion 網站。</string>
     <string name="upgrade_vpn_accelerator_title">使用更快的速度瀏覽</string>
@@ -1440,6 +1444,12 @@
     <string name="info_p2p_why_description_logs">無活動日誌</string>
     <string name="info_p2p_why_description_hide">向您的網絡服務供應商和其他下載者藏您的 IP 位址</string>
     <string name="info_dialog_smart_routing_description">Smart Routing 透過虛擬伺服器，在難以到達的國家/地區提供 VPN 連線。\n\n當你連上Smart Routing 伺服器時，即便伺服器實際上位於其他地方，你瀏覽網站時看起來也會像是在你想連線的國家。\n\nSmart Routing 經常被用來繞過反隱私法和其他形式的網路審查。</string>
+    <string name="notifications_channel_connection_status_name">連線狀態</string>
+    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_errors_name">連線錯誤</string>
+    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_tips_name">連線提示</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">為您的 VPN 連線加入另一層加密</string>
     <string name="p2p_upsell_banner_description">透過 BitTorrent 及其他檔案共享通訊協定下載檔案</string>
@@ -1456,7 +1466,6 @@
     <string name="tv_settings_split_tunneling_description">決定哪些應用程式受 VPN 保護，以自訂您的連線。</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">選取的應用程式排除於 VPN 連線之外。</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">僅限選取的應用程式透過 VPN 連線，其餘流量不受保護。</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">編輯</string>
     <string name="profile_action_duplicate">複製</string>
     <string name="profile_action_delete">刪除</string>

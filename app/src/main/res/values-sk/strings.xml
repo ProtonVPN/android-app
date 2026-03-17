@@ -362,6 +362,8 @@
     <string name="enable">Zapnúť</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protokol je momentálne deaktivovaný</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN rozpoznal, že vaša sieť blokuje pripojenie k VPN. Zapnutie Smart Protocol by mohlo problém vyriešiť.</string>
+    <string name="notification_streaming_blocked_title">Blokovaná webová stránka?</string>
+    <string name="notification_streaming_blocked_text">Niektoré webové stránky a streamovacie služby blokujú používateľov bezplatných VPN. Prejdite na Proton VPN Plus, aby ste tieto bloky obišli.</string>
     <string name="upsell_advanced_features">Pokročilé funkcie: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Prístup k streamovacím službám (Netflix, Disney+ atď.) kdekoľvek na svete</string>
     <!-- Number of servers available in the service.
@@ -406,6 +408,8 @@
     <string name="upgrade_profiles_text">Odomknite profily pomocou VPN Plus</string>
     <string name="upgrade_streaming_title">Streamovanie v 4K</string>
     <string name="upgrade_streaming_text">Vychutnajte si svoje obľúbené filmy a televízne programy odkiaľkoľvek na svete.</string>
+    <string name="upgrade_streaming_block_title">Zvýšte úroveň na obídenie blokovania VPN</string>
+    <string name="upgrade_streaming_block_text">Servery VPN Plus vám umožňujú vychutnávať si vaše obľúbené filmy a televízne programy z celého sveta.</string>
     <string name="upgrade_tor_title">Pristupujte k sieti Tor jedným ťuknutím</string>
     <string name="upgrade_tor_text">Pripojte sa k skrytým službám a \"onion\" webom pomocou bežného prehliadača.</string>
     <string name="upgrade_vpn_accelerator_title">Prehliadajte ešte vyššou rýchlosťou</string>
@@ -1548,6 +1552,12 @@
     <string name="info_p2p_why_description_logs">Žiadne protokoly aktivít</string>
     <string name="info_p2p_why_description_hide">Skryte svoju IP adresu pred poskytovateľom služieb a partnermi</string>
     <string name="info_dialog_smart_routing_description">Smart Routing používa virtuálne servery na zabezpečenie pokrytia VPN v ťažko dostupných krajinách.\n\nPri pripojení k serveru Smart Routing sa bude zdať, že surfujete v cieľovej krajine, hoci fyzický server sa nachádza inde.  \n\nSmart Routing sa zvyčajne používa na obchádzanie zákonov proti ochrane súkromia a iných foriem cenzúry.</string>
+    <string name="notifications_channel_connection_status_name">Stav pripojenia</string>
+    <string name="notifications_channel_connection_status_description">Zobrazuje, k akému serveru sa pripájate a vašu rýchlosť VPN.</string>
+    <string name="notifications_channel_connection_errors_name">Chyby pripojenia</string>
+    <string name="notifications_channel_connection_errors_description">Upozorňuje vás na problémy, ktoré pozastavujú alebo zastavujú vaše VPN pripojenie.</string>
+    <string name="notifications_channel_connection_tips_name">Tipy na pripojenie</string>
+    <string name="notifications_channel_connection_tips_description">Kontextové tipy, ktoré vám pomôžu lepšie využívať Proton VPN.</string>
     <string name="countries_upsell_banner_description">Prístup ku všetkým krajinám s VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Pridajte ďalšiu úroveň šifrovania k vášmu VPN pripojeniu</string>
     <string name="p2p_upsell_banner_description">Sťahujte súbory cez BitTorrent a iné protokoly na zdieľanie súborov</string>
@@ -1564,7 +1574,6 @@
     <string name="tv_settings_split_tunneling_description">Prispôsobte si pripojenie tým, že sa rozhodnete, ktoré aplikácie budú chránené pomocou VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Zvolené aplikácie sú vylúčené z vášho VPN pripojenia.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Cez VPN sa pripájajú len vybrané aplikácie, všetka ostatná prevádzka je nechránená.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Upraviť</string>
     <string name="profile_action_duplicate">Duplikovať</string>
     <string name="profile_action_delete">Vymazať</string>

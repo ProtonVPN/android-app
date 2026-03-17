@@ -356,6 +356,8 @@
     <string name="enable">Ota käyttöön</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol ei ole tällä hetkellä käytössä</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN havaitsi nykyisen verkkosi estävän VPN-yhteyden. Smart Protocol -toiminto saattaa ohittaa rajoitukset.</string>
+    <string name="notification_streaming_blocked_title">Estetty verkkosivu?</string>
+    <string name="notification_streaming_blocked_text">Jotkin verkkosivustot ja suoratoistopalvelut estävät ilmaisten VPN-palveluiden käyttäjät. Päivitä Proton VPN Plus -versioon ohittaaksesi nämä estot.</string>
     <string name="upsell_advanced_features">Lisäominaisuudet: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Käytä suoratoistopalveluita (Netflix, Disney+, yms.) kaikkialla maailmassa</string>
     <!-- Number of servers available in the service.
@@ -394,6 +396,8 @@
     <string name="upgrade_profiles_text">Avaa profiilit VPN Plussalla</string>
     <string name="upgrade_streaming_title">Suoratoista 4K-tarkkuudella</string>
     <string name="upgrade_streaming_text">Nauti suosikkielokuvistasi ja -sarjoistasi kaikkialta maailmasta.</string>
+    <string name="upgrade_streaming_block_title">Päivitä ohittaaksesi VPN-estot</string>
+    <string name="upgrade_streaming_block_text">VPN Plus -palvelimien avulla voit nauttia suosikkielokuvista ja TV-ohjelmista eri puolilta maailmaa.</string>
     <string name="upgrade_tor_title">Käytä Tor-verkkoa yhdellä napautuksella</string>
     <string name="upgrade_tor_text">Yhdistä piilotettuihin palveluihin ja avaa Onion-sivustot tavallisella selaimellasi.</string>
     <string name="upgrade_vpn_accelerator_title">Selaa vielä korkeammilla nopeuksilla</string>
@@ -1476,6 +1480,12 @@
     <string name="info_p2p_why_description_logs">Ei toimintalokeja</string>
     <string name="info_p2p_why_description_hide">Piilota IP-osoitteesi palveluntarjoajaltasi ja vertaisilta</string>
     <string name="info_dialog_smart_routing_description">Smart Routing käyttää virtuaalipalvelimia tarjotakseen VPN-verkon kattavuuden vaikeasti saavutettavissa maissa.\n\nKun muodostat yhteyden Smart Routing -palvelimeen, näytät selaavasi kohdemaastasi, vaikka fyysinen palvelin sijaitsee muualla.  \n\nSmart Routingia käytetään yleensä yksityisyydensuojan vastaisten lakien ja muunlaisen sensuurin kiertämiseen</string>
+    <string name="notifications_channel_connection_status_name">Yhteyden tila</string>
+    <string name="notifications_channel_connection_status_description">Näyttää käytössä olevan palvelimen ja VPN-yhteyden nopeuden.</string>
+    <string name="notifications_channel_connection_errors_name">Yhteysvirheet</string>
+    <string name="notifications_channel_connection_errors_description">Ilmoittaa ongelmista, jotka keskeyttävät tai pysäyttävät VPN-yhteyden.</string>
+    <string name="notifications_channel_connection_tips_name">Yhteysneuvot</string>
+    <string name="notifications_channel_connection_tips_description">Kontekstuaalisia vinkkejä, joiden avulla saat enemmän irti Proton VPN:stä.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Lisää VPN-yhteyteesi toinen salauskerros</string>
     <string name="p2p_upsell_banner_description">Lataa tiedostoja mm. BitTorrentin kaltaisilla tiedonsiirtoprotokollilla</string>
@@ -1492,7 +1502,6 @@
     <string name="tv_settings_split_tunneling_description">Mukauta yhteyttäsi määrittämällä, mitkä sovellukset suojataan VPN:llä.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Valitut sovellukset suljetaan VPN-yhteyden ulkopuolelle.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Vain valitut sovellukset muodostavat yhteyden VPN:n kautta, kaikki muu tietoliikenne on suojaamatonta.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Muokkaa</string>
     <string name="profile_action_duplicate">Luo kopio</string>
     <string name="profile_action_delete">Poista</string>

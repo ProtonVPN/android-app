@@ -362,6 +362,8 @@
     <string name="enable">Włącz</string>
     <string name="notification_smart_protocol_disabled_title">Funkcja Smart Protocol jest obecnie wyłączona</string>
     <string name="notification_smart_protocol_disabled_content">Aplikacja Proton VPN wykryła, że Twoja obecna sieć blokuje połączenie z siecią VPN. Włączenie funkcji Smart Protocol może ominąć te ograniczenia.</string>
+    <string name="notification_streaming_blocked_title">Blocked website?</string>
+    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
     <string name="upsell_advanced_features">Zaawansowane funkcje: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Dostęp do usług streamingu (Netflix, Disney+ itp.) gdziekolwiek jesteś</string>
     <!-- Number of servers available in the service.
@@ -406,6 +408,8 @@
     <string name="upgrade_profiles_text">Odblokuj profile w planie VPN Plus</string>
     <string name="upgrade_streaming_title">Streamuj w 4K</string>
     <string name="upgrade_streaming_text">Ciesz się ulubionymi filmami i programami telewizyjnymi, gdziekolwiek jesteś.</string>
+    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
+    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
     <string name="upgrade_tor_title">Dostęp do sieci Tor za jednym dotknięciem</string>
     <string name="upgrade_tor_text">Połącz się z ukrytymi usługami i stronami onion za pomocą normalnej przeglądarki.</string>
     <string name="upgrade_vpn_accelerator_title">Przeglądaj Internet z najwyższą prędkością</string>
@@ -1548,6 +1552,12 @@
     <string name="info_p2p_why_description_logs">Brak przechowywania logów</string>
     <string name="info_p2p_why_description_hide">Ukryj adres IP przed dostawcą usługi i użytkownikami sieci</string>
     <string name="info_dialog_smart_routing_description">Funkcja Smart Routing używa wirtualnych serwerów, aby zapewnić dostęp do usługi VPN w trudno dostępnych krajach.\n\nPo nawiązaniu połączenia z serwerem Smart Routing przeglądanie odbywa się w kraju docelowym, mimo że fizyczny serwer znajduje się w innym miejscu.\n\nFunkcja Smart Routing jest wykorzystywana do omijania przepisów dotyczących prywatności i innych form cenzury.</string>
+    <string name="notifications_channel_connection_status_name">Connection status</string>
+    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_errors_name">Connection errors</string>
+    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_tips_name">Connection tips</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Dodaj kolejną warstwę szyfrowania do połączenia VPN</string>
     <string name="p2p_upsell_banner_description">Pobieraj pliki za pośrednictwem protokołów udostępniania plików, takich jak BitTorrent</string>
@@ -1564,7 +1574,6 @@
     <string name="tv_settings_split_tunneling_description">Dostosuj połączenie, decydując, które aplikacje będą chronione przez VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Wybrane aplikacje zostaną wykluczone z połączenia VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Tylko wybrane aplikacje zostaną uwzględnione w połączeniu VPN. Pozostały ruch sieciowy będzie niechroniony.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Edytuj</string>
     <string name="profile_action_duplicate">Duplikuj</string>
     <string name="profile_action_delete">Usuń</string>

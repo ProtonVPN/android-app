@@ -356,6 +356,8 @@
     <string name="enable">I-enable</string>
     <string name="notification_smart_protocol_disabled_title">Kasalukuyang naka-disable ang Smart Protocol</string>
     <string name="notification_smart_protocol_disabled_content">Na-detect ng Proton VPN na pinipigilan ng kasalukuyan mong network ang koneksyon sa VPN. Maaaring ma-bypass ng pag-enable sa Smart Protocol ang mga limitasyong ito.</string>
+    <string name="notification_streaming_blocked_title">Blocked website?</string>
+    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
     <string name="upsell_advanced_features">Mga advanced na feature: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">I-access ang mga streaming service (Netflix, Disney+ atbp.) mula saanman sa mundo</string>
     <!-- Number of servers available in the service.
@@ -394,6 +396,8 @@
     <string name="upgrade_profiles_text">I-unlock ang mga profile gamit ang VPN Plus</string>
     <string name="upgrade_streaming_title">Mag-stream sa 4K</string>
     <string name="upgrade_streaming_text">I-enjoy ang mga paborito mong pelikula at palabas sa TV mula saanman sa mundo.</string>
+    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
+    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
     <string name="upgrade_tor_title">I-access ang Tor network sa isang tap</string>
     <string name="upgrade_tor_text">Kumonekta sa mga nakatagong serbisyo at onion site gamit ang iyong regular na browser.</string>
     <string name="upgrade_vpn_accelerator_title">Mag-browse nang mas mabilis pa</string>
@@ -1476,6 +1480,12 @@
     <string name="info_p2p_why_description_logs">Walang log ng aktibidad</string>
     <string name="info_p2p_why_description_hide">Itago ang iyong IP address mula sa iyong service provider at mga peer</string>
     <string name="info_dialog_smart_routing_description">Gumagamit ang Smart Routing ng mga virtual server upang magbigay ng VPN coverage sa mga bansang mahirap abutin.\n\nKapag kumonekta ka sa isang Smart Routing server, lalabas na nagba-browse ka sa iyong destinasyong bansa, kahit na ang pisikal na server ay matatagpuan sa ibang lugar.  \n\nKaraniwang ginagamit ang Smart Routing upang malampasan ang mga batas sa anti-privacy at iba pang anyo ng censorship.</string>
+    <string name="notifications_channel_connection_status_name">Connection status</string>
+    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_errors_name">Connection errors</string>
+    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_tips_name">Connection tips</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Magdagdag ng isa pang layer ng encryption sa iyong koneksyon ng VPN</string>
     <string name="p2p_upsell_banner_description">Mag-download ng mga file sa pamamagitan ng BitTorrent at iba pang protocol sa pagbabahagi ng file</string>
@@ -1492,7 +1502,6 @@
     <string name="tv_settings_split_tunneling_description">I-customize ang iyong koneksyon sa pamamagitan ng pagpapasya kung aling mga app ang protektado ng VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Ang mga piniling app ay ibinukod sa koneksyon ng VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Ang mga piniling app lang ang kumokonekta sa pamamagitan ng VPN. Ang lahat ng iba pang traffic ay hindi protektado.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">I-edit</string>
     <string name="profile_action_duplicate">I-duplicate</string>
     <string name="profile_action_delete">Burahin</string>

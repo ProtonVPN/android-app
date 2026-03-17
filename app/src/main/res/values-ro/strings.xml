@@ -359,6 +359,8 @@
     <string name="enable">Activare</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol este acum dezactivat</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN a detectat că rețeaua curentă împiedică o conexiune la VPN. Activarea funcției Smart Protocol ar putea ocoli aceste limitări.</string>
+    <string name="notification_streaming_blocked_title">Site web blocat?</string>
+    <string name="notification_streaming_blocked_text">Unele site-uri web și servicii de redare în flux blochează utilizatorii de VPN gratuit. Treceți la Proton VPN Plus pentru a ocoli aceste blocaje.</string>
     <string name="upsell_advanced_features">Funcții avansate: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Accesați serviciile de transmisie în flux (Netflix, Disney+, etc.) de oriunde în lume</string>
     <!-- Number of servers available in the service.
@@ -400,6 +402,8 @@
     <string name="upgrade_profiles_text">Deblocați profilurile cu VPN Plus</string>
     <string name="upgrade_streaming_title">Vizionați în 4K</string>
     <string name="upgrade_streaming_text">Bucurați-vă de filmele și emisiunile TV favorite de oriunde din lume.</string>
+    <string name="upgrade_streaming_block_title">Treceți la un plan cu plată pentru a ocoli blocările prin VPN</string>
+    <string name="upgrade_streaming_block_text">Serverele VPN Plus vă permit să vă bucurați de filmele și serialele preferate din întreaga lume.</string>
     <string name="upgrade_tor_title">Accesați rețeaua Tor cu o singură atingere</string>
     <string name="upgrade_tor_text">Conectați-vă la serviciile ascunse și site-urile onion cu navigatorul web obișnuit.</string>
     <string name="upgrade_vpn_accelerator_title">Navigați cu viteze și mai mari</string>
@@ -1512,6 +1516,12 @@
     <string name="info_p2p_why_description_logs">Fără jurnale de activitate</string>
     <string name="info_p2p_why_description_hide">Vă ascundeți adresa IP față de furnizorul de servicii și față de partenerii de transfer</string>
     <string name="info_dialog_smart_routing_description">Smart Routing folosește servere virtuale pentru a oferi acoperire VPN în țările greu accesibile.\n\nCând vă conectați la un server Smart Routing, veți părea că navigați în țara de destinație, chiar dacă serverul fizic este situat în altă parte.\n\nSmart Routing este de obicei folosit pentru a evita legile anti-confidențialitate și alte forme de cenzură.</string>
+    <string name="notifications_channel_connection_status_name">Stare conexiune</string>
+    <string name="notifications_channel_connection_status_description">Afișează la ce server sunteți conectat și viteza prin VPN.</string>
+    <string name="notifications_channel_connection_errors_name">Eroare conexiune</string>
+    <string name="notifications_channel_connection_errors_description">Vă alertează la probleme care suspendă sau opresc conexiunea VPN.</string>
+    <string name="notifications_channel_connection_tips_name">Sfaturi de conexiune</string>
+    <string name="notifications_channel_connection_tips_description">Sfaturi contextuale care vă ajută să beneficiați la maxim de Proton VPN.</string>
     <string name="countries_upsell_banner_description">Accesați toate țările cu VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Adăugați încă un nivel de criptare a conexiunii VPN</string>
     <string name="p2p_upsell_banner_description">Descărcați fișiere prin BitTorrent și alte protocoale de partajare fișiere</string>
@@ -1528,7 +1538,6 @@
     <string name="tv_settings_split_tunneling_description">Personalizați-vă conexiunea decizând care aplicații sunt protejate de VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplicațiile selectate sunt excluse de la conexiunea prin VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Doar aplicațiile selectate se conectează prin VPN, orice alt trafic nefiind protejat.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Editare</string>
     <string name="profile_action_duplicate">Duplicare</string>
     <string name="profile_action_delete">Ștergere</string>

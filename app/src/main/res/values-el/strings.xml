@@ -356,6 +356,8 @@
     <string name="enable">Ενεργοποίηση</string>
     <string name="notification_smart_protocol_disabled_title">Το Smart Protocol είναι απενεργοποιημένο προς το παρόν</string>
     <string name="notification_smart_protocol_disabled_content">Το Proton VPN ανίχνευσε ότι το τρέχον δίκτυό σας αποτρέπει την σύνδεση στο VPN. Ενεργοποιώντας το Smart Protocol μπορεί να παρακάμφθούν αυτοί οι περιορισμοί.</string>
+    <string name="notification_streaming_blocked_title">Αποκλεισμένος ιστότοπος;</string>
+    <string name="notification_streaming_blocked_text">Ορισμένοι ιστότοποι και υπηρεσίες streaming αποκλείουν τους χρήστες δωρεάν VPN. Αναβαθμίστε σε Proton VPN Plus για να παρακάμψετε αυτούς τους αποκλεισμούς.</string>
     <string name="upsell_advanced_features">Προηγμένες λειτουργίες: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Αποκτήστε πρόσβαση σε υπηρεσίες ροής/streaming (Netflix, Disney+, κλπ) από οπουδήποτε στον κόσμο</string>
     <!-- Number of servers available in the service.
@@ -394,6 +396,8 @@
     <string name="upgrade_profiles_text">Ξεκλειδώστε τα προφίλ με το VPN Plus</string>
     <string name="upgrade_streaming_title">Ροή σε 4K</string>
     <string name="upgrade_streaming_text">Απολαύστε τις αγαπημένες σας ταινίες και τηλεοπτικές εκπομπές από οπουδήποτε στον κόσμο.</string>
+    <string name="upgrade_streaming_block_title">Αναβάθμιση για παράκαμψη αποκλεισμών VPN</string>
+    <string name="upgrade_streaming_block_text">Οι διακομιστές VPN Plus σας επιτρέπουν να απολαμβάνετε τις αγαπημένες σας ταινίες και τηλεοπτικές εκπομπές από όλο τον κόσμο.</string>
     <string name="upgrade_tor_title">Αποκτήστε πρόσβαση στο δίκτυο Tor με ένα πάτημα</string>
     <string name="upgrade_tor_text">Συνδεθείτε σε κρυφές υπηρεσίες και ιστότοπους onion με το κανονικό σας πρόγραμμα περιήγησης.</string>
     <string name="upgrade_vpn_accelerator_title">Περιηγηθείτε σε ακόμα υψηλότερες ταχύτητες</string>
@@ -1476,6 +1480,12 @@
     <string name="info_p2p_why_description_logs">Χωρίς αρχεία καταγραφής</string>
     <string name="info_p2p_why_description_hide">Απόκρυψη της διεύθυνσης IP σας από τον πάροχο υπηρεσιών και τους συναδέλφους σας</string>
     <string name="info_dialog_smart_routing_description">Το Smart Routing χρησιμοποιεί εικονικούς διακομιστές για να παρέχει κάλυψη VPN σε δυσπρόσιτες χώρες.\n\nΌταν συνδέεστε σε ένα Smart Routing διακομιστή, θα φαίνεται ότι περιηγείστε στη χώρα προορισμού σας, παρόλο που ο φυσικός διακομιστής βρίσκεται αλλού.  \n\nΤο Smart Routing χρησιμοποιείται συνήθως για την παράκαμψη των νόμων κατά της ιδιωτικότητας και άλλων μορφών λογοκρισίας.</string>
+    <string name="notifications_channel_connection_status_name">Κατάσταση σύνδεσης</string>
+    <string name="notifications_channel_connection_status_description">Δείχνει σε ποιον διακομιστή είστε συνδεδεμένοι και την ταχύτητα του VPN σας.</string>
+    <string name="notifications_channel_connection_errors_name">Σφάλματα σύνδεσης</string>
+    <string name="notifications_channel_connection_errors_description">Σας ειδοποιεί για προβλήματα που διακόπτουν ή σταματούν τη σύνδεση VPN σας.</string>
+    <string name="notifications_channel_connection_tips_name">Συμβουλές σύνδεσης</string>
+    <string name="notifications_channel_connection_tips_description">Συμβουλές συμφραζομένων που σας βοηθούν να επωφεληθείτε περισσότερο από το Proton VPN.</string>
     <string name="countries_upsell_banner_description">Πρόσβαση σε όλες τις χώρες με το VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Επιπρόσθετο επίπεδο κρυπτογράφησης στη σύνδεση VPN σας</string>
     <string name="p2p_upsell_banner_description">Λήψη αρχείων μέσω BitTorrent και άλλων πρωτοκόλλων κοινής χρήσης αρχείων</string>
@@ -1492,7 +1502,6 @@
     <string name="tv_settings_split_tunneling_description">Προσαρμόστε τη σύνδεσή σας αποφασίζοντας ποιες εφαρμογές προστατεύονται από VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Οι επιλεγμένες εφαρμογές εξαιρούνται από τη σύνδεση VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Μόνο επιλεγμένες εφαρμογές συνδέονται μέσω VPN, όλη η άλλη κίνηση είναι απροστάτευτη.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Επεξεργασία</string>
     <string name="profile_action_duplicate">Διπλότυπο</string>
     <string name="profile_action_delete">Διαγραφή</string>

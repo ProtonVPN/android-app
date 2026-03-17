@@ -353,6 +353,8 @@
     <string name="enable">Aktifkan</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol sedang tidak aktif</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN mendeteksi bahwa jaringan Anda sedang mencegah Anda untuk dapat terhubung ke layanan VPN. Aktifkan Smart Protocol untuk melewati batasan ini.</string>
+    <string name="notification_streaming_blocked_title">Blocked website?</string>
+    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
     <string name="upsell_advanced_features">Fitur-fitur canggih: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Akses berbagai layanan streaming (Netflix, Disney+, dll.) di mana pun Anda berada</string>
     <!-- Number of servers available in the service.
@@ -388,6 +390,8 @@
     <string name="upgrade_profiles_text">Akses profil dengan VPN Plus</string>
     <string name="upgrade_streaming_title">Streaming dengan kualitas 4K</string>
     <string name="upgrade_streaming_text">Nikmati film dan tayangan TV kesayangan Anda di mana pun Anda berada.</string>
+    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
+    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
     <string name="upgrade_tor_title">Akses jaringan Tor dengan sekali ketuk</string>
     <string name="upgrade_tor_text">Hubungkan diri Anda ke layanan tersembunyi dan situs onion melalui peramban yang biasa Anda gunakan.</string>
     <string name="upgrade_vpn_accelerator_title">Jelajahi internet dengan kecepatan yang jauh lebih tinggi</string>
@@ -1440,6 +1444,12 @@
     <string name="info_p2p_why_description_logs">Tanpa log aktivitas</string>
     <string name="info_p2p_why_description_hide">Sembunyikan alamat IP Anda dari penyedia layanan internet dan komputer lain</string>
     <string name="info_dialog_smart_routing_description">Smart Routing menggunakan server virtual untuk menyediakan VPN di negara dengan pembatasan internet yang ketat.\n\nPada saat Anda terhubung ke server dengan Smart Routing, Anda akan terlihat seolah-olah Anda sedang menjelajah dari negara tujuan Anda, meskipun server yang melayani Anda secara fisik terletak di tempat lain.  \n\nSmart Routing pada umumnya digunakan untuk menghindari undang-undang anti-privasi dan bentuk sensor lainnya.</string>
+    <string name="notifications_channel_connection_status_name">Connection status</string>
+    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_errors_name">Connection errors</string>
+    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_tips_name">Connection tips</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Tambahkan lapisan enkripsi lain ke koneksi VPN Anda</string>
     <string name="p2p_upsell_banner_description">Unduh file melalui BitTorrent dan protokol berbagi file lainnya</string>
@@ -1456,7 +1466,6 @@
     <string name="tv_settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi mana saja yang akan terlindungi oleh VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplikasi yang dipilih dikecualikan dari koneksi VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Hanya aplikasi yang dipilih yang akan terhubung melalui VPN, lalu lintas lainnya tidak terlindungi.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Sunting</string>
     <string name="profile_action_duplicate">Gandakan</string>
     <string name="profile_action_delete">Hapus</string>

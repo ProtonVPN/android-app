@@ -362,6 +362,8 @@
     <string name="enable">Включить</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol в настоящее время отключен</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN обнаружила, что ваша текущая сеть препятствует подключению к VPN. Включение Smart Protocol может помочь в обходе этих ограничений.</string>
+    <string name="notification_streaming_blocked_title">Blocked website?</string>
+    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
     <string name="upsell_advanced_features">Дополнительные возможности: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Доступ к службам трансляции (Netflix, Disney+ и т. д.) в любой точке мира</string>
     <!-- Number of servers available in the service.
@@ -406,6 +408,8 @@
     <string name="upgrade_profiles_text">Разблокировать профили с помощью VPN Plus</string>
     <string name="upgrade_streaming_title">Трансляция в 4K</string>
     <string name="upgrade_streaming_text">Наслаждайтесь любимыми фильмами и телепередачами из любой точки мира.</string>
+    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
+    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
     <string name="upgrade_tor_title">Доступ к сети Tor одним нажатием</string>
     <string name="upgrade_tor_text">Подключайтесь к скрытым службам и сайтам onion с помощью обычного браузера.</string>
     <string name="upgrade_vpn_accelerator_title">Просматривайте веб-страницы на ещё более высоких скоростях</string>
@@ -1548,6 +1552,12 @@
     <string name="info_p2p_why_description_logs">Нет журналов действий</string>
     <string name="info_p2p_why_description_hide">Скрывайте свой IP-адрес от поставщика услуг и других пользователей</string>
     <string name="info_dialog_smart_routing_description">Smart Routing использует виртуальные серверы для обеспечения покрытия VPN в труднодоступных странах.\n\nКогда вы подключаетесь к серверу Smart Routing, создается впечатление, что вы находитесь в стране назначения, хотя физический сервер расположен в другом месте.\n\nSmart Routing обычно используется для обхода законов, ограничивающих конфиденциальность, и других форм цензуры.</string>
+    <string name="notifications_channel_connection_status_name">Connection status</string>
+    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_errors_name">Connection errors</string>
+    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_tips_name">Connection tips</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Добавьте ещё один уровень шифрования к VPN-подключению</string>
     <string name="p2p_upsell_banner_description">Скачивайте файлы через BitTorrent и другие протоколы обмена файлами</string>
@@ -1564,7 +1574,6 @@
     <string name="tv_settings_split_tunneling_description">Настройте свое подключение, определив, какие приложения будут защищены VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Выбранные приложения исключаются из подключения к VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Через VPN подключаются только выбранные приложения, весь остальной трафик остается незащищенным.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Редактировать</string>
     <string name="profile_action_duplicate">Дублировать</string>
     <string name="profile_action_delete">Удалить</string>

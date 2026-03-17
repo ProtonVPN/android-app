@@ -356,6 +356,8 @@
     <string name="enable">Aktivera</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol är för närvarande inaktiverat</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN upptäckte att ditt nuvarande nätverk förhindrar en anslutning till VPN. Aktivering av Smart Protocol kan kringgå dessa begränsningar.</string>
+    <string name="notification_streaming_blocked_title">Blockerad webbplats?</string>
+    <string name="notification_streaming_blocked_text">Vissa webbplatser och streamingtjänster blockerar gratis VPN-användare. Uppgradera till Proton VPN Plus för att kringgå dessa blockeringar.</string>
     <string name="upsell_advanced_features">Avancerade funktioner: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Åtkomst till streamingtjänster (Netflix, SVT Play, etc.) var som helst i världen</string>
     <!-- Number of servers available in the service.
@@ -394,6 +396,8 @@
     <string name="upgrade_profiles_text">Lås upp profiler med VPN Plus</string>
     <string name="upgrade_streaming_title">Streama i 4K</string>
     <string name="upgrade_streaming_text">Njut av dina favoritfilmer och TV-program från var som helst i världen.</string>
+    <string name="upgrade_streaming_block_title">Uppgradera för att kringgå VPN-blockeringar</string>
+    <string name="upgrade_streaming_block_text">VPN Plus-servrar låter dig njuta av dina favoritfilmer och TV-program från hela världen.</string>
     <string name="upgrade_tor_title">Åtkomst till Tor-nätverket med ett tryck</string>
     <string name="upgrade_tor_text">Anslut till dolda tjänster och onion-webbplatser med din vanliga webbläsare.</string>
     <string name="upgrade_vpn_accelerator_title">Surfa med ännu högre hastigheter</string>
@@ -1476,6 +1480,12 @@
     <string name="info_p2p_why_description_logs">Inga aktivitetsloggar</string>
     <string name="info_p2p_why_description_hide">Dölj din IP-adress från din internetleverantör och andra användare</string>
     <string name="info_dialog_smart_routing_description">Smart Routing använder virtuella servrar för att tillhandahålla VPN-täckning i svåråtkomliga länder.\n\nNär du ansluter till en Smart Routing-server verkar det som om du surfar i ditt destinationsland, även om den fysiska servern finns någon annanstans.  \n\nSmart Routing används vanligtvis för att komma runt antiintegritetslagar och andra former av censur.</string>
+    <string name="notifications_channel_connection_status_name">Anslutningsstatus</string>
+    <string name="notifications_channel_connection_status_description">Visar vilken server du är ansluten till och din VPN-hastighet.</string>
+    <string name="notifications_channel_connection_errors_name">Anslutningsfel</string>
+    <string name="notifications_channel_connection_errors_description">Varnar dig för problem som pausar eller stoppar din VPN-anslutning.</string>
+    <string name="notifications_channel_connection_tips_name">Anslutningstips</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Åtkomst till alla länder med VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Lägg till ytterligare ett lager av kryptering till din VPN-anslutning</string>
     <string name="p2p_upsell_banner_description">Ladda ner filer via BitTorrent och andra fildelningsprotokoll</string>
@@ -1492,7 +1502,6 @@
     <string name="tv_settings_split_tunneling_description">Anpassa din anslutning genom att bestämma vilka appar som är skyddade av VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Valda appar är exkluderade från VPN-anslutningen.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Endast valda appar ansluter genom VPN, all annan trafik är oskyddad.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Redigera</string>
     <string name="profile_action_duplicate">Duplicera</string>
     <string name="profile_action_delete">Ta bort</string>

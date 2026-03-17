@@ -356,6 +356,8 @@
     <string name="enable">فعال‌سازی</string>
     <string name="notification_smart_protocol_disabled_title">پروتکل هوشمند در حال حاضر غیرفعال است</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN تشخیص داد که شبکهٔ فعلی شما از اتصال VPN جلوگیری می‌کند. فعال‌سازی پروتکل هوشمند ممکن است بتواند این محدودیت‌ها را دور بزند.</string>
+    <string name="notification_streaming_blocked_title">Blocked website?</string>
+    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
     <string name="upsell_advanced_features">قابلیت‌های پیشرفته: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">به سرویس‌های پخش آنلاین (Netflix و Disney+ و...) از هرجایی از دنیا دسترسی پیدا کنید</string>
     <!-- Number of servers available in the service.
@@ -394,6 +396,8 @@
     <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
     <string name="upgrade_streaming_title">پخش جریانی در 4K</string>
     <string name="upgrade_streaming_text">از فیلم‌ها و برنامه‌های تلویزیونی مورد علاقه‌تان در سراسر جهان لذت ببرید.</string>
+    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
+    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
     <string name="upgrade_tor_title">با یک کلیک به شبکه Tor دسترسی یابید</string>
     <string name="upgrade_tor_text">به سرویس‌های مخفی و سایت‌های onion با مرورگر معمولی‌تان وصل شوید.</string>
     <string name="upgrade_vpn_accelerator_title">با سرعت‌های حتی بیشتر مرور کنید</string>
@@ -1476,6 +1480,12 @@
     <string name="info_p2p_why_description_logs">No activity logs</string>
     <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
     <string name="info_dialog_smart_routing_description">Smart Routing uses virtual servers to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
+    <string name="notifications_channel_connection_status_name">Connection status</string>
+    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_errors_name">Connection errors</string>
+    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_tips_name">Connection tips</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">اضافه کردن یک لایه دیگر رمزنگاری به ارتباط VPN شما</string>
     <string name="p2p_upsell_banner_description">از طریق BitTorrent و پروتکل‌های اشتراک گذاری فایل دیگر بارگیری کنید</string>
@@ -1492,7 +1502,6 @@
     <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">ویرایش</string>
     <string name="profile_action_duplicate">Duplicate</string>
     <string name="profile_action_delete">حذف</string>

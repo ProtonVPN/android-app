@@ -356,6 +356,8 @@
     <string name="enable">ჩართვა</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol-ი ამჟამად გათიშულია</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN-მა აღმოაჩინა, რომ თქვენი მიმდინარე ქსელი VPN-შეერთების დამყარებას ხელს უშლის. შეზღუდვის მოხსნის ცდა ჭკვიანი პროტოკოლის ჩართვით შეგიძლიათ.</string>
+    <string name="notification_streaming_blocked_title">დაბლოკილი ვებსაიტი?</string>
+    <string name="notification_streaming_blocked_text">ზოგიერთი ვებსაიტი და სტრიმინგ სერვისი ბლოკავს უფასო VPN მომხმარებლებს. განახლდით Proton VPN Plus-ზე ამ ბლოკების გვერდის ასავლელად.</string>
     <string name="upsell_advanced_features">დამატებითი ფუნქციები: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">წვდომა სტრიმინგის სერვერებზე (Netflix, Disney+, და ა. შ.) მსოფლიოს ნებისმიერი ადგილიდან</string>
     <!-- Number of servers available in the service.
@@ -394,6 +396,8 @@
     <string name="upgrade_profiles_text">განბლოკეთ პროფილები VPN Plus-თან ერთად</string>
     <string name="upgrade_streaming_title">სტრიმინგი 4K-ში</string>
     <string name="upgrade_streaming_text">ისიამოვნეთ თქვენი საყვარელი ფილმებითა და სერიალებით მსოფლიოს ნებისმიერი წერტილიდან.</string>
+    <string name="upgrade_streaming_block_title">VPN-ის დაბლოკვების გვერდის ასავლელად ასწიეთ სატარიფო გეგმა</string>
+    <string name="upgrade_streaming_block_text">VPN Plus სერვერები საშუალებას გაძლევთ, ისიამოვნოთ თქვენი საყვარელი ფილმებითა და სერიალებით მთელი მსოფლიოდან.</string>
     <string name="upgrade_tor_title">წვდომა Tor-ის ქსელთან ერთი დატყაპუნებით</string>
     <string name="upgrade_tor_text">დაუკავშირდით დამალულ სერვისებსა და onion საიტებს თქვენი ჩვეულებრივი ბრაუზერიდან.</string>
     <string name="upgrade_vpn_accelerator_title">იმუშავეთ ინტერნეტში უფრო სწრაფადაც კი</string>
@@ -1476,6 +1480,12 @@
     <string name="info_p2p_why_description_logs">აქტივობის ჟურნალის შესახებ</string>
     <string name="info_p2p_why_description_hide">დამალეთ თქვენი IP მისამართი თქვენი ინტერნეტპროვაიდერისგან და პარტნორებისგან</string>
     <string name="info_dialog_smart_routing_description">Smart Routing იყენებს ვირტუალურ სერვერბს, რომ  VPN დაფარვა ძნელად ხელმსაწვდომ ქვეყნებშიც იყო ხელმისაწვდომი.\n\nროცა უერთდებით Smart Routing სერვერს, გამოჩნდება, რომ თქვენ სამიზნე ქვეყანაში ხართ მაშინაც კი, თუ ფიზიკური სერვერი სადმე სხვაგანაა.  \n\nSmart Routing, ჩვეულებრივ, ანტი-კონფიდენციალობის კანონებისა და სხვა ფორმის ცენზურის თავის დასაღწევად გამოიყენება.</string>
+    <string name="notifications_channel_connection_status_name">შეერთების სტატუსი</string>
+    <string name="notifications_channel_connection_status_description">აჩვენებს, თუ რომელ სერვერთან ხართ დაკავშირებული და თქვენს VPN სიჩქარეს.</string>
+    <string name="notifications_channel_connection_errors_name">შეერთების შეცდომები</string>
+    <string name="notifications_channel_connection_errors_description">გაფრთხილებთ პრობლემების შესახებ, რომლებიც აჩერებს, ან წყვეტს თქვენს VPN კავშირს.</string>
+    <string name="notifications_channel_connection_tips_name">კავშირის რჩევები</string>
+    <string name="notifications_channel_connection_tips_description">კონტექსტური რჩევები, რომლებიც დაგეხმარებათ Proton VPN-ის უკეთ გამოყენებაში.</string>
     <string name="countries_upsell_banner_description">მიიღეთ წვდომა ყველა ქვეყანაზე VPN Plus-თან ერთად</string>
     <string name="secure_core_upsell_banner_description">დაამატეთ თქვენს VPN-ს უსაფრთხოების კიდევ ერთი დონე</string>
     <string name="p2p_upsell_banner_description">გადმოწერეთ ფაილები BitTorrent-ით და სხვა ფაილების გაზიარების პროტოკოლებით</string>
@@ -1492,7 +1502,6 @@
     <string name="tv_settings_split_tunneling_description">მოირგეთ თქვენი მიერთება, გადაწყვიტეთ, რომელი აპები იქნებიან VPN-ით დაცული.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">მონიშნული აპები ამოღებულია VPN მიერთებიდან.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">მხოლოდ, არჩეული აპები გამოიყენებენ VPN-ს. დანარჩენი ყველაფერი დაუცველი იქნება.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">ჩასწორება</string>
     <string name="profile_action_duplicate">დუბლირება</string>
     <string name="profile_action_delete">წაშლა</string>

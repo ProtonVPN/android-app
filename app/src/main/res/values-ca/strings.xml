@@ -356,6 +356,8 @@
     <string name="enable">Activa</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol està actualment desactivat.</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN ha detectat que la vostra xarxa actual està impedint una connexió a la VPN. Activar Smart Protocol pot eludir aquestes limitacions.</string>
+    <string name="notification_streaming_blocked_title">Lloc web bloquejat?</string>
+    <string name="notification_streaming_blocked_text">Alguns llocs web i serveis de transmissió en línia bloquegen els usuaris de VPN gratuïta. Milloreu a Proton VPN Plus per eludir aquests bloquejos.</string>
     <string name="upsell_advanced_features">Característiques avançades: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Accediu a serveis d\'estríming (Netflix, Disney+, etc.) a qualsevol lloc del món.</string>
     <!-- Number of servers available in the service.
@@ -394,6 +396,8 @@
     <string name="upgrade_profiles_text">Desbloqueu els perfils amb el VPN Plus</string>
     <string name="upgrade_streaming_title">Estríming en 4K</string>
     <string name="upgrade_streaming_text">Gaudiu de les vostres pel·lícules i programes de televisió preferits des de qualsevol part del món.</string>
+    <string name="upgrade_streaming_block_title">Milloreu de pla per esquivar els bloquejos de la VPN.</string>
+    <string name="upgrade_streaming_block_text">Els servidors VPN Plus us permeten gaudir de les vostres pel·lícules i sèries preferides de tot arreu.</string>
     <string name="upgrade_tor_title">Accediu a la xarxa Tor en un sol toc</string>
     <string name="upgrade_tor_text">Connecteu a serveis amagats i llocs onion amb el vostre navegador habitual.</string>
     <string name="upgrade_vpn_accelerator_title">Navegueu a velocitats encara més altes</string>
@@ -650,7 +654,7 @@
     <string name="settings_excluded_locations_description">Les ubicacions seleccionades no s\'utilitzaran mai quan us connecteu a Fastest.</string>
     <string name="settings_excluded_locations_unavailable">No hi ha ubicacions disponibles</string>
     <string name="settings_excluded_locations_selection_hint">Selecciona...</string>
-    <string name="settings_excluded_locations_accessibility_label_deletion">Elimineu-ho de les ubicacions excloses</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Elimina de les ubicacions excloses</string>
     <string name="settings_excluded_locations_accessibility_label_city">Ciutat</string>
     <string name="settings_excluded_locations_accessibility_label_country">País</string>
     <string name="settings_excluded_locations_accessibility_label_state">Estat</string>
@@ -1476,6 +1480,12 @@
     <string name="info_p2p_why_description_logs">No hi ha registres d\'activitat</string>
     <string name="info_p2p_why_description_hide">Oculteu la vostra adreça IP del proveïdor de serveis i d\'altres usuaris.</string>
     <string name="info_dialog_smart_routing_description">Smart Routing utilitza servidors virtuals per oferir cobertura VPN en països de difícil accés.\n\nQuan us connecteu a un servidor Smart Routing, us semblarà que esteu navegant al vostre país de destinació, tot i que el servidor físic es troba en un altre lloc. \n\nSmart Routing s\'usa normalment per evitar les lleis contra la privadesa i altres formes de censura.</string>
+    <string name="notifications_channel_connection_status_name">Estat de la connexió</string>
+    <string name="notifications_channel_connection_status_description">Mostra a quin servidor esteu connectat i la velocitat de la VPN.</string>
+    <string name="notifications_channel_connection_errors_name">Errors de connexió</string>
+    <string name="notifications_channel_connection_errors_description">Us avisa dels problemes que fan que la connexió de la VPN s\'aturi o s\'interrompi.</string>
+    <string name="notifications_channel_connection_tips_name">Consells de connexió</string>
+    <string name="notifications_channel_connection_tips_description">Consells contextuals que us ajuden a treure el màxim profit de Proton VPN.</string>
     <string name="countries_upsell_banner_description">Accediu a tots els països amb VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Afegiu una altra capa de xifratge a la vostra connexió VPN.</string>
     <string name="p2p_upsell_banner_description">Descarregueu fitxers a través de BitTorrent i altres protocols de compartició de fitxers</string>
@@ -1492,7 +1502,6 @@
     <string name="tv_settings_split_tunneling_description">Personalitzeu la vostra connexió decidint quines apps estan protegides per VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Les aplicacions seleccionades s\'exclouen de la connexió VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Només les aplicacions seleccionades es connecten mitjançant VPN. La resta del trànsit no està protegit.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Edita</string>
     <string name="profile_action_duplicate">Duplica</string>
     <string name="profile_action_delete">Elimina</string>

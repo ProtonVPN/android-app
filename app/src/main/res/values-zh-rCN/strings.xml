@@ -353,6 +353,8 @@
     <string name="enable">启用</string>
     <string name="notification_smart_protocol_disabled_title">没有打开 Smart Protocol 功能</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN 检测到当前网络正在阻止设备与 VPN 的连接，开启智能协议可能会绕过这些限制。</string>
+    <string name="notification_streaming_blocked_title">网站被屏蔽？</string>
+    <string name="notification_streaming_blocked_text">某些网站和流媒体服务会屏蔽免费 VPN 用户，升级到 Proton VPN Plus 以解除这些屏蔽。</string>
     <string name="upsell_advanced_features">高级功能：NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">连接世界各地的流媒体服务（Netflix、Disney+等）</string>
     <!-- Number of servers available in the service.
@@ -388,6 +390,8 @@
     <string name="upgrade_profiles_text">使用 VPN Plus 解锁配置文件</string>
     <string name="upgrade_streaming_title">4K 串流</string>
     <string name="upgrade_streaming_text">无论身处何地，仍可观看想看的电影电视。</string>
+    <string name="upgrade_streaming_block_title">升级以解除 VPN 屏蔽</string>
+    <string name="upgrade_streaming_block_text">VPN Plus 服务器可让您畅享来自世界各地的您喜爱的电影和电视节目。</string>
     <string name="upgrade_tor_title">一键连至 Tor 网络</string>
     <string name="upgrade_tor_text">普通浏览器也能访问隐藏的服务器和洋葱网站。</string>
     <string name="upgrade_vpn_accelerator_title">浏览网速快上加快</string>
@@ -1440,6 +1444,12 @@
     <string name="info_p2p_why_description_logs">不记录活动信息</string>
     <string name="info_p2p_why_description_hide">对网络运营商和其他人隐藏 IP 地址</string>
     <string name="info_dialog_smart_routing_description">利用虚拟服务器，Smart Routing 把可以选择的 VPN 位置扩展到不易设立服务器的地域。\n\n连接到 Smart Routing 服务器后，尽管服务器在目标地域之外，但您看起来就像是在目标地域浏览互联网。  \n\nSmart Routing 可用于绕过反隐私法及其他形式的审查。</string>
+    <string name="notifications_channel_connection_status_name">连接状态</string>
+    <string name="notifications_channel_connection_status_description">显示您连接到的服务器以及您的 VPN 速度。</string>
+    <string name="notifications_channel_connection_errors_name">连接错误</string>
+    <string name="notifications_channel_connection_errors_description">提醒您导致 VPN 连接暂停或停止的问题。</string>
+    <string name="notifications_channel_connection_tips_name">连接技巧</string>
+    <string name="notifications_channel_connection_tips_description">可帮助您更好地使用 Proton VPN 的情景提示。</string>
     <string name="countries_upsell_banner_description">通过 VPN Plus 解锁所有国家/地区的访问权限</string>
     <string name="secure_core_upsell_banner_description">为 VPN 连接增添一层额外保护</string>
     <string name="p2p_upsell_banner_description">通过 BitTorrent 和其他文件共享协议下载文件</string>
@@ -1456,7 +1466,6 @@
     <string name="tv_settings_split_tunneling_description">选择哪些应用由 VPN 保护，自定义连接方式。</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">挑选不经 VPN 连接的应用。</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">选中的应用经 VPN 连接，其余全部流量不受保护。</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">编辑</string>
     <string name="profile_action_duplicate">复制</string>
     <string name="profile_action_delete">删除</string>

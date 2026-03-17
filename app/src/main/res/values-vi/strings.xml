@@ -353,6 +353,8 @@
     <string name="enable">Kích hoạt</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol hiện đang bị vô hiệu hóa</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN phát hiện mạng hiện tại đang ngăn kết nối đến VPN. Kích hoạt Smart Protocol có thể giúp vượt qua những hạn chế này.</string>
+    <string name="notification_streaming_blocked_title">Blocked website?</string>
+    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
     <string name="upsell_advanced_features">Các tính năng nâng cao: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Truy cập các dịch vụ phát trực tuyến (Netflix, Disney+, v.v.) ở bất kỳ đâu trên thế giới</string>
     <!-- Number of servers available in the service.
@@ -388,6 +390,8 @@
     <string name="upgrade_profiles_text">Mở khóa hồ sơ với VPN Plus</string>
     <string name="upgrade_streaming_title">Phát trực tuyến chuẩn 4K</string>
     <string name="upgrade_streaming_text">Tận hưởng phim và chương trình truyền hình yêu thích từ bất cứ đâu trên thế giới.</string>
+    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
+    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
     <string name="upgrade_tor_title">Truy cập mạng Tor chỉ bằng một lần chạm</string>
     <string name="upgrade_tor_text">Kết nối với các dịch vụ ẩn và trang web onion bằng trình duyệt thông thường.</string>
     <string name="upgrade_vpn_accelerator_title">Duyệt web với tốc độ cao hơn nữa</string>
@@ -1440,6 +1444,12 @@
     <string name="info_p2p_why_description_logs">Không có nhật ký hoạt động</string>
     <string name="info_p2p_why_description_hide">Ẩn địa chỉ IP khỏi nhà cung cấp dịch vụ và các máy ngang hàng</string>
     <string name="info_dialog_smart_routing_description">Smart Routing sử dụng máy chủ ảo để cung cấp phạm vi phủ sóng VPN ở các quốc gia khó tiếp cận.\n\nKhi kết nối với máy chủ Smart Routing, bạn sẽ xuất hiện như đang duyệt web ở quốc gia đích, mặc dù máy chủ vật lý được đặt ở nơi khác.  \n\nSmart Routing thường được sử dụng để vượt qua các luật chống quyền riêng tư và các hình thức kiểm duyệt khác.</string>
+    <string name="notifications_channel_connection_status_name">Connection status</string>
+    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_errors_name">Connection errors</string>
+    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_tips_name">Connection tips</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Thêm một lớp mã hóa khác cho kết nối VPN</string>
     <string name="p2p_upsell_banner_description">Tải xuống tệp qua BitTorrent và các giao thức chia sẻ tệp khác</string>
@@ -1456,7 +1466,6 @@
     <string name="tv_settings_split_tunneling_description">Tùy chỉnh kết nối bằng cách quyết định ứng dụng nào được VPN bảo vệ.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Các ứng dụng đã chọn bị loại trừ khỏi kết nối VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Chỉ các ứng dụng đã chọn kết nối qua VPN, mọi lưu lượng khác đều không được bảo vệ.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Chỉnh sửa</string>
     <string name="profile_action_duplicate">Tạo bản sao</string>
     <string name="profile_action_delete">Xóa</string>

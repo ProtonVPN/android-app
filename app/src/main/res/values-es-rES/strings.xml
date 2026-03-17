@@ -356,6 +356,8 @@
     <string name="enable">Activar</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol está actualmente desactivado</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN ha detectado que tu red actual está impidiendo una conexión a la VPN. Activar Smart Protocol podría eludir estas limitaciones.</string>
+    <string name="notification_streaming_blocked_title">¿Sitio web bloqueado?</string>
+    <string name="notification_streaming_blocked_text">Algunos sitios web y servicios de streaming bloquean a los usuarios de la VPN gratuita. Mejora tu plan a Proton VPN Plus para eludir estos bloqueos.</string>
     <string name="upsell_advanced_features">Características avanzadas: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Acceder a servicios de streaming (Netflix, Disney+, etc.) en cualquier parte del mundo</string>
     <!-- Number of servers available in the service.
@@ -394,6 +396,8 @@
     <string name="upgrade_profiles_text">Desbloquea perfiles con VPN Plus.</string>
     <string name="upgrade_streaming_title">Streaming en 4K</string>
     <string name="upgrade_streaming_text">Disfruta de tus películas y series favoritas en cualquier lugar del mundo.</string>
+    <string name="upgrade_streaming_block_title">Mejora tu plan para eludir los bloqueos de VPN</string>
+    <string name="upgrade_streaming_block_text">Los servidores VPN Plus te permiten disfrutar de tus películas y programas de televisión favoritos de todo el mundo.</string>
     <string name="upgrade_tor_title">Accede a la red Tor con una pulsación</string>
     <string name="upgrade_tor_text">Conéctate a servicios ocultos y sitios onion con tu navegador habitual.</string>
     <string name="upgrade_vpn_accelerator_title">Navegue a velocidades aún más altas</string>
@@ -1476,6 +1480,12 @@
     <string name="info_p2p_why_description_logs">Sin registros de actividad</string>
     <string name="info_p2p_why_description_hide">Oculta tu dirección IP de tu proveedor de servicios y de tus pares</string>
     <string name="info_dialog_smart_routing_description">Smart Routing usa servidores virtuales para proporcionar cobertura VPN en países de difícil acceso.\n\nCuando te conectas a un servidor de Smart Routing, parecerá que estás navegando en tu país de destino, aunque el servidor físico esté en otro lugar.  \n\nEl enrutamiento inteligente se usa normalmente para evitar las leyes contra la privacidad y otras formas de censura.</string>
+    <string name="notifications_channel_connection_status_name">Estado de la conexión</string>
+    <string name="notifications_channel_connection_status_description">Muestra a qué servidor estás conectado y la velocidad de tu VPN.</string>
+    <string name="notifications_channel_connection_errors_name">Errores de conexión</string>
+    <string name="notifications_channel_connection_errors_description">Te alerta sobre problemas que pausan o detienen tu conexión VPN.</string>
+    <string name="notifications_channel_connection_tips_name">Consejos de conexión</string>
+    <string name="notifications_channel_connection_tips_description">Consejos contextuales que te ayudan a sacar más provecho de Proton VPN.</string>
     <string name="countries_upsell_banner_description">Accede a todos los países con VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Añade otra capa de encriptación a tu conexión VPN</string>
     <string name="p2p_upsell_banner_description">Descarga archivos con BitTorrent y otros protocolos de intercambio de archivos</string>
@@ -1492,7 +1502,6 @@
     <string name="tv_settings_split_tunneling_description">Personaliza la conexión al decidir cuáles aplicaciones serán protegidas con VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Las aplicaciones seleccionadas están excluidas de la conexión VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Solo las aplicaciones seleccionadas se conectan mediante VPN. El resto del tráfico no está protegido.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Editar</string>
     <string name="profile_action_duplicate">Duplicar</string>
     <string name="profile_action_delete">Eliminar</string>

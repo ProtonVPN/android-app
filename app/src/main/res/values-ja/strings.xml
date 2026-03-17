@@ -353,6 +353,8 @@
     <string name="enable">有効化</string>
     <string name="notification_smart_protocol_disabled_title">スマートプロトコルは現在無効です</string>
     <string name="notification_smart_protocol_disabled_content">現在のネットワークが VPN に接続しようとしているのを妨げるのを検出しました。スマートプロトコルを有効にするとこれらの制限を回避できる可能性があります。</string>
+    <string name="notification_streaming_blocked_title">Blocked website?</string>
+    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
     <string name="upsell_advanced_features">高度な機能: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">世界中どこでも Netflix や Disney+ などのストリーミングサービスにアクセス</string>
     <!-- Number of servers available in the service.
@@ -388,6 +390,8 @@
     <string name="upgrade_profiles_text">VPN Plusでプロファイルをアンロック</string>
     <string name="upgrade_streaming_title">4Kでストリーミング</string>
     <string name="upgrade_streaming_text">世界中どこからでもお気に入りの映画やテレビ番組を楽しめます。</string>
+    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
+    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
     <string name="upgrade_tor_title">Torネットワークへワンタップでアクセス</string>
     <string name="upgrade_tor_text">普段使っているブラウザで、隠れたサービスやオニオンサイトに接続できます。</string>
     <string name="upgrade_vpn_accelerator_title">さらに高速なブラウジング</string>
@@ -1440,6 +1444,12 @@
     <string name="info_p2p_why_description_logs">アクティビティログがありません</string>
     <string name="info_p2p_why_description_hide">サービスプロバイダーやピアから IP アドレスを隠します</string>
     <string name="info_dialog_smart_routing_description">Smart Routingは、仮想サーバーを使用して、アクセスが困難な国でも VPN カバレッジを提供します。\n\nSmart Routing サーバーに接続すると、物理サーバーが別の場所にある場合でも、目的の国でブラウジングしているように見えます。  \n\nSmart Routingは通常、反プライバシー法やその他の形式の検閲を回避するために使用されます。</string>
+    <string name="notifications_channel_connection_status_name">Connection status</string>
+    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_errors_name">Connection errors</string>
+    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_tips_name">Connection tips</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">VPN接続にもう1つの暗号化レイヤーを追加する</string>
     <string name="p2p_upsell_banner_description">BitTorrentやその他のファイル共有プロトコルでファイルをダウンロードする</string>
@@ -1456,7 +1466,6 @@
     <string name="tv_settings_split_tunneling_description">各アプリをVPNで保護するかどうかをカスタマイズできます。</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">VPN接続から除外するアプリを選択しました</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">選択したアプリだけがVPNを通して接続され、他の全てのトラフィックは保護されません。</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">編集</string>
     <string name="profile_action_duplicate">複製</string>
     <string name="profile_action_delete">削除</string>

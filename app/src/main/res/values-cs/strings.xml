@@ -362,6 +362,8 @@
     <string name="enable">Zapnout</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protokol je momentálně deaktivován</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN rozpoznalo, že vaše síť blokuje připojení k VPN. Zapnutí Smart Protokolu by mohlo problém vyřešit.</string>
+    <string name="notification_streaming_blocked_title">Blokovaná webová stránka?</string>
+    <string name="notification_streaming_blocked_text">Některé webové stránky a streamovací služby blokují uživatele bezplatné VPN. Navyšte na Proton VPN Plus pro obejití tohoto blokování.</string>
     <string name="upsell_advanced_features">Pokročilé funkce: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Přistupujte ke streamovacím službám (Netflix, Disney+, atd.) kdekoliv na světě</string>
     <!-- Number of servers available in the service.
@@ -406,6 +408,8 @@
     <string name="upgrade_profiles_text">Odemkněte profily pomocí VPN Plus</string>
     <string name="upgrade_streaming_title">Streamování ve 4K</string>
     <string name="upgrade_streaming_text">Sledujte oblíbené filmy a seriály odkdudkoli na světě.</string>
+    <string name="upgrade_streaming_block_title">Navyšte svůj tarif pro obejití blokování VPN</string>
+    <string name="upgrade_streaming_block_text">Servery VPN Plus vám umožní sledovat vaše oblíbené filmy a televizní pořady z celého světa.</string>
     <string name="upgrade_tor_title">Získejte přístup k síti Tor jediným klepnutím</string>
     <string name="upgrade_tor_text">Připojte se ke skrytým službám a onion stránkám pomocí běžného prohlížeče.</string>
     <string name="upgrade_vpn_accelerator_title">Procházejte internet ještě vyšší rychlostí</string>
@@ -1548,6 +1552,12 @@
     <string name="info_p2p_why_description_logs">Žádné logy aktivity</string>
     <string name="info_p2p_why_description_hide">Skryjte svoji IP adresu přes poskytovatelem internetu a ostatními</string>
     <string name="info_dialog_smart_routing_description">Smart Routing využívá virtuální servery k poskytování VPN v těžko dostupných zemích.\n\nKdyž se připojíte k serveru Smart Routing, bude se zdát, že prohlížíte ve své cílové zemi, i když je fyzický server umístěn jinde.\n\nSmart Routing se obvykle používá k obcházení zákonů potlačujících ochranu soukromí a jiných forem cenzury.</string>
+    <string name="notifications_channel_connection_status_name">Connection status</string>
+    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_errors_name">Connection errors</string>
+    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_tips_name">Connection tips</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Přístup do všech zemí s VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Přidejte další úroveň šifrování vašemu VPN připojení</string>
     <string name="p2p_upsell_banner_description">Stahujte soubory přes BitTorrent a jiné protokoly ke sdílení souborů</string>
@@ -1564,7 +1574,6 @@
     <string name="tv_settings_split_tunneling_description">Přizpůsobte si připojení tím, že se rozhodnete, které aplikace budou chráněny pomocí VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Vybrané aplikace jsou vyloučeny z připojení VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Pouze vybrané aplikace se připojí skrze VPN, ostatní provoz nebude chráněn.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Upravit</string>
     <string name="profile_action_duplicate">Duplikovat</string>
     <string name="profile_action_delete">Smazat</string>

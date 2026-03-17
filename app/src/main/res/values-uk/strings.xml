@@ -362,6 +362,8 @@
     <string name="enable">Увімкнути</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol зараз вимкнено</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN виявив, що ваша мережа запобігає з\'єднанню з VPN. Увімкнення Smart Protocol допоможе обійти це обмеження.</string>
+    <string name="notification_streaming_blocked_title">Blocked website?</string>
+    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
     <string name="upsell_advanced_features">Додаткові функції: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Доступ до сервісів потокової трансляції (Netflix, Disney+ та ін.) у будь-якій частині світу</string>
     <!-- Number of servers available in the service.
@@ -406,6 +408,8 @@
     <string name="upgrade_profiles_text">Розблокуйте профілі з тарифним планом VPN Plus</string>
     <string name="upgrade_streaming_title">Транслюйте відео з якістю 4K</string>
     <string name="upgrade_streaming_text">Насолоджуйтеся улюбленими фільмами й телешоу де завгодно у світі.</string>
+    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
+    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
     <string name="upgrade_tor_title">Користуйтеся мережею Tor одним дотиком</string>
     <string name="upgrade_tor_text">Під\'єднуйтеся до прихованих сервісів та сайтів onion у звичайному браузері.</string>
     <string name="upgrade_vpn_accelerator_title">Користуйтеся інтернетом зі ще вищою швидкістю</string>
@@ -1548,6 +1552,12 @@
     <string name="info_p2p_why_description_logs">Без журналів активності</string>
     <string name="info_p2p_why_description_hide">Приховайте вашу IP-адресу від постачальника послуг та однорангових вузлів</string>
     <string name="info_dialog_smart_routing_description">Технологія Smart Routing використовує віртуальні сервери для забезпечення покриття VPN у країнах з ускладненим доступом.\n\nПід час з\'єднання з сервером Smart Routing здаватиметься, наче ви користуєтесь інтернетом у країні призначення, навіть попри інше фізичне розташування сервера.  \n\nSmart Routing зазвичай використовується для обходу законодавчих обмежень щодо приватності та інших форм цензури.</string>
+    <string name="notifications_channel_connection_status_name">Connection status</string>
+    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_errors_name">Connection errors</string>
+    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_tips_name">Connection tips</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Додайте ще один рівень шифрування до свого VPN-з\'єднання</string>
     <string name="p2p_upsell_banner_description">Завантажуйте файли через BitTorrent й інші протоколи обміну файлами</string>
@@ -1564,7 +1574,6 @@
     <string name="tv_settings_split_tunneling_description">Налаштуйте з\'єднання, вибравши програми, які захищаються VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Вибрані програми не захищатимуться VPN-з\'єднанням.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Лише вибрані програми під\'єднуються через VPN, а весь інший трафік не захищається.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Редагувати</string>
     <string name="profile_action_duplicate">Дублювати</string>
     <string name="profile_action_delete">Видалити</string>

@@ -222,7 +222,7 @@
     <string name="settingsKillSwitchAndroidSettingsButton">Indstillinger</string>
     <string name="settingsKillSwitchLearnMoreButton">Hvad er kill switch?</string>
     <string name="settingsKillSwitchWarningMain">Når kill switch er slået til, kan du ikke oprette forbindelse til:</string>
-    <string name="settingsKillSwitchWarningPoint1">Hjemmesider og apps udelukkes fra din VPN-forbindelse gennem split tunneling</string>
+    <string name="settingsKillSwitchWarningPoint1">Websteder og apps, der er udelukket fra din VPN-forbindelse gennem split tunneling</string>
     <string name="settingsKillSwitchWarningPoint2">Enheder på dit lokale netværk (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Del anonym brugerstatistik</string>
     <string name="settingsEnableTelemetryDescription">Brugsdata hjælper os med at overvinde VPN-blokeringer og forbedre appens ydeevne.</string>
@@ -356,6 +356,8 @@
     <string name="enable">Aktivér</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protokol er i øjeblikket deaktiveret</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN registrerede, at dit nuværende netværk forhindrer en forbindelse til VPN. Aktivering af Smart Protocol kan muligvis omgå disse begrænsninger.</string>
+    <string name="notification_streaming_blocked_title">Blokeret websted?</string>
+    <string name="notification_streaming_blocked_text">Nogle websteder og streamingtjenester blokerer gratis VPN-brugere. Opgradér til Proton VPN Plus for at omgå disse blokeringer.</string>
     <string name="upsell_advanced_features">Avancerede funktioner: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Få adgang til streamingtjenester (Netflix, Disney+ osv.) overalt i verden</string>
     <!-- Number of servers available in the service.
@@ -394,6 +396,8 @@
     <string name="upgrade_profiles_text">Lås op for profiler med VPN Plus</string>
     <string name="upgrade_streaming_title">Stream i 4K</string>
     <string name="upgrade_streaming_text">Nyd dine yndlingsfilm og tv-serier fra overalt i verden</string>
+    <string name="upgrade_streaming_block_title">Opgradér for at omgå VPN-blokeringer</string>
+    <string name="upgrade_streaming_block_text">VPN Plus-servere lader dig nyde dine yndlingsfilm og tv-serier fra hele verden.</string>
     <string name="upgrade_tor_title">Tilgå Tor-netværket med et enkelt tryk</string>
     <string name="upgrade_tor_text">Tilgå hidden services og .onion sider i din almindelige browser.</string>
     <string name="upgrade_vpn_accelerator_title">Browse med endnu højere hastigheder</string>
@@ -633,7 +637,7 @@
     <string name="upgrade_country_message"><![CDATA[Lås op for <b>landevalg</b> med VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free forbinder dig automatisk, til den hurtigste tilgængelige server. Dette vil normalt være den server der er tættest på din lokation.</string>
     <string name="free_connections_info_server_locations">Gratis serverlokationer (%1$d)</string>
-    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
+    <string name="free_connections_info_banner_text">Tilgå alle lande med VPN Plus</string>
     <string name="free_connection_info_title">Gratis forbindelser</string>
     <string name="search_upsell_banner_title">Stream hvor som helst</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1476,7 +1480,13 @@
     <string name="info_p2p_why_description_logs">Ingen aktivitetslogs</string>
     <string name="info_p2p_why_description_hide">Skjul din IP-adresse for din serviceudbyder og andre brugere</string>
     <string name="info_dialog_smart_routing_description">Smart Routing bruger virtuelle servere til at give VPN-dækning i svært tilgængelige lande.\n\nNår du opretter forbindelse til en Smart Routing-server, ser det ud til, at du surfer i dit destinationsland, selvom den fysiske server er placeret et andet sted. \n\nSmart Routing bruges typisk til at omgå anti-privacy love og andre former for censur.</string>
-    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
+    <string name="notifications_channel_connection_status_name">Forbindelsesstatus</string>
+    <string name="notifications_channel_connection_status_description">Viser hvilken server du er forbundet til og din VPN-hastighed.</string>
+    <string name="notifications_channel_connection_errors_name">Forbindelsesfejl</string>
+    <string name="notifications_channel_connection_errors_description">Advarer dig om problemer, der sætter din VPN-forbindelse på pause eller stopper den.</string>
+    <string name="notifications_channel_connection_tips_name">Forbindelsestips</string>
+    <string name="notifications_channel_connection_tips_description">Kontekstuelle tip, der hjælper dig med at få mest muligt ud af Proton VPN.</string>
+    <string name="countries_upsell_banner_description">Få adgang til alle lande med VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Tilføj endnu et lag kryptering til din VPN-forbindelse</string>
     <string name="p2p_upsell_banner_description">Overfør filer via BitTorrent og andre fildelingsprotokoller</string>
     <string name="tor_upsell_banner_description">Brug Tor-netværket via din VPN-forbindelse for ekstra diskretion</string>
@@ -1492,7 +1502,6 @@
     <string name="tv_settings_split_tunneling_description">Tilpas din forbindelse ved at afgøre, hvilke apps skal beskyttes af VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Udvalgte apps er udelukket fra VPN-forbindelse.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Kun udvalgte apps får forbindelse via VPN, al anden trafik er ubeskyttet.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Redigér</string>
     <string name="profile_action_duplicate">Duplikér</string>
     <string name="profile_action_delete">Slet</string>

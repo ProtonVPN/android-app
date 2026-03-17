@@ -47,7 +47,7 @@
     <string name="quickConnect">Hızlı bağlan</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
-    <string name="serverLoad">%1$s%%</string>
+    <string name="serverLoad">%1$s[%1$s]</string>
     <string name="cancel">İptal</string>
     <string name="close">Kapat</string>
     <string name="dialogContinue">İlerle</string>
@@ -356,6 +356,8 @@
     <string name="enable">Aç</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol şu anda kapalı</string>
     <string name="notification_smart_protocol_disabled_content">ProtonVPN, kullandığınız ağın VPN bağlantısı engellediğini algıladı. Smart Protocol özelliğini açmak bu kısıtlamaları aşabilir.</string>
+    <string name="notification_streaming_blocked_title">Site engelleniyor mu?</string>
+    <string name="notification_streaming_blocked_text">Bazı siteler ve yayın akışı hizmetleri ücretsiz VPN kullanıcılarını engeller. Bu engellemeleri aşmak için Proton VPN Plus tarifesine yükseltin.</string>
     <string name="upsell_advanced_features">Gelişmiş özellikler: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Dünyanın her yerindeki yayın akışı hizmetlerine erişerek izleyin (Netflix, Disney+, vb)</string>
     <!-- Number of servers available in the service.
@@ -394,6 +396,8 @@
     <string name="upgrade_profiles_text">VPN Plus ile profiller özelliğine erişin</string>
     <string name="upgrade_streaming_title">4K yayın akışlarını izleyin</string>
     <string name="upgrade_streaming_text">Dünya üzerinde her yerdeki beğendiğiniz film ve TV dizilerini izleyin.</string>
+    <string name="upgrade_streaming_block_title">VPN engellemelerini aşmak için tarifenizi yükseltin</string>
+    <string name="upgrade_streaming_block_text">VPN Plus sunucuları dünyanın her yerindeki sevdiğiniz filmleri ve TV programlarını izlemenizi sağlar.</string>
     <string name="upgrade_tor_title">Tek dokunmayla Tor ağına erişin</string>
     <string name="upgrade_tor_text">Her gün kullandığınız tarayıcı ile gizli hizmetlere ve onion sitelerine bağlanın.</string>
     <string name="upgrade_vpn_accelerator_title">Daha yüksek hızlarla gezinin</string>
@@ -1476,6 +1480,12 @@
     <string name="info_p2p_why_description_logs">Etkinlik kaydı tutulmaz</string>
     <string name="info_p2p_why_description_hide">IP adresinizi hizmet sağlayıcınızdan ve eşlerinizden gizleyin</string>
     <string name="info_dialog_smart_routing_description">Smart Routing, ulaşılması zor ülkelerde VPN erişimi sağlamak için sanal sunucuları kullanır.\n\nBir Smart Routing sunucusuna bağlandığınızda, fiziksel sunucu başka bir yerde bulunsa bile, hedef ülkenizde geziniyormuş gibi görünürsünüz.  \n\nSmart Routing genellikle gizlilik karşıtı yasaları ve diğer sansür biçimlerini aşmak için kullanılır.</string>
+    <string name="notifications_channel_connection_status_name">Bağlantı durumu</string>
+    <string name="notifications_channel_connection_status_description">Bağlı olduğunuz sunucuyu ve VPN hızınızı gösterir.</string>
+    <string name="notifications_channel_connection_errors_name">Bağlantı sorunları</string>
+    <string name="notifications_channel_connection_errors_description">VPN bağlantınızı duraklatan veya durduran sorunları size bildirir.</string>
+    <string name="notifications_channel_connection_tips_name">Bağlantı ipuçları</string>
+    <string name="notifications_channel_connection_tips_description">Daha iyi Proton VPN deneyimi sağlayacak bağlamsal ipuçları.</string>
     <string name="countries_upsell_banner_description">VPN Plus ile tüm ülkelere erişin</string>
     <string name="secure_core_upsell_banner_description">VPN bağlantınıze ek bir şifreleme düzeyi ekleyebilirsiniz</string>
     <string name="p2p_upsell_banner_description">Dosyaları BitTorrent ve diğer dosya paylaşım iletişim kuralları üzerinden indirin</string>
@@ -1492,7 +1502,6 @@
     <string name="tv_settings_split_tunneling_description">Hangi uygulamaların VPN tarafından korunacağını seçerek bağlantınızı özelleştirin.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Seçilmiş uygulamalar VPN bağlantısına katılmaz.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Yalnızca seçilmiş uygulamalar VPN üzerinden bağlantı kurar, diğer tüm trafik korumasızdır.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Düzenle</string>
     <string name="profile_action_duplicate">Çoğalt</string>
     <string name="profile_action_delete">Sil</string>

@@ -362,6 +362,8 @@
     <string name="enable">Уключыць</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol зараз адключаны</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN вызначыў, што ваша бягучая сетка блакіруе падключэнне да VPN. Уключэнне Smart Protocol можа дапамагчы абысці гэта абмежаванне.</string>
+    <string name="notification_streaming_blocked_title">Заблакіраваны вэб-сайт?</string>
+    <string name="notification_streaming_blocked_text">Некаторыя вэб-сайты і сэрвісы з трансляцыямі блакіруюць карыстальнікаў, якія выкарыстоўваюць бясплатны VPN. Палепшыце да Proton VPN Plus, каб абысці гэтыя блакіроўкі.</string>
     <string name="upsell_advanced_features">Дадатковыя функцыі: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Доступ да сэрвісаў трансляцый (Netflix, Disney+ і іншых) у любой краіне свету</string>
     <!-- Number of servers available in the service.
@@ -406,6 +408,8 @@
     <string name="upgrade_profiles_text">Разблакіруйце профілі з дапамогай VPN Plus</string>
     <string name="upgrade_streaming_title">Прагляд у 4K</string>
     <string name="upgrade_streaming_text">Атрымлівайце асалоду ад прагляду абраных фільмаў і тэлеперадач з любой краіны ў свеце.</string>
+    <string name="upgrade_streaming_block_title">Палепшыць, каб абыходзіць блакіроўкі VPN</string>
+    <string name="upgrade_streaming_block_text">Серверы VPN Plus дазволяць вам атрымліваць асалоду ад абраных фільмаў і тэлеперадач па ўсім свеце.</string>
     <string name="upgrade_tor_title">Доступ да сеткі Tor у адзін націск</string>
     <string name="upgrade_tor_text">Падключэнне да схаваных сэрвісаў і сайтаў onion з дапамогай вашага браўзера.</string>
     <string name="upgrade_vpn_accelerator_title">Прагляд на яшчэ больш высокіх хуткасцях</string>
@@ -1548,6 +1552,12 @@
     <string name="info_p2p_why_description_logs">Адсутнасць журналаў актыўнасці</string>
     <string name="info_p2p_why_description_hide">Хавайце свой IP-адрас ад вашага пастаўшчыка паслуг інтэрнэту і аднарангавых вузлоў</string>
     <string name="info_dialog_smart_routing_description">Smart Routing выкарыстоўвае віртуальныя серверы, каб забяспечваць пакрыццё VPN у цяжкадаступных краінах.\n\nКалі вы падключаецеся да сервера Smart Routing, то ўсё будзе выглядаць так, быццам вы ажыццяўляеце прагляд з краіны прызначэння, хоць фізічна сервер размяшчаецца ў іншым месцы.\n\nSmart Routing звычайна выкарыстоўваюць для абыходу законаў, якія парушаюць прыватнасць і канфідэнцыяльнасць, а таксама іншых форм цэнзуры.</string>
+    <string name="notifications_channel_connection_status_name">Connection status</string>
+    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_errors_name">Connection errors</string>
+    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_tips_name">Connection tips</string>
+    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Доступ да ўсіх краін з VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Дадайце яшчэ адзін слой шыфравання ў сваё падключэнне па VPN</string>
     <string name="p2p_upsell_banner_description">Спампоўвайце файлы праз BitTorrent і іншыя пратаколы абагульвання файлаў</string>
@@ -1564,7 +1574,6 @@
     <string name="tv_settings_split_tunneling_description">Наладзьце падключэнне вырашыўшы, якія праграмы будуць абаронены VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Выбраныя праграмы выключаны з вашага падключэння па VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Толькі выбраныя праграмы будуць падключаны праз VPN. Увесь астатні трафік застанецца неабароненым.</string>
-    <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Рэдагаваць</string>
     <string name="profile_action_duplicate">Дубліраваць</string>
     <string name="profile_action_delete">Выдаліць</string>
