@@ -19,26 +19,72 @@
 
 package com.protonvpn.android.promooffers.usecase
 
+import android.content.Context
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers.CachedOffers
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.getSingleCurrency
 import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
+import com.protonvpn.android.utils.BytesFileWriter
+import com.protonvpn.android.utils.FileObjectStore
+import com.protonvpn.android.utils.KotlinCborObjectSerializer
+import com.protonvpn.android.utils.ObjectStore
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
-import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.sentry.Sentry
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
 import me.proton.core.network.domain.ApiException
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.plan.presentation.entity.PlanCycle
+import java.io.File
 import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.time.Duration.Companion.days
 
-private const val CACHE_TIME_MS = 5_000
+private val CacheDuration = 2.days
 
-@Reusable
-class GetEligibleIntroductoryOffers @Inject constructor(
+typealias IntroductoryOffersCacheMap = Map<String, CachedOffers>
+
+@Singleton
+class GetEligibleIntroductoryOffers(
     private val loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans,
     private val inAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
-    @WallClock private val clock: () -> Long,
+    cacheObjectStore: ObjectStore<IntroductoryOffersCacheMap>,
+    private val clock: () -> Long,
 ) {
+    @Inject
+    constructor(
+        mainScope: CoroutineScope,
+        @ApplicationContext context: Context,
+        dispatcherProvider: VpnDispatcherProvider,
+        loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans,
+        inAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
+        @WallClock clock: () -> Long,
+    ) : this(
+        loadGoogleSubscriptionPlans,
+        inAppUpgradeAllowed,
+        FileObjectStore(
+            File(context.filesDir, "intro_price_eligible_offers_cache"),
+            mainScope,
+            dispatcherProvider,
+            KotlinCborObjectSerializer(
+                MapSerializer(
+                    String.serializer(),
+                    CachedOffers.serializer()
+                )
+            ),
+            BytesFileWriter()
+        ),
+        clock,
+    )
+
+    @Serializable
     data class Offer(
         val planName: String,
         val cycle: PlanCycle,
@@ -46,23 +92,58 @@ class GetEligibleIntroductoryOffers @Inject constructor(
         val introPriceCents: Int
     )
 
-    private data class CachedOffers(
-        val plans: List<String>,
+    @Serializable
+    data class CachedOffers(
         val timestamp: Long,
         val offers: List<Offer>
     )
 
-    private val cache: MutableList<CachedOffers> = mutableListOf()
+    private class Cache(
+        private val cacheObjectStore: ObjectStore<IntroductoryOffersCacheMap>,
+    ) {
+
+        private val mutex = Mutex()
+        private var isLoaded = false
+        private val cacheData = HashMap<String, CachedOffers>()
+
+        // Only access when protected by the mutex.
+        private suspend fun getCache(): HashMap<String, CachedOffers> {
+            if (!isLoaded) {
+                cacheData.putAll(cacheObjectStore.read() ?: emptyMap())
+                isLoaded = true
+            }
+            return cacheData
+        }
+
+        suspend fun get(planName: String, now: Long): CachedOffers? = mutex.withLock {
+            getCache().get(planName)
+                ?.takeIf { it.timestamp + CacheDuration.inWholeMilliseconds > now }
+        }
+
+        suspend fun update(planNames: List<String>, timestamp: Long, offers: List<Offer>) {
+            mutex.withLock {
+                val cache = getCache()
+                planNames.forEach { planName ->
+                    cache[planName] =
+                        CachedOffers(timestamp, offers.filter { it.planName == planName })
+                }
+                cacheObjectStore.store(cache)
+            }
+        }
+    }
+
+    private val cache = Cache(cacheObjectStore)
 
     suspend operator fun invoke(planNames: List<String>): List<Offer>? {
         if (!inAppUpgradeAllowed()) return null
 
-        val cachedOffers = checkAndUpdateCache(clock(), planNames)
-        if (cachedOffers != null) {
-            return cachedOffers
+        val now = clock()
+        val cachedOffers = planNames.mapNotNull {
+            cache.get(it, now)
         }
-
-        return suspend {
+        return if (planNames.size == cachedOffers.size) {
+            cachedOffers.flatMap { it.offers }
+        } else suspend {
             val giapPlans = loadGoogleSubscriptionPlans(planNames)
 
             val introOffers = giapPlans.flatMap { plan ->
@@ -86,7 +167,7 @@ class GetEligibleIntroductoryOffers @Inject constructor(
                     }
                 }
             }
-            cache.add(CachedOffers(planNames, clock(), introOffers))
+            cache.update(planNames, clock(), introOffers)
             introOffers
         }.runCatchingCheckedExceptions { e ->
             if (shouldReportToSentry(e))
@@ -97,12 +178,6 @@ class GetEligibleIntroductoryOffers @Inject constructor(
 
     private fun shouldReportToSentry(throwable: Throwable?): Boolean =
         throwable == null || (throwable as? ApiException)?.error !is ApiResult.Error.Connection
-
-    private fun checkAndUpdateCache(now: Long, planNames: List<String>): List<Offer>? {
-        val validTimestamp = now - CACHE_TIME_MS
-        cache.retainAll { it.timestamp >= validTimestamp }
-        return cache.firstOrNull { it.plans == planNames }?.offers
-    }
 }
 
 private class GetIntroPricesError(message: String, cause: Throwable) : Exception(message, cause)

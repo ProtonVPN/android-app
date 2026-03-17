@@ -19,16 +19,17 @@
 
 package com.protonvpn.app.promooffers.usecase
 
-import com.protonvpn.android.promooffers.data.ApiNotification
-import com.protonvpn.android.promooffers.data.ApiNotificationTypes
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
-import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
+import com.protonvpn.android.promooffers.data.ApiNotification
+import com.protonvpn.android.promooffers.data.ApiNotificationTypes
 import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromoFeatureFlagEnabled
 import com.protonvpn.android.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
 import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers
+import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
+import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.mocks.TestDefaultLocaleProvider
+import com.protonvpn.test.shared.InMemoryObjectStore
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestVpnUser
@@ -42,12 +43,10 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
-import me.proton.core.domain.entity.UserId
 import me.proton.core.payment.domain.usecase.PaymentProvider
 import me.proton.core.plan.domain.entity.DynamicPlan
 import me.proton.core.plan.domain.entity.DynamicPlanPrice
 import me.proton.core.plan.presentation.entity.PlanCycle
-import me.proton.core.util.kotlin.equalsNoCase
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Before
@@ -131,7 +130,12 @@ class GenerateNotificationsForIntroductoryOffersTests {
         coEvery { mockInAppUpgradeAllowed.invoke() } returns true
 
         val getEligibleIntroductoryOffers =
-            GetEligibleIntroductoryOffers(loadGoogleSubscriptionPlans, mockInAppUpgradeAllowed, testScope::currentTime)
+            GetEligibleIntroductoryOffers(
+                loadGoogleSubscriptionPlans,
+                mockInAppUpgradeAllowed,
+                InMemoryObjectStore(),
+                testScope::currentTime
+            )
 
         featureFlagFlow = MutableStateFlow(true)
         generateNotificationsForIntroductoryOffers = GenerateNotificationsForIntroductoryOffers(
@@ -263,39 +267,6 @@ class GenerateNotificationsForIntroductoryOffersTests {
             expectedFullscreenUrl,
             iapFullScreen.offer?.panel?.fullScreenImage?.source?.first()?.url
         )
-    }
-}
-
-private class FakeDynamicPlansAdjustedPrices(private val rawDynamicPlans: () -> List<DynamicPlan>) {
-
-    lateinit var currency: String
-    var introPrices: Map<PlanCycle, Int> = emptyMap()
-
-    var wasCalled = false
-        private set
-
-    fun resetWasCalled() {
-        wasCalled = false
-    }
-
-    fun invoke(userId: UserId?): List<DynamicPlan> {
-        wasCalled = true
-        return rawDynamicPlans().map { plan ->
-            plan.copy(instances = plan.instances.mapValues { (cycleMonths, instance) ->
-                val planCycle = PlanCycle.entries.find { it.cycleDurationMonths == cycleMonths }!!
-                val prices = instance.price
-                    .filterKeys { it equalsNoCase currency }
-                    .mapValues { (_, price) ->
-                        val introPrice = introPrices[planCycle]
-                        if (introPrice != null) {
-                            price.copy(default = price.current, current = introPrice)
-                        } else {
-                            price
-                        }
-                    }
-                instance.copy(price = prices)
-            })
-        }
     }
 }
 
