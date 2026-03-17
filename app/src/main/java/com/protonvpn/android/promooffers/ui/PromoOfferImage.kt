@@ -23,6 +23,7 @@ import android.content.Context
 import com.bumptech.glide.Glide
 import com.protonvpn.android.R
 import com.protonvpn.android.promooffers.data.ApiNotificationOfferFullScreenImage
+import com.protonvpn.android.promooffers.data.ApiNotificationOfferImageSource
 import com.protonvpn.android.utils.isNightMode
 
 object PromoOfferImage {
@@ -54,13 +55,13 @@ object PromoOfferImage {
             fullScreenImage
         )
 
-    fun getFullScreenImageUrl(
-        pixelWidth: Int, isNightMode: Boolean, fullScreenImage: ApiNotificationOfferFullScreenImage
-    ): String? {
+    fun getFullScreenImage(
+        pixelWidth: Int, fullScreenImage: ApiNotificationOfferFullScreenImage
+    ): ApiNotificationOfferImageSource? {
         val supportedFormats = SupportedFormats.entries.map { it.toString() }
         val firstSupported = fullScreenImage.source
             .firstOrNull { it.type.uppercase() in supportedFormats }
-        val imageSpec = if (firstSupported?.width != null) {
+        return if (firstSupported?.width != null) {
             val sortedByWidth = fullScreenImage.source
                 .filter { it.type.uppercase() == firstSupported.type.uppercase() }
                 .sortedBy { it.width }
@@ -70,6 +71,12 @@ object PromoOfferImage {
         } else {
             firstSupported
         }
+    }
+
+    fun getFullScreenImageUrl(
+        pixelWidth: Int, isNightMode: Boolean, fullScreenImage: ApiNotificationOfferFullScreenImage
+    ): String? {
+        val imageSpec = getFullScreenImage(pixelWidth, fullScreenImage)
         return if (isNightMode) imageSpec?.url else imageSpec?.urlLight
     }
 

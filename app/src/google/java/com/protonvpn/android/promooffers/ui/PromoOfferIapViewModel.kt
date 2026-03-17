@@ -46,7 +46,7 @@ class PromoOfferIapViewModel @Inject constructor(
         val notificationReference: String?,
     )
 
-    suspend fun getOfferViewState(notificationId: String): OfferViewState? {
+    suspend fun getOfferViewState(notificationId: String, width: Int): OfferViewState? {
         val notification = notifications.activeListFlow
             .first()
             .find { it.id == notificationId }
@@ -57,6 +57,7 @@ class PromoOfferIapViewModel @Inject constructor(
                 val panel = notification.offer?.panel
                 getOfferViewState(
                     image = panel?.fullScreenImage,
+                    width = width,
                     button = panel?.button,
                     iapParams = panel?.button?.iapActionDetails?.toIapParams(),
                     reference = notification.reference
@@ -67,6 +68,7 @@ class PromoOfferIapViewModel @Inject constructor(
                 val panel = notification.offer?.panel
                 getOfferViewState(
                     image = panel?.fullScreenImage,
+                    width = width,
                     button = panel?.button,
                     iapParams = panel?.iapProductDetails?.google?.toIapParams(),
                     reference = notification.reference
@@ -83,6 +85,7 @@ class PromoOfferIapViewModel @Inject constructor(
                 }
                 getOfferViewState(
                     image = panel?.fullScreenImage,
+                    width = width,
                     button = panel?.button,
                     iapParams = iapParams,
                     reference = notification.reference
@@ -97,11 +100,12 @@ class PromoOfferIapViewModel @Inject constructor(
 
     private fun getOfferViewState(
         image: ApiNotificationOfferFullScreenImage?,
+        width: Int,
         button: ApiNotificationOfferButton?,
         iapParams: NotificationIapParams?,
         reference: String?
     ): OfferViewState? {
-        val imageSource = image?.source?.firstOrNull()
+        val imageSource = image?.let { PromoOfferImage.getFullScreenImage(width, image) }
         val imageContentDescription = image?.alternativeText
         return if (iapParams != null && imageSource?.url != null && imageSource.urlLight != null) {
             OfferViewState(

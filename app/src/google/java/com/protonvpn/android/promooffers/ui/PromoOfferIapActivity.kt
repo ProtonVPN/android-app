@@ -47,6 +47,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarCloseIcon
 import com.protonvpn.android.base.ui.copy
+import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.components.BaseActivityV2
@@ -54,7 +55,6 @@ import com.protonvpn.android.databinding.FragmentPaymentPanelBinding
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
@@ -87,7 +87,12 @@ class PromoOfferIapActivity : BaseActivityV2() {
 
         lifecycleScope.launch {
             val notificationId = getNotificationId(intent)
-            val offer = notificationId?.let { viewModel.getOfferViewState(it) }
+            val offer = notificationId?.let {
+                viewModel.getOfferViewState(
+                    it,
+                    PromoOfferImage.getPictureMaxSize(this@PromoOfferIapActivity).width
+                )
+            }
             if (offer == null) {
                 Toast.makeText(this@PromoOfferIapActivity, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
                 ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.UI, "No notification with ID $notificationId")
