@@ -42,7 +42,6 @@ import me.proton.core.test.quark.Quark
 import me.proton.core.test.quark.data.User
 import me.proton.test.fusion.Fusion
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -101,7 +100,6 @@ class LoginTestsBlack {
     }
 
     @Test
-    @Ignore("Disabled until the test environment is fixed.")
     //Can't complete captcha on API23 due to animations bug in test framework.
     @SdkSuppress(minSdkVersion = 28)
     fun loginWithHumanVerification() {
