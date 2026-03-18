@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import java.util.TimeZone
 import javax.inject.Inject
 
 interface UserCountryTelephonyBased {
@@ -67,9 +68,30 @@ class UserCountryIpBased @Inject constructor(
 }
 
 @Reusable
+class UserCountryTimezoneBased @Inject constructor(
+    private val debugApiPrefs: DebugApiPrefs?,
+) {
+    operator fun invoke(): CountryId? =
+        (debugApiPrefs?.country ?: timezoneToCountry[TimeZone.getDefault().id])
+            ?.let { CountryId(it) }
+
+    companion object {
+
+        // Timezones that uniquely identify a single country.
+        // Only includes cases where the timezone ID maps unambiguously to one country.
+        private val timezoneToCountry: Map<String, String> = mapOf(
+            "Asia/Tehran" to "IR",       // Iran          (+03:30)
+            "Asia/Yangon" to "MM",       // Myanmar       (+06:30)
+            "Asia/Rangoon" to "MM",      // Myanmar - legacy ID
+        )
+    }
+}
+
+@Reusable
 class UserCountryPhysical @Inject constructor(
     private val telephony: UserCountryTelephonyBased,
+    private val timezone: UserCountryTimezoneBased,
     private val ip: UserCountryIpBased,
 ) {
-    operator fun invoke(): CountryId? = telephony() ?: ip()
+    operator fun invoke(): CountryId? = telephony() ?: timezone() ?: ip()
 }

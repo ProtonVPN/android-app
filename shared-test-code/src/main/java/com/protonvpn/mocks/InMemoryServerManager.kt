@@ -21,6 +21,7 @@ package com.protonvpn.mocks
 
 import com.protonvpn.android.appconfig.UserCountryIpBased
 import com.protonvpn.android.appconfig.UserCountryPhysical
+import com.protonvpn.android.appconfig.UserCountryTimezoneBased
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatus
@@ -93,5 +94,6 @@ fun createInMemoryServerManager(
 fun createNoopUserCountry() =
     UserCountryPhysical(
         TestUserCountryTelephonyBased(),
+        UserCountryTimezoneBased(null),
         UserCountryIpBased(ServerListUpdaterPrefs(MockSharedPreferencesProvider()), null),
     )

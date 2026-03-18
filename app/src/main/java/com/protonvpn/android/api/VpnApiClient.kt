@@ -20,6 +20,7 @@ package com.protonvpn.android.api
 
 import android.os.Build
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.appconfig.usecase.ShouldSkipPrimaryApiRoute
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.Constants
@@ -37,7 +38,8 @@ private const val DEV_SUFFIX = "-dev"
 class VpnApiClient @Inject constructor(
     private val scope: CoroutineScope,
     private val dohEnabled: DohEnabled,
-    private val isTv: IsTvCheck
+    private val isTv: IsTvCheck,
+    private val shouldSkipPrimaryApiRoute: dagger.Lazy<ShouldSkipPrimaryApiRoute>
 ) : ApiClient {
 
     val eventForceUpdate = MutableSharedFlow<String>(replay = 1)
@@ -64,6 +66,7 @@ class VpnApiClient @Inject constructor(
         BuildConfigUtils.useAltRoutingCertVerificationForMainRoute()
 
     override suspend fun shouldUseDoh() = dohEnabled()
+    override suspend fun skipPrimaryRoute(): Boolean = shouldSkipPrimaryApiRoute.get()()
 
     override fun forceUpdate(errorMessage: String) {
         scope.launch {
