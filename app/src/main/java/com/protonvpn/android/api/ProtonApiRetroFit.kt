@@ -23,6 +23,7 @@ import com.protonvpn.android.api.data.DebugApiPrefs
 import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
+import com.protonvpn.android.appconfig.UserCountryPhysical
 import com.protonvpn.android.appconfig.UserCountryTelephonyBased
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
@@ -144,6 +145,7 @@ interface ProtonApiRetroFit {
 class ProtonApiRetroFitImpl @Inject constructor(
     private val manager: VpnApiManager,
     private val userCountryTelephonyBased: UserCountryTelephonyBased,
+    private val userCountry: UserCountryPhysical,
     private val debugApiPrefs: DebugApiPrefs?,
 ) : ProtonApiRetroFit {
 
@@ -263,10 +265,10 @@ class ProtonApiRetroFitImpl @Inject constructor(
         manager { postPromoCode(PromoCodesBody("VPN", listOf(code))) }
 
     override suspend fun dismissNps(): ApiResult<GenericResponse> =
-        manager { postDismissNps() }
+        manager { postDismissNps(createNpsHeaders()) }
 
     override suspend fun postNps(data: PostNps.NpsData): ApiResult<GenericResponse> =
-        manager { postNps(data) }
+        manager { postNps(createNpsHeaders(), data) }
 
     override suspend fun postStats(events: List<StatsEvent>): ApiResult<GenericResponse> =
         manager { postStats(StatsBody(events)) }
@@ -283,6 +285,14 @@ class ProtonApiRetroFitImpl @Inject constructor(
             if (!effectiveNetzone.isNullOrEmpty())
                 put(ProtonVPNRetrofit.HEADER_NETZONE, effectiveNetzone)
             ProtonLogger.logCustom(LogCategory.API, "netzone: $effectiveNetzone, mcc: $effectiveMCC")
+        }
+
+    private fun createNpsHeaders() =
+        HashMap<String, String>().apply {
+            val userCountryCode = userCountry()?.countryCode
+            if (userCountryCode != null) {
+                put(ProtonVPNRetrofit.HEADER_COUNTRY, userCountryCode)
+            }
         }
 
     private fun createLogicalsHeaders(netzone: String?, lastModified: Long, enableTruncation: Boolean,) =

@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.api
 
-import com.protonvpn.android.promooffers.data.ApiNotificationsResponse
 import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
@@ -33,18 +32,19 @@ import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.CertificateRequestBody
 import com.protonvpn.android.models.vpn.CertificateResponse
+import com.protonvpn.android.models.vpn.PromoCodesBody
+import com.protonvpn.android.models.vpn.ServerSearchResponse
+import com.protonvpn.android.models.vpn.UserLocation
+import com.protonvpn.android.promooffers.data.ApiNotificationsResponse
+import com.protonvpn.android.promooffers.usecase.PostNps
+import com.protonvpn.android.servers.api.CityTranslationsResponse
 import com.protonvpn.android.servers.api.ConnectingDomainResponse
 import com.protonvpn.android.servers.api.LoadsResponse
-import com.protonvpn.android.models.vpn.PromoCodesBody
+import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.servers.api.ServerListV1
-import com.protonvpn.android.models.vpn.ServerSearchResponse
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.servers.api.StreamingServicesResponse
-import com.protonvpn.android.models.vpn.UserLocation
-import com.protonvpn.android.servers.api.CityTranslationsResponse
-import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.telemetry.StatsBody
-import com.protonvpn.android.promooffers.usecase.PostNps
 import me.proton.core.network.data.protonApi.BaseRetrofitApi
 import me.proton.core.network.domain.TimeoutOverride
 import okhttp3.RequestBody
@@ -143,10 +143,15 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     suspend fun getAppConfig(@HeaderMap headers: Map<String, String>): AppConfigResponse
 
     @POST("vpn/v1/nps/submit")
-    suspend fun postNps(@Body data: PostNps.NpsData): GenericResponse
+    suspend fun postNps(
+        @HeaderMap headers: Map<String, String>,
+        @Body data: PostNps.NpsData
+    ): GenericResponse
 
     @POST("vpn/v1/nps/dismiss")
-    suspend fun postDismissNps(): GenericResponse
+    suspend fun postDismissNps(
+        @HeaderMap headers: Map<String, String>,
+    ): GenericResponse
 
     @GET("core/v4/notifications")
     suspend fun getApiNotifications(
