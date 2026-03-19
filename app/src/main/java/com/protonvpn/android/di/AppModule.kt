@@ -53,6 +53,8 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerSched
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
+import com.protonvpn.android.auth.usecase.IsQrCodeTvLoginFeatureFlagEnabled
+import com.protonvpn.android.auth.usecase.IsQrCodeTvLoginFeatureFlagEnabledImpl
 import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.auth.usecase.SetVpnUserImpl
 import com.protonvpn.android.base.ui.theme.VpnTheme
@@ -487,6 +489,11 @@ object AppModule {
 
         @Binds
         fun bindsIsProTunV1FeatureFlagEnabled(impl: IsProTunV1FeatureFlagEnabledImpl): IsProTunV1FeatureFlagEnabled
+
+        @Binds
+        fun bindsIsQrCodeTvLoginFeatureFlagEnabled(
+            impl: IsQrCodeTvLoginFeatureFlagEnabledImpl
+        ): IsQrCodeTvLoginFeatureFlagEnabled
 
         @Binds
         fun bindIsAutomaticConnectionPreferencesFeatureFlagEnabled(
