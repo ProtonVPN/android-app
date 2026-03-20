@@ -131,7 +131,7 @@
     <string name="bugReportErrorInvalidEmail">بريد إلكتروني غير صالح</string>
     <string name="bugReportLabelVpnLogsTitle">إرفاق سجلات الأخطاء</string>
     <string name="bugReportErrorLabelVpnLogsDescription">يُرسل هذا الاختيار سجلات الأخطاء المحفوظة في هاتفك (نحن لا نتتبع نشاطك) لمساعدتنا في حل المشكلة</string>
-    <string name="profileFastest">أسرع خادم</string>
+    <string name="profileFastest">الخادم الأسرع</string>
     <string name="profileRandom">خادم عشوائي</string>
     <string name="loaderErrorNoInternet">لا يوجد اتصال بالإنترنت</string>
     <string name="loaderErrorGeneric">حدث خطأ ما</string>
@@ -812,29 +812,29 @@
     <string name="server_change_button_time_left_seconds_content_description">سيتوفر خلال %1$s</string>
     <string name="server_change_progress_finished_contend_description">متاح الآن</string>
     <string name="not_wanted_country_title">ليس هذه الدولة المطلوبة؟</string>
-    <string name="not_wanted_country_description">قم بترقية اشتراكك لتختار أي خادم ترده</string>
+    <string name="not_wanted_country_description">رقي حسابك لتحصل على حرية اختيار خادمك المفضل</string>
     <string name="whats_new_title">ما الجديد</string>
-    <string name="whats_new_profiles_title">الملفات الشخصية قد عادت</string>
-    <string name="whats_new_profiles_description">أنشئ واحفظ اتصالات مخصصة من اختيارك للموقع والخادم والبروتوكول.</string>
-    <string name="whats_new_widget_title">نقدم لكم الأدوات</string>
-    <string name="whats_new_widget_description">يمكنك الآن عرض VPN وإدارته دون مغادرة الشاشة الرئيسية.</string>
+    <string name="whats_new_profiles_title">رحبوا بعودة ملفات الاتصال</string>
+    <string name="whats_new_profiles_description">أنشئ ملفات اتصال مخصصة واحفظها، مع حرية اختيار الموقع، والخادم، والبروتوكول الأنسب لك.</string>
+    <string name="whats_new_widget_title">الادوات المصغرة بين يديك</string>
+    <string name="whats_new_widget_description">تابع حالة اتصالك وتحكم في الـ VPN مباشرة من الشاشة الرئيسية، دون الحاجة لفتح التطبيق.</string>
     <string name="whats_new_add_widget_button">إضافة أداة</string>
-    <string name="welcome_plus_title">مرحبا بك في VPN Plus</string>
-    <string name="welcome_plus_description">استمتع بميزات الخصوصية الإضافية، والأداء الفائق، وإعدادات VPN متقدمة.</string>
-    <string name="welcome_plus_feature_security">مميزات الحماية المتقدمة</string>
-    <string name="welcome_unlimited_title">مرحبا بك في Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[لقد فتحت جميع الميزات المميزة لـ Proton VPN وMail وCalendar وDrive وPass وWallet — ومساحة تخزين إجمالية تبلغ <b>%1$d&#160;جيجابايت</b>.]]></string>
+    <string name="welcome_plus_title">انطلق الآن مع VPN Plus</string>
+    <string name="welcome_plus_description">استمتع بمميزات خصوصية إضافية، وأداء استثنائي، ومستوى جديد من تخصيص الـ VPN.</string>
+    <string name="welcome_plus_feature_security">خصائص حماية متطورة</string>
+    <string name="welcome_unlimited_title">انطلق بلا حدود مع Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[استمتع الآن بجميع المميزات المدفوعة لخدمات Proton VPN و Mail و Calendar و Drive و Pass و Wallet، بالإضافة إلى مساحة تخزين تبلغ <b>%1$d&#160;جيجا</b>.]]></string>
     <string name="welcome_generic_title">تهانينا</string>
-    <string name="welcome_generic_description">لقد رقّيت اشتراكك. تمتع بميزات الخصوصية المتقدمة والأداء المتميز.</string>
+    <string name="welcome_generic_description">تمت ترقية اشتراكك. استمتع بالمستوى المتقدم من الخصوصية والأداء الاستثنائي.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
-        <item quantity="zero">ما يصل إلى %1$d من الأجهزة دفعة واحدة</item>
-        <item quantity="one">ما يصل إلى جهاز واحد (%1$d) دفعة واحدة</item>
-        <item quantity="two">ما يصل إلى جهازين (%1$d) دفعة واحدة</item>
-        <item quantity="few">ما يصل إلى %1$d أجهزة دفعة واحدة</item>
-        <item quantity="many">ما يصل إلى %1$d جهازًا دفعة واحدة</item>
-        <item quantity="other">ما يصل إلى %1$d جهاز دفعة واحدة</item>
+        <item quantity="zero">حتى %1$d جهاز في نفس الوقت</item>
+        <item quantity="one">حتى %1$d جهاز في نفس الوقت</item>
+        <item quantity="two">حتى %1$d جهاز في نفس الوقت</item>
+        <item quantity="few">حتى %1$d أجهزة في نفس الوقت</item>
+        <item quantity="many">حتى %1$d جهاز في نفس الوقت</item>
+        <item quantity="other">حتى %1$d جهاز في نفس الوقت</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -843,12 +843,12 @@
      1200+ new servers
      -->
     <plurals name="welcome_plus_servers">
-        <item quantity="zero">%d+ خادم جديد</item>
-        <item quantity="one">خادم جديد %d</item>
-        <item quantity="two">%d+ خادمان جديدان</item>
-        <item quantity="few">%d+ خوادم جديدة</item>
-        <item quantity="many">%d+ خادمًا جديدًا</item>
-        <item quantity="other">%d+ خادم جديد</item>
+        <item quantity="zero">%d خادم جديد</item>
+        <item quantity="one">%d خادم جديد</item>
+        <item quantity="two">%d خادم جديد</item>
+        <item quantity="few">%d خوادم جديدة</item>
+        <item quantity="many">%d خادم جديد</item>
+        <item quantity="other">أكثر من %d خادم جديد</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
 
@@ -857,10 +857,10 @@
          -->
     <plurals name="welcome_plus_countries">
         <item quantity="zero">%d دولة</item>
-        <item quantity="one">دولة %d</item>
-        <item quantity="two">دولتان %d</item>
+        <item quantity="one">%d دولة</item>
+        <item quantity="two">%d دولة</item>
         <item quantity="few">%d دول</item>
-        <item quantity="many">%d دولةً</item>
+        <item quantity="many">%d دولة</item>
         <item quantity="other">%d دولة</item>
     </plurals>
     <!-- Parameters:
@@ -878,8 +878,8 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">رابط خارجي</string>
-    <string name="no_logs_banner_title">VPN معتمد بدون سجلات</string>
-    <string name="no_logs_banner_description">نشاطك عبر VPN محمي بقوانين الخصوصية السويسرية. لن نتتبعك أبدا على الإنترنت أو نشارك معلوماتك مع أطراف ثالثة.</string>
+    <string name="no_logs_banner_title">VPN موثق بلا سجلات</string>
+    <string name="no_logs_banner_description">نشاطك محمي بموجب قوانين الخصوصية السويسرية. نلتزم بعدم تتبع نشاطك الرقمي أبدا، ولا نشارك بياناتك مع أي أطراف خارجية.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">الرئيسية</string>
     <string name="bottom_nav_gateways">البوابات</string>
@@ -913,7 +913,7 @@
          available will be read by a screen reader as:
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
-    <string name="accessibility_action_upgrade">الترقية</string>
+    <string name="accessibility_action_upgrade">ترقية</string>
     <!-- tag(Redesign_2023)
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
@@ -936,7 +936,7 @@
          screen reader as:
          "in maintenance, Switzerland"
      -->
-    <string name="accessibility_item_in_maintenance">تحت الصيانة</string>
+    <string name="accessibility_item_in_maintenance">قيد الصيانة</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable.
          Only used by accessibility services.
@@ -960,13 +960,13 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">النظير إلى النظير</string>
-    <string name="server_feature_content_description_tor">تور</string>
-    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
+    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_smart_routing">المسار الذكي</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
-    <string name="fastest_country">الاتصال الأسرع</string>
-    <string name="fastest_country_excluding_my_country">أسرع بلد (باستثناء بلدي)</string>
+    <string name="fastest_country">البلد الأسرع</string>
+    <string name="fastest_country_excluding_my_country">البلد الأسرع (باستثناء بلدي)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
-    <string name="fastest_free_server">أسرع خادم مجاني</string>
+    <string name="fastest_free_server">الخادم المجاني الأسرع</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -1026,14 +1026,14 @@
          %1$s - entry country name in nominative case
          Example: via Switzerland
     -->
-    <string name="connection_info_secure_core_entry_other">من خلال %1$s</string>
+    <string name="connection_info_secure_core_entry_other">عبر %1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          three countries. Displayed directly below fastest_free_server.
          [flags] - replaced with an image of 3 flags.
 
      -->
-    <string name="connection_info_auto_selected_free_countries">اختيار تلقائي من [flags]</string>
+    <string name="connection_info_auto_selected_free_countries">محدد تلقائيًا من [flags]</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          several countries. Used instead of connection_info_auto_selected_free_countries when there
@@ -1044,7 +1044,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">تم الاختيار التقائي من [flags] و %1$d آخرين</string>
+    <string name="connection_info_auto_selected_free_countries_more">محدد تلقائيًا من [flags] بالإضافة إلى %1$d أخرى</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -1052,14 +1052,14 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="zero">مُحدد تلقائيًا من %1$d من الدول</item>
-        <item quantity="one">مُحدد تلقائيًا من دولة واحدة (%1$d)</item>
-        <item quantity="two">مُحدد تلقائيًا من دولتين (%1$d)</item>
-        <item quantity="few">مُحدد تلقائيًا من %1$d دول</item>
-        <item quantity="many">مُحدد تلقائيًا من %1$d دولة</item>
-        <item quantity="other">مُحدد تلقائيًا من %1$d دولة</item>
+        <item quantity="zero">محدد تلقائيًا من %1$d دولة</item>
+        <item quantity="one">محدد تلقائيًا من %1$d دولة</item>
+        <item quantity="two">محدد تلقائيًا من %1$d دولة</item>
+        <item quantity="few">محدد تلقائيًا من %1$d دول</item>
+        <item quantity="many">محدد تلقائيًا من %1$d دولة</item>
+        <item quantity="other">محدد تلقائيًا من %1$d دولة</item>
     </plurals>
-    <string name="connection_info_auto_selected_free_countries_plain">مُحدد تلقائيًا من الدول المجانية.</string>
+    <string name="connection_info_auto_selected_free_countries_plain">محدد تلقائيًا من الخوادم المجانية</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1071,7 +1071,7 @@
          Last connected to
          Fastest country
          -->
-    <string name="connection_card_label_last_connected">آخر اتصال بـ</string>
+    <string name="connection_card_label_last_connected">آخر اتصال</string>
     <!--
         Label above the connection card indicating text which acts as a button and leads to
         customization bottom sheet of default connection
@@ -1080,11 +1080,11 @@
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
-    <string name="connection_card_label_free_connection">الاتصال المجاني</string>
+    <string name="connection_card_label_free_connection">الخادم المجاني</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
-    <string name="connection_card_label_connecting">جارِ الاتصال بـ…</string>
+    <string name="connection_card_label_connecting">يتم الاتصال…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
          being established. It\'s shown only in response to user clicking the "Change server" button.
@@ -1102,7 +1102,7 @@
          Fastest country
          Germany
      -->
-    <string name="connection_card_label_connected">تصفح بأمان من</string>
+    <string name="connection_card_label_connected">أنت الآن تتصفح بأمان من</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with details of the current VPN connection.
          Only used by accessibility services.
@@ -1120,13 +1120,13 @@
          a button with this description will be read by a screen reader as:
          "more information about free connections, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_free_connections">مزيد من المعلومات عن الاتصالات المجانية</string>
+    <string name="connection_card_accessbility_label_free_connections">المزيد من المعلومات عن الخوادم المجانية</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
-    <string name="recents_headline">مؤخرًا</string>
+    <string name="recents_headline">الاتصالات الأخيرة</string>
     <!-- Displayed above the list of VPN Plus features in the home screen -->
-    <string name="home_upsell_carousel_headline">اكتشف VPN Plus</string>
+    <string name="home_upsell_carousel_headline">استكشف قوة VPN Plus</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">تثبيت</string>
     <!-- tag(Redesign_2023) -->
@@ -1137,20 +1137,20 @@
          State description of a pinned recent item.
          Only used by accessibility service.
     -->
-    <string name="recent_action_accessibility_state_pinned">مثبّت</string>
+    <string name="recent_action_accessibility_state_pinned">مثبت</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">جميع الخوادم في هذا البلد تحت الصيانة</string>
+    <string name="message_country_servers_in_maintenance">جميع خوادم هذه الدولة قيد الصيانة</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">جميع الخوادم في هذه المدينة تحت الصيانة</string>
+    <string name="message_city_servers_in_maintenance">جميع خوادم هذه المدينة قيد الصيانة</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">كافة الخوادم في هذه الحالة تحت الصيانة</string>
+    <string name="message_state_servers_in_maintenance">جميع خوادم هذه الولاية قيد الصيانة</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_in_maintenance">الخادم تحت الصيانة</string>
+    <string name="message_server_in_maintenance">الخادم قيد الصيانة</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_not_available">الخادم غير متوفر</string>
+    <string name="message_server_not_available">الخادم غير متاح</string>
     <string name="message_server_location_excluded">موقع الخادم مستبعد</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
-    <string name="message_gateway_in_maintenance">البوابة تحت الصيانة</string>
+    <string name="message_gateway_in_maintenance">البوابة قيد الصيانة</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">تسجيل الخروج</string>
     <!-- tag(Redesign_2023) -->
@@ -1158,10 +1158,10 @@
     <string name="gateways_title">البوابات</string>
     <string name="countries_title">الدول</string>
     <string name="profiles_title">ملفات الاتصال</string>
-    <string name="settings_autoconnect_title">اتصال تلقائي</string>
-    <string name="settings_autoconnect_boot_description">يوصلك تلقائيًا بشبكة VPN باستخدام الاتصال السريع بمجرد تشغيل جهازك.</string>
+    <string name="settings_autoconnect_title">الاتصال التلقائي</string>
+    <string name="settings_autoconnect_boot_description">يتصل تلقائياً بالـ VPN عبر الاتصال السريع بمجرد تشغيل الجهاز</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_features">الميزات</string>
+    <string name="settings_category_features">الأدوات المتقدمة</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
@@ -1169,43 +1169,43 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">مفتاح الإيقاف</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_connection_category">التوصيل</string>
+    <string name="settings_connection_category">إدارة الاتصال</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_protocol_title">البروتوكول</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_vpn_accelerator_title">مسرع VPN</string>
+    <string name="settings_vpn_accelerator_title">معزز سرعة VPN</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_advanced_settings_title">الإعدادات المتقدمة</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_general">العامة</string>
+    <string name="settings_category_general">عام</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_account">الحساب</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_notifications_title">الإشعارات</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_support">الدعم الفني</string>
+    <string name="settings_category_support">المساعدة والتشخيص</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">مركز الدعم</string>
+    <string name="settings_help_center_title">مركز المساعدة</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">الإبلاغ عن مشكلة</string>
+    <string name="settings_report_issue_title">إبلاغ عن خلل</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">سجلات تصحيح الأخطاء</string>
+    <string name="settings_debug_logs_title">سجلات التشخيص</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_improve_proton">تحسين Proton</string>
+    <string name="settings_category_improve_proton">المساهمة في التطوير</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_fight_censorship_title">ساعدنا في مكافحة الرقابة</string>
+    <string name="settings_fight_censorship_title">مكافحة الرقابة</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_rate_us_title">قيّم Proton VPN</string>
+    <string name="settings_rate_us_title">تقييم Proton VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_app_version">إصدار التطبيق : %1$s</string>
+    <string name="settings_app_version">إصدار التطبيق: %1$s</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_third_party_licenses">تراخيص الأطراف الثالثة</string>
+    <string name="settings_third_party_licenses">تراخيص الجهات الخارجية</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">تسجيل الخروج?</string>
+    <string name="dialog_sign_out_title">تسجيل الخروج؟</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_message">سوف يتم ايقاف اتصالك بالـ VPN</string>
+    <string name="dialog_sign_out_message">سيتم قطع اتصال VPN.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_dont_ask_again">لا تسألني مجددًا</string>
+    <string name="dialog_dont_ask_again">عدم السؤال مرة أخرى</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_action">تسجيل الخروج</string>
     <!-- tag(Redesign_2023) -->
@@ -1221,36 +1221,36 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
-    <string name="country_filter_all_list_header">جميع الدول (%1$d)</string>
+    <string name="country_filter_all_list_header">كل الدول (%1$d)</string>
     <string name="country_filter_all_list_header_free">دول Plus (%1$d)</string>
-    <string name="country_filter_countries_list_header">البلدان (%1$d)</string>
+    <string name="country_filter_countries_list_header">الدول (%1$d)</string>
     <string name="country_filter_cities_list_header">المدن (%1$d)</string>
-    <string name="country_filter_states_list_header">الولاية (%1$d)</string>
+    <string name="country_filter_states_list_header">الولايات (%1$d)</string>
     <string name="country_filter_servers_list_header">الخوادم</string>
-    <string name="country_filter_secure_core_list_header">بلدان الـSecure Core (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">دول Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">دول P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">مدن P2P (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">ولاية P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">ولايات P2P (%1$d)</string>
     <string name="counrty_filter_p2p_servers_list_header">خوادم P2P</string>
-    <string name="country_filter_tor_list_header">دولة Tor (%1$d)</string>
+    <string name="country_filter_tor_list_header">دول Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">خوادم Tor</string>
-    <string name="country_filter_info_label">عن</string>
+    <string name="country_filter_info_label">معلومات</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">التحميل: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">ضغط الخادم: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
-    <string name="vpn_status_connected">محمي</string>
+    <string name="vpn_status_connected">اتصالك آمن</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is not connected and network is not protected
     -->
-    <string name="vpn_status_disabled">أنت غير محمي</string>
+    <string name="vpn_status_disabled">اتصالك غير آمن</string>
     <!-- tag(Redesign_2023)
          Text is shown while connection is being established
     -->
-    <string name="vpn_status_connecting">جارٍ حماية هويتك الرقمية</string>
+    <string name="vpn_status_connecting">يتم تأمين اتصالك</string>
     <!-- tag(Redesign_2023)
          Displays Country name and IP of user if he is not connected.
          First parameter is country, second is IP.
@@ -1259,31 +1259,31 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">تفاصيل الاتصال</string>
-    <string name="connection_details_features_title">الميزات</string>
+    <string name="connection_details_features_title">مزايا الخادم</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">إظهار IP</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_back">العودة</string>
+    <string name="accessibility_back">عودة</string>
     <string name="accessibility_close">إغلاق</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_my_ip">عنوان IP الخاص بي</string>
-    <string name="connection_details_my_ipv4">عنوان IPv4 الخاص بي</string>
-    <string name="connection_details_my_ipv6">عنوان IPv6 الخاص بي</string>
+    <string name="connection_details_my_ip">IP المستخدم</string>
+    <string name="connection_details_my_ipv4">IPv4 المستخدم</string>
+    <string name="connection_details_my_ipv6">IPv6 المستخدم</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_ip">عنوان IP للـ VPN</string>
-    <string name="connection_details_vpn_ip4_6">شبكة VPN (IPv4/IPv6)</string>
-    <string name="connection_details_vpn_ipv4">عنوان IP للـ VPN</string>
-    <string name="connection_details_vpn_ipv6">عنوان IPv6 لشبكة VPN</string>
+    <string name="connection_details_vpn_ip">IP الخادم</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
-    <string name="connection_details_connected_for">متصل لمدة</string>
+    <string name="connection_details_connected_for">مدة الاتصال</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server">خادم</string>
+    <string name="connection_details_server">الخادم</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_gateway">البوابة</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_country">دولة</string>
+    <string name="connection_details_country">الدولة</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">مدينة</string>
     <!-- Label for server location "state", as a state of the USA. -->

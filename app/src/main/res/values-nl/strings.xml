@@ -356,8 +356,8 @@
     <string name="enable">Inschakelen</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol is momenteel uitgeschakeld</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN heeft gedetecteerd dat uw huidige netwerk een verbinding met de VPN blokkeert. Inschakelen van Smart Protocol kan deze beperkingen omzeilen.</string>
-    <string name="notification_streaming_blocked_title">Blocked website?</string>
-    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
+    <string name="notification_streaming_blocked_title">Geblokkeerde website?</string>
+    <string name="notification_streaming_blocked_text">Sommige websites en streamingdiensten blokkeren gratis VPN-gebruikers. Upgrade naar Proton VPN Plus om deze blokkades te omzeilen.</string>
     <string name="upsell_advanced_features">Geavanceerde functies: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Overal ter wereld toegang tot streamingdiensten (Netflix, Disney+ etc.)</string>
     <!-- Number of servers available in the service.
@@ -396,8 +396,8 @@
     <string name="upgrade_profiles_text">Ontgrendel profielen met VPN Plus</string>
     <string name="upgrade_streaming_title">Stream in 4K</string>
     <string name="upgrade_streaming_text">Geniet van uw favoriete films en tv-series van overal ter wereld.</string>
-    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upgrade_streaming_block_title">Upgrade om VPN-blokkades te omzeilen</string>
+    <string name="upgrade_streaming_block_text">VPN Plus servers stellen u in staat om uw favoriete films en tv-programma\'s van over de hele wereld te bekijken.</string>
     <string name="upgrade_tor_title">Open het Tor-netwerk in één tik</string>
     <string name="upgrade_tor_text">Maak verbinding met verborgen services en privé (onion) websites met uw normale browser.</string>
     <string name="upgrade_vpn_accelerator_title">Surf met nog hogere snelheden</string>
@@ -1480,12 +1480,12 @@
     <string name="info_p2p_why_description_logs">Geen activiteitenlogs</string>
     <string name="info_p2p_why_description_hide">Verberg uw IP-adres van uw internet provider en andere gebruikers.</string>
     <string name="info_dialog_smart_routing_description">Smart Routing gebruikt virtuele servers om VPN-dekking te bieden in moeilijk te bereiken landen.\n\nWanneer u verbinding maakt met een slimme routeringsserver, dan lijkt u te bladeren in het land van bestemming Hoewel de fysieke server zich ergens anders bevindt.  \n\nSmart Routing wordt meestal gebruikt om anti-privacywetten en andere vormen van censuur te omzeilen.</string>
-    <string name="notifications_channel_connection_status_name">Connection status</string>
-    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
-    <string name="notifications_channel_connection_errors_name">Connection errors</string>
-    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
-    <string name="notifications_channel_connection_tips_name">Connection tips</string>
-    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
+    <string name="notifications_channel_connection_status_name">Verbindingsstatus</string>
+    <string name="notifications_channel_connection_status_description">Toont met welke server u bent verbonden en uw VPN-snelheid.</string>
+    <string name="notifications_channel_connection_errors_name">Verbindingsfouten</string>
+    <string name="notifications_channel_connection_errors_description">Informeert u over problemen die uw VPN-verbinding onderbreken of stoppen.</string>
+    <string name="notifications_channel_connection_tips_name">Verbindingstips</string>
+    <string name="notifications_channel_connection_tips_description">Contextuele tips die u helpen meer uit Proton VPN te halen.</string>
     <string name="countries_upsell_banner_description">Krijg toegang tot alle landen met VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Voeg een extra laag encryptie toe aan uw VPN-verbinding</string>
     <string name="p2p_upsell_banner_description">Download bestanden via BitTorrent en andere bestanden delen protocollen</string>

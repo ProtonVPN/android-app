@@ -1485,7 +1485,7 @@
     <string name="notifications_channel_connection_errors_name">Erros de conexão</string>
     <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
     <string name="notifications_channel_connection_tips_name">Dicas de conexão</string>
-    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
+    <string name="notifications_channel_connection_tips_description">Dicas contextuais que ajudam você a aproveitar melhor o Proton VPN.</string>
     <string name="countries_upsell_banner_description">Acesse todos os países com o VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Adicione outra camada de criptografia à sua conexão VPN</string>
     <string name="p2p_upsell_banner_description">Baixe arquivos via BitTorrent e outros protocolos de compartilhamento de arquivos</string>

@@ -1485,7 +1485,7 @@
     <string name="notifications_channel_connection_errors_name">Anslutningsfel</string>
     <string name="notifications_channel_connection_errors_description">Varnar dig för problem som pausar eller stoppar din VPN-anslutning.</string>
     <string name="notifications_channel_connection_tips_name">Anslutningstips</string>
-    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
+    <string name="notifications_channel_connection_tips_description">Kontextuella tips som hjälper dig att få ut mer av Proton VPN.</string>
     <string name="countries_upsell_banner_description">Åtkomst till alla länder med VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Lägg till ytterligare ett lager av kryptering till din VPN-anslutning</string>
     <string name="p2p_upsell_banner_description">Ladda ner filer via BitTorrent och andra fildelningsprotokoll</string>

@@ -89,15 +89,15 @@
     <string name="send_report">전송하기</string>
     <string name="report_sent">보고서 전송 완료</string>
     <string name="discardChanges">저장하지 않은 변경 사항을 취소할까요?</string>
-    <string name="discardChangesButtonDiscard">Discard changes</string>
-    <string name="discardChangesButtonKeepEditing">Keep editing</string>
+    <string name="discardChangesButtonDiscard">변경사항 취소</string>
+    <string name="discardChangesButtonKeepEditing">계속 편집하기</string>
     <string name="done">완료</string>
     <string name="add">추가</string>
     <string name="copy_to_clipboard">복사</string>
     <string name="copied_to_clipboard">클립보드에 복사됨</string>
     <string name="got_it">알겠습니다</string>
-    <string name="exclude_locations">Exclude locations</string>
-    <string name="excluded_locations">Excluded locations</string>
+    <string name="exclude_locations">위치 제외</string>
+    <string name="excluded_locations">제외된 위치</string>
     <string name="cannot_connect">연결할 수 없음</string>
     <string name="skip">건너뛰기</string>
     <string name="something_went_wrong">문제가 발생했습니다</string>
@@ -354,8 +354,8 @@
     <string name="enable">활성화</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol은 현재 비활성화 되었습니다</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN이 현재 네트워크에서는 VPN에 연결할 수 없음을 감지했습니다. Smart Protocol을 활성화하면 이러한 제한을 우회할 수도 있습니다.</string>
-    <string name="notification_streaming_blocked_title">Blocked website?</string>
-    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
+    <string name="notification_streaming_blocked_title">웹사이트가 차단됐나요?</string>
+    <string name="notification_streaming_blocked_text">일부 웹사이트 및 스트리밍 서비스는 무료 VPN 사용자를 차단합니다. 이러한 차단을 우회하려면 Proton VPN Plus로 업그레이드하세요.</string>
     <string name="upsell_advanced_features">고급 기능: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">전 세계 어디에서나 스트리밍 서비스(Netflix, Disney+ 등) 에 액세스</string>
     <!-- Number of servers available in the service.
