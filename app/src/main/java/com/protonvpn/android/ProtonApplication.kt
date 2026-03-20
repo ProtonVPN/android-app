@@ -75,7 +75,9 @@ import com.protonvpn.android.vpn.LogcatLogCapture
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.UpdateSettingsOnFeatureFlagChange
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange
+import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionObservability
+import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.autoconnect.AutoConnectBootReceiverController
 import com.protonvpn.android.widget.WidgetStateUpdater
 import com.protonvpn.android.widget.data.WidgetTracker
@@ -149,6 +151,8 @@ open class ProtonApplication : Application() {
         val userPlanManager: UserPlanManager
         val vpnConnectionObservability: VpnConnectionObservability?
         val vpnConnectionTelemetry: VpnConnectionTelemetry
+        val vpnErrorUiManager: VpnErrorUIManager
+        val vpnConnectionErrorHandler: VpnConnectionErrorHandler
         val widgetStateUpdater: WidgetStateUpdater
         val widgetTracker: WidgetTracker
         val goLangCrashReporter: dagger.Lazy<GoLangCrashReporter>
@@ -244,6 +248,8 @@ open class ProtonApplication : Application() {
         dependencies.streamingUpsellRestrictionsNotificationTrigger.start()
         dependencies.vpnConnectionObservability
         dependencies.vpnConnectionTelemetry.start()
+        dependencies.vpnErrorUiManager
+        dependencies.vpnConnectionErrorHandler
         dependencies.widgetStateUpdater.start()
         dependencies.widgetTracker.start()
         // SDK need to be initialized in during Application.onCreate

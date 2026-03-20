@@ -229,7 +229,6 @@ class VpnConnectionErrorHandler @Inject constructor(
     private val getConnectingDomain: GetConnectingDomain,
     private val getOnlineServersForIntent: GetOnlineServersForIntent,
     @ElapsedRealtimeClock private val elapsedMs: () -> Long,
-    @Suppress("unused") errorUIManager: VpnErrorUIManager, // Forces creation of a VpnErrorUiManager instance.
     private val observeExcludedLocations: ObserveExcludedLocations,
 ) {
     private var handlingAuthError = false
@@ -240,6 +239,14 @@ class VpnConnectionErrorHandler @Inject constructor(
 
     init {
         userPlanManager.infoChangeFlow.onEach { changes ->
+            // Note: refresh the certificate in case getCommonFallbackForInfoChanges triggers
+            // a reconnection.
+            // This is not the best place to handle this, we should refactor this code.
+            if (changes.isNotEmpty()) {
+                currentUser.sessionId()?.let { sessionId ->
+                    certificateRepository.get().updateCertOnPlanChange(sessionId)
+                }
+            }
             if (!handlingAuthError && stateMonitor.isEstablishingOrConnected) {
                 val params = stateMonitor.connectionParams!!
                 val connectIntent = params.connectIntent
@@ -280,12 +287,6 @@ class VpnConnectionErrorHandler @Inject constructor(
         )
             ?.takeIf(Server::online)
             ?: return null
-
-        if (changes.isNotEmpty()) {
-            currentUser.sessionId()?.let { sessionId ->
-                certificateRepository.get().updateCertOnPlanChange(sessionId)
-            }
-        }
 
         for (change in changes) when {
             change is PlanChange && change.oldUser.isFreeUser && !change.newUser.isFreeUser -> {

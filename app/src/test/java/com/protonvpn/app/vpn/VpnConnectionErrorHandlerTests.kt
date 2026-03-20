@@ -62,7 +62,6 @@ import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler.Companion.SERVER_ERROR_COOLDOWN_MS
 import com.protonvpn.android.vpn.VpnConnectionErrorHandlerServerUpdater
-import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -139,7 +138,6 @@ class VpnConnectionErrorHandlerTests {
     @RelaxedMockK private lateinit var networkManager: NetworkManager
     @RelaxedMockK private lateinit var vpnBackendProvider: VpnBackendProvider
     @RelaxedMockK private lateinit var currentUser: CurrentUser
-    @RelaxedMockK private lateinit var errorUIManager: VpnErrorUIManager
     @MockK private lateinit var mockCertificateRepository: CertificateRepository
 
     @RelaxedMockK
@@ -250,7 +248,6 @@ class VpnConnectionErrorHandlerTests {
             getConnectingDomain = getConnectingDomain,
             getOnlineServersForIntent = getOnlineServersForIntent,
             elapsedMs = testScope::currentTime,
-            errorUIManager = errorUIManager,
             observeExcludedLocations = observeExcludedLocations,
         )
     }
