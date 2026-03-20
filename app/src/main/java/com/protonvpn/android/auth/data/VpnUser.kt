@@ -53,6 +53,7 @@ data class VpnUser(
     val expirationTime: Int,
     val planName: String?,
     val planDisplayName: String?,
+    @ColumnInfo(defaultValue = "false") val isBusiness: Boolean,
     val maxTier: Int?,
     val maxConnect: Int,
     val name: String,
@@ -61,9 +62,6 @@ data class VpnUser(
     val sessionId: SessionId,
     val autoLoginId: String?,
 ) {
-    val accountType get() = if (services == 4)
-        "Proton VPN Account" else "Proton Mail Account"
-
     val isFreeUser get() = maxTier == FREE_TIER
     val isBasicUser get() = userTier == BASIC_TIER
     val isUserBasicOrAbove get() = userTier >= BASIC_TIER

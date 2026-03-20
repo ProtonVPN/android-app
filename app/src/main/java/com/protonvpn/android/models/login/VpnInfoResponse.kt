@@ -53,6 +53,7 @@ fun VpnInfoResponse.toVpnUserEntity(
         expirationTime = vpnInfo.expirationTime,
         planName = vpnInfo.tierName,
         planDisplayName = vpnInfo.planDisplayName,
+        isBusiness = vpnInfo.isBusiness,
         maxTier = vpnInfo.maxTier,
         maxConnect = vpnInfo.maxConnect,
         name = vpnInfo.name,

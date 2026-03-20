@@ -39,6 +39,7 @@ object TestVpnUser {
         status = 1,
         planName = "plan",
         planDisplayName = "Plan",
+        isBusiness = false,
         maxTier = maxTier,
         maxConnect = maxConnect,
         name = "name",

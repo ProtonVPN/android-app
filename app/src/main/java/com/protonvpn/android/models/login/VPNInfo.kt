@@ -31,6 +31,7 @@ data class VPNInfo(
     @SerialName(value = "MaxConnect") val maxConnect: Int,
     @SerialName(value = "Name") val name: String,
     @SerialName(value = "GroupID") val groupId: String?,
+    @SerialName(value = "IsBusiness") val isBusiness: Boolean = false,
 ) : java.io.Serializable {
     val userTierUnknown get() = tierName == null && maxConnect > 1
 }
