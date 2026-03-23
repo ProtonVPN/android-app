@@ -48,8 +48,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
+import com.protonvpn.android.auth.usecase.OnboardingEvent
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.bugreport.ui.BugReportActivity
 import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
@@ -58,7 +60,6 @@ import com.protonvpn.android.managed.ui.AutoLoginView
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel.Companion.AppUpdateCheckDelay
 import com.protonvpn.android.redesign.app.ui.nav.MainNavEvent
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
-import com.protonvpn.android.bugreport.ui.BugReportActivity
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.restrictonsupsell.StreamingUpsellRestrictionsDialogTrigger
 import com.protonvpn.android.tv.IsTvCheck
@@ -151,19 +152,19 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
         requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTv())
             ActivityInfo.SCREEN_ORIENTATION_FULL_USER else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        accountViewModel.eventShowOnboarding
+        activityViewModel.eventShowOnboarding
             .flowWithLifecycle(lifecycle)
             .onEach {
-                accountViewModel.onOnboardingShown()
+                activityViewModel.onOnboardingShown()
                 when (it) {
-                    is AccountViewModel.OnboardingEvent.None -> Unit
-                    is AccountViewModel.OnboardingEvent.ShowOnboarding ->
+                    is OnboardingEvent.None -> Unit
+                    is OnboardingEvent.ShowOnboarding ->
                         startActivity(Intent(this, OnboardingActivity::class.java))
 
-                    is AccountViewModel.OnboardingEvent.ShowUpgradeOnboarding ->
+                    is OnboardingEvent.ShowUpgradeOnboarding ->
                         UpgradeOnboardingDialogActivity.launch(this)
 
-                    is AccountViewModel.OnboardingEvent.ShowUpgradeSuccess ->
+                    is OnboardingEvent.ShowUpgradeSuccess ->
                         showUpgradeSuccess.showPlanUpgradeSuccess(
                             this,
                             it.planName,
@@ -219,10 +220,10 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                             onSignIn = { accountViewModel.signIn() },
                             onSignOut = {
                                 coroutineScope.launch {
-                                    if (accountViewModel.showDialogOnSignOut()) {
+                                    if (activityViewModel.showDialogOnSignOut()) {
                                         showSignOutDialog.value = true
                                     } else {
-                                        accountViewModel.signOut()
+                                        activityViewModel.signOut()
                                     }
                                 }
                             }
@@ -244,7 +245,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                         if (showSignOutDialog.value) {
                             SignOutDialog(
                                 hide = { showSignOutDialog.value = false },
-                                signOut = accountViewModel::signOut
+                                signOut = activityViewModel::signOut
                             )
                         }
                         val showReconnectDialogType =

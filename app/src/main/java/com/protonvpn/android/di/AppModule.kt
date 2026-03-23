@@ -53,6 +53,8 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerSched
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
+import com.protonvpn.android.auth.usecase.EventShowOnboarding
+import com.protonvpn.android.auth.usecase.EventShowOnboardingImpl
 import com.protonvpn.android.auth.usecase.IsQrCodeTvLoginFeatureFlagEnabled
 import com.protonvpn.android.auth.usecase.IsQrCodeTvLoginFeatureFlagEnabledImpl
 import com.protonvpn.android.auth.usecase.SetVpnUser
@@ -445,6 +447,9 @@ object AppModule {
 
         @Binds
         fun bindDefaultLocaleProvider(impl: DefaultLocaleProviderImpl): DefaultLocaleProvider
+
+        @Binds
+        fun bindEventShowOnboarding(impl: EventShowOnboardingImpl): EventShowOnboarding
 
         @Binds
         fun bindFeatureFlagContextProvider(provider: VpnFeatureFlagContextProvider): FeatureFlagContextProvider

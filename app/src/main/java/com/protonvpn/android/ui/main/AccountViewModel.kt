@@ -32,26 +32,16 @@ import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.AuthFlowStartHelper
 import com.protonvpn.android.auth.LOGIN_GUEST_HOLE_ID
-import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.managed.AutoLoginManager
-import com.protonvpn.android.managed.AutoLoginState
 import com.protonvpn.android.auth.usecase.HumanVerificationGuestHoleCheck
-import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
-import com.protonvpn.android.userstorage.DontShowAgainStore
+import com.protonvpn.android.managed.AutoLoginManager
+import com.protonvpn.android.managed.AutoLoginState
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
@@ -71,31 +61,22 @@ import me.proton.core.accountmanager.presentation.onAccountDeviceSecretNeeded
 import me.proton.core.accountmanager.presentation.onSessionSecondFactorNeeded
 import me.proton.core.accountmanager.presentation.onUserAddressKeyCheckFailed
 import me.proton.core.accountmanager.presentation.onUserKeyCheckFailed
-import me.proton.core.auth.domain.feature.IsCredentialLessEnabled
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.auth.presentation.entity.AddAccountWorkflow
 import me.proton.core.auth.presentation.onAddAccountResult
-import me.proton.core.plan.domain.usecase.GetDynamicSubscription
 import javax.inject.Inject
 
 @HiltViewModel
 @SuppressWarnings("LongParameterList")
 class AccountViewModel @Inject constructor(
-    private val mainScope: CoroutineScope,
     private val api: ProtonApiRetroFit,
     private val authOrchestrator: AuthOrchestrator,
     private val accountManager: AccountManager,
-    private val currentUser: CurrentUser,
     private val vpnApiClient: VpnApiClient,
     private val guestHole: dagger.Lazy<GuestHole>,
     private val humanVerificationGuestHoleCheck: HumanVerificationGuestHoleCheck,
-    private val logoutUseCase: Logout,
-    private val vpnStatus: VpnStatusProviderUI,
     private val appFeaturesPrefs: AppFeaturesPrefs,
-    private val dontShowAgainStore: DontShowAgainStore,
-    private val isCredentialLessEnabled: IsCredentialLessEnabled,
-    private val isInAppUpgradeAllowedUseCase: IsInAppUpgradeAllowedUseCase,
-    private val getDynamicSubscription: GetDynamicSubscription,
+
     private val authFlowTriggerHelper: AuthFlowStartHelper,
     autoLoginManager: AutoLoginManager,
 ) : ViewModel() {
@@ -109,37 +90,6 @@ class AccountViewModel @Inject constructor(
 
         data object AutoLoginInProgress : State()
         data class AutoLoginError(val e: Throwable) : State()
-    }
-
-    sealed class OnboardingEvent {
-        data object None: OnboardingEvent()
-        data object ShowOnboarding: OnboardingEvent()
-        data object ShowUpgradeOnboarding: OnboardingEvent()
-        data class ShowUpgradeSuccess(val planName: String): OnboardingEvent()
-    }
-
-    val eventShowOnboarding = combine(
-        appFeaturesPrefs.showOnboardingUserIdFlow.distinctUntilChanged(),
-        currentUser.vpnUserFlow.map { it?.userId }.distinctUntilChanged()
-    ) { onboardingUserId, primaryUserId ->
-        if (primaryUserId != null && primaryUserId.id == onboardingUserId) {
-            primaryUserId
-        } else {
-            null
-        }
-    }.filterNotNull().map { userId ->
-        val paidPlanName = getDynamicSubscription(userId)?.name
-        if (paidPlanName != null) {
-            OnboardingEvent.ShowUpgradeSuccess(paidPlanName)
-        } else if (!isCredentialLessEnabled()) {
-            OnboardingEvent.ShowOnboarding
-        } else if (isInAppUpgradeAllowedUseCase()) {
-            OnboardingEvent.ShowUpgradeOnboarding
-        } else {
-            OnboardingEvent.None
-        }
-    }.catch {
-        emit(OnboardingEvent.None)
     }
 
     val eventForceUpdate get() = vpnApiClient.eventForceUpdate
@@ -234,12 +184,6 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    suspend fun showDialogOnSignOut() =
-        dontShowAgainStore.getChoice(DontShowAgainStore.Type.SignOutWhileConnected) ==
-            DontShowAgainStore.Choice.ShowDialog
-        && !vpnStatus.isDisabled
-
-
     suspend fun addAccount() {
         viewModelScope.launch { api.getAvailableDomains() }
         authOrchestrator.startAddAccountWorkflow(Storage.getString(LAST_USER, null))
@@ -251,18 +195,6 @@ class AccountViewModel @Inject constructor(
 
     fun signIn() {
         authOrchestrator.startLoginWorkflow(Storage.getString(LAST_USER, null))
-    }
-
-    fun signOut(notAskAgain: Boolean? = null) = mainScope.launch {
-        if (notAskAgain == true) {
-            dontShowAgainStore.setChoice(
-                DontShowAgainStore.Type.SignOutWhileConnected, DontShowAgainStore.Choice.Positive)
-        }
-        logoutUseCase()
-    }
-
-    fun onOnboardingShown() {
-        appFeaturesPrefs.showOnboardingUserId = null
     }
 
     companion object {

@@ -2,6 +2,8 @@ package com.protonvpn.app.redesign.main_screen.ui
 
 import app.cash.turbine.test
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.EventShowOnboarding
+import com.protonvpn.android.auth.usecase.OnboardingEvent
 import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
@@ -23,8 +25,11 @@ import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -89,12 +94,20 @@ class MainActivityViewModelTests {
         )
 
         viewModel = MainActivityViewModel(
+            mainScope = testScope.backgroundScope,
             autoLoginManager = mockAutoLoginManager,
             serverManager2 = serverManager2,
             uiStateStorage = uiStateStorage,
             vpnConnectionManager = mockVpnConnectionManager,
             vpnStatusViewStateFlow = mockVpnStatusViewStateFlow,
-            shouldShowAppUpdateDotFlow = FakeShouldShowAppUpdateDotFlow()
+            shouldShowAppUpdateDotFlow = FakeShouldShowAppUpdateDotFlow(),
+            dontShowAgainStore = mockk(),
+            logoutUseCase = mockk(),
+            vpnStatus = mockk(),
+            showOnboarding = object : EventShowOnboarding {
+                override val event: Flow<OnboardingEvent> = flowOf(OnboardingEvent.None)
+                override fun onOnboardingShown() = Unit
+            },
         )
     }
 

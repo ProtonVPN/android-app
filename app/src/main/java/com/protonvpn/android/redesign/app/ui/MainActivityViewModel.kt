@@ -21,6 +21,8 @@ package com.protonvpn.android.redesign.app.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.auth.usecase.EventShowOnboarding
+import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.redesign.app.ui.nav.MainNavEvent
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
@@ -29,10 +31,13 @@ import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.update.ShouldShowAppUpdateDotFlow
+import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -52,12 +57,17 @@ import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
+    private val mainScope: CoroutineScope,
     vpnStatusViewStateFlow: VpnStatusViewStateFlow,
     private val vpnConnectionManager: VpnConnectionManager,
     serverManager2: ServerManager2,
     private val autoLoginManager: AutoLoginManager,
     uiStateStorage: UiStateStorage,
     shouldShowAppUpdateDotFlow: ShouldShowAppUpdateDotFlow,
+    private val dontShowAgainStore: DontShowAgainStore,
+    private val logoutUseCase: Logout,
+    private val vpnStatus: VpnStatusProviderUI,
+    private val showOnboarding: EventShowOnboarding,
 ) : ViewModel() {
     private val uiStateFlow = uiStateStorage.state
         .shareIn(viewModelScope, SharingStarted.WhileSubscribed(5000), replay = 1)
@@ -92,6 +102,8 @@ class MainActivityViewModel @Inject constructor(
     // Must be fast, it's used in SplashScreen.setKeepOnScreenCondition
     val isMinimalStateReady: Boolean get() = isMinimalStateReadyFlow.value
 
+    val eventShowOnboarding = showOnboarding.event
+
     private val _navEventsFlow = MutableSharedFlow<MainNavEvent>(extraBufferCapacity = 1)
 
     val navEventsFlow: SharedFlow<MainNavEvent> = _navEventsFlow.asSharedFlow()
@@ -109,6 +121,21 @@ class MainActivityViewModel @Inject constructor(
             _navEventsFlow.emit(value = navEvent)
         }
     }
+
+    suspend fun showDialogOnSignOut() =
+        dontShowAgainStore.getChoice(DontShowAgainStore.Type.SignOutWhileConnected) ==
+                DontShowAgainStore.Choice.ShowDialog
+                && !vpnStatus.isDisabled
+
+    fun signOut(notAskAgain: Boolean? = null) = mainScope.launch {
+        if (notAskAgain == true) {
+            dontShowAgainStore.setChoice(
+                DontShowAgainStore.Type.SignOutWhileConnected, DontShowAgainStore.Choice.Positive)
+        }
+        logoutUseCase()
+    }
+
+    fun onOnboardingShown() = showOnboarding.onOnboardingShown()
 
     companion object {
         val AppUpdateCheckDelay = 1.seconds
