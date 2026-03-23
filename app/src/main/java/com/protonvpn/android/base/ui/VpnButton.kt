@@ -55,6 +55,7 @@ fun VpnSolidButton(
         onClick = onClick,
         enabled = enabled,
         loading = isLoading,
+        contained = false,
         colors = colors
     ) {
         VpnButtonContent(

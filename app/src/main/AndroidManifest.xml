@@ -154,6 +154,23 @@
         <activity
             android:name=".ui.vpn.NoVpnPermissionActivity" />
         <!-- nosemgrep: java.android.security.exported_activity.exported_activity -->
+        <activity
+            android:name=".auth.ui.SessionForkConfirmationActivity"
+            android:theme="@style/ProtonTheme.Splash.Vpn.DarkPreferred"
+            android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="https" />
+                <data android:host="account.proton.me" />
+                <data android:pathPrefix="/vpn/tv/code/" />
+            </intent-filter>
+        </activity>
+
+        <!-- nosemgrep: java.android.security.exported_activity.exported_activity -->
         <activity-alias android:name="ch.protonvpn.android.RoutingActivity"
             android:targetActivity=".redesign.app.ui.MainActivity"
             android:label="@string/app_name"
