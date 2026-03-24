@@ -21,34 +21,71 @@ package com.protonvpn.android.auth.ui
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.auth.ui.SessionForkConfirmationViewModel.ViewState
-import com.protonvpn.android.base.ui.largeScreenContentPadding
+import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.bugreport.ui.BugReportActivity
+import com.protonvpn.android.redesign.app.ui.VpnApp
+import com.protonvpn.android.ui.main.MainActivityHelper
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import me.proton.core.compose.component.ProtonCenteredProgress
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class SessionForkConfirmationActivity : ComponentActivity() {
+class SessionForkConfirmationActivity : FragmentActivity() {
+
+    @Inject lateinit var logoutUseCase: Logout
+    @Inject lateinit var mainScope: CoroutineScope
 
     private val viewModel by viewModels<SessionForkConfirmationViewModel>()
+    private val accountViewModel by viewModels<SessionForkConfirmationAccountViewModel>()
+
+    private val activityHelper = object : MainActivityHelper(this) {
+        override suspend fun onLoginNeeded() {
+            // UI will display sign in/sign up buttons when login is needed.
+        }
+
+        override suspend fun onReady() {
+            // UI will display the appropriate state.
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val splashScreen = installSplashScreen()
         enableEdgeToEdgeVpn()
-        splashScreen.setKeepOnScreenCondition { viewModel.viewState.value == ViewState.Initializing }
 
-        viewModel.start(intent.data)
+        // Keep this state outside the composable to use it in splashScreen.setKeepOnScreenCondition
+        var accountState by mutableStateOf<AccountViewModel.State>(AccountViewModel.State.Processing)
+        accountViewModel.state
+            .flowWithLifecycle(lifecycle)
+            .onEach { accountState = it }
+            .launchIn(lifecycleScope)
+
+        splashScreen.setKeepOnScreenCondition {
+            viewModel.viewState.value == ViewState.Initial &&
+                accountState in arrayOf(AccountViewModel.State.Processing, AccountViewModel.State.Initial)
+        }
+
+        activityHelper.onCreate(accountViewModel)
 
         setContent {
             VpnTheme {
@@ -56,20 +93,66 @@ class SessionForkConfirmationActivity : ComponentActivity() {
                 if (viewState is ViewState.Finished) {
                     LaunchedEffect(Unit) { finish() }
                 }
-                SessionForkConfirmation(
-                    viewState = viewState,
-                    onConfirm = viewModel::confirmFork,
-                    onClose = ::finish,
-                    onReportBug = ::openBugReport,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .largeScreenContentPadding()
-                )
+                when (accountState) {
+                    AccountViewModel.State.Ready -> {
+                        VpnApp(
+                            onSignOut = ::logout,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            // Call start() only after VpnUser has been successfully fetched.
+                            LaunchedEffect(Unit) { viewModel.onUserSignedIn(intent.data) }
+                            SessionForkConfirmation(
+                                viewState = viewState,
+                                onConfirm = viewModel::confirmFork,
+                                onClose = ::finish,
+                                onReportBug = ::openBugReport,
+                                modifier = Modifier.fillMaxSize(),
+                            )
+                        }
+                    }
+
+                    AccountViewModel.State.Initial -> {}
+                    AccountViewModel.State.LoginNeeded -> {
+                        SessionForkSignIn(
+                            onSignUp = accountViewModel::signUp,
+                            onSignIn = accountViewModel::signIn,
+                            onTermsAndConditions = {},
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
+
+                    AccountViewModel.State.Processing,
+                    AccountViewModel.State.StepNeeded -> {
+                        ProtonCenteredProgress(Modifier.fillMaxSize())
+                    }
+
+                    is AccountViewModel.State.AutoLoginError,
+                    AccountViewModel.State.AutoLoginInProgress -> {
+                        SessionForkConfirmation(
+                            viewState = ViewState.ForkError.Fatal,
+                            onConfirm = viewModel::confirmFork,
+                            onClose = ::finish,
+                            onReportBug = ::openBugReport,
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
+                }
             }
         }
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        activityHelper.onNewIntent(accountViewModel)
+    }
+
     private fun openBugReport() {
         startActivity(Intent(this, BugReportActivity::class.java))
+    }
+
+    private fun logout() {
+        mainScope.launch {
+            logoutUseCase()
+        }
     }
 }

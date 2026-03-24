@@ -45,6 +45,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import me.proton.core.account.domain.entity.Account
 import me.proton.core.account.domain.entity.isDisabled
 import me.proton.core.account.domain.entity.isReady
 import me.proton.core.account.domain.entity.isStepNeeded
@@ -103,7 +104,7 @@ abstract class AccountViewModel(
                 AutoLoginState.Disabled -> {
                     accountManager.getAccounts().map { accounts ->
                         when {
-                            accounts.isEmpty() || accounts.all { it.isDisabled() } -> {
+                            accounts.isEmpty() || accounts.none { isAccountAccepted(it) } -> {
                                 setupGuestHoleForLoginAndSignup()
                                 State.LoginNeeded
                             }
@@ -142,7 +143,8 @@ abstract class AccountViewModel(
             }
             setOnSignUpResult { result ->
                 if (result != null) {
-                    onAccountAddSuccess(result.userId) }
+                    onAccountAddSuccess(result.userId)
+                }
             }
             accountManager.observe(activity.lifecycle, minActiveState = Lifecycle.State.CREATED)
                 .onSessionSecondFactorNeeded { startSecondFactorWorkflow(it) }
@@ -189,6 +191,10 @@ abstract class AccountViewModel(
     }
 
     protected open fun onAccountAddSuccess(userId: String) {
+    }
+
+    protected open suspend fun isAccountAccepted(account: Account): Boolean {
+        return !account.isDisabled()
     }
 
     companion object {

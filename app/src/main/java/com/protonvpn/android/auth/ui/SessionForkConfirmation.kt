@@ -51,8 +51,8 @@ import com.protonvpn.android.base.ui.TopAppBarCloseIcon
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnTextButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
+import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.base.ui.theme.VpnTheme
-import com.protonvpn.android.utils.DebugUtils
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
@@ -75,6 +75,7 @@ fun SessionForkConfirmation(
             )
         }
 
+        ViewState.ErrorBusinessUser,
         ViewState.ErrorUserCodeInvalid -> {
             FinishPage(
                 imageRes = R.drawable.session_fork_error,
@@ -157,12 +158,7 @@ fun SessionForkConfirmation(
             }
         }
 
-        ViewState.ErrorBusinessUser -> TODO()
-
-        ViewState.Initializing -> {
-            DebugUtils.debugAssert("Should never happen") { false }
-        }
-
+        ViewState.Initial,
         ViewState.Finished -> Unit
     }
 }
@@ -183,7 +179,9 @@ private fun SignIn(
         },
         bottomBar = {
             Column(
-                Modifier.padding(16.dp),
+                Modifier
+                    .largeScreenContentPadding()
+                    .padding(16.dp),
             ) {
                 VpnSolidButton(
                     stringResource(R.string.login),
@@ -202,7 +200,9 @@ private fun SignIn(
     ) { paddingValues ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier
+                .largeScreenContentPadding()
+                .padding(paddingValues)
         ) {
             VerticalSpacer(height = 16.dp)
             Image(
@@ -263,7 +263,8 @@ private fun FinishPage(
             }
         },
         contentWindowInsets = WindowInsets.systemBars,
-        modifier = modifier,
+        modifier = modifier
+            .largeScreenContentPadding(),
     ) { paddingValues ->
         Column(
             modifier = Modifier

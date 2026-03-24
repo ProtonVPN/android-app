@@ -27,15 +27,12 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
-import com.protonvpn.android.auth.usecase.VpnLogin
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.databinding.ActivityTvMainBinding
-import com.protonvpn.android.redesign.app.ui.VpnApp
 import com.protonvpn.android.redesign.app.ui.VpnAppViewModel
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.login.TvPostLoginFragment
-import com.protonvpn.android.auth.ui.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job

@@ -40,20 +40,21 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonTextButton
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarBackIcon
 import com.protonvpn.android.base.ui.TopAppBarTitle
 import com.protonvpn.android.base.ui.VpnSolidButton
-import com.protonvpn.android.base.ui.indicators.StepsProgressIndicator
 import com.protonvpn.android.base.ui.collectAsEffect
+import com.protonvpn.android.base.ui.indicators.StepsProgressIndicator
 import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.base.ui.nav.addToGraph
 import com.protonvpn.android.bugreport.ui.BugReportNav
 import com.protonvpn.android.bugreport.ui.BugReportViewModel
+import com.protonvpn.android.bugreport.ui.BugReportViewModel.BugReportSteps
 import com.protonvpn.android.bugreport.ui.steps.form.BugReportFormScreen
-import com.protonvpn.android.update.AppUpdateInfo
 import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -230,5 +231,18 @@ private fun BugReportStepBottomBar(
                     .imePadding(),
             )
         }
+    }
+}
+
+@ProtonVpnPreview
+@Composable
+private fun BugReportBottomFormUploading() {
+    ProtonVpnPreview {
+        BugReportStepBottomBar(
+            step = BugReportSteps.Form,
+            isLoading = true,
+            onSubmitReportClick = {},
+            onContactUsClick = {},
+        )
     }
 }

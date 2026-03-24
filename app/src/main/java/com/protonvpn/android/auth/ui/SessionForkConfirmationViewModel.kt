@@ -46,7 +46,7 @@ class SessionForkConfirmationViewModel @Inject constructor(
 ) : ViewModel() {
 
     sealed interface ViewState {
-        object Initializing : ViewState
+        object Initial : ViewState
         data class AskForkConfirmation(val isLoading: Boolean) : ViewState
         object ErrorUserCodeInvalid : ViewState
         object ErrorBusinessUser : ViewState
@@ -61,14 +61,16 @@ class SessionForkConfirmationViewModel @Inject constructor(
 
     private var userCode: String? = null
 
-    val viewState = MutableStateFlow<ViewState>(ViewState.Initializing)
+    val viewState = MutableStateFlow<ViewState>(ViewState.Initial)
 
-    fun start(uri: Uri?) {
+    fun onUserSignedIn(qrCodeUri: Uri?) {
         viewModelScope.launch {
             if (isQrCodeTvLoginFeatureFlagEnabled()) {
-                // TODO: handle B2B users
-                // TODO: log in if necessary.
-                viewState.value = confirmationStep(uri)
+                viewState.value = if (currentUser.vpnUser()?.isBusiness == true) {
+                    ViewState.ErrorBusinessUser
+                } else {
+                    confirmationStep(qrCodeUri)
+                }
             } else {
                 // No regular user should be scanning QR codes when the FF is disabled.
                 viewState.value = ViewState.Finished

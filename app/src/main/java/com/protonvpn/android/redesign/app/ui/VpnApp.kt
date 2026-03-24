@@ -23,18 +23,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.redesign.app.ui.VpnAppViewModel.LoaderState
-import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.ui.noconnections.NoConnectionsScreen
 
 @Composable
 fun VpnApp(
-    coreNavigation: CoreNavigation,
-    settingsChangeViewModel: SettingsChangeViewModel,
+    onSignOut: () -> Unit,
     modifier: Modifier = Modifier,
+    appContent: @Composable (Modifier) -> Unit
 ) {
-    val rootController = rememberNavController()
     val viewModel: VpnAppViewModel = hiltViewModel()
 
     when (val state = viewModel.loadingState.collectAsState().value) {
@@ -42,7 +39,7 @@ fun VpnApp(
             NoConnectionsScreen(
                 state = state,
                 onRefresh = state.retryAction,
-                onLogout = coreNavigation.onSignOut,
+                onLogout = onSignOut,
                 modifier = modifier,
             )
         }
@@ -52,11 +49,7 @@ fun VpnApp(
         }
 
         LoaderState.Loaded -> {
-            RootNav(rootController).NavHost(
-                modifier = modifier,
-                coreNavigation = coreNavigation,
-                settingsChangeViewModel = settingsChangeViewModel,
-            )
+            appContent(modifier)
         }
 
         null -> Unit

@@ -33,10 +33,9 @@ interface IsQrCodeTvLoginFeatureFlagEnabled : VpnFeatureFlag
 class IsQrCodeTvLoginFeatureFlagEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
     featureFlagManager: FeatureFlagManager
-) : IsQrCodeTvLoginFeatureFlagEnabled, VpnFeatureFlagImpl(
-    currentUser, featureFlagManager, FeatureId("QrCodeTvLogin")
-)
+) : IsQrCodeTvLoginFeatureFlagEnabled,
+    VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("QrCodeTvLogin"))
 
-class FakeIsQrCodeTvLoginFeatureFlag(
+class FakeIsQrCodeTvLoginFeatureFlagEnabled(
     isEnabled: Boolean
 ) : IsQrCodeTvLoginFeatureFlagEnabled, FakeVpnFeatureFlag(isEnabled)

@@ -46,8 +46,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
+import com.protonvpn.android.auth.ui.AccountViewModel
 import com.protonvpn.android.auth.usecase.OnboardingEvent
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
@@ -59,6 +61,7 @@ import com.protonvpn.android.managed.ui.AutoLoginErrorView
 import com.protonvpn.android.managed.ui.AutoLoginView
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel.Companion.AppUpdateCheckDelay
 import com.protonvpn.android.redesign.app.ui.nav.MainNavEvent
+import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.restrictonsupsell.StreamingUpsellRestrictionsDialogTrigger
@@ -66,7 +69,6 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
 import com.protonvpn.android.ui.drawer.LogActivity
-import com.protonvpn.android.auth.ui.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.ui.main.MobileMainAccountViewModel
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
@@ -235,11 +237,17 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                             CompositionLocalProvider(
                                 LocalVpnUiDelegate provides this@MainActivity.vpnActivityDelegate
                             ) {
+                                val rootController = rememberNavController()
                                 VpnApp(
-                                    coreNavigation,
-                                    settingsChangeViewModel,
+                                    onSignOut = { coreNavigation.onSignOut() },
                                     modifier =  Modifier.semantics { testTagsAsResourceId = true }
-                                )
+                                ) { modifier ->
+                                    RootNav(rootController).NavHost(
+                                        modifier = modifier,
+                                        coreNavigation = coreNavigation,
+                                        settingsChangeViewModel = settingsChangeViewModel,
+                                    )
+                                }
                             }
                         }
 
