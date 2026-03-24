@@ -81,7 +81,7 @@ class VpnDns(
 
     @VisibleForTesting
     suspend fun lookupSuspend(hostname: String): List<InetAddress> = coroutineScope {
-        if (!inTunnel.value || customLookupNotAvailable()) {
+        val result = if (!inTunnel.value || customLookupNotAvailable()) {
             systemResolver(hostname)
         } else {
             // When connected with VPN protocol but not authenticated, system's private DNS
@@ -97,8 +97,20 @@ class VpnDns(
                     systemResolver(hostname)
                 }.onAwait { it }
             }
-        }.also {
-            if (it.isEmpty())
+        }
+        result.ifEmpty {
+            val fallback = when (hostname) {
+                "dns.google" -> "8.8.8.8"
+                "dns.quad9.net" -> "9.9.9.9"
+                "dns9.quad9.net" -> "9.9.9.9"
+                "dns10.quad9.net" -> "9.9.9.10"
+                "dns11.quad9.net" -> "9.9.9.11"
+                "dns12.quad9.net" -> "9.9.9.12"
+                else -> null
+            }
+            if (fallback != null)
+                InetAddress.getAllByName(fallback).toList()
+            else
                 throw UnknownHostException("Unable to resolve host \"$hostname\". Please check your connection.")
         }
     }

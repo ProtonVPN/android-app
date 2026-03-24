@@ -49,11 +49,6 @@ class VpnDnsTests {
         delay(100)
         return listOf(InetAddress.getByAddress(byteArrayOf(1,1,1,1)))
     }
-    suspend fun failingSystemResolver(hostname: String): List<InetAddress> {
-        calledSystem = true
-        delay(100)
-        throw UnknownHostException("System DNS failed")
-    }
     fun systemResolver(hostname: String): List<InetAddress> {
         calledSystem = true
         return listOf(InetAddress.getByAddress(byteArrayOf(1,1,1,1)))
@@ -99,5 +94,13 @@ class VpnDnsTests {
         assertTrue(calledProton)
         assertEquals(listOf(InetAddress.getByAddress(byteArrayOf(2,2,2,2))), result)
         assertEquals(SYSTEM_DNS_HEAD_START, currentTime)
+    }
+
+    @Test
+    fun `GIVEN resolvers fail THEN hardcoded values for known DoH providers is used`() = testScope.runTest {
+        val dns = VpnDns(this, inTunnel = MutableStateFlow(false),
+            testDispatcherProvider, { emptyList() }, { emptyList() })
+        val result = dns.lookupSuspend("dns.google")
+        assertEquals(listOf(InetAddress.getByAddress(byteArrayOf(8,8,8,8))), result)
     }
 }
