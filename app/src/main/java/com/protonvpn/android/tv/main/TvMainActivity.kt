@@ -35,7 +35,7 @@ import com.protonvpn.android.redesign.app.ui.VpnAppViewModel
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.login.TvPostLoginFragment
-import com.protonvpn.android.ui.main.AccountViewModel
+import com.protonvpn.android.auth.ui.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job

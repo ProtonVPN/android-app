@@ -25,7 +25,7 @@ import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.auth.AuthFlowStartHelper
 import com.protonvpn.android.auth.usecase.HumanVerificationGuestHoleCheck
 import com.protonvpn.android.managed.AutoLoginManager
-import com.protonvpn.android.ui.main.AccountViewModel
+import com.protonvpn.android.auth.ui.AccountViewModel
 import dagger.Lazy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import me.proton.core.accountmanager.domain.AccountManager

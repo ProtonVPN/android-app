@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Proton AG
+ * Copyright (c) 2026. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,9 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
-package com.protonvpn.android.ui.main
+package com.protonvpn.android.auth.ui
 
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
@@ -37,7 +35,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.managed.AutoLoginState
 import com.protonvpn.android.utils.Storage
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import dagger.Lazy
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flatMapLatest
@@ -62,7 +60,6 @@ import me.proton.core.accountmanager.presentation.onUserKeyCheckFailed
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.auth.presentation.entity.AddAccountWorkflow
 import me.proton.core.auth.presentation.onAddAccountResult
-import javax.inject.Inject
 
 @SuppressWarnings("LongParameterList")
 abstract class AccountViewModel(
@@ -70,7 +67,7 @@ abstract class AccountViewModel(
     private val authOrchestrator: AuthOrchestrator,
     private val accountManager: AccountManager,
     private val vpnApiClient: VpnApiClient,
-    private val guestHole: dagger.Lazy<GuestHole>,
+    private val guestHole: Lazy<GuestHole>,
     private val humanVerificationGuestHoleCheck: HumanVerificationGuestHoleCheck,
     private val authFlowTriggerHelper: AuthFlowStartHelper,
     autoLoginManager: AutoLoginManager,
@@ -123,7 +120,7 @@ abstract class AccountViewModel(
             scope = viewModelScope,
             // Lazily is needed to observe state change, even in the background, to ensure that the
             // subscriber will always get the latest value, even if they follow different lifecycle.
-            started = SharingStarted.Lazily,
+            started = SharingStarted.Companion.Lazily,
             initialValue = State.Processing
         )
 

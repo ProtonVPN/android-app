@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.protonvpn.android.auth.ui.AccountViewModel
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.launchAndCollectIn
 import kotlinx.coroutines.flow.launchIn

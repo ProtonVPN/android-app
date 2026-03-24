@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.auth.usecase
 
-import com.protonvpn.android.ui.main.AccountViewModel.Companion.LAST_USER
+import com.protonvpn.android.auth.ui.AccountViewModel.Companion.LAST_USER
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
