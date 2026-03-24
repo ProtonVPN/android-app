@@ -1551,7 +1551,7 @@
     <string name="info_p2p_why_description_speed">Zvýšená rychlost nahrávání a stahování</string>
     <string name="info_p2p_why_description_logs">Žádné logy aktivity</string>
     <string name="info_p2p_why_description_hide">Skryjte svoji IP adresu přes poskytovatelem internetu a ostatními</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing využívá virtuální servery k poskytování VPN v těžko dostupných zemích.\n\nKdyž se připojíte k serveru Smart Routing, bude se zdát, že prohlížíte ve své cílové zemi, i když je fyzický server umístěn jinde.\n\nSmart Routing se obvykle používá k obcházení zákonů potlačujících ochranu soukromí a jiných forem cenzury.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
     <string name="notifications_channel_connection_status_name">Connection status</string>
     <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
     <string name="notifications_channel_connection_errors_name">Connection errors</string>

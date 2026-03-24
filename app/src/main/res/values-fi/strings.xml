@@ -1479,7 +1479,7 @@
     <string name="info_p2p_why_description_speed">Korkeammat lähetys- ja latausnopeudet</string>
     <string name="info_p2p_why_description_logs">Ei toimintalokeja</string>
     <string name="info_p2p_why_description_hide">Piilota IP-osoitteesi palveluntarjoajaltasi ja vertaisilta</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing käyttää virtuaalipalvelimia tarjotakseen VPN-verkon kattavuuden vaikeasti saavutettavissa maissa.\n\nKun muodostat yhteyden Smart Routing -palvelimeen, näytät selaavasi kohdemaastasi, vaikka fyysinen palvelin sijaitsee muualla.  \n\nSmart Routingia käytetään yleensä yksityisyydensuojan vastaisten lakien ja muunlaisen sensuurin kiertämiseen</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing mahdollistaa meidän tarjota VPN-verkon kattavuuden vaikeasti saavutettavissa maissa.\n\nKun muodostat yhteyden Smart Routing -palvelimeen, näytät selaavasi kohdemaastasi, vaikka fyysinen palvelin sijaitsee muualla.  \n\nSmart Routingia käytetään yleensä yksityisyydensuojan vastaisten lakien ja muunlaisen sensuurin kiertämiseen</string>
     <string name="notifications_channel_connection_status_name">Yhteyden tila</string>
     <string name="notifications_channel_connection_status_description">Näyttää käytössä olevan palvelimen ja VPN-yhteyden nopeuden.</string>
     <string name="notifications_channel_connection_errors_name">Yhteysvirheet</string>

@@ -1479,7 +1479,7 @@
     <string name="info_p2p_why_description_speed">Megnövelt feltöltési és letöltési sebesség</string>
     <string name="info_p2p_why_description_logs">Nincs naplózás</string>
     <string name="info_p2p_why_description_hide">IP-címének elrejtése az internet szolgáltató és a kapcsolódó felek elől</string>
-    <string name="info_dialog_smart_routing_description">A Smart Routing virtuális szervereket használ, hogy VPN-lefedettséget biztosítson a nehezen elérhető országokban.\n\nAmikor csatlakozik egy Smart Routing szerverhez, úgy tűnik, hogy a célországban böngészik, még akkor is, ha a fizikai szerver máshol található.  \n\nA Smart Routingot általában a magánszférát megsértő törvények és a cenzúra egyéb formáinak kijátszására használják.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
     <string name="notifications_channel_connection_status_name">Connection status</string>
     <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
     <string name="notifications_channel_connection_errors_name">Connection errors</string>

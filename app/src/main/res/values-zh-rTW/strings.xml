@@ -1443,7 +1443,7 @@
     <string name="info_p2p_why_description_speed">增加上下載時的速度</string>
     <string name="info_p2p_why_description_logs">無活動日誌</string>
     <string name="info_p2p_why_description_hide">向您的網絡服務供應商和其他下載者藏您的 IP 位址</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing 透過虛擬伺服器，在難以到達的國家/地區提供 VPN 連線。\n\n當你連上Smart Routing 伺服器時，即便伺服器實際上位於其他地方，你瀏覽網站時看起來也會像是在你想連線的國家。\n\nSmart Routing 經常被用來繞過反隱私法和其他形式的網路審查。</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
     <string name="notifications_channel_connection_status_name">連線狀態</string>
     <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
     <string name="notifications_channel_connection_errors_name">連線錯誤</string>

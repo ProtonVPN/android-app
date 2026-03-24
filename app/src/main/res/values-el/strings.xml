@@ -1479,7 +1479,7 @@
     <string name="info_p2p_why_description_speed">Αυξημένες ταχύτητες μεταφόρτωσης και λήψης</string>
     <string name="info_p2p_why_description_logs">Χωρίς αρχεία καταγραφής</string>
     <string name="info_p2p_why_description_hide">Απόκρυψη της διεύθυνσης IP σας από τον πάροχο υπηρεσιών και τους συναδέλφους σας</string>
-    <string name="info_dialog_smart_routing_description">Το Smart Routing χρησιμοποιεί εικονικούς διακομιστές για να παρέχει κάλυψη VPN σε δυσπρόσιτες χώρες.\n\nΌταν συνδέεστε σε ένα Smart Routing διακομιστή, θα φαίνεται ότι περιηγείστε στη χώρα προορισμού σας, παρόλο που ο φυσικός διακομιστής βρίσκεται αλλού.  \n\nΤο Smart Routing χρησιμοποιείται συνήθως για την παράκαμψη των νόμων κατά της ιδιωτικότητας και άλλων μορφών λογοκρισίας.</string>
+    <string name="info_dialog_smart_routing_description">Το Smart Routing μας επιτρέπει να παρέχουμε κάλυψη VPN σε δυσπρόσιτες χώρες.\n\nΌταν συνδέεστε σε ένα Smart Routing διακομιστή, θα φαίνεται ότι περιηγείστε στη χώρα προορισμού σας, παρόλο που ο φυσικός διακομιστής βρίσκεται αλλού.  \n\nΤο Smart Routing χρησιμοποιείται συνήθως για την παράκαμψη των νόμων κατά της ιδιωτικότητας και άλλων μορφών λογοκρισίας.</string>
     <string name="notifications_channel_connection_status_name">Κατάσταση σύνδεσης</string>
     <string name="notifications_channel_connection_status_description">Δείχνει σε ποιον διακομιστή είστε συνδεδεμένοι και την ταχύτητα του VPN σας.</string>
     <string name="notifications_channel_connection_errors_name">Σφάλματα σύνδεσης</string>

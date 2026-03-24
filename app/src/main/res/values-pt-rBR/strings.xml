@@ -1479,7 +1479,7 @@
     <string name="info_p2p_why_description_speed">Velocidades aumentadas de upload e download</string>
     <string name="info_p2p_why_description_logs">Sem registros de atividades</string>
     <string name="info_p2p_why_description_hide">Oculte seu endereço IP do seu provedor de serviços e de seus pares</string>
-    <string name="info_dialog_smart_routing_description">O Smart Routing utiliza servidores virtuais para fornecer cobertura VPN em países de difícil acesso.\n\nAo se conectar a um servidor Smart Routing, você parecerá estar navegando no seu país de destino, mesmo que o servidor físico esteja localizado em outro lugar.  \n\nO Smart Routing é normalmente utilizado para contornar leis anti-privacidade e outras formas de censura.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
     <string name="notifications_channel_connection_status_name">Status da conexão</string>
     <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
     <string name="notifications_channel_connection_errors_name">Erros de conexão</string>

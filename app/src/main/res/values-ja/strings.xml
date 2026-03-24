@@ -1443,7 +1443,7 @@
     <string name="info_p2p_why_description_speed">アップロードとダウンロードの速度が向上しました</string>
     <string name="info_p2p_why_description_logs">アクティビティログがありません</string>
     <string name="info_p2p_why_description_hide">サービスプロバイダーやピアから IP アドレスを隠します</string>
-    <string name="info_dialog_smart_routing_description">Smart Routingは、仮想サーバーを使用して、アクセスが困難な国でも VPN カバレッジを提供します。\n\nSmart Routing サーバーに接続すると、物理サーバーが別の場所にある場合でも、目的の国でブラウジングしているように見えます。  \n\nSmart Routingは通常、反プライバシー法やその他の形式の検閲を回避するために使用されます。</string>
+    <string name="info_dialog_smart_routing_description">Smart Routingは、仮想サーバーにより、アクセスが困難な国でも VPN カバレッジを提供します。\n\nSmart Routing サーバーに接続すると、物理サーバーが別の場所にある場合でも、目的の国でブラウジングしているように見えます。 \n\nSmart Routingは通常、反プライバシー法やその他の形式の検閲を回避するために使用されます。</string>
     <string name="notifications_channel_connection_status_name">Connection status</string>
     <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
     <string name="notifications_channel_connection_errors_name">Connection errors</string>

@@ -1479,7 +1479,7 @@
     <string name="info_p2p_why_description_speed">გაზრდილი ატვირთვის და გადმოწერის სიჩქარეები</string>
     <string name="info_p2p_why_description_logs">აქტივობის ჟურნალის შესახებ</string>
     <string name="info_p2p_why_description_hide">დამალეთ თქვენი IP მისამართი თქვენი ინტერნეტპროვაიდერისგან და პარტნორებისგან</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing იყენებს ვირტუალურ სერვერბს, რომ  VPN დაფარვა ძნელად ხელმსაწვდომ ქვეყნებშიც იყო ხელმისაწვდომი.\n\nროცა უერთდებით Smart Routing სერვერს, გამოჩნდება, რომ თქვენ სამიზნე ქვეყანაში ხართ მაშინაც კი, თუ ფიზიკური სერვერი სადმე სხვაგანაა.  \n\nSmart Routing, ჩვეულებრივ, ანტი-კონფიდენციალობის კანონებისა და სხვა ფორმის ცენზურის თავის დასაღწევად გამოიყენება.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
     <string name="notifications_channel_connection_status_name">შეერთების სტატუსი</string>
     <string name="notifications_channel_connection_status_description">აჩვენებს, თუ რომელ სერვერთან ხართ დაკავშირებული და თქვენს VPN სიჩქარეს.</string>
     <string name="notifications_channel_connection_errors_name">შეერთების შეცდომები</string>

@@ -1445,7 +1445,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="info_p2p_why_description_speed">업로드와 다운로드 속도가 더욱 증가됩니다</string>
     <string name="info_p2p_why_description_logs">활동 로그가 없습니다</string>
     <string name="info_p2p_why_description_hide">사용자의 IP 주소를 서비스 제공자와 피어로부터 숨깁니다</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing은 가상 서버를 이용하여 접근이 어려운 국가에 VPN 커버리지를 제공합니다.\n\nSmart Routing 서버에 접속했다면 물리적 서버의 위치와 상관없이 목적지 국가에서 탐색하는 것으로 보이게 됩니다.\n\nSmart Routing은 보통 안티-프라이버시 법령과 기타 유형의 검열을 우회하는 데 쓸모가 있습니다.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
     <string name="notifications_channel_connection_status_name">Connection status</string>
     <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
     <string name="notifications_channel_connection_errors_name">Connection errors</string>

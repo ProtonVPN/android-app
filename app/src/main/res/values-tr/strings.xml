@@ -1479,7 +1479,7 @@
     <string name="info_p2p_why_description_speed">Artırılmış yükleme ve indirme hızları</string>
     <string name="info_p2p_why_description_logs">Etkinlik kaydı tutulmaz</string>
     <string name="info_p2p_why_description_hide">IP adresinizi hizmet sağlayıcınızdan ve eşlerinizden gizleyin</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing, ulaşılması zor ülkelerde VPN erişimi sağlamak için sanal sunucuları kullanır.\n\nBir Smart Routing sunucusuna bağlandığınızda, fiziksel sunucu başka bir yerde bulunsa bile, hedef ülkenizde geziniyormuş gibi görünürsünüz.  \n\nSmart Routing genellikle gizlilik karşıtı yasaları ve diğer sansür biçimlerini aşmak için kullanılır.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing, ulaşılması zor ülkelerde VPN erişimi sağlamamıza olanak tanır.\n\nBir Smart Routing sunucusuna bağlandığınızda, fiziksel sunucu başka bir yerde olsa da, hedef ülkede geziniyormuş gibi görünürsünüz.  \n\nSmart Routing genellikle gizlilik karşıtı yasaları ve diğer sansür biçimlerini aşmak için kullanılır.</string>
     <string name="notifications_channel_connection_status_name">Bağlantı durumu</string>
     <string name="notifications_channel_connection_status_description">Bağlı olduğunuz sunucuyu ve VPN hızınızı gösterir.</string>
     <string name="notifications_channel_connection_errors_name">Bağlantı sorunları</string>

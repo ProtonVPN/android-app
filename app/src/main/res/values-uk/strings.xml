@@ -1551,7 +1551,7 @@
     <string name="info_p2p_why_description_speed">Збільшена швидкість завантаження і вивантаження</string>
     <string name="info_p2p_why_description_logs">Без журналів активності</string>
     <string name="info_p2p_why_description_hide">Приховайте вашу IP-адресу від постачальника послуг та однорангових вузлів</string>
-    <string name="info_dialog_smart_routing_description">Технологія Smart Routing використовує віртуальні сервери для забезпечення покриття VPN у країнах з ускладненим доступом.\n\nПід час з\'єднання з сервером Smart Routing здаватиметься, наче ви користуєтесь інтернетом у країні призначення, навіть попри інше фізичне розташування сервера.  \n\nSmart Routing зазвичай використовується для обходу законодавчих обмежень щодо приватності та інших форм цензури.</string>
+    <string name="info_dialog_smart_routing_description">Розумна Маршрутизація дозволяє нам забезпечувати покриття VPN у важкодоступних країнах.\n\nКоли ви підключаєтеся до сервера Розумної Маршрутизації, виглядатиме так, ніби ви переглядаєте веб-сторінки у своїй країні призначення, навіть якщо фізичний сервер розташований в іншому місці.\n\nРозумна Маршрутизація зазвичай використовується для обходу законів про порушення конфіденційності та інших форм цензури.</string>
     <string name="notifications_channel_connection_status_name">Connection status</string>
     <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
     <string name="notifications_channel_connection_errors_name">Connection errors</string>

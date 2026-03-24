@@ -1551,7 +1551,7 @@
     <string name="info_p2p_why_description_speed">Zvýšená rýchlosť odosielania a sťahovania</string>
     <string name="info_p2p_why_description_logs">Žiadne protokoly aktivít</string>
     <string name="info_p2p_why_description_hide">Skryte svoju IP adresu pred poskytovateľom služieb a partnermi</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing používa virtuálne servery na zabezpečenie pokrytia VPN v ťažko dostupných krajinách.\n\nPri pripojení k serveru Smart Routing sa bude zdať, že surfujete v cieľovej krajine, hoci fyzický server sa nachádza inde.  \n\nSmart Routing sa zvyčajne používa na obchádzanie zákonov proti ochrane súkromia a iných foriem cenzúry.</string>
+    <string name="info_dialog_smart_routing_description">Funkcia Smart Routing nám umožňuje poskytovať VPN pokrytie aj v ťažko dostupných krajinách.\n\nKeď sa pripojíte k serveru Smart Routing, bude to vyzerať, ako keby ste surfovali v cieľovej krajine, hoci sa fyzický server nachádza inde.  \n\nFunkcia Smart Routing sa zvyčajne používa na obchádzanie zákonov obmedzujúcich súkromie a iných foriem cenzúry.</string>
     <string name="notifications_channel_connection_status_name">Stav pripojenia</string>
     <string name="notifications_channel_connection_status_description">Zobrazuje, k akému serveru sa pripájate a vašu rýchlosť VPN.</string>
     <string name="notifications_channel_connection_errors_name">Chyby pripojenia</string>

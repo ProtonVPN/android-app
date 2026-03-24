@@ -1443,7 +1443,7 @@
     <string name="info_p2p_why_description_speed">上传下载更快</string>
     <string name="info_p2p_why_description_logs">不记录活动信息</string>
     <string name="info_p2p_why_description_hide">对网络运营商和其他人隐藏 IP 地址</string>
-    <string name="info_dialog_smart_routing_description">利用虚拟服务器，Smart Routing 把可以选择的 VPN 位置扩展到不易设立服务器的地域。\n\n连接到 Smart Routing 服务器后，尽管服务器在目标地域之外，但您看起来就像是在目标地域浏览互联网。  \n\nSmart Routing 可用于绕过反隐私法及其他形式的审查。</string>
+    <string name="info_dialog_smart_routing_description">智能路由使我们能够在难以覆盖的国家/地区提供 VPN 服务。\n\n当您连接到智能路由服务器时，您将显示为在目标国家/地区浏览，即使物理服务器位于其他地方。\n\n智能路由通常用于规避反隐私法律及其他形式的审查。</string>
     <string name="notifications_channel_connection_status_name">连接状态</string>
     <string name="notifications_channel_connection_status_description">显示您连接到的服务器以及您的 VPN 速度。</string>
     <string name="notifications_channel_connection_errors_name">连接错误</string>

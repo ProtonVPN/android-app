@@ -1479,7 +1479,7 @@
     <string name="info_p2p_why_description_speed">Mas mabilis na pag-upload at pag-download</string>
     <string name="info_p2p_why_description_logs">Walang log ng aktibidad</string>
     <string name="info_p2p_why_description_hide">Itago ang iyong IP address mula sa iyong service provider at mga peer</string>
-    <string name="info_dialog_smart_routing_description">Gumagamit ang Smart Routing ng mga virtual server upang magbigay ng VPN coverage sa mga bansang mahirap abutin.\n\nKapag kumonekta ka sa isang Smart Routing server, lalabas na nagba-browse ka sa iyong destinasyong bansa, kahit na ang pisikal na server ay matatagpuan sa ibang lugar.  \n\nKaraniwang ginagamit ang Smart Routing upang malampasan ang mga batas sa anti-privacy at iba pang anyo ng censorship.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
     <string name="notifications_channel_connection_status_name">Connection status</string>
     <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
     <string name="notifications_channel_connection_errors_name">Connection errors</string>

@@ -1551,7 +1551,7 @@
     <string name="info_p2p_why_description_speed">Павялічаныя хуткасці запампоўвання і спампоўвання</string>
     <string name="info_p2p_why_description_logs">Адсутнасць журналаў актыўнасці</string>
     <string name="info_p2p_why_description_hide">Хавайце свой IP-адрас ад вашага пастаўшчыка паслуг інтэрнэту і аднарангавых вузлоў</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing выкарыстоўвае віртуальныя серверы, каб забяспечваць пакрыццё VPN у цяжкадаступных краінах.\n\nКалі вы падключаецеся да сервера Smart Routing, то ўсё будзе выглядаць так, быццам вы ажыццяўляеце прагляд з краіны прызначэння, хоць фізічна сервер размяшчаецца ў іншым месцы.\n\nSmart Routing звычайна выкарыстоўваюць для абыходу законаў, якія парушаюць прыватнасць і канфідэнцыяльнасць, а таксама іншых форм цэнзуры.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing дазваляе нам забяспечваць пакрыццё VPN у цяжкадаступных краінах.\n\nКалі вы падключаецеся да сервера Smart Routing, то ўсё будзе выглядаць так, быццам вы ажыццяўляеце прагляд з краіны прызначэння, хоць фізічна сервер размяшчаецца ў іншым месцы.\n\nSmart Routing звычайна выкарыстоўваюць для абыходу законаў, якія парушаюць прыватнасць і канфідэнцыяльнасць, а таксама іншых форм цэнзуры.</string>
     <string name="notifications_channel_connection_status_name">Статус падключэння</string>
     <string name="notifications_channel_connection_status_description">Паказвае, да якога сервера вы падключаны, і хуткасць вашага VPN.</string>
     <string name="notifications_channel_connection_errors_name">Памылкі падключэння</string>

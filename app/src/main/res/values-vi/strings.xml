@@ -1443,7 +1443,7 @@
     <string name="info_p2p_why_description_speed">Tăng tốc độ tải lên và tải xuống</string>
     <string name="info_p2p_why_description_logs">Không có nhật ký hoạt động</string>
     <string name="info_p2p_why_description_hide">Ẩn địa chỉ IP khỏi nhà cung cấp dịch vụ và các máy ngang hàng</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing sử dụng máy chủ ảo để cung cấp phạm vi phủ sóng VPN ở các quốc gia khó tiếp cận.\n\nKhi kết nối với máy chủ Smart Routing, bạn sẽ xuất hiện như đang duyệt web ở quốc gia đích, mặc dù máy chủ vật lý được đặt ở nơi khác.  \n\nSmart Routing thường được sử dụng để vượt qua các luật chống quyền riêng tư và các hình thức kiểm duyệt khác.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
     <string name="notifications_channel_connection_status_name">Connection status</string>
     <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
     <string name="notifications_channel_connection_errors_name">Connection errors</string>

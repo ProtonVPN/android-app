@@ -356,8 +356,8 @@
     <string name="enable">Aktiver</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol er for øyeblikket deaktivert</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN oppdaget at ditt nåværende nettverk hindrer en tilkobling til VPN-et. Aktivering av Smart Protocol kan omgå disse begrensningene.</string>
-    <string name="notification_streaming_blocked_title">Blocked website?</string>
-    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
+    <string name="notification_streaming_blocked_title">Blokkert nettsted?</string>
+    <string name="notification_streaming_blocked_text">Noen nettsteder og strømmetjenester blokkerer brukere av gratis VPN. Oppgrader til Proton VPN Plus for å omgå disse blokkeringene.</string>
     <string name="upsell_advanced_features">Avanserte funksjoner: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Få tilgang til strømmetjenester (Netflix, Disney+, osv) hvor som helst i verden</string>
     <!-- Number of servers available in the service.
@@ -396,8 +396,8 @@
     <string name="upgrade_profiles_text">Lås opp profiler med VPN Plus</string>
     <string name="upgrade_streaming_title">Strøm i 4K</string>
     <string name="upgrade_streaming_text">Nyt favorittfilmene og TV-programmene dine fra hvor som helst i verden.</string>
-    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upgrade_streaming_block_title">Oppgrader for å omgå VPN-blokkeringer</string>
+    <string name="upgrade_streaming_block_text">VPN Plus-tjenere lar deg se favorittfilmene og TV-programmene dine fra hele verden.</string>
     <string name="upgrade_tor_title">Få tilgang til Tor-nettverket med ett trykk</string>
     <string name="upgrade_tor_text">Koble til skjulte tjenester og onion-sider med din vanlige nettleser.</string>
     <string name="upgrade_vpn_accelerator_title">Surf med enda høyere hastigheter</string>
@@ -1480,12 +1480,12 @@
     <string name="info_p2p_why_description_logs">Ingen aktivitetslogger</string>
     <string name="info_p2p_why_description_hide">Skjul IP-adressen din for tjenesteleverandøren og noder</string>
     <string name="info_dialog_smart_routing_description">Smart Routing bruker virtuelle tjenere for å gi VPN-dekning i vanskelig tilgjengelige land.\n\nNår du kobler til en Smart Routing-tjener, ser det ut til at du surfer i destinasjonslandet ditt, selv om den fysiske tjeneren befinner seg et annet sted.  \n\nSmart Routing brukes vanligvis til å omgå personvernlover og andre former for sensur.</string>
-    <string name="notifications_channel_connection_status_name">Connection status</string>
-    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
-    <string name="notifications_channel_connection_errors_name">Connection errors</string>
-    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
-    <string name="notifications_channel_connection_tips_name">Connection tips</string>
-    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
+    <string name="notifications_channel_connection_status_name">Tilkoblingsstatus</string>
+    <string name="notifications_channel_connection_status_description">Viser hvilken tjener du er koblet til og VPN-hastigheten.</string>
+    <string name="notifications_channel_connection_errors_name">Tilkoblingsfeil</string>
+    <string name="notifications_channel_connection_errors_description">Varsler deg om problemer som pauser eller stopper VPN-tilkoblingen din.</string>
+    <string name="notifications_channel_connection_tips_name">Tilkoblingstips</string>
+    <string name="notifications_channel_connection_tips_description">Kontekstuelle tips som hjelper deg med å få mer ut av Proton VPN.</string>
     <string name="countries_upsell_banner_description">Få tilgang til alle land med VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Legg til et ekstra krypteringslag til VPN-tilkoblingen din.</string>
     <string name="p2p_upsell_banner_description">Last ned filer gjennom BitTorrent og andre fildelingsprotokoller</string>

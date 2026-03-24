@@ -1479,7 +1479,7 @@
     <string name="info_p2p_why_description_speed">Vitesses de chargement et de téléchargement augmentées</string>
     <string name="info_p2p_why_description_logs">Aucune activité enregistrée</string>
     <string name="info_p2p_why_description_hide">Masquez votre adresse IP à votre fournisseur de service et aux autres utilisateurs.</string>
-    <string name="info_dialog_smart_routing_description">L\'option Smart Routing utilise des serveurs virtuels pour fournir une couverture VPN dans des pays difficiles d\'accès.\n\nQuand vous vous connectez à un serveur Smart Routing, vous semblez naviguer dans votre pays de destination, même si le serveur physique est situé ailleurs.  \n\nLa fonctionnalité Smart Routing est généralement utilisée pour contourner les lois qui restreignent la protection de la vie privée et d\'autres formes de censure.</string>
+    <string name="info_dialog_smart_routing_description">L\'option Smart Routing nous permet de founir des serveurs virtuels pour fournir une couverture VPN dans des pays difficiles d\'accès.\n\nQuand vous vous connectez à un serveur Smart Routing, vous semblez naviguer dans votre pays de destination, même si le serveur physique est situé ailleurs.  \n\nLa fonctionnalité Smart Routing est généralement utilisée pour contourner les lois qui restreignent la protection de la vie privée et d\'autres formes de censure.</string>
     <string name="notifications_channel_connection_status_name">État de la connexion</string>
     <string name="notifications_channel_connection_status_description">Indique le serveur auquel vous êtes connecté et la vitesse de votre VPN.</string>
     <string name="notifications_channel_connection_errors_name">Erreurs de connexion</string>
