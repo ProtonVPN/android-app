@@ -47,7 +47,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class TvMainActivity : BaseTvActivity() {
 
-    private val accountViewModel: AccountViewModel by viewModels()
+    private val accountViewModel: TvMainAccountViewModel by viewModels()
     private val vpnAppViewModel: VpnAppViewModel by viewModels()
     private var vpnAppStateJob: Job? = null
 

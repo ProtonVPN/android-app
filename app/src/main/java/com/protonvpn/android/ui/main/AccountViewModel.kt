@@ -29,7 +29,6 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
-import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.AuthFlowStartHelper
 import com.protonvpn.android.auth.LOGIN_GUEST_HOLE_ID
 import com.protonvpn.android.auth.usecase.HumanVerificationGuestHoleCheck
@@ -38,7 +37,6 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.managed.AutoLoginState
 import com.protonvpn.android.utils.Storage
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.SharingStarted
@@ -66,17 +64,14 @@ import me.proton.core.auth.presentation.entity.AddAccountWorkflow
 import me.proton.core.auth.presentation.onAddAccountResult
 import javax.inject.Inject
 
-@HiltViewModel
 @SuppressWarnings("LongParameterList")
-class AccountViewModel @Inject constructor(
+abstract class AccountViewModel(
     private val api: ProtonApiRetroFit,
     private val authOrchestrator: AuthOrchestrator,
     private val accountManager: AccountManager,
     private val vpnApiClient: VpnApiClient,
     private val guestHole: dagger.Lazy<GuestHole>,
     private val humanVerificationGuestHoleCheck: HumanVerificationGuestHoleCheck,
-    private val appFeaturesPrefs: AppFeaturesPrefs,
-
     private val authFlowTriggerHelper: AuthFlowStartHelper,
     autoLoginManager: AutoLoginManager,
 ) : ViewModel() {
@@ -145,13 +140,12 @@ class AccountViewModel @Inject constructor(
                 } else if (result.workflow == AddAccountWorkflow.SignUp ||
                     result.workflow == AddAccountWorkflow.CredentialLess
                 ) {
-                    appFeaturesPrefs.showOnboardingUserId = result.userId
+                    onAccountAddSuccess(result.userId)
                 }
             }
             setOnSignUpResult { result ->
                 if (result != null) {
-                    appFeaturesPrefs.showOnboardingUserId = result.userId
-                }
+                    onAccountAddSuccess(result.userId) }
             }
             accountManager.observe(activity.lifecycle, minActiveState = Lifecycle.State.CREATED)
                 .onSessionSecondFactorNeeded { startSecondFactorWorkflow(it) }
@@ -195,6 +189,9 @@ class AccountViewModel @Inject constructor(
 
     fun signIn() {
         authOrchestrator.startLoginWorkflow(Storage.getString(LAST_USER, null))
+    }
+
+    protected open fun onAccountAddSuccess(userId: String) {
     }
 
     companion object {

@@ -68,6 +68,7 @@ import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
 import com.protonvpn.android.ui.drawer.LogActivity
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
+import com.protonvpn.android.ui.main.MobileMainAccountViewModel
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
 import com.protonvpn.android.ui.onboarding.WhatsNewActivity
 import com.protonvpn.android.ui.onboarding.WhatsNewDialogController
@@ -93,7 +94,7 @@ private const val GLANCE_ACTION_SCHEME = "glance-action"
 @AndroidEntryPoint
 class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
-    private val accountViewModel: AccountViewModel by viewModels()
+    private val accountViewModel: MobileMainAccountViewModel by viewModels()
     private val activityViewModel: MainActivityViewModel by viewModels()
     private val settingsChangeViewModel: SettingsChangeViewModel by viewModels()
     private lateinit var currentConfiguration: Configuration
