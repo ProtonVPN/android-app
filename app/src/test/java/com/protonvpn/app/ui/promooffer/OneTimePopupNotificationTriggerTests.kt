@@ -20,17 +20,18 @@
 package com.protonvpn.app.ui.promooffer
 
 import android.app.Activity
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.promooffers.data.ApiNotification
 import com.protonvpn.android.promooffers.data.ApiNotificationManager
 import com.protonvpn.android.promooffers.data.ApiNotificationTypes
-import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.promooffers.data.PromoOffersPrefs
+import com.protonvpn.android.promooffers.usecase.EnsureIapOfferStillValid
 import com.protonvpn.android.promooffers.usecase.NpsActivityOpener
 import com.protonvpn.android.promooffers.usecase.OneTimePopupNotificationTrigger
 import com.protonvpn.android.promooffers.usecase.PromoActivityOpener
 import com.protonvpn.android.promooffers.usecase.PromoIapActivityOpener
-import com.protonvpn.android.promooffers.data.PromoOffersPrefs
-import com.protonvpn.android.promooffers.usecase.EnsureIapOfferStillValid
+import com.protonvpn.android.redesign.app.ui.MainActivity
+import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePanel
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
@@ -78,6 +79,8 @@ class OneTimePopupNotificationTriggerTests {
 
     private lateinit var oneTimePopupNotificationTrigger: OneTimePopupNotificationTrigger
 
+    private val mockMainActivity = mockk<MainActivity>()
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -110,17 +113,17 @@ class OneTimePopupNotificationTriggerTests {
     fun `when app goes to foreground then notification is triggered`() = testScope.runTest {
         activeNotificationsFlow.value = listOf(createTestNotification(NOTIFICATION_ID))
 
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
         verify(exactly = 1) { mockPromoActivityOpener.open(any(), NOTIFICATION_ID) }
     }
 
     @Test
     fun `when navigating between activities then notification is not triggered`() = testScope.runTest {
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
 
         activeNotificationsFlow.value = listOf(createTestNotification(NOTIFICATION_ID))
 
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
         verify(exactly = 0) { mockPromoActivityOpener.open(any(), NOTIFICATION_ID) }
     }
 
@@ -129,7 +132,7 @@ class OneTimePopupNotificationTriggerTests {
         testUserProvider.vpnUser = null
         activeNotificationsFlow.value = listOf(createTestNotification(NOTIFICATION_ID))
 
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
         verify(exactly = 0) { mockPromoActivityOpener.open(any(), NOTIFICATION_ID) }
     }
 
@@ -138,12 +141,12 @@ class OneTimePopupNotificationTriggerTests {
         testUserProvider.vpnUser = null
         activeNotificationsFlow.value = listOf(createTestNotification(NOTIFICATION_ID))
 
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
         testUserProvider.vpnUser = TestUser.freeUser.vpnUser
         verify(exactly = 0) { mockPromoActivityOpener.open(any(), NOTIFICATION_ID) }
 
         foregroundActivityFlow.value = null
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
         verify(exactly = 1) { mockPromoActivityOpener.open(any(), NOTIFICATION_ID) }
     }
 
@@ -151,11 +154,11 @@ class OneTimePopupNotificationTriggerTests {
     fun `notification is triggered only once`() = testScope.runTest {
         activeNotificationsFlow.value = listOf(createTestNotification(NOTIFICATION_ID))
 
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
         verify(exactly = 1) { mockPromoActivityOpener.open(any(), NOTIFICATION_ID) }
 
         foregroundActivityFlow.value = null
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
         verify(exactly = 1) { mockPromoActivityOpener.open(any(), NOTIFICATION_ID) }
     }
 
@@ -164,7 +167,7 @@ class OneTimePopupNotificationTriggerTests {
         activeNotificationsFlow.value =
             listOf(createTestNotification(NOTIFICATION_ID, ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER))
 
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
         verify(exactly = 0) { mockPromoActivityOpener.open(any(), NOTIFICATION_ID) }
     }
 
@@ -176,11 +179,11 @@ class OneTimePopupNotificationTriggerTests {
             createTestNotification("popup 2", ApiNotificationTypes.TYPE_ONE_TIME_POPUP),
         )
 
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
         verify(exactly = 1) { mockPromoActivityOpener.open(any(), "popup 1") }
 
         foregroundActivityFlow.value = null
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
         verify(exactly = 1) { mockPromoActivityOpener.open(any(), "popup 2") }
     }
 
@@ -189,7 +192,7 @@ class OneTimePopupNotificationTriggerTests {
         activeNotificationsFlow.value =
             listOf(createTestNotification(NOTIFICATION_ID, ApiNotificationTypes.TYPE_NPS))
 
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
         verify(exactly = 0) { mockNpsActivityOpener.open(any(), NOTIFICATION_ID) }
 
         delay(3000)
@@ -201,8 +204,22 @@ class OneTimePopupNotificationTriggerTests {
         coEvery { mockEnsureIapOfferStillValid.invoke(any()) } returns true
         activeNotificationsFlow.value =
             listOf(createTestNotification(NOTIFICATION_ID, ApiNotificationTypes.TYPE_INTERNAL_ONE_TIME_IAP_POPUP))
-        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
         verify(exactly = 0) { mockPromoIapActivityOpener.open(any(), NOTIFICATION_ID) }
+    }
+
+    @Test
+    fun `promo activity triggered only when MainActivity is opened`() = testScope.runTest {
+        activeNotificationsFlow.value = listOf(
+            createTestNotification(NOTIFICATION_ID, ApiNotificationTypes.TYPE_ONE_TIME_POPUP),
+        )
+        foregroundActivityFlow.value = mockk()
+        foregroundActivityFlow.value = mockMainActivity
+        verify(exactly = 0) { mockPromoActivityOpener.open(any(),NOTIFICATION_ID) }
+
+        foregroundActivityFlow.value = null
+        foregroundActivityFlow.value = mockMainActivity
+        verify(exactly = 1) { mockPromoActivityOpener.open(any(),NOTIFICATION_ID) }
     }
 
     private fun createTestNotification(

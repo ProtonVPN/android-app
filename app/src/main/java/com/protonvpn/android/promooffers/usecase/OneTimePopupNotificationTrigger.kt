@@ -20,25 +20,24 @@
 package com.protonvpn.android.promooffers.usecase
 
 import android.app.Activity
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.promooffers.data.ApiNotification
 import com.protonvpn.android.promooffers.data.ApiNotificationManager
 import com.protonvpn.android.promooffers.data.ApiNotificationTypes
-import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.promooffers.data.PromoOffersPrefs
 import com.protonvpn.android.promooffers.ui.NpsActivity
 import com.protonvpn.android.promooffers.ui.PromoOfferActivity
-import com.protonvpn.android.promooffers.data.PromoOffersPrefs
-import com.protonvpn.android.promooffers.ui.toIapParams
-import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.promooffers.ui.PromoOfferIapActivity
+import com.protonvpn.android.promooffers.ui.toIapParams
+import com.protonvpn.android.redesign.app.ui.MainActivity
+import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.utils.getValue
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.scan
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -85,7 +84,9 @@ class OneTimePopupNotificationTrigger @Inject constructor(
             .onEach { (wasInForeground, isInForeground) ->
                 val loggedIn = currentUser.isLoggedIn()
                 val foregroundActivity = foregroundActivityTracker.foregroundActivity
-                if (loggedIn && !wasInForeground && isInForeground && foregroundActivity != null) {
+                if (loggedIn && !wasInForeground && isInForeground
+                        && foregroundActivity?.javaClass == MainActivity::class.java
+                ) {
                     onOneTimeNotificationOpportunity(foregroundActivity)
                 }
             }
