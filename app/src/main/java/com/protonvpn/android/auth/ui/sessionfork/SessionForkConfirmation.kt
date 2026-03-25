@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.auth.ui.sessionfork
 
+import android.content.Intent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -44,6 +45,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.ui.sessionfork.SessionForkConfirmationViewModel.ViewState
@@ -64,11 +67,12 @@ fun SessionForkConfirmation(
     viewState: SessionForkConfirmationViewModel.ViewState,
     onConfirm: () -> Unit,
     onClose: () -> Unit,
+    onStartActivity: (Intent) -> Unit,
     onReportBug: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (viewState) {
-        is SessionForkConfirmationViewModel.ViewState.AskForkConfirmation -> {
+        is ViewState.AskForkConfirmation -> {
             SignIn(
                 isLoading = viewState.isLoading,
                 onConfirm = onConfirm,
@@ -77,8 +81,8 @@ fun SessionForkConfirmation(
             )
         }
 
-        SessionForkConfirmationViewModel.ViewState.ErrorBusinessUser,
-        SessionForkConfirmationViewModel.ViewState.ErrorUserCodeInvalid -> {
+        ViewState.ErrorBusinessUser,
+        ViewState.ErrorUserCodeInvalid -> {
             FinishPage(
                 imageRes = R.drawable.session_fork_error,
                 titleRes = R.string.session_fork_error_generic_title,
@@ -92,9 +96,9 @@ fun SessionForkConfirmation(
             }
         }
 
-        is SessionForkConfirmationViewModel.ViewState.ForkError -> {
+        is ViewState.Fork.Error -> {
             when (viewState) {
-                SessionForkConfirmationViewModel.ViewState.ForkError.Expired -> {
+                ViewState.Fork.Error.Expired -> {
                     FinishPage(
                         imageRes = R.drawable.session_fork_error,
                         titleRes = R.string.session_fork_error_expired_title,
@@ -108,7 +112,7 @@ fun SessionForkConfirmation(
                     }
                 }
 
-                SessionForkConfirmationViewModel.ViewState.ForkError.Fatal -> {
+                ViewState.Fork.Error.Fatal -> {
                     FinishPage(
                         imageRes = R.drawable.session_fork_error,
                         titleRes = R.string.session_fork_error_generic_title,
@@ -126,7 +130,7 @@ fun SessionForkConfirmation(
                     }
                 }
 
-                SessionForkConfirmationViewModel.ViewState.ForkError.Network -> {
+                ViewState.Fork.Error.Network -> {
                     FinishPage(
                         imageRes = R.drawable.session_fork_error,
                         titleRes = R.string.session_fork_error_generic_title,
@@ -146,7 +150,7 @@ fun SessionForkConfirmation(
             }
         }
 
-        SessionForkConfirmationViewModel.ViewState.ForkSuccess -> {
+        is ViewState.Fork.Success -> {
             FinishPage(
                 imageRes = R.drawable.session_fork_success,
                 titleRes = R.string.session_fork_success_title,
@@ -155,12 +159,17 @@ fun SessionForkConfirmation(
             ) {
                 VpnSolidButton(
                     stringResource(R.string.action_done),
-                    onClick = onClose,
+                    onClick = {
+                        if (viewState.startActivityOnDone != null) {
+                            onStartActivity(viewState.startActivityOnDone)
+                        }
+                        onClose()
+                    }
                 )
             }
         }
 
-        SessionForkConfirmationViewModel.ViewState.Initial -> Unit
+        ViewState.Initial -> Unit
     }
 }
 
@@ -299,70 +308,34 @@ private fun FinishPage(
 
 @ProtonVpnPreview
 @Composable
-private fun PreviewSessionForkConfirmation() {
+private fun PreviewSessionForkConfirmation(
+    @PreviewParameter(SessionForkViewStateParameterProvider::class) viewState: ViewState
+) {
     VpnTheme {
         SessionForkConfirmation(
-            viewState = ViewState.AskForkConfirmation(false),
+            viewState = viewState,
             onConfirm = {},
             onClose = {},
+            onStartActivity = {},
             onReportBug = {},
             modifier = Modifier.fillMaxSize()
         )
     }
 }
 
-@ProtonVpnPreview
-@Composable
-private fun PreviewSessionForkConfirmationLoading() {
-    VpnTheme {
-        SessionForkConfirmation(
-            viewState = ViewState.AskForkConfirmation(true),
-            onConfirm = {},
-            onClose = {},
-            onReportBug = {},
-            modifier = Modifier.fillMaxSize()
-        )
-    }
-}
+class SessionForkViewStateParameterProvider : PreviewParameterProvider<ViewState> {
+    val valuesList = listOf(
+        ViewState.AskForkConfirmation(false),
+        ViewState.AskForkConfirmation(true),
+        ViewState.Fork.Success(null),
+        ViewState.Fork.Error.Network,
+        ViewState.Fork.Error.Expired,
+        ViewState.Fork.Error.Fatal,
+    )
 
-@ProtonVpnPreview
-@Composable
-private fun PreviewSessionForkSuccess() {
-    VpnTheme {
-        SessionForkConfirmation(
-            viewState = ViewState.ForkSuccess,
-            onConfirm = {},
-            onClose = {},
-            onReportBug = {},
-            modifier = Modifier.fillMaxSize()
-        )
-    }
-}
+    override val values: Sequence<ViewState> = valuesList.asSequence()
 
-@ProtonVpnPreview
-@Composable
-private fun PreviewSessionForkErrorNoNetwork() {
-    VpnTheme {
-        SessionForkConfirmation(
-            viewState = ViewState.ForkError.Network,
-            onConfirm = {},
-            onClose = {},
-            onReportBug = {},
-            modifier = Modifier.fillMaxSize()
-        )
-    }
-}
-
-@ProtonVpnPreview
-@Composable
-private fun PreviewSessionForkErrorFatal() {
-    VpnTheme {
-        SessionForkConfirmation(
-            viewState = ViewState.ForkError.Fatal,
-            onConfirm = {},
-            onClose = {},
-            onReportBug = {},
-            modifier = Modifier.fillMaxSize()
-        )
+    override fun getDisplayName(index: Int): String? {
+        return valuesList[index].toString()
     }
 }

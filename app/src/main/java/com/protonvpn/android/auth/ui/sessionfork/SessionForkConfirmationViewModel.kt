@@ -19,28 +19,46 @@
 
 package com.protonvpn.android.auth.ui.sessionfork
 
+import android.content.Intent
 import android.net.Uri
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.withContext
 import me.proton.core.auth.domain.usecase.ForkSession
+import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.ApiException
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.presentation.savedstate.state
+import me.proton.core.user.domain.entity.Type
 import me.proton.core.util.kotlin.equalsNoCase
 import me.proton.core.util.kotlin.startsWith
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SessionForkConfirmationViewModel @Inject constructor(
-    private val mainScope: CoroutineScope,
+    savedStateHandle: SavedStateHandle,
     private val currentUser: CurrentUser,
     private val forkSession: ForkSession,
+    private val createLaunchIntent: CreateLaunchIntent,
 ) : ViewModel() {
 
     sealed interface ViewState {
@@ -48,69 +66,102 @@ class SessionForkConfirmationViewModel @Inject constructor(
         data class AskForkConfirmation(val isLoading: Boolean) : ViewState
         object ErrorUserCodeInvalid : ViewState
         object ErrorBusinessUser : ViewState
-        object ForkSuccess : ViewState
-        sealed interface ForkError : ViewState {
-            object Expired : ForkError
-            object Network : ForkError
-            object Fatal : ForkError
+        sealed interface Fork : ViewState {
+            data class Success(val startActivityOnDone: Intent?): Fork
+            sealed interface Error : Fork {
+                object Expired : Error
+                object Network : Error
+                object Fatal : Error
+            }
         }
     }
 
-    private var userCode: String? = null
+    private var qrCodeUri: Uri? = null
+    private var hasSignIn by savedStateHandle.state(false)
+    private var hasTriggeredUpgrade by savedStateHandle.state(false)
+    private val triggerConfirmSignIn = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
 
-    val viewState = MutableStateFlow<ViewState>(ViewState.Initial)
+    // Use a channel to guarantee event delivery even if there is no observer at the moment the
+    // event is generated.
+    val eventLaunchUpgrade =
+        Channel<Unit>(capacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    fun onUserSignedIn(qrCodeUri: Uri?) {
-        viewModelScope.launch {
-            viewState.value = if (currentUser.vpnUser()?.isBusiness == true) {
-                ViewState.ErrorBusinessUser
-            } else {
-                confirmationStep(qrCodeUri)
+    val viewState =
+        flow {
+            val jointUser = currentUser.jointUserFlow.filterNotNull().first {
+                it.user.type != Type.CredentialLess
             }
-        }
+            val vpnUser = jointUser.vpnUser
+            if (vpnUser.isBusiness) {
+                emit(ViewState.ErrorBusinessUser)
+            } else {
+                if (vpnUser.isFreeUser && hasSignIn && !hasTriggeredUpgrade) {
+                    // Store "hasTriggeredUpgrade" in case the activity is recreated after upgrade
+                    // is dismissed.
+                    hasTriggeredUpgrade = true
+                    eventLaunchUpgrade.send(Unit)
+                }
+                val userCode = extractUserCode(qrCodeUri)
+                if (userCode != null) {
+                    emit(ViewState.AskForkConfirmation(isLoading = false))
+                    triggerConfirmSignIn.collect {
+                        emit(ViewState.AskForkConfirmation(isLoading = true))
+                        emitAll(executeConfirmFork(vpnUser.userId, userCode))
+                    }
+                } else {
+                    emit(ViewState.ErrorUserCodeInvalid)
+                }
+            }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, ViewState.Initial)
+
+    fun initialize(qrCodeUri: Uri?) {
+        this.qrCodeUri = qrCodeUri
+    }
+
+    fun onSignInRequired() {
+        hasSignIn = true
     }
 
     fun confirmFork() {
-        requireNotNull(userCode)
-        viewState.value = ViewState.AskForkConfirmation(isLoading = true)
-        mainScope.launch {
-            val userId = currentUser.user()?.userId
-            if (userId != null) {
-                try {
-                    forkSession(
-                        userId = userId,
-                        payload = null,
-                        childClientId = "android_tv-vpn",
-                        independent = true,
-                        userCode = userCode
-                    )
-                    viewState.value = ViewState.ForkSuccess
-                } catch (e: ApiException) {
-                    ProtonLogger.logCustom(LogCategory.USER, "Error when confirming session fork: ${e.error}")
-                    val error = e.error
-                    val errorState: ViewState.ForkError = when (error) {
-                        is ApiResult.Error.Connection -> ViewState.ForkError.Network
-                        is ApiResult.Error.Parse -> ViewState.ForkError.Fatal
-                        is ApiResult.Error.Http -> when {
-                            error.proton?.code == 2501 -> ViewState.ForkError.Expired
-                            else -> ViewState.ForkError.Fatal
-                        }
-                    }
-                    viewState.value = errorState
-                }
-            } else {
-                viewState.value = ViewState.ForkError.Fatal
-            }
-        }
+        triggerConfirmSignIn.tryEmit(Unit)
     }
 
-    private fun confirmationStep(uri: Uri?): ViewState {
-        this.userCode = extractUserCode(uri)
-        return if (userCode != null) {
-            ViewState.AskForkConfirmation(isLoading = false)
-        } else {
-            ViewState.ErrorUserCodeInvalid
+    private suspend fun executeConfirmFork(userId: UserId, userCode: String): Flow<ViewState.Fork> {
+        val confirmForkState = MutableSharedFlow<ViewState.Fork>(replay = 1)
+        withContext(NonCancellable) {
+            try {
+                forkSession(
+                    userId = userId,
+                    payload = null,
+                    childClientId = "android_tv-vpn",
+                    independent = true,
+                    userCode = userCode
+                )
+                val mainUiLaunchIntent = if (hasSignIn) {
+                    createLaunchIntent.withFlags(
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    )
+                } else {
+                    null
+                }
+                confirmForkState.emit(ViewState.Fork.Success(mainUiLaunchIntent))
+            } catch (e: ApiException) {
+                ProtonLogger.logCustom(
+                    LogCategory.USER,
+                    "Error when confirming session fork: ${e.error}"
+                )
+                val errorState: ViewState.Fork.Error = when (val error = e.error) {
+                    is ApiResult.Error.Connection -> ViewState.Fork.Error.Network
+                    is ApiResult.Error.Parse -> ViewState.Fork.Error.Fatal
+                    is ApiResult.Error.Http -> when {
+                        error.proton?.code == 2501 -> ViewState.Fork.Error.Expired
+                        else -> ViewState.Fork.Error.Fatal
+                    }
+                }
+                confirmForkState.emit(errorState)
+            }
         }
+        return confirmForkState
     }
 
     private fun extractUserCode(uri: Uri?): String? {

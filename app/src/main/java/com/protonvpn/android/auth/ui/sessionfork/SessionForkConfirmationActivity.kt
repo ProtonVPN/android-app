@@ -24,7 +24,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -44,10 +43,12 @@ import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.bugreport.ui.BugReportActivity
 import com.protonvpn.android.redesign.app.ui.VpnApp
 import com.protonvpn.android.ui.main.MainActivityHelper
+import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import me.proton.core.compose.component.ProtonCenteredProgress
 import javax.inject.Inject
@@ -64,7 +65,7 @@ class SessionForkConfirmationActivity : FragmentActivity() {
 
     private val activityHelper = object : MainActivityHelper(this) {
         override suspend fun onLoginNeeded() {
-            // UI will display sign in/sign up buttons when login is needed.
+            viewModel.onSignInRequired()
         }
 
         override suspend fun onReady() {
@@ -89,6 +90,14 @@ class SessionForkConfirmationActivity : FragmentActivity() {
                 accountState in arrayOf(AccountViewModel.State.Processing, AccountViewModel.State.Initial)
         }
 
+        viewModel.eventLaunchUpgrade
+            .receiveAsFlow()
+            .flowWithLifecycle(lifecycle)
+            .onEach {
+                UpgradeOnboardingDialogActivity.launch(this) }
+            .launchIn(lifecycleScope)
+        viewModel.initialize(intent.data)
+
         activityHelper.onCreate(accountViewModel)
 
         lifecycleScope.launch {
@@ -105,12 +114,11 @@ class SessionForkConfirmationActivity : FragmentActivity() {
                             onSignOut = ::logout,
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            // Call start() only after VpnUser has been successfully fetched.
-                            LaunchedEffect(Unit) { viewModel.onUserSignedIn(intent.data) }
                             SessionForkConfirmation(
                                 viewState = viewState,
                                 onConfirm = viewModel::confirmFork,
                                 onClose = ::finish,
+                                onStartActivity = { startActivity(it) },
                                 onReportBug = ::openBugReport,
                                 modifier = Modifier.fillMaxSize(),
                             )
@@ -137,9 +145,10 @@ class SessionForkConfirmationActivity : FragmentActivity() {
                     is AccountViewModel.State.AutoLoginError,
                     AccountViewModel.State.AutoLoginInProgress -> {
                         SessionForkConfirmation(
-                            viewState = ViewState.ForkError.Fatal,
+                            viewState = ViewState.Fork.Error.Fatal,
                             onConfirm = viewModel::confirmFork,
                             onClose = ::finish,
+                            onStartActivity = { startActivity(it) },
                             onReportBug = ::openBugReport,
                             modifier = Modifier.fillMaxSize(),
                         )
