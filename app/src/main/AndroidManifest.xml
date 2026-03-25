@@ -169,6 +169,7 @@
                 <data android:pathPrefix="/vpn/tv/code/" />
             </intent-filter>
         </activity>
+        <activity android:name=".auth.ui.TermsAndConditionsActivity" />
 
         <!-- nosemgrep: java.android.security.exported_activity.exported_activity -->
         <activity-alias android:name="ch.protonvpn.android.RoutingActivity"

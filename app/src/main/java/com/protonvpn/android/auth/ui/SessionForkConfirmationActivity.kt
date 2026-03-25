@@ -113,10 +113,12 @@ class SessionForkConfirmationActivity : FragmentActivity() {
 
                     AccountViewModel.State.Initial -> {}
                     AccountViewModel.State.LoginNeeded -> {
+                        val termsAndConditionsIntent =
+                            Intent(this, TermsAndConditionsActivity::class.java)
                         SessionForkSignIn(
                             onSignUp = accountViewModel::signUp,
                             onSignIn = accountViewModel::signIn,
-                            onTermsAndConditions = {},
+                            onTermsAndConditions = { startActivity(termsAndConditionsIntent) },
                             modifier = Modifier.fillMaxSize(),
                         )
                     }
