@@ -158,8 +158,7 @@ fun SessionForkConfirmation(
             }
         }
 
-        ViewState.Initial,
-        ViewState.Finished -> Unit
+        ViewState.Initial -> Unit
     }
 }
 

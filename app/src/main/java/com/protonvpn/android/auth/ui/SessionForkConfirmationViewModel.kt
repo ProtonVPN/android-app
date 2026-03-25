@@ -23,7 +23,6 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.auth.usecase.IsQrCodeTvLoginFeatureFlagEnabled
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,7 +41,6 @@ class SessionForkConfirmationViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
     private val currentUser: CurrentUser,
     private val forkSession: ForkSession,
-    private val isQrCodeTvLoginFeatureFlagEnabled: IsQrCodeTvLoginFeatureFlagEnabled
 ) : ViewModel() {
 
     sealed interface ViewState {
@@ -56,7 +54,6 @@ class SessionForkConfirmationViewModel @Inject constructor(
             object Network : ForkError
             object Fatal : ForkError
         }
-        object Finished : ViewState
     }
 
     private var userCode: String? = null
@@ -65,15 +62,10 @@ class SessionForkConfirmationViewModel @Inject constructor(
 
     fun onUserSignedIn(qrCodeUri: Uri?) {
         viewModelScope.launch {
-            if (isQrCodeTvLoginFeatureFlagEnabled()) {
-                viewState.value = if (currentUser.vpnUser()?.isBusiness == true) {
-                    ViewState.ErrorBusinessUser
-                } else {
-                    confirmationStep(qrCodeUri)
-                }
+            viewState.value = if (currentUser.vpnUser()?.isBusiness == true) {
+                ViewState.ErrorBusinessUser
             } else {
-                // No regular user should be scanning QR codes when the FF is disabled.
-                viewState.value = ViewState.Finished
+                confirmationStep(qrCodeUri)
             }
         }
     }

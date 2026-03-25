@@ -35,6 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.auth.ui.SessionForkConfirmationViewModel.ViewState
+import com.protonvpn.android.auth.usecase.IsQrCodeTvLoginFeatureFlagEnabled
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
@@ -54,6 +55,7 @@ class SessionForkConfirmationActivity : FragmentActivity() {
 
     @Inject lateinit var logoutUseCase: Logout
     @Inject lateinit var mainScope: CoroutineScope
+    @Inject lateinit var isQrCodeTvLoginFeatureFlagEnabled: IsQrCodeTvLoginFeatureFlagEnabled
 
     private val viewModel by viewModels<SessionForkConfirmationViewModel>()
     private val accountViewModel by viewModels<SessionForkConfirmationAccountViewModel>()
@@ -87,12 +89,14 @@ class SessionForkConfirmationActivity : FragmentActivity() {
 
         activityHelper.onCreate(accountViewModel)
 
+        lifecycleScope.launch {
+            // No regular user should be scanning QR codes when the FF is disabled.
+            if (!isQrCodeTvLoginFeatureFlagEnabled()) finish()
+        }
+
         setContent {
             VpnTheme {
                 val viewState by viewModel.viewState.collectAsStateWithLifecycle()
-                if (viewState is ViewState.Finished) {
-                    LaunchedEffect(Unit) { finish() }
-                }
                 when (accountState) {
                     AccountViewModel.State.Ready -> {
                         VpnApp(
