@@ -155,7 +155,7 @@
             android:name=".ui.vpn.NoVpnPermissionActivity" />
         <!-- nosemgrep: java.android.security.exported_activity.exported_activity -->
         <activity
-            android:name=".auth.ui.SessionForkConfirmationActivity"
+            android:name=".auth.ui.sessionfork.SessionForkConfirmationActivity"
             android:theme="@style/ProtonTheme.Splash.Vpn.DarkPreferred"
             android:exported="true">
             <intent-filter android:autoVerify="true">

@@ -17,12 +17,13 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.auth.ui
+package com.protonvpn.android.auth.ui.sessionfork
 
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.auth.AuthFlowStartHelper
+import com.protonvpn.android.auth.ui.AccountViewModel
 import com.protonvpn.android.auth.usecase.HumanVerificationGuestHoleCheck
 import com.protonvpn.android.managed.AutoLoginManager
 import dagger.Lazy

@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.auth.ui
+package com.protonvpn.android.auth.ui.sessionfork
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -46,7 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.auth.ui.SessionForkConfirmationViewModel.ViewState
+import com.protonvpn.android.auth.ui.sessionfork.SessionForkConfirmationViewModel.ViewState
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarCloseIcon
@@ -61,14 +61,14 @@ import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun SessionForkConfirmation(
-    viewState: ViewState,
+    viewState: SessionForkConfirmationViewModel.ViewState,
     onConfirm: () -> Unit,
     onClose: () -> Unit,
     onReportBug: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (viewState) {
-        is ViewState.AskForkConfirmation -> {
+        is SessionForkConfirmationViewModel.ViewState.AskForkConfirmation -> {
             SignIn(
                 isLoading = viewState.isLoading,
                 onConfirm = onConfirm,
@@ -77,8 +77,8 @@ fun SessionForkConfirmation(
             )
         }
 
-        ViewState.ErrorBusinessUser,
-        ViewState.ErrorUserCodeInvalid -> {
+        SessionForkConfirmationViewModel.ViewState.ErrorBusinessUser,
+        SessionForkConfirmationViewModel.ViewState.ErrorUserCodeInvalid -> {
             FinishPage(
                 imageRes = R.drawable.session_fork_error,
                 titleRes = R.string.session_fork_error_generic_title,
@@ -92,9 +92,9 @@ fun SessionForkConfirmation(
             }
         }
 
-        is ViewState.ForkError -> {
+        is SessionForkConfirmationViewModel.ViewState.ForkError -> {
             when (viewState) {
-                ViewState.ForkError.Expired -> {
+                SessionForkConfirmationViewModel.ViewState.ForkError.Expired -> {
                     FinishPage(
                         imageRes = R.drawable.session_fork_error,
                         titleRes = R.string.session_fork_error_expired_title,
@@ -108,7 +108,7 @@ fun SessionForkConfirmation(
                     }
                 }
 
-                ViewState.ForkError.Fatal -> {
+                SessionForkConfirmationViewModel.ViewState.ForkError.Fatal -> {
                     FinishPage(
                         imageRes = R.drawable.session_fork_error,
                         titleRes = R.string.session_fork_error_generic_title,
@@ -126,7 +126,7 @@ fun SessionForkConfirmation(
                     }
                 }
 
-                ViewState.ForkError.Network -> {
+                SessionForkConfirmationViewModel.ViewState.ForkError.Network -> {
                     FinishPage(
                         imageRes = R.drawable.session_fork_error,
                         titleRes = R.string.session_fork_error_generic_title,
@@ -146,7 +146,7 @@ fun SessionForkConfirmation(
             }
         }
 
-        ViewState.ForkSuccess -> {
+        SessionForkConfirmationViewModel.ViewState.ForkSuccess -> {
             FinishPage(
                 imageRes = R.drawable.session_fork_success,
                 titleRes = R.string.session_fork_success_title,
@@ -160,7 +160,7 @@ fun SessionForkConfirmation(
             }
         }
 
-        ViewState.Initial -> Unit
+        SessionForkConfirmationViewModel.ViewState.Initial -> Unit
     }
 }
 

@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.auth.ui
+package com.protonvpn.android.auth.ui.sessionfork
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel

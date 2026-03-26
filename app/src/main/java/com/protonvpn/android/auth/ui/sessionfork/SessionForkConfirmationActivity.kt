@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.auth.ui
+package com.protonvpn.android.auth.ui.sessionfork
 
 import android.content.Intent
 import android.os.Bundle
@@ -34,7 +34,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.protonvpn.android.auth.ui.SessionForkConfirmationViewModel.ViewState
+import com.protonvpn.android.auth.ui.AccountViewModel
+import com.protonvpn.android.auth.ui.TermsAndConditionsActivity
+import com.protonvpn.android.auth.ui.sessionfork.SessionForkConfirmationViewModel.ViewState
 import com.protonvpn.android.auth.usecase.IsQrCodeTvLoginFeatureFlagEnabled
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.base.ui.theme.VpnTheme
@@ -83,7 +85,7 @@ class SessionForkConfirmationActivity : FragmentActivity() {
             .launchIn(lifecycleScope)
 
         splashScreen.setKeepOnScreenCondition {
-            viewModel.viewState.value == ViewState.Initial &&
+            viewModel.viewState.value == SessionForkConfirmationViewModel.ViewState.Initial &&
                 accountState in arrayOf(AccountViewModel.State.Processing, AccountViewModel.State.Initial)
         }
 
@@ -120,8 +122,8 @@ class SessionForkConfirmationActivity : FragmentActivity() {
                         val termsAndConditionsIntent =
                             Intent(this, TermsAndConditionsActivity::class.java)
                         SessionForkSignIn(
-                            onSignUp = accountViewModel::signUp,
-                            onSignIn = accountViewModel::signIn,
+                            onSignUp = { accountViewModel.signUp() },
+                            onSignIn = { accountViewModel.signIn() },
                             onTermsAndConditions = { startActivity(termsAndConditionsIntent) },
                             modifier = Modifier.fillMaxSize(),
                         )
