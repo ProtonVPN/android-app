@@ -45,6 +45,7 @@ interface CommonDimensions {
 
     companion object {
         const val NO_VALUE = "n/a"
+        const val UNKNOWN = "unknown"
     }
 }
 

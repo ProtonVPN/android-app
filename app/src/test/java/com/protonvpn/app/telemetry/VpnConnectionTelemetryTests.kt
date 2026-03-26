@@ -20,16 +20,24 @@
 package com.protonvpn.app.telemetry
 
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
+import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
+import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.servers.api.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.servers.api.SERVER_FEATURE_STREAMING
-import com.protonvpn.android.servers.Server
-import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
+import com.protonvpn.android.settings.data.CustomDnsSettings
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.telemetry.ConnectionTelemetrySentryDebugEnabled
 import com.protonvpn.android.telemetry.DefaultCommonDimensions
 import com.protonvpn.android.telemetry.DefaultTelemetryReporter
@@ -43,6 +51,7 @@ import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.app.excludedlocations.TestExcludedLocationEntity
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -57,14 +66,18 @@ import io.mockk.just
 import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import java.util.EnumSet
+import kotlin.time.Duration.Companion.days
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class VpnConnectionTelemetryTests {
@@ -78,11 +91,19 @@ class VpnConnectionTelemetryTests {
     @MockK
     private lateinit var mockConnectionTelemetrySentryDebugEnabled: ConnectionTelemetrySentryDebugEnabled
 
+    @MockK
+    private lateinit var mockExcludedLocationsDao: ExcludedLocationsDao
+
     private lateinit var currentUser: CurrentUser
+    private lateinit var testCurrentUserProvider: TestCurrentUserProvider
     private lateinit var telemetryScope: TestScope
     private lateinit var prefs: ServerListUpdaterPrefs
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var testScheduler: TestCoroutineScheduler
+
+    private lateinit var userSettingsFlow: MutableStateFlow<LocalUserSettings>
+
+    private lateinit var effectiveUserSettings: EffectiveCurrentUserSettings
 
     private lateinit var vpnConnectionTelemetry: VpnConnectionTelemetry
 
@@ -118,21 +139,43 @@ class VpnConnectionTelemetryTests {
         } returns EnumSet.of(ConnectivityMonitor.Transport.WIFI)
         every { mockTelemetry.event(any(), any(), any(), any()) } returns Unit
         coEvery { mockConnectionTelemetrySentryDebugEnabled.invoke() } returns true
+        every { mockExcludedLocationsDao.observeAll(any()) } returns flowOf(value = listOf(TestExcludedLocationEntity.create()))
 
         telemetryScope = TestScope(UnconfinedTestDispatcher(testScheduler))
-        currentUser = CurrentUser(
-            TestCurrentUserProvider(TestUser.plusUser.vpnUser, createAccountUser())
-        )
+        testCurrentUserProvider = TestCurrentUserProvider(TestUser.plusUser.vpnUser, createAccountUser())
+        currentUser = CurrentUser(provider = testCurrentUserProvider)
         val commonDimensions =
             DefaultCommonDimensions(currentUser, vpnStateMonitor, prefs, FakeIsCredentialLessEnabled(true))
+
+        userSettingsFlow = MutableStateFlow(value = LocalUserSettings.Default.copy(telemetry = true))
+
+        effectiveUserSettings = EffectiveCurrentUserSettings(
+            mainScope = telemetryScope.backgroundScope,
+            effectiveCurrentUserSettingsFlow = userSettingsFlow,
+        )
+
         vpnConnectionTelemetry = VpnConnectionTelemetry(
-            telemetryScope.backgroundScope,
-            { testScheduler.currentTime },
-            commonDimensions,
-            vpnStateMonitor,
-            mockConnectivityMonitor,
-            { TelemetryFlowHelper(telemetryScope.backgroundScope, DefaultTelemetryReporter(mockTelemetry)) },
-            mockConnectionTelemetrySentryDebugEnabled,
+            mainScope = telemetryScope.backgroundScope,
+            clock = testScheduler::currentTime,
+            commonDimensions = commonDimensions,
+            vpnStateMonitor = vpnStateMonitor,
+            connectivityMonitor = mockConnectivityMonitor,
+            telemetryHelperLazy = {
+                TelemetryFlowHelper(
+                    telemetryScope.backgroundScope,
+                    DefaultTelemetryReporter(mockTelemetry)
+                )
+            },
+            isSentryDebugEnabled = mockConnectionTelemetrySentryDebugEnabled,
+            effectiveCurrentUserSettings = effectiveUserSettings,
+            observeExcludedLocations = ObserveExcludedLocations(
+                mainScope = telemetryScope.backgroundScope,
+                currentUser = currentUser,
+                excludedLocationsDao = mockExcludedLocationsDao,
+                isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
+            ),
+            currentUser = currentUser,
+            now = testScheduler::currentTime,
         )
         vpnConnectionTelemetry.start()
     }
@@ -298,6 +341,96 @@ class VpnConnectionTelemetryTests {
     @Test
     fun `when reconnecting requires disconnecting first then no failure is reported`() {
         testDisconnectForNewConnection(DisconnectTrigger.Reconnect("test"))
+    }
+
+    @Test
+    fun `WHEN disconnection is triggered THEN user feedback dimension is added`() = telemetryScope.runTest {
+        val dimensionsSlot = slot<Map<String, String>>()
+        val connectionParams = createConnectionParams(plusServer, ProtocolSelection.REAL_PROTOCOLS[0], 123)
+        connectSequence(connectionParams)
+        every {
+            mockTelemetry.event(
+                measurementGroup = "vpn.any.connection",
+                event = "vpn_disconnection",
+                values = mapOf("session_length" to 0),
+                dimensions = capture(dimensionsSlot),
+            )
+        } returns Unit
+
+        vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.NewConnection, null)
+
+        assertEquals("unknown", dimensionsSlot.captured["user_feedback"])
+    }
+
+    @Test
+    fun `WHEN disconnection is triggered THEN user tenure dimension is added`() = telemetryScope.runTest {
+        val dimensionsSlot = slot<Map<String, String>>()
+        testScheduler.advanceTimeBy(delayTimeMillis = System.currentTimeMillis())
+        val currentTime = testScheduler.currentTime
+        listOf(
+            0.days to "0",
+            1.days to "1",
+            2.days to "2",
+            3.days to "3-7",
+            7.days to "3-7",
+            8.days to "8-30",
+            30.days to "8-30",
+            31.days to "31-90",
+            90.days to "31-90",
+            91.days to "91-365",
+            365.days to "91-365",
+            366.days to ">366",
+            500.days to ">366",
+        ).forEach { (daysSinceUserCreation, expectedTenure) ->
+            val createdAtUtc = currentTime.minus(daysSinceUserCreation.inWholeMilliseconds)
+            val connectionParams = createConnectionParams(plusServer, ProtocolSelection.REAL_PROTOCOLS[0], 123)
+            connectSequence(connectionParams)
+            testCurrentUserProvider.set(TestUser.plusUser.vpnUser, createAccountUser(createdAtUtc = createdAtUtc))
+            every {
+                mockTelemetry.event(
+                    measurementGroup = "vpn.any.connection",
+                    event = "vpn_disconnection",
+                    values = mapOf("session_length" to 0),
+                    dimensions = capture(dimensionsSlot),
+                )
+            } returns Unit
+
+            vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.NewConnection, null)
+
+            assertEquals(expectedTenure, dimensionsSlot.captured["tenure"])
+        }
+    }
+
+    @Test
+    fun `GIVEN client features WHEN disconnection is triggered THEN client features dimension is added`() = telemetryScope.runTest {
+        userSettingsFlow.value = LocalUserSettings.Default.copy(
+            customDns = CustomDnsSettings(
+                toggleEnabled = true,
+                rawDnsList = listOf("8.8.8.8"),
+            ),
+            lanConnections = true,
+            randomizedNat = false,
+            netShield = NetShieldProtocol.ENABLED_EXTENDED,
+            splitTunneling = SplitTunnelingSettings(
+                isEnabled = true,
+            ),
+        )
+        val dimensionsSlot = slot<Map<String, String>>()
+        val connectionParams = createConnectionParams(plusServer, ProtocolSelection.REAL_PROTOCOLS[0], 123)
+        val expectedClientFeatures = "connection_preferences,custom_dns,lan_connections,moderate_nat,netshield,split_tunneling"
+        connectSequence(connectionParams)
+        every {
+            mockTelemetry.event(
+                measurementGroup = "vpn.any.connection",
+                event = "vpn_disconnection",
+                values = mapOf("session_length" to 0),
+                dimensions = capture(dimensionsSlot),
+            )
+        } returns Unit
+
+        vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.NewConnection, null)
+
+        assertEquals(expectedClientFeatures, dimensionsSlot.captured["client_features"])
     }
 
     private fun testDisconnectForNewConnection(disconnectTrigger: DisconnectTrigger) {

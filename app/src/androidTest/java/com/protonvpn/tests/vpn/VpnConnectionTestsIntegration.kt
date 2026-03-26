@@ -38,6 +38,7 @@ import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
+import com.protonvpn.android.excludedlocations.ExcludedLocations
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
@@ -56,6 +57,7 @@ import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.ConnectionTelemetrySentryDebugEnabled
 import com.protonvpn.android.telemetry.DefaultCommonDimensions
@@ -122,6 +124,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineScheduler
@@ -201,6 +204,10 @@ class VpnConnectionTestsIntegration {
     @RelaxedMockK
     lateinit var mockTelemetry: Telemetry
 
+    @MockK
+    lateinit var mockObserveExcludedLocations: ObserveExcludedLocations
+
+    private lateinit var db: AppDatabase
     private lateinit var featureFlagsFlow: MutableStateFlow<FeatureFlags>
     private lateinit var mockWireguard: MockVpnBackend
     private lateinit var mockProTun: MockVpnBackend
@@ -242,7 +249,7 @@ class VpnConnectionTestsIntegration {
         userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val db = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
+        db = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
             .buildDatabase()
 
         val profilesDao = db.profilesDao()
@@ -310,16 +317,29 @@ class VpnConnectionTestsIntegration {
         val mockConnectivityMonitor = mockk<ConnectivityMonitor>()
         every { mockConnectivityMonitor.defaultNetworkTransports } returns setOf(ConnectivityMonitor.Transport.WIFI)
         coEvery { mockConnectionTelemetrySentryDebugEnabled.invoke() } returns true
+        every { mockObserveExcludedLocations.invoke() } returns flowOf(value = ExcludedLocations(allLocations = emptyList()))
         val telemetryFlowHelper =
             TelemetryFlowHelper(scope.backgroundScope, DefaultTelemetryReporter(mockTelemetry))
         val vpnConnectionTelemetry = VpnConnectionTelemetry(
-            scope.backgroundScope,
-            clock,
-            DefaultCommonDimensions(currentUser, monitor, serverListUpdaterPrefs, FakeIsCredentialLessEnabled(true)),
-            monitor,
-            mockConnectivityMonitor,
-            { telemetryFlowHelper },
-            mockConnectionTelemetrySentryDebugEnabled,
+            mainScope = scope.backgroundScope,
+            clock = clock,
+            commonDimensions = DefaultCommonDimensions(
+                currentUser,
+                monitor,
+                serverListUpdaterPrefs,
+                FakeIsCredentialLessEnabled(true)
+            ),
+            vpnStateMonitor = monitor,
+            connectivityMonitor = mockConnectivityMonitor,
+            telemetryHelperLazy = { telemetryFlowHelper },
+            isSentryDebugEnabled = mockConnectionTelemetrySentryDebugEnabled,
+            effectiveCurrentUserSettings = EffectiveCurrentUserSettings(
+                mainScope = scope.backgroundScope,
+                effectiveCurrentUserSettingsFlow = userSettingsFlow,
+            ),
+            observeExcludedLocations = mockObserveExcludedLocations,
+            currentUser = currentUser,
+            now = clock,
         ).apply { start() }
 
         serverManager = createInMemoryServerManager(
@@ -366,6 +386,7 @@ class VpnConnectionTestsIntegration {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+        db.close()
     }
 
     private fun setupMockAgent(action: suspend (NativeClient) -> Unit) {

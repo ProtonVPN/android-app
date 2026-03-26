@@ -21,9 +21,14 @@ package com.protonvpn.android.telemetry
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.ElapsedRealtimeClock
+import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.servers.Server
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
+import com.protonvpn.android.telemetry.CommonDimensions.Companion.UNKNOWN
 import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.ConnectivityMonitor
@@ -34,14 +39,17 @@ import dagger.Reusable
 import io.sentry.Sentry
 import io.sentry.SentryEvent
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.featureflag.domain.ExperimentalProtonFeatureFlag
 import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.user.domain.entity.User
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Duration.Companion.milliseconds
 
 private class ConnectionTelemetryDebug(message: String) : Throwable(message)
 
@@ -64,6 +72,10 @@ class VpnConnectionTelemetry @Inject constructor(
     private val connectivityMonitor: ConnectivityMonitor,
     private val telemetryHelperLazy: dagger.Lazy<TelemetryFlowHelper>,
     private val isSentryDebugEnabled: ConnectionTelemetrySentryDebugEnabled,
+    private val effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
+    private val observeExcludedLocations: ObserveExcludedLocations,
+    private val currentUser: CurrentUser,
+    @param:WallClock private val now: () -> Long,
 ) {
     private val helper by telemetryHelperLazy
 
@@ -189,11 +201,60 @@ class VpnConnectionTelemetry @Inject constructor(
             val dimensions = buildMap {
                 this["vpn_trigger"] = trigger.statsName
                 this["is_ipv6_enabled"] = connectionParams?.enableIPv6?.toTelemetry() ?: NO_VALUE
+                this["client_features"] = getClientFeaturesDimensionValue()
+                this["tenure"] = currentUser.user().toTenureBucketString()
+                // Dynamic user feedback will be implemented in VPNUX-18. For now, we always need to send unknown
+                this["user_feedback"] = UNKNOWN
                 addCommonDimensions(trigger.isSuccess.toOutcome(), connectionParams)
             }
             TelemetryEventData(MEASUREMENT_GROUP, EVENT_DISCONNECT, values, dimensions)
         }
     }
+
+    private suspend fun getClientFeaturesDimensionValue(): String = buildList {
+        if(observeExcludedLocations().first().hasExclusions) {
+            add("connection_preferences")
+        }
+
+        val settings = effectiveCurrentUserSettings.effectiveSettings.first()
+
+        if(settings.customDns.effectiveEnabled) {
+            add("custom_dns")
+        }
+
+        if(settings.lanConnections) {
+            add("lan_connections")
+        }
+
+        if(!settings.randomizedNat) {
+            add("moderate_nat")
+        }
+
+        if(settings.netShield != NetShieldProtocol.DISABLED) {
+            add("netshield")
+        }
+
+        if(settings.splitTunneling.isEnabled) {
+            add("split_tunneling")
+        }
+    }
+        .sorted()
+        .joinToString(separator = ",")
+
+    private fun User?.toTenureBucketString(): String = this?.createdAtUtc?.let { userCreatedAt ->
+        val daysElapsed = (now() - userCreatedAt).milliseconds.inWholeDays
+
+        when {
+            daysElapsed == 0L -> "0"
+            daysElapsed == 1L -> "1"
+            daysElapsed == 2L -> "2"
+            daysElapsed <= 7L -> "3-7"
+            daysElapsed <= 30L -> "8-30"
+            daysElapsed <= 90L -> "31-90"
+            daysElapsed <= 365L -> "91-365"
+            else -> ">366"
+        }
+    } ?: UNKNOWN
 
     private suspend fun MutableMap<String, String>.addCommonDimensions(
         outcome: Outcome,
