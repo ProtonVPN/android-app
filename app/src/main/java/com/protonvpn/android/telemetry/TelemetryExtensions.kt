@@ -34,8 +34,8 @@ fun ProtocolSelection.toTelemetry(): String {
 }
 
 fun NatType.toTelemetry() = when(this) {
-    NatType.Strict -> "type3_strict"
-    NatType.Moderate -> "type2_moderate"
+    NatType.Strict -> "strict"
+    NatType.Moderate -> "moderate"
 }
 
 fun ProfileAutoOpen.toTelemetry() = when(this) {

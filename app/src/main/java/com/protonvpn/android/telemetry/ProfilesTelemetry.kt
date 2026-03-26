@@ -154,7 +154,7 @@ class ProfilesTelemetry @Inject constructor(
 
         val netShield = when (settings.netShield) {
             null -> NO_VALUE
-            true -> "f2"
+            true -> "ads_trackers_and_malware"
             false -> OFF
         }
         putDimensions(netShield, Dimen.NetShield)

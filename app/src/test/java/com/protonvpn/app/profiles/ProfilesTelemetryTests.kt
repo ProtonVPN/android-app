@@ -289,7 +289,7 @@ class ProfilesTelemetryTests {
         )
         assertEquals("off", settingsDimensions1["netshield_setting"])
         assertEquals("smart", settingsDimensions1["vpn_protocol"])
-        assertEquals("type2_moderate", settingsDimensions1["nat_type"])
+        assertEquals("moderate", settingsDimensions1["nat_type"])
         assertEquals("off", settingsDimensions1["lan_access"])
         assertEquals("url_private", settingsDimensions1["auto_open"])
 
@@ -309,9 +309,9 @@ class ProfilesTelemetryTests {
                 showProTun = true
             )
         )
-        assertEquals("f2", settingsDimensions2["netshield_setting"])
+        assertEquals("ads_trackers_and_malware", settingsDimensions2["netshield_setting"])
         assertEquals("wireguard_tls", settingsDimensions2["vpn_protocol"])
-        assertEquals("type3_strict", settingsDimensions2["nat_type"])
+        assertEquals("strict", settingsDimensions2["nat_type"])
         assertEquals("on", settingsDimensions2["lan_access"])
     }
 
