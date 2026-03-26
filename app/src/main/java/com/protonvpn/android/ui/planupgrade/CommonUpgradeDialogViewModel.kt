@@ -108,7 +108,7 @@ abstract class CommonUpgradeDialogViewModel(
             viewModelScope.launch {
                 state.update { current ->
                     if (result != null && result.billingResult.paySuccess) {
-                        onPaymentFinished(result.planId, UpgradeFlowType.REGULAR)
+                        onPaymentFinished(result.planId, UpgradeFlowType.REGULAR, result.billingResult.cycle.value)
                         State.PurchaseSuccess(
                             newPlanName = result.planId,
                             upgradeFlowType = UpgradeFlowType.REGULAR
@@ -128,8 +128,8 @@ abstract class CommonUpgradeDialogViewModel(
         upgradeTelemetry.onUpgradeAttempt(upgradeFlowType)
     }
 
-    suspend fun onPaymentFinished(newPlanName: String, upgradeFlowType: UpgradeFlowType) {
-        upgradeTelemetry.onUpgradeSuccess(newPlanName, upgradeFlowType)
+    suspend fun onPaymentFinished(newPlanName: String, upgradeFlowType: UpgradeFlowType, billingCycle: Int) {
+        upgradeTelemetry.onUpgradeSuccess(newPlanName, upgradeFlowType, billingCycle)
         waitForSubscription(newPlanName, userId.first())
         userPlanManager.refreshVpnInfo()
     }

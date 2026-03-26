@@ -92,11 +92,14 @@ class UpgradeTelemetry @Inject constructor(
         }
     }
 
-    fun onUpgradeSuccess(newPlanId: String?, flowType: UpgradeFlowType) {
+    fun onUpgradeSuccess(newPlanId: String?, flowType: UpgradeFlowType, billingCycle: Int) {
         helper.event {
             currentDimensions?.let { currentDimensions ->
                 val upgradedPlan = newPlanId ?: NO_VALUE
-                val dimensions = currentDimensions + ("upgraded_user_plan" to upgradedPlan)
+                val dimensions = currentDimensions + mapOf(
+                    "upgraded_user_plan" to upgradedPlan,
+                    "billing_cycle" to billingCycle.toString(),
+                )
                 currentUpgradeFlow = null
                 eventData("upsell_success", dimensions.withFlowType(flowType))
             }

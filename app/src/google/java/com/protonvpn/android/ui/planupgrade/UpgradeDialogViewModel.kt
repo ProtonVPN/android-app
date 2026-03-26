@@ -278,7 +278,7 @@ class UpgradeDialogViewModel(
                 is PerformGiapPurchase.Result.Error ->
                     emitError(billingClientError = null)
                 is PerformGiapPurchase.Result.GiapSuccess -> {
-                    onPaymentFinished(plan.name, flowType)
+                    onPaymentFinished(plan.name, flowType, cycle.value)
                     emit(State.PurchaseSuccess(plan.name, flowType))
                 }
             }
