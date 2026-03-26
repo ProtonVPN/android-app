@@ -24,9 +24,11 @@ import com.protonvpn.android.excludedlocations.data.ExcludedLocationEntity
 import com.protonvpn.android.excludedlocations.data.ExcludedLocationType
 import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
+import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -691,6 +693,39 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
 
             assertNull(actual = dimensions[excludedCountriesDimension], message = message)
             assertNull(actual = dimensions[excludedCitiesDimension], message = message)
+        }
+    }
+
+    @Test
+    fun `GIVEN NAT type WHEN providing dimensions THEN dimension is set`() = testScope.runTest {
+        val dimension = "nat_type"
+
+        listOf(
+            NatType.Moderate to "moderate",
+            NatType.Strict to "strict",
+        ).forEach { (natType, expectedDimensionValue) ->
+            localUserSettingsFlow.value = LocalUserSettings(randomizedNat = natType.toRandomizedNat())
+
+            val dimensions = getSettingsTelemetryHeartbeatDimensions()
+
+            assertEquals(expected = expectedDimensionValue, actual = dimensions[dimension])
+        }
+    }
+
+    @Test
+    fun `GIVEN netshield protocol WHEN providing dimensions THEN dimension is set`() = testScope.runTest {
+        val dimension = "netshield_level"
+
+        listOf(
+            NetShieldProtocol.DISABLED to "off",
+            NetShieldProtocol.ENABLED to "malware",
+            NetShieldProtocol.ENABLED_EXTENDED to "ads_trackers_and_malware",
+        ).forEach { (netShieldProtocol, expectedDimensionValue) ->
+            localUserSettingsFlow.value = LocalUserSettings(netShield = netShieldProtocol)
+
+            val dimensions = getSettingsTelemetryHeartbeatDimensions()
+
+            assertEquals(expected = expectedDimensionValue, actual = dimensions[dimension])
         }
     }
 

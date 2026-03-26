@@ -24,6 +24,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
+import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.CommonDimensions
@@ -215,6 +216,16 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
             value = isProTunEnabledTelemetry(settings.protocol.vpn, isProTunV1FeatureFlagEnabled())
         )
 
+        put(
+            key = DIMENSION_NAT_TYPE,
+            value = NatType.fromRandomizedNat(settings.randomizedNat).toTelemetry(),
+        )
+
+        put(
+            key = DIMENSION_NETSHIELD_LEVEL,
+            value = settings.netShield.toTelemetry(),
+        )
+
         commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
     }
 
@@ -326,6 +337,8 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
         private const val DIMENSION_IS_RATING_BOOSTER_ELIGIBLE = "is_rating_booster_eligible"
         private const val DIMENSION_EXCLUDED_COUNTRIES_COUNT = "excluded_countries_count"
         private const val DIMENSION_EXCLUDED_CITIES_AND_STATES_COUNT = "excluded_cities_count"
+        private const val DIMENSION_NAT_TYPE = "nat_type"
+        private const val DIMENSION_NETSHIELD_LEVEL = "netshield_level"
     }
 
 }

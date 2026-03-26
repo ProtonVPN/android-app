@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.telemetry
 
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.ui.ProfileType
 import com.protonvpn.android.profiles.usecases.PrivateBrowsingAvailability
@@ -36,6 +37,12 @@ fun ProtocolSelection.toTelemetry(): String {
 fun NatType.toTelemetry() = when(this) {
     NatType.Strict -> "strict"
     NatType.Moderate -> "moderate"
+}
+
+fun NetShieldProtocol.toTelemetry(): String = when(this) {
+    NetShieldProtocol.DISABLED -> "off"
+    NetShieldProtocol.ENABLED -> "malware"
+    NetShieldProtocol.ENABLED_EXTENDED -> "ads_trackers_and_malware"
 }
 
 fun ProfileAutoOpen.toTelemetry() = when(this) {
