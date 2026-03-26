@@ -34,11 +34,12 @@ class TestUser(
     val planName: String,
     val planDisplayName: String,
     val maxTier: Int,
-    val maxConnect: Int
+    val maxConnect: Int,
+    val isBusiness: Boolean = false,
 ) {
     val vpnInfoResponse: VpnInfoResponse
         get() {
-            val info = VPNInfo(1, 0, planName, planDisplayName, maxTier, maxConnect, email, "16")
+            val info = VPNInfo(1, 0, planName, planDisplayName, maxTier, maxConnect, email, "16", isBusiness = isBusiness)
             return VpnInfoResponse(1000, info, 4, 4, 0, 0, false)
         }
     val vpnUser: VpnUser
@@ -63,7 +64,7 @@ class TestUser(
         val twopass: TestUser
             get() = TestUser("twopasswords", "thisisarandomp45w0rd_*&-/?", "vpnplus", "vpnplus", 2, 5)
         val businessEssential: TestUser
-            get() = TestUser("businessEssential", "", "vpnpro2023", "VPN Essential", 2, 2)
+            get() = TestUser("businessEssential", "", "vpnpro2023", "VPN Essential", 2, 2, isBusiness = true)
     }
 }
 

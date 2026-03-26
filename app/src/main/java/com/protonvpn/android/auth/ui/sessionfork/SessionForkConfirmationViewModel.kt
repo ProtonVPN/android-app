@@ -36,6 +36,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -126,8 +127,8 @@ class SessionForkConfirmationViewModel @Inject constructor(
         triggerConfirmSignIn.tryEmit(Unit)
     }
 
-    private suspend fun executeConfirmFork(userId: UserId, userCode: String): Flow<ViewState.Fork> {
-        val confirmForkState = MutableSharedFlow<ViewState.Fork>(replay = 1)
+    // Uses channelFlow to allow embedding it in viewState flow.
+    private fun executeConfirmFork(userId: UserId, userCode: String): Flow<ViewState.Fork> = channelFlow {
         withContext(NonCancellable) {
             try {
                 forkSession(
@@ -144,7 +145,7 @@ class SessionForkConfirmationViewModel @Inject constructor(
                 } else {
                     null
                 }
-                confirmForkState.emit(ViewState.Fork.Success(mainUiLaunchIntent))
+                send(ViewState.Fork.Success(mainUiLaunchIntent))
             } catch (e: ApiException) {
                 ProtonLogger.logCustom(
                     LogCategory.USER,
@@ -158,10 +159,9 @@ class SessionForkConfirmationViewModel @Inject constructor(
                         else -> ViewState.Fork.Error.Fatal
                     }
                 }
-                confirmForkState.emit(errorState)
+                send(errorState)
             }
         }
-        return confirmForkState
     }
 
     private fun extractUserCode(uri: Uri?): String? {

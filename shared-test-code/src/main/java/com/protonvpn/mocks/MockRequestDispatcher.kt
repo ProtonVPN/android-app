@@ -19,7 +19,6 @@
 
 package com.protonvpn.mocks
 
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import me.proton.core.util.kotlin.equalsNoCase
 import okhttp3.mockwebserver.Dispatcher
