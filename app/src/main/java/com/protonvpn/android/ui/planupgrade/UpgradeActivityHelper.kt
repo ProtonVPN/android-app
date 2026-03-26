@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.onEach
 
 class UpgradeActivityHelper(
     private val activity: ComponentActivity,
-    private val afterPaymentSuccess: (newPlanName: String) -> Unit = {}
+    private val afterPaymentSuccess: (CommonUpgradeDialogViewModel.State.PurchaseSuccess) -> Unit = {}
 ) {
 
     fun onCreate(viewModel: UpgradeDialogViewModel) {
@@ -41,21 +41,22 @@ class UpgradeActivityHelper(
 
     private fun onStateUpdate(state: CommonUpgradeDialogViewModel.State) {
         when (state) {
-            CommonUpgradeDialogViewModel.State.Initializing -> {}
-            CommonUpgradeDialogViewModel.State.UpgradeDisabled -> {}
-            is CommonUpgradeDialogViewModel.State.LoadingPlans -> {}
-            is CommonUpgradeDialogViewModel.State.LoadError -> {}
-            is CommonUpgradeDialogViewModel.State.PurchaseReady -> {}
-            CommonUpgradeDialogViewModel.State.PlansFallback -> {}
+            CommonUpgradeDialogViewModel.State.Initializing,
+            CommonUpgradeDialogViewModel.State.UpgradeDisabled,
+            is CommonUpgradeDialogViewModel.State.LoadingPlans,
+            is CommonUpgradeDialogViewModel.State.LoadError,
+            is CommonUpgradeDialogViewModel.State.PurchaseReady,
+            CommonUpgradeDialogViewModel.State.PlansFallback -> Unit
+
             is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> {
-                onPaymentSuccess(state.newPlanName)
+                onPaymentSuccess(successPurchaseState = state)
             }
         }
     }
 
-    private fun onPaymentSuccess(newPlanName: String) {
+    private fun onPaymentSuccess(successPurchaseState: CommonUpgradeDialogViewModel.State.PurchaseSuccess) {
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
-        afterPaymentSuccess(newPlanName)
+        afterPaymentSuccess(successPurchaseState)
     }
 }

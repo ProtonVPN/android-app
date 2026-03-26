@@ -157,7 +157,7 @@ class UpgradeDialogViewModelTests {
             Assert.assertTrue(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
             purchaseResult.emit(mockk<PerformGiapPurchase.Result.GiapSuccess>())
             Assert.assertEquals(
-                State.PurchaseSuccess("myplan", UpgradeFlowType.ONE_CLICK),
+                State.PurchaseSuccess("myplan", UpgradeFlowType.ONE_CLICK, PlanCycle.MONTHLY.value),
                 awaitItem()
             )
         }

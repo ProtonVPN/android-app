@@ -110,7 +110,7 @@ class OnboardingTelemetryTests {
 
     @Test
     fun `signup_start reported only when SignupActivity goes foreground`() = testScope.runTest {
-        val telemetry = createTelemetry()
+        createTelemetry()
 
         repeat(3) {
             foregroundActivityFlow.value = mockk<SignupActivity>()
@@ -126,7 +126,7 @@ class OnboardingTelemetryTests {
 
     @Test
     fun `onboarding_start reported when OnboardingActivity goes foreground`() = testScope.runTest {
-        val telemetry = createTelemetry()
+        createTelemetry()
         foregroundActivityFlow.value = mockk<OnboardingActivity>()
         runCurrent()
 
@@ -145,16 +145,22 @@ class OnboardingTelemetryTests {
     @Test
     fun `payment_done reported`() = testScope.runTest {
         val telemetry = createTelemetry()
-        telemetry.onOnboardingPaymentSuccess("new plan")
+        telemetry.onOnboardingPaymentSuccess(newPlanName = "new plan", billingCycle = 1)
         runCurrent()
 
-        val expectedDimensions = mapOf("user_plan" to "new plan", "user_country" to "n/a", "is_credential_less_enabled" to "yes", "user_tier" to "non-user")
+        val expectedDimensions = mapOf(
+            "plan_selected" to "new plan",
+            "billing_cycle" to "1",
+            "user_country" to "n/a",
+            "is_credential_less_enabled" to "yes",
+            "user_tier" to "non-user",
+        )
         verify(exactly = 1) { mockTelemetry.event(GROUP, "payment_done", any(), expectedDimensions, true) }
     }
 
     @Test
     fun `first_connect reported on first connection attempt`() = testScope.runTest {
-        val telemetry = createTelemetry()
+        createTelemetry()
 
         repeat(3) {
             vpnStateMonitor.newSessionEvent.emit(ConnectIntent.Default to ConnectTrigger.ConnectionCard)
@@ -174,14 +180,21 @@ class OnboardingTelemetryTests {
         testUserProvider.vpnUser = TestUser.freeUser.vpnUser
         testUserProvider.user = createAccountUser()
         runCurrent()
-        telemetry.onOnboardingPaymentSuccess("vpnPlus")
+        telemetry.onOnboardingPaymentSuccess(newPlanName = "vpnPlus", billingCycle = 12)
         runCurrent()
 
         verify(exactly = 1) {
             mockTelemetry.event(GROUP, "first_launch", emptyMap(), mapOf("user_country" to "UK", "is_credential_less_enabled" to "yes", "user_tier" to "non-user"), true)
         }
         verify(exactly = 1) {
-            val dimensions =  mapOf("user_country" to "UK", "user_plan" to "vpnPlus", "is_credential_less_enabled" to "yes", "user_tier" to "free")
+            val dimensions =  mapOf(
+                "plan_selected" to "vpnPlus",
+                "billing_cycle" to "12",
+                "user_country" to "UK",
+                "user_plan" to "free",
+                "is_credential_less_enabled" to "yes",
+                "user_tier" to "free",
+            )
             mockTelemetry.event(GROUP, "payment_done", emptyMap(), dimensions, true)
         }
     }
@@ -205,7 +218,6 @@ class OnboardingTelemetryTests {
         currentUser,
         DefaultCommonDimensions(currentUser, vpnStateMonitor, serverListPrefs, FakeIsCredentialLessEnabled(true)),
         appFeaturesPrefs,
-        { TelemetryFlowHelper(testScope.backgroundScope, DefaultTelemetryReporter(mockTelemetry)) },
-    )
+    ) { TelemetryFlowHelper(testScope.backgroundScope, DefaultTelemetryReporter(mockTelemetry)) }
 
 }

@@ -89,13 +89,13 @@ class OnboardingTelemetry @Inject constructor(
 
     private fun onOnboardingStart() = sendEvent(EventName.ONBOARDING_START)
 
-    fun onOnboardingPaymentSuccess(newPlanName: String) = sendEvent(EventName.PAYMENT_DONE) {
-        getDimensions(newPlanName)
+    fun onOnboardingPaymentSuccess(newPlanName: String, billingCycle: Int) = sendEvent(EventName.PAYMENT_DONE) {
+        getDimensions(newPlanName, billingCycle)
     }
 
     private fun onConnectionAttempt() = sendEvent(EventName.FIRST_CONNECTION)
 
-    private fun sendEvent(event: EventName, dimensions: suspend () -> Map<String, String> = { getDimensions() }) {
+    private fun sendEvent(event: EventName, dimensions: suspend () -> Map<String, String> = ::getDimensions) {
         helper.event(sendImmediately = true) {
             if (hasReportedEvent(event.statsName)) {
                 null
@@ -116,16 +116,27 @@ class OnboardingTelemetry @Inject constructor(
             appFeaturesPrefs.reportedOnboardingEvents = events + eventName
     }
 
-    private suspend fun getDimensions(planNameOverride: String? = null): Map<String, String> = buildMap {
-        val plan = planNameOverride ?: currentUser.vpnUser()?.planName
-        if (plan != null) {
-            put("user_plan", plan)
+    private suspend fun getDimensions(
+        selectedPlan: String? = null,
+        billingCycle: Int? = null,
+    ): Map<String, String> = buildMap {
+        currentUser.vpnUser()?.planName?.let {
+            put("user_plan", it)
         }
+
+        selectedPlan?.let {
+            put("plan_selected", it)
+        }
+
+        billingCycle?.let {
+            put("billing_cycle", it.toString())
+        }
+
         commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY,
             CommonDimensions.Key.USER_TIER, CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED)
     }
 
     companion object {
-        const val MEASUREMENT_GROUP = "vpn.any.onboarding"
+        private const val MEASUREMENT_GROUP = "vpn.any.onboarding"
     }
 }

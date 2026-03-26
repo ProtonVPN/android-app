@@ -86,7 +86,8 @@ abstract class CommonUpgradeDialogViewModel(
         object PlansFallback : State() // Conditions for short flow were not met, start normal account flow
         data class PurchaseSuccess(
             val newPlanName: String,
-            val upgradeFlowType: UpgradeFlowType
+            val upgradeFlowType: UpgradeFlowType,
+            val billingCycle: Int,
         ) : State()
     }
 
@@ -108,11 +109,13 @@ abstract class CommonUpgradeDialogViewModel(
             viewModelScope.launch {
                 state.update { current ->
                     if (result != null && result.billingResult.paySuccess) {
-                        onPaymentFinished(result.planId, UpgradeFlowType.REGULAR, result.billingResult.cycle.value)
                         State.PurchaseSuccess(
                             newPlanName = result.planId,
-                            upgradeFlowType = UpgradeFlowType.REGULAR
-                        )
+                            upgradeFlowType = UpgradeFlowType.REGULAR,
+                            billingCycle = result.billingResult.cycle.value,
+                        ).also { purchaseSuccessState ->
+                            onPaymentFinished(purchaseSuccessState = purchaseSuccessState)
+                        }
                     } else if (current is State.PurchaseReady) {
                         current.copy(inProgress = false)
                     } else {
@@ -128,10 +131,12 @@ abstract class CommonUpgradeDialogViewModel(
         upgradeTelemetry.onUpgradeAttempt(upgradeFlowType)
     }
 
-    suspend fun onPaymentFinished(newPlanName: String, upgradeFlowType: UpgradeFlowType, billingCycle: Int) {
-        upgradeTelemetry.onUpgradeSuccess(newPlanName, upgradeFlowType, billingCycle)
-        waitForSubscription(newPlanName, userId.first())
-        userPlanManager.refreshVpnInfo()
+    suspend fun onPaymentFinished(purchaseSuccessState: State.PurchaseSuccess) {
+        with(purchaseSuccessState) {
+            upgradeTelemetry.onUpgradeSuccess(newPlanName, upgradeFlowType, billingCycle)
+            waitForSubscription(newPlanName, userId.first())
+            userPlanManager.refreshVpnInfo()
+        }
     }
 
     fun onStartFallbackUpgrade() = viewModelScope.launch {

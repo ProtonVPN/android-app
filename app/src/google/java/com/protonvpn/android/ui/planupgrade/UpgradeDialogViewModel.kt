@@ -278,8 +278,15 @@ class UpgradeDialogViewModel(
                 is PerformGiapPurchase.Result.Error ->
                     emitError(billingClientError = null)
                 is PerformGiapPurchase.Result.GiapSuccess -> {
-                    onPaymentFinished(plan.name, flowType, cycle.value)
-                    emit(State.PurchaseSuccess(plan.name, flowType))
+                    val purchaseSuccessState = State.PurchaseSuccess(
+                        newPlanName = plan.name,
+                        upgradeFlowType = flowType,
+                        billingCycle = cycle.value,
+                    )
+
+                    onPaymentFinished(purchaseSuccessState = purchaseSuccessState)
+
+                    emit(value = purchaseSuccessState)
                 }
             }
         }.catch {

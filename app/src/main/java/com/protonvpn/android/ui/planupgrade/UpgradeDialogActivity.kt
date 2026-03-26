@@ -134,7 +134,7 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
     }
 
     @CallSuper
-    protected open fun afterPaymentSuccess(newPlanName: String) {}
+    protected open fun afterPaymentSuccess(successPaymentState: CommonUpgradeDialogViewModel.State.PurchaseSuccess) = Unit
 
     protected fun setGradientColors(top: Int, mid: Int, bottom: Int,  fixedAlpha: Boolean = false) {
         val alphaFraction: Float = resources.getFraction(R.fraction.upsellDialogGradientAlphaFraction, 1, 1)
@@ -313,9 +313,13 @@ class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultipleP
         binding.composeToolbar.isVisible = false
     }
 
-    override fun afterPaymentSuccess(newPlanName: String) {
-        super.afterPaymentSuccess(newPlanName)
-        onboardingTelemetry.onOnboardingPaymentSuccess(newPlanName)
+    override fun afterPaymentSuccess(successPaymentState: CommonUpgradeDialogViewModel.State.PurchaseSuccess) {
+        super.afterPaymentSuccess(successPaymentState)
+
+        onboardingTelemetry.onOnboardingPaymentSuccess(
+            newPlanName = successPaymentState.newPlanName,
+            billingCycle = successPaymentState.billingCycle,
+        )
     }
 
     override fun initHighlightsFragment() {
