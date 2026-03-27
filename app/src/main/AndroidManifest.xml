@@ -460,6 +460,8 @@
         <activity
             android:name=".tv.TvLoginActivity"
             android:theme="@style/AppTheme.TV.Leanback"/>
+        <activity
+            android:name=".tv.login.TvQrLoginActivity" />
 
         <activity
             android:name="me.proton.core.crypto.validator.presentation.ui.CryptoValidatorErrorDialogActivity"

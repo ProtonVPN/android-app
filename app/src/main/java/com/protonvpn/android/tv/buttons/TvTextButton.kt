@@ -24,18 +24,21 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
-import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.tv.settings.ProtonTvFocusableSurface
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 
 @Composable
 fun TvTextButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    textStyle: TextStyle = ProtonTheme.typography.body2Medium,
+    focusGainSound: Boolean = false,
 ) {
     ProtonTvFocusableSurface(
         modifier = modifier,
@@ -43,20 +46,21 @@ fun TvTextButton(
         focusedColor = { ProtonTheme.colors.backgroundNorm },
         shape = CircleShape,
         onClick = onClick,
+        focusGainSound = focusGainSound,
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
             text = text,
             color = ProtonTheme.colors.textNorm,
-            style = ProtonTheme.typography.body2Medium,
+            style = textStyle,
         )
     }
 }
 
-@Preview
+@Preview()
 @Composable
 private fun PreviewTvTextButton() {
-    ProtonVpnPreview(isDark = true) {
+    ProtonThemeTv(isDark = true) {
         TvTextButton(
             text = "Button text",
             onClick = {},

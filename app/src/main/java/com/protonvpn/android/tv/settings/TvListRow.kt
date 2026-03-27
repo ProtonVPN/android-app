@@ -34,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
@@ -58,6 +59,7 @@ fun ProtonTvFocusableSurface(
     modifier: Modifier = Modifier,
     color: @Composable () -> Color = { Color.Transparent },
     clickSound: Boolean = true,
+    focusGainSound: Boolean = false, // Usually it's enough to have sound on focus lost.
     content: @Composable () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -86,6 +88,10 @@ fun ProtonTvFocusableSurface(
             scale = ClickableSurfaceScale.None,
             interactionSource = interactionSource,
             modifier = modifier
+                .optional(
+                    { focusGainSound },
+                    Modifier.onFocusChanged { if (it.hasFocus) audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_UP) }
+                )
                 .onFocusLost { audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_UP) }
         ) {
             content()

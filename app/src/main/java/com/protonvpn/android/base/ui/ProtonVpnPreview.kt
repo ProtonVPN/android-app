@@ -28,10 +28,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.isNightMode
+import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 
 @Preview(name = "Default")
 @Preview(name = "Dark", uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL)
 annotation class ProtonVpnPreview
+
+@Preview(name = "Default", uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL, widthDp = 960, heightDp = 540)
+@Preview(name = "Rtl", locale = "fa", uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL, widthDp = 960, heightDp = 540)
+annotation class ProtonVpnTvPreview
+
 
 @Composable
 fun ProtonVpnPreview(
@@ -40,20 +46,32 @@ fun ProtonVpnPreview(
     surfaceColor: @Composable () -> Color = { ProtonTheme.colors.backgroundNorm },
     content: @Composable () -> Unit
 ) {
-    @Composable
-    fun OptionalSurface(surface: Boolean, content: @Composable () -> Unit) {
-        if (surface) {
-            Surface(
-                color = surfaceColor(),
-            ) {
-                content()
-            }
-        } else {
+    VpnTheme(isDark = isDark) {
+        OptionalSurface(if (addSurface) surfaceColor else null, content)
+    }
+}
+
+@Composable
+fun ProtonVpnTvPreview(
+    isDark: Boolean = isNightMode(),
+    addSurface: Boolean = true,
+    surfaceColor: @Composable () -> Color = { ProtonTheme.colors.backgroundNorm },
+    content: @Composable () -> Unit
+) {
+    ProtonThemeTv(isDark = isDark) {
+        OptionalSurface(if (addSurface) surfaceColor else null, content)
+    }
+}
+
+@Composable
+private fun OptionalSurface(surfaceColor: (@Composable () -> Color)?, content: @Composable () -> Unit) {
+    if (surfaceColor != null) {
+        Surface(
+            color = surfaceColor(),
+        ) {
             content()
         }
-    }
-
-    VpnTheme(isDark = isDark) {
-        OptionalSurface(addSurface, content)
+    } else {
+        content()
     }
 }

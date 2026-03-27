@@ -1,0 +1,43 @@
+<!--
+  ~ Copyright (c) 2026. Proton AG
+  ~
+  ~ This file is part of ProtonVPN.
+  ~
+  ~ ProtonVPN is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ ProtonVPN is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="960dp"
+    android:height="270dp"
+    android:viewportWidth="960"
+    android:viewportHeight="270">
+    <group
+        android:name="gradientGroup"
+        android:scaleY="0.5625">
+      <path
+          android:pathData="M0,-270h960v1080h-960z">
+        <aapt:attr name="android:fillColor">
+          <gradient
+              android:centerX="480"
+              android:centerY="0"
+              android:gradientRadius="480"
+              android:type="radial">
+            <item android:offset="0" android:color="#282CFFCC"/>
+            <item android:offset="1" android:color="#006D4AFF"/>
+          </gradient>
+        </aapt:attr>
+      </path>
+    </group>
+</vector>
