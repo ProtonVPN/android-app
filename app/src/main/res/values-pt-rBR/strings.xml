@@ -1479,7 +1479,7 @@
     <string name="info_p2p_why_description_speed">Velocidades aumentadas de upload e download</string>
     <string name="info_p2p_why_description_logs">Sem registros de atividades</string>
     <string name="info_p2p_why_description_hide">Oculte seu endereço IP do seu provedor de serviços e de seus pares</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
+    <string name="info_dialog_smart_routing_description">O Smart Routing nos permite fornecer cobertura VPN em países de difícil acesso.\n\nAo se conectar a um servidor Smart Routing, você parecerá estar navegando no seu país de destino, mesmo que o servidor físico esteja localizado em outro lugar.  \n\nO Smart Routing é normalmente utilizado para contornar leis anti-privacidade e outras formas de censura.</string>
     <string name="notifications_channel_connection_status_name">Status da conexão</string>
     <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
     <string name="notifications_channel_connection_errors_name">Erros de conexão</string>
@@ -1625,4 +1625,21 @@
     <string name="connection_preferences_smart_discovery_dialog_message">If there are locations you don’t want to be automatically connected to, you can exclude them from Fastest country.</string>
     <string name="excluded_locations_adoption_title">Evite locais indesejados</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Agora você pode excluir países e cidades das conexões <b>mais rápidas</b>.]]></string>
+    <string name="session_fork_no_account_title">Iniciar sessão no Android TV</string>
+    <string name="session_fork_no_account_message">Conclua o início de sessão neste dispositivo para começar a usar o Proton VPN na sua TV</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Ao usar este aplicativo você aceita nossos <a href="">Termos e Condições</a>.]]></string>
+    <string name="session_fork_no_account_signup_button">Criar uma conta</string>
+    <string name="session_fork_no_account_signin_button">Iniciar sessão</string>
+    <string name="session_fork_confirmation_title">Iniciar sessão no Android TV?</string>
+    <string name="session_fork_confirmation_message">Isso permitirá que a TV acesse sua conta da Proton.</string>
+    <string name="session_fork_confirmation_bottom_note">Inicie sessão apenas em dispositivos de confiança</string>
+    <string name="session_fork_success_title">Início de sessão concluído</string>
+    <string name="session_fork_success_message">Você agora você iniciou sessão na sua TV.</string>
+    <string name="session_fork_error_expired_title">Código expirado</string>
+    <string name="session_fork_error_expired_message">Crie um código na sua TV e tente novamente.</string>
+    <string name="session_fork_error_generic_title">Não foi possível iniciar sessão</string>
+    <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
+    <string name="session_fork_error_network_message">Check your network and try again.</string>
+    <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
+    <string name="session_fork_error_report_button">Reportar o problema</string>
 </resources>

@@ -1697,4 +1697,21 @@
     <string name="connection_preferences_smart_discovery_dialog_message">If there are locations you don’t want to be automatically connected to, you can exclude them from Fastest country.</string>
     <string name="excluded_locations_adoption_title">Уникайте небажаних розташувань</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Тепер ви можете виключати країни й міста з <b>Найшвидших</b> з\'єднань.]]></string>
+    <string name="session_fork_no_account_title">Sign in on Android TV</string>
+    <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
+    <string name="session_fork_no_account_signup_button">Create an account</string>
+    <string name="session_fork_no_account_signin_button">Sign in</string>
+    <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
+    <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
+    <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
+    <string name="session_fork_success_title">Sign-in complete</string>
+    <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
+    <string name="session_fork_error_expired_title">Code expired</string>
+    <string name="session_fork_error_expired_message">Create a new code on your TV and try again.</string>
+    <string name="session_fork_error_generic_title">Couldn’t sign in</string>
+    <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
+    <string name="session_fork_error_network_message">Check your network and try again.</string>
+    <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
+    <string name="session_fork_error_report_button">Report the issue</string>
 </resources>

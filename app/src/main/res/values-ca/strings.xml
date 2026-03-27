@@ -1625,4 +1625,21 @@
     <string name="connection_preferences_smart_discovery_dialog_message">Si hi ha ubicacions a les quals no us vulgueu connectar automàticament, podeu excloure-les de \"País més ràpid\".</string>
     <string name="excluded_locations_adoption_title">Eviteu ubicacions no desitjades</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Ara podeu excloure països i ciutats de les connexions <b>més ràpides</b>.]]></string>
+    <string name="session_fork_no_account_title">Inicieu sessió a Android TV</string>
+    <string name="session_fork_no_account_message">Completeu l\'inici de sessió en aquest dispositiu per començar a utilitzar Proton VPN a la vostra TV</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[En utilitzar aquesta aplicació, accepteu els nostres <a href="">Termes i condicions</a>.]]></string>
+    <string name="session_fork_no_account_signup_button">Crear un compte</string>
+    <string name="session_fork_no_account_signin_button">Iniciar la sessió</string>
+    <string name="session_fork_confirmation_title">Voleu iniciar sessió a Android TV?</string>
+    <string name="session_fork_confirmation_message">Això permetrà que la TV accedeixi al vostre compte de Proton.</string>
+    <string name="session_fork_confirmation_bottom_note">Inicieu sessió només en dispositius de confiança</string>
+    <string name="session_fork_success_title">S\'ha completat l\'inici de sessió</string>
+    <string name="session_fork_success_message">Heu iniciat sessió a la TV.</string>
+    <string name="session_fork_error_expired_title">El codi ha caducat</string>
+    <string name="session_fork_error_expired_message">Creeu un codi nou a la vostra TV i torneu-ho a provar.</string>
+    <string name="session_fork_error_generic_title">No s\'ha pogut iniciar sessió</string>
+    <string name="session_fork_error_fatal_message">Comproveu la xarxa i torneu-ho a provar. Si el problema persisteix, poseu-vos en contacte amb el nostre equip d\'atenció al client. </string>
+    <string name="session_fork_error_network_message">Comproveu la xarxa i torneu-ho a provar.</string>
+    <string name="session_fork_error_try_fallback_message">Cliqueu a \"Teniu problemes per iniciar la sessió?\" a la vostra TV per seguir els passos alternatius.</string>
+    <string name="session_fork_error_report_button">Informar del problema</string>
 </resources>

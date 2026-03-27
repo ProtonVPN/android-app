@@ -1625,4 +1625,21 @@
     <string name="connection_preferences_smart_discovery_dialog_message">Wenn es Standorte gibt, mit denen du dich nicht automatisch verbinden möchtest, kannst du sie aus „Schnellstes Land“ ausschließen.</string>
     <string name="excluded_locations_adoption_title">Unerwünschte Standorte vermeiden</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Länder und Städte können nun von den <b>Schnellsten</b> Verbindungen ausgeschlossen werden.]]></string>
+    <string name="session_fork_no_account_title">Bei Android TV anmelden</string>
+    <string name="session_fork_no_account_message">Schließe die Anmeldung auf diesem Gerät ab, um Proton VPN auf deinem Fernseher nutzen zu können.</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Mit der Nutzung dieser App akzeptierst du unsere <a href="">Allgemeinen Geschäftsbedingungen</a>.]]></string>
+    <string name="session_fork_no_account_signup_button">Konto erstellen</string>
+    <string name="session_fork_no_account_signin_button">Anmelden</string>
+    <string name="session_fork_confirmation_title">Bei Android TV anmelden?</string>
+    <string name="session_fork_confirmation_message">Dadurch kann das Fernsehgerät auf dein Proton-Konto zugreifen.</string>
+    <string name="session_fork_confirmation_bottom_note">Melde dich nur auf Geräten an, denen du vertraust</string>
+    <string name="session_fork_success_title">Anmeldung abgeschlossen</string>
+    <string name="session_fork_success_message">Du bist nun auf deinem Fernseher angemeldet.</string>
+    <string name="session_fork_error_expired_title">Code abgelaufen</string>
+    <string name="session_fork_error_expired_message">Erstelle auf deinem Fernseher einen neuen Code und versuche es erneut.</string>
+    <string name="session_fork_error_generic_title">Anmeldung fehlgeschlagen</string>
+    <string name="session_fork_error_fatal_message">Überprüfe deine Netzwerkverbindung und versuche es erneut. Sollte das Problem weiterhin bestehen, wende dich bitte an unseren Kundensupport. </string>
+    <string name="session_fork_error_network_message">Überprüfe deine Netzwerkverbindung und versuche es erneut.</string>
+    <string name="session_fork_error_try_fallback_message">Klicken Sie auf deinem Fernsehgerät auf \‘Probleme bei der Anmeldung?\‘, um den alternativen Schritten zu folgen.</string>
+    <string name="session_fork_error_report_button">Problem melden</string>
 </resources>

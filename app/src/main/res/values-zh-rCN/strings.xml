@@ -1589,4 +1589,21 @@
     <string name="connection_preferences_smart_discovery_dialog_message">如果有您不希望被自动连接到的位置，您可以将它们从“最快国家/地区”中排除。</string>
     <string name="excluded_locations_adoption_title">避免不希望连接的位置</string>
     <string name="excluded_locations_adoption_description"><![CDATA[您现在可以从 <b>最快</b> 连接中排除国家/地区和城市了！]]></string>
+    <string name="session_fork_no_account_title">在 Android TV 上登录</string>
+    <string name="session_fork_no_account_message">在此设备上完成登录，即可开始在电视上使用 Proton VPN</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[使用本应用程序即表示您接受我们的<a href="">服务条款</a>。]]></string>
+    <string name="session_fork_no_account_signup_button">创建账户</string>
+    <string name="session_fork_no_account_signin_button">登录</string>
+    <string name="session_fork_confirmation_title">在 Android TV 上登录？</string>
+    <string name="session_fork_confirmation_message">这将允许电视访问您的 Proton 账户。</string>
+    <string name="session_fork_confirmation_bottom_note">仅在您信任的设备上登录</string>
+    <string name="session_fork_success_title">登录完成</string>
+    <string name="session_fork_success_message">您现在已在电视上登录。</string>
+    <string name="session_fork_error_expired_title">代码已过期</string>
+    <string name="session_fork_error_expired_message">请在电视上生成新的代码后重试。</string>
+    <string name="session_fork_error_generic_title">无法登录</string>
+    <string name="session_fork_error_fatal_message">请检查您的网络后重试。如果问题仍然存在，请联系我们的客户支持团队。</string>
+    <string name="session_fork_error_network_message">请检查您的网络后重试。</string>
+    <string name="session_fork_error_try_fallback_message">点击电视上的“登录遇到问题？”以按照备用步骤操作。</string>
+    <string name="session_fork_error_report_button">报告问题</string>
 </resources>

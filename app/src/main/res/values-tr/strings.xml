@@ -1479,7 +1479,7 @@
     <string name="info_p2p_why_description_speed">Artırılmış yükleme ve indirme hızları</string>
     <string name="info_p2p_why_description_logs">Etkinlik kaydı tutulmaz</string>
     <string name="info_p2p_why_description_hide">IP adresinizi hizmet sağlayıcınızdan ve eşlerinizden gizleyin</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing, ulaşılması zor ülkelerde VPN erişimi sağlamamıza olanak tanır.\n\nBir Smart Routing sunucusuna bağlandığınızda, fiziksel sunucu başka bir yerde olsa da, hedef ülkede geziniyormuş gibi görünürsünüz.  \n\nSmart Routing genellikle gizlilik karşıtı yasaları ve diğer sansür biçimlerini aşmak için kullanılır.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing, ulaşılması zor ülkelerde VPN erişimi sunmamızı sağlar.\n\nBir Smart Routing sunucusuna bağlandığınızda, fiziksel sunucu başka bir yerde bulunsa bile, hedef ülkenizde geziniyormuş gibi görünürsünüz.  \n\nSmart Routing genellikle gizlilik karşıtı yasaları ve diğer engelleme biçimlerini aşmak için kullanılır.</string>
     <string name="notifications_channel_connection_status_name">Bağlantı durumu</string>
     <string name="notifications_channel_connection_status_description">Bağlı olduğunuz sunucuyu ve VPN hızınızı gösterir.</string>
     <string name="notifications_channel_connection_errors_name">Bağlantı sorunları</string>
@@ -1625,4 +1625,21 @@
     <string name="connection_preferences_smart_discovery_dialog_message">Otomatik olarak bağlanmak istemediğiniz konumlar varsa, bunların En hızlı ülke seçeneğine katılmamasını sağlayabilirsiniz.</string>
     <string name="excluded_locations_adoption_title">İstemediğiniz konumlara bağlanmayın</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Artık <b>En hızlı</b> bağlantı seçeneğine ülkelerin ve illerin katılmamasını sağlayabilirsiniz.]]></string>
+    <string name="session_fork_no_account_title">Android TV ile oturum aç</string>
+    <string name="session_fork_no_account_message">Televizyonunuzda Proton VPN oturumu açma işlemini bu aygıtta tamamlayın</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Bu uygulamayı kullanarak <a href="">Hüküm ve Koşullar</a> içeriğimizi kabul etmiş olursunuz.]]></string>
+    <string name="session_fork_no_account_signup_button">Hesap açın</string>
+    <string name="session_fork_no_account_signin_button">Oturum aç</string>
+    <string name="session_fork_confirmation_title">Android TV oturumu açmak ister misiniz?</string>
+    <string name="session_fork_confirmation_message">Bu işlem televizyonun Proton hesabınıza erişmesini sağlayacak.</string>
+    <string name="session_fork_confirmation_bottom_note">Yalnızca güvendiğiniz aygıtlarda oturum açın</string>
+    <string name="session_fork_success_title">Oturum açıldı</string>
+    <string name="session_fork_success_message">Televizyonunuzda oturum açtınız.</string>
+    <string name="session_fork_error_expired_title">Kodun süresi geçmiş</string>
+    <string name="session_fork_error_expired_message">Televizyonunuzda yeni bir kod oluşturup yeniden deneyin.</string>
+    <string name="session_fork_error_generic_title">Oturum açılamadı</string>
+    <string name="session_fork_error_fatal_message">Ağ bağlantınızı denetleyip yeniden deneyin. Sorun sürerse müşteri destek ekibimizle görüşün. </string>
+    <string name="session_fork_error_network_message">Ağ bağlantınızı denetleyip yeniden deneyin.</string>
+    <string name="session_fork_error_try_fallback_message">Televizyonunuzda \‘Oturum açamıyor musunuz?\’ üzerine tıklayarak alternatif adımları izleyin.</string>
+    <string name="session_fork_error_report_button">Sorunu bildireceğim</string>
 </resources>

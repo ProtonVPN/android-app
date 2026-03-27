@@ -1625,4 +1625,21 @@
     <string name="connection_preferences_smart_discovery_dialog_message">Si hay ubicaciones a las que no quieres conectarte automáticamente, puedes excluirlas de «País más rápido».</string>
     <string name="excluded_locations_adoption_title">Evitar ubicaciones no deseadas</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Ahora puedes excluir países y ciudades de las conexiones más rápidas (<b>Fastest</b>).]]></string>
+    <string name="session_fork_no_account_title">Iniciar sesión en Android TV</string>
+    <string name="session_fork_no_account_message">Finaliza el inicio de sesión en este dispositivo para empezar a usar Proton VPN en tu televisor</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Al usar esta aplicación, aceptas nuestros <a href="">términos y condiciones</a>.]]></string>
+    <string name="session_fork_no_account_signup_button">Crear una cuenta</string>
+    <string name="session_fork_no_account_signin_button">Iniciar sesión</string>
+    <string name="session_fork_confirmation_title">¿Iniciar sesión en Android TV?</string>
+    <string name="session_fork_confirmation_message">Esto permitirá que el televisor acceda a tu cuenta de Proton.</string>
+    <string name="session_fork_confirmation_bottom_note">Inicia sesión solo en dispositivos de confianza</string>
+    <string name="session_fork_success_title">Sesión iniciada</string>
+    <string name="session_fork_success_message">Ya has iniciado sesión en tu televisor</string>
+    <string name="session_fork_error_expired_title">El código ha caducado</string>
+    <string name="session_fork_error_expired_message">Genera un nuevo código en tu televisor e inténtalo de nuevo.</string>
+    <string name="session_fork_error_generic_title">No se ha podido iniciar sesión</string>
+    <string name="session_fork_error_fatal_message">Comprueba tu conexión e inténtalo de nuevo. Si el problema persiste, ponte en contacto con nuestro equipo de soporte. </string>
+    <string name="session_fork_error_network_message">Comprueba tu conexión e inténtalo de nuevo.</string>
+    <string name="session_fork_error_try_fallback_message">Haz clic en «¿Problemas para iniciar sesión?» en tu televisor para seguir los pasos alternativos.</string>
+    <string name="session_fork_error_report_button">Informar del problema</string>
 </resources>

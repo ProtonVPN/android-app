@@ -1697,4 +1697,21 @@
     <string name="connection_preferences_smart_discovery_dialog_message">Ak existujú lokality, ku ktorým sa nechcete automaticky pripájať, môžete ich vylúčiť z funkcie Najrýchlejší v krajine.</string>
     <string name="excluded_locations_adoption_title">Vyhnite sa nežiaducim lokalitám</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Teraz môžete vylúčiť krajiny a mestá z <b>najrýchlejších</b> pripojení.]]></string>
+    <string name="session_fork_no_account_title">Prihlásiť sa na Android TV</string>
+    <string name="session_fork_no_account_message">Dokončite prihlásenie na tomto zariadení, aby ste mohli začať používať Proton VPN na televízore</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Používaním tejto aplikácie súhlasíte s našimi <a href="">Zmluvnými podmienkami</a>.]]></string>
+    <string name="session_fork_no_account_signup_button">Vytvoriť účet</string>
+    <string name="session_fork_no_account_signin_button">Prihlásiť sa</string>
+    <string name="session_fork_confirmation_title">Prihlásiť sa na Android TV?</string>
+    <string name="session_fork_confirmation_message">Týmto umožníte televízii prístup k vášmu Proton účtu.</string>
+    <string name="session_fork_confirmation_bottom_note">Prihlasujte sa len na zariadeniach, ktorým dôverujete</string>
+    <string name="session_fork_success_title">Prihlásenie dokončené</string>
+    <string name="session_fork_success_message">Teraz ste prihlásení na svojom televízore.</string>
+    <string name="session_fork_error_expired_title">Platnosť kódu vypršala</string>
+    <string name="session_fork_error_expired_message">Vytvorte nový kód vo vašom TV a skúste znova.</string>
+    <string name="session_fork_error_generic_title">Nie je možné prihlásiť sa</string>
+    <string name="session_fork_error_fatal_message">Skontrolujte pripojenie k sieti a skúste to znovu. Ak problém pretrváva, kontaktujte náš tím zákazníckej podpory. </string>
+    <string name="session_fork_error_network_message">Skontrolujte pripojenie k sieti a skúste to znovu.</string>
+    <string name="session_fork_error_try_fallback_message">Kliknite na položku \‘Problémy s prihlásením?\’ na televízore a postupujte podľa alternatívnych pokynov.</string>
+    <string name="session_fork_error_report_button">Nahlásiť problém</string>
 </resources>

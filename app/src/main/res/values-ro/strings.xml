@@ -1661,4 +1661,21 @@
     <string name="connection_preferences_smart_discovery_dialog_message">Dacă există locuri la care nu doriți să vă conectați automat, le puteți exclude din „Țara cea mai rapidă”.</string>
     <string name="excluded_locations_adoption_title">Evitare locuri nedorite</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Acum puteți exclude țări și orașe de la conexiunile <b>cele mai rapide</b>.]]></string>
+    <string name="session_fork_no_account_title">Conectare pe Android TV</string>
+    <string name="session_fork_no_account_message">Finalizați conectarea pe acest dispozitiv pentru a începe să folosiți Proton VPN pe TV</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Folosind această aplicație sunteți de acord cu <a href="">Termenii și condițiile</a>.]]></string>
+    <string name="session_fork_no_account_signup_button">Creare cont</string>
+    <string name="session_fork_no_account_signin_button">Conectare</string>
+    <string name="session_fork_confirmation_title">Vă conectați pe Android TV?</string>
+    <string name="session_fork_confirmation_message">Aceasta vă va permite să accesați contul Proton de pe TV.</string>
+    <string name="session_fork_confirmation_bottom_note">Conectați-vă doar pe dispozitive de încredere</string>
+    <string name="session_fork_success_title">Conectare finalizată</string>
+    <string name="session_fork_success_message">V-ați conectat pe TV.</string>
+    <string name="session_fork_error_expired_title">Cod expirat</string>
+    <string name="session_fork_error_expired_message">Creați un cod nou pe TV și reîncercați.</string>
+    <string name="session_fork_error_generic_title">Nu s-a putut conecta</string>
+    <string name="session_fork_error_fatal_message">Verificați rețeaua și reîncercați. Dacă problema persistă, contactați echipa de asistență pentru clienți.</string>
+    <string name="session_fork_error_network_message">Verificați rețeaua și reîncercați.</string>
+    <string name="session_fork_error_try_fallback_message">Faceți clic pe „Probleme la conectare?” pe TV pentru a urma pașii alternativi.</string>
+    <string name="session_fork_error_report_button">Raportare problemă</string>
 </resources>

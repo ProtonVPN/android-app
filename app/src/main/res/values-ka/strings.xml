@@ -1479,7 +1479,7 @@
     <string name="info_p2p_why_description_speed">გაზრდილი ატვირთვის და გადმოწერის სიჩქარეები</string>
     <string name="info_p2p_why_description_logs">აქტივობის ჟურნალის შესახებ</string>
     <string name="info_p2p_why_description_hide">დამალეთ თქვენი IP მისამართი თქვენი ინტერნეტპროვაიდერისგან და პარტნორებისგან</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing საშუალებას გვაძლევს, მოგაწოდოთ VPN დაფარვა ძნელად ხელმსაწვდომ ქვეყნებშიც იყო ხელმისაწვდომი.\n\nროცა უერთდებით Smart Routing სერვერს, გამოჩნდება, რომ თქვენ სამიზნე ქვეყანაში ხართ მაშინაც კი, თუ ფიზიკური სერვერი სადმე სხვაგანაა.  \n\nSmart Routing, ჩვეულებრივ, ანტი-კონფიდენციალობის კანონებისა და სხვა ფორმის ცენზურის თავის დასაღწევად გამოიყენება.</string>
     <string name="notifications_channel_connection_status_name">შეერთების სტატუსი</string>
     <string name="notifications_channel_connection_status_description">აჩვენებს, თუ რომელ სერვერთან ხართ დაკავშირებული და თქვენს VPN სიჩქარეს.</string>
     <string name="notifications_channel_connection_errors_name">შეერთების შეცდომები</string>
@@ -1625,4 +1625,21 @@
     <string name="connection_preferences_smart_discovery_dialog_message">თუ არსებობს მდებარეობები, რომელთაგანაც არ გსურთ ავტომატურად დაკავშირება, შეგიძლიათ გამორიცხოთ ისინი „ყველაზე სწრაფი ქვეყნიდან“.</string>
     <string name="excluded_locations_adoption_title">არასასურველი მდებარეობების აცილება</string>
     <string name="excluded_locations_adoption_description"><![CDATA[ახლა შეგიძლიათ ქვეყნებისა და ქალაქების გამორიცხვა <b>ყველაზე სწრაფი</b> კავშირებიდან.]]></string>
+    <string name="session_fork_no_account_title">შესვლა Android TV-ზე</string>
+    <string name="session_fork_no_account_message">დაასრულეთ შესვლის პროცესი ამ მოწყობილობაზე Proton VPN-ის თქვენს ტელევიზორზე გამოყენების დასაწყებად</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[ამ აპის გამოყენებით თქვენ ეთანხმებით ჩვენს <a href="">წესებსა და პირობებს</a>]]></string>
+    <string name="session_fork_no_account_signup_button">ანგარიშის შექმნა</string>
+    <string name="session_fork_no_account_signin_button">შესვლა</string>
+    <string name="session_fork_confirmation_title">შესვლა Android TV-ზე?</string>
+    <string name="session_fork_confirmation_message">ეს ტელევიზორს თქვენს Proton-ის ანგარიშზე წვდომის საშუალებას მისცემს.</string>
+    <string name="session_fork_confirmation_bottom_note">შედით მხოლოდ იმ მოწყობილობებიდან, რომლებსაც ენდობით</string>
+    <string name="session_fork_success_title">შესვლა დასრულდა</string>
+    <string name="session_fork_success_message">თქვენ ახლა შეხვედით თქვენი TV-ით.</string>
+    <string name="session_fork_error_expired_title">კოდის ვადა ამოწურულია</string>
+    <string name="session_fork_error_expired_message">შექმენით ახალი კოდი თქვენს ტელევიზორზე და სცადეთ ხელახლა.</string>
+    <string name="session_fork_error_generic_title">შესვლა ვერ მოხერხდა</string>
+    <string name="session_fork_error_fatal_message">შეამოწმეთ თქვენი ქსელი და თავიდან სცადეთ. თუ პრობლემა არ გაქრა, დაუკავშირდით ჩვენი მხარდაჭერის გუნდს. </string>
+    <string name="session_fork_error_network_message">შეამოწმეთ თქვენი ქსელი და კიდევ სცადეთ.</string>
+    <string name="session_fork_error_try_fallback_message">ალტერანატიული გზის მისაყოლად ტელევიზორზე დააწკაპუნეთ ბმულზე \'პრობლემები გაქვთ შესვლასთან?\'.</string>
+    <string name="session_fork_error_report_button">პრობლემის ანგარიშის გაგზავნა</string>
 </resources>

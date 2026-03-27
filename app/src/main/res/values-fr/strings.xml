@@ -1625,4 +1625,21 @@
     <string name="connection_preferences_smart_discovery_dialog_message">Si vous ne souhaitez pas être automatiquement connecté à certains emplacements, vous pouvez les exclure de la liste des pays les plus rapides.</string>
     <string name="excluded_locations_adoption_title">Évitez les emplacements non désirés</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Vous pouvez désormais exclure des pays et des villes des connexions <b>les plus rapides</b>.]]></string>
+    <string name="session_fork_no_account_title">Se connecter sur Android TV</string>
+    <string name="session_fork_no_account_message">Terminez la connexion sur cet appareil pour commencer à utiliser Proton VPN sur votre TV</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[En utilisant cette application, vous acceptez nos <a href="">conditions générales</a>.]]></string>
+    <string name="session_fork_no_account_signup_button">Créer un compte</string>
+    <string name="session_fork_no_account_signin_button">Se connecter</string>
+    <string name="session_fork_confirmation_title">Se connecter sur Android TV ?</string>
+    <string name="session_fork_confirmation_message">Cela permettra à la TV d\'accéder à votre compte Proton.</string>
+    <string name="session_fork_confirmation_bottom_note">Connectez-vous uniquement sur les appareils auxquels vous faites confiance</string>
+    <string name="session_fork_success_title">Connexion terminée</string>
+    <string name="session_fork_success_message">Vous êtes maintenant connecté sur votre téléviseur.</string>
+    <string name="session_fork_error_expired_title">Le code a expiré.</string>
+    <string name="session_fork_error_expired_message">Créez un nouveau code sur votre téléviseur et réessayez.</string>
+    <string name="session_fork_error_generic_title">Impossible de se connecter</string>
+    <string name="session_fork_error_fatal_message">Vérifiez votre réseau et réessayez. Si le problème persiste, contactez notre équipe du service client. </string>
+    <string name="session_fork_error_network_message">Vérifiez votre réseau et réessayez.</string>
+    <string name="session_fork_error_try_fallback_message">Cliquez sur \‘Problème de connexion ?\’ sur votre téléviseur pour suivre les étapes alternatives.</string>
+    <string name="session_fork_error_report_button">Signaler le problème</string>
 </resources>

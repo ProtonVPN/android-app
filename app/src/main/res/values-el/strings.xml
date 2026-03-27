@@ -1625,4 +1625,21 @@
     <string name="connection_preferences_smart_discovery_dialog_message">Εάν υπάρχουν τοποθεσίες στις οποίες δε θέλετε να συνδέεστε αυτόματα, μπορείτε να τις εξαιρέσετε από την επιλογή Ταχύτερη χώρα.</string>
     <string name="excluded_locations_adoption_title">Αποφύγετε ανεπιθύμητες τοποθεσίες</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Τώρα μπορείτε να εξαιρέσετε χώρες και πόλεις από τις <b>Ταχύτερες</b> συνδέσεις.]]></string>
+    <string name="session_fork_no_account_title">Σύνδεση σε Android TV</string>
+    <string name="session_fork_no_account_message">Ολοκληρώστε τη σύνδεση σε αυτήν τη συσκευή για να ξεκινήσετε να χρησιμοποιείτε το Proton VPN στην τηλεόρασή σας</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Χρησιμοποιώντας αυτήν την εφαρμογή αποδέχεστε τους <a href="">Όρους και Προϋποθέσεις</a> μας.]]></string>
+    <string name="session_fork_no_account_signup_button">Δημιουργία λογαριασμού</string>
+    <string name="session_fork_no_account_signin_button">Σύνδεση</string>
+    <string name="session_fork_confirmation_title">Σύνδεση σε Android TV;</string>
+    <string name="session_fork_confirmation_message">Αυτό θα επιτρέψει στην τηλεόραση να έχει πρόσβαση στον λογαριασμό σας στο Proton.</string>
+    <string name="session_fork_confirmation_bottom_note">Συνδεθείτε μόνο σε συσκευές που εμπιστεύεστε</string>
+    <string name="session_fork_success_title">Η σύνδεση ολοκληρώθηκε</string>
+    <string name="session_fork_success_message">Τώρα είστε συνδεδεμένοι στην τηλεόρασή σας.</string>
+    <string name="session_fork_error_expired_title">Ο κωδικός έληξε</string>
+    <string name="session_fork_error_expired_message">Δημιουργήστε έναν νέο κωδικό στην τηλεόρασή σας και δοκιμάστε ξανά.</string>
+    <string name="session_fork_error_generic_title">Δεν μπορούσα να συνδεθώ</string>
+    <string name="session_fork_error_fatal_message">Ελέγξτε το δίκτυό σας και προσπαθήστε ξανά. Εάν το πρόβλημα συνεχιστεί, επικοινωνήστε με την ομάδα υποστήριξης πελατών μας. </string>
+    <string name="session_fork_error_network_message">Ελέγξτε το δίκτυό σας και δοκιμάστε ξανά.</string>
+    <string name="session_fork_error_try_fallback_message">Κάντε κλικ στο \‘Πρόβλημα σύνδεσης;\’ στην τηλεόρασή σας για να ακολουθήσετε τα εναλλακτικά βήματα.</string>
+    <string name="session_fork_error_report_button">Αναφορά προβλήματος</string>
 </resources>
