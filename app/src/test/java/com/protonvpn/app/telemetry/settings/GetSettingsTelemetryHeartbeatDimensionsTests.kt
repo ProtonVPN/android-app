@@ -42,6 +42,8 @@ import com.protonvpn.android.ui.onboarding.ReviewTracker
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.vpn.ConnectivityMonitor
+import com.protonvpn.android.vpn.alwayson.VpnAlwaysOn
+import com.protonvpn.android.vpn.alwayson.VpnAlwaysOnStorage
 import com.protonvpn.android.vpn.usecases.FakeIsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.android.widget.WidgetType
@@ -49,6 +51,7 @@ import com.protonvpn.android.widget.data.WidgetTracker
 import com.protonvpn.app.excludedlocations.TestExcludedLocationEntity
 import com.protonvpn.mocks.FakeCommonDimensions
 import com.protonvpn.mocks.FakeGetTruncationMustHaveIDs
+import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
@@ -110,6 +113,8 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
 
     private lateinit var testUserProvider: TestCurrentUserProvider
 
+    private lateinit var vpnAlwaysOnStorage: VpnAlwaysOnStorage
+
     private val excludeLocationEntitiesFlow = MutableStateFlow(value = emptyList<ExcludedLocationEntity>())
 
     private val freeVpnUser = TestUser.freeUser.vpnUser
@@ -162,6 +167,11 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             isAutomaticConnectionEnabled = isAutomaticConnectionEnabled,
         )
 
+        vpnAlwaysOnStorage = VpnAlwaysOnStorage(
+            mainScope = testScope.backgroundScope,
+            localDataStoreFactory = InMemoryDataStoreFactory(),
+        )
+
         getSettingsTelemetryHeartbeatDimensions = GetSettingsTelemetryHeartbeatDimensions(
             appIconManager = mockAppIconManager,
             connectivityMonitor = mockConnectivityMonitor,
@@ -175,7 +185,8 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             reviewTracker = mockReviewTracker,
             observerExcludedLocations = observeExcludedLocations,
             isAutomaticConnectionEnabled = isAutomaticConnectionEnabled,
-            isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true)
+            isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),
+            vpnAlwaysOnStorage = vpnAlwaysOnStorage,
         )
 
         every { mockAppIconManager.getCurrentIconData() } returns CustomAppIconData.DEFAULT
@@ -722,6 +733,37 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             NetShieldProtocol.ENABLED_EXTENDED to "ads_trackers_and_malware",
         ).forEach { (netShieldProtocol, expectedDimensionValue) ->
             localUserSettingsFlow.value = LocalUserSettings(netShield = netShieldProtocol)
+
+            val dimensions = getSettingsTelemetryHeartbeatDimensions()
+
+            assertEquals(expected = expectedDimensionValue, actual = dimensions[dimension])
+        }
+    }
+
+    @Test
+    fun `GIVEN there is no known always-on WHEN providing dimensions THEN dimension is not set`() = testScope.runTest {
+        val dimension = "kill_switch_level"
+
+        val dimensions = getSettingsTelemetryHeartbeatDimensions()
+
+        assertNull(actual = dimensions[dimension])
+    }
+
+    @Test
+    fun `GIVEN known always-on WHEN providing dimensions THEN dimension is set`() = testScope.runTest {
+        val dimension = "kill_switch_level"
+
+        listOf(
+            VpnAlwaysOn(
+                isEnabled = true,
+                isLockdownEnabled = false,
+            ) to "off",
+            VpnAlwaysOn(
+                isEnabled = true,
+                isLockdownEnabled = true,
+            ) to "advanced",
+        ).forEach { (vpnAlwaysOn, expectedDimensionValue) ->
+            vpnAlwaysOnStorage.setVpnAlwaysOn(vpnAlwaysOn = vpnAlwaysOn)
 
             val dimensions = getSettingsTelemetryHeartbeatDimensions()
 

@@ -35,6 +35,7 @@ import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.alwayson.VpnAlwaysOnStorage
 import dagger.Reusable
 import io.sentry.Sentry
 import io.sentry.SentryEvent
@@ -76,6 +77,7 @@ class VpnConnectionTelemetry @Inject constructor(
     private val observeExcludedLocations: ObserveExcludedLocations,
     private val currentUser: CurrentUser,
     @param:WallClock private val now: () -> Long,
+    private val vpnAlwaysOnStorage: VpnAlwaysOnStorage,
 ) {
     private val helper by telemetryHelperLazy
 
@@ -220,6 +222,10 @@ class VpnConnectionTelemetry @Inject constructor(
 
         if(settings.customDns.effectiveEnabled) {
             add("custom_dns")
+        }
+
+        if(vpnAlwaysOnStorage.getLastKnownVpnAlwaysOn()?.isLockdownEnabled == true) {
+            add("kill_switch")
         }
 
         if(settings.lanConnections) {

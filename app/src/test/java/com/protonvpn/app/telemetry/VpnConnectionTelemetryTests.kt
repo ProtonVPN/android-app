@@ -51,7 +51,10 @@ import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.alwayson.VpnAlwaysOn
+import com.protonvpn.android.vpn.alwayson.VpnAlwaysOnStorage
 import com.protonvpn.app.excludedlocations.TestExcludedLocationEntity
+import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -105,6 +108,8 @@ class VpnConnectionTelemetryTests {
 
     private lateinit var effectiveUserSettings: EffectiveCurrentUserSettings
 
+    private lateinit var vpnAlwaysOnStorage: VpnAlwaysOnStorage
+
     private lateinit var vpnConnectionTelemetry: VpnConnectionTelemetry
 
     private val plusServer = createServer(
@@ -154,6 +159,11 @@ class VpnConnectionTelemetryTests {
             effectiveCurrentUserSettingsFlow = userSettingsFlow,
         )
 
+        vpnAlwaysOnStorage = VpnAlwaysOnStorage(
+            mainScope = telemetryScope.backgroundScope,
+            localDataStoreFactory = InMemoryDataStoreFactory(),
+        )
+
         vpnConnectionTelemetry = VpnConnectionTelemetry(
             mainScope = telemetryScope.backgroundScope,
             clock = testScheduler::currentTime,
@@ -176,6 +186,7 @@ class VpnConnectionTelemetryTests {
             ),
             currentUser = currentUser,
             now = testScheduler::currentTime,
+            vpnAlwaysOnStorage = vpnAlwaysOnStorage,
         )
         vpnConnectionTelemetry.start()
     }
@@ -417,8 +428,10 @@ class VpnConnectionTelemetryTests {
         )
         val dimensionsSlot = slot<Map<String, String>>()
         val connectionParams = createConnectionParams(plusServer, ProtocolSelection.REAL_PROTOCOLS[0], 123)
-        val expectedClientFeatures = "connection_preferences,custom_dns,lan_connections,moderate_nat,netshield,split_tunneling"
+        val vpnAlwaysOn = VpnAlwaysOn(isEnabled = true, isLockdownEnabled = true)
+        val expectedClientFeatures = "connection_preferences,custom_dns,kill_switch,lan_connections,moderate_nat,netshield,split_tunneling"
         connectSequence(connectionParams)
+        vpnAlwaysOnStorage.setVpnAlwaysOn(vpnAlwaysOn = vpnAlwaysOn)
         every {
             mockTelemetry.event(
                 measurementGroup = "vpn.any.connection",

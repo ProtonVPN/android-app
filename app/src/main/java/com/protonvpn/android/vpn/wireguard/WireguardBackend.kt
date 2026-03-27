@@ -31,11 +31,11 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.models.vpn.usecase.ComputeAllowedIPs
 import com.protonvpn.android.models.vpn.wireguard.WireGuardTunnel
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.servers.Server
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
@@ -48,6 +48,8 @@ import com.protonvpn.android.vpn.PrepareForConnection
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.android.vpn.alwayson.VpnAlwaysOn
+import com.protonvpn.android.vpn.alwayson.VpnAlwaysOnStorage
 import com.protonvpn.android.vpn.usecases.ServerNameTopStrategyEnabled
 import com.wireguard.android.backend.BackendException
 import com.wireguard.android.backend.GoBackend
@@ -92,6 +94,7 @@ class WireguardBackend @Inject constructor(
     foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient okHttp: OkHttpClient,
     private val serverNameTopStrategyEnabled: ServerNameTopStrategyEnabled,
+    private val vpnAlwaysOnStorage: VpnAlwaysOnStorage,
 ) : VpnBackend(
     settingsForConnection, certificateRepository, networkManager, networkCapabilitiesFlow, VpnProtocol.WireGuard, mainScope,
     dispatcherProvider, localAgentUnreachableTracker, currentUser, getNetZone, foregroundActivityTracker, okHttp
@@ -156,6 +159,15 @@ class WireguardBackend @Inject constructor(
                     backend.setState(testTunnel, Tunnel.State.UP, config, transmissionStr, serverNameStrategy.value)
                     if (Build.VERSION.SDK_INT >= 29) {
                         ProtonLogger.logCustom(LogCategory.CONN_WIREGUARD, "Wireguard always-on=${service?.isAlwaysOn} kill-switch=${service?.isLockdownEnabled}")
+
+                        service?.let { vpnService ->
+                            vpnAlwaysOnStorage.setVpnAlwaysOn(
+                                VpnAlwaysOn(
+                                    isEnabled = vpnService.isAlwaysOn,
+                                    isLockdownEnabled = vpnService.isLockdownEnabled,
+                                )
+                            )
+                        }
                     }
                 } catch (e: BackendException) {
                     if (e.reason == BackendException.Reason.UNABLE_TO_START_VPN && e.cause is TimeoutException) {

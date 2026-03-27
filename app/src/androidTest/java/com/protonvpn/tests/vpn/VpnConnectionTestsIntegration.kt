@@ -93,6 +93,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
+import com.protonvpn.android.vpn.alwayson.VpnAlwaysOnStorage
 import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
 import com.protonvpn.mocks.MockAgentProvider
 import com.protonvpn.mocks.MockVpnBackend
@@ -207,6 +208,9 @@ class VpnConnectionTestsIntegration {
     @MockK
     lateinit var mockObserveExcludedLocations: ObserveExcludedLocations
 
+    @MockK
+    lateinit var mockVpnAlwaysOnStorage: VpnAlwaysOnStorage
+
     private lateinit var db: AppDatabase
     private lateinit var featureFlagsFlow: MutableStateFlow<FeatureFlags>
     private lateinit var mockWireguard: MockVpnBackend
@@ -318,6 +322,7 @@ class VpnConnectionTestsIntegration {
         every { mockConnectivityMonitor.defaultNetworkTransports } returns setOf(ConnectivityMonitor.Transport.WIFI)
         coEvery { mockConnectionTelemetrySentryDebugEnabled.invoke() } returns true
         every { mockObserveExcludedLocations.invoke() } returns flowOf(value = ExcludedLocations(allLocations = emptyList()))
+        coEvery { mockVpnAlwaysOnStorage.getLastKnownVpnAlwaysOn() } returns null
         val telemetryFlowHelper =
             TelemetryFlowHelper(scope.backgroundScope, DefaultTelemetryReporter(mockTelemetry))
         val vpnConnectionTelemetry = VpnConnectionTelemetry(
@@ -340,6 +345,7 @@ class VpnConnectionTestsIntegration {
             observeExcludedLocations = mockObserveExcludedLocations,
             currentUser = currentUser,
             now = clock,
+            vpnAlwaysOnStorage = mockVpnAlwaysOnStorage,
         ).apply { start() }
 
         serverManager = createInMemoryServerManager(

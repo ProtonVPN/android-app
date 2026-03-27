@@ -36,6 +36,7 @@ import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.isIPv6
 import com.protonvpn.android.vpn.ConnectivityMonitor
+import com.protonvpn.android.vpn.alwayson.VpnAlwaysOnStorage
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
@@ -61,6 +62,7 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
     private val observerExcludedLocations: ObserveExcludedLocations,
     private val isAutomaticConnectionEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
     private val isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
+    private val vpnAlwaysOnStorage: VpnAlwaysOnStorage,
 ) {
 
     suspend operator fun invoke(): Map<String, String> = buildMap {
@@ -226,6 +228,13 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
             value = settings.netShield.toTelemetry(),
         )
 
+        vpnAlwaysOnStorage.getLastKnownVpnAlwaysOn()?.let { vpnAlwaysOn ->
+            put(
+                key = DIMENSION_KILL_SWITCH_LEVEL,
+                value = vpnAlwaysOn.toTelemetry(),
+            )
+        }
+
         commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
     }
 
@@ -339,6 +348,7 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
         private const val DIMENSION_EXCLUDED_CITIES_AND_STATES_COUNT = "excluded_cities_count"
         private const val DIMENSION_NAT_TYPE = "nat_type"
         private const val DIMENSION_NETSHIELD_LEVEL = "netshield_level"
+        private const val DIMENSION_KILL_SWITCH_LEVEL = "kill_switch_level"
     }
 
 }
