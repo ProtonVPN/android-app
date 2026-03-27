@@ -19,10 +19,10 @@
 
 package com.protonvpn.android.servers
 
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
 import com.protonvpn.android.appconfig.periodicupdates.toPeriodicActionResultWithCustomValue
-import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ApiLogResponse
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.servers.api.LogicalsResponse
@@ -221,12 +221,16 @@ class UpdateServerListFromApi @Inject constructor(
     }
 
     private fun debugCountryCheck(serverList: List<Server>) {
-        DebugUtils.debugAssert("Country with no continent") {
-            val countriesWithNoContinent = serverList
-                .flatMapTo(HashSet()) { listOf(it.entryCountry, it.exitCountry) }
-                .filter { CountryTools.oldMapLocations[it]?.continent == null }
-            countriesWithNoContinent.isEmpty()
-        }
+        if (!BuildConfig.DEBUG) return
+
+        serverList
+            .flatMapTo(HashSet()) { listOf(it.entryCountry, it.exitCountry) }
+            .filter { CountryTools.oldMapLocations[it]?.continent == null }
+            .also { countriesWithNoContinent ->
+                DebugUtils.debugAssert("Countries with no continent: $countriesWithNoContinent") {
+                    countriesWithNoContinent.isEmpty()
+                }
+            }
     }
 
     private fun Response<*>.durationMs() = with(raw()) { receivedResponseAtMillis - sentRequestAtMillis }
