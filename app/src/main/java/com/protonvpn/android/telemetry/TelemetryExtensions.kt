@@ -44,6 +44,7 @@ fun NetShieldProtocol.toTelemetry(): String = when(this) {
     NetShieldProtocol.DISABLED -> "off"
     NetShieldProtocol.ENABLED -> "malware"
     NetShieldProtocol.ENABLED_EXTENDED -> "ads_trackers_and_malware"
+    NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> "ads_trackers_malware_and_adult_content"
 }
 
 fun ProfileAutoOpen.toTelemetry() = when(this) {

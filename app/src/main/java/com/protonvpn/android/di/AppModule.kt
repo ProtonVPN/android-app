@@ -68,6 +68,8 @@ import com.protonvpn.android.mmp.IsMmpFeatureFlagEnabled
 import com.protonvpn.android.mmp.IsMmpFeatureFlagEnabledImpl
 import com.protonvpn.android.models.vpn.usecase.ProvideLocalNetworks
 import com.protonvpn.android.models.vpn.usecase.ProvideLocalNetworksImpl
+import com.protonvpn.android.netshield.IsNetShieldLevelThreeFeatureFlagEnabled
+import com.protonvpn.android.netshield.IsNetShieldLevelThreeFeatureFlagEnabledImpl
 import com.protonvpn.android.profiles.usecases.GetPrivateBrowsingAvailability
 import com.protonvpn.android.profiles.usecases.GetPrivateBrowsingAvailabilityImpl
 import com.protonvpn.android.profiles.usecases.GetProfileById
@@ -552,6 +554,9 @@ object AppModule {
 
         @Binds
         fun bindIsMmpFeatureFlagEnabled(impl: IsMmpFeatureFlagEnabledImpl): IsMmpFeatureFlagEnabled
+
+        @Binds
+        fun bindsIsNetShieldLevelThreeFeatureFlagEnabled(impl: IsNetShieldLevelThreeFeatureFlagEnabledImpl): IsNetShieldLevelThreeFeatureFlagEnabled
 
         @Binds
         fun bindPeriodicUpdateManager(impl: PeriodicUpdateManagerImpl): PeriodicUpdateManager

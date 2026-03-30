@@ -288,6 +288,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
     <string name="netshield_setting_warning">Some websites may not load properly when ads and trackers are blocked.</string>
+    <string name="netshield_setting_block_adult_content">Block adult content</string>
     <string name="dialogDontShowAgain">Don\'t show again</string>
     <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>

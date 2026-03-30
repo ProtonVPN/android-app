@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.redesign.settings.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -27,21 +28,24 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.previews.PreviewBooleanProvider
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun SettingsCheckbox(
     title: String,
-    description: String,
     value: Boolean,
     onValueChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    description: String? = null,
+    verticalAlignment: Alignment.Vertical = if (description == null) Alignment.CenterVertically else Alignment.Top,
 ) {
     Row(
         modifier
@@ -51,6 +55,7 @@ fun SettingsCheckbox(
                 role = Role.Checkbox
             )
             .padding(vertical = 8.dp, horizontal = 16.dp),
+        verticalAlignment = verticalAlignment,
     ) {
         Checkbox(
             checked = value,
@@ -58,27 +63,36 @@ fun SettingsCheckbox(
             onCheckedChange = null,
             modifier = Modifier.clearAndSetSemantics {}
         )
+
         Column(
-            Modifier.padding(start = 12.dp)
+            modifier = Modifier.padding(start = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(space = 4.dp),
         ) {
-            Text(title, style = ProtonTheme.typography.body1Regular)
             Text(
-                description,
-                modifier = Modifier.padding(top = 4.dp),
-                style = ProtonTheme.typography.body2Regular,
-                color = ProtonTheme.colors.textWeak
+                text = title,
+                style = ProtonTheme.typography.body1Regular,
             )
+
+            if (description != null) {
+                Text(
+                    text = description,
+                    style = ProtonTheme.typography.body2Regular,
+                    color = ProtonTheme.colors.textWeak,
+                )
+            }
         }
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
-fun PreviewProtonDialogCheckbox() {
+private fun PreviewProtonDialogCheckbox(
+    @PreviewParameter(PreviewBooleanProvider::class) hasDescription: Boolean,
+) {
     ProtonVpnPreview {
         SettingsCheckbox(
             title = "Title",
-            description = "Description",
+            description = "Description".takeIf { hasDescription },
             value = true,
             onValueChange = {}
         )

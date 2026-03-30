@@ -20,6 +20,7 @@ package com.protonvpn.test.shared
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.login.NetShieldConfig
 import com.protonvpn.android.models.login.VPNInfo
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
@@ -36,10 +37,22 @@ class TestUser(
     val maxTier: Int,
     val maxConnect: Int,
     val isBusiness: Boolean = false,
+    val netShield: NetShieldConfig? = null,
 ) {
     val vpnInfoResponse: VpnInfoResponse
         get() {
-            val info = VPNInfo(1, 0, planName, planDisplayName, maxTier, maxConnect, email, "16", isBusiness = isBusiness)
+            val info = VPNInfo(
+                status = 1,
+                expirationTime = 0,
+                tierName = planName,
+                planDisplayName = planDisplayName,
+                maxTier = maxTier,
+                maxConnect = maxConnect,
+                name = email,
+                groupId = "16",
+                isBusiness = isBusiness,
+                netShield = netShield,
+            )
             return VpnInfoResponse(1000, info, 4, 4, 0, 0, false)
         }
     val vpnUser: VpnUser

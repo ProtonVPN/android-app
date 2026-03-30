@@ -22,5 +22,6 @@ enum class NetShieldProtocol(val protocolString: String) {
     DISABLED(""),
     @Deprecated("f1 is deprecated, only off or on values for netshield, except for TV")
     ENABLED("+f1"),
-    ENABLED_EXTENDED("+f2")
+    ENABLED_EXTENDED("+f2"),
+    ENABLED_EXTENDED_ADULT_CONTENT("+f3"),
 }

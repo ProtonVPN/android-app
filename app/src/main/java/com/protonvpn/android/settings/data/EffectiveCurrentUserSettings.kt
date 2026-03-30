@@ -23,6 +23,7 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.profiles.SavedProfilesV3
+import com.protonvpn.android.netshield.IsNetShieldLevelThreeFeatureFlagEnabled
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
@@ -62,6 +63,7 @@ class SettingsFeatureFlagsFlow @Inject constructor(
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
     isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
     isTvFavoriteCountryForFreeUserDisabled: IsTvFavoriteCountryForFreeUserDisabled,
+    isNetShieldLevelThreeFeatureFlagEnabled: IsNetShieldLevelThreeFeatureFlagEnabled,
 ) : Flow<SettingsFeatureFlagsFlow.Flags> {
 
     data class Flags(
@@ -72,6 +74,7 @@ class SettingsFeatureFlagsFlow @Inject constructor(
         val isTvCustomDnsSettingEnabled: Boolean,
         val isProTunV1Enabled: Boolean,
         val tvDisableFavoriteCountryForFreeUser: Boolean,
+        val isNetShieldLevelThreeEnabled: Boolean,
     )
 
     private val flow: Flow<Flags> = combine(
@@ -82,17 +85,9 @@ class SettingsFeatureFlagsFlow @Inject constructor(
         isTvCustomDnsSettingFeatureFlagEnabled.observe(),
         isProTunV1FeatureFlagEnabled.observe(),
         isTvFavoriteCountryForFreeUserDisabled.observe(),
-    ) { isIPv6Enabled, isDirectLanConnectionsEnabled, isTvAutoConnectEnabled, isTvNetShieldEnabled, isTvCustomDnsEnabled, isProTunV1Enabled, tvDisableFavoriteCountryForFreeUser ->
-        Flags(
-            isIPv6Enabled = isIPv6Enabled,
-            isDirectLanConnectionsEnabled = isDirectLanConnectionsEnabled,
-            isTvAutoConnectEnabled = isTvAutoConnectEnabled,
-            isTvNetShieldSettingEnabled = isTvNetShieldEnabled,
-            isTvCustomDnsSettingEnabled = isTvCustomDnsEnabled,
-            isProTunV1Enabled = isProTunV1Enabled,
-            tvDisableFavoriteCountryForFreeUser,
-        )
-    }
+        isNetShieldLevelThreeFeatureFlagEnabled.observe(),
+        ::Flags,
+    )
 
     override suspend fun collect(collector: FlowCollector<Flags>) {
         flow.collect(collector)
@@ -126,7 +121,6 @@ abstract class BaseApplyEffectiveUserSettings(
     ): LocalUserSettings {
         val isUserPlusOrAbove = vpnUser?.isUserPlusOrAbove == true
         val effectiveVpnAccelerator = !isUserPlusOrAbove || settings.vpnAccelerator
-        val netShieldAvailable = vpnUser.getNetShieldAvailability() == NetShieldAvailability.AVAILABLE
         val effectiveSplitTunneling =
             if (isUserPlusOrAbove) settings.splitTunneling
             else SplitTunnelingSettings(isEnabled = false)
@@ -137,16 +131,31 @@ abstract class BaseApplyEffectiveUserSettings(
             isTv -> settings.defaultProfileId
             else -> null
         }
+
+        val netShieldProtocol = when {
+            vpnUser.getNetShieldAvailability() != NetShieldAvailability.AVAILABLE -> {
+                NetShieldProtocol.DISABLED
+            }
+
+            isTv && !flags.isTvNetShieldSettingEnabled -> {
+                NetShieldProtocol.ENABLED
+            }
+
+            (vpnUser?.hasNetShieldLevelThreeAvailable != true || !flags.isNetShieldLevelThreeEnabled) && settings.netShield == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> {
+                NetShieldProtocol.ENABLED_EXTENDED
+            }
+
+            else -> {
+                settings.netShield
+            }
+        }
+
         return settings.copy(
             defaultProfileId = defaultProfileId,
             lanConnections = lanConnections,
             lanConnectionsAllowDirect =
                 lanConnections && settings.lanConnectionsAllowDirect && flags.isDirectLanConnectionsEnabled,
-            netShield = if (netShieldAvailable) {
-                if (isTv && !flags.isTvNetShieldSettingEnabled) NetShieldProtocol.ENABLED else settings.netShield
-            } else {
-                NetShieldProtocol.DISABLED
-            },
+            netShield = netShieldProtocol,
             customDns = if (isUserPlusOrAbove) settings.customDns else CustomDnsSettings(false),
             theme = settings.theme,
             tvAutoConnectOnBoot = if (isTv && flags.isTvAutoConnectEnabled) settings.tvAutoConnectOnBoot else false,

@@ -21,6 +21,7 @@ package com.protonvpn.app.ui.settings.customdns.add
 
 import app.cash.turbine.test
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.netshield.FakeIsNetShieldLevelThreeFeatureFlagEnabled
 import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsError
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
@@ -113,6 +114,7 @@ class TvSettingsAddCustomDnsViewModelTests {
                     isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),
                     isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),
                     isTvFavoriteCountryForFreeUserDisabled = FakeIsTvFavoriteCountryForFreeUserDisabled(false),
+                    isNetShieldLevelThreeFeatureFlagEnabled = FakeIsNetShieldLevelThreeFeatureFlagEnabled(enabled = true),
                 )
             ),
             vpnStatusProviderUI = VpnStatusProviderUI(

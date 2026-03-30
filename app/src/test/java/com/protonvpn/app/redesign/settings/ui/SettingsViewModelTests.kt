@@ -28,6 +28,7 @@ import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.netshield.FakeIsNetShieldLevelThreeFeatureFlagEnabled
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.toProfile
 import com.protonvpn.android.redesign.CountryId
@@ -194,7 +195,8 @@ class SettingsViewModelTests {
                 isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
                 isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),
                 isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),
-                isTvFavoriteCountryForFreeUserDisabled = FakeIsTvFavoriteCountryForFreeUserDisabled(enabled = false)
+                isTvFavoriteCountryForFreeUserDisabled = FakeIsTvFavoriteCountryForFreeUserDisabled(enabled = false),
+                isNetShieldLevelThreeFeatureFlagEnabled = FakeIsNetShieldLevelThreeFeatureFlagEnabled(enabled = true),
             )
         )
         val effectiveCurrentUserSettingsFlow = EffectiveCurrentUserSettingsFlow(
@@ -252,7 +254,8 @@ class SettingsViewModelTests {
                 isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
             ),
             translator = translator,
-            isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true)
+            isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),
+            isNetShieldLevelThreeFeatureFlagEnabled = FakeIsNetShieldLevelThreeFeatureFlagEnabled(enabled = true),
         )
     }
 

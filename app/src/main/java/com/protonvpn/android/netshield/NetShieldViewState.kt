@@ -26,25 +26,39 @@ sealed interface NetShieldViewState {
     val stateRes: Int
 
     data class Unavailable(val protocol: NetShieldProtocol, val dnsOverride: DnsOverride) : NetShieldViewState {
+
         override val iconRes = when (protocol) {
             NetShieldProtocol.DISABLED -> R.drawable.ic_netshield_off
-            NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.drawable.ic_netshield_f2
+            NetShieldProtocol.ENABLED,
+            NetShieldProtocol.ENABLED_EXTENDED,
+            NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> R.drawable.ic_netshield_f2
         }
+
         override val stateRes = R.string.netshield_state_unavailable
+
     }
 
     data class Available(
         val protocol: NetShieldProtocol,
         val netShieldStats: NetShieldStats
     ) : NetShieldViewState {
+
         val bandwidthShown = protocol != NetShieldProtocol.DISABLED
+
         override val iconRes = when (protocol) {
             NetShieldProtocol.DISABLED -> R.drawable.ic_netshield_off
-            NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.drawable.ic_netshield_f2
+            NetShieldProtocol.ENABLED,
+            NetShieldProtocol.ENABLED_EXTENDED,
+            NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> R.drawable.ic_netshield_f2
         }
+
         override val stateRes = when (protocol) {
             NetShieldProtocol.DISABLED -> R.string.netshield_state_off
-            NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.string.netshield_state_on
+            NetShieldProtocol.ENABLED,
+            NetShieldProtocol.ENABLED_EXTENDED,
+            NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT-> R.string.netshield_state_on
         }
+
     }
+
 }

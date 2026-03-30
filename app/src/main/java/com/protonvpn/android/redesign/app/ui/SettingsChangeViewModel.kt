@@ -185,6 +185,12 @@ class SettingsChangeViewModel @Inject constructor(
         }
     }
 
+    fun toggleNetShieldAdultContentBlock() {
+        viewModelScope.launch {
+            userSettingsManager.toggleNetShieldAdultContentBlock()
+        }
+    }
+
     private suspend fun reconnectionCheck(uiDelegate: VpnUiDelegate, type: DontShowAgainStore.Type) =
         reconnectHandler.reconnectionCheck(uiDelegate, type)
 }

@@ -151,5 +151,23 @@ class UserDataHelper {
     }
 }
 
-fun VpnUser.toVpnInfoResponse() = VpnInfoResponse(1000, VPNInfo(status, expirationTime, planName, planDisplayName, maxTier,
-    maxConnect, name, groupId), subscribed, services, delinquent, credit, hasPaymentMethod)
+fun VpnUser.toVpnInfoResponse() = VpnInfoResponse(
+    code = 1000,
+    vpnInfo = VPNInfo(
+        status = status,
+        expirationTime = expirationTime,
+        tierName = planName,
+        planDisplayName = planDisplayName,
+        maxTier = maxTier,
+        maxConnect = maxConnect,
+        name = name,
+        groupId = groupId,
+        isBusiness = isBusiness,
+        netShield = netShieldConfig,
+    ),
+    subscribed = subscribed,
+    services = services,
+    delinquent = delinquent,
+    credit = credit,
+    hasPaymentMethod = hasPaymentMethod,
+)

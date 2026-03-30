@@ -731,6 +731,7 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             NetShieldProtocol.DISABLED to "off",
             NetShieldProtocol.ENABLED to "malware",
             NetShieldProtocol.ENABLED_EXTENDED to "ads_trackers_and_malware",
+            NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT to "ads_trackers_malware_and_adult_content",
         ).forEach { (netShieldProtocol, expectedDimensionValue) ->
             localUserSettingsFlow.value = LocalUserSettings(netShield = netShieldProtocol)
 

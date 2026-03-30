@@ -20,9 +20,11 @@
 package com.protonvpn.android.auth.data
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
+import com.protonvpn.android.models.login.NetShieldConfig
 import com.protonvpn.android.servers.Server
 import me.proton.core.account.data.entity.AccountEntity
 import me.proton.core.domain.entity.UserId
@@ -61,6 +63,8 @@ data class VpnUser(
     val updateTime: Long,
     val sessionId: SessionId,
     val autoLoginId: String?,
+    @Embedded
+    val netShieldConfig: NetShieldConfig?,
 ) {
     val isFreeUser get() = maxTier == FREE_TIER
     val isBasicUser get() = userTier == BASIC_TIER
@@ -68,6 +72,9 @@ data class VpnUser(
     val isUserPlusOrAbove get() = userTier >= PLUS_TIER
     val isUserDelinquent get() = delinquent >= 3
     val isPMTeam get() = maxTier == 3
+
+    val hasNetShieldLevelThreeAvailable: Boolean
+        get() = netShieldConfig?.adultContentBlockingAvailable == true
 
     val hasSubscription get() = subscribed != 0
 

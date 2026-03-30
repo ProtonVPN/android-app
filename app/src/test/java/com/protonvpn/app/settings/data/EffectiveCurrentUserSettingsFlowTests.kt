@@ -78,6 +78,7 @@ class EffectiveCurrentUserSettingsFlowTests {
                 isTvAutoConnectEnabled = true,
                 isProTunV1Enabled = true,
                 tvDisableFavoriteCountryForFreeUser = false,
+                isNetShieldLevelThreeEnabled = true,
             )
         )
         testUserProvider = TestCurrentUserProvider(plusUser)

@@ -26,6 +26,7 @@ import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.annotations.ProtonVpnTestPreviewLong
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.redesign.CountryId
@@ -322,10 +323,11 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
     ), "name") else null
 
     private val netshield = SettingViewState.NetShield(
-        netShieldEnabled = true,
+        netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
         isRestricted = isFree,
         profileOverrideInfo = overrideInfo,
-        dnsOverride = if (isPrivateDnsActive) DnsOverride.SystemPrivateDns else DnsOverride.None
+        dnsOverride = if (isPrivateDnsActive) DnsOverride.SystemPrivateDns else DnsOverride.None,
+        isNetShieldLevelThreeAvailable = false,
     )
     private val vpnAccelerator = SettingViewState.VpnAccelerator(true, isFree)
     private val protocol = SettingViewState.Protocol(ProtocolSelection.SMART, overrideInfo?.primaryLabel, showProTun = true)

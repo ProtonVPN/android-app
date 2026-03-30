@@ -20,6 +20,7 @@
 package com.protonvpn.test.shared
 
 import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.models.login.NetShieldConfig
 import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.session.SessionId
 
@@ -28,7 +29,12 @@ object TestVpnUser {
         id: String = "id",
         maxTier: Int = 2,
         maxConnect: Int = 2,
-        subscribed: Int = VpnUser.VPN_SUBSCRIBED_FLAG
+        subscribed: Int = VpnUser.VPN_SUBSCRIBED_FLAG,
+        netShieldConfig: NetShieldConfig? = NetShieldConfig(
+            malwareBlockingAvailable = true,
+            adsAndTrackersBlockingAvailable = true,
+            adultContentBlockingAvailable = true,
+        )
     ) = VpnUser(
         userId = UserId(id),
         subscribed = subscribed,
@@ -48,5 +54,6 @@ object TestVpnUser {
         expirationTime = Integer.MAX_VALUE,
         sessionId = SessionId("session id"),
         autoLoginId = null,
+        netShieldConfig = netShieldConfig,
     )
 }

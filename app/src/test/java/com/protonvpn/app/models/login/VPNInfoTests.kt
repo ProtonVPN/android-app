@@ -38,5 +38,16 @@ class VPNInfoTests {
     }
 
     private fun vpnInfoWithTierSettings(tierName: String?, maxTier: Int?, maxConnect: Int) =
-        VPNInfo(1000, 10, tierName, tierName, maxTier, maxConnect, "user", "groupId")
+        VPNInfo(
+            status = 1000,
+            expirationTime = 10,
+            tierName = tierName,
+            planDisplayName = tierName,
+            maxTier = maxTier,
+            maxConnect = maxConnect,
+            name = "user",
+            groupId = "groupId",
+            isBusiness = false,
+            netShield = null,
+        )
 }

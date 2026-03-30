@@ -32,6 +32,7 @@ import com.protonvpn.android.auth.usecase.uiName
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.managed.ManagedConfig
+import com.protonvpn.android.netshield.IsNetShieldLevelThreeFeatureFlagEnabled
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
@@ -56,7 +57,6 @@ import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.update.AppUpdateBannerState
 import com.protonvpn.android.update.AppUpdateBannerStateFlow
-import com.protonvpn.android.update.AppUpdateInfo
 import com.protonvpn.android.update.AppUpdateManager
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.combine
@@ -123,6 +123,7 @@ class SettingsViewModel @Inject constructor(
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     private val isAutomaticConnectionPreferencesFeatureFlagEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
     isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
+    isNetShieldLevelThreeFeatureFlagEnabled: IsNetShieldLevelThreeFeatureFlagEnabled,
     private val translator: Translator,
 ) : ViewModel() {
 
@@ -136,13 +137,13 @@ class SettingsViewModel @Inject constructor(
         @DrawableRes open val iconRes: Int? = null,
     ) {
         class NetShield(
-            netShieldEnabled: Boolean,
+            netShieldProtocol: NetShieldProtocol,
             isRestricted: Boolean,
             profileOverrideInfo: ProfileOverrideInfo?,
             val dnsOverride: DnsOverride,
-            override val iconRes: Int = if (netShieldEnabled) R.drawable.feature_netshield_on else R.drawable.feature_netshield_off,
+            isNetShieldLevelThreeAvailable: Boolean
         ) : SettingViewState<Boolean>(
-            value = netShieldEnabled,
+            value = netShieldProtocol != NetShieldProtocol.DISABLED,
             isRestricted = isRestricted,
             titleRes = R.string.netshield_feature_name,
             settingValueView = when {
@@ -152,7 +153,7 @@ class SettingsViewModel @Inject constructor(
                 else -> {
                     val subtitleRes = when {
                         dnsOverride != DnsOverride.None -> R.string.netshield_state_unavailable
-                        netShieldEnabled -> R.string.netshield_state_on
+                        netShieldProtocol != NetShieldProtocol.DISABLED -> R.string.netshield_state_on
                         else -> R.string.netshield_state_off
                     }
                     if (profileOverrideInfo != null) {
@@ -167,7 +168,15 @@ class SettingsViewModel @Inject constructor(
             },
             descriptionRes = R.string.netshield_settings_description_not_html,
             annotationRes = R.string.learn_more
-        )
+        ) {
+
+            override val iconRes: Int = if (value) R.drawable.feature_netshield_on else R.drawable.feature_netshield_off
+
+            val isAdultContentBlocked: Boolean = netShieldProtocol == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT
+
+            val isAdultContentBlockAvailable: Boolean = isNetShieldLevelThreeAvailable && value && dnsOverride == DnsOverride.None
+
+        }
 
         class SplitTunneling(
             isEnabled: Boolean,
@@ -423,12 +432,14 @@ class SettingsViewModel @Inject constructor(
         val isIPv6FeatureFlagEnabled: Boolean,
         val isAutomaticConnectionPreferencesFeatureFlagEnabled: Boolean,
         val isProTunV1Enabled: Boolean,
+        val isNetShieldLevelThreeEnabled: Boolean,
     )
 
     private val featureFlagsFlow = combine(
         isIPv6FeatureFlagEnabled.observe(),
         isAutomaticConnectionPreferencesFeatureFlagEnabled.observe(),
         isProTunV1FeatureFlagEnabled.observe(),
+        isNetShieldLevelThreeFeatureFlagEnabled.observe(),
         ::FeatureFlags,
     )
 
@@ -490,10 +501,11 @@ class SettingsViewModel @Inject constructor(
 
             val netShieldSetting = user?.vpnUser.getNetShieldAvailability().let { netShieldAvailability ->
                 SettingViewState.NetShield(
-                    settings.netShield != NetShieldProtocol.DISABLED,
+                    netShieldProtocol = settings.netShield,
                     profileOverrideInfo = profileOverrideInfo,
                     isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE,
                     dnsOverride = getDnsOverride(isPrivateDnsActive, settings),
+                    isNetShieldLevelThreeAvailable = featureFlags.isNetShieldLevelThreeEnabled && user?.vpnUser?.hasNetShieldLevelThreeAvailable == true,
                 )
             }
 

@@ -147,7 +147,8 @@ fun SubSettingsRoute(
                         onCustomDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE) },
                         onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
                         onPrivateDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_PRIVATE_DNS_LEARN_MORE) },
-                        onNetShieldToggle = settingsChangeViewModel::toggleNetShield
+                        onNetShieldToggle = settingsChangeViewModel::toggleNetShield,
+                        onToggleNetShieldAdultContentBlock = settingsChangeViewModel::toggleNetShieldAdultContentBlock,
                     )
                 }
             }

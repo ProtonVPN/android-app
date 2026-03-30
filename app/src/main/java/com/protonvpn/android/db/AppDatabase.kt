@@ -169,6 +169,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         AutoMigration(from = 51, to = 52),
         AutoMigration(from = 52, to = 53, spec = DatabaseMigrations.AutoMigration52to53::class),
         AutoMigration(from = 54, to = 55),
+        AutoMigration(from = 55, to = 56),
     ],
     version = AppDatabase.VERSION,
     exportSchema = true
@@ -217,7 +218,7 @@ abstract class AppDatabase :
 
     companion object {
 
-        const val VERSION: Int = 55
+        const val VERSION: Int = 56
 
         @VisibleForTesting
         val migrations = listOf(

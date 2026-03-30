@@ -18,6 +18,10 @@
  */
 package com.protonvpn.android.redesign.settings.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -25,10 +29,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SettingsFeatureToggle
 import com.protonvpn.android.base.ui.largeScreenContentPadding
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.vpn.DnsOverride
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -42,6 +50,7 @@ fun NetShieldSetting(
     onCustomDnsLearnMore: () -> Unit,
     onPrivateDnsLearnMore: () -> Unit,
     onOpenPrivateDnsSettings: () -> Unit,
+    onToggleNetShieldAdultContentBlock: () -> Unit,
 ) {
     val listState = rememberLazyListState()
     FeatureSubSettingScaffold(
@@ -95,10 +104,85 @@ fun NetShieldSetting(
                 Text(
                     text = stringResource(id = R.string.netshield_setting_warning),
                     style = ProtonTheme.typography.body2Regular,
-                    color =  ProtonTheme.colors.textWeak,
+                    color = ProtonTheme.colors.textWeak,
                     modifier = horizontalItemPaddingModifier.padding(top = 16.dp),
                 )
             }
+
+            item {
+                AnimatedVisibility(
+                    visible = netShield.isAdultContentBlockAvailable,
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                ) {
+                    SettingsCheckbox(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp),
+                        title = stringResource(id = R.string.netshield_setting_block_adult_content),
+                        value = netShield.isAdultContentBlocked,
+                        onValueChange = { _ -> onToggleNetShieldAdultContentBlock() },
+                    )
+                }
+            }
         }
     }
+}
+
+@ProtonVpnPreview
+@Composable
+private fun NetShieldSettingPreview(
+    @PreviewParameter(PreviewSettingNetShieldViewStateProvider::class)
+    netShield: SettingsViewModel.SettingViewState.NetShield,
+) {
+    ProtonVpnPreview {
+        NetShieldSetting(
+            onClose = {},
+            netShield = netShield,
+            onLearnMore = {},
+            onNetShieldToggle = {},
+            onDisableCustomDns = {},
+            onCustomDnsLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
+            onToggleNetShieldAdultContentBlock = {},
+        )
+    }
+
+}
+
+private class PreviewSettingNetShieldViewStateProvider :
+    PreviewParameterProvider<SettingsViewModel.SettingViewState.NetShield> {
+
+    override val values: Sequence<SettingsViewModel.SettingViewState.NetShield> = sequenceOf(
+        SettingsViewModel.SettingViewState.NetShield(
+            netShieldProtocol = NetShieldProtocol.DISABLED,
+            isRestricted = false,
+            profileOverrideInfo = null,
+            dnsOverride = DnsOverride.None,
+            isNetShieldLevelThreeAvailable = true,
+        ),
+        SettingsViewModel.SettingViewState.NetShield(
+            netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+            isRestricted = true,
+            profileOverrideInfo = null,
+            dnsOverride = DnsOverride.None,
+            isNetShieldLevelThreeAvailable = false,
+        ),
+        SettingsViewModel.SettingViewState.NetShield(
+            netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+            isRestricted = false,
+            profileOverrideInfo = null,
+            dnsOverride = DnsOverride.None,
+            isNetShieldLevelThreeAvailable = true,
+        ),
+        SettingsViewModel.SettingViewState.NetShield(
+            netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT,
+            isRestricted = false,
+            profileOverrideInfo = null,
+            dnsOverride = DnsOverride.None,
+            isNetShieldLevelThreeAvailable = true,
+        ),
+    )
+
 }

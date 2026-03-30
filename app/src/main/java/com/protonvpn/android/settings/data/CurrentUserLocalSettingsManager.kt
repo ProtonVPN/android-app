@@ -88,6 +88,18 @@ class CurrentUserLocalSettingsManager @Inject constructor(
         current.copy(netShield = newNetShieldState)
     }
 
+    suspend fun toggleNetShieldAdultContentBlock() = update { current ->
+        // Adult content block is tied to extended netshield. If it was enabled, then the off state for adult content block
+        // still has netshield extended enabled. There is a separate toggle controlling the extended netshield state.
+        val newNetShieldState = if (current.netShield == NetShieldProtocol.ENABLED_EXTENDED) {
+            NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT
+        } else {
+            NetShieldProtocol.ENABLED_EXTENDED
+        }
+
+        current.copy(netShield = newNetShieldState)
+    }
+
     suspend fun updateProtocol(newProtocol: ProtocolSelection) =
         update { current -> current.copy(protocol = newProtocol) }
 
