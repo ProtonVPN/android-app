@@ -27,11 +27,11 @@ import dagger.Lazy
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import me.proton.vpn.sdk.api.SystemEventHandler
+import me.proton.vpn.core.api.SystemEventHandler
 import javax.inject.Inject
 
 @Reusable
-class VpnSdkSystemEventHandler @Inject constructor(
+class VpnCoreSystemEventHandler @Inject constructor(
     private val mainScope: CoroutineScope,
     private val vpnStateMonitor: Lazy<VpnStateMonitor>,
     private val connectionManager: Lazy<VpnConnectionManager>,

@@ -71,7 +71,7 @@ proton-core-env-config-version = "1.3.1"
 proton-core-version = "36.4.2"
 proton-test-fusion-version = "0.9.97"
 proton-vpn-govpnlib-version = "0.1.78"
-proton-vpn-internal-sdk-version = "0.1.29-1.0.29"
+proton-vpn-core-internal-version = "0.1.47-1.0.31"
 proton-vpn-wireguard-version = "1.0.20230512.29"
 relex-circleindicator-version = "2.1.6"
 retrofit-version = "2.11.0"
@@ -284,7 +284,7 @@ proton-core-util-android-shared-preferences = { group = "me.proton.core", name =
 proton-core-util-kotlin = { group = "me.proton.core", name = "util-kotlin", version.ref = "proton-core-version" }
 proton-test-fusion = { group = "me.proton.test", name = "fusion", version.ref = "proton-test-fusion-version" }
 proton-vpn-govpnlib = { group = "me.proton.vpn", name = "go-vpn-lib", version.ref = "proton-vpn-govpnlib-version" }
-proton-vpn-sdk-internal = { group = "me.proton.vpn", name = "vpn-sdk-internal", version.ref = "proton-vpn-internal-sdk-version" }
+proton-vpn-core-internal = { group = "me.proton.vpn", name = "vpn-core-internal", version.ref = "proton-vpn-core-internal-version" }
 proton-vpn-wireguard = { group = "me.proton.vpn", name = "wireguard-android", version.ref = "proton-vpn-wireguard-version" }
 relex-circleindicator = { group = "me.relex", name = "circleindicator", version.ref = "relex-circleindicator-version" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit-version" }

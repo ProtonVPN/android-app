@@ -865,7 +865,7 @@ dependencies {
     implementation(libs.androidx.tv.material)
 
     // Proton libs
-    implementation(libs.proton.vpn.sdk.internal)
+    implementation(libs.proton.vpn.core.internal)
     implementation(libs.proton.vpn.govpnlib)
     implementation(libs.proton.core.domain)
     implementation(libs.proton.core.network.data)

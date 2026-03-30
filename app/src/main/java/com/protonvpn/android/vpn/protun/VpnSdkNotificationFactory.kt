@@ -24,8 +24,8 @@ import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.utils.Constants
 import dagger.Lazy
 import dagger.Reusable
-import me.proton.vpn.sdk.api.ForegroundServiceNotificationFactory
-import me.proton.vpn.sdk.api.VpnConnectionState
+import me.proton.vpn.core.api.ForegroundServiceNotificationFactory
+import me.proton.vpn.core.api.VpnConnectionState
 import javax.inject.Inject
 
 @Reusable

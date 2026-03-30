@@ -52,8 +52,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
-import me.proton.vpn.sdk.api.ProtonVpnSdk
-import me.proton.vpn.sdk.api.VpnWaitReason
+import me.proton.vpn.core.api.ProtonVpnCore
+import me.proton.vpn.core.api.VpnDisconnectError
+import me.proton.vpn.core.api.VpnWaitReason
 import okhttp3.OkHttpClient
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -72,7 +73,7 @@ class ProTunBackend @Inject constructor(
     getNetZone: GetNetZone,
     foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient okHttp: OkHttpClient,
-    private val sdk: ProtonVpnSdk,
+    private val vpnCore: ProtonVpnCore,
     private val computeAllowedIPs: ComputeAllowedIPs,
     private val preparePeers: PreparePeersForConnectionProTun,
     private val packetCapture: PacketCapture,
@@ -83,23 +84,32 @@ class ProTunBackend @Inject constructor(
     private var observePcapJob: Job? = null
 
     init {
-        sdk.connectionManager.state.onEach { state ->
+        vpnCore.connectionManager.state.onEach { state ->
             ProtonLogger.logCustom(
                 LogCategory.PROTOCOL,
                 "ProTun state changed: $state"
             )
             vpnProtocolState = when (state) {
-                is me.proton.vpn.sdk.api.VpnConnectionState.Disconnected ->
-                    state.error?.let {
-                        VpnState.Error(ErrorType.GENERIC_ERROR, "", isFinal = true)
+                is me.proton.vpn.core.api.VpnConnectionState.Disconnected ->
+                    state.error?.let { error ->
+                        when (error) {
+                            is VpnDisconnectError.ServiceError ->
+                                VpnState.Error(ErrorType.GENERIC_ERROR, error.message, isFinal = true)
+                            is VpnDisconnectError.TunInterfaceError ->
+                                VpnState.Error(ErrorType.GENERIC_ERROR, error.message, isFinal = true)
+                            VpnDisconnectError.VpnPermissionMissing ->
+                                VpnState.Error(ErrorType.GENERIC_ERROR, "VPN permission missing", isFinal = true)
+                            VpnDisconnectError.InteractAcrossUsers ->
+                                VpnState.Error(ErrorType.MULTI_USER_PERMISSION, null, isFinal = true)
+                        }
                     } ?: VpnState.Disabled
-                is me.proton.vpn.sdk.api.VpnConnectionState.Connecting -> VpnState.Connecting
-                is me.proton.vpn.sdk.api.VpnConnectionState.Connected -> VpnState.Connected
-                is me.proton.vpn.sdk.api.VpnConnectionState.WaitingForAction ->
+                is me.proton.vpn.core.api.VpnConnectionState.Connecting -> VpnState.Connecting
+                is me.proton.vpn.core.api.VpnConnectionState.Connected -> VpnState.Connected
+                is me.proton.vpn.core.api.VpnConnectionState.WaitingForAction ->
                     when (state.reason) {
                         VpnWaitReason.WaitingForNetwork -> VpnState.WaitingForNetwork
                     }
-                me.proton.vpn.sdk.api.VpnConnectionState.Loading -> VpnState.Disabled
+                me.proton.vpn.core.api.VpnConnectionState.Loading -> VpnState.Disabled
             }
         }.launchIn(mainScope)
     }
@@ -142,12 +152,12 @@ class ProTunBackend @Inject constructor(
             computeAllowedIPs,
             packetCapture.activeFileFlow.first()
         )
-        sdk.connectionManager.connect(config)
+        vpnCore.connectionManager.connect(config)
 
         observePcapJob = mainScope.launch {
             packetCapture.activeFileFlow
                 .drop(1)
-                .collect { pcapFile -> sdk.connectionManager.setPacketCaptureEnabled(pcapFile) }
+                .collect { pcapFile -> vpnCore.connectionManager.setPacketCaptureEnabled(pcapFile) }
         }
     }
 
@@ -155,7 +165,7 @@ class ProTunBackend @Inject constructor(
         observePcapJob?.cancel()
         observePcapJob = null
 
-        sdk.connectionManager.disconnect()
+        vpnCore.connectionManager.disconnect()
         if (withStateChange) {
             // Set state to disabled right away to give app some time to close notification
             // as the service might be killed right away on disconnection

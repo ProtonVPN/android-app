@@ -27,12 +27,11 @@ import com.protonvpn.android.vpn.protun.PreparePeersForConnectionProTun
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.test.runTest
-import me.proton.vpn.sdk.api.Peer
-import me.proton.vpn.sdk.api.VpnProtocol
+import me.proton.vpn.core.api.Peer
+import me.proton.vpn.core.api.VpnProtocol
 import org.junit.Before
 import org.junit.Test
 import java.net.InetAddress
-import java.util.Random
 import kotlin.test.assertEquals
 
 class PreparePeersForConnectionProTunTests {

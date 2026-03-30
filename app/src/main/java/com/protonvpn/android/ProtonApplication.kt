@@ -95,7 +95,7 @@ import me.proton.core.plan.data.PurchaseStateHandler
 import me.proton.core.userrecovery.presentation.compose.DeviceRecoveryHandler
 import me.proton.core.userrecovery.presentation.compose.DeviceRecoveryNotificationSetup
 import me.proton.core.util.kotlin.CoreLogger
-import me.proton.vpn.sdk.api.ProtonVpnSdk
+import me.proton.vpn.core.api.ProtonVpnCore
 import java.util.concurrent.Executors
 
 /**
@@ -158,7 +158,7 @@ open class ProtonApplication : Application() {
         val goLangCrashReporter: dagger.Lazy<GoLangCrashReporter>
         val populateInitialProfiles: PopulateInitialProfiles
         val profileAutoOpenHandler: ProfileAutoOpenHandler
-        val protonVpnSdk: ProtonVpnSdk
+        val protonVpnCore: ProtonVpnCore
     }
 
     protected var lastMainProcessExitReason: Int? = null
@@ -253,7 +253,7 @@ open class ProtonApplication : Application() {
         dependencies.widgetStateUpdater.start()
         dependencies.widgetTracker.start()
         // SDK need to be initialized in during Application.onCreate
-        dependencies.protonVpnSdk
+        dependencies.protonVpnCore
 
         // Start last.
         dependencies.periodicUpdateManager.start()

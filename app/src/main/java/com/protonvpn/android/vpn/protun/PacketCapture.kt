@@ -29,8 +29,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
-import me.proton.vpn.sdk.api.PacketCaptureFile
-import me.proton.vpn.sdk.api.PacketCaptureInfo
+import me.proton.vpn.core.api.PacketCaptureInfo
+import me.proton.vpn.core.api.PacketCaptureFile
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton

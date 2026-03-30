@@ -33,13 +33,13 @@ import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.vpn.CertificateRepository
 import inet.ipaddr.IPAddress
 import me.proton.core.network.domain.session.SessionId
-import me.proton.vpn.sdk.api.InitialConfig
-import me.proton.vpn.sdk.api.InterfaceConfig
-import me.proton.vpn.sdk.api.IpNetworkPrefix
-import me.proton.vpn.sdk.api.PacketCaptureInfo
-import me.proton.vpn.sdk.api.Peer
-import me.proton.vpn.sdk.api.SplitTunnelAppsConfig
-import me.proton.vpn.sdk.api.SplitTunnelMode
+import me.proton.vpn.core.api.InitialConfig
+import me.proton.vpn.core.api.InterfaceConfig
+import me.proton.vpn.core.api.IpNetworkPrefix
+import me.proton.vpn.core.api.PacketCaptureInfo
+import me.proton.vpn.core.api.Peer
+import me.proton.vpn.core.api.SplitTunnelAppsConfig
+import me.proton.vpn.core.api.SplitTunnelMode
 
 class ConnectionParamsProTun(
     connectIntent: AnyConnectIntent,

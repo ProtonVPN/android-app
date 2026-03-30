@@ -28,7 +28,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.vpn.ProtocolSelection
-import me.proton.vpn.sdk.api.Peer
+import me.proton.vpn.core.api.Peer
 import java.net.InetAddress
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -86,9 +86,9 @@ class PreparePeersForConnectionProTun(
 
 private fun TransmissionProtocol.toSdkProtocol() =
     when (this) {
-        TransmissionProtocol.UDP -> me.proton.vpn.sdk.api.VpnProtocol.WireGuardUdp
-        TransmissionProtocol.TCP -> me.proton.vpn.sdk.api.VpnProtocol.WireGuardTcp
-        TransmissionProtocol.TLS -> me.proton.vpn.sdk.api.VpnProtocol.Stealth
+        TransmissionProtocol.UDP -> me.proton.vpn.core.api.VpnProtocol.WireGuardUdp
+        TransmissionProtocol.TCP -> me.proton.vpn.core.api.VpnProtocol.WireGuardTcp
+        TransmissionProtocol.TLS -> me.proton.vpn.core.api.VpnProtocol.Stealth
     }
 
 private fun DefaultPorts.forTransmission(transmission: TransmissionProtocol) =

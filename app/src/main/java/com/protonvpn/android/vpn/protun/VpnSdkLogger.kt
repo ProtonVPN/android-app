@@ -22,7 +22,7 @@ package com.protonvpn.android.vpn.protun
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import dagger.Reusable
-import me.proton.vpn.sdk.api.Logger
+import me.proton.vpn.core.api.Logger
 import uniffi.protun.LogLevel
 import javax.inject.Inject
 

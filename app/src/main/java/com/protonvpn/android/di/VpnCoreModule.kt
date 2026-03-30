@@ -20,35 +20,35 @@
 package com.protonvpn.android.di
 
 import android.content.Context
-import me.proton.vpn.sdk.api.ProtonVpnConnectionManager
-import me.proton.vpn.sdk.api.ProtonVpnSdk
-import me.proton.vpn.sdk.api.SdkDependencies
 import com.protonvpn.android.vpn.protun.VpnSdkNotificationFactory
 import com.protonvpn.android.vpn.protun.VpnSdkLogger
-import com.protonvpn.android.vpn.protun.VpnSdkSystemEventHandler
+import com.protonvpn.android.vpn.protun.VpnCoreSystemEventHandler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import me.proton.vpn.core.api.Dependencies
+import me.proton.vpn.core.api.ProtonVpnConnectionManager
+import me.proton.vpn.core.api.ProtonVpnCore
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object SdkModule {
+object VpnCoreModule {
 
     @Provides
     @Singleton
-    fun provideSdk(
+    fun provideVpnCore(
         @ApplicationContext appContext: Context,
         logger: VpnSdkLogger,
         notificationFactory: VpnSdkNotificationFactory,
-        systemEventHandler: VpnSdkSystemEventHandler,
-    ): ProtonVpnSdk = ProtonVpnSdk.create(appContext) { _ ->
-        SdkDependencies(notificationFactory, logger, systemEventHandler)
+        systemEventHandler: VpnCoreSystemEventHandler,
+    ): ProtonVpnCore = ProtonVpnCore.create(appContext, logger) { _ ->
+        Dependencies(notificationFactory, systemEventHandler)
     }
 
     @Provides
-    fun connectionManager(sdk: ProtonVpnSdk): ProtonVpnConnectionManager = sdk.connectionManager
+    fun connectionManager(sdk: ProtonVpnCore): ProtonVpnConnectionManager = sdk.connectionManager
 }
 
