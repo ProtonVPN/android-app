@@ -353,8 +353,8 @@
     <string name="enable">有効化</string>
     <string name="notification_smart_protocol_disabled_title">スマートプロトコルは現在無効です</string>
     <string name="notification_smart_protocol_disabled_content">現在のネットワークが VPN に接続しようとしているのを妨げるのを検出しました。スマートプロトコルを有効にするとこれらの制限を回避できる可能性があります。</string>
-    <string name="notification_streaming_blocked_title">Blocked website?</string>
-    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
+    <string name="notification_streaming_blocked_title">ブロックされたウェブサイトですか？</string>
+    <string name="notification_streaming_blocked_text">一部のウェブサイトやストリーミングサービスでは、無料VPNユーザーがブロックされます。これらのブロックを回避するには、Proton VPN Plusにアップグレードしてください。</string>
     <string name="upsell_advanced_features">高度な機能: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">世界中どこでも Netflix や Disney+ などのストリーミングサービスにアクセス</string>
     <!-- Number of servers available in the service.
@@ -390,8 +390,8 @@
     <string name="upgrade_profiles_text">VPN Plusでプロファイルをアンロック</string>
     <string name="upgrade_streaming_title">4Kでストリーミング</string>
     <string name="upgrade_streaming_text">世界中どこからでもお気に入りの映画やテレビ番組を楽しめます。</string>
-    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upgrade_streaming_block_title">VPNブロックを回避するためにアップグレード</string>
+    <string name="upgrade_streaming_block_text">VPN Plusサーバーを利用して、お気に入りの映画やテレビ番組を世界中からお楽しみください。</string>
     <string name="upgrade_tor_title">Torネットワークへワンタップでアクセス</string>
     <string name="upgrade_tor_text">普段使っているブラウザで、隠れたサービスやオニオンサイトに接続できます。</string>
     <string name="upgrade_vpn_accelerator_title">さらに高速なブラウジング</string>
@@ -534,7 +534,7 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s. %3$s</string>
+    <string name="upsell_tv_all_countries_description">%2$sで%1$sをアンロック。%3$s</string>
     <string name="upsell_tv_netshield_title">Plus で広告なしのブラウジングを体験</string>
     <string name="upsell_tv_netshield_description"><![CDATA[<b>NetShield</b> で、広告、トラッカー、ウイルスなどをブロックしましょう。%1$s]]></string>
     <string name="upsell_tv_split_tunneling_title">Plusで両方の利点を最大限に活用</string>
@@ -621,7 +621,7 @@
     <string name="upgrade_country_message"><![CDATA[VPN Plus で<b>国の選択</b>を解除します。]]></string>
     <string name="free_connections_info_message">Proton Freeでは、利用可能な最速のサーバーに自動的に接続されます。これは通常、あなたの所在地に最も近いサーバーとなります。</string>
     <string name="free_connections_info_server_locations">無料のサーバーの場所 (%1$d)</string>
-    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
+    <string name="free_connections_info_banner_text">VPN Plusですべての国にアクセス</string>
     <string name="free_connection_info_title">無料接続</string>
     <string name="search_upsell_banner_title">どこからでもストリーミング</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1444,13 +1444,13 @@
     <string name="info_p2p_why_description_logs">アクティビティログがありません</string>
     <string name="info_p2p_why_description_hide">サービスプロバイダーやピアから IP アドレスを隠します</string>
     <string name="info_dialog_smart_routing_description">Smart Routingは、仮想サーバーにより、アクセスが困難な国でも VPN カバレッジを提供します。\n\nSmart Routing サーバーに接続すると、物理サーバーが別の場所にある場合でも、目的の国でブラウジングしているように見えます。 \n\nSmart Routingは通常、反プライバシー法やその他の形式の検閲を回避するために使用されます。</string>
-    <string name="notifications_channel_connection_status_name">Connection status</string>
-    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
-    <string name="notifications_channel_connection_errors_name">Connection errors</string>
-    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
-    <string name="notifications_channel_connection_tips_name">Connection tips</string>
-    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
-    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
+    <string name="notifications_channel_connection_status_name">接続状況</string>
+    <string name="notifications_channel_connection_status_description">どのサーバーに接続しているかとVPN速度を表示</string>
+    <string name="notifications_channel_connection_errors_name">接続エラー</string>
+    <string name="notifications_channel_connection_errors_description">VPN接続を一時停止または停止させる問題を通知します。</string>
+    <string name="notifications_channel_connection_tips_name">接続のヒント</string>
+    <string name="notifications_channel_connection_tips_description">コンテキストに応じたヒントで、Proton VPNをより効果的に活用できます。</string>
+    <string name="countries_upsell_banner_description">VPN Plusですべての国にアクセス</string>
     <string name="secure_core_upsell_banner_description">VPN接続にもう1つの暗号化レイヤーを追加する</string>
     <string name="p2p_upsell_banner_description">BitTorrentやその他のファイル共有プロトコルでファイルをダウンロードする</string>
     <string name="tor_upsell_banner_description">VPN接続にTorネットワークを使用することで、プライバシーをさらに守ることができます</string>
@@ -1586,24 +1586,24 @@
     <string name="settings_protocol_proton_protocols">Protonプロトコル</string>
     <string name="settings_protocol_proton_protocols_description">Proton VPNに実装されたWireGuardを使用します。試験的な機能のため、不安定になる可能性があります。</string>
     <string name="connection_preferences_smart_discovery_dialog_title">ご希望の国ではありませんか？</string>
-    <string name="connection_preferences_smart_discovery_dialog_message">If there are locations you don’t want to be automatically connected to, you can exclude them from Fastest country.</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">自動的に接続したくない位置がある場合、最速の国から除外できます。</string>
     <string name="excluded_locations_adoption_title">不要な場所を回避</string>
     <string name="excluded_locations_adoption_description"><![CDATA[<b>最速</b>接続から国や都市を除外できるようになりました。]]></string>
-    <string name="session_fork_no_account_title">Sign in on Android TV</string>
-    <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
-    <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
-    <string name="session_fork_no_account_signup_button">Create an account</string>
-    <string name="session_fork_no_account_signin_button">Sign in</string>
-    <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
-    <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
-    <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
-    <string name="session_fork_success_title">Sign-in complete</string>
-    <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
-    <string name="session_fork_error_expired_title">Code expired</string>
-    <string name="session_fork_error_expired_message">Create a new code on your TV and try again.</string>
-    <string name="session_fork_error_generic_title">Couldn’t sign in</string>
-    <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
-    <string name="session_fork_error_network_message">Check your network and try again.</string>
-    <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
-    <string name="session_fork_error_report_button">Report the issue</string>
+    <string name="session_fork_no_account_title">Android TVでサインイン</string>
+    <string name="session_fork_no_account_message">テレビでProton VPNの利用を開始するには、このデバイスでサインインを完了してください</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[このアプリを使用することで私たちの<a href="">利用規約</a>に同意したことになります。]]></string>
+    <string name="session_fork_no_account_signup_button">アカウントを作成</string>
+    <string name="session_fork_no_account_signin_button">サインイン</string>
+    <string name="session_fork_confirmation_title">Android TVでサインインしますか？</string>
+    <string name="session_fork_confirmation_message">これにより、テレビがお客様のProtonアカウントにアクセスできるようになります。</string>
+    <string name="session_fork_confirmation_bottom_note">信頼できるデバイスでのみサインインしてください</string>
+    <string name="session_fork_success_title">サインイン完了</string>
+    <string name="session_fork_success_message">テレビでサインインしました。</string>
+    <string name="session_fork_error_expired_title">コードは有効期限切れ</string>
+    <string name="session_fork_error_expired_message">テレビで新しいコードを生成し、再度お試しください。</string>
+    <string name="session_fork_error_generic_title">サインインできませんでした</string>
+    <string name="session_fork_error_fatal_message">ネットワークを確認し、再度お試しください。問題が解決しない場合は、カスタマーサポートチームにお問い合わせください。 </string>
+    <string name="session_fork_error_network_message">ネットワークを確認し、再度お試しください。</string>
+    <string name="session_fork_error_try_fallback_message">テレビで「サインインでお困りですか？」をクリックして、別の手順に従ってください。</string>
+    <string name="session_fork_error_report_button">問題を報告</string>
 </resources>

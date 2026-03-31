@@ -786,7 +786,7 @@
     <string name="no_logs_banner_description">VPN-aktiviteten din er beskyttet av sveitsiske personvernlover. Vi vil aldri spore deg på nettet eller dele informasjonen din med tredjeparter.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Hjem</string>
-    <string name="bottom_nav_gateways">Porttjenere</string>
+    <string name="bottom_nav_gateways">Gateway-tjenere</string>
     <string name="bottom_nav_profiles">Profiler</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Land</string>
@@ -1050,12 +1050,12 @@
     <string name="message_server_not_available">Tjener ikke tilgjengelig</string>
     <string name="message_server_location_excluded">Tjenerplassering ekskludert</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
-    <string name="message_gateway_in_maintenance">Porttjener blir vedlikeholdt</string>
+    <string name="message_gateway_in_maintenance">Gateway blir vedlikeholdt</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">Logg av</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Innstillinger</string>
-    <string name="gateways_title">Porttjenere</string>
+    <string name="gateways_title">Gateway-tjenere</string>
     <string name="countries_title">Land</string>
     <string name="profiles_title">Profiler</string>
     <string name="settings_autoconnect_title">Koble til automatisk</string>
@@ -1181,7 +1181,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server">Tjener</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_gateway">Porttjener</string>
+    <string name="connection_details_gateway">Gateway</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_country">Land</string>
     <!-- tag(Redesign_2023) -->
@@ -1521,11 +1521,11 @@
     <string name="create_profile_type_standard">Standard</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
-    <string name="create_profile_gateway">Porttjener</string>
+    <string name="create_profile_gateway">Gateway</string>
     <string name="create_profile_pick_state_title">Stat</string>
     <string name="create_profile_pick_city_title">By</string>
     <string name="create_profile_pick_server_title">Tjener</string>
-    <string name="create_profile_pick_gateway_title">Porttjener</string>
+    <string name="create_profile_pick_gateway_title">Gateway</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_netshield_description">Blokkér annonser, sporere og skadelig programvare på nettsteder og apper</string>
     <string name="create_profile_pick_protocol_title">Protokoll</string>

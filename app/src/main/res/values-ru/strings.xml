@@ -462,7 +462,7 @@
     <string name="upgrade_unlimited_vpn_unlimited_countries">Разблокировать все страны</string>
     <string name="upgrade_unlimited_vpn_all_features">Все другие функции VPN Plus</string>
     <string name="upgrade_unlimited_vpn_any_location">Выберите любое местоположение</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Еще более высокая скорость VPN</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Ещё более высокая скорость VPN</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
         <item quantity="one">Защитите %1$d устройство одновременно</item>
         <item quantity="few">Защитите %1$d устройства одновременно</item>
@@ -493,7 +493,7 @@
     </plurals>
     <string name="upgrade_unlimited_mail_unlimited_folders">Неограниченное количество папок и фильтров</string>
     <string name="upgrade_unlimited_mail_dark_web">Мониторинг Темной паутины</string>
-    <string name="upgrade_unlimited_mail_aliases">Неограниченное количество псевдонимов hide-my-email</string>
+    <string name="upgrade_unlimited_mail_aliases">Неограниченное число псевдонимов hide-my-email</string>
     <string name="upgrade_unlimited_mail_autoreply">Автоответчик</string>
     <string name="upgrade_unlimited_mail_scheduled_send">Запланированная отправка</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
@@ -702,14 +702,14 @@
     <string name="settings_change_icon_header_discreet">Незаметный значок приложения</string>
     <string name="settings_widget_title">Виджет</string>
     <string name="settings_widget_selection_title">Попробуйте виджет Proton VPN</string>
-    <string name="settings_widget_selection_description">Просматривайте состояние подключения и получайте доступ к избранным подключениям к VPN с главного экрана.</string>
+    <string name="settings_widget_selection_description">Просматривайте статус подключения и получайте доступ к избранным подключениям VPN с главного экрана.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Чтобы добавить виджет, просто нажмите и удерживайте в любом месте на домашнем экране, затем выберите %1$s в меню виджетов.</string>
     <string name="settings_widget_selection_button_title">Добавить виджет</string>
     <string name="setting_widget_try_title">Попробуйте виджет Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
-    <string name="notification_banner_dismiss_accessibility_label">Убрать баннер</string>
+    <string name="notification_banner_dismiss_accessibility_label">Скрыть баннер</string>
     <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
          %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
          %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
@@ -759,7 +759,7 @@
         Example:
         Available in 1 minute 23 seconds.
       -->
-    <string name="server_change_button_time_left_content_description">Осталось %1$s %2$s</string>
+    <string name="server_change_button_time_left_content_description">Доступно через %1$s %2$s</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services and only if time left is less than 1 minute.
 
@@ -767,7 +767,7 @@
         Example:
         Available in 23 seconds.
       -->
-    <string name="server_change_button_time_left_seconds_content_description">Осталось %1$s</string>
+    <string name="server_change_button_time_left_seconds_content_description">Доступно через %1$s</string>
     <string name="server_change_progress_finished_contend_description">Доступен</string>
     <string name="not_wanted_country_title">Не та страна, которую вы хотели?</string>
     <string name="not_wanted_country_description">Улучшите для выбора любого сервера</string>

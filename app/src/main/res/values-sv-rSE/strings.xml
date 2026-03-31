@@ -1640,6 +1640,6 @@
     <string name="session_fork_error_generic_title">Kunde inte logga in</string>
     <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
     <string name="session_fork_error_network_message">Kontrollera ditt nätverk och försök igen.</string>
-    <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
+    <string name="session_fork_error_try_fallback_message">Klicka på \‘Problem att logga in?\’ på din tv för att följa de alternativa stegen.</string>
     <string name="session_fork_error_report_button">Rapportera problemet</string>
 </resources>
