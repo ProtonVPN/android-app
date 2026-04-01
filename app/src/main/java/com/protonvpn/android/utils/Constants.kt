@@ -98,124 +98,73 @@ object Constants {
     const val UNLIMITED_PLAN_PASS_VAULTS = 50
     const val UNLIMITED_PLAN_PASS_USERS = 10
 
-    const val TLS_AUTH_KEY_HEX =
-            "6acef03f62675b4b1bbd03e53b187727\n" +
-            "423cea742242106cb2916a8a4c829756\n" +
-            "3d22c7e5cef430b1103c6f66eb1fc5b3\n" +
-            "75a672f158e2e2e936c3faa48b035a6d\n" +
-            "e17beaac23b5f03b10b868d53d03521d\n" +
-            "8ba115059da777a60cbfd7b2c9c57472\n" +
-            "78a15b8f6e68a3ef7fd583ec9f398c8b\n" +
-            "d4735dab40cbd1e3c62a822e97489186\n" +
-            "c30a0b48c7c38ea32ceb056d3fa5a710\n" +
-            "e10ccc7a0ddb363b08c3d2777a3395e1\n" +
-            "0c0b6080f56309192ab5aacd4b45f55d\n" +
-            "a61fc77af39bd81a19218a79762c3386\n" +
-            "2df55785075f37d8c71dc8a42097ee43\n" +
-            "344739a0dd48d03025b0450cf1fb5e8c\n" +
-            "aeb893d9a96d1f15519bb3c4dcb40ee3\n" +
-            "16672ea16c012664f8a9f11255518deb\n"
-
     private const val DEFAULT_VPN_ROOT_CERTS =
-        "[[INLINE]]-----BEGIN CERTIFICATE-----\n" +
-            "MIIFozCCA4ugAwIBAgIBATANBgkqhkiG9w0BAQ0FADBAMQswCQYDVQQGEwJDSDEV\n" +
-            "MBMGA1UEChMMUHJvdG9uVlBOIEFHMRowGAYDVQQDExFQcm90b25WUE4gUm9vdCBD\n" +
-            "QTAeFw0xNzAyMTUxNDM4MDBaFw0yNzAyMTUxNDM4MDBaMEAxCzAJBgNVBAYTAkNI\n" +
-            "MRUwEwYDVQQKEwxQcm90b25WUE4gQUcxGjAYBgNVBAMTEVByb3RvblZQTiBSb290\n" +
-            "IENBMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAt+BsSsZg7+AuqTq7\n" +
-            "vDbPzfygtl9f8fLJqO4amsyOXlI7pquL5IsEZhpWyJIIvYybqS4s1/T7BbvHPLVE\n" +
-            "wlrq8A5DBIXcfuXrBbKoYkmpICGc2u1KYVGOZ9A+PH9z4Tr6OXFfXRnsbZToie8t\n" +
-            "2Xjv/dZDdUDAqeW89I/mXg3k5x08m2nfGCQDm4gCanN1r5MT7ge56z0MkY3FFGCO\n" +
-            "qRwspIEUzu1ZqGSTkG1eQiOYIrdOF5cc7n2APyvBIcfvp/W3cpTOEmEBJ7/14RnX\n" +
-            "nHo0fcx61Inx/6ZxzKkW8BMdGGQF3tF6u2M0FjVN0lLH9S0ul1TgoOS56yEJ34hr\n" +
-            "JSRTqHuar3t/xdCbKFZjyXFZFNsXVvgJu34CNLrHHTGJj9jiUfFnxWQYMo9UNUd4\n" +
-            "a3PPG1HnbG7LAjlvj5JlJ5aqO5gshdnqb9uIQeR2CdzcCJgklwRGCyDT1pm7eoiv\n" +
-            "WV19YBd81vKulLzgPavu3kRRe83yl29It2hwQ9FMs5w6ZV/X6ciTKo3etkX9nBD9\n" +
-            "ZzJPsGQsBUy7CzO1jK4W01+u3ItmQS+1s4xtcFxdFY8o/q1zoqBlxpe5MQIWN6Qa\n" +
-            "lryiET74gMHE/S5WrPlsq/gehxsdgc6GDUXG4dk8vn6OUMa6wb5wRO3VXGEc67IY\n" +
-            "m4mDFTYiPvLaFOxtndlUWuCruKcCAwEAAaOBpzCBpDAMBgNVHRMEBTADAQH/MB0G\n" +
-            "A1UdDgQWBBSDkIaYhLVZTwyLNTetNB2qV0gkVDBoBgNVHSMEYTBfgBSDkIaYhLVZ\n" +
-            "TwyLNTetNB2qV0gkVKFEpEIwQDELMAkGA1UEBhMCQ0gxFTATBgNVBAoTDFByb3Rv\n" +
-            "blZQTiBBRzEaMBgGA1UEAxMRUHJvdG9uVlBOIFJvb3QgQ0GCAQEwCwYDVR0PBAQD\n" +
-            "AgEGMA0GCSqGSIb3DQEBDQUAA4ICAQCYr7LpvnfZXBCxVIVc2ea1fjxQ6vkTj0zM\n" +
-            "htFs3qfeXpMRf+g1NAh4vv1UIwLsczilMt87SjpJ25pZPyS3O+/VlI9ceZMvtGXd\n" +
-            "MGfXhTDp//zRoL1cbzSHee9tQlmEm1tKFxB0wfWd/inGRjZxpJCTQh8oc7CTziHZ\n" +
-            "ufS+Jkfpc4Rasr31fl7mHhJahF1j/ka/OOWmFbiHBNjzmNWPQInJm+0ygFqij5qs\n" +
-            "51OEvubR8yh5Mdq4TNuWhFuTxpqoJ87VKaSOx/Aefca44Etwcj4gHb7LThidw/ky\n" +
-            "zysZiWjyrbfX/31RX7QanKiMk2RDtgZaWi/lMfsl5O+6E2lJ1vo4xv9pW8225B5X\n" +
-            "eAeXHCfjV/vrrCFqeCprNF6a3Tn/LX6VNy3jbeC+167QagBOaoDA01XPOx7Odhsb\n" +
-            "Gd7cJ5VkgyycZgLnT9zrChgwjx59JQosFEG1DsaAgHfpEl/N3YPJh68N7fwN41Cj\n" +
-            "zsk39v6iZdfuet/sP7oiP5/gLmA/CIPNhdIYxaojbLjFPkftVjVPn49RqwqzJJPR\n" +
-            "N8BOyb94yhQ7KO4F3IcLT/y/dsWitY0ZH4lCnAVV/v2YjWAWS3OWyC8BFx/Jmc3W\n" +
-            "DK/yPwECUcPgHIeXiRjHnJt0Zcm23O2Q3RphpU+1SO3XixsXpOVOYP6rJIXW9bMZ\n" +
-            "A1gTTlpi7A==\n" +
-            "-----END CERTIFICATE-----\n" +
-            "-----BEGIN CERTIFICATE-----\n" +
-            "MIIFszCCA5ugAwIBAgIBBjANBgkqhkiG9w0BAQ0FADBAMQswCQYDVQQGEwJDSDEV\n" +
-            "MBMGA1UEChMMUHJvdG9uVlBOIEFHMRowGAYDVQQDExFQcm90b25WUE4gUm9vdCBD\n" +
-            "QTAeFw0xNzAyMTUxNTE3MDBaFw0yNzAyMTUxNDM4MDBaMEoxCzAJBgNVBAYTAkNI\n" +
-            "MRUwEwYDVQQKEwxQcm90b25WUE4gQUcxJDAiBgNVBAMTG1Byb3RvblZQTiBJbnRl\n" +
-            "cm1lZGlhdGUgQ0EgMTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBANv3\n" +
-            "uwQMFjYOx74taxadhczLbjCTuT73jMz09EqFNv7O7UesXfYJ6kQgYV9YyE86znP4\n" +
-            "xbsswNUZYh+XdZUpOoP6Zu3tR/iiYiuzi6jVYrJ66G89nPqS2mm5dn8Fbb8CRWkJ\n" +
-            "ygm8AdlYkDwYNldhDUrERlQdCRDGsYYg/98dded+5pXnSG8Y/+iuLM6/YYhkUVQe\n" +
-            "Cfq1L6XguSwu8CuvJjIjjE1PptUHa3Hc3tGziVydltKynxWlqb1dJqinGKiBZvYn\n" +
-            "oiV4motpFYwhc3Wd09JLPzeobhD2IAZ2evSatikMWDingEv1EJXpI+V/E2AK3xHK\n" +
-            "Skhw+YZx99tNxCiOu3U5BFAreZR3j2YnZzX1nEv9p02IGaWzzYJPNED0zSO2w07u\n" +
-            "thSmKcxA39VTvs91lptbcV7VTxoJY0SErHIeVS3Scrnr7WvoOTuu3M3SCRqe6oI9\n" +
-            "oJZMOdfNsceBdvG+qlpOFICoBjO53W4BK8KahzTd/PWlBRiVJ3UVv8xXwUDA+o98\n" +
-            "34DXVAobaAHXQtM9jNobqT98FXhZktjOQEA2UORL581ZPxfKeHLRcgWJ5dmPsDBG\n" +
-            "y/L6/qW/yrm6DUDAdN5+q41+gSNEjNBjLBJQFUmDk3l6Qxiu0uEDQ98oFvGHk5US\n" +
-            "2Kbj0OAq1RpiDjHci/536yua9rTC+cxekTM2asdXAgMBAAGjga0wgaowEgYDVR0T\n" +
-            "AQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUJbaTWcIB4t5ETvvhUy5/yQqqGjMwaAYD\n" +
-            "VR0jBGEwX4AUg5CGmIS1WU8MizU3rTQdqldIJFShRKRCMEAxCzAJBgNVBAYTAkNI\n" +
-            "MRUwEwYDVQQKEwxQcm90b25WUE4gQUcxGjAYBgNVBAMTEVByb3RvblZQTiBSb290\n" +
-            "IENBggEBMAsGA1UdDwQEAwIBBjANBgkqhkiG9w0BAQ0FAAOCAgEAAgZ/BIVl+DcK\n" +
-            "OTVJJBy+RZ1E8os11gFaMKy12lAT1XEXDqLAnitvVyQgG5lPZKFQ2wzUR/TCrYKT\n" +
-            "SUZWdYaJIXkRWAU0aCDZ2I81T0OMpg9aS7xdxgHCGWOwwes8GhjtvQad9GJ8mUZH\n" +
-            "GyzfMaGG6fAZrgHnlOb4OIoqhBWYla6D2bpvbKgGkMo5NLAaX/7+U0HcxjjSS9vm\n" +
-            "/3XHTZU4q77pn+lhPWncajnVyMtm1mIZxMioyckR4+scyZse0mYJS6xli/7crH7j\n" +
-            "qScX7c5sWcaN4J63a3+x3uGvzOXjCyoDl9IaeqnxQpi8yc0nsWxIyDalR3uRQ9tJ\n" +
-            "7l/eRxJZ/1Pzz2LRHSQZuqN2ZReWVNTqJ42af8cWWH0fDOEt2468GLeSm08Hvyz0\n" +
-            "lRjn7Tf5hxOJSw4/3oGihvzuTdquJMOi62kThbp7DS3mMaZsfbmDoU3oNDv91bvL\n" +
-            "57z8wm7yRcGEoMsUNnrOZ4SU8dG/souvJM1BDStMLprFEgUbHEY5MjSR4/PLR6j9\n" +
-            "3NZgocfnfk80nBvNtgWVHxW019nuT93WL0/5L5g4UVm0Ay1V6pNkGZCmgNUBaRY4\n" +
-            "2JLzyY8p48OKapR5GnedLTJXJVbdd9GUNzIzm4iVITDH3p/u1g69dITCNXTO9EO5\n" +
-            "sGEYLNPbV49XBnVAm1tUWuoByZAjoWs=\n" +
-            "-----END CERTIFICATE-----\n" +
-            "-----BEGIN CERTIFICATE-----\n" +
-            "MIIFnTCCA4WgAwIBAgIUCI574SM3Lyh47GyNl0WAOYrqb5QwDQYJKoZIhvcNAQEL\n" +
-            "BQAwXjELMAkGA1UEBhMCQ0gxHzAdBgNVBAoMFlByb3RvbiBUZWNobm9sb2dpZXMg\n" +
-            "QUcxEjAQBgNVBAsMCVByb3RvblZQTjEaMBgGA1UEAwwRUHJvdG9uVlBOIFJvb3Qg\n" +
-            "Q0EwHhcNMTkxMDE3MDgwNjQxWhcNMzkxMDEyMDgwNjQxWjBeMQswCQYDVQQGEwJD\n" +
-            "SDEfMB0GA1UECgwWUHJvdG9uIFRlY2hub2xvZ2llcyBBRzESMBAGA1UECwwJUHJv\n" +
-            "dG9uVlBOMRowGAYDVQQDDBFQcm90b25WUE4gUm9vdCBDQTCCAiIwDQYJKoZIhvcN\n" +
-            "AQEBBQADggIPADCCAgoCggIBAMkUT7zMUS5C+NjQ7YoGpVFlfbN9HFgG4JiKfHB8\n" +
-            "QxnPPRgyTi0zVOAj1ImsRilauY8Ddm5dQtd8qcApoz6oCx5cFiiSQG2uyhS/59Zl\n" +
-            "5wqIkw1o+CgwZgeWkq04lcrxhhfPgJZRFjrYVezy/Z2Ssd18s3/FFNQ+2iV1KC2K\n" +
-            "z8eSPr50u+l9vEKsKiNGkJTdlWjoDKZM2C15i/h8Smi+PdJlx7WMTtYoVC1Fzq0r\n" +
-            "aCPDQl18kspu11b6d8ECPWghKcDIIKuA0r0nGqF1GvH1AmbC/xUaNrKgz9AfioZL\n" +
-            "MP/l22tVG3KKM1ku0eYHX7NzNHgkM2JKnBBannImQQBGTAcvvUlnfF3AHx4vzx7H\n" +
-            "ahpBz8ebThx2uv+vzu8lCVEcKjQObGwLbAONJN2enug8hwSSZQv7tz7onDQWlYh0\n" +
-            "El5fnkrEQGbukNnSyOqTwfobvBllIPzBqdO38eZFA0YTlH9plYjIjPjGl931lFAA\n" +
-            "3G9t0x7nxAauLXN5QVp1yoF1tzXc5kN0SFAasM9VtVEOSMaGHLKhF+IMyVX8h5Iu\n" +
-            "IRC8u5O672r7cHS+Dtx87LjxypqNhmbf1TWyLJSoh0qYhMr+BbO7+N6zKRIZPI5b\n" +
-            "MXc8Be2pQwbSA4ZrDvSjFC9yDXmSuZTyVo6Bqi/KCUZeaXKof68oNxVYeGowNeQd\n" +
-            "g/znAgMBAAGjUzBRMB0GA1UdDgQWBBR44WtTuEKCaPPUltYEHZoyhJo+4TAfBgNV\n" +
-            "HSMEGDAWgBR44WtTuEKCaPPUltYEHZoyhJo+4TAPBgNVHRMBAf8EBTADAQH/MA0G\n" +
-            "CSqGSIb3DQEBCwUAA4ICAQBBmzCQlHxOJ6izys3TVpaze+rUkA9GejgsB2DZXIcm\n" +
-            "4Lj/SNzQsPlZRu4S0IZV253dbE1DoWlHanw5lnXwx8iU82X7jdm/5uZOwj2NqSqT\n" +
-            "bTn0WLAC6khEKKe5bPTf18UOcwN82Le3AnkwcNAaBO5/TzFQVgnVedXr2g6rmpp9\n" +
-            "gdedeEl9acB7xqfYfkrmijqYMm+xeG2rXaanch3HjweMDuZdT/Ub5G6oir0Kowft\n" +
-            "lA1ytjXRg+X+yWymTpF/zGLYfSodWWjMKhpzZtRJZ+9B0pWXUyY7SuCj5T5SMIAu\n" +
-            "x3NQQ46wSbHRolIlwh7zD7kBgkyLe7ByLvGFKa2Vw4PuWjqYwrRbFjb2+EKAwPu6\n" +
-            "VTWz/QQTU8oJewGFipw94Bi61zuaPvF1qZCHgYhVojRy6KcqncX2Hx9hjfVxspBZ\n" +
-            "DrVH6uofCmd99GmVu+qizybWQTrPaubfc/a2jJIbXc2bRQjYj/qmjE3hTlmO3k7V\n" +
-            "EP6i8CLhEl+dX75aZw9StkqjdpIApYwX6XNDqVuGzfeTXXclk4N4aDPwPFM/Yo/e\n" +
-            "KnvlNlKbljWdMYkfx8r37aOHpchH34cv0Jb5Im+1H07ywnshXNfUhRazOpubJRHn\n" +
-            "bjDuBwWS1/Vwp5AJ+QHsPXhJdl3qHc1szJZVJb3VyAWvG/bWApKfFuZX18tiI4N0\n" +
-            "EA==\n" +
-            "-----END CERTIFICATE-----"
+        "[[INLINE]]\n"+
+        "-----BEGIN CERTIFICATE-----\n" + // Root
+        "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\n" +
+        "EA==\n" +
+        "-----END CERTIFICATE-----\n" +
+        "-----BEGIN CERTIFICATE-----\n" + // Intermediate
+        "MIIFjDCCA3SgAwIBAgIBBDANBgkqhkiG9w0BAQsFADBeMQswCQYDVQQGEwJDSDEf\n" +
+        "MB0GA1UECgwWUHJvdG9uIFRlY2hub2xvZ2llcyBBRzESMBAGA1UECwwJUHJvdG9u\n" +
+        "VlBOMRowGAYDVQQDDBFQcm90b25WUE4gUm9vdCBDQTAeFw0yMjAxMTQxNjQ4MTBa\n" +
+        "Fw0zMjAxMTIxNjQ4NDBaMEoxCzAJBgNVBAYTAkNIMRUwEwYDVQQKEwxQcm90b25W\n" +
+        "UE4gQUcxJDAiBgNVBAMTG1Byb3RvblZQTiBJbnRlcm1lZGlhdGUgQ0EgMTCCAiIw\n" +
+        "DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBANv3uwQMFjYOx74taxadhczLbjCT\n" +
+        "uT73jMz09EqFNv7O7UesXfYJ6kQgYV9YyE86znP4xbsswNUZYh+XdZUpOoP6Zu3t\n" +
+        "R/iiYiuzi6jVYrJ66G89nPqS2mm5dn8Fbb8CRWkJygm8AdlYkDwYNldhDUrERlQd\n" +
+        "CRDGsYYg/98dded+5pXnSG8Y/+iuLM6/YYhkUVQeCfq1L6XguSwu8CuvJjIjjE1P\n" +
+        "ptUHa3Hc3tGziVydltKynxWlqb1dJqinGKiBZvYnoiV4motpFYwhc3Wd09JLPzeo\n" +
+        "bhD2IAZ2evSatikMWDingEv1EJXpI+V/E2AK3xHKSkhw+YZx99tNxCiOu3U5BFAr\n" +
+        "eZR3j2YnZzX1nEv9p02IGaWzzYJPNED0zSO2w07uthSmKcxA39VTvs91lptbcV7V\n" +
+        "TxoJY0SErHIeVS3Scrnr7WvoOTuu3M3SCRqe6oI9oJZMOdfNsceBdvG+qlpOFICo\n" +
+        "BjO53W4BK8KahzTd/PWlBRiVJ3UVv8xXwUDA+o9834DXVAobaAHXQtM9jNobqT98\n" +
+        "FXhZktjOQEA2UORL581ZPxfKeHLRcgWJ5dmPsDBGy/L6/qW/yrm6DUDAdN5+q41+\n" +
+        "gSNEjNBjLBJQFUmDk3l6Qxiu0uEDQ98oFvGHk5US2Kbj0OAq1RpiDjHci/536yua\n" +
+        "9rTC+cxekTM2asdXAgMBAAGjaTBnMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8E\n" +
+        "CDAGAQH/AgEAMB8GA1UdIwQYMBaAFHjha1O4QoJo89SW1gQdmjKEmj7hMCAGA1Ud\n" +
+        "JQEB/wQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATANBgkqhkiG9w0BAQsFAAOCAgEA\n" +
+        "fFMtLGksBmCWBbLu5SJW+6/8EtOoGD+QbCRc7kCpsKZOqgwKuVeEQHsTCJgeSyWM\n" +
+        "XXnD5mqtEKcgaJ8bjgE2YkPPajiqnqAYPxJ4xCUXELY+Tm6LMifAuxtGIC9M04Cy\n" +
+        "IIe44OtblEQDP+JB++TLKbwnj/+TAC7537eGxZa3Jesc4YUD2qUTp2Zqqo2Tzqib\n" +
+        "iyuGCeVfc+OiG0xcZls9lvYOIAcEIqxvWEwgSCJUul1567b3/mKe5S2SkpY6du29\n" +
+        "I3k3qhvSvrA1WtBlqAAeggLiQ5DE47LIMdJU+roYmk4TAJmibI2nKoonf1+OBF/S\n" +
+        "Zg04xEd18dtAoX1CjgTHlIeNQzeGV6O0/jhn3BfNWB2a2A8u5mVxDyOG3ZJEjdKC\n" +
+        "eiv6r/iEGI7BwOe3WSdvcmNpsa+UehbupN9azRyhEykXmG+LGF5DEylLxK128tdD\n" +
+        "0rl3p1qEWcRYIdzE8iS7rp0y0wD0pz0ye80OyGXJYc3Y8WSxPVQL/t35x7gaKnIW\n" +
+        "8S0Goqe7Or/F3bxYXh+kk1ARZyF0bmH/yOlkstV7ETsL7OB8aDEvlc/BG80bU68m\n" +
+        "cQDquPP1RszuksYu6pGZPtwra23Wuo8alsxVg4aJhhIKP/iocJdWKnodMMAIF23N\n" +
+        "+WPATcqIu3YrtUFWnNHGAa/z3xBx3VwPMGIOcmfVl4E=\n" +
+        "-----END CERTIFICATE-----\n"
 
     val VPN_ROOT_CERTS = BuildConfig.VPN_SERVER_ROOT_CERT ?: DEFAULT_VPN_ROOT_CERTS
 
