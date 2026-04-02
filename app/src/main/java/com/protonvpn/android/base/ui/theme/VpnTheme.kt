@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.base.ui.theme
 
-import android.app.Activity
 import android.graphics.Color
 import android.os.Build
 import androidx.activity.ComponentActivity
@@ -29,14 +28,10 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.LineHeightStyle
-import androidx.core.view.WindowCompat
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.protonvpn.android.base.ui.LocalLocale
 import com.protonvpn.android.base.ui.LocalStringProvider
 import com.protonvpn.android.base.ui.StringProvider
@@ -45,16 +40,23 @@ import me.proton.core.compose.theme.ProtonTheme3
 import me.proton.core.compose.theme.defaultUnspecified
 import me.proton.core.compose.theme.isNightMode
 import me.proton.core.presentation.utils.currentLocale
+import java.util.Locale
 
 @Composable
 fun VpnTheme(isDark: Boolean = isNightMode(), content: @Composable () -> Unit) {
     ProtonTheme(isDark = isDark) {
         ProtonTheme3(isDark = isDark) {
+            val locale: Locale = if (LocalInspectionMode.current) {
+                // LocalConfiguration Locale seems to be broken in previews.
+                LocalConfiguration.current.locale ?: Locale.US
+            } else {
+                LocalConfiguration.current.currentLocale()
+            }
             CompositionLocalProvider(
                 LocalContentColor provides ProtonTheme.colors.textNorm,
                 LocalTextStyle provides ProtonTheme.typography.defaultUnspecified,
                 LocalStringProvider provides StringProvider { id, formatArgs -> stringResource(id, *formatArgs) },
-                LocalLocale provides LocalConfiguration.current.currentLocale(),
+                LocalLocale provides locale,
             ) {
                 content()
             }

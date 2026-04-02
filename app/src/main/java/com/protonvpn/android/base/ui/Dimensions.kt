@@ -77,7 +77,10 @@ fun ProtonTheme.extraPaddingForWindowSize(size: DpSize): Dp {
 @Composable
 fun largeScreenContentPadding(): Dp =
     if (LocalInspectionMode.current) {
-        0.dp
+        val size = with(LocalConfiguration.current) {
+            DpSize(screenWidthDp.dp, screenHeightDp.dp)
+        }
+        ProtonTheme.extraPaddingForWindowSize(size)
     } else {
         val activity = LocalActivity.current!!
         ProtonTheme.extraPaddingForWindowSize(calculateWindowSize(activity))

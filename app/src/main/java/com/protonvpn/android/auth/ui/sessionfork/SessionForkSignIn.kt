@@ -19,21 +19,28 @@
 
 package com.protonvpn.android.auth.ui.sessionfork
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
@@ -51,16 +58,30 @@ fun SessionForkSignIn(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier,
+        modifier = modifier
+            .background(
+                Brush.verticalGradient(
+                    0f to Color(0x6611D8CC),
+                    0.5f to Color(0x006E4BFF),
+                    1f to Color(0x00000000),
+            )),
         contentAlignment = Alignment.Center,
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
                 .largeScreenContentPadding()
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Image(
+                painterResource(R.drawable.sign_in_logo_line),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .widthIn(max = 450.dp)
+            )
             Text(
                 stringResource(R.string.session_fork_no_account_title),
                 style = ProtonTheme.typography.hero,
@@ -99,11 +120,13 @@ fun SessionForkSignIn(
                 color = ProtonTheme.colors.textWeak,
                 textAlign = TextAlign.Center,
             )
+
+            VerticalSpacer(height = 24.dp)
         }
     }
 }
 
-@Preview
+@ProtonVpnPreview
 @Composable
 private fun PreviewSessionSignIn() {
     ProtonVpnPreview {

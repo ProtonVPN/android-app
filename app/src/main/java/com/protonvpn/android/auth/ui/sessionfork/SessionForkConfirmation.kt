@@ -36,6 +36,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -57,14 +59,13 @@ import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnTextButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.base.ui.largeScreenContentPadding
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun SessionForkConfirmation(
-    viewState: SessionForkConfirmationViewModel.ViewState,
+    viewState: ViewState,
     onConfirm: () -> Unit,
     onClose: () -> Unit,
     onStartActivity: (Intent) -> Unit,
@@ -213,6 +214,7 @@ private fun SignIn(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
                 .largeScreenContentPadding()
                 .padding(paddingValues)
         ) {
@@ -282,7 +284,10 @@ private fun FinishPage(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(16.dp)
+                .padding(paddingValues)
+                .verticalScroll(rememberScrollState())
+                .largeScreenContentPadding(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -311,7 +316,7 @@ private fun FinishPage(
 private fun PreviewSessionForkConfirmation(
     @PreviewParameter(SessionForkViewStateParameterProvider::class) viewState: ViewState
 ) {
-    VpnTheme {
+    ProtonVpnPreview {
         SessionForkConfirmation(
             viewState = viewState,
             onConfirm = {},
