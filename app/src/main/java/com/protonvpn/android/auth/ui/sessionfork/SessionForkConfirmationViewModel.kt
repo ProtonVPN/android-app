@@ -24,7 +24,9 @@ import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
@@ -55,6 +57,7 @@ import me.proton.core.util.kotlin.startsWith
 import javax.inject.Inject
 
 private const val SUCCESS_DELAY_MS = 4_000L
+private const val MIN_TIME_FOR_READING_MS = 3_000L
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
@@ -63,6 +66,7 @@ class SessionForkConfirmationViewModel @Inject constructor(
     private val currentUser: CurrentUser,
     private val forkSession: ForkSession,
     private val createLaunchIntent: CreateLaunchIntent,
+    @param:ElapsedRealtimeClock private val clock: () -> Long,
 ) : ViewModel() {
 
     sealed interface ViewState {
@@ -84,11 +88,13 @@ class SessionForkConfirmationViewModel @Inject constructor(
     private var hasSignIn by savedStateHandle.state(false)
     private var hasTriggeredUpgrade by savedStateHandle.state(false)
     private val triggerConfirmSignIn = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    private var lastResumedTimestampMs = Long.MIN_VALUE
 
     // Use a channel to guarantee event delivery even if there is no observer at the moment the
     // event is generated.
     val eventLaunchUpgrade =
         Channel<Unit>(capacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val eventShowToast = MutableSharedFlow<Int>(extraBufferCapacity = 1)
 
     val viewState =
         flow {
@@ -126,8 +132,16 @@ class SessionForkConfirmationViewModel @Inject constructor(
         hasSignIn = true
     }
 
+    fun onResume() {
+        lastResumedTimestampMs = clock()
+    }
+
     fun confirmFork() {
-        triggerConfirmSignIn.tryEmit(Unit)
+        if (lastResumedTimestampMs + MIN_TIME_FOR_READING_MS >= clock()) {
+            eventShowToast.tryEmit(R.string.session_fork_confirmation_too_soon_toast)
+        } else {
+            triggerConfirmSignIn.tryEmit(Unit)
+        }
     }
 
     // Uses channelFlow to allow embedding it in viewState flow.

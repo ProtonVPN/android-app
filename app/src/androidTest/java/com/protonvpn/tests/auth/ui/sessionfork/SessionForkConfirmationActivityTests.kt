@@ -113,6 +113,17 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
     }
 
     @Test
+    fun WhenForkConfirmedTooFastThenMessageIsDisplayed() {
+        setUser(TestUser.plusUser)
+        launchActivity()
+        SessionForkConfirmationRobot
+            .confirmFork()
+            .verify {
+                assertTooSoonSnackIsDisplayed()
+            }
+    }
+
+    @Test
     fun WhenForkConfirmedThenPostRequestIsSent() {
         setUser(TestUser.plusUser)
         protonRule.mockDispatcher.addRules {
@@ -121,6 +132,11 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
             }
         }
         launchActivity()
+        SessionForkConfirmationRobot
+            .verify {
+                assertConfirmationDisplayed()
+            }
+        Thread.sleep(5_000) // Can't confirm too soon.
         SessionForkConfirmationRobot
             .confirmFork()
             .verify {

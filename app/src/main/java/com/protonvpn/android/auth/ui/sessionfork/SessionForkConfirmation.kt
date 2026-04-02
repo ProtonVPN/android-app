@@ -36,6 +36,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -56,6 +58,7 @@ import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnTextButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.base.ui.largeScreenContentPadding
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
@@ -63,6 +66,7 @@ import me.proton.core.presentation.R as CoreR
 @Composable
 fun SessionForkConfirmation(
     viewState: ViewState,
+    snackbarHostState: SnackbarHostState,
     onConfirm: () -> Unit,
     onClose: () -> Unit,
     onStartActivity: (Intent) -> Unit,
@@ -73,6 +77,7 @@ fun SessionForkConfirmation(
         is ViewState.AskForkConfirmation -> {
             SignIn(
                 isLoading = viewState.isLoading,
+                snackbarHostState = snackbarHostState,
                 onConfirm = onConfirm,
                 onClose = onClose,
                 modifier = modifier,
@@ -174,6 +179,7 @@ fun SessionForkConfirmation(
 @Composable
 private fun SignIn(
     isLoading: Boolean,
+    snackbarHostState: SnackbarHostState,
     onConfirm: () -> Unit,
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
@@ -184,6 +190,9 @@ private fun SignIn(
                 title = {},
                 navigationIcon = { TopAppBarCloseIcon(onClose) }
             )
+        },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState) { ProtonSnackbar(it) }
         },
         bottomBar = {
             BottomButtonsColumn {
@@ -264,8 +273,7 @@ private fun FinishPage(
                 content = buttonContent
             )
         },
-        modifier = modifier
-            .largeScreenContentPadding(),
+        modifier = modifier,
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -309,6 +317,7 @@ private fun PreviewSessionForkConfirmation(
             onClose = {},
             onStartActivity = {},
             onReportBug = {},
+            snackbarHostState = SnackbarHostState(),
             modifier = Modifier.fillMaxSize()
         )
     }

@@ -1659,6 +1659,7 @@
     <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
     <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
     <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
+    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
     <string name="session_fork_success_title">Sign-in complete</string>
     <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
     <string name="session_fork_error_expired_title">Code expired</string>

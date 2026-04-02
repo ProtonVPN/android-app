@@ -59,6 +59,10 @@ object SessionForkConfirmationRobot : Robot {
         forkSuccessTitle.assertIsDisplayed()
     }
 
+    fun assertTooSoonSnackIsDisplayed() {
+        node.withText(R.string.session_fork_confirmation_too_soon_toast).assertIsDisplayed()
+    }
+
     override fun robotDisplayed() {
         throw UnsupportedOperationException()
     }

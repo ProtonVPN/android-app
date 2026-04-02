@@ -24,8 +24,10 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -38,10 +40,13 @@ import com.protonvpn.android.auth.ui.TermsAndConditionsActivity
 import com.protonvpn.android.auth.ui.sessionfork.SessionForkConfirmationViewModel.ViewState
 import com.protonvpn.android.auth.usecase.IsQrCodeTvLoginFeatureFlagEnabled
 import com.protonvpn.android.auth.usecase.Logout
+import com.protonvpn.android.base.ui.collectAsEffect
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.bugreport.ui.BugReportActivity
 import com.protonvpn.android.redesign.app.ui.VpnApp
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
+import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -93,11 +98,9 @@ class SessionForkConfirmationActivity : FragmentActivity() {
         viewModel.eventLaunchUpgrade
             .receiveAsFlow()
             .flowWithLifecycle(lifecycle)
-            .onEach {
-                UpgradeOnboardingDialogActivity.launch(this) }
+            .onEach { UpgradeOnboardingDialogActivity.launch(this) }
             .launchIn(lifecycleScope)
         viewModel.initialize(intent.data)
-
         activityHelper.onCreate(accountViewModel)
 
         lifecycleScope.launch {
@@ -107,6 +110,14 @@ class SessionForkConfirmationActivity : FragmentActivity() {
 
         setContent {
             VpnTheme {
+                val snackbarHostState = remember { SnackbarHostState() }
+                viewModel.eventShowToast.collectAsEffect { message ->
+                    snackbarHostState.showSnackbar(
+                        getString(message),
+                        type = ProtonSnackbarType.NORM,
+                    )
+                }
+
                 val viewState by viewModel.viewState.collectAsStateWithLifecycle()
                 when (accountState) {
                     AccountViewModel.State.Ready -> {
@@ -120,6 +131,7 @@ class SessionForkConfirmationActivity : FragmentActivity() {
                                 onClose = ::finish,
                                 onStartActivity = { startActivity(it) },
                                 onReportBug = ::openBugReport,
+                                snackbarHostState = snackbarHostState,
                                 modifier = Modifier.fillMaxSize(),
                             )
                         }
@@ -150,12 +162,18 @@ class SessionForkConfirmationActivity : FragmentActivity() {
                             onClose = ::finish,
                             onStartActivity = { startActivity(it) },
                             onReportBug = ::openBugReport,
+                            snackbarHostState = remember { SnackbarHostState() },
                             modifier = Modifier.fillMaxSize(),
                         )
                     }
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
     }
 
     override fun onNewIntent(intent: Intent) {
