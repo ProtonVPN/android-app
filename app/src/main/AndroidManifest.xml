@@ -157,6 +157,7 @@
         <activity
             android:name=".auth.ui.sessionfork.SessionForkConfirmationActivity"
             android:theme="@style/ProtonTheme.Splash.Vpn.DarkPreferred"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />

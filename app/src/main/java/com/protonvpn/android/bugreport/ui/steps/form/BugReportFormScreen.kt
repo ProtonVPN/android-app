@@ -23,12 +23,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.base.ui.nav.addToGraph
 import com.protonvpn.android.bugreport.ui.BugReportViewModel
 import com.protonvpn.android.bugreport.ui.steps.BugReportStepsNav
+import com.protonvpn.android.models.config.bugreport.InputField
 
 object BugReportFormScreen : ScreenNoArg<BugReportStepsNav>("bugReportStepForm") {
 
@@ -42,7 +42,7 @@ object BugReportFormScreen : ScreenNoArg<BugReportStepsNav>("bugReportStepForm")
         BugReportForm(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp),
+                .padding(top = 16.dp),
             viewState = viewState,
             onSetCurrentStep = onSetCurrentStep,
             onFormEmailChanged = onFormEmailChanged,

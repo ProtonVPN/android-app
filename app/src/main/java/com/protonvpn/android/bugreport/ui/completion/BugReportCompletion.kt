@@ -26,15 +26,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.BottomButtonsColumn
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.VpnSolidButton
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -50,9 +53,7 @@ fun BugReportCompletion(
     Scaffold(
         modifier = modifier,
         bottomBar = {
-            BottomAppBar(
-                modifier = Modifier.padding(horizontal = 16.dp),
-            ) {
+            BottomButtonsColumn {
                 VpnSolidButton(
                     text = actionText,
                     onClick = onActionClick,
@@ -90,5 +91,20 @@ fun BugReportCompletion(
                 )
             }
         }
+    }
+}
+
+@ProtonVpnPreview
+@Composable
+private fun BugReportCompletionPreview() {
+    ProtonVpnPreview {
+        BugReportCompletion(
+            modifier = Modifier.fillMaxSize(),
+            imageResId = R.drawable.report_success,
+            titleText = stringResource(id = R.string.report_sent),
+            descriptionText = stringResource(id = R.string.dynamic_report_completion_success_title),
+            actionText = stringResource(id = R.string.action_done),
+            onActionClick = {}
+        )
     }
 }

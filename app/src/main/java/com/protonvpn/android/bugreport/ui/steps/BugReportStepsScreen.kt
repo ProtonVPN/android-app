@@ -39,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.BottomButtonsColumn
 import com.protonvpn.android.base.ui.ProtonTextButton
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleTopAppBar
@@ -193,43 +194,35 @@ private fun BugReportStepBottomBar(
     modifier: Modifier = Modifier,
     windowInsets: WindowInsets = BottomAppBarDefaults.windowInsets,
 ) {
-    when (step) {
-        BugReportViewModel.BugReportSteps.Menu -> Unit
-        BugReportViewModel.BugReportSteps.Suggestions -> {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(space = 16.dp),
-                    modifier = modifier.padding(all = 16.dp)
-                        .windowInsetsPadding(windowInsets),
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.dynamic_report_suggestion_didnt_work),
-                        color = ProtonTheme.colors.textWeak,
-                        style = ProtonTheme.typography.captionRegular,
-                    )
+    BottomButtonsColumn(
+        modifier = modifier
+    ) {
+        when (step) {
+            BugReportViewModel.BugReportSteps.Menu -> Unit
+            BugReportViewModel.BugReportSteps.Suggestions -> {
+                Text(
+                    text = stringResource(id = R.string.dynamic_report_suggestion_didnt_work),
+                    color = ProtonTheme.colors.textWeak,
+                    style = ProtonTheme.typography.captionRegular,
+                )
 
-                    VpnSolidButton(
-                        text = stringResource(id = R.string.dynamic_report_contact_us),
-                        onClick = onContactUsClick,
-                    )
-                }
-        }
+                VpnSolidButton(
+                    text = stringResource(id = R.string.dynamic_report_contact_us),
+                    onClick = onContactUsClick,
+                )
+            }
 
-        BugReportViewModel.BugReportSteps.Form -> {
-            val keyboardController = LocalSoftwareKeyboardController.current
-            VpnSolidButton(
-                text = stringResource(id = R.string.send_report),
-                isLoading = isLoading,
-                onClick = {
-                    keyboardController?.hide()
-                    onSubmitReportClick()
-                },
-                modifier = modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 16.dp)
-                    .windowInsetsPadding(windowInsets)
-                    .imePadding(),
-            )
+            BugReportViewModel.BugReportSteps.Form -> {
+                val keyboardController = LocalSoftwareKeyboardController.current
+                VpnSolidButton(
+                    text = stringResource(id = R.string.send_report),
+                    isLoading = isLoading,
+                    onClick = {
+                        keyboardController?.hide()
+                        onSubmitReportClick()
+                    }
+                )
+            }
         }
     }
 }

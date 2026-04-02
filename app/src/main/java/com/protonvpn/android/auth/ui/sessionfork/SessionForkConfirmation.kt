@@ -28,14 +28,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
@@ -52,6 +48,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.ui.sessionfork.SessionForkConfirmationViewModel.ViewState
+import com.protonvpn.android.base.ui.BottomButtonsColumn
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarCloseIcon
@@ -189,19 +186,30 @@ private fun SignIn(
             )
         },
         bottomBar = {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .windowInsetsPadding(WindowInsets.systemBars)
-                    .largeScreenContentPadding()
-                    .padding(16.dp),
-            ) {
+            BottomButtonsColumn {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        painterResource(CoreR.drawable.ic_proton_info_circle_filled),
+                        modifier = Modifier.size(14.dp),
+                        contentDescription = null,
+                        tint = ProtonTheme.colors.iconWeak,
+                    )
+                    Spacer(Modifier.width(11.dp))
+                    Text(
+                        stringResource(R.string.session_fork_confirmation_bottom_note),
+                        style = ProtonTheme.typography.body2Regular,
+                        color = ProtonTheme.colors.textWeak,
+                        textAlign = TextAlign.Center,
+                    )
+                }
                 VpnSolidButton(
                     stringResource(R.string.login),
                     onClick = onConfirm,
                     isLoading = isLoading,
                 )
-                VerticalSpacer(height = 8.dp)
                 VpnWeakSolidButton(
                     stringResource(R.string.cancel),
                     onClick = onClose,
@@ -213,10 +221,10 @@ private fun SignIn(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
+                .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .largeScreenContentPadding()
-                .padding(paddingValues)
         ) {
             VerticalSpacer(height = 16.dp)
             Image(
@@ -236,25 +244,7 @@ private fun SignIn(
                 style = ProtonTheme.typography.body1Regular,
                 textAlign = TextAlign.Center,
             )
-            VerticalSpacer(modifier = Modifier.weight(1f))
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(
-                    painterResource(CoreR.drawable.ic_proton_info_circle_filled),
-                    modifier = Modifier.size(14.dp),
-                    contentDescription = null,
-                    tint = ProtonTheme.colors.iconWeak,
-                )
-                Spacer(Modifier.width(11.dp))
-                Text(
-                    stringResource(R.string.session_fork_confirmation_bottom_note),
-                    style = ProtonTheme.typography.body2Regular,
-                    color = ProtonTheme.colors.textWeak,
-                    textAlign = TextAlign.Center,
-                )
-            }
+            VerticalSpacer(height = 16.dp)
         }
     }
 }
@@ -269,14 +259,10 @@ private fun FinishPage(
 ) {
     Scaffold(
         bottomBar = {
-            Column(
+            BottomButtonsColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier
-                    .windowInsetsPadding(WindowInsets.systemBars)
-                    .padding(16.dp),
-            ) {
-                buttonContent()
-            }
+                content = buttonContent
+            )
         },
         modifier = modifier
             .largeScreenContentPadding(),
