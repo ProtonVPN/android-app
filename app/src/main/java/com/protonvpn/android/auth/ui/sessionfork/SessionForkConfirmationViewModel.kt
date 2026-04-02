@@ -33,6 +33,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -52,6 +53,8 @@ import me.proton.core.user.domain.entity.Type
 import me.proton.core.util.kotlin.equalsNoCase
 import me.proton.core.util.kotlin.startsWith
 import javax.inject.Inject
+
+private const val SUCCESS_DELAY_MS = 4_000L
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
@@ -145,6 +148,10 @@ class SessionForkConfirmationViewModel @Inject constructor(
                 } else {
                     null
                 }
+                // It takes a few seconds for the TV to check for success.
+                // The user might be confused if they get a success screen on their mobile while
+                // nothing happens on the TV, so let's keep the spinner spinning for a little while.
+                delay(SUCCESS_DELAY_MS)
                 send(ViewState.Fork.Success(mainUiLaunchIntent))
             } catch (e: ApiException) {
                 ProtonLogger.logCustom(
