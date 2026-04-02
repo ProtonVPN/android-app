@@ -46,6 +46,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.GetSmartProtocols
 import com.protonvpn.android.models.vpn.usecase.supportsProtocol
+import com.protonvpn.android.notifications.NotificationChannels
 import com.protonvpn.android.profiles.data.profileSettingsOverrides
 import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
 import com.protonvpn.android.redesign.CountryId
@@ -1065,6 +1066,7 @@ class VpnConnectionTestsIntegration {
             appFeaturesPrefs,
             mockGhSuppressor,
             builtInGuestHoles = { guestHoleServers },
+            notificationChannels = { mockk<NotificationChannels>(relaxed = true) }
         )
     }
 

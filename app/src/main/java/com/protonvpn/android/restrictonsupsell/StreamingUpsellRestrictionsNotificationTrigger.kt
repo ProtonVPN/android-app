@@ -49,6 +49,7 @@ class ShowStreamingUpsellNotification @Inject constructor(
     @param:ApplicationContext private val appContext: Context,
     private val notificationManager: NotificationManagerCompat,
     private val createLaunchIntent: CreateLaunchIntent,
+    private val notificationChannels: dagger.Lazy<NotificationChannels>,
 ) {
     operator fun invoke() {
         if (!notificationManager.areNotificationsEnabled()) return
@@ -66,7 +67,7 @@ class ShowStreamingUpsellNotification @Inject constructor(
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
             )
         val notification =
-            NotificationCompat.Builder(appContext, NotificationChannels.ID_CONNECTION_TIPS)
+            NotificationCompat.Builder(appContext, notificationChannels.get().idConnectionTips)
                 .setSmallIcon(R.drawable.ic_vpn_status_disconnected)
                 .setContentTitle(
                     appContext.getString(R.string.notification_streaming_blocked_title)

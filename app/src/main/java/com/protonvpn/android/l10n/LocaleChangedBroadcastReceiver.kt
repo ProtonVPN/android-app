@@ -36,13 +36,18 @@ import com.protonvpn.android.promooffers.data.ApiNotificationManager
 import com.protonvpn.android.servers.UpdateServerTranslations
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
 private val ApiUpdatesDelay = 15.seconds
 
+@AndroidEntryPoint
 class LocaleChangedBroadcastReceiver : BroadcastReceiver() {
+
+    @Inject lateinit var notificationChannels: NotificationChannels
 
     // This receiver is called in a separate, lightweight process.
     // Use as little dependencies as possible.
@@ -50,7 +55,7 @@ class LocaleChangedBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action != Intent.ACTION_LOCALE_CHANGED) return
 
-        NotificationChannels.updateTranslations(context)
+        notificationChannels.updateTranslations(context)
 
         // Delay the API updates a little bit, locale change notifies multiple apps and the device
         // is busy.

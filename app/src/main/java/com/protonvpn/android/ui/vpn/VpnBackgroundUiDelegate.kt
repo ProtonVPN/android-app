@@ -32,7 +32,8 @@ import javax.inject.Singleton
 
 @Singleton
 class VpnBackgroundUiDelegate @Inject constructor (
-    private val notificationHelper: NotificationHelper
+    private val notificationHelper: NotificationHelper,
+    private val notificationChannels: dagger.Lazy<NotificationChannels>,
 ) : VpnUiDelegate {
 
     override fun askForPermissions(intent: Intent, connectIntent: AnyConnectIntent, onPermissionGranted: () -> Unit) {
@@ -54,7 +55,7 @@ class VpnBackgroundUiDelegate @Inject constructor (
             content = textRes,
             title = titleRes,
             icon = R.drawable.ic_vpn_status_disconnected,
-            notificationChannelId = NotificationChannels.ID_CONNECTION_ERRORS,
+            notificationChannelId = notificationChannels.get().idConnectionErrors,
         )
     }
 }

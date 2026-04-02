@@ -26,13 +26,19 @@ import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.os.Build
 import com.protonvpn.android.R
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object NotificationChannels {
+private const val PREFIX = "com.protonvpn.android"
 
-    private const val PREFIX = "com.protonvpn.android"
-    const val ID_CONNECTION_STATUS = PREFIX
-    const val ID_CONNECTION_ERRORS = "$PREFIX.connection_errors"
-    const val ID_CONNECTION_TIPS = "$PREFIX.connection_tips"
+@Singleton
+class NotificationChannels @Inject constructor(
+   @ApplicationContext private val appContext: Context
+) {
+    val idConnectionStatus = PREFIX
+    val idConnectionErrors = "$PREFIX.connection_errors"
+    val idConnectionTips = "$PREFIX.connection_tips"
 
     private class ChannelConfig(
         val id: String,
@@ -45,21 +51,21 @@ object NotificationChannels {
 
     private val channelConfigurations = listOf(
         ChannelConfig(
-            id = ID_CONNECTION_STATUS,
+            id = idConnectionStatus,
             nameRes = R.string.notifications_channel_connection_status_name,
             descriptionRes = R.string.notifications_channel_connection_status_description,
             importance = NotificationManager.IMPORTANCE_LOW,
             showBadge = false,
         ),
         ChannelConfig(
-            id = ID_CONNECTION_ERRORS,
+            id = idConnectionErrors,
             nameRes = R.string.notifications_channel_connection_errors_name,
             descriptionRes = R.string.notifications_channel_connection_errors_description,
             importance = NotificationManager.IMPORTANCE_HIGH,
             showBadge = true,
         ),
         ChannelConfig(
-            id = ID_CONNECTION_TIPS,
+            id = idConnectionTips,
             nameRes = R.string.notifications_channel_connection_tips_name,
             descriptionRes = R.string.notifications_channel_connection_tips_description,
             importance = NotificationManager.IMPORTANCE_DEFAULT,
@@ -67,7 +73,11 @@ object NotificationChannels {
         ),
     )
 
-    fun createChannels(context: Context) {
+    init {
+        updateChannels(appContext)
+    }
+
+    fun updateChannels(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val manager =
                 context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -86,5 +96,5 @@ object NotificationChannels {
         }
     }
 
-    fun updateTranslations(context: Context) = createChannels(context)
+    fun updateTranslations(context: Context) = updateChannels(context)
 }

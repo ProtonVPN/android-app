@@ -48,6 +48,7 @@ class UpdateMigration @Inject constructor(
     private val enableTvLanSettingOnMigration: dagger.Lazy<EnableTvLanSettingOnMigration>,
     private val streamingServicesUpdater: dagger.Lazy<StreamingServicesUpdater>,
     private val apiNotificationManager: dagger.Lazy<ApiNotificationManager>,
+    private val notificationChannels: dagger.Lazy<NotificationChannels>,
 ) {
     private val oldVersionCode = Storage.getInt(KEY_VERSION_CODE)
     private val newVersionCode = BuildConfig.VERSION_CODE
@@ -154,7 +155,7 @@ class UpdateMigration @Inject constructor(
     @SuppressWarnings("MagicNumber")
     private fun updateNotificationChannels(oldVersionCode: Int) {
         if (oldVersionCode <= 5_17_03_00) {
-            NotificationChannels.createChannels(appContext)
+            notificationChannels.get().updateChannels(appContext)
         }
     }
 

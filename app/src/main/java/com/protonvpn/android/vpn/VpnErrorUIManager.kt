@@ -41,7 +41,8 @@ class VpnErrorUIManager @Inject constructor(
     private val stateMonitor: VpnStateMonitor,
     private val notificationHelper: NotificationHelper,
     private val foregroundActivityTracker: ForegroundActivityTracker,
-    vpnStatusProviderUI: VpnStatusProviderUI
+    private val notificationChannels: dagger.Lazy<NotificationChannels>,
+    vpnStatusProviderUI: VpnStatusProviderUI,
 ) {
     private val _errorMessages = MutableStateFlow<SnackError?>(null)
     val snackErrorFlow: StateFlow<SnackError?> = _errorMessages.asStateFlow()
@@ -94,7 +95,7 @@ class VpnErrorUIManager @Inject constructor(
                         content = R.string.notification_smart_protocol_disabled_content,
                         title = R.string.notification_smart_protocol_disabled_title,
                         icon = R.drawable.ic_vpn_status_information,
-                        notificationChannelId = NotificationChannels.ID_CONNECTION_TIPS,
+                        notificationChannelId = notificationChannels.get().idConnectionTips,
                         action = ActionItem.BgAction(
                             title = appContext.getString(R.string.enable),
                             pendingIntent = PendingIntent.getBroadcast(

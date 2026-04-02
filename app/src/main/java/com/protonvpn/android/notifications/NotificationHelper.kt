@@ -20,11 +20,8 @@ package com.protonvpn.android.notifications
 
 import android.annotation.SuppressLint
 import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.os.Build
 import android.os.Parcelable
@@ -78,6 +75,7 @@ class NotificationHelper @Inject constructor(
     private val trafficMonitor: TrafficMonitor,
     private val isTv: IsTvCheck,
     private val createLaunchIntent: CreateLaunchIntent,
+    private val notificationChannels: dagger.Lazy<NotificationChannels>,
 ) {
 
     init {
@@ -133,7 +131,7 @@ class NotificationHelper @Inject constructor(
 
     fun buildSwitchNotification(notificationInfo: InformationNotification) {
         val notificationBuilder =
-            NotificationCompat.Builder(appContext, NotificationChannels.ID_CONNECTION_STATUS)
+            NotificationCompat.Builder(appContext, notificationChannels.get().idConnectionStatus)
                 .setSmallIcon(R.drawable.ic_vpn_status_information)
                 .setColor(appContext.getThemeColor(CoreR.attr.colorAccent))
 
@@ -226,7 +224,7 @@ class NotificationHelper @Inject constructor(
                 trafficUpdate?.notificationString(appContext)
 
         val builder =
-                NotificationCompat.Builder(context, NotificationChannels.ID_CONNECTION_STATUS)
+                NotificationCompat.Builder(context, notificationChannels.get().idConnectionStatus)
                         .setSmallIcon(getIconForState(state))
                         .setContentTitle(getStringFromState(vpnStatus))
                         .setContentText(notificationContentString)

@@ -95,6 +95,7 @@ class GuestHole @Inject constructor(
     private val appFeaturesPrefs: AppFeaturesPrefs,
     private val guestHoleSuppressor: GuestHoleSuppressor,
     private val builtInGuestHoles: BuiltInGuestHoles,
+    private val notificationChannels: dagger.Lazy<NotificationChannels>,
 ) : DohAlternativesListener {
 
     @VisibleForTesting
@@ -246,7 +247,7 @@ class GuestHole @Inject constructor(
             notificationHelper.showSimpleNotification(
                 R.string.guestHoleNotificationContent,
                 notificationId = Constants.NOTIFICATION_GUESTHOLE_ID,
-                notificationChannelId = NotificationChannels.ID_CONNECTION_TIPS,
+                notificationChannelId = notificationChannels.get().idConnectionTips,
             )
             getGuestHoleServers().any { server ->
                 executeConnected(delegate, server) {

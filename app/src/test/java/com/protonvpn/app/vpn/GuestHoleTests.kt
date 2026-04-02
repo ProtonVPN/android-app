@@ -113,6 +113,7 @@ class GuestHoleTests {
             appFeaturesPrefs = appFeaturesPrefs,
             guestHoleSuppressor = mockGhSuppressor,
             builtInGuestHoles = { ghServers },
+            notificationChannels = { mockk(relaxed = true) }
         )
         guestHole.shuffler = { it }
     }
