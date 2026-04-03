@@ -128,7 +128,7 @@ class SessionForkConfirmationActivity : FragmentActivity() {
                             SessionForkConfirmation(
                                 viewState = viewState,
                                 onConfirm = viewModel::confirmFork,
-                                onClose = ::finish,
+                                onClose = ::close,
                                 onStartActivity = { startActivity(it) },
                                 onReportBug = ::openBugReport,
                                 snackbarHostState = snackbarHostState,
@@ -159,7 +159,7 @@ class SessionForkConfirmationActivity : FragmentActivity() {
                         SessionForkConfirmation(
                             viewState = ViewState.Fork.Error.Fatal,
                             onConfirm = viewModel::confirmFork,
-                            onClose = ::finish,
+                            onClose = ::close,
                             onStartActivity = { startActivity(it) },
                             onReportBug = ::openBugReport,
                             snackbarHostState = remember { SnackbarHostState() },
@@ -183,6 +183,10 @@ class SessionForkConfirmationActivity : FragmentActivity() {
 
     private fun openBugReport() {
         startActivity(Intent(this, BugReportActivity::class.java))
+    }
+
+    private fun close() {
+        finishAndRemoveTask()
     }
 
     private fun logout() {
