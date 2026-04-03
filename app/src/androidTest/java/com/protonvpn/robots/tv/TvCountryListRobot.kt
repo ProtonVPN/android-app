@@ -42,7 +42,7 @@ class TvCountryListRobot : BaseRobot() {
 
     fun connectToRecommendedCountry() : TvCountryListRobot = clickElementByText(R.string.tv_quick_connect_recommened)
     fun disconnectFromCountry() : TvCountryListRobot = clickElementByText(R.string.disconnect)
-    fun confirmSignOut() : TvLoginRobot = clickDialogElementByText(R.string.dialog_sign_out_action)
+    fun confirmSignOut() : LegacyTvLoginRobot = clickDialogElementByText(R.string.dialog_sign_out_action)
     fun cancelSignOut() : TvCountryListRobot = clickDialogElementByText(R.string.cancel)
     fun getConnectionStatus() : String = getText(onView(withId(R.id.textStatus)))
 

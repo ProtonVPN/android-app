@@ -25,20 +25,16 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.auth.ui.sessionfork.SessionForkConfirmationActivity
-import com.protonvpn.mocks.MockRuleBuilder
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.robots.mobile.SessionForkConfirmationRobot
 import com.protonvpn.robots.mobile.SessionForkConfirmationRobot.verify
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
-import com.protonvpn.testsHelper.UserDataHelper
+import com.protonvpn.testsHelper.featureFlagsResponseRule
+import com.protonvpn.testsHelper.setUser
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.data.api.request.ForkSessionRequest
 import me.proton.core.auth.data.api.response.ForkSessionResponse
-import me.proton.core.featureflag.data.remote.resource.UnleashToggleResource
-import me.proton.core.featureflag.data.remote.resource.UnleashVariantResource
-import me.proton.core.featureflag.data.remote.response.GetUnleashTogglesResponse
-import me.proton.core.network.domain.ResponseCodes
 import me.proton.core.util.kotlin.deserialize
 import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.After
@@ -96,7 +92,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
 
     @Test
     fun WhenUserIsLoggedInThenShowConfirmationScreenImmediately() {
-        setUser(TestUser.plusUser)
+        protonRule.setUser(TestUser.plusUser)
         launchActivity()
         SessionForkConfirmationRobot.verify {
             assertConfirmationDisplayed()
@@ -105,7 +101,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
 
     @Test
     fun WhenBusinessUserIsLoggedInThenErrorIsShown() {
-        setUser(TestUser.businessEssential)
+        protonRule.setUser(TestUser.businessEssential)
         launchActivity()
         SessionForkConfirmationRobot.verify {
             assertErrorIsDisplayed()
@@ -114,7 +110,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
 
     @Test
     fun WhenForkConfirmedTooFastThenMessageIsDisplayed() {
-        setUser(TestUser.plusUser)
+        protonRule.setUser(TestUser.plusUser)
         launchActivity()
         SessionForkConfirmationRobot
             .confirmFork()
@@ -125,7 +121,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
 
     @Test
     fun WhenForkConfirmedThenPostRequestIsSent() {
-        setUser(TestUser.plusUser)
+        protonRule.setUser(TestUser.plusUser)
         protonRule.mockDispatcher.addRules {
             rule(post, path eq "/auth/v4/sessions/forks") {
                 respond(200, ForkSessionResponse(1000, "selector"))
@@ -150,26 +146,5 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
         assertEquals("android_tv-vpn", requestBody.childClientId)
         assertEquals("1234ABCD", requestBody.userCode)
         assertEquals(1L, requestBody.independent)
-    }
-
-    private fun MockRuleBuilder.featureFlagsResponseRule(
-        vararg flags: Pair<String, Boolean>
-    ) {
-        val toggles = flags.map {
-            UnleashToggleResource(
-                name = it.first,
-                variant = UnleashVariantResource(name = it.first, enabled = it.second)
-            )
-        }
-        rule(get, path eq "/feature/v2/frontend") {
-            respond(GetUnleashTogglesResponse(ResponseCodes.OK, toggles))
-        }
-    }
-
-    private fun setUser(user: TestUser) {
-        UserDataHelper().setUserData(user)
-        protonRule.mockDispatcher.prependRules {
-            rule(get, path eq "/vpn/v2") { respond(user.vpnInfoResponse) }
-        }
     }
 }
