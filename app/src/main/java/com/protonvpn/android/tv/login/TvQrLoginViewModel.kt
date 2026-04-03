@@ -172,10 +172,12 @@ class TvQrLoginViewModel @Inject constructor(
                                 LogCategory.USER,
                                 "No connection while polling for fork finished."
                             )
-                            null // We're not notifying the user.
+                            PollResult.Error
                         }
 
-                        is PullEdmSessionFork.Result.Success -> PollResult.Success(result.session)
+                        is PullEdmSessionFork.Result.Success ->
+                            PollResult.Success(result.session)
+
                         is PullEdmSessionFork.Result.UnrecoverableError -> {
                             ProtonLogger.logCustom(
                                 LogLevel.ERROR,

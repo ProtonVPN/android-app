@@ -21,6 +21,7 @@ package com.protonvpn.android.tv.login
 
 import android.graphics.Bitmap
 import androidx.activity.compose.BackHandler
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
@@ -105,7 +106,13 @@ fun TvQrLoginScreen(
             ViewState.PollingFailed.Timeout,
             is ViewState.PollingFailed.Error,
             is ViewState.Login.Error -> {
+                val message = if (viewState == ViewState.PollingFailed.Timeout) {
+                    R.string.session_fork_qr_code_error_expired
+                } else {
+                    R.string.session_fork_qr_code_error_network
+                }
                 LoginErrorPanel(
+                    message = message,
                     onCreateNewClicked = onCreateNewCode,
                     modifier = Modifier
                         .fillMaxSize()
@@ -275,6 +282,7 @@ private fun BulletPointRow(
 
 @Composable
 private fun LoginErrorPanel(
+    @StringRes message: Int,
     onCreateNewClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -289,7 +297,7 @@ private fun LoginErrorPanel(
         modifier = modifier,
     ) {
         Text(
-            stringResource(R.string.session_fork_qr_code_error_expired),
+            stringResource(message),
             style = ProtonTheme.typography.headline,
             textAlign = TextAlign.Center
         )
