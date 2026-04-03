@@ -637,7 +637,7 @@
     <string name="upgrade_country_message"><![CDATA[Avaa <b>maavalinta</b> VPN Plus -tilauksella.]]></string>
     <string name="free_connections_info_message">Proton Free yhdistää automaattisesti nopeimpaan käytettävissä olevaan palvelimeen. Yleensä tämä on lähinnä sijaintiasi oleva palvelin.</string>
     <string name="free_connections_info_server_locations">Ilmaiset palvelinsijainnnit (%1$d)</string>
-    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
+    <string name="free_connections_info_banner_text">Pääsy kaikkiin maihin VPN Plussalla</string>
     <string name="free_connection_info_title">Ilmaisyhteydet</string>
     <string name="search_upsell_banner_title">Suoratoista mistä tahansa</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1486,7 +1486,7 @@
     <string name="notifications_channel_connection_errors_description">Ilmoittaa ongelmista, jotka keskeyttävät tai pysäyttävät VPN-yhteyden.</string>
     <string name="notifications_channel_connection_tips_name">Yhteysneuvot</string>
     <string name="notifications_channel_connection_tips_description">Kontekstuaalisia vinkkejä, joiden avulla saat enemmän irti Proton VPN:stä.</string>
-    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
+    <string name="countries_upsell_banner_description">Pääsy kaikkiin maihin VPN Plussalla</string>
     <string name="secure_core_upsell_banner_description">Lisää VPN-yhteyteesi toinen salauskerros</string>
     <string name="p2p_upsell_banner_description">Lataa tiedostoja mm. BitTorrentin kaltaisilla tiedonsiirtoprotokollilla</string>
     <string name="tor_upsell_banner_description">Käytä Tor-verkkoa VPN-yhteytesi välityksellä ja tehosta tietosuojaasi</string>
@@ -1614,32 +1614,37 @@
     <string name="no_connections_action_sign_out">Kirjaudu ulos</string>
     <string name="no_connections_help_contact_us"><![CDATA[Tarvitsetko apua? <a href="">Ota meihin yhteyttä</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Jos ylläpitäjäsi tarvitsee apua VPN-yhteyden käyttöönottossa, lähetä heille <a href="">nämä ohjeet</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">Käytä OpenVPN:ää?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Tämä protokolla poistetaan pian, sillä keskitymme nopeampiin ja turvallisempiin teknologioihin. Suosittelemme Smart Protocollaan vaihtamista. <a href="proton.me">Lue lisää</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Tämä protokolla poistetaan pian, sillä keskitymme nopeampiin ja turvallisempiin teknologioihin. Suosittelemme Smart Protocollaan vaihtamista.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Jatka OpenVPN:llä</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ota Smart Protocol käyttöön</string>
     <string name="settings_protocol_proton_protocols">Proton-protokollat</string>
     <string name="settings_protocol_proton_protocols_description">Käytä Proton VPN:n omaa WireGuard-toteutusta. Tämä on kokeellinen ominaisuus, joten saatat kokea jonkin verran epävakautta.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">Eikö tämä ole haluamasi maa?</string>
     <string name="connection_preferences_smart_discovery_dialog_message">Jos on sijainteja, joihin et halua muodostaa automaattista yhteyttä, voit poistaa ne nopeimman maan valinnasta.</string>
     <string name="excluded_locations_adoption_title">Vältä ei-toivottuja sijainteja</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Voit nyt poissulkea maita ja kaupunkeja pois <b>Nopeimmat</b> yhteyksistä.]]></string>
-    <string name="session_fork_no_account_title">Sign in on Android TV</string>
-    <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
-    <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
-    <string name="session_fork_no_account_signup_button">Create an account</string>
-    <string name="session_fork_no_account_signin_button">Sign in</string>
-    <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
+    <string name="session_fork_no_account_title">Kirjaudu Android TV:ssä</string>
+    <string name="session_fork_no_account_message">Suorita kirjautuminen loppuun tällä laitteella, jotta voit aloittaa Proton VPN:n käytön TV:lläsi</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Käyttämällä tätä sovellusta hyväksyt <a href="">käyttöehtomme</a>.]]></string>
+    <string name="session_fork_no_account_signup_button">Luo tili</string>
+    <string name="session_fork_no_account_signin_button">Kirjaudu</string>
+    <string name="session_fork_confirmation_title">Kirjaudu Android TV:llä?</string>
     <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
-    <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
-    <string name="session_fork_success_title">Sign-in complete</string>
+    <string name="session_fork_confirmation_bottom_note">Kirjaudu vain laitteilla, joihin luotat</string>
+    <string name="session_fork_success_title">Kirjautuminen onnistui</string>
     <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
-    <string name="session_fork_error_expired_title">Code expired</string>
-    <string name="session_fork_error_expired_message">Create a new code on your TV and try again.</string>
-    <string name="session_fork_error_generic_title">Couldn’t sign in</string>
+    <string name="session_fork_error_expired_title">Koodi on vanhentunut</string>
+    <string name="session_fork_error_expired_message">Luo uusi koodi TV:lläsi ja yritä uudelleen.</string>
+    <string name="session_fork_error_generic_title">Kirjautuminen epäonnistui</string>
     <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
-    <string name="session_fork_error_network_message">Check your network and try again.</string>
+    <string name="session_fork_error_network_message">Tarkista verkkoyhteytesi ja yritä uudelleen.</string>
     <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
-    <string name="session_fork_error_report_button">Report the issue</string>
+    <string name="session_fork_error_report_button">Ilmoita ongelmasta</string>
+    <string name="session_fork_qr_code_content_description">QR-koodi</string>
+    <string name="session_fork_qr_code_message">Skannaa QR-koodi kirjautuaksesi tai luodaksesi tilin.</string>
+    <string name="session_fork_qr_code_trouble_button">Ongelmia kirjautumisessa?</string>
+    <string name="session_fork_qr_code_error_expired">Turvallisuussyistä vahvistuskoodi on vanhentunut</string>
+    <string name="session_fork_qr_code_error_create_new_button">Luo uusi koodi</string>
+    <string name="session_fork_user_code_title">Etkö voi skannata koodia? Kirjaudu sisään manuaalisesti</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Mene: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Kirjaudu tai luo tili</string>
+    <string name="session_fork_user_code_step3"><![CDATA[Syötä koodi: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Tarvitsetko vielä apua? Käy osoitteessa <b>protonvpn.com/support</b>]]></string>
 </resources>

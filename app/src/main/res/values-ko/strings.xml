@@ -1580,11 +1580,6 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="no_connections_action_sign_out">로그아웃</string>
     <string name="no_connections_help_contact_us"><![CDATA[도움이 필요하세요? <a href="">문의해 주세요</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[귀하의 관리자가 VPN 접근 활성화에 도움이 필요하다면, <a href="">이 지침</a>을 보내십시오.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">OpenVPN을 활성화하시겠습니까?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[더 빠르고 안전한 기술에 집중하기 위해 이 프로토콜은 곧 삭제될 예정입니다. Smart Protocol로 전환하는 것을 권장합니다. <a href="proton.me">더 알아보기</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">더 빠르고 안전한 기술에 집중하기 위해 이 프로토콜은 곧 삭제될 예정입니다. Smart Protocol로 전환하는 것을 권장합니다.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">OpenVPN으로 계속하기</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart 프로토콜 활성화</string>
     <string name="settings_protocol_proton_protocols">Proton 프로토콜</string>
     <string name="settings_protocol_proton_protocols_description">Proton VPN가 자체적으로 구현한 WireGuard를 사용합니다. 실험적인 기능으로, 일부 불안정성을 경험할 수 있습니다.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
@@ -1608,4 +1603,14 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="session_fork_error_network_message">Check your network and try again.</string>
     <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
     <string name="session_fork_error_report_button">Report the issue</string>
+    <string name="session_fork_qr_code_content_description">QR code</string>
+    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
+    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
+    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
+    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
+    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Sign in or create an account</string>
+    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>protonvpn.com/support</b>]]></string>
 </resources>

@@ -1578,11 +1578,6 @@
     <string name="no_connections_action_sign_out">登出</string>
     <string name="no_connections_help_contact_us"><![CDATA[需要協助？ <a href="">聯絡我們</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[如果您的管理員需要協助啟用 VPN 服務，請向他們發出<a href="">這些指示</a>。]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">Enable OpenVPN?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol. <a href="proton.me">Learn more</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">This protocol will be removed soon as we focus on faster and more secure technologies. We recommend switching to Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continue with OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">啟用 Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Proton 通訊協定</string>
     <string name="settings_protocol_proton_protocols_description">使用 Proton VPN 的 WireGuard 專用實作。這是一個實驗性功能，因此您可能會遇到一些不穩定情況。</string>
     <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
@@ -1606,4 +1601,14 @@
     <string name="session_fork_error_network_message">Check your network and try again.</string>
     <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
     <string name="session_fork_error_report_button">Report the issue</string>
+    <string name="session_fork_qr_code_content_description">QR Code</string>
+    <string name="session_fork_qr_code_message">掃描 QR Code 以登入或登記帳號</string>
+    <string name="session_fork_qr_code_trouble_button">登入遇到困難嗎？</string>
+    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
+    <string name="session_fork_qr_code_error_create_new_button">創建新代碼</string>
+    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
+    <string name="session_fork_user_code_step1"><![CDATA[前往: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">登入或登記帳號</string>
+    <string name="session_fork_user_code_step3"><![CDATA[輸入代碼: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[仍需要援助? 請前往 <b>protonvpn.com/support</b>]]></string>
 </resources>

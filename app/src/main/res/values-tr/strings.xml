@@ -1614,11 +1614,6 @@
     <string name="no_connections_action_sign_out">Oturumu kapat</string>
     <string name="no_connections_help_contact_us"><![CDATA[Yardım mı gerekiyor? <a href="">Bize ulaşın</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Yöneticiniz VPN özelliğini açmak için yardıma gerek duyarsa, ona <a href="">bu yönergeyi</a> gönderin.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">OpenVPN kullanılsın mı?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Bu iletişim kuralı, daha hızlı ve daha güvenli teknolojilere odaklandığımız için yakında kaldırılacak. Smart Protocol kullanmanızı öneririz. <a href="proton.me">Ayrıntılı bilgi alın</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Bu iletişim kuralı, daha hızlı ve daha güvenli teknolojilere odaklandığımız için yakında kaldırılacak. Smart Protocol kullanmanızı öneririz.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">OpenVPN ile ilerle</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Smart Protocol kullan</string>
     <string name="settings_protocol_proton_protocols">Proton iletişim kuralları</string>
     <string name="settings_protocol_proton_protocols_description">Proton VPN uygulamasının kendi WireGuard uyarlamasını kullanın. Bu özellik henüz deneyseldir ve bazı kararsızlıklar yaşayabilirsiniz.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">İstediğiniz ülke değil mi?</string>
@@ -1642,4 +1637,14 @@
     <string name="session_fork_error_network_message">Ağ bağlantınızı denetleyip yeniden deneyin.</string>
     <string name="session_fork_error_try_fallback_message">Televizyonunuzda \‘Oturum açamıyor musunuz?\’ üzerine tıklayarak alternatif adımları izleyin.</string>
     <string name="session_fork_error_report_button">Sorunu bildireceğim</string>
+    <string name="session_fork_qr_code_content_description">Kare kod</string>
+    <string name="session_fork_qr_code_message">Oturum ya da hesap açmak için kare kodu tarayın.</string>
+    <string name="session_fork_qr_code_trouble_button">Oturum açmakta sorun mu yaşıyorsunuz?</string>
+    <string name="session_fork_qr_code_error_expired">Güvenlik nedeniyle doğrulama kodunun süresi doldu</string>
+    <string name="session_fork_qr_code_error_create_new_button">Yeni kod oluştur</string>
+    <string name="session_fork_user_code_title">Kodu tarayamıyor musunuz? El ile oturum açın</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Şuraya gidin: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Oturum ya da hesap açın</string>
+    <string name="session_fork_user_code_step3"><![CDATA[Kodu yazın: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Hâlâ yardım gerekiyor mu? <b>protonvpn.com/support</b> adresine bakın]]></string>
 </resources>

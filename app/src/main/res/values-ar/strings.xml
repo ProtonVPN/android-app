@@ -713,7 +713,7 @@
         <item quantity="many">تجاوز الحظر المفروض في منطقتك على المحتوى عبر %1$d دولة مع باقة VPN Plus</item>
         <item quantity="other">تجاوز الحظر المفروض في منطقتك على المحتوى عبر %1$d دولة مع باقة VPN Plus</item>
     </plurals>
-    <string name="select_default_connection">حدد طريقة الاتصال المفضلة</string>
+    <string name="select_default_connection">طريقة الاتصال المفضلة</string>
     <string name="settings_default_connection_title">الاتصال الافتراضي</string>
     <string name="fastest_country_description">أفضل خادم متاح لموقعك الجغرافي</string>
     <string name="settings_connection_preferences_title">تفضيلات الاتصال</string>
@@ -1758,11 +1758,6 @@
     <string name="no_connections_action_sign_out">تسجيل الخروج</string>
     <string name="no_connections_help_contact_us"><![CDATA[للمساعدة، يُمكنك <a href="">التواصل معنا</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[لمساعدة المسؤول في تفعيل صلاحيات الوصول لشبكة VPN، يمكنك تزويده <a href="">بهذه الإرشادات</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">تفعيل بروتوكول OpenVPN؟</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[تمهيداً لإيقاف هذا البروتوكول وتركيز جهودنا على تقنيات الجيل القادم الأكثر سرعة وحماية، يُنصح بالتبديل إلى البروتوكول الذكي للحفاظ على استقرار اتصالك. <a href="proton.me">معرفة المزيد</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">تمهيداً لإيقاف هذا البروتوكول وتركيز جهودنا على تقنيات الجيل القادم الأكثر سرعة وحماية، يُنصح بالتبديل إلى البروتوكول الذكي للحفاظ على استقرار اتصالك.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">متابعة استخدام OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">تفعيل البروتوكول الذكي</string>
     <string name="settings_protocol_proton_protocols">بروتوكولات Proton</string>
     <string name="settings_protocol_proton_protocols_description">استخدم إصدار WireGuard الخاص بـ Proton VPN؛ ونظراً لكون الميزة تجريبية، فقد تواجه عدم استقرار في الخدمة.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">ليست هذه الدولة المطلوبة؟</string>
@@ -1786,4 +1781,14 @@
     <string name="session_fork_error_network_message">يُرجى التأكد من اتصالك بالإنترنت والمحاولة مجدداً.</string>
     <string name="session_fork_error_try_fallback_message">إذا واجهت صعوبة، جرب خيار \'مشاكل تسجيل الدخول\' الظاهر على شاشة التلفاز.</string>
     <string name="session_fork_error_report_button">إبلاغ عن خلل</string>
+    <string name="session_fork_qr_code_content_description">رمز الاستجابة السريعة</string>
+    <string name="session_fork_qr_code_message">امسح رمز QR لتسجيل الدخول أو إنشاء حساب.</string>
+    <string name="session_fork_qr_code_trouble_button">هل تواجه مشكلة في تسجيل الدخول؟</string>
+    <string name="session_fork_qr_code_error_expired">لأسباب أمنية، انتهت صلاحية رمز التحقق</string>
+    <string name="session_fork_qr_code_error_create_new_button">إنشاء رمز جديد</string>
+    <string name="session_fork_user_code_title">لا يمكنك مسح الرمز؟ سجّل الدخول يدويًا</string>
+    <string name="session_fork_user_code_step1"><![CDATA[انتقل إلى: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">سجّل الدخول أو أنشئ حسابًا</string>
+    <string name="session_fork_user_code_step3"><![CDATA[أدخل الرمز: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[هل لا تزال بحاجة إلى مساعدة؟ زر <b>protonvpn.com/support</b>]]></string>
 </resources>

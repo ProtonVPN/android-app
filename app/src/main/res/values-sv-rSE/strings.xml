@@ -1614,11 +1614,6 @@
     <string name="no_connections_action_sign_out">Logga ut</string>
     <string name="no_connections_help_contact_us"><![CDATA[Behöver du hjälp? <a href="">Kontakta oss</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Om din administratör behöver hjälp med att aktivera VPN-åtkomst, skicka dem <a href="">dessa instruktioner</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">Aktivera OpenVPN?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Detta protokoll kommer att tas bort snart eftersom vi fokuserar på snabbare och säkrare teknologier. Vi rekommenderar att byta till Smart Protocol. <a href="proton.me">Lär dig mer</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Detta protokoll kommer att tas bort snart eftersom vi fokuserar på snabbare och säkrare teknologier. Vi rekommenderar att byta till Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Fortsätt med OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Aktivera Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Proton-protokoll</string>
     <string name="settings_protocol_proton_protocols_description">Använd Protons egen implementering av WireGuard. Detta är en experimentell funktion, så du kan uppleva viss instabilitet.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">Inte det land du ville ha?</string>
@@ -1638,8 +1633,18 @@
     <string name="session_fork_error_expired_title">Kod löpt ut</string>
     <string name="session_fork_error_expired_message">Skapa en ny kod på din TV och försök igen.</string>
     <string name="session_fork_error_generic_title">Kunde inte logga in</string>
-    <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
+    <string name="session_fork_error_fatal_message">Kontrollera ditt nätverk och försök igen. Om problemet kvarstår, kontakta vår kundsupport. </string>
     <string name="session_fork_error_network_message">Kontrollera ditt nätverk och försök igen.</string>
     <string name="session_fork_error_try_fallback_message">Klicka på \‘Problem att logga in?\’ på din tv för att följa de alternativa stegen.</string>
     <string name="session_fork_error_report_button">Rapportera problemet</string>
+    <string name="session_fork_qr_code_content_description">QR-kod</string>
+    <string name="session_fork_qr_code_message">Skanna QR-koden för att logga in eller skapa ett konto.</string>
+    <string name="session_fork_qr_code_trouble_button">Problem att logga in?</string>
+    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
+    <string name="session_fork_qr_code_error_create_new_button">Skapa en ny kod</string>
+    <string name="session_fork_user_code_title">Kan du inte skanna koden? Logga in manuellt</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Gå till: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Logga in eller skapa ett konto</string>
+    <string name="session_fork_user_code_step3"><![CDATA[Ange koden: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Behöver du fortfarande hjälp? Besök <b>protonvpn.com/support</b>]]></string>
 </resources>

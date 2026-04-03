@@ -1614,11 +1614,6 @@
     <string name="no_connections_action_sign_out">Cerrar sesión</string>
     <string name="no_connections_help_contact_us"><![CDATA[¿Necesitas ayuda? <a href="">Contáctanos</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Si tu administrador necesita ayuda para activar el acceso a la VPN, envíale <a href="">estas instrucciones</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">¿Activar OpenVPN?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Este protocolo se eliminará pronto ya que nos centramos en tecnologías más rápidas y seguras. Te recomendamos cambiar a Smart Protocol. <a href="proton.me">Más información</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Este protocolo será eliminado pronto ya que nos enfocamos en tecnologías más rápidas y seguras. Te recomendamos cambiar a Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Continuar con OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Activar Smart Protocol</string>
     <string name="settings_protocol_proton_protocols">Protocolos de Proton</string>
     <string name="settings_protocol_proton_protocols_description">Usa la implementación propia de WireGuard de Proton VPN. Esta es una función experimental, por lo que podrías notar algo de inestabilidad al probarla.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">¿No es el país que deseas?</string>
@@ -1642,4 +1637,14 @@
     <string name="session_fork_error_network_message">Comprueba tu conexión e inténtalo de nuevo.</string>
     <string name="session_fork_error_try_fallback_message">Haz clic en «¿Problemas para iniciar sesión?» en tu televisor para seguir los pasos alternativos.</string>
     <string name="session_fork_error_report_button">Informar del problema</string>
+    <string name="session_fork_qr_code_content_description">QR code</string>
+    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
+    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
+    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
+    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
+    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Sign in or create an account</string>
+    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>protonvpn.com/support</b>]]></string>
 </resources>

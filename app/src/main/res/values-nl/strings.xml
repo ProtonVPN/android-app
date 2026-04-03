@@ -1479,7 +1479,7 @@
     <string name="info_p2p_why_description_speed">Verhoogde upload- en download snelheden</string>
     <string name="info_p2p_why_description_logs">Geen activiteitenlogs</string>
     <string name="info_p2p_why_description_hide">Verberg uw IP-adres van uw internet provider en andere gebruikers.</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing stelt ons in staat VPN-dekking te bieden in moeilijk bereikbare landen.\n\nWanneer u verbinding maakt met een Smart Routing-server, lijkt het alsof u in uw land van bestemming surft, ook al bevindt de fysieke server zich elders.\n\nSmart Routing wordt doorgaans gebruikt om privacywetten en andere vormen van censuur te omzeilen.</string>
     <string name="notifications_channel_connection_status_name">Verbindingsstatus</string>
     <string name="notifications_channel_connection_status_description">Toont met welke server u bent verbonden en uw VPN-snelheid.</string>
     <string name="notifications_channel_connection_errors_name">Verbindingsfouten</string>
@@ -1614,32 +1614,37 @@
     <string name="no_connections_action_sign_out">Uitloggen</string>
     <string name="no_connections_help_contact_us"><![CDATA[Hulp nodig? <a href="">Neem contact met ons op</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Als uw beheerder hulp nodig heeft bij het inschakelen van VPN-toegang, stuur hen dan <a href="">deze instructies</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">OpenVPN inschakelen?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Dit protocol zal spoedig worden verwijderd aangezien we ons richten op snellere en veiligere technologieën. Wij raden u aan over te schakelen op Smart Protocol. <a href="proton.me">Meer informatie</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Dit protocol zal spoedig worden verwijderd aangezien wij ons richten op snellere en veiligere technologieën. Wij raden u aan om over te schakelen naar Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Ga verder met OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Schakel Smart-protocol in</string>
     <string name="settings_protocol_proton_protocols">Proton protocollen</string>
     <string name="settings_protocol_proton_protocols_description">Gebruik Proton VPN\'s eigen implementatie van WireGuard. Dit is een experimentele functie, dus u kunt enige instabiliteit ervaren.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">Niet het land dat u wenste?</string>
     <string name="connection_preferences_smart_discovery_dialog_message">Als er locaties zijn waarmee u niet automatisch verbonden wilt worden, kunt u deze uitsluiten van Snelste land.</string>
     <string name="excluded_locations_adoption_title">Ongewenste locaties vermijden</string>
     <string name="excluded_locations_adoption_description"><![CDATA[U kunt nu landen en steden uitsluiten van de <b>Snelste</b> verbindingen.]]></string>
-    <string name="session_fork_no_account_title">Sign in on Android TV</string>
-    <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
-    <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
-    <string name="session_fork_no_account_signup_button">Create an account</string>
-    <string name="session_fork_no_account_signin_button">Sign in</string>
-    <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
-    <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
-    <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
-    <string name="session_fork_success_title">Sign-in complete</string>
-    <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
-    <string name="session_fork_error_expired_title">Code expired</string>
-    <string name="session_fork_error_expired_message">Create a new code on your TV and try again.</string>
-    <string name="session_fork_error_generic_title">Couldn’t sign in</string>
-    <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
-    <string name="session_fork_error_network_message">Check your network and try again.</string>
-    <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
-    <string name="session_fork_error_report_button">Report the issue</string>
+    <string name="session_fork_no_account_title">Inloggen op Android TV</string>
+    <string name="session_fork_no_account_message">Voltooi de aanmelding op dit apparaat om Proton VPN op uw TV te gebruiken.</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Door dit programma te gebruiken accepteert u onze <a href="">Voorwaarden</a>.]]></string>
+    <string name="session_fork_no_account_signup_button">Een account aanmaken</string>
+    <string name="session_fork_no_account_signin_button">Aanmelden</string>
+    <string name="session_fork_confirmation_title">Inloggen op Android TV?</string>
+    <string name="session_fork_confirmation_message">Hiermee krijgt de tv toegang tot uw Proton-account.</string>
+    <string name="session_fork_confirmation_bottom_note">Log alleen in op apparaten die u vertrouwt</string>
+    <string name="session_fork_success_title">Aanmelden voltooid</string>
+    <string name="session_fork_success_message">U bent nu ingelogd op uw tv.</string>
+    <string name="session_fork_error_expired_title">Code verlopen</string>
+    <string name="session_fork_error_expired_message">Maak een nieuwe code aan op uw TV en probeer opnieuw.</string>
+    <string name="session_fork_error_generic_title">Kon niet inloggen</string>
+    <string name="session_fork_error_fatal_message">Controleer uw netwerk en probeer het opnieuw. Als het probleem aanhoudt, neem dan contact op met ons klantenondersteuningsteam. </string>
+    <string name="session_fork_error_network_message">Controleer uw netwerk en probeer opnieuw.</string>
+    <string name="session_fork_error_try_fallback_message">Klik op \‘Problemen met inloggen?\’ op uw tv om de alternatieve stappen te volgen.</string>
+    <string name="session_fork_error_report_button">Meld het probleem</string>
+    <string name="session_fork_qr_code_content_description">QR code</string>
+    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
+    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
+    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
+    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
+    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Sign in or create an account</string>
+    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>protonvpn.com/support</b>]]></string>
 </resources>

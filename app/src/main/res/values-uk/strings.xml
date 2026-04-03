@@ -1551,7 +1551,7 @@
     <string name="info_p2p_why_description_speed">Збільшена швидкість завантаження і вивантаження</string>
     <string name="info_p2p_why_description_logs">Без журналів активності</string>
     <string name="info_p2p_why_description_hide">Приховайте вашу IP-адресу від постачальника послуг та однорангових вузлів</string>
-    <string name="info_dialog_smart_routing_description">Розумна Маршрутизація дозволяє нам забезпечувати покриття VPN у важкодоступних країнах.\n\nКоли ви підключаєтеся до сервера Розумної Маршрутизації, виглядатиме так, ніби ви переглядаєте веб-сторінки у своїй країні призначення, навіть якщо фізичний сервер розташований в іншому місці.\n\nРозумна Маршрутизація зазвичай використовується для обходу законів про порушення конфіденційності та інших форм цензури.</string>
+    <string name="info_dialog_smart_routing_description">Технологія Smart Routing дає нам можливість забезпечувати покриття VPN у країнах з ускладненим доступом.\n\nПід час з\'єднання з сервером Smart Routing здаватиметься, наче ви користуєтесь інтернетом у країні призначення, навіть попри інше фізичне розташування сервера.  \n\nSmart Routing зазвичай використовується для обходу законодавчих обмежень щодо приватності та інших форм цензури.</string>
     <string name="notifications_channel_connection_status_name">Connection status</string>
     <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
     <string name="notifications_channel_connection_errors_name">Connection errors</string>
@@ -1686,11 +1686,6 @@
     <string name="no_connections_action_sign_out">Вийти</string>
     <string name="no_connections_help_contact_us"><![CDATA[Потрібна допомога? <a href="">Зв\'яжіться з нами</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Якщо ваш адміністратор потребує допомоги з увімкненням доступу до VPN, надішліть <a href="">ці інструкції</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">Увімкнути OpenVPN?</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Цей протокол невдовзі буде вилучено, оскільки ми зосереджуємося на швидших і безпечніших технологіях. Рекомендуємо перейти на Smart Protocol. <a href="proton.me">Докладніше</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Цей протокол невдовзі буде вилучено, оскільки ми зосереджуємося на швидших і безпечніших технологіях. Рекомендуємо перейти на Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Продовжити з OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Увімкнути протокол Smart</string>
     <string name="settings_protocol_proton_protocols">Proton protocols</string>
     <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">Не та країна, яку ви шукали?</string>
@@ -1698,20 +1693,30 @@
     <string name="excluded_locations_adoption_title">Уникайте небажаних розташувань</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Тепер ви можете виключати країни й міста з <b>Найшвидших</b> з\'єднань.]]></string>
     <string name="session_fork_no_account_title">Увійти на Android TV</string>
-    <string name="session_fork_no_account_message">Завершіть вхід на цьому пристрої, щоб почати використовувати Proton VPN на своєму телевізорі</string>
-    <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
-    <string name="session_fork_no_account_signup_button">Створити обліковий запис</string>
+    <string name="session_fork_no_account_message">Увійдіть у систему на цьому пристрої, щоб почати використовувати Proton VPN на своєму телевізорі</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Використовуючи цю програму, ви приймаєте наші <a href="">Умови та Положення</a>.]]></string>
+    <string name="session_fork_no_account_signup_button">Зареєструватися</string>
     <string name="session_fork_no_account_signin_button">Увійти</string>
     <string name="session_fork_confirmation_title">Увійти на Android TV?</string>
-    <string name="session_fork_confirmation_message">Це дозволить телевізору отримати доступ до вашого облікового запису Proton.</string>
+    <string name="session_fork_confirmation_message">Ця дія дозволить телевізору отримати доступ до вашого облікового запису Proton.</string>
     <string name="session_fork_confirmation_bottom_note">Входьте лише на пристроях, яким довіряєте</string>
-    <string name="session_fork_success_title">Вхід завершено</string>
-    <string name="session_fork_success_message">Ви тепер увійшли в систему на своєму телевізорі.</string>
+    <string name="session_fork_success_title">Вхід виконано</string>
+    <string name="session_fork_success_message">Ви ввійшли в систему на своєму телевізорі.</string>
     <string name="session_fork_error_expired_title">Термін дії коду закінчився</string>
-    <string name="session_fork_error_expired_message">Створіть новий код на вашому телевізорі та спробуйте ще раз.</string>
+    <string name="session_fork_error_expired_message">Створіть новий код на телевізорі та спробуйте ще раз.</string>
     <string name="session_fork_error_generic_title">Не вдалося ввійти</string>
     <string name="session_fork_error_fatal_message">Перевірте свою мережу та спробуйте ще раз. Якщо проблема не зникне, зверніться до нашої служби підтримки клієнтів. </string>
     <string name="session_fork_error_network_message">Перевірте свою мережу та спробуйте ще раз.</string>
     <string name="session_fork_error_try_fallback_message">Натисніть \‘ Не вдається ввійти?\‘ на телевізорі, щоб виконати альтернативні кроки.</string>
     <string name="session_fork_error_report_button">Повідомити про проблему</string>
+    <string name="session_fork_qr_code_content_description">QR code</string>
+    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
+    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
+    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
+    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
+    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Sign in or create an account</string>
+    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>protonvpn.com/support</b>]]></string>
 </resources>

@@ -1614,11 +1614,6 @@
     <string name="no_connections_action_sign_out">Αποσύνδεση</string>
     <string name="no_connections_help_contact_us"><![CDATA[Χρειάζεστε βοήθεια; <a href="">Επικοινωνήστε μαζί μας</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Εάν ο διαχειριστής σας χρειάζεται βοήθεια με την ενεργοποίηση της πρόσβασης VPN, στείλτε του <a href="">αυτές τις οδηγίες</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_title">Ενεργοποίηση OpenVPN;</string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description"><![CDATA[Αυτό το πρωτόκολλο θα καταργηθεί σύντομα, καθώς εστιάζουμε σε ταχύτερες και ασφαλέστερες τεχνολογίες. Σας συνιστούμε να μεταβείτε στο Smart Protocol. <a href="proton.me">Μάθετε περισσότερα</a>.]]></string>
-    <string name="settings_protocol_openvpn_deprecation_dialog_description_tv">Αυτό το πρωτόκολλο θα καταργηθεί σύντομα, καθώς εστιάζουμε σε ταχύτερες και ασφαλέστερες τεχνολογίες. Σας συνιστούμε να μεταβείτε στο Smart Protocol.</string>
-    <string name="settings_protocol_openvpn_change_dialog_continue_openvpn">Συνέχεια με OpenVPN</string>
-    <string name="settings_protocol_openvpn_change_dialog_enable_smart">Ενεργοποίηση Smart protocol</string>
     <string name="settings_protocol_proton_protocols">Πρωτόκολλα Proton</string>
     <string name="settings_protocol_proton_protocols_description">Χρησιμοποιήστε την εφαρμογή WireGuard της Proton VPN. Πρόκειται για μια πειραματική λειτουργία, οπότε ενδέχεται να αντιμετωπίσετε κάποια αστάθεια.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">Δεν είναι η χώρα που θέλατε;</string>
@@ -1642,4 +1637,14 @@
     <string name="session_fork_error_network_message">Ελέγξτε το δίκτυό σας και δοκιμάστε ξανά.</string>
     <string name="session_fork_error_try_fallback_message">Κάντε κλικ στο \‘Πρόβλημα σύνδεσης;\’ στην τηλεόρασή σας για να ακολουθήσετε τα εναλλακτικά βήματα.</string>
     <string name="session_fork_error_report_button">Αναφορά προβλήματος</string>
+    <string name="session_fork_qr_code_content_description">Κωδικός QR</string>
+    <string name="session_fork_qr_code_message">Σαρώστε τον κωδικό QR για να συνδεθείτε ή να δημιουργήσετε έναν λογαριασμό.</string>
+    <string name="session_fork_qr_code_trouble_button">Πρόβλημα σύνδεσης;</string>
+    <string name="session_fork_qr_code_error_expired">Για λόγους ασφαλείας ο κωδικός επαλήθευσης έχει λήξει</string>
+    <string name="session_fork_qr_code_error_create_new_button">Δημιουργήστε έναν νέο κωδικό</string>
+    <string name="session_fork_user_code_title">Δεν μπορείτε να σαρώσετε τον κωδικό; Συνδεθείτε χειροκίνητα</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Μεταβείτε στο: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Συνδεθείτε ή δημιουργήστε λογαριασμό</string>
+    <string name="session_fork_user_code_step3"><![CDATA[Εισάγετε τον κωδικό: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Χρειάζεστε ακόμα βοήθεια; Επισκεφθείτε το <b>protonvpn.com/support</b>]]></string>
 </resources>
