@@ -210,9 +210,10 @@ private fun LoginUserCodePanel(
             TvSpinner()
         }
         VerticalSpacer(modifier = Modifier.weight(1f))
-        val text = AnnotatedString.fromHtml(stringResource(R.string.session_fork_user_code_support))
+        val supportTextHtml =
+            stringResource(R.string.session_fork_user_code_support, Constants.URL_SUPPORT_NO_PROTOCOL)
         Text(
-            text,
+            AnnotatedString.fromHtml(supportTextHtml),
             style = ProtonTheme.typography.body1Regular,
             color = ProtonTheme.colors.textWeak,
         )

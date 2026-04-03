@@ -38,7 +38,8 @@ object Constants {
             "https://protonmail.com/blog/anti-censorship-alternative-routing"
     const val URL_ACCOUNT_LOGIN = "https://account.protonvpn.com/login"
     const val URL_ACCOUNT_DELETE = "https://account.proton.me/u/0/vpn/account-password"
-    const val URL_SUPPORT = "https://protonvpn.com/support"
+    const val URL_SUPPORT_NO_PROTOCOL = "protonvpn.com/support"
+    const val URL_SUPPORT = "https://$URL_SUPPORT_NO_PROTOCOL"
     const val URL_SUPPORT_PERMISSIONS =
             "https://protonvpn.com/support/android-vpn-permissions-problem"
     const val FORCE_UPDATE_URL = "https://protonvpn.com/support/vpn-update/"
