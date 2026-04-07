@@ -22,11 +22,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
+import com.protonvpn.android.auth.usecase.AwaitIsQrCodeTvLoginFeatureFlagEnabled
 import com.protonvpn.android.auth.usecase.IsQrCodeTvLoginFeatureFlagEnabled
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.databinding.ActivityTvMainBinding
@@ -57,13 +59,13 @@ class TvMainActivity : BaseTvActivity() {
     lateinit var guestHole: GuestHole
 
     @Inject
-    lateinit var isQrCodeTvLoginFeatureFlagEnabled: dagger.Lazy<IsQrCodeTvLoginFeatureFlagEnabled>
+    lateinit var awaitIsQrCodeTvLoginFeatureFlagEnabled: dagger.Lazy<AwaitIsQrCodeTvLoginFeatureFlagEnabled>
 
     private val helper = object : MainActivityHelper(this) {
 
         override suspend fun onLoginNeeded() {
-            clearMainFragment()
-            if (isQrCodeTvLoginFeatureFlagEnabled.get().invoke()) {
+            clearMainFragmentAndShowSpinner()
+            if (awaitIsQrCodeTvLoginFeatureFlagEnabled.get().invoke()) {
                 loginLauncher.launch(Unit)
             } else {
                 legacyLoginLauncher.launch(Unit)
@@ -121,12 +123,12 @@ class TvMainActivity : BaseTvActivity() {
         }
     }
 
-    private fun clearMainFragment() = with(supportFragmentManager) {
+    private fun clearMainFragmentAndShowSpinner() = with(supportFragmentManager) {
         vpnAppStateJob?.cancel()
         commit {
-            findFragmentById(R.id.container)?.let {
-                remove(it)
-            }
+            replace(R.id.container, TvFragmentSpinner())
         }
     }
 }
+
+class TvFragmentSpinner : Fragment(R.layout.fragment_tv_spinner)

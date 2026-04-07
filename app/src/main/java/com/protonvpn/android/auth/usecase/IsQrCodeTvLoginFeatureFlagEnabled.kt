@@ -23,9 +23,13 @@ import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
 import dagger.Reusable
+import kotlinx.coroutines.withTimeoutOrNull
+import me.proton.core.featureflag.domain.ExperimentalProtonFeatureFlag
 import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.entity.Scope
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 interface IsQrCodeTvLoginFeatureFlagEnabled : VpnFeatureFlag
 
@@ -39,3 +43,19 @@ class IsQrCodeTvLoginFeatureFlagEnabledImpl @Inject constructor(
 class FakeIsQrCodeTvLoginFeatureFlagEnabled(
     isEnabled: Boolean
 ) : IsQrCodeTvLoginFeatureFlagEnabled, FakeVpnFeatureFlag(isEnabled)
+
+@Reusable
+class AwaitIsQrCodeTvLoginFeatureFlagEnabled @Inject constructor(
+    private val currentUser: CurrentUser,
+    private val featureFlagManager: FeatureFlagManager,
+    private val featureFlag: IsQrCodeTvLoginFeatureFlagEnabled,
+) {
+    @OptIn(ExperimentalProtonFeatureFlag::class)
+    suspend operator fun invoke(): Boolean {
+        val userId = currentUser.user()?.userId
+        withTimeoutOrNull(5_000) {
+            featureFlagManager.awaitNotEmptyScope(userId, Scope.Unleash)
+        }
+        return featureFlag()
+    }
+}
