@@ -26,6 +26,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -39,6 +40,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.tv.main.TvMainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 
 @AndroidEntryPoint
@@ -61,6 +63,7 @@ class TvQrLoginActivity : BaseTvActivity() {
                     onCreateNewCode = viewModel::createNewCode,
                     modifier = Modifier
                         .fillMaxSize()
+                        .background(ProtonTheme.colors.backgroundNorm)
                         .paint(
                             painterResource(R.drawable.bg_gradient_glow),
                             sizeToIntrinsics = false,
