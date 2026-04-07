@@ -1709,14 +1709,14 @@
     <string name="session_fork_error_network_message">Skontrolujte pripojenie k sieti a skúste to znovu.</string>
     <string name="session_fork_error_try_fallback_message">Kliknite na položku \‘Problémy s prihlásením?\’ na televízore a postupujte podľa alternatívnych pokynov.</string>
     <string name="session_fork_error_report_button">Nahlásiť problém</string>
-    <string name="session_fork_qr_code_content_description">QR code</string>
-    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
-    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
-    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
-    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
-    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
-    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_step2">Sign in or create an account</string>
-    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>protonvpn.com/support</b>]]></string>
+    <string name="session_fork_qr_code_content_description">QR kód</string>
+    <string name="session_fork_qr_code_message">Naskenujte QR kód, aby ste sa prihlásili alebo si vytvorili účet.</string>
+    <string name="session_fork_qr_code_trouble_button">Problémy s prihlásením?</string>
+    <string name="session_fork_qr_code_error_expired">Z bezpečnostných dôvodov platnosť overovacieho kódu vypršala</string>
+    <string name="session_fork_qr_code_error_create_new_button">Vytvoriť nový kód</string>
+    <string name="session_fork_user_code_title">Nemôžete naskenovať kód? Prihláste sa ručne</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Prejdite na: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Prihláste sa alebo si vytvorte účet</string>
+    <string name="session_fork_user_code_step3"><![CDATA[Zadajte kód: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Stále potrebujete pomoc? Navštívte <b>protonvpn.com/support</b>]]></string>
 </resources>

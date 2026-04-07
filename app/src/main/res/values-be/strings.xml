@@ -1472,7 +1472,7 @@
     <string name="settings_dns_list_title">Серверы (%1$d)</string>
     <string name="settings_dns_list_description">Будзе выкарыстоўвацца стандартны DNS ад VPN, калі ваш карыстальніцкі сервер DNS не працуе.</string>
     <string name="settings_dns_list_description_multiple">Будзе зроблена спроба падключыцца да гэтых сервераў па парадку. Калі ніводны з іх працаваць не будзе, то будуць выкарыстоўвацца DNS ад VPN.</string>
-    <string name="settings_changes_apply_on_reconnect_toast">Змены будуць ужытыя пасля перападключэння</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Змены будуць прыменены пасля перападключэння</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield будзе недаступны</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield не зможа адфільтраваць рэкламу, праграмы сачэння і шкодныя праграмы, калі выкарыстоўваецца карыстальніцкі DNS. Даведацца больш</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield не зможа адфільтраваць рэкламу, праграмы сачэння і шкодныя праграмы, калі выкарыстоўваецца карыстальніцкі DNS.</string>
@@ -1526,8 +1526,8 @@
     <string name="settings_theme_value_auto">Тэма прылады</string>
     <string name="settings_theme_value_light">Светлая</string>
     <string name="settings_theme_value_dark">Цёмная</string>
-    <string name="settings_dialog_reconnect">Новыя налады будуць ужыты пры наступным падключэнні.</string>
-    <string name="settings_needs_reconnect_banner">Новыя налады будуць ужыты пры наступным падключэнні.</string>
+    <string name="settings_dialog_reconnect">Новыя налады будуць прыменены пры наступным падключэнні.</string>
+    <string name="settings_needs_reconnect_banner">Новыя налады будуць прыменены пры наступным падключэнні.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">Карыстальніцкі DNS недаступны</string>
     <string name="private_dns_conflict_banner_custom_dns_description">Ваша прылада выкарыстоўвае старонні DNS, які перашкаджае працы карыстальніцкаму DNS ад Proton VPN. Даведацца больш</string>
     <string name="private_dns_conflict_banner_custom_dns_description_tv">Ваша прылада выкарыстоўвае старонні DNS, які перашкаджае працы карыстальніцкаму DNS ад Proton VPN.</string>
@@ -1709,14 +1709,14 @@
     <string name="session_fork_error_network_message">Праверце сетку і паспрабуйце яшчэ раз.</string>
     <string name="session_fork_error_try_fallback_message">Націсніце \‘Праблемы з уваходам?\’ у тэлевізары і прытрымлівайцеся альтэрнатыўных крокаў.</string>
     <string name="session_fork_error_report_button">Паведаміць аб праблеме</string>
-    <string name="session_fork_qr_code_content_description">QR code</string>
-    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
-    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
-    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
-    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
-    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
-    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_step2">Sign in or create an account</string>
-    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>protonvpn.com/support</b>]]></string>
+    <string name="session_fork_qr_code_content_description">QR-код</string>
+    <string name="session_fork_qr_code_message">Сканіруйце QR-код, каб увайсці або стварыць уліковы запіс</string>
+    <string name="session_fork_qr_code_trouble_button">Праблемы з уваходам?</string>
+    <string name="session_fork_qr_code_error_expired">У мэтах бяспекі тэрмін дзеяння праверачнага кода мініў</string>
+    <string name="session_fork_qr_code_error_create_new_button">Стварыць новы код</string>
+    <string name="session_fork_user_code_title">Не атрымліваецца адсканіраваць код? Увайдзіце звычайным спосабам</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Перайдзіце: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Увайдзіце або стварыце ўліковы запіс</string>
+    <string name="session_fork_user_code_step3"><![CDATA[Увядзіце код: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Усё яшчэ неабходна дапамога? Наведайце <b>protonvpn.com/support</b>]]></string>
 </resources>
