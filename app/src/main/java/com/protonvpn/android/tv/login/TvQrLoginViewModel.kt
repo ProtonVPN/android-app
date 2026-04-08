@@ -17,6 +17,8 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:OptIn(ExperimentalTime::class)
+
 package com.protonvpn.android.tv.login
 
 import android.graphics.Bitmap
@@ -24,6 +26,7 @@ import android.net.Uri
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
@@ -56,8 +59,11 @@ import me.proton.core.devicemigration.presentation.qr.QrBitmapGenerator
 import me.proton.core.network.domain.ApiException
 import me.proton.core.network.domain.session.Session
 import javax.inject.Inject
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 private val QrCodeTimeout = 10.minutes
 private const val QrCodeUrlPrefix = "https://account.proton.me/vpn/tv/code"
@@ -71,17 +77,26 @@ class TvQrLoginViewModel @Inject constructor(
     private val pullEdmSessionFork: PullEdmSessionFork,
     private val createLoginSessionFromFork: CreateLoginSessionFromFork,
     private val postLoginAccountSetup: PostLoginAccountSetup,
+    @param:WallClock private val clock: () -> Long,
 ) : ViewModel() {
 
+    @OptIn(ExperimentalTime::class)
     sealed interface ViewState {
 
         interface WithCode {
             val userCode: String
             val bitmap: Bitmap
+            val expirationTimestamp: Instant
+            val expirationDuration: Duration
         }
 
         object Loading : ViewState
-        class ForkReady(override val userCode: String, override val bitmap: Bitmap) : ViewState, WithCode
+        class ForkReady(
+            override val userCode: String,
+            override val bitmap: Bitmap,
+            override val expirationTimestamp: Instant,
+            override val expirationDuration: Duration,
+        ) : ViewState, WithCode
         object ForkFailed : ViewState
 
         sealed interface PollingFailed : ViewState {
@@ -92,15 +107,22 @@ class TvQrLoginViewModel @Inject constructor(
         sealed interface Login : ViewState {
             // Include fork data in the success status to keep displaying it while the UI navigates
             // to the main activity. It looks better than switching to a spinner for half a second.
-            class Success(override val userCode: String, override val bitmap: Bitmap) : Login, WithCode
+            class Success(
+                override val userCode: String,
+                override val bitmap: Bitmap,
+                override val expirationTimestamp: Instant,
+                override val expirationDuration: Duration,
+            ) : Login, WithCode
             object Error : Login
         }
     }
 
+    @OptIn(ExperimentalTime::class)
     data class ForkData(
         val selector: SessionForkSelector,
         val userCode: SessionForkUserCode,
         val qrCode: Bitmap,
+        val expirationTimestamp: Instant,
     )
 
     private val triggerNewQrCode = Channel<Unit>(capacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
@@ -108,7 +130,10 @@ class TvQrLoginViewModel @Inject constructor(
     private val sessionForkFlow = flow {
         val fork = initiateFork()
         if (fork != null) {
-            emit(ViewState.ForkReady(fork.userCode.value, fork.qrCode))
+            val forkReady = with(fork) {
+                ViewState.ForkReady(userCode.value, qrCode, expirationTimestamp, QrCodeTimeout)
+            }
+            emit(forkReady)
             val pollingResult = pollForSessionFork(fork.selector)
             when (pollingResult) {
                 is PollResult.Success -> {
@@ -133,15 +158,18 @@ class TvQrLoginViewModel @Inject constructor(
         triggerNewQrCode.trySend(Unit)
     }
 
+    fun now() = clock()
+
     private suspend fun initiateFork(): ForkData? {
         try {
+            val expirationTimestamp = Instant.fromEpochMilliseconds(clock()) + QrCodeTimeout
             val (selector, userCode) = authRepository.getSessionForks(sessionId = null)
             val url = Uri.parse(QrCodeUrlPrefix).buildUpon()
                 .appendPath(userCode.value)
                 .appendQueryParameter("clientId", Constants.TV_CLIENT_ID)
                 .build()
             val qrCode = qrBitmapGenerator(url.toString(), 200.dp)
-            return ForkData(selector, userCode, qrCode)
+            return ForkData(selector, userCode, qrCode, expirationTimestamp)
         } catch (e: ApiException) {
             ProtonLogger.logCustom(
                 LogLevel.WARN,
@@ -218,7 +246,7 @@ class TvQrLoginViewModel @Inject constructor(
         return when (result) {
             is PostLoginAccountSetup.Result.AccountReady -> {
                 ProtonLogger.logCustom(LogCategory.USER, "TV sign in successful")
-                ViewState.Login.Success(fork.userCode.value, fork.qrCode)
+                ViewState.Login.Success(fork.userCode.value, fork.qrCode, fork.expirationTimestamp, QrCodeTimeout)
             }
             is PostLoginAccountSetup.Result.Error.UserCheckError -> {
                 ProtonLogger.logCustom(LogCategory.USER, "TV sign in failed: user check: ${result.error}")

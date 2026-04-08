@@ -17,11 +17,18 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:OptIn(ExperimentalTime::class)
+
 package com.protonvpn.android.tv.login
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.graphics.Bitmap
 import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
@@ -31,6 +38,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -56,6 +64,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Text
@@ -68,12 +78,17 @@ import com.protonvpn.android.utils.Constants
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.utils.currentLocale
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun TvQrLoginScreen(
     viewState: ViewState,
     onCreateNewCode: () -> Unit,
+    now: () -> Long,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -89,6 +104,7 @@ fun TvQrLoginScreen(
                     BackHandler { useFallbackCode = false }
                     LoginUserCodePanel(
                         viewState = viewState,
+                        now = now,
                         modifier = Modifier.fillMaxSize()
                     )
                 } else {
@@ -198,6 +214,7 @@ private fun LoginQrCodePanel(
 @Composable
 private fun LoginUserCodePanel(
     viewState: ViewState,
+    now: () -> Long,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -211,7 +228,9 @@ private fun LoginUserCodePanel(
                 style = ProtonTheme.typography.hero,
             )
             VerticalSpacer(modifier = Modifier.weight(1f))
-            UserCodeSteps(viewState.userCode)
+            with(viewState) {
+                UserCodeSteps(userCode, expirationTimestamp, expirationDuration, now)
+            }
         } else {
             VerticalSpacer(modifier = Modifier.weight(1f))
             TvSpinner()
@@ -231,6 +250,9 @@ private fun LoginUserCodePanel(
 @Composable
 private fun UserCodeSteps(
     userCode: String,
+    expirationTimestamp: Instant,
+    expirationTime: Duration,
+    now: () -> Long,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -245,7 +267,48 @@ private fun UserCodeSteps(
         BulletPointRow(1, AnnotatedString.fromHtml(step1Html))
         BulletPointRow(2, AnnotatedString(stringResource(R.string.session_fork_user_code_step2)))
         val step3Html = stringResource(R.string.session_fork_user_code_step3, userCodeDisplay)
-        BulletPointRow(3, AnnotatedString.fromHtml(step3Html))
+        val remainingTimeMs = remember(expirationTimestamp) {
+            expirationTimestamp.toEpochMilliseconds() - now()
+        }
+        BulletPointRow(
+            number = 3,
+            text = AnnotatedString.fromHtml(step3Html),
+            trailingContent = {
+                TimeoutCircle(
+                    totalMs = expirationTime.inWholeMilliseconds,
+                    remainingMs = remainingTimeMs,
+                    modifier = Modifier.padding(start = 4.dp)
+                )
+            }
+        )
+    }
+}
+
+@Composable
+private fun TimeoutCircle(
+    remainingMs: Long,
+    totalMs: Long,
+    size: Dp = 16.dp,
+    remainingColor: Color = ProtonTheme.colors.iconNorm,
+    backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
+    modifier: Modifier = Modifier,
+) {
+    val animatable = remember(remainingMs) { Animatable(remainingMs.coerceAtLeast(0).toFloat()) }
+    LaunchedEffect(remainingMs) {
+        val animationSpec = tween<Float>(remainingMs.toInt(), easing = LinearEasing)
+        animatable.animateTo(0f, animationSpec)
+    }
+    val fillAngle = (animatable.value / totalMs.toFloat()) * 360f
+    Canvas(
+        modifier.size(size)
+    ) {
+        drawCircle(backgroundColor)
+        drawArc(
+            color = remainingColor,
+            startAngle = 270f,
+            sweepAngle = -fillAngle,
+            useCenter = true,
+        )
     }
 }
 
@@ -253,6 +316,7 @@ private fun UserCodeSteps(
 private fun BulletPointRow(
     number: Int,
     text: AnnotatedString,
+    trailingContent: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -277,6 +341,9 @@ private fun BulletPointRow(
             text,
             style = ProtonTheme.typography.body1Regular,
         )
+        if (trailingContent != null) {
+            trailingContent()
+        }
     }
 }
 
@@ -336,7 +403,9 @@ private fun PreviewLoginQrCodePanel() {
         LoginQrCodePanel(
             viewState = ViewState.ForkReady(
                 "1234ABCD",
-                Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888)
+                Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888),
+                expirationTimestamp = Instant.DISTANT_FUTURE,
+                expirationDuration = 10.minutes,
             ),
             onFallbackCode = {},
             modifier = Modifier.fillMaxSize()
@@ -351,9 +420,20 @@ private fun PreviewLoginUserCodePanel() {
         LoginUserCodePanel(
             viewState = ViewState.ForkReady(
                 "1234ABCD",
-                Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888)
+                Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888),
+                expirationTimestamp = Instant.fromEpochSeconds(60),
+                expirationDuration = 1.minutes
             ),
+            now = { 10_000 },
             modifier = Modifier.fillMaxSize()
         )
+    }
+}
+
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun PreviewTimeoutCircle() {
+    ProtonVpnTvPreview {
+        TimeoutCircle(20L, 200L)
     }
 }

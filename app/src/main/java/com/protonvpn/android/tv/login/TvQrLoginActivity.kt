@@ -61,6 +61,7 @@ class TvQrLoginActivity : BaseTvActivity() {
                 TvQrLoginScreen(
                     viewState = viewState,
                     onCreateNewCode = viewModel::createNewCode,
+                    now = viewModel::now,
                     modifier = Modifier
                         .fillMaxSize()
                         .background(ProtonTheme.colors.backgroundNorm)

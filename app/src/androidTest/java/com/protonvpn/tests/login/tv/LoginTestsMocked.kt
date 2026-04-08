@@ -153,6 +153,7 @@ class LoginTestsMocked : FusionComposeTest() {
         with(TvLoginRobot()) {
             waitForQrCode()
             navigateToTroubleSigningIn()
+            composeRule.mainClock.advanceTimeBy(10 * 60_000) // Skip timeout animation.
             val userCode = getUserCode()
             assertEquals(FORK_USER_CODE, userCode)
         }
