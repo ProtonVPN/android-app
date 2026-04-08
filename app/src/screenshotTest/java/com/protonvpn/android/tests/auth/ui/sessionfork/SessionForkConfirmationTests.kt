@@ -23,41 +23,48 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.auth.ui.sessionfork.SessionForkConfirmation
 import com.protonvpn.android.auth.ui.sessionfork.SessionForkConfirmationViewModel.ViewState
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun SessionForkConfirmation_AskConfirmation() {
     SessionForkConfirmationTest(ViewState.AskForkConfirmation(false))
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun SessionForkConfirmation_AskConfirmationLoading() {
     SessionForkConfirmationTest(ViewState.AskForkConfirmation(true))
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun SessionForkConfirmation_Success() {
     SessionForkConfirmationTest(ViewState.Fork.Success(null))
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun SessionForkConfirmation_NetworkError() {
     SessionForkConfirmationTest(ViewState.Fork.Error.Network)
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun SessionForkConfirmation_Expired() {
     SessionForkConfirmationTest(ViewState.Fork.Error.Expired)
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun SessionForkConfirmation_FatalError() {

@@ -25,6 +25,7 @@ import android.os.SystemClock
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.R
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
@@ -46,6 +47,7 @@ import com.protonvpn.android.redesign.vpn.ui.StatusBanner
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import kotlinx.coroutines.flow.MutableSharedFlow
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun FullHomeScreenDisconnected() {
@@ -73,6 +75,7 @@ fun FullHomeScreenDisconnected() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun FullHomeScreenConnected() {

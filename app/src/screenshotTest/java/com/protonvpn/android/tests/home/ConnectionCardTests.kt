@@ -24,6 +24,7 @@ package com.protonvpn.android.tests.home
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.R
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
@@ -39,6 +40,7 @@ import com.protonvpn.android.ui.home.vpn.ChangeServerButton
 
 private val freeConnection = ConnectionData(true)
 
+@PreviewTest
 @Composable
 @ProtonVpnTestPreview
 fun DisconnectedVpnConnectionCardFree() {
@@ -48,6 +50,7 @@ fun DisconnectedVpnConnectionCardFree() {
     )
 }
 
+@PreviewTest
 @Composable
 @ProtonVpnTestPreview
 fun ConnectedVpnConnectionCardFree() {

@@ -20,6 +20,7 @@
 package com.protonvpn.android.tests.ui.noconnections
 
 import androidx.compose.runtime.Composable
+import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.app.ui.VpnAppViewModel.LoaderState
@@ -27,6 +28,7 @@ import com.protonvpn.android.ui.noconnections.NoConnectionsScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun NoConnectionsScreen_DisabledByAdmin() {
@@ -39,6 +41,7 @@ fun NoConnectionsScreen_DisabledByAdmin() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun NoConnectionsScreen_NoCountriesNoGateways() {
@@ -51,6 +54,7 @@ fun NoConnectionsScreen_NoCountriesNoGateways() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun NoConnectionsScreen_RequestFailed() {

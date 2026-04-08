@@ -22,6 +22,7 @@
 package com.protonvpn.android.tests.settings
 
 import androidx.compose.runtime.Composable
+import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.settings.ui.KillSwitchInfo
@@ -34,6 +35,7 @@ import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.vpn.DnsOverride
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun NetshieldSettingPage() {
@@ -56,6 +58,7 @@ fun NetshieldSettingPage() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun LanSettingPage() {
@@ -74,6 +77,7 @@ fun LanSettingPage() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun NetshieldPrivateDnsSettingPage() {
@@ -96,6 +100,7 @@ fun NetshieldPrivateDnsSettingPage() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun NetshieldCustomDnsSettingPage() {
@@ -118,6 +123,7 @@ fun NetshieldCustomDnsSettingPage() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun SplitTunnelingPage() {
@@ -145,6 +151,7 @@ fun SplitTunnelingPage() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun KillSwitchPage() {
@@ -157,6 +164,7 @@ fun KillSwitchPage() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun ThemePage() {

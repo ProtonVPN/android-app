@@ -20,11 +20,13 @@ package com.protonvpn.android.tests.settings
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.widget.ui.OnboardingWidgetBottomSheetContent
 import com.protonvpn.android.widget.ui.WidgetAddScreen
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun WidgetSettingsScreenPreview() {
@@ -33,6 +35,7 @@ fun WidgetSettingsScreenPreview() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun WidgetOnboardingContent() {
@@ -41,6 +44,7 @@ fun WidgetOnboardingContent() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun WidgetOnboardingContentFallback() {

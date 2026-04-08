@@ -22,10 +22,12 @@ package com.protonvpn.android.tests.auth.ui.sessionfork
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.auth.ui.sessionfork.SessionForkSignIn
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 private fun SessionSignIn() {

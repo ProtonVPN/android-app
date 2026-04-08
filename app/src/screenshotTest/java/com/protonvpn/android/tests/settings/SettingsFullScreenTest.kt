@@ -22,6 +22,7 @@
 package com.protonvpn.android.tests.settings
 
 import androidx.compose.runtime.Composable
+import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.annotations.ProtonVpnTestPreviewLong
 import com.protonvpn.android.base.ui.ProtonVpnPreview
@@ -48,6 +49,7 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.accountmanager.presentation.compose.viewmodel.AccountSettingsViewState
 import me.proton.core.domain.entity.UserId
 
+@PreviewTest
 @ProtonVpnTestPreviewLong
 @Composable
 fun SettingsCredentialless() {
@@ -88,6 +90,7 @@ fun SettingsCredentialless() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreviewLong
 @Composable
 fun SettingsPaidProfileConnected() {
@@ -127,6 +130,7 @@ fun SettingsPaidProfileConnected() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun AdvancedSettingsNotConnectedPaid() {
@@ -155,6 +159,7 @@ fun AdvancedSettingsNotConnectedPaid() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun CustomDnsEmptyState() {
@@ -180,6 +185,7 @@ fun CustomDnsEmptyState() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun CustomDnsState() {
@@ -200,6 +206,7 @@ fun CustomDnsState() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun CustomDnsStatePrivateDns() {
@@ -220,6 +227,7 @@ fun CustomDnsStatePrivateDns() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun AdvancedSettingsProfileConnected() {
@@ -248,6 +256,7 @@ fun AdvancedSettingsProfileConnected() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun AdvancedSettingsFree() {
@@ -276,6 +285,7 @@ fun AdvancedSettingsFree() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun AddNewDnsScreenPreview() {
@@ -287,6 +297,7 @@ fun AddNewDnsScreenPreview() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun AddNewDnsScreenErrorPreview() {

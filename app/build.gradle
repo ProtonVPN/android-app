@@ -829,6 +829,17 @@ dependencies {
     screenshotTestImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    screenshotTestImplementation(libs.androidx.compose.screenshot.validation.api) {
+        // We don't want this library to force newer versions of the libraries, exclude them.
+        exclude group: "org.jetbrains.kotlin", module: "kotlin-stdlib-jdk8"
+    }
+    // This dependency is included transitively by libs.androidx.compose.screenshot.validation.api
+    // and can be removed once we no longer need to exclude kotlin-stdlib-jdk8.
+    screenshotTestImplementation(libs.androidx.compose.screenshot.validation.junit.engine) {
+        // We don't want this library to force newer versions of the libraries, exclude them.
+        exclude group: "org.jetbrains.kotlin", module: "kotlin-stdlib-jdk8"
+    }
+
     testImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     testImplementation(libs.androidx.navigation.testing)

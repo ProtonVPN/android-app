@@ -33,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
@@ -45,6 +46,7 @@ import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnTextButton
 import com.protonvpn.android.base.ui.textMultiStyle
 import com.protonvpn.android.redesign.settings.ui.SubSetting
+import com.protonvpn.android.utils.ifOrNull
 import me.proton.core.compose.theme.ProtonTheme
 
 
@@ -136,10 +138,13 @@ private fun WidgetLottieAnimation(
         verticalArrangement = Arrangement.Center,
         modifier = modifier
     ) {
-        val compositionResult = rememberLottieComposition(
-            LottieCompositionSpec.RawRes(R.raw.add_widget_animation)
-        )
-        val composition = compositionResult.value
+        val composition = ifOrNull(!LocalInspectionMode.current) {
+            // Lottie crashes screenshot tests: https://issuetracker.google.com/issues/380459178
+            // Therefore use a placeholder instead of a lottie composition in previews
+            rememberLottieComposition(
+                LottieCompositionSpec.RawRes(R.raw.add_widget_animation)
+            ).value
+        }
 
         Box(
             modifier = Modifier
@@ -149,10 +154,11 @@ private fun WidgetLottieAnimation(
                 .background(ProtonTheme.colors.backgroundSecondary),
             contentAlignment = Alignment.Center
         ) {
-            LottieAnimation(
-                composition,
-                iterations = 1
-            )
+            if (composition != null) {
+                LottieAnimation(composition, iterations = 1)
+            } else {
+                Text("Lottie animation placeholder")
+            }
         }
 
         Text(

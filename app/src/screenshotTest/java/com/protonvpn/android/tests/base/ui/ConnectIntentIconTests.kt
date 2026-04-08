@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.tests.base.ui
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -27,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.profiles.data.ProfileColor
@@ -36,8 +36,8 @@ import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.base.ui.ProfileConnectIntentIcon
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
-import me.proton.core.compose.theme.isNightMode
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Preview(name = "RTL", locale = "fa")
 @Composable
@@ -47,6 +47,7 @@ fun ConnectIntentIconMedium() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Preview(name = "RTL", locale = "fa")
 @Composable
@@ -56,6 +57,7 @@ fun ConnectIntentIconSmall() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Preview(locale = "fa")
 @Composable

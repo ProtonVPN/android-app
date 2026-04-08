@@ -22,6 +22,7 @@
 package com.protonvpn.android.tests.profiles
 
 import androidx.compose.runtime.Composable
+import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
@@ -40,6 +41,7 @@ import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.vpn.ProtocolSelection
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun ProfileCreateName() {
@@ -54,6 +56,7 @@ fun ProfileCreateName() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun ProfileTypeAndLocationScreen() {
@@ -97,6 +100,7 @@ fun ProfileTypeAndLocationScreen() {
 }
 
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun ProfileFeaturesAndSettingsScreen() {
@@ -133,6 +137,7 @@ fun ProfileFeaturesAndSettingsScreen() {
     }
 }
 
+@PreviewTest
 @ProtonVpnTestPreview
 @Composable
 fun ProfileFeaturesAndSettingsScreenCustomDnsConflict() {
