@@ -20,7 +20,7 @@
 package com.protonvpn.tests.auth.ui.sessionfork
 
 import android.content.Intent
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -51,7 +51,7 @@ private const val FeatureFlagName = "QrCodeTvLogin"
 @HiltAndroidTest
 class SessionForkConfirmationActivityTests : FusionComposeTest() {
 
-    private val QrCodeUrlIntent = Intent(Intent.ACTION_VIEW).apply {
+    private val SessionForkIntent = Intent(Intent.ACTION_VIEW).apply {
         // This is an HTTPS URL that is by default opened in a browser.
         // The test application can't use AppLinks, so it needs to target the activity class
         // explicitly.
@@ -60,8 +60,10 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
             SessionForkConfirmationActivity::class.java,
         )
         addCategory(Intent.CATEGORY_DEFAULT)
-        data = Uri.parse("https://account.proton.me/vpn/tv/code/1234ABCD")
     }
+
+    private val QrCodeUrl = "https://account.proton.me/vpn/tv/code/1234ABCD"
+    private val DeepLinkCodeUrl = "protonvpn://session-fork/1234ABCD"
 
     private val apiConfig = TestApiConfig.Mocked(
         testUser = null,
@@ -73,8 +75,8 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
     val protonRule = ProtonHiltAndroidRule(this, apiConfig)
     private var activityScenario: ActivityScenario<SessionForkConfirmationActivity>? = null
 
-    private fun launchActivity() {
-        activityScenario = ActivityScenario.launch(QrCodeUrlIntent)
+    private fun launchActivity(url: String) {
+        activityScenario = ActivityScenario.launch(SessionForkIntent.apply { data = url.toUri() })
     }
 
     @After
@@ -84,7 +86,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
 
     @Test
     fun WhenNoUserLoggedInThenShowSignInScreen() {
-        launchActivity()
+        launchActivity(QrCodeUrl)
         SessionForkConfirmationRobot.verify {
             assertSignInDisplayed()
         }
@@ -93,7 +95,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
     @Test
     fun WhenUserIsLoggedInThenShowConfirmationScreenImmediately() {
         protonRule.setUser(TestUser.plusUser)
-        launchActivity()
+        launchActivity(QrCodeUrl)
         SessionForkConfirmationRobot.verify {
             assertConfirmationDisplayed()
         }
@@ -102,7 +104,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
     @Test
     fun WhenBusinessUserIsLoggedInThenErrorIsShown() {
         protonRule.setUser(TestUser.businessEssential)
-        launchActivity()
+        launchActivity(QrCodeUrl)
         SessionForkConfirmationRobot.verify {
             assertErrorIsDisplayed()
         }
@@ -111,7 +113,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
     @Test
     fun WhenForkConfirmedTooFastThenMessageIsDisplayed() {
         protonRule.setUser(TestUser.plusUser)
-        launchActivity()
+        launchActivity(QrCodeUrl)
         SessionForkConfirmationRobot
             .confirmFork()
             .verify {
@@ -120,14 +122,23 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
     }
 
     @Test
-    fun WhenForkConfirmedThenPostRequestIsSent() {
+    fun WhenForkConfirmedThenPostRequestIsSent_QrCode() {
+        testWhenForkConfirmedThenPostRequestIsSent(QrCodeUrl)
+    }
+
+    @Test
+    fun WhenForkConfirmedThenPostRequestIsSent_DeepLink() {
+        testWhenForkConfirmedThenPostRequestIsSent(DeepLinkCodeUrl)
+    }
+
+    private fun testWhenForkConfirmedThenPostRequestIsSent(codeUrl: String) {
         protonRule.setUser(TestUser.plusUser)
         protonRule.mockDispatcher.addRules {
             rule(post, path eq "/auth/v4/sessions/forks") {
                 respond(200, ForkSessionResponse(1000, "selector"))
             }
         }
-        launchActivity()
+        launchActivity(codeUrl)
         SessionForkConfirmationRobot
             .verify {
                 assertConfirmationDisplayed()

@@ -30,6 +30,7 @@ import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
+import com.protonvpn.android.utils.ifOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.NonCancellable
@@ -188,16 +189,22 @@ class SessionForkConfirmationViewModel @Inject constructor(
     private fun extractUserCode(uri: Uri?): String? {
         if (uri == null) return null
 
-        val pathPrefix = "/vpn/tv/code/"
-        return if ("https".equalsNoCase(uri.scheme) &&
-            "account.proton.me".equalsNoCase(uri.host) &&
-            uri.path?.startsWith(pathPrefix) == true
-        ) {
-            val userCode = uri.path?.substring(pathPrefix.length)
-            // Only very basic validation here, the backend will reject invalid codes.
-            return userCode?.takeIf { it.length == 8 }
-        } else {
-            null
+        val userCode = when {
+            "https".equalsNoCase(uri.scheme) -> {
+                val pathPrefix = "/vpn/tv/code/"
+                ifOrNull("account.proton.me".equalsNoCase(uri.host) &&
+                        uri.path?.startsWith(pathPrefix) == true) {
+                    uri.path?.substring(pathPrefix.length)
+
+                }
+            }
+            "protonvpn".equalsNoCase(uri.scheme) &&
+                    "session-fork".equalsNoCase(uri.host) ->
+                uri.path?.removePrefix("/")
+
+            else -> null
         }
+        // Only very basic validation here, the backend will reject invalid codes.
+        return userCode?.takeIf { it.length == 8 }
     }
 }
