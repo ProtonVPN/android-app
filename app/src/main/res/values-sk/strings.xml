@@ -1700,6 +1700,7 @@
     <string name="session_fork_confirmation_title">Prihlásiť sa na Android TV?</string>
     <string name="session_fork_confirmation_message">Týmto umožníte televízii prístup k vášmu Proton účtu.</string>
     <string name="session_fork_confirmation_bottom_note">Prihlasujte sa len na zariadeniach, ktorým dôverujete</string>
+    <string name="session_fork_confirmation_too_soon_toast">Pred pokračovaním si prečítajte nasledujúce informácie, prosím</string>
     <string name="session_fork_success_title">Prihlásenie dokončené</string>
     <string name="session_fork_success_message">Teraz ste prihlásení na svojom televízore.</string>
     <string name="session_fork_error_expired_title">Platnosť kódu vypršala</string>
@@ -1713,10 +1714,13 @@
     <string name="session_fork_qr_code_message">Naskenujte QR kód, aby ste sa prihlásili alebo si vytvorili účet.</string>
     <string name="session_fork_qr_code_trouble_button">Problémy s prihlásením?</string>
     <string name="session_fork_qr_code_error_expired">Z bezpečnostných dôvodov platnosť overovacieho kódu vypršala</string>
+    <string name="session_fork_qr_code_error_network">Skontrolujte pripojenie k sieti a skúste to znovu</string>
     <string name="session_fork_qr_code_error_create_new_button">Vytvoriť nový kód</string>
     <string name="session_fork_user_code_title">Nemôžete naskenovať kód? Prihláste sa ručne</string>
     <string name="session_fork_user_code_step1"><![CDATA[Prejdite na: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">Prihláste sa alebo si vytvorte účet</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Zadajte kód: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Stále potrebujete pomoc? Navštívte <b>protonvpn.com/support</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Stále potrebujete pomoc? Navštívte <b>%1$s</b>]]></string>
 </resources>

@@ -1700,6 +1700,7 @@
     <string name="session_fork_confirmation_title">Увайсці на Android TV?</string>
     <string name="session_fork_confirmation_message">Гэта дазволіць тэлевізару атрымаць доступ да вашага ўліковага запісу Proton.</string>
     <string name="session_fork_confirmation_bottom_note">Уваходзьце толькі на прыладах якім давяраеце</string>
+    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
     <string name="session_fork_success_title">Уваход завершаны</string>
     <string name="session_fork_success_message">Цяпер вы ўвайшлі ў сістэму на сваім тэлевізары.</string>
     <string name="session_fork_error_expired_title">Код пратэрмінаваны</string>
@@ -1713,10 +1714,13 @@
     <string name="session_fork_qr_code_message">Сканіруйце QR-код, каб увайсці або стварыць уліковы запіс</string>
     <string name="session_fork_qr_code_trouble_button">Праблемы з уваходам?</string>
     <string name="session_fork_qr_code_error_expired">У мэтах бяспекі тэрмін дзеяння праверачнага кода мініў</string>
+    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
     <string name="session_fork_qr_code_error_create_new_button">Стварыць новы код</string>
     <string name="session_fork_user_code_title">Не атрымліваецца адсканіраваць код? Увайдзіце звычайным спосабам</string>
     <string name="session_fork_user_code_step1"><![CDATA[Перайдзіце: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">Увайдзіце або стварыце ўліковы запіс</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Увядзіце код: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Усё яшчэ неабходна дапамога? Наведайце <b>protonvpn.com/support</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
 </resources>

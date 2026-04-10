@@ -1592,6 +1592,7 @@
     <string name="session_fork_confirmation_title">在 Android TV 上登录？</string>
     <string name="session_fork_confirmation_message">这将允许电视访问您的 Proton 账户。</string>
     <string name="session_fork_confirmation_bottom_note">仅在您信任的设备上登录</string>
+    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
     <string name="session_fork_success_title">登录完成</string>
     <string name="session_fork_success_message">您现在已在电视上登录。</string>
     <string name="session_fork_error_expired_title">代码已过期</string>
@@ -1605,10 +1606,13 @@
     <string name="session_fork_qr_code_message">扫描二维码登录或创建账户</string>
     <string name="session_fork_qr_code_trouble_button">登录遇到问题？</string>
     <string name="session_fork_qr_code_error_expired">出于安全考虑，验证码已过期</string>
+    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
     <string name="session_fork_qr_code_error_create_new_button">获取新代码</string>
     <string name="session_fork_user_code_title">无法扫描二维码？手动登录</string>
     <string name="session_fork_user_code_step1"><![CDATA[前往：<b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">登录或创建账户</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[输入代码：<b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[仍需帮助？请访问 <b>protonvpn.com/support</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
 </resources>

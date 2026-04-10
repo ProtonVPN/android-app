@@ -1481,9 +1481,9 @@
     <string name="info_p2p_why_description_hide">Oculte seu endereço IP do seu provedor de serviços e de seus pares</string>
     <string name="info_dialog_smart_routing_description">O Smart Routing nos permite fornecer cobertura VPN em países de difícil acesso.\n\nAo se conectar a um servidor Smart Routing, você parecerá estar navegando no seu país de destino, mesmo que o servidor físico esteja localizado em outro lugar.  \n\nO Smart Routing é normalmente utilizado para contornar leis anti-privacidade e outras formas de censura.</string>
     <string name="notifications_channel_connection_status_name">Status da conexão</string>
-    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
+    <string name="notifications_channel_connection_status_description">Mostra a qual servidor você está conectado e a velocidade da sua VPN.</string>
     <string name="notifications_channel_connection_errors_name">Erros de conexão</string>
-    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_errors_description">Alerta você sobre problemas que suspendem ou interrompem sua conexão VPN.</string>
     <string name="notifications_channel_connection_tips_name">Dicas de conexão</string>
     <string name="notifications_channel_connection_tips_description">Dicas contextuais que ajudam você a aproveitar melhor o Proton VPN.</string>
     <string name="countries_upsell_banner_description">Acesse todos os países com o VPN Plus</string>
@@ -1617,7 +1617,7 @@
     <string name="settings_protocol_proton_protocols">Protocolos da Proton</string>
     <string name="settings_protocol_proton_protocols_description">Use a implementação própria do WireGuard do Proton VPN. Este é um recurso experimental, portanto, você pode enfrentar alguma instabilidade.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">Não é o país que você queria?</string>
-    <string name="connection_preferences_smart_discovery_dialog_message">If there are locations you don’t want to be automatically connected to, you can exclude them from Fastest country.</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Se houver locais aos quais você não deseja ser conectado automaticamente, é possível excluí-los da opção País mais rápido.</string>
     <string name="excluded_locations_adoption_title">Evite locais indesejados</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Agora você pode excluir países e cidades das conexões <b>mais rápidas</b>.]]></string>
     <string name="session_fork_no_account_title">Iniciar sessão no Android TV</string>
@@ -1628,23 +1628,27 @@
     <string name="session_fork_confirmation_title">Iniciar sessão no Android TV?</string>
     <string name="session_fork_confirmation_message">Isso permitirá que a TV acesse sua conta da Proton.</string>
     <string name="session_fork_confirmation_bottom_note">Inicie sessão apenas em dispositivos de confiança</string>
+    <string name="session_fork_confirmation_too_soon_toast">Revise antes de continuar</string>
     <string name="session_fork_success_title">Início de sessão concluído</string>
     <string name="session_fork_success_message">Você agora você iniciou sessão na sua TV.</string>
     <string name="session_fork_error_expired_title">Código expirado</string>
     <string name="session_fork_error_expired_message">Crie um código na sua TV e tente novamente.</string>
     <string name="session_fork_error_generic_title">Não foi possível iniciar sessão</string>
-    <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
-    <string name="session_fork_error_network_message">Check your network and try again.</string>
-    <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
+    <string name="session_fork_error_fatal_message">Verifique sua rede e tente novamente. Se o problema persistir, entre em contato com a equipe de suporte ao cliente. </string>
+    <string name="session_fork_error_network_message">Verifique sua rede e tente novamente.</string>
+    <string name="session_fork_error_try_fallback_message">Clique em \‘Problemas para iniciar sessão?\’ na sua TV para seguir as etapas alternativas.</string>
     <string name="session_fork_error_report_button">Reportar o problema</string>
     <string name="session_fork_qr_code_content_description">Código QR</string>
-    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
-    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
-    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
-    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
-    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
-    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_step2">Sign in or create an account</string>
-    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>protonvpn.com/support</b>]]></string>
+    <string name="session_fork_qr_code_message">Escaneie o código QR para iniciar sessão ou crie uma conta.</string>
+    <string name="session_fork_qr_code_trouble_button">Problemas para iniciar sessão?</string>
+    <string name="session_fork_qr_code_error_expired">Por motivos de segurança o código de validação expirou</string>
+    <string name="session_fork_qr_code_error_network">Verifique sua rede e tente novamente</string>
+    <string name="session_fork_qr_code_error_create_new_button">Criar um novo código</string>
+    <string name="session_fork_user_code_title">Não pode escanear o código? Inicie sessão manualmente</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Ir para: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Inicie sessão ou crie uma conta</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
+    <string name="session_fork_user_code_step3"><![CDATA[Insira o código: <b>%1$s</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Precisa de ajuda? Visite <b>%1$s</b>]]></string>
 </resources>

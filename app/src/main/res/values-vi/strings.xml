@@ -1592,6 +1592,7 @@
     <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
     <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
     <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
+    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
     <string name="session_fork_success_title">Sign-in complete</string>
     <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
     <string name="session_fork_error_expired_title">Code expired</string>
@@ -1605,10 +1606,13 @@
     <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
     <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
     <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
+    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
     <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
     <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
     <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">Sign in or create an account</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>protonvpn.com/support</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
 </resources>

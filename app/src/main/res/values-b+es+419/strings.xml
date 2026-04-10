@@ -1628,6 +1628,7 @@
     <string name="session_fork_confirmation_title">Iniciar sesión en Android TV?</string>
     <string name="session_fork_confirmation_message">Esto le permitirá a la TV acceder a su cuenta de Proton.</string>
     <string name="session_fork_confirmation_bottom_note">Solo inicie sesión en dispositivos de confianza</string>
+    <string name="session_fork_confirmation_too_soon_toast">Compruebe antes de continuar</string>
     <string name="session_fork_success_title">Inicio de sesión completado</string>
     <string name="session_fork_success_message">Ha iniciado sesión en su TV.</string>
     <string name="session_fork_error_expired_title">Código expirado</string>
@@ -1641,10 +1642,13 @@
     <string name="session_fork_qr_code_message">Escanee el código QR para iniciar sesión o cree una cuenta.</string>
     <string name="session_fork_qr_code_trouble_button">¿Problemas para iniciar sesión?</string>
     <string name="session_fork_qr_code_error_expired">Por motivos de seguridad el código de validación ha expirado</string>
+    <string name="session_fork_qr_code_error_network">Compruebe su red e intente de nuevo</string>
     <string name="session_fork_qr_code_error_create_new_button">Crear un código</string>
     <string name="session_fork_user_code_title">¿No puede escanear el código? Inicie sesión manualmente.</string>
     <string name="session_fork_user_code_step1"><![CDATA[Vaya a: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">Inicie sesión o cree una cuenta</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Ingrese el código: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[¿Aún necesita ayuda? Visite <b>protonvpn.com/support</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[¿Aún necesita ayuda? Visite <b>%1$s</b>]]></string>
 </resources>

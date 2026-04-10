@@ -1628,6 +1628,7 @@
     <string name="session_fork_confirmation_title">Kirjaudu Android TV:llä?</string>
     <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
     <string name="session_fork_confirmation_bottom_note">Kirjaudu vain laitteilla, joihin luotat</string>
+    <string name="session_fork_confirmation_too_soon_toast">Tarkista tämä ennen kuin jatkat</string>
     <string name="session_fork_success_title">Kirjautuminen onnistui</string>
     <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
     <string name="session_fork_error_expired_title">Koodi on vanhentunut</string>
@@ -1641,10 +1642,13 @@
     <string name="session_fork_qr_code_message">Skannaa QR-koodi kirjautuaksesi tai luodaksesi tilin.</string>
     <string name="session_fork_qr_code_trouble_button">Ongelmia kirjautumisessa?</string>
     <string name="session_fork_qr_code_error_expired">Turvallisuussyistä vahvistuskoodi on vanhentunut</string>
+    <string name="session_fork_qr_code_error_network">Tarkista verkkoyhteytesi ja yritä uudelleen</string>
     <string name="session_fork_qr_code_error_create_new_button">Luo uusi koodi</string>
     <string name="session_fork_user_code_title">Etkö voi skannata koodia? Kirjaudu sisään manuaalisesti</string>
     <string name="session_fork_user_code_step1"><![CDATA[Mene: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">Kirjaudu tai luo tili</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Syötä koodi: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Tarvitsetko vielä apua? Käy osoitteessa <b>protonvpn.com/support</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Tarvitsetko vielä apua? Käy osoitteessa <b>%1$s</b>]]></string>
 </resources>

@@ -40,7 +40,7 @@
     <string name="loaderConnectingTo">يتم الاتصال بخادم %1$s</string>
     <string name="loaderNotConnected">غير متصل (بدون حماية)</string>
     <string name="loaderConnectedTo">متصل بخادم %1$s</string>
-    <string name="loaderDisconnecting">يتم قطع الاتصال</string>
+    <string name="loaderDisconnecting">يتم إيقاف الاتصال</string>
     <string name="loaderReconnecting">يتم إعادة الاتصال</string>
     <string name="loaderReconnectNoNetwork">بانتظار شبكة مستقرة</string>
     <string name="loaderCheckingAvailability">التحقق من توافر الخادم</string>
@@ -65,10 +65,10 @@
     <string name="insufficientPermissionsTitle">مطلوب اتخاذ إجراء</string>
     <string name="insufficientPermissionsDetails">تعذر إنشاء اتصال VPN تلقائي. يُرجى الاتصال يدوياً لمرة واحدة لمنح الصلاحيات المطلوبة.</string>
     <string name="log_title">السجل</string>
-    <string name="disconnect">قطع الاتصال</string>
+    <string name="disconnect">إيقاف الاتصال</string>
     <string name="state_connecting">يتم الاتصال الآن...</string>
     <string name="state_connected">مُتصل</string>
-    <string name="state_disconnecting">يتم قطع الاتصال...</string>
+    <string name="state_disconnecting">يتم إيقاف الاتصال...</string>
     <string name="state_error">خطأ</string>
     <string name="error_server_list_load_failed">يُرجى تأكد من الاتصال بالإنترنت ثم حاول مرة أخرى.</string>
     <string name="error_server_unreachable">تعذر الاتصال بـ VPN. يُرجى التحقق من اتصالك والمحاولة مرة أخرى.</string>
@@ -1772,6 +1772,7 @@
     <string name="session_fork_confirmation_title">السماح بالدخول عبر Android TV؟</string>
     <string name="session_fork_confirmation_message">بالموافقة، ستمنح التلفاز صلاحية الدخول إلى حسابك في Proton.</string>
     <string name="session_fork_confirmation_bottom_note">سجل الدخول فقط عبر الأجهزة التي تثق بها</string>
+    <string name="session_fork_confirmation_too_soon_toast">تأكد من التفاصيل أولاً قبل المتابعة</string>
     <string name="session_fork_success_title">حسابك جاهز الآن!</string>
     <string name="session_fork_success_message">يمكنك البدء باستخدام التطبيق على التلفاز</string>
     <string name="session_fork_error_expired_title">انتهت صلاحية الرمز</string>
@@ -1785,10 +1786,13 @@
     <string name="session_fork_qr_code_message">امسح رمز QR لتسجيل الدخول أو إنشاء حساب.</string>
     <string name="session_fork_qr_code_trouble_button">تعذر تسجيل الدخول؟</string>
     <string name="session_fork_qr_code_error_expired">حفاظاً على أمانك، انتهت صلاحية رمز التحقق</string>
+    <string name="session_fork_qr_code_error_network">تحقق من شبكتك وحاول مرة أخرى</string>
     <string name="session_fork_qr_code_error_create_new_button">إنشاء رمز جديد</string>
     <string name="session_fork_user_code_title">تعذر مسح الرمز؟ سجل دخولك يدوياً</string>
     <string name="session_fork_user_code_step1"><![CDATA[توجه إلى: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">سجل الدخول أو أنشئ حساب</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[استخدم الرمز التالي: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[أتحتاج لمساعدة إضافية؟ توجه إلى <b>protonvpn.com/support</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[هل تواجه صعوبة؟ تفضل بزيارة <b>%1$s</b>]]></string>
 </resources>

@@ -1628,6 +1628,7 @@
     <string name="session_fork_confirmation_title">Voleu iniciar sessió a Android TV?</string>
     <string name="session_fork_confirmation_message">Això permetrà que la TV accedeixi al vostre compte de Proton.</string>
     <string name="session_fork_confirmation_bottom_note">Inicieu sessió només en dispositius de confiança</string>
+    <string name="session_fork_confirmation_too_soon_toast">Reviseu-ho abans de continuar</string>
     <string name="session_fork_success_title">S\'ha completat l\'inici de sessió</string>
     <string name="session_fork_success_message">Heu iniciat sessió a la TV.</string>
     <string name="session_fork_error_expired_title">El codi ha caducat</string>
@@ -1641,10 +1642,13 @@
     <string name="session_fork_qr_code_message">Escanejeu el codi QR per a iniciar sessió o creeu un compte.</string>
     <string name="session_fork_qr_code_trouble_button">Teniu problemes per a iniciar la sessió?</string>
     <string name="session_fork_qr_code_error_expired">Per motius de seguretat, el codi de validació ha caducat</string>
+    <string name="session_fork_qr_code_error_network">Comproveu la xarxa i torneu-ho a provar</string>
     <string name="session_fork_qr_code_error_create_new_button">Creeu un codi nou</string>
     <string name="session_fork_user_code_title">No podeu escanejar el codi? Inicieu sessió manualment</string>
     <string name="session_fork_user_code_step1"><![CDATA[Aneu a: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">Inicieu sessió o creeu un compte</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Introduïu el codi: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Seguiu necessitant ajuda? Visiteu <b>protonvpn.com/support</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Seguiu necessitant ajuda? Visiteu <b>%1$s</b>]]></string>
 </resources>

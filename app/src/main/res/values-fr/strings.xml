@@ -1628,6 +1628,7 @@
     <string name="session_fork_confirmation_title">Se connecter sur Android TV ?</string>
     <string name="session_fork_confirmation_message">Cela permettra à la TV d\'accéder à votre compte Proton.</string>
     <string name="session_fork_confirmation_bottom_note">Connectez-vous uniquement sur les appareils auxquels vous faites confiance</string>
+    <string name="session_fork_confirmation_too_soon_toast">Veuillez passer en revue avant de continuer.</string>
     <string name="session_fork_success_title">Connexion terminée</string>
     <string name="session_fork_success_message">Vous êtes maintenant connecté sur votre téléviseur.</string>
     <string name="session_fork_error_expired_title">Le code a expiré.</string>
@@ -1641,10 +1642,13 @@
     <string name="session_fork_qr_code_message">Scannez le QR code pour vous connecter ou créer un compte.</string>
     <string name="session_fork_qr_code_trouble_button">Un problème pour se connecter ?</string>
     <string name="session_fork_qr_code_error_expired">Pour des raisons de sécurité, le code de validation a expiré.</string>
+    <string name="session_fork_qr_code_error_network">Vérifiez votre réseau et réessayez</string>
     <string name="session_fork_qr_code_error_create_new_button">Créer un nouveau code</string>
     <string name="session_fork_user_code_title">Vous ne parvenez pas à scanner le code ? Connectez-vous manuellement</string>
     <string name="session_fork_user_code_step1"><![CDATA[Aller vers : %1$s<b></b>]]></string>
     <string name="session_fork_user_code_step2">Connectez-vous ou créez un compte</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Saisissez le code : <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Vous avez encore besoin d\'aide ? Rendez-vous sur <b>protonvpn.com/support</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Vous avez encore besoin d\'aide ? Rendez-vous sur <b>%1$s</b>]]></string>
 </resources>

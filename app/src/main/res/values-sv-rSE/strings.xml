@@ -1628,6 +1628,7 @@
     <string name="session_fork_confirmation_title">Logga in på Android TV?</string>
     <string name="session_fork_confirmation_message">Detta kommer tillåta TV:n åtkomst till ditt Proton-konto.</string>
     <string name="session_fork_confirmation_bottom_note">Logga endast in på enheter du litar på</string>
+    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
     <string name="session_fork_success_title">Inloggning slutförd</string>
     <string name="session_fork_success_message">Du är nu inloggad på din TV.</string>
     <string name="session_fork_error_expired_title">Kod löpt ut</string>
@@ -1640,11 +1641,14 @@
     <string name="session_fork_qr_code_content_description">QR-kod</string>
     <string name="session_fork_qr_code_message">Skanna QR-koden för att logga in eller skapa ett konto.</string>
     <string name="session_fork_qr_code_trouble_button">Problem att logga in?</string>
-    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
+    <string name="session_fork_qr_code_error_expired">Av säkerhetsskäl har valideringskoden löpt ut</string>
+    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
     <string name="session_fork_qr_code_error_create_new_button">Skapa en ny kod</string>
     <string name="session_fork_user_code_title">Kan du inte skanna koden? Logga in manuellt</string>
     <string name="session_fork_user_code_step1"><![CDATA[Gå till: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">Logga in eller skapa ett konto</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Ange koden: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Behöver du fortfarande hjälp? Besök <b>protonvpn.com/support</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Behöver du fortfarande hjälp? Besök <b>%1$s</b>]]></string>
 </resources>

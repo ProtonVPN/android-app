@@ -1628,6 +1628,7 @@
     <string name="session_fork_confirmation_title">Logge inn på Android TV?</string>
     <string name="session_fork_confirmation_message">Dette vil gi TV-en tilgang til Proton-kontoen din.</string>
     <string name="session_fork_confirmation_bottom_note">Logg bare på enheter du stoler på</string>
+    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
     <string name="session_fork_success_title">Pålogging fullført</string>
     <string name="session_fork_success_message">Du er nå logget på TV-en din.</string>
     <string name="session_fork_error_expired_title">Koden er utløpt</string>
@@ -1641,10 +1642,13 @@
     <string name="session_fork_qr_code_message">Skann QR-koden for å logge på eller opprette en konto.</string>
     <string name="session_fork_qr_code_trouble_button">Problemer med å logge på?</string>
     <string name="session_fork_qr_code_error_expired">Av sikkerhetshensyn er valideringskoden utløpt</string>
+    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
     <string name="session_fork_qr_code_error_create_new_button">Opprett en ny kode</string>
     <string name="session_fork_user_code_title">Får du ikke skannet koden? Logg på manuelt</string>
     <string name="session_fork_user_code_step1"><![CDATA[Gå til: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">Logg på eller opprett en konto</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Skriv inn koden: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Trenger du fortsatt hjelp? Besøk <b>protonvpn.com/support</b>.]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
 </resources>

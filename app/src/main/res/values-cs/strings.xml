@@ -1700,6 +1700,7 @@
     <string name="session_fork_confirmation_title">Přihlásit se na Android TV?</string>
     <string name="session_fork_confirmation_message">Díky tomu bude mít TV přístup k vašemu účtu Proton.</string>
     <string name="session_fork_confirmation_bottom_note">Přihlašujte se pouze na zařízeních, kterým důvěřujete</string>
+    <string name="session_fork_confirmation_too_soon_toast">Před pokračováním si prosím přečtěte následující informace</string>
     <string name="session_fork_success_title">Přihlášení dokončeno</string>
     <string name="session_fork_success_message">Nyní jste přihlášeni na své TV.</string>
     <string name="session_fork_error_expired_title">Platnost kódu vypršela</string>
@@ -1709,14 +1710,17 @@
     <string name="session_fork_error_network_message">Zkontrolujte připojení k síti a zkuste to znovu.</string>
     <string name="session_fork_error_try_fallback_message">Klikněte na \‘Problémy s přihlášením?\’ na vaší TV a postupujte podle alternativních kroků.</string>
     <string name="session_fork_error_report_button">Nahlásit problém</string>
-    <string name="session_fork_qr_code_content_description">QR code</string>
-    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
-    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
-    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
-    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
-    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
-    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_step2">Sign in or create an account</string>
-    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>protonvpn.com/support</b>]]></string>
+    <string name="session_fork_qr_code_content_description">QR kód</string>
+    <string name="session_fork_qr_code_message">Naskenujte QR kód a přihlaste se nebo si vytvořte účet.</string>
+    <string name="session_fork_qr_code_trouble_button">Potíže s přihlášením?</string>
+    <string name="session_fork_qr_code_error_expired">Z bezpečnostních důvodů platnost ověřovacího kódu vypršela</string>
+    <string name="session_fork_qr_code_error_network">Zkontrolujte připojení k síti a zkuste to znovu</string>
+    <string name="session_fork_qr_code_error_create_new_button">Vytvořit nový kód</string>
+    <string name="session_fork_user_code_title">Nelze naskenovat kód? Přihlaste se ručně</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Jděte na: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Přihlaste se nebo si vytvořte účet</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
+    <string name="session_fork_user_code_step3"><![CDATA[Zadejte kód: <b>%1$s</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Potřebujete ještě pomoc? Navštivte <b>%1$s</b>]]></string>
 </resources>

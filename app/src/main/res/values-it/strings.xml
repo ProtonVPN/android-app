@@ -356,8 +356,8 @@
     <string name="enable">Abilita</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol è attualmente disabilitato</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN ha rilevato che la rete attuale sta impedendo una connessione alla VPN. Abilitare Smart Protocol potrebbe evitare queste limitazioni.</string>
-    <string name="notification_streaming_blocked_title">Blocked website?</string>
-    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
+    <string name="notification_streaming_blocked_title">Sito web bloccato?</string>
+    <string name="notification_streaming_blocked_text">Alcuni siti web e servizi di streaming bloccano gli utenti di VPN gratuite. Effettua l\'upgrade a Proton VPN Plus per aggirare questi blocchi.</string>
     <string name="upsell_advanced_features">Funzioni avanzate: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Accedi ai servizi di streaming (Netflix, Disney+, ecc.) ovunque nel mondo</string>
     <!-- Number of servers available in the service.
@@ -396,8 +396,8 @@
     <string name="upgrade_profiles_text">Sblocca i profili con VPN Plus</string>
     <string name="upgrade_streaming_title">Streaming in 4K</string>
     <string name="upgrade_streaming_text">Guarda i tuoi film e le tue serie TV preferite da qualsiasi parte del mondo.</string>
-    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upgrade_streaming_block_title">Effettua l\'upgrade per aggirare i blocchi VPN</string>
+    <string name="upgrade_streaming_block_text">I server VPN Plus ti permettono di goderti i tuoi film e programmi TV preferiti da tutto il mondo.</string>
     <string name="upgrade_tor_title">Accedi alla rete Tor con un solo tocco</string>
     <string name="upgrade_tor_text">Connettiti a servizi nascosti e siti onion con il tuo browser.</string>
     <string name="upgrade_vpn_accelerator_title">Naviga ad altissima velocità</string>
@@ -637,7 +637,7 @@
     <string name="upgrade_country_message"><![CDATA[Sblocca la <b>selezione del paese</b> con VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free si connette automaticamente al server più veloce disponibile. Solitamente questo server è quello più vicino alla tua posizione.</string>
     <string name="free_connections_info_server_locations">Località dei server gratuiti (%1$d)</string>
-    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
+    <string name="free_connections_info_banner_text">Accedi a tutti i paesi con VPN Plus</string>
     <string name="free_connection_info_title">Connessioni gratuite</string>
     <string name="search_upsell_banner_title">Trasmissione da qualsiasi luogo</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -1479,12 +1479,12 @@
     <string name="info_p2p_why_description_speed">Velocità di upload e download aumentate</string>
     <string name="info_p2p_why_description_logs">Nessun log di attività</string>
     <string name="info_p2p_why_description_hide">Nascondi il tuo indirizzo IP al tuo fornitore di servizi Internet e agli altri membri delle condivisioni</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
-    <string name="notifications_channel_connection_status_name">Connection status</string>
-    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
-    <string name="notifications_channel_connection_errors_name">Connection errors</string>
-    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
-    <string name="notifications_channel_connection_tips_name">Connection tips</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing ci consente di fornire una copertura VPN nei paesi difficili da raggiungere.\n\nQuando ti connetti a un server Smart Routing, sembrerà che tu stia navigando nel Paese di destinazione, anche se il server fisico si trova altrove.\n\nSmart Routing viene solitamente utilizzato per aggirare le leggi anti-privacy e altre forme di censura.</string>
+    <string name="notifications_channel_connection_status_name">Stato della connessione</string>
+    <string name="notifications_channel_connection_status_description">Mostra a quale server sei connesso e la velocità della tua VPN.</string>
+    <string name="notifications_channel_connection_errors_name">Errori di connessione</string>
+    <string name="notifications_channel_connection_errors_description">Ti avvisa di problemi che sospendono o interrompono la tua connessione VPN.</string>
+    <string name="notifications_channel_connection_tips_name">Suggerimenti per la connessione</string>
     <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Aggiungi un altro livello di crittografia alla tua connessione VPN</string>
@@ -1628,6 +1628,7 @@
     <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
     <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
     <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
+    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
     <string name="session_fork_success_title">Sign-in complete</string>
     <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
     <string name="session_fork_error_expired_title">Code expired</string>
@@ -1641,10 +1642,13 @@
     <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
     <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
     <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
+    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
     <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
     <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
     <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">Sign in or create an account</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>protonvpn.com/support</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
 </resources>
