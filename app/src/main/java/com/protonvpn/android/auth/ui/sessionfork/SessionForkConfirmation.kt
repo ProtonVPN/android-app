@@ -234,8 +234,8 @@ private fun SignIn(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .largeScreenContentPadding()
+                .padding(16.dp)
         ) {
-            VerticalSpacer(height = 16.dp)
             Image(
                 painterResource(CoreR.drawable.logo_vpn_with_text),
                 contentDescription = stringResource(R.string.app_name),
@@ -253,7 +253,6 @@ private fun SignIn(
                 style = ProtonTheme.typography.body1Regular,
                 textAlign = TextAlign.Center,
             )
-            VerticalSpacer(height = 16.dp)
         }
     }
 }
