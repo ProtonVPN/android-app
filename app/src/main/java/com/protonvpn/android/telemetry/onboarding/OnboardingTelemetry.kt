@@ -134,8 +134,8 @@ class OnboardingTelemetry @Inject constructor(
             put("billing_cycle", it.toString())
         }
 
-        commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY,
-            CommonDimensions.Key.USER_TIER, CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED)
+        commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY_LEGACY,
+            CommonDimensions.Key.USER_TIER_LEGACY, CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED_LEGACY)
     }
 
     companion object {

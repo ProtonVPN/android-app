@@ -25,7 +25,6 @@ import com.protonvpn.android.telemetry.TelemetryEventData
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 
 private const val MEASUREMENT_GROUP = "vpn.any.product_prompts"
 
@@ -49,8 +48,8 @@ class ReviewTrackerTelemetry @Inject constructor(
             val dimensions = buildMap {
                 commonDimensions.add(
                     this,
-                    CommonDimensions.Key.USER_COUNTRY,
-                    CommonDimensions.Key.USER_TIER
+                    CommonDimensions.Key.USER_COUNTRY_LEGACY,
+                    CommonDimensions.Key.USER_TIER_LEGACY
                 )
             }
             TelemetryEventData(

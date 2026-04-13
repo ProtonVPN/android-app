@@ -70,7 +70,7 @@ class CommonDimensionsTests {
         val empty = buildMap { commonDimensions.add(this) }
         assertTrue(empty.isEmpty())
 
-        val some = buildMap { commonDimensions.add(this, CommonDimensions.Key.ISP, CommonDimensions.Key.USER_COUNTRY) }
+        val some = buildMap { commonDimensions.add(this, CommonDimensions.Key.ISP, CommonDimensions.Key.USER_COUNTRY_LEGACY) }
         assertEquals(setOf("isp", "user_country"), some.keys)
 
         val all = buildMap { commonDimensions.add(this, *CommonDimensions.Key.values()) }

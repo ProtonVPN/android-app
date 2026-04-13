@@ -469,7 +469,7 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
     fun `WHEN providing dimensions THEN common dimensions are added`() = testScope.runTest {
         val dimensions = getSettingsTelemetryHeartbeatDimensions()
 
-        assertEquals(userTier, dimensions[CommonDimensions.Key.USER_TIER.reportedName])
+        assertEquals(userTier, dimensions[CommonDimensions.Key.USER_TIER_LEGACY.reportedName])
     }
 
     @Test

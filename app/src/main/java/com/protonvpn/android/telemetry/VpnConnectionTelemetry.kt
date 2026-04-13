@@ -266,8 +266,8 @@ class VpnConnectionTelemetry @Inject constructor(
         outcome: Outcome,
         connectionParams: ConnectionParams?
     ) {
-        commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY,
-            CommonDimensions.Key.ISP, CommonDimensions.Key.USER_TIER)
+        commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY_LEGACY,
+            CommonDimensions.Key.ISP, CommonDimensions.Key.USER_TIER_LEGACY)
         this["outcome"] = outcome.statsKeyword
         this["vpn_country"] = connectionParams?.server?.exitCountry?.uppercase() ?: NO_VALUE
         this["server"] = connectionParams?.server?.serverName ?: NO_VALUE

@@ -117,7 +117,7 @@ class ReviewTrackerTests {
         testController = TestController(testScope, trafficStatus, vpnStateMonitor)
 
         val commonDimensions = FakeCommonDimensions(
-            mapOf(CommonDimensions.Key.USER_COUNTRY.reportedName to "US")
+            mapOf(CommonDimensions.Key.USER_COUNTRY_LEGACY.reportedName to "US")
         )
         wasReviewRequested = false
         val reviewTrackerTelemetry = ReviewTrackerTelemetry(

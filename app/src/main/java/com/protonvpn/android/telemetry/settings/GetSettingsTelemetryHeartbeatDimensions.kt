@@ -235,7 +235,7 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
             )
         }
 
-        commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
+        commonDimensions.add(this, CommonDimensions.Key.USER_TIER_LEGACY)
     }
 
     private fun CustomAppIconData.getTelemetryName() = when (this) {

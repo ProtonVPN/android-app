@@ -31,14 +31,12 @@ import javax.inject.Inject
 
 interface CommonDimensions {
 
-    enum class Key {
-        ISP,
-        USER_COUNTRY,
-        VPN_STATUS,
-        USER_TIER,
-        IS_CREDENTIAL_LESS_ENABLED;
-
-        val reportedName = name.lowercase()
+    enum class Key(val reportedName: String) {
+        ISP("isp"),
+        USER_COUNTRY_LEGACY("user_country"),
+        VPN_STATUS_LEGACY("vpn_status"),
+        USER_TIER_LEGACY("user_tier"),
+        IS_CREDENTIAL_LESS_ENABLED_LEGACY("is_credential_less_enabled")
     }
 
     suspend fun add(dimensions: MutableMap<String, String>, vararg keys: Key)
@@ -76,9 +74,9 @@ class DefaultCommonDimensions @Inject constructor(
         }
 
         dimension(CommonDimensions.Key.ISP) { prefs.lastKnownIsp ?: CommonDimensions.NO_VALUE }
-        dimension(CommonDimensions.Key.USER_COUNTRY) { prefs.lastKnownCountry?.uppercase() ?: CommonDimensions.NO_VALUE }
-        dimension(CommonDimensions.Key.VPN_STATUS) { if (vpnStateMonitor.isConnected) "on" else "off" }
-        dimension(CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED) { if (isCredentialLessEnabled()) "yes" else "no" }
-        dimension(CommonDimensions.Key.USER_TIER) { currentUserTier.first() }
+        dimension(CommonDimensions.Key.USER_COUNTRY_LEGACY) { prefs.lastKnownCountry?.uppercase() ?: CommonDimensions.NO_VALUE }
+        dimension(CommonDimensions.Key.VPN_STATUS_LEGACY) { if (vpnStateMonitor.isConnected) "on" else "off" }
+        dimension(CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED_LEGACY) { if (isCredentialLessEnabled()) "yes" else "no" }
+        dimension(CommonDimensions.Key.USER_TIER_LEGACY) { currentUserTier.first() }
     }
 }

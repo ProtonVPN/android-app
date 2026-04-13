@@ -64,7 +64,7 @@ class ProfilesTelemetry @Inject constructor(
     ) {
         telemetry.event {
             val dimensions: Map<String, String> = buildMap {
-                commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
+                commonDimensions.add(this, CommonDimensions.Key.USER_TIER_LEGACY)
                 putDimensions(profileCountBucket(profileCount), Dimen.ProfileCount)
                 putAll(profileConfigurationDimensions(typeAndLocationScreen, settingsScreen, privateBrowsingAvailability))
             }
@@ -81,7 +81,7 @@ class ProfilesTelemetry @Inject constructor(
     ) {
         telemetry.event {
             val dimensions: Map<String, String> = buildMap {
-                commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
+                commonDimensions.add(this, CommonDimensions.Key.USER_TIER_LEGACY)
                 putDimensions(profileCountBucket(profileCount), Dimen.ProfileCount)
                 putDimensions(userProfileType(isSourceProfileUserCreated), Dimen.SourceProfileType)
                 putAll(profileConfigurationDimensions(typeAndLocationScreen, settingsScreen, privateBrowsingAvailability))
@@ -99,7 +99,7 @@ class ProfilesTelemetry @Inject constructor(
     ) {
         telemetry.event {
             val dimensions = buildMap {
-                commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
+                commonDimensions.add(this, CommonDimensions.Key.USER_TIER_LEGACY)
                 putAll(profileConfigurationDimensions(typeAndLocationScreen, settingsScreen, privateBrowsingAvailability))
                 putDimensions(userProfileType(profile.info.isUserCreated), Dimen.ProfileType)
                 putDimensions(profileEditSource(routedFromSettings), Dimen.EditSource)
@@ -111,7 +111,7 @@ class ProfilesTelemetry @Inject constructor(
     fun profileDeleted(profile: Profile, profileCount: Int) {
         telemetry.event {
             val dimensions = buildMap {
-                commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
+                commonDimensions.add(this, CommonDimensions.Key.USER_TIER_LEGACY)
                 putDimensions(profileCountBucket(profileCount), Dimen.ProfileCount)
                 putDimensions(userProfileType(profile.info.isUserCreated), Dimen.ProfileType)
             }

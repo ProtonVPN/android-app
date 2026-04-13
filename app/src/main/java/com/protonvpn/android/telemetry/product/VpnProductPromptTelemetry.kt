@@ -75,7 +75,7 @@ class VpnProductPromptTelemetry @Inject constructor(
                 dimensions = buildMap {
                     putAll(dimensions)
 
-                    commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
+                    commonDimensions.add(this, CommonDimensions.Key.USER_TIER_LEGACY)
                 },
             )
         }
