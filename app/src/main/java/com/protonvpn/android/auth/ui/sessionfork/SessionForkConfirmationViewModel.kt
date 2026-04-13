@@ -30,6 +30,9 @@ import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
+import com.protonvpn.android.telemetry.CommonDimensions
+import com.protonvpn.android.telemetry.onboarding.TvSignInTelemetry
+import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.utils.ifOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -54,6 +57,7 @@ import me.proton.core.network.domain.ApiResult
 import me.proton.core.presentation.savedstate.state
 import me.proton.core.user.domain.entity.Type
 import me.proton.core.util.kotlin.equalsNoCase
+import me.proton.core.util.kotlin.serialize
 import me.proton.core.util.kotlin.startsWith
 import javax.inject.Inject
 
@@ -66,9 +70,12 @@ class SessionForkConfirmationViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val currentUser: CurrentUser,
     private val forkSession: ForkSession,
-    private val createLaunchIntent: CreateLaunchIntent,
+    private val createLaunchIntent: dagger.Lazy<CreateLaunchIntent>,
+    tvSignInTelemetryLazy: dagger.Lazy<TvSignInTelemetry>,
     @param:ElapsedRealtimeClock private val clock: () -> Long,
 ) : ViewModel() {
+
+    private val tvSignInTelemetry by tvSignInTelemetryLazy
 
     sealed interface ViewState {
         object Initial : ViewState
@@ -86,6 +93,7 @@ class SessionForkConfirmationViewModel @Inject constructor(
     }
 
     private var qrCodeUri: Uri? = null
+    private var initialUserTier by savedStateHandle.state<String>(CommonDimensions.NO_VALUE)
     private var hasSignIn by savedStateHandle.state(false)
     private var hasTriggeredUpgrade by savedStateHandle.state(false)
     private val triggerConfirmSignIn = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
@@ -106,6 +114,7 @@ class SessionForkConfirmationViewModel @Inject constructor(
             if (vpnUser.isBusiness) {
                 emit(ViewState.ErrorBusinessUser)
             } else {
+                initialUserTier = tvSignInTelemetry.getCurrentUserTierValue()
                 if (vpnUser.isFreeUser && hasSignIn && !hasTriggeredUpgrade) {
                     // Store "hasTriggeredUpgrade" in case the activity is recreated after upgrade
                     // is dismissed.
@@ -117,7 +126,7 @@ class SessionForkConfirmationViewModel @Inject constructor(
                     emit(ViewState.AskForkConfirmation(isLoading = false))
                     triggerConfirmSignIn.collect {
                         emit(ViewState.AskForkConfirmation(isLoading = true))
-                        emitAll(executeConfirmFork(vpnUser.userId, userCode))
+                        emitAll(executeConfirmFork(vpnUser.userId, userCode, initialUserTier))
                     }
                 } else {
                     emit(ViewState.ErrorUserCodeInvalid)
@@ -125,8 +134,11 @@ class SessionForkConfirmationViewModel @Inject constructor(
             }
         }.stateIn(viewModelScope, SharingStarted.Lazily, ViewState.Initial)
 
-    fun initialize(qrCodeUri: Uri?) {
+    fun initialize(qrCodeUri: Uri?, isRestarted: Boolean) {
         this.qrCodeUri = qrCodeUri
+        if (!isRestarted) {
+            tvSignInTelemetry.onTvAuthInitiated()
+        }
     }
 
     fun onSignInRequired() {
@@ -146,18 +158,24 @@ class SessionForkConfirmationViewModel @Inject constructor(
     }
 
     // Uses channelFlow to allow embedding it in viewState flow.
-    private fun executeConfirmFork(userId: UserId, userCode: String): Flow<ViewState.Fork> = channelFlow {
+    private fun executeConfirmFork(
+        userId: UserId,
+        userCode: String,
+        initialUserTier: String,
+    ): Flow<ViewState.Fork> = channelFlow {
         withContext(NonCancellable) {
             try {
+                val payloadJsonString =
+                    SessionForkPayload(initialUserTier = initialUserTier).serialize()
                 forkSession(
                     userId = userId,
-                    payload = null,
+                    payload = payloadJsonString,
                     childClientId = "android_tv-vpn",
                     independent = true,
                     userCode = userCode
                 )
                 val mainUiLaunchIntent = if (hasSignIn) {
-                    createLaunchIntent.withFlags(
+                    createLaunchIntent.get().withFlags(
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     )
                 } else {

@@ -21,8 +21,11 @@ package com.protonvpn.mocks
 
 import com.protonvpn.android.telemetry.TelemetryEventData
 import com.protonvpn.android.telemetry.TelemetryReporter
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TestTelemetryReporter : TelemetryReporter {
+@Singleton
+class TestTelemetryReporter @Inject constructor() : TelemetryReporter {
 
     val collectedEvents = ArrayList<TelemetryEventData>()
 

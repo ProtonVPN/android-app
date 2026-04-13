@@ -74,7 +74,7 @@ class CommonDimensionsTests {
         assertEquals(setOf("isp", "user_country"), some.keys)
 
         val all = buildMap { commonDimensions.add(this, *CommonDimensions.Key.values()) }
-        assertEquals(setOf("isp", "user_country", "vpn_status", "is_credential_less_enabled", "user_tier"), all.keys)
+        assertEquals(setOf("isp", "user_country", "vpn_status", "userTier", "user_tier", "is_credential_less_enabled"), all.keys)
     }
 
     @Test
@@ -93,8 +93,9 @@ class CommonDimensionsTests {
             "isp" to "some ISP",
             "user_country" to "CH",
             "vpn_status" to "on",
+            "userTier" to "paid",
+            "user_tier" to "paid",
             "is_credential_less_enabled" to "yes",
-            "user_tier" to "paid"
         )
 
         val dimensions = buildMap { commonDimensions.add(this, *CommonDimensions.Key.values()) }

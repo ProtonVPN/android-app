@@ -46,6 +46,7 @@ import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.telemetry.NoopSnapshotScheduler
 import com.protonvpn.android.telemetry.NoopTelemetryUploadScheduler
 import com.protonvpn.android.telemetry.SnapshotScheduler
+import com.protonvpn.android.telemetry.TelemetryReporter
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
@@ -72,6 +73,7 @@ import com.protonvpn.mocks.MockUserRepository
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.NoopPeriodicUpdateWorkerScheduler
 import com.protonvpn.mocks.TestProtonApiRetroFitWrapper
+import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
@@ -334,6 +336,9 @@ class SharedTestAppModule {
 
         @BindsOptionalOf
         fun bindGoogleServicesUtils(): GoogleServicesUtils
+
+        @Binds
+        fun bindTelemetryReporter(reporter: TestTelemetryReporter): TelemetryReporter
 
         @Binds
         fun bindTelemetryUploadScheduler(scheduler: NoopTelemetryUploadScheduler): TelemetryUploadScheduler

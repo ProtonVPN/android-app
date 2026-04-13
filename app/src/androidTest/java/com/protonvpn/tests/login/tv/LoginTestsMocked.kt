@@ -4,10 +4,12 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
+import com.protonvpn.android.telemetry.TelemetryEventData
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.login.TvQrLoginActivity
 import com.protonvpn.mocks.TestApiConfig
+import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.robots.tv.LegacyTvLoginRobot
 import com.protonvpn.robots.tv.TvLoginRobot
 import com.protonvpn.test.shared.TestUser
@@ -28,6 +30,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Inject
 
 private const val FORK_SELECTOR = "fork_selector"
 private const val FORK_USER_CODE = "1234ABCD"
@@ -43,22 +46,7 @@ class LoginTestsMocked : FusionComposeTest() {
 
     private val user = TestUser.plusUser
 
-    val scopes = listOf("self", "user", "loggedin", "vpn")
-    // Use JSON text because the VPN and Account code expect different sets of fields.
-    // When the feature flag is removed, it'll be possible to switch to GetForkedSessionResponse.
-    val forkedSessionResponse = """
-        {
-            "ExpiresIn": 864000,
-            "TokenType": "Bearer",
-            "AccessToken": "AccessToken",
-            "RefreshToken": "RefreshToken",
-            "UID": "UID",
-            "Payload": "Payload",
-            "LocalID": 0,
-            "UserID": "%s",
-            "Scopes": [%s]
-        }
-    """.trimIndent().format(user.vpnUser.userId.id, scopes.joinToString { "\"$it\"" })
+    private val scopes = listOf("self", "user", "loggedin", "vpn")
 
     // Login tests start with mock API in logged out state.
     private val mockApiConfig = TestApiConfig.Mocked(user) {
@@ -90,6 +78,8 @@ class LoginTestsMocked : FusionComposeTest() {
 
     private val loginRobot = LegacyTvLoginRobot()
     private lateinit var userDataHelper: UserDataHelper
+    @Inject
+    lateinit var testTelemetryReporter: TestTelemetryReporter
 
     @Before
     fun setUp() {
@@ -113,7 +103,7 @@ class LoginTestsMocked : FusionComposeTest() {
             .signIn()
         protonHiltRule.mockDispatcher.prependRules {
             rule(get, path eq "/auth/v4/sessions/forks/$FORK_SELECTOR") {
-                respond(forkedSessionResponse)
+                respond(createForkedResponse("""{\"InitialUserTier\": \"credential_less\"}"""))
             }
         }
         loginRobot
@@ -134,11 +124,56 @@ class LoginTestsMocked : FusionComposeTest() {
 
     @Test
     fun loginQrSuccess() {
+        testSuccessFlow(createForkedResponse("""{\"InitialUserTier\": \"credential_less\"}"""))
+
+        val expectedEvents = listOf(
+            TelemetryEventData(
+                measurementGroup = "vpn.any.tv_signin",
+                eventName = "tv_auth_qr_displayed",
+            ),
+            TelemetryEventData(
+                measurementGroup = "vpn.any.tv_signin",
+                eventName = "tv_auth_completed",
+                dimensions = mapOf(
+                    "userTier" to "paid",
+                    "userTierAtInitiation" to "credential_less",
+                )
+            ),
+        )
+        val signInEvents =
+            testTelemetryReporter.collectedEvents.filter { it.measurementGroup == "vpn.any.tv_signin" }
+        assertEquals(expectedEvents, signInEvents)
+    }
+
+    @Test
+    fun loginQrSuccessWithInvalidPayload() {
+        testSuccessFlow(createForkedResponse("InvalidPayload"))
+
+        val expectedEvents = listOf(
+            TelemetryEventData(
+                measurementGroup = "vpn.any.tv_signin",
+                eventName = "tv_auth_qr_displayed",
+            ),
+            TelemetryEventData(
+                measurementGroup = "vpn.any.tv_signin",
+                eventName = "tv_auth_completed",
+                dimensions = mapOf(
+                    "userTier" to "paid",
+                    "userTierAtInitiation" to "n/a",
+                )
+            ),
+        )
+        val signInEvents =
+            testTelemetryReporter.collectedEvents.filter { it.measurementGroup == "vpn.any.tv_signin" }
+        assertEquals(expectedEvents, signInEvents)
+    }
+
+    private fun testSuccessFlow(forkResponse: String) {
         activityScenario = ActivityScenario.launch(TvQrLoginActivity::class.java)
         TvLoginRobot().waitForQrCode()
         protonHiltRule.mockDispatcher.prependRules {
             rule(get, path eq "/auth/v4/sessions/forks/$FORK_SELECTOR") {
-                respond(forkedSessionResponse)
+                respond(forkResponse)
             }
         }
 
@@ -217,4 +252,20 @@ class LoginTestsMocked : FusionComposeTest() {
         hasKeys = 0,
         keys = emptyList()
     )
+
+    // Use JSON text because the VPN and Account code expect different sets of fields.
+    // When the feature flag is removed, it'll be possible to switch to GetForkedSessionResponse.
+    private fun createForkedResponse(payload: String): String = """
+        {
+            "ExpiresIn": 864000,
+            "TokenType": "Bearer",
+            "AccessToken": "AccessToken",
+            "RefreshToken": "RefreshToken",
+            "UID": "UID",
+            "Payload": "%s",
+            "LocalID": 0,
+            "UserID": "%s",
+            "Scopes": [%s]
+        }
+    """.trimIndent().format(payload, user.vpnUser.userId.id, scopes.joinToString { "\"$it\"" })
 }

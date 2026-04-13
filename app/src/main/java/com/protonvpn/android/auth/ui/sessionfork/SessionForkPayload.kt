@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Proton AG
+ * Copyright (c) 2026. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,20 +17,14 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.mocks
+package com.protonvpn.android.auth.ui.sessionfork
 
-import com.protonvpn.android.telemetry.CommonDimensions
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-class FakeCommonDimensions(
-    private val dimensions: Map<String, String>
-) : CommonDimensions {
 
-    override suspend fun add(dimensions: MutableMap<String, String>, vararg keys: CommonDimensions.Key) {
-        keys.forEach { key ->
-            dimensions[key.reportedName] = getValue(key)
-        }
-    }
-
-    override suspend fun getValue(key: CommonDimensions.Key): String =
-        dimensions[key.reportedName] ?: CommonDimensions.NO_VALUE
-}
+@Serializable
+data class SessionForkPayload(
+    @SerialName("InitialUserTier")
+    val initialUserTier: String
+)

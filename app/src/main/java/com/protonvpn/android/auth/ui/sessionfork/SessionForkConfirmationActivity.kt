@@ -100,7 +100,7 @@ class SessionForkConfirmationActivity : FragmentActivity() {
             .flowWithLifecycle(lifecycle)
             .onEach { UpgradeOnboardingDialogActivity.launch(this) }
             .launchIn(lifecycleScope)
-        viewModel.initialize(intent.data)
+        viewModel.initialize(intent.data, isRestarted = savedInstanceState != null)
         activityHelper.onCreate(accountViewModel)
 
         lifecycleScope.launch {

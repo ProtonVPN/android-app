@@ -35,11 +35,14 @@ interface CommonDimensions {
         ISP("isp"),
         USER_COUNTRY_LEGACY("user_country"),
         VPN_STATUS_LEGACY("vpn_status"),
+        USER_TIER("userTier"),
         USER_TIER_LEGACY("user_tier"),
         IS_CREDENTIAL_LESS_ENABLED_LEGACY("is_credential_less_enabled")
     }
 
     suspend fun add(dimensions: MutableMap<String, String>, vararg keys: Key)
+
+    suspend fun getValue(key: Key): String
 
     companion object {
         const val NO_VALUE = "n/a"
@@ -54,29 +57,51 @@ class DefaultCommonDimensions @Inject constructor(
     private val prefs: ServerListUpdaterPrefs,
     private val isCredentialLessEnabled: IsCredentialLessEnabled,
 ) : CommonDimensions {
+
+    private data class UserTier(
+        val isCredentialLess: Boolean,
+        val tier: Int,
+    )
+
     private val currentUserTier = currentUser.jointUserFlow.map { jointUser ->
-        if (jointUser == null)
-            "non-user"
-        else {
-            val (user, vpnUser) = jointUser
-            when {
-                user.isCredentialLess() -> "credential-less"
-                vpnUser.userTier == 0 -> "free"
-                vpnUser.userTier in 1..2 -> "paid"
-                else -> "internal"
-            }
+        jointUser?.let {
+            val (user, vpnUser) = it
+            UserTier(user.isCredentialLess(), vpnUser.userTier)
         }
     }
 
     override suspend fun add(dimensions: MutableMap<String, String>, vararg keys: CommonDimensions.Key) {
-        suspend fun dimension(key: CommonDimensions.Key, value: suspend () -> String) {
-            if (keys.contains(key)) dimensions[key.reportedName] = value()
+        keys.forEach { dimensions[it.reportedName] = getValue(it) }
+    }
+
+    override suspend fun getValue(key: CommonDimensions.Key): String =
+        when (key) {
+            CommonDimensions.Key.ISP -> prefs.lastKnownIsp ?: CommonDimensions.NO_VALUE
+            CommonDimensions.Key.USER_COUNTRY_LEGACY ->
+                prefs.lastKnownCountry?.uppercase() ?: CommonDimensions.NO_VALUE
+            CommonDimensions.Key.VPN_STATUS_LEGACY ->
+                if (vpnStateMonitor.isConnected) "on" else "off"
+            CommonDimensions.Key.USER_TIER ->
+                currentUserTier.first().toTelemetry()
+            CommonDimensions.Key.USER_TIER_LEGACY ->
+                currentUserTier.first().toTelemetryLegacy()
+            CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED_LEGACY ->
+                if (isCredentialLessEnabled()) "yes" else "no"
         }
 
-        dimension(CommonDimensions.Key.ISP) { prefs.lastKnownIsp ?: CommonDimensions.NO_VALUE }
-        dimension(CommonDimensions.Key.USER_COUNTRY_LEGACY) { prefs.lastKnownCountry?.uppercase() ?: CommonDimensions.NO_VALUE }
-        dimension(CommonDimensions.Key.VPN_STATUS_LEGACY) { if (vpnStateMonitor.isConnected) "on" else "off" }
-        dimension(CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED_LEGACY) { if (isCredentialLessEnabled()) "yes" else "no" }
-        dimension(CommonDimensions.Key.USER_TIER_LEGACY) { currentUserTier.first() }
+    private fun UserTier?.toTelemetry(): String = when {
+        this == null -> "non_user"
+        isCredentialLess -> "credential_less"
+        tier == 0 -> "free"
+        tier in 1..2 -> "paid"
+        else -> "internal"
+    }
+
+    private fun UserTier?.toTelemetryLegacy(): String = when {
+        this == null -> "non-user"
+        isCredentialLess -> "credential-less"
+        tier == 0 -> "free"
+        tier in 1..2 -> "paid"
+        else -> "internal"
     }
 }

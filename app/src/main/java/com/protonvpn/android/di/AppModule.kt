@@ -314,6 +314,9 @@ object AppModuleProd {
         fun bindVpnPrepareDelegate(delegate: VpnServicePermissionDelegate): VpnPermissionDelegate
 
         @Binds
+        fun bindTelemetryReporter(impl: DefaultTelemetryReporter): TelemetryReporter
+
+        @Binds
         fun bindTelemetryUploadScheduler(scheduler: TelemetryUploadWorkerScheduler): TelemetryUploadScheduler
 
         @Binds
@@ -577,9 +580,6 @@ object AppModule {
 
         @Binds
         fun bindShouldShowAppUpdateDotFlow(impl: ShouldShowAppUpdateDotFlowImpl): ShouldShowAppUpdateDotFlow
-
-        @Binds
-        fun bindTelemetryReporter(impl: DefaultTelemetryReporter): TelemetryReporter
 
         @Singleton
         @Binds
