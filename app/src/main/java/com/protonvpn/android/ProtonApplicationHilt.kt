@@ -25,7 +25,7 @@ import androidx.startup.AppInitializer
 import androidx.work.Configuration
 import com.protonvpn.android.logging.MemoryMonitor
 import com.protonvpn.android.promooffers.data.TestNotificationLoader
-import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
+import com.protonvpn.android.telemetry.onboarding.OnboardingTelemetry
 import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.utils.isMainProcess
 import dagger.hilt.android.HiltAndroidApp

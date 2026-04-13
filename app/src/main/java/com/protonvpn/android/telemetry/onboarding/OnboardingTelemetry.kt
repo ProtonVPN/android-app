@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Proton AG
+ * Copyright (c) 2026. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.ui.onboarding
+package com.protonvpn.android.telemetry.onboarding
 
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -26,9 +26,11 @@ import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.TelemetryEventData
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.ui.onboarding.OnboardingActivity
 import com.protonvpn.android.ui.planupgrade.BaseUpgradeDialogActivity
 import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.vpn.VpnStateMonitor
+import dagger.Lazy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -47,7 +49,7 @@ class OnboardingTelemetry @Inject constructor(
     private val currentUser: CurrentUser,
     private val commonDimensions: CommonDimensions,
     private val appFeaturesPrefs: AppFeaturesPrefs,
-    telemetryHelperLazy: dagger.Lazy<TelemetryFlowHelper>,
+    telemetryHelperLazy: Lazy<TelemetryFlowHelper>,
 ) {
     private val helper by telemetryHelperLazy
 

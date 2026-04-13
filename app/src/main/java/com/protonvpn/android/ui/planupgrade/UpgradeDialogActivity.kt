@@ -62,7 +62,7 @@ import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
 import com.protonvpn.android.telemetry.UpgradeSource
-import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
+import com.protonvpn.android.telemetry.onboarding.OnboardingTelemetry
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ViewUtils.toPx
