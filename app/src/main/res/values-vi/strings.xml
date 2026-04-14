@@ -272,6 +272,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dữ liệu đã lưu</string>
     <string name="netshield_setting_warning">Một số trang web có thể không tải đúng cách khi chặn quảng cáo và trình theo dõi.</string>
+    <string name="netshield_setting_block_adult_content">Block adult content</string>
     <string name="dialogDontShowAgain">Không hiển thị lại</string>
     <string name="guestHoleNotificationContent">Đang cố gắng khắc phục sự cố mạng. Việc này sẽ giúp bạn truy cập Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Không thể khởi tạo kết nối VPN do xung đột giữa ứng dụng kép (ví dụ Dual Messenger) và tách đường hầm. Vui lòng vô hiệu hóa một trong hai tính năng và khởi động lại thiết bị.</string>

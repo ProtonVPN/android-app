@@ -274,6 +274,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Veri kazanıldı</string>
     <string name="netshield_setting_warning">Reklamlar ve izleyiciler engellendiğinde bazı siteler düzgün yüklenmeyebilir.</string>
+    <string name="netshield_setting_block_adult_content">Yetişkinlere yönelik içeriği engelle</string>
     <string name="dialogDontShowAgain">Bir daha görüntülenmesin</string>
     <string name="guestHoleNotificationContent">Ağ sorunları aşılmaya çalışılıyor. Bu işlem Proton VPN hizmetine erişmenize yardımcı olacak.</string>
     <string name="errorTunMultiUserPermission">VPN bağlantısı, çift uygulama (Dual Messenger gibi) ve ayrılmış tünelleme arasındaki bir çakışma nedeniyle başlatılamadı. Lütfen bunlardan birini kapatıp aygıtınızı yeniden başlatın.</string>
@@ -1628,7 +1629,7 @@
     <string name="session_fork_confirmation_title">Android TV oturumu açmak ister misiniz?</string>
     <string name="session_fork_confirmation_message">Bu işlem televizyonun Proton hesabınıza erişmesini sağlayacak.</string>
     <string name="session_fork_confirmation_bottom_note">Yalnızca güvendiğiniz aygıtlarda oturum açın</string>
-    <string name="session_fork_confirmation_too_soon_toast">Devam etmeden önce lütfen gözden geçirin</string>
+    <string name="session_fork_confirmation_too_soon_toast">İlerlemeden önce gözden geçirin</string>
     <string name="session_fork_success_title">Oturum açıldı</string>
     <string name="session_fork_success_message">Televizyonunuzda oturum açtınız.</string>
     <string name="session_fork_error_expired_title">Kodun süresi geçmiş</string>
@@ -1642,7 +1643,7 @@
     <string name="session_fork_qr_code_message">Oturum ya da hesap açmak için kare kodu tarayın.</string>
     <string name="session_fork_qr_code_trouble_button">Oturum açmakta sorun mu yaşıyorsunuz?</string>
     <string name="session_fork_qr_code_error_expired">Güvenlik nedeniyle doğrulama kodunun süresi doldu</string>
-    <string name="session_fork_qr_code_error_network">Ağ bağlantınızı kontrol edin ve tekrar deneyin</string>
+    <string name="session_fork_qr_code_error_network">Ağ bağlantınızı denetleyip yeniden deneyin</string>
     <string name="session_fork_qr_code_error_create_new_button">Yeni kod oluştur</string>
     <string name="session_fork_user_code_title">Kodu tarayamıyor musunuz? El ile oturum açın</string>
     <string name="session_fork_user_code_step1"><![CDATA[Şuraya gidin: <b>%1$s</b>]]></string>
@@ -1650,5 +1651,5 @@
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Kodu yazın: <b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[Hala yardım mı gerekiyor? <b>%1$s</b> adresini ziyaret edin]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Hâlâ yardım gerekiyor mu? <b>%1$s</b> adresine bakın]]></string>
 </resources>

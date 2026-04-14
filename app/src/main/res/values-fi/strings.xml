@@ -274,6 +274,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Säästetty</string>
     <string name="netshield_setting_warning">Jotkin verkkosivustot eivät ehkä lataudu oikein, kun mainokset ja seurannat on estetty.</string>
+    <string name="netshield_setting_block_adult_content">Estä aikuisille tarkoitettu sisältö</string>
     <string name="dialogDontShowAgain">Älä näytä uudelleen</string>
     <string name="guestHoleNotificationContent">Verkkoyhteyden ongelmia yritetään kiertää. Tämä auttaa Proton VPN-yhteyden muodostuksessa.</string>
     <string name="errorTunMultiUserPermission">VPN-yhteyden muodostus ei onnistunut monistetun sovelluksen (esim. Dual Messenger) ja jaetun tunneloinnin ristiriidan vuoksi. Poista jompikumpi käytöstä ja käynnistä laite uudelleen.</string>

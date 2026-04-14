@@ -274,6 +274,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">داده‌های صرفه‌جویی شده</string>
     <string name="netshield_setting_warning">بعضی وب‌سایت‌ها ممکن است درست بارگیری نشوند هنگامی که تبلیغات و ردیاب‌ها مسدود هستند.</string>
+    <string name="netshield_setting_block_adult_content">Block adult content</string>
     <string name="dialogDontShowAgain">دوباره نشان نده</string>
     <string name="guestHoleNotificationContent">در تلاش برای دور زدن مشکلات شبکه. این به شما کمک خواهد کرد که به Proton VPN دسترسی پیدا کنید.</string>
     <string name="errorTunMultiUserPermission">Couldn\'t initialise VPN connection due to a conflict between dual-app (for example Dual Messenger) and split tunneling. Please, disable one of those and reboot your device.</string>

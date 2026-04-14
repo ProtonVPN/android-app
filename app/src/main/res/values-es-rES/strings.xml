@@ -274,6 +274,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Datos ahorrados</string>
     <string name="netshield_setting_warning">Algunos sitios web podrían no cargarse correctamente cuando se bloquean los anuncios y rastreadores.</string>
+    <string name="netshield_setting_block_adult_content">Block adult content</string>
     <string name="dialogDontShowAgain">No mostrar de nuevo</string>
     <string name="guestHoleNotificationContent">Tratar de eludir los problemas de la red. Esto te ayudará a acceder a Proton VPN.</string>
     <string name="errorTunMultiUserPermission">No se ha podido inicializar la conexión VPN debido a un conflicto entre dos aplicaciones (por ejemplo Dual Messenger) y el Túnel dividido. Desactiva uno de ellos y reinicia tu dispositivo.</string>
@@ -1628,7 +1629,7 @@
     <string name="session_fork_confirmation_title">¿Iniciar sesión en Android TV?</string>
     <string name="session_fork_confirmation_message">Esto permitirá que el televisor acceda a tu cuenta de Proton.</string>
     <string name="session_fork_confirmation_bottom_note">Inicia sesión solo en dispositivos de confianza</string>
-    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
+    <string name="session_fork_confirmation_too_soon_toast">Revisa antes de continuar</string>
     <string name="session_fork_success_title">Sesión iniciada</string>
     <string name="session_fork_success_message">Ya has iniciado sesión en tu televisor</string>
     <string name="session_fork_error_expired_title">El código ha caducado</string>
@@ -1642,7 +1643,7 @@
     <string name="session_fork_qr_code_message">Escanea el código QR para iniciar sesión o crear una cuenta</string>
     <string name="session_fork_qr_code_trouble_button">¿Tienes problemas para iniciar sesión?</string>
     <string name="session_fork_qr_code_error_expired">Por motivos de seguridad, el código de validación ha caducado</string>
-    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
+    <string name="session_fork_qr_code_error_network">Comprueba tu conexión e inténtalo de nuevo</string>
     <string name="session_fork_qr_code_error_create_new_button">Crea un código nuevo</string>
     <string name="session_fork_user_code_title">¿No puedes escanear el código? Inicia sesión manualmente</string>
     <string name="session_fork_user_code_step1"><![CDATA[Ve a: <b>%1$s</b>]]></string>
@@ -1650,5 +1651,5 @@
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Introduce el código: <b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[¿Aún necesitas ayuda? Visita <b>%1$s</b>]]></string>
 </resources>

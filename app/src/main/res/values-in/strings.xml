@@ -272,6 +272,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data yang dihemat</string>
     <string name="netshield_setting_warning">Beberapa situs web mungkin tidak akan dapat termuat dengan benar pada saat iklan dan pelacak diblokir.</string>
+    <string name="netshield_setting_block_adult_content">Block adult content</string>
     <string name="dialogDontShowAgain">Jangan tampilkan lagi</string>
     <string name="guestHoleNotificationContent">Cobalah untuk mengatasi isu jaringan. Hal ini akan membantu Anda mengakses Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Koneksi VPN tidak dapat dikukuhkan karena terdapat konflik antar aplikasi multi-akun (mis. Dual Messenger) dan split tunneling. Silakan nonaktifkan salah satu di antaranya dan nyalakan ulang perangkat Anda.</string>

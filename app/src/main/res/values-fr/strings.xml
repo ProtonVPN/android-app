@@ -274,6 +274,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Données non téléchargées</string>
     <string name="netshield_setting_warning">Certains sites internet peuvent ne pas se charger correctement quand les publicités et les traqueurs sont bloqués.</string>
+    <string name="netshield_setting_block_adult_content">Bloquer le contenu adulte</string>
     <string name="dialogDontShowAgain">Ne plus afficher</string>
     <string name="guestHoleNotificationContent">Nous essayons de contourner les problèmes de réseau. Cela vous aidera à accéder à Proton VPN.</string>
     <string name="errorTunMultiUserPermission">La connexion VPN n\'a pas pu être initialisée en raison d\'un conflit entre une double application (par exemple Dual Messenger) et le Split tunneling. Nous vous invitons à désactiver l\'un d\'entre eux et à redémarrer votre appareil.</string>
@@ -1171,9 +1172,9 @@
     <string name="connection_details_my_ipv6">Mon IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">IP du VPN</string>
-    <string name="connection_details_vpn_ip4_6">Adresse VPN IPv4/IPv6</string>
-    <string name="connection_details_vpn_ipv4">Adresse VPN IPv4</string>
-    <string name="connection_details_vpn_ipv6">Adresse VPN IPv6</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
@@ -1408,7 +1409,7 @@
     <string name="settings_advanced_alternative_routing_description">Si les services Proton sont bloqués en raison de restrictions du réseau, nous essaierons d\'utiliser un routage alternatif du réseau pour vous connecter à nos sites.</string>
     <string name="settings_advanced_allow_lan_title">Connexions LAN</string>
     <string name="settings_advanced_allow_lan_description">Vous permet de vous connecter à des imprimantes, des enceintes et d\'autres appareils du réseau local de votre appareil.</string>
-    <string name="settings_advanced_allow_lan_description_tv">Connecter à des enceintes, des ordinateurs et d’autres appareils sur votre réseau local</string>
+    <string name="settings_advanced_allow_lan_description_tv">Vous pouvez vous connecter à des enceintes, des ordinateurs et d’autres appareils sur votre réseau local</string>
     <string name="settings_advanced_allow_lan_title_tv">Autoriser les connexions LAN</string>
     <string name="settings_advanced_nat_type_title">Type de NAT</string>
     <!-- %1$s - will have translated learn_more value -->

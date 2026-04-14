@@ -273,6 +273,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">데이터 절약됨</string>
     <string name="netshield_setting_warning">일부 웹사이트는 광고 그리고 트래커 차단 중에 제대로 로드되지 않을 수도 있습니다.</string>
+    <string name="netshield_setting_block_adult_content">Block adult content</string>
     <string name="dialogDontShowAgain">다음부터 표시하지 않음</string>
     <string name="guestHoleNotificationContent">네트워크 문제를 우회하려고 노력하고 있습니다. 이는 Proton VPN에 접근하는데 도움을 줄 것입니다.</string>
     <string name="errorTunMultiUserPermission">듀얼 앱(예를 들어 듀얼 메신저)과 분할 터널링 사이에 충돌이 생겨 VPN 연결을 구성할 수 없습니다. 둘 중 하나를 비활성화 하고 기기를 재부팅 하세요.</string>

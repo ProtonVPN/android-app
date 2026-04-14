@@ -272,6 +272,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">のデータを節約</string>
     <string name="netshield_setting_warning">広告やトラッカーがブロックされていると、一部の Web サイトが正しく読み込まれない場合があります。</string>
+    <string name="netshield_setting_block_adult_content">Block adult content</string>
     <string name="dialogDontShowAgain">次回から表示しない</string>
     <string name="guestHoleNotificationContent">ネットワークの問題の回避を試みてください。これで Proton VPN にアクセスできるかもしれません。</string>
     <string name="errorTunMultiUserPermission">デュアルアプリ (例：デュアルメッセンジャー) とスプリットトンネルが競合したため、VPN の初期化が失敗しました。どちらかを無効にし、デバイスを再起動してください。</string>

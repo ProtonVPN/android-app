@@ -282,10 +282,11 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">البيانات الموفرة</string>
     <string name="netshield_setting_warning">قد يؤدي حظر الإعلانات وأدوات التتبع إلى عدم تحميل بعض المواقع بشكل سليم.</string>
+    <string name="netshield_setting_block_adult_content">حظر محتوى البالغين</string>
     <string name="dialogDontShowAgain">عدم الإظهار مجدداً</string>
     <string name="guestHoleNotificationContent">نحاول تجاوز مشاكل الشبكة لمساعدتك على الوصول إلى تطبيق Proton VPN.</string>
     <string name="errorTunMultiUserPermission">تعذر بدء اتصال VPN لوجود تعارض بين التطبيقات المزدوجة (مثل Dual Messenger) والانقسام النفقي. يُرجى إيقاف إحداهما وإعادة تشغيل جهازك.</string>
-    <string name="errorTorrentNotAllowed">P2P غير متاح على هذا الخادم</string>
+    <string name="errorTorrentNotAllowed">اتصالات P2P غير مسموح بها عبر هذا الخادم</string>
     <string name="error_profile_fallback_unavailable">تعذر الاتصال لأن الخادم المُحدد في ملف الاتصال غير متاح حاليًا.</string>
     <string name="profileProtocolNotAvailable">بروتوكول VPN المُحدد في ملف الاتصال غير متاح حاليًا. لتتمكن من الاتصال، حاول تغيير البروتوكول.</string>
     <string name="stateConnectedTo">متصل بخادم %1$s</string>
@@ -370,7 +371,7 @@
     <string name="notification_smart_protocol_disabled_content">لاحظنا أن شبكتك الحالية تمنع الاتصال بـ VPN؛ قد يساعدك تفعيل البروتوكول الذكي في تجاوز هذه القيود.</string>
     <string name="notification_streaming_blocked_title">الموقع محظور؟</string>
     <string name="notification_streaming_blocked_text">تفرض بعض المواقع ومنصات المشاهدة قيوداً على مستخدمي VPN المجاني. قم بالترقية إلى Proton VPN Plus لتخطي هذه القيود.</string>
-    <string name="upsell_advanced_features">المميزات المتقدمة: NetShield و Secure Core و Tor و P2P</string>
+    <string name="upsell_advanced_features">المزايا المتقدمة: NetShield و Secure Core و Tor و P2P</string>
     <string name="upsell_streaming_services">استمتع بمشاهدة Netflix و +Disney ومنصات المشاهدة الأخرى من أي مكان في العالم.</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -1786,7 +1787,7 @@
     <string name="session_fork_qr_code_message">امسح رمز QR لتسجيل الدخول أو إنشاء حساب.</string>
     <string name="session_fork_qr_code_trouble_button">تعذر تسجيل الدخول؟</string>
     <string name="session_fork_qr_code_error_expired">حفاظاً على أمانك، انتهت صلاحية رمز التحقق</string>
-    <string name="session_fork_qr_code_error_network">تحقق من شبكتك وحاول مرة أخرى</string>
+    <string name="session_fork_qr_code_error_network">يُرجى التأكد من اتصالك بالإنترنت ثم حاول مرة أخرى</string>
     <string name="session_fork_qr_code_error_create_new_button">إنشاء رمز جديد</string>
     <string name="session_fork_user_code_title">تعذر مسح الرمز؟ سجل دخولك يدوياً</string>
     <string name="session_fork_user_code_step1"><![CDATA[توجه إلى: <b>%1$s</b>]]></string>

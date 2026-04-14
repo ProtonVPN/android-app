@@ -274,6 +274,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Δεδομένα εξοικονομήθηκαν</string>
     <string name="netshield_setting_warning">Ορισμένοι ιστότοποι ενδέχεται να μη φορτώνουν σωστά όταν αποκλείονται διαφημίσεις και ιχνηλάτες.</string>
+    <string name="netshield_setting_block_adult_content">Αποκλεισμός περιεχομένου για ενηλίκους</string>
     <string name="dialogDontShowAgain">Να μην εμφανιστεί ξανά</string>
     <string name="guestHoleNotificationContent">Γίνεται προσπάθεια παράκαμψης των προβλημάτων δικτύου. Έτσι θα μπορέσετε να αποκτήσετε πρόσβαση στο Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Δεν ήταν δυνατή η VPN σύνδεση, λόγω ότι οι λειτουργίες διπλής εφαρμογής (Dual Messenger) και split tunneling είναι ταυτόχρονα ενεργοποιημένες. Παρακαλούμε απενεργοποιήστε ένα από αυτά και επανεκκινήστε τη συσκευή σας.</string>

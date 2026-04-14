@@ -278,6 +278,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Shranjeni podatki</string>
     <string name="netshield_setting_warning">Nekatere spletne strani se morda ne bodo pravilno naložile, če so oglasi in sledilniki blokirani.</string>
+    <string name="netshield_setting_block_adult_content">Block adult content</string>
     <string name="dialogDontShowAgain">Ne prikaži več</string>
     <string name="guestHoleNotificationContent">Poskušam zaobiti težave z omrežjem. To vam bo pomagalo dostopati do Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Zaradi konflikta med dvojno aplikacijo (na primer Dual Messenger) in deljenim tuneliranjem ni bilo mogoče vzpostaviti povezave VPN. Onemogočite eno od teh možnosti in znova zaženite napravo.</string>

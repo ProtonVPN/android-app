@@ -274,6 +274,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dades no descarregades</string>
     <string name="netshield_setting_warning">És possible que alguns llocs web no carreguin correctament quan es bloquegen anuncis i rastrejadors.</string>
+    <string name="netshield_setting_block_adult_content">Bloquegeu continguts per adults</string>
     <string name="dialogDontShowAgain">No ho tornis a mostrar</string>
     <string name="guestHoleNotificationContent">Intentant eludir els problemes de xarxa. Això us ajudarà a accedir a Proton VPN.</string>
     <string name="errorTunMultiUserPermission">No s\'ha pogut inicialitzar la connexió VPN a causa d\'un conflicte entre l\'aplicació dual (per exemple, Dual Messenger) i el túnel dividit. Desactiveu-ne una i reinicieu el dispositiu.</string>

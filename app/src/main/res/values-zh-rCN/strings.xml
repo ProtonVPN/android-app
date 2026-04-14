@@ -272,6 +272,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">节省流量</string>
     <string name="netshield_setting_warning">屏蔽了广告和跟踪器，某些网站可能加载不正常。</string>
+    <string name="netshield_setting_block_adult_content">Block adult content</string>
     <string name="dialogDontShowAgain">不再显示</string>
     <string name="guestHoleNotificationContent">正在尝试绕过网络问题。这有助于连接到 Proton VPN。</string>
     <string name="errorTunMultiUserPermission">由于双应用程序（例如 Dual Messenger）和拆分隧道之间的冲突，无法初始化 VPN 连接。请禁用其中一个并重启设备。</string>
@@ -1592,7 +1593,7 @@
     <string name="session_fork_confirmation_title">在 Android TV 上登录？</string>
     <string name="session_fork_confirmation_message">这将允许电视访问您的 Proton 账户。</string>
     <string name="session_fork_confirmation_bottom_note">仅在您信任的设备上登录</string>
-    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
+    <string name="session_fork_confirmation_too_soon_toast">请先检查再继续</string>
     <string name="session_fork_success_title">登录完成</string>
     <string name="session_fork_success_message">您现在已在电视上登录。</string>
     <string name="session_fork_error_expired_title">代码已过期</string>
@@ -1606,7 +1607,7 @@
     <string name="session_fork_qr_code_message">扫描二维码登录或创建账户</string>
     <string name="session_fork_qr_code_trouble_button">登录遇到问题？</string>
     <string name="session_fork_qr_code_error_expired">出于安全考虑，验证码已过期</string>
-    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
+    <string name="session_fork_qr_code_error_network">请检查您的网络后重试</string>
     <string name="session_fork_qr_code_error_create_new_button">获取新代码</string>
     <string name="session_fork_user_code_title">无法扫描二维码？手动登录</string>
     <string name="session_fork_user_code_step1"><![CDATA[前往：<b>%1$s</b>]]></string>
@@ -1614,5 +1615,5 @@
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[输入代码：<b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[仍需帮助？请访问 <b>%1$s</b>]]></string>
 </resources>

@@ -276,6 +276,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Date salvate</string>
     <string name="netshield_setting_warning">Este posibil ca unele site-uri web să nu se încarce corect atunci când reclamele și instrumentele de urmărire sunt blocate.</string>
+    <string name="netshield_setting_block_adult_content">Blocare conținut pentru adulți</string>
     <string name="dialogDontShowAgain">Nu mai arăta</string>
     <string name="guestHoleNotificationContent">Se încearcă evitarea problemelor de rețea. Acest lucru vă va ajuta să accesați Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Nu s-a putut inițializa conexiunea VPN din cauza unui conflict între două aplicații (de exemplu Dual Messenger) și divizarea traficului. Dezactivați una dintre ele și reporniți dispozitivul.</string>
