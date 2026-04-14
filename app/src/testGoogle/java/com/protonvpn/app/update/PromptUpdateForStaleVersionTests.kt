@@ -40,7 +40,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.minutes
 
-private const val UPDATE_STALENESS_THRESHOLD = 45
+private const val UPDATE_STALENESS_THRESHOLD = 21
 
 class PromptUpdateForStaleVersionTests {
 
@@ -107,7 +107,7 @@ class PromptUpdateForStaleVersionTests {
         updatePrompt.launchUpdateFlow(mockk())
         assertNull(updatePrompt.getUpdatePrompt())
 
-        val scheduledIntervals = listOf(21, 13, 8, 5, 3, 2, 2, 2)
+        val scheduledIntervals = listOf(13, 8, 5, 3, 2, 2, 2)
         scheduledIntervals.forEachIndexed { index, interval ->
             clockTime += interval.days - 1.minutes
             assertNull("no prompt just before interval $index: $interval", updatePrompt.getUpdatePrompt())
@@ -123,7 +123,7 @@ class PromptUpdateForStaleVersionTests {
         mockStaleUpdateWithClock(UPDATE_STALENESS_THRESHOLD)
         updatePrompt.launchUpdateFlow(mockk())
 
-        val scheduledIntervals = listOf(21, 13, 8, 5, 3, 2, 2, 2)
+        val scheduledIntervals = listOf(13, 8, 5, 3, 2, 2, 2)
         scheduledIntervals.forEachIndexed { index, interval ->
             clockTime += interval.days - 1.minutes
             assertNull("no prompt just before interval $index: $interval", updatePrompt.getUpdatePrompt())
@@ -147,7 +147,7 @@ class PromptUpdateForStaleVersionTests {
 
         updatePrompt.launchUpdateFlow(mockk())
 
-        clockTime += 20.days
+        clockTime += 12.days
         assertNull(updatePrompt.getUpdatePrompt())
 
         clockTime += 1.days
