@@ -1,6 +1,6 @@
 include:
   # Ephemera deployment - please see rules for this file include
-  - component: gitlab.protontech.ch/proton/devops/cicd-components/kubernetes/ephemera-deploy/standard@2.1.0
+  - component: gitlab.protontech.ch/proton/devops/cicd-components/kubernetes/ephemera-deploy/standard@2.1.1
     inputs:
       cleanup-stage: cleanup
       deploy: auto
