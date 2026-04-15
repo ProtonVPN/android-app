@@ -31,7 +31,6 @@ import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.apiNames
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
@@ -48,7 +47,6 @@ import javax.inject.Inject
 class UpdateServerListFromApi @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val dispatcherProvider: DispatcherProvider,
-    private val serverManager: ServerManager,
     private val serversDataManager: ServersDataManager,
     private val prefs: ServerListUpdaterPrefs,
     private val updateWithBinaryStatus: UpdateServersWithBinaryStatus,

@@ -189,7 +189,6 @@ class ServerListUpdaterTests {
         val updateServerListFromApi = UpdateServerListFromApi(
             mockApi,
             TestDispatcherProvider(testDispatcher),
-            serverManager,
             serversDataManager,
             serverListUpdaterPrefs,
             fakeUpdateWithBinaryStatus,
