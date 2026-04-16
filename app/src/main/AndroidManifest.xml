@@ -463,6 +463,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity android:name=".ui.onboarding.WhatsNewActivity" />
+        <activity android:name=".ui.planupgrade.comparison_table.UpgradeDialogActivityV2" />
         <activity android:name=".ui.planupgrade.PlusOnlyUpgradeDialogActivity" />
         <activity android:name=".ui.planupgrade.CarouselUpgradeDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeOnboardingDialogActivity" />

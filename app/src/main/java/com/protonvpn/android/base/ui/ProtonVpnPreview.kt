@@ -31,7 +31,7 @@ import me.proton.core.compose.theme.isNightMode
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 
 @Preview(name = "Default Small", heightDp = 480, locale = "en_US")
-@Preview(name = "Dark", locale = "en_US", uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL)
+@Preview(name = "Dark", locale = "en_US", uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL, showSystemUi = true)
 // https://developer.android.com/develop/ui/compose/layouts/adaptive/use-window-size-classes
 @Preview(name = "Large", locale = "en_US", widthDp = 1200, heightDp = 800, uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL)
 annotation class ProtonVpnPreview

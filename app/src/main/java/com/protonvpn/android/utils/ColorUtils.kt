@@ -19,21 +19,17 @@
 
 package com.protonvpn.android.utils
 
-object ColorUtils {
-    /**
-     * A simplified "DST over" operator.
-     * Operates on non-premultiplied values, assumes the source alpha is 255.
-     */
-    @Suppress("MagicNumber")
-    fun mixDstOver(src: Int, colorDst: Int, alphaDst: Int): Int {
-        val cd = colorDst.toFloat() / 255
-        val ad = alphaDst.toFloat() / 255
-        val s = src.toFloat() / 255
-        val r = cd * ad + (1f - ad) * s
-        return (r * 255).toInt()
-    }
+import androidx.compose.ui.graphics.Color
 
-    @Suppress("MagicNumber")
-    fun combineArgb(a: Int, r: Int, g: Int, b: Int): Int =
-        (a shl 24) + (r shl 16) + (g shl 8) + b
+fun mixDstOver(src: Color, colorDst: Color, alphaDst: Float): Color {
+    val ad = alphaDst.coerceIn(0f, 1f)
+    val inv = 1f - ad
+    fun mix(chDst: Float, chSrc: Float) = (chDst * ad + chSrc * inv).coerceIn(0f, 1f)
+
+    return Color(
+        red = mix(colorDst.red, src.red),
+        green = mix(colorDst.green, src.green),
+        blue = mix(colorDst.blue, src.blue),
+        alpha = mix(colorDst.alpha, src.alpha),
+    )
 }

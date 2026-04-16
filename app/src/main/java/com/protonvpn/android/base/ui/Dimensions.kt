@@ -63,7 +63,7 @@ private fun calculateWindowSize(activity: Activity): DpSize {
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 fun ProtonTheme.extraPaddingForWindowSize(size: DpSize): Dp {
     val windowSizeClass = WindowSizeClass.calculateFromSize(size)
-    val extraPadding = when ( windowSizeClass.widthSizeClass) {
+    val extraPadding = when (windowSizeClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> 0.dp
         WindowWidthSizeClass.Medium -> MediumBaseContentPadding
         WindowWidthSizeClass.Expanded -> ExpandedBaseContentPadding
@@ -75,19 +75,37 @@ fun ProtonTheme.extraPaddingForWindowSize(size: DpSize): Dp {
 }
 
 @Composable
-fun largeScreenContentPadding(): Dp =
+private fun getWindowSize() =
     if (LocalInspectionMode.current) {
-        val size = with(LocalConfiguration.current) {
+        with(LocalConfiguration.current) {
             DpSize(screenWidthDp.dp, screenHeightDp.dp)
         }
-        ProtonTheme.extraPaddingForWindowSize(size)
     } else {
         val activity = LocalActivity.current!!
-        ProtonTheme.extraPaddingForWindowSize(calculateWindowSize(activity))
+        calculateWindowSize(activity)
     }
+
+@Composable
+fun largeScreenContentPadding(): Dp = ProtonTheme.extraPaddingForWindowSize(getWindowSize())
 
 // Set additional padding (beyond the default 16.dp) for the content based on the activity's dimensions.
 fun Modifier.largeScreenContentPadding() = composed {
     val extraScreenPadding = com.protonvpn.android.base.ui.largeScreenContentPadding()
     this.padding(horizontal = extraScreenPadding)
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+fun Modifier.horizontalPaddingForWindowSize(
+    compact: Dp = 0.dp,
+    medium: Dp = compact,
+    expanded: Dp = medium
+) = composed {
+    val windowSizeClass = WindowSizeClass.calculateFromSize(getWindowSize())
+    val padding = when (windowSizeClass.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> compact
+        WindowWidthSizeClass.Medium -> medium
+        WindowWidthSizeClass.Expanded -> expanded
+        else -> 0.dp
+    }
+    this.padding(horizontal = padding)
 }
