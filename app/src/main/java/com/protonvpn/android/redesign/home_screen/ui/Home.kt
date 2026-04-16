@@ -72,15 +72,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.SimpleModalBottomSheet
+import com.protonvpn.android.base.ui.collectAsEffect
+import com.protonvpn.android.base.ui.extraPaddingForWindowSize
 import com.protonvpn.android.excludedlocations.ui.ExcludedLocationsAdoptionBottomSheet
 import com.protonvpn.android.netshield.NetShieldActions
 import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.promooffers.ui.ProminentBannerState
+import com.protonvpn.android.promooffers.ui.PromoOfferBanner
+import com.protonvpn.android.promooffers.ui.PromoOfferBannerState
+import com.protonvpn.android.promooffers.ui.PromoOfferProminentBanner
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.app.ui.nav.MainNavEvent
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
-import com.protonvpn.android.base.ui.collectAsEffect
-import com.protonvpn.android.base.ui.extraPaddingForWindowSize
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.recents.ui.RecentBottomSheetDialog
@@ -104,10 +108,6 @@ import com.protonvpn.android.ui.home.vpn.ChangeServerButton
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
-import com.protonvpn.android.promooffers.ui.ProminentBannerState
-import com.protonvpn.android.promooffers.ui.PromoOfferBanner
-import com.protonvpn.android.promooffers.ui.PromoOfferBannerState
-import com.protonvpn.android.promooffers.ui.PromoOfferProminentBanner
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.isNightMode
 import com.protonvpn.android.utils.openUrl
@@ -246,6 +246,7 @@ fun HomeRoute(
         onOpenConnectionPreferences = homeViewModel::openConnectionPreferences,
         onOpenSmartDiscoveryConnectionPreferences = homeViewModel::openSmartDiscoveryConnectionPreferences,
         onDismissSmartDiscoveryConnectionPreferencesDialog = homeViewModel::dismissSmartDiscoveryConnectionPreferencesDialog,
+        onLaunchUpgradeDialog = { f, s -> homeViewModel.openUpgradeDialog(context, f, s) },
     )
 
     homeViewModel.eventFlow.collectAsEffect { event ->
@@ -307,6 +308,7 @@ fun HomeView(
     onOpenConnectionPreferences: () -> Unit,
     onOpenSmartDiscoveryConnectionPreferences: () -> Unit,
     onDismissSmartDiscoveryConnectionPreferencesDialog: () -> Unit,
+    onLaunchUpgradeDialog: (KClass<out Fragment>, upgradeSource: UpgradeSource) -> Unit,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -380,7 +382,7 @@ fun HomeView(
             HomeUpsellCarousel(
                 state = state,
                 horizontalMargin = paddingValues + 16.dp,
-                onOpenUpgradeScreen = { focus, upgradeSource -> launchUpgradeDialog(context, focus, upgradeSource) },
+                onOpenUpgradeScreen = { focus, upgradeSource -> onLaunchUpgradeDialog(focus, upgradeSource) },
                 modifier = modifier.padding(bottom = 24.dp),
             )
         }
@@ -418,9 +420,9 @@ fun HomeView(
         )
         val netShieldActions = remember {
             NetShieldActions(
-                onChangeServerPromoUpgrade = { CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) },
+                onChangeServerPromoUpgrade = { onLaunchUpgradeDialog(UpgradePlusCountriesHighlightsFragment::class, UpgradeSource.COUNTRIES) },
                 onNetShieldValueChanged = onNetshieldValueChanged,
-                onUpgradeNetShield = { CarouselUpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context) },
+                onUpgradeNetShield = { onLaunchUpgradeDialog(UpgradeNetShieldHighlightsFragment::class, UpgradeSource.NETSHIELD) },
                 onNetShieldLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
                 onDisableCustomDns = onDisableCustomDns,
             )
@@ -687,8 +689,4 @@ private fun calculateOverlayAlpha(offset: Int, fullCoverPx: Float): Float {
         offset >= 0 && offset < fullCoverPx -> 1f - offset.toFloat() / fullCoverPx
         else -> 0f
     }
-}
-
-private fun launchUpgradeDialog(context: Context, focusFragment: KClass<out Fragment>, upgradeSource: UpgradeSource) {
-    CarouselUpgradeDialogActivity.launch(context, upgradeSource, focusFragment)
 }

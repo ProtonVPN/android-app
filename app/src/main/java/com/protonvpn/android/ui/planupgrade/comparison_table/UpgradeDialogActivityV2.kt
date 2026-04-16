@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.ui.planupgrade.comparison_table
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -73,6 +73,12 @@ import com.protonvpn.android.utils.mixDstOver
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.compose.theme.ProtonTheme
 
+// UpgradeSource values supported by this activity.
+val ComparisonTableUpsells: Array<UpgradeSource> = arrayOf(
+    UpgradeSource.HOME_CAROUSEL_STREAMING,
+    UpgradeSource.STREAMING,
+)
+
 /**
  * Upgrade activity with a plan comparison table.
  */
@@ -116,9 +122,9 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
     companion object {
         private const val UPGRADE_SOURCE_KEY = "Upsell Type"
 
-        fun launch(activity: Activity, upgradeSource: UpgradeSource) {
-            activity.startActivity(
-                Intent(activity, UpgradeDialogActivityV2::class.java).apply {
+        fun launch(context: Context, upgradeSource: UpgradeSource) {
+            context.startActivity(
+                Intent(context, UpgradeDialogActivityV2::class.java).apply {
                     putExtra(UPGRADE_SOURCE_KEY, upgradeSource)
                 }
             )
@@ -214,9 +220,7 @@ private fun PaymentsPanelFragmentComposable(modifier: Modifier = Modifier) {
 }
 
 private class UpgradeSourceProvider : PreviewParameterProvider<UpgradeSource> {
-    override val values: Sequence<UpgradeSource> = sequenceOf(
-        UpgradeSource.STREAMING
-    )
+    override val values: Sequence<UpgradeSource> = ComparisonTableUpsells.asSequence()
 
     override fun getDisplayName(index: Int): String {
         return values.toList()[index].reportedName

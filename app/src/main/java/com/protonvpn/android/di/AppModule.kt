@@ -117,6 +117,8 @@ import com.protonvpn.android.tv.usecases.IsTvHideServerListForFreeUserEnabled
 import com.protonvpn.android.tv.usecases.IsTvHideServerListForFreeUserEnabledImpl
 import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabledImpl
+import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableEnabled
+import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableEnabledImpl
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.AppIconManagerImpl
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
@@ -529,6 +531,11 @@ object AppModule {
         fun bindIsTvNetShieldSettingFeatureFlagEnabled(
             impl: IsTvNetShieldSettingFeatureFlagEnabledImpl
         ): IsTvNetShieldSettingFeatureFlagEnabled
+
+        @Binds
+        fun bindIsUpsellComparisonTableEnabled(
+            impl: IsUpsellComparisonTableEnabledImpl
+        ): IsUpsellComparisonTableEnabled
 
         @Binds
         fun bindIsAppUpdateBannerFeatureFlagEnabled(

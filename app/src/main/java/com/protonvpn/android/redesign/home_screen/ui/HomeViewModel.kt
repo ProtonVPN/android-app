@@ -22,6 +22,7 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.os.Parcelable
 import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -62,6 +63,8 @@ import com.protonvpn.android.promooffers.ui.PromoOfferBannerState
 import com.protonvpn.android.promooffers.ui.PromoOfferButtonActions
 import com.protonvpn.android.promooffers.ui.PromoOfferIapActivity
 import com.protonvpn.android.promooffers.data.PromoOffersPrefs
+import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.LaunchUpgradeDialog
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.openUrl
@@ -93,6 +96,7 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import me.proton.core.presentation.savedstate.state
 import javax.inject.Inject
+import kotlin.reflect.KClass
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
@@ -142,6 +146,7 @@ class HomeViewModel @Inject constructor(
     private val trafficMonitor: TrafficMonitor,
     private val promptTelemetry: VpnProductPromptTelemetry,
     private val currentUser: CurrentUser,
+    private val launchUpgradeDialog: LaunchUpgradeDialog,
 ) : ViewModel() {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
@@ -503,6 +508,16 @@ class HomeViewModel @Inject constructor(
             uiStateStorage.update { it.copy(isConnectionPreferencesDiscovered = true) }
 
             _eventFlow.emit(value = Event.OnNavigateToConnectionPreferences)
+        }
+    }
+
+    fun openUpgradeDialog(
+        context: Context,
+        focusFragment: KClass<out Fragment>,
+        upgradeSource: UpgradeSource,
+    ) {
+        launchUpgradeDialog(context, upgradeSource) {
+            CarouselUpgradeDialogActivity.launch(context, upgradeSource, focusFragment)
         }
     }
 
