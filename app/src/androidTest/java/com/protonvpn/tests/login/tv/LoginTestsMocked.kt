@@ -1,5 +1,6 @@
 package com.protonvpn.tests.login.tv
 
+import android.util.Base64
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -124,7 +125,7 @@ class LoginTestsMocked : FusionComposeTest() {
 
     @Test
     fun loginQrSuccess() {
-        testSuccessFlow(createForkedResponse("""{\"InitialUserTier\": \"credential_less\"}"""))
+        testSuccessFlow(createForkedResponse("""{"InitialUserTier": "credential_less"}"""))
 
         val expectedEvents = listOf(
             TelemetryEventData(
@@ -267,5 +268,8 @@ class LoginTestsMocked : FusionComposeTest() {
             "UserID": "%s",
             "Scopes": [%s]
         }
-    """.trimIndent().format(payload, user.vpnUser.userId.id, scopes.joinToString { "\"$it\"" })
+    """.trimIndent().format(
+        Base64.encodeToString(payload.toByteArray(), Base64.NO_WRAP),
+        user.vpnUser.userId.id,
+        scopes.joinToString { "\"$it\"" })
 }

@@ -19,6 +19,9 @@
 
 package com.protonvpn.android.tv.login
 
+import android.util.Base64
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import dagger.Reusable
 import kotlinx.coroutines.delay
@@ -50,8 +53,8 @@ class PollSessionFork @Inject constructor(
         while (result == null) {
             suspend {
                 delay(pollDuration)
-                val (payload, session) = authRepository.getForkedSession(selector)
-                result = Result(session, payload)
+                val (payloadBase64, session) = authRepository.getForkedSession(selector)
+                result = Result(session, payloadBase64?.let { decodePayload(it) })
             }.runCatchingCheckedExceptions { e ->
                 when {
                     e !is ApiException -> throw e
@@ -64,3 +67,11 @@ class PollSessionFork @Inject constructor(
         return result
     }
 }
+
+private fun decodePayload(payloadBase64: String): String? =
+    try {
+        Base64.decode(payloadBase64, Base64.NO_WRAP).decodeToString()
+    } catch (e : IllegalArgumentException) {
+        ProtonLogger.logCustom(LogCategory.USER, "Error decoding session fork payload: $e")
+        null
+    }

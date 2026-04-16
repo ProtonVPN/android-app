@@ -21,6 +21,7 @@ package com.protonvpn.android.auth.ui.sessionfork
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Base64
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -169,7 +170,7 @@ class SessionForkConfirmationViewModel @Inject constructor(
                     SessionForkPayload(initialUserTier = initialUserTier).serialize()
                 forkSession(
                     userId = userId,
-                    payload = payloadJsonString,
+                    payload = Base64.encodeToString(payloadJsonString.toByteArray(), Base64.NO_WRAP),
                     childClientId = "android_tv-vpn",
                     independent = true,
                     userCode = userCode

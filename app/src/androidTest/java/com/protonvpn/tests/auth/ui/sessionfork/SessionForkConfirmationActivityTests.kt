@@ -20,6 +20,7 @@
 package com.protonvpn.tests.auth.ui.sessionfork
 
 import android.content.Intent
+import android.util.Base64
 import androidx.core.net.toUri
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -156,7 +157,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
         val requestBody = forkRequest.body.readString(UTF_8).deserialize<ForkSessionRequest>()
         assertEquals("android_tv-vpn", requestBody.childClientId)
         assertEquals("1234ABCD", requestBody.userCode)
-        assertEquals("""{"InitialUserTier":"paid"}""", requestBody.payload)
+        assertEquals("""{"InitialUserTier":"paid"}""", Base64.decode(requestBody.payload, 0).decodeToString())
         assertEquals(1L, requestBody.independent)
     }
 }
