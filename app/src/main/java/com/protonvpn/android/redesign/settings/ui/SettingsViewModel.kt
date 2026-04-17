@@ -20,8 +20,10 @@ package com.protonvpn.android.redesign.settings.ui
 
 import android.annotation.TargetApi
 import android.app.Activity
+import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.BuildConfig
@@ -49,8 +51,11 @@ import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.SplitTunnelingMode
+import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.theme.label
+import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.LaunchUpgradeDialog
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.ui.settings.CustomAppIconData
@@ -94,6 +99,7 @@ import me.proton.core.usersettings.domain.usecase.ObserveRegisteredSecurityKeys
 import me.proton.core.usersettings.domain.usecase.ObserveUserSettings
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.reflect.KClass
 import me.proton.core.accountmanager.presentation.R as AccountManagerR
 import me.proton.core.presentation.R as CoreR
 
@@ -126,6 +132,7 @@ class SettingsViewModel @Inject constructor(
     isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
     isNetShieldLevelThreeFeatureFlagEnabled: IsNetShieldLevelThreeFeatureFlagEnabled,
     private val translator: Translator,
+    private val launchUpgradeDialog: LaunchUpgradeDialog,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -704,6 +711,16 @@ class SettingsViewModel @Inject constructor(
     fun onExcludedLocationsDiscovered() {
         viewModelScope.launch {
             uiStateStorage.update { it.copy(isExcludedLocationsDiscovered = true) }
+        }
+    }
+
+    fun openUpgradeDialog(
+        context: Context,
+        focusFragment: KClass<out Fragment>,
+        upgradeSource: UpgradeSource,
+    ) {
+        launchUpgradeDialog(context, upgradeSource) {
+            CarouselUpgradeDialogActivity.launch(context, upgradeSource, focusFragment)
         }
     }
 

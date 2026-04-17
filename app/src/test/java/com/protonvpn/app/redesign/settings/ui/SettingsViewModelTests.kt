@@ -258,6 +258,7 @@ class SettingsViewModelTests {
             translator = translator,
             isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),
             isNetShieldLevelThreeFeatureFlagEnabled = FakeIsNetShieldLevelThreeFeatureFlagEnabled(enabled = true),
+            launchUpgradeDialog = mockk(),
         )
     }
 

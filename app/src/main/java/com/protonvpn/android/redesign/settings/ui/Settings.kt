@@ -75,6 +75,7 @@ import com.protonvpn.android.bugreport.ui.BugReportActivity
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.label
+import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.drawer.LogActivity
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
@@ -163,7 +164,11 @@ fun SettingsRoute(
                     }
                 },
                 onNetShieldUpgradeClick = {
-                    CarouselUpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context)
+                    viewModel.openUpgradeDialog(
+                        context,
+                        UpgradeNetShieldHighlightsFragment::class,
+                        UpgradeSource.NETSHIELD
+                    )
                 },
                 onSplitTunnelClick = {
                     onNavigateToSubSetting(SubSettingsScreen.Type.SplitTunneling)

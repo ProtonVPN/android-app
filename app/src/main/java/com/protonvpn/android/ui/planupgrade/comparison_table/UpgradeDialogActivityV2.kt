@@ -75,6 +75,9 @@ import me.proton.core.compose.theme.ProtonTheme
 
 // UpgradeSource values supported by this activity.
 val ComparisonTableUpsells: Array<UpgradeSource> = arrayOf(
+    UpgradeSource.HOME_CAROUSEL_SPEED,
+    UpgradeSource.NETSHIELD,
+    UpgradeSource.HOME_CAROUSEL_NETSHIELD,
     UpgradeSource.HOME_CAROUSEL_STREAMING,
     UpgradeSource.STREAMING,
 )
@@ -187,7 +190,20 @@ private fun PlanUpgradeDialog(
             when (source) {
                 UpgradeSource.STREAMING,
                 UpgradeSource.HOME_CAROUSEL_STREAMING ->
-                    UpsellStreamingTable(
+                    UpsellStreamingTablePanel(
+                        windowInsets = windowInsets,
+                        modifier = tableModifier
+                    )
+
+                UpgradeSource.NETSHIELD,
+                UpgradeSource.HOME_CAROUSEL_NETSHIELD ->
+                    UpsellNetShieldTablePanel(
+                        windowInsets = windowInsets,
+                        modifier = tableModifier
+                    )
+
+                UpgradeSource.HOME_CAROUSEL_SPEED ->
+                    UpsellSpeedTablePanel(
                         windowInsets = windowInsets,
                         modifier = tableModifier
                     )

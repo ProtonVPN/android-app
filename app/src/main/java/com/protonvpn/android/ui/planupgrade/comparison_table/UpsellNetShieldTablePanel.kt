@@ -34,13 +34,13 @@ import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
-fun UpsellStreamingTablePanel(
+fun UpsellNetShieldTablePanel(
     modifier: Modifier = Modifier,
     windowInsets: WindowInsets = WindowInsets.systemBars
 ) {
     UpsellComparisonTablePanel(
-        titleRes = R.string.upsell_panel_streaming_title,
-        imageRes = R.drawable.upsell_header_streaming,
+        titleRes = R.string.upsell_panel_netshield_title,
+        imageRes = R.drawable.upsell_header_netshield,
         windowInsets = windowInsets,
         modifier = modifier
     ) {
@@ -50,31 +50,22 @@ fun UpsellStreamingTablePanel(
                 modifier = rowModifier,
             )
             BenefitTableRowNoYes(
-                stringResource(R.string.upsell_panel_streaming_benefit_shows),
+                stringResource(R.string.upsell_panel_netshield_benefit_ads),
                 modifier = rowModifier,
             )
             BenefitTableRowNoYes(
-                stringResource(R.string.upsell_panel_streaming_benefit_platforms),
+                stringResource(R.string.upsell_panel_netshield_benefit_trackers),
                 modifier = rowModifier,
             )
             BenefitTableRowNoYes(
-                stringResource(R.string.upsell_panel_streaming_benefit_hd),
+                stringResource(R.string.upsell_panel_netshield_benefit_malware),
                 modifier = rowModifier,
             )
-            BenefitTableRow(
-                stringResource(R.string.upsell_panel_streaming_benefit_devices),
-                { Text("%d".format(1)) },
-                { Text("%d".format(Constants.MAX_CONNECTIONS_IN_PLUS_PLAN)) },
+            BenefitTableRowNoYes(
+                stringResource(R.string.upsell_panel_netshield_benefit_load_speed),
                 modifier = rowModifier,
                 secondPlanBackgroundShape = BenefitTableRowDefaults.ShapeBottom,
                 bottomSeparator = false,
-            )
-
-            VerticalSpacer(height = 12.dp)
-            Text(
-                stringResource(R.string.upsell_panel_streaming_footer),
-                style = ProtonTheme.typography.captionRegular,
-                color = ProtonTheme.colors.textWeak,
             )
         }
     }
