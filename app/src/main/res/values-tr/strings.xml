@@ -357,8 +357,8 @@
     <string name="enable">Aç</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol şu anda kapalı</string>
     <string name="notification_smart_protocol_disabled_content">ProtonVPN, kullandığınız ağın VPN bağlantısı engellediğini algıladı. Smart Protocol özelliğini açmak bu kısıtlamaları aşabilir.</string>
-    <string name="notification_streaming_blocked_title">Site engelleniyor mu?</string>
-    <string name="notification_streaming_blocked_text">Bazı siteler ve yayın akışı hizmetleri ücretsiz VPN kullanıcılarını engeller. Bu engellemeleri aşmak için Proton VPN Plus tarifesine yükseltin.</string>
+    <string name="notification_streaming_blocked_title">Yayın akışı çalışmıyor mu?</string>
+    <string name="notification_streaming_blocked_text">Birçok yayın akış hizmeti ücretsiz VPN sunucularından gelen bağlantıları farkedip engeller. Bu engellemeleri aşmak için Proton VPN Plus tarifesine yükseltin</string>
     <string name="upsell_advanced_features">Gelişmiş özellikler: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Dünyanın her yerindeki yayın akışı hizmetlerine erişerek izleyin (Netflix, Disney+, vb)</string>
     <!-- Number of servers available in the service.

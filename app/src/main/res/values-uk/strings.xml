@@ -363,8 +363,8 @@
     <string name="enable">Увімкнути</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol зараз вимкнено</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN виявив, що ваша мережа запобігає з\'єднанню з VPN. Увімкнення Smart Protocol допоможе обійти це обмеження.</string>
-    <string name="notification_streaming_blocked_title">Blocked website?</string>
-    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
+    <string name="notification_streaming_blocked_title">Streaming not working?</string>
+    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
     <string name="upsell_advanced_features">Додаткові функції: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Доступ до сервісів потокової трансляції (Netflix, Disney+ та ін.) у будь-якій частині світу</string>
     <!-- Number of servers available in the service.

@@ -355,8 +355,8 @@
     <string name="enable">활성화</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol은 현재 비활성화 되었습니다</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN이 현재 네트워크에서는 VPN에 연결할 수 없음을 감지했습니다. Smart Protocol을 활성화하면 이러한 제한을 우회할 수도 있습니다.</string>
-    <string name="notification_streaming_blocked_title">웹사이트가 차단됐나요?</string>
-    <string name="notification_streaming_blocked_text">일부 웹사이트 및 스트리밍 서비스는 무료 VPN 사용자를 차단합니다. 이러한 차단을 우회하려면 Proton VPN Plus로 업그레이드하세요.</string>
+    <string name="notification_streaming_blocked_title">Streaming not working?</string>
+    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
     <string name="upsell_advanced_features">고급 기능: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">전 세계 어디에서나 스트리밍 서비스(Netflix, Disney+ 등) 에 액세스</string>
     <!-- Number of servers available in the service.

@@ -357,8 +357,8 @@
     <string name="enable">ჩართვა</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol-ი ამჟამად გათიშულია</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN-მა აღმოაჩინა, რომ თქვენი მიმდინარე ქსელი VPN-შეერთების დამყარებას ხელს უშლის. შეზღუდვის მოხსნის ცდა ჭკვიანი პროტოკოლის ჩართვით შეგიძლიათ.</string>
-    <string name="notification_streaming_blocked_title">დაბლოკილი ვებსაიტი?</string>
-    <string name="notification_streaming_blocked_text">ზოგიერთი ვებსაიტი და სტრიმინგ სერვისი ბლოკავს უფასო VPN მომხმარებლებს. განახლდით Proton VPN Plus-ზე ამ ბლოკების გვერდის ასავლელად.</string>
+    <string name="notification_streaming_blocked_title">Streaming not working?</string>
+    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
     <string name="upsell_advanced_features">დამატებითი ფუნქციები: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">წვდომა სტრიმინგის სერვერებზე (Netflix, Disney+, და ა. შ.) მსოფლიოს ნებისმიერი ადგილიდან</string>
     <!-- Number of servers available in the service.

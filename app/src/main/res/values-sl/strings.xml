@@ -363,8 +363,8 @@
     <string name="enable">Omogoči</string>
     <string name="notification_smart_protocol_disabled_title">Pametni protokol je trenutno onemogočen</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN je zaznal, da vaše trenutno omrežje preprečuje povezavo z VPN. Če omogočite pametni protokol, lahko zaobidete te omejitve.</string>
-    <string name="notification_streaming_blocked_title">Blokirano spletno mesto?</string>
-    <string name="notification_streaming_blocked_text">Nekatera spletna mesta in storitve pretakanja blokirajo uporabnike brezplačnih VPN-jev. Nadgradite na Proton VPN Plus, da zaobidete te blokade.</string>
+    <string name="notification_streaming_blocked_title">Streaming not working?</string>
+    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
     <string name="upsell_advanced_features">Napredne funkcije: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Dostopajte do storitev pretakanja (Netflix, Disney+ itd.) kjer koli na svetu</string>
     <!-- Number of servers available in the service.

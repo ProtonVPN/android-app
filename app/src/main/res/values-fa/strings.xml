@@ -357,8 +357,8 @@
     <string name="enable">فعال‌سازی</string>
     <string name="notification_smart_protocol_disabled_title">پروتکل هوشمند در حال حاضر غیرفعال است</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN تشخیص داد که شبکهٔ فعلی شما از اتصال VPN جلوگیری می‌کند. فعال‌سازی پروتکل هوشمند ممکن است بتواند این محدودیت‌ها را دور بزند.</string>
-    <string name="notification_streaming_blocked_title">Blocked website?</string>
-    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
+    <string name="notification_streaming_blocked_title">Streaming not working?</string>
+    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
     <string name="upsell_advanced_features">قابلیت‌های پیشرفته: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">به سرویس‌های پخش آنلاین (Netflix و Disney+ و...) از هرجایی از دنیا دسترسی پیدا کنید</string>
     <!-- Number of servers available in the service.

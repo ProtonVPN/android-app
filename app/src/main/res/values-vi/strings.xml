@@ -354,8 +354,8 @@
     <string name="enable">Kích hoạt</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol hiện đang bị vô hiệu hóa</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN phát hiện mạng hiện tại đang ngăn kết nối đến VPN. Kích hoạt Smart Protocol có thể giúp vượt qua những hạn chế này.</string>
-    <string name="notification_streaming_blocked_title">Blocked website?</string>
-    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
+    <string name="notification_streaming_blocked_title">Streaming not working?</string>
+    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
     <string name="upsell_advanced_features">Các tính năng nâng cao: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Truy cập các dịch vụ phát trực tuyến (Netflix, Disney+, v.v.) ở bất kỳ đâu trên thế giới</string>
     <!-- Number of servers available in the service.

@@ -363,8 +363,8 @@
     <string name="enable">Включить</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol в настоящее время отключен</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN обнаружила, что ваша текущая сеть препятствует подключению к VPN. Включение Smart Protocol может помочь в обходе этих ограничений.</string>
-    <string name="notification_streaming_blocked_title">Blocked website?</string>
-    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
+    <string name="notification_streaming_blocked_title">Streaming not working?</string>
+    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
     <string name="upsell_advanced_features">Дополнительные возможности: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Доступ к службам трансляции (Netflix, Disney+ и т. д.) в любой точке мира</string>
     <!-- Number of servers available in the service.

@@ -357,8 +357,8 @@
     <string name="enable">Aktivér</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protokol er i øjeblikket deaktiveret</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN registrerede, at dit nuværende netværk forhindrer en forbindelse til VPN. Aktivering af Smart Protocol kan muligvis omgå disse begrænsninger.</string>
-    <string name="notification_streaming_blocked_title">Blokeret websted?</string>
-    <string name="notification_streaming_blocked_text">Nogle websteder og streamingtjenester blokerer gratis VPN-brugere. Opgradér til Proton VPN Plus for at omgå disse blokeringer.</string>
+    <string name="notification_streaming_blocked_title">Fungerer streaming ikke?</string>
+    <string name="notification_streaming_blocked_text">Mange streamingtjenester opdager og blokerer forbindelser fra gratis VPN-servere. Opgrader til Proton VPN Plus for at omgå blokeringerne</string>
     <string name="upsell_advanced_features">Avancerede funktioner: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Få adgang til streamingtjenester (Netflix, Disney+ osv.) overalt i verden</string>
     <!-- Number of servers available in the service.

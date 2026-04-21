@@ -363,8 +363,8 @@
     <string name="enable">Уключыць</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol зараз адключаны</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN вызначыў, што ваша бягучая сетка блакіруе падключэнне да VPN. Уключэнне Smart Protocol можа дапамагчы абысці гэта абмежаванне.</string>
-    <string name="notification_streaming_blocked_title">Заблакіраваны вэб-сайт?</string>
-    <string name="notification_streaming_blocked_text">Некаторыя вэб-сайты і сэрвісы з трансляцыямі блакіруюць карыстальнікаў, якія выкарыстоўваюць бясплатны VPN. Палепшыце да Proton VPN Plus, каб абысці гэтыя блакіроўкі.</string>
+    <string name="notification_streaming_blocked_title">Трансляцыя не працуе?</string>
+    <string name="notification_streaming_blocked_text">Шмат сэрвісаў з трансляцыямі выяўляюць і блакіруюць злучэнні з бясплатнымі серверамі бясплатны VPN. Палепшыце свой тарыфны план да Proton VPN Plus, каб абыходзіць гэтыя блакіроўкі</string>
     <string name="upsell_advanced_features">Дадатковыя функцыі: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Доступ да сэрвісаў трансляцый (Netflix, Disney+ і іншых) у любой краіне свету</string>
     <!-- Number of servers available in the service.
@@ -1714,7 +1714,7 @@
     <string name="session_fork_qr_code_content_description">QR-код</string>
     <string name="session_fork_qr_code_message">Сканіруйце QR-код, каб увайсці або стварыць уліковы запіс</string>
     <string name="session_fork_qr_code_trouble_button">Праблемы з уваходам?</string>
-    <string name="session_fork_qr_code_error_expired">У мэтах бяспекі тэрмін дзеяння праверачнага кода мініў</string>
+    <string name="session_fork_qr_code_error_expired">У мэтах бяспекі тэрмін дзеяння праверачнага кода мінуў</string>
     <string name="session_fork_qr_code_error_network">Праверце сетку і паспрабуйце яшчэ раз</string>
     <string name="session_fork_qr_code_error_create_new_button">Стварыць новы код</string>
     <string name="session_fork_user_code_title">Не атрымліваецца адсканіраваць код? Увайдзіце звычайным спосабам</string>

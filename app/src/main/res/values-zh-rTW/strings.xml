@@ -354,8 +354,8 @@
     <string name="enable">啟用</string>
     <string name="notification_smart_protocol_disabled_title">智慧通訊協定目前已停用</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN 偵測到您目前的網路正阻止 VPN 連線。啟用智慧通訊協定或可繞過限制。</string>
-    <string name="notification_streaming_blocked_title">網站被封鎖？</string>
-    <string name="notification_streaming_blocked_text">有些網站和串流平台會封鎖免費 VPN 使用者。升級至 Proton VPN Plus 以繞過這些封鎖。</string>
+    <string name="notification_streaming_blocked_title">Streaming not working?</string>
+    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
     <string name="upsell_advanced_features">進階功能：NetShield、Secure Core、Tor、P2P</string>
     <string name="upsell_streaming_services">在全球的任何地方存取串流服務（Netflix、DIsney+ 等等）</string>
     <!-- Number of servers available in the service.

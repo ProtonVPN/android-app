@@ -274,7 +274,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Datos ahorrados</string>
     <string name="netshield_setting_warning">Algunos sitios web podrían no cargarse correctamente cuando se bloquean los anuncios y rastreadores.</string>
-    <string name="netshield_setting_block_adult_content">Block adult content</string>
+    <string name="netshield_setting_block_adult_content">Bloquea el contenido para adultos</string>
     <string name="dialogDontShowAgain">No mostrar de nuevo</string>
     <string name="guestHoleNotificationContent">Tratar de eludir los problemas de la red. Esto te ayudará a acceder a Proton VPN.</string>
     <string name="errorTunMultiUserPermission">No se ha podido inicializar la conexión VPN debido a un conflicto entre dos aplicaciones (por ejemplo Dual Messenger) y el Túnel dividido. Desactiva uno de ellos y reinicia tu dispositivo.</string>
@@ -357,8 +357,8 @@
     <string name="enable">Activar</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol está actualmente desactivado</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN ha detectado que tu red actual está impidiendo una conexión a la VPN. Activar Smart Protocol podría eludir estas limitaciones.</string>
-    <string name="notification_streaming_blocked_title">¿Sitio web bloqueado?</string>
-    <string name="notification_streaming_blocked_text">Algunos sitios web y servicios de streaming bloquean a los usuarios de la VPN gratuita. Mejora tu plan a Proton VPN Plus para eludir estos bloqueos.</string>
+    <string name="notification_streaming_blocked_title">¿No funciona el streaming?</string>
+    <string name="notification_streaming_blocked_text">Muchos servicios de streaming detectan y bloquean las conexiones de servidores VPN gratuitos. Pásate a Proton VPN Plus para evitar estos bloqueos</string>
     <string name="upsell_advanced_features">Características avanzadas: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Acceder a servicios de streaming (Netflix, Disney+, etc.) en cualquier parte del mundo</string>
     <!-- Number of servers available in the service.

@@ -360,8 +360,8 @@
     <string name="enable">Activare</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol este acum dezactivat</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN a detectat că rețeaua curentă împiedică o conexiune la VPN. Activarea funcției Smart Protocol ar putea ocoli aceste limitări.</string>
-    <string name="notification_streaming_blocked_title">Site web blocat?</string>
-    <string name="notification_streaming_blocked_text">Unele site-uri web și servicii de redare în flux blochează utilizatorii de VPN gratuit. Treceți la Proton VPN Plus pentru a ocoli aceste blocaje.</string>
+    <string name="notification_streaming_blocked_title">Redarea transmisiilor în flux nu funcționează?</string>
+    <string name="notification_streaming_blocked_text">Multe servicii de transmisie în flux detectează și blochează conexiunile de la servere VPN gratuite. Actualizați la Proton VPN Plus pentru a ocoli aceste blocaje.</string>
     <string name="upsell_advanced_features">Funcții avansate: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Accesați serviciile de transmisie în flux (Netflix, Disney+, etc.) de oriunde în lume</string>
     <!-- Number of servers available in the service.

@@ -354,8 +354,8 @@
     <string name="enable">有効化</string>
     <string name="notification_smart_protocol_disabled_title">スマートプロトコルは現在無効です</string>
     <string name="notification_smart_protocol_disabled_content">現在のネットワークが VPN に接続しようとしているのを妨げるのを検出しました。スマートプロトコルを有効にするとこれらの制限を回避できる可能性があります。</string>
-    <string name="notification_streaming_blocked_title">ブロックされたウェブサイトですか？</string>
-    <string name="notification_streaming_blocked_text">一部のウェブサイトやストリーミングサービスでは、無料VPNユーザーがブロックされます。これらのブロックを回避するには、Proton VPN Plusにアップグレードしてください。</string>
+    <string name="notification_streaming_blocked_title">Streaming not working?</string>
+    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
     <string name="upsell_advanced_features">高度な機能: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">世界中どこでも Netflix や Disney+ などのストリーミングサービスにアクセス</string>
     <!-- Number of servers available in the service.

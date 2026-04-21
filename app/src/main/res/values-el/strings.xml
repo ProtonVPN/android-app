@@ -357,8 +357,8 @@
     <string name="enable">Ενεργοποίηση</string>
     <string name="notification_smart_protocol_disabled_title">Το Smart Protocol είναι απενεργοποιημένο προς το παρόν</string>
     <string name="notification_smart_protocol_disabled_content">Το Proton VPN ανίχνευσε ότι το τρέχον δίκτυό σας αποτρέπει την σύνδεση στο VPN. Ενεργοποιώντας το Smart Protocol μπορεί να παρακάμφθούν αυτοί οι περιορισμοί.</string>
-    <string name="notification_streaming_blocked_title">Αποκλεισμένος ιστότοπος;</string>
-    <string name="notification_streaming_blocked_text">Ορισμένοι ιστότοποι και υπηρεσίες streaming αποκλείουν τους χρήστες δωρεάν VPN. Αναβαθμίστε σε Proton VPN Plus για να παρακάμψετε αυτούς τους αποκλεισμούς.</string>
+    <string name="notification_streaming_blocked_title">Δε λειτουργεί η ροή;</string>
+    <string name="notification_streaming_blocked_text">Πολλές υπηρεσίες streaming εντοπίζουν και αποκλείουν συνδέσεις από δωρεάν διακομιστές VPN. Αναβαθμίστε σε Proton VPN Plus για να παρακάμψετε αυτά τα μπλοκαρίσματα.</string>
     <string name="upsell_advanced_features">Προηγμένες λειτουργίες: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Αποκτήστε πρόσβαση σε υπηρεσίες ροής/streaming (Netflix, Disney+, κλπ) από οπουδήποτε στον κόσμο</string>
     <!-- Number of servers available in the service.

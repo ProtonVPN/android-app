@@ -363,8 +363,8 @@
     <string name="enable">Zapnúť</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protokol je momentálne deaktivovaný</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN rozpoznal, že vaša sieť blokuje pripojenie k VPN. Zapnutie Smart Protocol by mohlo problém vyriešiť.</string>
-    <string name="notification_streaming_blocked_title">Blokovaná webová stránka?</string>
-    <string name="notification_streaming_blocked_text">Niektoré webové stránky a streamovacie služby blokujú používateľov bezplatných VPN. Prejdite na Proton VPN Plus, aby ste tieto bloky obišli.</string>
+    <string name="notification_streaming_blocked_title">Nefunguje streamovanie?</string>
+    <string name="notification_streaming_blocked_text">Mnohé streamovacie služby rozpoznávajú a blokujú pripojenia z bezplatných VPN serverov. Prejdite na Proton VPN Plus a obíďte tieto blokácie</string>
     <string name="upsell_advanced_features">Pokročilé funkcie: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Prístup k streamovacím službám (Netflix, Disney+ atď.) kdekoľvek na svete</string>
     <!-- Number of servers available in the service.

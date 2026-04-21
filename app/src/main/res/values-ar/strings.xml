@@ -51,7 +51,7 @@
     <string name="cancel">إلغاء</string>
     <string name="close">إغلاق</string>
     <string name="dialogContinue">استمرار</string>
-    <string name="drawerReportProblem">الإبلاغ عن مشكلة</string>
+    <string name="drawerReportProblem">إبلاغ عن خلل</string>
     <string name="action_done">تم</string>
     <string name="action_share">مشاركة</string>
     <string name="accountFree">Proton Free</string>
@@ -369,8 +369,8 @@
     <string name="enable">تفعيل</string>
     <string name="notification_smart_protocol_disabled_title">البروتوكول الذكي معطل حالياً</string>
     <string name="notification_smart_protocol_disabled_content">لاحظنا أن شبكتك الحالية تمنع الاتصال بـ VPN؛ قد يساعدك تفعيل البروتوكول الذكي في تجاوز هذه القيود.</string>
-    <string name="notification_streaming_blocked_title">الموقع محظور؟</string>
-    <string name="notification_streaming_blocked_text">تفرض بعض المواقع ومنصات المشاهدة قيوداً على مستخدمي VPN المجاني. قم بالترقية إلى Proton VPN Plus لتخطي هذه القيود.</string>
+    <string name="notification_streaming_blocked_title">منصة المشاهدة لا تعمل؟</string>
+    <string name="notification_streaming_blocked_text">تحظر منصات المشاهدة خوادم الـ VPN المجانية فور رصدها. اشترك في Proton VPN Plus لتتخطى هذه القيود وتصل لمحتواك المفضل بكل سلاسة.</string>
     <string name="upsell_advanced_features">المزايا المتقدمة: NetShield و Secure Core و Tor و P2P</string>
     <string name="upsell_streaming_services">استمتع بمشاهدة Netflix و +Disney ومنصات المشاهدة الأخرى من أي مكان في العالم.</string>
     <!-- Number of servers available in the service.
@@ -474,7 +474,7 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[الوصول إلى %1$s في %2$s ضمن باقة <b>VPN Plus</b>]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">تأمين شامل للخصوصية ضمن باقة Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">إتاحة كافة المميزات المتقدمة لمنظومة Proton VPN و Mail و Calendar و Drive و Pass.</string>
+    <string name="upgrade_unlimited_all_apps_description">إتاحة كافة المزايا المتقدمة لمنظومة Proton VPN و Mail و Calendar و Drive و Pass.</string>
     <string name="upgrade_unlimited_more">وأكثر</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">إتاحة الوصول إلى كافة الدول</string>
     <string name="upgrade_unlimited_vpn_all_features">جميع مميزات باقة VPN Plus الأخرى</string>
@@ -1162,7 +1162,7 @@
     <string name="settings_autoconnect_title">الاتصال التلقائي</string>
     <string name="settings_autoconnect_boot_description">يتصل تلقائياً بالـ VPN عبر الاتصال السريع بمجرد تشغيل الجهاز</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_features">الخصائص المتقدمة</string>
+    <string name="settings_category_features">أدوات الحماية</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
@@ -1554,7 +1554,7 @@
     <string name="settings_advanced_allow_lan_title">الشبكة المحلية (LAN)</string>
     <string name="settings_advanced_allow_lan_description">الحفاظ على اتصالك بالطابعات ومكبرات الصوت وباقي الأجهزة المحلية أثناء عمل التطبيق.</string>
     <string name="settings_advanced_allow_lan_description_tv">الحفاظ على اتصالك بمكبرات الصوت وأجهزة الكمبيوتر وباقي الأجهزة المحلية أثناء عمل التطبيق</string>
-    <string name="settings_advanced_allow_lan_title_tv">الوصول للشبكة المحلية (LAN)</string>
+    <string name="settings_advanced_allow_lan_title_tv">الاتصال بالشبكة المحلية - LAN</string>
     <string name="settings_advanced_nat_type_title">نوع اتصال NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">ضبط قيود اتصال NAT لضمان أفضل أداء وتوافق لشبكتك مع الأجهزة الخارجية. %1$s</string>

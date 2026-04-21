@@ -357,8 +357,8 @@
     <string name="enable">I-enable</string>
     <string name="notification_smart_protocol_disabled_title">Kasalukuyang naka-disable ang Smart Protocol</string>
     <string name="notification_smart_protocol_disabled_content">Na-detect ng Proton VPN na pinipigilan ng kasalukuyan mong network ang koneksyon sa VPN. Maaaring ma-bypass ng pag-enable sa Smart Protocol ang mga limitasyong ito.</string>
-    <string name="notification_streaming_blocked_title">Blocked website?</string>
-    <string name="notification_streaming_blocked_text">Some websites and streaming services block free VPN users. Upgrade to Proton VPN Plus to bypass these blocks.</string>
+    <string name="notification_streaming_blocked_title">Streaming not working?</string>
+    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
     <string name="upsell_advanced_features">Mga advanced na feature: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">I-access ang mga streaming service (Netflix, Disney+ atbp.) mula saanman sa mundo</string>
     <!-- Number of servers available in the service.

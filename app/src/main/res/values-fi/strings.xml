@@ -357,8 +357,8 @@
     <string name="enable">Ota käyttöön</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol ei ole tällä hetkellä käytössä</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN havaitsi nykyisen verkkosi estävän VPN-yhteyden. Smart Protocol -toiminto saattaa ohittaa rajoitukset.</string>
-    <string name="notification_streaming_blocked_title">Estetty verkkosivu?</string>
-    <string name="notification_streaming_blocked_text">Jotkin verkkosivustot ja suoratoistopalvelut estävät ilmaisten VPN-palveluiden käyttäjät. Päivitä Proton VPN Plus -versioon ohittaaksesi nämä estot.</string>
+    <string name="notification_streaming_blocked_title">Suoratoisto ei toimi?</string>
+    <string name="notification_streaming_blocked_text">Monet suoratoistopalvelut tunnistavat ja estävät yhteydet ilmaisilta VPN-palvelimilta. Päivitä Proton VPN Plus -tilaukseen ohittaaksesi nämä estot</string>
     <string name="upsell_advanced_features">Lisäominaisuudet: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Käytä suoratoistopalveluita (Netflix, Disney+, yms.) kaikkialla maailmassa</string>
     <!-- Number of servers available in the service.

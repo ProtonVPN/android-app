@@ -274,7 +274,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data spart</string>
     <string name="netshield_setting_warning">Noen nettsteder lastes kanskje ikke inn riktig når annonser og sporere er blokkert.</string>
-    <string name="netshield_setting_block_adult_content">Block adult content</string>
+    <string name="netshield_setting_block_adult_content">Blokker innhold for voksne</string>
     <string name="dialogDontShowAgain">Ikke vis igjen</string>
     <string name="guestHoleNotificationContent">Prøver å omgå nettverksproblemer. Dette vil hjelpe deg med å få tilgang til Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Kunne ikke initialisere VPN-tilkobling på grunn av en konflikt mellom dual-app (for eksempel Dual Messenger) og delt tunnelering. Deaktiver en av disse og start enheten på nytt.</string>
@@ -357,8 +357,8 @@
     <string name="enable">Aktiver</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol er for øyeblikket deaktivert</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN oppdaget at ditt nåværende nettverk hindrer en tilkobling til VPN-et. Aktivering av Smart Protocol kan omgå disse begrensningene.</string>
-    <string name="notification_streaming_blocked_title">Blokkert nettsted?</string>
-    <string name="notification_streaming_blocked_text">Noen nettsteder og strømmetjenester blokkerer brukere av gratis VPN. Oppgrader til Proton VPN Plus for å omgå disse blokkeringene.</string>
+    <string name="notification_streaming_blocked_title">Fungerer ikke strømmingen?</string>
+    <string name="notification_streaming_blocked_text">Mange strømmetjenester oppdager og blokkerer tilkoblinger fra gratis VPN-servere. Oppgrader til Proton VPN Plus for å omgå disse blokkeringene.</string>
     <string name="upsell_advanced_features">Avanserte funksjoner: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Få tilgang til strømmetjenester (Netflix, Disney+, osv) hvor som helst i verden</string>
     <!-- Number of servers available in the service.
@@ -1629,7 +1629,7 @@
     <string name="session_fork_confirmation_title">Logge inn på Android TV?</string>
     <string name="session_fork_confirmation_message">Dette vil gi TV-en tilgang til Proton-kontoen din.</string>
     <string name="session_fork_confirmation_bottom_note">Logg bare på enheter du stoler på</string>
-    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
+    <string name="session_fork_confirmation_too_soon_toast">Gjennomgå før du fortsetter</string>
     <string name="session_fork_success_title">Pålogging fullført</string>
     <string name="session_fork_success_message">Du er nå logget på TV-en din.</string>
     <string name="session_fork_error_expired_title">Koden er utløpt</string>
@@ -1643,7 +1643,7 @@
     <string name="session_fork_qr_code_message">Skann QR-koden for å logge på eller opprette en konto.</string>
     <string name="session_fork_qr_code_trouble_button">Problemer med å logge på?</string>
     <string name="session_fork_qr_code_error_expired">Av sikkerhetshensyn er valideringskoden utløpt</string>
-    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
+    <string name="session_fork_qr_code_error_network">Sjekk nettverket ditt og prøv på nytt</string>
     <string name="session_fork_qr_code_error_create_new_button">Opprett en ny kode</string>
     <string name="session_fork_user_code_title">Får du ikke skannet koden? Logg på manuelt</string>
     <string name="session_fork_user_code_step1"><![CDATA[Gå til: <b>%1$s</b>]]></string>
@@ -1651,5 +1651,5 @@
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
     <string name="session_fork_user_code_step3"><![CDATA[Skriv inn koden: <b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Trenger du fortsatt hjelp? Besøk <b>%1$s</b>.]]></string>
 </resources>

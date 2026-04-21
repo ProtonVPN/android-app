@@ -272,7 +272,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">节省流量</string>
     <string name="netshield_setting_warning">屏蔽了广告和跟踪器，某些网站可能加载不正常。</string>
-    <string name="netshield_setting_block_adult_content">Block adult content</string>
+    <string name="netshield_setting_block_adult_content">屏蔽成人内容</string>
     <string name="dialogDontShowAgain">不再显示</string>
     <string name="guestHoleNotificationContent">正在尝试绕过网络问题。这有助于连接到 Proton VPN。</string>
     <string name="errorTunMultiUserPermission">由于双应用程序（例如 Dual Messenger）和拆分隧道之间的冲突，无法初始化 VPN 连接。请禁用其中一个并重启设备。</string>
@@ -354,8 +354,8 @@
     <string name="enable">启用</string>
     <string name="notification_smart_protocol_disabled_title">没有打开 Smart Protocol 功能</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN 检测到当前网络正在阻止设备与 VPN 的连接，开启智能协议可能会绕过这些限制。</string>
-    <string name="notification_streaming_blocked_title">网站被屏蔽？</string>
-    <string name="notification_streaming_blocked_text">某些网站和流媒体服务会屏蔽免费 VPN 用户，升级到 Proton VPN Plus 以解除这些屏蔽。</string>
+    <string name="notification_streaming_blocked_title">流媒体无法播放？</string>
+    <string name="notification_streaming_blocked_text">许多流媒体服务会检测并屏蔽来自免费 VPN 服务器的连接。升级到 Proton VPN Plus 以绕过这些屏蔽！</string>
     <string name="upsell_advanced_features">高级功能：NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">连接世界各地的流媒体服务（Netflix、Disney+等）</string>
     <!-- Number of servers available in the service.

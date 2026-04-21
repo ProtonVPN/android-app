@@ -357,8 +357,8 @@
     <string name="enable">Abilita</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol è attualmente disabilitato</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN ha rilevato che la rete attuale sta impedendo una connessione alla VPN. Abilitare Smart Protocol potrebbe evitare queste limitazioni.</string>
-    <string name="notification_streaming_blocked_title">Sito web bloccato?</string>
-    <string name="notification_streaming_blocked_text">Alcuni siti web e servizi di streaming bloccano gli utenti di VPN gratuite. Effettua l\'upgrade a Proton VPN Plus per aggirare questi blocchi.</string>
+    <string name="notification_streaming_blocked_title">Lo streaming non funziona?</string>
+    <string name="notification_streaming_blocked_text">Molti servizi di streaming rilevano e bloccano le connessioni provenienti da server VPN gratuiti. Passa a Proton VPN Plus per aggirare questi blocchi.</string>
     <string name="upsell_advanced_features">Funzioni avanzate: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Accedi ai servizi di streaming (Netflix, Disney+, ecc.) ovunque nel mondo</string>
     <!-- Number of servers available in the service.
