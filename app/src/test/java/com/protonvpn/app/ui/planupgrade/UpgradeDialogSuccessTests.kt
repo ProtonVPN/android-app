@@ -102,7 +102,7 @@ class UpgradeDialogSuccessTests {
             currentUser,
             { mockk<UpgradeTelemetry>(relaxed = true) },
             showDialog,
-            { purchaseManager }
+            { purchaseManager },
         )
     }
 

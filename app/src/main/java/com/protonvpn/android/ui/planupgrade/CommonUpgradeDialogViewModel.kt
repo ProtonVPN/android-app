@@ -25,6 +25,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeAbTest
+import com.protonvpn.android.mmp.events.MmpEventType
+import com.protonvpn.android.mmp.events.toMmpSubscriptionDetails
+import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.telemetry.UpgradeTrigger
@@ -59,7 +62,8 @@ abstract class CommonUpgradeDialogViewModel(
     protected val isInAppUpgradeAllowed: suspend () -> Boolean,
     private val upgradeTelemetry: UpgradeTelemetry,
     private val userPlanManager: UserPlanManager,
-    private val waitForSubscription: WaitForSubscription
+    private val waitForSubscription: WaitForSubscription,
+    private val saveMmpEvent: SaveMmpEvent,
 ) : ViewModel() {
 
     data class PriceInfo(
@@ -143,7 +147,9 @@ abstract class CommonUpgradeDialogViewModel(
     suspend fun onPaymentFinished(purchaseSuccessState: State.PurchaseSuccess) {
         with(purchaseSuccessState) {
             upgradeTelemetry.onUpgradeSuccess(newPlanName, upgradeFlowType, billingCycle)
-            waitForSubscription(newPlanName, userId.first())
+            waitForSubscription(newPlanName, userId.first())?.also { purchase ->
+                saveMmpEvent(eventType = MmpEventType.Subscription(subscriptionDetails = purchase.toMmpSubscriptionDetails()))
+            }
             userPlanManager.refreshVpnInfo()
         }
     }

@@ -42,7 +42,7 @@ class ShowUpgradeSuccess(
     private val currentUser: CurrentUser,
     private val upgradeTelemetry: dagger.Lazy<UpgradeTelemetry>,
     private val startUpgradeActivity: (Context, String, Boolean) -> Unit,
-    private val purchaseManager: dagger.Lazy<PurchaseManager>
+    private val purchaseManager: dagger.Lazy<PurchaseManager>,
 ) {
     private var doNotShowForPlan: String = ""
 
@@ -64,7 +64,7 @@ class ShowUpgradeSuccess(
             val intent = CongratsPlanActivity.createIntent(context, newPlan, refreshVpnInfo)
             context.startActivity(intent)
         },
-        purchaseManager
+        purchaseManager,
     )
 
     init {

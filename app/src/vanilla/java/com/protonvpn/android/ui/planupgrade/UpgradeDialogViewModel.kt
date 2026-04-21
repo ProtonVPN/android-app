@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.planupgrade
 
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.DebugUtils
@@ -41,7 +42,8 @@ class UpgradeDialogViewModel @Inject constructor(
     isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
     upgradeTelemetry: UpgradeTelemetry,
     userPlanManager: UserPlanManager,
-    waitForSubscription: WaitForSubscription
+    waitForSubscription: WaitForSubscription,
+    saveMmpEvent: SaveMmpEvent,
 ) : CommonUpgradeDialogViewModel(
     currentUser.userFlow.map { it?.userId },
     authOrchestrator,
@@ -49,7 +51,8 @@ class UpgradeDialogViewModel @Inject constructor(
     isInAppUpgradeAllowed::invoke,
     upgradeTelemetry,
     userPlanManager,
-    waitForSubscription
+    waitForSubscription,
+    saveMmpEvent,
 ) {
     fun loadPlans(allowMultiplePlans: Boolean) {
         viewModelScope.launch {

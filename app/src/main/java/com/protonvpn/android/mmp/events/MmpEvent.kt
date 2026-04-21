@@ -20,6 +20,7 @@
 package com.protonvpn.android.mmp.events
 
 import kotlinx.serialization.Serializable
+import me.proton.core.payment.domain.entity.Purchase
 
 data class MmpEvent(
     val id: Long = 0L,
@@ -79,3 +80,16 @@ sealed class MmpEventType {
     }
 
 }
+
+fun Purchase.toMmpSubscriptionDetails(
+    isFreeToPaid: Boolean? = null,
+): MmpEvent.SubscriptionDetails = MmpEvent.SubscriptionDetails(
+    price = paymentAmount,
+    currency = paymentCurrency.name,
+    cycle = planCycle,
+    planName = planName,
+    transactionId = paymentOrderId,
+    couponCode = null,
+    isFirstPurchase = null,
+    isFreeToPaid = isFreeToPaid,
+)

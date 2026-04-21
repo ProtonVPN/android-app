@@ -25,6 +25,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.GiapPlanInfo
@@ -82,6 +83,7 @@ class UpgradeDialogViewModel(
     waitForSubscription: WaitForSubscription,
     private val convertToObservabilityGiapStatus: Optional<ConvertToObservabilityGiapStatus>,
     override val observabilityManager: ObservabilityManager,
+    saveMmpEvent: SaveMmpEvent,
 ) : CommonUpgradeDialogViewModel(
     userId,
     authOrchestrator,
@@ -89,7 +91,8 @@ class UpgradeDialogViewModel(
     isInAppUpgradeAllowed::invoke,
     upgradeTelemetry,
     userPlanManager,
-    waitForSubscription
+    waitForSubscription,
+    saveMmpEvent,
 ), ObservabilityContext {
 
     @Inject
@@ -105,6 +108,7 @@ class UpgradeDialogViewModel(
         waitForSubscription: WaitForSubscription,
         convertToObservabilityGiapStatus: Optional<ConvertToObservabilityGiapStatus>,
         observabilityManager: ObservabilityManager,
+        saveMmpEvent: SaveMmpEvent,
     ) : this(
         currentUser.userFlow.map { it?.userId },
         authOrchestrator,
@@ -117,6 +121,7 @@ class UpgradeDialogViewModel(
         waitForSubscription,
         convertToObservabilityGiapStatus,
         observabilityManager,
+        saveMmpEvent,
     )
 
     private class ReloadState(

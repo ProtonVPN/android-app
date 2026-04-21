@@ -67,6 +67,10 @@ class UserPlanManager @Inject constructor(
     sealed class InfoChange {
         data class PlanChange(val oldUser: VpnUser, val newUser: VpnUser) : InfoChange() {
             val isDowngrade get() = oldUser.userTier > newUser.userTier
+
+            val isFreeToPaid: Boolean
+                get() = oldUser.isFreeUser && !newUser.isFreeUser
+
         }
         object UserBecameDelinquent : InfoChange()
 
