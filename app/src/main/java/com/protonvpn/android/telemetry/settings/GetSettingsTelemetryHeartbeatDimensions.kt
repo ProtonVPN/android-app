@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.telemetry.settings
 
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
@@ -49,6 +50,7 @@ import javax.inject.Singleton
 
 @Singleton
 class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
+    private val currentUser: CurrentUser,
     private val appIconManager: AppIconManager,
     private val connectivityMonitor: ConnectivityMonitor,
     private val commonDimensions: CommonDimensions,
@@ -71,9 +73,10 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
             value = appIconManager.getCurrentIconData().getTelemetryName()
         )
 
+        val vpnUser = currentUser.vpnUser()
         put(
             key = DIMENSION_DEFAULT_CONNECTION_TYPE,
-            value = observeDefaultConnection().first().getTelemetryName()
+            value = vpnUser?.let { observeDefaultConnection(vpnUser).first() }.getTelemetryName()
         )
 
         put(
@@ -247,7 +250,8 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
         CustomAppIconData.CALCULATOR -> "calculator"
     }
 
-    private fun DefaultConnection.getTelemetryName() = when (this) {
+    private fun DefaultConnection?.getTelemetryName() = when (this) {
+        null,
         is DefaultConnection.FastestConnection -> "fastest"
         is DefaultConnection.LastConnection -> "last_connection"
         is DefaultConnection.Recent -> "recent"

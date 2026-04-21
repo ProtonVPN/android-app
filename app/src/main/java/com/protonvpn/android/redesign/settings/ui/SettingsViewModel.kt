@@ -60,6 +60,7 @@ import com.protonvpn.android.update.AppUpdateBannerStateFlow
 import com.protonvpn.android.update.AppUpdateManager
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.combine
+import com.protonvpn.android.utils.flatMapLatestNotNull
 import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -476,10 +477,9 @@ class SettingsViewModel @Inject constructor(
             }
         }
 
-    val viewState =
+    val viewState = currentUser.jointUserFlow.flatMapLatestNotNull { user ->
         combine(
-            currentUser.jointUserFlow,
-            observeDefaultConnection(),
+            observeDefaultConnection(user.vpnUser),
             // Will return override settings if connected else global
             settingsForConnection.getFlowForCurrentConnection(),
             featurePreferencesFlow,
@@ -487,9 +487,9 @@ class SettingsViewModel @Inject constructor(
             acknowledgingAppUpdateBannerStateFlow,
             excludedLocationPreferencesFlow,
             featureFlagsFlow,
-        ) { user, defaultConnection, connectionSettings, featurePreferences, isPrivateDnsActive, appUpdateBannerState, excludedLocationPreferences, featureFlags ->
-            val isFree = user?.vpnUser?.isFreeUser == true
-            val isCredentialLess = user?.user?.isCredentialLess() == true
+        ) { defaultConnection, connectionSettings, featurePreferences, isPrivateDnsActive, appUpdateBannerState, excludedLocationPreferences, featureFlags ->
+            val isFree = user.vpnUser.isFreeUser == true
+            val isCredentialLess = user.user.isCredentialLess() == true
             val settings = connectionSettings.connectionSettings
             val profileOverrideInfo = connectionSettings.associatedProfile?.let { profile ->
                 val intentView = getConnectIntentViewState.forProfile(profile)
@@ -499,23 +499,25 @@ class SettingsViewModel @Inject constructor(
                 )
             }
 
-            val netShieldSetting = user?.vpnUser.getNetShieldAvailability().let { netShieldAvailability ->
-                SettingViewState.NetShield(
-                    netShieldProtocol = settings.netShield,
-                    profileOverrideInfo = profileOverrideInfo,
-                    isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE,
-                    dnsOverride = getDnsOverride(isPrivateDnsActive, settings),
-                    isNetShieldLevelThreeAvailable = featureFlags.isNetShieldLevelThreeEnabled && user?.vpnUser?.hasNetShieldLevelThreeAvailable == true,
-                )
-            }
+            val netShieldSetting =
+                user.vpnUser.getNetShieldAvailability().let { netShieldAvailability ->
+                    SettingViewState.NetShield(
+                        netShieldProtocol = settings.netShield,
+                        profileOverrideInfo = profileOverrideInfo,
+                        isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE,
+                        dnsOverride = getDnsOverride(isPrivateDnsActive, settings),
+                        isNetShieldLevelThreeAvailable = featureFlags.isNetShieldLevelThreeEnabled && user?.vpnUser?.hasNetShieldLevelThreeAvailable == true,
+                    )
+                }
 
             val currentModeAppNames =
                 installedAppsProvider.getNamesOfInstalledApps(settings.splitTunneling.currentModeApps())
 
-            val defaultConnectionSetting = if (isFree)
+            val defaultConnectionSetting = if (isFree) {
                 null
-            else {
-                val defaultRecent = defaultConnection.getRecentIdOrNull()?.let { recentsManager.getRecentById(it) }
+            } else {
+                val defaultRecent =
+                    defaultConnection.getRecentIdOrNull()?.let { recentsManager.getRecentById(it) }
                 val recent = defaultRecent?.let { getConnectIntentViewState.forRecent(it, false) }
                 SettingViewState.DefaultConnectionSettingState(
                     predefinedTitle = when (defaultConnection) {
@@ -550,7 +552,11 @@ class SettingsViewModel @Inject constructor(
                     isFree,
                     profileOverrideInfo?.primaryLabel
                 ),
-                natType = SettingViewState.Nat(NatType.fromRandomizedNat(settings.randomizedNat), isFree, profileOverrideInfo?.primaryLabel),
+                natType = SettingViewState.Nat(
+                    NatType.fromRandomizedNat(settings.randomizedNat),
+                    isFree,
+                    profileOverrideInfo?.primaryLabel
+                ),
                 buildInfo = buildConfigText,
                 showDebugTools = displayDebugUi,
                 showSignOut = !isCredentialLess && !managedConfig.isManaged,
@@ -581,7 +587,9 @@ class SettingsViewModel @Inject constructor(
                 ),
                 isAutomaticConnectionPreferencesEnabled = featureFlags.isAutomaticConnectionPreferencesFeatureFlagEnabled,
             )
-        }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(1_000), replay = 1)
+        }
+    }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(1_000), replay = 1)
+
 
     val vpnAccelerator = viewState.map { it.vpnAccelerator }.distinctUntilChanged()
     val netShield = viewState.map { it.netShield }.distinctUntilChanged()

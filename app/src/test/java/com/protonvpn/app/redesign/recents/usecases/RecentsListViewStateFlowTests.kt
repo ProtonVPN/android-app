@@ -165,7 +165,7 @@ class RecentsListViewStateFlowTests {
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(emptyList())
         coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(null)
         coEvery { mockRecentsManager.getRecentById(any()) } returns null
-        coEvery { mockObserveDefaultConnection() } returns flowOf(DefaultConnection.LastConnection)
+        coEvery { mockObserveDefaultConnection(any()) } returns flowOf(DefaultConnection.LastConnection)
         every { mockChangeServerManager.isChangingServer } returns MutableStateFlow(false)
         coEvery { mockExcludedLocationsDao.observeAll(any()) } returns flowOf(emptyList())
 

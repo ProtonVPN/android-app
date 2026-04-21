@@ -20,7 +20,6 @@
 package com.protonvpn.android.redesign.recents.usecases
 
 import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.usecase.GetSmartProtocols
 import com.protonvpn.android.models.vpn.usecase.SmartProtocols
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
@@ -30,7 +29,6 @@ import com.protonvpn.android.redesign.recents.data.toDefaultConnection
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
-import com.protonvpn.android.utils.flatMapLatestNotNull
 import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.Reusable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,7 +40,6 @@ import javax.inject.Inject
 
 @Reusable
 class ObserveDefaultConnection @Inject constructor(
-    private val currentUser: CurrentUser,
     private val effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
     private val defaultConnectionDao: DefaultConnectionDao,
     private val getIntentAvailability: GetIntentAvailability,
@@ -52,22 +49,20 @@ class ObserveDefaultConnection @Inject constructor(
 ) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    operator fun invoke(): Flow<DefaultConnection> = combine(
+    operator fun invoke(vpnUser: VpnUser): Flow<DefaultConnection> = combine(
         serverManager2.hasAnyCountryFlow,
         effectiveCurrentUserSettings.protocol,
         getSmartProtocols.observe(),
         ::Triple
     ).flatMapLatest { (hasCountries, protocolSelection, smartProtocols) ->
-        currentUser.vpnUserFlow.flatMapLatestNotNull { vpnUser ->
-            defaultConnectionDao.getDefaultConnectionFlow(vpnUser.userId).map { entity ->
-                calculateDefaultConnection(
-                    currentDefaultConnection = entity?.toDefaultConnection(),
-                    hasCountries = hasCountries,
-                    vpnUser = vpnUser,
-                    protocolSelection = protocolSelection,
-                    smartProtocols = smartProtocols
-                )
-            }
+        defaultConnectionDao.getDefaultConnectionFlow(vpnUser.userId).map { entity ->
+            calculateDefaultConnection(
+                currentDefaultConnection = entity?.toDefaultConnection(),
+                hasCountries = hasCountries,
+                vpnUser = vpnUser,
+                protocolSelection = protocolSelection,
+                smartProtocols = smartProtocols
+            )
         }
     }
 

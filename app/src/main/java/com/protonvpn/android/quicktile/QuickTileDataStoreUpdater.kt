@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.quicktile
 
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.ProfilesDao
@@ -55,8 +56,7 @@ class QuickTileDataStoreUpdater @Inject constructor(
             vpnStatusProviderUI.uiStatus,
         ) { vpnUser, vpnStatus -> vpnUser to vpnStatus }.flatMapLatest { (vpnUser, vpnStatus) ->
             val isLoggedIn = vpnUser != null
-            val isPlus = vpnUser?.isUserPlusOrAbove == true
-            isAutoOpenForDefaultConnectionFlow(isPlus).map { isAutoOpenForDefaultConnection ->
+            isAutoOpenForDefaultConnectionFlow(vpnUser).map { isAutoOpenForDefaultConnection ->
                 QuickTileDataStore.Data(vpnStatus.state.toTileState(), isLoggedIn, isAutoOpenForDefaultConnection, vpnStatus.server?.serverName)
             }
         }
@@ -66,11 +66,11 @@ class QuickTileDataStoreUpdater @Inject constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun isAutoOpenForDefaultConnectionFlow(isPlus: Boolean): Flow<Boolean> =
-        if (!isPlus) {
+    private fun isAutoOpenForDefaultConnectionFlow(vpnUser: VpnUser?): Flow<Boolean> =
+        if (vpnUser == null || !vpnUser.isUserPlusOrAbove) {
             flowOf(false)
         } else combine(
-            observeDefaultConnection.get().invoke(),
+            observeDefaultConnection.get().invoke(vpnUser),
             recentsManager.get().getMostRecentConnection(),
         ) { defaultConnection, mostRecentConnection ->
             defaultConnection to mostRecentConnection

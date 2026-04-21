@@ -93,7 +93,7 @@ class GetQuickConnectIntentTests {
                 any()
             )
         } returns ConnectIntentAvailability.ONLINE
-        coEvery { mockObserveDefaultConnection() } returns flowOf(Constants.DEFAULT_CONNECTION)
+        coEvery { mockObserveDefaultConnection(any()) } returns flowOf(Constants.DEFAULT_CONNECTION)
         getQuickConnectIntent = GetQuickConnectIntent(
             currentUser = currentUser,
             recentsManager = mockRecentsManager,
@@ -149,7 +149,7 @@ class GetQuickConnectIntentTests {
             ),
         ).forEach { (defaultConnection, recent) ->
             val expectedQuickConnectIntent = recent.connectIntent
-            coEvery { mockObserveDefaultConnection() } returns flowOf(defaultConnection)
+            coEvery { mockObserveDefaultConnection(any()) } returns flowOf(defaultConnection)
             coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(recent)
             coEvery { mockRecentsManager.getRecentById(id = recentId) } returns recent
             coEvery {
@@ -191,7 +191,7 @@ class GetQuickConnectIntentTests {
             ),
         ).forEach { (defaultConnection, recent) ->
             val expectedQuickConnectIntent = createConnectIntentFastest()
-            coEvery { mockObserveDefaultConnection() } returns flowOf(defaultConnection)
+            coEvery { mockObserveDefaultConnection(any()) } returns flowOf(defaultConnection)
             coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(recent)
             coEvery { mockRecentsManager.getRecentById(id = recentId) } returns recent
             coEvery {
@@ -226,7 +226,7 @@ class GetQuickConnectIntentTests {
             DefaultConnection.Recent(recentId = recentId) to null,
         ).forEach { (defaultConnection, recent) ->
             val expectedQuickConnectIntent = createConnectIntentFastest()
-            coEvery { mockObserveDefaultConnection() } returns flowOf(defaultConnection)
+            coEvery { mockObserveDefaultConnection(any()) } returns flowOf(defaultConnection)
             coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(recent)
             coEvery { mockRecentsManager.getRecentById(id = recentId) } returns recent
             coEvery {

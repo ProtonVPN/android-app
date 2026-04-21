@@ -48,7 +48,7 @@ class GetQuickConnectIntent @Inject constructor(
         val protocolSelection = userSettings.protocol.first()
         val smartProtocols = getSmartProtocols()
 
-        return when (val defaultConnection = observeDefaultConnection().first()) {
+        return when (val defaultConnection = observeDefaultConnection(vpnUser).first()) {
             DefaultConnection.LastConnection -> recentsManager.getMostRecentConnection().first()?.connectIntent
             DefaultConnection.FastestConnection -> ConnectIntent.Fastest
             is DefaultConnection.Recent -> recentsManager.getRecentById(defaultConnection.recentId)?.connectIntent

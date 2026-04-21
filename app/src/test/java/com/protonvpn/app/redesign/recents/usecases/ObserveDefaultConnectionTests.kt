@@ -150,7 +150,6 @@ class ObserveDefaultConnectionTests {
         )
 
         observeDefaultConnection = ObserveDefaultConnection(
-            currentUser = currentUser,
             defaultConnectionDao = mockDefaultConnectionDao,
             effectiveCurrentUserSettings = effectiveCurrentUserSettings,
             getIntentAvailability = mockGetIntentAvailability,
@@ -177,7 +176,7 @@ class ObserveDefaultConnectionTests {
             coEvery { mockServerManager2.hasAnyCountryFlow } returns flowOf(hasAnyCountry)
             coEvery { mockDefaultConnectionDao.getDefaultConnectionFlow(userId) } returns flowOf(currentDefaultConnection)
 
-            observeDefaultConnection().test {
+            observeDefaultConnection(vpnUser).test {
                 val defaultConnection = awaitItem()
 
                 assertEquals(expectedDefaultConnection, defaultConnection)
@@ -201,7 +200,7 @@ class ObserveDefaultConnectionTests {
             coEvery { mockServerManager2.hasAnyCountryFlow } returns flowOf(hasAnyCountry)
             coEvery { mockDefaultConnectionDao.getDefaultConnectionFlow(userId) } returns flowOf(currentDefaultConnectionEntity)
 
-            observeDefaultConnection().test {
+            observeDefaultConnection(vpnUser).test {
                 val defaultConnection = awaitItem()
 
                 assertEquals(expectedDefaultConnection, defaultConnection)
@@ -223,7 +222,7 @@ class ObserveDefaultConnectionTests {
             coEvery { mockServerManager2.hasAnyCountryFlow } returns flowOf(hasAnyCountry)
             coEvery { mockDefaultConnectionDao.getDefaultConnectionFlow(userId) } returns flowOf(currentDefaultConnectionEntity)
 
-            observeDefaultConnection().test {
+            observeDefaultConnection(vpnUser).test {
                 val defaultConnection = awaitItem()
 
                 assertEquals(expectedDefaultConnection, defaultConnection)
@@ -258,7 +257,7 @@ class ObserveDefaultConnectionTests {
                 smartProtocols = any()
             ) } returns ConnectIntentAvailability.ONLINE
 
-            observeDefaultConnection().test {
+            observeDefaultConnection(vpnUser).test {
                 val defaultConnection = awaitItem()
 
                 assertEquals(expectedDefaultConnection, defaultConnection)
@@ -297,7 +296,7 @@ class ObserveDefaultConnectionTests {
                 )
             } returns ConnectIntentAvailability.NO_SERVERS
 
-            observeDefaultConnection().test {
+            observeDefaultConnection(vpnUser).test {
                 val defaultConnection = awaitItem()
 
                 assertEquals(expectedDefaultConnection, defaultConnection)

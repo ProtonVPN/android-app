@@ -172,7 +172,9 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             localDataStoreFactory = InMemoryDataStoreFactory(),
         )
 
+        val currentUser = CurrentUser(TestCurrentUserProvider(TestUser.plusUser.vpnUser))
         getSettingsTelemetryHeartbeatDimensions = GetSettingsTelemetryHeartbeatDimensions(
+            currentUser = currentUser,
             appIconManager = mockAppIconManager,
             connectivityMonitor = mockConnectivityMonitor,
             commonDimensions = FakeCommonDimensions(dimensions = mapOf("user_tier" to userTier)),
@@ -191,7 +193,7 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
 
         every { mockAppIconManager.getCurrentIconData() } returns CustomAppIconData.DEFAULT
         every { mockConnectivityMonitor.isPrivateDnsActive } returns MutableStateFlow(null)
-        every { mockObserveDefaultConnection() } returns MutableStateFlow(DefaultConnection.FastestConnection)
+        every { mockObserveDefaultConnection(any()) } returns MutableStateFlow(DefaultConnection.FastestConnection)
         coEvery { mockReviewTracker.isOrWasEligibleToday() } returns false
         every { mockWidgetTracker.widgetCount } returns MutableStateFlow(0)
         coEvery { mockWidgetTracker.firstWidgetType() } returns null
@@ -231,7 +233,7 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             DefaultConnection.LastConnection to "last_connection",
             DefaultConnection.Recent(recentId = 1L) to "recent",
         ).forEach { (defaultConnection, expectedDimensionValue) ->
-            every { mockObserveDefaultConnection() } returns MutableStateFlow(value = defaultConnection)
+            every { mockObserveDefaultConnection(any()) } returns MutableStateFlow(value = defaultConnection)
 
             val dimensions = getSettingsTelemetryHeartbeatDimensions()
 

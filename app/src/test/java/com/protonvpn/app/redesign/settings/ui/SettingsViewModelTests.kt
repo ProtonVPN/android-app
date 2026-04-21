@@ -173,7 +173,7 @@ class SettingsViewModelTests {
         testScope = TestScope(testDispatcher)
         prefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
         every { mockIsTvCheck.invoke() } returns false
-        coEvery { mockObserveDefaultConnection() } returns flowOf(Constants.DEFAULT_CONNECTION)
+        coEvery { mockObserveDefaultConnection(any()) } returns flowOf(Constants.DEFAULT_CONNECTION)
         coEvery { mockServerManager2.hasAnyCountryFlow } returns hasCountriesFlow
         coEvery { mockExcludedLocationsDao.observeAll(any()) } returns flowOf(emptyList())
         val accountUser = createAccountUser()

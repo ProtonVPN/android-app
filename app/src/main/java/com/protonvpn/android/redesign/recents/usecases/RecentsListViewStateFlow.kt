@@ -109,7 +109,7 @@ class RecentsListViewStateFlow @Inject constructor(
                 changeServerManager.isChangingServer,
                 serverManager.serverListVersion, // Update whenever servers change.
                 userSettings.effectiveSettings,
-                observeDefaultConnection(),
+                observeDefaultConnection(vpnUser),
                 getSmartProtocols.observe(),
             ) { status, isChangingServer, _, settings, defaultConnection, smartProtocols ->
                 val connectedIntent = status.connectIntent?.takeIf { status.state.isConnectedOrConnecting() }

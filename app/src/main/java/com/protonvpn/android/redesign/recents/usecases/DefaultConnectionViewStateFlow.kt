@@ -124,7 +124,7 @@ class DefaultConnectionViewStateFlow @Inject constructor(
             combine(
                 serverManager.serverListVersion,
                 recentsManager.getRecentsList(),
-                observeDefaultConnection(),
+                observeDefaultConnection(vpnUser),
                 getSmartProtocols.observe(),
             ) { _, recents, defaultConnection, smartProtocols ->
                 val recentsViewState = createRecentsViewState(
