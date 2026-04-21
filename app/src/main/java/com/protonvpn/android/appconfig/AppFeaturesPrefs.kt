@@ -64,6 +64,8 @@ class AppFeaturesPrefs @Inject constructor(
 
     var iapFirstIntroPriceCheckTimestamp: Long by long(0L)
 
+    var lastAppInForegroundTimestamp: Long? by long()
+
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
         private const val KEY_SHOW_WHATS_NEW = "showWhatsNew"

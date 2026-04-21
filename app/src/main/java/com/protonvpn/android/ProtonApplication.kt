@@ -44,6 +44,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.ProtonLoggerImpl
 import com.protonvpn.android.logging.SettingChangesLogger
 import com.protonvpn.android.managed.AutoLoginManager
+import com.protonvpn.android.app.AppOpenMmpTracker
 import com.protonvpn.android.notifications.NotificationPermissionManager
 import com.protonvpn.android.profiles.usecases.PopulateInitialProfiles
 import com.protonvpn.android.profiles.usecases.ProfileAutoOpenHandler
@@ -143,6 +144,7 @@ open class ProtonApplication : Application() {
         val streamingServicesUpdater: StreamingServicesUpdater
         val streamingUpsellRestrictionsDialogTrigger: StreamingUpsellRestrictionsDialogTrigger
         val streamingUpsellRestrictionsNotificationTrigger: StreamingUpsellRestrictionsNotificationTrigger
+        val appOpenMmpTracker: AppOpenMmpTracker
         val updateAndroidAppTheme: UpdateAndroidAppTheme
         val updateProfileLastConnected: UpdateProfileLastConnected
         val updateSettingsOnVpnUserChange: UpdateSettingsOnVpnUserChange?
@@ -210,6 +212,7 @@ open class ProtonApplication : Application() {
         dependencies.accountStateHandler.start()
         dependencies.appExitObservability.start()
         dependencies.appMmpObservability.start()
+        dependencies.appOpenMmpTracker.start()
         dependencies.autoConnectBootController.start()
         dependencies.autoLoginManager
         dependencies.certificateRepository
