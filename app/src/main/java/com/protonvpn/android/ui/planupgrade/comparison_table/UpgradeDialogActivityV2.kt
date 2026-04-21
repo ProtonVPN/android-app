@@ -64,6 +64,8 @@ import com.protonvpn.android.base.ui.horizontalPaddingForWindowSize
 import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
+import com.protonvpn.android.base.ui.upsellGradientEnd
+import com.protonvpn.android.base.ui.upsellGradientStart
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.planupgrade.PaymentPanelFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
@@ -143,9 +145,8 @@ private fun PlanUpgradeDialog(
     windowInsets: WindowInsets = WindowInsets.systemBars,
 ) {
     val backgroundGradient = Brush.verticalGradient(
-        0f to Color(0x6611D8CC),
-        0.5f to Color(0x006E4BFF),
-        1f to Color(0x006E4BFF),
+        0f to ProtonTheme.colors.upsellGradientStart,
+        0.5f to ProtonTheme.colors.upsellGradientEnd,
     )
     Scaffold(
         topBar = {
