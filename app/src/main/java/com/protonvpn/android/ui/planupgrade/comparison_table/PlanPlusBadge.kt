@@ -27,7 +27,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.vpnGreen
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -42,7 +44,7 @@ fun PlanPlusBadge(
         end = Offset.Infinite.copy(y = 0f),
     )
     Text(
-        "Plus",
+        stringResource(R.string.badge_plan_plus),
         modifier = modifier
             .border(1.dp, borderGradient, ProtonTheme.shapes.medium)
             .background(

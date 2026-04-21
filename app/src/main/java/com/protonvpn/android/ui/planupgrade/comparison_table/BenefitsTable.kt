@@ -20,7 +20,6 @@
 package com.protonvpn.android.ui.planupgrade.comparison_table
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -28,7 +27,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,12 +39,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.text
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
@@ -71,7 +71,8 @@ fun BenefitTableFreePlusHeader(
         null,
         { Text(stringResource(R.string.upsell_panel_table_header_plan_free)) },
         { PlanPlusBadge() },
-        modifier = modifier,
+        modifier = modifier
+            .clearAndSetSemantics {},
         bottomSeparator = false,
         secondPlanBackgroundShape = BenefitTableRowDefaults.ShapeTop,
         itemVerticalPadding = 8.dp,
@@ -90,13 +91,13 @@ fun BenefitTableRowNoYes(
         firstPlanContent = {
             Icon(
                 painterResource(CoreR.drawable.ic_proton_cross),
-                contentDescription = null
+                contentDescription = stringResource(R.string.upsell_panel_content_description_no),
             )
         },
         secondPlanContent = {
             Icon(
                 painterResource(CoreR.drawable.ic_proton_checkmark_circle_filled),
-                contentDescription = null
+                contentDescription = stringResource(R.string.upsell_panel_content_description_yes),
             )
         },
         modifier = modifier,
@@ -110,17 +111,22 @@ fun BenefitTableRow(
     benefitText: String?,
     firstPlanContent: @Composable () -> Unit,
     secondPlanContent: @Composable () -> Unit,
+    firstPlanContentDescriptionPrefix: String = stringResource(R.string.upsell_panel_content_description_value_prefix_free),
+    secondPlanContentDescriptionPrefix: String = stringResource(R.string.upsell_panel_content_description_value_prefix_plus),
     modifier: Modifier = Modifier,
     bottomSeparator: Boolean = true,
     secondPlanBackgroundShape: Shape = RectangleShape,
     itemVerticalPadding: Dp = 12.dp
-    // TODO: content description
 ) {
     val itemVerticalPadding = PaddingValues(vertical = itemVerticalPadding)
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.height(IntrinsicSize.Max)
+            modifier = Modifier
+                .height(IntrinsicSize.Max)
+                .semantics(mergeDescendants = true) {}
         ) {
             if (benefitText != null) {
                 Text(
@@ -136,6 +142,7 @@ fun BenefitTableRow(
             Box(
                 modifier = Modifier
                     .weight(BENEFIT_FIRST_COLUMN_WEIGHT)
+                    .semantics() { text = AnnotatedString(firstPlanContentDescriptionPrefix) }
                     .padding(itemVerticalPadding)
                     .padding(horizontal = 8.dp),
                 contentAlignment = Alignment.Center,
@@ -150,6 +157,7 @@ fun BenefitTableRow(
                 modifier = Modifier
                     .weight(BENEFIT_SECOND_COLUMN_WEIGHT)
                     .fillMaxHeight()
+                    .semantics { text = AnnotatedString(secondPlanContentDescriptionPrefix) }
                     .background(ProtonTheme.colors.vpnGreen.copy(alpha = 0.2f), secondPlanBackgroundShape)
                     .padding(itemVerticalPadding)
                     .padding(horizontal = 8.dp),

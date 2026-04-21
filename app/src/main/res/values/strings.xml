@@ -528,6 +528,28 @@
     <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
          May be used as a table header or like an icon. -->
     <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:
+         <benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:
+         <benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
+    <string name="upsell_panel_content_description_yes">Yes</string>
+    <string name="upsell_panel_content_description_no">No</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
     <string name="upsell_panel_netshield_title">Browse without interruptions</string>
     <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
