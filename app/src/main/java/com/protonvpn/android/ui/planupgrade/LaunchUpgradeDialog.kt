@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.planupgrade
 
 import android.content.Context
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableEnabled
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2
@@ -33,7 +34,11 @@ class LaunchUpgradeDialog @Inject constructor(
     private val mainScope: CoroutineScope,
     private val isUpsellComparisonTableEnabled: dagger.Lazy<IsUpsellComparisonTableEnabled>,
 ) {
-    operator fun invoke(context: Context, upgradeSource: UpgradeSource, legacyLaunch: () -> Unit) {
+    operator fun invoke(
+        context: Context,
+        upgradeSource: UpgradeSource,
+        legacyLaunch: () -> Unit
+    ) {
         mainScope.launch {
             if (UpgradeDialogActivityV2.isSupported(upgradeSource) &&
                 isUpsellComparisonTableEnabled.get().invoke()
@@ -41,6 +46,33 @@ class LaunchUpgradeDialog @Inject constructor(
                 UpgradeDialogActivityV2.launch(context, upgradeSource)
             } else {
                 legacyLaunch()
+            }
+        }
+    }
+}
+
+@Reusable
+class LaunchCountryUpgradeDialog @Inject constructor(
+    private val mainScope: CoroutineScope,
+    private val isUpsellComparisonTableEnabled: dagger.Lazy<IsUpsellComparisonTableEnabled>,
+) {
+    operator fun invoke(
+        context: Context,
+        country: CountryId?,
+    ) {
+        mainScope.launch {
+            val countryId = country?.takeIf { !it.isFastest }
+            if (isUpsellComparisonTableEnabled.get().invoke()) {
+                UpgradeDialogActivityV2.launch(context, UpgradeSource.COUNTRIES, countryId)
+            } else {
+                if (countryId != null) {
+                    PlusOnlyUpgradeDialogActivity.launch<UpgradeCountryHighlightsFragment>(
+                        context,
+                        UpgradeCountryHighlightsFragment.args(countryId.countryCode)
+                    )
+                } else {
+                    PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+                }
             }
         }
     }

@@ -63,19 +63,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.VpnDivider
+import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.base.ui.protonElevation
+import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.UpsellBanner
-import com.protonvpn.android.base.ui.VpnDivider
-import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
-import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeCountryHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
@@ -94,7 +92,7 @@ typealias OnItemConnect = (
     item: ServerGroupUiItem.ServerGroup,
     filterType: ServerFilterType,
     navigateToHome: (ShowcaseRecents) -> Unit,
-    navigateToUpsell: () -> Unit
+    context: Context,
 ) -> Unit
 
 @Immutable
@@ -179,24 +177,17 @@ fun createOnConnectAction(
     context: Context,
     filterType: ServerFilterType,
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit
-): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
-    actions.onItemConnect(
-        uiDelegate,
-        item,
-        filterType,
-        { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) },
-        {
-            val countryId = item.data.countryId
-            if (countryId != null && !countryId.isFastest) {
-                PlusOnlyUpgradeDialogActivity.launch<UpgradeCountryHighlightsFragment>(
-                    context,
-                    UpgradeCountryHighlightsFragment.args(countryId.countryCode)
-                )
-            } else {
-                PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
-            }
-        }
-    )
+): (ServerGroupUiItem.ServerGroup) -> Unit {
+    val context = LocalContext.current
+    return { item ->
+        actions.onItemConnect(
+            uiDelegate,
+            item,
+            filterType,
+            { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) },
+            context,
+        )
+    }
 }
 
 fun navigateToUpsellFromBanner(context: Context, bannerType: ServerGroupUiItem.BannerType) =

@@ -45,6 +45,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -54,6 +55,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.fragment.compose.AndroidFragment
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.BoxWithVerticalScrollEdgeFade
 import com.protonvpn.android.base.ui.BoxWithVerticalScrollEdgeFadeDefaults
@@ -67,14 +69,18 @@ import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.base.ui.upsellGradientEnd
 import com.protonvpn.android.base.ui.upsellGradientStart
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.planupgrade.PaymentPanelFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
+
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.ViewState
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import com.protonvpn.android.utils.mixDstOver
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 
 /**
@@ -85,12 +91,18 @@ import me.proton.core.compose.theme.ProtonTheme
 class UpgradeDialogActivityV2 : AppCompatActivity() {
 
     sealed interface ViewState {
+        data class Countries(
+            val country: CountryId?,
+            val freeCountries: Int,
+            val plusCountries: Int,
+        ) : ViewState
         object NetShield : ViewState
         object Speed : ViewState
         object Streaming : ViewState
     }
 
     private val viewModel by viewModels<UpgradeDialogViewModel>()
+    private val upsellBenefitsViewModel by viewModels<UpsellBenefitsViewModel>()
 
     private val upgradeActivityHelper = UpgradeActivityHelper(this)
 
@@ -98,24 +110,33 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdgeVpn()
 
+        val plusCountries = upsellBenefitsViewModel.getAllCountryCount()
+        val country: CountryId? = intent?.getStringExtra(COUNTRY_KEY)?.let { CountryId(it) }
         val modalSource = intent?.getSerializableExtraCompat<UpgradeSource>(UPGRADE_SOURCE_KEY)
-        val content = modalSource?.let { getContentType(modalSource) }
-        if (content == null) {
+        val initialContent = modalSource?.let { getContentType(modalSource, country, plusCountries) }
+        if (initialContent == null) {
             Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
             finish()
             return
         }
 
+        val content = mutableStateOf(initialContent)
         viewModel.loadPlans(allowMultiplePlans = false)
         upgradeActivityHelper.onCreate(viewModel)
         if (savedInstanceState == null) {
             viewModel.reportUpgradeFlowStart(modalSource)
         }
 
+        lifecycleScope.launch {
+            val current = content.value
+            if (current is ViewState.Countries) {
+                content.value = current.copy(freeCountries = upsellBenefitsViewModel.getFreeCountryCount())
+            }
+        }
         setContent {
             VpnTheme {
                 PlanUpgradeDialog(
-                    viewState = content,
+                    viewState = content.value,
                     onClose = ::finish,
                     modifier = Modifier
                         .fillMaxSize()
@@ -126,19 +147,31 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
 
     companion object {
         private const val UPGRADE_SOURCE_KEY = "Upsell Type"
+        private const val COUNTRY_KEY = "Country Code"
 
-        fun launch(context: Context, upgradeSource: UpgradeSource) {
+        fun launch(context: Context, upgradeSource: UpgradeSource, country: CountryId? = null) {
             context.startActivity(
                 Intent(context, UpgradeDialogActivityV2::class.java).apply {
                     putExtra(UPGRADE_SOURCE_KEY, upgradeSource)
+                    if (country != null) putExtra(COUNTRY_KEY, country.countryCode)
                 }
             )
         }
 
         fun isSupported(upgradeSource: UpgradeSource): Boolean =
-            getContentType(upgradeSource) != null
+            getContentType(upgradeSource, null, plusCountries = 0) != null
 
-        private fun getContentType(upgradeSource: UpgradeSource): ViewState? = when (upgradeSource) {
+        private fun getContentType(
+            upgradeSource: UpgradeSource,
+            country: CountryId?,
+            plusCountries: Int,
+        ): ViewState? = when (upgradeSource) {
+            UpgradeSource.COUNTRIES -> ViewState.Countries(
+                country = country,
+                freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
+                plusCountries = plusCountries
+            )
+
             UpgradeSource.HOME_CAROUSEL_SPEED -> ViewState.Speed
 
             UpgradeSource.NETSHIELD,
@@ -187,7 +220,7 @@ fun PlanUpgradeDialog(
         val scrollState = rememberScrollState(initial = 0)
         BoxWithVerticalScrollEdgeFade(
             scrollableState = scrollState,
-            topFadeColor = mixDstOver(Color(0xFF11D8CC),ProtonTheme.colors.backgroundNorm, 0.4f),
+            topFadeColor = mixDstOver(ProtonTheme.colors.upsellGradientStart,ProtonTheme.colors.backgroundNorm),
             topFadeHeight =
                 BoxWithVerticalScrollEdgeFadeDefaults.FadeHeight +
                         windowInsets.asPaddingValues().calculateTopPadding(),
@@ -222,6 +255,15 @@ fun PlanUpgradeDialog(
                         windowInsets = windowInsets,
                         modifier = tableModifier
                     )
+
+                is ViewState.Countries ->
+                    UpsellCountryTablePanel(
+                        country = viewState.country,
+                        freeCountries = viewState.freeCountries,
+                        plusCountries = viewState.plusCountries,
+                        windowInsets = windowInsets,
+                        modifier = tableModifier,
+                    )
             }
         }
     }
@@ -247,6 +289,16 @@ private fun PaymentsPanelFragmentComposable(modifier: Modifier = Modifier) {
 
 class UpgradeContentProvider : PreviewParameterProvider<ViewState> {
     override val values: Sequence<ViewState> = sequenceOf(
+        ViewState.Countries(
+            country = CountryId.sweden,
+            freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
+            plusCountries = Constants.FALLBACK_COUNTRY_COUNT,
+        ),
+        ViewState.Countries(
+            country = null,
+            freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
+            plusCountries = Constants.FALLBACK_COUNTRY_COUNT,
+        ),
         ViewState.NetShield,
         ViewState.Speed,
         ViewState.Streaming

@@ -49,6 +49,28 @@ fun UpsellComparisonTablePanel(
     windowInsets: WindowInsets = WindowInsets.systemBars,
     content: @Composable () -> Unit,
 ) {
+    UpsellComparisonTablePanel(
+        title = stringResource(titleRes),
+        image = @Composable {
+            Image(
+                painterResource(imageRes),
+                contentDescription = null,
+            )
+        },
+        modifier = modifier,
+        windowInsets = windowInsets,
+        content = content
+    )
+}
+
+@Composable
+fun UpsellComparisonTablePanel(
+    title: String,
+    image: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    windowInsets: WindowInsets = WindowInsets.systemBars,
+    content: @Composable () -> Unit,
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -58,13 +80,10 @@ fun UpsellComparisonTablePanel(
             modifier = Modifier
                 .windowInsetsPadding(windowInsets.only(WindowInsetsSides.Top))
         )
-        Image(
-            painterResource(imageRes),
-            contentDescription = null,
-        )
+        image()
         VerticalSpacer(height = 12.dp)
         Text(
-            text = stringResource(titleRes),
+            text = title,
             style = ProtonTheme.typography.hero,
             textAlign = TextAlign.Center,
         )

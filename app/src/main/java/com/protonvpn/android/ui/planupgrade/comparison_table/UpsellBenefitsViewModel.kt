@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Proton AG
+ * Copyright (c) 2026. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,19 +17,20 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.utils
+package com.protonvpn.android.ui.planupgrade.comparison_table
 
-import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.ViewModel
+import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-fun mixDstOver(src: Color, colorDst: Color, alphaDst: Float = 1f): Color {
-    val ad = alphaDst.coerceIn(0f, 1f)
-    val inv = 1f - ad
-    fun mix(chDst: Float, chSrc: Float) = (chDst * ad + chSrc * inv).coerceIn(0f, 1f)
+@HiltViewModel
+class UpsellBenefitsViewModel @Inject constructor(
+    private val serverListUpdaterPrefs: ServerListUpdaterPrefs,
+    private val serverManager: ServerManager2,
+) : ViewModel() {
 
-    return Color(
-        red = mix(colorDst.red, src.red),
-        green = mix(colorDst.green, src.green),
-        blue = mix(colorDst.blue, src.blue),
-        alpha = mix(colorDst.alpha, src.alpha),
-    )
+    suspend fun getFreeCountryCount(): Int = serverManager.getFreeCountries().size
+    fun getAllCountryCount(): Int = serverListUpdaterPrefs.vpnCountryCount
 }

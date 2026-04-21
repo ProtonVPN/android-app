@@ -27,6 +27,7 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
+import com.protonvpn.android.ui.planupgrade.LaunchCountryUpgradeDialog
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnect
@@ -48,16 +49,18 @@ class CountriesViewModel @Inject constructor(
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
     translator: Translator,
+    launchCountryUpgradeDialog: LaunchCountryUpgradeDialog,
 ) : ServerGroupsViewModel<ServerGroupsMainScreenState>(
-    "country_list",
-    savedStateHandle,
-    dataAdapter,
-    connect,
-    shouldShowcaseRecents,
-    currentUser,
-    vpnStatusProviderUI,
-    translator,
+    screenId = "country_list",
+    savedStateHandle = savedStateHandle,
+    dataAdapter = dataAdapter,
+    connect = connect,
+    shouldShowcaseRecents = shouldShowcaseRecents,
+    currentUser = currentUser,
+    vpnStatusProviderUI = vpnStatusProviderUI,
+    translator = translator,
     defaultMainSavedState = ServerGroupsMainScreenSaveState(selectedFilter = ServerFilterType.All),
+    launchCountryUpgradeDialog = launchCountryUpgradeDialog,
 ) {
     override fun mainScreenState(
         savedStateFlow: Flow<ServerGroupsMainScreenSaveState>,

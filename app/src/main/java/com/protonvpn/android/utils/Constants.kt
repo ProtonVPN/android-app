@@ -85,8 +85,9 @@ object Constants {
 
     const val MAX_CONNECTIONS_IN_PLUS_PLAN = 10
     const val SERVER_SPEED_UP_TO_GBPS = 10
-    const val FALLBACK_SERVER_COUNT = 6500
-    const val FALLBACK_COUNTRY_COUNT = 110
+    const val FALLBACK_FREE_COUNTRY_COUNT = 10
+    const val FALLBACK_SERVER_COUNT = 19_000
+    const val FALLBACK_COUNTRY_COUNT = 140
 
     // Note: ideally these should come from dynamic plans.
     const val UNLIMITED_PLAN_VPN_CONNECTIONS = MAX_CONNECTIONS_IN_PLUS_PLAN

@@ -21,6 +21,7 @@
 
 package com.protonvpn.android.redesign.countries.ui
 
+import android.content.Context
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
@@ -43,6 +44,7 @@ import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.isCompatibleWith
+import com.protonvpn.android.ui.planupgrade.LaunchCountryUpgradeDialog
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -153,6 +155,7 @@ abstract class ServerGroupsViewModel<MainStateT>(
     vpnStatusProviderUI: VpnStatusProviderUI,
     translator: Translator,
     defaultMainSavedState: ServerGroupsMainScreenSaveState,
+    private val launchCountryUpgradeDialog: LaunchCountryUpgradeDialog,
 ) : ViewModel() {
 
     private val mainStateKey = "$screenId:$MainScreenStateKey"
@@ -388,7 +391,7 @@ abstract class ServerGroupsViewModel<MainStateT>(
         item: ServerGroupUiItem.ServerGroup,
         filterType: ServerFilterType,
         navigateToHome: (ShowcaseRecents) -> Unit,
-        navigateToUpsell: () -> Unit,
+        context: Context,
     ) {
         viewModelScope.launch {
             subScreenSaveState = null
@@ -402,7 +405,7 @@ abstract class ServerGroupsViewModel<MainStateT>(
                         connect(vpnUiDelegate, connectIntent, trigger)
                     navigateToHome(connectIntent != null && shouldShowcaseRecents(connectIntent))
                 } else {
-                    navigateToUpsell()
+                    launchCountryUpgradeDialog(context, item.data.countryId)
                 }
             }
         }
