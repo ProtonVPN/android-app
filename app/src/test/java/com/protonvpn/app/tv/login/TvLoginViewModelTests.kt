@@ -116,7 +116,7 @@ class TvLoginViewModelTests {
             monoClockMs = { currentTime },
         )
         viewModel.onEnterScreen(this)
-        assertEquals(TvLoginViewState.Welcome(false), viewModel.state.value)
+        assertEquals(TvLoginViewState.Welcome, viewModel.state.value)
 
         coEvery { api.getVPNInfo(any()) } returns ApiResult.Success(TestUser.basicUser.vpnInfoResponse)
         viewModel.startLogin(this)

@@ -65,7 +65,6 @@ data class StreamingService(val name: String, val iconUrl: String?)
 @Reusable
 class GetStreamingServices @Inject constructor(
     private val store: StreamingServicesObjectStore,
-    private val featureFlags: GetFeatureFlags,
     isTvCheck: IsTvCheck
 ) {
     private val isTV = isTvCheck.invoke()
@@ -73,21 +72,15 @@ class GetStreamingServices @Inject constructor(
         val data = store.read() ?: return emptyList()
 
         val streamingServices = StreamingServicesModel(data)
-        val displayStreamingIcons = featureFlags.first().streamingServicesLogos
         return streamingServices.getForAllTiers(countryCode).map { streamingService ->
             val iconName =
                 if (isTV) streamingService.iconName else streamingService.coloredIconName
             StreamingService(
                 streamingService.name,
-                if (displayStreamingIcons) {
-                    Uri.parse(streamingServices.resourceBaseURL)
-                        .buildUpon()
-                        .appendEncodedPath(iconName)
-                        .toString()
-
-                } else {
-                    null
-                }
+                Uri.parse(streamingServices.resourceBaseURL)
+                    .buildUpon()
+                    .appendEncodedPath(iconName)
+                    .toString()
             )
         }
     }

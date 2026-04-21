@@ -84,12 +84,10 @@ class TvLoginActivity : BaseTvActivity() {
                 HtmlTools.fromHtml(getString(R.string.tv_login_welcome_description_bottom, Constants.TV_SIGNUP_LINK))
 
             lifecycleScope.launch {
-                if (viewModel.displayStreamingIcons()) {
-                    with(streamIcons) {
-                        streamingNetflix.addStreamingView("Netflix", R.drawable.ic_streaming_netflix)
-                        streamingDisney.addStreamingView("Disney+", R.drawable.ic_streaming_disney)
-                        streamingPrime.addStreamingView("Prime", R.drawable.ic_streaming_prime)
-                    }
+                with(streamIcons) {
+                    streamingNetflix.addStreamingView("Netflix", R.drawable.ic_streaming_netflix)
+                    streamingDisney.addStreamingView("Disney+", R.drawable.ic_streaming_disney)
+                    streamingPrime.addStreamingView("Prime", R.drawable.ic_streaming_prime)
                 }
             }
         }
@@ -118,7 +116,6 @@ class TvLoginActivity : BaseTvActivity() {
     private fun updateState(state: TvLoginViewState) = with(binding) {
         loginWaitContainer.isVisible = state is TvLoginViewState.PollingSession
         timerContainer.isVisible = state is TvLoginViewState.PollingSession
-        streamIcons.container.isVisible = state.displayStreamingIcons
         title.init(state.titleRes, state.title)
         helpLink.initLink(state.helpLink)
         description.init(state.descriptionRes)

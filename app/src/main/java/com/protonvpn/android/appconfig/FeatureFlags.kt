@@ -25,7 +25,6 @@ import kotlinx.serialization.Serializable
 data class FeatureFlags(
     @SerialName(value = "ServerRefresh") val maintenanceTrackerEnabled: Boolean = true,
     @SerialName(value = "PollNotificationAPI") val pollApiNotifications: Boolean = false,
-    @SerialName(value = "StreamingServicesLogos") val streamingServicesLogos: Boolean = false,
     @SerialName(value = "WireGuardTls") val wireguardTlsEnabled: Boolean = true,
     // Deprecated:
 //    @SerialName(value = "GuestHoles") val guestHoleEnabled: Boolean = true,
@@ -41,6 +40,7 @@ data class FeatureFlags(
 //    @SerialName(value = "SafeMode") val safeMode: Boolean = false,
 //    @Serializable(with = VpnIntToBoolSerializer::class)
 //    @SerialName(value = "ShowNewFreePlan") val showNewFreePlan: Boolean = false,
+//    @SerialName(value = "StreamingServicesLogos") val streamingServicesLogos: Boolean = false,
 //    @Serializable(with = VpnIntToBoolSerializer::class)
 //    @SerialName(value = "Telemetry") val telemetry: Boolean = true,
 ) : java.io.Serializable
@@ -57,6 +57,5 @@ data class FeatureFlagsLegacyStorage(
 fun FeatureFlagsLegacyStorage.migrate() = FeatureFlags(
     maintenanceTrackerEnabled = maintenanceTrackerEnabled,
     pollApiNotifications = pollApiNotifications,
-    streamingServicesLogos = streamingServicesLogos,
     wireguardTlsEnabled = wireguardTlsEnabled,
 )

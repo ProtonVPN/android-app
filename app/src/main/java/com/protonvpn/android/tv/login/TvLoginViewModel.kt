@@ -70,8 +70,6 @@ class TvLoginViewModel @Inject constructor(
 
     val state = MutableLiveData<TvLoginViewState>()
 
-    suspend fun displayStreamingIcons() = appConfig.getFeatureFlags().streamingServicesLogos
-
     suspend fun onEnterScreen(scope: CoroutineScope) {
         val user = currentUser.user()
         if (user != null) {
@@ -83,7 +81,7 @@ class TvLoginViewModel @Inject constructor(
                 loadInitialConfig(user.userId)
             }
         } else {
-            state.value = TvLoginViewState.Welcome(displayStreamingIcons())
+            state.value = TvLoginViewState.Welcome
         }
     }
 
@@ -207,9 +205,8 @@ sealed class TvLoginViewState(
     @StringRes val descriptionRes: Int = 0,
     @StringRes val description2Res: Int = 0,
     val helpLink: String? = null,
-    open val displayStreamingIcons: Boolean = false,
 ) {
-    data class Welcome(override val displayStreamingIcons: Boolean) : TvLoginViewState(
+    object Welcome : TvLoginViewState(
         titleRes = R.string.tv_login_title_welcome,
         buttonLabelRes = R.string.tv_login_welcome_button,
         descriptionRes = R.string.tv_login_welcome_description,
