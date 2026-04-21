@@ -131,8 +131,6 @@
 # Proton Environment Configuration
 -keep class me.proton.core.configuration.** { *; }
 
--keep class com.appmattus.certificatetransparency.internal.verifier.CertificateTransparencyTrustManagerExtended { *; }
-
 # dnsjava
 -dontwarn com.sun.jna.platform.win32.Guid$GUID
 -dontwarn com.sun.jna.platform.win32.Win32Exception
@@ -140,6 +138,8 @@
 -dontwarn java.awt.GraphicsEnvironment
 -dontwarn java.awt.HeadlessException
 -dontwarn java.awt.Window
+-dontwarn javax.naming.**
 -dontwarn lombok.Generated
+-dontwarn org.xbill.DNS.config.JndiContextResolverConfigProvider
 -dontwarn org.xbill.DNS.spi.DnsjavaInetAddressResolverProvider
 -dontwarn sun.net.spi.nameservice.NameServiceDescriptor
