@@ -25,6 +25,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -151,8 +152,9 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
     }
 }
 
+@VisibleForTesting
 @Composable
-private fun PlanUpgradeDialog(
+fun PlanUpgradeDialog(
     viewState: UpgradeDialogActivityV2.ViewState,
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
@@ -243,7 +245,7 @@ private fun PaymentsPanelFragmentComposable(modifier: Modifier = Modifier) {
     }
 }
 
-private class UpgradeContentProvider : PreviewParameterProvider<ViewState> {
+class UpgradeContentProvider : PreviewParameterProvider<ViewState> {
     override val values: Sequence<ViewState> = sequenceOf(
         ViewState.NetShield,
         ViewState.Speed,
