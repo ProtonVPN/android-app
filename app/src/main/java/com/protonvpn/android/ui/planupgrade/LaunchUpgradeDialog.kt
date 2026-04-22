@@ -21,7 +21,6 @@ package com.protonvpn.android.ui.planupgrade
 
 import android.content.Context
 import com.protonvpn.android.telemetry.UpgradeSource
-import com.protonvpn.android.ui.planupgrade.comparison_table.ComparisonTableUpsells
 import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableEnabled
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2
 import dagger.Reusable
@@ -36,7 +35,7 @@ class LaunchUpgradeDialog @Inject constructor(
 ) {
     operator fun invoke(context: Context, upgradeSource: UpgradeSource, legacyLaunch: () -> Unit) {
         mainScope.launch {
-            if (upgradeSource in ComparisonTableUpsells &&
+            if (UpgradeDialogActivityV2.isSupported(upgradeSource) &&
                 isUpsellComparisonTableEnabled.get().invoke()
             ) {
                 UpgradeDialogActivityV2.launch(context, upgradeSource)

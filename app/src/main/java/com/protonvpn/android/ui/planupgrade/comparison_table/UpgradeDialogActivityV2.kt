@@ -70,19 +70,11 @@ import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.planupgrade.PaymentPanelFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
+import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.ViewState
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import com.protonvpn.android.utils.mixDstOver
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.compose.theme.ProtonTheme
-
-// UpgradeSource values supported by this activity.
-val ComparisonTableUpsells: Array<UpgradeSource> = arrayOf(
-    UpgradeSource.HOME_CAROUSEL_SPEED,
-    UpgradeSource.NETSHIELD,
-    UpgradeSource.HOME_CAROUSEL_NETSHIELD,
-    UpgradeSource.HOME_CAROUSEL_STREAMING,
-    UpgradeSource.STREAMING,
-)
 
 /**
  * Upgrade activity with a plan comparison table.
@@ -90,6 +82,12 @@ val ComparisonTableUpsells: Array<UpgradeSource> = arrayOf(
 // Note: remove the V2 from name when deleting the feature flag.
 @AndroidEntryPoint
 class UpgradeDialogActivityV2 : AppCompatActivity() {
+
+    sealed interface ViewState {
+        object NetShield : ViewState
+        object Speed : ViewState
+        object Streaming : ViewState
+    }
 
     private val viewModel by viewModels<UpgradeDialogViewModel>()
 
@@ -100,7 +98,8 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
         enableEdgeToEdgeVpn()
 
         val modalSource = intent?.getSerializableExtraCompat<UpgradeSource>(UPGRADE_SOURCE_KEY)
-        if (modalSource == null) {
+        val content = modalSource?.let { getContentType(modalSource) }
+        if (content == null) {
             Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
             finish()
             return
@@ -115,7 +114,7 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
         setContent {
             VpnTheme {
                 PlanUpgradeDialog(
-                    source = modalSource,
+                    viewState = content,
                     onClose = ::finish,
                     modifier = Modifier
                         .fillMaxSize()
@@ -134,12 +133,27 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
                 }
             )
         }
+
+        fun isSupported(upgradeSource: UpgradeSource): Boolean =
+            getContentType(upgradeSource) != null
+
+        private fun getContentType(upgradeSource: UpgradeSource): ViewState? = when (upgradeSource) {
+            UpgradeSource.HOME_CAROUSEL_SPEED -> ViewState.Speed
+
+            UpgradeSource.NETSHIELD,
+            UpgradeSource.HOME_CAROUSEL_NETSHIELD -> ViewState.NetShield
+
+            UpgradeSource.HOME_CAROUSEL_STREAMING,
+            UpgradeSource.STREAMING -> ViewState.Streaming
+
+            else -> null
+        }
     }
 }
 
 @Composable
 private fun PlanUpgradeDialog(
-    source: UpgradeSource,
+    viewState: UpgradeDialogActivityV2.ViewState,
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
     windowInsets: WindowInsets = WindowInsets.systemBars,
@@ -188,31 +202,24 @@ private fun PlanUpgradeDialog(
 
             // Note: UpgradeSource to panel type is not an ideal mapping, but it makes it easy to
             // combine old and new dialogs during the experiments.
-            when (source) {
-                UpgradeSource.STREAMING,
-                UpgradeSource.HOME_CAROUSEL_STREAMING ->
+            when (viewState) {
+                ViewState.Streaming ->
                     UpsellStreamingTablePanel(
                         windowInsets = windowInsets,
                         modifier = tableModifier
                     )
 
-                UpgradeSource.NETSHIELD,
-                UpgradeSource.HOME_CAROUSEL_NETSHIELD ->
+                ViewState.NetShield ->
                     UpsellNetShieldTablePanel(
                         windowInsets = windowInsets,
                         modifier = tableModifier
                     )
 
-                UpgradeSource.HOME_CAROUSEL_SPEED ->
+                ViewState.Speed ->
                     UpsellSpeedTablePanel(
                         windowInsets = windowInsets,
                         modifier = tableModifier
                     )
-
-                else -> {
-                    val message = "$source is not supported by the new upsell dialog"
-                    throw UnsupportedOperationException(message)
-                }
             }
         }
     }
@@ -236,20 +243,24 @@ private fun PaymentsPanelFragmentComposable(modifier: Modifier = Modifier) {
     }
 }
 
-private class UpgradeSourceProvider : PreviewParameterProvider<UpgradeSource> {
-    override val values: Sequence<UpgradeSource> = ComparisonTableUpsells.asSequence()
+private class UpgradeContentProvider : PreviewParameterProvider<ViewState> {
+    override val values: Sequence<ViewState> = sequenceOf(
+        ViewState.NetShield,
+        ViewState.Speed,
+        ViewState.Streaming
+    )
 
     override fun getDisplayName(index: Int): String {
-        return values.toList()[index].reportedName
+        return values.toList()[index].javaClass.simpleName
     }
 }
 
 @ProtonVpnPreview
 @Composable
 private fun PreviewPlanUpgradeDialog(
-    @PreviewParameter(UpgradeSourceProvider::class) source: UpgradeSource
+    @PreviewParameter(UpgradeContentProvider::class) viewState: ViewState
 ) {
     ProtonVpnPreview {
-        PlanUpgradeDialog(source, {}, Modifier.fillMaxSize())
+        PlanUpgradeDialog(viewState, {}, Modifier.fillMaxSize())
     }
 }
