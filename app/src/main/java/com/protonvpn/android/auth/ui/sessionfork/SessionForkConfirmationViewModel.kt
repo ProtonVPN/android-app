@@ -115,7 +115,6 @@ class SessionForkConfirmationViewModel @Inject constructor(
             if (vpnUser.isBusiness) {
                 emit(ViewState.ErrorBusinessUser)
             } else {
-                initialUserTier = tvSignInTelemetry.getCurrentUserTierValue()
                 if (vpnUser.isFreeUser && hasSignIn && !hasTriggeredUpgrade) {
                     // Store "hasTriggeredUpgrade" in case the activity is recreated after upgrade
                     // is dismissed.
@@ -135,9 +134,10 @@ class SessionForkConfirmationViewModel @Inject constructor(
             }
         }.stateIn(viewModelScope, SharingStarted.Lazily, ViewState.Initial)
 
-    fun initialize(qrCodeUri: Uri?, isRestarted: Boolean) {
+    suspend fun initialize(qrCodeUri: Uri?, isRestarted: Boolean) {
         this.qrCodeUri = qrCodeUri
         if (!isRestarted) {
+            initialUserTier = tvSignInTelemetry.getCurrentUserTierValue()
             tvSignInTelemetry.onTvAuthInitiated()
         }
     }

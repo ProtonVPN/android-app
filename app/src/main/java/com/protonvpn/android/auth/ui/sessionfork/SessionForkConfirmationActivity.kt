@@ -100,13 +100,12 @@ class SessionForkConfirmationActivity : FragmentActivity() {
             .flowWithLifecycle(lifecycle)
             .onEach { UpgradeOnboardingDialogActivity.launch(this) }
             .launchIn(lifecycleScope)
-        viewModel.initialize(intent.data, isRestarted = savedInstanceState != null)
-        activityHelper.onCreate(accountViewModel)
-
         lifecycleScope.launch {
             // No regular user should be scanning QR codes when the FF is disabled.
             if (!isQrCodeTvLoginFeatureFlagEnabled()) finish()
+            viewModel.initialize(intent.data, isRestarted = savedInstanceState != null)
         }
+        activityHelper.onCreate(accountViewModel)
 
         setContent {
             VpnTheme {
