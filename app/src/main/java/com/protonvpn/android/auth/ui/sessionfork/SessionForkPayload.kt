@@ -26,5 +26,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SessionForkPayload(
     @SerialName("InitialUserTier")
-    val initialUserTier: String
+    val initialUserTier: String,
+    @SerialName("FlowType")
+    val flowType: String
 )

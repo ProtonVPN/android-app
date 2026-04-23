@@ -104,7 +104,7 @@ class LoginTestsMocked : FusionComposeTest() {
             .signIn()
         protonHiltRule.mockDispatcher.prependRules {
             rule(get, path eq "/auth/v4/sessions/forks/$FORK_SELECTOR") {
-                respond(createForkedResponse("""{\"InitialUserTier\": \"credential_less\"}"""))
+                respond(createForkedResponse("""{"InitialUserTier": "credential_less", "FlowType": "app"}"""))
             }
         }
         loginRobot
@@ -125,7 +125,9 @@ class LoginTestsMocked : FusionComposeTest() {
 
     @Test
     fun loginQrSuccess() {
-        testSuccessFlow(createForkedResponse("""{"InitialUserTier": "credential_less"}"""))
+        testSuccessFlow(
+            createForkedResponse("""{"InitialUserTier": "credential_less", "FlowType": "app"}""")
+        )
 
         val expectedEvents = listOf(
             TelemetryEventData(
@@ -138,6 +140,7 @@ class LoginTestsMocked : FusionComposeTest() {
                 dimensions = mapOf(
                     "userTier" to "paid",
                     "userTierAtInitiation" to "credential_less",
+                    "flowType" to "app",
                 )
             ),
         )
@@ -161,6 +164,7 @@ class LoginTestsMocked : FusionComposeTest() {
                 dimensions = mapOf(
                     "userTier" to "paid",
                     "userTierAtInitiation" to "n/a",
+                    "flowType" to "n/a",
                 )
             ),
         )

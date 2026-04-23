@@ -157,7 +157,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
         val requestBody = forkRequest.body.readString(UTF_8).deserialize<ForkSessionRequest>()
         assertEquals("android_tv-vpn", requestBody.childClientId)
         assertEquals("1234ABCD", requestBody.userCode)
-        assertEquals("""{"InitialUserTier":"paid"}""", Base64.decode(requestBody.payload, 0).decodeToString())
+        assertEquals("""{"InitialUserTier":"paid","FlowType":"app"}""", Base64.decode(requestBody.payload, 0).decodeToString())
         assertEquals(1L, requestBody.independent)
     }
 }

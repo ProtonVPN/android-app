@@ -59,7 +59,8 @@ class TvSignInTelemetry @Inject constructor(
     fun onTvAuthInitiated() {
         telemetryFlowHelper.event(sendImmediately = true) {
             val dimensions = buildMap {
-                put("userTierAtInitiation", getCurrentUserTierValue())
+                put(KEY_USER_TIER_AT_INITIATION, getCurrentUserTierValue())
+                put(KEY_FLOW_TYPE, FLOW_TYPE)
             }
             TelemetryEventData(
                 measurementGroup = MEASUREMENT_GROUP,
@@ -70,7 +71,7 @@ class TvSignInTelemetry @Inject constructor(
     }
 
     // Sent by TV.
-    fun onTvAuthCompleted(initialUserTier: String) {
+    fun onTvAuthCompleted(initialUserTier: String, flowType: String) {
         mainScope.launch {
             // Wait for the log in to finish before reporting this event, otherwise userTier
             // value will be incorrect. Don't wait forever, in case of errors with fetching VPN
@@ -81,7 +82,8 @@ class TvSignInTelemetry @Inject constructor(
             telemetryFlowHelper.event(sendImmediately = true) {
                 val dimensions = buildMap {
                     commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
-                    put("userTierAtInitiation", initialUserTier)
+                    put(KEY_USER_TIER_AT_INITIATION, initialUserTier)
+                    put(KEY_FLOW_TYPE, flowType)
                 }
                 TelemetryEventData(
                     measurementGroup = MEASUREMENT_GROUP,
@@ -94,5 +96,8 @@ class TvSignInTelemetry @Inject constructor(
 
     companion object {
         const val MEASUREMENT_GROUP = "vpn.any.tv_signin"
+        const val FLOW_TYPE = "app"
+        private const val KEY_USER_TIER_AT_INITIATION = "userTierAtInitiation"
+        private const val KEY_FLOW_TYPE = "flowType"
     }
 }

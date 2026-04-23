@@ -143,8 +143,10 @@ class TvQrLoginViewModel @Inject constructor(
             val pollingResult = pollForSessionFork(fork.selector)
             when (pollingResult) {
                 is PollResult.Success -> {
-                    telemetry.onTvAuthCompleted(pollingResult.initialUserTier)
-                    emit(login(pollingResult.session, fork))
+                    with (pollingResult) {
+                        telemetry.onTvAuthCompleted(initialUserTier, flowType)
+                        emit(login(session, fork))
+                    }
                 }
 
                 PollResult.Error -> emit(ViewState.PollingFailed.Error)
@@ -188,7 +190,11 @@ class TvQrLoginViewModel @Inject constructor(
     }
 
     private sealed interface PollResult {
-        data class Success(val session: Session.Authenticated, val initialUserTier: String) : PollResult
+        data class Success(
+            val session: Session.Authenticated,
+            val initialUserTier: String,
+            val flowType: String
+        ) : PollResult
         object Error : PollResult
         object Timeout : PollResult
     }
@@ -198,7 +204,11 @@ class TvQrLoginViewModel @Inject constructor(
             suspend {
                 val result = pollSessionFork(encryptionKey = null, selector = selector, pollDuration = 5.seconds)
                 val payload: SessionForkPayload? = parsePayload(result.payload)
-                PollResult.Success(result.session, payload?.initialUserTier ?: CommonDimensions.NO_VALUE)
+                PollResult.Success(
+                    result.session,
+                    payload?.initialUserTier ?: CommonDimensions.NO_VALUE,
+                    payload?.flowType ?: CommonDimensions.NO_VALUE,
+                )
             }.runCatchingCheckedExceptions { e ->
                 ProtonLogger.logCustom(
                     LogLevel.ERROR,

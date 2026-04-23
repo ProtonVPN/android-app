@@ -166,8 +166,10 @@ class SessionForkConfirmationViewModel @Inject constructor(
     ): Flow<ViewState.Fork> = channelFlow {
         withContext(NonCancellable) {
             try {
-                val payloadJsonString =
-                    SessionForkPayload(initialUserTier = initialUserTier).serialize()
+                val payloadJsonString = SessionForkPayload(
+                    initialUserTier = initialUserTier,
+                    flowType = TvSignInTelemetry.FLOW_TYPE
+                ).serialize()
                 forkSession(
                     userId = userId,
                     payload = Base64.encodeToString(payloadJsonString.toByteArray(), Base64.NO_WRAP),
