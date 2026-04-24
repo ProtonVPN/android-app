@@ -23,8 +23,11 @@ import androidx.activity.ComponentActivity
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.telemetry.UpgradeAbTest
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.UserPlanManager
@@ -97,8 +100,14 @@ abstract class CommonUpgradeDialogViewModel(
     val eventPurchaseError: ReceiveChannel<PurchaseError> = purchaseError
     val state = MutableStateFlow<State>(State.Initializing)
 
-    fun reportUpgradeFlowStart(upgradeSource: UpgradeSource, reference: String? = null) {
-        upgradeTelemetry.onUpgradeFlowStarted(upgradeSource, reference)
+    fun reportUpgradeFlowStart(
+        upgradeSource: UpgradeSource,
+        upgradeTrigger: UpgradeTrigger,
+        abTestGroup: UpgradeAbTest?,
+        countryId: CountryId? = null,
+        reference: String? = null,
+    ) {
+        upgradeTelemetry.onUpgradeFlowStarted(upgradeSource, upgradeTrigger, abTestGroup, countryId, reference)
     }
 
     fun setupOrchestrators(activity: ComponentActivity) {

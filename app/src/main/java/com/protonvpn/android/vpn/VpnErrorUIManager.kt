@@ -13,6 +13,7 @@ import com.protonvpn.android.notifications.NotificationHelper.FullScreenDialog
 import com.protonvpn.android.notifications.NotificationHelper.InformationNotification
 import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
@@ -75,7 +76,7 @@ class VpnErrorUIManager @Inject constructor(
                             title = appContext.getString(R.string.notification_subscription_expired_title),
                             content = appContext.getString(R.string.notification_subscription_expired_no_reconnection_content),
                             reconnectionInformation = null,
-                            action = createPlanUpgradeAction(UpgradeSource.DOWNGRADE),
+                            action = createPlanUpgradeAction(),
                             fullScreenDialog = FullScreenDialog(null, true, null)
                         )
                     )
@@ -187,7 +188,7 @@ class VpnErrorUIManager @Inject constructor(
                                     toCountrySecureCore = if (switch.toServer.isSecureCoreServer) switch.toServer.entryCountry else null
                                 )
                             },
-                            action = createPlanUpgradeAction(UpgradeSource.DOWNGRADE),
+                            action = createPlanUpgradeAction(),
                             fullScreenDialog = FullScreenDialog(hasUpsellLayout = true, cancelToastMessage = getCancelToastMessage(reason))
                         )
                     }
@@ -195,7 +196,7 @@ class VpnErrorUIManager @Inject constructor(
                         InformationNotification(
                             title = appContext.getString(R.string.notification_delinquent_title),
                             content = appContext.getString(R.string.notification_delinquent_content),
-                            action = createPlanUpgradeAction(UpgradeSource.DOWNGRADE),
+                            action = createPlanUpgradeAction(),
                             fullScreenDialog = FullScreenDialog(hasUpsellLayout = true, cancelToastMessage = getCancelToastMessage(reason))
                         )
                     }
@@ -217,7 +218,7 @@ class VpnErrorUIManager @Inject constructor(
                         )
                     }
                     val action =
-                        if (!isUserPlusOrAbove) createPlanUpgradeAction(UpgradeSource.MAX_CONNECTIONS) else null
+                        if (!isUserPlusOrAbove) createPlanUpgradeAction() else null
                     InformationNotification(
                         title = appContext.getString(R.string.notification_max_sessions_title),
                         content = content,
@@ -236,12 +237,16 @@ class VpnErrorUIManager @Inject constructor(
         }
     }
 
-    private fun createPlanUpgradeAction(upgradeSource: UpgradeSource?): ActionItem = ActionItem.Activity(
-        appContext.getString(R.string.upgrade),
-        CarouselUpgradeDialogActivity.createIntent<UpgradePlusCountriesHighlightsFragment>(appContext),
-        true,
-        upgradeSource
-    )
+    private fun createPlanUpgradeAction(): ActionItem {
+        val upgradeTrigger = UpgradeTrigger.ERROR_DIALOG
+        return ActionItem.Activity(
+            appContext.getString(R.string.upgrade),
+            CarouselUpgradeDialogActivity.createIntent<UpgradePlusCountriesHighlightsFragment>(appContext, upgradeTrigger),
+            true,
+            UpgradeSource.COUNTRIES,
+            upgradeTrigger,
+        )
+    }
 
     private fun getCancelToastMessage(reason: SwitchServerReason) = when (reason) {
         is SwitchServerReason.Downgrade -> appContext.getString(

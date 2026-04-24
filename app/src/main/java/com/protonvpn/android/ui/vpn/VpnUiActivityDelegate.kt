@@ -27,13 +27,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.logging.ConnError
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.app.ui.nav.MainNavEvent
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
-import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
+import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.utils.haveVpnSettings
 import com.protonvpn.android.vpn.PermissionContract
 import com.protonvpn.android.vpn.ReasonRestricted
@@ -83,6 +81,7 @@ abstract class VpnUiActivityDelegate(
 
 class VpnUiActivityDelegateMobile(
     activity: ComponentActivity,
+    private val upgradeDialogLauncher: UpgradeDialogLauncher,
     retryConnection: ((AnyConnectIntent) -> Unit)? = null,
     private val onNavigate: ((MainNavEvent) -> Unit)? = null,
 ) : VpnUiActivityDelegate(activity) {
@@ -101,11 +100,11 @@ class VpnUiActivityDelegateMobile(
     }
 
     override fun showPlusUpgradeDialog() {
-        CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(activity)
+        upgradeDialogLauncher.launchCountries(activity, UpgradeTrigger.ERROR_DIALOG, null)
     }
 
     override fun showSecureCoreUpgradeDialog() {
-        CarouselUpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(activity)
+        upgradeDialogLauncher.launchCountries(activity, UpgradeTrigger.ERROR_DIALOG, null)
     }
 
     override fun showMaintenanceDialog() {

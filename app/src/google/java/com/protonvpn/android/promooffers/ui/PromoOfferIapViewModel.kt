@@ -26,6 +26,7 @@ import com.protonvpn.android.promooffers.data.ApiNotificationOfferButton
 import com.protonvpn.android.promooffers.data.ApiNotificationOfferFullScreenImage
 import com.protonvpn.android.promooffers.data.ApiNotificationTypes
 import com.protonvpn.android.promooffers.usecase.EnsureIapOfferStillValid
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import me.proton.core.util.kotlin.takeIfNotBlank
@@ -44,6 +45,7 @@ class PromoOfferIapViewModel @Inject constructor(
         val buttonLabel: String?,
         val iapParams: NotificationIapParams,
         val notificationReference: String?,
+        val upgradeTrigger: UpgradeTrigger,
     )
 
     suspend fun getOfferViewState(notificationId: String, width: Int): OfferViewState? {
@@ -60,7 +62,8 @@ class PromoOfferIapViewModel @Inject constructor(
                     width = width,
                     button = panel?.button,
                     iapParams = panel?.button?.iapActionDetails?.toIapParams(),
-                    reference = notification.reference
+                    reference = notification.reference,
+                    upgradeTrigger = UpgradeTrigger.PROMO_OFFER_POPUP,
                 )
             }
 
@@ -71,7 +74,8 @@ class PromoOfferIapViewModel @Inject constructor(
                     width = width,
                     button = panel?.button,
                     iapParams = panel?.iapProductDetails?.google?.toIapParams(),
-                    reference = notification.reference
+                    reference = notification.reference,
+                    upgradeTrigger = UpgradeTrigger.PROMO_OFFER_POPUP,
                 )
             }
 
@@ -88,7 +92,8 @@ class PromoOfferIapViewModel @Inject constructor(
                     width = width,
                     button = panel?.button,
                     iapParams = iapParams,
-                    reference = notification.reference
+                    reference = notification.reference,
+                    upgradeTrigger = UpgradeTrigger.PROMO_OFFER_BANNER,
                 )
             }
 
@@ -103,7 +108,8 @@ class PromoOfferIapViewModel @Inject constructor(
         width: Int,
         button: ApiNotificationOfferButton?,
         iapParams: NotificationIapParams?,
-        reference: String?
+        reference: String?,
+        upgradeTrigger: UpgradeTrigger,
     ): OfferViewState? {
         val imageSource = image?.let { PromoOfferImage.getFullScreenImage(width, image) }
         val imageContentDescription = image?.alternativeText
@@ -115,6 +121,7 @@ class PromoOfferIapViewModel @Inject constructor(
                 buttonLabel = button?.text?.takeIfNotBlank(),
                 iapParams = iapParams,
                 notificationReference = reference,
+                upgradeTrigger = upgradeTrigger,
             )
         } else {
             null

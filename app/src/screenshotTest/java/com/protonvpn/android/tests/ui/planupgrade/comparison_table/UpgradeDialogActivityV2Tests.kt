@@ -23,30 +23,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.planupgrade.comparison_table.PlanUpgradeDialog
-
-private class UpgradeDialogActivityV2Provider : PreviewParameterProvider<UpgradeSource> {
-    override val values: Sequence<UpgradeSource> = sequenceOf(
-        UpgradeSource.HOME_CAROUSEL_SPEED,
-        UpgradeSource.HOME_CAROUSEL_NETSHIELD,
-        UpgradeSource.HOME_CAROUSEL_STREAMING,
-    )
-
-    override fun getDisplayName(index: Int): String {
-        return values.toList()[index].reportedName
-    }
-}
+import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeContentProvider
+import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.ViewState
 
 @PreviewTest
 @ProtonVpnTestPreview
 @Composable
-fun UpgradeDialogActivityV2ScreenTest(@PreviewParameter(UpgradeDialogActivityV2Provider::class) val type: UpgradeSource) {
+fun UpgradeDialogActivityV2ScreenTest(@PreviewParameter(UpgradeContentProvider::class) state: ViewState) {
     ProtonVpnPreview {
-        PlanUpgradeDialog(type, {}, modifier = Modifier.fillMaxWidth())
+        PlanUpgradeDialog(state, {}, modifier = Modifier.fillMaxWidth())
     }
 }

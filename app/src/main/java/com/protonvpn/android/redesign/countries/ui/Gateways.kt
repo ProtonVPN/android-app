@@ -23,10 +23,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
+import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.vpn.ui.LocalVpnUiDelegate
 
 @Composable
 fun GatewaysRoute(
@@ -36,19 +39,31 @@ fun GatewaysRoute(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
+        val uiDelegate = LocalVpnUiDelegate.current
+        val context = LocalContext.current
         val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value
         val subScreenState = viewModel.subScreenStateFlow.collectAsStateWithLifecycle().value
         ServerGroupsWithToolbar(
-            mainState,
-            subScreenState,
-            onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
+            mainState = mainState,
+            subScreenState = subScreenState,
             onNavigateToSearch = null,
-            ServerGroupsActions(
+            onNavigateToUpsell = { viewModel.launchBannerUpgradeDialog(context, it) },
+            actions = ServerGroupsActions(
                 setLocale = { viewModel.localeFlow.value = it },
                 onNavigateBack = viewModel::onNavigateBack,
                 onClose = viewModel::onClose,
                 onItemOpen = viewModel::onItemOpen,
-                onItemConnect = viewModel::onItemConnect
+                onItemConnect = { item, filterType ->
+                    viewModel.onItemConnect(
+                        context,
+                        uiDelegate,
+                        item,
+                        filterType,
+                        onNavigateToHomeOnConnect,
+                        // Gateways don't have upsells, this value is never used.
+                        UpgradeTrigger.COUNTRY_SELECTION,
+                    )
+                }
             ),
             titleRes = R.string.gateways_title,
         )

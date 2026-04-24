@@ -39,6 +39,7 @@ import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.databinding.FreeConnectionsInfoBinding
 import com.protonvpn.android.databinding.InfoFreeCountryItemBinding
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.CountryTools
@@ -56,13 +57,19 @@ fun FreeConnectionsInfoBottomSheet(
     viewModel: FreeConnectionsInfoViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
-        viewModel.reportUpgradeFlowStart(UpgradeSource.COUNTRIES)
+        viewModel.reportUpgradeFlowStart(UpgradeSource.COUNTRIES, UpgradeTrigger.HOME)
     }
-    FreeConnectionsInfoBottomSheet(onDismissRequest, viewModel.freeCountriesCodes)
+    val context = LocalContext.current
+    FreeConnectionsInfoBottomSheet(
+        onDismissRequest = onDismissRequest,
+        onUpgrade = { viewModel.launchUpgradeDialog(context) },
+        freeCountries = viewModel.freeCountriesCodes
+    )
 }
 @Composable
 private fun FreeConnectionsInfoBottomSheet(
     onDismissRequest: () -> Unit,
+    onUpgrade: () -> Unit,
     freeCountries: List<String>,
 ) {
     SimpleModalBottomSheet(
@@ -78,19 +85,21 @@ private fun FreeConnectionsInfoBottomSheet(
             )
             val context = LocalContext.current
             AndroidViewBinding(FreeConnectionsInfoBinding::inflate) {
-                setupViews(context, freeCountries)
+                setupViews(context, onUpgrade, freeCountries)
             }
         }
     }
 }
 
-private fun FreeConnectionsInfoBinding.setupViews(context: Context, freeCountries: List<String>) {
+private fun FreeConnectionsInfoBinding.setupViews(
+    context: Context,
+    onUpgrade: () -> Unit,
+    freeCountries: List<String>
+) {
     locationsHeader.text =
         context.getString(R.string.free_connections_info_server_locations, freeCountries.size)
     upsellBanner.textTitle.setText(R.string.free_connections_info_banner_text)
-    upsellBanner.root.onClick {
-        CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
-    }
+    upsellBanner.root.onClick(onUpgrade)
     for (country in freeCountries) {
         val item = InfoFreeCountryItemBinding.inflate(
             LayoutInflater.from(context), freeCountriesContainer, true)

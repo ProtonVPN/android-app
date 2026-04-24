@@ -24,8 +24,10 @@ import com.protonvpn.android.telemetry.DefaultCommonDimensions
 import com.protonvpn.android.telemetry.DefaultTelemetryReporter
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
+import com.protonvpn.android.telemetry.UpgradeAbTest
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -96,10 +98,16 @@ class UpgradeTelemetryTests {
 
     @Test
     fun `upsell_display event dimensions`() = testScope.runTest {
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.COUNTRIES, "ref")
+        upgradeTelemetry.onUpgradeFlowStarted(
+            upgradeSource = UpgradeSource.COUNTRIES,
+            upgradeTrigger = UpgradeTrigger.COUNTRY_SELECTION,
+            abTestGroup = UpgradeAbTest.CONTROL,
+            reference = "ref",
+        )
 
         val expectedDimensions = mapOf(
             "modal_source" to "countries",
+            "modal_trigger" to "country_selection",
             "new_free_plan_ui" to "yes",
             "user_country" to "n/a",
             "vpn_status" to "off",
@@ -107,7 +115,8 @@ class UpgradeTelemetryTests {
             "days_since_account_creation" to "0",
             "reference" to "ref",
             "is_credential_less_enabled" to "yes",
-            "user_tier" to "free"
+            "user_tier" to "free",
+            "vpn_upsell_modal_comparison_table_20260427" to "control",
         )
         verify {
             mockTelemetry.event(UPSELL_GROUP, "upsell_display", emptyMap(), expectedDimensions)
@@ -116,7 +125,12 @@ class UpgradeTelemetryTests {
 
     @Test
     fun `flow_type dimension`() = testScope.runTest {
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.COUNTRIES, "ref")
+        upgradeTelemetry.onUpgradeFlowStarted(
+            upgradeSource = UpgradeSource.COUNTRIES,
+            upgradeTrigger = UpgradeTrigger.HOME_CAROUSEL,
+            abTestGroup = null,
+            reference = "ref",
+        )
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.ONE_CLICK)
 
         verify {
@@ -132,7 +146,7 @@ class UpgradeTelemetryTests {
 
     @Test
     fun `modal_source is carried over to subsequent events`() = testScope.runTest {
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.NETSHIELD)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.NETSHIELD, UpgradeTrigger.SETTINGS, null)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
         upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.FREE.value)
 
@@ -150,10 +164,10 @@ class UpgradeTelemetryTests {
 
     @Test
     fun `when new flow starts it overrides the previous modal_source`() = testScope.runTest {
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.NETSHIELD)
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.NETSHIELD, UpgradeTrigger.SETTINGS, null)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION, UpgradeTrigger.SETTINGS, null)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROFILES)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROFILES, UpgradeTrigger.PROFILES, null)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
         upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.FREE.value)
 
@@ -171,7 +185,7 @@ class UpgradeTelemetryTests {
 
     @Test
     fun `on success both old and new plan is reported`() = testScope.runTest {
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION, UpgradeTrigger.SETTINGS, null)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
         upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.YEARLY.value)
 
@@ -196,7 +210,7 @@ class UpgradeTelemetryTests {
             fakeTime = createdAtUtc + timeSinceCreation.inWholeMilliseconds
             val dimensionsSlot = slot<Map<String, String>>() // Using slots allows for cleaner failure messages.
             every { mockTelemetry.event(any(), any(), any(), capture(dimensionsSlot)) } just runs
-            upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION)
+            upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION, UpgradeTrigger.SETTINGS, null)
             assertEquals(expectedBucket, dimensionsSlot.captured["days_since_account_creation"])
         }
 
@@ -215,7 +229,7 @@ class UpgradeTelemetryTests {
 
     @Test
     fun `upgrade more than 10 minutes after first event is ignored`() = testScope.runTest {
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION, UpgradeTrigger.SETTINGS, null)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
         fakeTime = 10.minutes.inWholeMilliseconds + 1
         upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.MONTHLY.value)

@@ -71,7 +71,7 @@ fun FullHomeScreenDisconnected() {
             onOpenConnectionPreferences = {},
             onOpenSmartDiscoveryConnectionPreferences = {},
             onDismissSmartDiscoveryConnectionPreferencesDialog = {},
-            onLaunchUpgradeDialog = { _, _ -> },
+            onLaunchUpgradeDialog = { _, _, _ -> },
         )
     }
 }
@@ -103,7 +103,7 @@ fun FullHomeScreenConnected() {
             onOpenConnectionPreferences = {},
             onOpenSmartDiscoveryConnectionPreferences = {},
             onDismissSmartDiscoveryConnectionPreferencesDialog = {},
-            onLaunchUpgradeDialog = { _, _ -> },
+            onLaunchUpgradeDialog = { _, _, _ -> },
         )
     }
 }

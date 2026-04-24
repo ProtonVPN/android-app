@@ -54,6 +54,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -67,10 +68,13 @@ import com.protonvpn.android.base.ui.TopAppBarBackIcon
 import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.countries.ui.FiltersRow
 import com.protonvpn.android.redesign.countries.ui.ServerGroupItemsList
+import com.protonvpn.android.redesign.countries.ui.ServerGroupUiItem
 import com.protonvpn.android.redesign.countries.ui.ServerGroupsMainScreenState
 import com.protonvpn.android.redesign.countries.ui.ServerGroups
 import com.protonvpn.android.redesign.countries.ui.ServerGroupsActions
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
+import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.vpn.ui.LocalVpnUiDelegate
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.headlineNorm
 import me.proton.core.presentation.R as CoreR
@@ -101,6 +105,8 @@ fun SearchRoute(
                 focusRequester = focusRequester
             )
 
+            val context = LocalContext.current
+            val uiDelegate = LocalVpnUiDelegate.current
             val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value
             val subScreenState = viewModel.subScreenStateFlow.collectAsStateWithLifecycle().value
             val serverGroupsActions = ServerGroupsActions(
@@ -108,21 +114,35 @@ fun SearchRoute(
                 onNavigateBack = viewModel::onNavigateBack,
                 onClose = viewModel::onClose,
                 onItemOpen = viewModel::onItemOpen,
-                onItemConnect = viewModel::onItemConnect
+                onItemConnect = { item, filterType ->
+                    viewModel.onItemConnect(
+                        context,
+                        uiDelegate,
+                        item,
+                        filterType,
+                        onNavigateToHomeOnConnect,
+                        UpgradeTrigger.SEARCH_SELECTION,
+                    )
+                }
             )
+            val onNavigateToUpsell = { bannerType: ServerGroupUiItem.BannerType ->
+                viewModel.launchBannerUpgradeDialog(context, bannerType)
+            }
             ServerGroups(
-                mainState,
-                subScreenState,
-                onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
+                mainState = mainState,
+                subScreenState = subScreenState,
                 actions = serverGroupsActions,
+                onNavigateToUpsell = onNavigateToUpsell
             ) { mainState, infoSheetState ->
-                val modifier = Modifier.weight(1f).fillMaxWidth()
+                val modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
                 when (mainState) {
                     is SearchViewState.ZeroScreen ->
                         SearchZeroScreen(modifier)
 
                     is SearchViewState.Result ->
-                        ResultScreen(serverGroupsActions, mainState.result, onNavigateToHomeOnConnect, infoSheetState, modifier)
+                        ResultScreen(serverGroupsActions, mainState.result, infoSheetState, onNavigateToUpsell, modifier)
                 }
             }
         }
@@ -137,9 +157,9 @@ fun SearchRoute(
 fun ResultScreen(
     serverGroupsActions: ServerGroupsActions,
     result: ServerGroupsMainScreenState,
-    onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
     infoSheetState: InfoSheetState,
-    modifier: Modifier
+    onNavigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier) {
         FiltersRow(
@@ -149,7 +169,7 @@ fun ResultScreen(
         if (result.items.isEmpty())
             EmptySearchResult(Modifier.fillMaxSize())
         else
-            ServerGroupItemsList(serverGroupsActions, result, onNavigateToHomeOnConnect, infoSheetState)
+            ServerGroupItemsList(serverGroupsActions, result, infoSheetState, onNavigateToUpsell)
     }
 }
 

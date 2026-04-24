@@ -22,6 +22,7 @@ package com.protonvpn.android.restrictonsupsell
 import android.app.Activity
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
@@ -47,7 +48,7 @@ private val UpsellDialogMinIntervalMs = 1.minutes.inWholeMilliseconds
 @Reusable
 class OpenUpgradeStreamingBlockDialog @Inject constructor() {
     operator fun invoke(activity: Activity) {
-        PlusOnlyUpgradeDialogActivity.launch<UpgradeStreamingBlockFragment>(activity)
+        PlusOnlyUpgradeDialogActivity.launch<UpgradeStreamingBlockFragment>(activity, UpgradeTrigger.NETWORK_RESTRICTION)
     }
 }
 

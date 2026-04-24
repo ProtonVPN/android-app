@@ -88,67 +88,67 @@ private fun createPages() = buildList {
     add(
         Page(
             UpgradePlusCountriesHighlightsFragment::class,
-            UpgradeSource.HOME_CAROUSEL_COUNTRIES,
+            UpgradeSource.COUNTRIES,
         ) { modifier -> UpsellCardCountries(roundedServerCount, countriesCount, modifier) }
     )
     add(
         Page(
             UpgradeVpnAcceleratorHighlightsFragment::class,
-            UpgradeSource.HOME_CAROUSEL_SPEED,
+            UpgradeSource.VPN_ACCELERATOR,
         ) { modifier -> UpsellCardFasterBrowsing(modifier) }
     )
     add(
         Page(
             UpgradeStreamingHighlightsFragment::class,
-            UpgradeSource.HOME_CAROUSEL_STREAMING,
+            UpgradeSource.STREAMING,
         ) { modifier -> UpsellCardStreaming(modifier) }
     )
     add(
         Page(
             UpgradeNetShieldHighlightsFragment::class,
-            UpgradeSource.HOME_CAROUSEL_NETSHIELD,
+            UpgradeSource.NETSHIELD,
         ) { modifier -> UpsellCardNetShield(modifier) }
     )
     add(
         Page(
             UpgradeSecureCoreHighlightsFragment::class,
-            UpgradeSource.HOME_CAROUSEL_SECURE_CORE,
+            UpgradeSource.SECURE_CORE,
         ) { modifier -> UpsellCardSecureCore(modifier) }
     )
     add(
         Page(
             UpgradeP2PHighlightsFragment::class,
-            UpgradeSource.HOME_CAROUSEL_P2P,
+            UpgradeSource.P2P,
         ) { modifier -> UpsellCardP2P(modifier) }
     )
     add(
         Page(
             UpgradeDevicesHighlightsFragment::class,
-            UpgradeSource.HOME_CAROUSEL_MULTIPLE_DEVICES,
+            UpgradeSource.DEVICES,
         ) { modifier -> UpsellCardDevices(modifier) }
     )
     add(
         Page(
             UpgradeTorHighlightsFragment::class,
-            UpgradeSource.HOME_CAROUSEL_TOR,
+            UpgradeSource.TOR,
         ) { modifier -> UpsellCardTor(modifier) }
     )
     add(
         Page(
             UpgradeSplitTunnelingHighlightsFragment::class,
-            UpgradeSource.HOME_CAROUSEL_SPLIT_TUNNELING,
+            UpgradeSource.SPLIT_TUNNELING,
         ) { modifier -> UpsellCardSplitTunneling(modifier) }
     )
     add(
         Page(
             UpgradeProfilesHighlightsFragment::class,
-            UpgradeSource.HOME_CAROUSEL_PROFILES,
+            UpgradeSource.PROFILES,
         ) { modifier -> UpsellCardProfiles(modifier) }
     )
     add(
         Page(
             UpgradeAdvancedCustomizationHighlightsFragment::class,
-            UpgradeSource.HOME_CAROUSEL_CUSTOMIZATION,
+            UpgradeSource.ADVANCED_CUSTOMIZATION,
         ) { modifier -> UpsellCardCustomization(modifier) }
     )
 }

@@ -76,6 +76,7 @@ import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.drawer.LogActivity
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
@@ -174,7 +175,10 @@ fun SettingsRoute(
                     onNavigateToSubSetting(SubSettingsScreen.Type.SplitTunneling)
                 },
                 onSplitTunnelUpgrade = {
-                    CarouselUpgradeDialogActivity.launch<UpgradeSplitTunnelingHighlightsFragment>(context)
+                    CarouselUpgradeDialogActivity.launch<UpgradeSplitTunnelingHighlightsFragment>(
+                        context,
+                        UpgradeTrigger.SETTINGS
+                    )
                 },
                 onAlwaysOnClick = {
                     onNavigateToSubSetting(SubSettingsScreen.Type.KillSwitch)
@@ -194,7 +198,7 @@ fun SettingsRoute(
                     onNavigateToSubSetting(SubSettingsScreen.Type.VpnAccelerator)
                 },
                 onVpnAcceleratorUpgrade = {
-                    CarouselUpgradeDialogActivity.launch<UpgradeVpnAcceleratorHighlightsFragment>(context)
+                    CarouselUpgradeDialogActivity.launch<UpgradeVpnAcceleratorHighlightsFragment>(context, UpgradeTrigger.SETTINGS)
                 },
                 onAdvancedSettingsClick = {
                     onNavigateToSubSetting(SubSettingsScreen.Type.Advanced)

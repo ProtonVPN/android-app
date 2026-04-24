@@ -45,6 +45,7 @@ import com.protonvpn.android.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeProfilesHighlightsFragment
 import com.protonvpn.android.vpn.ui.LocalVpnUiDelegate
@@ -87,7 +88,12 @@ fun ProfilesRoute(
         if (state != null) {
             val context = LocalContext.current
             val uiDelegate = LocalVpnUiDelegate.current
-            val navigateToUpsell = { CarouselUpgradeDialogActivity.launch<UpgradeProfilesHighlightsFragment>(context) }
+            val navigateToUpsell = {
+                CarouselUpgradeDialogActivity.launch<UpgradeProfilesHighlightsFragment>(
+                    context,
+                    UpgradeTrigger.PROFILES
+                )
+            }
             Profiles(
                 state = state,
                 onConnect = { profile ->

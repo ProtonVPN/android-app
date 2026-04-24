@@ -26,6 +26,7 @@ import com.protonvpn.android.promooffers.data.ApiNotificationManager
 import com.protonvpn.android.promooffers.data.ApiNotificationOfferPanel
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.utils.DebugUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,7 +54,12 @@ class PromoOfferViewModel @Inject constructor(
             ?.find { it.id == offerId }
         val offerPanel = notification?.offer?.panel
         if (offerPanel != null) currentPanel = offerPanel
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER, notification?.reference)
+        upgradeTelemetry.onUpgradeFlowStarted(
+            UpgradeSource.PROMO_OFFER,
+            UpgradeTrigger.PROMO_OFFER_POPUP,
+            abTestGroup = null,
+            reference = notification?.reference
+        )
         return offerPanel
     }
 

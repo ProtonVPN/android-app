@@ -21,6 +21,7 @@ package com.protonvpn.android.telemetry
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.utils.getValue
@@ -35,19 +36,7 @@ enum class UpgradeSource {
     ADVANCED_CUSTOMIZATION,
     CHANGE_SERVER,
     COUNTRIES,
-    DOWNGRADE,
-    HOME_CAROUSEL_COUNTRIES,
-    HOME_CAROUSEL_CUSTOMIZATION,
-    HOME_CAROUSEL_MULTIPLE_DEVICES,
-    HOME_CAROUSEL_NETSHIELD,
-    HOME_CAROUSEL_P2P,
-    HOME_CAROUSEL_PROFILES,
-    HOME_CAROUSEL_SECURE_CORE,
-    HOME_CAROUSEL_SPEED,
-    HOME_CAROUSEL_SPLIT_TUNNELING,
-    HOME_CAROUSEL_STREAMING,
-    HOME_CAROUSEL_TOR,
-    MAX_CONNECTIONS,
+    DEVICES,
     NETSHIELD,
     ONBOARDING,
     P2P,
@@ -61,7 +50,44 @@ enum class UpgradeSource {
     VPN_ACCELERATOR,
     PROMO_OFFER;
 
+    // Deprecated:
+//    HOME_CAROUSEL_COUNTRIES,
+//    HOME_CAROUSEL_CUSTOMIZATION,
+//    HOME_CAROUSEL_MULTIPLE_DEVICES,
+//    HOME_CAROUSEL_NETSHIELD,
+//    HOME_CAROUSEL_P2P,
+//    HOME_CAROUSEL_PROFILES,
+//    HOME_CAROUSEL_SECURE_CORE,
+//    HOME_CAROUSEL_SPEED,
+//    HOME_CAROUSEL_SPLIT_TUNNELING,
+//    HOME_CAROUSEL_STREAMING,
+//    HOME_CAROUSEL_TOR,
+//    DOWNGRADE,
+//    MAX_CONNECTIONS,
+
     val reportedName = name.lowercase()
+}
+
+enum class UpgradeTrigger {
+    COUNTRIES_BANNER,
+    COUNTRY_SELECTION,
+    ERROR_DIALOG,
+    HOME,
+    HOME_CAROUSEL,
+    NETWORK_RESTRICTION,
+    ONBOARDING,
+    PROFILES,
+    PROMO_OFFER_BANNER,
+    PROMO_OFFER_POPUP,
+    SEARCH,
+    SEARCH_SELECTION,
+    SETTINGS;
+
+    val reportedName = name.lowercase()
+}
+
+enum class UpgradeAbTest(val reportedValue: String) {
+    CONTROL("control"), COMPARISON_TABLE("comparison_table")
 }
 
 @Singleton
@@ -76,9 +102,16 @@ class UpgradeTelemetry @Inject constructor(
     private var currentUpgradeFlow: UpgradeFlow? = null
     private val currentDimensions get() = currentUpgradeFlow?.getCurrentDimensions()
 
-    fun onUpgradeFlowStarted(upgradeSource: UpgradeSource, reference: String? = null) {
+    fun onUpgradeFlowStarted(
+        upgradeSource: UpgradeSource,
+        upgradeTrigger: UpgradeTrigger,
+        abTestGroup: UpgradeAbTest?,
+        countryId: CountryId? = null,
+        reference: String? = null
+    ) {
         helper.event {
-            val dimensions = createDimensions(upgradeSource, reference)
+            val dimensions =
+                createDimensions(upgradeSource, upgradeTrigger, countryId, reference, abTestGroup)
             currentUpgradeFlow = UpgradeFlow(dimensions, clock)
             eventData("upsell_display", dimensions)
         }
@@ -111,7 +144,10 @@ class UpgradeTelemetry @Inject constructor(
 
     private suspend fun createDimensions(
         upgradeSource: UpgradeSource,
-        reference: String?
+        upgradeTrigger: UpgradeTrigger,
+        countryId: CountryId?,
+        reference: String?,
+        abTestGroup: UpgradeAbTest?,
     ): Map<String, String> = buildMap {
         val user = currentUser.user()
         val vpnUser = currentUser.vpnUser()
@@ -119,8 +155,14 @@ class UpgradeTelemetry @Inject constructor(
         commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY_LEGACY, CommonDimensions.Key.VPN_STATUS_LEGACY,
             CommonDimensions.Key.USER_TIER_LEGACY, CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED_LEGACY)
         put("modal_source", upgradeSource.reportedName)
+        put("modal_trigger", upgradeTrigger.reportedName)
         put("new_free_plan_ui", "yes") // Used to be a feature flag.
         put("reference", reference ?: NO_VALUE)
+        put("vpn_upsell_modal_comparison_table_20260427", abTestGroup?.reportedValue ?: NO_VALUE)
+
+        if (countryId != null && !countryId.isFastest) {
+            put("country", countryId.countryCode)
+        }
 
         if (user != null && vpnUser != null) {
             val timeSinceCreation = (clock() - user.createdAtUtc).milliseconds.takeIf { user.createdAtUtc > 0 }

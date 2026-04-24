@@ -107,7 +107,12 @@ class PromoOfferIapActivity : BaseActivityV2() {
                     buttonLabelOverride = offer.buttonLabel,
                     showDiscountBadge = offer.iapParams.showDiscountBadge
                 )
-                upgradeViewModel.reportUpgradeFlowStart(UpgradeSource.PROMO_OFFER, offer.notificationReference)
+                upgradeViewModel.reportUpgradeFlowStart(
+                    UpgradeSource.PROMO_OFFER,
+                    offer.upgradeTrigger,
+                    reference = offer.notificationReference,
+                    abTestGroup = null,
+                )
             }
         }
         upgradeActivityHelper.onCreate(upgradeViewModel)

@@ -63,8 +63,9 @@ import com.protonvpn.android.promooffers.ui.PromoOfferBannerState
 import com.protonvpn.android.promooffers.ui.PromoOfferButtonActions
 import com.protonvpn.android.promooffers.ui.PromoOfferIapActivity
 import com.protonvpn.android.promooffers.data.PromoOffersPrefs
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.LaunchUpgradeDialog
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.openUrl
@@ -146,7 +147,7 @@ class HomeViewModel @Inject constructor(
     private val trafficMonitor: TrafficMonitor,
     private val promptTelemetry: VpnProductPromptTelemetry,
     private val currentUser: CurrentUser,
-    private val launchUpgradeDialog: LaunchUpgradeDialog,
+    private val upgradeDialogLauncher: UpgradeDialogLauncher,
 ) : ViewModel() {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
@@ -319,7 +320,7 @@ class HomeViewModel @Inject constructor(
 
         data object OnNavigateToConnectionPreferences : Event
 
-        data object OnNavigateToUpgrade : Event
+        data class OnNavigateToUpgrade(val upgradeTrigger: UpgradeTrigger) : Event
 
     }
 
@@ -352,7 +353,7 @@ class HomeViewModel @Inject constructor(
     fun changeServer(vpnUiDelegate: VpnUiDelegate) = changeServerManager.changeServer(vpnUiDelegate)
 
     fun onChangeServerUpgradeButtonShown() {
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.CHANGE_SERVER)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.CHANGE_SERVER, UpgradeTrigger.HOME, abTestGroup = null)
     }
 
     suspend fun onRecentClicked(item: RecentItemViewState, vpnUiDelegate: VpnUiDelegate) {
@@ -360,7 +361,8 @@ class HomeViewModel @Inject constructor(
         if (recent != null) {
             uiStateStorage.update { it.copy(hasUsedRecents = true) }
             when (item.availability) {
-                ConnectIntentAvailability.UNAVAILABLE_PLAN -> _eventFlow.emit(value = Event.OnNavigateToUpgrade)
+                ConnectIntentAvailability.UNAVAILABLE_PLAN ->
+                    _eventFlow.emit(value = Event.OnNavigateToUpgrade(UpgradeTrigger.ERROR_DIALOG))
                 ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> dialogState = DialogState.ServerNotAvailable
                 ConnectIntentAvailability.NO_SERVERS -> dialogState = DialogState.ServerNotAvailable
                 ConnectIntentAvailability.EXCLUDED -> dialogState = DialogState.ServerLocationExcluded
@@ -474,7 +476,12 @@ class HomeViewModel @Inject constructor(
             ApiNotificationActions.isOpenUrl(action.action) -> {
                 val url = promoOfferButtonActions.getButtonUrl(action)
                 if (url != null) { // It's not null on correctly defined notifications.
-                    upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER, reference)
+                    upgradeTelemetry.onUpgradeFlowStarted(
+                        UpgradeSource.PROMO_OFFER,
+                        UpgradeTrigger.PROMO_OFFER_BANNER,
+                        reference = reference,
+                        abTestGroup = null,
+                    )
                     upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.EXTERNAL)
                     context.openUrl(url)
                 }
@@ -515,9 +522,10 @@ class HomeViewModel @Inject constructor(
         context: Context,
         focusFragment: KClass<out Fragment>,
         upgradeSource: UpgradeSource,
+        upgradeTrigger: UpgradeTrigger,
     ) {
-        launchUpgradeDialog(context, upgradeSource) {
-            CarouselUpgradeDialogActivity.launch(context, upgradeSource, focusFragment)
+        upgradeDialogLauncher.launch(context, upgradeSource, upgradeTrigger) {
+            CarouselUpgradeDialogActivity.launch(context, upgradeSource, upgradeTrigger, focusFragment)
         }
     }
 

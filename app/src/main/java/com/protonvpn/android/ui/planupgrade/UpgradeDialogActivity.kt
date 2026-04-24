@@ -61,7 +61,10 @@ import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.telemetry.UpgradeAbTest
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.telemetry.onboarding.OnboardingTelemetry
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
@@ -100,7 +103,12 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
             initHighlightsFragment()
             initPaymentsPanelFragment()
             viewModel.loadPlans(allowMultiplePlans)
-            viewModel.reportUpgradeFlowStart(getTelemetryUpgradeSource())
+            viewModel.reportUpgradeFlowStart(
+                getTelemetryUpgradeSource(),
+                getTelemetryUpgradeTrigger(),
+                UpgradeAbTest.CONTROL,
+                getTelemetryCountryId(),
+            )
         }
         upgradeHelper.onCreate(viewModel)
 
@@ -155,6 +163,12 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
 
     protected abstract fun getTelemetryUpgradeSource(): UpgradeSource
 
+    protected fun getTelemetryUpgradeTrigger(): UpgradeTrigger =
+        requireNotNull(intent?.getSerializableExtraCompat<UpgradeTrigger>(UPGRADE_TRIGGER_EXTRA))
+
+    protected fun getTelemetryCountryId(): CountryId? =
+        intent?.getStringExtra(COUNTRY_CODE_EXTRA)?.let { CountryId(it) }
+
     private fun initPaymentsPanelFragment() {
         supportFragmentManager.commitNow {
             setReorderingAllowed(true)
@@ -170,7 +184,21 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
     }
 
     private fun setDefaultGradient() {
-        setGradientColors(0x6611D8CC.toInt(), 0x334092E6.toInt(), 0x006E4BFF, fixedAlpha = true)
+        setGradientColors(0x6611D8CC, 0x334092E6, 0x006E4BFF, fixedAlpha = true)
+    }
+
+    companion object {
+        const val UPGRADE_TRIGGER_EXTRA = "upgrade trigger"
+        const val COUNTRY_CODE_EXTRA = "country code"
+
+        inline fun <reified T : BaseUpgradeDialogActivity> createIntent(
+            context: Context,
+            upgradeTrigger: UpgradeTrigger,
+            countryId: CountryId? = null,
+        ): Intent = Intent(context, T::class.java).apply {
+            putExtra(UPGRADE_TRIGGER_EXTRA, upgradeTrigger)
+            if (countryId != null) putExtra(COUNTRY_CODE_EXTRA, countryId.countryCode)
+        }
     }
 }
 
@@ -182,9 +210,8 @@ class PlusOnlyUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
             intent.getSerializableExtraCompat<Class<out Fragment>>(FRAGMENT_CLASS_EXTRA)
 
         if (highlightsFragmentClass != null) {
-            val args = intent.getBundleExtra(FRAGMENT_ARGS_EXTRA)
             supportFragmentManager.commitNow {
-                add(R.id.fragmentContent, highlightsFragmentClass, args)
+                add(R.id.fragmentContent, highlightsFragmentClass, null)
             }
         }
     }
@@ -201,18 +228,21 @@ class PlusOnlyUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
 
     companion object {
         const val FRAGMENT_CLASS_EXTRA = "highlights fragment"
-        const val FRAGMENT_ARGS_EXTRA = "fragment args"
 
-        inline fun <reified Fragment : FragmentWithUpgradeSource> createIntent(context: Context, args: Bundle? = null) =
-            Intent(context, PlusOnlyUpgradeDialogActivity::class.java).apply {
+        inline fun <reified Fragment : FragmentWithUpgradeSource> createIntent(
+            context: Context,
+            upgradeTrigger: UpgradeTrigger,
+            countryId: CountryId?,
+        ) = createIntent<PlusOnlyUpgradeDialogActivity>(context, upgradeTrigger, countryId).apply {
                 putExtra(FRAGMENT_CLASS_EXTRA, Fragment::class.java)
-                if (args != null) {
-                    putExtra(FRAGMENT_ARGS_EXTRA, args)
-                }
             }
 
-        inline fun <reified Fragment : FragmentWithUpgradeSource> launch(context: Context, args: Bundle? = null) {
-            context.startActivity(createIntent<Fragment>(context, args))
+        inline fun <reified Fragment : FragmentWithUpgradeSource> launch(
+            context: Context,
+            upgradeTrigger: UpgradeTrigger,
+            countryId: CountryId? = null,
+        ) {
+            context.startActivity(createIntent<Fragment>(context, upgradeTrigger, countryId))
         }
     }
 }
@@ -273,25 +303,35 @@ class CarouselUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
         const val UPGRADE_SOURCE_EXTRA = "upgrade source"
         const val CAROUSEL_FRAGMENT_ARGS_EXTRA = "carousel args"
 
-        inline fun <reified F : FragmentWithUpgradeSource> createIntent(context: Context) =
-            Intent(context, CarouselUpgradeDialogActivity::class.java).apply {
-                putExtra(CAROUSEL_FRAGMENT_ARGS_EXTRA, UpgradeHighlightsCarouselFragment.args(F::class))
-            }
+        inline fun <reified F : FragmentWithUpgradeSource> createIntent(
+            context: Context,
+            upgradeTrigger: UpgradeTrigger,
+        ) = createIntent<CarouselUpgradeDialogActivity>(context, upgradeTrigger, null).apply {
+            putExtra(CAROUSEL_FRAGMENT_ARGS_EXTRA, UpgradeHighlightsCarouselFragment.args(F::class))
+        }
 
-        inline fun <reified F : Fragment> createIntent(context: Context, upgradeSource: UpgradeSource) =
-            Intent(context, CarouselUpgradeDialogActivity::class.java).apply {
-                putExtra(UPGRADE_SOURCE_EXTRA, upgradeSource)
-                putExtra(CAROUSEL_FRAGMENT_ARGS_EXTRA, UpgradeHighlightsCarouselFragment.args(F::class))
-            }
+        inline fun <reified F : Fragment> createIntent(
+            context: Context,
+            upgradeSource: UpgradeSource,
+            upgradeTrigger: UpgradeTrigger,
+        ) = createIntent<CarouselUpgradeDialogActivity>(context, upgradeTrigger, null).apply {
+            putExtra(UPGRADE_SOURCE_EXTRA, upgradeSource)
+            putExtra(CAROUSEL_FRAGMENT_ARGS_EXTRA, UpgradeHighlightsCarouselFragment.args(F::class))
+        }
 
-        inline fun <reified F : Fragment> launch(context: Context, upgradeSource: UpgradeSource) =
-            context.startActivity(createIntent<F>(context, upgradeSource))
+        inline fun <reified F : Fragment> launch(
+            context: Context,
+            upgradeSource: UpgradeSource,
+            upgradeTrigger: UpgradeTrigger
+        ) = context.startActivity(createIntent<F>(context, upgradeSource, upgradeTrigger))
 
-        inline fun <reified F : FragmentWithUpgradeSource> launch(context: Context) =
-            context.startActivity(createIntent<F>(context))
+        inline fun <reified F : FragmentWithUpgradeSource> launch(
+            context: Context,
+            upgradeTrigger: UpgradeTrigger
+        ) = context.startActivity(createIntent<F>(context, upgradeTrigger))
 
-        fun launch(context: Context, upgradeSource: UpgradeSource, focusedFragmentClass: KClass<out Fragment>? = null) {
-            val intent = Intent(context, CarouselUpgradeDialogActivity::class.java).apply {
+        fun launch(context: Context, upgradeSource: UpgradeSource, upgradeTrigger: UpgradeTrigger, focusedFragmentClass: KClass<out Fragment>? = null) {
+            val intent = createIntent<CarouselUpgradeDialogActivity>(context, upgradeTrigger, null).apply {
                 putExtra(UPGRADE_SOURCE_EXTRA, upgradeSource)
                 if (focusedFragmentClass != null) {
                     putExtra(CAROUSEL_FRAGMENT_ARGS_EXTRA, UpgradeHighlightsCarouselFragment.args(focusedFragmentClass))
@@ -336,7 +376,7 @@ class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultipleP
 
     companion object {
         fun launch(context: Context) {
-            context.startActivity(Intent(context, UpgradeOnboardingDialogActivity::class.java))
+            context.startActivity(createIntent<UpgradeOnboardingDialogActivity>(context, UpgradeTrigger.ONBOARDING))
         }
     }
 }

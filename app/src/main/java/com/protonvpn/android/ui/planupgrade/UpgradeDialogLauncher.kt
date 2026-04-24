@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.planupgrade
 import android.content.Context
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableEnabled
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2
 import dagger.Reusable
@@ -30,48 +31,49 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @Reusable
-class LaunchUpgradeDialog @Inject constructor(
+class UpgradeDialogLauncher @Inject constructor(
     private val mainScope: CoroutineScope,
     private val isUpsellComparisonTableEnabled: dagger.Lazy<IsUpsellComparisonTableEnabled>,
 ) {
-    operator fun invoke(
+    fun launch(
         context: Context,
         upgradeSource: UpgradeSource,
+        upgradeTrigger: UpgradeTrigger,
         legacyLaunch: () -> Unit
     ) {
         mainScope.launch {
             if (UpgradeDialogActivityV2.isSupported(upgradeSource) &&
                 isUpsellComparisonTableEnabled.get().invoke()
             ) {
-                UpgradeDialogActivityV2.launch(context, upgradeSource)
+                UpgradeDialogActivityV2.launch(context, upgradeSource, upgradeTrigger)
             } else {
                 legacyLaunch()
             }
         }
     }
-}
 
-@Reusable
-class LaunchCountryUpgradeDialog @Inject constructor(
-    private val mainScope: CoroutineScope,
-    private val isUpsellComparisonTableEnabled: dagger.Lazy<IsUpsellComparisonTableEnabled>,
-) {
-    operator fun invoke(
+    fun launchCountries(
         context: Context,
+        upgradeTrigger: UpgradeTrigger,
         country: CountryId?,
     ) {
         mainScope.launch {
             val countryId = country?.takeIf { !it.isFastest }
             if (isUpsellComparisonTableEnabled.get().invoke()) {
-                UpgradeDialogActivityV2.launch(context, UpgradeSource.COUNTRIES, countryId)
+                UpgradeDialogActivityV2.launch(context, UpgradeSource.COUNTRIES, upgradeTrigger, countryId)
             } else {
                 if (countryId != null) {
                     PlusOnlyUpgradeDialogActivity.launch<UpgradeCountryHighlightsFragment>(
                         context,
-                        UpgradeCountryHighlightsFragment.args(countryId.countryCode)
+                        upgradeTrigger,
+                        countryId = countryId
                     )
                 } else {
-                    PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+                    PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(
+                        context,
+                        upgradeTrigger,
+                        null
+                    )
                 }
             }
         }

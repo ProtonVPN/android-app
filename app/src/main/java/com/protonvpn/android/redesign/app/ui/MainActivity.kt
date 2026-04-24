@@ -75,6 +75,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingActivity
 import com.protonvpn.android.ui.onboarding.WhatsNewActivity
 import com.protonvpn.android.ui.onboarding.WhatsNewDialogController
 import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
@@ -116,16 +117,14 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     @Inject
     lateinit var handleCoreDeepLink: HandleDeeplinkIntent
     @Inject
+    lateinit var upgradeDialogLauncher: UpgradeDialogLauncher
+    @Inject
     lateinit var widgetActionHandler: WidgetActionHandler
     @Inject
     lateinit var streamingUpsellRestrictionsDialogTrigger: StreamingUpsellRestrictionsDialogTrigger
 
     // public for now until there is need to bridge old code, as LocalVpnUiDelegate is not available in non-compose
-    val vpnActivityDelegate = VpnUiActivityDelegateMobile(
-        activity = this,
-        retryConnection = ::retryConnectionAfterPermissions,
-        onNavigate = ::onNavigate,
-    )
+    lateinit var vpnActivityDelegate: VpnUiActivityDelegate
 
     private val helper = object : MainActivityHelper(this) {
 
@@ -154,6 +153,12 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTv())
             ActivityInfo.SCREEN_ORIENTATION_FULL_USER else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        vpnActivityDelegate = VpnUiActivityDelegateMobile(
+            activity = this,
+            upgradeDialogLauncher = upgradeDialogLauncher,
+            retryConnection = ::retryConnectionAfterPermissions,
+            onNavigate = ::onNavigate,
+        )
 
         activityViewModel.eventShowOnboarding
             .flowWithLifecycle(lifecycle)

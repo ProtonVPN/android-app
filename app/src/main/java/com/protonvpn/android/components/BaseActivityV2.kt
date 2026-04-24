@@ -31,6 +31,7 @@ import androidx.appcompat.widget.Toolbar
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper
 import com.protonvpn.android.ui.snackbar.SnackbarHelper
@@ -49,6 +50,7 @@ abstract class BaseActivityV2 : AppCompatActivity(), VpnUiDelegateProvider {
 
     @Inject lateinit var delegatedSnackManager: DelegatedSnackManager
     @Inject lateinit var isTv: IsTvCheck
+    @Inject lateinit var upgradeDialogLauncher: UpgradeDialogLauncher
 
     lateinit var snackbarHelper: SnackbarHelper
         private set
@@ -66,7 +68,11 @@ abstract class BaseActivityV2 : AppCompatActivity(), VpnUiDelegateProvider {
         requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTv())
             SCREEN_ORIENTATION_FULL_USER else SCREEN_ORIENTATION_PORTRAIT
         snackbarHelper = DelegatedSnackbarHelper(this, getContentView(), delegatedSnackManager)
-        vpnUiDelegate = VpnUiActivityDelegateMobile(activity = this, retryConnection = ::retryConnection)
+        vpnUiDelegate = VpnUiActivityDelegateMobile(
+            activity = this,
+            upgradeDialogLauncher,
+            retryConnection = ::retryConnection
+        )
     }
 
     fun initToolbarWithUpEnabled(toolbar: Toolbar) {

@@ -38,6 +38,7 @@ import com.protonvpn.android.base.ui.volumeBytesToString
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity.Companion.EXTRA_NOTIFICATION_DETAILS
 import com.protonvpn.android.utils.Constants
@@ -122,7 +123,8 @@ class NotificationHelper @Inject constructor(
             override val title: String,
             val activityIntent: Intent,
             val closeAfterSuccess: Boolean,
-            val upgradeSource: UpgradeSource?
+            val upgradeSource: UpgradeSource,
+            val upgradeTrigger: UpgradeTrigger,
         ) : ActionItem()
 
         @Parcelize

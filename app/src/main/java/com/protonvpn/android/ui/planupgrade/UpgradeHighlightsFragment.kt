@@ -496,7 +496,8 @@ class UpgradeCountryHighlightsFragment : UpgradeHighlightsFragmentWithSource(Upg
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val countryCode = requireArguments().getString(ARG_COUNTRY)
+        val countryCode =
+            requireActivity().intent?.getStringExtra(BaseUpgradeDialogActivity.COUNTRY_CODE_EXTRA)
 
         binding.set(
             imageResource = null,

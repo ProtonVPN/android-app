@@ -52,10 +52,11 @@ import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.theme.label
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.LaunchUpgradeDialog
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.ui.settings.CustomAppIconData
@@ -132,7 +133,7 @@ class SettingsViewModel @Inject constructor(
     isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
     isNetShieldLevelThreeFeatureFlagEnabled: IsNetShieldLevelThreeFeatureFlagEnabled,
     private val translator: Translator,
-    private val launchUpgradeDialog: LaunchUpgradeDialog,
+    private val upgradeDialogLauncher: UpgradeDialogLauncher,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -719,8 +720,8 @@ class SettingsViewModel @Inject constructor(
         focusFragment: KClass<out Fragment>,
         upgradeSource: UpgradeSource,
     ) {
-        launchUpgradeDialog(context, upgradeSource) {
-            CarouselUpgradeDialogActivity.launch(context, upgradeSource, focusFragment)
+        upgradeDialogLauncher.launch(context, upgradeSource, UpgradeTrigger.SETTINGS) {
+            CarouselUpgradeDialogActivity.launch(context, upgradeSource, UpgradeTrigger.SETTINGS, focusFragment)
         }
     }
 

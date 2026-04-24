@@ -39,7 +39,7 @@ import com.protonvpn.android.redesign.countries.ui.sortedForUi
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.search.FetchServerResult
 import com.protonvpn.android.redesign.search.SearchServerRemote
-import com.protonvpn.android.ui.planupgrade.LaunchCountryUpgradeDialog
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnect
@@ -56,7 +56,6 @@ import kotlinx.coroutines.flow.transformLatest
 import me.proton.core.presentation.savedstate.state
 import java.util.Locale
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 private val remoteSearchDelay = 2.5.seconds
@@ -77,7 +76,7 @@ class SearchViewModel @Inject constructor(
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
     translator: Translator,
-    launchCountryUpgradeDialog: LaunchCountryUpgradeDialog,
+    upgradeDialogLauncher: UpgradeDialogLauncher,
 ) : ServerGroupsViewModel<SearchViewState>(
     screenId = "search_view",
     savedStateHandle = savedStateHandle,
@@ -87,7 +86,7 @@ class SearchViewModel @Inject constructor(
     currentUser = currentUser,
     vpnStatusProviderUI = vpnStatusProviderUI,
     translator = translator,
-    launchCountryUpgradeDialog = launchCountryUpgradeDialog,
+    upgradeDialogLauncher = upgradeDialogLauncher,
     defaultMainSavedState = ServerGroupsMainScreenSaveState(
         selectedFilter = ServerFilterType.All
     )

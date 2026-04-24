@@ -31,7 +31,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
-import com.protonvpn.android.servers.Server
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.InfoType
@@ -44,7 +43,16 @@ import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.isCompatibleWith
-import com.protonvpn.android.ui.planupgrade.LaunchCountryUpgradeDialog
+import com.protonvpn.android.servers.Server
+import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.FragmentWithUpgradeSource
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
+import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeTorHighlightsFragment
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -155,7 +163,7 @@ abstract class ServerGroupsViewModel<MainStateT>(
     vpnStatusProviderUI: VpnStatusProviderUI,
     translator: Translator,
     defaultMainSavedState: ServerGroupsMainScreenSaveState,
-    private val launchCountryUpgradeDialog: LaunchCountryUpgradeDialog,
+    private val upgradeDialogLauncher: UpgradeDialogLauncher,
 ) : ViewModel() {
 
     private val mainStateKey = "$screenId:$MainScreenStateKey"
@@ -387,11 +395,12 @@ abstract class ServerGroupsViewModel<MainStateT>(
     }
 
     fun onItemConnect(
+        context: Context,
         vpnUiDelegate: VpnUiDelegate,
         item: ServerGroupUiItem.ServerGroup,
         filterType: ServerFilterType,
         navigateToHome: (ShowcaseRecents) -> Unit,
-        context: Context,
+        upgradeTrigger: UpgradeTrigger,
     ) {
         viewModelScope.launch {
             subScreenSaveState = null
@@ -405,9 +414,59 @@ abstract class ServerGroupsViewModel<MainStateT>(
                         connect(vpnUiDelegate, connectIntent, trigger)
                     navigateToHome(connectIntent != null && shouldShowcaseRecents(connectIntent))
                 } else {
-                    launchCountryUpgradeDialog(context, item.data.countryId)
+                    upgradeDialogLauncher.launchCountries(context, upgradeTrigger, item.data.countryId)
                 }
             }
+        }
+    }
+
+    private inline fun <reified F : FragmentWithUpgradeSource> launchForBanner(
+        context: Context,
+        upgradeSource: UpgradeSource,
+        upgradeTrigger: UpgradeTrigger
+    ) {
+        upgradeDialogLauncher.launch(context, upgradeSource, upgradeTrigger) {
+            CarouselUpgradeDialogActivity.launch<F>(context, upgradeTrigger)
+        }
+    }
+
+    fun launchBannerUpgradeDialog(context: Context, bannerType: ServerGroupUiItem.BannerType) {
+        val countriesBanner = UpgradeTrigger.COUNTRIES_BANNER
+        when (bannerType) {
+            ServerGroupUiItem.BannerType.Countries ->
+                launchForBanner<UpgradePlusCountriesHighlightsFragment>(
+                    context,
+                    UpgradeSource.COUNTRIES,
+                    countriesBanner
+                )
+
+            ServerGroupUiItem.BannerType.SecureCore ->
+                launchForBanner<UpgradeSecureCoreHighlightsFragment>(
+                    context,
+                    UpgradeSource.SECURE_CORE,
+                    countriesBanner
+                )
+
+            ServerGroupUiItem.BannerType.P2P ->
+                launchForBanner<UpgradeP2PHighlightsFragment>(
+                    context,
+                    UpgradeSource.P2P,
+                    countriesBanner
+                )
+
+            ServerGroupUiItem.BannerType.Tor ->
+                launchForBanner<UpgradeTorHighlightsFragment>(
+                    context,
+                    UpgradeSource.TOR,
+                    countriesBanner
+                )
+
+            is ServerGroupUiItem.BannerType.Search ->
+                launchForBanner<UpgradePlusCountriesHighlightsFragment>(
+                    context,
+                    UpgradeSource.COUNTRIES,
+                    UpgradeTrigger.SEARCH
+                )
         }
     }
 

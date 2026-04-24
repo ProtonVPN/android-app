@@ -58,12 +58,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonOutlinedNeutralButton
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.base.ui.VpnOutlinedNeutralButton
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.protonOutlinedNeutralButtonColors
-import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import me.proton.core.compose.theme.ProtonTheme
@@ -176,7 +177,7 @@ private fun ChangeServerBottomSheetComposable(
             state = state,
             onChangeServerClick = onChangeServerClick,
             onUpgradeClick = {
-                CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+                CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context, UpgradeTrigger.HOME)
             }
         )
     }

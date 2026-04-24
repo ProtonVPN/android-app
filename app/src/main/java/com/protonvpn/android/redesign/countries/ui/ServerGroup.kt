@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.redesign.countries.ui
 
-import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.animateScrollBy
@@ -72,15 +71,7 @@ import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.UpsellBanner
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
-import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
-import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeTorHighlightsFragment
 import com.protonvpn.android.utils.openUrl
-import com.protonvpn.android.vpn.VpnUiDelegate
-import com.protonvpn.android.vpn.ui.LocalVpnUiDelegate
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
 import me.proton.core.presentation.utils.currentLocale
@@ -88,11 +79,8 @@ import java.util.Locale
 import me.proton.core.presentation.R as CoreR
 
 typealias OnItemConnect = (
-    vpnUiDelegate: VpnUiDelegate,
     item: ServerGroupUiItem.ServerGroup,
     filterType: ServerFilterType,
-    navigateToHome: (ShowcaseRecents) -> Unit,
-    context: Context,
 ) -> Unit
 
 @Immutable
@@ -108,23 +96,23 @@ data class ServerGroupsActions(
 fun ServerGroupsWithToolbar(
     mainState: ServerGroupsMainScreenState?,
     subScreenState: ServerGroupsSubScreenState?,
-    onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
     onNavigateToSearch: (() -> Unit)?,
+    onNavigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
     actions: ServerGroupsActions,
     @StringRes titleRes: Int,
 ) {
     ServerGroups(
         mainState,
         subScreenState,
-        onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
         actions = actions,
+        onNavigateToUpsell = onNavigateToUpsell,
     ) { mainState, infoSheetState ->
         ServerGroupToolbarScaffold(
             onNavigateToSearch = onNavigateToSearch,
             toolbarFilters = mainState.filterButtons,
             titleRes = titleRes,
             content = { paddingValues ->
-                ServerGroupItemsList(actions, mainState, onNavigateToHomeOnConnect, infoSheetState, paddingValues)
+                ServerGroupItemsList(actions, mainState, infoSheetState, onNavigateToUpsell, paddingValues)
             }
         )
     }
@@ -136,10 +124,9 @@ fun <T> ServerGroups(
     mainState: T?,
     subScreenState: ServerGroupsSubScreenState?,
     actions: ServerGroupsActions,
-    onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
+    onNavigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
     content: @Composable (mainState: T, info: InfoSheetState) -> Unit,
 ) {
-    val uiDelegate = LocalVpnUiDelegate.current
     val context = LocalContext.current
 
     val locale = LocalConfiguration.current.currentLocale()
@@ -157,10 +144,10 @@ fun <T> ServerGroups(
             screen = subScreenState,
             onNavigateBack = actions.onNavigateBack,
             onNavigateToItem = { actions.onItemOpen(it, subScreenState.selectedFilter) },
-            onItemClicked = createOnConnectAction(actions, uiDelegate, context, subScreenState.selectedFilter, onNavigateToHomeOnConnect),
+            onItemClicked = createOnConnectAction(actions, subScreenState.selectedFilter),
             onClose = actions.onClose,
             infoSheetState = infoSheetState,
-            navigateToUpsell = { navigateToUpsellFromBanner(context, it) }
+            navigateToUpsell = onNavigateToUpsell,
         )
     }
 
@@ -173,36 +160,15 @@ fun <T> ServerGroups(
 @Composable
 fun createOnConnectAction(
     actions: ServerGroupsActions,
-    uiDelegate: VpnUiDelegate,
-    context: Context,
     filterType: ServerFilterType,
-    onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit
 ): (ServerGroupUiItem.ServerGroup) -> Unit {
-    val context = LocalContext.current
     return { item ->
         actions.onItemConnect(
-            uiDelegate,
             item,
             filterType,
-            { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) },
-            context,
         )
     }
 }
-
-fun navigateToUpsellFromBanner(context: Context, bannerType: ServerGroupUiItem.BannerType) =
-    when(bannerType) {
-        ServerGroupUiItem.BannerType.Countries ->
-            CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
-        ServerGroupUiItem.BannerType.SecureCore ->
-            CarouselUpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(context)
-        ServerGroupUiItem.BannerType.P2P ->
-            CarouselUpgradeDialogActivity.launch<UpgradeP2PHighlightsFragment>(context)
-        ServerGroupUiItem.BannerType.Tor ->
-            CarouselUpgradeDialogActivity.launch<UpgradeTorHighlightsFragment>(context)
-        is ServerGroupUiItem.BannerType.Search ->
-            CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
-    }
 
 @Composable
 fun ServerGroupToolbarScaffold(
@@ -327,18 +293,16 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier)
 fun ServerGroupItemsList(
     actions: ServerGroupsActions,
     state: ServerGroupsMainScreenState,
-    onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
     infoSheetState: InfoSheetState,
+    onNavigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
     paddingValues: PaddingValues = PaddingValues(0.dp),
 ) {
-    val context = LocalContext.current
-    val uiDelegate = LocalVpnUiDelegate.current
     ServerGroupItemsList(
         items = state.items,
-        onItemClick = createOnConnectAction(actions, uiDelegate, context, state.selectedFilter, onNavigateToHomeOnConnect),
+        onItemClick = createOnConnectAction(actions, state.selectedFilter),
         onItemOpen = { actions.onItemOpen(it, state.selectedFilter) },
         onOpenInfo = { infoType -> infoSheetState.show(infoType) },
-        navigateToUpsell = { navigateToUpsellFromBanner(context, it) },
+        navigateToUpsell = onNavigateToUpsell,
         horizontalContentPadding = largeScreenContentPadding(),
         modifier = Modifier.padding(paddingValues)
     )

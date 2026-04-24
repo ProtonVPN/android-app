@@ -71,6 +71,7 @@ import com.protonvpn.android.redesign.settings.ui.excludedlocations.ExcludedLoca
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeAdvancedCustomizationHighlightsFragment
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelAppsActivity
@@ -171,7 +172,8 @@ fun SubSettingsRoute(
                             CarouselUpgradeDialogActivity.launch(
                                 context,
                                 UpgradeSource.ACCOUNT,
-                                focusedFragmentClass = null
+                                UpgradeTrigger.SETTINGS,
+                                focusedFragmentClass = null,
                             )
                         }
                     )
@@ -211,13 +213,15 @@ fun SubSettingsRoute(
                             onAllowLanRestricted = {
                                 onOverrideSettingClick(OverrideType.LAN) {
                                     CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
-                                        context
+                                        context,
+                                        UpgradeTrigger.SETTINGS,
                                     )
                                 }
                             },
                             onNatTypeRestricted = {
                                 CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
-                                    context
+                                    context,
+                                    UpgradeTrigger.SETTINGS,
                                 )
                             },
                             ipV6 = advancedViewState.ipV6,
@@ -228,7 +232,8 @@ fun SubSettingsRoute(
                             },
                             onCustomDnsRestricted = {
                                 CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
-                                    context
+                                    context,
+                                    UpgradeTrigger.SETTINGS,
                                 )
                             }
                         )
@@ -410,6 +415,7 @@ fun SubSettingsRoute(
                         onUpsellClick = {
                             CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
                                 context = context,
+                                upgradeTrigger = UpgradeTrigger.SETTINGS,
                             )
                         },
                         snackbarHostState = snackbarHostState,

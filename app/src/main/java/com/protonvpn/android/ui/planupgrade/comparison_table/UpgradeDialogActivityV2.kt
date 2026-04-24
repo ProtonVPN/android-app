@@ -70,7 +70,9 @@ import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.base.ui.upsellGradientEnd
 import com.protonvpn.android.base.ui.upsellGradientStart
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.telemetry.UpgradeAbTest
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.PaymentPanelFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
@@ -112,9 +114,10 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
 
         val plusCountries = upsellBenefitsViewModel.getAllCountryCount()
         val country: CountryId? = intent?.getStringExtra(COUNTRY_KEY)?.let { CountryId(it) }
-        val modalSource = intent?.getSerializableExtraCompat<UpgradeSource>(UPGRADE_SOURCE_KEY)
-        val initialContent = modalSource?.let { getContentType(modalSource, country, plusCountries) }
-        if (initialContent == null) {
+        val upgradeSource = intent?.getSerializableExtraCompat<UpgradeSource>(UPGRADE_SOURCE_KEY)
+        val upgradeTrigger = intent?.getSerializableExtraCompat<UpgradeTrigger>(UPGRADE_TRIGGER_KEY)
+        val initialContent = upgradeSource?.let { getContentType(upgradeSource, country, plusCountries) }
+        if (initialContent == null || upgradeTrigger == null) {
             Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
             finish()
             return
@@ -124,7 +127,7 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
         viewModel.loadPlans(allowMultiplePlans = false)
         upgradeActivityHelper.onCreate(viewModel)
         if (savedInstanceState == null) {
-            viewModel.reportUpgradeFlowStart(modalSource)
+            viewModel.reportUpgradeFlowStart(upgradeSource, upgradeTrigger, UpgradeAbTest.COMPARISON_TABLE,country)
         }
 
         lifecycleScope.launch {
@@ -146,13 +149,20 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
     }
 
     companion object {
-        private const val UPGRADE_SOURCE_KEY = "Upsell Type"
+        private const val UPGRADE_SOURCE_KEY = "Upgrade Type"
+        private const val UPGRADE_TRIGGER_KEY = "Upgrade Trigger"
         private const val COUNTRY_KEY = "Country Code"
 
-        fun launch(context: Context, upgradeSource: UpgradeSource, country: CountryId? = null) {
+        fun launch(
+            context: Context,
+            upgradeSource: UpgradeSource,
+            upgradeTrigger: UpgradeTrigger,
+            country: CountryId? = null
+        ) {
             context.startActivity(
                 Intent(context, UpgradeDialogActivityV2::class.java).apply {
                     putExtra(UPGRADE_SOURCE_KEY, upgradeSource)
+                    putExtra(UPGRADE_TRIGGER_KEY, upgradeTrigger)
                     if (country != null) putExtra(COUNTRY_KEY, country.countryCode)
                 }
             )
@@ -171,15 +181,9 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
                 freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
                 plusCountries = plusCountries
             )
-
-            UpgradeSource.HOME_CAROUSEL_SPEED -> ViewState.Speed
-
-            UpgradeSource.NETSHIELD,
-            UpgradeSource.HOME_CAROUSEL_NETSHIELD -> ViewState.NetShield
-
-            UpgradeSource.HOME_CAROUSEL_STREAMING,
+            UpgradeSource.VPN_ACCELERATOR -> ViewState.Speed
+            UpgradeSource.NETSHIELD -> ViewState.NetShield
             UpgradeSource.STREAMING -> ViewState.Streaming
-
             else -> null
         }
     }
@@ -287,6 +291,7 @@ private fun PaymentsPanelFragmentComposable(modifier: Modifier = Modifier) {
     }
 }
 
+@VisibleForTesting
 class UpgradeContentProvider : PreviewParameterProvider<ViewState> {
     override val values: Sequence<ViewState> = sequenceOf(
         ViewState.Countries(

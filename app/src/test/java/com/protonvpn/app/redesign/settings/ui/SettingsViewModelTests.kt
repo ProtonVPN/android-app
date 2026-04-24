@@ -55,7 +55,6 @@ import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.FakeIsTvFavoriteCountryForFreeUserDisabled
-import com.protonvpn.android.ui.planupgrade.LaunchUpgradeDialog
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.ui.storage.UiStateStorage
@@ -258,7 +257,7 @@ class SettingsViewModelTests {
             translator = translator,
             isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),
             isNetShieldLevelThreeFeatureFlagEnabled = FakeIsNetShieldLevelThreeFeatureFlagEnabled(enabled = true),
-            launchUpgradeDialog = mockk(),
+            upgradeDialogLauncher = mockk(),
         )
     }
 

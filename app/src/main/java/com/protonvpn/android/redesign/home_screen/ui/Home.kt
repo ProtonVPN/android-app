@@ -103,6 +103,7 @@ import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
 import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.tv.main.CountryHighlight
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
@@ -246,7 +247,7 @@ fun HomeRoute(
         onOpenConnectionPreferences = homeViewModel::openConnectionPreferences,
         onOpenSmartDiscoveryConnectionPreferences = homeViewModel::openSmartDiscoveryConnectionPreferences,
         onDismissSmartDiscoveryConnectionPreferencesDialog = homeViewModel::dismissSmartDiscoveryConnectionPreferencesDialog,
-        onLaunchUpgradeDialog = { f, s -> homeViewModel.openUpgradeDialog(context, f, s) },
+        onLaunchUpgradeDialog = { f, s, t -> homeViewModel.openUpgradeDialog(context, f, s, t) },
     )
 
     homeViewModel.eventFlow.collectAsEffect { event ->
@@ -255,8 +256,11 @@ fun HomeRoute(
                 onNavigateToSubSetting(SubSettingsScreen.Type.ConnectionPreferences)
             }
 
-            HomeViewModel.Event.OnNavigateToUpgrade -> {
-                CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+            is HomeViewModel.Event.OnNavigateToUpgrade -> {
+                CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(
+                    context,
+                    event.upgradeTrigger,
+                )
             }
         }
     }
@@ -308,7 +312,7 @@ fun HomeView(
     onOpenConnectionPreferences: () -> Unit,
     onOpenSmartDiscoveryConnectionPreferences: () -> Unit,
     onDismissSmartDiscoveryConnectionPreferencesDialog: () -> Unit,
-    onLaunchUpgradeDialog: (KClass<out Fragment>, upgradeSource: UpgradeSource) -> Unit,
+    onLaunchUpgradeDialog: (KClass<out Fragment>, upgradeSource: UpgradeSource, upgradeTrigger: UpgradeTrigger) -> Unit,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -382,7 +386,9 @@ fun HomeView(
             HomeUpsellCarousel(
                 state = state,
                 horizontalMargin = paddingValues + 16.dp,
-                onOpenUpgradeScreen = { focus, upgradeSource -> onLaunchUpgradeDialog(focus, upgradeSource) },
+                onOpenUpgradeScreen = { focus, upgradeSource ->
+                    onLaunchUpgradeDialog(focus, upgradeSource, UpgradeTrigger.HOME_CAROUSEL)
+                },
                 modifier = modifier.padding(bottom = 24.dp),
             )
         }
@@ -420,9 +426,9 @@ fun HomeView(
         )
         val netShieldActions = remember {
             NetShieldActions(
-                onChangeServerPromoUpgrade = { onLaunchUpgradeDialog(UpgradePlusCountriesHighlightsFragment::class, UpgradeSource.COUNTRIES) },
+                onChangeServerPromoUpgrade = { onLaunchUpgradeDialog(UpgradePlusCountriesHighlightsFragment::class, UpgradeSource.COUNTRIES, UpgradeTrigger.HOME) },
                 onNetShieldValueChanged = onNetshieldValueChanged,
-                onUpgradeNetShield = { onLaunchUpgradeDialog(UpgradeNetShieldHighlightsFragment::class, UpgradeSource.NETSHIELD) },
+                onUpgradeNetShield = { onLaunchUpgradeDialog(UpgradeNetShieldHighlightsFragment::class, UpgradeSource.NETSHIELD, UpgradeTrigger.HOME) },
                 onNetShieldLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
                 onDisableCustomDns = onDisableCustomDns,
             )

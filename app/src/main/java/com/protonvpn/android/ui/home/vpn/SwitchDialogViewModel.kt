@@ -33,8 +33,12 @@ class SwitchDialogViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun onInit(activityItem: NotificationHelper.ActionItem?) {
-        if (activityItem is NotificationHelper.ActionItem.Activity && activityItem.upgradeSource != null) {
-            upgradeTelemetry.onUpgradeFlowStarted(activityItem.upgradeSource)
+        if (activityItem is NotificationHelper.ActionItem.Activity ) {
+            upgradeTelemetry.onUpgradeFlowStarted(
+                activityItem.upgradeSource,
+                activityItem.upgradeTrigger,
+                abTestGroup = null
+            )
         }
     }
 
