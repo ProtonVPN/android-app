@@ -66,25 +66,22 @@ import com.protonvpn.android.base.ui.LabelBadge
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.collectAsEffect
 import com.protonvpn.android.base.ui.largeScreenContentPadding
+import com.protonvpn.android.bugreport.ui.BugReportActivity
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
-import com.protonvpn.android.bugreport.ui.BugReportActivity
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.telemetry.UpgradeSource
-import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.drawer.LogActivity
-import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorHighlightsFragment
 import com.protonvpn.android.ui.settings.OssLicensesActivity
 import com.protonvpn.android.ui.settings.SettingsTelemetryActivity
-import com.protonvpn.android.update.AppUpdateInfo
 import com.protonvpn.android.update.VpnUpdateBanner
 import com.protonvpn.android.utils.openUrl
 import me.proton.core.accountmanager.presentation.compose.AccountSettingsInfo
@@ -175,9 +172,10 @@ fun SettingsRoute(
                     onNavigateToSubSetting(SubSettingsScreen.Type.SplitTunneling)
                 },
                 onSplitTunnelUpgrade = {
-                    CarouselUpgradeDialogActivity.launch<UpgradeSplitTunnelingHighlightsFragment>(
+                    viewModel.openUpgradeDialog(
                         context,
-                        UpgradeTrigger.SETTINGS
+                        UpgradeSplitTunnelingHighlightsFragment::class,
+                        UpgradeSource.SPLIT_TUNNELING
                     )
                 },
                 onAlwaysOnClick = {
@@ -198,7 +196,11 @@ fun SettingsRoute(
                     onNavigateToSubSetting(SubSettingsScreen.Type.VpnAccelerator)
                 },
                 onVpnAcceleratorUpgrade = {
-                    CarouselUpgradeDialogActivity.launch<UpgradeVpnAcceleratorHighlightsFragment>(context, UpgradeTrigger.SETTINGS)
+                    viewModel.openUpgradeDialog(
+                        context,
+                        UpgradeVpnAcceleratorHighlightsFragment::class,
+                        UpgradeSource.VPN_ACCELERATOR
+                    )
                 },
                 onAdvancedSettingsClick = {
                     onNavigateToSubSetting(SubSettingsScreen.Type.Advanced)
