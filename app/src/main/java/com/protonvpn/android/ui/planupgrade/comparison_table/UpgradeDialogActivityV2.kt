@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -228,7 +229,9 @@ fun PlanUpgradeDialog(
             topFadeHeight =
                 BoxWithVerticalScrollEdgeFadeDefaults.FadeHeight +
                         windowInsets.asPaddingValues().calculateTopPadding(),
+            contentAlignment = Alignment.Center,
             modifier = Modifier
+                .fillMaxHeight()
                 // Ignore the top padding, it'll be applied by consuming window insets be the
                 // content.
                 .padding(paddingValues.copy(top = 0.dp))

@@ -73,9 +73,11 @@ fun BoxWithVerticalScrollEdgeFade(
     bottomFadeHeight: Dp = BoxWithVerticalScrollEdgeFadeDefaults.FadeHeight,
     topFadeColor: Color = ProtonTheme.colors.backgroundNorm,
     bottomFadeColor: Color = ProtonTheme.colors.backgroundNorm,
+    contentAlignment: Alignment = Alignment.TopStart,
     content: @Composable BoxScope.() -> Unit
 ) {
     Box(
+        contentAlignment = contentAlignment,
         modifier = modifier,
     ) {
         content()
