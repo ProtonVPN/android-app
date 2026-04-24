@@ -274,7 +274,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">მინაცემები შენახულია</string>
     <string name="netshield_setting_warning">ზოგიერთი ვებგვერდი, შეიძლება, სწორად არ ჩაიტვირთოს, თუ რეკლამას და ტრეკერებს დაბლოკავთ.</string>
-    <string name="netshield_setting_block_adult_content">Block adult content</string>
+    <string name="netshield_setting_block_adult_content">ეროტიკული შემცველობის დაბლოკვა</string>
     <string name="dialogDontShowAgain">აღარ მაჩვენო</string>
     <string name="guestHoleNotificationContent">ქსელის პრობლემის გვერდის ავლის მცდელობა. ეს Proton VPN-თან წვდომაში დაგეხმარებათ.</string>
     <string name="errorTunMultiUserPermission">VPN შეერთების ინიციალიზაცია შეუძლებელია ორმაგ-აპს (Dual Messenger-ი, მაგალითად) და Split Tunneling-ს შორის. გამორთეთ ერთ-ერთი და გადატვირთეთ მოწყობილობა.</string>
@@ -357,8 +357,8 @@
     <string name="enable">ჩართვა</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol-ი ამჟამად გათიშულია</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN-მა აღმოაჩინა, რომ თქვენი მიმდინარე ქსელი VPN-შეერთების დამყარებას ხელს უშლის. შეზღუდვის მოხსნის ცდა ჭკვიანი პროტოკოლის ჩართვით შეგიძლიათ.</string>
-    <string name="notification_streaming_blocked_title">Streaming not working?</string>
-    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
+    <string name="notification_streaming_blocked_title">სტრიმინგი არ მუშაობს?</string>
+    <string name="notification_streaming_blocked_text">ბევრი სტრიმინგის სერვერი ადგენს და ბლოკავს კავშირებს უფასო VPN-ის სერვერებიდან. ასწიეთ სატარიფო გეგმა Proton VPN Plus-ზე, რომ თავიდან აიცილოთ ეს პრობლეები</string>
     <string name="upsell_advanced_features">დამატებითი ფუნქციები: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">წვდომა სტრიმინგის სერვერებზე (Netflix, Disney+, და ა. შ.) მსოფლიოს ნებისმიერი ადგილიდან</string>
     <!-- Number of servers available in the service.
@@ -1629,7 +1629,7 @@
     <string name="session_fork_confirmation_title">შესვლა Android TV-ზე?</string>
     <string name="session_fork_confirmation_message">ეს ტელევიზორს თქვენს Proton-ის ანგარიშზე წვდომის საშუალებას მისცემს.</string>
     <string name="session_fork_confirmation_bottom_note">შედით მხოლოდ იმ მოწყობილობებიდან, რომლებსაც ენდობით</string>
-    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
+    <string name="session_fork_confirmation_too_soon_toast">გადაავლეთ თქვალი გაგრძელებამდე</string>
     <string name="session_fork_success_title">შესვლა დასრულდა</string>
     <string name="session_fork_success_message">თქვენ ახლა შეხვედით თქვენი TV-ით.</string>
     <string name="session_fork_error_expired_title">კოდის ვადა ამოწურულია</string>
@@ -1639,17 +1639,17 @@
     <string name="session_fork_error_network_message">შეამოწმეთ თქვენი ქსელი და კიდევ სცადეთ.</string>
     <string name="session_fork_error_try_fallback_message">ალტერანატიული გზის მისაყოლად ტელევიზორზე დააწკაპუნეთ ბმულზე \'პრობლემები გაქვთ შესვლასთან?\'.</string>
     <string name="session_fork_error_report_button">პრობლემის ანგარიშის გაგზავნა</string>
-    <string name="session_fork_qr_code_content_description">QR code</string>
-    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
-    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
-    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
-    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
-    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
-    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
-    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_step2">Sign in or create an account</string>
+    <string name="session_fork_qr_code_content_description">QR კოდი</string>
+    <string name="session_fork_qr_code_message">დაასკანერეთ QR კოდი შესასვლელად, ან შექმენით ანგარიში.</string>
+    <string name="session_fork_qr_code_trouble_button">შესვლის პრობლემები გაქვთ?</string>
+    <string name="session_fork_qr_code_error_expired">უსაფრთხოების მიზნებისთვის ვალიდაციის კოდის ვადა ამოიწურა</string>
+    <string name="session_fork_qr_code_error_network">შეამოწმეთ თქვენი ქსელი და კიდევ სცადეთ</string>
+    <string name="session_fork_qr_code_error_create_new_button">ახალი კოდის შექმნა</string>
+    <string name="session_fork_user_code_title">ვერ დაასკანერეთ კოდი? შედით ხელით</string>
+    <string name="session_fork_user_code_step1"><![CDATA[გადასვლა ბმულზე: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">შედით, ან შექმენით ანგარიში</string>
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
-    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step3"><![CDATA[შეიყვანეთ კოდი: <b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[ჯერ კიდევ გჭირდებათ დახმარება? ეწვიეთ ვებგვერდს <b>%1$s</b>]]></string>
 </resources>

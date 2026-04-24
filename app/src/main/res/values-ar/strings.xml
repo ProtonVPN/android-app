@@ -81,7 +81,7 @@
     <string name="connect">اتصال</string>
     <string name="upgrade">ترقية</string>
     <string name="retry">إعادة المحاولة</string>
-    <string name="report_message">تقرير الرسالة</string>
+    <string name="report_message">رسالة التقرير</string>
     <string name="report_bug_email_label">بريدك الإلكتروني</string>
     <string name="report_bug_email_hint">أدخل بريدك الإلكتروني</string>
     <string name="report_bug_message_label">الرسالة</string>
@@ -200,7 +200,7 @@
     <string name="troubleshootIspProblemDescription"><![CDATA[حاول الاتصال بـ Proton عبر شبكة مختلفة (أو استخدم <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">تعارض مع مضاد الفيروسات</string>
     <string name="troubleshootAntivirusProblemDescription">عطل مضاد الفيروسات مؤقتاً أو قم بإزالته.</string>
-    <string name="troubleshootProxyFirewallProblemTitle">تعارض مع البروكسي/جدار الحماية</string>
+    <string name="troubleshootProxyFirewallProblemTitle">تعارض مع البروكسي أو جدار الحماية</string>
     <string name="troubleshootProxyFirewallProblemDescription">عطل البروكسي أو جدار الحماية، أو تواصل مع مسؤول الشبكة.</string>
     <string name="troubleshootProtonDownTitle">Proton خارج الخدمة</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[تحقق من <a href=\"%1$s\">وضع Proton</a> لمتابعة حالة النظام.]]></string>
@@ -210,7 +210,7 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[في حال حظر Proton، سيحاول التطبيق استخدام مسارات بديلة للوصول إلى خوادم Proton. <a href="%1$s">معرفة المزيد</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">حظر من جانب الحكومة</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[قد تحظر دولتك الوصول إلى Proton. حاول استخدام <a href=\'%1$s\'>Tor</a> للوصول إلى Proton.]]></string>
-    <string name="settingsKillSwitchEnableTitle">كيفية تفعيل مفتاح الإيقاف (Kill Switch)</string>
+    <string name="settingsKillSwitchEnableTitle">كيفية تفعيل مفتاح الإيقاف أو Kill Switch</string>
     <string name="settingsKillSwitchEnableStep1">1. افتح إعدادات جهازك</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. ابحث عن Proton VPN واضغط على %1$s</string>
@@ -218,12 +218,12 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">الإعدادات</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3.فعل كل من / "<b>الاتصال الدائم</b>/" و /"<b>حظر الاتصال بدون VPN</b>/"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. فعل كل من "<b>الاتصال الدائم</b>" و"<b>حظر الاتصال بدون VPN</b>"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">الإعدادات</string>
-    <string name="settingsKillSwitchLearnMoreButton">ما هو مفتاح الإيقاف (Kill Switch)؟</string>
-    <string name="settingsKillSwitchWarningMain">عند تفعيل مفتاح الإيقاف (Kill Switch)، لن تتمكن من الاتصال بـ:</string>
-    <string name="settingsKillSwitchWarningPoint1">المواقع والتطبيقات المستبعدة من اتصال VPN عبر تقسيم النفق (Split Tunneling)</string>
-    <string name="settingsKillSwitchWarningPoint2">الأجهزة على شبكتك المحلية (LAN)</string>
+    <string name="settingsKillSwitchLearnMoreButton">ما هو مفتاح الإيقاف؟</string>
+    <string name="settingsKillSwitchWarningMain">عند تفعيل مفتاح الإيقاف، لن تتمكن من الاتصال بالتالي:</string>
+    <string name="settingsKillSwitchWarningPoint1">المواقع والتطبيقات المستبعدة من اتصال VPN عبر تقسيم الاتصال</string>
+    <string name="settingsKillSwitchWarningPoint2">الأجهزة على شبكتك المحلية أو LAN</string>
     <string name="settingsEnableTelemetryTitle">مشاركة بيانات الاستخدام بشكل مجهول</string>
     <string name="settingsEnableTelemetryDescription">تُساهم بيانات الاستخدام في تخطي قيود حظر VPN وتعزيز استقرار أداء التطبيق.</string>
     <string name="settingsSendCrashReportsTitle">مشاركة تقارير الأعطال بشكل مجهول</string>
@@ -651,7 +651,7 @@
     <string name="payment_welcome_price_message_annual">عرض ترحيبي. يُجدد تلقائياً مقابل %1$s سنوياً</string>
     <string name="payment_auto_renew_message_monthly">يُجدد الاشتراك تلقائياً مقابل %1$s شهرياً</string>
     <string name="payment_auto_renew_message_annual">يُجدد الاشتراك تلقائياً مقابل %1$s سنوياً</string>
-    <string name="smart_routing_title">المسار الذكي</string>
+    <string name="smart_routing_title">التوجيه الذكي</string>
     <string name="smart_routing_description">بفضل هذه التقنية، يوفر Proton VPN مستويات أعلى من السرعة والأمان في البلدان التي تواجه تحديات في الاتصال.</string>
     <string name="tor_title">Tor</string>
     <string name="server_load_title">ضغط الخادم</string>
@@ -675,7 +675,7 @@
     <string name="dynamic_report_completion_error_description_no_internet">تعذر إرسال تقريرك. يُرجى التحقق من اتصالك والمحاولة مرة أخرى.</string>
     <string name="dynamic_report_completion_error_description_timeout">تعذر إرسال تقريرك بسبب انتهاء مهلة الاتصال، يُرجى المحاولة مرة أخرى.</string>
     <string name="dynamic_report_completion_success_title">شكراً لك! سيتواصل معك فريقنا في أقرب وقت ممكن.</string>
-    <string name="dynamic_report_success_title">شكراً لك</string>
+    <string name="dynamic_report_success_title">شكراً لمساهمتك</string>
     <string name="dynamic_report_success_description">سيتواصل معك فريقنا في أقرب وقت ممكن.</string>
     <string name="dynamic_report_field_mandatory">هذا الحقل مطلوب</string>
     <string name="dynamic_report_logs_description">سجل الأخطاء هو ملف يوضح لنا الخطوات التي أدت لظهور المشكلة. ونؤكد لك أن استخدامه يقتصر فقط على مساعدة فريقنا الهندسي في إصلاح الأعطال.</string>
@@ -962,7 +962,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">النظير إلى النظير</string>
     <string name="server_feature_content_description_tor">tor</string>
-    <string name="server_feature_content_description_smart_routing">المسار الذكي</string>
+    <string name="server_feature_content_description_smart_routing">التوجيه الذكي</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">الدولة الأسرع</string>
     <string name="fastest_country_excluding_my_country">الدولة الأسرع (باستثناء بلدي)</string>
@@ -1333,7 +1333,7 @@
     <string name="info_secure_core_secure_header">اتصال VPN عبر Secure Core</string>
     <string name="info_dialog_tor_description">يمنحك الاتصال بخادم Tor الوصول إلى الخدمات المخفية ومواقع Onion من خلال متصفحك المعتاد.</string>
     <string name="info_dialog_button_learn_more_tor">طريقة الاتصال بشبكة Tor</string>
-    <string name="info_dialog_button_learn_more_p2p">كيفية استخدام torrent مع P2P</string>
+    <string name="info_dialog_button_learn_more_p2p">كيف تستخدم Torrent مع P2P</string>
     <string name="info_dialog_button_learn_more_ipaddress">ما المقصود بعنوان IP؟</string>
     <string name="info_dialog_button_learn_more_streaming">هل تواجه مشكلة في منصات المشاهدة؟</string>
     <string name="info_dialog_streaming_title">منصات المشاهدة</string>
@@ -1359,7 +1359,7 @@
     <string name="connection_feature_secure_core_description">نشاطك محمي بتشفير مزدوج عبر خادمي VPN عاليي الأمان.</string>
     <string name="connection_feature_streaming_title">منصات المشاهدة</string>
     <string name="connection_feature_streaming_description">يدعم هذا الخادم مشاهدة الأفلام والبرامج التلفزيونية.</string>
-    <string name="connection_feature_smart_routing_title">المسار الذكي</string>
+    <string name="connection_feature_smart_routing_title">التوجيه الذكي</string>
     <string name="connection_feature_smart_routing_description">يمنحك اتصالاً بالدولة التي اخترتها عبر خوادم سريعة تقع في دولة أخرى.</string>
     <!--
         %1$s - physical server location country
@@ -1551,7 +1551,7 @@
     <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">عند استخدام DNS مخصص، يفقد NetShield القدرة على حظر الإعلانات وأدوات التتبع والبرمجيات الضارة.</string>
     <string name="settings_advanced_alternative_routing_title">التوجيه البديل</string>
     <string name="settings_advanced_alternative_routing_description">في حال تعذر الاتصال بخدمات Proton نتيجة قيود الشبكة، يعتمد التطبيق على التوجيه البديل لضمان استمرارية اتصالك بخوادمنا.</string>
-    <string name="settings_advanced_allow_lan_title">الشبكة المحلية (LAN)</string>
+    <string name="settings_advanced_allow_lan_title">الشبكة المحلية أو LAN</string>
     <string name="settings_advanced_allow_lan_description">الحفاظ على اتصالك بالطابعات ومكبرات الصوت وباقي الأجهزة المحلية أثناء عمل التطبيق.</string>
     <string name="settings_advanced_allow_lan_description_tv">الحفاظ على اتصالك بمكبرات الصوت وأجهزة الكمبيوتر وباقي الأجهزة المحلية أثناء عمل التطبيق</string>
     <string name="settings_advanced_allow_lan_title_tv">الاتصال بالشبكة المحلية - LAN</string>
@@ -1577,7 +1577,7 @@
     <string name="settings_protocol_wireguard_udp_description">بروتوكول متطور يجمع بين معايير الأمان المتقدمة وكفاءة الأداء.</string>
     <string name="settings_protocol_wireguard_tcp_description">بروتوكول متطور يضمن ثبات الاتصال والقدرة على تخطي حواجز الشبكة.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">بروتوكول مبتكر يضمن تخطي حواجز الرقابة وتمويه الاتصال لمقاومة أنظمة الفحص (DPI)؛ ابتكار ينفرد به Proton VPN لتأمين الوصول في الشبكات المقيدة، رغم كونه أقل سرعة من غيره.</string>
+    <string name="settings_protocol_stealth_description">بروتوكول مبتكر يضمن تخطي حواجز الرقابة وتمويه الاتصال لمقاومة أنظمة الفحص (DPI)؛ ابتكار ينفرد به Proton VPN لتأمين وصولك في الشبكات المقيدة، رغم أنه أقل في السرعة من الباقي.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">موصى به</string>
     <string name="settings_protocol_badge_experimental">ميزة تجريبية</string>
@@ -1602,10 +1602,10 @@
     <string name="settings_dialog_reconnect">تُطبق التغييرات الجديدة عند الاتصال القادم.</string>
     <string name="settings_needs_reconnect_banner">تُطبق التغييرات الجديدة عند الاتصال القادم.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">DNS المخصص غير متاح</string>
-    <string name="private_dns_conflict_banner_custom_dns_description">يستخدم جهازك DNS لجهة خارجية، مما يمنع تشغيل الـ DNS المخصص في Proton VPN. معرفة المزيد</string>
-    <string name="private_dns_conflict_banner_custom_dns_description_tv">يستخدم جهازك DNS لجهة خارجية، مما يمنع تشغيل الـ DNS المخصص في Proton VPN.</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">يستخدم جهازك DNS تابع لجهة خارجية، مما يمنع تشغيل الـ DNS المخصص في Proton VPN. معرفة المزيد</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">يستخدم جهازك DNS تابع لجهة خارجية، مما يمنع تشغيل الـ DNS المخصص في Proton VPN.</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield غير متاح</string>
-    <string name="private_dns_conflict_banner_netshield_description">يستخدم جهازك DNS لجهة خارجية، مما يمنع تشغيل NetShield. معرفة المزيد</string>
+    <string name="private_dns_conflict_banner_netshield_description">يستخدم جهازك DNS تابع لجهة خارجية، مما يمنع تشغيل NetShield. معرفة المزيد</string>
     <string name="private_dns_conflict_banner_network_settings_button">إعدادات الشبكة</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield غير متاح</string>
     <string name="custom_dns_conflict_banner_netshield_description">تفعيل الـ DNS المخصص يمنع تشغيل NetShield. معرفة المزيد</string>
