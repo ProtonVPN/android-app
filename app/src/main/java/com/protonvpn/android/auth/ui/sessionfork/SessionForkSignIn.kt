@@ -48,6 +48,7 @@ import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.base.ui.upsellGradientEnd
+import com.protonvpn.android.base.ui.upsellGradientMid
 import com.protonvpn.android.base.ui.upsellGradientStart
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonColors
@@ -65,6 +66,7 @@ fun SessionForkSignIn(
             .background(
                 Brush.verticalGradient(
                     0f to ProtonTheme.colors.upsellGradientStart,
+                    0.25f to ProtonTheme.colors.upsellGradientMid,
                     0.5f to ProtonTheme.colors.upsellGradientEnd,
                 )
             ),

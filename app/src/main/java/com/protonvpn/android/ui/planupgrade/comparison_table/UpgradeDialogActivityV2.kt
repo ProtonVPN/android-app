@@ -69,6 +69,7 @@ import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.base.ui.upsellGradientEnd
+import com.protonvpn.android.base.ui.upsellGradientMid
 import com.protonvpn.android.base.ui.upsellGradientStart
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeAbTest
@@ -200,6 +201,7 @@ fun PlanUpgradeDialog(
 ) {
     val backgroundGradient = Brush.verticalGradient(
         0f to ProtonTheme.colors.upsellGradientStart,
+        0.25f to ProtonTheme.colors.upsellGradientMid,
         0.5f to ProtonTheme.colors.upsellGradientEnd,
     )
     Scaffold(
