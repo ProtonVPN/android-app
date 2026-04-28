@@ -508,6 +508,49 @@
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
     <string name="upgrade_plan_selection_content_description">Opciones de mejora</string>
+    <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
+         May be used as a table header or like an icon. -->
+    <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">Plan Plus:</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">Plan Free:</string>
+    <string name="upsell_panel_content_description_yes">Sí</string>
+    <string name="upsell_panel_content_description_no">No</string>
+    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_netshield_title">Navegue sin interrupciones</string>
+    <string name="upsell_panel_netshield_benefit_ads">Bloqueador de anuncios mientras navega</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Detenga el seguimiento de rastreadores</string>
+    <string name="upsell_panel_netshield_benefit_malware">Protección de malware y suplantación</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Carga de páginas más rápida </string>
+    <string name="upsell_panel_speed_title">Reproduzca, juegue y descargue más rápido</string>
+    <string name="upsell_panel_speed_benefit_servers">Servidores de alta velocidad</string>
+    <string name="upsell_panel_speed_benefit_gaming">Tiempo de respuesta mientras juega</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Lenta</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Rápida</string>
+    <string name="upsell_panel_speed_benefit_video">Reproduzca sin largos tiempos de espera</string>
+    <string name="upsell_panel_speed_benefit_ads">Navegue sin anuncios o rastreadores</string>
+    <string name="upsell_panel_streaming_title">Vea su servicio de streaming favorito</string>
+    <string name="upsell_panel_streaming_benefit_shows">Vea sus series en cualquier país</string>
+    <!-- The asterisk points to upsell_panel_streaming_footer -->
+    <string name="upsell_panel_streaming_benefit_platforms">Todas las plataformas de streaming admitidas *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Reproduzca en HD sin largos tiempos de espera</string>
+    <string name="upsell_panel_streaming_benefit_devices">Varios dispositivos conectados al mismo tiempo</string>
+    <string name="upsell_panel_streaming_footer">* Se requiere suscripción a la plataforma de streaming.</string>
     <string name="upsell_card_countries_title">Cobertura global</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

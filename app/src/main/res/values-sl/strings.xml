@@ -50,7 +50,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Prekliči</string>
     <string name="close">Zapri</string>
-    <string name="dialogContinue">Nadaljujte</string>
+    <string name="dialogContinue">Nadaljuj</string>
     <string name="drawerReportProblem">Prijava napake</string>
     <string name="action_done">Končano</string>
     <string name="action_share">Deli</string>
@@ -539,6 +539,49 @@
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
     <string name="upgrade_plan_selection_content_description">Možnosti nadgradnje</string>
+    <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
+         May be used as a table header or like an icon. -->
+    <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
+    <string name="upsell_panel_content_description_yes">Yes</string>
+    <string name="upsell_panel_content_description_no">No</string>
+    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_netshield_title">Browse without interruptions</string>
+    <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
+    <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
+    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
+    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
+    <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
+    <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
+    <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
+    <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
+    <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
+    <!-- The asterisk points to upsell_panel_streaming_footer -->
+    <string name="upsell_panel_streaming_benefit_platforms">All major streaming platforms supported *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
+    <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
+    <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
     <string name="upsell_card_countries_title">Pokritost po vsem svetu</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -1532,8 +1575,8 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_dialog_reconnect">Nove nastavitve bodo veljale ob naslednji povezavi.</string>
     <string name="settings_needs_reconnect_banner">Nove nastavitve bodo veljale ob naslednji povezavi.</string>
     <string name="private_dns_conflict_banner_custom_dns_title">DNS po meri ni na voljo</string>
-    <string name="private_dns_conflict_banner_custom_dns_description">Vaša naprava uporablja DNS tretje osebe, kar preprečuje delovanje s Proton VPN’s po meri DNS. Več o tem</string>
-    <string name="private_dns_conflict_banner_custom_dns_description_tv">Vaša naprava uporablja DNS tretje osebe, kar preprečuje delovanje DNS-ja po meri Proton VPN.</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Vaša naprava uporablja DNS tretje osebe, kar preprečuje delovanje DNS po meri od Proton VPN. Več o tem</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Vaša naprava uporablja DNS tretje osebe, kar preprečuje delovanje DNS-ja po meri od Proton VPN.</string>
     <string name="private_dns_conflict_banner_netshield_title">NetShield ni na voljo</string>
     <string name="private_dns_conflict_banner_netshield_description">Naprava uporablja strežnik DNS tretje osebe, kar preprečuje delovanje NetShield. Več informacij</string>
     <string name="private_dns_conflict_banner_network_settings_button">Nastavitve omrežja</string>
@@ -1682,14 +1725,14 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="info_dialog_ipv6_traffic_benefits_title">Prednosti</string>
     <string name="settings_lan_allow_direct_connection_title">Omogoči neposredne povezave naprav</string>
     <string name="settings_lan_allow_direct_connection_description">Povežite se s pametnimi televizorji, sistemom Android Auto in drugimi napravami, ki ustvarjajo lastno omrežje. Za največjo varnost omogočite to možnost le pri povezovanju s temi napravami.</string>
-    <string name="no_connections_title">Na voljo ni povezav VPN</string>
+    <string name="no_connections_title">Povezav VPN ni na voljo</string>
     <string name="no_connections_description_loading_error">Seznama strežnikov ni bilo mogoče naložiti.</string>
     <string name="no_connections_description_no_servers">Prosite skrbnika, da za vaš račun omogoči dostop do VPN.</string>
     <string name="no_connections_action_refresh">Osveži</string>
     <string name="no_connections_action_sign_out">Odjavi se</string>
     <string name="no_connections_help_contact_us"><![CDATA[Potrebujete pomoč? <a href="">Stopite v stik z nami</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Če vaš skrbnik potrebuje pomoč pri omogočanju dostopa do VPN, mu pošljite <a href="">ta navodila</a>.]]></string>
-    <string name="settings_protocol_proton_protocols">Proton protocols</string>
+    <string name="settings_protocol_proton_protocols">Proton protokoli</string>
     <string name="settings_protocol_proton_protocols_description">Uporabite lastno Proton VPN implementacijo WireGuarda. To je eksperimentalna funkcija, zato boste morda izkusili nekaj nestabilnosti.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">Ni država, ki ste jo želeli?</string>
     <string name="connection_preferences_smart_discovery_dialog_message">Če obstajajo lokacije, na katere se ne želite samodejno povezati, jih lahko izključite iz Najhitrejša država.</string>

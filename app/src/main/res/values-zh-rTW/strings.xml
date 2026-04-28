@@ -99,7 +99,7 @@
     <string name="exclude_locations">Exclude locations</string>
     <string name="excluded_locations">Excluded locations</string>
     <string name="cannot_connect">Cannot connect</string>
-    <string name="skip">Skip</string>
+    <string name="skip">略過</string>
     <string name="something_went_wrong">出了點問題</string>
     <string name="try_again">再試一次</string>
     <string name="delete">刪除</string>
@@ -493,6 +493,49 @@
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
     <string name="upgrade_plan_selection_content_description">升級選項</string>
+    <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
+         May be used as a table header or like an icon. -->
+    <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
+    <string name="upsell_panel_content_description_yes">是</string>
+    <string name="upsell_panel_content_description_no">否</string>
+    <string name="upsell_panel_table_header_plan_free">免費</string>
+    <string name="upsell_panel_netshield_title">Browse without interruptions</string>
+    <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
+    <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
+    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
+    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
+    <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">緩慢</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">快速</string>
+    <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
+    <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
+    <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
+    <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
+    <!-- The asterisk points to upsell_panel_streaming_footer -->
+    <string name="upsell_panel_streaming_benefit_platforms">All major streaming platforms supported *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
+    <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
+    <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
     <string name="upsell_card_countries_title">覆蓋全球</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -1585,12 +1628,12 @@
     <string name="connection_preferences_smart_discovery_dialog_message">If there are locations you don’t want to be automatically connected to, you can exclude them from Fastest country.</string>
     <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
     <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
-    <string name="session_fork_no_account_title">Sign in on Android TV</string>
+    <string name="session_fork_no_account_title">登入 Android TV</string>
     <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
     <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
     <string name="session_fork_no_account_signup_button">Create an account</string>
-    <string name="session_fork_no_account_signin_button">Sign in</string>
-    <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
+    <string name="session_fork_no_account_signin_button">登入</string>
+    <string name="session_fork_confirmation_title">登入 Android TV?</string>
     <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
     <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
     <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>

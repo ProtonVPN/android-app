@@ -493,6 +493,49 @@
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
     <string name="upgrade_plan_selection_content_description">升级选择</string>
+    <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
+         May be used as a table header or like an icon. -->
+    <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus 套餐：</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">Free 套餐：</string>
+    <string name="upsell_panel_content_description_yes">是</string>
+    <string name="upsell_panel_content_description_no">否</string>
+    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_netshield_title">无中断浏览</string>
+    <string name="upsell_panel_netshield_benefit_ads">浏览时拦截广告</string>
+    <string name="upsell_panel_netshield_benefit_trackers">阻止跟踪器追踪您</string>
+    <string name="upsell_panel_netshield_benefit_malware">恶意软件与网络钓鱼防护</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">页面加载更快</string>
+    <string name="upsell_panel_speed_title">畅享更快的流媒体、游戏和下载速度</string>
+    <string name="upsell_panel_speed_benefit_servers">高速服务器</string>
+    <string name="upsell_panel_speed_benefit_gaming">游戏响应时间</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">慢</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">快</string>
+    <string name="upsell_panel_speed_benefit_video">视频无缓冲播放</string>
+    <string name="upsell_panel_speed_benefit_ads">无广告及跟踪器浏览</string>
+    <string name="upsell_panel_streaming_title">观看您喜爱的流媒体服务</string>
+    <string name="upsell_panel_streaming_benefit_shows">从任意国家/地区观看您的节目</string>
+    <!-- The asterisk points to upsell_panel_streaming_footer -->
+    <string name="upsell_panel_streaming_benefit_platforms">支持所有主流流媒体平台 *</string>
+    <string name="upsell_panel_streaming_benefit_hd">无缓冲高清播放</string>
+    <string name="upsell_panel_streaming_benefit_devices">同时连接的设备数</string>
+    <string name="upsell_panel_streaming_footer">* 需订阅流媒体平台服务！</string>
     <string name="upsell_card_countries_title">覆盖全世界</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

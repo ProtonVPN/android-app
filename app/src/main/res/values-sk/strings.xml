@@ -538,6 +538,49 @@
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
     <string name="upgrade_plan_selection_content_description">Nastavenia aktualizácie</string>
+    <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
+         May be used as a table header or like an icon. -->
+    <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">Plán Plus:</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">Plán Free:</string>
+    <string name="upsell_panel_content_description_yes">Áno</string>
+    <string name="upsell_panel_content_description_no">Nie</string>
+    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_netshield_title">Surfujte bez prerušení</string>
+    <string name="upsell_panel_netshield_benefit_ads">Reklamy sú počas prehliadania blokované</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Zabráňte sledovacím nástrojom, aby vás sledovali</string>
+    <string name="upsell_panel_netshield_benefit_malware">Ochrana pred malvérom a phishingom</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Stránky sa načítajú rýchlejšie </string>
+    <string name="upsell_panel_speed_title">Rýchlejšie streamovanie, hranie a sťahovanie</string>
+    <string name="upsell_panel_speed_benefit_servers">Vysokorýchlostné servery</string>
+    <string name="upsell_panel_speed_benefit_gaming">Doba odozvy pri hraní hier</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Slabá</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Rýchla</string>
+    <string name="upsell_panel_speed_benefit_video">Streamovanie videa bez bufferingu</string>
+    <string name="upsell_panel_speed_benefit_ads">Surfujte bez reklám a sledovacích nástrojov</string>
+    <string name="upsell_panel_streaming_title">Sledujte svoje obľúbené streamovacie služby</string>
+    <string name="upsell_panel_streaming_benefit_shows">Sledujte svoje seriály z akejkoľvek krajiny</string>
+    <!-- The asterisk points to upsell_panel_streaming_footer -->
+    <string name="upsell_panel_streaming_benefit_platforms">Podporované sú všetky hlavné streamovacie platformy *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Streaming v HD bez bufferingu</string>
+    <string name="upsell_panel_streaming_benefit_devices">zaradení pripojených súčasne</string>
+    <string name="upsell_panel_streaming_footer">* Je potrebné predplatné streamovacej platformy.</string>
     <string name="upsell_card_countries_title">Celosvetové pokrytie</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

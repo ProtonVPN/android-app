@@ -508,6 +508,49 @@
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
     <string name="upgrade_plan_selection_content_description">Επιλογές αναβάθμισης</string>
+    <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
+         May be used as a table header or like an icon. -->
+    <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus πλάνο:</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">Free πλάνο:</string>
+    <string name="upsell_panel_content_description_yes">Ναι</string>
+    <string name="upsell_panel_content_description_no">Όχι</string>
+    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_netshield_title">Περιηγηθείτε χωρίς διακοπές</string>
+    <string name="upsell_panel_netshield_benefit_ads">Οι διαφημίσεις αποκλείονται κατά την περιήγησή σας</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Αποτρέψτε τους ιχνηλάτες από το να σας ακολουθούν</string>
+    <string name="upsell_panel_netshield_benefit_malware">Προστασία από κακόβουλο λογισμικό και ηλεκτρονικό ψάρεμα (phishing)</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Οι σελίδες φορτώνουν πιο γρήγορα </string>
+    <string name="upsell_panel_speed_title">Μεταδώστε, παίξτε παιχνίδια και κατεβάστε πιο γρήγορα</string>
+    <string name="upsell_panel_speed_benefit_servers">Διακομιστές υψηλής ταχύτητας</string>
+    <string name="upsell_panel_speed_benefit_gaming">Χρόνος απόκρισης καθώς παίζετε παιχνίδια</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Αργή</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Γρήγορη</string>
+    <string name="upsell_panel_speed_benefit_video">Ροές βίντεο χωρίς διακοπές</string>
+    <string name="upsell_panel_speed_benefit_ads">Περιηγηθείτε χωρίς διαφημίσεις ή προγράμματα παρακολούθησης</string>
+    <string name="upsell_panel_streaming_title">Παρακολουθήστε τις αγαπημένες σας υπηρεσίες ροής</string>
+    <string name="upsell_panel_streaming_benefit_shows">Παρακολουθήστε τις εκπομπές σας από οποιαδήποτε χώρα</string>
+    <!-- The asterisk points to upsell_panel_streaming_footer -->
+    <string name="upsell_panel_streaming_benefit_platforms">Υποστηρίζονται όλες οι μεγάλες πλατφόρμες ροής *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Μεταδώστε ροή σε HD χωρίς προσωρινή αποθήκευση</string>
+    <string name="upsell_panel_streaming_benefit_devices">Συσκευές συνδεδεμένες ταυτόχρονα</string>
+    <string name="upsell_panel_streaming_footer">* Απαιτείται συνδρομή στην πλατφόρμα ροής.</string>
     <string name="upsell_card_countries_title">Παγκόσμια κάλυψη</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

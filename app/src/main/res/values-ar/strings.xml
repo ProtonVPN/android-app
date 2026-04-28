@@ -19,7 +19,7 @@
 -->
 <resources>
     <string name="app_icon_name_classic">الأصلي</string>
-    <string name="app_icon_name_dark">الداكن</string>
+    <string name="app_icon_name_dark">داكن</string>
     <string name="app_icon_name_retro">نمط قديم</string>
     <string name="app_icon_name_weather">الطقس</string>
     <string name="app_icon_name_notes">الملاحظات</string>
@@ -435,7 +435,7 @@
     <string name="upgrade_split_tunneling_title">اجمع بين أفضل مزايا الاتصال</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[قسم اتصالك بين الـ VPN وموقعك الحقيقي باستخدام ميزة <b>تقسيم الاتصال</b>.]]></string>
     <string name="upgrade_customization_title">صلاحيات تخصيص متقدمة للـ VPN</string>
-    <string name="upgrade_customization_message"><![CDATA[إتاحة الوصول إلى <b>اتصالات LAN</b> و<b>DNS المخصص</b> و<b>NAT type 2</b> ضمن باقة VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[إتاحة الوصول إلى <b>اتصالات LAN</b> و<b>DNS المخصص</b> و<b>NAT النوع 2</b> ضمن باقة VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">إتاحة الاتصال بكافة الدول والمدن</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -473,40 +473,40 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[الوصول إلى %1$s في %2$s ضمن باقة <b>VPN Plus</b>]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">تأمين شامل للخصوصية ضمن باقة Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">إتاحة كافة المزايا المتقدمة لمنظومة Proton VPN و Mail و Calendar و Drive و Pass.</string>
-    <string name="upgrade_unlimited_more">وأكثر</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">إتاحة الوصول إلى كافة الدول</string>
-    <string name="upgrade_unlimited_vpn_all_features">جميع مميزات باقة VPN Plus الأخرى</string>
-    <string name="upgrade_unlimited_vpn_any_location">حرية اختيار أي موقع</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">معدلات سرعة أعلى للـ VPN</string>
+    <string name="upgrade_unlimited_all_apps_title">الخصوصية القصوى بانتظارك مع Proton Unlimited</string>
+    <string name="upgrade_unlimited_all_apps_description">تجربة رقمية متكاملة تضع بين يديك كافة المزايا المتقدمة لـ Proton VPN و Mail و Calendar و Drive و Pass.</string>
+    <string name="upgrade_unlimited_more">مزايا إضافية</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">وصول غير محدود لكافة خوادمنا العالمية</string>
+    <string name="upgrade_unlimited_vpn_all_features">كامل المزايا المتقدمة لباقة VPN Plus</string>
+    <string name="upgrade_unlimited_vpn_any_location">حرية تحديد مواقع الاتصال</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">سرعات VPN فائقة ومحسنة</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="zero">تأمين %1$d جهاز في نفس الوقت</item>
-        <item quantity="one">تأمين %1$d جهاز في نفس الوقت</item>
-        <item quantity="two">تأمين %1$d جهاز في نفس الوقت</item>
-        <item quantity="few">تأمين %1$d أجهزة في نفس الوقت</item>
-        <item quantity="many">تأمين %1$d جهاز في نفس الوقت</item>
-        <item quantity="other">تأمين %1$d جهاز في نفس الوقت</item>
+        <item quantity="zero">تأمين وحماية %1$d جهاز في آن واحد</item>
+        <item quantity="one">تأمين وحماية %1$d جهاز في آن واحد</item>
+        <item quantity="two">تأمين وحماية %1$d جهاز في آن واحد</item>
+        <item quantity="few">تأمين وحماية %1$d أجهزة في آن واحد</item>
+        <item quantity="many">تأمين وحماية %1$d جهاز في آن واحد</item>
+        <item quantity="other">تأمين وحماية %1$d جهاز في آن واحد</item>
     </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">وصول آمن لمنصات المشاهدة</string>
-    <string name="upgrade_unlimited_vpn_adblocker">حظر الإعلانات والحماية من البرمجيات الخبيثة</string>
+    <string name="upgrade_unlimited_vpn_streaming">مشاهدة مشفرة وبلا قيود</string>
+    <string name="upgrade_unlimited_vpn_adblocker">حظر الإعلانات والبرمجيات الضارة</string>
     <string name="upgrade_unlimited_vpn_double_vpn">اتصال VPN مزدوج</string>
-    <string name="upgrade_unlimited_vpn_p2p">دعم اتصالات P2P</string>
+    <string name="upgrade_unlimited_vpn_p2p">دعم كامل للـ P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="zero">%1$d نطاق بريد إلكتروني مخصص</item>
-        <item quantity="one">%1$d نطاق بريد إلكتروني مخصص</item>
-        <item quantity="two">%1$d نطاق بريد إلكتروني مخصص</item>
-        <item quantity="few">%1$d نطاقات بريد إلكتروني مخصص</item>
-        <item quantity="many">%1$d نطاق بريد إلكتروني مخصص</item>
-        <item quantity="other">%1$d نطاق بريد إلكتروني مخصص</item>
+        <item quantity="zero">%1$d نطاق بريدي مخصص</item>
+        <item quantity="one">%1$d نطاق بريدي مخصص</item>
+        <item quantity="two">%1$d نطاق بريدي مخصص</item>
+        <item quantity="few">%1$d نطاقات بريدية مخصصة</item>
+        <item quantity="many">%1$d نطاق بريدي مخصص</item>
+        <item quantity="other">%1$d نطاق بريدي مخصص</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="zero">مرفق بحجم %1$d م.ب</item>
-        <item quantity="one">مرفق بحجم %1$d م.ب</item>
-        <item quantity="two">مرفق بحجم %1$d م.ب</item>
-        <item quantity="few">مرفقات بحجم %1$d م.ب</item>
-        <item quantity="many">مرفق بحجم %1$d م.ب</item>
-        <item quantity="other">مرفق بحجم %1$d م.ب</item>
+        <item quantity="zero">إرسال مرفقات حتى %1$d م.ب</item>
+        <item quantity="one">إرسال مرفقات حتى %1$d م.ب</item>
+        <item quantity="two">إرسال مرفقات حتى %1$d م.ب</item>
+        <item quantity="few">إرسال مرفقات حتى %1$d م.ب</item>
+        <item quantity="many">إرسال مرفقات حتى %1$d م.ب</item>
+        <item quantity="other">إرسال مرفقات حتى %1$d م.ب</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
         <item quantity="zero">%1$d عنوان بريد إلكتروني</item>
@@ -516,49 +516,49 @@
         <item quantity="many">%1$d عنوان بريد إلكتروني</item>
         <item quantity="other">%1$d عنوان بريد إلكتروني</item>
     </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">عدد غير محدود من المجلدات والتصفية</string>
-    <string name="upgrade_unlimited_mail_dark_web">رصد تسريبات الإنترنت المظلم</string>
-    <string name="upgrade_unlimited_mail_aliases">عناوين hide-my-email مستعارة غير محدودة</string>
-    <string name="upgrade_unlimited_mail_autoreply">الرد التلقائي</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">جدولة الإرسال</string>
+    <string name="upgrade_unlimited_mail_unlimited_folders">قواعد تصفية ومجلدات غير محدودة</string>
+    <string name="upgrade_unlimited_mail_dark_web">مراقبة تسريبات الإنترنت المظلم</string>
+    <string name="upgrade_unlimited_mail_aliases">عناوين مستعارة لا نهائية عبر hide-my-email</string>
+    <string name="upgrade_unlimited_mail_autoreply">ميزة الرد التلقائي</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">تحديد موعد لإرسال الرسالة</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="zero">%1$d تقويم شخصي</item>
-        <item quantity="one">%1$d تقويم شخصي</item>
-        <item quantity="two">%1$d تقويم شخصي</item>
-        <item quantity="few">%1$d تقاويم شخصية</item>
-        <item quantity="many">%1$d تقويم شخصي</item>
-        <item quantity="other">%1$d تقويم شخصي</item>
+        <item quantity="zero">%1$d تقويم خاص</item>
+        <item quantity="one">%1$d تقويم خاص</item>
+        <item quantity="two">%1$d تقويم خاص</item>
+        <item quantity="few">%1$d تقويمات خاصة</item>
+        <item quantity="many">%1$d تقويماً خاصاً</item>
+        <item quantity="other">%1$d تقويم خاص</item>
     </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">مشاركة التقويم</string>
-    <string name="upgrade_unlimited_calendar_invites">إرسال وتلقي الدعوات</string>
-    <string name="upgrade_unlimited_drive_encryption">تخزين مشفر للملفات</string>
-    <string name="upgrade_unlimited_drive_storage_size">سعة %1$d جيجا شاملة الصور والملفات والبريد</string>
-    <string name="upgrade_unlimited_drive_link_share">إنشاء روابط لمشاركة الصور والملفات</string>
-    <string name="upgrade_unlimited_drive_sharing_security">روابط مشاركة عالية الأمان</string>
-    <string name="upgrade_unlimited_drive_version_history">سجل تعديلات الملفات</string>
+    <string name="upgrade_unlimited_calendar_sharing">مشاركة خططك وجدولك</string>
+    <string name="upgrade_unlimited_calendar_invites">إرسال واستقبال الدعوات</string>
+    <string name="upgrade_unlimited_drive_encryption">مساحة تخزين مشفرة</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d ج.ب تجمع كل صورك وملفاتك وبريدك</string>
+    <string name="upgrade_unlimited_drive_link_share">مشاركة صورك وملفاتك عبر روابط</string>
+    <string name="upgrade_unlimited_drive_sharing_security">حماية متقدمة لروابط المشاركة</string>
+    <string name="upgrade_unlimited_drive_version_history">أرشيف بنسخ ملفاتك السابقة</string>
     <string name="upgrade_unlimited_pass_manager">مدير كلمات مرور مشفر</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">بيانات دخول وعناوين hide-my-email مستعارة لا محدودة</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">بيانات دخول وعناوين مستعارة لا نهائية عبر hide-my-email</string>
     <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="zero">%1$d خزنة</item>
-        <item quantity="one">%1$d خزنة</item>
-        <item quantity="two">%1$d خزنة</item>
-        <item quantity="few">%1$d خزائن</item>
-        <item quantity="many">%1$d خزنة</item>
-        <item quantity="other">%1$d خزنة</item>
+        <item quantity="zero">إنشاء حتى %1$d خزنة</item>
+        <item quantity="one">إنشاء حتى %1$d خزنة</item>
+        <item quantity="two">إنشاء حتى %1$d خزنة</item>
+        <item quantity="few">إنشاء حتى %1$d خزائن</item>
+        <item quantity="many">إنشاء حتى %1$d خزنة</item>
+        <item quantity="other">إنشاء حتى %1$d خزنة</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_logins">تخزين لا محدود لبيانات تسجيل الدخول</string>
-    <string name="upgrade_unlimited_pass_aliases">عناوين hide-my-email مستعارة لا محدودة</string>
-    <string name="upgrade_unlimited_pass_credit_cards">تخزين لا محدود لبطاقات الائتمان</string>
-    <string name="upgrade_unlimited_pass_devices">أجهزة لا محدودة</string>
+    <string name="upgrade_unlimited_pass_logins">حفظ بيانات الدخول بلا حدود</string>
+    <string name="upgrade_unlimited_pass_aliases">عناوين مستعارة لا نهائية عبر hide-my-email</string>
+    <string name="upgrade_unlimited_pass_credit_cards">حفظ بطاقات الائتمان بلا حدود</string>
+    <string name="upgrade_unlimited_pass_devices">دعم عدد غير محدود من الأجهزة</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="zero">مشاركة مع %1$d شخص كحد أقصى</item>
-        <item quantity="one">مشاركة مع %1$d شخص كحد أقصى</item>
-        <item quantity="two">مشاركة مع %1$d شخص كحد أقصى</item>
-        <item quantity="few">مشاركة مع %1$d أشخاص كحد أقصى</item>
-        <item quantity="many">مشاركة مع %1$d شخص كحد أقصى</item>
-        <item quantity="other">مشاركة مع %1$d شخص كحد أقصى</item>
+        <item quantity="zero">مشاركة تشمل %1$d فرد</item>
+        <item quantity="one">مشاركة تشمل %1$d فرد</item>
+        <item quantity="two">مشاركة تشمل %1$d فرد</item>
+        <item quantity="few">مشاركة تشمل %1$d أفراد</item>
+        <item quantity="many">مشاركة تشمل %1$d فرد</item>
+        <item quantity="other">مشاركة تشمل %1$d فرد</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">توثيق ثنائي مدمج</string>
+    <string name="upgrade_unlimited_pass_2fa_auth">توثيق ثنائي 2FA مدمج</string>
     <string name="upgrade_not_now_button">ليس الآن</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -568,6 +568,49 @@
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
     <string name="upgrade_plan_selection_content_description">خطط الترقية</string>
+    <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
+         May be used as a table header or like an icon. -->
+    <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">باقة Plus:</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">الباقة المجانية:</string>
+    <string name="upsell_panel_content_description_yes">نعم</string>
+    <string name="upsell_panel_content_description_no">لا</string>
+    <string name="upsell_panel_table_header_plan_free">مجاني</string>
+    <string name="upsell_panel_netshield_title">تصفح بسلاسة وبلا تشتت</string>
+    <string name="upsell_panel_netshield_benefit_ads">تجربة خالية تماماً من الإعلانات</string>
+    <string name="upsell_panel_netshield_benefit_trackers">حماية خصوصيتك من أدوات التتبع</string>
+    <string name="upsell_panel_netshield_benefit_malware">أمان معزز ضد البرمجيات الضارة والتصيد الاحتيالي</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">تحميل أسرع للمواقع </string>
+    <string name="upsell_panel_speed_title">تحميل وألعاب ومشاهدة بلا حدود</string>
+    <string name="upsell_panel_speed_benefit_servers">خوادم بسرعات استثنائية</string>
+    <string name="upsell_panel_speed_benefit_gaming">سرعة استجابة عالية أثناء اللعب</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">بطيئة</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">سريعة</string>
+    <string name="upsell_panel_speed_benefit_video">مشاهدة المحتوى دون انقطاع</string>
+    <string name="upsell_panel_speed_benefit_ads">تصفح نقي دون إعلانات أو تتبع</string>
+    <string name="upsell_panel_streaming_title">مشاهدة منصاتك المفضلة بلا قيود</string>
+    <string name="upsell_panel_streaming_benefit_shows">متابعة محتواك من أي مكان حول العالم</string>
+    <!-- The asterisk points to upsell_panel_streaming_footer -->
+    <string name="upsell_panel_streaming_benefit_platforms">دعم لكافة منصات المشاهدة العالمية *</string>
+    <string name="upsell_panel_streaming_benefit_hd">بث بدقة عالية دون تقطيع</string>
+    <string name="upsell_panel_streaming_benefit_devices">توصيل كافة أجهزتك بآن واحد</string>
+    <string name="upsell_panel_streaming_footer">* يشترط وجود اشتراك مسبق في خدمات المشاهدة</string>
     <string name="upsell_card_countries_title">تغطية عالمية شاملة</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -590,7 +633,7 @@
     <string name="upsell_card_netshield_title">NetShield</string>
     <string name="upsell_card_netshield_description">حظر الإعلانات والبرامج الضارة والتتبع</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
-    <string name="upsell_card_secure_core_description">ارفع مستوى حماية اتصالك بطبقة تشفير إضافية لـ VPN</string>
+    <string name="upsell_card_secure_core_description">ارفع مستوى حماية اتصالك بطبقة تشفير إضافية للـ VPN</string>
     <string name="upsell_card_p2p_title">دعم اتصالات P2P</string>
     <string name="upsell_card_p2p_description">دعم كامل لتنزيل الملفات بلا قيود عبر BitTorrent وكافة بروتوكولات تبادل الملفات</string>
     <string name="upsell_card_profiles_title">ملفات الاتصال</string>
@@ -606,7 +649,7 @@
     <string name="upsell_card_streaming_title">منصات المشاهدة</string>
     <string name="upsell_card_streaming_description">استمتع بمحتواك المفضل من الأفلام والمسلسلات بلا حدود</string>
     <string name="upsell_card_tor_title">اتصال Tor عبر VPN</string>
-    <string name="upsell_card_tor_description">تمتع بأقصى درجات الخصوصية عبر توظيف شبكة Tor لزيادة حماية اتصال VPN</string>
+    <string name="upsell_card_tor_description">تمتع بأقصى درجات الخصوصية عبر دمج شبكة Tor في اتصال VPN لمزيد من الأمان</string>
     <string name="upsell_tv_all_countries_title">وصول غير محدود لكافة الدول مع باقة Plus</string>
     <!-- Format for upselling countries on TV".
         %1$s - replaced with upgrade_plus_servers_new plurals key (e.g. 1 secure server or 10 secure servers)
@@ -648,7 +691,7 @@
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">عرض ترحيبي. يُجدد تلقائياً مقابل %1$s شهرياً</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">عرض ترحيبي. يُجدد تلقائياً مقابل %1$s سنوياً</string>
+    <string name="payment_welcome_price_message_annual">عرض ترحيبي، يتجدد تلقائياً مقابل %1$s سنوياً</string>
     <string name="payment_auto_renew_message_monthly">يُجدد الاشتراك تلقائياً مقابل %1$s شهرياً</string>
     <string name="payment_auto_renew_message_annual">يُجدد الاشتراك تلقائياً مقابل %1$s سنوياً</string>
     <string name="smart_routing_title">التوجيه الذكي</string>
@@ -700,9 +743,9 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">هل تريد الاتصال بدولة معينة؟</string>
     <string name="upgrade_country_message"><![CDATA[استمتع بميزة <b>اختيار الدولة</b> مع باقة VPN Plus.]]></string>
-    <string name="free_connections_info_message">يختار لك Proton Free أسرع الخوادم المتاحة ويربطك بها تلقائياً، وغالباً ما يكون هذا الخادم هو الأقرب إليك جغرافياً.</string>
+    <string name="free_connections_info_message">يختار لك Proton Free أسرع الخوادم المتاحة ويربطك بها تلقائياً، مع إعطاء الأولوية للخادم الأقرب لموقعك الجغرافي.</string>
     <string name="free_connections_info_server_locations">المواقع المجانية المتاحة (%1$d)</string>
-    <string name="free_connections_info_banner_text">تمتع بوصول غير محدود لجميع خوادمنا مع باقة VPN Plus</string>
+    <string name="free_connections_info_banner_text">وصول غير محدود لجميع خوادمنا مع باقة VPN Plus</string>
     <string name="free_connection_info_title">الخوادم المجانية</string>
     <string name="search_upsell_banner_title">مشاهدة بلا حدود أينما كنت</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -737,7 +780,7 @@
     <string name="settings_change_icon_header_discreet">أيقونة بخصوصية بصرية</string>
     <string name="settings_widget_title">الأدوات</string>
     <string name="settings_widget_selection_title">ابدأ باستخدام أداة Proton VPN</string>
-    <string name="settings_widget_selection_description">تابع حالة الاتصال وانتقل إلى خوادمك المفضلة بلمسة واحدة من شاشتك الرئيسة.</string>
+    <string name="settings_widget_selection_description">تابع حالة الاتصال وتنقل بين خوادمك المفضلة بلمسة واحدة من شاشتك الرئيسة.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">لإضافة الأداة، اضغط مطولاً في أي مكان على شاشتك الرئيسة، ثم اختر %1$s من قائمة الأدوات.</string>
     <string name="settings_widget_selection_button_title">إضافة أداة</string>
@@ -791,8 +834,8 @@
         <item quantity="many">%1$d يوم</item>
         <item quantity="other">%1$d يوم</item>
     </plurals>
-    <string name="server_change_max_reached">لقد وصلت للحد المسموح به من تغيير الخوادم المجانية حالياً.</string>
-    <string name="server_change_upsell">استمتع بتغييرات غير محدودة وتجاوز كل القيود مع باقة VPN Plus.</string>
+    <string name="server_change_max_reached">انتهت محاولات التبديل بين الخوادم المجانية المتاحة لك حالياً.</string>
+    <string name="server_change_upsell">وداعاً للقيود.. استمتع بتبديل خوادم غير محدود مع باقة VPN Plus.</string>
     <string name="server_change_button_title">تغيير الخادم</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services.
@@ -812,8 +855,8 @@
       -->
     <string name="server_change_button_time_left_seconds_content_description">سيتوفر خلال %1$s</string>
     <string name="server_change_progress_finished_contend_description">متاح الآن</string>
-    <string name="not_wanted_country_title">ليست هذه الدولة المطلوبة؟</string>
-    <string name="not_wanted_country_description">رقي حسابك لتحصل على حرية اختيار خادمك المفضل</string>
+    <string name="not_wanted_country_title">هل تبحث عن دولة مختلفة؟</string>
+    <string name="not_wanted_country_description">قرارك بيدك.. اختر خادمك المفضل عند ترقية حسابك</string>
     <string name="whats_new_title">ما الجديد</string>
     <string name="whats_new_profiles_title">رحبوا بعودة ملفات الاتصال</string>
     <string name="whats_new_profiles_description">أنشئ ملفات اتصال مخصصة واحفظها، مع حرية اختيار الموقع، والخادم، والبروتوكول الأنسب لك.</string>
@@ -1348,7 +1391,7 @@
     <string name="info_dialog_profiles_title">ملفات الاتصال</string>
     <string name="info_dialog_ipaddress_title">عنوان IP</string>
     <string name="info_dialog_ipv6_traffic_title">بيانات IPv6</string>
-    <string name="info_dialog_profiles_description">تمنحك ملفات الاتصال VPN مخصص بالكامل، صُمم ليلائم احتياجاتك مع إمكانية حفظه للوصول إليه بلمسة واحدة.\n\nاختر موقعك المفضل واضبط إعداداتك بما يتوافق مع معايير الأمان أو الأداء أو الألعاب، أو أي نمط استخدام آخر.</string>
+    <string name="info_dialog_profiles_description">تمنحك ملفات الاتصال تخصيصاً كاملاً لشبكة VPN، صُممت لتلائم احتياجاتك مع إمكانية حفظها للوصول إليها بضغطة واحدة.\n\nاختر موقعك المفضل واضبط إعداداتك بما يتوافق مع معايير الأمان أو الأداء أو الألعاب، أو أي نمط استخدام آخر.</string>
     <string name="info_dialog_ipaddress_description">يعمل عنوان الـ IP الخاص بالـ VPN على إخفاء عنوانك الحقيقي، مما يظهرك وكأنك تتصفح من موقع الخادم؛ وبذلك لا يمكن ربط نشاطك الرقمي بجهازك.</string>
     <string name="info_dialog_ipv6_traffic_description">يخصص بروتوكول الإنترنت (IP) العناوين للأجهزة ويوجه حركة البيانات عبر الإنترنت؛ ويُعد IPv6 الإصدار الأحدث، حيث يوفر سعة عناوين هائلة واتصال أكثر كفاءة، رغم أنه لم يُعتمد عالمياً بشكل كامل بعد.</string>
     <string name="connection_feature_p2p_title">P2P</string>
@@ -1356,7 +1399,7 @@
     <string name="connection_feature_tor_title">Tor</string>
     <string name="connection_feature_tor_description">تمكنك هذه الخاصية من تصفح مواقع Onion بكل سلاسة عبر متصفحك المعتاد.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">نشاطك محمي بتشفير مزدوج عبر خادمي VPN عاليي الأمان.</string>
+    <string name="connection_feature_secure_core_description">نشاطك محمي بتشفير مزدوج بواسطة اثنين من خوادم الـ VPN عالية الأمان.</string>
     <string name="connection_feature_streaming_title">منصات المشاهدة</string>
     <string name="connection_feature_streaming_description">يدعم هذا الخادم مشاهدة الأفلام والبرامج التلفزيونية.</string>
     <string name="connection_feature_smart_routing_title">التوجيه الذكي</string>
@@ -1382,7 +1425,7 @@
     -->
     <string name="connection_details_unknown_ip">غير معروف</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_description">يعرض هذا المخطط سرعة التنزيل والرفع الحالية، ولن يؤثر اتصال VPN على نشاطك المعتاد على الإنترنت.</string>
+    <string name="connection_details_vpn_speed_description">يوضح هذا المخطط سرعتي الرفع والتنزيل اللحظية، دون أن يؤثر اتصال VPN على نشاطك المعتاد عبر الإنترنت.</string>
     <string name="speed_bytes_per_second">%1$s ب/ث</string>
     <string name="speed_kilobytes_per_second">%1$s ك.ب/ث</string>
     <string name="speed_megabytes_per_second">%1$s م.ب/ث</string>
@@ -1617,7 +1660,7 @@
     <string name="info_secure_core_advanced_privacy">خصوصية متقدمة</string>
     <string name="info_secure_core_higher_latency">زمن استجابة أعلى</string>
     <string name="info_p2p_what_title">ما هو اتصال P2P؟</string>
-    <string name="info_p2p_what_description">تتيح لك تقنية النظير للنظير (P2P) الاتصال المباشر ومشاركة الملفات مع الأجهزة الأخرى.\n\nوقد صُممت خوادم P2P لدينا خصيصًا لدعم هذا النوع من المشاركة.</string>
+    <string name="info_p2p_what_description">تتيح لك تقنية من النظير إلى نظير أو P2P الاتصال المباشر ومشاركة الملفات مع الأجهزة الأخرى.\n\nوقد صُممت خوادم P2P لدينا خصيصًا لدعم هذا النوع من المشاركة.</string>
     <string name="info_p2p_torrenting_title">ما هي تقنية Torrent؟</string>
     <string name="info_p2p_torrenting_description">تبادل وتنزيل الملفات الضخمة بسرعات فائقة عبر شبكة P2P.</string>
     <string name="info_p2p_why_title">لماذا تختار خوادم P2P عند تنزيل ملف Torrent؟</string>
@@ -1632,9 +1675,9 @@
     <string name="notifications_channel_connection_tips_name">نصائح الاتصال</string>
     <string name="notifications_channel_connection_tips_description">إرشادات وتوجيهات ذكية لضمان أقصى استفادة من تطبيق Proton VPN.</string>
     <string name="countries_upsell_banner_description">تمتع بوصول غير محدود لجميع خوادمنا مع باقة VPN Plus</string>
-    <string name="secure_core_upsell_banner_description">ارفع مستوى حماية اتصالك بطبقة تشفير إضافية لـ VPN</string>
+    <string name="secure_core_upsell_banner_description">ارفع مستوى حماية اتصالك بطبقة تشفير إضافية للـ VPN</string>
     <string name="p2p_upsell_banner_description">دعم كامل لتنزيل الملفات بلا قيود عبر BitTorrent وكافة بروتوكولات تبادل الملفات</string>
-    <string name="tor_upsell_banner_description">تمتع بأقصى درجات الخصوصية عبر توظيف شبكة Tor لزيادة حماية اتصال VPN</string>
+    <string name="tor_upsell_banner_description">تمتع بأقصى درجات الخصوصية عبر دمج شبكة Tor في اتصال VPN لمزيد من الأمان</string>
     <string name="vpnplus_upsell_banner_description">ترقية إلى باقة VPN Plus</string>
     <string name="search_zero_screen_title">ابحث عن بلد أو خادم...</string>
     <string name="search_zero_screen_info_countries_title">الدول</string>
@@ -1761,7 +1804,7 @@
     <string name="no_connections_help_follow_instructions"><![CDATA[لمساعدة المسؤول في تفعيل صلاحيات الوصول لشبكة VPN، يمكنك تزويده <a href="">بهذه الإرشادات</a>.]]></string>
     <string name="settings_protocol_proton_protocols">بروتوكولات Proton</string>
     <string name="settings_protocol_proton_protocols_description">استخدم إصدار WireGuard الخاص بـ Proton VPN؛ ونظراً لكون الميزة تجريبية، فقد تواجه عدم استقرار في الخدمة.</string>
-    <string name="connection_preferences_smart_discovery_dialog_title">ليست هذه الدولة المطلوبة؟</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">هل تبحث عن دولة مختلفة؟</string>
     <string name="connection_preferences_smart_discovery_dialog_message">إذا كانت هناك مواقع لا تريد الاتصال بها تلقائيًا، فيمكنك استبعادها من طريقة اتصال أسرع دولة.</string>
     <string name="excluded_locations_adoption_title">استبعاد المواقع غير المرغوب فيها</string>
     <string name="excluded_locations_adoption_description"><![CDATA[أصبح تخصيص اتصالات <b>الخادم الأسرع</b> متاحاً الآن عبر استبعاد دول ومدن معينة.]]></string>

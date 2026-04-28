@@ -508,6 +508,49 @@
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
     <string name="upgrade_plan_selection_content_description">Yükseltme seçenekleri</string>
+    <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
+         May be used as a table header or like an icon. -->
+    <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
+    <string name="upsell_panel_content_description_yes">Evet</string>
+    <string name="upsell_panel_content_description_no">Hayır</string>
+    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_netshield_title">Kesintisiz gezin</string>
+    <string name="upsell_panel_netshield_benefit_ads">Gezinirken reklamlar engellenir</string>
+    <string name="upsell_panel_netshield_benefit_trackers">İzleyicilerin sizi takip etmesini engelleyin</string>
+    <string name="upsell_panel_netshield_benefit_malware">Kötü amaçlı yazılım ve kimlik avı koruması</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Sayfalar daha hızlı yüklenir </string>
+    <string name="upsell_panel_speed_title">Daha hızlı akış, oyun ve indirme</string>
+    <string name="upsell_panel_speed_benefit_servers">Yüksek hızlı sunucular</string>
+    <string name="upsell_panel_speed_benefit_gaming">Oyun oynarken tepki süresi</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Yavaş</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Hızlı</string>
+    <string name="upsell_panel_speed_benefit_video">Takılma olmadan video akışı</string>
+    <string name="upsell_panel_speed_benefit_ads">Reklamlar ve izleyiciler olmadan gezin</string>
+    <string name="upsell_panel_streaming_title">En sevdiğiniz dijital yayın platformlarını izleyin</string>
+    <string name="upsell_panel_streaming_benefit_shows">İstediğiniz ülkeden dizilerinizi izleyin</string>
+    <!-- The asterisk points to upsell_panel_streaming_footer -->
+    <string name="upsell_panel_streaming_benefit_platforms">Tüm büyük yayın platformları desteklenmektedir *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Takılma olmadan HD kalitesinde izleyin</string>
+    <string name="upsell_panel_streaming_benefit_devices">Aynı anda bağlı aygıtlar</string>
+    <string name="upsell_panel_streaming_footer">* Dijital yayın platformu aboneliği gereklidir.</string>
     <string name="upsell_card_countries_title">Dünya çapında kapsama</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

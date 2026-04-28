@@ -538,6 +538,49 @@
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
     <string name="upgrade_plan_selection_content_description">Параметры паляпшэння</string>
+    <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
+         May be used as a table header or like an icon. -->
+    <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">Тарыфны план Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">Тарыфны план Free</string>
+    <string name="upsell_panel_content_description_yes">Так</string>
+    <string name="upsell_panel_content_description_no">Не</string>
+    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_netshield_title">Прагляд без перапыненняў</string>
+    <string name="upsell_panel_netshield_benefit_ads">Рэклама заблакіравана, калі вы праглядаеце старонкі</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Забараніце праграмам сачэння назіраць за вамі</string>
+    <string name="upsell_panel_netshield_benefit_malware">Абарона ад шкодных праграм і фішынгу</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Старонкі загружаюцца хутчэй </string>
+    <string name="upsell_panel_speed_title">Трансляцыі, гульні і хутчэйшае спампоўванне</string>
+    <string name="upsell_panel_speed_benefit_servers">Высакахуткасныя серверы</string>
+    <string name="upsell_panel_speed_benefit_gaming">Час адказу пры гульні</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Павольна</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Хутка</string>
+    <string name="upsell_panel_speed_benefit_video">Відэатрансляцыі без буферызацыі</string>
+    <string name="upsell_panel_speed_benefit_ads">Прагляд без рэкламы або праграм сачэння</string>
+    <string name="upsell_panel_streaming_title">Глядзіце свае абраныя сэрвісы з трансляцыямі</string>
+    <string name="upsell_panel_streaming_benefit_shows">Глядзіце свае шоу з любой краіны</string>
+    <!-- The asterisk points to upsell_panel_streaming_footer -->
+    <string name="upsell_panel_streaming_benefit_platforms">Усе асноўныя платформы трансляцый падтрымліваюць *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Трансляцыі ў высокай якасці без буферызацыі</string>
+    <string name="upsell_panel_streaming_benefit_devices">Прылады, падключаныя адначасова</string>
+    <string name="upsell_panel_streaming_footer">* Патрабуецца падпіска на платформу трансляцыі.</string>
     <string name="upsell_card_countries_title">Пакрыццё па ўсім свеце</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -1429,7 +1472,7 @@
     <string name="connection_details_seconds_shortened">%1$d сек</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Збой падключэння</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Гэтая прылада забараняе падключэнні па VPN.</string>
-    <string name="create_profile_title">Стварыць профіль</string>
+    <string name="create_profile_title">Стварэнне профілю</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
     <string name="edit_profile_title">Рэдагаваць %1$s</string>
