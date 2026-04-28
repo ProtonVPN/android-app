@@ -68,7 +68,8 @@ abstract class CommonUpgradeDialogViewModel(
 
     data class PriceInfo(
         val formattedPrice: String,
-        val formattedRenewPrice: String? = null,
+        val formattedRenewPrice: String = formattedPrice,
+        val hasIntroPrice: Boolean,
         val savePercent: Int? = null,
         val formattedPerMonthPrice: String? = null,
     )

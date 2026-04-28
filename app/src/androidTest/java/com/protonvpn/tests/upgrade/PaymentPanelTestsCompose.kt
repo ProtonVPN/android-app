@@ -34,12 +34,13 @@ import org.junit.Test
 private val cycleInfoWithRenew = ViewState.CycleViewInfo(PlanCycle.YEARLY, 0, 0,
     CommonUpgradeDialogViewModel.PriceInfo(
         formattedPrice = "10 CHF",
-        formattedRenewPrice = "20 CHF"
+        formattedRenewPrice = "20 CHF",
+        hasIntroPrice = true,
     )
 )
 
 private val cycleInfo = ViewState.CycleViewInfo(PlanCycle.YEARLY, 0, 0,
-    CommonUpgradeDialogViewModel.PriceInfo(formattedPrice = "10 CHF")
+    CommonUpgradeDialogViewModel.PriceInfo(formattedPrice = "10 CHF", hasIntroPrice = false)
 )
 
 

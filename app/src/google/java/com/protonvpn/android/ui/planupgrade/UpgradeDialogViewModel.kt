@@ -57,8 +57,6 @@ import me.proton.core.payment.domain.extension.getValidatePlanObservabilityData
 import me.proton.core.payment.domain.repository.BillingClientError
 import me.proton.core.payment.domain.usecase.ConvertToObservabilityGiapStatus
 import me.proton.core.payment.domain.usecase.PaymentProvider
-import me.proton.core.plan.domain.entity.DynamicPlan
-import me.proton.core.plan.domain.entity.DynamicPlanPrice
 import me.proton.core.plan.domain.usecase.PerformGiapPurchase
 import me.proton.core.plan.presentation.PlansOrchestrator
 import me.proton.core.plan.presentation.entity.PlanCycle
@@ -69,6 +67,7 @@ import org.jetbrains.annotations.VisibleForTesting
 import java.util.Optional
 import javax.inject.Inject
 import kotlin.jvm.optionals.getOrNull
+import kotlin.math.max
 
 @HiltViewModel
 class UpgradeDialogViewModel(
@@ -192,7 +191,7 @@ class UpgradeDialogViewModel(
                 }
                 GiapPlanModel(
                     planInfo,
-                    calculatePriceInfos(planInfo.cycles, planInfo.dynamicPlan, showDiscountBadge)
+                    calculatePriceInfos(planInfo.currency, planInfo.cycles, showDiscountBadge)
                 )
             }
             // Plans order should match order of planNames.
@@ -339,16 +338,14 @@ class UpgradeDialogViewModel(
 
         @VisibleForTesting
         fun calculatePriceInfos(
+            currency: String,
             cycles: List<CycleInfo>,
-            dynamicPlan: DynamicPlan,
             withSavePercent: Boolean,
         ): Map<PlanCycle, PriceInfo> {
-            val currency = dynamicPlan.getSingleCurrency() ?: return emptyMap()
-
-            fun perMonthPrice(cycleInfo: CycleInfo, price: (DynamicPlanPrice) -> Int): Double? {
+            fun perMonthPrice(cycleInfo: CycleInfo, price: (CycleInfo) -> Int): Double? {
+                val amount = price(cycleInfo).centsToUnits()
                 val months = cycleInfo.cycle.cycleDurationMonths
-                val amount = dynamicPlan.instances[months]?.price?.get(currency)?.let { price(it) }?.centsToUnits()
-                return if (months > 0 && amount != null && amount > 0.0) {
+                return if (months > 0 && amount > 0.0) {
                     amount / months
                 } else {
                     null
@@ -356,30 +353,32 @@ class UpgradeDialogViewModel(
             }
 
             val perMonthCurrentPrices = cycles.associate { cycleInfo ->
-                cycleInfo.cycle to perMonthPrice(cycleInfo) { it.current }
+                cycleInfo.cycle to perMonthPrice(cycleInfo) { it.currentPriceCents }
             }.filterNotNullValues()
 
             val maxPerMonthPrice = cycles
-                .mapNotNull { cycleInfo -> perMonthPrice(cycleInfo) { it.default ?: it.current } }
+                .mapNotNull { cycleInfo ->
+                    perMonthPrice(cycleInfo) { max(it.currentPriceCents, it.defaultPriceCents) }
+                }
                 .max()
 
             return cycles.associate { cycleInfo ->
-                val info = dynamicPlan.instances[cycleInfo.cycle.cycleDurationMonths]?.let { planInstance ->
-                    val perMonthPrice = perMonthCurrentPrices[cycleInfo.cycle]
-                    val priceAmount = planInstance.price.getValue(currency).current.centsToUnits()
-                    val renewPriceAmount = planInstance.price.getValue(currency).default?.centsToUnits()
-                    val showPerMonthPrice =
-                        perMonthPrice != null && cycleInfo.cycle.cycleDurationMonths != 1 && renewPriceAmount == null
-                    PriceInfo(
-                        formattedPrice = formatPrice(priceAmount, currency),
-                        formattedRenewPrice = renewPriceAmount?.let { formatPrice(it, currency) },
-                        savePercent = ifOrNull(withSavePercent) { calculateSavingsPercentage(perMonthPrice, maxPerMonthPrice) },
-                        formattedPerMonthPrice = if (showPerMonthPrice)
-                            formatPrice(perMonthPrice, currency) else null
-                    )
-                }
+                val perMonthPrice = perMonthCurrentPrices[cycleInfo.cycle]
+                val priceAmount = cycleInfo.currentPriceCents.centsToUnits()
+                val renewPriceAmount = cycleInfo.defaultPriceCents.centsToUnits()
+                val showPerMonthPrice =
+                    perMonthPrice != null && cycleInfo.cycle.cycleDurationMonths != 1 && renewPriceAmount == priceAmount
+                val info = PriceInfo(
+                    formattedPrice = formatPrice(priceAmount, currency),
+                    formattedRenewPrice = formatPrice(renewPriceAmount, currency),
+                    savePercent = ifOrNull(withSavePercent) {
+                        calculateSavingsPercentage(perMonthPrice, maxPerMonthPrice)
+                    },
+                    formattedPerMonthPrice = if (showPerMonthPrice) { formatPrice(perMonthPrice, currency) } else null,
+                    hasIntroPrice = priceAmount != renewPriceAmount
+                )
                 cycleInfo.cycle to info
-            }.filterNotNullValues().toSortedMap(compareByDescending { it.cycleDurationMonths })
+            }.toSortedMap(compareByDescending { it.cycleDurationMonths })
         }
     }
 }

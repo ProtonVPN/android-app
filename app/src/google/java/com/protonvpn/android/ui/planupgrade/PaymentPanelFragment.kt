@@ -33,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.utils.ifOrNull
 import dagger.hilt.android.AndroidEntryPoint
 import io.sentry.Sentry
 import io.sentry.SentryEvent
@@ -71,8 +72,7 @@ class PaymentPanelFragment : Fragment() {
                             cycles = state.selectedPlanPriceInfo.map { (cycle, priceInfo) ->
                                 // Don't show "/cycle" for welcome offers
                                 val perCycleResId =
-                                    if (priceInfo.formattedRenewPrice == null) planPerCycleResId(cycle)
-                                    else null
+                                    ifOrNull(!priceInfo.hasIntroPrice) { planPerCycleResId(cycle) }
                                 ViewState.CycleViewInfo(
                                     cycle,
                                     perCycleResId,

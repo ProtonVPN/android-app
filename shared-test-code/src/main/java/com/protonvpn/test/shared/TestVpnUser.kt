@@ -29,7 +29,7 @@ object TestVpnUser {
         id: String = "id",
         maxTier: Int = 2,
         maxConnect: Int = 2,
-        subscribed: Int = VpnUser.VPN_SUBSCRIBED_FLAG,
+        subscribed: Int = 0,
         netShieldConfig: NetShieldConfig? = NetShieldConfig(
             malwareBlockingAvailable = true,
             adsAndTrackersBlockingAvailable = true,

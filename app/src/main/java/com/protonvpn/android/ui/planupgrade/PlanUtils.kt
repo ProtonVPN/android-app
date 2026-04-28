@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025. Proton AG
+ * Copyright (c) 2026. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -20,8 +20,6 @@
 package com.protonvpn.android.ui.planupgrade
 
 import me.proton.core.plan.domain.entity.DynamicPlan
-import kotlin.collections.component1
-import kotlin.collections.component2
 
 /// Returns null if there is more than one currency or if the plan is empty
 fun DynamicPlan.getSingleCurrency(): String? {

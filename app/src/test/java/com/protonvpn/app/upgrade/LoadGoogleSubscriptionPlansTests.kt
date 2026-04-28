@@ -33,7 +33,9 @@ import kotlinx.coroutines.test.runTest
 import me.proton.core.domain.entity.AppStore
 import me.proton.core.payment.domain.usecase.PaymentProvider
 import me.proton.core.plan.domain.entity.DynamicPlan
+import me.proton.core.plan.domain.entity.DynamicPlanPrice
 import me.proton.core.plan.presentation.entity.PlanCycle
+import me.proton.core.util.kotlin.filterNotNullValues
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -192,6 +194,24 @@ class LoadGoogleSubscriptionPlansTests {
         dynamicPlans = newPlans.toList()
         dynamicPlansAdjustedPrices = newPlans.toList()
     }
+
+    @Test
+    fun `WHEN price is missing THEN plan is filtered out`() = testScope.runTest {
+        setDynamicPlans(
+            createDynamicPlan(
+                name = Constants.CURRENT_PLUS_PLAN,
+                cycles = listOf(PlanCycle.TWO_YEARS, PlanCycle.MONTHLY)
+            ),
+            createDynamicPlan(
+                name = Constants.CURRENT_BUNDLE_PLAN,
+                cycles = listOf(PlanCycle.TWO_YEARS, PlanCycle.MONTHLY),
+                prices = listOf(200_00, null)
+            )
+        )
+        val loadedPlans = loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN))
+        assertEquals(1, loadedPlans.size)
+        assertEquals(Constants.CURRENT_PLUS_PLAN, loadedPlans.first().name)
+    }
 }
 
 private fun createVpnUser(subscribed: Int) = TestVpnUser.create(subscribed = subscribed)
@@ -199,9 +219,26 @@ private fun createVpnUser(subscribed: Int) = TestVpnUser.create(subscribed = sub
 private fun createDynamicPlan(
     name: String,
     cycles: List<PlanCycle>,
+    prices: List<Int?>? = null,
     appStore: AppStore = AppStore.GooglePlay
-) = createDynamicPlan(
-    name = name,
-    prices = cycles.associateWith { emptyMap() },
-    appStore = appStore
-)
+): DynamicPlan {
+    val prices: List<Int?> = prices ?: cycles.map {
+        when(it) {
+            PlanCycle.YEARLY -> 50_00
+            PlanCycle.MONTHLY -> 1_00
+            PlanCycle.FREE -> 0
+            PlanCycle.TWO_YEARS -> 100_00
+            PlanCycle.OTHER -> throw IllegalArgumentException()
+        }
+    }
+    return createDynamicPlan(
+        name = name,
+        prices = cycles.zip(prices).associate { (cycle, price) ->
+            cycle to price?.let { createDynamicPlanPrice(cycle, "EUR", it) }
+        }.filterNotNullValues(),
+        appStore = appStore
+    )
+}
+
+private fun createDynamicPlanPrice(cycle: PlanCycle, currency: String, price: Int): Map<String, DynamicPlanPrice> =
+    mapOf(currency to DynamicPlanPrice("${currency}_$cycle", currency, price, null))

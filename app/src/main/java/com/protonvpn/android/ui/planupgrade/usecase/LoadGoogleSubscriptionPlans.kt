@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.planupgrade.usecase
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.ui.planupgrade.getSingleCurrency
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -38,11 +39,14 @@ import javax.inject.Inject
 data class CycleInfo(
     val cycle: PlanCycle,
     val productId: String,
+    val currentPriceCents: Int,
+    val defaultPriceCents: Int,
 )
 data class GiapPlanInfo(
     val dynamicPlan: DynamicPlan,
     val name: String,
     val displayName: String,
+    val currency: String,
     val cycles: List<CycleInfo>,
     val preselectedCycle: PlanCycle,
 )
@@ -79,9 +83,14 @@ class LoadGoogleSubscriptionPlans(
         DEFAULT_PRESELECTED_CYCLE
     )
 
-    private fun DynamicPlan.getAvailableDefaultCycles() = defaultCycles.mapNotNull { cycle ->
-        instances[cycle.cycleDurationMonths]?.vendors?.get(AppStore.GooglePlay)?.productId?.let {
-            CycleInfo(cycle, it)
+    private fun DynamicPlan.getAvailableDefaultCycles(currency: String) = defaultCycles.mapNotNull { cycle ->
+        val planInstanceForCycle = instances[cycle.cycleDurationMonths]
+        val price = planInstanceForCycle?.price[currency]
+        val productId = planInstanceForCycle?.vendors?.get(AppStore.GooglePlay)?.productId
+        if (price != null && productId != null) {
+            CycleInfo(cycle, productId, price.current, price.default ?: price.current)
+        } else {
+            null
         }
     }
 
@@ -91,7 +100,8 @@ class LoadGoogleSubscriptionPlans(
 
     private fun DynamicPlan.toPlanInfo(): GiapPlanInfo? {
         val planName = name ?: return null
-        val cycles = getAvailableDefaultCycles()
+        val currency = getSingleCurrency() ?: return null
+        val cycles = getAvailableDefaultCycles(currency)
 
         if (cycles.isEmpty())
             return null
@@ -103,6 +113,7 @@ class LoadGoogleSubscriptionPlans(
             this,
             name = planName,
             displayName = title,
+            currency = currency,
             cycles,
             preselectedCycle
         )
@@ -117,10 +128,12 @@ class LoadGoogleSubscriptionPlans(
         if (vpnUser.hasSubscription)
             return emptyList()
 
-        val availableCycleIds = rawDynamicPlans(vpnUser.userId)
+        val availableDynamicPlans = rawDynamicPlans(vpnUser.userId)
             .filterAvailablePlans(planNames)
+        val availableCycleIds = availableDynamicPlans
             .flatMap { plan ->
-                plan.getAvailableDefaultCycles().map { cycle -> cycleId(plan.name ?: "unknown", cycle) }
+                val currency = plan.getSingleCurrency() ?: return@flatMap emptyList()
+                plan.getAvailableDefaultCycles(currency).map { cycle -> cycleId(plan.name ?: "unknown", cycle) }
             }
         val giapPlansWithPrices = dynamicPlansAdjustedPrices(vpnUser.userId)
             .filterAvailablePlans(planNames)

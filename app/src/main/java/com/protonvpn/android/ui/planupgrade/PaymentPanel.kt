@@ -205,17 +205,18 @@ fun RenewInfo(
     selectedCycleInfo: ViewState.CycleViewInfo,
     modifier: Modifier = Modifier
 ) {
-    val price = selectedCycleInfo.priceInfo.formattedPrice
-    val renewPrice = selectedCycleInfo.priceInfo.formattedRenewPrice
+    val priceInfo = selectedCycleInfo.priceInfo
+    val price = priceInfo.formattedPrice
+    val renewPrice = priceInfo.formattedRenewPrice
     val renewInfoText = when (selectedCycleInfo.cycle) {
         PlanCycle.MONTHLY -> when {
-            renewPrice != null ->
+            priceInfo.hasIntroPrice ->
                 stringResource(R.string.payment_welcome_price_message_monthly, renewPrice)
             else ->
                 stringResource(R.string.payment_auto_renew_message_monthly, price)
         }
         PlanCycle.YEARLY -> when {
-            renewPrice != null ->
+            priceInfo.hasIntroPrice ->
                 stringResource(R.string.payment_welcome_price_message_annual, renewPrice)
             else ->
                 stringResource(R.string.payment_auto_renew_message_annual, price)
@@ -388,13 +389,18 @@ private fun PreviewPlan() {
                         PlanCycle.YEARLY,
                         R.string.payment_price_per_year,
                         R.string.payment_price_cycle_year_label,
-                        CommonUpgradeDialogViewModel.PriceInfo("$120.00", formattedPerMonthPrice = "$10.00", savePercent = -37)
+                        CommonUpgradeDialogViewModel.PriceInfo(
+                            "$120.00",
+                            formattedPerMonthPrice = "$10.00",
+                            savePercent = -37,
+                            hasIntroPrice = true
+                        )
                     ),
                     ViewState.CycleViewInfo(
                         PlanCycle.MONTHLY,
                         R.string.payment_price_per_month,
                         R.string.payment_price_cycle_month_label,
-                        CommonUpgradeDialogViewModel.PriceInfo("$15.99")
+                        CommonUpgradeDialogViewModel.PriceInfo("$15.99", hasIntroPrice = false)
                     ),
                 ),
                 inProgress = false,
@@ -419,13 +425,19 @@ private fun PreviewPlanWithWelcomePrice() {
                         PlanCycle.YEARLY,
                         null,
                         R.string.payment_price_cycle_year_label,
-                        CommonUpgradeDialogViewModel.PriceInfo("$120.00", formattedPerMonthPrice = null, savePercent = -37, formattedRenewPrice = "$150")
+                        CommonUpgradeDialogViewModel.PriceInfo(
+                            "$120.00",
+                            formattedPerMonthPrice = null,
+                            savePercent = -37,
+                            formattedRenewPrice = "$150",
+                            hasIntroPrice = true
+                        )
                     ),
                     ViewState.CycleViewInfo(
                         PlanCycle.MONTHLY,
                         null,
                         R.string.payment_price_cycle_month_label,
-                        CommonUpgradeDialogViewModel.PriceInfo("$15.99")
+                        CommonUpgradeDialogViewModel.PriceInfo("$15.99", hasIntroPrice = false)
                     ),
                 ),
                 inProgress = false,

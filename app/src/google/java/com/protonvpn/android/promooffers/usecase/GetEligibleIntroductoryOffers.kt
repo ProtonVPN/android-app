@@ -24,7 +24,6 @@ import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers.CachedOffers
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
-import com.protonvpn.android.ui.planupgrade.getSingleCurrency
 import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.android.utils.BytesFileWriter
 import com.protonvpn.android.utils.FileObjectStore
@@ -147,19 +146,15 @@ class GetEligibleIntroductoryOffers(
             val giapPlans = loadGoogleSubscriptionPlans(planNames)
 
             val introOffers = giapPlans.flatMap { plan ->
-                val currency = plan.dynamicPlan.getSingleCurrency() ?: return@flatMap emptyList()
-
                 plan.cycles.mapNotNull { cycle ->
-                    val planInstance = plan.dynamicPlan.instances[cycle.cycle.cycleDurationMonths]
-                    val price = planInstance?.price?.get(currency)
-                    val currentPriceCents = price?.current
-                    val renewPriceCents = price?.default
+                    val currentPriceCents = cycle.currentPriceCents
+                    val renewPriceCents = cycle.defaultPriceCents
 
-                    if (currentPriceCents != null && renewPriceCents != null && currentPriceCents < renewPriceCents) {
+                    if (currentPriceCents < renewPriceCents) {
                         Offer(
                             planName = plan.name,
                             cycle = cycle.cycle,
-                            currency = currency,
+                            currency = plan.currency,
                             introPriceCents = currentPriceCents
                         )
                     } else {
