@@ -1,0 +1,2 @@
+What's new
+Minor UI and stability improvements
