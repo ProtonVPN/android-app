@@ -532,6 +532,21 @@
     <string name="upsell_panel_content_description_yes">Evet</string>
     <string name="upsell_panel_content_description_no">Hayır</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">VPN Plus ile %1$s kilidini açın</string>
+    <string name="upsell_panel_countries_title">VPN Plus ile tüm ülkelerin kilidini açın</string>
+    <string name="upsell_panel_country_benefit_countries">Kullanılabilir ülkeler</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_country_benefit_choice">Konumunuzu seçin</string>
+    <string name="upsell_panel_country_benefit_speed">Yüksek hızlı sunucular</string>
+    <string name="upsell_panel_country_benefit_shows">Sadece yurt dışında yayında olan dizileri izleyin</string>
     <string name="upsell_panel_netshield_title">Kesintisiz gezin</string>
     <string name="upsell_panel_netshield_benefit_ads">Gezinirken reklamlar engellenir</string>
     <string name="upsell_panel_netshield_benefit_trackers">İzleyicilerin sizi takip etmesini engelleyin</string>

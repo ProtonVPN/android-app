@@ -532,24 +532,39 @@
     <string name="upsell_panel_content_description_yes">Sim</string>
     <string name="upsell_panel_content_description_no">Não</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">Desbloqueie %1$s com VPN  Plus</string>
+    <string name="upsell_panel_countries_title">Desbloqueie todos os países com o  VPN  Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Países disponíveis</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_country_benefit_choice">Escolha sua local</string>
+    <string name="upsell_panel_country_benefit_speed">Servidores de alta velocidade</string>
+    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
     <string name="upsell_panel_netshield_title">Navegue sem interrupções</string>
     <string name="upsell_panel_netshield_benefit_ads">Anúncios bloqueados enquanto você navega</string>
     <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
     <string name="upsell_panel_netshield_benefit_malware">Proteção de malware e phishing</string>
-    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
-    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
-    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Carregamento de página mais rápido </string>
+    <string name="upsell_panel_speed_title">Faça streaming, jogue e baixe mais rápido</string>
+    <string name="upsell_panel_speed_benefit_servers">Servidores de alta velocidade</string>
     <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
     <string name="upsell_panel_speed_benefit_gaming_slow">Lenta</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Rápida</string>
     <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
-    <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
+    <string name="upsell_panel_speed_benefit_ads">Navegue sem anúncios ou rastreadores</string>
     <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
     <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
     <string name="upsell_panel_streaming_benefit_platforms">All major streaming platforms supported *</string>
     <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
-    <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
+    <string name="upsell_panel_streaming_benefit_devices">Dispositivos conectados ao mesmo tempo</string>
     <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
     <string name="upsell_card_countries_title">Cobertura global</string>
     <!-- Parameters:

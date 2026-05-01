@@ -517,6 +517,21 @@
     <string name="upsell_panel_content_description_yes">是</string>
     <string name="upsell_panel_content_description_no">否</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">升级 VPN Plus 以解锁 %1$s</string>
+    <string name="upsell_panel_countries_title">升级 VPN Plus 以解锁所有国家/地区</string>
+    <string name="upsell_panel_country_benefit_countries">可用国家/地区</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_country_benefit_choice">选择您的位置</string>
+    <string name="upsell_panel_country_benefit_speed">高速服务器</string>
+    <string name="upsell_panel_country_benefit_shows">观看仅海外可看的节目</string>
     <string name="upsell_panel_netshield_title">无中断浏览</string>
     <string name="upsell_panel_netshield_benefit_ads">浏览时拦截广告</string>
     <string name="upsell_panel_netshield_benefit_trackers">阻止跟踪器追踪您</string>

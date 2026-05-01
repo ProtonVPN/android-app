@@ -532,6 +532,21 @@
     <string name="upsell_panel_content_description_yes">Ja</string>
     <string name="upsell_panel_content_description_no">Nej</string>
     <string name="upsell_panel_table_header_plan_free">Gratis</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">Lås op for %1$s med VPN Plus</string>
+    <string name="upsell_panel_countries_title">Lås op for alle lande med VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Tilgængelige lande</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_country_benefit_choice">Vælg din placering</string>
+    <string name="upsell_panel_country_benefit_speed">Servere med høj hastighed</string>
+    <string name="upsell_panel_country_benefit_shows">Se film og serier der kun er tilgængelige i udlandet</string>
     <string name="upsell_panel_netshield_title">Browse uden afbrydelser</string>
     <string name="upsell_panel_netshield_benefit_ads">Reklamer blokeret imens du browsede</string>
     <string name="upsell_panel_netshield_benefit_trackers">Stop trackere i at følge dig</string>

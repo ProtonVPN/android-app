@@ -592,6 +592,21 @@
     <string name="upsell_panel_content_description_yes">نعم</string>
     <string name="upsell_panel_content_description_no">لا</string>
     <string name="upsell_panel_table_header_plan_free">مجاني</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
+    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Available countries</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_country_benefit_choice">Choose your location</string>
+    <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
+    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
     <string name="upsell_panel_netshield_title">تصفح بسلاسة وبلا تشتت</string>
     <string name="upsell_panel_netshield_benefit_ads">تجربة خالية تماماً من الإعلانات</string>
     <string name="upsell_panel_netshield_benefit_trackers">حماية خصوصيتك من أدوات التتبع</string>

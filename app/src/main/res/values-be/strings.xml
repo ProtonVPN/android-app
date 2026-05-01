@@ -562,6 +562,21 @@
     <string name="upsell_panel_content_description_yes">Так</string>
     <string name="upsell_panel_content_description_no">Не</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">Разблакіруйце %1$s з дапамогай VPN Plus</string>
+    <string name="upsell_panel_countries_title">Разблакіруйце ўсе краіны з дапамогай VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Даступныя краіны</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_country_benefit_choice">Выбірайце сваё месцазнаходжанне</string>
+    <string name="upsell_panel_country_benefit_speed">Высакахуткасныя серверы</string>
+    <string name="upsell_panel_country_benefit_shows">Глядзіце шоу, якія даступны толькі за мяжой</string>
     <string name="upsell_panel_netshield_title">Прагляд без перапыненняў</string>
     <string name="upsell_panel_netshield_benefit_ads">Рэклама заблакіравана, калі вы праглядаеце старонкі</string>
     <string name="upsell_panel_netshield_benefit_trackers">Забараніце праграмам сачэння назіраць за вамі</string>

@@ -532,6 +532,21 @@
     <string name="upsell_panel_content_description_yes">Ja</string>
     <string name="upsell_panel_content_description_no">Nein</string>
     <string name="upsell_panel_table_header_plan_free">Kostenlos</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">%1$s mit VPN Plus freischalten</string>
+    <string name="upsell_panel_countries_title">Mit VPN Plus alle Länder freischalten</string>
+    <string name="upsell_panel_country_benefit_countries">Verfügbare Länder</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_country_benefit_countries_rounded">mehr als %1$d</string>
+    <string name="upsell_panel_country_benefit_choice">Eigenen Standort auswählen</string>
+    <string name="upsell_panel_country_benefit_speed">Hochgeschwindigkeitsserver</string>
+    <string name="upsell_panel_country_benefit_shows">Sendungen ansehen, die nur im Ausland verfügbar sind</string>
     <string name="upsell_panel_netshield_title">Ununterbrochenes Surfen</string>
     <string name="upsell_panel_netshield_benefit_ads">Werbung wird beim Surfen gesperrt</string>
     <string name="upsell_panel_netshield_benefit_trackers">Verhindere, dass Tracker dich nachverfolgen</string>

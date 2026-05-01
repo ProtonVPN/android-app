@@ -547,6 +547,21 @@
     <string name="upsell_panel_content_description_yes">Da</string>
     <string name="upsell_panel_content_description_no">Nu</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">Deblocați %1$s cu VPN Plus</string>
+    <string name="upsell_panel_countries_title">Deblocați toate țările cu VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Țări disponibile</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_country_benefit_countries_rounded">peste %1$d</string>
+    <string name="upsell_panel_country_benefit_choice">Alegeți orice loc</string>
+    <string name="upsell_panel_country_benefit_speed">Servere de mare viteză</string>
+    <string name="upsell_panel_country_benefit_shows">Vizionați emisiuni disponibile doar în afara țării</string>
     <string name="upsell_panel_netshield_title">Navigare fără întreruperi</string>
     <string name="upsell_panel_netshield_benefit_ads">Blocare reclame în timp ce navigați</string>
     <string name="upsell_panel_netshield_benefit_trackers">Oprire instrumente de urmărire care vă monitorizează</string>

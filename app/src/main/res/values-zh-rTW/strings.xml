@@ -90,7 +90,7 @@
     <string name="report_sent">已傳送回報</string>
     <string name="discardChanges">放棄仍未儲存的變更嗎？</string>
     <string name="discardChangesButtonDiscard">Discard changes</string>
-    <string name="discardChangesButtonKeepEditing">Keep editing</string>
+    <string name="discardChangesButtonKeepEditing">繼續編輯</string>
     <string name="done">完成</string>
     <string name="add">加入</string>
     <string name="copy_to_clipboard">複製</string>
@@ -98,12 +98,12 @@
     <string name="got_it">了解</string>
     <string name="exclude_locations">Exclude locations</string>
     <string name="excluded_locations">Excluded locations</string>
-    <string name="cannot_connect">Cannot connect</string>
+    <string name="cannot_connect">未能連線</string>
     <string name="skip">略過</string>
     <string name="something_went_wrong">出了點問題</string>
     <string name="try_again">再試一次</string>
     <string name="delete">刪除</string>
-    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Move to top</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">置頂</string>
     <string name="menu_option_move_up" comment="command used to move an item one position up in the list">向上移動</string>
     <string name="menu_option_move_down" comment="command used to move an item one position down in the list">向下移動</string>
     <string name="remove">移除</string>
@@ -329,9 +329,9 @@
          Example: 76% server load -->
     <string name="tv_server_list_load">%1$s%% 伺服器負載</string>
     <string name="tv_recently_used_servers">Recently used servers</string>
-    <string name="tv_available_servers">Available servers</string>
+    <string name="tv_available_servers">可用的伺服器</string>
     <string name="tv_locked_servers">Locked servers</string>
-    <string name="tv_other_servers">Other servers</string>
+    <string name="tv_other_servers">其他伺服器</string>
     <string name="tv_server_list">伺服器列表</string>
     <string name="tv_server_list_action_unavailable">不可用</string>
     <string name="notification_subscription_expired_title">您的 Proton VPN 授權方案已到期</string>
@@ -517,6 +517,21 @@
     <string name="upsell_panel_content_description_yes">是</string>
     <string name="upsell_panel_content_description_no">否</string>
     <string name="upsell_panel_table_header_plan_free">免費</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
+    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Available countries</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_country_benefit_choice">選擇任何位置</string>
+    <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
+    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
     <string name="upsell_panel_netshield_title">Browse without interruptions</string>
     <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
     <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
@@ -676,15 +691,15 @@
     <string name="settings_default_connection_title">預設連線</string>
     <string name="fastest_country_description">按您所在位置挑選最佳伺服器</string>
     <string name="settings_connection_preferences_title">Connection preferences</string>
-    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item removed</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">項目已移除</string>
     <string name="settings_excluded_locations_title">Excluded locations</string>
     <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
     <string name="settings_excluded_locations_unavailable">No locations available</string>
-    <string name="settings_excluded_locations_selection_hint">Select…</string>
+    <string name="settings_excluded_locations_selection_hint">選取…</string>
     <string name="settings_excluded_locations_accessibility_label_deletion">Remove from excluded locations</string>
-    <string name="settings_excluded_locations_accessibility_label_city">City</string>
-    <string name="settings_excluded_locations_accessibility_label_country">Country</string>
-    <string name="settings_excluded_locations_accessibility_label_state">State</string>
+    <string name="settings_excluded_locations_accessibility_label_city">城市</string>
+    <string name="settings_excluded_locations_accessibility_label_country">國家</string>
+    <string name="settings_excluded_locations_accessibility_label_state">州</string>
     <string name="settings_last_connection_title">最後一次連接</string>
     <string name="settings_last_connection_description">您最近一次使用的連線</string>
     <string name="settings_change_icon_title">應用程式圖示</string>
@@ -1206,7 +1221,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">城市</string>
     <!-- Label for server location "state", as a state of the USA. -->
-    <string name="connection_details_state">State</string>
+    <string name="connection_details_state">州</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1601,7 +1616,7 @@
     <string name="widget_status_connecting">連線中</string>
     <string name="widget_sign_in">登入</string>
     <string name="widget_toast_added_message">小工具已新增至主畫面</string>
-    <string name="settings_advanced_ipv6_title">IPv6 support</string>
+    <string name="settings_advanced_ipv6_title">IPv6 支援服務</string>
     <string name="settings_advanced_ipv6_description">透過 VPN 建立 IPv6 流量通道。可增強與 IPv6 網路的相容性。</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">若要使用此位址，您需要允許 IPv6 連線通過 VPN 通道。</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">啟用 IPv6</string>
@@ -1641,7 +1656,7 @@
     <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
     <string name="session_fork_error_expired_title">Code expired</string>
     <string name="session_fork_error_expired_message">Create a new code on your TV and try again.</string>
-    <string name="session_fork_error_generic_title">Couldn’t sign in</string>
+    <string name="session_fork_error_generic_title">未能登入</string>
     <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
     <string name="session_fork_error_network_message">Check your network and try again.</string>
     <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>

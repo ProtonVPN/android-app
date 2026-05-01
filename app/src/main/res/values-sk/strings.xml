@@ -562,6 +562,21 @@
     <string name="upsell_panel_content_description_yes">Áno</string>
     <string name="upsell_panel_content_description_no">Nie</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">Odomknite %1$s s VPN Plus</string>
+    <string name="upsell_panel_countries_title">Odomknite všetky krajiny s VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Dostupné krajiny</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_country_benefit_choice">Vyberte vašu lokalitu</string>
+    <string name="upsell_panel_country_benefit_speed">Vysokorýchlostné servery</string>
+    <string name="upsell_panel_country_benefit_shows">Pozerajte seriály dostupné len v zahraničí</string>
     <string name="upsell_panel_netshield_title">Surfujte bez prerušení</string>
     <string name="upsell_panel_netshield_benefit_ads">Reklamy sú počas prehliadania blokované</string>
     <string name="upsell_panel_netshield_benefit_trackers">Zabráňte sledovacím nástrojom, aby vás sledovali</string>
