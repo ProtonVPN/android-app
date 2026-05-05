@@ -73,6 +73,7 @@ class PreparePeersForConnectionProTunTests {
                 publicKeyX25519Base64 = server.connectingDomains.first().publicKeyX25519!!,
                 0,
                 server.serverId,
+                null
             )),
             peers
         )
@@ -103,6 +104,7 @@ class PreparePeersForConnectionProTunTests {
                     publicKeyX25519Base64 = publicKey,
                     0,
                     server.serverId,
+                    null
                 ),
                 Peer(
                     address = InetAddress.getByName("2.2.2.2"),
@@ -112,6 +114,7 @@ class PreparePeersForConnectionProTunTests {
                     publicKeyX25519Base64 = publicKey,
                     0,
                     server.serverId,
+                    null
                 )
             ),
             peers.toSet()

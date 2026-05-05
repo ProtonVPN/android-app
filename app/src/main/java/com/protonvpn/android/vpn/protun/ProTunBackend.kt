@@ -35,7 +35,6 @@ import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.ifOrNull
 import com.protonvpn.android.vpn.CertificateRepository
-import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.NetworkCapabilitiesFlow
 import com.protonvpn.android.vpn.PrepareResult
@@ -53,8 +52,6 @@ import kotlinx.coroutines.launch
 import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.vpn.core.api.ProtonVpnCore
-import me.proton.vpn.core.api.VpnDisconnectError
-import me.proton.vpn.core.api.VpnWaitReason
 import okhttp3.OkHttpClient
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -89,28 +86,7 @@ class ProTunBackend @Inject constructor(
                 LogCategory.PROTOCOL,
                 "ProTun state changed: $state"
             )
-            vpnProtocolState = when (state) {
-                is me.proton.vpn.core.api.VpnConnectionState.Disconnected ->
-                    state.error?.let { error ->
-                        when (error) {
-                            is VpnDisconnectError.ServiceError ->
-                                VpnState.Error(ErrorType.GENERIC_ERROR, error.message, isFinal = true)
-                            is VpnDisconnectError.TunInterfaceError ->
-                                VpnState.Error(ErrorType.GENERIC_ERROR, error.message, isFinal = true)
-                            VpnDisconnectError.VpnPermissionMissing ->
-                                VpnState.Error(ErrorType.GENERIC_ERROR, "VPN permission missing", isFinal = true)
-                            VpnDisconnectError.InteractAcrossUsers ->
-                                VpnState.Error(ErrorType.MULTI_USER_PERMISSION, null, isFinal = true)
-                        }
-                    } ?: VpnState.Disabled
-                is me.proton.vpn.core.api.VpnConnectionState.Connecting -> VpnState.Connecting
-                is me.proton.vpn.core.api.VpnConnectionState.Connected -> VpnState.Connected
-                is me.proton.vpn.core.api.VpnConnectionState.WaitingForAction ->
-                    when (state.reason) {
-                        VpnWaitReason.WaitingForNetwork -> VpnState.WaitingForNetwork
-                    }
-                me.proton.vpn.core.api.VpnConnectionState.Loading -> VpnState.Disabled
-            }
+            vpnProtocolState = state.connectionState.toLegacyState(inV1mode = true)
         }.launchIn(mainScope)
     }
 

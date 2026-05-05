@@ -25,7 +25,7 @@ import com.protonvpn.android.utils.Constants
 import dagger.Lazy
 import dagger.Reusable
 import me.proton.vpn.core.api.ForegroundServiceNotificationFactory
-import me.proton.vpn.core.api.VpnConnectionState
+import me.proton.vpn.core.api.VpnState
 import javax.inject.Inject
 
 @Reusable
@@ -36,6 +36,6 @@ class VpnSdkNotificationFactory @Inject constructor(
     override val notificationId: Int
         get() = Constants.NOTIFICATION_ID
 
-    override fun buildNotification(context: Context, state: VpnConnectionState) =
+    override fun buildNotification(context: Context, state: VpnState) =
         notificationHelper.get().buildNotification()
 }

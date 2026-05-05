@@ -31,6 +31,7 @@ import dagger.hilt.components.SingletonComponent
 import me.proton.vpn.core.api.Dependencies
 import me.proton.vpn.core.api.ProtonVpnConnectionManager
 import me.proton.vpn.core.api.ProtonVpnCore
+import uniffi.protun.LogLevel
 import javax.inject.Singleton
 
 @Module
@@ -44,7 +45,11 @@ object VpnCoreModule {
         logger: VpnSdkLogger,
         notificationFactory: VpnSdkNotificationFactory,
         systemEventHandler: VpnCoreSystemEventHandler,
-    ): ProtonVpnCore = ProtonVpnCore.create(appContext, logger) { _ ->
+    ): ProtonVpnCore = ProtonVpnCore.create(
+        appContext,
+        logger,
+        persistentCacheCipher = null,
+    ) { _ ->
         Dependencies(notificationFactory, systemEventHandler)
     }
 

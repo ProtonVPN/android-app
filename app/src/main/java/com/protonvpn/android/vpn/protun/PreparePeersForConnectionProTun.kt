@@ -76,7 +76,8 @@ class PreparePeersForConnectionProTun(
                     },
                     requireNotNull(domain.publicKeyX25519),
                     0,
-                    server.serverId
+                    server.serverId,
+                    exitLabel = null // not used for v1
                 )
             }
         }

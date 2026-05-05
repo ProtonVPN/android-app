@@ -33,6 +33,7 @@ import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.vpn.CertificateRepository
 import inet.ipaddr.IPAddress
 import me.proton.core.network.domain.session.SessionId
+import me.proton.vpn.core.api.ConnectionMode
 import me.proton.vpn.core.api.InitialConfig
 import me.proton.vpn.core.api.InterfaceConfig
 import me.proton.vpn.core.api.IpNetworkPrefix
@@ -86,7 +87,7 @@ class ConnectionParamsProTun(
         )
 
         val privateKey = certificateRepository.getX25519Key(sessionId)
-        return InitialConfig(iface, privateKey, peers, pcapFile)
+        return InitialConfig(iface, peers, pcapFile, mode = ConnectionMode.NoLocalAgent(privateKey))
     }
 
     fun splitTunnelAppsConfig(
