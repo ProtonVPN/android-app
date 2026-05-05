@@ -693,7 +693,7 @@
     <string name="settings_connection_preferences_title">接続設定</string>
     <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">アイテムが削除されました</string>
     <string name="settings_excluded_locations_title">除外された位置</string>
-    <string name="settings_excluded_locations_description">選択された位置は、お客様がFastesに接続される際に使用されることはありません。</string>
+    <string name="settings_excluded_locations_description">最速のサーバーに接続する際、選択されたロケーションは使用されません。</string>
     <string name="settings_excluded_locations_unavailable">利用可能な位置はありません</string>
     <string name="settings_excluded_locations_selection_hint">選択してください...</string>
     <string name="settings_excluded_locations_accessibility_label_deletion">除外する位置から削除</string>

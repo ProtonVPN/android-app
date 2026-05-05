@@ -519,7 +519,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus-plan:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -528,9 +528,9 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
-    <string name="upsell_panel_content_description_yes">Yes</string>
-    <string name="upsell_panel_content_description_no">No</string>
+    <string name="upsell_panel_content_description_value_prefix_free">Free-plan:</string>
+    <string name="upsell_panel_content_description_yes">Ja</string>
+    <string name="upsell_panel_content_description_no">Nei</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
     <!--
         %1$s - country name in nominative
@@ -539,33 +539,33 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
-    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Available countries</string>
+    <string name="upsell_panel_country_title">Lås opp %1$s med VPN Plus</string>
+    <string name="upsell_panel_countries_title">Lås opp alle land med VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Tilgjengelige land</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_country_benefit_choice">Choose your location</string>
-    <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
-    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
-    <string name="upsell_panel_netshield_title">Browse without interruptions</string>
-    <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
-    <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
-    <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
-    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
-    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
-    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
-    <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
-    <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
-    <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
-    <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
-    <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
-    <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
-    <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_country_benefit_choice">Velg plasseringen din</string>
+    <string name="upsell_panel_country_benefit_speed">Høyhastighetsservere</string>
+    <string name="upsell_panel_country_benefit_shows">Se programmer som bare er tilgjengelige i utlandet</string>
+    <string name="upsell_panel_netshield_title">Surf uten avbrudd</string>
+    <string name="upsell_panel_netshield_benefit_ads">Annonser blokkert mens du surfer</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Stopp sporere fra å følge deg</string>
+    <string name="upsell_panel_netshield_benefit_malware">Beskyttelse mot skadelig programvare og nettfisking</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Sider lastes inn raskere </string>
+    <string name="upsell_panel_speed_title">Strøm, spill og last ned raskere</string>
+    <string name="upsell_panel_speed_benefit_servers">Høyhastighetsservere</string>
+    <string name="upsell_panel_speed_benefit_gaming">Responstid under spilling</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Treg</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Rask</string>
+    <string name="upsell_panel_speed_benefit_video">Videostrømmer uten bufring</string>
+    <string name="upsell_panel_speed_benefit_ads">Surf uten annonser eller sporere</string>
+    <string name="upsell_panel_streaming_title">Se på dine favorittstrømmetjenester</string>
+    <string name="upsell_panel_streaming_benefit_shows">Se programmene dine fra alle land</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
-    <string name="upsell_panel_streaming_benefit_platforms">All major streaming platforms supported *</string>
-    <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
-    <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
-    <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
+    <string name="upsell_panel_streaming_benefit_platforms">Alle større strømmeplattformer støttes *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Strøm i HD uten bufring</string>
+    <string name="upsell_panel_streaming_benefit_devices">Enheter koblet til samtidig</string>
+    <string name="upsell_panel_streaming_footer">* Abonnement på strømmeplattform kreves.</string>
     <string name="upsell_card_countries_title">Verdensomspennende dekning</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

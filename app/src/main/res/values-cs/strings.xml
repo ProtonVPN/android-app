@@ -549,7 +549,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus tarif:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -558,10 +558,10 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
-    <string name="upsell_panel_content_description_yes">Yes</string>
-    <string name="upsell_panel_content_description_no">No</string>
-    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_content_description_value_prefix_free">Free tarif:</string>
+    <string name="upsell_panel_content_description_yes">Ano</string>
+    <string name="upsell_panel_content_description_no">Ne</string>
+    <string name="upsell_panel_table_header_plan_free">Zdarma</string>
     <!--
         %1$s - country name in nominative
 
@@ -569,33 +569,33 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
-    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Available countries</string>
+    <string name="upsell_panel_country_title">Odblokujte %1$s s VPN Plus</string>
+    <string name="upsell_panel_countries_title">Odemkněte přístup ke všem zemím s VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Dostupné země</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_country_benefit_choice">Choose your location</string>
-    <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
-    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
-    <string name="upsell_panel_netshield_title">Browse without interruptions</string>
-    <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
-    <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
-    <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
-    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
-    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
-    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
-    <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
-    <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
-    <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
-    <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
-    <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
-    <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
-    <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_country_benefit_choice">Vyberte své umístění</string>
+    <string name="upsell_panel_country_benefit_speed">Vysokorychlostní servery</string>
+    <string name="upsell_panel_country_benefit_shows">Sledujte pořady dostupné pouze v zahraničí</string>
+    <string name="upsell_panel_netshield_title">Procházejte internet bez přerušení</string>
+    <string name="upsell_panel_netshield_benefit_ads">Během prohlížení jsou reklamy blokovány</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Zabraňte sledovacím nástrojům, aby vás sledovaly</string>
+    <string name="upsell_panel_netshield_benefit_malware">Ochrana před malwarem a phishingem</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Stránky se načítají rychleji </string>
+    <string name="upsell_panel_speed_title">Rychlejší streamování, hraní a stahování</string>
+    <string name="upsell_panel_speed_benefit_servers">Vysokorychlostní servery</string>
+    <string name="upsell_panel_speed_benefit_gaming">Doba odezvy při hraní her</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Pomalá</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Rychlá</string>
+    <string name="upsell_panel_speed_benefit_video">Videostreamy bez ukládání do vyrovnávací paměti</string>
+    <string name="upsell_panel_speed_benefit_ads">Procházejte internet bez reklam a sledovacích nástrojů</string>
+    <string name="upsell_panel_streaming_title">Sledujte své oblíbené streamovací služby</string>
+    <string name="upsell_panel_streaming_benefit_shows">Sledujte své pořady z jakékoli země</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
-    <string name="upsell_panel_streaming_benefit_platforms">All major streaming platforms supported *</string>
-    <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
-    <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
-    <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
+    <string name="upsell_panel_streaming_benefit_platforms">Podpora všech hlavních streamovacích platforem *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Streamujte v HD bez načítání</string>
+    <string name="upsell_panel_streaming_benefit_devices">Počet připojených zařízení najednou</string>
+    <string name="upsell_panel_streaming_footer">* Je nutné předplatné streamovací platformy.</string>
     <string name="upsell_card_countries_title">Celosvětové pokrytí</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

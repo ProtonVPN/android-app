@@ -519,7 +519,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus tarifesi:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -528,7 +528,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_free">Free tarifesi:</string>
     <string name="upsell_panel_content_description_yes">Evet</string>
     <string name="upsell_panel_content_description_no">Hayır</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
@@ -539,33 +539,33 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">VPN Plus ile %1$s kilidini açın</string>
-    <string name="upsell_panel_countries_title">VPN Plus ile tüm ülkelerin kilidini açın</string>
-    <string name="upsell_panel_country_benefit_countries">Kullanılabilir ülkeler</string>
+    <string name="upsell_panel_country_title">VPN Plus ile %1$s erişimi sağlayın</string>
+    <string name="upsell_panel_countries_title">VPN Plus ile tüm ülkelere erişin</string>
+    <string name="upsell_panel_country_benefit_countries">Kullanılabilecek ülkeler</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Konumunuzu seçin</string>
     <string name="upsell_panel_country_benefit_speed">Yüksek hızlı sunucular</string>
-    <string name="upsell_panel_country_benefit_shows">Sadece yurt dışında yayında olan dizileri izleyin</string>
-    <string name="upsell_panel_netshield_title">Kesintisiz gezin</string>
+    <string name="upsell_panel_country_benefit_shows">Yalnızca yurt dışında yayınlanan dizileri izleyin</string>
+    <string name="upsell_panel_netshield_title">Kesintisiz gezinin</string>
     <string name="upsell_panel_netshield_benefit_ads">Gezinirken reklamlar engellenir</string>
-    <string name="upsell_panel_netshield_benefit_trackers">İzleyicilerin sizi takip etmesini engelleyin</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Etkinlik izleyicilerin sizi izlemesini engelleyin</string>
     <string name="upsell_panel_netshield_benefit_malware">Kötü amaçlı yazılım ve kimlik avı koruması</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Sayfalar daha hızlı yüklenir </string>
-    <string name="upsell_panel_speed_title">Daha hızlı akış, oyun ve indirme</string>
+    <string name="upsell_panel_speed_title">Daha hızlı yayın akışı, oyun ve indirme</string>
     <string name="upsell_panel_speed_benefit_servers">Yüksek hızlı sunucular</string>
     <string name="upsell_panel_speed_benefit_gaming">Oyun oynarken tepki süresi</string>
     <string name="upsell_panel_speed_benefit_gaming_slow">Yavaş</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Hızlı</string>
-    <string name="upsell_panel_speed_benefit_video">Takılma olmadan video akışı</string>
-    <string name="upsell_panel_speed_benefit_ads">Reklamlar ve izleyiciler olmadan gezin</string>
-    <string name="upsell_panel_streaming_title">En sevdiğiniz dijital yayın platformlarını izleyin</string>
-    <string name="upsell_panel_streaming_benefit_shows">İstediğiniz ülkeden dizilerinizi izleyin</string>
+    <string name="upsell_panel_speed_benefit_video">Takılmasız video yayın akışları</string>
+    <string name="upsell_panel_speed_benefit_ads">Reklamlar ve etkinlik izleyiciler olmadan gezinin</string>
+    <string name="upsell_panel_streaming_title">Sevdiğiniz dijital yayın akışı hizmetlerini izleyin</string>
+    <string name="upsell_panel_streaming_benefit_shows">İstediğiniz ülkedeki dizileri izleyin</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
-    <string name="upsell_panel_streaming_benefit_platforms">Tüm büyük yayın platformları desteklenmektedir *</string>
-    <string name="upsell_panel_streaming_benefit_hd">Takılma olmadan HD kalitesinde izleyin</string>
-    <string name="upsell_panel_streaming_benefit_devices">Aynı anda bağlı aygıtlar</string>
-    <string name="upsell_panel_streaming_footer">* Dijital yayın platformu aboneliği gereklidir.</string>
+    <string name="upsell_panel_streaming_benefit_platforms">Tüm büyük yayın akışı platformları desteklenir *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Takılmasız HD kalitesinde izleyin</string>
+    <string name="upsell_panel_streaming_benefit_devices">Aynı anda bağlanabilecek aygıt sayısı</string>
+    <string name="upsell_panel_streaming_footer">* Dijital yayın akışı platformu aboneliği gereklidir.</string>
     <string name="upsell_card_countries_title">Dünya çapında kapsama</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

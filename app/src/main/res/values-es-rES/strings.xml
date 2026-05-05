@@ -539,14 +539,14 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
-    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Available countries</string>
+    <string name="upsell_panel_country_title">Desbloquea %1$s con VPN Plus</string>
+    <string name="upsell_panel_countries_title">Desbloquea todos los países con VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Países disponibles</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_country_benefit_choice">Choose your location</string>
-    <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
-    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
+    <string name="upsell_panel_country_benefit_choice">Elige tu ubicación</string>
+    <string name="upsell_panel_country_benefit_speed">Servidores de alta velocidad</string>
+    <string name="upsell_panel_country_benefit_shows">Mira series que solo están disponibles en el extranjero</string>
     <string name="upsell_panel_netshield_title">Navega sin interrupciones</string>
     <string name="upsell_panel_netshield_benefit_ads">Bloqueo de anuncios mientras navegas</string>
     <string name="upsell_panel_netshield_benefit_trackers">Evita que los rastreadores te sigan</string>

@@ -198,18 +198,18 @@
     <string name="troubleshootNoInternetTitle">لا يوجد اتصال بالإنترنت</string>
     <string name="troubleshootIspProblemTitle">مشكلة في مزود خدمة الإنترنت (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[حاول الاتصال بـ Proton عبر شبكة مختلفة (أو استخدم <a href=\'%1$s\'>Tor</a>)]]></string>
-    <string name="troubleshootAntivirusProblemTitle">تعارض مع مضاد الفيروسات</string>
-    <string name="troubleshootAntivirusProblemDescription">عطل مضاد الفيروسات مؤقتاً أو قم بإزالته.</string>
+    <string name="troubleshootAntivirusProblemTitle">تعارض مع برامج مكافحة الفيروسات</string>
+    <string name="troubleshootAntivirusProblemDescription">عطل برامج مكافحة الفيروسات مؤقتاً أو قم بإزالتها.</string>
     <string name="troubleshootProxyFirewallProblemTitle">تعارض مع البروكسي أو جدار الحماية</string>
     <string name="troubleshootProxyFirewallProblemDescription">عطل البروكسي أو جدار الحماية، أو تواصل مع مسؤول الشبكة.</string>
     <string name="troubleshootProtonDownTitle">Proton خارج الخدمة</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[تحقق من <a href=\"%1$s\">وضع Proton</a> لمتابعة حالة النظام.]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[تابع أداء نظامنا من خلال صفحة <a href=\"%1$s\">حالة Proton</a>.]]></string>
     <string name="troubleshootContactUsSectionTitle">هل تحتاج لمساعدة إضافية؟ تواصل معنا مباشرة.</string>
     <string name="troubleshootCustomerSupport">فريق الدعم</string>
     <string name="settingsAllowAlternativeRoutingTitle">التوجيه البديل</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[في حال حظر Proton، سيحاول التطبيق استخدام مسارات بديلة للوصول إلى خوادم Proton. <a href="%1$s">معرفة المزيد</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">حظر من جانب الحكومة</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[قد تحظر دولتك الوصول إلى Proton. حاول استخدام <a href=\'%1$s\'>Tor</a> للوصول إلى Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[قد تحظر دولتك الوصول إلى خدمات Proton؛ لذا حاول استخدام شبكة <a href=\'%1$s\'>Tor</a> للوصول إليها.]]></string>
     <string name="settingsKillSwitchEnableTitle">كيفية تفعيل مفتاح الإيقاف أو Kill Switch</string>
     <string name="settingsKillSwitchEnableStep1">1. افتح إعدادات جهازك</string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -599,14 +599,14 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
-    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Available countries</string>
+    <string name="upsell_panel_country_title">خوادم %1$s بانتظارك مع VPN Plus</string>
+    <string name="upsell_panel_countries_title">وصول غير محدود لجميع خوادمنا مع باقة VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">الدول المتاحة</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_country_benefit_choice">Choose your location</string>
-    <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
-    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
+    <string name="upsell_panel_country_benefit_countries_rounded">أكثر من %1$d</string>
+    <string name="upsell_panel_country_benefit_choice">حرية اختيار موقعك</string>
+    <string name="upsell_panel_country_benefit_speed">خوادم بسرعات استثنائية</string>
+    <string name="upsell_panel_country_benefit_shows">شاهد محتواك المفضل أينما كنت</string>
     <string name="upsell_panel_netshield_title">تصفح بسلاسة وبلا تشتت</string>
     <string name="upsell_panel_netshield_benefit_ads">تجربة خالية تماماً من الإعلانات</string>
     <string name="upsell_panel_netshield_benefit_trackers">حماية خصوصيتك من أدوات التتبع</string>
