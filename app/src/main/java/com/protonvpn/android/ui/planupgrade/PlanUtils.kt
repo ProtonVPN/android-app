@@ -19,7 +19,10 @@
 
 package com.protonvpn.android.ui.planupgrade
 
+import me.proton.core.domain.entity.AppStore
+import me.proton.core.payment.domain.entity.ProductId
 import me.proton.core.plan.domain.entity.DynamicPlan
+import me.proton.core.plan.presentation.entity.PlanCycle
 
 /// Returns null if there is more than one currency or if the plan is empty
 fun DynamicPlan.getSingleCurrency(): String? {
@@ -35,3 +38,14 @@ fun DynamicPlan.getSingleCurrency(): String? {
     // The prices coming from Google Play will have a single currency:
     return currencies.first()
 }
+
+fun DynamicPlan.toVendorProducts(appStore: AppStore): List<Triple<ProductId, PlanCycle, DynamicPlan>> =
+    buildList {
+        instances.values.forEach {
+            val productId = it.vendors[appStore]?.productId
+            val cycle = PlanCycle.map[it.cycle]
+            if (productId != null && cycle != null) {
+                add(Triple(ProductId(productId), cycle, this@toVendorProducts))
+            }
+        }
+    }

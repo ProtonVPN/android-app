@@ -26,14 +26,17 @@ import com.protonvpn.android.promooffers.data.ApiNotificationTypes
 import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromoFeatureFlagEnabled
 import com.protonvpn.android.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
 import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers
+import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.mocks.TestDefaultLocaleProvider
 import com.protonvpn.test.shared.InMemoryObjectStore
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestLoadGoogleOffers
 import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createDynamicPlan
+import com.protonvpn.test.shared.createGiapOffer
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -72,9 +75,15 @@ class GenerateNotificationsForIntroductoryOffersTests {
     private lateinit var generateNotificationsForIntroductoryOffers: GenerateNotificationsForIntroductoryOffers
 
     private val freeVpnUser = TestVpnUser.create(maxTier = 0, subscribed = 0)
+
+    private val introTags = listOf(IapConstants.INTRO_PRICE_TAG)
+    private val baseTags = listOf(IapConstants.BASE_PRICE_TAG)
+
     // Plan data must match the hardcoded conditions in the notification.
-    private val vpnPlus = createDynamicPlan(
-        "vpn2022",
+    private val vpnPlus = "vpn2022"
+    private val bundle = "bundle2022"
+    private val vpnPlusPlan = createDynamicPlan(
+        vpnPlus,
         mapOf(
             PlanCycle.MONTHLY to mapOf(
                 plan("PLN", 10_00),
@@ -90,8 +99,8 @@ class GenerateNotificationsForIntroductoryOffersTests {
             )
         )
     )
-    private val bundle = createDynamicPlan(
-        "bundle2022",
+    private val bundlePlan = createDynamicPlan(
+        bundle,
         mapOf(
             PlanCycle.MONTHLY to mapOf(
                 plan("PLN", 50_00),
@@ -105,7 +114,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
     )
 
     private lateinit var dynamicPlans: List<DynamicPlan>
-    private lateinit var fakeDynamicPlansAdjustedPrices: FakeDynamicPlansAdjustedPrices
+    private lateinit var testLoadGoogleOffers: TestLoadGoogleOffers
 
     @Before
     fun setup() {
@@ -116,16 +125,15 @@ class GenerateNotificationsForIntroductoryOffersTests {
         testCurrentUserProvider = TestCurrentUserProvider(freeVpnUser)
         val currentUser = CurrentUser(testCurrentUserProvider)
 
-        dynamicPlans = listOf(vpnPlus, bundle)
-        fakeDynamicPlansAdjustedPrices = FakeDynamicPlansAdjustedPrices({ dynamicPlans })
+        dynamicPlans = listOf(vpnPlusPlan, bundlePlan)
+        testLoadGoogleOffers = TestLoadGoogleOffers()
         val loadGoogleSubscriptionPlans = LoadGoogleSubscriptionPlans(
             vpnUserFlow = currentUser.vpnUserFlow,
             rawDynamicPlans = { dynamicPlans },
-            dynamicPlansAdjustedPrices = fakeDynamicPlansAdjustedPrices::invoke,
+            loadGoogleOffers = testLoadGoogleOffers::invoke,
             availablePaymentProviders = { setOf(PaymentProvider.GoogleInAppPurchase) },
             defaultCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
             defaultPreselectedCycle = PlanCycle.YEARLY,
-
         )
         coEvery { mockInAppUpgradeAllowed.invoke() } returns true
 
@@ -150,8 +158,10 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `notifications are generated only for intro prices`() = testScope.runTest {
-        fakeDynamicPlansAdjustedPrices.currency = "USD"
-        fakeDynamicPlansAdjustedPrices.introPrices = mapOf(PlanCycle.MONTHLY to 99)
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "USD", tags = introTags),
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(10_00), currency = "USD", tags = baseTags),
+        )
 
         val notifications = generateNotificationsForIntroductoryOffers()
         assertEquals(2, notifications.size)
@@ -164,8 +174,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN currency EUR and language LT THEN fallback images are used`() = testScope.runTest {
-        fakeDynamicPlansAdjustedPrices.currency = "EUR"
-        fakeDynamicPlansAdjustedPrices.introPrices = mapOf(PlanCycle.MONTHLY to 1_00)
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR"),
+        )
         testLocaleProvider.locale = Locale("lt", "lt")
 
         val notifications = generateNotificationsForIntroductoryOffers()
@@ -179,7 +190,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN no plan has intro prices THEN no notifications are generated`() = testScope.runTest {
-        fakeDynamicPlansAdjustedPrices.currency = "EUR"
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99), currency = "EUR", tags = introTags),
+        )
 
         val notifications = generateNotificationsForIntroductoryOffers()
         assertEquals(emptyList<ApiNotification>(), notifications)
@@ -187,8 +200,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `WHEN time passes THEN start and end time are relative to first call`() = testScope.runTest {
-        fakeDynamicPlansAdjustedPrices.currency = "EUR"
-        fakeDynamicPlansAdjustedPrices.introPrices = mapOf(PlanCycle.MONTHLY to 99)
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
+        )
 
         val baseTimestampS = 1_000L
         advanceTimeBy(baseTimestampS.seconds)
@@ -216,23 +230,25 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN offer period has finished (3 days) THEN no notifications are generated`() = testScope.runTest {
-        fakeDynamicPlansAdjustedPrices.currency = "EUR"
-        fakeDynamicPlansAdjustedPrices.introPrices = mapOf(PlanCycle.MONTHLY to 99)
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
+        )
 
         advanceTimeBy(1) // Need to have non-zero time - 0 is special.
         generateNotificationsForIntroductoryOffers()
-        fakeDynamicPlansAdjustedPrices.resetWasCalled()
+        testLoadGoogleOffers.resetWasCalled()
 
         advanceTimeBy(3.days + 1.milliseconds)
         val notifications = generateNotificationsForIntroductoryOffers()
         assertEquals(emptyList<ApiNotification>(), notifications)
-        assertFalse(fakeDynamicPlansAdjustedPrices.wasCalled)
+        assertFalse(testLoadGoogleOffers.wasCalled)
     }
 
     @Test
     fun `GIVEN FF is disabled WHEN generate is called THEN offer period doesn't start`() = testScope.runTest {
-        fakeDynamicPlansAdjustedPrices.currency = "EUR"
-        fakeDynamicPlansAdjustedPrices.introPrices = mapOf(PlanCycle.MONTHLY to 99)
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
+        )
         featureFlagFlow.value = false
 
         val beforeFfEnabled = generateNotificationsForIntroductoryOffers()

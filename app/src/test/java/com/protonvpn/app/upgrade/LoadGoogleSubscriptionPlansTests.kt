@@ -19,10 +19,14 @@
 package com.protonvpn.app.upgrade
 
 import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.ui.planupgrade.IapConstants
+import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.test.shared.TestLoadGoogleOffers
 import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createDynamicPlan
+import com.protonvpn.test.shared.createGiapOffer
 import com.protonvpn.test.shared.toProductId
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,6 +46,7 @@ import kotlin.test.assertEquals
 
 private val DEFAULT_CYCLES = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
 private val PRESELECTED_CYCLE = PlanCycle.YEARLY
+private val INTRO_TAG = listOf(IapConstants.INTRO_PRICE_TAG)
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoadGoogleSubscriptionPlansTests {
@@ -50,8 +55,8 @@ class LoadGoogleSubscriptionPlansTests {
 
     private lateinit var currentVpnUser: MutableStateFlow<VpnUser?>
     private lateinit var dynamicPlans: List<DynamicPlan>
-    private lateinit var dynamicPlansAdjustedPrices: List<DynamicPlan>
     private lateinit var availablePaymentProviders: Set<PaymentProvider>
+    private lateinit var testLoadGoogleOffers: TestLoadGoogleOffers
     private lateinit var loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans
 
     @Before
@@ -59,13 +64,22 @@ class LoadGoogleSubscriptionPlansTests {
         testScope = TestScope(UnconfinedTestDispatcher())
         currentVpnUser = MutableStateFlow(createVpnUser(subscribed = 0))
         availablePaymentProviders = setOf(PaymentProvider.GoogleInAppPurchase)
+        // Put all combinations in the default offers.
+        val allCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY, PlanCycle.TWO_YEARS)
+        testLoadGoogleOffers = TestLoadGoogleOffers(
+            allCycles.map { planCycle ->
+                createGiapOffer(Constants.CURRENT_PLUS_PLAN, planCycle, listOf(99, 10_00))
+            } + allCycles.map { planCycle ->
+                createGiapOffer(Constants.CURRENT_BUNDLE_PLAN, planCycle, listOf(2_99, 200_00))
+            }
+        )
         setDynamicPlans(
             createDynamicPlan(Constants.CURRENT_PLUS_PLAN, DEFAULT_CYCLES)
         )
         loadGoogleSubscriptionPlans = LoadGoogleSubscriptionPlans(
             vpnUserFlow = currentVpnUser,
             rawDynamicPlans = { dynamicPlans },
-            dynamicPlansAdjustedPrices = { dynamicPlansAdjustedPrices },
+            loadGoogleOffers = testLoadGoogleOffers::invoke,
             availablePaymentProviders = { availablePaymentProviders },
             defaultCycles = DEFAULT_CYCLES,
             defaultPreselectedCycle = PRESELECTED_CYCLE
@@ -74,31 +88,40 @@ class LoadGoogleSubscriptionPlansTests {
 
     @Test
     fun `load default plans and cycles if available`() = testScope.runTest {
-        val plans = loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN))
+        val plans = loadGoogleSubscriptionPlans(IapConstants.INTRO_PRICE_TAG, listOf(Constants.CURRENT_PLUS_PLAN))
         assertEquals(1, plans.size)
         val plan = plans.first()
         assertEquals(Constants.CURRENT_PLUS_PLAN, plan.name)
         assertEquals(DEFAULT_CYCLES, plan.cycles.map { it.cycle })
-        assertEquals(DEFAULT_CYCLES.map { it.toProductId(AppStore.GooglePlay) }, plan.cycles.map { it.productId })
+        assertEquals(DEFAULT_CYCLES.map { it.toProductId(AppStore.GooglePlay, plan.name) }, plan.cycles.map { it.productId })
         assertEquals(PRESELECTED_CYCLE, plan.preselectedCycle)
     }
 
     @Test
     fun `don't load plans if other payment methods available`() = testScope.runTest {
         availablePaymentProviders = setOf(PaymentProvider.CardPayment, PaymentProvider.GoogleInAppPurchase)
-        assertEquals(emptyList(), loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN)))
+        assertEquals(
+            emptyList(),
+            loadGoogleSubscriptionPlans(IapConstants.INTRO_PRICE_TAG, listOf(Constants.CURRENT_PLUS_PLAN))
+        )
     }
 
     @Test
     fun `don't load plan if user has subscription`() = testScope.runTest {
         currentVpnUser.value = createVpnUser(subscribed = VpnUser.VPN_SUBSCRIBED_FLAG)
-        assertEquals(emptyList(), loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN)))
+        assertEquals(
+            emptyList(),
+            loadGoogleSubscriptionPlans(IapConstants.INTRO_PRICE_TAG, listOf(Constants.CURRENT_PLUS_PLAN))
+        )
     }
 
     @Test
     fun `don't load other plans`() = testScope.runTest {
         setDynamicPlans(createDynamicPlan("other-plan", DEFAULT_CYCLES))
-        assertEquals(emptyList(), loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN)))
+        assertEquals(
+            emptyList(),
+            loadGoogleSubscriptionPlans(IapConstants.INTRO_PRICE_TAG, listOf(Constants.CURRENT_PLUS_PLAN))
+        )
     }
 
     @Test
@@ -107,20 +130,23 @@ class LoadGoogleSubscriptionPlansTests {
             createDynamicPlan(Constants.CURRENT_PLUS_PLAN, listOf(PlanCycle.TWO_YEARS)),
             createDynamicPlan(Constants.CURRENT_BUNDLE_PLAN, DEFAULT_CYCLES)
         )
-        val loadedPlans = loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN))
+        val loadedPlans = loadGoogleSubscriptionPlans(
+            IapConstants.INTRO_PRICE_TAG,
+            listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
+        )
         // Plus plan ignored.
         assertEquals(listOf(Constants.CURRENT_BUNDLE_PLAN), loadedPlans.map { it.name })
     }
 
     @Test
     fun `load plans even if non-default cycles are missing`() = testScope.runTest {
-        dynamicPlans = listOf(
+        setDynamicPlans(
             createDynamicPlan(Constants.CURRENT_PLUS_PLAN, listOf(PlanCycle.MONTHLY, PlanCycle.TWO_YEARS))
         )
-        dynamicPlansAdjustedPrices = listOf(
-            createDynamicPlan(Constants.CURRENT_PLUS_PLAN, listOf(PlanCycle.MONTHLY))
+        val loadedPlans = loadGoogleSubscriptionPlans(
+            IapConstants.INTRO_PRICE_TAG,
+            listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
         )
-        val loadedPlans = loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN))
         assertEquals(listOf(Constants.CURRENT_PLUS_PLAN), loadedPlans.map { it.name })
     }
 
@@ -129,9 +155,39 @@ class LoadGoogleSubscriptionPlansTests {
         dynamicPlans = listOf(
             createDynamicPlan(Constants.CURRENT_PLUS_PLAN, listOf(PlanCycle.MONTHLY, PlanCycle.TWO_YEARS))
         )
-        dynamicPlansAdjustedPrices = emptyList()
-        val loadedPlans = loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN))
+        testLoadGoogleOffers.offers = emptyList()
+        val loadedPlans = loadGoogleSubscriptionPlans(
+            IapConstants.INTRO_PRICE_TAG,
+            listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
+        )
         assertEquals(emptyList(), loadedPlans.map { it.name })
+    }
+
+    @Test
+    fun `pick offers with offer tag and if missing, pick by fallback tag`() = testScope.runTest {
+        dynamicPlans = listOf(
+            createDynamicPlan(Constants.CURRENT_PLUS_PLAN, listOf(PlanCycle.MONTHLY))
+        )
+        val offer = createGiapOffer(
+            productName = Constants.CURRENT_PLUS_PLAN,
+            cycle = PlanCycle.MONTHLY,
+            pricingPhases = listOf(1_00)
+        )
+        testLoadGoogleOffers.offers = listOf(
+            offer.copy(tags = listOf("unknown")),
+            offer.copy(tags = listOf("unknown", IapConstants.BASE_PRICE_TAG), pricingPhasesCents = listOf(5_00)),
+            offer.copy(tags = listOf("unknown", IapConstants.INTRO_PRICE_TAG), pricingPhasesCents = listOf(99)),
+        )
+        val loadedPlans = loadGoogleSubscriptionPlans(
+            IapConstants.INTRO_PRICE_TAG,
+            listOf(Constants.CURRENT_PLUS_PLAN)
+        )
+        assertEquals(1, loadedPlans.size)
+        val loadedPlan = loadedPlans.first()
+        assertEquals(
+            listOf(CycleInfo(PlanCycle.MONTHLY, "productId-GooglePlay-vpn2022-1", "token_1", 99, 99)),
+            loadedPlan.cycles
+        )
     }
 
     @Test
@@ -139,11 +195,14 @@ class LoadGoogleSubscriptionPlansTests {
         dynamicPlans = listOf(
             createDynamicPlan(Constants.CURRENT_PLUS_PLAN, listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY))
         )
-        dynamicPlansAdjustedPrices = listOf(
-            createDynamicPlan(Constants.CURRENT_PLUS_PLAN, listOf(PlanCycle.MONTHLY))
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(Constants.CURRENT_PLUS_PLAN, PlanCycle.MONTHLY, listOf(1_00))
         )
         try {
-            val loadedPlans = loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN))
+            val loadedPlans = loadGoogleSubscriptionPlans(
+                IapConstants.INTRO_PRICE_TAG,
+                listOf(Constants.CURRENT_PLUS_PLAN)
+            )
             assertTrue("Plans loaded: ${loadedPlans.map { it.name } }", false)
         } catch (e: LoadGoogleSubscriptionPlans.PartialPrices) {
             assertEquals(
@@ -159,11 +218,13 @@ class LoadGoogleSubscriptionPlansTests {
             createDynamicPlan(Constants.CURRENT_PLUS_PLAN, listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)),
             createDynamicPlan(Constants.CURRENT_BUNDLE_PLAN, listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY))
         )
-        dynamicPlansAdjustedPrices = listOf(
-            createDynamicPlan(Constants.CURRENT_PLUS_PLAN, listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY))
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(Constants.CURRENT_PLUS_PLAN, PlanCycle.MONTHLY, listOf(1_00)),
+            createGiapOffer(Constants.CURRENT_PLUS_PLAN, PlanCycle.YEARLY, listOf(20_00))
         )
         try {
             val loadedPlans = loadGoogleSubscriptionPlans(
+                IapConstants.INTRO_PRICE_TAG,
                 listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
             )
             assertTrue("Plans loaded: ${loadedPlans.map { it.name } }", false)
@@ -183,7 +244,10 @@ class LoadGoogleSubscriptionPlansTests {
                 listOf(PlanCycle.TWO_YEARS, PlanCycle.MONTHLY)
             )
         )
-        val loadedPlans = loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN))
+        val loadedPlans = loadGoogleSubscriptionPlans(
+            IapConstants.INTRO_PRICE_TAG,
+            listOf(Constants.CURRENT_PLUS_PLAN)
+        )
         assertEquals(1, loadedPlans.size)
         val plan = loadedPlans.first()
         assertEquals(listOf(PlanCycle.MONTHLY), plan.cycles.map { it.cycle })
@@ -192,7 +256,6 @@ class LoadGoogleSubscriptionPlansTests {
 
     private fun setDynamicPlans(vararg newPlans: DynamicPlan) {
         dynamicPlans = newPlans.toList()
-        dynamicPlansAdjustedPrices = newPlans.toList()
     }
 
     @Test
@@ -208,7 +271,10 @@ class LoadGoogleSubscriptionPlansTests {
                 prices = listOf(200_00, null)
             )
         )
-        val loadedPlans = loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN))
+        val loadedPlans = loadGoogleSubscriptionPlans(
+            IapConstants.INTRO_PRICE_TAG,
+            listOf(Constants.CURRENT_PLUS_PLAN)
+        )
         assertEquals(1, loadedPlans.size)
         assertEquals(Constants.CURRENT_PLUS_PLAN, loadedPlans.first().name)
     }

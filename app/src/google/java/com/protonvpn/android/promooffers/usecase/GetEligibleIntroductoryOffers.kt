@@ -23,9 +23,11 @@ import android.content.Context
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers.CachedOffers
+import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.android.utils.BytesFileWriter
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.FileObjectStore
 import com.protonvpn.android.utils.KotlinCborObjectSerializer
 import com.protonvpn.android.utils.ObjectStore
@@ -143,13 +145,15 @@ class GetEligibleIntroductoryOffers(
         return if (planNames.size == cachedOffers.size) {
             cachedOffers.flatMap { it.offers }
         } else suspend {
-            val giapPlans = loadGoogleSubscriptionPlans(planNames)
+            val giapPlans = loadGoogleSubscriptionPlans(IapConstants.INTRO_PRICE_TAG, planNames)
 
             val introOffers = giapPlans.flatMap { plan ->
                 plan.cycles.mapNotNull { cycle ->
                     val currentPriceCents = cycle.currentPriceCents
                     val renewPriceCents = cycle.defaultPriceCents
 
+                    // Note: the prices will be equal if there is just one pricing phase, let's
+                    // be conservaive and require 2 pricing phases to display the offer.
                     if (currentPriceCents < renewPriceCents) {
                         Offer(
                             planName = plan.name,

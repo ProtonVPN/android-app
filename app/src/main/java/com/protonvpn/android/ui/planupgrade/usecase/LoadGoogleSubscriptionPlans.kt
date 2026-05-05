@@ -21,6 +21,10 @@ package com.protonvpn.android.ui.planupgrade.usecase
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.ui.planupgrade.IapConstants
+import com.protonvpn.android.ui.planupgrade.LoadGoogleOffers
 import com.protonvpn.android.ui.planupgrade.getSingleCurrency
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
@@ -32,16 +36,24 @@ import me.proton.core.payment.domain.usecase.PaymentProvider
 import me.proton.core.plan.domain.entity.DynamicPlan
 import me.proton.core.plan.domain.entity.DynamicPlanState
 import me.proton.core.plan.domain.repository.PlansRepository
-import me.proton.core.plan.domain.usecase.GetDynamicPlansAdjustedPrices
 import me.proton.core.plan.presentation.entity.PlanCycle
 import javax.inject.Inject
 
 data class CycleInfo(
     val cycle: PlanCycle,
     val productId: String,
+    val offerToken: String,
     val currentPriceCents: Int,
     val defaultPriceCents: Int,
 )
+
+data class GiapOfferInfo(
+    val dynamicPlan: DynamicPlan,
+    val currency: String,
+    val cycle: CycleInfo,
+    val offerTags: List<String>,
+)
+
 data class GiapPlanInfo(
     val dynamicPlan: DynamicPlan,
     val name: String,
@@ -55,7 +67,7 @@ data class GiapPlanInfo(
 class LoadGoogleSubscriptionPlans(
     private val vpnUserFlow: Flow<VpnUser?>,
     private val rawDynamicPlans: suspend (UserId?) -> List<DynamicPlan>,
-    private val dynamicPlansAdjustedPrices: suspend (UserId?) -> List<DynamicPlan>,
+    private val loadGoogleOffers: suspend (List<DynamicPlan>) -> List<GiapOfferInfo>,
     private val availablePaymentProviders: suspend () -> Set<PaymentProvider>,
     private val defaultCycles: List<PlanCycle>,
     private val defaultPreselectedCycle: PlanCycle
@@ -72,75 +84,90 @@ class LoadGoogleSubscriptionPlans(
         currentUser: CurrentUser,
         appStore: AppStore,
         plansRepository: PlansRepository,
-        getDynamicPlansAdjustedPrices: GetDynamicPlansAdjustedPrices,
+        loadGoogleOffers: LoadGoogleOffers,
         getAvailablePaymentProviders: GetAvailablePaymentProviders
     ) : this(
         vpnUserFlow = currentUser.vpnUserFlow,
         rawDynamicPlans = { userId -> plansRepository.getDynamicPlans(userId, appStore).plans },
-        dynamicPlansAdjustedPrices = { userId -> getDynamicPlansAdjustedPrices(userId).plans },
+        loadGoogleOffers = loadGoogleOffers::invoke,
         availablePaymentProviders = getAvailablePaymentProviders::invoke,
         DEFAULT_CYCLES,
         DEFAULT_PRESELECTED_CYCLE
     )
-
-    private fun DynamicPlan.getAvailableDefaultCycles(currency: String) = defaultCycles.mapNotNull { cycle ->
-        val planInstanceForCycle = instances[cycle.cycleDurationMonths]
-        val price = planInstanceForCycle?.price[currency]
-        val productId = planInstanceForCycle?.vendors?.get(AppStore.GooglePlay)?.productId
-        if (price != null && productId != null) {
-            CycleInfo(cycle, productId, price.current, price.default ?: price.current)
-        } else {
-            null
-        }
-    }
-
     private fun List<DynamicPlan>.filterAvailablePlans(planNames: List<String>) : List<DynamicPlan> =
         filter { plan -> plan.name in planNames && plan.state == DynamicPlanState.Available }
             .distinctBy { it.name }
 
-    private fun DynamicPlan.toPlanInfo(): GiapPlanInfo? {
-        val planName = name ?: return null
-        val currency = getSingleCurrency() ?: return null
-        val cycles = getAvailableDefaultCycles(currency)
-
-        if (cycles.isEmpty())
-            return null
-        val preselectedCycle = if (cycles.any { it.cycle == defaultPreselectedCycle })
-            defaultPreselectedCycle
-        else
-            cycles.first().cycle
-        return GiapPlanInfo(
-            this,
-            name = planName,
-            displayName = title,
-            currency = currency,
-            cycles,
-            preselectedCycle
-        )
-    }
-
-    // Throws PartialPrices and whatever GetDynamicPlansAdjustedPrices and PlansRepository.getDynamicPlans may throw.
-    suspend operator fun invoke(planNames: List<String>): List<GiapPlanInfo> {
+    suspend operator fun invoke(
+        offerTag: String,
+        planNames: List<String>,
+        fallbackOfferTag: String = IapConstants.BASE_PRICE_TAG,
+    ): List<GiapPlanInfo> {
         if (availablePaymentProviders().any { it != PaymentProvider.GoogleInAppPurchase })
             return emptyList()
 
         val vpnUser = vpnUserFlow.first() ?: return emptyList()
-        if (vpnUser.hasSubscription)
+        if (vpnUser.hasSubscription) {
+            ProtonLogger.logCustom(LogCategory.USER, "GIAP unavailable, user has a subscription")
             return emptyList()
+        }
 
         val availableDynamicPlans = rawDynamicPlans(vpnUser.userId)
             .filterAvailablePlans(planNames)
         val availableCycleIds = availableDynamicPlans
             .flatMap { plan ->
                 val currency = plan.getSingleCurrency() ?: return@flatMap emptyList()
-                plan.getAvailableDefaultCycles(currency).map { cycle -> cycleId(plan.name ?: "unknown", cycle) }
+                defaultCycles.mapNotNull { cycle ->
+                    val planInstanceForCycle = plan.instances[cycle.cycleDurationMonths]
+                    val price = planInstanceForCycle?.price[currency]
+                    val productId = planInstanceForCycle?.vendors?.get(AppStore.GooglePlay)?.productId
+                    if (price != null && productId != null) {
+                        cycleId(plan.name ?: "unknown", cycle)
+                    } else {
+                        null
+                    }
+                }
             }
-        val giapPlansWithPrices = dynamicPlansAdjustedPrices(vpnUser.userId)
-            .filterAvailablePlans(planNames)
-            .mapNotNull { it.toPlanInfo() }
 
-        val giapPlansCycleIds = giapPlansWithPrices.flatMap { plan ->
-            plan.cycles.map { cycle -> cycleId(plan.name, cycle) }
+        val giapPlans = loadGoogleOffers(availableDynamicPlans)
+            .filter { it.cycle.cycle in defaultCycles }
+            .groupBy { it.dynamicPlan }
+            .mapNotNull { (plan, allOffers) ->
+                val name = plan.name ?: return@mapNotNull null
+                val offersByCycle = allOffers.groupBy { it.cycle.cycle }
+                val offers = offersByCycle.mapNotNull { (_, offers) ->
+                    offers.find { it.offerTags.contains(offerTag) }
+                        ?: offers.find { it.offerTags.contains(fallbackOfferTag) }
+                }
+                val cycles = offers.map { it.cycle }
+                if (cycles.isEmpty()) {
+                    ProtonLogger.logCustom(LogCategory.USER,"GIAP: plan '$name' has no cycles.")
+                    return@mapNotNull null
+                }
+
+                val firstCurrency = offers.first().currency
+                if (!offers.all { it.currency == firstCurrency}) {
+                    ProtonLogger.logCustom(LogCategory.USER,"GIAP: plan '$name' has multiple currencies.")
+                    return@mapNotNull null
+                }
+
+                val preselectedCycle = if (cycles.any { it.cycle == defaultPreselectedCycle }) {
+                    defaultPreselectedCycle
+                } else {
+                    cycles.first().cycle
+                }
+                GiapPlanInfo(
+                    dynamicPlan = plan,
+                    name = name,
+                    displayName = plan.title,
+                    currency = offers.first().currency,
+                    cycles = cycles,
+                    preselectedCycle = preselectedCycle
+                )
+            }
+
+        val giapPlansCycleIds = giapPlans.flatMap { plan ->
+            plan.cycles.map { cycle -> cycleId(plan.name, cycle.cycle) }
         }
         val missingPricesCycleIds =
             availableCycleIds.filterNot { expectedProductId -> giapPlansCycleIds.contains(expectedProductId) }
@@ -148,10 +175,10 @@ class LoadGoogleSubscriptionPlans(
             throw PartialPrices(giapPlansCycleIds, missingPricesCycleIds)
         }
 
-        return giapPlansWithPrices
+        return giapPlans
     }
 
-    private fun cycleId(planName: String, cycle: CycleInfo): String = "${planName}_${cycle.cycle.name}"
+    private fun cycleId(planName: String, cycle: PlanCycle): String = "${planName}_${cycle.name}"
 
     companion object {
         // TODO: in future this should come from API

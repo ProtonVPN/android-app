@@ -19,6 +19,7 @@
 
 package com.protonvpn.test.shared
 
+import com.protonvpn.android.ui.planupgrade.IapConstants
 import me.proton.core.domain.entity.AppStore
 import me.proton.core.domain.entity.UserId
 import me.proton.core.plan.domain.entity.DynamicPlan
@@ -54,7 +55,7 @@ fun createAccountUser(id: UserId = UserId("id"), type: Type = Type.Proton, creat
     flags = emptyMap()
 )
 
-fun PlanCycle.toProductId(appStore: AppStore) = "productId-$appStore-$cycleDurationMonths"
+fun PlanCycle.toProductId(appStore: AppStore, name: String) = "productId-$appStore-$name-$cycleDurationMonths"
 
 fun createDynamicPlan(
     name: String,
@@ -63,7 +64,7 @@ fun createDynamicPlan(
 ) = createDynamicPlan(
     name = name,
     instances = prices.map { (cycle, cyclePrices) ->
-        cycle.cycleDurationMonths to createDynamicPlanInstance(cycle, appStore, cyclePrices)
+        cycle.cycleDurationMonths to createDynamicPlanInstance(name, cycle, appStore, cyclePrices)
     }.toMap()
 )
 
@@ -80,10 +81,27 @@ fun createDynamicPlan(
 )
 
 fun createDynamicPlanInstance(
+    productName: String,
     cycle: PlanCycle,
     appStore: AppStore,
     currencyToPrice: Map<String, DynamicPlanPrice>?
 ) = DynamicPlanInstance(
     cycle.cycleDurationMonths, "", Instant.MAX, currencyToPrice ?: emptyMap(),
-    mapOf(appStore to DynamicPlanVendor(cycle.toProductId(appStore), ""))
+    mapOf(appStore to DynamicPlanVendor(cycle.toProductId(appStore, productName), ""))
+)
+
+fun createGiapOffer(
+    productName: String,
+    cycle: PlanCycle,
+    pricingPhases: List<Int>,
+    tags: List<String> = listOf(IapConstants.INTRO_PRICE_TAG),
+    currency: String = "USD",
+    token: String = "token_${cycle.value}"
+) = TestGiapOffer(
+    cycle = cycle,
+    productId = cycle.toProductId(AppStore.GooglePlay, productName),
+    token = token,
+    tags = tags,
+    pricingPhasesCents = pricingPhases,
+    currency = currency,
 )

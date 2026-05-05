@@ -37,9 +37,11 @@ import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.formatPrice
 import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestLoadGoogleOffers
 import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createDynamicPlan
 import io.mockk.MockKAnnotations
+import com.protonvpn.test.shared.createGiapOffer
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
@@ -70,6 +72,8 @@ import me.proton.core.plan.presentation.entity.PlanCycle
 import org.junit.After
 import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -96,21 +100,16 @@ class UpgradeDialogViewModelTests {
     private lateinit var testScope: TestScope
     private lateinit var viewModel: UpgradeDialogViewModel
     private lateinit var loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans
-    private lateinit var loadPlansConfig: LoadPlansConfig
+    private lateinit var rawDynamicPlans: List<DynamicPlan>
+    private lateinit var testLoadGoogleOffers: TestLoadGoogleOffers
 
     private var isInAppAllowed = true
     private val availablePaymentProviders = setOf(PaymentProvider.GoogleInAppPurchase)
-
-    private data class LoadPlansConfig(
-        val rawDynamicPlans: List<DynamicPlan>,
-        val adjustedDynamicPlans: List<DynamicPlan>,
-    )
 
     private val dummyPrices = mapOf(
         PlanCycle.MONTHLY to mapOf("USD" to DynamicPlanPrice("", currency = "USD", current = 10_00)),
         PlanCycle.YEARLY to mapOf("USD" to DynamicPlanPrice("", currency = "USD", current = 100_00))
     )
-
     private val testPlanName = "myplan"
 
     @Before
@@ -120,14 +119,15 @@ class UpgradeDialogViewModelTests {
         testScope = TestScope(testDispatcher)
         Dispatchers.setMain(testDispatcher)
 
+        testLoadGoogleOffers = TestLoadGoogleOffers()
         isInAppAllowed = true
-        val dynamicPlans = listOf(createDynamicPlan(testPlanName, dummyPrices))
-        loadPlansConfig = LoadPlansConfig(dynamicPlans, dynamicPlans)
+        rawDynamicPlans = listOf(createDynamicPlan(testPlanName, dummyPrices))
+        testLoadGoogleOffers.offers = dummyGiapOffers(testPlanName)
         val currentUser = CurrentUser(TestCurrentUserProvider(TestVpnUser.create()))
         loadGoogleSubscriptionPlans = LoadGoogleSubscriptionPlans(
-            currentUser.vpnUserFlow,
-            rawDynamicPlans = { loadPlansConfig.rawDynamicPlans },
-            dynamicPlansAdjustedPrices = { loadPlansConfig.adjustedDynamicPlans },
+            vpnUserFlow = currentUser.vpnUserFlow,
+            rawDynamicPlans = { rawDynamicPlans },
+            loadGoogleOffers = testLoadGoogleOffers::invoke,
             availablePaymentProviders = { availablePaymentProviders },
             defaultCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
             defaultPreselectedCycle = PlanCycle.MONTHLY,
@@ -156,7 +156,7 @@ class UpgradeDialogViewModelTests {
     @Test
     fun `load default plan and purchase`() = testScope.runTest {
         val purchaseResult = MutableSharedFlow<PerformGiapPurchase.Result>()
-        coEvery { mockPerformGiapPurchase.invoke(any(), any(), any(), any()) } coAnswers {
+        coEvery { mockPerformGiapPurchase.invoke(any(), any(), any(), any(), any()) } coAnswers {
             purchaseResult.first()
         }
         coEvery { mockSaveMmpEvent(any()) } returns Unit
@@ -171,22 +171,22 @@ class UpgradeDialogViewModelTests {
             val loadedPlan = loadedState.selectedPlan
 
             assertEquals("myplan", loadedPlan.planName)
-            Assert.assertFalse(loadedState.inProgress)
+            assertFalse(loadedState.inProgress)
 
             viewModel.onPaymentStarted(UpgradeFlowType.REGULAR)
             viewModel.pay(mockk(), UpgradeFlowType.ONE_CLICK)
-            Assert.assertTrue(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
+            assertTrue(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
 
             // Fail before succeeding
             purchaseResult.emit(PerformGiapPurchase.Result.Error.PurchaseNotFound)
-            Assert.assertFalse(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
+            assertFalse(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
 
             // Try again and succeed
             viewModel.onPaymentStarted(UpgradeFlowType.ONE_CLICK)
             viewModel.pay(mockk(), UpgradeFlowType.ONE_CLICK)
-            Assert.assertTrue(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
+            assertTrue(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
             purchaseResult.emit(mockk<PerformGiapPurchase.Result.GiapSuccess>())
-            Assert.assertEquals(
+            assertEquals(
                 State.PurchaseSuccess("myplan", UpgradeFlowType.ONE_CLICK, PlanCycle.MONTHLY.value),
                 awaitItem()
             )
@@ -202,7 +202,7 @@ class UpgradeDialogViewModelTests {
 
     @Test
     fun `show error on plan load fail`() = testScope.runTest {
-        loadPlansConfig = LoadPlansConfig(emptyList(), emptyList())
+        rawDynamicPlans = emptyList()
         viewModel.loadPlans(listOf(testPlanName), null, null, true)
         val state = viewModel.state.first()
         assertIs<State.LoadError>(state)
@@ -230,8 +230,8 @@ class UpgradeDialogViewModelTests {
         val priceInfo = UpgradeDialogViewModel.calculatePriceInfos(
             "USD",
             listOf(
-                CycleInfo(PlanCycle.MONTHLY, "m", 10_00, 15_00),
-                CycleInfo(PlanCycle.YEARLY, "y", 100_00, 100_00),
+                CycleInfo(PlanCycle.MONTHLY, "m", "$testPlanName-m", 10_00, 15_00),
+                CycleInfo(PlanCycle.YEARLY, "y", "$testPlanName-y", 100_00, 100_00),
             ),
             withSavePercent = true,
         )
@@ -259,26 +259,20 @@ class UpgradeDialogViewModelTests {
     @Test
     fun `show error when prices are missing for any of the plans`() = testScope.runTest {
         val planName = Constants.CURRENT_PLUS_PLAN
-        loadPlansConfig = LoadPlansConfig(
-            rawDynamicPlans = listOf(
-                createDynamicPlan(
-                    planName,
-                    mapOf(
-                        PlanCycle.MONTHLY to mapOf("USD" to DynamicPlanPrice("1", "USD", 1_00)),
-                        PlanCycle.YEARLY to mapOf("USD" to DynamicPlanPrice("1", "USD", 2_00)),
-                    )
-                )
-            ),
-            adjustedDynamicPlans = listOf(
-                createDynamicPlan(
-                    planName,
-                    mapOf(
-                        PlanCycle.MONTHLY to mapOf("USD" to DynamicPlanPrice("1", "USD", 1_00)),
-                        PlanCycle.YEARLY to emptyMap(),
-                    )
+        rawDynamicPlans = listOf(
+            createDynamicPlan(
+                planName,
+                mapOf(
+                    PlanCycle.MONTHLY to mapOf("USD" to DynamicPlanPrice("1", "USD", 1_00)),
+                    PlanCycle.YEARLY to mapOf("USD" to DynamicPlanPrice("1", "USD", 2_00)),
                 )
             )
         )
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(planName, PlanCycle.MONTHLY, listOf(1_00))
+            // Yearly plan missing.
+        )
+
         viewModel.loadPlans(listOf(planName), null, null, true)
         runCurrent()
         val state = viewModel.state.first()
@@ -289,8 +283,9 @@ class UpgradeDialogViewModelTests {
 
     @Test
     fun `plan order matches the order of plan names to loadPlans`() = testScope.runTest {
-        val plans = createDummyPlans("plan1", "plan2")
-        loadPlansConfig = LoadPlansConfig(plans, plans)
+        val planNames = arrayOf("plan1", "plan2")
+        rawDynamicPlans = createDummyPlans(*planNames)
+        testLoadGoogleOffers.offers = planNames.flatMap { dummyGiapOffers(it) }
 
         viewModel.loadPlans(listOf("plan2", "plan1"), null, null, true)
         assertPlanNames(listOf("plan2", "plan1"), viewModel.state.first())
@@ -298,8 +293,9 @@ class UpgradeDialogViewModelTests {
 
     @Test
     fun `when allowMultiplePlans is true then Plus and Unlimited plans are used`() = testScope.runTest {
-        val plans = createDummyPlans(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
-        loadPlansConfig = LoadPlansConfig(plans, plans)
+        val planNames = arrayOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
+        rawDynamicPlans = createDummyPlans(*planNames)
+        testLoadGoogleOffers.offers = planNames.flatMap { dummyGiapOffers(it) }
         viewModel.loadPlans(allowMultiplePlans = true)
 
         assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN), viewModel.state.first())
@@ -307,8 +303,9 @@ class UpgradeDialogViewModelTests {
 
     @Test
     fun `when allowMultiplePlans is false then only the first plan is used`() = testScope.runTest {
-        val plans = createDummyPlans(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
-        loadPlansConfig = LoadPlansConfig(plans, plans)
+        val planNames = arrayOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
+        rawDynamicPlans = createDummyPlans(*planNames)
+        testLoadGoogleOffers.offers = planNames.flatMap { dummyGiapOffers(it) }
         viewModel.loadPlans(allowMultiplePlans = false)
 
         assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN), viewModel.state.first())
@@ -364,4 +361,9 @@ class UpgradeDialogViewModelTests {
 
     private fun createDummyPlans(vararg planNames: String): List<DynamicPlan> =
         planNames.map { createDynamicPlan(it, dummyPrices) }
+
+    private fun dummyGiapOffers(planName: String) = listOf(
+        createGiapOffer(planName, PlanCycle.MONTHLY, listOf(10_00)),
+        createGiapOffer(planName, PlanCycle.YEARLY, listOf(100_00)),
+    )
 }

@@ -76,7 +76,7 @@ class UpgradeDialogViewModel(
     plansOrchestrator: PlansOrchestrator,
     isInAppUpgradeAllowed: suspend () -> Boolean,
     upgradeTelemetry: UpgradeTelemetry,
-    private val loadGoogleSubscriptionPlans: suspend (planNames: List<String>) -> List<GiapPlanInfo>,
+    private val loadGoogleSubscriptionPlans: suspend (tag: String, planNames: List<String>, fallbackTag: String) -> List<GiapPlanInfo>,
     private val performGiapPurchase: PerformGiapPurchase<Activity>,
     userPlanManager: UserPlanManager,
     waitForSubscription: WaitForSubscription,
@@ -181,19 +181,29 @@ class UpgradeDialogViewModel(
     ) {
         state.value = State.LoadingPlans(cycleFilter?.size ?: 2, buttonLabelOverride)
         suspend {
-            val unorderedPlans = loadGoogleSubscriptionPlans(planNames).map { inputPlanInfo ->
-                val planInfo = if (cycleFilter != null) {
-                    val filteredCycles = inputPlanInfo.cycles.filter { cycleFilter.contains(it.cycle) }
-                    val selectedCycle = (filteredCycles.find { it.cycle == inputPlanInfo.preselectedCycle } ?: filteredCycles.first()).cycle
-                    inputPlanInfo.copy(cycles = filteredCycles, preselectedCycle = selectedCycle)
-                } else {
-                    inputPlanInfo
+            val unorderedPlans = loadGoogleSubscriptionPlans(
+                IapConstants.INTRO_PRICE_TAG,
+                planNames,
+                IapConstants.BASE_PRICE_TAG
+            )
+                .map { inputPlanInfo ->
+                    val planInfo = if (cycleFilter != null) {
+                        val filteredCycles = inputPlanInfo.cycles.filter { cycleFilter.contains(it.cycle) }
+                        val selectedCycle =
+                            (filteredCycles.find { it.cycle == inputPlanInfo.preselectedCycle }
+                                ?: filteredCycles.first()).cycle
+                        inputPlanInfo.copy(
+                            cycles = filteredCycles,
+                            preselectedCycle = selectedCycle
+                        )
+                    } else {
+                        inputPlanInfo
+                    }
+                    GiapPlanModel(
+                        planInfo,
+                        calculatePriceInfos(planInfo.currency, planInfo.cycles, showDiscountBadge)
+                    )
                 }
-                GiapPlanModel(
-                    planInfo,
-                    calculatePriceInfos(planInfo.currency, planInfo.cycles, showDiscountBadge)
-                )
-            }
             // Plans order should match order of planNames.
             loadedPlans = planNames.mapNotNull { planName -> unorderedPlans.find { it.planName == planName } }
             val preselectedPlan = loadedPlans.find { it.planName == planNames.first() }
@@ -256,12 +266,16 @@ class UpgradeDialogViewModel(
             val cycle = requireNotNull(selectedCycle.value) { "Missing plan cycle." }
             val userId = requireNotNull(userId.first()) { "Missing user ID."}
             val plan = (currentState.selectedPlan as GiapPlanModel).giapPlanInfo
+            val offerToken = requireNotNull(plan.cycles.find { it.cycle == cycle }?.offerToken) {
+                "Missing cycle $cycle for ${plan.name}"
+            }
 
             val purchaseResult = performGiapPurchase(
-                activity,
-                cycle.cycleDurationMonths,
-                plan.dynamicPlan,
-                userId
+                activity = activity,
+                cycle = cycle.cycleDurationMonths,
+                plan = plan.dynamicPlan,
+                googleOfferToken = offerToken,
+                userId = userId,
             )
             val resultLog = when (purchaseResult) {
                 is PerformGiapPurchase.Result.GiapSuccess -> "Success" // Don't log any details, like tokens.
