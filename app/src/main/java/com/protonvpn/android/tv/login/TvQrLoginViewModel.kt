@@ -26,6 +26,7 @@ import android.net.Uri
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.auth.ui.sessionfork.SessionForkPayload
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
@@ -176,6 +177,7 @@ class TvQrLoginViewModel @Inject constructor(
             val url = Uri.parse(QrCodeUrlPrefix).buildUpon()
                 .appendPath(userCode.value)
                 .appendQueryParameter("clientId", Constants.TV_CLIENT_ID)
+                .appendQueryParameter("source", BuildConfig.FLAVOR_distribution)
                 .build()
             val qrCode = qrBitmapGenerator(url.toString(), 200.dp)
             return ForkData(selector, userCode, qrCode, expirationTimestamp)
