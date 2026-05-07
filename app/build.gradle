@@ -28,9 +28,6 @@ import org.gradle.internal.extensibility.DefaultExtraPropertiesExtension
 
 buildscript {
     repositories {
-        if (System.getenv("MAVEN_CACHE_PKG_URL")) {
-            maven { url System.getenv("MAVEN_CACHE_PKG_URL") }
-        }
         maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
     }
@@ -138,6 +135,7 @@ def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
 def supportedLocales = ['ar', 'b+es+419', 'be', 'ca', 'cs', 'da', 'de', 'el', 'en', 'es-rES', 'es-rMX', 'fa', 'fi', 'fil', 'fr', 'hu', 'in', 'it', 'ja', 'ka', 'ko', 'nb-rNO', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'sk', 'sl', 'sv-rSE', 'th', 'tr', 'uk', 'vi', 'zh-rCN', 'zh-rTW']
 def helpers = new Helpers(rootDir, providers)
 def debugKeystorePath = System.getenv("DEBUG_KEYSTORE_FILE")
+def mavenCacheUrl = System.getenv("MAVEN_CACHE_PKG_URL")
 
 android {
     namespace "com.protonvpn.android"
@@ -346,6 +344,11 @@ android {
         animationsDisabled true
         unitTests {
             includeAndroidResources = true
+        }
+        unitTests.all {
+            if (mavenCacheUrl != null) {
+                systemProperty 'robolectric.dependency.repo.url', mavenCacheUrl
+            }
         }
     }
     packagingOptions {
@@ -718,9 +721,6 @@ tasks.register("getExportArchiveNameProperties") {
 }
 
 repositories {
-    if (System.getenv("MAVEN_CACHE_PKG_URL")) {
-        maven { url System.getenv("MAVEN_CACHE_PKG_URL") }
-    }
     maven { url "https://clojars.org/repo/" }
     google()
     mavenCentral()

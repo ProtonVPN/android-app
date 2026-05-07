@@ -47,9 +47,6 @@ project.ext {
 
 allprojects {
     repositories {
-        if (System.getenv("MAVEN_CACHE_PKG_URL")) {
-            maven { url System.getenv("MAVEN_CACHE_PKG_URL") }
-        }
         mavenCentral()
         google()
         maven { url "https://jitpack.io" }

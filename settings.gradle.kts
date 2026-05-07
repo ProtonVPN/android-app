@@ -23,10 +23,6 @@ pluginManagement {
     includeBuild("build-logic")
 
     repositories {
-        val mavenCachePkgUrl = System.getenv("MAVEN_CACHE_PKG_URL")
-        if (!mavenCachePkgUrl.isNullOrBlank()) {
-            maven { url = uri(mavenCachePkgUrl) }
-        }
         maven { url = java.net.URI("https://plugins.gradle.org/m2/") }
         mavenCentral()
         google()
