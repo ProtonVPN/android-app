@@ -181,6 +181,7 @@ class AppConfig @Inject constructor(
 
         val flagsResult = suspend {
             fetchFlags(userId)
+            fetchFlags(null)
             ApiResult.Success(Unit)
         }.runCatchingCheckedExceptions {
             (it as? ApiException)?.error
