@@ -214,7 +214,8 @@ class UpgradeDialogViewModel(
                 || preselectedPlan == null
             ) {
                 val errorInfo = plansDebugInfo(loadedPlans)
-                state.value = State.LoadError(
+                state.value = State.LoadError
+                onError(
                     messageRes = R.string.error_fetching_prices,
                     error = IllegalArgumentException("Missing prices: $errorInfo")
                 )
@@ -225,7 +226,8 @@ class UpgradeDialogViewModel(
             // loadGoogleSubscriptionPlans throws errors.
             val errorMessage =
                 if (e is LoadGoogleSubscriptionPlans.PartialPrices) R.string.error_fetching_prices else null
-            state.value = State.LoadError(messageRes = errorMessage, error = e)
+            state.value = State.LoadError
+            onError(messageRes = errorMessage, error = e)
         }
     }
 
@@ -309,7 +311,8 @@ class UpgradeDialogViewModel(
                 }
             }
         }.catch {
-            state.value = State.LoadError(error = it)
+            state.value = State.LoadError
+            onError(error = it)
         }.collect {
             state.value = it
         }
@@ -317,7 +320,7 @@ class UpgradeDialogViewModel(
 
     private fun emitError(billingClientError: BillingClientError?) {
         removeProgressFromPurchaseReady()
-        purchaseError.trySend(PurchaseError(billingClientError))
+        onError(error = billingClientError)
     }
 
     // See ProtonPaymentButtonViewModel.onResultEnqueueObservabilityEvents.

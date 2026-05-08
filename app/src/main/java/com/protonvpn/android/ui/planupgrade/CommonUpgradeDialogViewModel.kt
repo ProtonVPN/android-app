@@ -34,6 +34,8 @@ import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.UserPlanManager
+import io.sentry.Sentry
+import io.sentry.SentryEvent
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -44,7 +46,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.domain.entity.UserId
-import me.proton.core.payment.domain.repository.BillingClientError
+import me.proton.core.network.domain.ApiException
+import me.proton.core.network.domain.ApiResult
 import me.proton.core.plan.presentation.PlansOrchestrator
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.plan.presentation.onUpgradeResult
@@ -86,10 +89,7 @@ abstract class CommonUpgradeDialogViewModel(
             val expectedCycleCount: Int,
             val buttonLabelOverride: String?,
         ) : State()
-        class LoadError(
-            @StringRes val messageRes: Int? = null,
-            val error: Throwable? = null
-        ) : State()
+        object LoadError : State() // Error messages are emitted via onError.
         data class PurchaseReady(
             val allPlans: List<PlanModel>,
             val selectedPlan: PlanModel,
@@ -105,10 +105,10 @@ abstract class CommonUpgradeDialogViewModel(
         ) : State()
     }
 
-    data class PurchaseError(val billingClientError: BillingClientError?)
+    data class Error(val messageRes: Int?, val message: String?, val throwable: Throwable?)
 
-    protected val purchaseError = Channel<PurchaseError>(capacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
-    val eventPurchaseError: ReceiveChannel<PurchaseError> = purchaseError
+    private val errorMessage = Channel<Error>(capacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val eventErrorMessage: ReceiveChannel<Error> = errorMessage
     val state = MutableStateFlow<State>(State.Initializing)
 
     fun reportUpgradeFlowStart(
@@ -167,4 +167,19 @@ abstract class CommonUpgradeDialogViewModel(
             plansOrchestrator.startUpgradeWorkflow(userId)
         }
     }
+
+    fun onError(messageRes: Int? = null, message: String? = null, error: Throwable? = null) {
+        if (shouldReportToSentry(error))
+            logToSentry(message ?: error?.message, error) // Remove this once we know payments are in a good shape.
+        errorMessage.trySend(Error(messageRes, message, error))
+    }
+
+    private fun shouldReportToSentry(throwable: Throwable?): Boolean =
+        throwable == null || (throwable as? ApiException)?.error !is ApiResult.Error.Connection
+
+    private fun logToSentry(errorMessage: String?, throwable: Throwable?) {
+        Sentry.captureEvent(SentryEvent(OneClickPaymentError(errorMessage, throwable)))
+    }
 }
+
+private class OneClickPaymentError(message: String?, cause: Throwable?) : Throwable(message, cause)

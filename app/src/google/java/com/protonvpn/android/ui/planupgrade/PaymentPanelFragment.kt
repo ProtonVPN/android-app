@@ -32,15 +32,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import dagger.hilt.android.AndroidEntryPoint
-import io.sentry.Sentry
-import io.sentry.SentryEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
-import me.proton.core.network.domain.ApiException
-import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.presentation.util.getUserMessage
 import me.proton.core.payment.domain.repository.BillingClientError
 import me.proton.core.plan.presentation.entity.PlanCycle
@@ -52,17 +47,13 @@ class PaymentPanelFragment : Fragment() {
 
     private val viewModel by activityViewModels<UpgradeDialogViewModel>()
 
-    // Needs to be class member for onError().
-    private var panelViewState: MutableStateFlow<ViewState>? = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val currentViewState = MutableStateFlow<ViewState>(ViewState.Initializing)
-        panelViewState = currentViewState
 
         viewModel.state.onEach { state ->
             when (state) {
                 is CommonUpgradeDialogViewModel.State.PurchaseReady -> {
-                    panelViewState?.value =
+                    currentViewState.value =
                         ViewState.PlanReady(
                             displayName = state.selectedPlan.displayName,
                             planName = state.selectedPlan.planName,
@@ -71,9 +62,8 @@ class PaymentPanelFragment : Fragment() {
                             buttonLabelOverride = state.buttonLabelOverride,
                         )
                 }
-                is CommonUpgradeDialogViewModel.State.LoadError -> {
-                    val message = state.messageRes?.let { resources.getString(it) }
-                    onError(message, state.error)
+                CommonUpgradeDialogViewModel.State.LoadError -> {
+                    // Do nothing, error messages are emitted as events.
                 }
                 is CommonUpgradeDialogViewModel.State.PlansFallback ->
                     currentViewState.value = ViewState.FallbackFlowReady
@@ -86,13 +76,13 @@ class PaymentPanelFragment : Fragment() {
                 CommonUpgradeDialogViewModel.State.UpgradeDisabled ->
                     currentViewState.value = ViewState.UpgradeDisabled
                 is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> {
-                    // do nothing, will be handled by parent activity
+                    // Do nothing, will be handled by parent activity.
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.eventPurchaseError.receiveAsFlow()
-            .onEach { error -> onError(null, error.billingClientError) }
+        viewModel.eventErrorMessage.receiveAsFlow()
+            .onEach { (messageRes, message, throwable) -> onError(messageRes, message, throwable) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         return ComposeView(requireContext()).apply {
@@ -135,21 +125,16 @@ class PaymentPanelFragment : Fragment() {
         viewModel.selectedCycle.value = cycle
     }
 
-    private fun onError(message: String?, throwable: Throwable?, allowReportToSentry: Boolean = true) {
-        panelViewState?.update {
-            // If prices are already known don't change the panel state.
-            if (it is ViewState.Initializing || it is ViewState.LoadingPlans) ViewState.Error else it
-        }
+    private fun onError(messageRes: Int?, message: String?, throwable: Throwable?) {
         val fragmentView = view
         fragmentView?.errorSnack(
             message = message
+                ?: messageRes?.let { getString(messageRes) }
                 ?: getUserMessage(fragmentView.context, throwable)
                 ?: getString(PaymentR.string.payments_general_error)
         ) {
             anchorView = fragmentView
         }
-        if (allowReportToSentry && shouldReportToSentry(throwable))
-            logToSentry(message ?: throwable?.message, throwable) // Remove this once we know payments are in a good shape.
     }
 
     private fun getUserMessage(context: Context, throwable: Throwable?): String? =
@@ -157,13 +142,4 @@ class PaymentPanelFragment : Fragment() {
             is BillingClientError -> null
             else -> throwable?.getUserMessage(context.resources)
         }
-
-    private fun shouldReportToSentry(throwable: Throwable?): Boolean =
-        throwable == null || (throwable as? ApiException)?.error !is ApiResult.Error.Connection
-
-    private fun logToSentry(errorMessage: String?, throwable: Throwable?) {
-        Sentry.captureEvent(SentryEvent(OneClickPaymentError(errorMessage, throwable)))
-    }
 }
-
-private class OneClickPaymentError(message: String?, cause: Throwable?) : Throwable(message, cause)
