@@ -29,7 +29,7 @@
     <string name="connectionAllocationHelpTitle">感谢升级</string>
     <string name="connectionAllocationHelpDescription1">开启 Proton VPN 之旅，请分配您的账户或任意子账户的 VPN 连接。</string>
     <string name="connectionAllocationHelpDescription2">此操作只需要几分钟，完成后就可以在所有设备上登录账户保护隐私了。</string>
-    <string name="connectionAllocationHelpDescription1AskAdmin">此账户没打开 VPN 连接。开启 Proton VPN 之旅，请联系管理员。</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">此账户当前未启用任何 VPN 连接。要开始使用 Proton VPN，请联系您的管理员。</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">启用 VPN 连接</string>
     <string name="connectionAllocationHelpLoginAgainButton">重新登录</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
@@ -71,7 +71,7 @@
     <string name="state_disconnecting">正在断开连接…</string>
     <string name="state_error">错误</string>
     <string name="error_server_list_load_failed">检查网络连接，再试一次。</string>
-    <string name="error_server_unreachable">VPN 连接不上。请检查网络连接后再试。</string>
+    <string name="error_server_unreachable">无法连接到 VPN，请检查您的网络连接后重试。</string>
     <string name="error_auth_failed">用户验证失败。</string>
     <string name="error_generic">连接时出现未知错误。</string>
     <string name="error_generic_with_reason">Proton VPN 无法建立 VPN 连接。请稍等片刻后再试。<br/><br/>详情：%1$s</string>
@@ -120,7 +120,7 @@
     <string name="noVpnPermissionProtonAppLabel">Proton VPN 应用</string>
     <string name="noVpnPermissionOtherAppLabel">其他 VPN 应用</string>
     <string name="noVpnPermissionOpenSettings">前往 VPN 系统设置</string>
-    <string name="noNotificationPermissionGrantTitle">别被抓到…⁠…</string>
+    <string name="noNotificationPermissionGrantTitle">别掉以轻心…</string>
     <string name="noNotificationPermissionGrantDescription">打开通知，连接状态有变时提醒。</string>
     <string name="noNotificationPermissionGrantNowTitle">启用通知</string>
     <string name="error_prepare_vpn_description"><![CDATA[请在 VPN 系统设置中关闭其他 VPN 应用“保持开启”之类的功能，否则 Proton VPN 无法连接。如果弹出请求 VPN 权限的窗口，也请您选择同意。为避免软件冲突，您可能需要卸载其他 VPN 应用。如上操作后，请再试一次。<a href="%1$s">了解详情</a>]]></string>
@@ -139,7 +139,7 @@
     <string name="inputIpAddressHelp">输入服务器的 IPv4 或 IPv6 地址</string>
     <string name="inputIpAddressErrorInvalid">无效的IP地址</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
-    <string name="settings_new_label_badge">新的</string>
+    <string name="settings_new_label_badge">新功能</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
     <string name="settings_beta_label_badge">测试版</string>
     <string name="settingsExcludedIPAddressesListHeader">已排除IP地址 (%1$d)</string>

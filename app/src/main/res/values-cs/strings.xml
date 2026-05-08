@@ -549,7 +549,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus tarif:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Tarif Plus:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -558,10 +558,10 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Free tarif:</string>
+    <string name="upsell_panel_content_description_value_prefix_free">Tarif Free:</string>
     <string name="upsell_panel_content_description_yes">Ano</string>
     <string name="upsell_panel_content_description_no">Ne</string>
-    <string name="upsell_panel_table_header_plan_free">Zdarma</string>
+    <string name="upsell_panel_table_header_plan_free">Free</string>
     <!--
         %1$s - country name in nominative
 
@@ -579,7 +579,7 @@
     <string name="upsell_panel_country_benefit_shows">Sledujte pořady dostupné pouze v zahraničí</string>
     <string name="upsell_panel_netshield_title">Procházejte internet bez přerušení</string>
     <string name="upsell_panel_netshield_benefit_ads">Během prohlížení jsou reklamy blokovány</string>
-    <string name="upsell_panel_netshield_benefit_trackers">Zabraňte sledovacím nástrojům, aby vás sledovaly</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Zabraňte sledovacím prvkům, aby vás sledovaly</string>
     <string name="upsell_panel_netshield_benefit_malware">Ochrana před malwarem a phishingem</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Stránky se načítají rychleji </string>
     <string name="upsell_panel_speed_title">Rychlejší streamování, hraní a stahování</string>
@@ -588,12 +588,12 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Pomalá</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Rychlá</string>
     <string name="upsell_panel_speed_benefit_video">Videostreamy bez ukládání do vyrovnávací paměti</string>
-    <string name="upsell_panel_speed_benefit_ads">Procházejte internet bez reklam a sledovacích nástrojů</string>
+    <string name="upsell_panel_speed_benefit_ads">Procházejte internet bez reklam a sledovacích prvků</string>
     <string name="upsell_panel_streaming_title">Sledujte své oblíbené streamovací služby</string>
     <string name="upsell_panel_streaming_benefit_shows">Sledujte své pořady z jakékoli země</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
     <string name="upsell_panel_streaming_benefit_platforms">Podpora všech hlavních streamovacích platforem *</string>
-    <string name="upsell_panel_streaming_benefit_hd">Streamujte v HD bez načítání</string>
+    <string name="upsell_panel_streaming_benefit_hd">Streamujte v HD bez načítání do vyrovnávací paměti</string>
     <string name="upsell_panel_streaming_benefit_devices">Počet připojených zařízení najednou</string>
     <string name="upsell_panel_streaming_footer">* Je nutné předplatné streamovací platformy.</string>
     <string name="upsell_card_countries_title">Celosvětové pokrytí</string>

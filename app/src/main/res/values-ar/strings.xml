@@ -230,11 +230,11 @@
     <string name="settingsSendCrashReportsDescription">تُساهم تقارير الأعطال في معالجة الأخطاء، ورصد جدران الحماية، وتفادي قيود حظر VPN.</string>
     <string name="settingsTelemetryScreenTitle">بيانات الاستخدام</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[لا تتضمن هذه البيانات عنوان IP الخاص بك، ولا تكشف عن هويتك بأي حال. نلتزم بعدم مشاركتها مع أي أطراف ثالثة. <a href="%1$s">معرفة المزيد</a>]]></string>
-    <string name="netshield_settings_description_not_html">احمي خصوصيتك بحظر الإعلانات والبرمجيات الخبيثة وأدوات التتبع عبر المواقع والتطبيقات. %1$s</string>
-    <string name="netshield_settings_description_tv">يوفر حماية من إعلانات الطرف الثالث، وأدوات التتبع، والبرمجيات الخبيثة. علماً بأن NetShield لا يحظر الإعلانات المدمجة برمجياً في محتوى منصات المشاهدة مثل YouTube و Netflix.</string>
+    <string name="netshield_settings_description_not_html">احمي خصوصيتك بحظر الإعلانات والبرامج الضارة وأدوات التتبع عبر المواقع والتطبيقات. %1$s</string>
+    <string name="netshield_settings_description_tv">يوفر حماية من إعلانات الطرف الثالث، وأدوات التتبع، والبرامج الضارة. علماً بأن NetShield لا يحظر الإعلانات المدمجة برمجياً في محتوى منصات المشاهدة مثل YouTube و Netflix.</string>
     <string name="netshield_settings_more_info_title_tv">كيف يعمل NetShield</string>
     <string-array name="netshield_settings_more_info_paragraphs_tv">
-        <item>يعمل NetShield على حظر طلبات DNS الخاصة بنطاقات الأطراف الثالثة المعروفة بالإعلانات وأدوات التتبع والبرمجيات الخبيثة.</item>
+        <item>يعمل NetShield على حظر طلبات DNS الخاصة بنطاقات الطرف الثالث المعروفة بالإعلانات وأدوات التتبع والبرامج الضارة.</item>
         <item>وهذا يعني أنك لن تتلقى إعلانات عبر متصفحك أو في التطبيقات المجانية التي تعتمد على مزودي إعلانات الطرف ثالثة.</item>
         <item>إلا أن الحظر لا يشمل إعلانات منصات المشاهدة مثل YouTube و Netflix؛ نظراً لأن هذه الإعلانات تصدر مباشرة من خوادمها الخاصة وليس عبر أطراف ثالثة.</item>
     </string-array>
@@ -256,14 +256,14 @@
     <string name="custom_dns_state_off" comment="Describes state, not action">معطل</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">غير متاح</string>
     <string name="custom_dns_item_removed_snackbar">تم إزالة العنصر</string>
-    <string name="netshield_free_description">حظر الإعلانات وأدوات التتبع والبرمجيات الخبيثة في المواقع والتطبيقات</string>
+    <string name="netshield_free_description">حظر الإعلانات وأدوات التتبع والبرامج الضارة في المواقع والتطبيقات</string>
     <string name="netshield_what_data_means">شرح إحصائيات NetShield</string>
     <string name="netshield_ads_title">الإعلانات</string>
-    <string name="netshield_ads_details">الإعلانات وأدوات تتبع الإعلانات الخفية</string>
+    <string name="netshield_ads_details">الإعلانات وأدوات التتبع المخفية</string>
     <string name="netshield_trackers_title">أدوات التتبع</string>
     <string name="netshield_trackers_details">ملفات تعريف الارتباط وأدوات التتبع الأخرى التي تعمل على تخزين ومشاركة بيانات نشاطك عبر الإنترنت.</string>
     <string name="netshield_data_title">البيانات</string>
-    <string name="netshield_data_details">إجمالي البيانات التي تم توفيرها بحظر الإعلانات وأدوات التتبع والبرمجيات الخبيثة بواسطة NetShield</string>
+    <string name="netshield_data_details">إجمالي البيانات التي تم توفيرها عند حظر الإعلانات وأدوات التتبع والبرامج الضارة بواسطة NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="zero">إعلانات محظورة</item>
         <item quantity="one">إعلان محظور</item>
@@ -368,7 +368,7 @@
     <string name="no_thanks">لا شكرًا</string>
     <string name="enable">تفعيل</string>
     <string name="notification_smart_protocol_disabled_title">البروتوكول الذكي معطل حالياً</string>
-    <string name="notification_smart_protocol_disabled_content">لاحظنا أن شبكتك الحالية تمنع الاتصال بـ VPN؛ قد يساعدك تفعيل البروتوكول الذكي في تجاوز هذه القيود.</string>
+    <string name="notification_smart_protocol_disabled_content">لاحظنا أن شبكتك الحالية تمنع الاتصال بالـ VPN؛ قد يساعدك تفعيل البروتوكول الذكي في تجاوز هذه القيود.</string>
     <string name="notification_streaming_blocked_title">منصة المشاهدة لا تعمل؟</string>
     <string name="notification_streaming_blocked_text">تحظر منصات المشاهدة خوادم الـ VPN المجانية فور رصدها. اشترك في Proton VPN Plus لتتخطى هذه القيود وتصل لمحتواك المفضل بكل سلاسة.</string>
     <string name="upsell_advanced_features">المزايا المتقدمة: NetShield و Secure Core و Tor و P2P</string>
@@ -489,7 +489,7 @@
         <item quantity="other">تأمين وحماية %1$d جهاز في آن واحد</item>
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">مشاهدة مشفرة وبلا قيود</string>
-    <string name="upgrade_unlimited_vpn_adblocker">حظر الإعلانات والبرمجيات الضارة</string>
+    <string name="upgrade_unlimited_vpn_adblocker">حظر الإعلانات والبرامج الضارة</string>
     <string name="upgrade_unlimited_vpn_double_vpn">اتصال VPN مزدوج</string>
     <string name="upgrade_unlimited_vpn_p2p">دعم كامل للـ P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
@@ -610,7 +610,7 @@
     <string name="upsell_panel_netshield_title">تصفح بسلاسة وبلا تشتت</string>
     <string name="upsell_panel_netshield_benefit_ads">تجربة خالية تماماً من الإعلانات</string>
     <string name="upsell_panel_netshield_benefit_trackers">حماية خصوصيتك من أدوات التتبع</string>
-    <string name="upsell_panel_netshield_benefit_malware">أمان معزز ضد البرمجيات الضارة والتصيد الاحتيالي</string>
+    <string name="upsell_panel_netshield_benefit_malware">أمان معزز ضد البرامج الضارة والتصيد الاحتيالي</string>
     <string name="upsell_panel_netshield_benefit_load_speed">تحميل أسرع للمواقع </string>
     <string name="upsell_panel_speed_title">تحميل وألعاب ومشاهدة بلا حدود</string>
     <string name="upsell_panel_speed_benefit_servers">خوادم بسرعات استثنائية</string>
@@ -1605,8 +1605,8 @@
     <string name="settings_dns_list_description_multiple">سيتم الاتصال بهذه الخوادم بالترتيب؛ وفي حال تعذر الاتصال، سيُستخدم DNS الخاص بـ VPN.</string>
     <string name="settings_changes_apply_on_reconnect_toast">تُطبق التغييرات عند إعادة الاتصال</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield لن يكون متاح</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_message">عند استخدام DNS مخصص، يفقد NetShield القدرة على حظر الإعلانات وأدوات التتبع والبرمجيات الضارة. معرفة المزيد</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">عند استخدام DNS مخصص، يفقد NetShield القدرة على حظر الإعلانات وأدوات التتبع والبرمجيات الضارة.</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">عند استخدام DNS مخصص، يفقد NetShield القدرة على حظر الإعلانات وأدوات التتبع والبرامج الضارة. معرفة المزيد</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">عند استخدام DNS مخصص، يفقد NetShield القدرة على حظر الإعلانات وأدوات التتبع والبرامج الضارة.</string>
     <string name="settings_advanced_alternative_routing_title">التوجيه البديل</string>
     <string name="settings_advanced_alternative_routing_description">في حال تعذر الاتصال بخدمات Proton نتيجة قيود الشبكة، يعتمد التطبيق على التوجيه البديل لضمان استمرارية اتصالك بخوادمنا.</string>
     <string name="settings_advanced_allow_lan_title">الشبكة المحلية أو LAN</string>
@@ -1730,7 +1730,7 @@
     <string name="create_profile_pick_server_title">الخادم</string>
     <string name="create_profile_pick_gateway_title">البوابة</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">حظر الإعلانات وأدوات التتبع والبرمجيات الخبيثة في المواقع والتطبيقات</string>
+    <string name="create_profile_pick_netshield_description">حظر الإعلانات وأدوات التتبع والبرامج الضارة في المواقع والتطبيقات</string>
     <string name="create_profile_pick_protocol_title">البروتوكول</string>
     <string name="create_profile_pick_nat_title">نوع اتصال NAT</string>
     <!--
