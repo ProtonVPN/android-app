@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.storage
 
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.redesign.recents.usecases.ConnectionFeedback
 import com.protonvpn.android.userstorage.CurrentUserStoreProvider
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.userstorage.StoreProvider
@@ -50,6 +51,8 @@ data class UiStoredState(
     val hasShownConnectionPreferencesSmartDiscovery: Boolean = false,
     val excludedLocationsAdoptionStartedMillis: Long? = null,
     val shouldShowExcludedLocationsAdoption: Boolean = false,
+    val connectionFeedback: ConnectionFeedback = ConnectionFeedback.None,
+    val hasShownConnectionFeedback: Boolean = false,
 ) {
     companion object {
         val Default = UiStoredState()

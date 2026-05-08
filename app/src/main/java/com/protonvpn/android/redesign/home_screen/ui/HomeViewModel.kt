@@ -23,12 +23,11 @@ import android.content.Context
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.promooffers.data.ApiNotificationActions
-import com.protonvpn.android.promooffers.data.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.UserCountryIpBased
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.ElapsedRealtimeClock
@@ -38,6 +37,15 @@ import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.ProfilesDao
+import com.protonvpn.android.promooffers.data.ApiNotificationActions
+import com.protonvpn.android.promooffers.data.ApiNotificationOfferButton
+import com.protonvpn.android.promooffers.data.PromoOffersPrefs
+import com.protonvpn.android.promooffers.ui.HomeScreenProminentBannerFlow
+import com.protonvpn.android.promooffers.ui.HomeScreenPromoBannerFlow
+import com.protonvpn.android.promooffers.ui.ProminentBannerState
+import com.protonvpn.android.promooffers.ui.PromoOfferBannerState
+import com.protonvpn.android.promooffers.ui.PromoOfferButtonActions
+import com.protonvpn.android.promooffers.ui.PromoOfferIapActivity
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
@@ -53,19 +61,12 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.usecases.DisableCustomDnsForCurrentConnection
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.telemetry.product.VpnProductPromptTelemetry
 import com.protonvpn.android.tv.main.CountryHighlight
-import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
-import com.protonvpn.android.promooffers.ui.HomeScreenProminentBannerFlow
-import com.protonvpn.android.promooffers.ui.HomeScreenPromoBannerFlow
-import com.protonvpn.android.promooffers.ui.ProminentBannerState
-import com.protonvpn.android.promooffers.ui.PromoOfferBannerState
-import com.protonvpn.android.promooffers.ui.PromoOfferButtonActions
-import com.protonvpn.android.promooffers.ui.PromoOfferIapActivity
-import com.protonvpn.android.promooffers.data.PromoOffersPrefs
-import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
+import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.openUrl
@@ -148,7 +149,7 @@ class HomeViewModel @Inject constructor(
     private val promptTelemetry: VpnProductPromptTelemetry,
     private val currentUser: CurrentUser,
     private val upgradeDialogLauncher: UpgradeDialogLauncher,
-) : ViewModel() {
+) : ViewModel(), DefaultLifecycleObserver {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
         val highlight = it.state.toMapHighlightState()

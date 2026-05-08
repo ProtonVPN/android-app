@@ -82,6 +82,8 @@ import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlag
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabledImpl
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapterLegacy
+import com.protonvpn.android.redesign.recents.ui.IsConnectionFeedbackFeatureFlagEnabled
+import com.protonvpn.android.redesign.recents.ui.IsConnectionFeedbackFeatureFlagEnabledImpl
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapterLegacy
 import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
@@ -567,6 +569,9 @@ object AppModule {
 
         @Binds
         fun bindsIsNetShieldLevelThreeFeatureFlagEnabled(impl: IsNetShieldLevelThreeFeatureFlagEnabledImpl): IsNetShieldLevelThreeFeatureFlagEnabled
+
+        @Binds
+        fun bindsIsConnectionFeedbackFeatureFlagEnabled(impl: IsConnectionFeedbackFeatureFlagEnabledImpl): IsConnectionFeedbackFeatureFlagEnabled
 
         @Binds
         fun bindPeriodicUpdateManager(impl: PeriodicUpdateManagerImpl): PeriodicUpdateManager

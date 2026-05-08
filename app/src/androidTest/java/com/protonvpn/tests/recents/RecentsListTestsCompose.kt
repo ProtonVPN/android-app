@@ -151,7 +151,7 @@ class RecentsListTestsCompose : FusionComposeTest() {
         private val ConnectIntentViewSwitzerland =
             ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.switzerland, null), null, emptySet())
         private val ConnectionCardViewState = VpnConnectionCardViewState(
-            cardLabel = CardLabel(R.string.connection_card_label_last_connected),
+            cardLabel = CardLabel.ConnectionStatus(R.string.connection_card_label_last_connected),
             mainButtonLabelRes = R.string.buttonConnect,
             isConnectedOrConnecting = false,
             connectIntentViewState = ConnectIntentViewFastest,

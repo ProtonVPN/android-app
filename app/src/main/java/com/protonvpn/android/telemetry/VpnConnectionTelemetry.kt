@@ -25,10 +25,12 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.redesign.recents.usecases.ConnectionFeedback
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.UNKNOWN
+import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.ConnectivityMonitor
@@ -78,6 +80,7 @@ class VpnConnectionTelemetry @Inject constructor(
     private val currentUser: CurrentUser,
     @param:WallClock private val now: () -> Long,
     private val vpnAlwaysOnStorage: VpnAlwaysOnStorage,
+    private val uiStateStorage: UiStateStorage,
 ) {
     private val helper by telemetryHelperLazy
 
@@ -205,11 +208,33 @@ class VpnConnectionTelemetry @Inject constructor(
                 this["is_ipv6_enabled"] = connectionParams?.enableIPv6?.toTelemetry() ?: NO_VALUE
                 this["client_features"] = getClientFeaturesDimensionValue()
                 this["tenure"] = currentUser.user().toTenureBucketString()
-                // Dynamic user feedback will be implemented in VPNUX-18. For now, we always need to send unknown
-                this["user_feedback"] = UNKNOWN
+                this["user_feedback"] = getUserFeedbackDimensionValue()
                 addCommonDimensions(trigger.isSuccess.toOutcome(), connectionParams)
+                resetUserFeedback()
             }
             TelemetryEventData(MEASUREMENT_GROUP, EVENT_DISCONNECT, values, dimensions)
+        }
+    }
+
+    private suspend fun getUserFeedbackDimensionValue(): String {
+        val uiStateStorage = uiStateStorage.state.first()
+
+        return when (val connectionFeedback = uiStateStorage.connectionFeedback) {
+            ConnectionFeedback.Negative,
+            ConnectionFeedback.Positive -> connectionFeedback
+
+            ConnectionFeedback.None -> connectionFeedback.takeIf {
+                uiStateStorage.hasShownConnectionFeedback
+            }
+        }?.toTelemetry() ?: UNKNOWN
+    }
+
+    private suspend fun resetUserFeedback() {
+        uiStateStorage.update {
+            it.copy(
+                connectionFeedback = ConnectionFeedback.None,
+                hasShownConnectionFeedback = false,
+            )
         }
     }
 

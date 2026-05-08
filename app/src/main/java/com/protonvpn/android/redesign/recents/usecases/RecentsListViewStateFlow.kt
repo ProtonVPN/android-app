@@ -73,7 +73,8 @@ class RecentsListViewStateFlow @Inject constructor(
     private val getDefaultConnectIntent: GetDefaultConnectIntent,
     vpnStatusProvider: VpnStatusProviderUI,
     changeServerManager: ChangeServerManager,
-    currentUser: CurrentUser
+    currentUser: CurrentUser,
+    observeConnectionFeedbackViewState: ObserveConnectionFeedbackViewState,
 ): Flow<RecentsListViewState> {
     // Used on clean installations.
     private val defaultConnectIntent = ConnectIntent.Default
@@ -111,7 +112,8 @@ class RecentsListViewStateFlow @Inject constructor(
                 userSettings.effectiveSettings,
                 observeDefaultConnection(vpnUser),
                 getSmartProtocols.observe(),
-            ) { status, isChangingServer, _, settings, defaultConnection, smartProtocols ->
+                observeConnectionFeedbackViewState(),
+            ) { status, isChangingServer, _, settings, defaultConnection, smartProtocols, connectionFeedbackViewState ->
                 val connectedIntent = status.connectIntent?.takeIf { status.state.isConnectedOrConnecting() }
                 val connectedServer = status.server?.takeIf { status.state.isConnectedOrConnecting() }
 
@@ -140,6 +142,7 @@ class RecentsListViewStateFlow @Inject constructor(
                         connectionCardIntentViewState = connectIntentViewState,
                         showFreeCountriesInformationPanel = vpnUser.isFreeUser && status.state == VpnState.Disabled,
                         isFreeUser = vpnUser.isFreeUser,
+                        connectionFeedbackViewState = connectionFeedbackViewState,
                     ),
                     createRecentsViewState(
                         recents,
@@ -205,6 +208,7 @@ class RecentsListViewStateFlow @Inject constructor(
         connectionCardIntentViewState: ConnectIntentViewState,
         showFreeCountriesInformationPanel: Boolean,
         isFreeUser: Boolean,
+        connectionFeedbackViewState: ConnectionFeedbackViewState,
     ): VpnConnectionCardViewState {
         @StringRes
         val buttonLabelRes: Int = when {
@@ -213,15 +217,34 @@ class RecentsListViewStateFlow @Inject constructor(
             vpnState is VpnState.Connected -> R.string.disconnect
             else -> R.string.connect
         }
+
         val cardLabel: CardLabel = when {
-            vpnState is VpnState.Connected -> CardLabel(R.string.connection_card_label_connected, isClickable = false)
-            vpnState.isEstablishingConnection && isChangingServer -> CardLabel(R.string.connection_card_label_changing_server, isClickable = false)
-            vpnState.isEstablishingConnection -> CardLabel(R.string.connection_card_label_connecting, isClickable = false)
-            else -> when { // Disconnected
-                isFreeUser -> CardLabel(R.string.connection_card_label_free_connection, isClickable = false)
-                else -> CardLabel(R.string.connection_card_label_default_connection, isClickable = true)
+            vpnState is VpnState.Connected -> {
+                CardLabel.ConnectionStatus(
+                    labelResId = R.string.connection_card_label_connected,
+                    showConnectionFeedback = connectionFeedbackViewState.showFeedback,
+                    onConnectionFeedbackShown = connectionFeedbackViewState.onFeedbackShown,
+                    onConnectionFeedbackProvided = connectionFeedbackViewState.onFeedbackProvided,
+                )
+            }
+
+            vpnState.isEstablishingConnection && isChangingServer -> {
+                CardLabel.ConnectionStatus(labelResId = R.string.connection_card_label_changing_server)
+            }
+
+            vpnState.isEstablishingConnection -> {
+                CardLabel.ConnectionStatus(labelResId = R.string.connection_card_label_connecting)
+            }
+
+            isFreeUser -> {
+                CardLabel.ConnectionStatus(labelResId = R.string.connection_card_label_free_connection)
+            }
+
+            else -> {
+                CardLabel.DefaultConnection
             }
         }
+
         return VpnConnectionCardViewState(
             connectIntentViewState = connectionCardIntentViewState,
             cardLabel = cardLabel,

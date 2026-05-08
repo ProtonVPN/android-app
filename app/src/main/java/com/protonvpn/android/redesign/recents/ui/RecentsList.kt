@@ -92,7 +92,7 @@ fun RecentsList(
     onOpenConnectionPanelClicked: () -> Unit,
     onRecentClicked: (item: RecentItemViewState) -> Unit,
     onRecentOpen: (item: RecentItemViewState) -> Unit,
-    onOpenDefaultConnection: (() -> Unit)? = null,
+    onOpenDefaultConnection: () -> Unit,
     errorSnackBar: androidx.compose.material.SnackbarHostState?,
     modifier: Modifier = Modifier,
     changeServerButton: (@Composable ColumnScope.() -> Unit)? = null,

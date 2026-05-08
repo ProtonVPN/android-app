@@ -109,7 +109,7 @@ private class ConnectionData(isFree: Boolean) {
     )
 
     val disconnectedUser = VpnConnectionCardViewState(
-        CardLabel(R.string.connection_card_label_free_connection, false),
+        cardLabel = CardLabel.ConnectionStatus(R.string.connection_card_label_free_connection),
         mainButtonLabelRes = R.string.buttonConnect,
         isConnectedOrConnecting = false,
         connectIntentViewState = connectionIntentDisconnected,
@@ -118,7 +118,7 @@ private class ConnectionData(isFree: Boolean) {
     )
 
     val connectedUser = VpnConnectionCardViewState(
-        CardLabel(R.string.connection_card_label_connected, false),
+        cardLabel = CardLabel.ConnectionStatus(R.string.connection_card_label_connected),
         mainButtonLabelRes = R.string.connected,
         isConnectedOrConnecting = true,
         connectIntentViewState = connectionIntentConnected,

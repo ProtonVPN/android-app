@@ -69,6 +69,8 @@ import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
+import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.ui.storage.UiStateStoreProvider
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.AgentConnectionInterface
@@ -99,6 +101,7 @@ import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
 import com.protonvpn.mocks.MockAgentProvider
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.createInMemoryServerManager
+import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
@@ -347,6 +350,10 @@ class VpnConnectionTestsIntegration {
             currentUser = currentUser,
             now = clock,
             vpnAlwaysOnStorage = mockVpnAlwaysOnStorage,
+            uiStateStorage = UiStateStorage(
+                provider = UiStateStoreProvider(factory = InMemoryDataStoreFactory()),
+                currentUser = currentUser,
+            ),
         ).apply { start() }
 
         serverManager = createInMemoryServerManager(

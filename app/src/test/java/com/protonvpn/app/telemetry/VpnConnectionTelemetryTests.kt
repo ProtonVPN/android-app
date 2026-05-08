@@ -19,6 +19,7 @@
 
 package com.protonvpn.app.telemetry
 
+import app.cash.turbine.test
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
@@ -27,6 +28,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.usecases.ConnectionFeedback
 import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.Server
@@ -45,6 +47,8 @@ import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
+import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.ui.storage.UiStateStoreProvider
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -80,6 +84,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import java.util.EnumSet
+import kotlin.test.assertFalse
 import kotlin.time.Duration.Companion.days
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -109,6 +114,8 @@ class VpnConnectionTelemetryTests {
     private lateinit var effectiveUserSettings: EffectiveCurrentUserSettings
 
     private lateinit var vpnAlwaysOnStorage: VpnAlwaysOnStorage
+
+    private lateinit var uiStateStorage: UiStateStorage
 
     private lateinit var vpnConnectionTelemetry: VpnConnectionTelemetry
 
@@ -164,6 +171,11 @@ class VpnConnectionTelemetryTests {
             localDataStoreFactory = InMemoryDataStoreFactory(),
         )
 
+        uiStateStorage = UiStateStorage(
+            provider = UiStateStoreProvider(factory = InMemoryDataStoreFactory()),
+            currentUser = currentUser,
+        )
+
         vpnConnectionTelemetry = VpnConnectionTelemetry(
             mainScope = telemetryScope.backgroundScope,
             clock = testScheduler::currentTime,
@@ -187,6 +199,7 @@ class VpnConnectionTelemetryTests {
             currentUser = currentUser,
             now = testScheduler::currentTime,
             vpnAlwaysOnStorage = vpnAlwaysOnStorage,
+            uiStateStorage = uiStateStorage,
         )
         vpnConnectionTelemetry.start()
     }
@@ -355,22 +368,64 @@ class VpnConnectionTelemetryTests {
     }
 
     @Test
-    fun `WHEN disconnection is triggered THEN user feedback dimension is added`() = telemetryScope.runTest {
+    fun `GIVEN whether connection feedback has been shown or not WHEN disconnection is triggered THEN user feedback dimension is added`() = telemetryScope.runTest {
         val dimensionsSlot = slot<Map<String, String>>()
+        listOf(
+            false to listOf(
+                ConnectionFeedback.None to "unknown",
+                ConnectionFeedback.Negative to "negative",
+                ConnectionFeedback.Positive to "positive",
+            ),
+            true to listOf(
+                ConnectionFeedback.None to "ignore",
+                ConnectionFeedback.Negative to "negative",
+                ConnectionFeedback.Positive to "positive",
+            ),
+        ).forEach { (hasShownConnectionFeedback,  connectionFeedbackList) ->
+            connectionFeedbackList.forEach { (connectionFeedback, expectedUserConnectionFeedback) ->
+                val connectionParams = createConnectionParams(plusServer, ProtocolSelection.REAL_PROTOCOLS[0], 123)
+                connectSequence(connectionParams)
+                uiStateStorage.update {
+                    it.copy(
+                        hasShownConnectionFeedback = hasShownConnectionFeedback,
+                        connectionFeedback = connectionFeedback,
+                    )
+                }
+                every {
+                    mockTelemetry.event(
+                        measurementGroup = "vpn.any.connection",
+                        event = "vpn_disconnection",
+                        values = mapOf("session_length" to 0),
+                        dimensions = capture(dimensionsSlot),
+                    )
+                } returns Unit
+
+                vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.NewConnection, null)
+
+                assertEquals(expectedUserConnectionFeedback, dimensionsSlot.captured["user_feedback"])
+            }
+        }
+    }
+
+    @Test
+    fun `WHEN disconnection is triggered THEN user feedback is reset`() = telemetryScope.runTest {
         val connectionParams = createConnectionParams(plusServer, ProtocolSelection.REAL_PROTOCOLS[0], 123)
         connectSequence(connectionParams)
-        every {
-            mockTelemetry.event(
-                measurementGroup = "vpn.any.connection",
-                event = "vpn_disconnection",
-                values = mapOf("session_length" to 0),
-                dimensions = capture(dimensionsSlot),
+        uiStateStorage.update {
+            it.copy(
+                hasShownConnectionFeedback = true,
+                connectionFeedback = ConnectionFeedback.Negative,
             )
-        } returns Unit
+        }
 
         vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.NewConnection, null)
 
-        assertEquals("unknown", dimensionsSlot.captured["user_feedback"])
+        uiStateStorage.state.test {
+            val uiStoredState = awaitItem()
+
+            assertEquals(ConnectionFeedback.None, uiStoredState.connectionFeedback)
+            assertFalse(uiStoredState.hasShownConnectionFeedback)
+        }
     }
 
     @Test

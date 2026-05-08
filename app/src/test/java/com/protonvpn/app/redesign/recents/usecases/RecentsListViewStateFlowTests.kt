@@ -19,6 +19,7 @@
 
 package com.protonvpn.app.redesign.recents.usecases
 
+import androidx.activity.ComponentActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
@@ -35,8 +36,10 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.RecentConnection
+import com.protonvpn.android.redesign.recents.ui.FakeIsConnectionFeedbackFeatureFlagEnabled
 import com.protonvpn.android.redesign.recents.usecases.GetDefaultConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.GetIntentAvailability
+import com.protonvpn.android.redesign.recents.usecases.ObserveConnectionFeedbackViewState
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
@@ -57,6 +60,9 @@ import com.protonvpn.android.servers.api.ServerEntryInfo
 import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.ui.storage.UiStateStoreProvider
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -67,6 +73,7 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
 import com.protonvpn.mocks.createInMemoryServerManager
+import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.InMemoryObjectStore
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -211,6 +218,25 @@ class RecentsListViewStateFlowTests {
             store = InMemoryObjectStore(),
         )
 
+        val uiStateStorage = UiStateStorage(
+            provider = UiStateStoreProvider(factory = InMemoryDataStoreFactory()),
+            currentUser = currentUser,
+        )
+
+        val foregroundActivityTracker = ForegroundActivityTracker(
+            mainScope = bgScope,
+            internalForegroundActivityFlow = flowOf(mockk<ComponentActivity>())
+        )
+
+        val observeConnectionFeedbackViewState = ObserveConnectionFeedbackViewState(
+            isConnectionFeedbackFeatureFlagEnabled = FakeIsConnectionFeedbackFeatureFlagEnabled(enabled = true),
+            effectiveCurrentUserSettings = effectiveUserSettings,
+            foregroundActivityTracker = foregroundActivityTracker,
+            vpnStatusProvider = vpnStatusProviderUI,
+            mainScope = bgScope,
+            uiStateStorage = uiStateStorage,
+        )
+
         viewStateFlow = RecentsListViewStateFlow(
             recentsManager = mockRecentsManager,
             getConnectIntentViewState = GetConnectIntentViewState(
@@ -228,6 +254,7 @@ class RecentsListViewStateFlowTests {
             vpnStatusProvider = vpnStatusProviderUI,
             changeServerManager = mockChangeServerManager,
             getSmartProtocols = getSmartProtocols,
+            observeConnectionFeedbackViewState = observeConnectionFeedbackViewState,
         )
     }
 
