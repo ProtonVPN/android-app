@@ -41,10 +41,14 @@ class PaymentPanelFragment : Fragment() {
             setContent {
                 VpnTheme {
                     val state by viewModel.state.collectAsStateWithLifecycle()
+                    val viewState = if (state == CommonUpgradeDialogViewModel.State.PlansFallback) {
+                        CommonUpgradeDialogViewModel.State.PlansFallback
+                    } else {
+                        CommonUpgradeDialogViewModel.State.UpgradeDisabled
+                    }
                     PaymentPanel(
-                        if (state == CommonUpgradeDialogViewModel.State.PlansFallback)
-                            ViewState.FallbackFlowReady else ViewState.UpgradeDisabled,
-                        null,
+                        viewState = viewState,
+                        selectedCycle = null,
                         onStartFallback = viewModel::onStartFallbackUpgrade,
                         onPayClicked = { throw IllegalStateException("Not supported") },
                         onErrorButtonClicked = {},

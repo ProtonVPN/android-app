@@ -78,7 +78,6 @@ import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.PaymentPanelFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
-
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.ViewState
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.getSerializableExtraCompat

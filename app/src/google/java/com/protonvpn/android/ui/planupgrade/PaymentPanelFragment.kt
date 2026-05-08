@@ -32,7 +32,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -48,39 +47,6 @@ class PaymentPanelFragment : Fragment() {
     private val viewModel by activityViewModels<UpgradeDialogViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val currentViewState = MutableStateFlow<ViewState>(ViewState.Initializing)
-
-        viewModel.state.onEach { state ->
-            when (state) {
-                is CommonUpgradeDialogViewModel.State.PurchaseReady -> {
-                    currentViewState.value =
-                        ViewState.PlanReady(
-                            displayName = state.selectedPlan.displayName,
-                            planName = state.selectedPlan.planName,
-                            cycles = state.selectedPlanCycles,
-                            inProgress = state.inProgress,
-                            buttonLabelOverride = state.buttonLabelOverride,
-                        )
-                }
-                CommonUpgradeDialogViewModel.State.LoadError -> {
-                    // Do nothing, error messages are emitted as events.
-                }
-                is CommonUpgradeDialogViewModel.State.PlansFallback ->
-                    currentViewState.value = ViewState.FallbackFlowReady
-                CommonUpgradeDialogViewModel.State.Initializing -> {
-                    currentViewState.value = ViewState.Initializing
-                }
-                is CommonUpgradeDialogViewModel.State.LoadingPlans -> {
-                    currentViewState.value = ViewState.LoadingPlans(state.expectedCycleCount, state.buttonLabelOverride)
-                }
-                CommonUpgradeDialogViewModel.State.UpgradeDisabled ->
-                    currentViewState.value = ViewState.UpgradeDisabled
-                is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> {
-                    // Do nothing, will be handled by parent activity.
-                }
-            }
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
         viewModel.eventErrorMessage.receiveAsFlow()
             .onEach { (messageRes, message, throwable) -> onError(messageRes, message, throwable) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -90,7 +56,7 @@ class PaymentPanelFragment : Fragment() {
             setContent {
                 VpnTheme {
                     PaymentPanel(
-                        currentViewState.collectAsStateWithLifecycle().value,
+                        viewModel.state.collectAsStateWithLifecycle().value,
                         viewModel.selectedCycle.collectAsStateWithLifecycle().value,
                         ::onPayClicked,
                         ::onUpgradeClicked,

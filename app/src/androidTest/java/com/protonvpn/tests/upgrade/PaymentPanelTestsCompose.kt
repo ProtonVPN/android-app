@@ -24,22 +24,25 @@ package com.protonvpn.tests.upgrade
 import androidx.compose.foundation.layout.Column
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.RenewInfo
-import com.protonvpn.android.ui.planupgrade.ViewState
 import com.protonvpn.testRules.setVpnContent
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.Test
 
-private val cycleInfoWithRenew = ViewState.CycleViewInfo(PlanCycle.YEARLY, 0, 0,
-    CommonUpgradeDialogViewModel.PriceInfo(
+private val cycleInfoWithRenew = CommonUpgradeDialogViewModel.CycleViewInfo(
+    cycle = PlanCycle.YEARLY,
+    perCycleResId = 0,
+    cycleLabelResId = 0,
+    priceInfo = CommonUpgradeDialogViewModel.PriceInfo(
         formattedPrice = "10 CHF",
         formattedRenewPrice = "20 CHF",
         hasIntroPrice = true,
     )
 )
 
-private val cycleInfo = ViewState.CycleViewInfo(PlanCycle.YEARLY, 0, 0,
+private val cycleInfo = CommonUpgradeDialogViewModel.CycleViewInfo(
+    PlanCycle.YEARLY, 0, 0,
     CommonUpgradeDialogViewModel.PriceInfo(formattedPrice = "10 CHF", hasIntroPrice = false)
 )
 

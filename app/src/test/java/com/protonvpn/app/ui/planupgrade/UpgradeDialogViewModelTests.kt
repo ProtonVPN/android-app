@@ -206,7 +206,8 @@ class UpgradeDialogViewModelTests {
         viewModel.loadPlans(listOf(testPlanName), null, null, true)
         val state = viewModel.state.first()
         assertIs<State.LoadError>(state)
-        assertEquals(state.messageRes, R.string.error_fetching_prices)
+        val error = viewModel.eventErrorMessage.receiveCatching().getOrNull()
+        assertEquals(R.string.error_fetching_prices, error?.messageRes)
     }
 
     @Test
@@ -214,7 +215,8 @@ class UpgradeDialogViewModelTests {
         viewModel.loadPlans(listOf("missing plan", testPlanName), null, null, true)
         val state = viewModel.state.first()
         assertIs<State.LoadError>(state)
-        assertEquals(state.messageRes, R.string.error_fetching_prices)
+        val error = viewModel.eventErrorMessage.receiveCatching().getOrNull()
+        assertEquals(R.string.error_fetching_prices, error?.messageRes)
     }
 
     @Test
@@ -236,21 +238,31 @@ class UpgradeDialogViewModelTests {
             withSavePercent = true,
         )
         assertEquals(
-            // Checks also the descending order by the cycle length in the map
+            // Checks also the descending order by the cycle length in the list.
             listOf(
-                PlanCycle.YEARLY to CommonUpgradeDialogViewModel.PriceInfo(
-                    formattedPrice = formatPrice(100.0, "USD"),
-                    savePercent = -44,
-                    formattedPerMonthPrice = formatPrice(8.33, "USD"),
-                    formattedRenewPrice = formatPrice(100.0, "USD"),
-                    hasIntroPrice = false,
+                CommonUpgradeDialogViewModel.CycleViewInfo(
+                    cycle = PlanCycle.YEARLY,
+                    perCycleResId = R.string.payment_price_per_year,
+                    cycleLabelResId = R.string.payment_price_cycle_year_label,
+                    priceInfo = CommonUpgradeDialogViewModel.PriceInfo(
+                        formattedPrice = formatPrice(100.0, "USD"),
+                        savePercent = -44,
+                        formattedPerMonthPrice = formatPrice(8.33, "USD"),
+                        formattedRenewPrice = formatPrice(100.0, "USD"),
+                        hasIntroPrice = false,
+                    )
                 ),
-                PlanCycle.MONTHLY to CommonUpgradeDialogViewModel.PriceInfo(
-                    formattedPrice = formatPrice(10.0, "USD"),
-                    savePercent = -33,
-                    formattedRenewPrice = formatPrice(15.0, "USD"),
-                    hasIntroPrice = true,
-                )
+                CommonUpgradeDialogViewModel.CycleViewInfo(
+                    cycle = PlanCycle.MONTHLY,
+                    perCycleResId = null,
+                    cycleLabelResId = R.string.payment_price_cycle_month_label,
+                    priceInfo = CommonUpgradeDialogViewModel.PriceInfo(
+                        formattedPrice = formatPrice(10.0, "USD"),
+                        savePercent = -33,
+                        formattedRenewPrice = formatPrice(15.0, "USD"),
+                        hasIntroPrice = true,
+                    )
+                ),
             ),
             priceInfo.toList()
         )
@@ -277,8 +289,9 @@ class UpgradeDialogViewModelTests {
         runCurrent()
         val state = viewModel.state.first()
         assertIs<State.LoadError>(state)
-        assertEquals(R.string.error_fetching_prices, state.messageRes)
-        assertIs<LoadGoogleSubscriptionPlans.PartialPrices>(state.error)
+        val error = viewModel.eventErrorMessage.receiveCatching().getOrNull()
+        assertEquals(R.string.error_fetching_prices, error?.messageRes)
+        assertIs<LoadGoogleSubscriptionPlans.PartialPrices>(error?.throwable)
     }
 
     @Test

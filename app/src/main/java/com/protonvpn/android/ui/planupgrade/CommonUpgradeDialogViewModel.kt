@@ -31,7 +31,7 @@ import com.protonvpn.android.telemetry.UpgradeAbTest
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.telemetry.UpgradeTrigger
-import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
+import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel.CycleViewInfo
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.UserPlanManager
 import io.sentry.Sentry
@@ -55,7 +55,7 @@ import me.proton.core.plan.presentation.onUpgradeResult
 open class PlanModel(
     val displayName: String,
     val planName: String,
-    val cycles: List<CycleInfo>
+    val cycles: List<CycleViewInfo>
 )
 
 abstract class CommonUpgradeDialogViewModel(
@@ -82,27 +82,29 @@ abstract class CommonUpgradeDialogViewModel(
         @StringRes val cycleLabelResId: Int,
         val priceInfo: PriceInfo,
     )
-    sealed class State {
-        object Initializing : State()
-        object UpgradeDisabled : State()
+    sealed interface State {
+        val inProgress: Boolean get() = false
+
+        object Initializing : State
+        object UpgradeDisabled : State
         data class LoadingPlans(
             val expectedCycleCount: Int,
             val buttonLabelOverride: String?,
-        ) : State()
-        object LoadError : State() // Error messages are emitted via onError.
+            override val inProgress: Boolean = true,
+        ) : State
+        object LoadError : State // Error messages are emitted via onError.
         data class PurchaseReady(
             val allPlans: List<PlanModel>,
             val selectedPlan: PlanModel,
-            val selectedPlanCycles: List<CycleViewInfo>,
-            val inProgress: Boolean = false,
+            override val inProgress: Boolean,
             val buttonLabelOverride: String? = null,
-        ) : State()
-        object PlansFallback : State() // Conditions for short flow were not met, start normal account flow
+        ) : State
+        object PlansFallback : State // Conditions for short flow were not met, start normal account flow
         data class PurchaseSuccess(
             val newPlanName: String,
             val upgradeFlowType: UpgradeFlowType,
             val billingCycle: Int,
-        ) : State()
+        ) : State
     }
 
     data class Error(val messageRes: Int?, val message: String?, val throwable: Throwable?)
@@ -168,7 +170,7 @@ abstract class CommonUpgradeDialogViewModel(
         }
     }
 
-    fun onError(messageRes: Int? = null, message: String? = null, error: Throwable? = null) {
+    protected fun onError(messageRes: Int? = null, message: String? = null, error: Throwable? = null) {
         if (shouldReportToSentry(error))
             logToSentry(message ?: error?.message, error) // Remove this once we know payments are in a good shape.
         errorMessage.trySend(Error(messageRes, message, error))

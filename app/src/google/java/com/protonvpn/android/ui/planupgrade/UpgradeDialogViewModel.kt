@@ -137,8 +137,8 @@ class UpgradeDialogViewModel(
 
     data class GiapPlanModel(
         val giapPlanInfo: GiapPlanInfo,
-        val prices: List<CycleViewInfo>
-    ) : PlanModel(displayName = giapPlanInfo.displayName, planName = giapPlanInfo.name, cycles = giapPlanInfo.cycles)
+        private val prices: List<CycleViewInfo>,
+    ) : PlanModel(displayName = giapPlanInfo.displayName, planName = giapPlanInfo.name, cycles = prices)
 
     fun reloadPlans() {
         plansForReload?.let { loadPlans(it.plans, it.cycles, it.buttonLabelOverride, it.showDiscountBadge) }
@@ -210,7 +210,7 @@ class UpgradeDialogViewModel(
             val preselectedPlan = loadedPlans.find { it.planName == planNames.first() }
             if (loadedPlans.isEmpty()
                 // Note: plans with no Google prices should already be filtered out by GetDynamicPlansAdjustedPrices.
-                || loadedPlans.any { it.prices.isEmpty() }
+                || loadedPlans.any { it.cycles.isEmpty() }
                 || preselectedPlan == null
             ) {
                 val errorInfo = plansDebugInfo(loadedPlans)
@@ -252,7 +252,6 @@ class UpgradeDialogViewModel(
         state.value = State.PurchaseReady(
             allPlans = loadedPlans,
             selectedPlan = plan,
-            selectedPlanCycles = giapPlan.prices,
             inProgress = false,
             buttonLabelOverride = buttonLabelOverride
         )
