@@ -39,6 +39,7 @@ class SettingsSnapshotScheduler @Inject constructor(
     override fun scheduleSettingsSnapshot() {
         val workRequest =
             PeriodicWorkRequestBuilder<SettingsHeartbeatWorker>(SNAPSHOT_DELAY_HRS, TimeUnit.HOURS)
+                .setInitialDelay(SNAPSHOT_DELAY_HRS, TimeUnit.HOURS)
                 .setConstraints(Constraints.Builder().build())
                 .build()
 
