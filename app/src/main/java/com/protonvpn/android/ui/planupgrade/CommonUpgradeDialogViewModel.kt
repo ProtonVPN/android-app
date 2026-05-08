@@ -23,11 +23,11 @@ import androidx.activity.ComponentActivity
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.telemetry.UpgradeAbTest
 import com.protonvpn.android.mmp.events.MmpEventType
 import com.protonvpn.android.mmp.events.toMmpSubscriptionDetails
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.telemetry.UpgradeAbTest
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.telemetry.UpgradeTrigger
@@ -73,6 +73,12 @@ abstract class CommonUpgradeDialogViewModel(
         val savePercent: Int? = null,
         val formattedPerMonthPrice: String? = null,
     )
+    data class CycleViewInfo(
+        val cycle: PlanCycle,
+        @StringRes val perCycleResId: Int?,
+        @StringRes val cycleLabelResId: Int,
+        val priceInfo: PriceInfo,
+    )
     sealed class State {
         object Initializing : State()
         object UpgradeDisabled : State()
@@ -87,7 +93,7 @@ abstract class CommonUpgradeDialogViewModel(
         data class PurchaseReady(
             val allPlans: List<PlanModel>,
             val selectedPlan: PlanModel,
-            val selectedPlanPriceInfo: Map<PlanCycle, PriceInfo>,
+            val selectedPlanCycles: List<CycleViewInfo>,
             val inProgress: Boolean = false,
             val buttonLabelOverride: String? = null,
         ) : State()

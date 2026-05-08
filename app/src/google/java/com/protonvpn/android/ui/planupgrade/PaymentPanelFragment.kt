@@ -24,16 +24,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
-import com.protonvpn.android.utils.ifOrNull
 import dagger.hilt.android.AndroidEntryPoint
 import io.sentry.Sentry
 import io.sentry.SentryEvent
@@ -69,17 +66,7 @@ class PaymentPanelFragment : Fragment() {
                         ViewState.PlanReady(
                             displayName = state.selectedPlan.displayName,
                             planName = state.selectedPlan.planName,
-                            cycles = state.selectedPlanPriceInfo.map { (cycle, priceInfo) ->
-                                // Don't show "/cycle" for welcome offers
-                                val perCycleResId =
-                                    ifOrNull(!priceInfo.hasIntroPrice) { planPerCycleResId(cycle) }
-                                ViewState.CycleViewInfo(
-                                    cycle,
-                                    perCycleResId,
-                                    planCycleLabelResId(cycle),
-                                    priceInfo
-                                )
-                            },
+                            cycles = state.selectedPlanCycles,
                             inProgress = state.inProgress,
                             buttonLabelOverride = state.buttonLabelOverride,
                         )
@@ -173,22 +160,6 @@ class PaymentPanelFragment : Fragment() {
 
     private fun shouldReportToSentry(throwable: Throwable?): Boolean =
         throwable == null || (throwable as? ApiException)?.error !is ApiResult.Error.Connection
-
-    @StringRes
-    private fun planPerCycleResId(cycle: PlanCycle): Int = when(cycle) {
-        PlanCycle.MONTHLY -> R.string.payment_price_per_month
-        PlanCycle.YEARLY -> R.string.payment_price_per_year
-        PlanCycle.TWO_YEARS -> R.string.payment_price_per_2years
-        PlanCycle.FREE, PlanCycle.OTHER -> throw IllegalArgumentException("Invalid plan cycle")
-    }
-
-    @StringRes
-    private fun planCycleLabelResId(cycle: PlanCycle): Int = when(cycle) {
-        PlanCycle.MONTHLY -> R.string.payment_price_cycle_month_label
-        PlanCycle.YEARLY -> R.string.payment_price_cycle_year_label
-        PlanCycle.TWO_YEARS -> R.string.payment_price_cycle_2years_label
-        PlanCycle.FREE, PlanCycle.OTHER -> throw IllegalArgumentException("Invalid plan cycle")
-    }
 
     private fun logToSentry(errorMessage: String?, throwable: Throwable?) {
         Sentry.captureEvent(SentryEvent(OneClickPaymentError(errorMessage, throwable)))

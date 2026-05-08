@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.planupgrade
 
 import android.app.Activity
+import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -136,7 +137,7 @@ class UpgradeDialogViewModel(
 
     data class GiapPlanModel(
         val giapPlanInfo: GiapPlanInfo,
-        val prices: Map<PlanCycle, PriceInfo>
+        val prices: List<CycleViewInfo>
     ) : PlanModel(displayName = giapPlanInfo.displayName, planName = giapPlanInfo.name, cycles = giapPlanInfo.cycles)
 
     fun reloadPlans() {
@@ -249,7 +250,7 @@ class UpgradeDialogViewModel(
         state.value = State.PurchaseReady(
             allPlans = loadedPlans,
             selectedPlan = plan,
-            selectedPlanPriceInfo = giapPlan.prices,
+            selectedPlanCycles = giapPlan.prices,
             inProgress = false,
             buttonLabelOverride = buttonLabelOverride
         )
@@ -355,7 +356,7 @@ class UpgradeDialogViewModel(
             currency: String,
             cycles: List<CycleInfo>,
             withSavePercent: Boolean,
-        ): Map<PlanCycle, PriceInfo> {
+        ): List<CycleViewInfo> {
             fun perMonthPrice(cycleInfo: CycleInfo, price: (CycleInfo) -> Int): Double? {
                 val amount = price(cycleInfo).centsToUnits()
                 val months = cycleInfo.cycle.cycleDurationMonths
@@ -376,25 +377,49 @@ class UpgradeDialogViewModel(
                 }
                 .max()
 
-            return cycles.associate { cycleInfo ->
-                val perMonthPrice = perMonthCurrentPrices[cycleInfo.cycle]
+            // TODO: Distinct by plan cycle?
+            return cycles.map { cycleInfo ->
+                val cycle = cycleInfo.cycle
+                val perMonthPrice = perMonthCurrentPrices[cycle]
                 val priceAmount = cycleInfo.currentPriceCents.centsToUnits()
                 val renewPriceAmount = cycleInfo.defaultPriceCents.centsToUnits()
                 val showPerMonthPrice =
                     perMonthPrice != null && cycleInfo.cycle.cycleDurationMonths != 1 && renewPriceAmount == priceAmount
-                val info = PriceInfo(
+                // TODO: flatten PriceInfo into CycleViewInfo?
+                val priceInfo = PriceInfo(
                     formattedPrice = formatPrice(priceAmount, currency),
                     formattedRenewPrice = formatPrice(renewPriceAmount, currency),
                     savePercent = ifOrNull(withSavePercent) {
                         calculateSavingsPercentage(perMonthPrice, maxPerMonthPrice)
                     },
                     formattedPerMonthPrice = if (showPerMonthPrice) { formatPrice(perMonthPrice, currency) } else null,
-                    hasIntroPrice = priceAmount != renewPriceAmount
+                    hasIntroPrice = priceAmount != renewPriceAmount,
                 )
-                cycleInfo.cycle to info
-            }.toSortedMap(compareByDescending { it.cycleDurationMonths })
+                CycleViewInfo(
+                    cycle = cycle,
+                    perCycleResId = ifOrNull(!priceInfo.hasIntroPrice) { planPerCycleResId(cycle) },
+                    cycleLabelResId = planCycleLabelResId(cycle),
+                    priceInfo = priceInfo
+                )
+            }.sortedByDescending { it.cycle.cycleDurationMonths }
         }
     }
+}
+
+@StringRes
+private fun planPerCycleResId(cycle: PlanCycle): Int = when(cycle) {
+    PlanCycle.MONTHLY -> R.string.payment_price_per_month
+    PlanCycle.YEARLY -> R.string.payment_price_per_year
+    PlanCycle.TWO_YEARS -> R.string.payment_price_per_2years
+    PlanCycle.FREE, PlanCycle.OTHER -> throw IllegalArgumentException("Invalid plan cycle")
+}
+
+@StringRes
+private fun planCycleLabelResId(cycle: PlanCycle): Int = when(cycle) {
+    PlanCycle.MONTHLY -> R.string.payment_price_cycle_month_label
+    PlanCycle.YEARLY -> R.string.payment_price_cycle_year_label
+    PlanCycle.TWO_YEARS -> R.string.payment_price_cycle_2years_label
+    PlanCycle.FREE, PlanCycle.OTHER -> throw IllegalArgumentException("Invalid plan cycle")
 }
 
 @Suppress("MagicNumber")

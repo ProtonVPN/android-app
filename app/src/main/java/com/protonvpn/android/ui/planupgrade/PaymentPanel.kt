@@ -45,6 +45,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.PlaceholderRect
@@ -68,16 +69,10 @@ sealed class ViewState(val inProgress: Boolean) {
         val expectedCycleCount: Int,
         val buttonLabelOverride: String?,
     ) : ViewState(true)
-    data class CycleViewInfo(
-        val cycle: PlanCycle,
-        @StringRes val perCycleResId: Int?,
-        @StringRes val cycleLabelResId: Int,
-        val priceInfo: CommonUpgradeDialogViewModel.PriceInfo
-    )
     class PlanReady(
         val displayName: String,
         val planName: String,
-        val cycles: List<CycleViewInfo>,
+        val cycles: List<CommonUpgradeDialogViewModel.CycleViewInfo>,
         inProgress: Boolean,
         val buttonLabelOverride: String?,
     ) : ViewState(inProgress)
@@ -202,7 +197,7 @@ fun PaymentPanel(
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
 fun RenewInfo(
-    selectedCycleInfo: ViewState.CycleViewInfo,
+    selectedCycleInfo: CommonUpgradeDialogViewModel.CycleViewInfo,
     modifier: Modifier = Modifier
 ) {
     val priceInfo = selectedCycleInfo.priceInfo
@@ -240,7 +235,7 @@ private fun RenewInfoText(
 
 @Composable
 private fun CycleComposable(
-    cycle: ViewState.CycleViewInfo,
+    cycle: CommonUpgradeDialogViewModel.CycleViewInfo,
     isSelected: Boolean,
     onCycleSelected: (PlanCycle) -> Unit,
     modifier: Modifier = Modifier
@@ -270,7 +265,7 @@ private fun CycleComposable(
         }
         Spacer(modifier = Modifier.weight(1f))
         with(cycle) {
-            PricingCycleInfo(priceInfo.formattedPrice, perCycleResId, priceInfo.formattedPerMonthPrice)
+            PricingCycleInfo(priceInfo.formattedPrice, perCycleResId, priceInfo.formattedPerMonthPrice) { text, style -> Text(text, style = style) }
         }
     }
 }
@@ -306,7 +301,7 @@ private fun CycleSelectionRow(
 
     WithMinHeightOf(
         minHeightContent = {
-            PricingCycleInfo("123", R.string.payment_price_per_year, "123")
+            PricingCycleInfo("123", R.string.payment_price_per_year, "123") { text, style -> Text(text, style = style) }
         },
         modifier = modifier
             .then(borderModifier)
@@ -328,18 +323,19 @@ private fun PricingCycleInfo(
     formattedPrice: String,
     @StringRes perCycleResId: Int?,
     formattedPerMonthPrice: String?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    text: @Composable (AnnotatedString, TextStyle) -> Unit,
 ) {
     Column(horizontalAlignment = Alignment.End, modifier = modifier) {
-        Text(
+        text(
             getPriceAndCycleString(formattedPrice, perCycleResId),
-            style = ProtonTheme.typography.captionWeak
+            ProtonTheme.typography.captionWeak
         )
         if (formattedPerMonthPrice != null) {
             val perMonth = stringResource(R.string.payment_price_per_month)
-            Text(
-                stringResource(id = R.string.payment_price_with_period, formattedPerMonthPrice, perMonth),
-                style = ProtonTheme.typography.captionWeak
+            text(
+                AnnotatedString(stringResource(id = R.string.payment_price_with_period, formattedPerMonthPrice, perMonth)),
+                ProtonTheme.typography.captionWeak
             )
         }
     }
@@ -385,7 +381,7 @@ private fun PreviewPlan() {
                 "VPN Plus",
                 "vpn2022",
                 listOf(
-                    ViewState.CycleViewInfo(
+                    CommonUpgradeDialogViewModel.CycleViewInfo(
                         PlanCycle.YEARLY,
                         R.string.payment_price_per_year,
                         R.string.payment_price_cycle_year_label,
@@ -396,7 +392,7 @@ private fun PreviewPlan() {
                             hasIntroPrice = true
                         )
                     ),
-                    ViewState.CycleViewInfo(
+                    CommonUpgradeDialogViewModel.CycleViewInfo(
                         PlanCycle.MONTHLY,
                         R.string.payment_price_per_month,
                         R.string.payment_price_cycle_month_label,
@@ -421,7 +417,7 @@ private fun PreviewPlanWithWelcomePrice() {
                 "VPN Plus",
                 "vpn2022",
                 listOf(
-                    ViewState.CycleViewInfo(
+                    CommonUpgradeDialogViewModel.CycleViewInfo(
                         PlanCycle.YEARLY,
                         null,
                         R.string.payment_price_cycle_year_label,
@@ -433,7 +429,7 @@ private fun PreviewPlanWithWelcomePrice() {
                             hasIntroPrice = true
                         )
                     ),
-                    ViewState.CycleViewInfo(
+                    CommonUpgradeDialogViewModel.CycleViewInfo(
                         PlanCycle.MONTHLY,
                         null,
                         R.string.payment_price_cycle_month_label,
