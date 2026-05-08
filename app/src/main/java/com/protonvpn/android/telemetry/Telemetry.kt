@@ -30,6 +30,8 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -83,7 +85,7 @@ class Telemetry(
 
     private val pendingEvents: MutableList<TelemetryEvent> = mutableListOf()
     private val cacheLoaded = CompletableDeferred<Unit>()
-    private var isUploading = false
+    private var uploadMutex = Mutex()
 
     sealed class UploadResult {
         data class Success(val hasMoreEvents: Boolean) : UploadResult()
@@ -130,15 +132,10 @@ class Telemetry(
             clearData()
             return UploadResult.Success(false)
         }
-        if (isUploading) {
-            logi("Trying to start a second upload in parallel, this should not happen.")
-            return UploadResult.Success(false)
-        }
-        try {
-            isUploading = true
+        // When replacing a WorkManager work it's possible that the previous one gets canceled.
+        // Cancellation doesn't happen immediately, therefore wait for it to finish.
+        uploadMutex.withLock {
             return uploadPendingEventsInternal()
-        } finally {
-            isUploading = false
         }
     }
 

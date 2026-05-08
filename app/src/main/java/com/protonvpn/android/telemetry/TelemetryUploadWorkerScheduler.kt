@@ -43,6 +43,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 private val DEFAULT_UPLOAD_DELAY_MS = TimeUnit.MINUTES.toMillis(10)
+private val MORE_EVENTS_UPLOAD_DELAY_MS = TimeUnit.SECONDS.toMillis(5)
 private const val UNIQUE_WORK_NAME = "TelemetryUploadWorker"
 @Reusable
 class TelemetryUploadWorkerScheduler @Inject constructor(
@@ -96,7 +97,13 @@ class TelemetryUploadWorker @AssistedInject constructor(
         val result = telemetry.get().uploadPendingEvents()
         when {
             result is Telemetry.UploadResult.Success && result.hasMoreEvents ->
-                TelemetryUploadWorkerScheduler.scheduleUpload(applicationContext, ExistingWorkPolicy.REPLACE, "more events")
+                TelemetryUploadWorkerScheduler.scheduleUpload(
+                    applicationContext,
+                    ExistingWorkPolicy.REPLACE,
+                    "more events",
+                    MORE_EVENTS_UPLOAD_DELAY_MS,
+                )
+
             result is Telemetry.UploadResult.Failure && result.retryAfter != null ->
                 TelemetryUploadWorkerScheduler.scheduleUpload(
                     applicationContext,
