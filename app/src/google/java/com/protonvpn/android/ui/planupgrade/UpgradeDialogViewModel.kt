@@ -38,12 +38,18 @@ import com.protonvpn.android.utils.formatPrice
 import com.protonvpn.android.utils.ifOrNull
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.sentry.Sentry.captureException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.AuthOrchestrator
@@ -133,7 +139,18 @@ class UpgradeDialogViewModel(
     private var plansForReload: ReloadState? = null
 
     private lateinit var loadedPlans: List<GiapPlanModel>
-    val selectedCycle = MutableStateFlow<PlanCycle?>(null)
+    private val selectedCycle = MutableStateFlow<PlanCycle?>(null)
+
+    val fullPanelState: StateFlow<PaymentPanelState> = combine(
+        state,
+        selectedCycle,
+    ) { currentState, currentSelectedCycle ->
+        buildFullState(currentState, currentSelectedCycle)
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.Eagerly,
+        buildFullState(State.Initializing, null)
+    )
 
     data class GiapPlanModel(
         val giapPlanInfo: GiapPlanInfo,
@@ -202,7 +219,7 @@ class UpgradeDialogViewModel(
                     }
                     GiapPlanModel(
                         planInfo,
-                        calculatePriceInfos(planInfo.currency, planInfo.cycles, showDiscountBadge)
+                        calculatePriceInfos(planInfo.name, planInfo.currency, planInfo.cycles, showDiscountBadge)
                     )
                 }
             // Plans order should match order of planNames.
@@ -260,7 +277,7 @@ class UpgradeDialogViewModel(
         }
     }
 
-    fun pay(activity: Activity, flowType: UpgradeFlowType) = viewModelScope.launchWithResultContext {
+    private fun pay(activity: Activity, flowType: UpgradeFlowType) = viewModelScope.launchWithResultContext {
         onResultEnqueueObservabilityEvents(PaymentProvider.GoogleInAppPurchase)
         flow {
             val currentState = state.value
@@ -310,8 +327,11 @@ class UpgradeDialogViewModel(
                 }
             }
         }.catch {
-            state.value = State.LoadError
             onError(error = it)
+        }.onCompletion {
+            val currentState = state.value
+            if (currentState is State.PurchaseReady)
+                emit(currentState.copy(inProgress = false))
         }.collect {
             state.value = it
         }
@@ -344,6 +364,22 @@ class UpgradeDialogViewModel(
         }
     }
 
+    private fun buildFullState(
+        currentState: State,
+        currentSelectedCycle: PlanCycle?,
+    ) = PaymentPanelState(
+        upgradeState = currentState,
+        selectedCycle = currentSelectedCycle,
+        onPayClicked = { activity ->
+            val flowType = UpgradeFlowType.ONE_CLICK
+            onPaymentStarted(flowType)
+            pay(activity, flowType)
+        },
+        onStartFallback = ::onStartFallbackUpgrade,
+        onErrorButtonClicked = ::reloadPlans,
+        onCycleSelected = { selectedCycle.value = it },
+    )
+
     companion object {
 
         @VisibleForTesting
@@ -355,6 +391,7 @@ class UpgradeDialogViewModel(
 
         @VisibleForTesting
         fun calculatePriceInfos(
+            planName: String,
             currency: String,
             cycles: List<CycleInfo>,
             withSavePercent: Boolean,
@@ -379,15 +416,13 @@ class UpgradeDialogViewModel(
                 }
                 .max()
 
-            // TODO: Distinct by plan cycle?
-            return cycles.map { cycleInfo ->
+            val cyclesWithPrices = cycles.map { cycleInfo ->
                 val cycle = cycleInfo.cycle
                 val perMonthPrice = perMonthCurrentPrices[cycle]
                 val priceAmount = cycleInfo.currentPriceCents.centsToUnits()
                 val renewPriceAmount = cycleInfo.defaultPriceCents.centsToUnits()
                 val showPerMonthPrice =
                     perMonthPrice != null && cycleInfo.cycle.cycleDurationMonths != 1 && renewPriceAmount == priceAmount
-                // TODO: flatten PriceInfo into CycleViewInfo?
                 val priceInfo = PriceInfo(
                     formattedPrice = formatPrice(priceAmount, currency),
                     formattedRenewPrice = formatPrice(renewPriceAmount, currency),
@@ -404,9 +439,28 @@ class UpgradeDialogViewModel(
                     priceInfo = priceInfo
                 )
             }.sortedByDescending { it.cycle.cycleDurationMonths }
+
+            reportDuplicatesToSentry(planName, cyclesWithPrices)
+            return cyclesWithPrices
         }
     }
 }
+
+private fun reportDuplicatesToSentry(
+    planName: String,
+    cyclesWithPrices: List<CommonUpgradeDialogViewModel.CycleViewInfo>
+) {
+    val byCycle = cyclesWithPrices.groupBy { it.cycle }
+    byCycle.filter { (_, prices) -> prices.size > 1 }
+        .onEach { (cycle, prices) ->
+            val pricesString = prices.joinToString { it.priceInfo.formattedPrice }
+            val message = "Multiple prices for plan '$planName' ${cycle.name}: $pricesString"
+            ProtonLogger.logCustom(LogCategory.APP, "GIAP: $message")
+            captureException(DuplicatePricesError(message))
+        }
+}
+
+private class DuplicatePricesError(message: String) : Throwable(message)
 
 @StringRes
 private fun planPerCycleResId(cycle: PlanCycle): Int = when(cycle) {

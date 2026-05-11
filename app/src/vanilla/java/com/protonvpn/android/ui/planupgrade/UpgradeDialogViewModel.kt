@@ -27,7 +27,10 @@ import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.plan.presentation.PlansOrchestrator
@@ -54,6 +57,14 @@ class UpgradeDialogViewModel @Inject constructor(
     waitForSubscription,
     saveMmpEvent,
 ) {
+    val fullPanelState: StateFlow<PaymentPanelState> = state
+        .map { (if (it == State.PlansFallback) it else State.UpgradeDisabled).toPaymentPanelState() }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = State.Initializing.toPaymentPanelState()
+        )
+
     fun loadPlans(allowMultiplePlans: Boolean) {
         viewModelScope.launch {
             state.value = if (isInAppUpgradeAllowed())
@@ -69,4 +80,13 @@ class UpgradeDialogViewModel @Inject constructor(
     }
 
     fun selectPlan(plan: PlanModel) = Unit
+
+    private fun State.toPaymentPanelState() = PaymentPanelState(
+        upgradeState = this,
+        selectedCycle = null,
+        onPayClicked = { _ -> throw UnsupportedOperationException() },
+        onStartFallback = ::onStartFallbackUpgrade,
+        onErrorButtonClicked = {},
+        onCycleSelected = {},
+    )
 }

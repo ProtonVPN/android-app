@@ -40,20 +40,10 @@ class PaymentPanelFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 VpnTheme {
-                    val state by viewModel.state.collectAsStateWithLifecycle()
-                    val viewState = if (state == CommonUpgradeDialogViewModel.State.PlansFallback) {
-                        CommonUpgradeDialogViewModel.State.PlansFallback
-                    } else {
-                        CommonUpgradeDialogViewModel.State.UpgradeDisabled
-                    }
+                    val state by viewModel.fullPanelState.collectAsStateWithLifecycle()
                     PaymentPanel(
-                        viewState = viewState,
-                        selectedCycle = null,
-                        onStartFallback = viewModel::onStartFallbackUpgrade,
-                        onPayClicked = { throw IllegalStateException("Not supported") },
-                        onErrorButtonClicked = {},
-                        onCloseButtonClicked = { requireActivity().finish() },
-                        onCycleSelected = {},
+                        viewState = state,
+                        onClose = { requireActivity().finish() },
                     )
                 }
             }

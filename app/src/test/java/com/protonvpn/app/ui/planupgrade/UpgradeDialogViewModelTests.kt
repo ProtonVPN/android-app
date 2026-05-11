@@ -40,8 +40,8 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestLoadGoogleOffers
 import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createDynamicPlan
-import io.mockk.MockKAnnotations
 import com.protonvpn.test.shared.createGiapOffer
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
@@ -163,32 +163,29 @@ class UpgradeDialogViewModelTests {
 
         viewModel.loadPlans(listOf(testPlanName), null, null, true)
 
-        assertEquals(PlanCycle.MONTHLY, viewModel.selectedCycle.value)
-
-        viewModel.state.test {
+        viewModel.fullPanelState.test {
             val loadedState = awaitItem()
-            assertIs<State.PurchaseReady>(loadedState)
-            val loadedPlan = loadedState.selectedPlan
-
+            assertIs<State.PurchaseReady>(loadedState.upgradeState)
+            val loadedPlan = loadedState.upgradeState.selectedPlan
             assertEquals("myplan", loadedPlan.planName)
-            assertFalse(loadedState.inProgress)
+            assertFalse(loadedState.upgradeState.inProgress)
+            assertEquals(PlanCycle.MONTHLY, loadedState.selectedCycle)
 
-            viewModel.onPaymentStarted(UpgradeFlowType.REGULAR)
-            viewModel.pay(mockk(), UpgradeFlowType.ONE_CLICK)
-            assertTrue(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
+            loadedState.onPayClicked(mockk())
+            assertTrue(assertIs<State.PurchaseReady>(awaitItem().upgradeState).inProgress)
 
             // Fail before succeeding
             purchaseResult.emit(PerformGiapPurchase.Result.Error.PurchaseNotFound)
-            assertFalse(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
+            assertFalse(assertIs<State.PurchaseReady>(awaitItem().upgradeState).inProgress)
 
             // Try again and succeed
-            viewModel.onPaymentStarted(UpgradeFlowType.ONE_CLICK)
-            viewModel.pay(mockk(), UpgradeFlowType.ONE_CLICK)
-            assertTrue(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
+            loadedState.onPayClicked(mockk())
+            assertTrue(assertIs<State.PurchaseReady>(awaitItem().upgradeState).inProgress)
+
             purchaseResult.emit(mockk<PerformGiapPurchase.Result.GiapSuccess>())
             assertEquals(
                 State.PurchaseSuccess("myplan", UpgradeFlowType.ONE_CLICK, PlanCycle.MONTHLY.value),
-                awaitItem()
+                awaitItem().upgradeState
             )
         }
     }
@@ -230,6 +227,7 @@ class UpgradeDialogViewModelTests {
     @Test
     fun `calculate price info with and without savings`() = testScope.runTest {
         val priceInfo = UpgradeDialogViewModel.calculatePriceInfos(
+            "vpn2022",
             "USD",
             listOf(
                 CycleInfo(PlanCycle.MONTHLY, "m", "$testPlanName-m", 10_00, 15_00),

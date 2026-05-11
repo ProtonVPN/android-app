@@ -24,8 +24,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,7 +41,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.network.presentation.util.getUserMessage
 import me.proton.core.payment.domain.repository.BillingClientError
-import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.presentation.utils.errorSnack
 import me.proton.core.payment.presentation.R as PaymentR
 
@@ -56,39 +59,19 @@ class PaymentPanelFragment : Fragment() {
             setContent {
                 VpnTheme {
                     PaymentPanel(
-                        viewModel.state.collectAsStateWithLifecycle().value,
-                        viewModel.selectedCycle.collectAsStateWithLifecycle().value,
-                        ::onPayClicked,
-                        ::onUpgradeClicked,
-                        ::onErrorButtonClicked,
+                        viewModel.fullPanelState.collectAsStateWithLifecycle().value,
                         ::onCloseClicked,
-                        ::onCycleSelected
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
                     )
                 }
             }
         }
     }
 
-    private fun onPayClicked() {
-        val flowType = UpgradeFlowType.ONE_CLICK
-        viewModel.onPaymentStarted(flowType)
-        viewModel.pay(requireActivity(), flowType)
-    }
-
-    private fun onUpgradeClicked() {
-        viewModel.onStartFallbackUpgrade()
-    }
-
-    private fun onErrorButtonClicked() {
-        viewModel.reloadPlans()
-    }
-
     private fun onCloseClicked() {
         requireActivity().finish()
-    }
-
-    private fun onCycleSelected(cycle: PlanCycle) {
-        viewModel.selectedCycle.value = cycle
     }
 
     private fun onError(messageRes: Int?, message: String?, throwable: Throwable?) {

@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.ui.planupgrade
 
+import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.animateContentSize
@@ -39,6 +41,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -62,23 +65,28 @@ import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.plan.presentation.entity.PlanCycle
 
+@Immutable
+data class PaymentPanelState(
+    val upgradeState: CommonUpgradeDialogViewModel.State,
+    val selectedCycle: PlanCycle?,
+    val onPayClicked: (Activity) -> Unit,
+    val onStartFallback: () -> Unit,
+    val onErrorButtonClicked: () -> Unit,
+    val onCycleSelected: (PlanCycle) -> Unit,
+)
+
 @Composable
 fun PaymentPanel(
-    viewState: CommonUpgradeDialogViewModel.State,
-    selectedCycle: PlanCycle?,
-    onPayClicked: () -> Unit,
-    onStartFallback: () -> Unit,
-    onErrorButtonClicked: () -> Unit,
-    onCloseButtonClicked: () -> Unit,
-    onCycleSelected: (PlanCycle) -> Unit,
+    viewState: PaymentPanelState,
+    onClose: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    if (viewState == CommonUpgradeDialogViewModel.State.Initializing)
+    val upgradeState = viewState.upgradeState
+    if (upgradeState == CommonUpgradeDialogViewModel.State.Initializing)
         return
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+        modifier = modifier
     ) {
         val selectPlanText = @Composable {
             Text(
@@ -96,14 +104,14 @@ fun PaymentPanel(
         ) {
             val renewInfoModifier = Modifier
                 .padding(top = 4.dp)
-            when (viewState) {
+            when (upgradeState) {
                 is CommonUpgradeDialogViewModel.State.Initializing -> {}
                 is CommonUpgradeDialogViewModel.State.LoadingPlans -> {
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                        if (viewState.expectedCycleCount > 1) {
+                        if (upgradeState.expectedCycleCount > 1) {
                             selectPlanText()
                         }
-                        repeat(viewState.expectedCycleCount) { CycleSelectionPlaceholderRow() }
+                        repeat(upgradeState.expectedCycleCount) { CycleSelectionPlaceholderRow() }
                         RenewInfoText(
                             "",
                             modifier = renewInfoModifier.alpha(0f)
@@ -111,16 +119,20 @@ fun PaymentPanel(
                     }
                 }
                 is CommonUpgradeDialogViewModel.State.PurchaseReady -> {
-                    val cycles = viewState.selectedPlan.cycles
+                    val cycles = upgradeState.selectedPlan.cycles
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         if (cycles.size > 1) {
                             selectPlanText()
                         }
                         cycles.forEach { cycle ->
-                            CycleComposable(cycle, cycle.cycle == selectedCycle, onCycleSelected)
+                            CycleComposable(
+                                cycle,
+                                cycle.cycle == viewState.selectedCycle,
+                                viewState.onCycleSelected
+                            )
                         }
 
-                        val selectedCycleInfo = cycles.firstOrNull { it.cycle == selectedCycle }
+                        val selectedCycleInfo = cycles.firstOrNull { it.cycle == viewState.selectedCycle }
                         if (selectedCycleInfo != null) {
                             RenewInfo(
                                 selectedCycleInfo = selectedCycleInfo,
@@ -137,15 +149,18 @@ fun PaymentPanel(
             }
         }
 
-        val onClick: () -> Unit = when(viewState) {
+        val activity = LocalActivity.current
+        val onClick: () -> Unit = when(upgradeState) {
             is CommonUpgradeDialogViewModel.State.Initializing,
             is CommonUpgradeDialogViewModel.State.LoadingPlans,
             is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> { {} }
 
-            is CommonUpgradeDialogViewModel.State.PurchaseReady -> onPayClicked
-            is CommonUpgradeDialogViewModel.State.PlansFallback -> onStartFallback
-            is CommonUpgradeDialogViewModel.State.LoadError -> onErrorButtonClicked
-            is CommonUpgradeDialogViewModel.State.UpgradeDisabled -> onCloseButtonClicked
+            is CommonUpgradeDialogViewModel.State.PurchaseReady -> {
+                if (activity != null) { { viewState.onPayClicked(activity) } } else { {} }
+            }
+            is CommonUpgradeDialogViewModel.State.PlansFallback -> viewState.onStartFallback
+            is CommonUpgradeDialogViewModel.State.LoadError -> viewState.onErrorButtonClicked
+            is CommonUpgradeDialogViewModel.State.UpgradeDisabled -> onClose
         }
         ProtonSolidButton(
             modifier = Modifier
@@ -153,10 +168,10 @@ fun PaymentPanel(
                 .animateContentSize()
                 .padding(top = 16.dp, bottom = 8.dp),
             contained = false,
-            loading = viewState.inProgress,
+            loading = upgradeState.inProgress,
             onClick = onClick
         ) {
-            when (viewState) {
+            when (upgradeState) {
                 is CommonUpgradeDialogViewModel.State.PurchaseSuccess,
                 is CommonUpgradeDialogViewModel.State.Initializing -> {
                     /* empty button */
@@ -164,13 +179,13 @@ fun PaymentPanel(
                 is CommonUpgradeDialogViewModel.State.PlansFallback ->
                     Text(stringResource(R.string.payment_button_get_plan, Constants.CURRENT_PLUS_PLAN_LABEL))
                 is CommonUpgradeDialogViewModel.State.LoadingPlans -> {
-                    val buttonText = viewState.buttonLabelOverride
+                    val buttonText = viewState.upgradeState.buttonLabelOverride
                         ?: stringResource(R.string.payment_button_get_plan, Constants.CURRENT_PLUS_PLAN_LABEL)
                     Text(buttonText)
                 }
                 is CommonUpgradeDialogViewModel.State.PurchaseReady -> {
-                    val buttonText = viewState.buttonLabelOverride
-                        ?: stringResource(R.string.payment_button_get_plan, viewState.selectedPlan.displayName)
+                    val buttonText = viewState.upgradeState.buttonLabelOverride
+                        ?: stringResource(R.string.payment_button_get_plan, upgradeState.selectedPlan.displayName)
                     Text(buttonText)
                 }
                 is CommonUpgradeDialogViewModel.State.LoadError ->
@@ -385,14 +400,17 @@ private fun PreviewPlan() {
         )
         val plan = PlanModel("VPN Plus", "vpn2022", cycles)
         PaymentPanel(
-            viewState = CommonUpgradeDialogViewModel.State.PurchaseReady(
-                allPlans = listOf(plan),
-                selectedPlan = plan,
-                inProgress = false,
-                buttonLabelOverride = null,
+            viewState = PaymentPanelState(
+                CommonUpgradeDialogViewModel.State.PurchaseReady(
+                    allPlans = listOf(plan),
+                    selectedPlan = plan,
+                    inProgress = false,
+                    buttonLabelOverride = null,
+                ),
+                selectedCycle = PlanCycle.YEARLY,
+                {}, {}, {}, {},
             ),
-            selectedCycle = PlanCycle.YEARLY,
-            {}, {}, {}, {}, {}
+            onClose = {}
         )
     }
 }
@@ -423,14 +441,17 @@ private fun PreviewPlanWithWelcomePrice() {
         )
         val plan = PlanModel("VPN Plus", "vpn2022", cycles)
         PaymentPanel(
-            viewState = CommonUpgradeDialogViewModel.State.PurchaseReady(
-                allPlans = listOf(plan),
-                selectedPlan = plan,
-                inProgress = false,
-                buttonLabelOverride = null,
+            viewState = PaymentPanelState(
+                CommonUpgradeDialogViewModel.State.PurchaseReady(
+                    allPlans = listOf(plan),
+                    selectedPlan = plan,
+                    inProgress = false,
+                    buttonLabelOverride = null,
+                ),
+                selectedCycle = PlanCycle.YEARLY,
+                {}, {}, {}, {},
             ),
-            selectedCycle = PlanCycle.YEARLY,
-            {}, {}, {}, {}, {}
+            onClose = {}
         )
     }
 }
@@ -439,6 +460,13 @@ private fun PreviewPlanWithWelcomePrice() {
 @Composable
 private fun PreviewLoadingPlans() {
     ProtonVpnPreview {
-        PaymentPanel(viewState = CommonUpgradeDialogViewModel.State.LoadingPlans(2, null), null, {}, {}, {}, {}, {})
+        PaymentPanel(
+            viewState = PaymentPanelState(
+                CommonUpgradeDialogViewModel.State.LoadingPlans(2, null),
+                null,
+                {}, {}, {}, {}
+            ),
+            onClose = {},
+        )
     }
 }

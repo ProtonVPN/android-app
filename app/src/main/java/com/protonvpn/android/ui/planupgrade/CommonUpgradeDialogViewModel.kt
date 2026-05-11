@@ -148,7 +148,7 @@ abstract class CommonUpgradeDialogViewModel(
         }
     }
 
-    fun onPaymentStarted(upgradeFlowType: UpgradeFlowType) {
+    protected fun onPaymentStarted(upgradeFlowType: UpgradeFlowType) {
         state.update { if (it is State.PurchaseReady) it.copy(inProgress = true) else it }
         upgradeTelemetry.onUpgradeAttempt(upgradeFlowType)
     }

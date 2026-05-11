@@ -19,13 +19,16 @@
 
 package com.protonvpn.android.tests.ui.planupgrade.comparison_table
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
+import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.comparison_table.PlanUpgradeDialog
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeContentProvider
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.BenefitsViewState
@@ -35,6 +38,17 @@ import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivi
 @Composable
 fun UpgradeDialogActivityV2ScreenTest(@PreviewParameter(UpgradeContentProvider::class) state: BenefitsViewState) {
     ProtonVpnPreview {
-        PlanUpgradeDialog(state, {}, modifier = Modifier.fillMaxWidth())
+        val paymentPanelState = PaymentPanelState(
+            upgradeState = CommonUpgradeDialogViewModel.State.LoadingPlans(2, null),
+            selectedCycle = null,
+            { _ -> }, {}, {}, {},
+        )
+        PlanUpgradeDialog(
+            state,
+            paymentPanelState,
+            SnackbarHostState(),
+            {},
+            Modifier.fillMaxSize()
+        )
     }
 }

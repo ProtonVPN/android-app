@@ -28,15 +28,12 @@ import androidx.activity.viewModels
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
@@ -44,18 +41,19 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import androidx.fragment.compose.AndroidFragment
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.BoxWithVerticalScrollEdgeFade
@@ -72,10 +70,15 @@ import com.protonvpn.android.base.ui.upsellGradientEnd
 import com.protonvpn.android.base.ui.upsellGradientMid
 import com.protonvpn.android.base.ui.upsellGradientStart
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
+import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.telemetry.UpgradeAbTest
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
-import com.protonvpn.android.ui.planupgrade.PaymentPanelFragment
+import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
+import com.protonvpn.android.ui.planupgrade.PaymentPanel
+import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.BenefitsViewState
@@ -83,8 +86,14 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import com.protonvpn.android.utils.mixDstOver
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.network.presentation.util.getUserMessage
+import me.proton.core.payment.domain.repository.BillingClientError
+import me.proton.core.payment.presentation.R as PaymentR
 
 /**
  * Upgrade activity with a plan comparison table.
@@ -137,10 +146,20 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
                 content.value = current.copy(freeCountries = upsellBenefitsViewModel.getFreeCountryCount())
             }
         }
+        val snackbarHostState = SnackbarHostState()
+        viewModel.eventErrorMessage.receiveAsFlow()
+            .flowWithLifecycle(lifecycle)
+            .onEach { error ->
+                val snackbarString = error.getPaymentErrorString()
+                snackbarHostState.showSnackbar(snackbarString, type = ProtonSnackbarType.ERROR)
+            }
+            .launchIn(lifecycleScope)
         setContent {
             VpnTheme {
                 PlanUpgradeDialog(
                     benefitsViewState = content.value,
+                    paymentPanelState = viewModel.fullPanelState.collectAsStateWithLifecycle().value,
+                    snackbarHostState = snackbarHostState,
                     onClose = ::finish,
                     modifier = Modifier
                         .fillMaxSize()
@@ -148,6 +167,15 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
             }
         }
     }
+
+    private fun CommonUpgradeDialogViewModel.Error.getPaymentErrorString(): String =
+        message
+            ?: messageRes?.let { getString(messageRes) }
+            ?: when (throwable) {
+                is BillingClientError -> null
+                else -> throwable?.getUserMessage(resources)
+            }
+            ?: getString(PaymentR.string.payments_general_error)
 
     companion object {
         private const val UPGRADE_SOURCE_KEY = "Upgrade Type"
@@ -194,6 +222,8 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
 @Composable
 fun PlanUpgradeDialog(
     benefitsViewState: BenefitsViewState,
+    paymentPanelState: PaymentPanelState,
+    snackbarHostState: SnackbarHostState,
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
     windowInsets: WindowInsets = WindowInsets.systemBars,
@@ -212,10 +242,21 @@ fun PlanUpgradeDialog(
             )
         },
         bottomBar = {
-            PaymentsPanelFragmentComposable(
+            PaymentPanel(
+                viewState = paymentPanelState,
+                onClose = onClose,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
                     .windowInsetsPadding(windowInsets.only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal))
+            )
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                snackbar = { snackbarData ->
+                    ProtonSnackbar(snackbarData = snackbarData)
+                },
             )
         },
         contentWindowInsets = WindowInsets(0,0,0,0),
@@ -232,24 +273,6 @@ fun PlanUpgradeDialog(
                 // content.
                 .padding(paddingValues.copy(top = 0.dp))
         )
-    }
-}
-
-@Composable
-private fun PaymentsPanelFragmentComposable(modifier: Modifier = Modifier) {
-    if (LocalInspectionMode.current) {
-        Box(
-            modifier
-                .heightIn(min = 180.dp)
-                .largeScreenContentPadding()
-                .padding(16.dp)
-                .border(2.dp, ProtonTheme.colors.shade100, ProtonTheme.shapes.medium),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text("Payments panel placeholder")
-        }
-    } else {
-        AndroidFragment<PaymentPanelFragment>(modifier)
     }
 }
 
@@ -337,6 +360,17 @@ private fun PreviewPlanUpgradeDialog(
     @PreviewParameter(UpgradeContentProvider::class) benefitsViewState: BenefitsViewState
 ) {
     ProtonVpnPreview {
-        PlanUpgradeDialog(benefitsViewState, {}, Modifier.fillMaxSize())
+        val paymentPanelState = PaymentPanelState(
+            upgradeState = CommonUpgradeDialogViewModel.State.LoadingPlans(2, null),
+            selectedCycle = null,
+            {}, {}, {}, {},
+        )
+        PlanUpgradeDialog(
+            benefitsViewState,
+            paymentPanelState,
+            SnackbarHostState(),
+            {},
+            Modifier.fillMaxSize()
+        )
     }
 }
