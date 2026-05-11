@@ -24,18 +24,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvStatusViewBinding
+import com.protonvpn.android.tv.feedback.TvVpnConnectionFeedback
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 import me.proton.core.util.kotlin.exhaustive
 import me.proton.core.util.kotlin.takeIfNotBlank
 import me.proton.core.presentation.R as CoreR
@@ -55,6 +62,9 @@ class TvStatusFragment : Fragment() {
         viewModel.vpnViewState.asLiveData().observe(viewLifecycleOwner) {
             updateVpnState(it)
         }
+
+        setConnectionFeedbackView()
+
         return binding.root
     }
 
@@ -130,4 +140,27 @@ class TvStatusFragment : Fragment() {
             setNegativeButton(R.string.close, null)
         }
     }
+
+    private fun setConnectionFeedbackView() {
+        binding.connectionFeedbackView.apply {
+            setViewCompositionStrategy(strategy = ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+
+            setContent {
+                ProtonThemeTv {
+                    val connectionFeedbackViewState = viewModel.vpnConnectionFeedbackViewState
+                        .collectAsStateWithLifecycle(initialValue = null)
+                        .value
+
+                    connectionFeedbackViewState?.let { state ->
+                        TvVpnConnectionFeedback(
+                            modifier = Modifier.padding(top = 4.dp),
+                            showFeedback = state.showFeedback,
+                            onFeedbackProvided = state.onFeedbackProvided,
+                        )
+                    }
+                }
+            }
+        }
+    }
+
 }

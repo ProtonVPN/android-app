@@ -20,6 +20,7 @@
 package com.protonvpn.app.tv.main
 
 import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.data.VpnUser
@@ -27,9 +28,12 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.ui.FakeIsConnectionFeedbackFeatureFlagEnabled
+import com.protonvpn.android.redesign.recents.usecases.ObserveConnectionFeedbackViewState
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -41,9 +45,12 @@ import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.FakeIsTvFavoriteCountryForFreeUserDisabled
-import com.protonvpn.android.tv.usecases.FakeIsTvRecentsForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.FakeIsTvFreeUserAlphabeticalSortingForCountriesEnabled
+import com.protonvpn.android.tv.usecases.FakeIsTvRecentsForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.SetFavoriteCountry
+import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.ui.storage.UiStateStoreProvider
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
@@ -72,6 +79,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
@@ -156,6 +164,30 @@ class TvMainViewModelTests {
 
         setFavoriteCountry = SetFavoriteCountry(testScope.backgroundScope, profileManager, userSettingsManager)
 
+        val foregroundActivityTracker = ForegroundActivityTracker(
+            mainScope = bgScope,
+            internalForegroundActivityFlow = flowOf(mockk<ComponentActivity>())
+        )
+
+        val effectiveCurrentUserSettings = EffectiveCurrentUserSettings(
+            mainScope = bgScope,
+            effectiveCurrentUserSettingsFlow = userSettingsManager.rawCurrentUserSettingsFlow,
+        )
+
+        val uiStateStorage = UiStateStorage(
+            provider = UiStateStoreProvider(factory = InMemoryDataStoreFactory()),
+            currentUser = mockCurrentUser,
+        )
+
+        val observeConnectionFeedbackViewState = ObserveConnectionFeedbackViewState(
+            isConnectionFeedbackFeatureFlagEnabled = FakeIsConnectionFeedbackFeatureFlagEnabled(enabled = true),
+            effectiveCurrentUserSettings = effectiveCurrentUserSettings,
+            foregroundActivityTracker = foregroundActivityTracker,
+            vpnStatusProvider = vpnStatusProviderUI,
+            mainScope = bgScope,
+            uiStateStorage = uiStateStorage,
+        )
+
         viewModel = TvMainViewModel(
             serverManager = serverManager,
             profileManager = profileManager,
@@ -176,7 +208,8 @@ class TvMainViewModelTests {
             isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true),
             isTvFavoriteCountryForFreeUserDisabled = FakeIsTvFavoriteCountryForFreeUserDisabled(false),
             isTvRecentsForFreeUserDisabled = FakeIsTvRecentsForFreeUserDisabled(false),
-            isTvFreeUserAlphabeticalSortingForCountriesEnabled = FakeIsTvFreeUserAlphabeticalSortingForCountriesEnabled(false)
+            isTvFreeUserAlphabeticalSortingForCountriesEnabled = FakeIsTvFreeUserAlphabeticalSortingForCountriesEnabled(false),
+            observeConnectionFeedbackViewState = observeConnectionFeedbackViewState,
         )
     }
 

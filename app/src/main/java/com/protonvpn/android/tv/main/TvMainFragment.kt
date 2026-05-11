@@ -20,9 +20,13 @@
 package com.protonvpn.android.tv.main
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.lifecycle.asLiveData
@@ -42,6 +46,40 @@ class TvMainFragment : Fragment(R.layout.fragment_tv_main) {
 
     private val viewModel: TvMainViewModel by activityViewModels()
     private val binding by viewBinding(FragmentTvMainBinding::bind)
+
+    private val fragmentLifecycleListener = object : FragmentManager.FragmentLifecycleCallbacks() {
+
+        override fun onFragmentPreAttached(fm: FragmentManager, f: Fragment, context: Context) {
+            super.onFragmentPreAttached(fm, f, context)
+
+            setConnectionFeedbackDescendantFocusability(descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS)
+        }
+
+        override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
+            super.onFragmentResumed(fm, f)
+
+            setConnectionFeedbackDescendantFocusability(descendantFocusability = ViewGroup.FOCUS_AFTER_DESCENDANTS)
+        }
+
+        private fun setConnectionFeedbackDescendantFocusability(descendantFocusability: Int) {
+            activity?.findViewById<ComposeView>(R.id.connectionFeedbackView)?.apply {
+                this.descendantFocusability = descendantFocusability
+            }
+        }
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        activity?.supportFragmentManager?.registerFragmentLifecycleCallbacks(fragmentLifecycleListener, false)
+    }
+
+    override fun onDestroy() {
+        activity?.supportFragmentManager?.unregisterFragmentLifecycleCallbacks(fragmentLifecycleListener)
+
+        super.onDestroy()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -47,4 +47,12 @@
         app:layout_constraintTop_toBottomOf="@+id/textStatus"
         tools:text="IP: 127.0.0.1" />
 
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/connectionFeedbackView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textIp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,6 +34,8 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.usecase.GetSmartProtocols
 import com.protonvpn.android.models.vpn.usecase.SmartProtocols
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.usecases.ConnectionFeedbackViewState
+import com.protonvpn.android.redesign.recents.usecases.ObserveConnectionFeedbackViewState
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.tv.models.Card
@@ -47,8 +49,8 @@ import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
-import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.IsTvFreeUserAlphabeticalSortingForCountriesEnabled
+import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
 import com.protonvpn.android.tv.vpn.createIntentForDefaultProfile
 import com.protonvpn.android.tv.vpn.getConnectCountry
@@ -104,6 +106,7 @@ class TvMainViewModel @Inject constructor(
     private val isTvFavoriteCountryForFreeUserDisabled: IsTvFavoriteCountryForFreeUserDisabled,
     private val isTvRecentsForFreeUserDisabled: IsTvRecentsForFreeUserDisabled,
     private val isTvFreeUserAlphabeticalSortingForCountriesEnabled: IsTvFreeUserAlphabeticalSortingForCountriesEnabled,
+    observeConnectionFeedbackViewState: ObserveConnectionFeedbackViewState,
 ) : ViewModel() {
 
     data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)
@@ -126,6 +129,8 @@ class TvMainViewModel @Inject constructor(
         }
         VpnViewState(vpnStatus, ipToDisplay)
     }
+
+    val vpnConnectionFeedbackViewState: Flow<ConnectionFeedbackViewState> = observeConnectionFeedbackViewState()
 
     val vpnStatus = vpnStatusProviderUI.status
     val showVersion = MutableStateFlow(false)

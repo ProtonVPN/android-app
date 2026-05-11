@@ -458,17 +458,20 @@ private fun VpnConnectionFeedbackRequest(
 }
 
 @Composable
-private fun VpnConnectionFeedbackStaggeredEntrance(
+fun VpnConnectionFeedbackStaggeredEntrance(
     transition: Transition<EnterExitState>,
     enterDurationMillis: Int = 200,
     enterDelayMillis: Int = 0,
     verticalOffsetDivider: Int = 2,
+    isInversed: Boolean = false,
     content: @Composable () -> Unit,
 ) {
+    val verticalOffsetMultiplier = if (isInversed) -1 else 1
+
     transition.AnimatedVisibility(
         visible = { it == EnterExitState.Visible || it == EnterExitState.PostExit },
         enter = slideInVertically(
-            initialOffsetY = { it / verticalOffsetDivider },
+            initialOffsetY = { (it * verticalOffsetMultiplier) / verticalOffsetDivider },
             animationSpec = tween(
                 durationMillis = enterDurationMillis,
                 delayMillis = enterDelayMillis,

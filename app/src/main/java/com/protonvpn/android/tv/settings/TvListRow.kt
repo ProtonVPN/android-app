@@ -60,6 +60,7 @@ fun ProtonTvFocusableSurface(
     color: @Composable () -> Color = { Color.Transparent },
     clickSound: Boolean = true,
     focusGainSound: Boolean = false, // Usually it's enough to have sound on focus lost.
+    focusLostSound: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -89,10 +90,17 @@ fun ProtonTvFocusableSurface(
             interactionSource = interactionSource,
             modifier = modifier
                 .optional(
-                    { focusGainSound },
-                    Modifier.onFocusChanged { if (it.hasFocus) audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_UP) }
+                    predicate = { focusGainSound },
+                    modifier = Modifier.onFocusChanged {
+                        if (it.hasFocus) audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_UP)
+                    },
                 )
-                .onFocusLost { audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_UP) }
+                .optional(
+                    predicate = { focusLostSound },
+                    modifier = Modifier.onFocusLost {
+                        audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_UP)
+                    },
+                )
         ) {
             content()
         }

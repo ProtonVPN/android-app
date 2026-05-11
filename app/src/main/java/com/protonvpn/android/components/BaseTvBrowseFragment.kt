@@ -19,11 +19,17 @@
 package com.protonvpn.android.components
 
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
+import androidx.compose.ui.platform.ComposeView
+import androidx.core.view.doOnPreDraw
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.HorizontalGridView
 import androidx.leanback.widget.ListRowPresenter
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
+import com.protonvpn.android.R
 import com.protonvpn.android.utils.whenCancelled
 
 abstract class BaseTvBrowseFragment : BrowseSupportFragment() {
@@ -31,6 +37,29 @@ abstract class BaseTvBrowseFragment : BrowseSupportFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         headersState = HEADERS_DISABLED
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.doOnPreDraw {
+            // Leanback interface is trapping the D-Pad focus within GridView boundary. In order to be able
+            // to navigate away from the GridView we can set the OnKeyInterceptListener that will be triggered
+            // only when GridView limits are reached allowing us to redirect the focus to desired view
+            activity?.findViewById<ComposeView>(R.id.connectionFeedbackView)?.let { connectionFeedbackView ->
+                it.findViewById<HorizontalGridView>(R.id.row_content)?.apply {
+                    setOnKeyInterceptListener { event ->
+                        if (event.keyCode == KeyEvent.KEYCODE_DPAD_UP && event.action == KeyEvent.ACTION_DOWN) {
+                            connectionFeedbackView.requestFocus()
+
+                            return@setOnKeyInterceptListener true
+                        }
+
+                        false
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
