@@ -78,7 +78,7 @@ import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.PaymentPanelFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
-import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.ViewState
+import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.BenefitsViewState
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import com.protonvpn.android.utils.mixDstOver
@@ -93,15 +93,15 @@ import me.proton.core.compose.theme.ProtonTheme
 @AndroidEntryPoint
 class UpgradeDialogActivityV2 : AppCompatActivity() {
 
-    sealed interface ViewState {
+    sealed interface BenefitsViewState {
         data class Countries(
             val country: CountryId?,
             val freeCountries: Int,
             val plusCountries: Int,
-        ) : ViewState
-        object NetShield : ViewState
-        object Speed : ViewState
-        object Streaming : ViewState
+        ) : BenefitsViewState
+        object NetShield : BenefitsViewState
+        object Speed : BenefitsViewState
+        object Streaming : BenefitsViewState
     }
 
     private val viewModel by viewModels<UpgradeDialogViewModel>()
@@ -133,14 +133,14 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
 
         lifecycleScope.launch {
             val current = content.value
-            if (current is ViewState.Countries) {
+            if (current is BenefitsViewState.Countries) {
                 content.value = current.copy(freeCountries = upsellBenefitsViewModel.getFreeCountryCount())
             }
         }
         setContent {
             VpnTheme {
                 PlanUpgradeDialog(
-                    viewState = content.value,
+                    benefitsViewState = content.value,
                     onClose = ::finish,
                     modifier = Modifier
                         .fillMaxSize()
@@ -176,15 +176,15 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
             upgradeSource: UpgradeSource,
             country: CountryId?,
             plusCountries: Int,
-        ): ViewState? = when (upgradeSource) {
-            UpgradeSource.COUNTRIES -> ViewState.Countries(
+        ): BenefitsViewState? = when (upgradeSource) {
+            UpgradeSource.COUNTRIES -> BenefitsViewState.Countries(
                 country = country,
                 freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
                 plusCountries = plusCountries
             )
-            UpgradeSource.VPN_ACCELERATOR -> ViewState.Speed
-            UpgradeSource.NETSHIELD -> ViewState.NetShield
-            UpgradeSource.STREAMING -> ViewState.Streaming
+            UpgradeSource.VPN_ACCELERATOR -> BenefitsViewState.Speed
+            UpgradeSource.NETSHIELD -> BenefitsViewState.NetShield
+            UpgradeSource.STREAMING -> BenefitsViewState.Streaming
             else -> null
         }
     }
@@ -193,7 +193,7 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
 @VisibleForTesting
 @Composable
 fun PlanUpgradeDialog(
-    viewState: UpgradeDialogActivityV2.ViewState,
+    benefitsViewState: BenefitsViewState,
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
     windowInsets: WindowInsets = WindowInsets.systemBars,
@@ -223,57 +223,15 @@ fun PlanUpgradeDialog(
             .background(backgroundGradient),
         containerColor = Color.Transparent,
     ) { paddingValues ->
-        val scrollState = rememberScrollState(initial = 0)
-        BoxWithVerticalScrollEdgeFade(
-            scrollableState = scrollState,
-            topFadeColor = mixDstOver(ProtonTheme.colors.upsellGradientStart,ProtonTheme.colors.backgroundNorm),
-            topFadeHeight =
-                BoxWithVerticalScrollEdgeFadeDefaults.FadeHeight +
-                        windowInsets.asPaddingValues().calculateTopPadding(),
-            contentAlignment = Alignment.Center,
+        UpgradeBenefitsPanel(
+            benefitsViewState,
+            windowInsets = windowInsets,
             modifier = Modifier
                 .fillMaxHeight()
                 // Ignore the top padding, it'll be applied by consuming window insets be the
                 // content.
                 .padding(paddingValues.copy(top = 0.dp))
-        ) {
-            val tableModifier = Modifier
-                .windowInsetsPadding(windowInsets.only(WindowInsetsSides.Horizontal))
-                .verticalScroll(scrollState)
-                .largeScreenContentPadding()
-                .horizontalPaddingForWindowSize(medium = 56.dp)
-
-            // Note: UpgradeSource to panel type is not an ideal mapping, but it makes it easy to
-            // combine old and new dialogs during the experiments.
-            when (viewState) {
-                ViewState.Streaming ->
-                    UpsellStreamingTablePanel(
-                        windowInsets = windowInsets,
-                        modifier = tableModifier
-                    )
-
-                ViewState.NetShield ->
-                    UpsellNetShieldTablePanel(
-                        windowInsets = windowInsets,
-                        modifier = tableModifier
-                    )
-
-                ViewState.Speed ->
-                    UpsellSpeedTablePanel(
-                        windowInsets = windowInsets,
-                        modifier = tableModifier
-                    )
-
-                is ViewState.Countries ->
-                    UpsellCountryTablePanel(
-                        country = viewState.country,
-                        freeCountries = viewState.freeCountries,
-                        plusCountries = viewState.plusCountries,
-                        windowInsets = windowInsets,
-                        modifier = tableModifier,
-                    )
-            }
-        }
+        )
     }
 }
 
@@ -295,22 +253,77 @@ private fun PaymentsPanelFragmentComposable(modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+private fun UpgradeBenefitsPanel(
+    benefitsViewState: BenefitsViewState,
+    windowInsets: WindowInsets,
+    modifier: Modifier = Modifier,
+) {
+    val scrollState = rememberScrollState(initial = 0)
+    BoxWithVerticalScrollEdgeFade(
+        scrollableState = scrollState,
+        topFadeColor = mixDstOver(ProtonTheme.colors.upsellGradientStart,ProtonTheme.colors.backgroundNorm),
+        topFadeHeight =
+            BoxWithVerticalScrollEdgeFadeDefaults.FadeHeight +
+                    windowInsets.asPaddingValues().calculateTopPadding(),
+        contentAlignment = Alignment.Center,
+        modifier = modifier,
+    ) {
+        val tableModifier = Modifier
+            .windowInsetsPadding(windowInsets.only(WindowInsetsSides.Horizontal))
+            .verticalScroll(scrollState)
+            .largeScreenContentPadding()
+            .horizontalPaddingForWindowSize(medium = 56.dp)
+
+        // Note: UpgradeSource to panel type is not an ideal mapping, but it makes it easy to
+        // combine old and new dialogs during the experiments.
+        when (benefitsViewState) {
+            BenefitsViewState.Streaming ->
+                UpsellStreamingTablePanel(
+                    windowInsets = windowInsets,
+                    modifier = tableModifier
+                )
+
+            BenefitsViewState.NetShield ->
+                UpsellNetShieldTablePanel(
+                    windowInsets = windowInsets,
+                    modifier = tableModifier
+                )
+
+            BenefitsViewState.Speed ->
+                UpsellSpeedTablePanel(
+                    windowInsets = windowInsets,
+                    modifier = tableModifier
+                )
+
+            is BenefitsViewState.Countries ->
+                UpsellCountryTablePanel(
+                    country = benefitsViewState.country,
+                    freeCountries = benefitsViewState.freeCountries,
+                    plusCountries = benefitsViewState.plusCountries,
+                    windowInsets = windowInsets,
+                    modifier = tableModifier,
+                )
+        }
+    }
+}
+
 @VisibleForTesting
-class UpgradeContentProvider : PreviewParameterProvider<ViewState> {
-    override val values: Sequence<ViewState> = sequenceOf(
-        ViewState.Countries(
+class UpgradeContentProvider : PreviewParameterProvider<BenefitsViewState> {
+    override val values: Sequence<BenefitsViewState> = sequenceOf(
+        BenefitsViewState.Countries(
             country = CountryId.sweden,
             freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
             plusCountries = Constants.FALLBACK_COUNTRY_COUNT,
         ),
-        ViewState.Countries(
+        BenefitsViewState.Countries(
             country = null,
             freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
             plusCountries = Constants.FALLBACK_COUNTRY_COUNT,
         ),
-        ViewState.NetShield,
-        ViewState.Speed,
-        ViewState.Streaming
+        BenefitsViewState.NetShield,
+        BenefitsViewState.Speed,
+        BenefitsViewState.Streaming
     )
 
     override fun getDisplayName(index: Int): String {
@@ -321,9 +334,9 @@ class UpgradeContentProvider : PreviewParameterProvider<ViewState> {
 @ProtonVpnPreview
 @Composable
 private fun PreviewPlanUpgradeDialog(
-    @PreviewParameter(UpgradeContentProvider::class) viewState: ViewState
+    @PreviewParameter(UpgradeContentProvider::class) benefitsViewState: BenefitsViewState
 ) {
     ProtonVpnPreview {
-        PlanUpgradeDialog(viewState, {}, Modifier.fillMaxSize())
+        PlanUpgradeDialog(benefitsViewState, {}, Modifier.fillMaxSize())
     }
 }

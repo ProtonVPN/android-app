@@ -28,12 +28,12 @@ import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.ui.planupgrade.comparison_table.PlanUpgradeDialog
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeContentProvider
-import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.ViewState
+import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.BenefitsViewState
 
 @PreviewTest
 @ProtonVpnTestPreview
 @Composable
-fun UpgradeDialogActivityV2ScreenTest(@PreviewParameter(UpgradeContentProvider::class) state: ViewState) {
+fun UpgradeDialogActivityV2ScreenTest(@PreviewParameter(UpgradeContentProvider::class) state: BenefitsViewState) {
     ProtonVpnPreview {
         PlanUpgradeDialog(state, {}, modifier = Modifier.fillMaxWidth())
     }
