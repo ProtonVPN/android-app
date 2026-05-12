@@ -352,14 +352,14 @@
     <string name="notification_max_sessions_title">لقد بلغت الحد الأقصى للأجهزة المسموح به</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="zero">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
-        <item quantity="one">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
-        <item quantity="two">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
-        <item quantity="few">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d أجهزة.</item>
-        <item quantity="many">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
-        <item quantity="other">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
+        <item quantity="zero">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
+        <item quantity="one">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
+        <item quantity="two">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
+        <item quantity="few">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d أجهزة.</item>
+        <item quantity="many">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
+        <item quantity="other">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
     </plurals>
-    <string name="notification_max_sessions_content">يُرجى فصل أحد الأجهزة لتوصيل هذا الجهاز.</string>
+    <string name="notification_max_sessions_content">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز.</string>
     <string name="notification_cancel_to_free">أنت الآن على الباقة المجانية، وتتوفر لك الخوادم والمميزات المجانية.</string>
     <string name="notification_cancel_to_basic">أنت الآن على الباقة الأساسية، وتتوفر لك الخوادم والمميزات الأساسية والمجانية.</string>
     <string name="notification_cancel_to_delinquent">بمجرد سداد الفواتير المستحقة، ستتمكن من استخدام المميزات المدفوعة مجدداً.</string>

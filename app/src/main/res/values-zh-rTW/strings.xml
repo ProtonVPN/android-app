@@ -1592,7 +1592,7 @@
     <string name="profile_auto_open_off">關閉</string>
     <string name="profile_auto_open_app_failed_to_launch">Connect and Go: application not found</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_website">Open a website</string>
+    <string name="profile_auto_open_website">開啟網頁</string>
     <string name="profile_auto_open_app">開啟應用程式</string>
     <string name="create_profile_auto_open_description">當您連接到此設定檔時，自動開啟您選擇的網站。</string>
     <string name="create_profile_auto_open_app_input_hint">選擇應用程式</string>
@@ -1646,7 +1646,7 @@
     <string name="session_fork_no_account_title">登入 Android TV</string>
     <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
     <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
-    <string name="session_fork_no_account_signup_button">Create an account</string>
+    <string name="session_fork_no_account_signup_button">建立帳戶</string>
     <string name="session_fork_no_account_signin_button">登入</string>
     <string name="session_fork_confirmation_title">登入 Android TV?</string>
     <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>

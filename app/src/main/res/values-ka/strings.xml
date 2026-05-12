@@ -519,7 +519,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">სატარიფო გეგმა Plus:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -528,9 +528,9 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
-    <string name="upsell_panel_content_description_yes">Yes</string>
-    <string name="upsell_panel_content_description_no">No</string>
+    <string name="upsell_panel_content_description_value_prefix_free">სატარიფო გეგმა Free:</string>
+    <string name="upsell_panel_content_description_yes">დიახ</string>
+    <string name="upsell_panel_content_description_no">არა</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
     <!--
         %1$s - country name in nominative
@@ -539,33 +539,33 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
-    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Available countries</string>
+    <string name="upsell_panel_country_title">განბლოკეთ %1$s VPN Plus-თან ერთად</string>
+    <string name="upsell_panel_countries_title">განბლოკეთ ყველა ქვეყანა VPN Plus-თან ერთად</string>
+    <string name="upsell_panel_country_benefit_countries">ხელმისაწვდომი ქვეყნები</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_country_benefit_choice">Choose your location</string>
-    <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
-    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
-    <string name="upsell_panel_netshield_title">Browse without interruptions</string>
-    <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
-    <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
-    <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
-    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
-    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
-    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
-    <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
-    <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
-    <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
-    <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
-    <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
-    <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
-    <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_country_benefit_choice">აირჩიეთ თქვენი მდებარეობა</string>
+    <string name="upsell_panel_country_benefit_speed">ჩქაროსნული სერვერები</string>
+    <string name="upsell_panel_country_benefit_shows">უყურეთ სერიალებს, რომლებიც, მხოლოდ, საზღვარგარეთაა ხელმისაწვდომი</string>
+    <string name="upsell_panel_netshield_title">იმუშავეთ ინტერნეტში წყვეტების გარეშე</string>
+    <string name="upsell_panel_netshield_benefit_ads">რეკლამები იბლოკება, როცა ინტერნეტში მუშაობთ</string>
+    <string name="upsell_panel_netshield_benefit_trackers">შეუშალეთ ხელი ტრეკერებს, თვალი გადევნონ</string>
+    <string name="upsell_panel_netshield_benefit_malware">მავნე პროგრამებისგან დაცვა</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">გვერდები უფრო სწრაფად იტვირტება </string>
+    <string name="upsell_panel_speed_title">დსატრიმეთ, ითამაშეთ და გადმოწერეთ უფრო სწრაფად</string>
+    <string name="upsell_panel_speed_benefit_servers">ჩქაროსნული სერვერები</string>
+    <string name="upsell_panel_speed_benefit_gaming">პასუხის დრო თამაშისას</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">ნელი</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">სწრაფი</string>
+    <string name="upsell_panel_speed_benefit_video">ვიდეონაკადები ბუფერიზაციის გარეშე</string>
+    <string name="upsell_panel_speed_benefit_ads">იმუშავეთ ინტერნეტში ტრეკერებისა და რეკლამის გარეშე</string>
+    <string name="upsell_panel_streaming_title">უყურეთ თქვენს რჩეულ სტრიმინგის სერვისებს</string>
+    <string name="upsell_panel_streaming_benefit_shows">უყურეთ ტქვენს სეერიალებს ნებისმიერი ქვეყნიდან</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
-    <string name="upsell_panel_streaming_benefit_platforms">All major streaming platforms supported *</string>
-    <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
-    <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
-    <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
+    <string name="upsell_panel_streaming_benefit_platforms">მხარდაჭერილია ყველა დიდი სტრიმინგის პლატფორმა *</string>
+    <string name="upsell_panel_streaming_benefit_hd">სტრიმინგი HD-ში ბუფერიზაციის გარეშე</string>
+    <string name="upsell_panel_streaming_benefit_devices">ერთდროულად დაკავშირებული მოწყობილობები</string>
+    <string name="upsell_panel_streaming_footer">* სტრიმინგის პლატფორმის გამოწერა აუცილებელია.</string>
     <string name="upsell_card_countries_title">მთელი დედამიწის დაფარვა</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
