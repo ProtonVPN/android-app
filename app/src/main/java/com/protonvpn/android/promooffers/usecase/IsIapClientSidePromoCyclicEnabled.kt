@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025. Proton AG
+ * Copyright (c) 2026. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -24,20 +24,19 @@ import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
 import dagger.Reusable
-import kotlinx.coroutines.flow.Flow
 import me.proton.core.featureflag.domain.entity.FeatureId
 import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
 
-interface IsIapClientSidePromoFeatureFlagEnabled : VpnFeatureFlag
+interface IsIapClientSidePromoCyclicEnabled : VpnFeatureFlag
 
 @Reusable
-class IsIapClientSidePromoFeatureFlagEnabledImpl @Inject constructor(
+class IsIapClientSidePromoCyclicEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
     featureFlagRepository: FeatureFlagRepository,
-) : IsIapClientSidePromoFeatureFlagEnabled,
-    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("IapClientSidePromo"))
+) : IsIapClientSidePromoCyclicEnabled,
+    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("IapClientSidePromoCyclic"))
 
-class FakeIsIapClientSidePromoFeatureFlagEnabled(
-    isEnabled: Boolean,
-) : IsIapClientSidePromoFeatureFlagEnabled, FakeVpnFeatureFlag(isEnabled)
+class FakeIsIapClientSidePromoCyclicEnabled(
+    isEnabled: Boolean
+) : IsIapClientSidePromoCyclicEnabled, FakeVpnFeatureFlag(isEnabled)

@@ -43,6 +43,8 @@ import me.proton.core.util.kotlin.equalsNoCase
 import me.proton.core.util.kotlin.startsWith
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.abs
+import kotlin.time.Duration.Companion.days
 
 private val PROMO_ACTIVITY_PERIOD_START_MS =
     if (BuildConfig.BUILD_TYPE == "benchmarkRelease") 0L else TimeUnit.HOURS.toMillis(5)
@@ -52,6 +54,8 @@ private const val NOTIFICATION_REFERENCE_BANNER = "IntroPricePromoBanner"
 private const val NOTIFICATION_REFERENCE_FULLSCREEN = "IntroPricePromoModal"
 private const val PLAN_NAME = "vpn2022"
 private val PLAN_CYCLE = PlanCycle.MONTHLY
+private val REPEAT_INTERVAL_MS = 70.days.inWholeMilliseconds
+private val REPEAT_INTERVAL_MAX_JITTER_MS = 10.days.inWholeMilliseconds
 
 private const val IMAGE_ASSETS_URL = "file:///android_asset/promooffers"
 private const val ANY = "any"
@@ -62,6 +66,7 @@ fun ApiNotification.isIntroductoryPriceOffer(): Boolean =
 @Reusable
 class GenerateNotificationsForIntroductoryOffers @Inject constructor(
     private val isIapClientSidePromoFeatureFlagEnabled: IsIapClientSidePromoFeatureFlagEnabled,
+    private val isIapClientSidePromoCyclicEnabled: IsIapClientSidePromoCyclicEnabled,
     private val currentUser: CurrentUser,
     private val getEligibleIntroductoryOffers: GetEligibleIntroductoryOffers,
     private val appFeaturesPrefs: AppFeaturesPrefs,
@@ -86,7 +91,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
 
         val allPlans = listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
         val nowMs = clock()
-        val baseTimestampMs = getBaseTimestamp()
+        val baseTimestampMs = getBaseTimestamp(isIapClientSidePromoCyclicEnabled())
         if (baseTimestampMs + PROMO_ACTIVITY_PERIOD_END_MS < nowMs) return emptyList()
         val introductoryOffers = getEligibleIntroductoryOffers(allPlans) ?: return emptyList()
 
@@ -261,10 +266,19 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
         )
     }
 
-    private fun getBaseTimestamp(): Long {
+    private fun getBaseTimestamp(isCyclicEnabled: Boolean): Long {
         val now = clock()
         var startTimestamp = appFeaturesPrefs.iapFirstIntroPriceCheckTimestamp
-        if (startTimestamp == 0L) {
+        val generateNewBaseTimestamp: Boolean = when {
+            startTimestamp == 0L -> true
+            isCyclicEnabled -> {
+                // Pseudo-randomly pick a jitter value:
+                val jitterMs = abs(startTimestamp.hashCode().toLong()) % REPEAT_INTERVAL_MAX_JITTER_MS
+                startTimestamp + jitterMs + REPEAT_INTERVAL_MS < now
+            }
+            else -> false
+        }
+        if (generateNewBaseTimestamp) {
             startTimestamp = now
             appFeaturesPrefs.iapFirstIntroPriceCheckTimestamp = now
         }

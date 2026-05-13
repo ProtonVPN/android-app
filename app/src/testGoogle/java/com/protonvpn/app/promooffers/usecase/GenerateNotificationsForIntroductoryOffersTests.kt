@@ -23,6 +23,7 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.promooffers.data.ApiNotification
 import com.protonvpn.android.promooffers.data.ApiNotificationTypes
+import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromoCyclicEnabled
 import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromoFeatureFlagEnabled
 import com.protonvpn.android.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
 import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers
@@ -41,7 +42,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
@@ -52,6 +52,7 @@ import me.proton.core.plan.domain.entity.DynamicPlanPrice
 import me.proton.core.plan.presentation.entity.PlanCycle
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import java.util.Locale
@@ -67,7 +68,8 @@ class GenerateNotificationsForIntroductoryOffersTests {
     @MockK
     private lateinit var mockInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase
 
-    private lateinit var featureFlagFlow: MutableStateFlow<Boolean>
+    private lateinit var isIapEnabledFF: FakeIsIapClientSidePromoFeatureFlagEnabled
+    private lateinit var isCyclicEnabledFF: FakeIsIapClientSidePromoCyclicEnabled
     private lateinit var testLocaleProvider: TestDefaultLocaleProvider
     private lateinit var testCurrentUserProvider: TestCurrentUserProvider
     private lateinit var testScope: TestScope
@@ -145,9 +147,11 @@ class GenerateNotificationsForIntroductoryOffersTests {
                 testScope::currentTime
             )
 
-        featureFlagFlow = MutableStateFlow(true)
+        isIapEnabledFF = FakeIsIapClientSidePromoFeatureFlagEnabled(true)
+        isCyclicEnabledFF = FakeIsIapClientSidePromoCyclicEnabled(true)
         generateNotificationsForIntroductoryOffers = GenerateNotificationsForIntroductoryOffers(
-            isIapClientSidePromoFeatureFlagEnabled = FakeIsIapClientSidePromoFeatureFlagEnabled(featureFlagFlow),
+            isIapClientSidePromoFeatureFlagEnabled = isIapEnabledFF,
+            isIapClientSidePromoCyclicEnabled = isCyclicEnabledFF,
             currentUser = currentUser,
             getEligibleIntroductoryOffers = getEligibleIntroductoryOffers,
             appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider()),
@@ -249,7 +253,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
         testLoadGoogleOffers.offers = listOf(
             createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
         )
-        featureFlagFlow.value = false
+        isIapEnabledFF.setEnabled(false)
 
         val beforeFfEnabled = generateNotificationsForIntroductoryOffers()
         assertEquals(emptyList<ApiNotification>(), beforeFfEnabled)
@@ -258,13 +262,46 @@ class GenerateNotificationsForIntroductoryOffersTests {
         advanceTimeBy(baseTimestampS.seconds)
         val expectedStartTimeS: Long = baseTimestampS + 5 * 3600 // 5 hours
         val expectedEndTimeS: Long = baseTimestampS + 3 * 86400 // 3 days
-        featureFlagFlow.value = true
+        isIapEnabledFF.setEnabled(true)
         val afterFfEnabled = generateNotificationsForIntroductoryOffers()
         assertEquals(2, afterFfEnabled.size)
         assertEquals(expectedStartTimeS, afterFfEnabled[0].startTime)
         assertEquals(expectedEndTimeS, afterFfEnabled[0].endTime)
     }
 
+    @Test
+    fun `GIVEN cyclic FF is enabled WHEN generate is called after 80 days THEN new offers are generated`() = testScope.runTest {
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
+        )
+        advanceTimeBy(1.days)
+        val firstRoundOffers = generateNotificationsForIntroductoryOffers()
+        assertTrue(firstRoundOffers.isNotEmpty())
+
+        advanceTimeBy(5.days)
+        val cooldownPeriodOffers = generateNotificationsForIntroductoryOffers()
+        assertTrue(cooldownPeriodOffers.isEmpty())
+
+        advanceTimeBy(80.days)
+        val secondRoundOffers = generateNotificationsForIntroductoryOffers()
+        assertTrue(secondRoundOffers.isNotEmpty())
+    }
+
+    @Test
+    fun `GIVEN cyclic FF is disabled WHEN generate is called after 80 days THEN no offers are generated`() = testScope.runTest {
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
+        )
+        isCyclicEnabledFF.setEnabled(false)
+
+        advanceTimeBy(1.days)
+        val firstRoundOffers = generateNotificationsForIntroductoryOffers()
+        assertTrue(firstRoundOffers.isNotEmpty())
+
+        advanceTimeBy(100.days)
+        val lateOffers = generateNotificationsForIntroductoryOffers()
+        assertTrue(lateOffers.isEmpty())
+    }
 
     private fun assertImages(
         expectedBannerUrl: String,
