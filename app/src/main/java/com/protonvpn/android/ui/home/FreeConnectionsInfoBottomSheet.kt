@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -38,10 +37,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.databinding.FreeConnectionsInfoBinding
 import com.protonvpn.android.databinding.InfoFreeCountryItemBinding
-import com.protonvpn.android.telemetry.UpgradeSource
-import com.protonvpn.android.telemetry.UpgradeTrigger
-import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import me.proton.core.compose.theme.ProtonTheme
@@ -56,9 +51,6 @@ fun FreeConnectionsInfoBottomSheet(
     onDismissRequest: () -> Unit,
     viewModel: FreeConnectionsInfoViewModel = hiltViewModel(),
 ) {
-    LaunchedEffect(Unit) {
-        viewModel.reportUpgradeFlowStart(UpgradeSource.COUNTRIES, UpgradeTrigger.HOME)
-    }
     val context = LocalContext.current
     FreeConnectionsInfoBottomSheet(
         onDismissRequest = onDismissRequest,
