@@ -66,6 +66,7 @@ import com.protonvpn.android.telemetry.UpgradeAbTest
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.telemetry.onboarding.OnboardingTelemetry
+import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableEnabled
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -75,6 +76,7 @@ import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
@@ -103,12 +105,14 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
             initHighlightsFragment()
             initPaymentsPanelFragment()
             viewModel.loadPlans(allowMultiplePlans)
-            viewModel.reportUpgradeFlowStart(
-                getTelemetryUpgradeSource(),
-                getTelemetryUpgradeTrigger(),
-                UpgradeAbTest.CONTROL,
-                getTelemetryCountryId(),
-            )
+            lifecycleScope.launch {
+                viewModel.reportUpgradeFlowStart(
+                    getTelemetryUpgradeSource(),
+                    getTelemetryUpgradeTrigger(),
+                    overrideAbTestGroup() ?: UpgradeAbTest.CONTROL,
+                    getTelemetryCountryId(),
+                )
+            }
         }
         upgradeHelper.onCreate(viewModel)
 
@@ -168,6 +172,8 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
 
     protected fun getTelemetryCountryId(): CountryId? =
         intent?.getStringExtra(COUNTRY_CODE_EXTRA)?.let { CountryId(it) }
+
+    protected open suspend fun overrideAbTestGroup(): UpgradeAbTest? = null
 
     private fun initPaymentsPanelFragment() {
         supportFragmentManager.commitNow {
@@ -346,6 +352,7 @@ class CarouselUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
 class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultiplePlans = false) {
 
     @Inject lateinit var onboardingTelemetry: OnboardingTelemetry
+    @Inject lateinit var isUpsellComparisonTableEnabled: IsUpsellComparisonTableEnabled
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -373,6 +380,11 @@ class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultipleP
     }
 
     override fun getTelemetryUpgradeSource(): UpgradeSource = UpgradeSource.ONBOARDING
+
+    override suspend fun overrideAbTestGroup(): UpgradeAbTest? {
+        // Report the FF value even though the onboarding dialog doesn't have a new variant.
+        return if (isUpsellComparisonTableEnabled()) UpgradeAbTest.COMPARISON_TABLE else UpgradeAbTest.CONTROL
+    }
 
     companion object {
         fun launch(context: Context) {
