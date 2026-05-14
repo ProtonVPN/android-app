@@ -36,7 +36,7 @@ fun ApiNotificationIapAction.toIapParams() = NotificationIapParams(
     cycle = cycle,
     currency = currency,
     priceCents = priceCents,
-    showDiscountBadge = true,
+    showDiscountBadge = false,
 )
 
 fun ApiNotificationProductDetailsGoogle.toIapParams() = NotificationIapParams(

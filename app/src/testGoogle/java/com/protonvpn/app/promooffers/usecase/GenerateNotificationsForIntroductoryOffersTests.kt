@@ -23,6 +23,7 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.promooffers.data.ApiNotification
 import com.protonvpn.android.promooffers.data.ApiNotificationTypes
+import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromo12mEnabled
 import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromoCyclicEnabled
 import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromoFeatureFlagEnabled
 import com.protonvpn.android.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
@@ -70,6 +71,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     private lateinit var isIapEnabledFF: FakeIsIapClientSidePromoFeatureFlagEnabled
     private lateinit var isCyclicEnabledFF: FakeIsIapClientSidePromoCyclicEnabled
+    private lateinit var is12mEnabledFF: FakeIsIapClientSidePromo12mEnabled
     private lateinit var testLocaleProvider: TestDefaultLocaleProvider
     private lateinit var testCurrentUserProvider: TestCurrentUserProvider
     private lateinit var testScope: TestScope
@@ -149,9 +151,11 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
         isIapEnabledFF = FakeIsIapClientSidePromoFeatureFlagEnabled(true)
         isCyclicEnabledFF = FakeIsIapClientSidePromoCyclicEnabled(true)
+        is12mEnabledFF = FakeIsIapClientSidePromo12mEnabled(false)
         generateNotificationsForIntroductoryOffers = GenerateNotificationsForIntroductoryOffers(
             isIapClientSidePromoFeatureFlagEnabled = isIapEnabledFF,
             isIapClientSidePromoCyclicEnabled = isCyclicEnabledFF,
+            isIapClientSidePromo12mEnabled = is12mEnabledFF,
             currentUser = currentUser,
             getEligibleIntroductoryOffers = getEligibleIntroductoryOffers,
             appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider()),
@@ -301,6 +305,35 @@ class GenerateNotificationsForIntroductoryOffersTests {
         advanceTimeBy(100.days)
         val lateOffers = generateNotificationsForIntroductoryOffers()
         assertTrue(lateOffers.isEmpty())
+    }
+
+    @Test
+    fun `GIVEN intro prices for monthly and yearly WHEN 12m FF is disabled THEN 1m offers are generated`() = testScope.runTest {
+        fakeDynamicPlansAdjustedPrices.currency = "USD"
+        fakeDynamicPlansAdjustedPrices.introPrices = mapOf(PlanCycle.MONTHLY to 99, PlanCycle.YEARLY to 2_00)
+
+        val notifications = generateNotificationsForIntroductoryOffers()
+        assertEquals(2, notifications.size)
+        assertImages(
+            expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_1_usd_99_en_any_dark.png",
+            expectedFullscreenUrl = "file:///android_asset/promooffers/internal_intro_price_modal_vpn2022_1_usd_99_en_any_dark.png",
+            notifications = notifications
+        )
+    }
+
+    @Test
+    fun `GIVEN intro prices for monthly and yearly WHEN 12m FF is enabled THEN 12m offers are generated`() = testScope.runTest {
+        fakeDynamicPlansAdjustedPrices.currency = "USD"
+        fakeDynamicPlansAdjustedPrices.introPrices = mapOf(PlanCycle.MONTHLY to 99, PlanCycle.YEARLY to 2_00)
+        is12mEnabledFF.setEnabled(true)
+
+        val notifications = generateNotificationsForIntroductoryOffers()
+        assertEquals(2, notifications.size)
+        assertImages(
+            expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_12_any_any_any_any_dark.png",
+            expectedFullscreenUrl = "file:///android_asset/promooffers/internal_intro_price_modal_vpn2022_12_any_any_any_any_dark.png",
+            notifications = notifications
+        )
     }
 
     private fun assertImages(

@@ -78,6 +78,8 @@ import com.protonvpn.android.profiles.usecases.IsProfileAutoOpenPrivateBrowsingF
 import com.protonvpn.android.profiles.usecases.IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabledImpl
 import com.protonvpn.android.promooffers.data.GlideImagePrefetcher
 import com.protonvpn.android.promooffers.data.ImagePrefetcher
+import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromo12mEnabled
+import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromo12mEnabledImpl
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoCyclicEnabled
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoCyclicEnabledImpl
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabled
@@ -496,6 +498,11 @@ object AppModule {
         fun bindIsIapClientSidePromoFeatureFlagEnabled(
             impl: IsIapClientSidePromoFeatureFlagEnabledImpl
         ): IsIapClientSidePromoFeatureFlagEnabled
+
+        @Binds
+        fun bindIsIapClientSidePromo12mEnabled(
+            impl: IsIapClientSidePromo12mEnabledImpl
+        ): IsIapClientSidePromo12mEnabled
 
         @Binds
         fun bindIsIapClientSidePromoCyclicEnabled(
