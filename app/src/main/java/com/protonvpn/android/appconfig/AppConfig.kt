@@ -28,8 +28,8 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
 import com.protonvpn.android.auth.usecase.GetActiveAuthenticatedAccount
-import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.bugreport.BugReportConfigStore
+import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
@@ -181,7 +181,6 @@ class AppConfig @Inject constructor(
 
         val flagsResult = suspend {
             fetchFlags(userId)
-            fetchFlags(null)
             ApiResult.Success(Unit)
         }.runCatchingCheckedExceptions {
             (it as? ApiException)?.error

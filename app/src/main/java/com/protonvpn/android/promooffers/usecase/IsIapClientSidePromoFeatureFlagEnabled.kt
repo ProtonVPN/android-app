@@ -25,8 +25,8 @@ import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
-import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
 
 interface IsIapClientSidePromoFeatureFlagEnabled : VpnFeatureFlag
@@ -34,9 +34,9 @@ interface IsIapClientSidePromoFeatureFlagEnabled : VpnFeatureFlag
 @Reusable
 class IsIapClientSidePromoFeatureFlagEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
-    featureFlagManager: FeatureFlagManager
+    featureFlagRepository: FeatureFlagRepository,
 ) : IsIapClientSidePromoFeatureFlagEnabled,
-    VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("IapClientSidePromo"))
+    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("IapClientSidePromo"))
 
 class FakeIsIapClientSidePromoFeatureFlagEnabled(
     enabledFlow: Flow<Boolean>

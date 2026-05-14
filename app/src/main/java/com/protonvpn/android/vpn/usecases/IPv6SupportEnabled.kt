@@ -24,8 +24,8 @@ import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
 import dagger.Reusable
-import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
 
 interface IsIPv6FeatureFlagEnabled : VpnFeatureFlag
@@ -35,5 +35,5 @@ class FakeIsIPv6FeatureFlagEnabled(enabled: Boolean): IsIPv6FeatureFlagEnabled, 
 @Reusable
 class IsIPv6FeatureFlagEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
-    featureFlagManager: FeatureFlagManager
-): IsIPv6FeatureFlagEnabled, VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("IPv6Support"))
+    featureFlagRepository: FeatureFlagRepository
+): IsIPv6FeatureFlagEnabled, VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("IPv6Support"))

@@ -28,8 +28,8 @@ import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
-import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
 
 // Note: it's not a true deprecation, just an indicator to use the other class instead.
@@ -42,9 +42,9 @@ interface IsBinaryServerStatusFeatureFlagEnabled : VpnFeatureFlag
 @Reusable
 class IsBinaryServerStatusFeatureFlagEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
-    featureFlagManager: FeatureFlagManager,
+    featureFlagRepository: FeatureFlagRepository,
 ) : IsBinaryServerStatusFeatureFlagEnabled,
-    VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("BinaryServerStatus"))
+    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("BinaryServerStatus"))
 
 class FakeIsBinaryServerStatusFeatureFlagEnabled(
     enabled: Flow<Boolean>

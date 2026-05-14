@@ -24,8 +24,8 @@ import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
 import dagger.Reusable
-import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
 
 interface IsTvAutoConnectFeatureFlagEnabled : VpnFeatureFlag
@@ -33,9 +33,9 @@ interface IsTvAutoConnectFeatureFlagEnabled : VpnFeatureFlag
 @Reusable
 class IsTvAutoConnectFeatureFlagEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
-    featureFlagManager: FeatureFlagManager
+    featureFlagRepository: FeatureFlagRepository
 ) : IsTvAutoConnectFeatureFlagEnabled,
-    VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("TvAutoConnectEnabled"))
+    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("TvAutoConnectEnabled"))
 
 class FakeIsTvAutoConnectFeatureFlagEnabled(
     enabled: Boolean

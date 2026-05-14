@@ -28,17 +28,17 @@ import me.proton.core.featureflag.domain.ExperimentalProtonFeatureFlag
 import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
 import me.proton.core.featureflag.domain.entity.Scope
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 
 interface IsQrCodeTvLoginFeatureFlagEnabled : VpnFeatureFlag
 
 @Reusable
 class IsQrCodeTvLoginFeatureFlagEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
-    featureFlagManager: FeatureFlagManager
+    featureFlagRepository: FeatureFlagRepository,
 ) : IsQrCodeTvLoginFeatureFlagEnabled,
-    VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("QrCodeTvLogin"))
+    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("QrCodeTvLogin"))
 
 class FakeIsQrCodeTvLoginFeatureFlagEnabled(
     isEnabled: Boolean

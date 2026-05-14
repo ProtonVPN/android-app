@@ -34,16 +34,20 @@ import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.featureFlagsResponseRule
 import com.protonvpn.testsHelper.setUser
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
 import me.proton.core.auth.data.api.request.ForkSessionRequest
 import me.proton.core.auth.data.api.response.ForkSessionResponse
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import me.proton.core.util.kotlin.deserialize
 import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.nio.charset.StandardCharsets.UTF_8
+import javax.inject.Inject
 import kotlin.test.assertNotNull
 
 private const val FeatureFlagName = "QrCodeTvLogin"
@@ -76,8 +80,15 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
     val protonRule = ProtonHiltAndroidRule(this, apiConfig)
     private var activityScenario: ActivityScenario<SessionForkConfirmationActivity>? = null
 
+    @Inject lateinit var featureFlagRepository: FeatureFlagRepository
+
     private fun launchActivity(url: String) {
         activityScenario = ActivityScenario.launch(SessionForkIntent.apply { data = url.toUri() })
+    }
+
+    @Before
+    fun setup() {
+        protonRule.inject()
     }
 
     @After
@@ -96,6 +107,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
     @Test
     fun WhenUserIsLoggedInThenShowConfirmationScreenImmediately() {
         protonRule.setUser(TestUser.plusUser)
+        refreshFeatureFlags(TestUser.plusUser)
         launchActivity(QrCodeUrl)
         SessionForkConfirmationRobot.verify {
             assertConfirmationDisplayed()
@@ -105,6 +117,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
     @Test
     fun WhenBusinessUserIsLoggedInThenErrorIsShown() {
         protonRule.setUser(TestUser.businessEssential)
+        refreshFeatureFlags(TestUser.businessEssential)
         launchActivity(QrCodeUrl)
         SessionForkConfirmationRobot.verify {
             assertErrorIsDisplayed()
@@ -114,6 +127,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
     @Test
     fun WhenForkConfirmedTooFastThenMessageIsDisplayed() {
         protonRule.setUser(TestUser.plusUser)
+        refreshFeatureFlags(TestUser.plusUser)
         launchActivity(QrCodeUrl)
         SessionForkConfirmationRobot
             .confirmFork()
@@ -134,6 +148,7 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
 
     private fun testWhenForkConfirmedThenPostRequestIsSent(codeUrl: String) {
         protonRule.setUser(TestUser.plusUser)
+        refreshFeatureFlags(TestUser.plusUser)
         protonRule.mockDispatcher.addRules {
             rule(post, path eq "/auth/v4/sessions/forks") {
                 respond(200, ForkSessionResponse(1000, "selector"))
@@ -159,5 +174,9 @@ class SessionForkConfirmationActivityTests : FusionComposeTest() {
         assertEquals("1234ABCD", requestBody.userCode)
         assertEquals("""{"InitialUserTier":"paid","FlowType":"app"}""", Base64.decode(requestBody.payload, 0).decodeToString())
         assertEquals(1L, requestBody.independent)
+    }
+
+    private fun refreshFeatureFlags(user: TestUser) {
+        runBlocking { featureFlagRepository.getAll(user.vpnUser.userId) }
     }
 }

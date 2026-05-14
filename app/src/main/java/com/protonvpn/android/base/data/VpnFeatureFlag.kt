@@ -30,8 +30,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import me.proton.core.domain.entity.UserId
 import me.proton.core.featureflag.domain.ExperimentalProtonFeatureFlag
-import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import me.proton.core.network.domain.ApiException
 import javax.inject.Inject
 
@@ -61,21 +61,21 @@ constructor(
 
 open class VpnFeatureFlagImpl @Inject constructor(
     private val currentUser: CurrentUser,
-    private val featureFlagManager: FeatureFlagManager,
+    private val featureFlagRepository: FeatureFlagRepository,
     private val featureId: FeatureId
 ) : VpnFeatureFlag {
     @OptIn(ExperimentalProtonFeatureFlag::class)
     override suspend operator fun invoke(): Boolean =
-        featureFlagManager.getValue(currentUser.user()?.userId, featureId)
+        featureFlagRepository.getValue(currentUser.user()?.userId, featureId) ?: false
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun observe() =
         currentUser.vpnUserFlow.flatMapLatest { vpnUser ->
-            featureFlagManager.safeObserve(vpnUser?.userId, featureId)
+            featureFlagRepository.safeObserve(vpnUser?.userId, featureId)
         }.distinctUntilChanged()
 }
 
-private fun FeatureFlagManager.safeObserve(userId: UserId?, featureId: FeatureId) =
+private fun FeatureFlagRepository.safeObserve(userId: UserId?, featureId: FeatureId) =
     observe(userId, featureId, refresh = false)
         .map { flag -> flag?.value ?: false }
         .catch { e ->

@@ -23,8 +23,8 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
 import dagger.Reusable
-import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
 
 interface IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled : VpnFeatureFlag
@@ -32,6 +32,6 @@ interface IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled : VpnFeatureFlag
 @Reusable
 class IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
-    featureFlagManager: FeatureFlagManager
+    featureFlagRepository: FeatureFlagRepository,
 ) : IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled,
-    VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("ConnectAndGoAppsIncognito"))
+    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("ConnectAndGoAppsIncognito"))

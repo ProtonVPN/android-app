@@ -23,8 +23,8 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
-import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
 
 interface IsAppUpdateBannerFeatureFlagEnabled : VpnFeatureFlag
@@ -35,6 +35,6 @@ class FakeIsAppUpdateBannerFeatureFlagEnabled(
 
 class IsAppUpdateBannerFeatureFlagEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
-    featureFlagManager: FeatureFlagManager
+    featureFlagRepository: FeatureFlagRepository
 ) : IsAppUpdateBannerFeatureFlagEnabled,
-    VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("AppUpdateSettingsBannerEnabled"))
+    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("AppUpdateSettingsBannerEnabled"))

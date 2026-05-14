@@ -24,8 +24,8 @@ import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
 import dagger.Reusable
-import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
 
 interface IsTvNetShieldSettingFeatureFlagEnabled : VpnFeatureFlag
@@ -33,9 +33,9 @@ interface IsTvNetShieldSettingFeatureFlagEnabled : VpnFeatureFlag
 @Reusable
 class IsTvNetShieldSettingFeatureFlagEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
-    featureFlagManager: FeatureFlagManager
+    featureFlagRepository: FeatureFlagRepository
 ) : IsTvNetShieldSettingFeatureFlagEnabled,
-    VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("TvNetShieldSettingEnabled"))
+    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("TvNetShieldSettingEnabled"))
 
 class FakeIsTvNetShieldSettingFeatureFlagEnabled(
     enabled: Boolean
