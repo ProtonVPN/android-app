@@ -61,7 +61,6 @@ import kotlin.test.assertNotNull
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GenerateNotificationsForIntroductoryOffersTests {
@@ -162,6 +161,8 @@ class GenerateNotificationsForIntroductoryOffersTests {
             locale = testLocaleProvider,
             clock = testScope::currentTime
         )
+
+        testScope.advanceTimeBy(1_000) // 0 timestamp is special.
     }
 
     @Test
@@ -171,7 +172,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
             createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(10_00), currency = "USD", tags = baseTags),
         )
 
-        val notifications = generateNotificationsForIntroductoryOffers()
+        val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(2, notifications.size)
         assertImages(
             expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_1_usd_99_en_any_dark.png",
@@ -187,7 +188,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
         )
         testLocaleProvider.locale = Locale("lt", "lt")
 
-        val notifications = generateNotificationsForIntroductoryOffers()
+        val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(2, notifications.size)
         assertImages(
             expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_1_any_any_any_any_dark.png",
@@ -202,7 +203,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
             createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99), currency = "EUR", tags = introTags),
         )
 
-        val notifications = generateNotificationsForIntroductoryOffers()
+        val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(emptyList<ApiNotification>(), notifications)
     }
 
@@ -212,11 +213,10 @@ class GenerateNotificationsForIntroductoryOffersTests {
             createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
         )
 
-        val baseTimestampS = 1_000L
-        advanceTimeBy(baseTimestampS.seconds)
+        val baseTimestampS = currentTime.milliseconds.inWholeSeconds
         val expectedStartTimeS: Long = baseTimestampS + 5 * 3600 // 5 hours
         val expectedEndTimeS: Long = baseTimestampS + 3 * 86400 // 3 days
-        val notifications = generateNotificationsForIntroductoryOffers()
+        val notifications = generateNotificationsForIntroductoryOffers(false)
 
         assertEquals(2, notifications.size)
         assertEquals(notifications[0].startTime, notifications[1].startTime)
@@ -226,13 +226,13 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
         repeat(6) {
             advanceTimeBy(12.hours)
-            val updatedNotifications = generateNotificationsForIntroductoryOffers()
+            val updatedNotifications = generateNotificationsForIntroductoryOffers(false)
             assertEquals(expectedStartTimeS, updatedNotifications[0].startTime)
             assertEquals(expectedEndTimeS, updatedNotifications[0].endTime)
         }
 
         advanceTimeBy(1.hours)
-        val notificationPastOfferPeriod = generateNotificationsForIntroductoryOffers()
+        val notificationPastOfferPeriod = generateNotificationsForIntroductoryOffers(false)
         assertEquals(emptyList<ApiNotification>(), notificationPastOfferPeriod)
     }
 
@@ -242,12 +242,11 @@ class GenerateNotificationsForIntroductoryOffersTests {
             createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
         )
 
-        advanceTimeBy(1) // Need to have non-zero time - 0 is special.
-        generateNotificationsForIntroductoryOffers()
+        generateNotificationsForIntroductoryOffers(false)
         testLoadGoogleOffers.resetWasCalled()
 
         advanceTimeBy(3.days + 1.milliseconds)
-        val notifications = generateNotificationsForIntroductoryOffers()
+        val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(emptyList<ApiNotification>(), notifications)
         assertFalse(testLoadGoogleOffers.wasCalled)
     }
@@ -259,15 +258,14 @@ class GenerateNotificationsForIntroductoryOffersTests {
         )
         isIapEnabledFF.setEnabled(false)
 
-        val beforeFfEnabled = generateNotificationsForIntroductoryOffers()
+        val beforeFfEnabled = generateNotificationsForIntroductoryOffers(false)
         assertEquals(emptyList<ApiNotification>(), beforeFfEnabled)
 
-        val baseTimestampS = 1_000L
-        advanceTimeBy(baseTimestampS.seconds)
+        val baseTimestampS = currentTime.milliseconds.inWholeSeconds
         val expectedStartTimeS: Long = baseTimestampS + 5 * 3600 // 5 hours
         val expectedEndTimeS: Long = baseTimestampS + 3 * 86400 // 3 days
         isIapEnabledFF.setEnabled(true)
-        val afterFfEnabled = generateNotificationsForIntroductoryOffers()
+        val afterFfEnabled = generateNotificationsForIntroductoryOffers(false)
         assertEquals(2, afterFfEnabled.size)
         assertEquals(expectedStartTimeS, afterFfEnabled[0].startTime)
         assertEquals(expectedEndTimeS, afterFfEnabled[0].endTime)
@@ -279,16 +277,52 @@ class GenerateNotificationsForIntroductoryOffersTests {
             createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
         )
         advanceTimeBy(1.days)
-        val firstRoundOffers = generateNotificationsForIntroductoryOffers()
-        assertTrue(firstRoundOffers.isNotEmpty())
+        val firstRoundNotifications = generateNotificationsForIntroductoryOffers(false)
+        assertTrue(firstRoundNotifications.isNotEmpty())
 
         advanceTimeBy(5.days)
-        val cooldownPeriodOffers = generateNotificationsForIntroductoryOffers()
-        assertTrue(cooldownPeriodOffers.isEmpty())
+        val cooldownPeriodNotifications = generateNotificationsForIntroductoryOffers(true)
+        assertTrue(cooldownPeriodNotifications.isEmpty())
 
         advanceTimeBy(80.days)
-        val secondRoundOffers = generateNotificationsForIntroductoryOffers()
-        assertTrue(secondRoundOffers.isNotEmpty())
+        val noTriggerNotifications = generateNotificationsForIntroductoryOffers(false)
+        assertTrue(noTriggerNotifications.isEmpty())
+
+        val secondRoundNotifications = generateNotificationsForIntroductoryOffers(true)
+        assertTrue(secondRoundNotifications.isNotEmpty())
+    }
+
+    @Test
+    fun `WHEN second round offers are generated THEN their start time is now`() = testScope.runTest {
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
+        )
+
+        generateNotificationsForIntroductoryOffers(true)
+        advanceTimeBy(90.days)
+
+        val baseTimestampS = currentTime.milliseconds.inWholeSeconds
+        val expectedStartTimeS: Long = baseTimestampS // 5 hours
+        val expectedEndTimeS: Long = baseTimestampS + 3 * 86400 // 3 days
+        val notifications = generateNotificationsForIntroductoryOffers(true)
+        assertEquals(2, notifications.size)
+        assertEquals(expectedStartTimeS, notifications[0].startTime)
+        assertEquals(expectedEndTimeS, notifications[0].endTime)
+    }
+
+    @Test
+    fun `GIVEN second round offers were generated WHEN generate is called without trigger THEN the offers are regenerated`() = testScope.runTest {
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
+        )
+
+        generateNotificationsForIntroductoryOffers(true)
+        advanceTimeBy(90.days)
+
+        val triggeredNotifications = generateNotificationsForIntroductoryOffers(true)
+        advanceTimeBy(2.days)
+        val noTriggerNotifications = generateNotificationsForIntroductoryOffers(false)
+        assertEquals(triggeredNotifications, noTriggerNotifications)
     }
 
     @Test
@@ -299,20 +333,22 @@ class GenerateNotificationsForIntroductoryOffersTests {
         isCyclicEnabledFF.setEnabled(false)
 
         advanceTimeBy(1.days)
-        val firstRoundOffers = generateNotificationsForIntroductoryOffers()
+        val firstRoundOffers = generateNotificationsForIntroductoryOffers(false)
         assertTrue(firstRoundOffers.isNotEmpty())
 
         advanceTimeBy(100.days)
-        val lateOffers = generateNotificationsForIntroductoryOffers()
+        val lateOffers = generateNotificationsForIntroductoryOffers(false)
         assertTrue(lateOffers.isEmpty())
     }
 
     @Test
     fun `GIVEN intro prices for monthly and yearly WHEN 12m FF is disabled THEN 1m offers are generated`() = testScope.runTest {
-        fakeDynamicPlansAdjustedPrices.currency = "USD"
-        fakeDynamicPlansAdjustedPrices.introPrices = mapOf(PlanCycle.MONTHLY to 99, PlanCycle.YEARLY to 2_00)
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "USD", tags = introTags),
+            createGiapOffer(vpnPlus, PlanCycle.YEARLY, listOf(2_00, 100_00), currency = "USD", tags = introTags),
+        )
 
-        val notifications = generateNotificationsForIntroductoryOffers()
+        val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(2, notifications.size)
         assertImages(
             expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_1_usd_99_en_any_dark.png",
@@ -323,11 +359,13 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN intro prices for monthly and yearly WHEN 12m FF is enabled THEN 12m offers are generated`() = testScope.runTest {
-        fakeDynamicPlansAdjustedPrices.currency = "USD"
-        fakeDynamicPlansAdjustedPrices.introPrices = mapOf(PlanCycle.MONTHLY to 99, PlanCycle.YEARLY to 2_00)
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "USD", tags = introTags),
+            createGiapOffer(vpnPlus, PlanCycle.YEARLY, listOf(2_00, 100_00), currency = "USD", tags = introTags),
+        )
         is12mEnabledFF.setEnabled(true)
 
-        val notifications = generateNotificationsForIntroductoryOffers()
+        val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(2, notifications.size)
         assertImages(
             expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_12_any_any_any_any_dark.png",

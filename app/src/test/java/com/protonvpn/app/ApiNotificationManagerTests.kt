@@ -131,7 +131,7 @@ class ApiNotificationManagerTests {
         every { mockAppConfig.appConfigUpdateEvent } returns MutableSharedFlow()
         every { mockAppConfig.appConfigFlow } returns appConfigFlow
         coEvery { mockImagePrefetcher.prefetch(any()) } returns true
-        coEvery { mockGenerateNotificationsForIntroductoryOffers.invoke() } returns emptyList()
+        coEvery { mockGenerateNotificationsForIntroductoryOffers.invoke(any()) } returns emptyList()
 
         infoChangeFlow = MutableSharedFlow()
         every { mockUserPlanManager.infoChangeFlow } returns infoChangeFlow
@@ -280,7 +280,7 @@ class ApiNotificationManagerTests {
         notificationManager = createNotificationsManager(store)
         mockResponse()
         val introOffers = listOf(mockOffer("internal_intro_price_1"))
-        coEvery { mockGenerateNotificationsForIntroductoryOffers.invoke() } returns introOffers
+        coEvery { mockGenerateNotificationsForIntroductoryOffers.invoke(any()) } returns introOffers
 
         val expectedNotificationIds = listOf("internal_intro_price_1")
         notificationManager.updateNotifications()
@@ -296,7 +296,7 @@ class ApiNotificationManagerTests {
     fun `API and generated notifications are combined and replaced`() = testScope.runTest {
         mockResponse(mockOffer("api_offer_1"))
         val introOffers = listOf(mockOffer("internal_intro_price_1"))
-        coEvery { mockGenerateNotificationsForIntroductoryOffers.invoke() } returns introOffers
+        coEvery { mockGenerateNotificationsForIntroductoryOffers.invoke(any()) } returns introOffers
 
         repeat(2) {
             notificationManager.updateNotifications()

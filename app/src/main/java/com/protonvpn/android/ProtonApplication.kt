@@ -50,6 +50,7 @@ import com.protonvpn.android.profiles.usecases.PopulateInitialProfiles
 import com.protonvpn.android.profiles.usecases.ProfileAutoOpenHandler
 import com.protonvpn.android.profiles.usecases.UpdateProfileLastConnected
 import com.protonvpn.android.promooffers.usecase.OneTimePopupNotificationTrigger
+import com.protonvpn.android.promooffers.usecase.TriggerInAppPromoOnAppOpen
 import com.protonvpn.android.quicktile.QuickTileDataStoreUpdater
 import com.protonvpn.android.redesign.recents.usecases.ConnectingUpdatesRecents
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
@@ -113,6 +114,7 @@ open class ProtonApplication : Application() {
         val accountStateHandler: AccountStateHandler
         val appExitObservability: AppExitObservability
         val appMmpObservability: AppMmpObservability
+        val appOpenMmpTracker: AppOpenMmpTracker
         val appStartExitLogger: AppStartExitLogger
         val autoConnectBootController: AutoConnectBootReceiverController
         val autoLoginManager: AutoLoginManager?
@@ -144,7 +146,7 @@ open class ProtonApplication : Application() {
         val streamingServicesUpdater: StreamingServicesUpdater
         val streamingUpsellRestrictionsDialogTrigger: StreamingUpsellRestrictionsDialogTrigger
         val streamingUpsellRestrictionsNotificationTrigger: StreamingUpsellRestrictionsNotificationTrigger
-        val appOpenMmpTracker: AppOpenMmpTracker
+        val triggerInAppPromoOnAppOpen: TriggerInAppPromoOnAppOpen
         val updateAndroidAppTheme: UpdateAndroidAppTheme
         val updateProfileLastConnected: UpdateProfileLastConnected
         val updateSettingsOnVpnUserChange: UpdateSettingsOnVpnUserChange?
@@ -242,6 +244,7 @@ open class ProtonApplication : Application() {
         dependencies.streamingServicesUpdater
         dependencies.streamingUpsellRestrictionsDialogTrigger.start()
         dependencies.streamingUpsellRestrictionsNotificationTrigger.start()
+        dependencies.triggerInAppPromoOnAppOpen.start()
         dependencies.vpnConnectionObservability
         dependencies.vpnConnectionTelemetry.start()
         dependencies.vpnErrorUiManager

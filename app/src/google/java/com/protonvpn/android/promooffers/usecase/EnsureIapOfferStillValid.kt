@@ -51,7 +51,7 @@ class EnsureIapOfferStillValid @Inject constructor(
         val isError = valid == null
         if (valid == false) {
             mainScope.launch {
-                apiNotificationsManager.updateIapIntroOffers()
+                apiNotificationsManager.updateIapIntroOffers(false)
             }
         }
         return valid == true || isError

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025. Proton AG
+ * Copyright (c) 2026. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -19,14 +19,9 @@
 
 package com.protonvpn.android.promooffers.usecase
 
-import com.protonvpn.android.promooffers.data.ApiNotification
-import dagger.Reusable
 import javax.inject.Inject
 
-fun ApiNotification.isIntroductoryPriceOffer(): Boolean = false
+class TriggerInAppPromoOnAppOpen @Inject constructor() {
 
-@Reusable
-class GenerateNotificationsForIntroductoryOffers @Inject constructor() {
-
-    suspend operator fun invoke(triggerCyclicPromos: Boolean): List<ApiNotification> = emptyList()
+    fun start() = Unit
 }

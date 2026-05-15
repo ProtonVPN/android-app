@@ -63,6 +63,7 @@ class AppFeaturesPrefs @Inject constructor(
     val isWidgetDiscoveredFlow: Flow<Boolean> = preferences.observe<Boolean>(KEY_WIDGET_DISCOVERED).map { it ?: false }
 
     var iapFirstIntroPriceCheckTimestamp: Long by long(0L)
+    var iapLastIntroPriceBaseTimestamp: Long by long(0L)
 
     var lastAppInForegroundTimestamp: Long? by long()
 

@@ -213,13 +213,13 @@ class ApiNotificationManager @Inject constructor(
         mainScope.launch {
             // Checking intro offers may be a bit heavy, delay it to avoid running on start.
             delay(10_000)
-            updateIapIntroOffers()
+            updateIapIntroOffers(false)
         }
         return response
     }
 
-    suspend fun updateIapIntroOffers() {
-        replaceNotifications(generateNotificationsForIntroductoryOffers(), iapIntroOffers = true)
+    suspend fun updateIapIntroOffers(triggerCyclicPromos: Boolean) {
+        replaceNotifications(generateNotificationsForIntroductoryOffers(triggerCyclicPromos), iapIntroOffers = true)
     }
 
     private suspend fun replaceNotifications(notifications: List<ApiNotification>, iapIntroOffers: Boolean) {

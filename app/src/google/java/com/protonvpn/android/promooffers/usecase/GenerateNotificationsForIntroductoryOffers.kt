@@ -44,6 +44,7 @@ import me.proton.core.util.kotlin.startsWith
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlin.math.max
 import kotlin.time.Duration.Companion.days
 
 private val PROMO_ACTIVITY_PERIOD_START_MS =
@@ -86,18 +87,21 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
         val matchCount = arrayOf<Any?>(language, country, currency, priceCents).count { it != null }
     }
 
-    suspend operator fun invoke(): List<ApiNotification> {
+    suspend operator fun invoke(triggerCyclicPromos: Boolean): List<ApiNotification> {
         if (!isIapClientSidePromoFeatureFlagEnabled()) return emptyList()
         if (currentUser.vpnUser()?.isFreeUser != true) return emptyList()
 
-        val allPlans = listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
         val nowMs = clock()
-        val baseTimestampMs = getBaseTimestamp(isIapClientSidePromoCyclicEnabled())
+        val (isFirstPromo, baseTimestampMs) =
+            getBaseTimestamp(triggerCyclicPromos && isIapClientSidePromoCyclicEnabled())
         if (baseTimestampMs + PROMO_ACTIVITY_PERIOD_END_MS < nowMs) return emptyList()
+
+        val allPlans = listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
         val introductoryOffers = getEligibleIntroductoryOffers(allPlans) ?: return emptyList()
         val planCycle = if (isIapClientSidePromo12mEnabled()) PlanCycle.YEARLY else PlanCycle.MONTHLY
 
-        val startTimesS = TimeUnit.MILLISECONDS.toSeconds(baseTimestampMs + PROMO_ACTIVITY_PERIOD_START_MS)
+        val startTimeMs = baseTimestampMs + if (isFirstPromo) PROMO_ACTIVITY_PERIOD_START_MS else 0L
+        val startTimeS = TimeUnit.MILLISECONDS.toSeconds(startTimeMs)
         val endTimeS = TimeUnit.MILLISECONDS.toSeconds(baseTimestampMs + PROMO_ACTIVITY_PERIOD_END_MS)
         val userLocale = locale()
         val userLanguage = userLocale.language
@@ -135,7 +139,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
                             type,
                             PLAN_NAME,
                             notification,
-                            startTimesS,
+                            startTimeS,
                             endTimeS
                         )
                     }
@@ -146,7 +150,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
                 emptyList()
             }
         }.also { notifications ->
-            val startDelta = startTimesS - nowMs / 1_000
+            val startDelta = startTimeS - nowMs / 1_000
             val endDelta = endTimeS - nowMs / 1_000
             val info = notifications.joinToString("; ") { n ->
                 "type: ${n.type}, ${n.id}, time: [${startDelta}s, ${endDelta}s]"
@@ -271,9 +275,11 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
         )
     }
 
-    private fun getBaseTimestamp(isCyclicEnabled: Boolean): Long {
+    private fun getBaseTimestamp(isCyclicEnabled: Boolean): Pair<Boolean, Long> {
         val now = clock()
-        var startTimestamp = appFeaturesPrefs.iapFirstIntroPriceCheckTimestamp
+        var startTimestamp = with(appFeaturesPrefs) {
+            max(iapFirstIntroPriceCheckTimestamp, iapLastIntroPriceBaseTimestamp)
+        }
         val generateNewBaseTimestamp: Boolean = when {
             startTimestamp == 0L -> true
             isCyclicEnabled -> {
@@ -285,10 +291,17 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
         }
         if (generateNewBaseTimestamp) {
             startTimestamp = now
-            appFeaturesPrefs.iapFirstIntroPriceCheckTimestamp = now
+            with(appFeaturesPrefs) {
+                iapLastIntroPriceBaseTimestamp = now
+                if (appFeaturesPrefs.iapFirstIntroPriceCheckTimestamp == 0L)
+                    iapFirstIntroPriceCheckTimestamp = now
+            }
         }
 
-        return startTimestamp
+        val isFirst = with(appFeaturesPrefs) {
+            iapLastIntroPriceBaseTimestamp == iapFirstIntroPriceCheckTimestamp
+        }
+        return Pair(isFirst, startTimestamp)
     }
 
     companion object {

@@ -24,8 +24,8 @@ import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
 import dagger.Reusable
-import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
 
 interface IsIapClientSidePromo12mEnabled : VpnFeatureFlag
@@ -33,9 +33,9 @@ interface IsIapClientSidePromo12mEnabled : VpnFeatureFlag
 @Reusable
 class IsIapClientSidePromo12mEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
-    featureFlagManager: FeatureFlagManager,
+    featureFlagRepository: FeatureFlagRepository,
 ) : IsIapClientSidePromo12mEnabled,
-    VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("IapClientSidePromo12m"))
+    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("IapClientSidePromo12m"))
 
 class FakeIsIapClientSidePromo12mEnabled(
     isEnabled: Boolean
