@@ -355,6 +355,8 @@ class GenerateNotificationsForIntroductoryOffersTests {
             expectedFullscreenUrl = "file:///android_asset/promooffers/internal_intro_price_modal_vpn2022_1_usd_99_en_any_dark.png",
             notifications = notifications
         )
+        val banner = notifications.find { it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER }
+        assertEquals("IntroPricePromoBanner", banner?.reference)
     }
 
     @Test
@@ -372,6 +374,8 @@ class GenerateNotificationsForIntroductoryOffersTests {
             expectedFullscreenUrl = "file:///android_asset/promooffers/internal_intro_price_modal_vpn2022_12_any_any_any_any_dark.png",
             notifications = notifications
         )
+        val banner = notifications.find { it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER }
+        assertEquals("IntroPricePromoBanner12", banner?.reference)
     }
 
     private fun assertImages(

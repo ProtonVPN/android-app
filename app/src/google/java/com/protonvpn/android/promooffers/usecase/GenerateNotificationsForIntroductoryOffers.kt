@@ -200,7 +200,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
     ): ApiNotification {
         val notificationId: String
         val apiNotificationOffer: ApiNotificationOffer
-        val notificationReference: String
+        var notificationReference: String
         when (type) {
             ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER -> {
                 val typeToken = "banner"
@@ -229,6 +229,9 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
             else -> throw IllegalArgumentException("Unsupported type $type")
         }
 
+        if (config.planCycle.cycleDurationMonths != 1) {
+            notificationReference += config.planCycle.cycleDurationMonths.toString()
+        }
         return ApiNotification(
             id = notificationId,
             startTime = startTimeS,
