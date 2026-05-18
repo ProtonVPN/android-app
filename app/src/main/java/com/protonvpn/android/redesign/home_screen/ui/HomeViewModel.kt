@@ -354,7 +354,7 @@ class HomeViewModel @Inject constructor(
     fun changeServer(vpnUiDelegate: VpnUiDelegate) = changeServerManager.changeServer(vpnUiDelegate)
 
     fun onChangeServerUpgradeButtonShown() {
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.CHANGE_SERVER, UpgradeTrigger.HOME, abTestGroup = null)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.CHANGE_SERVER, UpgradeTrigger.HOME)
     }
 
     suspend fun onRecentClicked(item: RecentItemViewState, vpnUiDelegate: VpnUiDelegate) {
@@ -481,7 +481,6 @@ class HomeViewModel @Inject constructor(
                         UpgradeSource.PROMO_OFFER,
                         UpgradeTrigger.PROMO_OFFER_BANNER,
                         reference = reference,
-                        abTestGroup = null,
                     )
                     upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.EXTERNAL)
                     context.openUrl(url)

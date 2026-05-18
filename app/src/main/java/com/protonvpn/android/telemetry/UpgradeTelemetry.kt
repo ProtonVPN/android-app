@@ -24,6 +24,7 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
+import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableEnabled
 import com.protonvpn.android.utils.getValue
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -72,7 +73,12 @@ enum class UpgradeTrigger {
 }
 
 enum class UpgradeAbTest(val reportedValue: String) {
-    CONTROL("control"), COMPARISON_TABLE("comparison_table")
+    CONTROL("control"), COMPARISON_TABLE("comparison_table");
+
+    companion object {
+        fun fromFf(isComparisonTableEnabled: Boolean) =
+            if (isComparisonTableEnabled) COMPARISON_TABLE else CONTROL
+    }
 }
 
 @Singleton
@@ -81,6 +87,7 @@ class UpgradeTelemetry @Inject constructor(
     private val currentUser: CurrentUser,
     @WallClock private val clock: () -> Long,
     telemetryHelperLazy: dagger.Lazy<TelemetryFlowHelper>,
+    private val isUpsellComparisonTableEnabled: IsUpsellComparisonTableEnabled,
 ) {
     private val helper by telemetryHelperLazy
 
@@ -90,13 +97,13 @@ class UpgradeTelemetry @Inject constructor(
     fun onUpgradeFlowStarted(
         upgradeSource: UpgradeSource,
         upgradeTrigger: UpgradeTrigger,
-        abTestGroup: UpgradeAbTest?,
         countryId: CountryId? = null,
         reference: String? = null
     ) {
         helper.event {
+            val abTestComparisonTableGroup = UpgradeAbTest.fromFf(isUpsellComparisonTableEnabled())
             val dimensions =
-                createDimensions(upgradeSource, upgradeTrigger, countryId, reference, abTestGroup)
+                createDimensions(upgradeSource, upgradeTrigger, countryId, reference, abTestComparisonTableGroup)
             currentUpgradeFlow = UpgradeFlow(dimensions, clock)
             eventData("upsell_display", dimensions)
         }

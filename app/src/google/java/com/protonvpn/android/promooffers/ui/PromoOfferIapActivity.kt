@@ -111,7 +111,6 @@ class PromoOfferIapActivity : BaseActivityV2() {
                     UpgradeSource.PROMO_OFFER,
                     offer.upgradeTrigger,
                     reference = offer.notificationReference,
-                    abTestGroup = null,
                 )
             }
         }

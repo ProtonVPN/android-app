@@ -109,7 +109,6 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
                 viewModel.reportUpgradeFlowStart(
                     getTelemetryUpgradeSource(),
                     getTelemetryUpgradeTrigger(),
-                    overrideAbTestGroup() ?: UpgradeAbTest.CONTROL,
                     getTelemetryCountryId(),
                 )
             }
@@ -172,8 +171,6 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
 
     protected fun getTelemetryCountryId(): CountryId? =
         intent?.getStringExtra(COUNTRY_CODE_EXTRA)?.let { CountryId(it) }
-
-    protected open suspend fun overrideAbTestGroup(): UpgradeAbTest? = null
 
     private fun initPaymentsPanelFragment() {
         supportFragmentManager.commitNow {
@@ -380,11 +377,6 @@ class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultipleP
     }
 
     override fun getTelemetryUpgradeSource(): UpgradeSource = UpgradeSource.ONBOARDING
-
-    override suspend fun overrideAbTestGroup(): UpgradeAbTest? {
-        // Report the FF value even though the onboarding dialog doesn't have a new variant.
-        return if (isUpsellComparisonTableEnabled()) UpgradeAbTest.COMPARISON_TABLE else UpgradeAbTest.CONTROL
-    }
 
     companion object {
         fun launch(context: Context) {

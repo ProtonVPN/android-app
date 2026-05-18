@@ -27,7 +27,6 @@ import com.protonvpn.android.mmp.events.MmpEventType
 import com.protonvpn.android.mmp.events.toMmpSubscriptionDetails
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.telemetry.UpgradeAbTest
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.telemetry.UpgradeTrigger
@@ -116,11 +115,15 @@ abstract class CommonUpgradeDialogViewModel(
     fun reportUpgradeFlowStart(
         upgradeSource: UpgradeSource,
         upgradeTrigger: UpgradeTrigger,
-        abTestGroup: UpgradeAbTest?,
         countryId: CountryId? = null,
         reference: String? = null,
     ) {
-        upgradeTelemetry.onUpgradeFlowStarted(upgradeSource, upgradeTrigger, abTestGroup, countryId, reference)
+        upgradeTelemetry.onUpgradeFlowStarted(
+            upgradeSource,
+            upgradeTrigger,
+            countryId,
+            reference,
+        )
     }
 
     fun setupOrchestrators(activity: ComponentActivity) {

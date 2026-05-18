@@ -30,6 +30,7 @@ import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
+import com.protonvpn.android.ui.planupgrade.comparison_table.FakeIsUpsellComparisonTableEnabled
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -89,10 +90,11 @@ class UpgradeTelemetryTests {
         )
         val helper = TelemetryFlowHelper(testScope.backgroundScope, DefaultTelemetryReporter(mockTelemetry))
         upgradeTelemetry = UpgradeTelemetry(
-            commonDimensions,
-            currentUser,
+            commonDimensions = commonDimensions,
+            currentUser = currentUser,
             clock = { fakeTime },
-            { helper }
+            telemetryHelperLazy = { helper },
+            isUpsellComparisonTableEnabled = FakeIsUpsellComparisonTableEnabled(false),
         )
     }
 
@@ -101,7 +103,6 @@ class UpgradeTelemetryTests {
         upgradeTelemetry.onUpgradeFlowStarted(
             upgradeSource = UpgradeSource.COUNTRIES,
             upgradeTrigger = UpgradeTrigger.COUNTRY_SELECTION,
-            abTestGroup = UpgradeAbTest.CONTROL,
             reference = "ref",
         )
 
@@ -128,7 +129,6 @@ class UpgradeTelemetryTests {
         upgradeTelemetry.onUpgradeFlowStarted(
             upgradeSource = UpgradeSource.COUNTRIES,
             upgradeTrigger = UpgradeTrigger.HOME_CAROUSEL,
-            abTestGroup = null,
             reference = "ref",
         )
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.ONE_CLICK)

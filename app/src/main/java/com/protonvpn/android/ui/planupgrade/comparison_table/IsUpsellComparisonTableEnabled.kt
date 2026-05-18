@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.planupgrade.comparison_table
 
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
 import dagger.Reusable
@@ -35,3 +36,7 @@ class IsUpsellComparisonTableEnabledImpl @Inject constructor(
     featureFlagRepository: FeatureFlagRepository,
 ) : IsUpsellComparisonTableEnabled,
     VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("UpsellComparisonTable"))
+
+class FakeIsUpsellComparisonTableEnabled(
+    enabled: Boolean
+) : IsUpsellComparisonTableEnabled, FakeVpnFeatureFlag(enabled)

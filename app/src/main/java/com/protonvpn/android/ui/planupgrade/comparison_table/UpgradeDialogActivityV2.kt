@@ -73,7 +73,6 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.showSnackbar
-import com.protonvpn.android.telemetry.UpgradeAbTest
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
@@ -137,7 +136,7 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
         viewModel.loadPlans(allowMultiplePlans = false)
         upgradeActivityHelper.onCreate(viewModel)
         if (savedInstanceState == null) {
-            viewModel.reportUpgradeFlowStart(upgradeSource, upgradeTrigger, UpgradeAbTest.COMPARISON_TABLE,country)
+            viewModel.reportUpgradeFlowStart(upgradeSource, upgradeTrigger, country)
         }
 
         lifecycleScope.launch {

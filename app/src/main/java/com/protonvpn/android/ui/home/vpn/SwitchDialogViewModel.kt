@@ -37,7 +37,6 @@ class SwitchDialogViewModel @Inject constructor(
             upgradeTelemetry.onUpgradeFlowStarted(
                 activityItem.upgradeSource,
                 activityItem.upgradeTrigger,
-                abTestGroup = null
             )
         }
     }

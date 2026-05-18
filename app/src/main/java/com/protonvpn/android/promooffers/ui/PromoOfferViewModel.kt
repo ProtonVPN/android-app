@@ -57,7 +57,6 @@ class PromoOfferViewModel @Inject constructor(
         upgradeTelemetry.onUpgradeFlowStarted(
             UpgradeSource.PROMO_OFFER,
             UpgradeTrigger.PROMO_OFFER_POPUP,
-            abTestGroup = null,
             reference = notification?.reference
         )
         return offerPanel
