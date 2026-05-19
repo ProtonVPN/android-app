@@ -29,7 +29,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SwitchDialogViewModel @Inject constructor(
     private val isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
-    private val upgradeTelemetry: UpgradeTelemetry
+    private val upgradeTelemetry: UpgradeTelemetry,
 ) : ViewModel() {
 
     fun onInit(activityItem: NotificationHelper.ActionItem?) {

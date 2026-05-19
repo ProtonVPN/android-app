@@ -21,6 +21,7 @@ package com.protonvpn.android.telemetry
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromo12mEnabled
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
@@ -72,12 +73,20 @@ enum class UpgradeTrigger {
     val reportedName = name.lowercase()
 }
 
-enum class UpgradeAbTest(val reportedValue: String) {
+enum class AbTestComparisonTable(val reportedValue: String) {
     CONTROL("control"), COMPARISON_TABLE("comparison_table");
 
     companion object {
         fun fromFf(isComparisonTableEnabled: Boolean) =
             if (isComparisonTableEnabled) COMPARISON_TABLE else CONTROL
+    }
+}
+
+enum class AbTest12mPromo(val reportedValue: String) {
+    CONTROL("control"), YEARLY("12m");
+
+    companion object {
+        fun fromFf(is12mEnabled: Boolean) = if (is12mEnabled) YEARLY else CONTROL
     }
 }
 
@@ -88,6 +97,7 @@ class UpgradeTelemetry @Inject constructor(
     @WallClock private val clock: () -> Long,
     telemetryHelperLazy: dagger.Lazy<TelemetryFlowHelper>,
     private val isUpsellComparisonTableEnabled: IsUpsellComparisonTableEnabled,
+    private val isIapClientSidePromo12mEnabled: IsIapClientSidePromo12mEnabled,
 ) {
     private val helper by telemetryHelperLazy
 
@@ -101,9 +111,16 @@ class UpgradeTelemetry @Inject constructor(
         reference: String? = null
     ) {
         helper.event {
-            val abTestComparisonTableGroup = UpgradeAbTest.fromFf(isUpsellComparisonTableEnabled())
-            val dimensions =
-                createDimensions(upgradeSource, upgradeTrigger, countryId, reference, abTestComparisonTableGroup)
+            val abTestComparisonTableGroup = AbTestComparisonTable.fromFf(isUpsellComparisonTableEnabled())
+            val abTest12mGroup = AbTest12mPromo.fromFf(isIapClientSidePromo12mEnabled())
+            val dimensions = createDimensions(
+                upgradeSource,
+                upgradeTrigger,
+                countryId,
+                reference,
+                abTestComparisonTableGroup,
+                abTest12mGroup,
+            )
             currentUpgradeFlow = UpgradeFlow(dimensions, clock)
             eventData("upsell_display", dimensions)
         }
@@ -148,7 +165,8 @@ class UpgradeTelemetry @Inject constructor(
         upgradeTrigger: UpgradeTrigger,
         countryId: CountryId?,
         reference: String?,
-        abTestGroup: UpgradeAbTest?,
+        abTestComparisonTableGroup: AbTestComparisonTable,
+        abTest12mGroup: AbTest12mPromo,
     ): Map<String, String> = buildMap {
         val user = currentUser.user()
         val vpnUser = currentUser.vpnUser()
@@ -159,7 +177,8 @@ class UpgradeTelemetry @Inject constructor(
         put("modal_trigger", upgradeTrigger.reportedName)
         put("new_free_plan_ui", "yes") // Used to be a feature flag.
         put("reference", reference ?: NO_VALUE)
-        put("vpn_upsell_modal_comparison_table_20260427", abTestGroup?.reportedValue ?: NO_VALUE)
+        put("vpn_upsell_modal_comparison_table_20260427", abTestComparisonTableGroup.reportedValue)
+        put("vpn_promo_12m_test_20260518", abTest12mGroup.reportedValue)
 
         if (countryId != null && !countryId.isFastest) {
             put("country", countryId.countryCode)

@@ -40,7 +40,7 @@ import javax.inject.Inject
 class PromoOfferViewModel @Inject constructor(
     private val apiNotificationManager: ApiNotificationManager,
     private val promoOfferButtonActions: PromoOfferButtonActions,
-    private val upgradeTelemetry: UpgradeTelemetry
+    private val upgradeTelemetry: UpgradeTelemetry,
 ): ViewModel() {
 
     val openUrlEvent = MutableSharedFlow<String>(extraBufferCapacity = 1)

@@ -27,7 +27,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.mmp.events.MmpEvent
 import com.protonvpn.android.mmp.events.MmpEventType
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
-import com.protonvpn.android.telemetry.TelemetryEventData
+import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromo12mEnabled
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
@@ -36,6 +36,7 @@ import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel.State
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
+import com.protonvpn.android.ui.planupgrade.comparison_table.FakeIsUpsellComparisonTableEnabled
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
@@ -148,6 +149,8 @@ class UpgradeDialogViewModelTests {
             currentUser = currentUser,
             clock = { testScope.currentTime },
             telemetryHelperLazy = { telemetryFlowHelper },
+            isUpsellComparisonTableEnabled = FakeIsUpsellComparisonTableEnabled(true),
+            isIapClientSidePromo12mEnabled = FakeIsIapClientSidePromo12mEnabled(true),
         )
 
         viewModel = UpgradeDialogViewModel(

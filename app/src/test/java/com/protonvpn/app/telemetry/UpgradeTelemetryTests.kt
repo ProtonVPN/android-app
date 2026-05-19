@@ -20,11 +20,12 @@
 package com.protonvpn.app.telemetry
 
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromo12mEnabled
 import com.protonvpn.android.telemetry.DefaultCommonDimensions
 import com.protonvpn.android.telemetry.DefaultTelemetryReporter
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
-import com.protonvpn.android.telemetry.UpgradeAbTest
+import com.protonvpn.android.telemetry.AbTestComparisonTable
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.telemetry.UpgradeTrigger
@@ -95,6 +96,7 @@ class UpgradeTelemetryTests {
             clock = { fakeTime },
             telemetryHelperLazy = { helper },
             isUpsellComparisonTableEnabled = FakeIsUpsellComparisonTableEnabled(false),
+            isIapClientSidePromo12mEnabled = FakeIsIapClientSidePromo12mEnabled(true),
         )
     }
 
@@ -118,6 +120,7 @@ class UpgradeTelemetryTests {
             "is_credential_less_enabled" to "yes",
             "user_tier" to "free",
             "vpn_upsell_modal_comparison_table_20260427" to "control",
+            "vpn_promo_12m_test_20260518" to "12m",
         )
         verify {
             mockTelemetry.event(UPSELL_GROUP, "upsell_display", emptyMap(), expectedDimensions)
@@ -145,18 +148,32 @@ class UpgradeTelemetryTests {
     }
 
     @Test
-    fun `modal_source is carried over to subsequent events`() = testScope.runTest {
+    fun `modal_source and has_eligible_price are carried over to subsequent events`() = testScope.runTest {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.NETSHIELD, UpgradeTrigger.SETTINGS, null)
+        upgradeTelemetry.onPricesLoaded(hasIntroPrices = true)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
         upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.FREE.value)
 
         verify {
-            listOf("upsell_display", "upsell_upgrade_attempt", "upsell_success").forEach { event ->
+            listOf(
+                "upsell_display",
+                "upsell_price_display",
+                "upsell_upgrade_attempt",
+                "upsell_success"
+            ).forEach { event ->
                 mockTelemetry.event(
                     UPSELL_GROUP,
                     event,
                     emptyMap(),
                     withArg { assertEquals("netshield", it["modal_source"]) }
+                )
+            }
+            listOf("upsell_price_display", "upsell_upgrade_attempt", "upsell_success").forEach { event ->
+                mockTelemetry.event(
+                    UPSELL_GROUP,
+                    event,
+                    emptyMap(),
+                    withArg { assertEquals("true", it["has_intro_price"]) }
                 )
             }
         }
