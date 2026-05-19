@@ -130,8 +130,6 @@ import com.protonvpn.android.update.AppUpdateBannerStateFlow
 import com.protonvpn.android.update.AppUpdateBannerStateFlowImpl
 import com.protonvpn.android.update.AppUpdateManager
 import com.protonvpn.android.update.AppUpdateManagerImpl
-import com.protonvpn.android.update.IsAppUpdateBannerFeatureFlagEnabled
-import com.protonvpn.android.update.IsAppUpdateBannerFeatureFlagEnabledImpl
 import com.protonvpn.android.update.ShouldShowAppUpdateDotFlow
 import com.protonvpn.android.update.ShouldShowAppUpdateDotFlowImpl
 import com.protonvpn.android.userstorage.DefaultLocalDataStoreFactory
@@ -545,11 +543,6 @@ object AppModule {
         fun bindIsUpsellComparisonTableEnabled(
             impl: IsUpsellComparisonTableEnabledImpl
         ): IsUpsellComparisonTableEnabled
-
-        @Binds
-        fun bindIsAppUpdateBannerFeatureFlagEnabled(
-            impl: IsAppUpdateBannerFeatureFlagEnabledImpl
-        ): IsAppUpdateBannerFeatureFlagEnabled
 
         @Binds
         fun bindTvDisableFavoriteCountryForFreeUser(

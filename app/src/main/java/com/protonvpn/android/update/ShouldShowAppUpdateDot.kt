@@ -21,12 +21,9 @@ package com.protonvpn.android.update
 
 import com.protonvpn.android.ui.storage.UiStateStorage
 import dagger.Reusable
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -40,18 +37,7 @@ interface ShouldShowAppUpdateDotFlow : Flow<Boolean>
 class ShouldShowAppUpdateDotFlowImpl @Inject constructor(
     appUpdateManager: AppUpdateManager,
     uiStateStorage: UiStateStorage,
-    featureFlagEnabled: IsAppUpdateBannerFeatureFlagEnabled,
 ): ShouldShowAppUpdateDotFlow {
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val flow = featureFlagEnabled.observe()
-        .flatMapLatest { isFfEnabled ->
-            if (isFfEnabled) {
-                updateFlow
-            } else {
-                flowOf(false)
-            }
-        }
 
     private val updateFlow = combine(
         uiStateStorage.state.map { it.lastAppUpdatePromptAckedVersion },
@@ -64,6 +50,7 @@ class ShouldShowAppUpdateDotFlowImpl @Inject constructor(
     }
 
     override suspend fun collect(collector: FlowCollector<Boolean>) {
-        flow.collect(collector)
+        updateFlow.collect(collector)
     }
+
 }

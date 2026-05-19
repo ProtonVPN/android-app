@@ -25,8 +25,6 @@ import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -44,17 +42,7 @@ interface AppUpdateBannerStateFlow : Flow<AppUpdateBannerState>
 class AppUpdateBannerStateFlowImpl @Inject constructor(
     appUpdateManager: AppUpdateManager,
     vpnStatusProviderUI: VpnStatusProviderUI,
-    isAppUpdateBannerFeatureFlagEnabled: IsAppUpdateBannerFeatureFlagEnabled,
 ) : AppUpdateBannerStateFlow {
-
-    private val flow = isAppUpdateBannerFeatureFlagEnabled.observe()
-        .flatMapLatest{ isEnabled ->
-            if (isEnabled) {
-                updateFlow
-            } else {
-                flowOf(AppUpdateBannerState.Hidden)
-            }
-        }
 
     private val updateFlow = combine(
         appUpdateManager.checkForUpdateFlow,
@@ -71,7 +59,7 @@ class AppUpdateBannerStateFlowImpl @Inject constructor(
     }
 
     override suspend fun collect(collector: FlowCollector<AppUpdateBannerState>) {
-        flow.collect(collector)
+        updateFlow.collect(collector)
     }
 
 }
