@@ -64,6 +64,7 @@ import kotlin.math.max
 import kotlin.test.assertNotNull
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.minutes
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReviewTrackerTests {
@@ -92,6 +93,7 @@ class ReviewTrackerTests {
         daysFromFirstConnectionCount = 3
     )
 
+    private var reviewSucceeds = true
     private var wasReviewRequested = false
 
     @get:Rule
@@ -120,6 +122,7 @@ class ReviewTrackerTests {
             mapOf(CommonDimensions.Key.USER_COUNTRY_LEGACY.reportedName to "US")
         )
         wasReviewRequested = false
+        reviewSucceeds = true
         val reviewTrackerTelemetry = ReviewTrackerTelemetry(
             TelemetryFlowHelper(testScope.backgroundScope, testTelemetry),
             commonDimensions,
@@ -137,13 +140,15 @@ class ReviewTrackerTests {
             { reviewTrackerTelemetry },
             { _, onComplete ->
                 wasReviewRequested = true
-                onComplete()
+                if (reviewSucceeds) {
+                    onComplete()
+                }
             }
         )
     }
 
     @Test
-    fun `do not trigger for ineligable plans even if other conditions are met`() = testScope.runTest {
+    fun `do not trigger for ineligible plans even if other conditions are met`() = testScope.runTest {
         testCurrentUserProvider.vpnUser = TestUser.freeUser.vpnUser
         testController.addLongSession()
         assertFalse(reviewTracker.shouldRate())
@@ -255,6 +260,18 @@ class ReviewTrackerTests {
             2L,
             testTelemetry.collectedEvents.last().values["connections_since_last_prompt"]
         )
+    }
+
+    @Test
+    fun `5 minute cooldown after each trigger`() = testScope.runTest {
+        reviewSucceeds = false
+        addSuccessfulConnections()
+        assertTrue(wasReviewRequested)
+        repeat(5) {
+            assertFalse(reviewTracker.shouldRate())
+            advanceTimeBy(1.minutes)
+        }
+        assertTrue(reviewTracker.shouldRate())
     }
 
     private fun addSuccessfulConnections() {

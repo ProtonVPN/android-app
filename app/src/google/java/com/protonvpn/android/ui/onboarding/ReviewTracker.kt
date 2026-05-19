@@ -45,6 +45,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
 
 @Singleton
 class ReviewTracker(
@@ -84,6 +85,9 @@ class ReviewTracker(
         ::requestInAppReview
     )
 
+    // Quick fix for in-app review dialog being shown multiple times.
+    private var lastTriggerTimestamp: Long = 0
+
     init {
         vpnMonitor.vpnConnectionNotificationFlow.onEach {
             // Reset successful connections on ANY fallbacks. Even on ones which we handle gracefully
@@ -121,6 +125,7 @@ class ReviewTracker(
 
     private suspend fun createInAppReview() {
         foregroundActivityTracker.foregroundActivity?.let {
+            lastTriggerTimestamp = wallClock()
             requestReview(it) {
                 telemetry.get().reportReviewRequest(
                     lastReviewTimestamp = reviewTrackerPrefs.lastReviewTimestamp,
@@ -154,6 +159,7 @@ class ReviewTracker(
     suspend fun shouldRate(): Boolean {
         if (!isEligibleForReviewNow()) return false
         if (foregroundActivityTracker.foregroundActivity == null) return false
+        if (lastTriggerTimestamp > wallClock() - 5.minutes.inWholeMilliseconds) return false
 
         val ratingConfig = ratingConfigFlow.first()
         log("Connections in queue: " + (reviewTrackerPrefs.successConnectionsInRow >= ratingConfig.successfulConnectionCount))
