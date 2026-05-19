@@ -237,6 +237,7 @@ class UpgradeDialogViewModel(
                     error = IllegalArgumentException("Missing prices: $errorInfo")
                 )
             } else {
+                reportPricesLoaded(loadedPlans.hasIntroPrice())
                 selectPlan(preselectedPlan, buttonLabelOverride)
             }
         }.runCatchingCheckedExceptions { e ->
@@ -363,6 +364,9 @@ class UpgradeDialogViewModel(
             getCreatePaymentTokenObservabilityData(paymentProvider)
         }
     }
+
+    private fun List<GiapPlanModel>.hasIntroPrice(): Boolean =
+        any { plan -> plan.cycles.any { it.priceInfo.hasIntroPrice }}
 
     private fun buildFullState(
         currentState: State,

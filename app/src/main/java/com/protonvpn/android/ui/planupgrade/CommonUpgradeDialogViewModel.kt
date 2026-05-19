@@ -126,6 +126,10 @@ abstract class CommonUpgradeDialogViewModel(
         )
     }
 
+    fun reportPricesLoaded(hasIntroPrices: Boolean) {
+        upgradeTelemetry.onPricesLoaded(hasIntroPrices)
+    }
+
     fun setupOrchestrators(activity: ComponentActivity) {
         authOrchestrator.register(activity)
         plansOrchestrator.register(activity)

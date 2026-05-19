@@ -109,6 +109,15 @@ class UpgradeTelemetry @Inject constructor(
         }
     }
 
+    fun onPricesLoaded(hasIntroPrices: Boolean) {
+        helper.event {
+            currentUpgradeFlow?.update { it + Pair("has_intro_price", hasIntroPrices.toTelemetry()) }
+            currentDimensions?.let {
+                eventData("upsell_price_display", it)
+            }
+        }
+    }
+
     fun onUpgradeAttempt(flowType: UpgradeFlowType) {
         helper.event {
             currentDimensions?.let { currentDimensions ->
@@ -180,12 +189,16 @@ class UpgradeTelemetry @Inject constructor(
     }
 
     private class UpgradeFlow(
-        private val dimensions: Map<String, String>,
+        private var dimensions: Map<String, String>,
         @WallClock private val clock: () -> Long
     ) {
         private val timestamp = clock()
 
         fun getCurrentDimensions() = dimensions.takeIf { timestamp + UPGRADE_FLOW_VALID_MS >= clock() }
+
+        fun update(transform: (Map<String, String>) -> Map<String, String>) {
+            dimensions = transform(dimensions)
+        }
     }
 
     companion object {

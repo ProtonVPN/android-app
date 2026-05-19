@@ -27,6 +27,11 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.mmp.events.MmpEvent
 import com.protonvpn.android.mmp.events.MmpEventType
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
+import com.protonvpn.android.telemetry.TelemetryEventData
+import com.protonvpn.android.telemetry.TelemetryFlowHelper
+import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTelemetry
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel.State
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
@@ -36,6 +41,8 @@ import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.formatPrice
+import com.protonvpn.mocks.FakeCommonDimensions
+import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestLoadGoogleOffers
 import com.protonvpn.test.shared.TestVpnUser
@@ -55,6 +62,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
@@ -102,6 +110,7 @@ class UpgradeDialogViewModelTests {
     private lateinit var loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans
     private lateinit var rawDynamicPlans: List<DynamicPlan>
     private lateinit var testLoadGoogleOffers: TestLoadGoogleOffers
+    private lateinit var testTelemetry: TestTelemetryReporter
 
     private var isInAppAllowed = true
     private val availablePaymentProviders = setOf(PaymentProvider.GoogleInAppPurchase)
@@ -132,12 +141,21 @@ class UpgradeDialogViewModelTests {
             defaultCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
             defaultPreselectedCycle = PlanCycle.MONTHLY,
         )
+        testTelemetry = TestTelemetryReporter()
+        val telemetryFlowHelper = TelemetryFlowHelper(testScope.backgroundScope, testTelemetry)
+        val upgradeTelemetry = UpgradeTelemetry(
+            commonDimensions = FakeCommonDimensions(emptyMap()),
+            currentUser = currentUser,
+            clock = { testScope.currentTime },
+            telemetryHelperLazy = { telemetryFlowHelper },
+        )
+
         viewModel = UpgradeDialogViewModel(
             userId = userIdFlow,
             authOrchestrator = mockk(relaxed = true),
             plansOrchestrator = mockk(relaxed = true),
             isInAppUpgradeAllowed = { isInAppAllowed },
-            upgradeTelemetry = mockk(relaxed = true),
+            upgradeTelemetry = upgradeTelemetry,
             loadGoogleSubscriptionPlans = loadGoogleSubscriptionPlans::invoke,
             performGiapPurchase = mockPerformGiapPurchase,
             userPlanManager = mockk(relaxed = true),
@@ -363,6 +381,20 @@ class UpgradeDialogViewModelTests {
         )
 
         assertEquals(expectedMmpEventType, mmpEventTypeSlot.captured)
+    }
+
+    @Test
+    fun `WHEN prices are loaded THEN upsell_price_display is reported`() = testScope.runTest {
+        val planNames = arrayOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
+        rawDynamicPlans = createDummyPlans(*planNames)
+        testLoadGoogleOffers.offers = planNames.flatMap { dummyGiapOffers(it) }
+        viewModel.reportUpgradeFlowStart(UpgradeSource.COUNTRIES, UpgradeTrigger.COUNTRY_SELECTION)
+        viewModel.loadPlans(true)
+        runCurrent()
+
+        val event = testTelemetry.collectedEvents.lastOrNull()
+        assertEquals("upsell_price_display", event?.eventName)
+        assertEquals("false", event?.dimensions["has_intro_price"])
     }
 
     private fun assertPlanNames(expected: List<String>, state: State) {
