@@ -198,13 +198,12 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
         startTimeS: Long,
         endTimeS: Long,
     ): ApiNotification {
-        val notificationId: String
         val apiNotificationOffer: ApiNotificationOffer
         var notificationReference: String
+        val typeToken: String
         when (type) {
             ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER -> {
-                val typeToken = "banner"
-                notificationId = "${CAMPAIGN_NAME}_${typeToken}"
+                typeToken = "banner"
                 notificationReference = NOTIFICATION_REFERENCE_BANNER
                 val iapPanel = buildNotificationPanel(planName, "modal", config)
                 apiNotificationOffer = ApiNotificationOffer(
@@ -219,8 +218,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
                 )
             }
             ApiNotificationTypes.TYPE_INTERNAL_ONE_TIME_IAP_POPUP -> {
-                val typeToken = "modal"
-                notificationId = "${CAMPAIGN_NAME}_${typeToken}"
+                typeToken = "modal"
                 notificationReference = NOTIFICATION_REFERENCE_FULLSCREEN
                 apiNotificationOffer = ApiNotificationOffer(
                     panel = buildNotificationPanel(planName, typeToken, config)
@@ -232,6 +230,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
         if (config.planCycle.cycleDurationMonths != 1) {
             notificationReference += config.planCycle.cycleDurationMonths.toString()
         }
+        val notificationId = "${CAMPAIGN_NAME}_${typeToken}_${startTimeS}"
         return ApiNotification(
             id = notificationId,
             startTime = startTimeS,

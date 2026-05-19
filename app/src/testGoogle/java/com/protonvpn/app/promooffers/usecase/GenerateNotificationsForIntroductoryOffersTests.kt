@@ -53,6 +53,7 @@ import me.proton.core.plan.domain.entity.DynamicPlanPrice
 import me.proton.core.plan.presentation.entity.PlanCycle
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -339,6 +340,29 @@ class GenerateNotificationsForIntroductoryOffersTests {
         advanceTimeBy(100.days)
         val lateOffers = generateNotificationsForIntroductoryOffers(false)
         assertTrue(lateOffers.isEmpty())
+    }
+
+    @Test
+    fun `GIVEN offers displayed once WHEN generate is called after 80 days THEN new offers have different IDs`() = testScope.runTest {
+        testLoadGoogleOffers.offers = listOf(
+            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
+        )
+
+        advanceTimeBy(1.days)
+        val firstRound = generateNotificationsForIntroductoryOffers(false)
+        advanceTimeBy(100.days)
+        val secondRound = generateNotificationsForIntroductoryOffers(true)
+
+        assertTrue(firstRound.isNotEmpty())
+        assertTrue(secondRound.isNotEmpty())
+        assertNotEquals(
+            firstRound.find { it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER }?.id,
+            secondRound.find { it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER }?.id
+        )
+        assertNotEquals(
+            firstRound.find { it.type == ApiNotificationTypes.TYPE_INTERNAL_ONE_TIME_IAP_POPUP }?.id,
+            secondRound.find { it.type == ApiNotificationTypes.TYPE_INTERNAL_ONE_TIME_IAP_POPUP }?.id
+        )
     }
 
     @Test
