@@ -59,7 +59,7 @@
     <string name="restrictedMaintenanceDescription">服务器正在维护，请另选其他服务器。</string>
     <string name="restricted_location_excluded_dialog_title">连接失败</string>
     <string name="restricted_location_excluded_dialog_description">没有可用的服务器。请手动选择一个位置或编辑您已排除的位置。</string>
-    <string name="errorUserDelinquent"><![CDATA[您的账户目前存在逾期未付的账单。请前往&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>支付所有未付账单。]]></string>
+    <string name="errorUserDelinquent"><![CDATA[您的账户目前存在逾期未付的账单。请前往 <a href="https://account.protonvpn.com">account.protonvpn.com</a> 支付所有未付账单。]]></string>
     <string name="errorMaxSessions">连接设备数已达上限，请升级 Proton VPN 套餐后再连接。</string>
     <string name="listItemMaintenance">维护中</string>
     <string name="insufficientPermissionsTitle">需要手动操作</string>
@@ -137,13 +137,13 @@
     <string name="loaderErrorGeneric">出错了</string>
     <string name="inputIpAddressLabel">IP 地址</string>
     <string name="inputIpAddressHelp">输入服务器的 IPv4 或 IPv6 地址</string>
-    <string name="inputIpAddressErrorInvalid">无效的IP地址</string>
+    <string name="inputIpAddressErrorInvalid">无效 IP 地址</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">新功能</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
     <string name="settings_beta_label_badge">测试版</string>
-    <string name="settingsExcludedIPAddressesListHeader">已排除IP地址 (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">纳入了 IP 地址（%1$d）</string>
+    <string name="settingsExcludedIPAddressesListHeader">排除的 IP 地址 (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">包含的 IP 地址 (%1$d)</string>
     <string name="settingsExcludedApps">排除的应用</string>
     <string name="settingsExcludedAppsEmpty">添加绕过 VPN 流量的应用。</string>
     <string name="settingsIncludedAppsEmpty">添加纳入 VPN 流量的应用。</string>
@@ -210,7 +210,7 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[如果 Proton 被封锁，允许应用尝试其他路径连接 Proton 服务器。<a href="%1$s">了解详情</a>。]]></string>
     <string name="troubleshootGovernmentBlockTitle">政府封锁</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[您所在的国家或地区可能封锁了 Proton。使用 <a href=\'%1$s\'>Tor</a> 连接 Proton 试试。]]></string>
-    <string name="settingsKillSwitchEnableTitle">如何启用 Kill Switch</string>
+    <string name="settingsKillSwitchEnableTitle">如何启用终止开关</string>
     <string name="settingsKillSwitchEnableStep1">1. 打开您的设备设置</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. 找到 Proton VPN，点击 %1$s</string>
@@ -220,8 +220,8 @@
          the same as in Android VPN settings. -->
     <string name="settingsKillSwitchEnableStep3"><![CDATA[3. 启用 \"<b>始终开启 VPN</b>\" 和 \"<b>阻止没有 VPN 的连接</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">设置</string>
-    <string name="settingsKillSwitchLearnMoreButton">什么是 Kill Switch？</string>
-    <string name="settingsKillSwitchWarningMain">当开启 Kill Switch 时，您将无法连接：</string>
+    <string name="settingsKillSwitchLearnMoreButton">什么是终止开关？</string>
+    <string name="settingsKillSwitchWarningMain">当终止开关开启时，您将无法连接到：</string>
     <string name="settingsKillSwitchWarningPoint1">通过拆分隧道将网站和应用程序排除在 VPN 连接之外</string>
     <string name="settingsKillSwitchWarningPoint2">局域网 (LAN) 上的设备</string>
     <string name="settingsEnableTelemetryTitle">分享匿名的使用统计数据</string>
@@ -435,7 +435,7 @@
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">开通 Proton Unlimited，隐私全覆盖</string>
     <string name="upgrade_unlimited_all_apps_description">全面解锁 Proton VPN、Proton Mail、Proton Calendar、Proton Drive 及 Proton Pass的高级功能。</string>
-    <string name="upgrade_unlimited_more">还有别的</string>
+    <string name="upgrade_unlimited_more">以及更多</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">解锁全部地域</string>
     <string name="upgrade_unlimited_vpn_all_features">VPN Plus 的其余全部功能</string>
     <string name="upgrade_unlimited_vpn_any_location">所有位置均可选择</string>
@@ -559,7 +559,7 @@
         Example:
         1700+ server locations in 63 countries -->
     <string name="upsell_card_countries_description">%1$d 余处服务器遍布 %2$s</string>
-    <string name="upsell_card_customization_title">探索更多……</string>
+    <string name="upsell_card_customization_title">以及更多…</string>
     <string name="upsell_card_customization_description">解锁更强性能、更多隐私</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="other">保护 %1$d 部设备</item>
@@ -629,13 +629,13 @@
     <string name="payment_welcome_price_message_annual">新人特惠。自动续订 %1$s/年</string>
     <string name="payment_auto_renew_message_monthly">订阅自动续订，每月 %1$s</string>
     <string name="payment_auto_renew_message_annual">订阅自动续订，每年 %1$s</string>
-    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_title">智能路由</string>
     <string name="smart_routing_description">这项技术让 Proton VPN 在难以服务的地域更快更安全。</string>
     <string name="tor_title">Tor</string>
     <string name="server_load_title">服务器负载</string>
     <string name="activity_information_learn_more">了解详情</string>
     <string name="server_load_low">低</string>
-    <string name="server_load_medium">中等</string>
+    <string name="server_load_medium">中</string>
     <string name="server_load_high">高</string>
     <!-- Override Human verification links from core -->
     <string name="onboarding_welcome_title">欢迎使用 Proton VPN</string>
@@ -858,6 +858,21 @@
      Only used by accessibility services.
     -->
     <string name="accessibility_action_search">搜索</string>
+    <!--
+     Text added to clickable elements that provide negative feedback when clicking on it.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_feedback_negative">不佳</string>
+    <!--
+     Text added to clickable elements that provide positive feedback when clicking on it.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_feedback_positive">良好</string>
+    <!--
+     Text added to clickable elements that allows to submit either positive or negative feedback.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_submit_feedback">提交</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -900,7 +915,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">点对点传输</string>
     <string name="server_feature_content_description_tor">tor</string>
-    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
+    <string name="server_feature_content_description_smart_routing">智能路由</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">最快的地域</string>
     <string name="fastest_country_excluding_my_country">最快的国家 / 地区（不包括本地）</string>
@@ -1055,6 +1070,7 @@
          "more information about free connections, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_free_connections">有关免费连接的更多信息</string>
+    <string name="connection_card_label_connection_feedback">您的连接状况如何？</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -1101,7 +1117,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">拆分隧道</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill Switch</string>
+    <string name="settings_kill_switch_title">终止开关</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">连接</string>
     <!-- tag(Redesign_2023) -->

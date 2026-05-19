@@ -858,6 +858,21 @@
      Only used by accessibility services.
     -->
     <string name="accessibility_action_search">pencarian</string>
+    <!--
+     Text added to clickable elements that provide negative feedback when clicking on it.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_feedback_negative">not good</string>
+    <!--
+     Text added to clickable elements that provide positive feedback when clicking on it.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_feedback_positive">good</string>
+    <!--
+     Text added to clickable elements that allows to submit either positive or negative feedback.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_submit_feedback">submit</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -1055,6 +1070,7 @@
          "more information about free connections, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_free_connections">informasi lebih lanjut mengenai koneksi Free</string>
+    <string name="connection_card_label_connection_feedback">How is your connection?</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
