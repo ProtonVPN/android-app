@@ -33,7 +33,6 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.usecase.GetSmartProtocols
-import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
@@ -224,7 +223,6 @@ class VpnConnectionManagerTests {
             mainScope = testScope.backgroundScope,
             currentUser = mockCurrentUser,
             excludedLocationsDao = mockExcludedLocationsDao,
-            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
         )
 
         vpnConnectionManager = VpnConnectionManager(

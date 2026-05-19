@@ -23,13 +23,11 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.excludedlocations.ExcludedLocations
 import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
 import com.protonvpn.android.excludedlocations.data.toDomain
-import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
@@ -44,7 +42,6 @@ class ObserveExcludedLocations @Inject constructor(
     mainScope: CoroutineScope,
     private val currentUser: CurrentUser,
     private val excludedLocationsDao: ExcludedLocationsDao,
-    private val isAutomaticConnectionEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
 ) {
 
     private val excludedLocationsFlow = currentUser.vpnUserFlow
@@ -66,17 +63,9 @@ class ObserveExcludedLocations @Inject constructor(
             initialValue = null,
         )
 
-    operator fun invoke(skipFreeUsers: Boolean = true): Flow<ExcludedLocations> = combine(
-        isAutomaticConnectionEnabled.observe(),
-        currentUser.vpnUserFlow,
-        ::Pair,
-    )
-        .flatMapLatest { (isAutomaticConnectionEnabled, vpnUser) ->
-            if (
-                !isAutomaticConnectionEnabled ||
-                vpnUser == null ||
-                (vpnUser.isFreeUser && skipFreeUsers)
-            ) {
+    operator fun invoke(skipFreeUsers: Boolean = true): Flow<ExcludedLocations> = currentUser.vpnUserFlow
+        .flatMapLatest { vpnUser ->
+            if (vpnUser == null || (vpnUser.isFreeUser && skipFreeUsers)) {
                 flowOf(value = ExcludedLocations.Empty)
             } else {
                 excludedLocationsFlow.filterNotNull()

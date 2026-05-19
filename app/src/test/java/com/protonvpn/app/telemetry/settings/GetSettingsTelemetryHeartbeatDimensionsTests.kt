@@ -27,7 +27,6 @@ import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
-import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -107,8 +106,6 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
 
     private lateinit var testDispatcher: CoroutineDispatcher
 
-    private lateinit var isAutomaticConnectionEnabled: FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
-
     private lateinit var observeExcludedLocations: ObserveExcludedLocations
 
     private lateinit var testUserProvider: TestCurrentUserProvider
@@ -154,8 +151,6 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
 
         localUserSettingsFlow = MutableStateFlow(value = LocalUserSettings())
 
-        isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(true)
-
         testUserProvider = TestCurrentUserProvider(vpnUser = plusVpnUser)
 
         every { mockExcludedLocationsDao.observeAll(userId = any()) } returns excludeLocationEntitiesFlow
@@ -164,7 +159,6 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             mainScope = testScope.backgroundScope,
             currentUser = CurrentUser(provider = testUserProvider),
             excludedLocationsDao = mockExcludedLocationsDao,
-            isAutomaticConnectionEnabled = isAutomaticConnectionEnabled,
         )
 
         vpnAlwaysOnStorage = VpnAlwaysOnStorage(
@@ -186,7 +180,6 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
             reviewTracker = mockReviewTracker,
             observerExcludedLocations = observeExcludedLocations,
-            isAutomaticConnectionEnabled = isAutomaticConnectionEnabled,
             isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),
             vpnAlwaysOnStorage = vpnAlwaysOnStorage,
         )
@@ -690,22 +683,6 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
                     message = "Failed for vpn user $vpnUser and locations amount $locationsAmount",
                 )
             }
-        }
-    }
-
-    @Test
-    fun `GIVEN automatic connection feature flag is disabled WHEN providing dimensions THEN excluded location dimensions are not set`() = testScope.runTest {
-        val excludedCountriesDimension = "excluded_countries_count"
-        val excludedCitiesDimension = "excluded_cities_count"
-        vpnUsers.forEach { vpnUser ->
-            val message = "Failed for vpn user: $vpnUser"
-            testUserProvider.vpnUser = vpnUser
-            isAutomaticConnectionEnabled.setEnabled(isEnabled = false)
-
-            val dimensions = getSettingsTelemetryHeartbeatDimensions()
-
-            assertNull(actual = dimensions[excludedCountriesDimension], message = message)
-            assertNull(actual = dimensions[excludedCitiesDimension], message = message)
         }
     }
 

@@ -28,7 +28,6 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.usecase.SmartProtocols
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.usecases.GetIntentAvailability
-import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
@@ -111,7 +110,6 @@ class GetIntentAvailabilityTests {
             mainScope = testScope.backgroundScope,
             currentUser = currentUser,
             excludedLocationsDao = mockExcludedLocationsDao,
-            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
         )
 
         getIntentAvailability = GetIntentAvailability(

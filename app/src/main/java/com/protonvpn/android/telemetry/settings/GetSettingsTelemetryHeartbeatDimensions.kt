@@ -24,7 +24,6 @@ import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
-import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
@@ -62,7 +61,6 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
     private val observeDefaultConnection: ObserveDefaultConnection,
     private val reviewTracker: ReviewTracker,
     private val observerExcludedLocations: ObserveExcludedLocations,
-    private val isAutomaticConnectionEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
     private val isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
     private val vpnAlwaysOnStorage: VpnAlwaysOnStorage,
 ) {
@@ -200,21 +198,19 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
             value = reviewTracker.isOrWasEligibleToday()?.toTelemetry() ?: CommonDimensions.NO_VALUE,
         )
 
-        if(isAutomaticConnectionEnabled()) {
-            val excludedLocations = observerExcludedLocations(skipFreeUsers = false).first()
+        val excludedLocations = observerExcludedLocations(skipFreeUsers = false).first()
 
-            put(
-                key = DIMENSION_EXCLUDED_COUNTRIES_COUNT,
-                value = excludedLocations.countryExclusionsCount.toExcludedLocationsCountBucketString(),
-            )
+        put(
+            key = DIMENSION_EXCLUDED_COUNTRIES_COUNT,
+            value = excludedLocations.countryExclusionsCount.toExcludedLocationsCountBucketString(),
+        )
 
-            put(
-                key = DIMENSION_EXCLUDED_CITIES_AND_STATES_COUNT,
-                value = excludedLocations.cityExclusionsCount
-                    .plus(excludedLocations.stateExclusionsCount)
-                    .toExcludedLocationsCountBucketString(),
-            )
-        }
+        put(
+            key = DIMENSION_EXCLUDED_CITIES_AND_STATES_COUNT,
+            value = excludedLocations.cityExclusionsCount
+                .plus(excludedLocations.stateExclusionsCount)
+                .toExcludedLocationsCountBucketString(),
+        )
 
         put(
             key = DIMENSION_IS_PROTUN_ENABLED,

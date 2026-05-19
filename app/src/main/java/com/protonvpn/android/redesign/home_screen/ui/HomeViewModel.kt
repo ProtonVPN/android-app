@@ -51,7 +51,6 @@ import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
-import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
@@ -143,7 +142,6 @@ class HomeViewModel @Inject constructor(
     private val setNetShield: SetNetShield,
     private val widgetManager: WidgetManager,
     private val disableCustomDnsForCurrentConnection: DisableCustomDnsForCurrentConnection,
-    private val isAutomaticConnectionEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
     observeShowExcludedLocationsAdoption: ObserveShowExcludedLocationsAdoption,
     private val trafficMonitor: TrafficMonitor,
     private val promptTelemetry: VpnProductPromptTelemetry,
@@ -400,11 +398,7 @@ class HomeViewModel @Inject constructor(
     private suspend fun shouldShowSmartConnectionPreferencesDiscovery(): Boolean {
         val vpnUser = currentUser.vpnUser() ?: return false
 
-        if (
-            !isAutomaticConnectionEnabled() ||
-            vpnUser.isFreeUser ||
-            uiStateStorage.state.first().hasShownConnectionPreferencesSmartDiscovery
-        ) {
+        if (vpnUser.isFreeUser || uiStateStorage.state.first().hasShownConnectionPreferencesSmartDiscovery) {
             return false
         }
 

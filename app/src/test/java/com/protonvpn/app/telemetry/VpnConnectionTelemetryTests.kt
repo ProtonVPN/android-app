@@ -29,7 +29,6 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.usecases.ConnectionFeedback
-import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
@@ -194,7 +193,6 @@ class VpnConnectionTelemetryTests {
                 mainScope = telemetryScope.backgroundScope,
                 currentUser = currentUser,
                 excludedLocationsDao = mockExcludedLocationsDao,
-                isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
             ),
             currentUser = currentUser,
             now = testScheduler::currentTime,

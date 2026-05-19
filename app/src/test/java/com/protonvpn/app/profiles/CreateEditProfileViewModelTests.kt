@@ -51,7 +51,6 @@ import com.protonvpn.android.profiles.usecases.PrivateBrowsingAvailability
 import com.protonvpn.android.profiles.usecases.UpdateConnectIntentForExistingServers
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
-import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
@@ -217,7 +216,6 @@ class CreateEditProfileViewModelTests {
             mainScope = testScope.backgroundScope,
             currentUser = currentUser,
             excludedLocationsDao = db.excludedLocationsDao(),
-            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
         )
 
         serversAdapter = ProfilesServerDataAdapter(

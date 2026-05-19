@@ -35,7 +35,6 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
-import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.settings.ui.SettingValue
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
@@ -246,13 +245,10 @@ class SettingsViewModelTests {
             appUpdateManager = NoopAppUpdateManager(),
             appUpdateBannerStateFlow = FakeAppUpdateBannerStateFlow(),
             serverManager = mockServerManager2,
-            isAutomaticConnectionPreferencesFeatureFlagEnabled =
-                FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(true),
             observeExcludedLocations = ObserveExcludedLocations(
                 mainScope = testScope.backgroundScope,
                 currentUser = currentUser,
                 excludedLocationsDao = mockExcludedLocationsDao,
-                isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
             ),
             translator = translator,
             isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),

@@ -29,7 +29,6 @@ import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.excludedlocations.ExcludedLocations
 import com.protonvpn.android.excludedlocations.usecases.AddExcludedLocation
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
-import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.app.excludedlocations.TestExcludedLocation
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -101,7 +100,6 @@ class AddExcludedLocationTests {
             mainScope = testScope.backgroundScope,
             currentUser = currentUser,
             excludedLocationsDao = excludedLocationsDao,
-            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
         )
 
         addExcludedLocation = AddExcludedLocation(

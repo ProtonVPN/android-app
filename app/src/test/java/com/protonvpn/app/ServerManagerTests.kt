@@ -28,7 +28,6 @@ import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.Server
@@ -137,7 +136,6 @@ class ServerManagerTests {
             mainScope = testScope.backgroundScope,
             currentUser = currentUser,
             excludedLocationsDao = mockExcludedLocationsDao,
-            isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
         )
 
         // Note: use createServerManagers in each test.

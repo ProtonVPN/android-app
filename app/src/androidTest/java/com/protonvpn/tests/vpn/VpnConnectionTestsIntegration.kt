@@ -51,7 +51,6 @@ import com.protonvpn.android.profiles.data.profileSettingsOverrides
 import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.ProtocolSelectionData
-import com.protonvpn.android.redesign.settings.FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
@@ -385,7 +384,6 @@ class VpnConnectionTestsIntegration {
                 mainScope = scope.backgroundScope,
                 currentUser = currentUser,
                 excludedLocationsDao = db.excludedLocationsDao(),
-                isAutomaticConnectionEnabled = FakeIsAutomaticConnectionPreferencesFeatureFlagEnabled(enabled = true),
             )
         )
 

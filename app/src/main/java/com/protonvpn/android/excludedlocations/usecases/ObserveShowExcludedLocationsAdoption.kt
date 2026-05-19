@@ -20,7 +20,6 @@
 package com.protonvpn.android.excludedlocations.usecases
 
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.ui.storage.UiStateStorage
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
@@ -33,7 +32,6 @@ import javax.inject.Inject
 class ObserveShowExcludedLocationsAdoption @Inject constructor(
     currentUser: CurrentUser,
     uiStateStorage: UiStateStorage,
-    private val isAutomaticConnectionEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
 ) {
 
     private val isPaidUserFlow = currentUser.vpnUserFlow
@@ -45,11 +43,10 @@ class ObserveShowExcludedLocationsAdoption @Inject constructor(
         .distinctUntilChanged()
 
     operator fun invoke(): Flow<Boolean> = combine(
-        isAutomaticConnectionEnabled.observe(),
         isPaidUserFlow,
         shouldShowExcludedLocationsAdoptionFlow,
-    ) { isAutomaticConnectionEnabled, isPaidUser, shouldShowExcludedLocationsAdoption ->
-        isAutomaticConnectionEnabled && isPaidUser && shouldShowExcludedLocationsAdoption
+    ) { isPaidUser, shouldShowExcludedLocationsAdoption ->
+        isPaidUser && shouldShowExcludedLocationsAdoption
     }
 
 }

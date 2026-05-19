@@ -74,7 +74,6 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
-import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.drawer.LogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
@@ -186,9 +185,6 @@ fun SettingsRoute(
                         onNavigateToSubSetting(SubSettingsScreen.Type.Protocol)
                     }
                 },
-                onDefaultConnectionClick = {
-                    onNavigateToSubSetting(SubSettingsScreen.Type.DefaultConnection)
-                },
                 onConnectionPreferencesClick = {
                     viewModel.onOpenConnectionPreferences()
                 },
@@ -263,7 +259,6 @@ fun SettingsView(
     onSplitTunnelClick: () -> Unit,
     onSplitTunnelUpgrade: () -> Unit,
     onAlwaysOnClick: () -> Unit,
-    onDefaultConnectionClick: () -> Unit,
     onConnectionPreferencesClick: () -> Unit,
     onProtocolClick: () -> Unit,
     onVpnAcceleratorClick: () -> Unit,
@@ -330,26 +325,12 @@ fun SettingsView(
                 modifier = horizontalItemPadding,
                 stringResource(id = R.string.settings_connection_category)
             ) {
-                if(viewState.isAutomaticConnectionPreferencesEnabled) {
-                    SettingRowWithIcon(
-                        icon = CoreR.drawable.ic_proton_bookmark,
-                        title = stringResource(id = R.string.settings_connection_preferences_title),
-                        hasNewLabel = !viewState.connectionPreferences.isFeatureDiscovered,
-                        onClick = onConnectionPreferencesClick,
-                    )
-                } else {
-                    viewState.defaultConnection?.let { connnection ->
-                        val connectionLabel = with(connnection) {
-                            predefinedTitle?.let { stringResource(id = it) } ?: recentLabel?.label()
-                        }
-                        SettingRowWithIcon(
-                            icon = connnection.iconRes,
-                            title = stringResource(id = connnection.titleRes),
-                            settingValue = connectionLabel?.let { SettingValue.SettingText(it) },
-                            onClick = onDefaultConnectionClick,
-                        )
-                    }
-                }
+                SettingRowWithIcon(
+                    icon = CoreR.drawable.ic_proton_bookmark,
+                    title = stringResource(id = R.string.settings_connection_preferences_title),
+                    hasNewLabel = !viewState.connectionPreferences.isFeatureDiscovered,
+                    onClick = onConnectionPreferencesClick,
+                )
 
                 SettingRowWithIcon(
                     icon = viewState.protocol.iconRes,

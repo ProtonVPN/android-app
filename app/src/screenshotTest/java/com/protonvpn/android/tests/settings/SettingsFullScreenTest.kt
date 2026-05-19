@@ -82,7 +82,6 @@ fun SettingsCredentialless() {
             onAlwaysOnClick = {},
             onNetShieldUpgradeClick = {},
             onThirdPartyLicensesClick = {},
-            onDefaultConnectionClick = {},
             onConnectionPreferencesClick = {},
             onAdvancedSettingsClick = {},
             onWidgetClick = {},
@@ -122,7 +121,6 @@ fun SettingsPaidProfileConnected() {
             onAlwaysOnClick = {},
             onNetShieldUpgradeClick = {},
             onThirdPartyLicensesClick = {},
-            onDefaultConnectionClick = {},
             onConnectionPreferencesClick = {},
             onAdvancedSettingsClick = {},
             onWidgetClick = {},
@@ -381,7 +379,6 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
         theme = theme,
         showAccountCategory = true,
         connectionPreferences = connectionPreferences,
-        isAutomaticConnectionPreferencesEnabled = true,
     )
 
     val credentiallessAccountViewState =

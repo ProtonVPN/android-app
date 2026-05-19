@@ -43,7 +43,6 @@ import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.getRecentIdOrNull
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
-import com.protonvpn.android.redesign.settings.IsAutomaticConnectionPreferencesFeatureFlagEnabled
 import com.protonvpn.android.redesign.settings.ui.excludedlocations.ExcludedLocationsViewModel.ExcludedLocationUiItem
 import com.protonvpn.android.redesign.settings.ui.excludedlocations.toExcludedLocationUiItem
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
@@ -129,7 +128,6 @@ class SettingsViewModel @Inject constructor(
     private val appUpdateManager: AppUpdateManager,
     appUpdateBannerStateFlow: AppUpdateBannerStateFlow,
     private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
-    private val isAutomaticConnectionPreferencesFeatureFlagEnabled: IsAutomaticConnectionPreferencesFeatureFlagEnabled,
     isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
     isNetShieldLevelThreeFeatureFlagEnabled: IsNetShieldLevelThreeFeatureFlagEnabled,
     private val translator: Translator,
@@ -393,7 +391,6 @@ class SettingsViewModel @Inject constructor(
         val appUpdateBannerState: AppUpdateBannerState,
         val showAccountCategory: Boolean,
         val connectionPreferences: SettingViewState.ConnectionPreferencesState,
-        val isAutomaticConnectionPreferencesEnabled: Boolean,
     )
 
     enum class UiEvent {
@@ -439,14 +436,12 @@ class SettingsViewModel @Inject constructor(
 
     private data class FeatureFlags(
         val isIPv6FeatureFlagEnabled: Boolean,
-        val isAutomaticConnectionPreferencesFeatureFlagEnabled: Boolean,
         val isProTunV1Enabled: Boolean,
         val isNetShieldLevelThreeEnabled: Boolean,
     )
 
     private val featureFlagsFlow = combine(
         isIPv6FeatureFlagEnabled.observe(),
-        isAutomaticConnectionPreferencesFeatureFlagEnabled.observe(),
         isProTunV1FeatureFlagEnabled.observe(),
         isNetShieldLevelThreeFeatureFlagEnabled.observe(),
         ::FeatureFlags,
@@ -593,7 +588,6 @@ class SettingsViewModel @Inject constructor(
                     ),
                     excludeLocationsPreferences = excludedLocationPreferences,
                 ),
-                isAutomaticConnectionPreferencesEnabled = featureFlags.isAutomaticConnectionPreferencesFeatureFlagEnabled,
             )
         }
     }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(1_000), replay = 1)
