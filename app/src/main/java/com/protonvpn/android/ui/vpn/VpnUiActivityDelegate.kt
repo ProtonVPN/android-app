@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.vpn
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Build
+import android.os.SystemClock
 import androidx.activity.ComponentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
@@ -42,13 +43,24 @@ abstract class VpnUiActivityDelegate(
 ) : VpnUiDelegate {
 
     override fun askForPermissions(intent: Intent, connectIntent: AnyConnectIntent, onPermissionGranted: () -> Unit) {
+        val startTimestampForLog = SystemClock.elapsedRealtime()
         val permissionCall = activity.activityResultRegistry.register(
             "VPNPermission", PermissionContract(intent)
         ) { permissionGranted ->
             if (permissionGranted) {
                 onPermissionGranted()
             } else {
-                ProtonLogger.log(ConnError, "VPN permission denied. have_vpn_settings=${activity.haveVpnSettings()}")
+                val elapsedMs = (SystemClock.elapsedRealtime() - startTimestampForLog)
+                val rejectedInstantlyLog = if (elapsedMs < 500) "Rejected instantly" else "Time: ${elapsedMs}ms"
+                val hasPermissionActivity = intent.resolveActivity(activity.packageManager) != null
+                val intentInfo = intent.toString()
+                ProtonLogger.log(
+                    ConnError,
+                    "VPN permission denied. $rejectedInstantlyLog" +
+                            " Request: $intentInfo," +
+                            " resolves to activity: $hasPermissionActivity;" +
+                            " has VPN settings: ${activity.haveVpnSettings()}"
+                )
                 onPermissionDenied(connectIntent)
             }
         }
