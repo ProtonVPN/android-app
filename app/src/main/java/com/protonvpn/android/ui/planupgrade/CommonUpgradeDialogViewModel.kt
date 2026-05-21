@@ -89,8 +89,9 @@ abstract class CommonUpgradeDialogViewModel(
         data class LoadingPlans(
             val expectedCycleCount: Int,
             val buttonLabelOverride: String?,
-            override val inProgress: Boolean = true,
-        ) : State
+        ) : State {
+            override val inProgress: Boolean = true
+        }
         object LoadError : State // Error messages are emitted via onError.
         data class PurchaseReady(
             val allPlans: List<PlanModel>,

@@ -29,7 +29,6 @@ import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.auth.usecase.AwaitIsQrCodeTvLoginFeatureFlagEnabled
-import com.protonvpn.android.auth.usecase.IsQrCodeTvLoginFeatureFlagEnabled
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.databinding.ActivityTvMainBinding
 import com.protonvpn.android.redesign.app.ui.VpnAppViewModel

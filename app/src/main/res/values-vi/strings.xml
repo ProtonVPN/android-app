@@ -593,14 +593,10 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s. %3$s</string>
     <string name="upsell_tv_netshield_title">Tận hưởng duyệt web không quảng cáo với gói Plus</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Chặn quảng cáo, trình theo dõi và phần mềm độc hại bằng <b>NetShield</b>. %1$s]]></string>
     <string name="upsell_tv_split_tunneling_title">Tận dụng lợi ích từ cả hai với gói Plus</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Phân chia lưu lượng truy cập thành các đường hầm VPN và không phải VPN với tính năng <b>tách đường hầm</b>. %1$s]]></string>
     <string name="upsell_tv_customization_title">Nhận tùy chỉnh VPN nâng cao với gói Plus</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Mở khóa <b>kết nối LAN</b>, <b>DNS tùy chỉnh</b> và các tính năng VPN nâng cao khác. %1$s]]></string>
-    <string name="upsell_tv_description_placeholder">Truy cập trang web Proton VPN để nâng cấp gói.</string>
+    <string name="upsell_tv_fallback_description">Truy cập trang web Proton VPN để nâng cấp gói.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")

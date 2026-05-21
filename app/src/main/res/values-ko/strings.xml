@@ -594,14 +594,10 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s. %3$s</string>
     <string name="upsell_tv_netshield_title">Plus로 광고 없는 인터넷 서핑을 즐기실 수 있습니다</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[<b>NetShield</b>로 광고와 트래커, 멀웨어를 차단하세요. %1$s]]></string>
     <string name="upsell_tv_split_tunneling_title">Plus와 함께 두 가지 혜택을 누리세요</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[<b>분할 터널링</b>으로 트래픽을 VPN과 비-VPN 으로 나누세요. %1$s]]></string>
     <string name="upsell_tv_customization_title">플러스로 고급 VPN 사용자화를 이용하세요.</string>
-    <string name="upsell_tv_customization_description"><![CDATA[<b>LAN 연결</b>, <b>사용자 지정 DNS</b> 및 더 많은 고급 VPN 기능을 이용하세요. %1$s]]></string>
-    <string name="upsell_tv_description_placeholder">Proton VPN 웹사이트에서 요금제를 업그레이드하세요.</string>
+    <string name="upsell_tv_fallback_description">Proton VPN 웹사이트에서 요금제를 업그레이드하세요.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")

@@ -81,6 +81,7 @@ import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.BenefitsViewState
+import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import com.protonvpn.android.utils.mixDstOver
@@ -90,9 +91,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.network.presentation.util.getUserMessage
-import me.proton.core.payment.domain.repository.BillingClientError
-import me.proton.core.payment.presentation.R as PaymentR
 
 /**
  * Upgrade activity with a plan comparison table.
@@ -149,7 +147,7 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
         viewModel.eventErrorMessage.receiveAsFlow()
             .flowWithLifecycle(lifecycle)
             .onEach { error ->
-                val snackbarString = error.getPaymentErrorString()
+                val snackbarString = error.getPaymentErrorString(this)
                 snackbarHostState.showSnackbar(snackbarString, type = ProtonSnackbarType.ERROR)
             }
             .launchIn(lifecycleScope)
@@ -166,15 +164,6 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
             }
         }
     }
-
-    private fun CommonUpgradeDialogViewModel.Error.getPaymentErrorString(): String =
-        message
-            ?: messageRes?.let { getString(messageRes) }
-            ?: when (throwable) {
-                is BillingClientError -> null
-                else -> throwable?.getUserMessage(resources)
-            }
-            ?: getString(PaymentR.string.payments_general_error)
 
     companion object {
         private const val UPGRADE_SOURCE_KEY = "Upgrade Type"

@@ -30,8 +30,10 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -61,10 +63,20 @@ fun ProtonTvFocusableSurface(
     clickSound: Boolean = true,
     focusGainSound: Boolean = false, // Usually it's enough to have sound on focus lost.
     focusLostSound: Boolean = true,
+    onFocused: (() -> Unit)? = null,
+    unfocusedBorder: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val focused by interactionSource.collectIsFocusedAsState()
+    if (onFocused != null) {
+        LaunchedEffect(onFocused) {
+            snapshotFlow { focused }
+                .collect { isFocused ->
+                    if (isFocused) onFocused()
+                }
+        }
+    }
     ProtonThemeTv(
         isDark = if (focused) !isNightMode() else isNightMode()
     ) {
@@ -100,6 +112,10 @@ fun ProtonTvFocusableSurface(
                     modifier = Modifier.onFocusLost {
                         audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_UP)
                     },
+                )
+                .optional(
+                    { unfocusedBorder && !focused },
+                    Modifier.border(2.dp, ProtonTheme.colors.separatorNorm, shape)
                 )
         ) {
             content()

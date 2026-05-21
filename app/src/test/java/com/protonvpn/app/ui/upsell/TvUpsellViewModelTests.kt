@@ -74,7 +74,7 @@ class TvUpsellViewModelTests {
                 imageResId = R.drawable.worldwide_coverage_tv,
                 titleResId = R.string.upsell_tv_all_countries_title,
                 descriptionResId = R.string.upsell_tv_all_countries_description,
-                descriptionPlaceholders = { _ -> listOf("15187", "127") },
+                descriptionArgs = { _ -> arrayOf("15187", "127") },
             ),
             PaidFeature.CustomDns to TvUpsellViewModel.ViewState(
                 imageResId = R.drawable.customisation_tv,
@@ -104,7 +104,7 @@ class TvUpsellViewModelTests {
 
                 assertEquals(
                     expected = expectedViewState,
-                    actual = viewState?.copy(descriptionPlaceholders = expectedViewState.descriptionPlaceholders),
+                    actual = viewState?.copy(descriptionArgs = expectedViewState.descriptionArgs),
                     message = "ViewState does not match for paid feature: $paidFeature",
                 )
             }

@@ -21,7 +21,6 @@ package com.protonvpn.android.ui.planupgrade
 
 import android.app.Activity
 import androidx.activity.compose.LocalActivity
-import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -47,8 +46,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.PlaceholderRect
@@ -62,7 +59,6 @@ import me.proton.core.compose.theme.captionStrongUnspecified
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultSmallWeak
-import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.plan.presentation.entity.PlanCycle
 
 @Immutable
@@ -203,25 +199,10 @@ fun RenewInfo(
     selectedCycleInfo: CommonUpgradeDialogViewModel.CycleViewInfo,
     modifier: Modifier = Modifier
 ) {
-    val priceInfo = selectedCycleInfo.priceInfo
-    val price = priceInfo.formattedPrice
-    val renewPrice = priceInfo.formattedRenewPrice
-    val renewInfoText = when (selectedCycleInfo.cycle) {
-        PlanCycle.MONTHLY -> when {
-            priceInfo.hasIntroPrice ->
-                stringResource(R.string.payment_welcome_price_message_monthly, renewPrice)
-            else ->
-                stringResource(R.string.payment_auto_renew_message_monthly, price)
-        }
-        PlanCycle.YEARLY -> when {
-            priceInfo.hasIntroPrice ->
-                stringResource(R.string.payment_welcome_price_message_annual, renewPrice)
-            else ->
-                stringResource(R.string.payment_auto_renew_message_annual, price)
-        }
-        else -> return
+    val renewInfoText = renewInfoText(selectedCycleInfo)
+    if (renewInfoText != null) {
+        RenewInfoText(renewInfoText, modifier)
     }
-    RenewInfoText(renewInfoText, modifier)
 }
 
 @Composable
@@ -318,60 +299,6 @@ private fun CycleSelectionRow(
             modifier = Modifier.fillMaxHeight(),
             content = content
         )
-    }
-}
-
-@Composable
-private fun PricingCycleInfo(
-    formattedPrice: String,
-    @StringRes perCycleResId: Int?,
-    formattedPerMonthPrice: String?,
-    modifier: Modifier = Modifier,
-    text: @Composable (AnnotatedString, TextStyle) -> Unit,
-) {
-    Column(horizontalAlignment = Alignment.End, modifier = modifier) {
-        text(
-            getPriceAndCycleString(formattedPrice, perCycleResId),
-            ProtonTheme.typography.captionWeak
-        )
-        if (formattedPerMonthPrice != null) {
-            val perMonth = stringResource(R.string.payment_price_per_month)
-            text(
-                AnnotatedString(stringResource(id = R.string.payment_price_with_period, formattedPerMonthPrice, perMonth)),
-                ProtonTheme.typography.captionWeak
-            )
-        }
-    }
-}
-
-@Composable
-private fun getPriceAndCycleString(formattedPrice: String, @StringRes cycleResId: Int?): AnnotatedString {
-    val text = if (cycleResId != null) {
-        stringResource(id = R.string.payment_price_with_period, formattedPrice, stringResource(cycleResId))
-    } else {
-        formattedPrice
-    }
-    val priceIndex = text.indexOf(formattedPrice)
-    return AnnotatedString.Builder(text).apply {
-        addStyle(
-            ProtonTheme.typography.defaultStrongNorm.toSpanStyle(),
-            priceIndex,
-            priceIndex + formattedPrice.length
-        )
-    }.toAnnotatedString()
-}
-
-@Composable
-private fun WithMinHeightOf(
-    minHeightContent: @Composable () -> Unit,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
-) {
-    Box(modifier) {
-        Box(modifier = Modifier.alpha(0f)) {
-            minHeightContent()
-        }
-        content()
     }
 }
 

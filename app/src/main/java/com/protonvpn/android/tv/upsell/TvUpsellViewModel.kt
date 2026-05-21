@@ -49,13 +49,8 @@ class TvUpsellViewModel @Inject constructor(
         @DrawableRes val imageResId: Int,
         @StringRes val titleResId: Int,
         @StringRes val descriptionResId: Int,
-        val descriptionPlaceholders: (Context) -> List<String> = { emptyList() },
-    ) {
-
-        @StringRes
-        val descriptionPlaceholderResId: Int = R.string.upsell_tv_description_placeholder
-
-    }
+        val descriptionArgs: (Context) -> Array<String> = { emptyArray() },
+    )
 
     val viewStateFlow: StateFlow<ViewState?> = savedStateHandle
         .getStateFlow<PaidFeature?>(
@@ -69,8 +64,8 @@ class TvUpsellViewModel @Inject constructor(
                     imageResId = R.drawable.worldwide_coverage_tv,
                     titleResId = R.string.upsell_tv_all_countries_title,
                     descriptionResId = R.string.upsell_tv_all_countries_description,
-                    descriptionPlaceholders = { context ->
-                        listOf(
+                    descriptionArgs = { context ->
+                        arrayOf(
                             context.resources.getQuantityString(
                                 R.plurals.upgrade_plus_servers_new,
                                 serverListUpdaterPrefs.vpnServerCount,

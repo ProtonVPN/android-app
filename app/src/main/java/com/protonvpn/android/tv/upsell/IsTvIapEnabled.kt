@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Proton AG
+ * Copyright (c) 2026. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,23 +17,21 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.ui.planupgrade
+package com.protonvpn.android.tv.upsell
 
-import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.tv.IsTvCheck
-import com.protonvpn.android.tv.upsell.IsTvIapEnabled
+import com.protonvpn.android.base.data.VpnFeatureFlag
+import com.protonvpn.android.base.data.VpnFeatureFlagImpl
 import dagger.Reusable
+import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
 
+interface IsTvIapEnabled : VpnFeatureFlag
+
 @Reusable
-class IsInAppUpgradeAllowedUseCase @Inject constructor(
-    private val currentUser: CurrentUser,
-    private val purchaseEnabled: CachedPurchaseEnabled,
-    private val isTvIapEnabled: IsTvIapEnabled,
-    private val isTv: IsTvCheck,
-) {
-    suspend operator fun invoke() = (isTvIapEnabled() || !isTv()) &&
-            purchaseEnabled() &&
-            (currentUser.vpnUser()?.let { user -> user.subscribed == 0 && user.credit == 0 } ?: false)
-}
+class IsTvIapEnabledImpl @Inject constructor(
+    currentUser: CurrentUser,
+    featureFlagRepository: FeatureFlagRepository
+) : IsTvIapEnabled,
+    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("TvIap"))

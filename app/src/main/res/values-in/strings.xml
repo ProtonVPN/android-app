@@ -593,14 +593,10 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s. %3$s</string>
     <string name="upsell_tv_netshield_title">Nikmati penjelajahan tanpa iklan dengan Plus</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Blokir iklan, pelacak, dan malware dengan <b>NetShield</b>. %1$s]]></string>
     <string name="upsell_tv_split_tunneling_title">Dapatkan yang terbaik dari keduanya dengan Plus</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Pisahkan lalu lintas jaringan Anda ke dalam tunnel VPN dan non-VPN dengan <b>split tunneling</b>. %1$s]]></string>
     <string name="upsell_tv_customization_title">Dapatkan fitur kustomisasi VPN lanjutan dengan Plus</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Dapatkan akses ke <b>koneksi LAN</b>, <b>DNS Khusus</b>, dan lebih banyak fitur VPN canggih lainnya. %1$s]]></string>
-    <string name="upsell_tv_description_placeholder">Kunjungi situs web Proton VPN untuk meningkatkan paket Anda.</string>
+    <string name="upsell_tv_fallback_description">Kunjungi situs web Proton VPN untuk meningkatkan paket Anda.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")

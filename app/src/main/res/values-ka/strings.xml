@@ -609,14 +609,10 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">განბლოკეთ %1$s %2$s-ში. %3$s</string>
     <string name="upsell_tv_netshield_title">ისიამოვნეთ ურეკლამო ინტერნეტით Plus-ით</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[დაბლოკეთ რეკლამა, ტრეკერები და მავნე პროგრამები <b>NetShield</b>-ით. %1$s]]></string>
     <string name="upsell_tv_split_tunneling_title">მიიღეთ საუკეთესო ორივე სამყაროდან Plus-ით</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[გაჰყავით თქვენი ტრაფიკი VPN და არა-VPN ტრაფიკად <b>გაყოფილი გვირაბით</b>. %1$s]]></string>
     <string name="upsell_tv_customization_title">მიიღეთ VPN-ის დამატებითი პარამეტრები Plus-ით</string>
-    <string name="upsell_tv_customization_description"><![CDATA[განბლოკეთ <b>LAN კავშირები</b>, <b>მორგებული DNS</b> და მეტი მოწინავე VPN-ის ფუნქცია. %1$s]]></string>
-    <string name="upsell_tv_description_placeholder">გადადით Proton VPN-ის ვებსაიტზე თქვენი სატარიფო გეგმის განახლებისთვის.</string>
+    <string name="upsell_tv_fallback_description">გადადით Proton VPN-ის ვებსაიტზე თქვენი სატარიფო გეგმის განახლებისთვის.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")

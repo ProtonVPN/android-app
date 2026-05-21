@@ -107,6 +107,8 @@ import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabledImpl
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabledImpl
+import com.protonvpn.android.tv.upsell.IsTvIapEnabled
+import com.protonvpn.android.tv.upsell.IsTvIapEnabledImpl
 import com.protonvpn.android.tv.usecases.IsIsTvFreeUserAlphabeticalSortingForCountriesEnabledEnabledImpl
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabledImpl
@@ -505,6 +507,9 @@ object AppModule {
         fun bindIsTvCustomDnsSettingFeatureFlagEnabled(
             impl: IsTvCustomDnsSettingFeatureFlagEnabledImpl
         ): IsTvCustomDnsSettingFeatureFlagEnabled
+
+        @Binds
+        fun bindIsTvIapEnabled(impl: IsTvIapEnabledImpl): IsTvIapEnabled
 
         @Binds
         fun bindIsTvNetShieldSettingFeatureFlagEnabled(

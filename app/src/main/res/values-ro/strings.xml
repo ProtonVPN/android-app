@@ -625,14 +625,10 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Deblocați %1$s din %2$s. %3$s</string>
     <string name="upsell_tv_netshield_title">Bucurați-vă de navigarea fără reclame cu Plus</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Blocați reclamele, uneltele de urmărire și programele malițioase cu <b>NetShield</b>. %1$s]]></string>
     <string name="upsell_tv_split_tunneling_title">Obțineți maxim din ambele lumi cu Plus</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divizați-vă traficul în tuneluri VPN și non-VPN cu funcția de <b>divizare trafic</b>. %1$s]]></string>
     <string name="upsell_tv_customization_title">Obțineți personalizări VPN avansate cu Plus</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Deblocați <b>Conexiunile în LAN</b>, <b>DNS-urile personale</b> și mai multe funcții VPN avansate. %1$s]]></string>
-    <string name="upsell_tv_description_placeholder">Accesați site-ul web Proton VPN pentru a vă modifica planul.</string>
+    <string name="upsell_tv_fallback_description">Accesați site-ul web Proton VPN pentru a vă modifica planul.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
