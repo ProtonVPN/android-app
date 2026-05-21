@@ -27,7 +27,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.mmp.events.MmpEvent
 import com.protonvpn.android.mmp.events.MmpEventType
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
-import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromo12mEnabled
+import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromo12mExperimentEnabled
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
@@ -145,12 +145,14 @@ class UpgradeDialogViewModelTests {
         testTelemetry = TestTelemetryReporter()
         val telemetryFlowHelper = TelemetryFlowHelper(testScope.backgroundScope, testTelemetry)
         val upgradeTelemetry = UpgradeTelemetry(
+            mainScope = testScope.backgroundScope,
             commonDimensions = FakeCommonDimensions(emptyMap()),
             currentUser = currentUser,
             clock = { testScope.currentTime },
             telemetryHelperLazy = { telemetryFlowHelper },
+            hasAnyIntroOffer = mockk(),
             isUpsellComparisonTableEnabled = FakeIsUpsellComparisonTableEnabled(true),
-            isIapClientSidePromo12mEnabled = FakeIsIapClientSidePromo12mEnabled(true),
+            isIapClientSidePromo12MExperimentEnabled = FakeIsIapClientSidePromo12mExperimentEnabled(false),
         )
 
         viewModel = UpgradeDialogViewModel(

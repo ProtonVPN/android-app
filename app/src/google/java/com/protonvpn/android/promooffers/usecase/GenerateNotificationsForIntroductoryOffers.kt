@@ -35,6 +35,7 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.telemetry.AbTest12mPromo
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DefaultLocaleProvider
 import dagger.Reusable
@@ -67,7 +68,7 @@ fun ApiNotification.isIntroductoryPriceOffer(): Boolean =
 class GenerateNotificationsForIntroductoryOffers @Inject constructor(
     private val isIapClientSidePromoFeatureFlagEnabled: IsIapClientSidePromoFeatureFlagEnabled,
     private val isIapClientSidePromoCyclicEnabled: IsIapClientSidePromoCyclicEnabled,
-    private val isIapClientSidePromo12mEnabled: IsIapClientSidePromo12mEnabled,
+    private val isIapClientSidePromo12MExperimentEnabled: IsIapClientSidePromo12mExperimentEnabled,
     private val currentUser: CurrentUser,
     private val getEligibleIntroductoryOffers: GetEligibleIntroductoryOffers,
     private val appFeaturesPrefs: AppFeaturesPrefs,
@@ -98,7 +99,18 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
 
         val allPlans = listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
         val introductoryOffers = getEligibleIntroductoryOffers(allPlans) ?: return emptyList()
-        val planCycle = if (isIapClientSidePromo12mEnabled()) PlanCycle.YEARLY else PlanCycle.MONTHLY
+        val planCycle = when {
+            isIapClientSidePromo12MExperimentEnabled() -> {
+                val variantName = isIapClientSidePromo12MExperimentEnabled.getFlag()?.variantName
+                val abGroup = variantName?.let { AbTest12mPromo.fromFf(it) }
+                when(abGroup) {
+                    AbTest12mPromo.CONTROL -> PlanCycle.MONTHLY
+                    AbTest12mPromo.YEARLY -> PlanCycle.YEARLY
+                    null -> PlanCycle.MONTHLY
+                }
+            }
+            else -> PlanCycle.MONTHLY
+        }
 
         val startTimeMs = baseTimestampMs + if (isFirstPromo) PROMO_ACTIVITY_PERIOD_START_MS else 0L
         val startTimeS = TimeUnit.MILLISECONDS.toSeconds(startTimeMs)

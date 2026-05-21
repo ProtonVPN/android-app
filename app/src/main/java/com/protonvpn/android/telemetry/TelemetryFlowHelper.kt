@@ -56,11 +56,29 @@ class TelemetryFlowHelper @Inject constructor(
     private val mainScope: CoroutineScope,
     private val telemetry: TelemetryReporter,
 ) {
+
+    class RunSeriallyScope(private val telemetry: TelemetryReporter) {
+        fun event(
+            measurementGroup: String,
+            event: String,
+            values: Map<String, Long> = emptyMap(),
+            dimensions: Map<String, String> = emptyMap(),
+            sendImmediately: Boolean = false
+        ) {
+            event(TelemetryEventData(measurementGroup, event, values, dimensions), sendImmediately)
+        }
+
+        fun event(event: TelemetryEventData, sendImmediately: Boolean = false) {
+            telemetry(event, sendImmediately)
+        }
+    }
+
     // Run the actions sequentially to ensure the suspending parts of flows finish before others are
     // executed.
-    private val serialExecutor = Channel<suspend () -> Unit>(capacity = Channel.UNLIMITED).apply {
+    private val serialExecutor = Channel<suspend RunSeriallyScope.() -> Unit>(capacity = Channel.UNLIMITED).apply {
         mainScope.launch {
-            consumeEach { action -> action() }
+            val scope = RunSeriallyScope(telemetry)
+            consumeEach { action -> with(scope) { action() } }
         }
     }
 
@@ -70,7 +88,7 @@ class TelemetryFlowHelper @Inject constructor(
         }
     }
 
-    fun runSerially(block: suspend () -> Unit) {
+    fun runSerially(block: suspend RunSeriallyScope.() -> Unit) {
         serialExecutor.trySend(block)
     }
 }

@@ -28,15 +28,15 @@ import me.proton.core.featureflag.domain.entity.FeatureId
 import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
 
-interface IsIapClientSidePromo12mEnabled : VpnFeatureFlag
+interface IsIapClientSidePromo12mExperimentEnabled : VpnFeatureFlag
 
 @Reusable
-class IsIapClientSidePromo12mEnabledImpl @Inject constructor(
+class IsIapClientSidePromo12mExperimentEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
     featureFlagRepository: FeatureFlagRepository,
-) : IsIapClientSidePromo12mEnabled,
-    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("IapClientSidePromo12m"))
+) : IsIapClientSidePromo12mExperimentEnabled,
+    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("IapClientSidePromo12mExperiment"))
 
-class FakeIsIapClientSidePromo12mEnabled(
+class FakeIsIapClientSidePromo12mExperimentEnabled(
     isEnabled: Boolean
-) : IsIapClientSidePromo12mEnabled, FakeVpnFeatureFlag(isEnabled)
+) : IsIapClientSidePromo12mExperimentEnabled, FakeVpnFeatureFlag(isEnabled)

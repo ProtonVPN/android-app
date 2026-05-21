@@ -30,7 +30,9 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import me.proton.core.domain.entity.UserId
 import me.proton.core.featureflag.domain.ExperimentalProtonFeatureFlag
+import me.proton.core.featureflag.domain.entity.FeatureFlag
 import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.entity.Scope
 import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import me.proton.core.network.domain.ApiException
 import javax.inject.Inject
@@ -38,6 +40,9 @@ import javax.inject.Inject
 interface VpnFeatureFlag {
     suspend operator fun invoke(): Boolean
     fun observe(): Flow<Boolean>
+
+    // This may be more expensive than invoke().
+    suspend fun getFlag(): FeatureFlag?
 }
 
 open class FakeVpnFeatureFlag
@@ -49,14 +54,21 @@ constructor(
         setEnabled(enabled)
     }
 
+    private var variantName: String? = null
     private val isEnabled = MutableStateFlow(true)
 
     fun setEnabled(isEnabled: Boolean) {
         this.isEnabled.value = isEnabled
     }
 
+    fun setVariantName(variant: String?) {
+        this.variantName = variant
+    }
+
     override suspend operator fun invoke(): Boolean = enabledFlow?.first() ?: isEnabled.value
     override fun observe(): Flow<Boolean> = enabledFlow ?: isEnabled
+    override suspend fun getFlag(): FeatureFlag? =
+        FeatureFlag(null, FeatureId(""), Scope.Unleash, false, isEnabled.value, variantName, null, null)
 }
 
 open class VpnFeatureFlagImpl @Inject constructor(
@@ -73,6 +85,9 @@ open class VpnFeatureFlagImpl @Inject constructor(
         currentUser.vpnUserFlow.flatMapLatest { vpnUser ->
             featureFlagRepository.safeObserve(vpnUser?.userId, featureId)
         }.distinctUntilChanged()
+
+    override suspend fun getFlag(): FeatureFlag? =
+        featureFlagRepository.safeGet(currentUser.user()?.userId, featureId)
 }
 
 private fun FeatureFlagRepository.safeObserve(userId: UserId?, featureId: FeatureId) =
@@ -82,3 +97,10 @@ private fun FeatureFlagRepository.safeObserve(userId: UserId?, featureId: Featur
             if (e !is ApiException) throw e
             emit(false)
         }
+
+private suspend fun FeatureFlagRepository.safeGet(userId: UserId?, featureId: FeatureId) =
+    try {
+        get(userId, featureId)
+    } catch(_: ApiException) {
+        null
+    }
