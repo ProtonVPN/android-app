@@ -155,6 +155,7 @@ class TvStatusFragment : Fragment() {
                         TvVpnConnectionFeedback(
                             modifier = Modifier.padding(top = 4.dp),
                             showFeedback = state.showFeedback,
+                            onFeedbackShown = state.onFeedbackShown,
                             onFeedbackProvided = state.onFeedbackProvided,
                         )
                     }

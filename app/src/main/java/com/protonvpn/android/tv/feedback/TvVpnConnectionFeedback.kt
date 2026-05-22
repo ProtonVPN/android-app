@@ -52,11 +52,13 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionFeedbackStaggeredEntrance
 import com.protonvpn.android.redesign.recents.usecases.ConnectionFeedback
 import com.protonvpn.android.tv.buttons.TvThumbFeedbackButton
+import kotlinx.coroutines.delay
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun TvVpnConnectionFeedback(
     showFeedback: Boolean,
+    onFeedbackShown: () -> Unit,
     onFeedbackProvided: (ConnectionFeedback) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -69,6 +71,14 @@ fun TvVpnConnectionFeedback(
     val animationDelayMillis by remember {
         derivedStateOf {
             if (hasProvidedFeedback) 1100 else 0
+        }
+    }
+
+    if (showFeedback) {
+        LaunchedEffect(key1 = Unit) {
+            delay(1_500) // Make sure the user had a chance to see it.
+
+            onFeedbackShown()
         }
     }
 
