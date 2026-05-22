@@ -101,8 +101,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
         val introductoryOffers = getEligibleIntroductoryOffers(allPlans) ?: return emptyList()
         val planCycle = when {
             isIapClientSidePromo12MExperimentEnabled() -> {
-                val variantName = isIapClientSidePromo12MExperimentEnabled.getFlag()?.variantName
-                val abGroup = variantName?.let { AbTest12mPromo.fromFf(it) }
+                val abGroup = currentUser.vpnUser()?.let { AbTest12mPromo.fromUserId(it.userId) }
                 when(abGroup) {
                     AbTest12mPromo.CONTROL -> PlanCycle.MONTHLY
                     AbTest12mPromo.YEARLY -> PlanCycle.YEARLY

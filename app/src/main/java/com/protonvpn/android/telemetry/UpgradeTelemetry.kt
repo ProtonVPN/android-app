@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import me.proton.core.domain.entity.UserId
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -95,11 +96,8 @@ enum class AbTest12mPromo(val reportedValue: String) {
     CONTROL("control"), YEARLY("12m");
 
     companion object {
-        fun fromFf(variant: String) = when (variant) {
-            "control" -> CONTROL
-            "12m" -> YEARLY
-            else -> null
-        }
+        fun fromUserId(userId: UserId) =
+            if (userId.id.hashCode() % 2 == 0) CONTROL else YEARLY
     }
 }
 
@@ -243,9 +241,7 @@ class UpgradeTelemetry @Inject constructor(
         dimensions: Map<String, String>,
     ) {
         val group = ifOrNull(isEligibleFor12mExperiment == true) {
-            isIapClientSidePromo12MExperimentEnabled.getFlag()?.variantName?.let {
-                AbTest12mPromo.fromFf(it)
-            }
+            currentUser.vpnUser()?.let { AbTest12mPromo.fromUserId(it.userId) }
         }
         if (group != null) {
             val experimentVariant: Pair<String, String> = "experiment_variant" to group.reportedValue

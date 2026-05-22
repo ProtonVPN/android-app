@@ -54,6 +54,7 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
+import me.proton.core.domain.entity.UserId
 import me.proton.core.plan.presentation.entity.PlanCycle
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -76,7 +77,8 @@ class UpgradeTelemetryTests {
     private lateinit var experiment12mPromoFF: FakeIsIapClientSidePromo12mExperimentEnabled
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
-    private val freeVpnUser = TestUser.freeUser.vpnUser
+    private val freeVpnUserAbControl = TestUser.freeUser.vpnUser.copy(userId = UserId("id1"))
+    private val freeVpnUserAb12m = TestUser.freeUser.vpnUser.copy(userId = UserId("id2"))
 
     private lateinit var upgradeTelemetry: UpgradeTelemetry
 
@@ -91,7 +93,7 @@ class UpgradeTelemetryTests {
         every { mockTelemetry.event(UPSELL_GROUP, any(), any(), any()) } just runs
 
         experiment12mPromoFF = FakeIsIapClientSidePromo12mExperimentEnabled(false)
-        testUserProvider = TestCurrentUserProvider(freeVpnUser, createAccountUser(createdAtUtc = 100L))
+        testUserProvider = TestCurrentUserProvider(freeVpnUserAbControl, createAccountUser(createdAtUtc = 100L))
         val currentUser = CurrentUser(testUserProvider)
 
         val commonDimensions = DefaultCommonDimensions(
@@ -274,7 +276,7 @@ class UpgradeTelemetryTests {
             coEvery { mockGetEligibleIntroductoryOffers.invoke(any()) } returns listOf(dummyOffer)
             every { mockTelemetry.event(EXPERIMENT_GROUP, any(), any(), any()) } just runs
             upgradeTelemetry.start()
-            experiment12mPromoFF.setVariantName("12m")
+            testUserProvider.vpnUser = freeVpnUserAb12m
             experiment12mPromoFF.setEnabled(true)
 
             with(upgradeTelemetry) {
@@ -322,7 +324,7 @@ class UpgradeTelemetryTests {
             every { mockTelemetry.event(EXPERIMENT_GROUP, any(), any(), any()) } just runs
 
             upgradeTelemetry.start()
-            experiment12mPromoFF.setVariantName("control")
+            testUserProvider.vpnUser = freeVpnUserAbControl
             experiment12mPromoFF.setEnabled(true)
             with(upgradeTelemetry) {
                 onUpgradeFlowStarted(UpgradeSource.PROFILES, UpgradeTrigger.PROFILES)
