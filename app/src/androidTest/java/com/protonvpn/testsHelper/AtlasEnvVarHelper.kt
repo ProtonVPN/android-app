@@ -21,6 +21,7 @@
 
 package com.protonvpn.testsHelper
 
+import android.util.Log
 import dagger.Reusable
 import me.proton.core.configuration.EnvironmentConfiguration
 import okhttp3.MediaType.Companion.toMediaType
@@ -57,7 +58,10 @@ class AtlasEnvVarHelper @Inject constructor(
     ) {
         try{
             variableOverride()
+            val env = "FINGERPRINT_RESPONSE"
+            Log.i("AtlasEnvVarHelper", "Atlas envs after override: " + getAtlasEnv(env))
             block()
+            Log.i("AtlasEnvVarHelper", "Atlas envs after operation: " + getAtlasEnv(env))
         }
         finally{
             clearEnvVars()
@@ -69,7 +73,7 @@ class AtlasEnvVarHelper @Inject constructor(
     }
 
     private fun postAtlasEnvVariable(jsonBody: String) {
-        val url = "${environmentConfiguration.baseUrl}/internal/system"
+        val url = "${environmentConfiguration.baseUrl}/internal/system/env"
 
         val mediaType = "application/json".toMediaType()
 
@@ -85,6 +89,25 @@ class AtlasEnvVarHelper @Inject constructor(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) {
                 throw Exception("Error: ${response.body?.string()}")
+            }
+        }
+    }
+
+    fun getAtlasEnv(name: String): String {
+        val url = "${environmentConfiguration.baseUrl}/internal/system/env?$name"
+
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .get()
+            .url(url)
+            .addHeader("x-atlas-secret", environmentConfiguration.proxyToken)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) {
+                throw Exception("Error: ${response.body?.string()}")
+            } else {
+                return response.body?.string() ?: ""
             }
         }
     }
