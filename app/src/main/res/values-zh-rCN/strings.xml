@@ -356,7 +356,7 @@
     <string name="notification_smart_protocol_disabled_content">Proton VPN 检测到当前网络正在阻止设备与 VPN 的连接，开启智能协议可能会绕过这些限制。</string>
     <string name="notification_streaming_blocked_title">流媒体无法播放？</string>
     <string name="notification_streaming_blocked_text">许多流媒体服务会检测并屏蔽来自免费 VPN 服务器的连接。升级到 Proton VPN Plus 以绕过这些屏蔽！</string>
-    <string name="upsell_advanced_features">高级功能：NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">高级功能：NetShield、Secure Core、Tor、P2P</string>
     <string name="upsell_streaming_services">连接世界各地的流媒体服务（Netflix、Disney+等）</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -384,7 +384,7 @@
     <string name="upgrade_netshield_title">无广告浏览</string>
     <string name="upgrade_netshield_message"><![CDATA[用 <b>NetShield</b> 屏蔽广告、跟踪器和恶意软件。]]></string>
     <string name="upgrade_secure_core_title">双重加密</string>
-    <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b> 功能，为 VPN 连接增添一层额外保护。]]></string>
+    <string name="upgrade_secure_core_message"><![CDATA[使用 <b>Secure Core</b> 为您的 VPN 连接添加额外保护！]]></string>
     <string name="upgrade_p2p_title">解锁点对点（P2P）下载和文件共享功能 </string>
     <string name="upgrade_p2p_text">隐藏 IP 地址的情况下，提高上传下载速度。</string>
     <string name="upgrade_profiles_title">快速访问常用连接</string>
@@ -524,8 +524,8 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">升级 VPN Plus 以解锁 %1$s</string>
-    <string name="upsell_panel_countries_title">升级 VPN Plus 以解锁所有国家/地区</string>
+    <string name="upsell_panel_country_title">开通 VPN Plus 以解锁 %1$s</string>
+    <string name="upsell_panel_countries_title">开通 VPN Plus 以解锁所有国家/地区</string>
     <string name="upsell_panel_country_benefit_countries">可用国家/地区</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
@@ -697,7 +697,7 @@
     <string name="settings_excluded_locations_unavailable">无可用位置</string>
     <string name="settings_excluded_locations_selection_hint">选择…</string>
     <string name="settings_excluded_locations_accessibility_label_deletion">从排除位置中移除</string>
-    <string name="settings_excluded_locations_accessibility_label_city">城市/区县</string>
+    <string name="settings_excluded_locations_accessibility_label_city">城市</string>
     <string name="settings_excluded_locations_accessibility_label_country">国家/地区</string>
     <string name="settings_excluded_locations_accessibility_label_state">州</string>
     <string name="settings_last_connection_title">上次连接</string>
@@ -1177,7 +1177,7 @@
     <string name="country_filter_cities_list_header">城市（%1$d）</string>
     <string name="country_filter_states_list_header">州（%1$d）</string>
     <string name="country_filter_servers_list_header">服务器</string>
-    <string name="country_filter_secure_core_list_header">Secure Core 国家 / 地区（%1$d）</string>
+    <string name="country_filter_secure_core_list_header">Secure Core 国家/地区 (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P 地域（%1$d）</string>
     <string name="country_filter_p2p_list_header_cities">P2P 城市（%1$d）</string>
     <string name="country_filter_p2p_list_header_states">P2P 状态（%1$d）</string>
@@ -1235,7 +1235,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_country">国家/地区</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_city">城市 / 区县</string>
+    <string name="connection_details_city">城市</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">州</string>
     <!-- tag(Redesign_2023)
@@ -1279,7 +1279,7 @@
     <string name="info_dialog_p2p_title">P2P</string>
     <string name="info_dialog_secure_core_description">Secure Core 在您与 VPN 服务器之间通过另一台极为安全的服务器中转流量。\n\n这种连接方式的防护等级更高，但可能会影响网速和延迟。</string>
     <string name="info_secure_core_standard_header">标准 VPN 连接</string>
-    <string name="info_secure_core_secure_header">安全核心 VPN 连接</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN 连接</string>
     <string name="info_dialog_tor_description">任何浏览器都能连接到 Tor 服务器，访问隐藏的服务器和洋葱网站。</string>
     <string name="info_dialog_button_learn_more_tor">如何接入 Tor 网络</string>
     <string name="info_dialog_button_learn_more_p2p">如何使用 P2P 进行种子下载</string>
@@ -1511,7 +1511,7 @@
     <string name="info_secure_core_advanced_privacy">隐私性更高</string>
     <string name="info_secure_core_higher_latency">延迟较高</string>
     <string name="info_p2p_what_title">P2P 是什么？</string>
-    <string name="info_p2p_what_description">点对点（P2P）技术让您能直接与其他设备建立连接并共享文件。我们的P2P服务器经过专门设计，能够为这类文件共享提供专项支持。</string>
+    <string name="info_p2p_what_description">点对点 (P2P) 技术让您可以直接与其他设备连接并共享文件。\n\n我们的 P2P 服务器专门为此类文件共享而设计。</string>
     <string name="info_p2p_torrenting_title">Torrenting 是什么？</string>
     <string name="info_p2p_torrenting_description">经 P2P 网络快速共享、下载大文件。</string>
     <string name="info_p2p_why_title">为什么在种子下载时使用 P2P 专用服务器？</string>
@@ -1562,7 +1562,7 @@
     <string name="create_profile_type_p2p">P2P</string>
     <string name="create_profile_gateway">网关</string>
     <string name="create_profile_pick_state_title">省份/地区</string>
-    <string name="create_profile_pick_city_title">城市 / 区县</string>
+    <string name="create_profile_pick_city_title">城市</string>
     <string name="create_profile_pick_server_title">服务器</string>
     <string name="create_profile_pick_gateway_title">网关</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
@@ -1582,7 +1582,7 @@
     <string name="profiles_zero_state_description">配置文件已保存到您选择位置、服务器和协议的连接。</string>
     <string name="profiles_button_create_profile">添加收藏</string>
     <string name="profile_deleted_snackbar_message">个人配置已删除</string>
-    <string name="profile_connected_edit_setting">此设置与您当前使用的配置文件相关联。\n\n如需修改，请编辑配置文件，或断开连接后编辑常规VPN设置。</string>
+    <string name="profile_connected_edit_setting">此设置与您当前激活的配置文件相关联。\n\n请编辑您的配置文件以进行更改，或断开连接以编辑您的通用 VPN 设置。</string>
     <string name="profile_connected_dialog_title">管理配置文件中的 %1$s</string>
     <string name="undo">撤消</string>
     <string name="profile_unavailable_dialog_title">个人资料不可用</string>
@@ -1673,7 +1673,7 @@
     <string name="session_fork_error_expired_title">代码已过期</string>
     <string name="session_fork_error_expired_message">请在电视上生成新的代码后重试。</string>
     <string name="session_fork_error_generic_title">无法登录</string>
-    <string name="session_fork_error_fatal_message">请检查您的网络后重试。如果问题仍然存在，请联系我们的客户支持团队。</string>
+    <string name="session_fork_error_fatal_message">请检查您的网络并重试。如果问题仍然存在，请联系我们的客户支持团队。</string>
     <string name="session_fork_error_network_message">请检查您的网络后重试。</string>
     <string name="session_fork_error_try_fallback_message">点击电视上的“登录遇到问题？”以按照备用步骤操作。</string>
     <string name="session_fork_error_report_button">报告问题</string>

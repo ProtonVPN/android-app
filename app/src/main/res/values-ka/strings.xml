@@ -886,17 +886,17 @@
      Text added to clickable elements that provide negative feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_negative">not good</string>
+    <string name="accessibility_feedback_negative">კარგი არაა</string>
     <!--
      Text added to clickable elements that provide positive feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_positive">good</string>
+    <string name="accessibility_feedback_positive">კარგი</string>
     <!--
      Text added to clickable elements that allows to submit either positive or negative feedback.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_submit_feedback">submit</string>
+    <string name="accessibility_action_submit_feedback">გადაცემა</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -1095,7 +1095,7 @@
          "more information about free connections, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_free_connections">მეტი ინფორმაცია უფასო მიერთებების შესახებ</string>
-    <string name="connection_card_label_connection_feedback">How is your connection?</string>
+    <string name="connection_card_label_connection_feedback">როგორია თქვენი შეერთება?</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->

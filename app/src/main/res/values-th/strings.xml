@@ -57,8 +57,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">อยู่ระหว่างการบำรุงรักษา</string>
     <string name="restrictedMaintenanceDescription">เซิร์ฟเวอร์ที่คุณพยายามเชื่อมต่ออยู่ระหว่างการบำรุงรักษา โปรดลองเซิร์ฟเวอร์อื่น</string>
-    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
-    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
+    <string name="restricted_location_excluded_dialog_title">การเชื่อมต่อล้มเหลว</string>
+    <string name="restricted_location_excluded_dialog_description">ไม่มีเซิร์ฟเวอร์ให้บริการ โปรดเลือกตำแหน่งด้วยตัวของคุณเอง หรือ เพิ่มตำแหน่งที่ยกเว้นเข้ามา</string>
     <string name="errorUserDelinquent"><![CDATA[บัญชีของคุณมีใบแจ้งหนี้เกินกำหนดการชำระค่าบริการ โปรดชำระใบแจ้งหนี้ที่ค้างชำระทั้งหมดที่&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">คุณเชื่อมต่อพร้อมกันครบจำนวนสูงสุดที่อนุญาตสำหรับบัญชีของคุณแล้ว โปรดอัปเกรดแผน Proton VPN เพื่อเพิ่มจำนวนการเชื่อมต่อ</string>
     <string name="listItemMaintenance">อยู่ระหว่างการบำรุงรักษา</string>
@@ -89,17 +89,17 @@
     <string name="send_report">ส่งรายงาน</string>
     <string name="report_sent">ส่งรายงานแล้ว</string>
     <string name="discardChanges">ละทิ้งการเปลี่ยนแปลงที่ยังไม่ได้บันทึกหรือไม่?</string>
-    <string name="discardChangesButtonDiscard">Discard changes</string>
-    <string name="discardChangesButtonKeepEditing">Keep editing</string>
+    <string name="discardChangesButtonDiscard">ยก​เลิก​การ​เปลี่ยน​แปลง</string>
+    <string name="discardChangesButtonKeepEditing">แก้ไขต่อ</string>
     <string name="done">เสร็จสิ้น</string>
     <string name="add">เพิ่ม</string>
     <string name="copy_to_clipboard">คัดลอก</string>
     <string name="copied_to_clipboard">คัดลอกไปที่คลิปบอร์ดแล้ว</string>
     <string name="got_it">รับทราบ</string>
-    <string name="exclude_locations">Exclude locations</string>
-    <string name="excluded_locations">Excluded locations</string>
-    <string name="cannot_connect">Cannot connect</string>
-    <string name="skip">Skip</string>
+    <string name="exclude_locations">ตำแหน่งที่ยกเว้น</string>
+    <string name="excluded_locations">ตำแหน่งที่ยกเว้น</string>
+    <string name="cannot_connect">ไม่สามารถเชื่อมต่อได้</string>
+    <string name="skip">ข้าม</string>
     <string name="something_went_wrong">มีข้อผิดพลาดเกิดขึ้น</string>
     <string name="try_again">ลองอีกครั้ง</string>
     <string name="delete">ลบ</string>
@@ -272,7 +272,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">ข้อมูลที่ประหยัดได้</string>
     <string name="netshield_setting_warning">เว็บไซต์บางแห่งอาจโหลดได้ไม่ถูกต้องเมื่อมีการบล็อกโฆษณาและตัวติดตาม</string>
-    <string name="netshield_setting_block_adult_content">Block adult content</string>
+    <string name="netshield_setting_block_adult_content">บล็อกเนื้อหาสำหรับผู้ใหญ่</string>
     <string name="dialogDontShowAgain">ไม่ต้องแสดงให้เห็นอีก</string>
     <string name="guestHoleNotificationContent">กำลังพยายามหลีกเลี่ยงปัญหาเครือข่าย สิ่งนี้จะช่วยให้คุณเข้าถึง Proton VPN</string>
     <string name="errorTunMultiUserPermission">ไม่สามารถเริ่มต้นการเชื่อมต่อ VPN ได้เนื่องจากความขัดแย้งระหว่างแอปคู่ (เช่น Dual Messenger) และการแยกช่องสัญญาณ โปรดปิดใช้งานอย่างใดอย่างหนึ่งและรีบูตอุปกรณ์ของคุณ</string>
@@ -354,8 +354,8 @@
     <string name="enable">เปิดใช้งาน</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol ถูกปิดใช้งานในขณะนี้</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN ตรวจพบว่าเครือข่ายปัจจุบันของคุณกำลังป้องกันการเชื่อมต่อกับ VPN การเปิดใช้งาน Smart Protocol อาจช่วยข้ามข้อจำกัดเหล่านี้ได้</string>
-    <string name="notification_streaming_blocked_title">Streaming not working?</string>
-    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
+    <string name="notification_streaming_blocked_title">เปิดการสตรีมไม่ได้?</string>
+    <string name="notification_streaming_blocked_text">การสตรีม หลายแห่งตรวจจับและบล็อกการเชื่อมต่อจากเซิร์ฟเวอร์ VPN ฟรี อัปเกรดเป็น Proton VPN Plus เพื่อหลีกเลี่ยงปัญหาเหล่านี้</string>
     <string name="upsell_advanced_features">คุณสมบัติขั้นสูง: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">เข้าถึงบริการการสตรีม (Netflix, Disney+ ฯลฯ) ได้ทุกที่ในโลก</string>
     <!-- Number of servers available in the service.
@@ -391,8 +391,8 @@
     <string name="upgrade_profiles_text">ปลดล็อกโปรไฟล์ด้วย VPN Plus</string>
     <string name="upgrade_streaming_title">สตรีมในระดับ 4K</string>
     <string name="upgrade_streaming_text">เพลิดเพลินกับภาพยนตร์และรายการทีวีที่คุณชื่นชอบจากทุกที่ในโลก</string>
-    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upgrade_streaming_block_title">อัปเกรดเพื่อหลีกเลี่ยงการบล็อก VPN เหล่านี้</string>
+    <string name="upgrade_streaming_block_text">เซิร์ฟเวอร์ VPN Plus ให้คุณเพลิดเพลินกับภาพยนตร์และรายการทีวีที่ชื่นชอบจากทั่วโลก</string>
     <string name="upgrade_tor_title">เข้าถึงเครือข่าย Tor ในแตะเดียว</string>
     <string name="upgrade_tor_text">เชื่อมต่อกับบริการที่ซ่อนอยู่และไซต์ Onion ด้วยเบราว์เซอร์ปกติของคุณ</string>
     <string name="upgrade_vpn_accelerator_title">ท่องเว็บด้วยความเร็วที่สูงยิ่งขึ้น</string>
@@ -504,7 +504,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -513,10 +513,10 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
-    <string name="upsell_panel_content_description_yes">Yes</string>
-    <string name="upsell_panel_content_description_no">No</string>
-    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_content_description_value_prefix_free">Free plan</string>
+    <string name="upsell_panel_content_description_yes">ใช่</string>
+    <string name="upsell_panel_content_description_no">ไม่</string>
+    <string name="upsell_panel_table_header_plan_free">ฟรี</string>
     <!--
         %1$s - country name in nominative
 
@@ -524,9 +524,9 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
-    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Available countries</string>
+    <string name="upsell_panel_country_title">ปลดล็อก %1$s ใน  ด้วย VPN Plus</string>
+    <string name="upsell_panel_countries_title">ปลดล็อกเพื่อใข้ VPN Plus ได้ทุกประเทศ</string>
+    <string name="upsell_panel_country_benefit_countries">ประเทศที่ให้บริการ</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Choose your location</string>

@@ -886,7 +886,7 @@
      Text added to clickable elements that provide negative feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_negative">Mala</string>
+    <string name="accessibility_feedback_negative">mala</string>
     <!--
      Text added to clickable elements that provide positive feedback when clicking on it.
      Only used by accessibility services.

@@ -886,17 +886,17 @@
      Text added to clickable elements that provide negative feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_negative">not good</string>
+    <string name="accessibility_feedback_negative">Nicht gut</string>
     <!--
      Text added to clickable elements that provide positive feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_positive">good</string>
+    <string name="accessibility_feedback_positive">Gut</string>
     <!--
      Text added to clickable elements that allows to submit either positive or negative feedback.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_submit_feedback">submit</string>
+    <string name="accessibility_action_submit_feedback">Absenden</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -1095,7 +1095,7 @@
          "more information about free connections, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_free_connections">Mehr Informationen zu kostenlosen Verbindungen</string>
-    <string name="connection_card_label_connection_feedback">How is your connection?</string>
+    <string name="connection_card_label_connection_feedback">Wie ist deine Verbindung?</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -1322,7 +1322,7 @@
     <string name="info_dialog_profiles_title">Profile</string>
     <string name="info_dialog_ipaddress_title">IP-Adresse</string>
     <string name="info_dialog_ipv6_traffic_title">IPv6-Datendurchsatz</string>
-    <string name="info_dialog_profiles_description">Profile sind benutzerdefinierte VPN-Verbindungen, die du auf deine Bedürfnisse zuschneiden und für den schnellen Zugriff speichern kannst.\n\n Stelle deinen bevorzugten Standort ein und optimiere deine Einstellungen für Sicherheit, Leistung, Spiele oder jedes andere Szenario.</string>
+    <string name="info_dialog_profiles_description">Profile sind benutzerdefinierte VPN-Verbindungen, die du auf deine Bedürfnisse zuschneiden und für den schnellen Zugriff speichern kannst.\n\nStelle deinen bevorzugten Standort ein und optimiere deine Einstellungen für Sicherheit, Leistung, Spiele oder jedes andere Szenario.</string>
     <string name="info_dialog_ipaddress_description">Deine VPN-IP maskiert deine echte IP-Adresse. Dadurch sieht es so aus, als würdest du von deinem VPN-Standort aus surfen, sodass deine Online-Aktivitäten nicht mit deinem Gerät in Verbindung gebracht werden können.</string>
     <string name="info_dialog_ipv6_traffic_description">Das Internetprotokoll (IP) weist den Geräten Adressen zu und leitet den Internetverkehr weiter. IPv6 ist die neueste Version, die mehr Adressen und eine bessere Konnektivität bietet, aber noch nicht allgemein eingeführt ist.</string>
     <string name="connection_feature_p2p_title">P2P</string>
