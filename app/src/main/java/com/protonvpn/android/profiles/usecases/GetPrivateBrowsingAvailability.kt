@@ -45,14 +45,10 @@ private val EXAMPLE_URL = Uri.parse("https://proton.me")
 class GetPrivateBrowsingAvailabilityImpl @Inject constructor(
     @ApplicationContext val appContext: Context,
     val dispatcherProvider: VpnDispatcherProvider,
-    val isProfileAutoOpenPrivateBrowsingFeatureFlagEnabled: IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled
 ) : GetPrivateBrowsingAvailability {
 
     override suspend operator fun invoke(): PrivateBrowsingAvailability = withContext(dispatcherProvider.Io) {
         when {
-            !isProfileAutoOpenPrivateBrowsingFeatureFlagEnabled() ->
-                PrivateBrowsingAvailability.NotAvailable
-
             appContext.doesDefaultBrowserSupportEphemeralCustomTabs() ->
                 PrivateBrowsingAvailability.AvailableWithDefault
 

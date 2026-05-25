@@ -74,8 +74,6 @@ import com.protonvpn.android.profiles.usecases.GetPrivateBrowsingAvailability
 import com.protonvpn.android.profiles.usecases.GetPrivateBrowsingAvailabilityImpl
 import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
-import com.protonvpn.android.profiles.usecases.IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled
-import com.protonvpn.android.profiles.usecases.IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabledImpl
 import com.protonvpn.android.promooffers.data.GlideImagePrefetcher
 import com.protonvpn.android.promooffers.data.ImagePrefetcher
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromo12mExperimentEnabled
@@ -476,11 +474,6 @@ object AppModule {
         @Singleton
         @Binds
         fun bindImagePrefetcher(glide: GlideImagePrefetcher): ImagePrefetcher
-
-        @Binds
-        fun bindIsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled(
-            impl: IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabledImpl
-        ): IsProfileAutoOpenPrivateBrowsingFeatureFlagEnabled
 
         @Binds
         fun bindBuiltInGuestHolesProvider(impl: AssetsBuiltInGuestHoles): BuiltInGuestHoles
