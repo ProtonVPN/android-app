@@ -103,7 +103,7 @@ class DnsSettingViewModelHelper(
             newDns.isEmpty() -> AddDnsError.EmptyInput
             customDnsSettingState.value?.dnsViewState?.customDns?.contains(newDns) == true ->
                 AddDnsError.DuplicateInput
-            !newDns.isValidIp(allowIpv6 = true) -> AddDnsError.InvalidInput
+            !newDns.isValidIp() -> AddDnsError.InvalidInput
             else -> null
         }
 

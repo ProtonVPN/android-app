@@ -119,7 +119,7 @@ class TvSettingsAddCustomDnsViewModel @Inject constructor(
 
     private suspend fun getCustomDnsValidationError(customDns: String): AddDnsError? = when {
         customDns.isEmpty() -> AddDnsError.EmptyInput
-        !customDns.isValidIp(allowIpv6 = true) -> AddDnsError.InvalidInput
+        !customDns.isValidIp() -> AddDnsError.InvalidInput
         userSettingsManager.rawCurrentUserSettingsFlow
             .first()
             .customDns

@@ -44,7 +44,6 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
-import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.FakeIsProTunV1FeatureFlagEnabled
 import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -101,7 +100,6 @@ class SettingsForConnectionTests {
                 currentUser = currentUser,
                 isTv = mockIsTvCheck,
                 flags = SettingsFeatureFlagsFlow(
-                    isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true),
                     isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
                     isTvNetShieldSettingFeatureFlagEnabled = isTvNetShieldEnabled,
                     isTvCustomDnsSettingFeatureFlagEnabled = isTvCustomDnsEnabled,

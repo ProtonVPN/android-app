@@ -67,7 +67,6 @@ import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
-import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -102,7 +101,6 @@ class TvMainViewModel @Inject constructor(
     isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
-    isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     private val isTvFavoriteCountryForFreeUserDisabled: IsTvFavoriteCountryForFreeUserDisabled,
     private val isTvRecentsForFreeUserDisabled: IsTvRecentsForFreeUserDisabled,
     private val isTvFreeUserAlphabeticalSortingForCountriesEnabled: IsTvFreeUserAlphabeticalSortingForCountriesEnabled,
@@ -167,20 +165,17 @@ class TvMainViewModel @Inject constructor(
         val showAutoConnectSetting: Boolean,
         val showNetShieldSetting: Boolean,
         val showCustomDnsSetting: Boolean,
-        val showIpv6Setting: Boolean,
     )
 
     data class FeatureFlags(
         val isTvAutoConnectFeatureFlagEnabled: Boolean,
         val isTvNetShieldSettingFeatureFlagEnabled: Boolean,
         val isTvCustomDnsSettingFeatureFlagEnabled: Boolean,
-        val isIPv6FeatureFlagEnabled: Boolean,
     )
     private val featureFlagsFlow = combine(
         isTvAutoConnectFeatureFlagEnabled.observe(),
         isTvNetShieldSettingFeatureFlagEnabled.observe(),
         isTvCustomDnsSettingFeatureFlagEnabled.observe(),
-        isIPv6FeatureFlagEnabled.observe(),
         ::FeatureFlags
     )
 
@@ -198,7 +193,6 @@ class TvMainViewModel @Inject constructor(
             showAutoConnectSetting = flags.isTvAutoConnectFeatureFlagEnabled,
             showNetShieldSetting = flags.isTvNetShieldSettingFeatureFlagEnabled,
             showCustomDnsSetting = flags.isTvCustomDnsSettingFeatureFlagEnabled,
-            showIpv6Setting = flags.isIPv6FeatureFlagEnabled,
         )
     }
         .onStart {

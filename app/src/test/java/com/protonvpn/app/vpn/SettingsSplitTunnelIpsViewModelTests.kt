@@ -27,7 +27,6 @@ import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.settings.LabeledItem
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelIpsActivity
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelIpsViewModel
-import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -83,44 +82,25 @@ class SettingsSplitTunnelIpsViewModelTests {
         assertEquals(
             SettingsSplitTunnelIpsViewModel.State(
                 listOf("1.1.1.1".let { LabeledItem(it, it) }, "2000::".let { LabeledItem(it, it) }),
-                showHelp = true
             ),
             viewModel.state.first()
         )
     }
 
     @Test
-    fun `don't show help when IPv6 ff disabled`() = testScope.runTest {
-        val viewModel = createViewModel(v6FeatureFlagEnabled = false)
-        assertEquals(SettingsSplitTunnelIpsViewModel.State(emptyList(), showHelp = false), viewModel.state.first())
-    }
-
-    @Test
     fun `should display IPv6 dialog`() = testScope.runTest {
-        val viewModel = createViewModel(
-            v6FeatureFlagEnabled = true, v6SettingEnabled = false, mode = SplitTunnelingMode.INCLUDE_ONLY)
+        val viewModel = createViewModel(v6SettingEnabled = false, mode = SplitTunnelingMode.INCLUDE_ONLY)
         viewModel.events.test {
             viewModel.addAddress("2000::")
-            awaitItem() == SettingsSplitTunnelIpsViewModel.Event.ShowIPv6EnableSettingDialog
+            assertEquals(SettingsSplitTunnelIpsViewModel.Event.ShowIPv6EnableSettingDialog, awaitItem())
             viewModel.onEnableIPv6()
-            awaitItem() == SettingsSplitTunnelIpsViewModel.Event.ShowIPv6EnabledToast
+            assertEquals(SettingsSplitTunnelIpsViewModel.Event.ShowIPv6EnabledToast, awaitItem())
         }
     }
 
     @Test
     fun `don't display IPv6 dialog on exclude mode`() = testScope.runTest {
-        val viewModel = createViewModel(
-            v6FeatureFlagEnabled = true, v6SettingEnabled = false, mode = SplitTunnelingMode.EXCLUDE_ONLY)
-        viewModel.events.test {
-            viewModel.addAddress("2000::")
-            expectNoEvents()
-        }
-    }
-
-    @Test
-    fun `don't display IPv6 dialog if feature flag is disabled`() = testScope.runTest {
-        val viewModel = createViewModel(
-            v6FeatureFlagEnabled = false, v6SettingEnabled = false, mode = SplitTunnelingMode.EXCLUDE_ONLY)
+        val viewModel = createViewModel(v6SettingEnabled = false, mode = SplitTunnelingMode.EXCLUDE_ONLY)
         viewModel.events.test {
             viewModel.addAddress("2000::")
             expectNoEvents()
@@ -128,7 +108,6 @@ class SettingsSplitTunnelIpsViewModelTests {
     }
 
     private suspend fun createViewModel(
-        v6FeatureFlagEnabled: Boolean = true,
         v6SettingEnabled: Boolean = true,
         mode: SplitTunnelingMode = SplitTunnelingMode.EXCLUDE_ONLY
     ) = SettingsSplitTunnelIpsViewModel(
@@ -137,7 +116,6 @@ class SettingsSplitTunnelIpsViewModelTests {
             CurrentUserLocalSettingsManager(LocalUserSettingsStoreProvider(InMemoryDataStoreFactory())).apply {
                 update { it.copy(ipV6Enabled = v6SettingEnabled) }
             },
-        isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(v6FeatureFlagEnabled),
         SavedStateHandle(
             mapOf(SettingsSplitTunnelIpsActivity.SPLIT_TUNNELING_MODE_KEY to mode))
     )

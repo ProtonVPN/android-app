@@ -34,7 +34,6 @@ import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.utils.combine
 import com.protonvpn.android.vpn.effectiveProtocol
-import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
@@ -54,7 +53,6 @@ import javax.inject.Singleton
 
 @Reusable
 class SettingsFeatureFlagsFlow @Inject constructor(
-    isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
@@ -63,7 +61,6 @@ class SettingsFeatureFlagsFlow @Inject constructor(
 ) : Flow<SettingsFeatureFlagsFlow.Flags> {
 
     data class Flags(
-        val isIPv6Enabled: Boolean,
         val isTvAutoConnectEnabled: Boolean,
         val isTvNetShieldSettingEnabled: Boolean,
         val isTvCustomDnsSettingEnabled: Boolean,
@@ -72,7 +69,6 @@ class SettingsFeatureFlagsFlow @Inject constructor(
     )
 
     private val flow: Flow<Flags> = combine(
-        isIPv6FeatureFlagEnabled.observe(),
         isTvAutoConnectFeatureFlagEnabled.observe(),
         isTvNetShieldSettingFeatureFlagEnabled.observe(),
         isTvCustomDnsSettingFeatureFlagEnabled.observe(),
@@ -152,7 +148,7 @@ abstract class BaseApplyEffectiveUserSettings(
             tvAutoConnectOnBoot = if (isTv && flags.isTvAutoConnectEnabled) settings.tvAutoConnectOnBoot else false,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
-            ipV6Enabled = settings.ipV6Enabled && flags.isIPv6Enabled,
+            ipV6Enabled = settings.ipV6Enabled,
             protocol = settings.protocol.effectiveProtocol(flags.isProTunV1Enabled),
         )
     }

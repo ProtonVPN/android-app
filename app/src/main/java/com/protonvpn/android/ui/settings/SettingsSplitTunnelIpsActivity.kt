@@ -27,7 +27,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -46,7 +45,6 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
@@ -109,8 +107,7 @@ class SettingsSplitTunnelIpsActivity : SaveableSettingsActivity<SettingsSplitTun
             }
         }
         viewModel.state.asLiveData().observe(this, Observer { state ->
-            if (state.showHelp)
-                binding.inputIp.helpText = getString(R.string.inputIpAddressHelp)
+            binding.inputIp.helpText = getString(R.string.inputIpAddressHelp)
             val selectedIps = state.ips
             val groups = if (selectedIps.isNotEmpty()) {
                 val headerTextRes = when (mode) {
@@ -133,12 +130,10 @@ class SettingsSplitTunnelIpsActivity : SaveableSettingsActivity<SettingsSplitTun
     }
 
     private fun onAddIpClicked(text: String) {
-        lifecycleScope.launch {
-            if (viewModel.isValidIp(text)) {
-                addIp(text)
-            } else {
-                binding.inputIp.setInputError(getString(R.string.inputIpAddressErrorInvalid))
-            }
+        if (viewModel.isValidIp(text)) {
+            addIp(text)
+        } else {
+            binding.inputIp.setInputError(getString(R.string.inputIpAddressErrorInvalid))
         }
     }
 
@@ -167,9 +162,7 @@ class SettingsSplitTunnelIpsActivity : SaveableSettingsActivity<SettingsSplitTun
     }
 
     private fun updateAddButtonState(text: String) {
-        lifecycleScope.launch {
-            binding.buttonAdd.isEnabled = viewModel.isValidIp(text)
-        }
+        binding.buttonAdd.isEnabled = viewModel.isValidIp(text)
     }
 
     private fun onEditorAction(actionId: Int): Boolean {

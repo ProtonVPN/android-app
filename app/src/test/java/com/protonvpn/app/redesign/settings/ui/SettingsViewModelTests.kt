@@ -63,7 +63,6 @@ import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
-import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.FakeIsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
 import com.protonvpn.mocks.FakeAppUpdateBannerStateFlow
@@ -177,7 +176,6 @@ class SettingsViewModelTests {
         val accountUser = createAccountUser()
         testUserProvider = TestCurrentUserProvider(plusUser, accountUser)
         val currentUser = CurrentUser(testUserProvider)
-        val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
         settingsManager = CurrentUserLocalSettingsManager(
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()),
         )
@@ -186,7 +184,6 @@ class SettingsViewModelTests {
             currentUser = currentUser,
             isTv = mockIsTvCheck,
             flags = SettingsFeatureFlagsFlow(
-                isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
                 isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
                 isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
                 isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),
@@ -232,7 +229,6 @@ class SettingsViewModelTests {
             observeRegisteredSecurityKeys = observeRegisteredSecurityKeys,
             appWidgetManager = mockWidgetManager,
             appFeaturePrefs = prefs,
-            isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
             isPrivateDnsActiveFlow = IsPrivateDnsActiveFlow(isPrivateDnsActive),
             observeDefaultConnection = mockObserveDefaultConnection,
             uiStateStorage = UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),

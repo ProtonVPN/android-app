@@ -144,8 +144,6 @@ import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.protun.ProTunBackend
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDsImpl
-import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
-import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabledImpl
 import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabledImpl
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
@@ -486,9 +484,6 @@ object AppModule {
         fun bindIsIapClientSidePromoCyclicEnabled(
             impl: IsIapClientSidePromoCyclicEnabledImpl
         ): IsIapClientSidePromoCyclicEnabled
-
-        @Binds
-        fun bindIsIPv6FeatureFlagEnabled(impl: IsIPv6FeatureFlagEnabledImpl): IsIPv6FeatureFlagEnabled
 
         @Binds
         fun bindsIsPrivateBrowsingAvailable(impl: GetPrivateBrowsingAvailabilityImpl): GetPrivateBrowsingAvailability

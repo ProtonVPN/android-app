@@ -238,7 +238,6 @@ class TvHomeFragment : BaseTvBrowseFragment() {
             showNetShieldSetting = viewState.showNetShieldSetting,
             showCustomDnsSetting = viewState.showCustomDnsSetting,
             showAutoConnectSetting = viewState.showAutoConnectSetting,
-            showIpv6Setting = viewState.showIpv6Setting,
         )
 
         view?.doOnPreDraw {
@@ -279,7 +278,6 @@ class TvHomeFragment : BaseTvBrowseFragment() {
         showAutoConnectSetting: Boolean,
         showNetShieldSetting: Boolean,
         showCustomDnsSetting: Boolean,
-        showIpv6Setting: Boolean,
     ) {
         var index = 1
         updateRecentsRow()
@@ -316,10 +314,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
                 add(SettingsCustomDns(getString(R.string.settings_custom_dns_title), isFreeUser))
             }
 
-            if (showIpv6Setting) {
-                add(SettingsIPv6ConnectionsCard(getString(R.string.settings_advanced_ipv6_title)))
-            }
-
+            add(SettingsIPv6ConnectionsCard(getString(R.string.settings_advanced_ipv6_title)))
             add(ReportBugCard(getString(R.string.drawerReportProblem)))
             add(LogoutCard(getString(R.string.tv_signout_label)))
         }

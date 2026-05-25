@@ -36,7 +36,6 @@ import com.protonvpn.android.tv.settings.customdns.add.TvSettingsAddCustomDnsVie
 import com.protonvpn.android.tv.usecases.FakeIsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
-import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.FakeIsProTunV1FeatureFlagEnabled
 import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
@@ -105,7 +104,6 @@ class TvSettingsAddCustomDnsViewModelTests {
                 ),
                 isTv = mockIsTvCheck,
                 flags = SettingsFeatureFlagsFlow(
-                    isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true),
                     isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
                     isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
                     isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),

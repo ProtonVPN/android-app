@@ -71,7 +71,6 @@ class EffectiveCurrentUserSettingsFlowTests {
 
         featureFlagsFlow = MutableStateFlow(
             value = SettingsFeatureFlagsFlow.Flags(
-                isIPv6Enabled = true,
                 isTvNetShieldSettingEnabled = true,
                 isTvCustomDnsSettingEnabled = true,
                 isTvAutoConnectEnabled = true,

@@ -70,10 +70,10 @@ private val ipStringParams = IPAddressStringParameters.Builder()
     .toParams()
 
 
-fun String.isValidIp(allowIpv6: Boolean = true): Boolean =
+fun String.isValidIp(): Boolean =
     this.isNotBlank()
             && with(IPAddressString(this, ipStringParams)) {
-        isValid && !isPrefixed && !isZero && !isLoopback && (allowIpv6 || isIPv4)
+        isValid && !isPrefixed && !isZero && !isLoopback
     } && this.trim() == this
 
 fun String.isIPv6(): Boolean =

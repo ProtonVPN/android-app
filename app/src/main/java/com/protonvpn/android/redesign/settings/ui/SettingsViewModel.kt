@@ -69,7 +69,6 @@ import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.getDnsOverride
-import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -121,7 +120,6 @@ class SettingsViewModel @Inject constructor(
     private val observeRegisteredSecurityKeys: ObserveRegisteredSecurityKeys,
     private val appWidgetManager: WidgetManager,
     private val appFeaturePrefs: AppFeaturesPrefs,
-    private val isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
     private val appUpdateManager: AppUpdateManager,
     appUpdateBannerStateFlow: AppUpdateBannerStateFlow,
@@ -375,7 +373,7 @@ class SettingsViewModel @Inject constructor(
         val altRouting: SettingViewState.AltRouting,
         val lanConnections: SettingViewState.LanConnections,
         val natType: SettingViewState.Nat,
-        val ipV6: SettingViewState.IPv6?,
+        val ipV6: SettingViewState.IPv6,
         val customDns: SettingViewState.CustomDns?,
         val buildInfo: String?,
         val showSignOut: Boolean,
@@ -430,17 +428,6 @@ class SettingsViewModel @Inject constructor(
         replay = 1,
     )
 
-    private data class FeatureFlags(
-        val isIPv6FeatureFlagEnabled: Boolean,
-        val isProTunV1Enabled: Boolean,
-    )
-
-    private val featureFlagsFlow = combine(
-        isIPv6FeatureFlagEnabled.observe(),
-        isProTunV1FeatureFlagEnabled.observe(),
-        ::FeatureFlags,
-    )
-
     private val localeFlow = MutableStateFlow<Locale?>(value = null)
 
     private val excludedLocationPreferencesFlow = localeFlow
@@ -483,10 +470,10 @@ class SettingsViewModel @Inject constructor(
             isPrivateDnsActiveFlow,
             acknowledgingAppUpdateBannerStateFlow,
             excludedLocationPreferencesFlow,
-            featureFlagsFlow,
-        ) { defaultConnection, connectionSettings, featurePreferences, isPrivateDnsActive, appUpdateBannerState, excludedLocationPreferences, featureFlags ->
-            val isFree = user.vpnUser.isFreeUser == true
-            val isCredentialLess = user.user.isCredentialLess() == true
+            isProTunV1FeatureFlagEnabled.observe(),
+        ) { defaultConnection, connectionSettings, featurePreferences, isPrivateDnsActive, appUpdateBannerState, excludedLocationPreferences, isProTunV1Enabled ->
+            val isFree = user.vpnUser.isFreeUser
+            val isCredentialLess = user.user.isCredentialLess()
             val settings = connectionSettings.connectionSettings
             val profileOverrideInfo = connectionSettings.associatedProfile?.let { profile ->
                 val intentView = getConnectIntentViewState.forProfile(profile)
@@ -539,7 +526,7 @@ class SettingsViewModel @Inject constructor(
                 protocol = SettingViewState.Protocol(
                     settings.protocol,
                     profileOverrideInfo?.primaryLabel,
-                    showProTun = featureFlags.isProTunV1Enabled
+                    showProTun = isProTunV1Enabled,
                 ),
                 defaultConnection = defaultConnectionSetting,
                 altRouting = SettingViewState.AltRouting(settings.apiUseDoh),
@@ -568,7 +555,7 @@ class SettingsViewModel @Inject constructor(
                         isPrivateDnsActive = isPrivateDnsActive,
                     ),
                 versionName = BuildConfig.VERSION_NAME,
-                ipV6 = if (featureFlags.isIPv6FeatureFlagEnabled) SettingViewState.IPv6(enabled = settings.ipV6Enabled) else null,
+                ipV6 = SettingViewState.IPv6(enabled = settings.ipV6Enabled),
                 theme = SettingViewState.Theme(settings.theme),
                 appUpdateBannerState = appUpdateBannerState,
                 showAccountCategory = !managedConfig.isManaged,
