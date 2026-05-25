@@ -48,7 +48,6 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.FakeIsProTunV1FeatureFlagEnabled
 import com.protonvpn.mocks.FakeGetProfileById
-import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createProfileEntity
@@ -74,7 +73,6 @@ class SettingsForConnectionTests {
     private lateinit var rawSettingsFlow: MutableStateFlow<LocalUserSettings>
     private lateinit var profileById: FakeGetProfileById
     private lateinit var vpnStateMonitor: VpnStateMonitor
-    private lateinit var isDirectLanEnabled: FakeIsLanDirectConnectionsFeatureFlagEnabled
     private lateinit var isTvNetShieldEnabled: FakeIsTvNetShieldSettingFeatureFlagEnabled
     private lateinit var isTvCustomDnsEnabled: FakeIsTvCustomDnsSettingFeatureFlagEnabled
     private lateinit var isProTunV1Enabled: FakeIsProTunV1FeatureFlagEnabled
@@ -88,7 +86,6 @@ class SettingsForConnectionTests {
         testUserProvider = TestCurrentUserProvider(vpnUser = TestUser.plusUser.vpnUser)
         currentUser = CurrentUser(testUserProvider)
         rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
-        isDirectLanEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
         isTvNetShieldEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true)
         isTvCustomDnsEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true)
         isProTunV1Enabled = FakeIsProTunV1FeatureFlagEnabled(true)
@@ -106,7 +103,6 @@ class SettingsForConnectionTests {
                 isTv = mockIsTvCheck,
                 flags = SettingsFeatureFlagsFlow(
                     isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true),
-                    isDirectLanConnectionsFeatureFlagEnabled = isDirectLanEnabled,
                     isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
                     isTvNetShieldSettingFeatureFlagEnabled = isTvNetShieldEnabled,
                     isTvCustomDnsSettingFeatureFlagEnabled = isTvCustomDnsEnabled,
@@ -155,24 +151,6 @@ class SettingsForConnectionTests {
             lanConnectionsAllowDirect = false,
             customDns = CustomDnsSettings(false)
         ), settingsForConnection.getFor(ConnectIntent.Fastest.copy(settingsOverrides = overrides)))
-    }
-
-    @Test
-    fun `overrides are not applied if feature flags are disabled`() = testScope.runTest {
-        rawSettingsFlow.value = LocalUserSettings.Default
-        val overrides = SettingsOverrides(
-            lanConnections = true,
-            lanConnectionsAllowDirect = true,
-            customDns = CustomDnsSettings(),
-            protocolData = null,
-            netShield = null,
-            randomizedNat = null,
-        )
-        isDirectLanEnabled.setEnabled(false)
-        assertEquals(
-            LocalUserSettings.Default.copy(lanConnections = true),
-            settingsForConnection.getFor(ConnectIntent.Fastest.copy(settingsOverrides = overrides))
-        )
     }
 
     @Test

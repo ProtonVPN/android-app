@@ -69,7 +69,6 @@ import com.protonvpn.android.vpn.usecases.FakeIsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
 import com.protonvpn.mocks.FakeAppUpdateBannerStateFlow
 import com.protonvpn.mocks.FakeGetProfileById
-import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.InMemoryObjectStore
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
@@ -180,7 +179,6 @@ class SettingsViewModelTests {
         testUserProvider = TestCurrentUserProvider(plusUser, accountUser)
         val currentUser = CurrentUser(testUserProvider)
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
-        val isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
         settingsManager = CurrentUserLocalSettingsManager(
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()),
         )
@@ -190,7 +188,6 @@ class SettingsViewModelTests {
             isTv = mockIsTvCheck,
             flags = SettingsFeatureFlagsFlow(
                 isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
-                isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
                 isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
                 isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
                 isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),
@@ -239,7 +236,6 @@ class SettingsViewModelTests {
             appFeaturePrefs = prefs,
             isIPv6FeatureFlagEnabled = isIPv6FeatureFlagEnabled,
             isPrivateDnsActiveFlow = IsPrivateDnsActiveFlow(isPrivateDnsActive),
-            isDirectLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled,
             observeDefaultConnection = mockObserveDefaultConnection,
             uiStateStorage = UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),
             appUpdateManager = NoopAppUpdateManager(),

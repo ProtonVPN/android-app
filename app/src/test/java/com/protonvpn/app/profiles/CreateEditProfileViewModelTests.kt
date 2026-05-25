@@ -72,7 +72,6 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.FakeIsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.TransientMustHaves
 import com.protonvpn.mocks.FakeCommonDimensions
-import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
@@ -244,7 +243,6 @@ class CreateEditProfileViewModelTests {
             shouldAskForReconnection = shouldAskForProfileReconnection,
             uiStateStorage = UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),
             isPrivateDnsActiveFlow = IsPrivateDnsActiveFlow(isPrivateDnsActiveFlow),
-            isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
             transientMustHaves = TransientMustHaves({ testScope.currentTime }),
             autoOpenAppInfoHelper = mockk(relaxed = true),
             getPrivateBrowsingAvailability = { PrivateBrowsingAvailability.AvailableWithDefault },

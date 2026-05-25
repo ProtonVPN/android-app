@@ -35,7 +35,6 @@ import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.utils.combine
 import com.protonvpn.android.vpn.effectiveProtocol
-import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import dagger.Reusable
@@ -57,7 +56,6 @@ import javax.inject.Singleton
 @Reusable
 class SettingsFeatureFlagsFlow @Inject constructor(
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
-    isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
@@ -68,7 +66,6 @@ class SettingsFeatureFlagsFlow @Inject constructor(
 
     data class Flags(
         val isIPv6Enabled: Boolean,
-        val isDirectLanConnectionsEnabled: Boolean,
         val isTvAutoConnectEnabled: Boolean,
         val isTvNetShieldSettingEnabled: Boolean,
         val isTvCustomDnsSettingEnabled: Boolean,
@@ -79,7 +76,6 @@ class SettingsFeatureFlagsFlow @Inject constructor(
 
     private val flow: Flow<Flags> = combine(
         isIPv6FeatureFlagEnabled.observe(),
-        isDirectLanConnectionsFeatureFlagEnabled.observe(),
         isTvAutoConnectFeatureFlagEnabled.observe(),
         isTvNetShieldSettingFeatureFlagEnabled.observe(),
         isTvCustomDnsSettingFeatureFlagEnabled.observe(),
@@ -153,8 +149,7 @@ abstract class BaseApplyEffectiveUserSettings(
         return settings.copy(
             defaultProfileId = defaultProfileId,
             lanConnections = lanConnections,
-            lanConnectionsAllowDirect =
-                lanConnections && settings.lanConnectionsAllowDirect && flags.isDirectLanConnectionsEnabled,
+            lanConnectionsAllowDirect = lanConnections && settings.lanConnectionsAllowDirect,
             netShield = netShieldProtocol,
             customDns = if (isUserPlusOrAbove) settings.customDns else CustomDnsSettings(false),
             theme = settings.theme,

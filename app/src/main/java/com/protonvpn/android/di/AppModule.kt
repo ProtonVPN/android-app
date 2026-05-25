@@ -148,8 +148,6 @@ import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.protun.ProTunBackend
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDsImpl
-import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
-import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabledImpl
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabledImpl
 import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
@@ -477,11 +475,6 @@ object AppModule {
 
         @Binds
         fun bindBuiltInGuestHolesProvider(impl: AssetsBuiltInGuestHoles): BuiltInGuestHoles
-
-        @Binds
-        fun bindIsDirectLanConnectionsFeatureFlagEnabled(
-            impl: IsDirectLanConnectionsFeatureFlagEnabledImpl
-        ): IsDirectLanConnectionsFeatureFlagEnabled
 
         @Binds
         fun bindIsIapClientSidePromoFeatureFlagEnabled(

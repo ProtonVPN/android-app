@@ -27,7 +27,6 @@ class FakeSettingsFeatureFlagsFlow(
     private val flow: Flow<SettingsFeatureFlagsFlow.Flags> = flowOf(
         value = SettingsFeatureFlagsFlow.Flags(
             isIPv6Enabled = true,
-            isDirectLanConnectionsEnabled = true,
             isTvNetShieldSettingEnabled = true,
             isTvCustomDnsSettingEnabled = true,
             isTvAutoConnectEnabled = true,

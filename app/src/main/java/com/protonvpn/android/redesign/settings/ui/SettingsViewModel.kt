@@ -70,7 +70,6 @@ import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.getDnsOverride
-import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
@@ -127,7 +126,6 @@ class SettingsViewModel @Inject constructor(
     val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
     private val appUpdateManager: AppUpdateManager,
     appUpdateBannerStateFlow: AppUpdateBannerStateFlow,
-    private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
     isNetShieldLevelThreeFeatureFlagEnabled: IsNetShieldLevelThreeFeatureFlagEnabled,
     private val translator: Translator,
@@ -551,7 +549,7 @@ class SettingsViewModel @Inject constructor(
                 altRouting = SettingViewState.AltRouting(settings.apiUseDoh),
                 lanConnections = SettingViewState.LanConnections(
                     settings.lanConnections,
-                    allowDirectConnections = settings.lanConnectionsAllowDirect.takeIf { isDirectLanConnectionsFeatureFlagEnabled() },
+                    allowDirectConnections = settings.lanConnectionsAllowDirect,
                     isFree,
                     profileOverrideInfo?.primaryLabel
                 ),
