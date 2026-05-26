@@ -11,7 +11,7 @@
   test-apk-path: "app/build/outputs/apk/androidTest/productionGooglePlayStore/debug"
 
 include:
-  - component: gitlab.protontech.ch/devex/android-firebase-testing/firebase-test@0.0.3
+  - component: gitlab.protontech.ch/devex/android-firebase-testing/firebase-test@0.0.4
     inputs:
       <<: *project-vars
       <<: *black-apk-paths
@@ -21,7 +21,7 @@ include:
       test-targets: "class com.protonvpn.testSuites.MobileMockApiSuite"
       timeout: $TIMEOUT_MOCKED_TESTS
 
-  - component: gitlab.protontech.ch/devex/android-firebase-testing/firebase-test@0.0.3
+  - component: gitlab.protontech.ch/devex/android-firebase-testing/firebase-test@0.0.4
     inputs:
       <<: *project-vars
       <<: *production-apk-paths
@@ -31,7 +31,7 @@ include:
       timeout: $TIMEOUT_GENERAL_TESTS
       allowed-to-fail: true
 
-  - component: gitlab.protontech.ch/devex/android-firebase-testing/firebase-test@0.0.3
+  - component: gitlab.protontech.ch/devex/android-firebase-testing/firebase-test@0.0.4
     inputs:
       <<: *project-vars
       <<: *production-apk-paths
@@ -41,7 +41,7 @@ include:
       timeout: $TIMEOUT_GENERAL_TESTS
       environment-variables: "clearPackageData=true,useTestStorageService=true,host=$DYNAMIC_DOMAIN,proxyToken=$BLACK_TOKEN"
 
-  - component: gitlab.protontech.ch/devex/android-firebase-testing/firebase-test@0.0.3
+  - component: gitlab.protontech.ch/devex/android-firebase-testing/firebase-test@0.0.4
     inputs:
       <<: *project-vars
       <<: *black-apk-paths
@@ -50,7 +50,7 @@ include:
       test-targets: "class com.protonvpn.testSuites.TvSuite"
       timeout: $TIMEOUT_GENERAL_TESTS
 
-  - component: gitlab.protontech.ch/devex/android-firebase-testing/firebase-test@0.0.3
+  - component: gitlab.protontech.ch/devex/android-firebase-testing/firebase-test@0.0.4
     inputs:
       <<: *project-vars
       job-name: release tests

@@ -1,5 +1,5 @@
 include:
-  - component: gitlab.protontech.ch/devex/android-firebase-testing/firebase-robo-test@0.0.3
+  - component: gitlab.protontech.ch/devex/android-firebase-testing/firebase-robo-test@0.0.4
     inputs:
       vault-path-service-account: "vpn_team/gitlab-projects/variables/509/firebase_service_account@kv-team"
       cloud-project-id: $CLOUD_PROJECT_ID
