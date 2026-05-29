@@ -519,7 +519,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus abonnement:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -528,7 +528,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Gratis plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_free">Gratis abonnment:</string>
     <string name="upsell_panel_content_description_yes">Ja</string>
     <string name="upsell_panel_content_description_no">Nee</string>
     <string name="upsell_panel_table_header_plan_free">Gratis</string>
@@ -549,7 +549,7 @@
     <string name="upsell_panel_country_benefit_shows">Bekijk programma\'s die alleen in het buitenland te zien zijn</string>
     <string name="upsell_panel_netshield_title">Ononderbroken browsen</string>
     <string name="upsell_panel_netshield_benefit_ads">Advertenties worden geblokkeerd tijdens het browsen.</string>
-    <string name="upsell_panel_netshield_benefit_trackers">Voorkom dat trackers je volgen</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Voorkom dat trackers u volgen</string>
     <string name="upsell_panel_netshield_benefit_malware">Bescherming tegen malware en phishing</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Pagina\'s laden sneller </string>
     <string name="upsell_panel_speed_title">Stream, game en download sneller</string>
