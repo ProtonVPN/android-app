@@ -24,7 +24,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.netshield.FakeIsNetShieldLevelThreeFeatureFlagEnabled
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.toProfile
 import com.protonvpn.android.redesign.recents.data.ProtocolSelectionData
@@ -108,7 +107,6 @@ class SettingsForConnectionTests {
                     isTvCustomDnsSettingFeatureFlagEnabled = isTvCustomDnsEnabled,
                     isProTunV1FeatureFlagEnabled = isProTunV1Enabled,
                     isTvFavoriteCountryForFreeUserDisabled = FakeIsTvFavoriteCountryForFreeUserDisabled(false),
-                    isNetShieldLevelThreeFeatureFlagEnabled = FakeIsNetShieldLevelThreeFeatureFlagEnabled(enabled = true),
                 )
             ),
             vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)

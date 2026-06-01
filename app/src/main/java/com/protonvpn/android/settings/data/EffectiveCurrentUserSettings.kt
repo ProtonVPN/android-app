@@ -23,7 +23,6 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.profiles.SavedProfilesV3
-import com.protonvpn.android.netshield.IsNetShieldLevelThreeFeatureFlagEnabled
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
@@ -61,7 +60,6 @@ class SettingsFeatureFlagsFlow @Inject constructor(
     isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
     isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
     isTvFavoriteCountryForFreeUserDisabled: IsTvFavoriteCountryForFreeUserDisabled,
-    isNetShieldLevelThreeFeatureFlagEnabled: IsNetShieldLevelThreeFeatureFlagEnabled,
 ) : Flow<SettingsFeatureFlagsFlow.Flags> {
 
     data class Flags(
@@ -71,7 +69,6 @@ class SettingsFeatureFlagsFlow @Inject constructor(
         val isTvCustomDnsSettingEnabled: Boolean,
         val isProTunV1Enabled: Boolean,
         val tvDisableFavoriteCountryForFreeUser: Boolean,
-        val isNetShieldLevelThreeEnabled: Boolean,
     )
 
     private val flow: Flow<Flags> = combine(
@@ -81,7 +78,6 @@ class SettingsFeatureFlagsFlow @Inject constructor(
         isTvCustomDnsSettingFeatureFlagEnabled.observe(),
         isProTunV1FeatureFlagEnabled.observe(),
         isTvFavoriteCountryForFreeUserDisabled.observe(),
-        isNetShieldLevelThreeFeatureFlagEnabled.observe(),
         ::Flags,
     )
 
@@ -137,7 +133,7 @@ abstract class BaseApplyEffectiveUserSettings(
                 NetShieldProtocol.ENABLED
             }
 
-            (vpnUser?.hasNetShieldLevelThreeAvailable != true || !flags.isNetShieldLevelThreeEnabled) && settings.netShield == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> {
+            vpnUser?.hasNetShieldLevelThreeAvailable != true && settings.netShield == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> {
                 NetShieldProtocol.ENABLED_EXTENDED
             }
 

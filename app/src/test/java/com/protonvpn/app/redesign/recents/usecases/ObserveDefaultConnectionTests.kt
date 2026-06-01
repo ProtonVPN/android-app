@@ -21,7 +21,6 @@ package com.protonvpn.app.redesign.recents.usecases
 
 import app.cash.turbine.test
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.netshield.FakeIsNetShieldLevelThreeFeatureFlagEnabled
 import com.protonvpn.android.redesign.recents.data.ConnectionType
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.DefaultConnectionDao
@@ -133,7 +132,6 @@ class ObserveDefaultConnectionTests {
                 isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(enabled = true),
                 isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(enabled = true),
                 isTvFavoriteCountryForFreeUserDisabled = FakeIsTvFavoriteCountryForFreeUserDisabled(enabled = false),
-                isNetShieldLevelThreeFeatureFlagEnabled = FakeIsNetShieldLevelThreeFeatureFlagEnabled(enabled = true),
             )
         )
 

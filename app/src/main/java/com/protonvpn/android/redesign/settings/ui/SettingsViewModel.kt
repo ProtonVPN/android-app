@@ -34,7 +34,6 @@ import com.protonvpn.android.auth.usecase.uiName
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.managed.ManagedConfig
-import com.protonvpn.android.netshield.IsNetShieldLevelThreeFeatureFlagEnabled
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
@@ -127,7 +126,6 @@ class SettingsViewModel @Inject constructor(
     private val appUpdateManager: AppUpdateManager,
     appUpdateBannerStateFlow: AppUpdateBannerStateFlow,
     isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
-    isNetShieldLevelThreeFeatureFlagEnabled: IsNetShieldLevelThreeFeatureFlagEnabled,
     private val translator: Translator,
     private val upgradeDialogLauncher: UpgradeDialogLauncher,
 ) : ViewModel() {
@@ -435,13 +433,11 @@ class SettingsViewModel @Inject constructor(
     private data class FeatureFlags(
         val isIPv6FeatureFlagEnabled: Boolean,
         val isProTunV1Enabled: Boolean,
-        val isNetShieldLevelThreeEnabled: Boolean,
     )
 
     private val featureFlagsFlow = combine(
         isIPv6FeatureFlagEnabled.observe(),
         isProTunV1FeatureFlagEnabled.observe(),
-        isNetShieldLevelThreeFeatureFlagEnabled.observe(),
         ::FeatureFlags,
     )
 
@@ -507,7 +503,7 @@ class SettingsViewModel @Inject constructor(
                         profileOverrideInfo = profileOverrideInfo,
                         isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE,
                         dnsOverride = getDnsOverride(isPrivateDnsActive, settings),
-                        isNetShieldLevelThreeAvailable = featureFlags.isNetShieldLevelThreeEnabled && user?.vpnUser?.hasNetShieldLevelThreeAvailable == true,
+                        isNetShieldLevelThreeAvailable = user.vpnUser.hasNetShieldLevelThreeAvailable,
                     )
                 }
 
