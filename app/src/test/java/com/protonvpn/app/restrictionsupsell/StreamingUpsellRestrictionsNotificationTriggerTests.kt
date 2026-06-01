@@ -21,7 +21,6 @@ package com.protonvpn.app.restrictionsupsell
 
 import app.cash.turbine.test
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.restrictonsupsell.FakeIsStreamingRestrictionUpsellEnabled
 import com.protonvpn.android.restrictonsupsell.RestrictionsUpsellStore
 import com.protonvpn.android.restrictonsupsell.RestrictionsUpsellStoreProvider
 import com.protonvpn.android.restrictonsupsell.StreamingUpsellRestrictionsFlow
@@ -47,7 +46,6 @@ import kotlin.time.Duration.Companion.hours
 @OptIn(ExperimentalCoroutinesApi::class)
 class StreamingUpsellRestrictionsNotificationTriggerTests {
 
-    private lateinit var isFfEnabled: FakeIsStreamingRestrictionUpsellEnabled
     private lateinit var testUserProvider: TestCurrentUserProvider
     private lateinit var testScope: TestScope
     private lateinit var vpnStateMonitor: VpnStateMonitor
@@ -61,13 +59,11 @@ class StreamingUpsellRestrictionsNotificationTriggerTests {
         testScope = TestScope()
         val restrictionsUpsellStoreProvider =
             RestrictionsUpsellStoreProvider(InMemoryDataStoreFactory())
-        isFfEnabled = FakeIsStreamingRestrictionUpsellEnabled(true)
         testUserProvider = TestCurrentUserProvider(TestUser.freeUser.vpnUser)
         val currentUser = CurrentUser(testUserProvider)
         restrictionsUpsellStore =
             RestrictionsUpsellStore({ restrictionsUpsellStoreProvider }, currentUser)
-        val restrictionsFlow =
-            StreamingUpsellRestrictionsFlow(isFfEnabled, vpnStateMonitor, currentUser)
+        val restrictionsFlow = StreamingUpsellRestrictionsFlow(vpnStateMonitor, currentUser)
         notificationTrigger =
             StreamingUpsellRestrictionsNotificationTrigger(
                 mainScope = testScope.backgroundScope,
@@ -92,18 +88,6 @@ class StreamingUpsellRestrictionsNotificationTriggerTests {
                     restrictions(VpnConnectionRestriction.Streaming)
                 )
                 awaitItem()
-            }
-        }
-
-    @Test
-    fun `GIVEN FF disabled WHEN streaming restriction is reported THEN notification is not triggered`() =
-        testScope.runTest {
-            isFfEnabled.setEnabled(false)
-            notificationTrigger.eventNotification.test {
-                vpnStateMonitor.eventRestrictions.tryEmit(
-                    restrictions(VpnConnectionRestriction.Streaming)
-                )
-                expectNoEvents()
             }
         }
 

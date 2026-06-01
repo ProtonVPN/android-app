@@ -21,7 +21,6 @@ package com.protonvpn.android.restrictonsupsell
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.utils.flatMapLatestFreeUser
-import com.protonvpn.android.utils.flatMapLatestIfEnabled
 import com.protonvpn.android.vpn.VpnConnectionRestriction
 import com.protonvpn.android.vpn.VpnConnectionRestrictions
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -33,20 +32,18 @@ import javax.inject.Inject
 
 @Reusable
 class StreamingUpsellRestrictionsFlow @Inject constructor(
-    isStreamingRestrictionUpsellEnabled: IsStreamingRestrictionUpsellEnabled,
     vpnStateMonitor: VpnStateMonitor,
-    private val currentUser: CurrentUser,
+    currentUser: CurrentUser,
 ) : Flow<VpnConnectionRestrictions> {
 
-    private val flow = isStreamingRestrictionUpsellEnabled.flatMapLatestIfEnabled {
-        currentUser.vpnUserFlow.flatMapLatestFreeUser {
-            vpnStateMonitor.eventRestrictions.filter {
-                it.restrictions.contains(VpnConnectionRestriction.Streaming)
-            }
+    private val flow = currentUser.vpnUserFlow.flatMapLatestFreeUser {
+        vpnStateMonitor.eventRestrictions.filter {
+            it.restrictions.contains(VpnConnectionRestriction.Streaming)
         }
     }
 
     override suspend fun collect(collector: FlowCollector<VpnConnectionRestrictions>) {
         flow.collect(collector)
     }
+
 }

@@ -21,7 +21,6 @@ package com.protonvpn.app.restrictionsupsell
 
 import android.app.Activity
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.restrictonsupsell.FakeIsStreamingRestrictionUpsellEnabled
 import com.protonvpn.android.restrictonsupsell.OpenUpgradeStreamingBlockDialog
 import com.protonvpn.android.restrictonsupsell.RestrictionsUpsellStore
 import com.protonvpn.android.restrictonsupsell.RestrictionsUpsellStoreProvider
@@ -98,17 +97,14 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
     }
 
     private fun TestScope.createAndStartDialogTrigger() {
-        val isFfEnabled = FakeIsStreamingRestrictionUpsellEnabled(true)
         val currentUser = CurrentUser(testUserProvider)
         val foregroundActivityTracker =
             ForegroundActivityTracker(testScope.backgroundScope, testForegroundActivityFlow)
-        val restrictionsFlow =
-            StreamingUpsellRestrictionsFlow(isFfEnabled, vpnStateMonitor, currentUser)
+        val restrictionsFlow = StreamingUpsellRestrictionsFlow(vpnStateMonitor, currentUser)
 
         dialogTrigger =
             StreamingUpsellRestrictionsDialogTrigger(
                 mainScope = testScope.backgroundScope,
-                isStreamingRestrictionUpsellEnabled = isFfEnabled,
                 isTv = mockIsTvCheck,
                 eventStreamingRestricted = restrictionsFlow,
                 foregroundActivityTracker = foregroundActivityTracker,

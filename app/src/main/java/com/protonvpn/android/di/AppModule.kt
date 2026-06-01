@@ -88,8 +88,6 @@ import com.protonvpn.android.redesign.recents.ui.IsConnectionFeedbackFeatureFlag
 import com.protonvpn.android.redesign.recents.ui.IsConnectionFeedbackFeatureFlagEnabledImpl
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapterLegacy
-import com.protonvpn.android.restrictonsupsell.IsStreamingRestrictionUpsellEnabled
-import com.protonvpn.android.restrictonsupsell.IsStreamingRestrictionUpsellEnabledImpl
 import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabled
 import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabledImpl
 import com.protonvpn.android.servers.ServersStore
@@ -504,11 +502,6 @@ object AppModule {
         fun bindsIsQrCodeTvLoginFeatureFlagEnabled(
             impl: IsQrCodeTvLoginFeatureFlagEnabledImpl
         ): IsQrCodeTvLoginFeatureFlagEnabled
-
-        @Binds
-        fun bindIsStreamingRestrictionsUpsellEnabled(
-            impl: IsStreamingRestrictionUpsellEnabledImpl
-        ): IsStreamingRestrictionUpsellEnabled
 
         @Binds
         fun bindIsTvAutoConnectFeatureFlagEnabled(

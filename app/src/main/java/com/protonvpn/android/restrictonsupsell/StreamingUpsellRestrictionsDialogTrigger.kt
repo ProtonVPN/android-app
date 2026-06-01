@@ -36,7 +36,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Duration.Companion.hours
@@ -56,7 +55,6 @@ class OpenUpgradeStreamingBlockDialog @Inject constructor() {
 @Singleton
 class StreamingUpsellRestrictionsDialogTrigger @Inject constructor(
     private val mainScope: CoroutineScope,
-    private val isStreamingRestrictionUpsellEnabled: IsStreamingRestrictionUpsellEnabled,
     private val isTv: IsTvCheck,
     private val eventStreamingRestricted: StreamingUpsellRestrictionsFlow,
     private val currentUser: CurrentUser,
@@ -113,7 +111,7 @@ class StreamingUpsellRestrictionsDialogTrigger @Inject constructor(
     }
 
     private suspend fun shouldShowUpsellDialogOnOpen(): Boolean {
-        if (!isStreamingRestrictionUpsellEnabled() || currentUser.vpnUser()?.isFreeUser != true) {
+        if (currentUser.vpnUser()?.isFreeUser != true) {
             return false
         }
 
