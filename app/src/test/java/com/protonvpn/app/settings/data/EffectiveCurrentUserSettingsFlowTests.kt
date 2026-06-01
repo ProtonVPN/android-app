@@ -71,7 +71,6 @@ class EffectiveCurrentUserSettingsFlowTests {
 
         featureFlagsFlow = MutableStateFlow(
             value = SettingsFeatureFlagsFlow.Flags(
-                isTvNetShieldSettingEnabled = true,
                 isTvAutoConnectEnabled = true,
                 isProTunV1Enabled = true,
                 tvDisableFavoriteCountryForFreeUser = false,
@@ -136,17 +135,6 @@ class EffectiveCurrentUserSettingsFlowTests {
 
         testUserProvider.vpnUser = plusUser
         assertEquals(NetShieldProtocol.ENABLED_EXTENDED, effectiveSettings().netShield)
-    }
-
-    @Test
-    fun `NetShield can be disabled on TV only if FF is disabled`() = testScope.runTest {
-        every { mockIsTv.invoke() } returns true
-        featureFlagsFlow.update { it.copy(isTvNetShieldSettingEnabled = false ) }
-        rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.DISABLED) }
-        assertEquals(NetShieldProtocol.ENABLED, effectiveSettings().netShield)
-
-        featureFlagsFlow.update { it.copy(isTvNetShieldSettingEnabled = true ) }
-        assertEquals(NetShieldProtocol.DISABLED, effectiveSettings().netShield)
     }
 
     @Test

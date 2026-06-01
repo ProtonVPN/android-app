@@ -240,7 +240,6 @@ class TvHomeFragment : BaseTvBrowseFragment() {
     private suspend fun setupRowAdapter(viewState: TvMainViewModel.MainViewState) {
         rowsAdapter?.createRows(
             isFreeUser = viewState.isFreeUser,
-            showNetShieldSetting = viewState.showNetShieldSetting,
             showAutoConnectSetting = viewState.showAutoConnectSetting,
         )
 
@@ -280,7 +279,6 @@ class TvHomeFragment : BaseTvBrowseFragment() {
     private suspend fun ArrayObjectAdapter.createRows(
         isFreeUser: Boolean,
         showAutoConnectSetting: Boolean,
-        showNetShieldSetting: Boolean,
     ) {
         var index = 1
         updateRecentsRow()
@@ -303,9 +301,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
         }
 
         val settingsCards = buildList {
-            if (showNetShieldSetting) {
-                add(SettingsNetShieldCard(getString(R.string.settings_netshield_title), isFreeUser))
-            }
+            add(SettingsNetShieldCard(getString(R.string.settings_netshield_title), isFreeUser))
             add(SettingsSplitTunnelingCard(getString(R.string.tv_card_split_tunneling_label), isFreeUser))
             add(SettingsProtocolCard(getString(R.string.tv_card_protocol_label)))
             if (showAutoConnectSetting) {

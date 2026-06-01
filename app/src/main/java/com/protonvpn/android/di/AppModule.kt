@@ -103,8 +103,6 @@ import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabledImpl
-import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
-import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabledImpl
 import com.protonvpn.android.tv.upsell.IsTvIapEnabled
 import com.protonvpn.android.tv.upsell.IsTvIapEnabledImpl
 import com.protonvpn.android.tv.usecases.IsIsTvFreeUserAlphabeticalSortingForCountriesEnabledEnabledImpl
@@ -503,11 +501,6 @@ object AppModule {
 
         @Binds
         fun bindIsTvIapEnabled(impl: IsTvIapEnabledImpl): IsTvIapEnabled
-
-        @Binds
-        fun bindIsTvNetShieldSettingFeatureFlagEnabled(
-            impl: IsTvNetShieldSettingFeatureFlagEnabledImpl
-        ): IsTvNetShieldSettingFeatureFlagEnabled
 
         @Binds
         fun bindIsUpsellComparisonTableEnabled(

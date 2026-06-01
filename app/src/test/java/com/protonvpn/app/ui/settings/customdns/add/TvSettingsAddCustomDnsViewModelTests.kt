@@ -30,7 +30,6 @@ import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
 import com.protonvpn.android.tv.IsAmazonFireTV
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
-import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.customdns.add.TvSettingsAddCustomDnsViewModel
 import com.protonvpn.android.tv.usecases.FakeIsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -104,7 +103,6 @@ class TvSettingsAddCustomDnsViewModelTests {
                 isTv = mockIsTvCheck,
                 flags = SettingsFeatureFlagsFlow(
                     isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
-                    isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
                     isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),
                     isTvFavoriteCountryForFreeUserDisabled = FakeIsTvFavoriteCountryForFreeUserDisabled(false),
                 )

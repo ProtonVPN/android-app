@@ -45,7 +45,6 @@ import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
-import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.IsTvFreeUserAlphabeticalSortingForCountriesEnabled
@@ -98,7 +97,6 @@ class TvMainViewModel @Inject constructor(
     private val effectiveCurrentUserSettingsCached: EffectiveCurrentUserSettingsCached,
     getSmartProtocols: GetSmartProtocols,
     isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
-    isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
     private val isTvFavoriteCountryForFreeUserDisabled: IsTvFavoriteCountryForFreeUserDisabled,
     private val isTvRecentsForFreeUserDisabled: IsTvRecentsForFreeUserDisabled,
     private val isTvFreeUserAlphabeticalSortingForCountriesEnabled: IsTvFreeUserAlphabeticalSortingForCountriesEnabled,
@@ -161,32 +159,20 @@ class TvMainViewModel @Inject constructor(
         val recentsVersion: Int,
         val userTier: Int,
         val showAutoConnectSetting: Boolean,
-        val showNetShieldSetting: Boolean,
-    )
-
-    data class FeatureFlags(
-        val isTvAutoConnectFeatureFlagEnabled: Boolean,
-        val isTvNetShieldSettingFeatureFlagEnabled: Boolean,
-    )
-    private val featureFlagsFlow = combine(
-        isTvAutoConnectFeatureFlagEnabled.observe(),
-        isTvNetShieldSettingFeatureFlagEnabled.observe(),
-        ::FeatureFlags
     )
 
     val mainViewState = combine(
         serverManager.serverListVersion,
         recentsManager.version,
         currentUser.vpnUserFlow,
-        featureFlagsFlow,
-    ) { serverListVersion, recentsVersion, vpnUser, flags ->
+        isTvAutoConnectFeatureFlagEnabled.observe(),
+    ) { serverListVersion, recentsVersion, vpnUser, isTvAutoConnectFeatureFlagEnabled ->
         MainViewState(
             isFreeUser = vpnUser?.isFreeUser != false,
             serverListVersion = serverListVersion,
             recentsVersion = recentsVersion,
             userTier = vpnUser?.userTier ?: VpnUser.FREE_TIER,
-            showAutoConnectSetting = flags.isTvAutoConnectFeatureFlagEnabled,
-            showNetShieldSetting = flags.isTvNetShieldSettingFeatureFlagEnabled,
+            showAutoConnectSetting = isTvAutoConnectFeatureFlagEnabled,
         )
     }
         .onStart {

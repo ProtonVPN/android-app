@@ -37,7 +37,6 @@ import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
-import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.FakeIsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
@@ -70,7 +69,6 @@ class SettingsForConnectionTests {
     private lateinit var rawSettingsFlow: MutableStateFlow<LocalUserSettings>
     private lateinit var profileById: FakeGetProfileById
     private lateinit var vpnStateMonitor: VpnStateMonitor
-    private lateinit var isTvNetShieldEnabled: FakeIsTvNetShieldSettingFeatureFlagEnabled
     private lateinit var isProTunV1Enabled: FakeIsProTunV1FeatureFlagEnabled
 
     private lateinit var settingsForConnection: SettingsForConnection
@@ -82,7 +80,6 @@ class SettingsForConnectionTests {
         testUserProvider = TestCurrentUserProvider(vpnUser = TestUser.plusUser.vpnUser)
         currentUser = CurrentUser(testUserProvider)
         rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
-        isTvNetShieldEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true)
         isProTunV1Enabled = FakeIsProTunV1FeatureFlagEnabled(true)
         profileById = FakeGetProfileById()
 
@@ -98,7 +95,6 @@ class SettingsForConnectionTests {
                 isTv = mockIsTvCheck,
                 flags = SettingsFeatureFlagsFlow(
                     isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
-                    isTvNetShieldSettingFeatureFlagEnabled = isTvNetShieldEnabled,
                     isProTunV1FeatureFlagEnabled = isProTunV1Enabled,
                     isTvFavoriteCountryForFreeUserDisabled = FakeIsTvFavoriteCountryForFreeUserDisabled(false),
                 )

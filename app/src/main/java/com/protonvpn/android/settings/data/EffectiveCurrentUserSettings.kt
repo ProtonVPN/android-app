@@ -28,10 +28,8 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
-import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.utils.SyncStateFlow
-import com.protonvpn.android.utils.combine
 import com.protonvpn.android.vpn.effectiveProtocol
 import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import dagger.Reusable
@@ -53,21 +51,18 @@ import javax.inject.Singleton
 @Reusable
 class SettingsFeatureFlagsFlow @Inject constructor(
     isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
-    isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
     isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
     isTvFavoriteCountryForFreeUserDisabled: IsTvFavoriteCountryForFreeUserDisabled,
 ) : Flow<SettingsFeatureFlagsFlow.Flags> {
 
     data class Flags(
         val isTvAutoConnectEnabled: Boolean,
-        val isTvNetShieldSettingEnabled: Boolean,
         val isProTunV1Enabled: Boolean,
         val tvDisableFavoriteCountryForFreeUser: Boolean,
     )
 
     private val flow: Flow<Flags> = combine(
         isTvAutoConnectFeatureFlagEnabled.observe(),
-        isTvNetShieldSettingFeatureFlagEnabled.observe(),
         isProTunV1FeatureFlagEnabled.observe(),
         isTvFavoriteCountryForFreeUserDisabled.observe(),
         ::Flags,
@@ -119,10 +114,6 @@ abstract class BaseApplyEffectiveUserSettings(
         val netShieldProtocol = when {
             vpnUser.getNetShieldAvailability() != NetShieldAvailability.AVAILABLE -> {
                 NetShieldProtocol.DISABLED
-            }
-
-            isTv && !flags.isTvNetShieldSettingEnabled -> {
-                NetShieldProtocol.ENABLED
             }
 
             vpnUser?.hasNetShieldLevelThreeAvailable != true && settings.netShield == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> {
