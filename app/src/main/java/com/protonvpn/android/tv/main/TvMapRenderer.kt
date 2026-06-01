@@ -205,7 +205,7 @@ fun RectF.translateMapCoordinatesToRegion() =
     }
 
 fun PointF.translateRegionPointToMapCoordinates() =
-    PointF(x *TvMapRenderer.WIDTH, y * TvMapRenderer.WIDTH)
+    PointF(x * TvMapRenderer.WIDTH, y * TvMapRenderer.WIDTH)
 
 fun PointF.translateNewToOldMapCoordinates() : PointF {
     val oldX = (x - 60.36402f) / 0.28127f

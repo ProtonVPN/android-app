@@ -126,7 +126,7 @@ class MapView @JvmOverloads constructor(
         if (BuildConfig.DEBUG) setOnTouchListener { view, event ->
             val region = renderedMap?.region
             if (event.action == MotionEvent.ACTION_DOWN && region != null)
-                logMapLocation(region, event.x, event.y)
+                logMapLocation(region, event.x, event.y, view.width, view.height)
             false
         }
     }
@@ -283,9 +283,9 @@ class MapView @JvmOverloads constructor(
     }
 }
 
-fun logMapLocation(region: RectF, x: Float, y: Float) {
-    val px = region.left + x * region.width()
-    val py = region.top + y * region.height()
+fun logMapLocation(region: RectF, x: Float, y: Float, viewWidth: Int, viewHeight: Int) {
+    val px = region.left + (x / viewWidth) * region.width()
+    val py = region.top + (y / viewHeight) * region.height()
     val newMapCoord = PointF(px, py).translateRegionPointToMapCoordinates()
     val oldMapCoord = newMapCoord.translateNewToOldMapCoordinates()
     println("Map coordinates: new=$newMapCoord old=$oldMapCoord")
