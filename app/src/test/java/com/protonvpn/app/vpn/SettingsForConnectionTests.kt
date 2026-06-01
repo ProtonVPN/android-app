@@ -37,7 +37,6 @@ import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SettingsFeatureFlagsFlow
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
-import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.FakeIsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -72,7 +71,6 @@ class SettingsForConnectionTests {
     private lateinit var profileById: FakeGetProfileById
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var isTvNetShieldEnabled: FakeIsTvNetShieldSettingFeatureFlagEnabled
-    private lateinit var isTvCustomDnsEnabled: FakeIsTvCustomDnsSettingFeatureFlagEnabled
     private lateinit var isProTunV1Enabled: FakeIsProTunV1FeatureFlagEnabled
 
     private lateinit var settingsForConnection: SettingsForConnection
@@ -85,7 +83,6 @@ class SettingsForConnectionTests {
         currentUser = CurrentUser(testUserProvider)
         rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
         isTvNetShieldEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true)
-        isTvCustomDnsEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true)
         isProTunV1Enabled = FakeIsProTunV1FeatureFlagEnabled(true)
         profileById = FakeGetProfileById()
 
@@ -102,7 +99,6 @@ class SettingsForConnectionTests {
                 flags = SettingsFeatureFlagsFlow(
                     isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
                     isTvNetShieldSettingFeatureFlagEnabled = isTvNetShieldEnabled,
-                    isTvCustomDnsSettingFeatureFlagEnabled = isTvCustomDnsEnabled,
                     isProTunV1FeatureFlagEnabled = isProTunV1Enabled,
                     isTvFavoriteCountryForFreeUserDisabled = FakeIsTvFavoriteCountryForFreeUserDisabled(false),
                 )

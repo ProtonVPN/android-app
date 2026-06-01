@@ -236,7 +236,6 @@ class TvHomeFragment : BaseTvBrowseFragment() {
         rowsAdapter?.createRows(
             isFreeUser = viewState.isFreeUser,
             showNetShieldSetting = viewState.showNetShieldSetting,
-            showCustomDnsSetting = viewState.showCustomDnsSetting,
             showAutoConnectSetting = viewState.showAutoConnectSetting,
         )
 
@@ -277,7 +276,6 @@ class TvHomeFragment : BaseTvBrowseFragment() {
         isFreeUser: Boolean,
         showAutoConnectSetting: Boolean,
         showNetShieldSetting: Boolean,
-        showCustomDnsSetting: Boolean,
     ) {
         var index = 1
         updateRecentsRow()
@@ -309,10 +307,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
                 add(SettingsAutoConnectCard(getString(R.string.settings_autoconnect_title)))
             }
             add(SettingsLanConnectionsCard(getString(R.string.tv_card_lan_connections_label), isFreeUser))
-
-            if(showCustomDnsSetting) {
-                add(SettingsCustomDns(getString(R.string.settings_custom_dns_title), isFreeUser))
-            }
+            add(SettingsCustomDns(getString(R.string.settings_custom_dns_title), isFreeUser))
 
             add(SettingsIPv6ConnectionsCard(getString(R.string.settings_advanced_ipv6_title)))
             add(ReportBugCard(getString(R.string.drawerReportProblem)))

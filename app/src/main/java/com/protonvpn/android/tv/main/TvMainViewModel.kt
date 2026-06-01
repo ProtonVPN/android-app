@@ -45,7 +45,6 @@ import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
-import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
@@ -100,7 +99,6 @@ class TvMainViewModel @Inject constructor(
     getSmartProtocols: GetSmartProtocols,
     isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
-    isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
     private val isTvFavoriteCountryForFreeUserDisabled: IsTvFavoriteCountryForFreeUserDisabled,
     private val isTvRecentsForFreeUserDisabled: IsTvRecentsForFreeUserDisabled,
     private val isTvFreeUserAlphabeticalSortingForCountriesEnabled: IsTvFreeUserAlphabeticalSortingForCountriesEnabled,
@@ -164,18 +162,15 @@ class TvMainViewModel @Inject constructor(
         val userTier: Int,
         val showAutoConnectSetting: Boolean,
         val showNetShieldSetting: Boolean,
-        val showCustomDnsSetting: Boolean,
     )
 
     data class FeatureFlags(
         val isTvAutoConnectFeatureFlagEnabled: Boolean,
         val isTvNetShieldSettingFeatureFlagEnabled: Boolean,
-        val isTvCustomDnsSettingFeatureFlagEnabled: Boolean,
     )
     private val featureFlagsFlow = combine(
         isTvAutoConnectFeatureFlagEnabled.observe(),
         isTvNetShieldSettingFeatureFlagEnabled.observe(),
-        isTvCustomDnsSettingFeatureFlagEnabled.observe(),
         ::FeatureFlags
     )
 
@@ -192,7 +187,6 @@ class TvMainViewModel @Inject constructor(
             userTier = vpnUser?.userTier ?: VpnUser.FREE_TIER,
             showAutoConnectSetting = flags.isTvAutoConnectFeatureFlagEnabled,
             showNetShieldSetting = flags.isTvNetShieldSettingFeatureFlagEnabled,
-            showCustomDnsSetting = flags.isTvCustomDnsSettingFeatureFlagEnabled,
         )
     }
         .onStart {

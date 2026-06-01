@@ -103,8 +103,6 @@ import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabledImpl
-import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
-import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabledImpl
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabledImpl
 import com.protonvpn.android.tv.upsell.IsTvIapEnabled
@@ -502,11 +500,6 @@ object AppModule {
         fun bindIsTvAutoConnectFeatureFlagEnabled(
             impl: IsTvAutoConnectFeatureFlagEnabledImpl
         ): IsTvAutoConnectFeatureFlagEnabled
-
-        @Binds
-        fun bindIsTvCustomDnsSettingFeatureFlagEnabled(
-            impl: IsTvCustomDnsSettingFeatureFlagEnabledImpl
-        ): IsTvCustomDnsSettingFeatureFlagEnabled
 
         @Binds
         fun bindIsTvIapEnabled(impl: IsTvIapEnabledImpl): IsTvIapEnabled

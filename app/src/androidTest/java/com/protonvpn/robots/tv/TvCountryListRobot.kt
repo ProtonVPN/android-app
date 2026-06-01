@@ -66,7 +66,7 @@ class TvCountryListRobot : BaseRobot() {
     fun signOut() : TvCountryListRobot {
         view.waitForCondition(watchTimeout = Timeouts.TWENTY_SECONDS_MS) {
             uiDevice.pressDPadDown()
-            onView(withText(R.string.tv_signout_label)).check(matches(isDisplayed()))
+            onView(withText(R.string.tv_row_settings)).check(matches(isDisplayed()))
         }
         uiDevice.pressDPadDown()
 
@@ -75,7 +75,7 @@ class TvCountryListRobot : BaseRobot() {
             onView(withText(R.string.tv_signout_label)).check(matches(isSelected()))
         }
         uiDevice.pressDPadCenter()
-        return TvCountryListRobot()
+        return this
     }
 
     private fun pressFavourite() : TvCountryListRobot = clickElementByText(R.string.tv_quick_connect_favourite)

@@ -28,7 +28,6 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
-import com.protonvpn.android.tv.settings.IsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.utils.SyncStateFlow
@@ -55,7 +54,6 @@ import javax.inject.Singleton
 class SettingsFeatureFlagsFlow @Inject constructor(
     isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
     isTvNetShieldSettingFeatureFlagEnabled: IsTvNetShieldSettingFeatureFlagEnabled,
-    isTvCustomDnsSettingFeatureFlagEnabled: IsTvCustomDnsSettingFeatureFlagEnabled,
     isProTunV1FeatureFlagEnabled: IsProTunV1FeatureFlagEnabled,
     isTvFavoriteCountryForFreeUserDisabled: IsTvFavoriteCountryForFreeUserDisabled,
 ) : Flow<SettingsFeatureFlagsFlow.Flags> {
@@ -63,7 +61,6 @@ class SettingsFeatureFlagsFlow @Inject constructor(
     data class Flags(
         val isTvAutoConnectEnabled: Boolean,
         val isTvNetShieldSettingEnabled: Boolean,
-        val isTvCustomDnsSettingEnabled: Boolean,
         val isProTunV1Enabled: Boolean,
         val tvDisableFavoriteCountryForFreeUser: Boolean,
     )
@@ -71,7 +68,6 @@ class SettingsFeatureFlagsFlow @Inject constructor(
     private val flow: Flow<Flags> = combine(
         isTvAutoConnectFeatureFlagEnabled.observe(),
         isTvNetShieldSettingFeatureFlagEnabled.observe(),
-        isTvCustomDnsSettingFeatureFlagEnabled.observe(),
         isProTunV1FeatureFlagEnabled.observe(),
         isTvFavoriteCountryForFreeUserDisabled.observe(),
         ::Flags,

@@ -42,7 +42,6 @@ import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.settings.FakeIsTvAutoConnectFeatureFlagEnabled
-import com.protonvpn.android.tv.settings.FakeIsTvCustomDnsSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.FakeIsTvNetShieldSettingFeatureFlagEnabled
 import com.protonvpn.android.tv.usecases.FakeIsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.FakeIsTvFreeUserAlphabeticalSortingForCountriesEnabled
@@ -203,7 +202,6 @@ class TvMainViewModelTests {
             getSmartProtocols = createGetSmartProtocols(),
             isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
             isTvNetShieldSettingFeatureFlagEnabled = FakeIsTvNetShieldSettingFeatureFlagEnabled(true),
-            isTvCustomDnsSettingFeatureFlagEnabled = FakeIsTvCustomDnsSettingFeatureFlagEnabled(true),
             isTvFavoriteCountryForFreeUserDisabled = FakeIsTvFavoriteCountryForFreeUserDisabled(false),
             isTvRecentsForFreeUserDisabled = FakeIsTvRecentsForFreeUserDisabled(false),
             isTvFreeUserAlphabeticalSortingForCountriesEnabled = FakeIsTvFreeUserAlphabeticalSortingForCountriesEnabled(false),
