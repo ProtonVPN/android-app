@@ -107,11 +107,6 @@ class TvMainActivity : BaseTvActivity() {
         if (loaderState == null)
             return
 
-        if (loaderState == VpnAppViewModel.LoaderState.Loaded) {
-            // TODO: release the GH
-            //guestHole.releaseNeedGuestHole(VpnLogin.GUEST_HOLE_ID)
-        }
-
         val fragmentClass = if (loaderState == VpnAppViewModel.LoaderState.Loaded) {
             TvMainFragment::class.java
         } else {
