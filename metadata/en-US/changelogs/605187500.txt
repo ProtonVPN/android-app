@@ -1,0 +1,2 @@
+What's new
+Made some other minor bug and UI fixes
