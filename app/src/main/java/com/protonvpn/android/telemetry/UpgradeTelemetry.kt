@@ -70,6 +70,7 @@ enum class UpgradeTrigger {
     COUNTRY_SELECTION,
     ERROR_DIALOG,
     HOME,
+    HOME_BANNER,
     HOME_CAROUSEL,
     NETWORK_RESTRICTION,
     ONBOARDING,

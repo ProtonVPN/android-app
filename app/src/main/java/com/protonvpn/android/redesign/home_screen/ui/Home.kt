@@ -426,9 +426,9 @@ fun HomeView(
         )
         val netShieldActions = remember {
             NetShieldActions(
-                onChangeServerPromoUpgrade = { onLaunchUpgradeDialog(UpgradePlusCountriesHighlightsFragment::class, UpgradeSource.COUNTRIES, UpgradeTrigger.HOME) },
+                onChangeServerPromoUpgrade = { onLaunchUpgradeDialog(UpgradePlusCountriesHighlightsFragment::class, UpgradeSource.COUNTRIES, UpgradeTrigger.HOME_BANNER) },
                 onNetShieldValueChanged = onNetshieldValueChanged,
-                onUpgradeNetShield = { onLaunchUpgradeDialog(UpgradeNetShieldHighlightsFragment::class, UpgradeSource.NETSHIELD, UpgradeTrigger.HOME) },
+                onUpgradeNetShield = { onLaunchUpgradeDialog(UpgradeNetShieldHighlightsFragment::class, UpgradeSource.NETSHIELD, UpgradeTrigger.HOME_BANNER) },
                 onNetShieldLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
                 onDisableCustomDns = onDisableCustomDns,
             )
