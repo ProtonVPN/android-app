@@ -75,10 +75,6 @@ fun PaymentPanelTv(
 
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(key1 = upgradeState::class) {
-        focusRequester.requestFocus()
-    }
-
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -102,6 +98,10 @@ fun PaymentPanelTv(
                 val selectedCycleInfo = remember(cycles, viewState.selectedCycle) {
                     cycles.firstOrNull { it.cycle == viewState.selectedCycle }
                 }
+                LaunchedEffect(key1 = upgradeState::class) {
+                    focusRequester.requestFocus()
+                }
+
                 PlanSelectionColumn(
                     renewInfoText = selectedCycleInfo?.let { renewInfoText(selectedCycleInfo) },
                     showSelectPlans = cycles.size > 1
@@ -119,6 +119,10 @@ fun PaymentPanelTv(
             }
 
             is CommonUpgradeDialogViewModel.State.LoadError -> {
+                LaunchedEffect(key1 = upgradeState::class) {
+                    focusRequester.requestFocus()
+                }
+
                 TvTextButton(
                     modifier = Modifier
                         .padding(top = 8.dp)
@@ -130,6 +134,10 @@ fun PaymentPanelTv(
 
             is CommonUpgradeDialogViewModel.State.PlansFallback,
             is CommonUpgradeDialogViewModel.State.UpgradeDisabled -> {
+                LaunchedEffect(key1 = upgradeState::class) {
+                    focusRequester.requestFocus()
+                }
+
                 Text(
                     stringResource(R.string.upsell_tv_fallback_description),
                     color = ProtonTheme.colors.textWeak,
