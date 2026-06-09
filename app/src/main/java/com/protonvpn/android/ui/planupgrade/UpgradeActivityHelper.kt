@@ -21,21 +21,35 @@ package com.protonvpn.android.ui.planupgrade
 
 import android.app.Activity
 import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
+import me.proton.core.plan.presentation.ui.StartUnredeemedPurchase
 
 class UpgradeActivityHelper(
     private val activity: ComponentActivity,
     private val afterPaymentSuccess: (CommonUpgradeDialogViewModel.State.PurchaseSuccess) -> Unit = {}
 ) {
+    private lateinit var redeemPurchaseLauncher: ActivityResultLauncher<Unit>
 
     fun onCreate(viewModel: UpgradeDialogViewModel) {
         viewModel.setupOrchestrators(activity)
         viewModel.state
             .flowWithLifecycle(activity.lifecycle)
             .onEach(::onStateUpdate)
+            .launchIn(activity.lifecycleScope)
+
+        redeemPurchaseLauncher = activity.registerForActivityResult(StartUnredeemedPurchase) { result ->
+            if (result?.redeemed == true) {
+                viewModel.onPurchaseRedeemed()
+            }
+        }
+        viewModel.eventRedeemPurchase.receiveAsFlow()
+            .flowWithLifecycle(activity.lifecycle)
+            .onEach { redeemPurchaseLauncher.launch(Unit) }
             .launchIn(activity.lifecycleScope)
     }
 

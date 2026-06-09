@@ -89,4 +89,6 @@ class UpgradeDialogViewModel @Inject constructor(
         onErrorButtonClicked = {},
         onCycleSelected = {},
     )
+
+    override fun onPurchaseRedeemed() = Unit
 }

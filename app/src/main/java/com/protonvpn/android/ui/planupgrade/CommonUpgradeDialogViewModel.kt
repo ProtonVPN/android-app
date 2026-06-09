@@ -111,6 +111,8 @@ abstract class CommonUpgradeDialogViewModel(
 
     private val errorMessage = Channel<Error>(capacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     val eventErrorMessage: ReceiveChannel<Error> = errorMessage
+    protected val redeemPurchase = Channel<Unit>(capacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val eventRedeemPurchase: ReceiveChannel<Unit> = redeemPurchase
     val state = MutableStateFlow<State>(State.Initializing)
 
     fun reportUpgradeFlowStart(
@@ -183,6 +185,8 @@ abstract class CommonUpgradeDialogViewModel(
             logToSentry(message ?: error?.message, error) // Remove this once we know payments are in a good shape.
         errorMessage.trySend(Error(messageRes, message, error))
     }
+
+    abstract fun onPurchaseRedeemed()
 
     private fun shouldReportToSentry(throwable: Throwable?): Boolean =
         throwable == null || (throwable as? ApiException)?.error !is ApiResult.Error.Connection

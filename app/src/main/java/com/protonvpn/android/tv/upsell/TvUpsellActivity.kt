@@ -105,7 +105,6 @@ class TvUpsellActivity : BaseTvActivity() {
             }
             .launchIn(lifecycleScope)
 
-
         setContent {
             ProtonThemeTv {
                 val benefitsViewState = benefitsViewModel.viewStateFlow.collectAsStateWithLifecycle().value

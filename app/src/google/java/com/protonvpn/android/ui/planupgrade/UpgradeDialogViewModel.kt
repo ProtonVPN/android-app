@@ -151,7 +151,6 @@ class UpgradeDialogViewModel(
         SharingStarted.Eagerly,
         buildFullState(State.Initializing, null)
     )
-
     data class GiapPlanModel(
         val giapPlanInfo: GiapPlanInfo,
         private val prices: List<CycleViewInfo>,
@@ -159,6 +158,10 @@ class UpgradeDialogViewModel(
 
     fun reloadPlans() {
         plansForReload?.let { loadPlans(it.plans, it.cycles, it.buttonLabelOverride, it.showDiscountBadge) }
+    }
+
+    override fun onPurchaseRedeemed() {
+        reloadPlans()
     }
 
     fun loadPlans(allowMultiplePlans: Boolean) {
@@ -306,7 +309,7 @@ class UpgradeDialogViewModel(
             when (purchaseResult) {
                 is PerformGiapPurchase.Result.Error.GiapUnredeemed -> {
                     emit(State.PlansFallback)
-                    onStartFallbackUpgrade()
+                    redeemPurchase.send(Unit)
                 }
                 is PerformGiapPurchase.Result.Error.UserCancelled -> emit(currentState.copy(inProgress = false))
                 is PerformGiapPurchase.Result.Error.RecoverableBillingError ->
