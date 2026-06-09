@@ -605,13 +605,16 @@
     <!-- Format for upselling countries on TV".
         %1$s - replaced with upgrade_plus_servers_new plurals key (e.g. 1 secure server or 10 secure servers)
         %2$s - replaced with upgrade_plus_countries plurals key (e.g. 1 country or 10 countries)
-        %3$s - replaced with upsell_tv_description_placeholder
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
+    <string name="upsell_tv_all_countries_description">Desbloquea %1$s en %2$s.</string>
     <string name="upsell_tv_netshield_title">Disfruta de una navegación sin anuncios con Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Bloquea anuncios, rastreadores y malware con <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Obtén lo mejor de ambos mundos con Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide tu tráfico en túneles VPN y no VPN con <b>túneles divididos</b>.]]></string>
     <string name="upsell_tv_customization_title">Obtén una personalización VPN avanzada con Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Desbloquea <b>conexiones LAN</b>, <b>DNS personalizado</b>, y más funciones VPN avanzadas.]]></string>
     <string name="upsell_tv_fallback_description">Ve al sitio web de Proton VPN para mejorar tu plan.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
@@ -882,17 +885,17 @@
      Text added to clickable elements that provide negative feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_negative">not good</string>
+    <string name="accessibility_feedback_negative">No es buena</string>
     <!--
      Text added to clickable elements that provide positive feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_positive">good</string>
+    <string name="accessibility_feedback_positive">buena</string>
     <!--
      Text added to clickable elements that allows to submit either positive or negative feedback.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_submit_feedback">submit</string>
+    <string name="accessibility_action_submit_feedback">enviar</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -1091,7 +1094,7 @@
          "more information about free connections, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_free_connections">más información acerca de las conexiones gratuitas</string>
-    <string name="connection_card_label_connection_feedback">How is your connection?</string>
+    <string name="connection_card_label_connection_feedback">¿Cómo es tu conexión?</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->

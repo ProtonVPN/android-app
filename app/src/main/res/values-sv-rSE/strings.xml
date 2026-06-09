@@ -605,13 +605,16 @@
     <!-- Format for upselling countries on TV".
         %1$s - replaced with upgrade_plus_servers_new plurals key (e.g. 1 secure server or 10 secure servers)
         %2$s - replaced with upgrade_plus_countries plurals key (e.g. 1 country or 10 countries)
-        %3$s - replaced with upsell_tv_description_placeholder
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
+    <string name="upsell_tv_all_countries_description">Lås upp %1$s i %2$s.</string>
     <string name="upsell_tv_netshield_title">Njut av annonsfri surfning med Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Blockera annonser, spårare och skadlig programvara med <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Få det bästa av båda världar med Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Dela upp din trafik i VPN- och icke-VPN-tunnlar med <b>split tunneling</b>.]]></string>
     <string name="upsell_tv_customization_title">Få avancerade VPN-anpassningar med Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Lås upp <b>LAN-anslutningar</b>, <b>anpassad DNS</b> och mer avancerade VPN-funktioner.]]></string>
     <string name="upsell_tv_fallback_description">Gå till Proton VPN-webbplatsen för att uppgradera ditt paket.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")

@@ -57,8 +57,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Обслуговується</string>
     <string name="restrictedMaintenanceDescription">Сервер, з яким ви зараз намагаєтеся з\'єднатися, обслуговується. Будь ласка, спробуйте інший сервер.</string>
-    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
-    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
+    <string name="restricted_location_excluded_dialog_title">Помилка з\'єднання</string>
+    <string name="restricted_location_excluded_dialog_description">Немає доступних серверів. Виберіть розташування вручну або змініть свої винятки розташувань.</string>
     <string name="errorUserDelinquent"><![CDATA[У вашому обліковому записі є протермінований рахунок. Будь ласка, сплатіть усі рахунки на сайті&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Ви досягли обмеження кількості одночасних з\'єднань для вашого облікового запису. Щоб отримати більше з\'єднань, передплатіть тарифний план Proton VPN вищого рівня.</string>
     <string name="listItemMaintenance">Обслуговується</string>
@@ -89,15 +89,15 @@
     <string name="send_report">Надіслати звіт</string>
     <string name="report_sent">Звіт надіслано</string>
     <string name="discardChanges">Відхилити незбережені зміни?</string>
-    <string name="discardChangesButtonDiscard">Discard changes</string>
-    <string name="discardChangesButtonKeepEditing">Keep editing</string>
+    <string name="discardChangesButtonDiscard">Відхилити зміни</string>
+    <string name="discardChangesButtonKeepEditing">Редагувати далі</string>
     <string name="done">ВИКОНАНО</string>
     <string name="add">ДОДАТИ</string>
     <string name="copy_to_clipboard">Копіювати</string>
     <string name="copied_to_clipboard">Скопійовано до буфера обміну</string>
     <string name="got_it">Зрозуміло</string>
     <string name="exclude_locations">Виключити розташування</string>
-    <string name="excluded_locations">Excluded locations</string>
+    <string name="excluded_locations">Винятки розташувань</string>
     <string name="cannot_connect">Не вдається підʼєднатися</string>
     <string name="skip">Пропустити</string>
     <string name="something_went_wrong">Виникла проблема</string>
@@ -141,7 +141,7 @@
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">НОВЕ</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
-    <string name="settings_beta_label_badge">BETA</string>
+    <string name="settings_beta_label_badge">БЕТА</string>
     <string name="settingsExcludedIPAddressesListHeader">Винятки IP-адрес (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Включені IP-адреси (%1$d)</string>
     <string name="settingsExcludedApps">Винятки програм</string>
@@ -278,7 +278,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Заощаджені дані</string>
     <string name="netshield_setting_warning">Під час блокування реклами та стеження деякі вебсайти можуть завантажуватися некоректно.</string>
-    <string name="netshield_setting_block_adult_content">Block adult content</string>
+    <string name="netshield_setting_block_adult_content">Блокувати вміст для дорослих</string>
     <string name="dialogDontShowAgain">Не показувати знову</string>
     <string name="guestHoleNotificationContent">Спроба обійти проблеми з мережею. Це допоможе вам одержати доступ до Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Не вдалося ініціалізувати VPN-з\'єднання через конфлікт між подвійною програмою (як-от Dual Messenger) і роздільним тунелюванням. Від\'єднайте одну з них і перезавантажте пристрій.</string>
@@ -363,8 +363,8 @@
     <string name="enable">Увімкнути</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol зараз вимкнено</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN виявив, що ваша мережа запобігає з\'єднанню з VPN. Увімкнення Smart Protocol допоможе обійти це обмеження.</string>
-    <string name="notification_streaming_blocked_title">Streaming not working?</string>
-    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
+    <string name="notification_streaming_blocked_title">Не працює потокова трансляція?</string>
+    <string name="notification_streaming_blocked_text">Чимало сервісів потокової трансляції виявляють і блокують з\'єднання з VPN-серверів. Щоб обходити ці блокування, перейдіть на Proton VPN Plus.</string>
     <string name="upsell_advanced_features">Додаткові функції: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Доступ до сервісів потокової трансляції (Netflix, Disney+ та ін.) у будь-якій частині світу</string>
     <!-- Number of servers available in the service.
@@ -409,8 +409,8 @@
     <string name="upgrade_profiles_text">Розблокуйте профілі з тарифним планом VPN Plus</string>
     <string name="upgrade_streaming_title">Транслюйте відео з якістю 4K</string>
     <string name="upgrade_streaming_text">Насолоджуйтеся улюбленими фільмами й телешоу де завгодно у світі.</string>
-    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upgrade_streaming_block_title">Передплатіть для обходу блокування VPN</string>
+    <string name="upgrade_streaming_block_text">Сервери VPN Plus забезпечують можливість переглядати ваші улюблені фільми й телепрограми з усього світу.</string>
     <string name="upgrade_tor_title">Користуйтеся мережею Tor одним дотиком</string>
     <string name="upgrade_tor_text">Під\'єднуйтеся до прихованих сервісів та сайтів onion у звичайному браузері.</string>
     <string name="upgrade_vpn_accelerator_title">Користуйтеся інтернетом зі ще вищою швидкістю</string>
@@ -549,7 +549,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Тарифний план Plus:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -558,9 +558,9 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
-    <string name="upsell_panel_content_description_yes">Yes</string>
-    <string name="upsell_panel_content_description_no">No</string>
+    <string name="upsell_panel_content_description_value_prefix_free">Тарифний план Free:</string>
+    <string name="upsell_panel_content_description_yes">Так</string>
+    <string name="upsell_panel_content_description_no">Ні</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
     <!--
         %1$s - country name in nominative
@@ -569,33 +569,33 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
-    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Available countries</string>
+    <string name="upsell_panel_country_title">Розблокуйте %1$s з VPN Plus</string>
+    <string name="upsell_panel_countries_title">Розблокуйте всі країни з VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Доступні країни</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_country_benefit_choice">Choose your location</string>
-    <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
-    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
-    <string name="upsell_panel_netshield_title">Browse without interruptions</string>
-    <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
-    <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
-    <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
-    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
-    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
-    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
-    <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
-    <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
-    <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
-    <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
-    <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
-    <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
-    <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_country_benefit_choice">Обирайте своє розташування</string>
+    <string name="upsell_panel_country_benefit_speed">Високошвидкісні сервери</string>
+    <string name="upsell_panel_country_benefit_shows">Переглядайте медіа, доступне тільки за кордоном</string>
+    <string name="upsell_panel_netshield_title">Переглядайте безперебійно</string>
+    <string name="upsell_panel_netshield_benefit_ads">Реклама блокується під час перегляду</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Не дозволяйте вистежувачам переслідувати вас</string>
+    <string name="upsell_panel_netshield_benefit_malware">Захист від зловмисних програм і шахрайства</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Швидше завантаження сторінок </string>
+    <string name="upsell_panel_speed_title">Транслюйте, грайте і завантажуйте швидше</string>
+    <string name="upsell_panel_speed_benefit_servers">Високошвидкісні сервери</string>
+    <string name="upsell_panel_speed_benefit_gaming">Час відклику під час ігор</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Повільно</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Швидко</string>
+    <string name="upsell_panel_speed_benefit_video">Відео транслюється без буферування</string>
+    <string name="upsell_panel_speed_benefit_ads">Переглядайте без реклами та стеження</string>
+    <string name="upsell_panel_streaming_title">Переглядайте улюблені сервіси трансляції</string>
+    <string name="upsell_panel_streaming_benefit_shows">Дивіться свої передачі з будь-якої країни</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
-    <string name="upsell_panel_streaming_benefit_platforms">All major streaming platforms supported *</string>
-    <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
-    <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
-    <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
+    <string name="upsell_panel_streaming_benefit_platforms">Підтримуються всі основні платформи потокової трансляції *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Потокова трансляція в якості HD без буферування</string>
+    <string name="upsell_panel_streaming_benefit_devices">Одночасне під\'єднання пристроїв</string>
+    <string name="upsell_panel_streaming_footer">* Потрібна передплата на платформу потокової трансляції.</string>
     <string name="upsell_card_countries_title">Світове покриття</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -637,14 +637,17 @@
     <!-- Format for upselling countries on TV".
         %1$s - replaced with upgrade_plus_servers_new plurals key (e.g. 1 secure server or 10 secure servers)
         %2$s - replaced with upgrade_plus_countries plurals key (e.g. 1 country or 10 countries)
-        %3$s - replaced with upsell_tv_description_placeholder
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
+    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
     <string name="upsell_tv_netshield_title">Насолоджуйтесь інтернетом без реклами з передплатою Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Отримайте найкращі можливості з передплатою Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
     <string name="upsell_tv_customization_title">Отримайте розширені налаштування VPN з передплатою Plus</string>
-    <string name="upsell_tv_fallback_description">Перейдіть на вебсайт Proton VPN, щоб покращити свій тарифний план.</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
+    <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -724,7 +727,7 @@
     <string name="upgrade_country_message"><![CDATA[Розблокуйте <b>вибір країни</b> з VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free автоматично під\'єднається до найшвидшого доступного сервера. Зазвичай – найближчий до вашого розташування.</string>
     <string name="free_connections_info_server_locations">Розташування серверів Free (%1$d)</string>
-    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
+    <string name="free_connections_info_banner_text">Отримайте доступ до всіх країн з VPN Plus</string>
     <string name="free_connection_info_title">Безплатні з\'єднання</string>
     <string name="search_upsell_banner_title">Дивіться трансляції звідусіль</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -930,17 +933,17 @@
      Text added to clickable elements that provide negative feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_negative">not good</string>
+    <string name="accessibility_feedback_negative">незадовільно</string>
     <!--
      Text added to clickable elements that provide positive feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_positive">good</string>
+    <string name="accessibility_feedback_positive">добре</string>
     <!--
      Text added to clickable elements that allows to submit either positive or negative feedback.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_submit_feedback">submit</string>
+    <string name="accessibility_action_submit_feedback">відправити</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -1141,7 +1144,7 @@
          "more information about free connections, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_free_connections">докладніше про безплатні з\'єднання</string>
-    <string name="connection_card_label_connection_feedback">How is your connection?</string>
+    <string name="connection_card_label_connection_feedback">Оцініть якість свого з\'єднання?</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -1169,7 +1172,7 @@
     <string name="message_server_in_maintenance">Сервер обслуговується</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Сервер недоступний</string>
-    <string name="message_server_location_excluded">Server location excluded</string>
+    <string name="message_server_location_excluded">Розташування сервера виключено</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Мережевий шлюз на обслуговуванні</string>
     <!-- tag(Redesign_2023) -->
@@ -1571,14 +1574,14 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Автоматичний вибір найкращого протоколу для вашого з\'єднання.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_smart_protun_description">Auto-selects the best protocol for your connection [experimental].</string>
+    <string name="settings_protocol_smart_protun_description">Автовибір найкращого протоколу для вашого з\'єднання [експериментальна].</string>
     <string name="settings_protocol_wireguard_udp_description">Найдосконаліший протокол для безпеки та швидкодії.</string>
     <string name="settings_protocol_wireguard_tcp_description">Найдосконаліший протокол для безпеки та швидкодії.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Обходить блокування VPN, приховуючи ваше VPN-з\'єднання від цензури. Цей протокол стійкий до DPI (глибока перевірка пакетів), але може бути не таким швидким, як інші протоколи. Stealth – ексклюзивний протокол, доступний лише з Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Рекомендовано</string>
-    <string name="settings_protocol_badge_experimental">Experimental</string>
+    <string name="settings_protocol_badge_experimental">Експериментальна</string>
     <string name="settings_split_tunneling_mode_title">Режим</string>
     <string name="settings_split_tunneling_mode_standard">Виключити</string>
     <string name="settings_split_tunneling_mode_inverse">Включити</string>
@@ -1623,13 +1626,13 @@
     <string name="info_p2p_why_description_logs">Без журналів активності</string>
     <string name="info_p2p_why_description_hide">Приховайте вашу IP-адресу від постачальника послуг та однорангових вузлів</string>
     <string name="info_dialog_smart_routing_description">Технологія Smart Routing дає нам можливість забезпечувати покриття VPN у країнах з ускладненим доступом.\n\nПід час з\'єднання з сервером Smart Routing здаватиметься, наче ви користуєтесь інтернетом у країні призначення, навіть попри інше фізичне розташування сервера.  \n\nSmart Routing зазвичай використовується для обходу законодавчих обмежень щодо приватності та інших форм цензури.</string>
-    <string name="notifications_channel_connection_status_name">Connection status</string>
-    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
-    <string name="notifications_channel_connection_errors_name">Connection errors</string>
-    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
-    <string name="notifications_channel_connection_tips_name">Connection tips</string>
-    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
-    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
+    <string name="notifications_channel_connection_status_name">Стан з\'єднання</string>
+    <string name="notifications_channel_connection_status_description">Інформація про під\'єднаний сервер і швидкість VPN.</string>
+    <string name="notifications_channel_connection_errors_name">Помилки з\'єднання</string>
+    <string name="notifications_channel_connection_errors_description">Попередження щодо проблем, через які VPN-з\'єднання призупиняється або не працює.</string>
+    <string name="notifications_channel_connection_tips_name">Поради щодо з\'єднання</string>
+    <string name="notifications_channel_connection_tips_description">Контекстні поради, які допомагають оцінити всі переваги Proton VPN.</string>
+    <string name="countries_upsell_banner_description">Отримайте доступ до всіх країн з VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Додайте ще один рівень шифрування до свого VPN-з\'єднання</string>
     <string name="p2p_upsell_banner_description">Завантажуйте файли через BitTorrent й інші протоколи обміну файлами</string>
     <string name="tor_upsell_banner_description">Користуйтеся мережею Tor через VPN-з\'єднання для додаткової приватності</string>
@@ -1693,7 +1696,7 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Сервер, який ви вибрали для %1$s, недоступний. Виберіть інший сервер або повторіть спробу пізніше.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Сервер, який ви вибрали для <b>%1$s</b>, недоступний. Виберіть інший сервер, перевірте винятки розташувань або повторіть спробу пізніше.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Піктограма %1$d</string>
@@ -1757,10 +1760,10 @@
     <string name="no_connections_action_sign_out">Вийти</string>
     <string name="no_connections_help_contact_us"><![CDATA[Потрібна допомога? <a href="">Зв\'яжіться з нами</a>]]></string>
     <string name="no_connections_help_follow_instructions"><![CDATA[Якщо ваш адміністратор потребує допомоги з увімкненням доступу до VPN, надішліть <a href="">ці інструкції</a>.]]></string>
-    <string name="settings_protocol_proton_protocols">Proton protocols</string>
-    <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
+    <string name="settings_protocol_proton_protocols">Протоколи Proton</string>
+    <string name="settings_protocol_proton_protocols_description">Використання власних впроваджень WireGuard від Proton VPN. Це експериментальна функція, тому ви можете помітити нестабільну роботу.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">Не та країна, яку ви шукали?</string>
-    <string name="connection_preferences_smart_discovery_dialog_message">If there are locations you don’t want to be automatically connected to, you can exclude them from Fastest country.</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Якщо ви не хочете автоматично під\'єднуватись до певних розташувань, додайте їх до винятків для найшвидшої країни.</string>
     <string name="excluded_locations_adoption_title">Уникайте небажаних розташувань</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Тепер ви можете виключати країни й міста з <b>Найшвидших</b> з\'єднань.]]></string>
     <string name="session_fork_no_account_title">Увійти на Android TV</string>
@@ -1771,7 +1774,7 @@
     <string name="session_fork_confirmation_title">Увійти на Android TV?</string>
     <string name="session_fork_confirmation_message">Ця дія дозволить телевізору отримати доступ до вашого облікового запису Proton.</string>
     <string name="session_fork_confirmation_bottom_note">Входьте лише на пристроях, яким довіряєте</string>
-    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
+    <string name="session_fork_confirmation_too_soon_toast">Перегляньте, перш ніж продовжити</string>
     <string name="session_fork_success_title">Вхід виконано</string>
     <string name="session_fork_success_message">Ви ввійшли в систему на своєму телевізорі.</string>
     <string name="session_fork_error_expired_title">Термін дії коду закінчився</string>
@@ -1781,17 +1784,17 @@
     <string name="session_fork_error_network_message">Перевірте свою мережу та спробуйте ще раз.</string>
     <string name="session_fork_error_try_fallback_message">Натисніть \‘ Не вдається ввійти?\‘ на телевізорі, щоб виконати альтернативні кроки.</string>
     <string name="session_fork_error_report_button">Повідомити про проблему</string>
-    <string name="session_fork_qr_code_content_description">QR code</string>
-    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
-    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
-    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
-    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
-    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
-    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
-    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_step2">Sign in or create an account</string>
+    <string name="session_fork_qr_code_content_description">QR-код</string>
+    <string name="session_fork_qr_code_message">Скануйте QR-код, щоб увійти або зареєструватись.</string>
+    <string name="session_fork_qr_code_trouble_button">Проблеми з входом?</string>
+    <string name="session_fork_qr_code_error_expired">З міркувань безпеки термін дії коду підтвердження завершився</string>
+    <string name="session_fork_qr_code_error_network">Перевірте свою мережу та повторіть спробу</string>
+    <string name="session_fork_qr_code_error_create_new_button">Створити новий код</string>
+    <string name="session_fork_user_code_title">Не можете сканувати код? Увійдіть вручну.</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Перейдіть на: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Увійдіть або створіть обліковий запис</string>
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
-    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step3"><![CDATA[Введіть код: <b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Все ще потрібна допомога? Відвідайте <b>%1$s</b>]]></string>
 </resources>
