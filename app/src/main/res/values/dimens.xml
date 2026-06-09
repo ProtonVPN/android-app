@@ -17,6 +17,8 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
+    <item name="match_parent" type="dimen">-1</item>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -53,4 +55,8 @@
 
     <dimen name="tv_item_size_height">88dp</dimen>
     <dimen name="tv_item_size_width">134dp</dimen>
+
+    <dimen name="upgrade_congrats_container_width">@dimen/match_parent</dimen>
+    <dimen name="upgrade_congrats_bottom_button_width">@dimen/match_parent</dimen>
+    <dimen name="upgrade_highlights_width">240dp</dimen>
 </resources>
