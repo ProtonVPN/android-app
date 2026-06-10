@@ -136,6 +136,7 @@ def supportedLocales = ['ar', 'b+es+419', 'be', 'ca', 'cs', 'da', 'de', 'el', 'e
 def helpers = new Helpers(rootDir, providers)
 def debugKeystorePath = System.getenv("DEBUG_KEYSTORE_FILE")
 def mavenCacheUrl = System.getenv("MAVEN_CACHE_PKG_URL")
+def suppressKotlinWarnings = project.hasProperty('suppressWarnings') ? project['suppressWarnings'] : false
 
 android {
     namespace "com.protonvpn.android"
@@ -392,6 +393,7 @@ android {
 
     kotlinOptions {
         freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
+        suppressWarnings = suppressKotlinWarnings
     }
 
     lint {
