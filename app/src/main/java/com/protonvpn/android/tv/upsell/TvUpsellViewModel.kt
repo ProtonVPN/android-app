@@ -27,7 +27,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.models.features.PaidFeature
-import com.protonvpn.android.tv.ui.TvKeyConstants
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -54,7 +53,7 @@ class TvUpsellViewModel @Inject constructor(
 
     val viewStateFlow: StateFlow<ViewState?> = savedStateHandle
         .getStateFlow<PaidFeature?>(
-            key = TvKeyConstants.PAID_FEATURE,
+            key = KEY_PAID_FEATURE,
             initialValue = null,
         )
         .filterNotNull()
@@ -106,4 +105,7 @@ class TvUpsellViewModel @Inject constructor(
             initialValue = null,
         )
 
+    companion object {
+        const val KEY_PAID_FEATURE = "paid_feature_key"
+    }
 }

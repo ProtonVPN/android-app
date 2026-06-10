@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.tv.upsell
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -53,10 +54,15 @@ import com.protonvpn.android.base.ui.upsellBackground
 import com.protonvpn.android.base.ui.upsellGradientEnd
 import com.protonvpn.android.base.ui.upsellGradientStart
 import com.protonvpn.android.components.BaseTvActivity
+import com.protonvpn.android.models.features.PaidFeature
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.PlanModel
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
 import dagger.hilt.android.AndroidEntryPoint
@@ -82,8 +88,13 @@ class TvUpsellActivity : BaseTvActivity() {
         upgradeActivityHelper.onCreate(viewModel)
 
         if (savedInstanceState == null) {
-            // TODO: report correct values
-            //viewModel.reportUpgradeFlowStart(UpgradeSource.COUNTRIES, UpgradeTrigger.COUNTRY_SELECTION, null, null)
+            val (upgradeSource, upgradeTrigger, country) = UpgradeDialogLauncher.getUpgradeSourceInfo(intent)
+            if (upgradeSource == null || upgradeTrigger == null) {
+                Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
+                finish()
+                return
+            }
+            viewModel.reportUpgradeFlowStart(upgradeSource, upgradeTrigger, country)
         }
 
         viewModel.eventErrorMessage
@@ -109,6 +120,26 @@ class TvUpsellActivity : BaseTvActivity() {
                     )
                 }
             }
+        }
+    }
+
+    companion object {
+        fun launch(
+            context: Context,
+            paidFeature: PaidFeature,
+            upgradeSource: UpgradeSource,
+            upgradeTrigger: UpgradeTrigger,
+            country: CountryId? = null
+        ) {
+            val intent = UpgradeDialogLauncher.createIntent<TvUpsellActivity>(
+                context,
+                upgradeSource,
+                upgradeTrigger,
+                country
+            ).apply {
+                putExtra(TvUpsellViewModel.KEY_PAID_FEATURE, paidFeature)
+            }
+            context.startActivity(intent)
         }
     }
 }

@@ -20,7 +20,6 @@
 package com.protonvpn.android.tv.detailed
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -41,9 +40,11 @@ import com.protonvpn.android.components.BaseTvBrowseFragment
 import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.databinding.TvServerRowBinding
 import com.protonvpn.android.models.features.PaidFeature
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.tv.detailed.TvServerListScreenFragment.Companion.EXTRA_COUNTRY
 import com.protonvpn.android.tv.presenters.AbstractCardPresenter
-import com.protonvpn.android.tv.ui.TvKeyConstants
 import com.protonvpn.android.tv.upsell.TvUpsellActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -77,11 +78,13 @@ class TvServerListFragment : BaseTvBrowseFragment() {
             item.click(
                 (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate(),
                 onUpgrade = {
-                    val intent = Intent(context, TvUpsellActivity::class.java).apply {
-                        putExtra(TvKeyConstants.PAID_FEATURE, PaidFeature.AllCountries)
-                    }
-
-                    requireContext().startActivity(intent)
+                    TvUpsellActivity.launch(
+                        requireContext(),
+                        PaidFeature.AllCountries,
+                        UpgradeSource.COUNTRIES,
+                        UpgradeTrigger.COUNTRY_SELECTION,
+                        requireArguments().getString(EXTRA_COUNTRY)?.let { CountryId(it) }
+                    )
                 }
             )
         }

@@ -19,12 +19,15 @@
 
 package com.protonvpn.android.ui.planupgrade
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableEnabled
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2
+import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -77,5 +80,38 @@ class UpgradeDialogLauncher @Inject constructor(
                 }
             }
         }
+    }
+
+    companion object {
+        const val UPGRADE_SOURCE_KEY = "Upgrade Type"
+        const val UPGRADE_TRIGGER_KEY = "Upgrade Trigger"
+        const val COUNTRY_KEY = "Country Code"
+
+        inline fun <reified T : Activity> launch(
+            context: Context,
+            upgradeSource: UpgradeSource,
+            upgradeTrigger: UpgradeTrigger,
+            country: CountryId? = null
+        ) {
+            context.startActivity(createIntent<T>(context, upgradeSource, upgradeTrigger, country))
+        }
+
+        inline fun <reified T : Activity> createIntent(
+            context: Context,
+            upgradeSource: UpgradeSource,
+            upgradeTrigger: UpgradeTrigger,
+            country: CountryId? = null
+        ) = Intent(context, T::class.java).apply {
+            putExtra(UPGRADE_SOURCE_KEY, upgradeSource)
+            putExtra(UPGRADE_TRIGGER_KEY, upgradeTrigger)
+            if (country != null) putExtra(COUNTRY_KEY, country.countryCode)
+        }
+
+        fun getUpgradeSourceInfo(intent: Intent?): Triple<UpgradeSource?, UpgradeTrigger?, CountryId?> =
+            Triple(
+                intent?.getSerializableExtraCompat<UpgradeSource>(UPGRADE_SOURCE_KEY),
+                intent?.getSerializableExtraCompat<UpgradeTrigger>(UPGRADE_TRIGGER_KEY),
+                intent?.getStringExtra(COUNTRY_KEY)?.let { CountryId(it) }
+            )
     }
 }

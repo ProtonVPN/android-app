@@ -20,7 +20,6 @@
 package com.protonvpn.android.ui.planupgrade.comparison_table
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -79,11 +78,11 @@ import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.PaymentPanel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.BenefitsViewState
 import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.getSerializableExtraCompat
 import com.protonvpn.android.utils.mixDstOver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -120,9 +119,7 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
         enableEdgeToEdgeVpn()
 
         val plusCountries = upsellBenefitsViewModel.getAllCountryCount()
-        val country: CountryId? = intent?.getStringExtra(COUNTRY_KEY)?.let { CountryId(it) }
-        val upgradeSource = intent?.getSerializableExtraCompat<UpgradeSource>(UPGRADE_SOURCE_KEY)
-        val upgradeTrigger = intent?.getSerializableExtraCompat<UpgradeTrigger>(UPGRADE_TRIGGER_KEY)
+        val (upgradeSource, upgradeTrigger, country) = UpgradeDialogLauncher.getUpgradeSourceInfo(intent)
         val initialContent = upgradeSource?.let { getContentType(upgradeSource, country, plusCountries) }
         if (initialContent == null || upgradeTrigger == null) {
             Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
@@ -166,22 +163,17 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
     }
 
     companion object {
-        private const val UPGRADE_SOURCE_KEY = "Upgrade Type"
-        private const val UPGRADE_TRIGGER_KEY = "Upgrade Trigger"
-        private const val COUNTRY_KEY = "Country Code"
-
         fun launch(
             context: Context,
             upgradeSource: UpgradeSource,
             upgradeTrigger: UpgradeTrigger,
             country: CountryId? = null
         ) {
-            context.startActivity(
-                Intent(context, UpgradeDialogActivityV2::class.java).apply {
-                    putExtra(UPGRADE_SOURCE_KEY, upgradeSource)
-                    putExtra(UPGRADE_TRIGGER_KEY, upgradeTrigger)
-                    if (country != null) putExtra(COUNTRY_KEY, country.countryCode)
-                }
+            UpgradeDialogLauncher.launch<UpgradeDialogActivityV2>(
+                context,
+                upgradeSource,
+                upgradeTrigger,
+                country
             )
         }
 
