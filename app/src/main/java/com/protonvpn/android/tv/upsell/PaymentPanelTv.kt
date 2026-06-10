@@ -20,9 +20,14 @@
 package com.protonvpn.android.tv.upsell
 
 import androidx.activity.compose.LocalActivity
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -37,11 +42,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
@@ -51,6 +58,7 @@ import com.protonvpn.android.base.ui.optional
 import com.protonvpn.android.base.ui.vpnGreen
 import com.protonvpn.android.tv.buttons.TvTextButton
 import com.protonvpn.android.tv.settings.ProtonTvFocusableSurface
+import com.protonvpn.android.tv.ui.TvSpinner
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.PricingCycleInfo
@@ -92,28 +100,32 @@ fun PaymentPanelTv(
                 }
             }
             is CommonUpgradeDialogViewModel.State.PurchaseReady -> {
-                // TODO: disable when inProgress
-                val cycles = upgradeState.selectedPlan.cycles
-                val activity = LocalActivity.current
-                val selectedCycleInfo = remember(cycles, viewState.selectedCycle) {
-                    cycles.firstOrNull { it.cycle == viewState.selectedCycle }
-                }
-                LaunchedEffect(key1 = upgradeState::class) {
-                    focusRequester.requestFocus()
-                }
-
-                PlanSelectionColumn(
-                    renewInfoText = selectedCycleInfo?.let { renewInfoText(selectedCycleInfo) },
-                    showSelectPlans = cycles.size > 1
+                Box(
+                    modifier = Modifier.height(IntrinsicSize.Max)
                 ) {
-                    cycles.forEachIndexed { index, cycle ->
-                        PlanCycleInfoSelector(
-                            onClick = { if (activity != null) { viewState.onPayClicked(activity) } },
-                            onFocused = { viewState.onCycleSelected(cycle.cycle) },
-                            cycle = cycle,
-                            modifier = Modifier
-                                .optional({ index == 0 }, Modifier.focusRequester(focusRequester))
-                        )
+                    LaunchedEffect(key1 = upgradeState::class) {
+                        focusRequester.requestFocus()
+                    }
+                    val transition = updateTransition(upgradeState.inProgress)
+                    val planSelectionAlpha by transition.animateFloat { isInProgress ->
+                        if (isInProgress) 0f else 1f
+                    }
+                    PlanSelection(
+                        viewState = viewState,
+                        upgradeState = upgradeState,
+                        focusRequester,
+                        modifier = Modifier.graphicsLayer{ alpha = planSelectionAlpha }
+                    )
+
+                    androidx.compose.animation.AnimatedVisibility(
+                        visible = upgradeState.inProgress,
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Box {
+                            TvSpinner(modifier = Modifier.align(Alignment.Center))
+                        }
                     }
                 }
             }
@@ -154,6 +166,40 @@ fun PaymentPanelTv(
             }
 
             is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> Unit
+        }
+    }
+}
+
+@Composable
+private fun PlanSelection(
+    viewState: PaymentPanelState,
+    upgradeState: CommonUpgradeDialogViewModel.State.PurchaseReady,
+    focusRequester: FocusRequester,
+    modifier: Modifier = Modifier,
+) {
+    val cycles = upgradeState.selectedPlan.cycles
+    val activity = LocalActivity.current
+    val selectedCycleInfo = remember(cycles, viewState.selectedCycle) {
+        cycles.firstOrNull { it.cycle == viewState.selectedCycle }
+    }
+
+    PlanSelectionColumn(
+        renewInfoText = selectedCycleInfo?.let { renewInfoText(selectedCycleInfo) },
+        showSelectPlans = cycles.size > 1,
+        modifier = modifier,
+    ) {
+        // Ideally I would disable the clickable Surface when in progress but there's no style for
+        // disabled AND focused in Material TV. Therefore just block the click to avoid triggering
+        // the payment twice which would show an error snack.
+        val enabled = !upgradeState.inProgress
+        cycles.forEachIndexed { index, cycle ->
+            PlanCycleInfoSelector(
+                onClick = { if (enabled && activity != null) { viewState.onPayClicked(activity) } },
+                onFocused = { viewState.onCycleSelected(cycle.cycle) },
+                cycle = cycle,
+                modifier = Modifier
+                    .optional({ index == 0 }, Modifier.focusRequester(focusRequester))
+            )
         }
     }
 }
