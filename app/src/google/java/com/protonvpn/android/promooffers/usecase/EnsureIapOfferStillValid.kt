@@ -19,6 +19,9 @@
 
 package com.protonvpn.android.promooffers.usecase
 
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.promooffers.data.ApiNotificationManager
 import com.protonvpn.android.promooffers.ui.NotificationIapParams
 import dagger.Reusable
@@ -51,6 +54,13 @@ class EnsureIapOfferStillValid @Inject constructor(
         val isError = valid == null
         if (valid == false) {
             mainScope.launch {
+                val logInfo =
+                    listOfNotNull(planName, planCycle, priceCents, currency).joinToString()
+                ProtonLogger.logCustom(
+                    LogLevel.DEBUG,
+                    LogCategory.PROMO,
+                    "User not eligible for: $logInfo"
+                )
                 apiNotificationsManager.updateIapIntroOffers(false)
             }
         }
