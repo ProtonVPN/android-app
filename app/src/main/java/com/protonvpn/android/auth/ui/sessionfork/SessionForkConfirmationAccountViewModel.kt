@@ -29,6 +29,7 @@ import com.protonvpn.android.managed.AutoLoginManager
 import dagger.Lazy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import me.proton.core.account.domain.entity.Account
+import me.proton.core.account.domain.entity.isStepNeeded
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.user.domain.UserManager
@@ -58,5 +59,7 @@ class SessionForkConfirmationAccountViewModel @Inject constructor(
 
     // Credentialless users need to create a regular account.
     override suspend fun isAccountAccepted(account: Account): Boolean =
-        super.isAccountAccepted(account) && !account.userId.isNullOrCredentialLess(userManager)
+        super.isAccountAccepted(account) &&
+                // If a second step is needed the check for credentialless cannot be performed.
+                (account.isStepNeeded() || !account.userId.isNullOrCredentialLess(userManager))
 }
