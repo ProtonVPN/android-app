@@ -300,10 +300,7 @@
     <string name="tv_detail_description_plus">สตรีมวิดีโอ ภาพยนตร์ หรือกีฬาที่คุณชื่นชอบด้วยแอปของคุณ</string>
     <string name="tv_login_title_welcome">สตรีมเนื้อหาวิดีโอที่คุณชื่นชอบ</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[รับบัญชี Proton VPN ของคุณที่ <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">เริ่มสตรีมด้วย Plus</string>
     <string name="back">กลับ</string>
-    <string name="tv_upgrade_url_details"><![CDATA[ไปที่ <b>%1$s</b> เพื่ออัปเกรดเป็น Proton VPN Plus ทันที]]></string>
-    <string name="tv_upgrade_description">รับแผน Proton VPN Plus เพื่อเข้าถึงเซิร์ฟเวอร์มากกว่า 500 แห่งทั่วโลกและตัวเลือกการสตรีมที่ปรับให้เหมาะสมสำหรับ Netflix, Amazon Prime Video, Disney+ และอื่นๆ อีกมากมาย</string>
     <string name="tv_vpn_error_dialog_title">การเชื่อมต่อ VPN ล้มเหลว</string>
     <string name="tv_signout_label">ออกจากระบบ</string>
     <string name="tv_signout_dialog_title">คุณแน่ใจหรือไม่ว่าต้องการลงชื่อออก?</string>

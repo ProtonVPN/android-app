@@ -302,10 +302,7 @@
     <string name="tv_detail_description_plus">Uygulamalarınız ile sevdiğiniz videoları, filmleri ya da spor yayınlarını canlı izleyin.</string>
     <string name="tv_login_title_welcome">Sevdiğiniz videoları canlı izleyin</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[<b>%1$s</b> adresinden Proton VPN hesabınızı açın]]></string>
-    <string name="tv_upgrade_title">Plus ile yayın akışı izlemeye başlayın</string>
     <string name="back">Geri</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Proton VPN Plus tarifesine geçmek için <b>%1$s</b> sayfasına gidin.]]></string>
-    <string name="tv_upgrade_description">Netflix, Amazon Prime Video, Disney+ ve diğerleri gibi dünya çapında yayın akışına göre ayarlanmış 500 üzerinde sunucuya erişmek için bir Proton VPN Plus tarifesi edinin.</string>
     <string name="tv_vpn_error_dialog_title">VPN bağlantısı kurulamadı</string>
     <string name="tv_signout_label">Oturumu kapat</string>
     <string name="tv_signout_dialog_title">Oturumu kapatmak istediğinize emin misiniz?</string>

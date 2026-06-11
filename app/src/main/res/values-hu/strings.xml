@@ -302,10 +302,7 @@
     <string name="tv_detail_description_plus">Nézze kedvenc videóit, filmjeit vagy sportműsorait az alkalmazásaival.</string>
     <string name="tv_login_title_welcome">Nézze kedvenc videotartalmait</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Szerezze be Proton VPN fiókját a <b>%1$s</b> címen.]]></string>
-    <string name="tv_upgrade_title">Kezdje el a videózást a Plusszal</string>
     <string name="back">Vissza</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Látogasson el a <b>%1$s</b> oldalra, hogy előfizethessen a Proton VPN Plus csomagra.]]></string>
-    <string name="tv_upgrade_description">Szerezzen be egy Proton VPN Plus csomagot, hogy hozzáférjen több mint 500 szerverhez világszerte, amely a Netflix, az Amazon Prime Video, a Disney+ és még sok más videós szolgáltatásokhoz is optimalizált.</string>
     <string name="tv_vpn_error_dialog_title">VPN kapcsolódás sikertelen</string>
     <string name="tv_signout_label">Kijelentkezés</string>
     <string name="tv_signout_dialog_title">Biztos, hogy ki szeretne jelentkezni?</string>

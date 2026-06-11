@@ -316,10 +316,7 @@
     <string name="tv_detail_description_plus">Stream your favourite videos, movies, or sports with your apps.</string>
     <string name="tv_login_title_welcome">Stream your favorite video content</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Get your Proton VPN account at <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Start streaming with Plus</string>
     <string name="back">Back</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to Proton VPN Plus now.]]></string>
-    <string name="tv_upgrade_description">Get a Proton VPN Plus plan to access 500+ servers worldwide and optimized streaming options for Netflix, Amazon Prime Video, Disney+, and many more.</string>
     <string name="tv_vpn_error_dialog_title">VPN connection failed</string>
     <string name="tv_signout_label">Sign out</string>
     <string name="tv_signout_dialog_title">Are you sure you want to sign out?</string>

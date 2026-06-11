@@ -306,10 +306,7 @@
     <string name="tv_detail_description_plus">Дивіться улюблене відео, фільми або спортивні передачі у своїх програмах.</string>
     <string name="tv_login_title_welcome">Переглядайте свої улюблені відеоматеріали</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Отримайте свій обліковий запис Proton VPN на <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Розпочніть перегляд з Plus</string>
     <string name="back">Назад</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Перейдіть до <b>%1$s</b>, щоб покращити до Proton VPN Plus уже зараз.]]></string>
-    <string name="tv_upgrade_description">Отримайте тарифний план Proton VPN Plus для доступу до 500+ серверів у всьому світі та оптимізованими параметрами потокової трансляції з Netflix, Amazon Prime Video, Disney+ та інших.</string>
     <string name="tv_vpn_error_dialog_title">Не вдалося під\'єднатися до VPN</string>
     <string name="tv_signout_label">Вийти</string>
     <string name="tv_signout_dialog_title">Ви дійсно хочете вийти?</string>

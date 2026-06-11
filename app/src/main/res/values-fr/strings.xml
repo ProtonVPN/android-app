@@ -302,10 +302,7 @@
     <string name="tv_detail_description_plus">Regardez vos vidéos, films ou sports préférés en streaming avec vos applications.</string>
     <string name="tv_login_title_welcome">Regardez vos contenus vidéo préférés en streaming</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Créez votre compte Proton VPN sur <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Commencez le streaming avec Plus</string>
     <string name="back">Retour</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Rendez-vous sur <b>%1$s</b> pour passer maintenant à Proton VPN Plus.]]></string>
-    <string name="tv_upgrade_description">Abonnez-vous à Proton VPN Plus pour accéder à plus de 500 serveurs dans le monde et à des options de streaming optimisées pour Netflix, Amazon Prime Video, Canal+, Disney+, France.tv, TF1…</string>
     <string name="tv_vpn_error_dialog_title">La connexion VPN n\'a pas abouti.</string>
     <string name="tv_signout_label">Se déconnecter</string>
     <string name="tv_signout_dialog_title">Voulez-vous vraiment vous déconnecter ?</string>

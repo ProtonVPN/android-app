@@ -300,10 +300,7 @@
     <string name="tv_detail_description_plus">Phát trực tuyến video, phim hoặc chương trình thể thao yêu thích bằng ứng dụng của bạn.</string>
     <string name="tv_login_title_welcome">Phát trực tuyến nội dung video yêu thích</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Nhận tài khoản Proton VPN của bạn tại <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Bắt đầu phát trực tuyến với gói Plus</string>
     <string name="back">Trở lại</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Truy cập <b>%1$s</b> để nâng cấp lên Proton VPN Plus ngay.]]></string>
-    <string name="tv_upgrade_description">Mua gói Proton VPN Plus để truy cập hơn 500 máy chủ trên toàn thế giới và các tùy chọn phát trực tuyến tối ưu cho Netflix, Amazon Prime Video, Disney+ và nhiều dịch vụ khác.</string>
     <string name="tv_vpn_error_dialog_title">Kết nối VPN thất bại</string>
     <string name="tv_signout_label">Đăng xuất</string>
     <string name="tv_signout_dialog_title">Bạn có chắc muốn đăng xuất không?</string>

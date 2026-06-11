@@ -306,10 +306,7 @@
     <string name="tv_detail_description_plus">S svojimi aplikacijami pretakajte svoje najljubše videoposnetke, filme ali šport.</string>
     <string name="tv_login_title_welcome">Pretakajte svojo najljubšo video vsebino</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Pridobite svoj račun Proton VPN na <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Začnite pretakati s Plusom</string>
     <string name="back">Nazaj</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Obiščite <b>%1$s</b> za nadgradnjo na Proton VPN Plus zdaj.]]></string>
-    <string name="tv_upgrade_description">Pridobite paket Proton VPN Plus za dostop do več kot 500 strežnikov po vsem svetu in optimiziranih možnosti pretakanja za Netflix, Amazon Prime Video, Disney+ in številne druge.</string>
     <string name="tv_vpn_error_dialog_title">Povezava VPN ni uspela</string>
     <string name="tv_signout_label">Odjava</string>
     <string name="tv_signout_dialog_title">Ali ste prepričani, da se želite izpisati?</string>

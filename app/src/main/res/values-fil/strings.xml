@@ -302,10 +302,7 @@
     <string name="tv_detail_description_plus">I-stream ang mga paborito mong video, pelikula o sports gamit ang iyong mga app.</string>
     <string name="tv_login_title_welcome">I-stream ang paborito mong video content</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Kunin ang Proton VPN account mo sa <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Magsimulang mag-stream gamit ang Plus</string>
     <string name="back">Bumalik</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Bisitahin ang <b>%1$s</b> upang mag-upgrade sa Proton VPN Plus ngayon.]]></string>
-    <string name="tv_upgrade_description">Kumuha ng Proton VPN Plus na plan upang ma-access ang 500+ server sa buong mundo at mga na-optimize na opsyon sa streaming para sa Netflix, Amazon Prime Video, Disney+ at marami pa.</string>
     <string name="tv_vpn_error_dialog_title">Nabigo ang koneksyon ng VPN</string>
     <string name="tv_signout_label">Mag-sign out</string>
     <string name="tv_signout_dialog_title">Sigurado ka bang gusto mong mag-sign out?</string>

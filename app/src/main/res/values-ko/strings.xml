@@ -301,10 +301,7 @@
     <string name="tv_detail_description_plus">내 앱으로 좋아하는 비디오, 영화, 스포츠를 스트리밍 해보세요.</string>
     <string name="tv_login_title_welcome">좋아하는 비디오 컨텐츠를 스트리밍 해보세요</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[<b>%1$s</b>에서 Proton VPN 계정을 가입하세요]]></string>
-    <string name="tv_upgrade_title">Plus로 스트리밍 시작</string>
     <string name="back">뒤로가기</string>
-    <string name="tv_upgrade_url_details"><![CDATA[지금 <b>%1$s</b> 방문하여 Proton VPN Plus로 업그레이드 하세요]]></string>
-    <string name="tv_upgrade_description">전세계 500개 이상의 서버와 Netflix, Amazon Prime Video, Disney+ 등의 최적화된 스트리밍 옵션을 액세스 하기 위하여 Proton VPN Plus 플랜을 구독하세요.</string>
     <string name="tv_vpn_error_dialog_title">VPN 연결 실패</string>
     <string name="tv_signout_label">로그아웃</string>
     <string name="tv_signout_dialog_title">정말로 로그아웃하시겠습니까?</string>

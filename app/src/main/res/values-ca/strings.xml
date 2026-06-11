@@ -302,10 +302,7 @@
     <string name="tv_detail_description_plus">Mireu els vostres vídeos, pel·lícules o esports preferits amb les vostres aplicacions.</string>
     <string name="tv_login_title_welcome">Mireu els vostres vídeos preferits.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Obteniu el vostre compte Proton VPN a <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Comenceu a fer estríming amb Plus</string>
     <string name="back">Torna</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visiteu <b>%1$s"></b> per a millorar a Proton VPN Plus.]]></string>
-    <string name="tv_upgrade_description">Obteniu un pla Proton VPN Plus per a accedir a més de 500 servidors a tot el món i a opcions d\'estríming optimitzades per a Netflix, Amazon Prime Video, Disney+ i molts d\'altres.</string>
     <string name="tv_vpn_error_dialog_title">No s\'ha pogut connectar la VPN</string>
     <string name="tv_signout_label">Tanca la sessió</string>
     <string name="tv_signout_dialog_title">Segur que desitgeu tancar la sessió?</string>

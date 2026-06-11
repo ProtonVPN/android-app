@@ -300,10 +300,7 @@
     <string name="tv_detail_description_plus">アプリでお気に入りの動画、映画、スポーツをストリーミングしましょう。</string>
     <string name="tv_login_title_welcome">お気に入りのビデオコンテンツをストリーミング</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Proton VPN アカウントを <b>%1$s</b> で作成してください]]></string>
-    <string name="tv_upgrade_title">PLUS でストリーミング視聴を開始</string>
     <string name="back">戻る</string>
-    <string name="tv_upgrade_url_details"><![CDATA[今すぐ Proton VPN Plus にアップグレードするには <b>%1$s</b> にアクセスしてください。]]></string>
-    <string name="tv_upgrade_description">Proton VPN PLUS プランで、世界中の500台以上のサーバーにアクセスし、Netflix、Amazon Prime Video、Disney+ などのストリーミング視聴のために最適化されたサーバーをご利用ください。</string>
     <string name="tv_vpn_error_dialog_title">VPN 接続に失敗しました</string>
     <string name="tv_signout_label">サインアウト</string>
     <string name="tv_signout_dialog_title">サインアウトしてよろしいですか？</string>

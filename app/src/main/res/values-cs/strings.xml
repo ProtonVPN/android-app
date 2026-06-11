@@ -306,10 +306,7 @@
     <string name="tv_detail_description_plus">Streamujte svá oblíbená videa, filmy nebo sport pomocí vašich aplikací.</string>
     <string name="tv_login_title_welcome">Streamujte váš oblíbený video obsah</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Získejte účet Proton VPN na <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Začněte streamovat s Plus</string>
     <string name="back">Zpět</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Navštivte nyní <b>%1$s</b> pro přechod na Proton VPN Plus.]]></string>
-    <string name="tv_upgrade_description">Získejte Proton VPN Plus pro přístup k 500+ serverům celosvětově a pro optimalizované streamování Netflixu, Amazon Prime Video, Disney+ a spousty dalších.</string>
     <string name="tv_vpn_error_dialog_title">Připojení VPN se nezdařilo</string>
     <string name="tv_signout_label">Odhlásit se</string>
     <string name="tv_signout_dialog_title">Opravdu se chcete odhlásit?</string>

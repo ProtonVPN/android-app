@@ -302,10 +302,7 @@
     <string name="tv_detail_description_plus">Stream uw favoriete video\'s, films of sport met uw apps.</string>
     <string name="tv_login_title_welcome">Stream uw favoriete video-inhoud</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Ontvang uw Proton VPN-account op <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Start streamen met Plus</string>
     <string name="back">Vorige</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Bezoek <b>%1$s</b> om nu te upgraden naar Proton VPN Plus.]]></string>
-    <string name="tv_upgrade_description">Neem een Proton VPN Plus-plan om wereldwijd toegang te krijgen tot 500+ servers en geoptimaliseerde streaming-opties voor Netflix, Amazon Prime Video, Disney+ en nog veel meer.</string>
     <string name="tv_vpn_error_dialog_title">VPN-verbinding mislukt</string>
     <string name="tv_signout_label">Uitloggen</string>
     <string name="tv_signout_dialog_title">Weet u zeker dat u zich wilt afmelden?</string>

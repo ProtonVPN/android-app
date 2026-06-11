@@ -302,10 +302,7 @@
     <string name="tv_detail_description_plus">Strøm favorittvideoene, -filmene eller -sportene dine med appene dine.</string>
     <string name="tv_login_title_welcome">Strøm favorittvideoinnholdet ditt</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Skaff deg din Proton VPN-konto på <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Start strømming med Plus</string>
     <string name="back">Tilbake</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Besøk <b>%1$s</b> for å oppgradere til Proton VPN Plus nå.]]></string>
-    <string name="tv_upgrade_description">Skaff deg en Proton VPN Plus-plan for å få tilgang til 500+ tjenere over hele verden og optimaliserte strømmealternativer for Netflix, Amazon Prime Video, Disney+ og mange flere.</string>
     <string name="tv_vpn_error_dialog_title">VPN-forbindelse mislyktes</string>
     <string name="tv_signout_label">Logg av</string>
     <string name="tv_signout_dialog_title">Er du sikker på at du vil logge av?</string>

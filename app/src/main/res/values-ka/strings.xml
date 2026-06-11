@@ -302,10 +302,7 @@
     <string name="tv_detail_description_plus">თქვენი საყვარელი ვიდეოების, ფილმების ან სპორტის სტრიმინგი თქვენი აპებით.</string>
     <string name="tv_login_title_welcome">დასტრიმეთ თქვენი ვიდეოები</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[შექმენით Proton VPN -ის ანგარიში მისამართზე <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">დაიწყეთ სტრიმინგი Plus-თან ერთად</string>
     <string name="back">უკან</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Proton VPN Plus-ის მისაღებად ეწვიეთ <b>%1$s</b>-ს.]]></string>
-    <string name="tv_upgrade_description">მიიღეთ Proton VPN Plus ტარიფი და იქონიეთ წვდომა 500+ სერვერთან მთელ დედამიწაზე და ოპტიმიზირებულ პარამეტრებთან Netflix, Amazon prime, Disney+ და ბევრი სხვა საიტიდან სტრიმინგისთვის.</string>
     <string name="tv_vpn_error_dialog_title">VPN შეერთების შეცდომა</string>
     <string name="tv_signout_label">გასვლა</string>
     <string name="tv_signout_dialog_title">დარწმუნებული ბრძანდებით, რომ გნებავთ, გახვიდეთ?</string>

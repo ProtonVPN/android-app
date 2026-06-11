@@ -302,10 +302,7 @@
     <string name="tv_detail_description_plus">Suoratoista sovelluksillasi suosikkivideoitasi, -elokuviasi tai -urheilua.</string>
     <string name="tv_login_title_welcome">Suoratoista suosikkivideoitasi</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Hanki Proton VPN -tili osoitteesta <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Aloita suoratoisto Plus-tilauksella</string>
     <string name="back">Takaisin</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Päivitä Proton VPN Plus -tilaukseen nyt osoitteessa <b>%1$s</b>.]]></string>
-    <string name="tv_upgrade_description">Hanki Proton VPN Plus -tilaus saadaksesi käyttöösi 500+ palvelinta eri puolilta maailmaa ja suoratoistoon optimoituja vaihtoehtoja Netflixille, Amazon Prime Videolle, Disney+:lle ja monille muille.</string>
     <string name="tv_vpn_error_dialog_title">VPN-yhteys epäonnistui</string>
     <string name="tv_signout_label">Kirjaudu ulos</string>
     <string name="tv_signout_dialog_title">Haluatko varmasti kirjautua ulos?</string>

@@ -310,10 +310,7 @@
     <string name="tv_detail_description_plus">استمتع بمشاهدة فيديوهاتك، وأفلامك، ومبارياتك المفضلة عبر تطبيقاتك.</string>
     <string name="tv_login_title_welcome">استمتع بمشاهدة محتوى الفيديو المفضل لديك.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[أنشئ حسابك في Proton VPN من خلال <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">ابدأ المشاهدة مع Plus</string>
     <string name="back">رجوع</string>
-    <string name="tv_upgrade_url_details"><![CDATA[تفضل بزيارة <b>%1$s</b> للترقية إلى باقة Proton VPN Plus الآن.]]></string>
-    <string name="tv_upgrade_description">استمتع بالوصول إلى أكثر من 500 خادم حول العالم مع باقة Proton VPN Plus، وافتح عالمًا من المشاهدة الخاصة لكل من Netflix و Amazon Prime Video و +Disney وغيرها الكثير.</string>
     <string name="tv_vpn_error_dialog_title">تعذر الاتصال بـ VPN</string>
     <string name="tv_signout_label">تسجيل الخروج</string>
     <string name="tv_signout_dialog_title">هل تود تسجيل الخروج فعلاً؟</string>

@@ -300,10 +300,7 @@
     <string name="tv_detail_description_plus">在各应用中串流播放您喜欢的视频、电影和体育节目。</string>
     <string name="tv_login_title_welcome">串流播放想看的视频</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[前往 <b>%1$s</b> 注册 Proton VPN 账户]]></string>
-    <string name="tv_upgrade_title">开通 Plus，串流播放</string>
     <string name="back">返回</string>
-    <string name="tv_upgrade_url_details"><![CDATA[访问<b>%1$s</b>立刻升级为Proton VPN Plus。]]></string>
-    <string name="tv_upgrade_description">开通 Proton VPN Plus 套餐，使用全球 500 余台服务器，拥有搭配 Netflix、Amazon Prime Video、Disney+ 等平台的串流选项。</string>
     <string name="tv_vpn_error_dialog_title">VPN 连接失败</string>
     <string name="tv_signout_label">登出</string>
     <string name="tv_signout_dialog_title">确定要登出吗？</string>

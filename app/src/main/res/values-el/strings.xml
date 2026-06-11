@@ -302,10 +302,7 @@
     <string name="tv_detail_description_plus">Δείτε τα αγαπημένα σας βίντεο, ταινίες ή αθλήματα με τις εφαρμογές σας.</string>
     <string name="tv_login_title_welcome">Μεταδώστε το αγαπημένο σας περιεχόμενο βίντεο</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Αποκτήστε τον λογαριασμό σας στο Proton VPN στο <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Ξεκινήστε το streaming με Plus</string>
     <string name="back">Πίσω</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Επισκεφθείτε το <b>%1$s</b> για άμεση αναβάθμιση σε Proton VPN Plus.]]></string>
-    <string name="tv_upgrade_description">Αποκτήστε το πλάνο Proton VPN Plus για πρόσβαση σε 500+ διακομιστές παγκοσμίως και βελτιστοποιημένες επιλογές streaming για Netflix, Amazon Prime Video, Disney+, και πολλά άλλα.</string>
     <string name="tv_vpn_error_dialog_title">Η σύνδεση VPN απέτυχε</string>
     <string name="tv_signout_label">Αποσύνδεση</string>
     <string name="tv_signout_dialog_title">Είστε βέβαιοι ότι θέλετε να αποσυνδεθείτε;</string>

@@ -304,10 +304,7 @@
     <string name="tv_detail_description_plus">Vizionați videoclipurile, filme sau sporturile favorite cu aplicațiile dvs.</string>
     <string name="tv_login_title_welcome">Vizionați conținutul video preferat</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Obțineți contul Proton VPN la <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">Începeți vizionarea cu Plus</string>
     <string name="back">Înapoi</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Accesați <b>%1$s</b> pentru a trece acum la Proton VPN Plus.]]></string>
-    <string name="tv_upgrade_description">Luați un plan Proton VPN Plus pentru a accesa peste 500 de servere din întreaga lume și opțiuni optimizate de vizionare pentru Netflix, Amazon Prime Video, Disney+ și multe altele.</string>
     <string name="tv_vpn_error_dialog_title">Conexiunea VPN a eșuat</string>
     <string name="tv_signout_label">Deconectare</string>
     <string name="tv_signout_dialog_title">Vă deconectați?</string>

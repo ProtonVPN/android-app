@@ -302,10 +302,7 @@
     <string name="tv_detail_description_plus">ویدئوها، فیلمها، یا مسابقات ورزشی مورد علاقه خود را با برنامک های خود پخش کنید.</string>
     <string name="tv_login_title_welcome">پخش محتوای ویدئوی مورد علاقه شما</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[دریافت حساب Proton VPN خود از <b>%1$s</b>]]></string>
-    <string name="tv_upgrade_title">شروع به پخش کنید با Plus</string>
     <string name="back">بازگشت</string>
-    <string name="tv_upgrade_url_details"><![CDATA[همین حالا برای ارتقا Proton VPN Plus به <b>%1$s</b> بروید.]]></string>
-    <string name="tv_upgrade_description">یک طرح Proton VPN Plus بگیرید تا به +۵۰۰ سرور در سراسر جهان و انتخابهای بهینه شده برای پخش و دیدن Netflix, Amazon Prime Video, Disney+, و خیلی موارد دیگر دست یابید.</string>
     <string name="tv_vpn_error_dialog_title">ﺍﺗﺼﺎﻝ VPN ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
     <string name="tv_signout_label">خروج</string>
     <string name="tv_signout_dialog_title">آیا مطمئنید که می‌خواهید خارج شوید؟</string>
