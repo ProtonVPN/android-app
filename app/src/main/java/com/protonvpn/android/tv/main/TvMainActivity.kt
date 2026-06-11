@@ -28,12 +28,10 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
-import com.protonvpn.android.auth.usecase.AwaitIsQrCodeTvLoginFeatureFlagEnabled
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.databinding.ActivityTvMainBinding
 import com.protonvpn.android.redesign.app.ui.VpnAppViewModel
 import com.protonvpn.android.tv.IsTvCheck
-import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.login.TvPostLoginFragment
 import com.protonvpn.android.tv.login.TvQrLoginActivity
 import com.protonvpn.android.ui.main.MainActivityHelper
@@ -57,18 +55,11 @@ class TvMainActivity : BaseTvActivity() {
     @Inject
     lateinit var guestHole: GuestHole
 
-    @Inject
-    lateinit var awaitIsQrCodeTvLoginFeatureFlagEnabled: dagger.Lazy<AwaitIsQrCodeTvLoginFeatureFlagEnabled>
-
     private val helper = object : MainActivityHelper(this) {
 
         override suspend fun onLoginNeeded() {
             clearMainFragmentAndShowSpinner()
-            if (awaitIsQrCodeTvLoginFeatureFlagEnabled.get().invoke()) {
-                loginLauncher.launch(Unit)
-            } else {
-                legacyLoginLauncher.launch(Unit)
-            }
+            loginLauncher.launch(Unit)
         }
 
         override suspend fun onReady() {
@@ -82,10 +73,6 @@ class TvMainActivity : BaseTvActivity() {
         }
     }
 
-    private val legacyLoginLauncher = registerForActivityResult(TvLoginActivity.createContract()) {
-        if (it.resultCode == Activity.RESULT_CANCELED)
-            finish()
-    }
     private val loginLauncher = registerForActivityResult(TvQrLoginActivity.createContract()) {
         if (it.resultCode == Activity.RESULT_CANCELED)
             finish()

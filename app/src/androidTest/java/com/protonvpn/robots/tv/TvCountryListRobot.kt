@@ -42,7 +42,7 @@ class TvCountryListRobot : BaseRobot() {
 
     fun connectToRecommendedCountry() : TvCountryListRobot = clickElementByText(R.string.tv_quick_connect_recommened)
     fun disconnectFromCountry() : TvCountryListRobot = clickElementByText(R.string.disconnect)
-    fun confirmSignOut() : LegacyTvLoginRobot = clickDialogElementByText(R.string.dialog_sign_out_action)
+    fun confirmSignOut() : TvLoginRobot = clickDialogElementByText(R.string.dialog_sign_out_action)
     fun cancelSignOut() : TvCountryListRobot = clickDialogElementByText(R.string.cancel)
     fun getConnectionStatus() : String = getText(onView(withId(R.id.textStatus)))
 
@@ -70,7 +70,9 @@ class TvCountryListRobot : BaseRobot() {
         }
         uiDevice.pressDPadDown()
 
-        view.waitForCondition(watchTimeout = Timeouts.TWENTY_SECONDS_MS) {
+        // Using Compose test rule in tests using this robot makes these checks slow (~5s per loop),
+        // to be investigated.
+        view.waitForCondition(watchTimeout = Timeouts.ONE_MINUTE_MS) {
             uiDevice.pressDPadRight()
             onView(withText(R.string.tv_signout_label)).check(matches(isSelected()))
         }

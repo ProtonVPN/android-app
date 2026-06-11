@@ -113,6 +113,9 @@ sealed class TestApiConfig {
                 rule(get, path eq "/vpn/v2/clientconfig") {
                     respond(AppConfigResponse())
                 }
+                rule(get, path startsWith  "/auth/v4/sessions/forks") {
+                    respond(422)
+                }
 
                 // Endpoints that require a simple 1000 response code
                 listOf(

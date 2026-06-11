@@ -55,8 +55,6 @@ import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
 import com.protonvpn.android.auth.usecase.EventShowOnboarding
 import com.protonvpn.android.auth.usecase.EventShowOnboardingImpl
-import com.protonvpn.android.auth.usecase.IsQrCodeTvLoginFeatureFlagEnabled
-import com.protonvpn.android.auth.usecase.IsQrCodeTvLoginFeatureFlagEnabledImpl
 import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.auth.usecase.SetVpnUserImpl
 import com.protonvpn.android.base.ui.theme.VpnTheme
@@ -97,8 +95,6 @@ import com.protonvpn.android.telemetry.SnapshotScheduler
 import com.protonvpn.android.telemetry.TelemetryReporter
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
-import com.protonvpn.android.tv.login.TvLoginPollDelayMs
-import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabledImpl
 import com.protonvpn.android.tv.upsell.IsTvIapEnabled
@@ -254,11 +250,6 @@ object AppModuleProd {
         dispatcherProvider,
         File(context.filesDir, ServersStore.STORE_FILENAME)
     )
-
-    @Singleton
-    @Provides
-    @TvLoginPollDelayMs
-    fun provideTvLoginPollDelayMs() = TvLoginViewModel.POLL_DELAY_MS
 
     @Provides
     @Singleton
@@ -476,11 +467,6 @@ object AppModule {
 
         @Binds
         fun bindsIsProTunV1FeatureFlagEnabled(impl: IsProTunV1FeatureFlagEnabledImpl): IsProTunV1FeatureFlagEnabled
-
-        @Binds
-        fun bindsIsQrCodeTvLoginFeatureFlagEnabled(
-            impl: IsQrCodeTvLoginFeatureFlagEnabledImpl
-        ): IsQrCodeTvLoginFeatureFlagEnabled
 
         @Binds
         fun bindIsTvAutoConnectFeatureFlagEnabled(

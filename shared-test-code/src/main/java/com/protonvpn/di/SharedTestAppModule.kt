@@ -46,8 +46,6 @@ import com.protonvpn.android.telemetry.NoopTelemetryUploadScheduler
 import com.protonvpn.android.telemetry.SnapshotScheduler
 import com.protonvpn.android.telemetry.TelemetryReporter
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
-import com.protonvpn.android.tv.login.TvLoginPollDelayMs
-import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
@@ -115,7 +113,6 @@ import me.proton.core.util.kotlin.DispatcherProvider
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import kotlin.time.ExperimentalTime
 import kotlin.time.TimeSource
@@ -273,12 +270,6 @@ class SharedTestAppModule {
         vpnStatusProviderUI: VpnStatusProviderUI,
         serverManager: ServerManager,
     ) = RecentsManager(scope, vpnStatusProviderUI, serverManager).apply { clear() }
-
-    @Singleton
-    @Provides
-    @TvLoginPollDelayMs
-    fun provideTvLoginPollDelayMs() = if (TestSettings.mockedConnectionUsed)
-        TimeUnit.MILLISECONDS.toMillis(150) else TvLoginViewModel.POLL_DELAY_MS
 
     @Provides
     @Singleton

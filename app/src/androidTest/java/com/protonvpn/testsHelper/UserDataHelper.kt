@@ -31,7 +31,7 @@ import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.tv.IsTvCheck
-import com.protonvpn.android.tv.TvLoginActivity
+import com.protonvpn.android.tv.login.TvQrLoginActivity
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.mocks.MockUserRepository
 import com.protonvpn.test.shared.TestUser
@@ -136,7 +136,7 @@ class UserDataHelper {
         // Logging out starts the login activity, block it, otherwise it may crash when starting
         // after the test has finished and Hilt can no longer provide dependencies.
         val loginActivityClass =
-            if (isTv()) TvLoginActivity::class.java
+            if (isTv()) TvQrLoginActivity::class.java
             else LoginActivity::class.java
         val monitor =
             instrumentation.addMonitor(loginActivityClass.canonicalName, null, true)

@@ -6,17 +6,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.telemetry.TelemetryEventData
-import com.protonvpn.android.tv.TvLoginActivity
-import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.login.TvQrLoginActivity
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.mocks.TestTelemetryReporter
-import com.protonvpn.robots.tv.LegacyTvLoginRobot
 import com.protonvpn.robots.tv.TvLoginRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.UserDataHelper
-import com.protonvpn.testsHelper.featureFlagsResponseRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.data.api.response.ScopesResponse
 import me.proton.core.key.data.api.response.AddressResponse
@@ -35,7 +31,6 @@ import javax.inject.Inject
 
 private const val FORK_SELECTOR = "fork_selector"
 private const val FORK_USER_CODE = "1234ABCD"
-private const val FEATURE_FLAG_NAME = "QrCodeTvLogin"
 
 /**
  * [LoginTestsMocked] Contains all tests related to Login actions.
@@ -55,10 +50,6 @@ class LoginTestsMocked : FusionComposeTest() {
             respond(SessionForkSelectorResponse(FORK_SELECTOR, FORK_USER_CODE))
         }
 
-        rule(get, path eq "/auth/v4/sessions/forks/$FORK_SELECTOR") {
-            respond(TvLoginViewModel.HTTP_CODE_KEEP_POLLING)
-        }
-
         rule(get, path eq "/core/v4/users") {
             val userResponse = createUserResponse(user.vpnUser.userId.id)
             respond(UsersResponse(userResponse))
@@ -69,7 +60,6 @@ class LoginTestsMocked : FusionComposeTest() {
         rule(get, path eq "/auth/v4/scopes") {
             respond(ScopesResponse(scopes))
         }
-        featureFlagsResponseRule(FEATURE_FLAG_NAME to true)
     }
 
     private var activityScenario: ActivityScenario<*>? = null
@@ -77,7 +67,6 @@ class LoginTestsMocked : FusionComposeTest() {
     @get:Rule
     val protonHiltRule = ProtonHiltAndroidRule(this, mockApiConfig)
 
-    private val loginRobot = LegacyTvLoginRobot()
     private lateinit var userDataHelper: UserDataHelper
     @Inject
     lateinit var testTelemetryReporter: TestTelemetryReporter
@@ -92,35 +81,6 @@ class LoginTestsMocked : FusionComposeTest() {
     @After
     fun teardown() {
         activityScenario?.close()
-    }
-
-    @Test
-    fun loginHappyPath() {
-        protonHiltRule.mockDispatcher.prependRules {
-            featureFlagsResponseRule(FEATURE_FLAG_NAME to false)
-        }
-        activityScenario = ActivityScenario.launch(TvLoginActivity::class.java)
-        loginRobot
-            .signIn()
-        protonHiltRule.mockDispatcher.prependRules {
-            rule(get, path eq "/auth/v4/sessions/forks/$FORK_SELECTOR") {
-                respond(createForkedResponse("""{"InitialUserTier": "credential_less", "FlowType": "app"}"""))
-            }
-        }
-        loginRobot
-            .waitUntilLoggedIn()
-            .verify { userIsLoggedIn() }
-    }
-
-    @Test
-    fun loginUserCodeIsDisplayed() {
-        protonHiltRule.mockDispatcher.prependRules {
-            featureFlagsResponseRule(FEATURE_FLAG_NAME to false)
-        }
-        activityScenario = ActivityScenario.launch(TvLoginActivity::class.java)
-        loginRobot.signIn()
-            .waitUntilLoginCodeIsDisplayed()
-            .verify { loginCodeViewIsDisplayed() }
     }
 
     @Test
@@ -182,7 +142,7 @@ class LoginTestsMocked : FusionComposeTest() {
             }
         }
 
-        LegacyTvLoginRobot()
+        TvLoginRobot()
             .waitUntilLoggedIn()
             .verify { userIsLoggedIn() }
     }
@@ -209,7 +169,7 @@ class LoginTestsMocked : FusionComposeTest() {
                     respond(400, "Test error")
                 }
             }
-            verify {
+            waitFor {
                 assertErrorNetwork()
             }
 

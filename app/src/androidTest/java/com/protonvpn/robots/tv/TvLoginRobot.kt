@@ -21,8 +21,6 @@ package com.protonvpn.robots.tv
 
 import android.view.KeyEvent
 import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.semantics.SemanticsPropertyKey
-import androidx.compose.ui.semantics.text
 import com.protonvpn.android.R
 import me.proton.test.fusion.Fusion.device
 import me.proton.test.fusion.Fusion.node
@@ -53,14 +51,10 @@ class TvLoginRobot : Robot {
             .config[SemanticsProperties.Text]
             .first { it.startsWith("Enter the code") }
         return text.takeLast(9).filterNot { it.isWhitespace() }.toString()
-
-
     }
 
-    fun waitForQrCode() {
-        waitFor {
-            textSignInMessage.assertIsDisplayed()
-        }
+    fun waitForQrCode() = waitFor {
+        textSignInMessage.assertIsDisplayed()
     }
 
     fun assertErrorNetwork() {
@@ -72,7 +66,16 @@ class TvLoginRobot : Robot {
         device.pressKeyCode(KeyEvent.KEYCODE_ENTER)
     }
 
+    fun waitUntilLoggedIn(): TvCountryListRobot =
+        TvCountryListRobot().waitUntilDisplayedByText(R.string.quickConnect)
+
     override fun robotDisplayed() {
         waitForQrCode()
     }
+
+    class Verify(val robot: TvLoginRobot) {
+        fun signInMessageIsDisplayed() = robot.textSignInMessage.assertIsDisplayed()
+    }
+
+    inline fun verify(block: Verify.() -> Unit) = Verify(this).apply(block)
 }

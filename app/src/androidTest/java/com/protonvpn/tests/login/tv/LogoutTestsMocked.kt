@@ -24,6 +24,7 @@ package com.protonvpn.tests.login.tv
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.robots.tv.TvCountryListRobot
@@ -32,6 +33,7 @@ import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.SetLoggedInUserRule
 import com.protonvpn.testsHelper.UserDataHelper
 import dagger.hilt.android.testing.HiltAndroidTest
+import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -44,14 +46,18 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 @HiltAndroidTest
-class LogoutTestsMocked {
+class LogoutTestsMocked : FusionComposeTest() {
     private val activityRule = ActivityScenarioRule(TvMainActivity::class.java)
 
     @get:Rule
     val rules = RuleChain.outerRule(
         ProtonHiltAndroidRule(
             this,
-            TestApiConfig.Mocked(TestUser.plusUser)
+            TestApiConfig.Mocked(TestUser.plusUser) {
+                rule(get, path eq "/auth/v4/sessions/forks") {
+                    respond(SessionForkSelectorResponse("abcd", "abcd"))
+                }
+            }
         )
     )
         .around(SetLoggedInUserRule(TestUser.plusUser))
@@ -72,6 +78,6 @@ class LogoutTestsMocked {
         homeRobot
             .signOut()
             .confirmSignOut()
-            .verify { signInButtonIsDisplayed() }
+            .verify { signInMessageIsDisplayed() }
     }
 }
