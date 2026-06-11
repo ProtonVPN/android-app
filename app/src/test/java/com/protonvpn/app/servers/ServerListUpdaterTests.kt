@@ -30,7 +30,6 @@ import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.app.testRules.RobolectricHiltAndroidRule
 import com.protonvpn.mocks.TestProtonApiRetroFitWrapper
 import com.protonvpn.test.shared.createLogicalServer
@@ -81,9 +80,6 @@ class ServerListUpdaterTests {
     lateinit var fakeIsBinaryServerStatusFeatureFlagEnabled: FakeIsBinaryServerStatusFeatureFlagEnabled
 
     @Inject
-    lateinit var fakeIsServerListTruncationEnabled: FakeServerListTruncationEnabled
-
-    @Inject
     lateinit var serverListUpdater: ServerListUpdater
 
     @Inject
@@ -123,7 +119,6 @@ class ServerListUpdaterTests {
     fun setup() {
         hiltRule.inject()
         fakeIsBinaryServerStatusFeatureFlagEnabled.setEnabled(true)
-        fakeIsServerListTruncationEnabled.setEnabled(true)
         apiOverrides = ApiOverrides(testApiWrapper.api)
         testApiWrapper.api = apiOverrides
 
@@ -217,7 +212,6 @@ private class ApiOverrides(realApi: ProtonApiRetroFit) : ProtonApiRetroFit by re
         netzone: String?,
         protocols: List<String>,
         lastModified: Long,
-        enableTruncation: Boolean,
         mustHaveIDs: Set<String>?
     ) = ApiResult.Success(logicalsResponse)
 

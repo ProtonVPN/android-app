@@ -39,7 +39,6 @@ import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.alwayson.VpnAlwaysOnStorage
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
-import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import com.protonvpn.android.widget.WidgetType
 import com.protonvpn.android.widget.data.WidgetTracker
 import kotlinx.coroutines.flow.filterNotNull
@@ -55,7 +54,6 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
     private val commonDimensions: CommonDimensions,
     private val effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
     private val getTruncationMustHaveIDs: GetTruncationMustHaveIDs,
-    private val isServerListTruncationEnabled: ServerListTruncationEnabled,
     private val widgetTracker: WidgetTracker,
     private val isTvAutoConnectFeatureFlagEnabled: IsTvAutoConnectFeatureFlagEnabled,
     private val observeDefaultConnection: ObserveDefaultConnection,
@@ -144,17 +142,15 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
                 ?: CommonDimensions.NO_VALUE
         )
 
-        if (isServerListTruncationEnabled()) {
-            put(
-                key = DIMENSION_SERVER_LIST_TRUNCATION_PROTECTED_IDS_COUNT,
-                value = getTruncationMustHaveIDs(
-                    maxRecents = Int.MAX_VALUE,
-                    maxMustHaves = Int.MAX_VALUE
-                )
-                    .size
-                    .toTruncationMustHaveSizeBucketString()
+        put(
+            key = DIMENSION_SERVER_LIST_TRUNCATION_PROTECTED_IDS_COUNT,
+            value = getTruncationMustHaveIDs(
+                maxRecents = Int.MAX_VALUE,
+                maxMustHaves = Int.MAX_VALUE
             )
-        }
+                .size
+                .toTruncationMustHaveSizeBucketString()
+        )
 
         if (isTvAutoConnectFeatureFlagEnabled()) {
             put(

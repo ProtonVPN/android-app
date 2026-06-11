@@ -45,7 +45,6 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.mocks.FakeUpdateServersWithBinaryStatus
 import com.protonvpn.mocks.createInMemoryServerManager
@@ -126,7 +125,6 @@ class ServerListUpdaterTests {
     private lateinit var mustHaveIDs: Set<String>
     private lateinit var serversDataManager: ServersDataManager
     private lateinit var serverManager: ServerManager
-    private lateinit var truncationEnabled: MutableStateFlow<Boolean>
     private lateinit var runWhileGettingServerList: () -> Unit
 
     private lateinit var serverListUpdater: ServerListUpdater
@@ -165,25 +163,22 @@ class ServerListUpdaterTests {
         runWhileGettingServerList = {}
         coEvery { guestHole.runWithGuestHoleFallback(any<suspend () -> Any?>()) } coAnswers { firstArg<suspend () -> Any?>()() }
         val currentUser = CurrentUser(TestCurrentUserProvider(TestUser.freeUser.vpnUser))
-        coEvery { mockApi.getServerListV1(any(), any(), any(), any(), any()) } answers {
+        coEvery { mockApi.getServerListV1(any(), any(), any(), any()) } answers {
             runWhileGettingServerList()
-            fakeServerListV1Backend.createResponse(lastModified = arg(2), enableTruncation = arg(3))
+            fakeServerListV1Backend.createResponse(lastModified = arg(2))
         }
-        coEvery { mockApi.getServerList(any(), any(), any(), any(), any()) } answers {
+        coEvery { mockApi.getServerList(any(), any(), any(), any()) } answers {
             runWhileGettingServerList()
-            fakeServerListV2Backend.createResponse(lastModified = arg(2), enableTruncation = arg(3))
+            fakeServerListV2Backend.createResponse(lastModified = arg(2))
         }
         coEvery { mockApi.getBinaryStatus(any()) } returns ApiResult.Success(ByteArray(0))
 
         mustHaveIDs = emptySet()
         serversDataManager = createInMemoryServersDataManager(testScope, TestDispatcherProvider(testDispatcher))
         serverManager = createInMemoryServerManager(testScope, serversDataManager)
-        truncationEnabled = MutableStateFlow(true)
         val getNetZone = GetNetZone(serverListUpdaterPrefs)
-        val serverListTruncationFF = FakeServerListTruncationEnabled(truncationEnabled)
         val binaryServerStatusEnabled = IsBinaryServerStatusEnabled(
             isBinaryServerStatusFeatureFlagEnabled = FakeIsBinaryServerStatusFeatureFlagEnabled(true),
-            isServerListTruncationFeatureFlagEnabled = serverListTruncationFF
         )
         val getTruncationMustHaveIds = GetTruncationMustHaveIDs { _, _ -> mustHaveIDs }
         val updateServerListFromApi = UpdateServerListFromApi(
@@ -193,7 +188,6 @@ class ServerListUpdaterTests {
             serverListUpdaterPrefs,
             fakeUpdateWithBinaryStatus,
             binaryServerStatusEnabled,
-            serverListTruncationFF,
             getTruncationMustHaveIds,
         )
         serverListUpdater = ServerListUpdater(
@@ -266,7 +260,6 @@ class ServerListUpdaterTests {
 
     @Test
     fun `only additional must-have IDs are retained`() = testScope.runTest {
-        truncationEnabled.value = true
         serverManager.setServers(
             listOf(createServer("1"), createServer("2"), createServer("3")),
             statusId = null
@@ -279,23 +272,12 @@ class ServerListUpdaterTests {
         // "1" is not retained:
         assertEquals(setOf("2", "3"), serverManager.allServers.mapTo(HashSet()) { it.serverId })
         coVerify {
-            mockApi.getServerList(any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2"))
-        }
-    }
-
-    @Test
-    fun `no truncation when feature flag is off`() = testScope.runTest {
-        truncationEnabled.value = false
-        mustHaveIDs = setOf("1", "2", "3")
-        serverListUpdater.updateServers()
-        coVerify {
-            mockApi.getServerListV1(any(), any(), any(), enableTruncation = false, mustHaveIDs = emptySet())
+            mockApi.getServerList(any(), any(), any(), mustHaveIDs = setOf("1", "2"))
         }
     }
 
     @Test
     fun `don't retain server IDs if truncation not applied`() = testScope.runTest {
-        truncationEnabled.value = true
         fakeServerListV2Backend.applyTruncation = false
         fakeServerListV2Backend.logicals = listOf(createLogicalServer("1"))
         serverManager.setServers(
@@ -307,7 +289,7 @@ class ServerListUpdaterTests {
 
         assertEquals(setOf("1"), serverManager.allServers.toIds())
         coVerify {
-            mockApi.getServerList(any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2", "3"))
+            mockApi.getServerList(any(), any(), any(), mustHaveIDs = setOf("1", "2", "3"))
         }
     }
 
@@ -322,12 +304,11 @@ private abstract class FakeServerListBackend(
 
     protected fun <T> createResponse(
         lastModified: Long,
-        enableTruncation: Boolean,
         buildResponse: (isListTruncated: Boolean, headers: Headers) -> Response<T>
     ) : ApiResult<Response<T>> {
         val headers = Headers.Builder().add("Last-Modified", Date(serverLastModified())).build()
         return if (serverLastModified() > lastModified) {
-            ApiResult.Success(buildResponse(enableTruncation && applyTruncation, headers))
+            ApiResult.Success(buildResponse(applyTruncation, headers))
         } else {
             ApiResult.Success(response304<T>())
         }
@@ -351,8 +332,7 @@ private class FakeServerListV1Backend(
 
     fun createResponse(
         lastModified: Long,
-        enableTruncation: Boolean,
-    ) = createResponse(lastModified, enableTruncation) { isListTruncated, headers ->
+    ) = createResponse(lastModified) { isListTruncated, headers ->
         response(fullLogicals, isListTruncated, headers)
     }
 
@@ -372,8 +352,8 @@ private class FakeServerListV2Backend(
     var statusId: LogicalsStatusId,
 ) : FakeServerListBackend(serverLastModified) {
 
-    fun createResponse(lastModified: Long, enableTruncation: Boolean) =
-        createResponse(lastModified, enableTruncation) { isListTruncated, headers ->
+    fun createResponse(lastModified: Long) =
+        createResponse(lastModified) { isListTruncated, headers ->
             response(logicals, statusId, isListTruncated, headers)
         }
 

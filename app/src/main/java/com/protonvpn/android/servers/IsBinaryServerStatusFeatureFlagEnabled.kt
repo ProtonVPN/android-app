@@ -23,10 +23,8 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
-import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import me.proton.core.featureflag.domain.entity.FeatureId
 import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
@@ -65,15 +63,8 @@ class FakeIsBinaryServerStatusFeatureFlagEnabled(
 @Reusable
 class IsBinaryServerStatusEnabled @Inject constructor(
     private val isBinaryServerStatusFeatureFlagEnabled: IsBinaryServerStatusFeatureFlagEnabled,
-    private val isServerListTruncationFeatureFlagEnabled: ServerListTruncationEnabled
 ) {
-    suspend operator fun invoke() =
-        isBinaryServerStatusFeatureFlagEnabled() && isServerListTruncationFeatureFlagEnabled()
+    suspend operator fun invoke() = isBinaryServerStatusFeatureFlagEnabled()
 
-    fun observe() = combine(
-        isBinaryServerStatusFeatureFlagEnabled.observe(),
-        isServerListTruncationFeatureFlagEnabled.observe()
-    ) { binaryStatusEnabled, serverListTruncationEnabled ->
-        binaryStatusEnabled && serverListTruncationEnabled
-    }
+    fun observe() = isBinaryServerStatusFeatureFlagEnabled.observe()
 }

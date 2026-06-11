@@ -80,19 +80,17 @@ class TestProtonApiRetroFitWrapper(private val apiHolder: AtomicReference<Proton
         netzone: String?,
         protocols: List<String>,
         lastModified: Long,
-        enableTruncation: Boolean,
         mustHaveIDs: Set<String>?,
     ): ApiResult<Response<ServerListV1>> =
-        api.getServerListV1(netzone, protocols, lastModified, enableTruncation, mustHaveIDs)
+        api.getServerListV1(netzone, protocols, lastModified, mustHaveIDs)
 
     override suspend fun getServerList(
         netzone: String?,
         protocols: List<String>,
         lastModified: Long,
-        enableTruncation: Boolean,
         mustHaveIDs: Set<String>?,
     ): ApiResult<Response<LogicalsResponse>> =
-        api.getServerList(netzone, protocols, lastModified, enableTruncation, mustHaveIDs)
+        api.getServerList(netzone, protocols, lastModified, mustHaveIDs)
 
     override suspend fun getServerByName(nameQuery: String): ApiResult<ServerSearchResponse> =
         api.getServerByName(nameQuery)

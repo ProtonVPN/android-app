@@ -79,7 +79,6 @@ interface ProtonApiRetroFit {
         netzone: String?,
         protocols: List<String>,
         lastModified: Long,
-        enableTruncation: Boolean,
         mustHaveIDs: Set<String>?,
     ): ApiResult<Response<ServerListV1>>
 
@@ -87,7 +86,6 @@ interface ProtonApiRetroFit {
         netzone: String?,
         protocols: List<String>,
         lastModified: Long,
-        enableTruncation: Boolean,
         mustHaveIDs: Set<String>?,
     ): ApiResult<Response<LogicalsResponse>>
 
@@ -175,16 +173,15 @@ class ProtonApiRetroFitImpl @Inject constructor(
         netzone: String?,
         protocols: List<String>,
         lastModified: Long,
-        enableTruncation: Boolean,
         mustHaveIDs: Set<String>?,
     ) = manager {
         getServersV1(
             timeoutOverride = TimeoutOverride(readTimeoutSeconds = 20),
-            headers = createLogicalsHeaders(netzone, lastModified, enableTruncation),
+            headers = createLogicalsHeaders(netzone, lastModified),
             protocols = protocols.joinToString(","),
             withState = true,
             userTier = null,
-            includeIDs = mustHaveIDs.takeIf { enableTruncation }?.encodeParamSet()
+            includeIDs = mustHaveIDs?.encodeParamSet()
         )
     }
 
@@ -192,15 +189,14 @@ class ProtonApiRetroFitImpl @Inject constructor(
         netzone: String?,
         protocols: List<String>,
         lastModified: Long,
-        enableTruncation: Boolean,
         mustHaveIDs: Set<String>?,
     ) = manager {
         getServers(
             timeoutOverride = TimeoutOverride(readTimeoutSeconds = 20),
-            headers = createLogicalsHeaders(netzone, lastModified, enableTruncation),
+            headers = createLogicalsHeaders(netzone, lastModified),
             protocols = protocols.joinToString(","),
             withState = true,
-            includeIDs = mustHaveIDs.takeIf { enableTruncation }?.encodeParamSet()
+            includeIDs = mustHaveIDs?.encodeParamSet()
         )
     }
 
@@ -303,11 +299,10 @@ class ProtonApiRetroFitImpl @Inject constructor(
             }
         }
 
-    private fun createLogicalsHeaders(netzone: String?, lastModified: Long, enableTruncation: Boolean,) =
+    private fun createLogicalsHeaders(netzone: String?, lastModified: Long) =
         createNetZoneHeaders(netzone) + buildMap {
             put("If-Modified-Since", httpHeaderDateFormatter.format(Instant.ofEpochMilli(lastModified)))
-            if (enableTruncation)
-                put("x-pm-response-truncation-permitted", "true")
+            put("x-pm-response-truncation-permitted", "true")
         }
 
     private fun Set<String>.encodeParamSet(): Set<String> =

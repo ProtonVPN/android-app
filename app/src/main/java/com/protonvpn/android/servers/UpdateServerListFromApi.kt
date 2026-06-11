@@ -34,7 +34,6 @@ import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.apiNames
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
-import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import dagger.Reusable
 import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.ApiResult
@@ -51,7 +50,6 @@ class UpdateServerListFromApi @Inject constructor(
     private val prefs: ServerListUpdaterPrefs,
     private val updateWithBinaryStatus: UpdateServersWithBinaryStatus,
     private val binaryServerStatusEnabled: IsBinaryServerStatusEnabled,
-    private val truncationFeatureFlagEnabled: ServerListTruncationEnabled,
     private val getTruncationMustHaveIDs: GetTruncationMustHaveIDs,
 ) {
     sealed interface Result {
@@ -82,15 +80,13 @@ class UpdateServerListFromApi @Inject constructor(
         serverListLastModified: Long
     ): PeriodicActionResult<Result> {
         val realProtocolsNames = ProtocolSelection.REAL_PROTOCOLS.apiNames()
-        val enableTruncation = truncationFeatureFlagEnabled()
-        val requestedMustHaveIDs = if (enableTruncation) getTruncationMustHaveIDs() else emptySet()
+        val requestedMustHaveIDs = getTruncationMustHaveIDs()
         val binaryServerStatusEnabled = binaryServerStatusEnabled()
         val fetchResult = if (binaryServerStatusEnabled) {
             val listResult = api.getServerList(
                 netzone,
                 protocols = realProtocolsNames,
                 lastModified = serverListLastModified,
-                enableTruncation = enableTruncation,
                 mustHaveIDs = requestedMustHaveIDs,
             )
             processServerListResult(listResult,  ::processServerList)
@@ -98,7 +94,6 @@ class UpdateServerListFromApi @Inject constructor(
             val listResult = api.getServerListV1(
                 netzone,
                 realProtocolsNames,
-                enableTruncation = enableTruncation,
                 lastModified = serverListLastModified,
                 mustHaveIDs = requestedMustHaveIDs,
             )

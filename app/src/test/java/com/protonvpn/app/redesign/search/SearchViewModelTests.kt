@@ -39,9 +39,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnStatusProviderUI
-import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
-import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import com.protonvpn.android.vpn.usecases.TransientMustHaves
 import com.protonvpn.app.testRules.RobolectricHiltAndroidRule
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -188,10 +186,7 @@ class SearchViewModelTests {
         val fetchServerByName: FetchServerByName = mockk()
         coEvery { fetchServerByName.invoke("CH#2") } returns FetchServerResult.Success(ch2)
 
-        viewModel = searchViewModelInjector.getViewModel(
-            fetchServerByName = fetchServerByName,
-            serverListTruncationEnabled = FakeServerListTruncationEnabled(true)
-        )
+        viewModel = searchViewModelInjector.getViewModel(fetchServerByName = fetchServerByName)
 
         serverManager.setServers(
             listOf(createServer(serverId = "id1", exitCountry = "CH", serverName = "CH#1")),
@@ -256,10 +251,7 @@ class SearchViewModelTests {
     fun `remote server search - disabled after a 429`() = runTest {
         val fetchServerByName: FetchServerByName = mockk()
         coEvery { fetchServerByName.invoke(any()) } returns FetchServerResult.TryLater
-        viewModel = searchViewModelInjector.getViewModel(
-            fetchServerByName = fetchServerByName,
-            serverListTruncationEnabled = FakeServerListTruncationEnabled(true)
-        )
+        viewModel = searchViewModelInjector.getViewModel(fetchServerByName = fetchServerByName)
 
         viewModel.setQuery("CH#1")
         advanceTimeBy(5_100)
@@ -268,23 +260,6 @@ class SearchViewModelTests {
         viewModel.setQuery("CH#2")
         advanceTimeBy(5_100)
         coVerify(exactly = 1) { fetchServerByName.invoke(any()) }
-    }
-
-    @Test
-    fun `remote server search - disabled when FF is off`() = runTest {
-        val fetchServerByName: FetchServerByName = mockk()
-        coEvery { fetchServerByName.invoke(any()) } returns FetchServerResult.None
-
-        viewModel = searchViewModelInjector.getViewModel(
-            fetchServerByName = fetchServerByName,
-            serverListTruncationEnabled = FakeServerListTruncationEnabled(false)
-        )
-        viewModel.setQuery("CH#1")
-        advanceTimeBy(5_100)
-
-        viewModel.setQuery("Invalid")
-        advanceTimeBy(5_100)
-        coVerify(exactly = 0) { fetchServerByName.invoke(any()) }
     }
 
     private fun SearchViewState.Result.assertSearchResult(
@@ -335,7 +310,6 @@ class SearchViewModelInjector @Inject constructor(
         savedStateHandle: SavedStateHandle = SavedStateHandle(),
         connect: VpnConnect = VpnConnect { _, _, _ -> },
         fetchServerByName: FetchServerByName = mockk(relaxed = true),
-        serverListTruncationEnabled: ServerListTruncationEnabled = FakeServerListTruncationEnabled(false),
     ) = SearchViewModel(
         savedStateHandle,
         dataAdapter = adapter,
@@ -347,7 +321,6 @@ class SearchViewModelInjector @Inject constructor(
         translator = translator,
         upgradeDialogLauncher = upgradeDialogLauncher,
         remoteSearch = SearchServerRemote(
-            serverListTruncationEnabled,
             fetchServerByName,
             transientMustHaves,
             serverManager,

@@ -65,8 +65,6 @@ import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.protun.ProTunBackend
-import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
-import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import com.protonvpn.mocks.FakeWorkManager
 import com.protonvpn.mocks.MockUserRepository
@@ -292,9 +290,6 @@ class SharedTestAppModule {
     fun providesFakeIsBinaryServerStatusFeatureFlagEnabled() =
         FakeIsBinaryServerStatusFeatureFlagEnabled(true)
 
-    @Provides
-    fun providesFakeServerListTruncationEnabled() = FakeServerListTruncationEnabled(true)
-
     @Module
     @TestInstallIn(
         components = [SingletonComponent::class],
@@ -309,9 +304,6 @@ class SharedTestAppModule {
         fun bindIsBinaryServerStatusFeatureFlagEnabled(
             impl: FakeIsBinaryServerStatusFeatureFlagEnabled
         ): IsBinaryServerStatusFeatureFlagEnabled
-
-        @Binds
-        fun bindServerListTruncationEnabled(impl: FakeServerListTruncationEnabled): ServerListTruncationEnabled
 
         @Binds
         fun bindPeriodicUpdateWorkerScheduler(sched: NoopPeriodicUpdateWorkerScheduler): PeriodicUpdateWorkerScheduler

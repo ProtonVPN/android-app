@@ -144,8 +144,6 @@ import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDsImpl
 import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsProTunV1FeatureFlagEnabledImpl
-import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
-import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabledImpl
 import com.protonvpn.android.vpn.usecases.ServerNameTopStrategyEnabled
 import com.protonvpn.android.vpn.usecases.ServerNameTopStrategyEnabledImpl
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
@@ -285,9 +283,6 @@ object AppModuleProd {
         fun bindIsBinaryServerStatusFeatureFlagEnabled(
             impl: IsBinaryServerStatusFeatureFlagEnabledImpl
         ): IsBinaryServerStatusFeatureFlagEnabled
-
-        @Binds
-        fun bindServerListTruncationEnabled(impl: ServerListTruncationEnabledImpl): ServerListTruncationEnabled
 
         @Binds
         fun bindSharedPrefsProvider(provider: AndroidSharedPreferencesProvider): SharedPreferencesProvider

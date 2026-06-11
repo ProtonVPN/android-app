@@ -44,7 +44,6 @@ import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.alwayson.VpnAlwaysOn
 import com.protonvpn.android.vpn.alwayson.VpnAlwaysOnStorage
 import com.protonvpn.android.vpn.usecases.FakeIsProTunV1FeatureFlagEnabled
-import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.android.widget.WidgetType
 import com.protonvpn.android.widget.data.WidgetTracker
 import com.protonvpn.app.excludedlocations.TestExcludedLocationEntity
@@ -98,8 +97,6 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
 
     private lateinit var getTruncationMustHaveIDs: FakeGetTruncationMustHaveIDs
 
-    private lateinit var isServerListTruncationEnabledFlow: MutableStateFlow<Boolean>
-
     private lateinit var localUserSettingsFlow: MutableStateFlow<LocalUserSettings>
 
     private lateinit var testScope: TestScope
@@ -147,8 +144,6 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
 
         getTruncationMustHaveIDs = FakeGetTruncationMustHaveIDs()
 
-        isServerListTruncationEnabledFlow = MutableStateFlow(value = true)
-
         localUserSettingsFlow = MutableStateFlow(value = LocalUserSettings())
 
         testUserProvider = TestCurrentUserProvider(vpnUser = plusVpnUser)
@@ -174,7 +169,6 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
             commonDimensions = FakeCommonDimensions(dimensions = mapOf("user_tier" to userTier)),
             effectiveCurrentUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, localUserSettingsFlow),
             getTruncationMustHaveIDs = getTruncationMustHaveIDs,
-            isServerListTruncationEnabled = FakeServerListTruncationEnabled(isServerListTruncationEnabledFlow),
             observeDefaultConnection = mockObserveDefaultConnection,
             widgetTracker = mockWidgetTracker,
             isTvAutoConnectFeatureFlagEnabled = FakeIsTvAutoConnectFeatureFlagEnabled(true),
@@ -311,19 +305,8 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
     }
 
     @Test
-    fun `GIVEN ServerListTruncation feature is disabled WHEN providing dimensions THEN dimension is excluded`() = testScope.runTest {
+    fun `GIVEN truncated IDs WHEN providing dimensions THEN dimension is set`() = testScope.runTest {
         val dimension = "server_list_truncation_protected_ids_count"
-        isServerListTruncationEnabledFlow.value = false
-
-        val dimensions = getSettingsTelemetryHeartbeatDimensions()
-
-        assertNull(dimensions[dimension])
-    }
-
-    @Test
-    fun `GIVEN ServerListTruncation feature is enabled WHEN providing dimensions THEN dimension is set`() = testScope.runTest {
-        val dimension = "server_list_truncation_protected_ids_count"
-        isServerListTruncationEnabledFlow.value = true
 
         listOf(
             emptySet<String>() to "0",
