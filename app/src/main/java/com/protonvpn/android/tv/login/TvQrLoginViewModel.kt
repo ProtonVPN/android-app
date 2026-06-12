@@ -23,7 +23,9 @@ package com.protonvpn.android.tv.login
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Parcelable
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.BuildConfig
@@ -51,6 +53,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withTimeoutOrNull
+import kotlinx.parcelize.Parcelize
 import me.proton.core.account.domain.entity.AccountType
 import me.proton.core.auth.domain.entity.EncryptedAuthSecret
 import me.proton.core.auth.domain.entity.SessionForkSelector
@@ -70,11 +73,14 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 private val QrCodeTimeout = 10.minutes
+private val NewCodeOnRestoreDelay = 3.minutes
 private const val QrCodeUrlPrefix = "https://account.proton.me/vpn/tv/code"
+private const val ForkSavedStateKey = "fork_data"
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class TvQrLoginViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val qrBitmapGenerator: QrBitmapGenerator,
     private val authRepository: AuthRepository,
     private val accountType: AccountType,
@@ -130,18 +136,31 @@ class TvQrLoginViewModel @Inject constructor(
         val expirationTimestamp: Instant,
     )
 
+    @Parcelize
+    private data class ForkSavedState(
+        val selector: String,
+        val userCode: String,
+        val expirationTimestamp: Instant,
+    ) : Parcelable
+
     private val telemetry by telemetryLazy
     private val triggerNewQrCode = Channel<Unit>(capacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
     private val sessionForkFlow = flow {
-        val fork = initiateFork()
+        var fork = restoreFork()
+        if (fork == null) {
+            fork = initiateFork()
+            if (fork != null) {
+                telemetry.onTvAuthQrDisplayed()
+                savedStateHandle[ForkSavedStateKey] = fork.toSavedState()
+            }
+        }
         if (fork != null) {
-            telemetry.onTvAuthQrDisplayed()
             val forkReady = with(fork) {
                 ViewState.ForkReady(userCode.value, qrCode, expirationTimestamp, QrCodeTimeout)
             }
             emit(forkReady)
-            val pollingResult = pollForSessionFork(fork.selector)
+            val pollingResult = pollForSessionFork(fork.selector, fork.expirationTimestamp)
             when (pollingResult) {
                 is PollResult.Success -> {
                     with (pollingResult) {
@@ -165,6 +184,7 @@ class TvQrLoginViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ViewState.Loading)
 
     fun createNewCode() {
+        savedStateHandle[ForkSavedStateKey] = null
         triggerNewQrCode.trySend(Unit)
     }
 
@@ -172,14 +192,9 @@ class TvQrLoginViewModel @Inject constructor(
 
     private suspend fun initiateFork(): ForkData? {
         try {
-            val expirationTimestamp = Instant.fromEpochMilliseconds(clock()) + QrCodeTimeout
+            val expirationTimestamp = clock().instant() + QrCodeTimeout
             val (selector, userCode) = authRepository.getSessionForks(sessionId = null)
-            val url = Uri.parse(QrCodeUrlPrefix).buildUpon()
-                .appendPath(userCode.value)
-                .appendQueryParameter("clientId", Constants.TV_CLIENT_ID)
-                .appendQueryParameter("source", BuildConfig.FLAVOR_distribution)
-                .build()
-            val qrCode = qrBitmapGenerator(url.toString(), 200.dp)
+            val qrCode = createQrCode(userCode)
             return ForkData(selector, userCode, qrCode, expirationTimestamp)
         } catch (e: ApiException) {
             ProtonLogger.logCustom(
@@ -189,6 +204,30 @@ class TvQrLoginViewModel @Inject constructor(
             )
             return null
         }
+    }
+
+    private suspend fun createQrCode(userCode: SessionForkUserCode): Bitmap {
+        val url = Uri.parse(QrCodeUrlPrefix).buildUpon()
+            .appendPath(userCode.value)
+            .appendQueryParameter("clientId", Constants.TV_CLIENT_ID)
+            .appendQueryParameter("source", BuildConfig.FLAVOR_distribution)
+            .build()
+        return qrBitmapGenerator(url.toString(), 200.dp)
+    }
+
+    private suspend fun restoreFork(): ForkData? {
+        val savedState: ForkSavedState = savedStateHandle[ForkSavedStateKey] ?: return null
+        val expirationTimestamp = savedState.expirationTimestamp
+        // Restore expired code if it expired just now to show the user the error message,
+        // otherwise they might think the new code is still the old one and wonder why it doesn't
+        // work. New code will be generated only after the additional NewCodeOnRestoreDelay.
+        if (expirationTimestamp + NewCodeOnRestoreDelay <= clock().instant()) {
+            return null
+        }
+        val userCode = SessionForkUserCode(savedState.userCode)
+        val selector = SessionForkSelector(savedState.selector)
+        val qrCode = createQrCode(userCode)
+        return ForkData(selector, userCode, qrCode, savedState.expirationTimestamp)
     }
 
     private sealed interface PollResult {
@@ -201,8 +240,11 @@ class TvQrLoginViewModel @Inject constructor(
         object Timeout : PollResult
     }
 
-    private suspend fun pollForSessionFork(selector: SessionForkSelector): PollResult =
-        withTimeoutOrNull(QrCodeTimeout) {
+    private suspend fun pollForSessionFork(
+        selector: SessionForkSelector,
+        expirationTimestamp: Instant,
+    ): PollResult =
+        withTimeoutOrNull((expirationTimestamp.toEpochMilliseconds() - clock()).coerceAtLeast(0)) {
             suspend {
                 val result = pollSessionFork(encryptionKey = null, selector = selector, pollDuration = 5.seconds)
                 val payload: SessionForkPayload? = parsePayload(result.payload)
@@ -276,4 +318,8 @@ class TvQrLoginViewModel @Inject constructor(
         val error = e ?: IllegalStateException(message)
         Sentry.captureException(error)
     }
+
+    private fun ForkData.toSavedState() = ForkSavedState(selector.value, userCode.value, expirationTimestamp)
+
+    private fun Long.instant() = Instant.fromEpochMilliseconds(this)
 }
