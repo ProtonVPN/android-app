@@ -27,7 +27,6 @@ import com.protonvpn.android.logging.ApiLogResponse
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.servers.api.LogicalsStatusId
-import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
@@ -49,7 +48,6 @@ class UpdateServerListFromApi @Inject constructor(
     private val serversDataManager: ServersDataManager,
     private val prefs: ServerListUpdaterPrefs,
     private val updateWithBinaryStatus: UpdateServersWithBinaryStatus,
-    private val binaryServerStatusEnabled: IsBinaryServerStatusEnabled,
     private val getTruncationMustHaveIDs: GetTruncationMustHaveIDs,
 ) {
     sealed interface Result {
@@ -81,24 +79,14 @@ class UpdateServerListFromApi @Inject constructor(
     ): PeriodicActionResult<Result> {
         val realProtocolsNames = ProtocolSelection.REAL_PROTOCOLS.apiNames()
         val requestedMustHaveIDs = getTruncationMustHaveIDs()
-        val binaryServerStatusEnabled = binaryServerStatusEnabled()
-        val fetchResult = if (binaryServerStatusEnabled) {
-            val listResult = api.getServerList(
-                netzone,
-                protocols = realProtocolsNames,
-                lastModified = serverListLastModified,
-                mustHaveIDs = requestedMustHaveIDs,
-            )
-            processServerListResult(listResult,  ::processServerList)
-        } else {
-            val listResult = api.getServerListV1(
-                netzone,
-                realProtocolsNames,
-                lastModified = serverListLastModified,
-                mustHaveIDs = requestedMustHaveIDs,
-            )
-            processServerListResult(listResult, ::processV1ServerList)
-        }
+        val listResult = api.getServerList(
+            netzone = netzone,
+            protocols = realProtocolsNames,
+            lastModified = serverListLastModified,
+            mustHaveIDs = requestedMustHaveIDs,
+        )
+
+        val fetchResult = processServerListResult(listResult, ::processServerList)
 
         if (fetchResult is FetchResult.NewServers) {
             val retainIDs = if (fetchResult.isListTruncated == true) {
@@ -174,23 +162,12 @@ class UpdateServerListFromApi @Inject constructor(
         }
     }
 
-    private fun processV1ServerList(
-        body: ServerListV1,
-        lastModified: Date?,
-    ): FetchResult.NewServers = FetchResult.NewServers(
-        newServers = body.serverList.toServers(),
-        statusId = null,
-        isListTruncated = body.metadata?.listIsTruncated,
-        lastModified = lastModified,
-    )
-
     private suspend fun processServerList(
         body: LogicalsResponse,
         lastModified: Date?,
     ): FetchResult {
         val statusId = body.statusId
-        val statusDataResult = api.getBinaryStatus(statusId)
-        return when(statusDataResult) {
+        return when(val statusDataResult = api.getBinaryStatus(statusId)) {
             is ApiResult.Success -> {
                 val partialServers = body.serverList.toPartialServers()
 

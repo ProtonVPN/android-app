@@ -21,7 +21,6 @@ package com.protonvpn.app.servers
 
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.httpHeaderDateFormatter
-import com.protonvpn.android.servers.FakeIsBinaryServerStatusFeatureFlagEnabled
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.servers.UpdateServerListFromApi
@@ -77,9 +76,6 @@ class ServerListUpdaterTests {
     lateinit var dispatcherProvider: DispatcherProvider
 
     @Inject
-    lateinit var fakeIsBinaryServerStatusFeatureFlagEnabled: FakeIsBinaryServerStatusFeatureFlagEnabled
-
-    @Inject
     lateinit var serverListUpdater: ServerListUpdater
 
     @Inject
@@ -118,7 +114,6 @@ class ServerListUpdaterTests {
     @Before
     fun setup() {
         hiltRule.inject()
-        fakeIsBinaryServerStatusFeatureFlagEnabled.setEnabled(true)
         apiOverrides = ApiOverrides(testApiWrapper.api)
         testApiWrapper.api = apiOverrides
 

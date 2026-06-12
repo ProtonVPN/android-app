@@ -40,8 +40,6 @@ import com.protonvpn.android.di.CoreBaseNetworkModule
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
-import com.protonvpn.android.servers.FakeIsBinaryServerStatusFeatureFlagEnabled
-import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabled
 import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.telemetry.NoopSnapshotScheduler
 import com.protonvpn.android.telemetry.NoopTelemetryUploadScheduler
@@ -286,10 +284,6 @@ class SharedTestAppModule {
     @Singleton
     fun provideTestCurrentUserProvider() = TestCurrentUserProvider(null)
 
-    @Provides
-    fun providesFakeIsBinaryServerStatusFeatureFlagEnabled() =
-        FakeIsBinaryServerStatusFeatureFlagEnabled(true)
-
     @Module
     @TestInstallIn(
         components = [SingletonComponent::class],
@@ -299,11 +293,6 @@ class SharedTestAppModule {
 
         @Binds
         fun bindGlobalSettingsUpdateScheduler(scheduler: NoopGlobalSettingsUpdateScheduler): GlobalSettingUpdateScheduler
-
-        @Binds
-        fun bindIsBinaryServerStatusFeatureFlagEnabled(
-            impl: FakeIsBinaryServerStatusFeatureFlagEnabled
-        ): IsBinaryServerStatusFeatureFlagEnabled
 
         @Binds
         fun bindPeriodicUpdateWorkerScheduler(sched: NoopPeriodicUpdateWorkerScheduler): PeriodicUpdateWorkerScheduler

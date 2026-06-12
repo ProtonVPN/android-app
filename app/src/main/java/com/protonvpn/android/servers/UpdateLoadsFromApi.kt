@@ -32,7 +32,6 @@ import javax.inject.Inject
 class UpdateLoadsFromApi @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val serversDataManager: ServersDataManager,
-    private val binaryServerStatusEnabled: IsBinaryServerStatusEnabled,
     private val getNetZone: GetNetZone,
 ) {
     suspend operator fun invoke(): PeriodicActionResult<out Any> {
@@ -42,7 +41,7 @@ class UpdateLoadsFromApi @Inject constructor(
         }
 
         val statusId = serversData.statusId
-        return if (binaryServerStatusEnabled() && statusId != null) {
+        return if (statusId != null) {
             val result = api.getBinaryStatus(statusId)
             if (result is ApiResult.Success) {
                 serversDataManager.updateBinaryLoads(statusId, result.value)

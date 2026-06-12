@@ -86,8 +86,6 @@ import com.protonvpn.android.redesign.recents.ui.IsConnectionFeedbackFeatureFlag
 import com.protonvpn.android.redesign.recents.ui.IsConnectionFeedbackFeatureFlagEnabledImpl
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapterLegacy
-import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabled
-import com.protonvpn.android.servers.IsBinaryServerStatusFeatureFlagEnabledImpl
 import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatus
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatusImpl
@@ -278,11 +276,6 @@ object AppModuleProd {
         fun bindGlobalSettingsUpdateScheduler(
             scheduler: GlobalSettingsUpdateWorker.Scheduler
         ): GlobalSettingUpdateScheduler
-
-        @Binds
-        fun bindIsBinaryServerStatusFeatureFlagEnabled(
-            impl: IsBinaryServerStatusFeatureFlagEnabledImpl
-        ): IsBinaryServerStatusFeatureFlagEnabled
 
         @Binds
         fun bindSharedPrefsProvider(provider: AndroidSharedPreferencesProvider): SharedPreferencesProvider

@@ -26,8 +26,6 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.models.vpn.data.LogicalsMetadata
-import com.protonvpn.android.servers.FakeIsBinaryServerStatusFeatureFlagEnabled
-import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.servers.UpdateServerListFromApi
@@ -177,9 +175,6 @@ class ServerListUpdaterTests {
         serversDataManager = createInMemoryServersDataManager(testScope, TestDispatcherProvider(testDispatcher))
         serverManager = createInMemoryServerManager(testScope, serversDataManager)
         val getNetZone = GetNetZone(serverListUpdaterPrefs)
-        val binaryServerStatusEnabled = IsBinaryServerStatusEnabled(
-            isBinaryServerStatusFeatureFlagEnabled = FakeIsBinaryServerStatusFeatureFlagEnabled(true),
-        )
         val getTruncationMustHaveIds = GetTruncationMustHaveIDs { _, _ -> mustHaveIDs }
         val updateServerListFromApi = UpdateServerListFromApi(
             mockApi,
@@ -187,7 +182,6 @@ class ServerListUpdaterTests {
             serversDataManager,
             serverListUpdaterPrefs,
             fakeUpdateWithBinaryStatus,
-            binaryServerStatusEnabled,
             getTruncationMustHaveIds,
         )
         serverListUpdater = ServerListUpdater(
@@ -205,7 +199,6 @@ class ServerListUpdaterTests {
             remoteConfig = remoteConfig,
             updateServerListFromApi = updateServerListFromApi,
             updateLoadsFromApi = mockk(relaxed = true),
-            binaryServerStatusEnabled = binaryServerStatusEnabled,
         )
     }
 

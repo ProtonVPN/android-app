@@ -37,7 +37,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.UserLocation
-import com.protonvpn.android.servers.IsBinaryServerStatusEnabled
 import com.protonvpn.android.servers.UpdateLoadsFromApi
 import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.api.ServersCountResponse
@@ -59,7 +58,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -67,6 +65,7 @@ import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(ExperimentalForInheritanceCoroutinesApi::class)
 @Reusable
@@ -102,7 +101,6 @@ class ServerListUpdater @Inject constructor(
     remoteConfig: ServerListUpdaterRemoteConfig,
     private val updateServerListFromApi: UpdateServerListFromApi,
     private val updateLoadsFromApi: UpdateLoadsFromApi,
-    binaryServerStatusEnabled: IsBinaryServerStatusEnabled,
 ) {
     val ipAddress = prefs.ipAddressFlow
 
@@ -150,36 +148,25 @@ class ServerListUpdater @Inject constructor(
             periodicUpdateManager.executeNow(locationUpdate)
         }.launchIn(scope)
 
-        binaryServerStatusEnabled.observe()
-            .flatMapLatest { binaryStatusEnabled ->
-                if (binaryStatusEnabled) {
-                    combine(
-                        prefs.lastKnownCountryFlow,
-                        prefs.lastKnownIpLatitudeFlow,
-                        prefs.lastKnownIpLongitudeFlow,
-                        ::Triple
-                    )
-                        .drop(1) // Skip initial value, observe only updates.
-                        // The components are updated individually, use debounce to collapse them into one update.
-                        .debounce(150)
-                        .distinctUntilChanged()
-                        .onEach {
-                            if (currentUser.isLoggedIn()) {
-                                // Actually if we cached binary status data we could just recalculate
-                                // the scores for new location without fetching data.
-                                periodicUpdateManager.executeNow(serverLoadsUpdate)
-                            }
-                        }
-                } else {
-                    prefs.ipAddressFlow
-                        .drop(1) // Skip initial value, observe only updates.
-                        .onEach {
-                            if (currentUser.isLoggedIn()) {
-                                periodicUpdateManager.executeNow(serverListUpdate)
-                            }
-                        }
+        combine(
+            prefs.lastKnownCountryFlow,
+            prefs.lastKnownIpLatitudeFlow,
+            prefs.lastKnownIpLongitudeFlow,
+            ::Triple
+        )
+            .drop(1) // Skip initial value, observe only updates.
+            // The components are updated individually, use debounce to collapse them into one update.
+            .debounce(150.milliseconds)
+            .distinctUntilChanged()
+            .onEach {
+                if (currentUser.isLoggedIn()) {
+                    // Actually if we cached binary status data we could just recalculate
+                    // the scores for new location without fetching data.
+                    periodicUpdateManager.executeNow(serverLoadsUpdate)
                 }
-            }.launchIn(scope)
+            }
+            .launchIn(scope)
+
         currentUser.eventVpnLogin
             .onEach {
                 updateServerList(forceFreshUpdate = true)
