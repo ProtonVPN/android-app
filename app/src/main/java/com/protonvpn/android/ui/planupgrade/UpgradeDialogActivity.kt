@@ -65,7 +65,6 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.telemetry.onboarding.OnboardingTelemetry
-import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableEnabled
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -348,7 +347,6 @@ class CarouselUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
 class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultiplePlans = false) {
 
     @Inject lateinit var onboardingTelemetry: OnboardingTelemetry
-    @Inject lateinit var isUpsellComparisonTableEnabled: IsUpsellComparisonTableEnabled
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

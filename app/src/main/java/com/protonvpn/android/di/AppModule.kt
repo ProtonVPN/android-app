@@ -107,8 +107,8 @@ import com.protonvpn.android.tv.usecases.IsTvHideServerListForFreeUserEnabled
 import com.protonvpn.android.tv.usecases.IsTvHideServerListForFreeUserEnabledImpl
 import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.IsTvRecentsForFreeUserDisabledImpl
-import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableEnabled
-import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableEnabledImpl
+import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableExperimentEnabled
+import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableExperimentEnabledImpl
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.AppIconManagerImpl
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
@@ -479,9 +479,9 @@ object AppModule {
         fun bindIsTvIapEnabled(impl: IsTvIapEnabledImpl): IsTvIapEnabled
 
         @Binds
-        fun bindIsUpsellComparisonTableEnabled(
-            impl: IsUpsellComparisonTableEnabledImpl
-        ): IsUpsellComparisonTableEnabled
+        fun bindIsUpsellComparisonTableExperimentEnabled(
+            impl: IsUpsellComparisonTableExperimentEnabledImpl
+        ): IsUpsellComparisonTableExperimentEnabled
 
         @Binds
         fun bindTvDisableFavoriteCountryForFreeUser(

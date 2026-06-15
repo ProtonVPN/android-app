@@ -28,15 +28,15 @@ import me.proton.core.featureflag.domain.entity.FeatureId
 import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import javax.inject.Inject
 
-interface IsUpsellComparisonTableEnabled : VpnFeatureFlag
+interface IsUpsellComparisonTableExperimentEnabled : VpnFeatureFlag
 
 @Reusable
-class IsUpsellComparisonTableEnabledImpl @Inject constructor(
+class IsUpsellComparisonTableExperimentEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
     featureFlagRepository: FeatureFlagRepository,
-) : IsUpsellComparisonTableEnabled,
-    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("UpsellComparisonTable"))
+) : IsUpsellComparisonTableExperimentEnabled,
+    VpnFeatureFlagImpl(currentUser, featureFlagRepository, FeatureId("UpsellComparisonTableExperiment"))
 
-class FakeIsUpsellComparisonTableEnabled(
+class FakeIsUpsellComparisonTableExperimentEnabled(
     enabled: Boolean
-) : IsUpsellComparisonTableEnabled, FakeVpnFeatureFlag(enabled)
+) : IsUpsellComparisonTableExperimentEnabled, FakeVpnFeatureFlag(enabled)

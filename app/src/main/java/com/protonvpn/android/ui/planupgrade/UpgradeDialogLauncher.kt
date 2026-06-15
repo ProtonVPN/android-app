@@ -22,10 +22,12 @@ package com.protonvpn.android.ui.planupgrade
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.telemetry.AbTestComparisonTable
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
-import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableEnabled
+import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableExperimentEnabled
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.Reusable
@@ -36,7 +38,8 @@ import javax.inject.Inject
 @Reusable
 class UpgradeDialogLauncher @Inject constructor(
     private val mainScope: CoroutineScope,
-    private val isUpsellComparisonTableEnabled: dagger.Lazy<IsUpsellComparisonTableEnabled>,
+    private val currentUser: CurrentUser,
+    private val isUpsellComparisonTableExperimentEnabled: dagger.Lazy<IsUpsellComparisonTableExperimentEnabled>,
 ) {
     fun launch(
         context: Context,
@@ -45,9 +48,7 @@ class UpgradeDialogLauncher @Inject constructor(
         legacyLaunch: () -> Unit
     ) {
         mainScope.launch {
-            if (UpgradeDialogActivityV2.isSupported(upgradeSource) &&
-                isUpsellComparisonTableEnabled.get().invoke()
-            ) {
+            if (UpgradeDialogActivityV2.isSupported(upgradeSource) && useV2Dialogs()) {
                 UpgradeDialogActivityV2.launch(context, upgradeSource, upgradeTrigger)
             } else {
                 legacyLaunch()
@@ -62,7 +63,7 @@ class UpgradeDialogLauncher @Inject constructor(
     ) {
         mainScope.launch {
             val countryId = country?.takeIf { !it.isFastest }
-            if (isUpsellComparisonTableEnabled.get().invoke()) {
+            if (useV2Dialogs()) {
                 UpgradeDialogActivityV2.launch(context, UpgradeSource.COUNTRIES, upgradeTrigger, countryId)
             } else {
                 if (countryId != null) {
@@ -80,6 +81,12 @@ class UpgradeDialogLauncher @Inject constructor(
                 }
             }
         }
+    }
+
+    private suspend fun useV2Dialogs(): Boolean {
+        if (!isUpsellComparisonTableExperimentEnabled.get().invoke()) return false
+        val userId = currentUser.vpnUser()?.userId ?: return false
+        return AbTestComparisonTable.fromUserId(userId) == AbTestComparisonTable.COMPARISON_TABLE
     }
 
     companion object {

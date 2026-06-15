@@ -36,7 +36,7 @@ import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel.State
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
-import com.protonvpn.android.ui.planupgrade.comparison_table.FakeIsUpsellComparisonTableEnabled
+import com.protonvpn.android.ui.planupgrade.comparison_table.FakeIsUpsellComparisonTableExperimentEnabled
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
@@ -151,7 +151,7 @@ class UpgradeDialogViewModelTests {
             clock = { testScope.currentTime },
             telemetryHelperLazy = { telemetryFlowHelper },
             hasAnyIntroOffer = mockk(),
-            isUpsellComparisonTableEnabled = FakeIsUpsellComparisonTableEnabled(true),
+            isUpsellComparisonTableExperimentEnabled = FakeIsUpsellComparisonTableExperimentEnabled(true),
             isIapClientSidePromo12MExperimentEnabled = FakeIsIapClientSidePromo12mExperimentEnabled(false),
         )
 
