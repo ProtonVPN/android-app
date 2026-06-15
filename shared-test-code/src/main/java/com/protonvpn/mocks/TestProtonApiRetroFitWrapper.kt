@@ -38,7 +38,6 @@ import com.protonvpn.android.promooffers.data.ApiNotificationsResponse
 import com.protonvpn.android.promooffers.usecase.PostNps
 import com.protonvpn.android.servers.api.CityTranslationsResponse
 import com.protonvpn.android.servers.api.ConnectingDomainResponse
-import com.protonvpn.android.servers.api.LoadsResponse
 import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.servers.api.StreamingServicesResponse
@@ -85,9 +84,6 @@ class TestProtonApiRetroFitWrapper(private val apiHolder: AtomicReference<Proton
 
     override suspend fun getServerByName(nameQuery: String): ApiResult<ServerSearchResponse> =
         api.getServerByName(nameQuery)
-
-    override suspend fun getLoads(netzone: String?): ApiResult<LoadsResponse> =
-        api.getLoads(netzone)
 
     override suspend fun getBinaryStatus(statusId: String): ApiResult<ByteArray> =
         api.getBinaryStatus(statusId)

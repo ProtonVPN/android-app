@@ -41,7 +41,6 @@ import com.protonvpn.android.promooffers.data.ApiNotificationsResponse
 import com.protonvpn.android.promooffers.usecase.PostNps
 import com.protonvpn.android.servers.api.CityTranslationsResponse
 import com.protonvpn.android.servers.api.ConnectingDomainResponse
-import com.protonvpn.android.servers.api.LoadsResponse
 import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.servers.api.StreamingServicesResponse
@@ -87,12 +86,6 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     suspend fun getServerByName(
         @Path(value = "nameQuery", encoded = true) nameQuery: String
     ): ServerSearchResponse
-
-    @GET("vpn/v1/loads")
-    suspend fun getLoads(
-        @HeaderMap headers: Map<String, String>,
-        @Query("Tier") userTier: Int?
-    ): LoadsResponse
 
     @GET("vpn/v2/status/{id}/binary")
     suspend fun getBinaryStatus(@Path(value = "id", encoded = true) id: String): ByteArray

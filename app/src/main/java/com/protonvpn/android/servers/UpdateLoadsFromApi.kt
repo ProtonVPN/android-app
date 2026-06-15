@@ -22,7 +22,7 @@ package com.protonvpn.android.servers
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
 import com.protonvpn.android.appconfig.periodicupdates.toPeriodicActionResult
-import com.protonvpn.android.ui.home.GetNetZone
+import com.protonvpn.android.utils.DebugUtils
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import me.proton.core.network.domain.ApiResult
@@ -32,7 +32,6 @@ import javax.inject.Inject
 class UpdateLoadsFromApi @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val serversDataManager: ServersDataManager,
-    private val getNetZone: GetNetZone,
 ) {
     suspend operator fun invoke(): PeriodicActionResult<out Any> {
         val serversData = serversDataManager.serverLists.first()
@@ -41,18 +40,19 @@ class UpdateLoadsFromApi @Inject constructor(
         }
 
         val statusId = serversData.statusId
-        return if (statusId != null) {
-            val result = api.getBinaryStatus(statusId)
-            if (result is ApiResult.Success) {
-                serversDataManager.updateBinaryLoads(statusId, result.value)
-            }
-            result
-        } else {
-            val result = api.getLoads(getNetZone())
-            if (result is ApiResult.Success) {
-                serversDataManager.updateLoads(result.value.loadsList)
-            }
-            result
-        }.toPeriodicActionResult()
+        if (statusId == null) {
+            DebugUtils.debugAssert(
+                message = "Update loads should be only called when statusId is not null",
+                predicate = { false },
+            )
+
+            return PeriodicActionResult(result = Unit, isSuccess = true)
+        }
+
+        val result = api.getBinaryStatus(statusId)
+        if (result is ApiResult.Success) {
+            serversDataManager.updateBinaryLoads(statusId, result.value)
+        }
+        return result.toPeriodicActionResult()
     }
 }

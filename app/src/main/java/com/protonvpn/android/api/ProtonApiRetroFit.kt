@@ -46,7 +46,6 @@ import com.protonvpn.android.promooffers.data.ApiNotificationsResponse
 import com.protonvpn.android.promooffers.usecase.PostNps
 import com.protonvpn.android.servers.api.CityTranslationsResponse
 import com.protonvpn.android.servers.api.ConnectingDomainResponse
-import com.protonvpn.android.servers.api.LoadsResponse
 import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.servers.api.StreamingServicesResponse
@@ -82,8 +81,6 @@ interface ProtonApiRetroFit {
     ): ApiResult<Response<LogicalsResponse>>
 
     suspend fun getServerByName(nameQuery: String): ApiResult<ServerSearchResponse>
-
-    suspend fun getLoads(netzone: String?): ApiResult<LoadsResponse>
 
     suspend fun getBinaryStatus(statusId: String): ApiResult<ByteArray>
 
@@ -178,14 +175,6 @@ class ProtonApiRetroFitImpl @Inject constructor(
 
     override suspend fun getServerByName(nameQuery: String) =
         manager { getServerByName(nameQuery) }
-
-    override suspend fun getLoads(netzone: String?) =
-        manager {
-            getLoads(
-                headers = createNetZoneHeaders(netzone),
-                userTier = null
-            )
-        }
 
     override suspend fun getBinaryStatus(statusId: String) =
         manager { getBinaryStatus(statusId) }
