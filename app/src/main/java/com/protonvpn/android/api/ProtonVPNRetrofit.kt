@@ -43,7 +43,6 @@ import com.protonvpn.android.servers.api.CityTranslationsResponse
 import com.protonvpn.android.servers.api.ConnectingDomainResponse
 import com.protonvpn.android.servers.api.LoadsResponse
 import com.protonvpn.android.servers.api.LogicalsResponse
-import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.servers.api.StreamingServicesResponse
 import com.protonvpn.android.telemetry.StatsBody
@@ -74,16 +73,6 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         // the "explicitly set" language.
         @Header("x-pm-locale") languageTag: String,
     ): CityTranslationsResponse
-
-    @GET("vpn/v1/logicals")
-    suspend fun getServersV1(
-        @Tag timeoutOverride: TimeoutOverride,
-        @HeaderMap headers: Map<String, String>,
-        @Query("WithEntriesForProtocols") protocols: String,
-        @Query("WithState") withState: Boolean,
-        @Query("Tier") userTier: Int?,
-        @Query("IncludeID[]", encoded = true) includeIDs: Set<String>?,
-    ): Response<ServerListV1>
 
     @GET("vpn/v2/logicals")
     suspend fun getServers(

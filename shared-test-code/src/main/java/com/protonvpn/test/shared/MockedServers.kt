@@ -18,457 +18,609 @@
  */
 package com.protonvpn.test.shared
 
-import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ProfileColor
-import com.protonvpn.android.models.profiles.ServerWrapper
-import com.protonvpn.android.servers.api.LogicalServerV1
 import com.protonvpn.android.servers.Server
-import com.protonvpn.android.servers.toServer
-import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.android.servers.api.LogicalServer
 import kotlinx.serialization.json.Json
 
 object MockedServers {
 
     @Suppress("JSON_FORMAT_REDUNDANT")
-    val logicalsList by lazy<List<LogicalServerV1>> {
+    val logicalsList by lazy<List<LogicalServer>> {
         Json {
             isLenient = true
             ignoreUnknownKeys = true
         }.decodeFromString(serverListJson)
     }
+
     val serverList: List<Server> by lazy {
-        logicalsList.map { it.toServer() }
+        logicalsList.map { logicalServer ->
+            Server(
+                serverId = logicalServer.serverId,
+                entryCountry = logicalServer.entryCountry,
+                rawExitCountry = logicalServer.exitCountry,
+                serverName = logicalServer.serverName,
+                connectingDomains = logicalServer.physicalServers,
+                hostCountry = logicalServer.hostCountry,
+                tier = logicalServer.tier,
+                state = logicalServer.state,
+                city = logicalServer.city,
+                features = logicalServer.features,
+                exitLocation = logicalServer.exitLocation,
+                entryLocation = logicalServer.entryLocation,
+                translations = logicalServer.translations,
+                rawGatewayName = logicalServer.gatewayName,
+                statusReference = logicalServer.statusReference,
+                score = logicalServer.statusReference.penalty,
+                load = 10f,
+                rawIsOnline = true,
+                isVisible = true,
+            )
+        }
     }
 
     val server by lazy { serverList.first() }
 
     @Suppress("ClassOrdering")
     val serverListJson = """
-[
-  {
-    "ID": "1",
-    "EntryCountry": "CA",
-    "ExitCountry": "CA",
-    "Name": "CA#1",
-    "Servers": [
+    [
       {
-        "EntryIP": "127.0.0.1",
-        "Domain": "ca-01.protonvpn.com",
-        "ExitIP": "127.0.0.1",
         "ID": "1",
-        "X25519PublicKey": "fake-key"
-      }
-    ],
-    "Domain": "ca-01.protonvpn.com",
-    "Load": 22.0,
-    "Tier": 1,
-    "City": "Toronto",
-    "Features": 0,
-    "Location": {
-      "Lat": "43.6328999999999999999",
-      "Long": "-79.36109999999999993"
-    },
-    "Score": 1.434756,
-    "Status": 1
-  },
-  {
-    "ID": "2",
-    "EntryCountry": "CA",
-    "ExitCountry": "CA",
-    "Name": "CA#2",
-    "Servers": [
-      {
-        "EntryIP": "127.0.0.2",
-        "Domain": "ca-02.protonvpn.com",
-        "ExitIP": "127.0.0.2",
-        "ID": null,
-        "X25519PublicKey": "fake-key"
-      }
-    ],
-    "Domain": "ca-02.protonvpn.com",
-    "Load": 22.0,
-    "Tier": 1,
-    "City": "Toronto",
-    "Features": 0,
-    "Location": {
-      "Lat": "43.6328999999999999999",
-      "Long": "-79.36109999999999993"
-    },
-    "Score": 1.5,
-    "Status": 1
-  },
-  {
-    "ID": "3",
-    "EntryCountry": "US",
-    "ExitCountry": "US",
-    "Name": "US-NY#1",
-    "Servers": [
-      {
-        "EntryIP": "127.0.0.3",
-        "Domain": "us-ny-01.protonvpn.com",
-        "ExitIP": "127.0.0.3",
-        "ID": null,
-        "X25519PublicKey": "fake-key"
-      }
-    ],
-    "Domain": "us-ny-01.protonvpn.com",
-    "Load": 22.0,
-    "Tier": 1,
-    "City": "New York City",
-    "Features": 0,
-    "Location": {
-      "Lat": "40.729999999999997",
-      "Long": "-73.935000000000002"
-    },
-    "Score": 1.434756,
-    "Status": 1
-  },
-  {
-    "ID": "4",
-    "EntryCountry": "SE",
-    "ExitCountry": "SE",
-    "Name": "SE#1",
-    "Servers": [
-      {
-        "EntryIP": "127.0.0.4",
-        "Domain": "se-01.protonvpn.com",
-        "ExitIP": "127.0.0.4",
-        "ID": null,
-        "X25519PublicKey": "fake-key"
-      }
-    ],
-    "Domain": "se-01.protonvpn.com",
-    "Load": 10.0,
-    "Tier": 1,
-    "City": "Stockholm",
-    "Features": 4,
-    "Location": {
-      "Lat": "59.329999999999998",
-      "Long": "18.059999999999999"
-    },
-    "Score": 3.434756,
-    "Status": 1
-  },
-  {
-    "ID": "5",
-    "EntryCountry": "FR",
-    "ExitCountry": "FR",
-    "Name": "FR#1",
-    "Servers": [
-      {
-        "EntryIP": "127.0.0.5",
-        "Domain": "fr-01.protonvpn.com",
-        "ExitIP": "127.0.0.5",
-        "ID": null,
-        "X25519PublicKey": "fake-key"
-      }
-    ],
-    "Domain": "fr-01.protonvpn.com",
-    "Load": 10.0,
-    "Tier": 2,
-    "City": "Paris",
-    "Features": 0,
-    "Location": {
-      "Lat": "48.859999999999999",
-      "Long": "2.3500000000000001"
-    },
-    "Translations": {
-      "City": "Paryż"
-    },
-    "Score": 3.434756,
-    "Status": 1
-  },
-  {
-    "ID": "6",
-    "EntryCountry": "SE",
-    "ExitCountry": "FR",
-    "Name": "SE-FR#1",
-    "Servers": [
-      {
-        "EntryIP": "127.0.0.6",
-        "Domain": "se-fr-01.protonvpn.com",
-        "ExitIP": "127.0.0.6",
-        "ID": null,
-        "X25519PublicKey": "fake-key"
-      }
-    ],
-    "Domain": "se-fr-01.protonvpn.com",
-    "Load": 10.0,
-    "Tier": 2,
-    "City": null,
-    "Features": 1,
-    "Location": {
-      "Lat": "48.859999999999999",
-      "Long": "2.3500000000000001"
-    },
-    "Score": 4.434756,
-    "Status": 1
-  },
-  {
-    "ID": "9",
-    "EntryCountry": "SE",
-    "ExitCountry": "FI",
-    "Name": "SE-FI#1",
-    "Servers": [
-      {
-        "EntryIP": "127.0.0.7",
-        "Domain": "se-fi-01.protonvpn.com",
-        "ExitIP": "127.0.0.7",
-        "ID": null,
-        "X25519PublicKey": "fake-key"
-      }
-    ],
-    "Domain": "se-fi-01.protonvpn.com",
-    "Load": 10.0,
-    "Tier": 2,
-    "City": null,
-    "Features": 1,
-    "Location": {
-      "Lat": "60.174999999999997",
-      "Long": "24.940999999999999"
-    },
-    "Score": 4.434756,
-    "Status": 1
-  },
-  {
-    "ID": "10",
-    "EntryCountry": "CH",
-    "ExitCountry": "FI",
-    "Name": "CH-FI#1",
-    "Servers": [
-      {
-        "EntryIP": "127.0.0.8",
-        "Domain": "ch-fi-01.protonvpn.com",
-        "ExitIP": "127.0.0.8",
-        "ID": null,
-        "X25519PublicKey": "fake-key"
-      }
-    ],
-    "Domain": "ch-fi-01.protonvpn.com",
-    "Load": 10.0,
-    "Tier": 2,
-    "City": null,
-    "Features": 1,
-    "Location": {
-      "Lat": "60.174999999999997",
-      "Long": "24.940999999999999"
-    },
-    "Score": 4.434756,
-    "Status": 1
-  },
-  {
-    "ID": "12",
-    "EntryCountry": "FI",
-    "ExitCountry": "FI",
-    "Name": "FI#1",
-    "Servers": [
-      {
-        "EntryIP": "127.0.0.9",
-        "Domain": "fi-01.protonvpn.com",
-        "ExitIP": "127.0.0.9",
-        "ID": null,
-        "X25519PublicKey": "fake-key"
-      }
-    ],
-    "Domain": "fi-01.protonvpn.com",
-    "Load": 10.0,
-    "Tier": 1,
-    "City": null,
-    "Features": 0,
-    "Location": {
-      "Lat": "60.174999999999997",
-      "Long": "24.940999999999999"
-    },
-    "Score": 2.434756,
-    "Status": 1
-  },
-  {
-    "ID": "13",
-    "EntryCountry": "SE",
-    "ExitCountry": "SE",
-    "Name": "SE#3",
-    "Servers": [
-      {
-        "EntryIP": "127.0.0.10",
-        "Domain": "se-03.protonvpn.com",
-        "ExitIP": "127.0.0.10",
-        "ID": null,
-        "X25519PublicKey": "fake-key"
-      }
-    ],
-    "Domain": "se-03.protonvpn.com",
-    "Load": 10.0,
-    "Tier": 0,
-    "City": "Stockholm",
-    "Features": 4,
-    "Location": {
-      "Lat": "59.329999999999998",
-      "Long": "18.059999999999999"
-    },
-    "Score": 3.434756,
-    "Status": 0
-  },
-  {
-    "Name": "HK#1",
-    "EntryCountry": "HK",
-    "ExitCountry": "HK",
-    "Domain": "hk-01.protonvpn.net",
-    "Tier": 1,
-    "Features": 4,
-    "City": "Hong Kong",
-    "Score": 2.5216639000000001,
-    "HostCountry": null,
-    "ID": "j_hMLdlh76xys5eR2S3OM9vlAgYylGQBiEzDeXLw1H-huHy2jwjwVqcKAPcdd6z2cXoklLuQTegkr3gnJXCB9w==",
-    "Location": {
-      "Lat": 22.280000000000001,
-      "Long": 114.14
-    },
-    "Status": 1,
-    "Servers": [
-      {
-        "EntryIP": "209.58.185.231",
-        "ExitIP": "209.58.185.231",
-        "Domain": "hk-01.protonvpn.net",
-        "ID": "j_hMLdlh76xys5eR2S3OM9vlAgYylGQBiEzDeXLw1H-huHy2jwjwVqcKAPcdd6z2cXoklLuQTegkr3gnJXCB9w==",
-        "Label": "0",
-        "X25519PublicKey": "nzkzjzhYV96YhWXVdhECFTymFb56q0VoTp9jSLuufng=",
-        "Generation": 0,
-        "Status": 1,
-        "ServicesDown": 0,
-        "ServicesDownReason": null
-      }
-    ],
-    "Load": 43
-  },
-  {
-    "Name": "UA#9",
-    "EntryCountry": "UA",
-    "ExitCountry": "UA",
-    "Domain": "ua-09.protonvpn.net",
-    "Tier": 1,
-    "Features": 0,
-    "City": "Kyiv",
-    "Score": 2.2122074299999999,
-    "HostCountry": null,
-    "ID": "GWPFZO6TPCOsObEFVKv42FiXNxO-2WRBhzd-76Mcs7gn1IypC1-zhcf_4BkJcSIOAucz9-EUR8-tgfng32dzJA==",
-    "Location": {
-      "Lat": 50.450000000000003,
-      "Long": 30.52
-    },
-    "Status": 1,
-    "Servers": [
-      {
-        "EntryIP": "156.146.50.1",
-        "ExitIP": "156.146.50.1",
-        "Domain": "ua-09.protonvpn.net",
-        "ID": "AoG2GRy5in0JrHq2eyb_SUDjwG_iGm8K7TrRWStg3i1BCfQ9AV4bL4SPzQVQ-2w8S3NK21bpGpI0OBwuCoOcAQ==",
-        "Label": "0",
-        "X25519PublicKey": "o0AixWIjxr61AwsKjrTIM+f9iHWZlWUOYZQyroX+zz4=",
-        "Generation": 0,
-        "Status": 1,
-        "ServicesDown": 0,
-        "ServicesDownReason": null
-      }
-    ],
-    "Load": 23
-  },
-  {
-    "Name": "UA#10",
-    "EntryCountry": "UA",
-    "ExitCountry": "UA",
-    "Domain": "ua-09.protonvpn.net",
-    "Tier": 0,
-    "Features": 0,
-    "City": "Kyiv",
-    "Score": 2.30711003,
-    "HostCountry": null,
-    "ID": "XlKVIOZ-vm7XssmpRY_bLudffHRryyralicwjyMfm-REsUdH4uuFIc1LbSzgnoP307GkEyywH6Iqg_zlzZ3NBg==",
-    "Location": {
-      "Lat": 50.450000000000003,
-      "Long": 30.52
-    },
-    "Status": 1,
-    "Servers": [
-      {
-        "EntryIP": "156.146.50.1",
-        "ExitIP": "156.146.50.2",
-        "Domain": "ua-09.protonvpn.net",
-        "ID": "9eVEHuzMUgE0XFhU_G-rUuFl223g202o9ekKHV2w_VO8-mecBb0fOtLTBDxKcXJj2RxhbZG2ZwUHuwhLv5B_aA==",
-        "Label": "1",
-        "X25519PublicKey": "o0AixWIjxr61AwsKjrTIM+f9iHWZlWUOYZQyroX+zz4=",
-        "Generation": 0,
-        "Status": 1,
-        "ServicesDown": 0,
-        "ServicesDownReason": null
-      }
-    ],
-    "Load": 69
-  },
-  {
-      "Name": "EG#1",
-      "EntryCountry": "EG",
-      "ExitCountry": "EG",
-      "Domain": "node-eg-01.protonvpn.net",
-      "Tier": 2,
-      "Features": 0,
-      "City": "Cairo",
-      "Score": 1.28381163,
-      "HostCountry": "RO",
-      "ID": "HSOB9ERcsgQ4zRb7nLM7Fo-xTbeIEkrIrw-BTMcJAo-u6P9Zgfq7HhZdECRvhEFiXg4TXgAbdANRDNWFf_NHlg==",
-      "Location": {
-        "Lat": 30.039999999999999,
-        "Long": 31.23
-      },
-      "Status": 1,
-      "Servers": [
-        {
-          "EntryIP": "188.214.122.82",
-          "ExitIP": "188.214.122.83",
-          "Domain": "node-eg-01.protonvpn.net",
-          "ID": "AhMR__eJY-NbWniGOcW3V8ihBpBjvCc59DFj2IZy4bLe3K0aRrIQXN9jlND-Wcl4Rb5fxPbqE82d06tMlIPXlw==",
-          "Label": "0",
-          "X25519PublicKey": "DUtOX4QuHcmlBk7bI5eoCSp8RLqV7NPIU8pywn1w0k0=",
-          "Generation": 0,
-          "Status": 1,
-          "ServicesDown": 0,
-          "ServicesDownReason": null
-        }
-      ],
-      "Load": 36
-    },
-    {
-        "ID": "TlhSsVFg4dZ3_axHBlM_KWl7H4XLReby3-lr56MfzJOSrzt1VWmDBHy7-37zaxNQrE-l54lk8K0Lpd3EgLxOPw==",
-        "Name": "CH#301#PARTNER",
-        "City": null,
-        "EntryCountry": "CH",
-        "ExitCountry": "CH",
-        "Domain": "ch-301.protonvpn.net",
-        "Tier": 0,
-        "Features": 64,
-        "LocationResponse": null,
-        "Status": 1,
-        "Location": {
-            "Lat": 46.8182,
-            "Long": 8.2275
-        },
-        "Load": 2,
-        "Score": 99,
-        "HostCountry": null,
+        "EntryCountry": "CA",
+        "ExitCountry": "CA",
+        "Name": "CA#1",
         "Servers": [
           {
-            "ID": "HoFWOwv4LylhIK5VQ85zQzPghthWao_iOAYE_qrrIkBFZ_r4dxQkd7bVHXb_yD6V91x5pwb2XDKx6Ycks21mvg==",
-            "EntryIP": "213.193.98.43",
-            "ExitIP": "213.193.98.43",
-            "Domain": "ch-301.protonvpn.net",
+            "EntryIP": "127.0.0.1",
+            "EntryPerProtocol": null,
+            "Domain": "ca-01.protonvpn.com",
+            "ID": "1",
+            "Label": null,
             "Status": 1,
-            "Label": "partner",
-            "X25519PublicKey": "Khx5269rT18OGV61/OtwkcXggc7pXdcS/lGYS0dfCHU=",
-            "Signature": "6bkIy/3yrNXN/5IqpZ3KT4EZ4BIq8jUolE5Dbv3PEBsmdQnrdEeXNeWCvOYr+PfdP6IW4Sdk1qDq9Mp4d/Z4Cw=="
+            "X25519PublicKey": "fake-key"
           }
-        ]
+        ],
+        "StatusReference": {
+          "Index": 1,
+          "Penalty": 1.434756,
+          "Cost": 0
+        },
+        "Tier": 1,
+        "HostCountry": null,
+        "State": null,
+        "City": "Toronto",
+        "Features": 0,
+        "ExitLocation": {
+          "Latitude": 43.63,
+          "Longitude": -79.36
+        },
+        "EntryLocation": {
+          "Latitude": 43.63,
+          "Longitude": -79.36
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "2",
+        "EntryCountry": "CA",
+        "ExitCountry": "CA",
+        "Name": "CA#2",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.2",
+            "EntryPerProtocol": null,
+            "Domain": "ca-02.protonvpn.com",
+            "ID": "2",
+            "Label": "",
+            "Status": 1,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 2,
+          "Penalty": 1.5,
+          "Cost": 0
+        },
+        "Tier": 1,
+        "HostCountry": null,
+        "State": null,
+        "City": "Toronto",
+        "Features": 0,
+        "ExitLocation": {
+          "Latitude": 43.63,
+          "Longitude": -79.36
+        },
+        "EntryLocation": {
+          "Latitude": 43.63,
+          "Longitude": -79.36
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "3",
+        "EntryCountry": "US",
+        "ExitCountry": "US",
+        "Name": "US-NY#1",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.3",
+            "EntryPerProtocol": null,
+            "Domain": "us-ny-01.protonvpn.com",
+            "ID": null,
+            "Label": "",
+            "Status": 1,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 3,
+          "Penalty": 1.434756,
+          "Cost": 0
+        },
+        "Tier": 1,
+        "HostCountry": null,
+        "State": null,
+        "City": "New York City",
+        "Features": 0,
+        "ExitLocation": {
+          "Latitude": 40.73,
+          "Longitude": -73.93
+        },
+        "EntryLocation": {
+          "Latitude": 40.73,
+          "Longitude": -73.93
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "4",
+        "EntryCountry": "SE",
+        "ExitCountry": "SE",
+        "Name": "SE#1",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.4",
+            "EntryPerProtocol": null,
+            "Domain": "se-01.protonvpn.com",
+            "ID": null,
+            "Label": "",
+            "Status": 1,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 4,
+          "Penalty": 3.434756,
+          "Cost": 0
+        },
+        "Tier": 1,
+        "HostCountry": null,
+        "State": null,
+        "City": "Stockholm",
+        "Features": 4,
+        "ExitLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "EntryLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "5",
+        "EntryCountry": "FR",
+        "ExitCountry": "FR",
+        "Name": "FR#1",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.5",
+            "EntryPerProtocol": null,
+            "Domain": "fr-01.protonvpn.com",
+            "ID": null,
+            "Label": "",
+            "Status": 1,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 5,
+          "Penalty": 3.434756,
+          "Cost": 0
+        },
+        "Tier": 2,
+        "HostCountry": null,
+        "State": null,
+        "City": "Paris",
+        "Features": 0,
+        "ExitLocation": {
+          "Latitude": 48.86,
+          "Longitude": 2.35
+        },
+        "EntryLocation": {
+          "Latitude": 48.86,
+          "Longitude": 2.35
+        },
+        "Translations": {
+          "City": "Paryż"
+        },
+        "GatewayName": null
+      },
+      {
+        "ID": "6",
+        "EntryCountry": "SE",
+        "ExitCountry": "FR",
+        "Name": "SE-FR#1",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.6",
+            "EntryPerProtocol": null,
+            "Domain": "se-fr-01.protonvpn.com",
+            "ID": null,
+            "Label": "",
+            "Status": 1,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 6,
+          "Penalty": 4.434756,
+          "Cost": 0
+        },
+        "Tier": 2,
+        "HostCountry": null,
+        "State": null,
+        "City": null,
+        "Features": 1,
+        "ExitLocation": {
+          "Latitude": 48.86,
+          "Longitude": 2.35
+        },
+        "EntryLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "7",
+        "EntryCountry": "SE",
+        "ExitCountry": "FI",
+        "Name": "SE-FI#1",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.7",
+            "EntryPerProtocol": null,
+            "Domain": "se-fi-01.protonvpn.com",
+            "ID": null,
+            "Label": "",
+            "Status": 1,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 7,
+          "Penalty": 4.434756,
+          "Cost": 0
+        },
+        "Tier": 2,
+        "HostCountry": null,
+        "State": null,
+        "City": null,
+        "Features": 1,
+        "ExitLocation": {
+          "Latitude": 60.17,
+          "Longitude": 24.94
+        },
+        "EntryLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "8",
+        "EntryCountry": "CH",
+        "ExitCountry": "FI",
+        "Name": "CH-FI#1",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.8",
+            "EntryPerProtocol": null,
+            "Domain": "ch-fi-01.protonvpn.com",
+            "ID": null,
+            "Label": "",
+            "Status": 1,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 8,
+          "Penalty": 4.434756,
+          "Cost": 0
+        },
+        "Tier": 2,
+        "HostCountry": null,
+        "State": null,
+        "City": null,
+        "Features": 1,
+        "ExitLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "EntryLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "9",
+        "EntryCountry": "FI",
+        "ExitCountry": "FI",
+        "Name": "FI#1",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.9",
+            "EntryPerProtocol": null,
+            "Domain": "fi-01.protonvpn.com",
+            "ID": null,
+            "Label": "",
+            "Status": 1,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 9,
+          "Penalty": 2.434756,
+          "Cost": 0
+        },
+        "Tier": 1,
+        "HostCountry": null,
+        "State": null,
+        "City": null,
+        "Features": 0,
+        "ExitLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "EntryLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "10",
+        "EntryCountry": "SE",
+        "ExitCountry": "SE",
+        "Name": "SE#3",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.10",
+            "EntryPerProtocol": null,
+            "Domain": "se-03.protonvpn.com",
+            "ID": null,
+            "Label": "",
+            "Status": 0,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 10,
+          "Penalty": 3.434756,
+          "Cost": 0
+        },
+        "Tier": 0,
+        "HostCountry": null,
+        "State": null,
+        "City": null,
+        "Features": 4,
+        "ExitLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "EntryLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "11",
+        "EntryCountry": "HK",
+        "ExitCountry": "HK",
+        "Name": "HK#1",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.11",
+            "EntryPerProtocol": null,
+            "Domain": "se-03.protonvpn.com",
+            "ID": "11",
+            "Label": "",
+            "Status": 1,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 11,
+          "Penalty": 2.5216639000000001,
+          "Cost": 0
+        },
+        "Tier": 1,
+        "HostCountry": null,
+        "State": null,
+        "City": "Hong Kong",
+        "Features": 4,
+        "ExitLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "EntryLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "12",
+        "EntryCountry": "UA",
+        "ExitCountry": "UA",
+        "Name": "UA#9",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.12",
+            "EntryPerProtocol": null,
+            "Domain": "ua-09.protonvpn.com",
+            "ID": "12",
+            "Label": "",
+            "Status": 1,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 12,
+          "Penalty": 2.2122074299999999,
+          "Cost": 0
+        },
+        "Tier": 1,
+        "HostCountry": null,
+        "State": null,
+        "City": "Kyiv",
+        "Features": 0,
+        "ExitLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "EntryLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "13",
+        "EntryCountry": "UA",
+        "ExitCountry": "UA",
+        "Name": "UA#10",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.13",
+            "EntryPerProtocol": null,
+            "Domain": "ua-10.protonvpn.com",
+            "ID": "13",
+            "Label": "",
+            "Status": 1,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 13,
+          "Penalty": 2.30711003,
+          "Cost": 0
+        },
+        "Tier": 0,
+        "HostCountry": null,
+        "State": null,
+        "City": "Kyiv",
+        "Features": 0,
+        "ExitLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "EntryLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "14",
+        "EntryCountry": "EG",
+        "ExitCountry": "EG",
+        "Name": "EG#11",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.14",
+            "EntryPerProtocol": null,
+            "Domain": "node-eg-01.protonvpn.net",
+            "ID": "14",
+            "Label": "",
+            "Status": 1,
+            "X25519PublicKey": "fake-key"
+          }
+        ],
+        "StatusReference": {
+          "Index": 14,
+          "Penalty": 1.28381163,
+          "Cost": 0
+        },
+        "Tier": 2,
+        "HostCountry": "RO",
+        "State": null,
+        "City": "Cairo",
+        "Features": 0,
+        "ExitLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "EntryLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "Translations": null,
+        "GatewayName": null
+      },
+      {
+        "ID": "15",
+        "EntryCountry": "CH",
+        "ExitCountry": "CH",
+        "Name": "CH#301#PARTNER",
+        "Servers": [
+          {
+            "EntryIP": "127.0.0.15",
+            "EntryPerProtocol": null,
+            "Domain": "ch-301.protonvpn.net",
+            "ID": "15",
+            "Label": "partner",
+            "Status": 1,
+            "X25519PublicKey": "fake-key",
+            "Signature": "fake-signature"
+          }
+        ],
+        "StatusReference": {
+          "Index": 15,
+          "Penalty": 99.0,
+          "Cost": 0
+        },
+        "Tier": 0,
+        "HostCountry": null,
+        "State": null,
+        "City": null,
+        "Features": 64,
+        "ExitLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "EntryLocation": {
+          "Latitude": 59.33,
+          "Longitude": 18.05
+        },
+        "Translations": null,
+        "GatewayName": null
+      }
+    ]
+        """.trimIndent()
     }
-]
-    """.trimIndent()
-}

@@ -30,10 +30,8 @@ import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.servers.UpdateServerListFromApi
 import com.protonvpn.android.servers.api.LogicalServer
-import com.protonvpn.android.servers.api.LogicalServerV1
 import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.servers.api.LogicalsStatusId
-import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
@@ -49,7 +47,6 @@ import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.mocks.createInMemoryServersDataManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
-import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
@@ -94,9 +91,8 @@ private const val OLD_IP = "10.0.0.1"
 private const val BACKGROUND_DELAY_MS = 1000L
 private const val FOREGROUND_DELAY_MS = 100L
 
-private val FULL_LIST_LOGICALS_V1 = MockedServers.logicalsList
 private val LIST_LOGICALS_V2 = listOf(createLogicalServer("ID1"), createLogicalServer("ID2"))
-private val STATUS_ID: LogicalsStatusId = "StatusId"
+private const val STATUS_ID: LogicalsStatusId = "StatusId"
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ServerListUpdaterTests {
@@ -114,7 +110,6 @@ class ServerListUpdaterTests {
     private lateinit var mockPeriodicUpdateManager: PeriodicUpdateManager
 
     private lateinit var fakeUpdateWithBinaryStatus: FakeUpdateServersWithBinaryStatus
-    private lateinit var fakeServerListV1Backend: FakeServerListV1Backend
     private lateinit var fakeServerListV2Backend: FakeServerListV2Backend
     private lateinit var remoteConfig: ServerListUpdaterRemoteConfig
     private lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
@@ -149,10 +144,6 @@ class ServerListUpdaterTests {
             )
         )
         fakeUpdateWithBinaryStatus = FakeUpdateServersWithBinaryStatus()
-        fakeServerListV1Backend = FakeServerListV1Backend(
-            serverLastModified = { testScope.currentTime },
-            fullLogicals = FULL_LIST_LOGICALS_V1
-        )
         fakeServerListV2Backend = FakeServerListV2Backend(
             serverLastModified = { testScope.currentTime },
             logicals = LIST_LOGICALS_V2,
@@ -161,10 +152,6 @@ class ServerListUpdaterTests {
         runWhileGettingServerList = {}
         coEvery { guestHole.runWithGuestHoleFallback(any<suspend () -> Any?>()) } coAnswers { firstArg<suspend () -> Any?>()() }
         val currentUser = CurrentUser(TestCurrentUserProvider(TestUser.freeUser.vpnUser))
-        coEvery { mockApi.getServerListV1(any(), any(), any(), any()) } answers {
-            runWhileGettingServerList()
-            fakeServerListV1Backend.createResponse(lastModified = arg(2))
-        }
         coEvery { mockApi.getServerList(any(), any(), any(), any()) } answers {
             runWhileGettingServerList()
             fakeServerListV2Backend.createResponse(lastModified = arg(2))
@@ -315,27 +302,6 @@ private abstract class FakeServerListBackend(
             .message("Not Modified")
             .protocol(Protocol.HTTP_1_1)
             .build()
-    )
-}
-
-private class FakeServerListV1Backend(
-    serverLastModified: () -> Long,
-    var fullLogicals: List<LogicalServerV1>,
-) : FakeServerListBackend(serverLastModified) {
-
-    fun createResponse(
-        lastModified: Long,
-    ) = createResponse(lastModified) { isListTruncated, headers ->
-        response(fullLogicals, isListTruncated, headers)
-    }
-
-    private fun response(
-        list: List<LogicalServerV1>,
-        isListTruncated: Boolean,
-        headers: Headers
-    ): Response<ServerListV1> = Response.success(
-        ServerListV1(list, LogicalsMetadata(listIsTruncated = isListTruncated)),
-        headers
     )
 }
 

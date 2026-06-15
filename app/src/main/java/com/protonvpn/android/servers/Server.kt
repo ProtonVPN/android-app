@@ -24,7 +24,6 @@ import com.protonvpn.android.redesign.countries.city
 import com.protonvpn.android.redesign.countries.state
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.servers.api.LogicalServer
-import com.protonvpn.android.servers.api.LogicalServerV1
 import com.protonvpn.android.servers.api.SERVER_FEATURE_IPV6
 import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
 import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
@@ -154,31 +153,7 @@ data class Server(
     }
 }
 
-fun LogicalServerV1.toServer() = Server(
-    serverId = serverId,
-    entryCountry = entryCountry,
-    rawExitCountry = exitCountry,
-    serverName = serverName,
-    connectingDomains = connectingDomains,
-    hostCountry = hostCountry,
-    load = load,
-    tier = tier,
-    state = state,
-    city = city,
-    features = features,
-    exitLocation = with(location) {
-        ServerLocation(latitude = latitude.toFloatOrNull() ?: 0f, longitude = longitude.toFloatOrNull() ?: 0f)
-    },
-    translations = translations,
-    rawGatewayName = rawGatewayName,
-    score = score,
-    rawIsOnline = isOnline,
-    isVisible = true,
-)
-
-fun Iterable<LogicalServerV1>.toServers() = map { it.toServer() }
-
-fun LogicalServer.toPartialServer() = Server(
+fun LogicalServer.toPartialServer(): Server = Server(
     serverId = serverId,
     entryCountry = entryCountry,
     rawExitCountry = exitCountry,
@@ -201,4 +176,4 @@ fun LogicalServer.toPartialServer() = Server(
     isVisible = false,
 )
 
-fun Iterable<LogicalServer>.toPartialServers() = map { it.toPartialServer() }
+fun Iterable<LogicalServer>.toPartialServers(): List<Server> = map(LogicalServer::toPartialServer)

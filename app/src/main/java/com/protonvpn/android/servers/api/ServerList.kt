@@ -23,12 +23,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class ServerListV1(
-    @SerialName(value = "LogicalServers") val serverList: List<LogicalServerV1>,
-    @SerialName(value = "ResponseMetadata") val metadata: LogicalsMetadata? = null,
-)
-
-@Serializable
 class LogicalsResponse(
     @SerialName(value = "StatusID") val statusId: String,
     @SerialName(value = "LogicalServers") val serverList: List<LogicalServer>,

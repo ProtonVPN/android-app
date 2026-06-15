@@ -40,7 +40,6 @@ import com.protonvpn.android.servers.api.CityTranslationsResponse
 import com.protonvpn.android.servers.api.ConnectingDomainResponse
 import com.protonvpn.android.servers.api.LoadsResponse
 import com.protonvpn.android.servers.api.LogicalsResponse
-import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.servers.api.StreamingServicesResponse
 import com.protonvpn.android.telemetry.StatsEvent
@@ -75,14 +74,6 @@ class TestProtonApiRetroFitWrapper(private val apiHolder: AtomicReference<Proton
 
     override suspend fun getServerCities(languageTag: String): ApiResult<CityTranslationsResponse> =
         api.getServerCities(languageTag)
-
-    override suspend fun getServerListV1(
-        netzone: String?,
-        protocols: List<String>,
-        lastModified: Long,
-        mustHaveIDs: Set<String>?,
-    ): ApiResult<Response<ServerListV1>> =
-        api.getServerListV1(netzone, protocols, lastModified, mustHaveIDs)
 
     override suspend fun getServerList(
         netzone: String?,

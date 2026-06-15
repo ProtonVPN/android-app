@@ -20,14 +20,12 @@
 package com.protonvpn.mocks
 
 import com.protonvpn.android.appconfig.AppConfigResponse
-import com.protonvpn.android.promooffers.data.ApiNotificationsResponse
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.vpn.CertificateResponse
+import com.protonvpn.android.promooffers.data.ApiNotificationsResponse
 import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.servers.api.SERVER_FEATURE_SECURE_CORE
-import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.servers.api.ServersCountResponse
-import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createLogicalServer
 import me.proton.core.featureflag.data.remote.response.GetUnleashTogglesResponse
@@ -75,15 +73,6 @@ sealed class TestApiConfig {
                     respond("""{"Code":1000,"Card":0,"Paypal":0,"Bitcoin":0,"InApp":0}""")
                 }
 
-                rule(get, path eq "/vpn/v1/logicals") { request ->
-                    val tier = request.requestUrl?.queryParameter("Tier")?.toInt()
-                    val servers = if (tier != null) {
-                        MockedServers.logicalsList.filter { it.tier == tier }
-                    } else {
-                        MockedServers.logicalsList
-                    }
-                    respond(ServerListV1(servers))
-                }
                 rule(get, path eq "/vpn/v2/logicals") {
                     val servers = listOf(
                         createLogicalServer(

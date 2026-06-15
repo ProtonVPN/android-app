@@ -43,7 +43,7 @@ import com.protonvpn.android.servers.ServersResult
 import com.protonvpn.android.servers.api.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
 import com.protonvpn.android.servers.api.ServerEntryInfo
-import com.protonvpn.android.servers.toServers
+import com.protonvpn.android.servers.toPartialServers
 import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.CountryTools
@@ -623,20 +623,20 @@ class VpnConnectionErrorHandlerTests {
     @Test
     fun testUnreachableSwitchesToSameServerWithDifferentIp() = testScope.runTest {
         val initialLogicals = listOf(MockedServers.logicalsList[0], MockedServers.logicalsList[1])
-        assertEquals(1, initialLogicals[0].connectingDomains.size)
-        val initialServer1Domain = initialLogicals[0].connectingDomains[0]
+        assertEquals(1, initialLogicals[0].physicalServers.size)
+        val initialServer1Domain = initialLogicals[0].physicalServers[0]
         val updatedLogicals = listOf(
             initialLogicals[0].copy(
-                connectingDomains = listOf(
-                    initialLogicals[0].connectingDomains[0].copy(
+                physicalServers = listOf(
+                    initialLogicals[0].physicalServers[0].copy(
                         entryIp = "123.0.0.3"
                     )
                 )
             ),
             initialLogicals[1].copy()
         )
-        val initialServers = initialLogicals.toServers()
-        val updatedServers = updatedLogicals.toServers()
+        val initialServers = initialLogicals.toPartialServers()
+        val updatedServers = updatedLogicals.toPartialServers()
         coEvery { mockServerUpdater.updateServerListIfStale() } answers {
             prepareServerManager(updatedServers)
         }

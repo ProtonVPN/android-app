@@ -78,7 +78,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -295,9 +294,7 @@ class TvMainViewModelTests {
         val server1 = MockedServers.server
         val server2 = MockedServers.serverList[2]
         assertNotEquals("Servers in this test need to be in different countries", server1.exitCountry, server2.exitCountry)
-        runBlocking {
-            serverManager.setServers(listOf(server1), null)
-        }
+        serverManager.setServers(listOf(server1), null)
 
         // Note: this assumes that defaultConnection is for the fastest server.
         val firstDefaultServer = serverManager.getServerForProfile(
@@ -316,9 +313,7 @@ class TvMainViewModelTests {
         assertEquals(1, recentsBefore.size)
         assertIs<QuickConnectCard>(recentsBefore[0])
 
-        runBlocking {
-            serverManager.setServers(listOf(server2), null)
-        }
+        serverManager.setServers(listOf(server2), null)
         val secondDefaultServer = serverManager.getServerForProfile(
             profileManager.getDefaultOrFastestSync(),
             vpnUserFlow.value,

@@ -48,7 +48,6 @@ import com.protonvpn.android.servers.api.CityTranslationsResponse
 import com.protonvpn.android.servers.api.ConnectingDomainResponse
 import com.protonvpn.android.servers.api.LoadsResponse
 import com.protonvpn.android.servers.api.LogicalsResponse
-import com.protonvpn.android.servers.api.ServerListV1
 import com.protonvpn.android.servers.api.ServersCountResponse
 import com.protonvpn.android.servers.api.StreamingServicesResponse
 import com.protonvpn.android.telemetry.StatsBody
@@ -74,13 +73,6 @@ interface ProtonApiRetroFit {
     suspend fun postBugReport(params: RequestBody): ApiResult<GenericResponse>
 
     suspend fun getServerCities(languageTag: String): ApiResult<CityTranslationsResponse>
-
-    suspend fun getServerListV1(
-        netzone: String?,
-        protocols: List<String>,
-        lastModified: Long,
-        mustHaveIDs: Set<String>?,
-    ): ApiResult<Response<ServerListV1>>
 
     suspend fun getServerList(
         netzone: String?,
@@ -167,22 +159,6 @@ class ProtonApiRetroFitImpl @Inject constructor(
 
     override suspend fun getServerCities(languageTag: String) = manager {
         getServerCities(languageTag)
-    }
-
-    override suspend fun getServerListV1(
-        netzone: String?,
-        protocols: List<String>,
-        lastModified: Long,
-        mustHaveIDs: Set<String>?,
-    ) = manager {
-        getServersV1(
-            timeoutOverride = TimeoutOverride(readTimeoutSeconds = 20),
-            headers = createLogicalsHeaders(netzone, lastModified),
-            protocols = protocols.joinToString(","),
-            withState = true,
-            userTier = null,
-            includeIDs = mustHaveIDs?.encodeParamSet()
-        )
     }
 
     override suspend fun getServerList(
