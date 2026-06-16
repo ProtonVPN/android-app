@@ -37,11 +37,12 @@ import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.restrictions
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -83,7 +84,7 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
 
         vpnStateMonitor = VpnStateMonitor()
         testScope = TestScope()
-        every { mockDialogOpener.invoke(any()) } just Runs
+        coEvery { mockDialogOpener.invoke(any()) } just Runs
         every { mockIsTvCheck.invoke() } returns false
         val restrictionsUpsellStoreProvider =
             RestrictionsUpsellStoreProvider(InMemoryDataStoreFactory())
@@ -140,7 +141,7 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
         testScope.runTest {
             createAndStartDialogTrigger()
             runCurrentAndGoForeground()
-            verify(exactly = 0) { mockDialogOpener.invoke(any()) }
+            coVerify(exactly = 0) { mockDialogOpener.invoke(any()) }
         }
 
     @Test
@@ -151,7 +152,7 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
                 restrictions(VpnConnectionRestriction.Streaming)
             )
             runCurrentAndGoForeground(advanceTimeBy = 45.minutes)
-            verify { mockDialogOpener.invoke(any()) }
+            coVerify { mockDialogOpener.invoke(any()) }
         }
 
     @Test
@@ -162,13 +163,13 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
                 restrictions(VpnConnectionRestriction.Streaming, id = UUID1)
             )
             runCurrentAndGoForeground()
-            verify(exactly = 1) { mockDialogOpener.invoke(any()) }
+            coVerify(exactly = 1) { mockDialogOpener.invoke(any()) }
 
             vpnStateMonitor.eventRestrictions.tryEmit(
                 restrictions(VpnConnectionRestriction.Streaming, id = UUID1)
             )
             runCurrentAndGoForeground()
-            verify(exactly = 1) { mockDialogOpener.invoke(any()) }
+            coVerify(exactly = 1) { mockDialogOpener.invoke(any()) }
         }
 
     @Test
@@ -178,9 +179,9 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
             restrictions(VpnConnectionRestriction.Streaming)
         )
         runCurrentAndGoForeground()
-        verify(exactly = 1) { mockDialogOpener.invoke(any()) }
+        coVerify(exactly = 1) { mockDialogOpener.invoke(any()) }
         dialogTrigger.showNow(mockk())
-        verify(exactly = 1) { mockDialogOpener.invoke(any()) }
+        coVerify(exactly = 1) { mockDialogOpener.invoke(any()) }
     }
 
     @Test
@@ -191,7 +192,7 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
                 restrictions(VpnConnectionRestriction.Streaming)
             )
             runCurrentAndGoForeground(2.hours)
-            verify(exactly = 0) { mockDialogOpener.invoke(any()) }
+            coVerify(exactly = 0) { mockDialogOpener.invoke(any()) }
         }
 
     @Test
@@ -207,7 +208,7 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
                 restrictions(VpnConnectionRestriction.Streaming)
             )
             runCurrentAndGoForeground(30.minutes)
-            verify { mockDialogOpener.invoke(any()) }
+            coVerify { mockDialogOpener.invoke(any()) }
         }
 
     @Test
@@ -218,13 +219,13 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
                 restrictions(VpnConnectionRestriction.Streaming, id = UUID1)
             )
             runCurrentAndGoForeground()
-            verify(exactly = 1) { mockDialogOpener.invoke(any()) }
+            coVerify(exactly = 1) { mockDialogOpener.invoke(any()) }
 
             vpnStateMonitor.eventRestrictions.tryEmit(
                 restrictions(VpnConnectionRestriction.Streaming, id = UUID2)
             )
             runCurrentAndGoForeground()
-            verify(exactly = 2) { mockDialogOpener.invoke(any()) }
+            coVerify(exactly = 2) { mockDialogOpener.invoke(any()) }
         }
 
     @Test
@@ -236,18 +237,18 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
                 restrictions(VpnConnectionRestriction.Streaming, id = connectionId1)
             )
             runCurrentAndGoForeground()
-            verify(exactly = 1) { mockDialogOpener.invoke(any()) }
+            coVerify(exactly = 1) { mockDialogOpener.invoke(any()) }
             runCurrentAndGoForeground()
             val state = restrictionsUpsellStore.state.first().streaming
             assertEquals(connectionId1.toString(), state.lastDialogConnectionId)
-            verify(exactly = 1) { mockDialogOpener.invoke(any()) }
+            coVerify(exactly = 1) { mockDialogOpener.invoke(any()) }
 
             val connectionId2 = UUID.randomUUID()
             vpnStateMonitor.eventRestrictions.tryEmit(
                 restrictions(VpnConnectionRestriction.Streaming, id = connectionId2)
             )
             runCurrentAndGoForeground()
-            verify(exactly = 2) { mockDialogOpener.invoke(any()) }
+            coVerify(exactly = 2) { mockDialogOpener.invoke(any()) }
         }
 
     @Test
@@ -262,10 +263,10 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
 
             vpnStateMonitor.eventRestrictions.tryEmit(streamingRestriction)
             runCurrentAndGoForeground()
-            verify(exactly = 1) { mockDialogOpener.invoke(any()) }
+            coVerify(exactly = 1) { mockDialogOpener.invoke(any()) }
 
             runCurrentAndGoForeground()
-            verify(exactly = 1) { mockDialogOpener.invoke(any()) }
+            coVerify(exactly = 1) { mockDialogOpener.invoke(any()) }
         }
 
     @Test
@@ -277,7 +278,7 @@ class StreamingUpsellRestrictionsDialogTriggerTests {
                 restrictions(VpnConnectionRestriction.Streaming)
             )
             runCurrentAndGoForeground()
-            verify(exactly = 0) { mockDialogOpener.invoke(any()) }
+            coVerify(exactly = 0) { mockDialogOpener.invoke(any()) }
         }
 
     private fun TestScope.runCurrentAndGoForeground(advanceTimeBy: Duration = 2.minutes) {

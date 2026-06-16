@@ -27,6 +27,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.protonvpn.android.base.ui.nav.BaseNav
+import com.protonvpn.android.base.ui.nav.NavigationTransition
+import com.protonvpn.android.base.ui.nav.SafeNavGraphBuilder
+import com.protonvpn.android.base.ui.nav.Screen
+import com.protonvpn.android.base.ui.nav.ScreenNoArg
+import com.protonvpn.android.base.ui.nav.addToGraph
+import com.protonvpn.android.base.ui.nav.addToGraphWithSlideAnim
 import com.protonvpn.android.profiles.ui.AddEditProfileRoute
 import com.protonvpn.android.profiles.ui.AddEditProfileSteps
 import com.protonvpn.android.profiles.ui.CreateEditProfileViewModel
@@ -43,13 +50,6 @@ import com.protonvpn.android.profiles.ui.nav.ProfileLanSubScreen.profileLanScree
 import com.protonvpn.android.profiles.ui.nav.ProfileMainScreen.profileMainScreen
 import com.protonvpn.android.profiles.ui.nav.ProfileTypeAndLocationScreen.profileTypeAndLocationScreen
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
-import com.protonvpn.android.base.ui.nav.BaseNav
-import com.protonvpn.android.base.ui.nav.NavigationTransition
-import com.protonvpn.android.base.ui.nav.SafeNavGraphBuilder
-import com.protonvpn.android.base.ui.nav.Screen
-import com.protonvpn.android.base.ui.nav.ScreenNoArg
-import com.protonvpn.android.base.ui.nav.addToGraph
-import com.protonvpn.android.base.ui.nav.addToGraphWithSlideAnim
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen

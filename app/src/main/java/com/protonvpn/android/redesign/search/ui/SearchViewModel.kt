@@ -39,7 +39,6 @@ import com.protonvpn.android.redesign.countries.ui.sortedForUi
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.search.FetchServerResult
 import com.protonvpn.android.redesign.search.SearchServerRemote
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnect
@@ -76,7 +75,6 @@ class SearchViewModel @Inject constructor(
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
     translator: Translator,
-    upgradeDialogLauncher: UpgradeDialogLauncher,
 ) : ServerGroupsViewModel<SearchViewState>(
     screenId = "search_view",
     savedStateHandle = savedStateHandle,
@@ -86,7 +84,6 @@ class SearchViewModel @Inject constructor(
     currentUser = currentUser,
     vpnStatusProviderUI = vpnStatusProviderUI,
     translator = translator,
-    upgradeDialogLauncher = upgradeDialogLauncher,
     defaultMainSavedState = ServerGroupsMainScreenSaveState(
         selectedFilter = ServerFilterType.All
     )

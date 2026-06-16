@@ -164,6 +164,7 @@ private object HomeViewData {
             onConnectionCardClick = {},
             onChangeServerClick = {},
             onChangeServerUpgradeButtonShown = {},
+            onChangeServerUpgradeClick = {},
             changeServerState = changeServerViewState
         )
 

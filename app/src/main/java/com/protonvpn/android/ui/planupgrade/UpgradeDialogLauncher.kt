@@ -22,36 +22,106 @@ package com.protonvpn.android.ui.planupgrade
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.AbTestComparisonTable
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM.Companion.createIntent
 import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableExperimentEnabled
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.Reusable
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 @Reusable
 class UpgradeDialogLauncher @Inject constructor(
-    private val mainScope: CoroutineScope,
     private val currentUser: CurrentUser,
     private val isUpsellComparisonTableExperimentEnabled: dagger.Lazy<IsUpsellComparisonTableExperimentEnabled>,
 ) {
-    fun launch(
+
+    suspend inline fun <reified F: FragmentWithUpgradeSource> createCarouselIntent(
+        context: Context,
+        upgradeSource: UpgradeSource,
+        upgradeTrigger: UpgradeTrigger,
+    ): Intent =
+        if (UpgradeDialogActivityV2.isSupported(upgradeSource) && useV2Dialogs()) {
+            UpgradeDialogLauncherVM.createIntent<UpgradeDialogActivityV2>(
+                context, upgradeSource, upgradeTrigger
+            )
+        } else {
+            CarouselUpgradeDialogActivity.createIntent<F>(context, upgradeTrigger)
+        }
+
+    suspend fun launch(
         context: Context,
         upgradeSource: UpgradeSource,
         upgradeTrigger: UpgradeTrigger,
         legacyLaunch: () -> Unit
     ) {
+        if (UpgradeDialogActivityV2.isSupported(upgradeSource) && useV2Dialogs()) {
+            launch<UpgradeDialogActivityV2>(context, upgradeSource, upgradeTrigger)
+        } else {
+            legacyLaunch()
+        }
+    }
+
+    suspend fun useV2Dialogs(): Boolean {
+        if (!isUpsellComparisonTableExperimentEnabled.get().invoke()) return false
+        val userId = currentUser.vpnUser()?.userId ?: return false
+        return AbTestComparisonTable.fromUserId(userId) == AbTestComparisonTable.COMPARISON_TABLE
+    }
+
+    companion object {
+        inline fun <reified T : Activity> launch(
+            context: Context,
+            upgradeSource: UpgradeSource,
+            upgradeTrigger: UpgradeTrigger,
+            country: CountryId? = null
+        ) {
+            context.startActivity(createIntent<T>(context, upgradeSource, upgradeTrigger, country))
+        }
+    }
+}
+
+@HiltViewModel
+class UpgradeDialogLauncherVM @Inject constructor(
+    val mainScope: CoroutineScope,
+    val upgradeDialogLauncher: UpgradeDialogLauncher,
+) : ViewModel() {
+
+    inline fun <reified F : FragmentWithUpgradeSource> launchCarousel(
+        context: Context,
+        upgradeSource: UpgradeSource,
+        upgradeTrigger: UpgradeTrigger,
+    ) {
         mainScope.launch {
-            if (UpgradeDialogActivityV2.isSupported(upgradeSource) && useV2Dialogs()) {
-                UpgradeDialogActivityV2.launch(context, upgradeSource, upgradeTrigger)
-            } else {
-                legacyLaunch()
+            upgradeDialogLauncher.launch(context, upgradeSource, upgradeTrigger) {
+                CarouselUpgradeDialogActivity.launch<F>(context, upgradeTrigger)
+            }
+        }
+    }
+
+    fun launchCarousel(
+        context: Context,
+        upgradeSource: UpgradeSource,
+        upgradeTrigger: UpgradeTrigger,
+        focusedFragmentClass: KClass<out Fragment>?,
+    ) {
+        mainScope.launch {
+            upgradeDialogLauncher.launch(context, upgradeSource, upgradeTrigger) {
+                CarouselUpgradeDialogActivity.launch(
+                    context,
+                    upgradeSource,
+                    upgradeTrigger,
+                    focusedFragmentClass
+                )
             }
         }
     }
@@ -63,8 +133,13 @@ class UpgradeDialogLauncher @Inject constructor(
     ) {
         mainScope.launch {
             val countryId = country?.takeIf { !it.isFastest }
-            if (useV2Dialogs()) {
-                UpgradeDialogActivityV2.launch(context, UpgradeSource.COUNTRIES, upgradeTrigger, countryId)
+            if (upgradeDialogLauncher.useV2Dialogs()) {
+                UpgradeDialogLauncher.launch<UpgradeDialogActivityV2>(
+                    context,
+                    UpgradeSource.COUNTRIES,
+                    upgradeTrigger,
+                    countryId
+                )
             } else {
                 if (countryId != null) {
                     PlusOnlyUpgradeDialogActivity.launch<UpgradeCountryHighlightsFragment>(
@@ -83,25 +158,10 @@ class UpgradeDialogLauncher @Inject constructor(
         }
     }
 
-    private suspend fun useV2Dialogs(): Boolean {
-        if (!isUpsellComparisonTableExperimentEnabled.get().invoke()) return false
-        val userId = currentUser.vpnUser()?.userId ?: return false
-        return AbTestComparisonTable.fromUserId(userId) == AbTestComparisonTable.COMPARISON_TABLE
-    }
-
     companion object {
         const val UPGRADE_SOURCE_KEY = "Upgrade Type"
         const val UPGRADE_TRIGGER_KEY = "Upgrade Trigger"
         const val COUNTRY_KEY = "Country Code"
-
-        inline fun <reified T : Activity> launch(
-            context: Context,
-            upgradeSource: UpgradeSource,
-            upgradeTrigger: UpgradeTrigger,
-            country: CountryId? = null
-        ) {
-            context.startActivity(createIntent<T>(context, upgradeSource, upgradeTrigger, country))
-        }
 
         inline fun <reified T : Activity> createIntent(
             context: Context,

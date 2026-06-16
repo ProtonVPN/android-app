@@ -22,7 +22,6 @@ package com.protonvpn.app.redesign.countries
 import androidx.lifecycle.SavedStateHandle
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
@@ -37,8 +36,7 @@ import com.protonvpn.android.redesign.countries.ui.ServerGroupsMainScreenState
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.telemetry.UpgradeTrigger
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
+import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnState
@@ -51,18 +49,13 @@ import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createServer
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.impl.annotations.MockK
-import io.mockk.just
-import io.mockk.mockk
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -94,9 +87,6 @@ class CountriesViewModelTests {
     @Inject
     lateinit var countriesViewModelInjector: CountriesViewModelInjector
 
-    @MockK
-    private lateinit var mockUpgradeLauncher: UpgradeDialogLauncher
-
     private lateinit var viewModel: CountriesViewModel
 
     private val localePl = Locale("PL", "PL")
@@ -106,7 +96,7 @@ class CountriesViewModelTests {
         MockKAnnotations.init(this)
         roboRule.inject()
         currentUserProvider.vpnUser = TestUser.plusUser.vpnUser
-        viewModel = countriesViewModelInjector.getViewModel(mockUpgradeLauncher)
+        viewModel = countriesViewModelInjector.getViewModel()
     }
 
     @Test
@@ -179,7 +169,7 @@ class CountriesViewModelTests {
     @Test
     fun connectTest() = runTest {
         var connectCalled = false
-        val viewModel = countriesViewModelInjector.getViewModel(mockUpgradeLauncher, connect = { _, _, _ -> connectCalled = true })
+        val viewModel = countriesViewModelInjector.getViewModel(connect = { _, _, _ -> connectCalled = true })
         serverManager.setServers(
             listOf(createServer(exitCountry = "US"), createServer(exitCountry = "JP")),
             null,
@@ -191,12 +181,11 @@ class CountriesViewModelTests {
 
         var homeNavigated = false
         viewModel.onItemConnect(
-            context = mockk(),
             vpnUiDelegate = FakeVpnUiDelegate(),
             item = last,
             filterType = state.selectedFilter,
             navigateToHome = { homeNavigated = true },
-            upgradeTrigger = UpgradeTrigger.COUNTRY_SELECTION,
+            launchUpgrade = {},
         )
         assertTrue(homeNavigated)
         assertTrue(connectCalled)
@@ -210,7 +199,6 @@ class CountriesViewModelTests {
         currentUserProvider.vpnUser = TestUser.freeUser.vpnUser
         var connectCalled = false
         val viewModel = countriesViewModelInjector.getViewModel(
-            mockUpgradeLauncher,
             connect = { _, _, _ -> connectCalled = true }
         )
         serverManager.setServers(
@@ -228,17 +216,16 @@ class CountriesViewModelTests {
         )
 
         // Connecting navigates to upsell
-        coEvery { mockUpgradeLauncher.launchCountries(any(), any(), any()) } just Runs
+        var upgradeLaunched = false
         val last = state.items.last() as ServerGroupUiItem.ServerGroup
         viewModel.onItemConnect(
-            context = mockk(),
             vpnUiDelegate = FakeVpnUiDelegate(),
             item = last,
             filterType = state.selectedFilter,
             navigateToHome = {},
-            upgradeTrigger = UpgradeTrigger.COUNTRY_SELECTION,
+            launchUpgrade = { upgradeLaunched = true },
         )
-        coVerify { mockUpgradeLauncher.launchCountries(any(), any(), any()) }
+        assertTrue(upgradeLaunched)
         assertFalse(connectCalled)
     }
 
@@ -246,7 +233,6 @@ class CountriesViewModelTests {
     fun stateRestoreTest() = runTest {
         val mainSavedState = ServerGroupsMainScreenSaveState(ServerFilterType.Tor)
         val viewModel = countriesViewModelInjector.getViewModel(
-            mockUpgradeLauncher,
             savedStateHandle = SavedStateHandle(
                 mapOf(
                     "country_list:main_screen_state" to mainSavedState,
@@ -271,7 +257,7 @@ class CountriesViewModelTests {
     @Test
     fun freeUserCanOpenCountry() = runTest {
         currentUserProvider.vpnUser = TestUser.freeUser.vpnUser
-        val viewModel = countriesViewModelInjector.getViewModel(mockUpgradeLauncher)
+        val viewModel = countriesViewModelInjector.getViewModel()
         serverManager.setServers(
             listOf(createServer(exitCountry = "US"), createServer(exitCountry = "JP")),
             null,
@@ -293,7 +279,6 @@ class CountriesViewModelTests {
         val connectionParams = ConnectionParams(ConnectIntent.FastestInCountry(CountryId("US"), setOf()), usServer, null, null)
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
         val viewModel = countriesViewModelInjector.getViewModel(
-            mockUpgradeLauncher,
             connect = { _, _, _ -> connectRequested = true }
         )
         serverManager.setServers(
@@ -310,12 +295,11 @@ class CountriesViewModelTests {
         // Clicking on connected country just navigates home
         var homeNavigated = false
         viewModel.onItemConnect(
-            context = mockk(),
             vpnUiDelegate = FakeVpnUiDelegate(),
             item = countries.first { it.connected },
             filterType = state.selectedFilter,
             navigateToHome = { homeNavigated = true },
-            upgradeTrigger = UpgradeTrigger.COUNTRY_SELECTION,
+            launchUpgrade = { Assert.fail() },
         )
         assertTrue(homeNavigated)
         assertFalse(connectRequested)
@@ -357,7 +341,6 @@ class CountriesViewModelInjector @Inject constructor(
     private val translator: Translator,
 ) {
     fun getViewModel(
-        upgradeLauncher: UpgradeDialogLauncher,
         savedStateHandle: SavedStateHandle = SavedStateHandle(),
         connect: VpnConnect = VpnConnect { _, _, _ -> },
     ) = CountriesViewModel(
@@ -368,6 +351,5 @@ class CountriesViewModelInjector @Inject constructor(
         currentUser = currentUser,
         vpnStatusProviderUI = vpnStatusProviderUI,
         translator = translator,
-        upgradeDialogLauncher = upgradeLauncher,
     )
 }

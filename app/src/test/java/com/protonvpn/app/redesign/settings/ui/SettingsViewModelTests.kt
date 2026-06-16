@@ -79,7 +79,6 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -238,7 +237,6 @@ class SettingsViewModelTests {
             ),
             translator = translator,
             isProTunV1FeatureFlagEnabled = FakeIsProTunV1FeatureFlagEnabled(true),
-            upgradeDialogLauncher = mockk(),
         )
     }
 

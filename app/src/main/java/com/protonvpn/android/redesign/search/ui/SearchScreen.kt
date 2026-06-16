@@ -69,11 +69,13 @@ import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.countries.ui.FiltersRow
 import com.protonvpn.android.redesign.countries.ui.ServerGroupItemsList
 import com.protonvpn.android.redesign.countries.ui.ServerGroupUiItem
-import com.protonvpn.android.redesign.countries.ui.ServerGroupsMainScreenState
 import com.protonvpn.android.redesign.countries.ui.ServerGroups
 import com.protonvpn.android.redesign.countries.ui.ServerGroupsActions
+import com.protonvpn.android.redesign.countries.ui.ServerGroupsMainScreenState
+import com.protonvpn.android.redesign.countries.ui.launchBannerUpgradeDialog
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.vpn.ui.LocalVpnUiDelegate
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.headlineNorm
@@ -92,6 +94,7 @@ fun SearchRoute(
             .imePadding()
     ) {
         val viewModel: SearchViewModel = hiltViewModel()
+        val upgradeDialogLauncher: UpgradeDialogLauncherVM = hiltViewModel()
         val focusRequester = remember { FocusRequester() }
 
         val currentQuery = viewModel.searchQueryFlow.collectAsStateWithLifecycle(initialValue = null).value
@@ -116,17 +119,18 @@ fun SearchRoute(
                 onItemOpen = viewModel::onItemOpen,
                 onItemConnect = { item, filterType ->
                     viewModel.onItemConnect(
-                        context,
                         uiDelegate,
                         item,
                         filterType,
                         onNavigateToHomeOnConnect,
-                        UpgradeTrigger.SEARCH_SELECTION,
+                        launchUpgrade = {
+                            upgradeDialogLauncher.launchCountries(context, UpgradeTrigger.SEARCH_SELECTION, item.data.countryId)
+                        },
                     )
                 }
             )
             val onNavigateToUpsell = { bannerType: ServerGroupUiItem.BannerType ->
-                viewModel.launchBannerUpgradeDialog(context, bannerType)
+                upgradeDialogLauncher.launchBannerUpgradeDialog(context, bannerType)
             }
             ServerGroups(
                 mainState = mainState,

@@ -29,6 +29,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.vpn.ui.LocalVpnUiDelegate
 
 @Composable
@@ -37,6 +38,7 @@ fun CountriesRoute(
     onNavigateToSearch: () -> Unit,
 ) {
     val viewModel: CountriesViewModel = hiltViewModel()
+    val upgradeDialogLauncher: UpgradeDialogLauncherVM = hiltViewModel()
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -48,7 +50,7 @@ fun CountriesRoute(
             mainState = mainState,
             subScreenState = subScreenState,
             onNavigateToSearch = onNavigateToSearch,
-            onNavigateToUpsell = { viewModel.launchBannerUpgradeDialog(context, it) },
+            onNavigateToUpsell = { upgradeDialogLauncher.launchBannerUpgradeDialog(context, it) },
             actions = ServerGroupsActions(
                 setLocale = { viewModel.localeFlow.value = it },
                 onNavigateBack = viewModel::onNavigateBack,
@@ -56,12 +58,13 @@ fun CountriesRoute(
                 onItemOpen = viewModel::onItemOpen,
                 onItemConnect = { item, filterType ->
                     viewModel.onItemConnect(
-                        context,
                         uiDelegate,
                         item,
                         filterType,
                         onNavigateToHomeOnConnect,
-                        UpgradeTrigger.COUNTRY_SELECTION,
+                        launchUpgrade = {
+                            upgradeDialogLauncher.launchCountries(context, UpgradeTrigger.COUNTRY_SELECTION, item.data.countryId)
+                        },
                     )
                 },
             ),

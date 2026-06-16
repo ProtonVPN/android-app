@@ -20,13 +20,12 @@
 package com.protonvpn.android.redesign.settings.ui.nav
 
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
-import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
-import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.base.ui.nav.Screen
 import com.protonvpn.android.base.ui.nav.addToGraph
-import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
+import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
+import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
+import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.settings.ui.SubSettingsRoute
 
 object SubSettingsScreen : Screen<SubSettingsScreen.Type, RootNav>("subSettingsScreen") {
@@ -59,7 +58,14 @@ object SubSettingsScreen : Screen<SubSettingsScreen.Type, RootNav>("subSettingsS
         onNavigateToEditProfile: (Long, ProfileCreationStepTarget) -> Unit,
     ) = addToGraph(this) { entry ->
         val type = getArgs<Type>(entry)
-        val viewModel = hiltViewModel<SettingsViewModel>()
-        SubSettingsRoute(viewModel, settingsChangeViewModel, type, onClose, onNavigateToSubSetting, onNavigateToEditProfile)
+        SubSettingsRoute(
+            viewModel = hiltViewModel(),
+            settingsChangeViewModel = settingsChangeViewModel,
+            upgradeDialogLauncher = hiltViewModel(),
+            type = type,
+            onClose = onClose,
+            onNavigateToSubSetting = onNavigateToSubSetting,
+            onNavigateToEditProfile = onNavigateToEditProfile
+        )
     }
 }

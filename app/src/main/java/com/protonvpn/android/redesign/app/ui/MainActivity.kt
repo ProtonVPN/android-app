@@ -75,7 +75,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingActivity
 import com.protonvpn.android.ui.onboarding.WhatsNewActivity
 import com.protonvpn.android.ui.onboarding.WhatsNewDialogController
 import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
@@ -100,6 +100,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     private val accountViewModel: MobileMainAccountViewModel by viewModels()
     private val activityViewModel: MainActivityViewModel by viewModels()
     private val settingsChangeViewModel: SettingsChangeViewModel by viewModels()
+    private val upgradeDialogLauncher: UpgradeDialogLauncherVM by viewModels()
     private lateinit var currentConfiguration: Configuration
 
     @Inject
@@ -116,8 +117,6 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     lateinit var deepLinkHandler: DeepLinkHandler
     @Inject
     lateinit var handleCoreDeepLink: HandleDeeplinkIntent
-    @Inject
-    lateinit var upgradeDialogLauncher: UpgradeDialogLauncher
     @Inject
     lateinit var widgetActionHandler: WidgetActionHandler
     @Inject

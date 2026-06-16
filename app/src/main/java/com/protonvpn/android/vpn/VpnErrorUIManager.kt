@@ -19,7 +19,7 @@ import com.protonvpn.android.tv.upsell.TvUpsellActivity
 import com.protonvpn.android.tv.upsell.TvUpsellContent
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity
-import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Constants
@@ -48,6 +48,7 @@ class VpnErrorUIManager @Inject constructor(
     private val foregroundActivityTracker: ForegroundActivityTracker,
     private val notificationChannels: dagger.Lazy<NotificationChannels>,
     vpnStatusProviderUI: VpnStatusProviderUI,
+    private val upgradeDialogLauncher: UpgradeDialogLauncher,
 ) {
     private val _errorMessages = MutableStateFlow<SnackError?>(null)
     val snackErrorFlow: StateFlow<SnackError?> = _errorMessages.asStateFlow()
@@ -253,12 +254,16 @@ class VpnErrorUIManager @Inject constructor(
         }
     }
 
-    private fun createPlanUpgradeAction(upgradeSource: UpgradeSource): ActionItem {
+    private suspend fun createPlanUpgradeAction(upgradeSource: UpgradeSource): ActionItem {
         val upgradeTrigger = UpgradeTrigger.ERROR_DIALOG
         val activityIntent = if (isTv()) {
             TvUpsellActivity.createIntent(appContext, TvUpsellContent.AllCountries, upgradeSource, upgradeTrigger)
         } else {
-            CarouselUpgradeDialogActivity.createIntent<UpgradePlusCountriesHighlightsFragment>(appContext, upgradeTrigger)
+            upgradeDialogLauncher.createCarouselIntent<UpgradePlusCountriesHighlightsFragment>(
+                appContext,
+                UpgradeSource.COUNTRIES,
+                upgradeTrigger
+            )
         }
         return ActionItem.Activity(
             appContext.getString(R.string.upgrade),

@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.redesign.countries.ui
 
+import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.animateScrollBy
@@ -71,6 +72,13 @@ import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.UpsellBanner
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
+import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
+import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeTorHighlightsFragment
 import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
@@ -347,6 +355,46 @@ fun ServerGroupItemsList(
                 .consumeWindowInsets(WindowInsets.systemBars.only(WindowInsetsSides.Bottom))
             )
         }
+    }
+}
+
+fun UpgradeDialogLauncherVM.launchBannerUpgradeDialog(context: Context, bannerType: ServerGroupUiItem.BannerType) {
+    val countriesBanner = UpgradeTrigger.COUNTRIES_BANNER
+    when (bannerType) {
+        ServerGroupUiItem.BannerType.Countries ->
+            launchCarousel<UpgradePlusCountriesHighlightsFragment>(
+                context,
+                UpgradeSource.COUNTRIES,
+                countriesBanner
+            )
+
+        ServerGroupUiItem.BannerType.SecureCore ->
+            launchCarousel<UpgradeSecureCoreHighlightsFragment>(
+                context,
+                UpgradeSource.SECURE_CORE,
+                countriesBanner
+            )
+
+        ServerGroupUiItem.BannerType.P2P ->
+            launchCarousel<UpgradeP2PHighlightsFragment>(
+                context,
+                UpgradeSource.P2P,
+                countriesBanner
+            )
+
+        ServerGroupUiItem.BannerType.Tor ->
+            launchCarousel<UpgradeTorHighlightsFragment>(
+                context,
+                UpgradeSource.TOR,
+                countriesBanner
+            )
+
+        is ServerGroupUiItem.BannerType.Search ->
+            launchCarousel<UpgradePlusCountriesHighlightsFragment>(
+                context,
+                UpgradeSource.COUNTRIES,
+                UpgradeTrigger.SEARCH
+            )
     }
 }
 

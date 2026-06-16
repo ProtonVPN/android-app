@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.ui.planupgrade.comparison_table
 
-import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -73,12 +72,11 @@ import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.telemetry.UpgradeSource
-import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.PaymentPanel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.BenefitsViewState
 import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
@@ -119,7 +117,7 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
         enableEdgeToEdgeVpn()
 
         val plusCountries = upsellBenefitsViewModel.getAllCountryCount()
-        val (upgradeSource, upgradeTrigger, country) = UpgradeDialogLauncher.getUpgradeSourceInfo(intent)
+        val (upgradeSource, upgradeTrigger, country) = UpgradeDialogLauncherVM.getUpgradeSourceInfo(intent)
         val initialContent = upgradeSource?.let { getContentType(upgradeSource, country, plusCountries) }
         if (initialContent == null || upgradeTrigger == null) {
             Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
@@ -163,20 +161,6 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
     }
 
     companion object {
-        fun launch(
-            context: Context,
-            upgradeSource: UpgradeSource,
-            upgradeTrigger: UpgradeTrigger,
-            country: CountryId? = null
-        ) {
-            UpgradeDialogLauncher.launch<UpgradeDialogActivityV2>(
-                context,
-                upgradeSource,
-                upgradeTrigger,
-                country
-            )
-        }
-
         fun isSupported(upgradeSource: UpgradeSource): Boolean =
             getContentType(upgradeSource, null, plusCountries = 0) != null
 

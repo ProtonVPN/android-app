@@ -37,6 +37,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.databinding.FreeConnectionsInfoBinding
 import com.protonvpn.android.databinding.InfoFreeCountryItemBinding
+import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import me.proton.core.compose.theme.ProtonTheme
@@ -50,11 +52,12 @@ private const val FLAG_HEIGHT_DP = 16
 fun FreeConnectionsInfoBottomSheet(
     onDismissRequest: () -> Unit,
     viewModel: FreeConnectionsInfoViewModel = hiltViewModel(),
+    upgradeDialogLauncher: UpgradeDialogLauncherVM = hiltViewModel(),
 ) {
     val context = LocalContext.current
     FreeConnectionsInfoBottomSheet(
         onDismissRequest = onDismissRequest,
-        onUpgrade = { viewModel.launchUpgradeDialog(context) },
+        onUpgrade = { upgradeDialogLauncher.launchCountries(context, UpgradeTrigger.HOME, null) },
         freeCountries = viewModel.freeCountriesCodes
     )
 }

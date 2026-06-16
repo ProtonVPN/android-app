@@ -61,7 +61,7 @@ import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.PlanModel
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
 import dagger.hilt.android.AndroidEntryPoint
@@ -96,7 +96,7 @@ class TvUpsellActivity : BaseTvActivity() {
         upgradeActivityHelper.onCreate(viewModel)
 
         if (savedInstanceState == null) {
-            val (upgradeSource, upgradeTrigger, country) = UpgradeDialogLauncher.getUpgradeSourceInfo(intent)
+            val (upgradeSource, upgradeTrigger, country) = UpgradeDialogLauncherVM.getUpgradeSourceInfo(intent)
             if (upgradeSource == null || upgradeTrigger == null) {
                 Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
                 finish()
@@ -148,7 +148,7 @@ class TvUpsellActivity : BaseTvActivity() {
             upgradeSource: UpgradeSource,
             upgradeTrigger: UpgradeTrigger,
             country: CountryId? = null
-        ) = UpgradeDialogLauncher.createIntent<TvUpsellActivity>(
+        ) = UpgradeDialogLauncherVM.createIntent<TvUpsellActivity>(
             context,
             upgradeSource,
             upgradeTrigger,

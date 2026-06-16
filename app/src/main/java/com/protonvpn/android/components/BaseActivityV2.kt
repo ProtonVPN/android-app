@@ -26,12 +26,13 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.tv.IsTvCheck
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper
 import com.protonvpn.android.ui.snackbar.SnackbarHelper
@@ -50,7 +51,7 @@ abstract class BaseActivityV2 : AppCompatActivity(), VpnUiDelegateProvider {
 
     @Inject lateinit var delegatedSnackManager: DelegatedSnackManager
     @Inject lateinit var isTv: IsTvCheck
-    @Inject lateinit var upgradeDialogLauncher: UpgradeDialogLauncher
+    private val upgradeDialogLauncher: UpgradeDialogLauncherVM by viewModels()
 
     lateinit var snackbarHelper: SnackbarHelper
         private set

@@ -53,14 +53,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarBackIcon
+import com.protonvpn.android.base.ui.collectAsEffect
+import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
-import com.protonvpn.android.base.ui.collectAsEffect
-import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.settings.ui.connectionpreferences.ConnectionPreferencesSetting
@@ -72,8 +72,8 @@ import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
-import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeAdvancedCustomizationHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelAppsActivity
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelIpsActivity
 import com.protonvpn.android.utils.Constants
@@ -97,6 +97,7 @@ import me.proton.core.usersettings.presentation.ui.StartUpdateRecoveryEmail
 fun SubSettingsRoute(
     viewModel: SettingsViewModel,
     settingsChangeViewModel: SettingsChangeViewModel,
+    upgradeDialogLauncher: UpgradeDialogLauncherVM,
     type: SubSettingsScreen.Type,
     onClose: () -> Unit,
     onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
@@ -169,7 +170,7 @@ fun SubSettingsRoute(
                         onOpenMyAccount = { context.openUrl(Constants.URL_ACCOUNT_LOGIN) },
                         onDeleteAccount = { context.openUrl(Constants.URL_ACCOUNT_DELETE) },
                         onUpgrade = {
-                            CarouselUpgradeDialogActivity.launch(
+                            upgradeDialogLauncher.launchCarousel(
                                 context,
                                 UpgradeSource.ACCOUNT,
                                 UpgradeTrigger.SETTINGS,
@@ -212,15 +213,17 @@ fun SubSettingsRoute(
                             },
                             onAllowLanRestricted = {
                                 onOverrideSettingClick(OverrideType.LAN) {
-                                    CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
+                                    upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
                                         context,
+                                        UpgradeSource.ADVANCED_CUSTOMIZATION,
                                         UpgradeTrigger.SETTINGS,
                                     )
                                 }
                             },
                             onNatTypeRestricted = {
-                                CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
+                                upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
                                     context,
+                                    UpgradeSource.ADVANCED_CUSTOMIZATION,
                                     UpgradeTrigger.SETTINGS,
                                 )
                             },
@@ -231,8 +234,9 @@ fun SubSettingsRoute(
                                 context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE)
                             },
                             onCustomDnsRestricted = {
-                                CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
+                                upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
                                     context,
+                                    UpgradeSource.ADVANCED_CUSTOMIZATION,
                                     UpgradeTrigger.SETTINGS,
                                 )
                             }
@@ -415,9 +419,10 @@ fun SubSettingsRoute(
                         onDeleteExcludedLocationClick = settingsChangeViewModel::onRemoveExcludedLocation,
                         onExcludedLocationsFeatureDiscovered = viewModel::onExcludedLocationsDiscovered,
                         onUpsellClick = {
-                            CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
-                                context = context,
-                                upgradeTrigger = UpgradeTrigger.SETTINGS,
+                            upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
+                                context,
+                                UpgradeSource.ADVANCED_CUSTOMIZATION,
+                                UpgradeTrigger.SETTINGS,
                             )
                         },
                         snackbarHostState = snackbarHostState,

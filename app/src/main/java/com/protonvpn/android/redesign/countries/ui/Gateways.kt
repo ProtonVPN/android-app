@@ -23,12 +23,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
-import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.ui.LocalVpnUiDelegate
 
 @Composable
@@ -40,14 +39,13 @@ fun GatewaysRoute(
         modifier = Modifier.fillMaxSize()
     ) {
         val uiDelegate = LocalVpnUiDelegate.current
-        val context = LocalContext.current
         val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value
         val subScreenState = viewModel.subScreenStateFlow.collectAsStateWithLifecycle().value
         ServerGroupsWithToolbar(
             mainState = mainState,
             subScreenState = subScreenState,
             onNavigateToSearch = null,
-            onNavigateToUpsell = { viewModel.launchBannerUpgradeDialog(context, it) },
+            onNavigateToUpsell = { DebugUtils.fail("Gateways don't have upsell dialogs.") },
             actions = ServerGroupsActions(
                 setLocale = { viewModel.localeFlow.value = it },
                 onNavigateBack = viewModel::onNavigateBack,
@@ -55,13 +53,13 @@ fun GatewaysRoute(
                 onItemOpen = viewModel::onItemOpen,
                 onItemConnect = { item, filterType ->
                     viewModel.onItemConnect(
-                        context,
                         uiDelegate,
                         item,
                         filterType,
                         onNavigateToHomeOnConnect,
-                        // Gateways don't have upsells, this value is never used.
-                        UpgradeTrigger.COUNTRY_SELECTION,
+                        launchUpgrade = {
+                            DebugUtils.fail("Gateways don't have upsell dialogs.")
+                        }
                     )
                 }
             ),

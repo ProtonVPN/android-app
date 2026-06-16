@@ -81,7 +81,7 @@ private fun VpnConnectionCardPreview(
 private val changeServerButtonLocked: @Composable ColumnScope.() -> Unit = @Composable {
     ChangeServerButton(
         ChangeServerViewState.Locked(60, 120, false),
-        {}, {}
+        {}, {}, {}
     )
 }
 

@@ -125,7 +125,7 @@ class RecentsListTestsCompose : FusionComposeTest() {
 
                 val changeServerButton: (@Composable ColumnScope.() -> Unit)? = changeServerButtonState.value?.let {
                     @Composable {
-                        ChangeServerButton(it, onChangeServerClick = {}, onUpgradeButtonShown = {})
+                        ChangeServerButton(it, onChangeServerClick = {}, onUpgradeButtonShown = {}, onUpgradeClick = {})
                     }
                 }
                 RecentsList(

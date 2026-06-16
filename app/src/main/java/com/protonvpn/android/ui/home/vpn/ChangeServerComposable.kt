@@ -44,7 +44,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -64,9 +63,6 @@ import com.protonvpn.android.base.ui.VpnOutlinedNeutralButton
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.protonOutlinedNeutralButtonColors
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
-import com.protonvpn.android.telemetry.UpgradeTrigger
-import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultUnspecified
@@ -78,6 +74,7 @@ fun ChangeServerButton(
     state: ChangeServerViewState,
     onChangeServerClick: () -> Unit,
     onUpgradeButtonShown: () -> Unit,
+    onUpgradeClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var dialogShown by rememberSaveable { mutableStateOf(false) }
@@ -157,6 +154,7 @@ fun ChangeServerButton(
                 dialogShown = false
                 onChangeServerClick()
             },
+            onUpgradeClick = onUpgradeClick,
         )
     }
 }
@@ -166,9 +164,9 @@ private fun ChangeServerBottomSheetComposable(
     state: ChangeServerViewState?,
     onDismissRequest: () -> Unit,
     onChangeServerClick: () -> Unit,
+    onUpgradeClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
     SimpleModalBottomSheet(
         onDismissRequest = onDismissRequest,
         modifier = modifier,
@@ -176,9 +174,7 @@ private fun ChangeServerBottomSheetComposable(
         UpgradeModalContent(
             state = state,
             onChangeServerClick = onChangeServerClick,
-            onUpgradeClick = {
-                CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context, UpgradeTrigger.HOME)
-            }
+            onUpgradeClick = onUpgradeClick,
         )
     }
 }
@@ -301,6 +297,7 @@ fun UnlockedButtonPreview() {
             state = ChangeServerViewState.Unlocked,
             onChangeServerClick = { },
             onUpgradeButtonShown = {},
+            onUpgradeClick = {},
         )
     }
 }
@@ -313,6 +310,7 @@ fun LockedButtonPreview() {
             state = ChangeServerViewState.Locked( 12, 20, true),
             onChangeServerClick = { },
             onUpgradeButtonShown = {},
+            onUpgradeClick = {},
         )
     }
 }

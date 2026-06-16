@@ -38,15 +38,16 @@ import androidx.compose.ui.text.fromHtml
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
-import com.protonvpn.android.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
+import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
-import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.ui.planupgrade.UpgradeProfilesHighlightsFragment
 import com.protonvpn.android.vpn.ui.LocalVpnUiDelegate
 import kotlinx.coroutines.launch
@@ -58,7 +59,8 @@ fun ProfilesRoute(
     onNavigateToAddEdit: (profileId: Long?, duplicate: Boolean) -> Unit,
     onNavigateToConnectionPreferences: () -> Unit,
 ) {
-    val viewModel : ProfilesViewModel = hiltViewModel()
+    val viewModel: ProfilesViewModel = hiltViewModel()
+    val upgradeDialogLauncher: UpgradeDialogLauncherVM = hiltViewModel()
     val snackbarHostState = remember { SnackbarHostState() }
 
     viewModel.eventsFlow.collectAsEffect { event ->
@@ -89,9 +91,10 @@ fun ProfilesRoute(
             val context = LocalContext.current
             val uiDelegate = LocalVpnUiDelegate.current
             val navigateToUpsell = {
-                CarouselUpgradeDialogActivity.launch<UpgradeProfilesHighlightsFragment>(
+                upgradeDialogLauncher.launchCarousel<UpgradeProfilesHighlightsFragment>(
                     context,
-                    UpgradeTrigger.PROFILES
+                    UpgradeSource.PROFILES,
+                    UpgradeTrigger.PROFILES,
                 )
             }
             Profiles(

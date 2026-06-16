@@ -106,7 +106,7 @@ import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.tv.main.CountryHighlight
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
-import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.Constants
@@ -138,6 +138,7 @@ fun HomeRoute(
     val activityViewModel: MainActivityViewModel = hiltViewModel(viewModelStoreOwner = activity)
     val homeViewModel: HomeViewModel = hiltViewModel()
     val settingsChangeViewModel: SettingsChangeViewModel = hiltViewModel(viewModelStoreOwner = activity)
+    val upgradeDialogLauncher: UpgradeDialogLauncherVM = hiltViewModel()
     // The MainActivity keeps the splash screen on until VPN status is available so that it can be shown here
     // instantly. That's why the flow from MainActivityViewModel is used, and not an independent flow in HomeViewModel.
     val vpnStatusViewState = activityViewModel.vpnStateViewFlow.collectAsStateWithLifecycle().value
@@ -191,7 +192,14 @@ fun HomeRoute(
         },
         onChangeServerClick = { homeViewModel.changeServer(vpnUiDelegate) },
         onChangeServerUpgradeButtonShown = homeViewModel::onChangeServerUpgradeButtonShown,
-        onConnectionCardClick = onConnectionCardClick
+        onChangeServerUpgradeClick = {
+            upgradeDialogLauncher.launchCarousel<UpgradePlusCountriesHighlightsFragment>(
+                context,
+                UpgradeSource.COUNTRIES,
+                UpgradeTrigger.HOME
+            )
+        },
+        onConnectionCardClick = onConnectionCardClick,
     )
 
     val recentsComponent = RecentsComponent(
@@ -247,7 +255,7 @@ fun HomeRoute(
         onOpenConnectionPreferences = homeViewModel::openConnectionPreferences,
         onOpenSmartDiscoveryConnectionPreferences = homeViewModel::openSmartDiscoveryConnectionPreferences,
         onDismissSmartDiscoveryConnectionPreferencesDialog = homeViewModel::dismissSmartDiscoveryConnectionPreferencesDialog,
-        onLaunchUpgradeDialog = { f, s, t -> homeViewModel.openUpgradeDialog(context, f, s, t) },
+        onLaunchUpgradeDialog = { f, s, t -> upgradeDialogLauncher.launchCarousel(context, s, t, f) },
     )
 
     homeViewModel.eventFlow.collectAsEffect { event ->
@@ -257,8 +265,9 @@ fun HomeRoute(
             }
 
             is HomeViewModel.Event.OnNavigateToUpgrade -> {
-                CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(
+                upgradeDialogLauncher.launchCarousel<UpgradePlusCountriesHighlightsFragment>(
                     context,
+                    UpgradeSource.COUNTRIES,
                     event.upgradeTrigger,
                 )
             }
@@ -324,7 +333,8 @@ fun HomeView(
             ChangeServerButton(
                 state,
                 onChangeServerClick = connectionCardComponent.onChangeServerClick,
-                onUpgradeButtonShown = connectionCardComponent.onChangeServerUpgradeButtonShown
+                onUpgradeButtonShown = connectionCardComponent.onChangeServerUpgradeButtonShown,
+                onUpgradeClick = connectionCardComponent.onChangeServerUpgradeClick,
             )
         }
     }
@@ -607,6 +617,7 @@ data class ConnectionCardComponent(
     val onDisconnect: () -> Unit,
     val onChangeServerClick: () -> Unit,
     val onChangeServerUpgradeButtonShown: () -> Unit,
+    val onChangeServerUpgradeClick: () -> Unit,
     val onConnectionCardClick: () -> Unit
 )
 

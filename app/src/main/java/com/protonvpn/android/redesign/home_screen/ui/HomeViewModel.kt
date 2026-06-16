@@ -22,7 +22,6 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.os.Parcelable
 import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -63,8 +62,6 @@ import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.telemetry.product.VpnProductPromptTelemetry
 import com.protonvpn.android.tv.main.CountryHighlight
-import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.TrafficMonitor
@@ -97,7 +94,6 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import me.proton.core.presentation.savedstate.state
 import javax.inject.Inject
-import kotlin.reflect.KClass
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
@@ -146,7 +142,6 @@ class HomeViewModel @Inject constructor(
     private val trafficMonitor: TrafficMonitor,
     private val promptTelemetry: VpnProductPromptTelemetry,
     private val currentUser: CurrentUser,
-    private val upgradeDialogLauncher: UpgradeDialogLauncher,
 ) : ViewModel(), DefaultLifecycleObserver {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
@@ -509,17 +504,6 @@ class HomeViewModel @Inject constructor(
             uiStateStorage.update { it.copy(isConnectionPreferencesDiscovered = true) }
 
             _eventFlow.emit(value = Event.OnNavigateToConnectionPreferences)
-        }
-    }
-
-    fun openUpgradeDialog(
-        context: Context,
-        focusFragment: KClass<out Fragment>,
-        upgradeSource: UpgradeSource,
-        upgradeTrigger: UpgradeTrigger,
-    ) {
-        upgradeDialogLauncher.launch(context, upgradeSource, upgradeTrigger) {
-            CarouselUpgradeDialogActivity.launch(context, upgradeSource, upgradeTrigger, focusFragment)
         }
     }
 
