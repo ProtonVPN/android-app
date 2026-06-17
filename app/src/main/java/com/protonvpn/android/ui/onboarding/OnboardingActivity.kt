@@ -25,7 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.view.WindowCompat
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 class OnboardingActivity : BaseActivityV2() {
 
     private val viewModel: OnboardingViewModel by viewModels()
+    private val upgradeDialogLauncher by viewModels<UpgradeDialogLauncherVM>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +50,7 @@ class OnboardingActivity : BaseActivityV2() {
                     action = {
                         scope.launch {
                             if (viewModel.isInAppUpgradeAllowed())
-                                UpgradeOnboardingDialogActivity.launch(this@OnboardingActivity)
+                                upgradeDialogLauncher.launchOnboarding(this@OnboardingActivity)
                             finish()
                         }
                     }

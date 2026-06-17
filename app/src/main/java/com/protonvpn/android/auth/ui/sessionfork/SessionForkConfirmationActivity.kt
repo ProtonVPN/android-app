@@ -47,7 +47,7 @@ import com.protonvpn.android.redesign.app.ui.VpnApp
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.ui.main.MainActivityHelper
-import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -65,6 +65,7 @@ class SessionForkConfirmationActivity : FragmentActivity() {
 
     private val viewModel by viewModels<SessionForkConfirmationViewModel>()
     private val accountViewModel by viewModels<SessionForkConfirmationAccountViewModel>()
+    private val upgradeDialogLauncher by viewModels<UpgradeDialogLauncherVM>()
 
     private val activityHelper = object : MainActivityHelper(this) {
         override suspend fun onLoginNeeded() {
@@ -96,7 +97,7 @@ class SessionForkConfirmationActivity : FragmentActivity() {
         viewModel.eventLaunchUpgrade
             .receiveAsFlow()
             .flowWithLifecycle(lifecycle)
-            .onEach { UpgradeOnboardingDialogActivity.launch(this) }
+            .onEach { upgradeDialogLauncher.launchOnboarding(this) }
             .launchIn(lifecycleScope)
         lifecycleScope.launch {
             viewModel.initialize(intent.data, isRestarted = savedInstanceState != null)

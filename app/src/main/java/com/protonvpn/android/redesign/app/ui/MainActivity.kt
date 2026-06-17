@@ -76,7 +76,6 @@ import com.protonvpn.android.ui.onboarding.WhatsNewActivity
 import com.protonvpn.android.ui.onboarding.WhatsNewDialogController
 import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
-import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
 import com.protonvpn.android.update.UpdatePromptForStaleVersion
@@ -169,7 +168,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                         startActivity(Intent(this, OnboardingActivity::class.java))
 
                     is OnboardingEvent.ShowUpgradeOnboarding ->
-                        UpgradeOnboardingDialogActivity.launch(this)
+                        upgradeDialogLauncher.launchOnboarding(this)
 
                     is OnboardingEvent.ShowUpgradeSuccess ->
                         showUpgradeSuccess.showPlanUpgradeSuccess(

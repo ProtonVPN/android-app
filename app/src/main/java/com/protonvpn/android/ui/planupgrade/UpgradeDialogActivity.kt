@@ -374,12 +374,6 @@ class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultipleP
     }
 
     override fun getTelemetryUpgradeSource(): UpgradeSource = UpgradeSource.ONBOARDING
-
-    companion object {
-        fun launch(context: Context) {
-            context.startActivity(createIntent<UpgradeOnboardingDialogActivity>(context, UpgradeTrigger.ONBOARDING))
-        }
-    }
 }
 
 @Composable

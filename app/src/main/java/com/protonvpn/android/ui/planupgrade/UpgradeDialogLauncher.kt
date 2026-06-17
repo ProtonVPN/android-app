@@ -24,6 +24,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.AbTestComparisonTable
@@ -35,7 +36,6 @@ import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivi
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.Reusable
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.reflect.KClass
@@ -92,7 +92,6 @@ class UpgradeDialogLauncher @Inject constructor(
 
 @HiltViewModel
 class UpgradeDialogLauncherVM @Inject constructor(
-    val mainScope: CoroutineScope,
     val upgradeDialogLauncher: UpgradeDialogLauncher,
 ) : ViewModel() {
 
@@ -101,7 +100,7 @@ class UpgradeDialogLauncherVM @Inject constructor(
         upgradeSource: UpgradeSource,
         upgradeTrigger: UpgradeTrigger,
     ) {
-        mainScope.launch {
+        viewModelScope.launch {
             upgradeDialogLauncher.launch(context, upgradeSource, upgradeTrigger) {
                 CarouselUpgradeDialogActivity.launch<F>(context, upgradeTrigger)
             }
@@ -114,7 +113,7 @@ class UpgradeDialogLauncherVM @Inject constructor(
         upgradeTrigger: UpgradeTrigger,
         focusedFragmentClass: KClass<out Fragment>?,
     ) {
-        mainScope.launch {
+        viewModelScope.launch {
             upgradeDialogLauncher.launch(context, upgradeSource, upgradeTrigger) {
                 CarouselUpgradeDialogActivity.launch(
                     context,
@@ -131,7 +130,7 @@ class UpgradeDialogLauncherVM @Inject constructor(
         upgradeTrigger: UpgradeTrigger,
         country: CountryId?,
     ) {
-        mainScope.launch {
+        viewModelScope.launch {
             val countryId = country?.takeIf { !it.isFastest }
             if (upgradeDialogLauncher.useV2Dialogs()) {
                 UpgradeDialogLauncher.launch<UpgradeDialogActivityV2>(
@@ -154,6 +153,18 @@ class UpgradeDialogLauncherVM @Inject constructor(
                         null
                     )
                 }
+            }
+        }
+    }
+
+    fun launchOnboarding(context: Context) {
+        viewModelScope.launch {
+            upgradeDialogLauncher.launch(context, UpgradeSource.ONBOARDING, UpgradeTrigger.ONBOARDING) {
+                val intent = BaseUpgradeDialogActivity.createIntent<UpgradeOnboardingDialogActivity>(
+                    context,
+                    UpgradeTrigger.ONBOARDING
+                )
+                context.startActivity(intent)
             }
         }
     }
