@@ -28,8 +28,9 @@
 
     <ImageView
         android:id="@+id/imagePicture"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/upgrade_highlights_width"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true" />
 
     <FrameLayout
