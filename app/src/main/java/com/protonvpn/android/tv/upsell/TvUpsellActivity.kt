@@ -138,15 +138,23 @@ class TvUpsellActivity : BaseTvActivity() {
             upgradeTrigger: UpgradeTrigger,
             country: CountryId? = null
         ) {
-            val intent = UpgradeDialogLauncher.createIntent<TvUpsellActivity>(
-                context,
-                upgradeSource,
-                upgradeTrigger,
-                country
-            ).apply {
-                putExtra(TvUpsellViewModel.KEY_PAID_FEATURE, tvUpsellContent)
-            }
+            val intent = createIntent(context, tvUpsellContent, upgradeSource, upgradeTrigger, country)
             context.startActivity(intent)
+        }
+
+        fun createIntent(
+            context: Context,
+            tvUpsellContent: TvUpsellContent,
+            upgradeSource: UpgradeSource,
+            upgradeTrigger: UpgradeTrigger,
+            country: CountryId? = null
+        ) = UpgradeDialogLauncher.createIntent<TvUpsellActivity>(
+            context,
+            upgradeSource,
+            upgradeTrigger,
+            country
+        ).apply {
+            putExtra(TvUpsellViewModel.KEY_PAID_FEATURE, tvUpsellContent)
         }
     }
 }
