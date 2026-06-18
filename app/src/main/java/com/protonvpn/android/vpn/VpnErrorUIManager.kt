@@ -14,6 +14,9 @@ import com.protonvpn.android.notifications.NotificationHelper.InformationNotific
 import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.tv.upsell.TvUpsellActivity
+import com.protonvpn.android.tv.upsell.TvUpsellContent
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
@@ -38,6 +41,7 @@ class VpnErrorUIManager @Inject constructor(
     scope: CoroutineScope,
     @ApplicationContext private val appContext: Context,
     private val currentUser: CurrentUser,
+    private val isTv: IsTvCheck,
     private val userPlanManager: UserPlanManager,
     private val stateMonitor: VpnStateMonitor,
     private val notificationHelper: NotificationHelper,
@@ -76,7 +80,7 @@ class VpnErrorUIManager @Inject constructor(
                             title = appContext.getString(R.string.notification_subscription_expired_title),
                             content = appContext.getString(R.string.notification_subscription_expired_no_reconnection_content),
                             reconnectionInformation = null,
-                            action = createPlanUpgradeAction(),
+                            action = createPlanUpgradeAction(UpgradeSource.DOWNGRADE),
                             fullScreenDialog = FullScreenDialog(null, true, null)
                         )
                     )
@@ -152,9 +156,21 @@ class VpnErrorUIManager @Inject constructor(
     private fun displayInformation(informationNotification: InformationNotification) {
         val foregroundActivity = foregroundActivityTracker.foregroundActivity
         if (foregroundActivity != null && informationNotification.fullScreenDialog != null) {
-            foregroundActivity.launchActivity<SwitchDialogActivity>(init = {
-                putExtra(SwitchDialogActivity.EXTRA_NOTIFICATION_DETAILS, informationNotification)
-            })
+            if (informationNotification.fullScreenDialog.hasUpsellLayout && isTv()) {
+                TvUpsellActivity.launch(
+                    foregroundActivity,
+                    TvUpsellContent.SubscriptionExpired,
+                    UpgradeSource.DOWNGRADE,
+                    UpgradeTrigger.ERROR_DIALOG
+                )
+            } else {
+                foregroundActivity.launchActivity<SwitchDialogActivity>(init = {
+                    putExtra(
+                        SwitchDialogActivity.EXTRA_NOTIFICATION_DETAILS,
+                        informationNotification
+                    )
+                })
+            }
         } else {
             notificationHelper.buildSwitchNotification(informationNotification)
         }
@@ -188,7 +204,7 @@ class VpnErrorUIManager @Inject constructor(
                                     toCountrySecureCore = if (switch.toServer.isSecureCoreServer) switch.toServer.entryCountry else null
                                 )
                             },
-                            action = createPlanUpgradeAction(),
+                            action = createPlanUpgradeAction(UpgradeSource.DOWNGRADE),
                             fullScreenDialog = FullScreenDialog(hasUpsellLayout = true, cancelToastMessage = getCancelToastMessage(reason))
                         )
                     }
@@ -196,7 +212,7 @@ class VpnErrorUIManager @Inject constructor(
                         InformationNotification(
                             title = appContext.getString(R.string.notification_delinquent_title),
                             content = appContext.getString(R.string.notification_delinquent_content),
-                            action = createPlanUpgradeAction(),
+                            action = createPlanUpgradeAction(UpgradeSource.DOWNGRADE),
                             fullScreenDialog = FullScreenDialog(hasUpsellLayout = true, cancelToastMessage = getCancelToastMessage(reason))
                         )
                     }
@@ -218,7 +234,7 @@ class VpnErrorUIManager @Inject constructor(
                         )
                     }
                     val action =
-                        if (!isUserPlusOrAbove) createPlanUpgradeAction() else null
+                        if (!isUserPlusOrAbove) createPlanUpgradeAction(UpgradeSource.COUNTRIES) else null
                     InformationNotification(
                         title = appContext.getString(R.string.notification_max_sessions_title),
                         content = content,
@@ -237,13 +253,13 @@ class VpnErrorUIManager @Inject constructor(
         }
     }
 
-    private fun createPlanUpgradeAction(): ActionItem {
+    private fun createPlanUpgradeAction(upgradeSource: UpgradeSource): ActionItem {
         val upgradeTrigger = UpgradeTrigger.ERROR_DIALOG
         return ActionItem.Activity(
             appContext.getString(R.string.upgrade),
             CarouselUpgradeDialogActivity.createIntent<UpgradePlusCountriesHighlightsFragment>(appContext, upgradeTrigger),
             true,
-            UpgradeSource.COUNTRIES,
+            upgradeSource,
             upgradeTrigger,
         )
     }

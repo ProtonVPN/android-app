@@ -78,6 +78,7 @@ enum class TvUpsellContent {
     LanConnections,
     NetShield,
     SplitTunneling,
+    SubscriptionExpired,
 }
 
 @AndroidEntryPoint

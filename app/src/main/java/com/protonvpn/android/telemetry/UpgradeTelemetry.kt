@@ -49,6 +49,7 @@ enum class UpgradeSource {
     CHANGE_SERVER,
     COUNTRIES,
     DEVICES,
+    DOWNGRADE,
     NETSHIELD,
     ONBOARDING,
     P2P,

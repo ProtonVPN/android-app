@@ -96,6 +96,12 @@ class TvUpsellViewModel @Inject constructor(
                     titleResId = R.string.upsell_tv_split_tunneling_title,
                     descriptionResId = R.string.upsell_tv_split_tunneling_description,
                 )
+
+                TvUpsellContent.SubscriptionExpired -> ViewState(
+                    imageResId = R.drawable.upsell_tv_subscription_expired,
+                    titleResId = R.string.upsell_tv_subscription_expired_title,
+                    descriptionResId = R.string.upsell_tv_subscription_expired_description
+                )
             }
         }
         .stateIn(
