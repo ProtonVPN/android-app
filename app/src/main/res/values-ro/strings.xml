@@ -803,47 +803,11 @@
     <string name="whats_new_add_widget_button">Adăugare widget</string>
     <string name="welcome_plus_title">Bun venit la VPN Plus</string>
     <string name="welcome_plus_description">Bucurați-vă de funcții suplimentare de confidențialitate, performanță îmbunătățită și personalizare VPN la nivelul următor.</string>
-    <string name="welcome_plus_feature_security">Funcții avansate de securitate</string>
     <string name="welcome_unlimited_title">Bun venit la Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[Ați deblocat toate funcțiile premium ale Proton VPN, Mail, Calendar, Drive, Pass și Wallet — și <b>%1$d&#160;GiB</b> de stocare totală.]]></string>
     <string name="welcome_generic_title">Felicitări</string>
     <string name="welcome_generic_description">V-ați modificat abonamentul. Bucurați-vă de funcțiile de confidențialitate și performanță de nivel superior.</string>
-    <!-- Example: Up to 10 devices at once
-         In practice one will never be a value here -->
-    <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">Maxim %1$d dispozitiv</item>
-        <item quantity="few">Maxim %1$d dispozitive simultan</item>
-        <item quantity="other">Maxim %1$d de dispozitive simultan</item>
-    </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-     Example:
-     1200+ new servers
-     -->
-    <plurals name="welcome_plus_servers">
-        <item quantity="one">%d server nou</item>
-        <item quantity="few">Peste %d servere noi</item>
-        <item quantity="other">Peste %d de servere noi</item>
-    </plurals>
-    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
-
-         Example:
-         55 countries
-         -->
-    <plurals name="welcome_plus_countries">
-        <item quantity="one">%d țară</item>
-        <item quantity="few">%d țări</item>
-        <item quantity="other">%d de țări</item>
-    </plurals>
-    <!-- Parameters:
-     %1$s - replaced with "welcome_plus_servers"
-     %2$s - replaced with "welcome_plus_countries"
-
-     Example:
-     1800+ new servers in 68 countries
-     -->
-    <string name="welcome_plus_feature_servers_count">%1$s în %2$s</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

@@ -762,41 +762,11 @@
     <string name="whats_new_add_widget_button">위젯 추가</string>
     <string name="welcome_plus_title">VPN Plus에 오신 것을 환영합니다</string>
     <string name="welcome_plus_description">더 많은 개인정보 보호 기능과 강력한 성능, 그리고 한 차원 높은 VPN 사용자화를 사용해 보세요.</string>
-    <string name="welcome_plus_feature_security">고급 제어 기능</string>
     <string name="welcome_unlimited_title">Proton Unlimited에 오신 것을 환영합니다</string>
     <string name="welcome_unlimited_description"><![CDATA[프리미엄 Proton VPN, Mail, Calendar, Drive, Pass 및 Wallet 기능과 <b>%1$d&#160;GB</b> 총 저장 공간을 잠금 해제하셨어요.]]></string>
     <string name="welcome_generic_title">축하합니다</string>
     <string name="welcome_generic_description">구독을 업그레이드 했습니다. 한 차원 높은 개인정보 보호 기능과 성능을 즐겨보세요.</string>
-    <!-- Example: Up to 10 devices at once
-         In practice one will never be a value here -->
-    <plurals name="welcome_plus_feature_devices">
-        <item quantity="other">동시에 %1$d개 기기에 연결하세요</item>
-    </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-     Example:
-     1200+ new servers
-     -->
-    <plurals name="welcome_plus_servers">
-        <item quantity="other">%d개 이상 새로운 서버</item>
-    </plurals>
-    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
-
-         Example:
-         55 countries
-         -->
-    <plurals name="welcome_plus_countries">
-        <item quantity="other">%d개 국가</item>
-    </plurals>
-    <!-- Parameters:
-     %1$s - replaced with "welcome_plus_servers"
-     %2$s - replaced with "welcome_plus_countries"
-
-     Example:
-     1800+ new servers in 68 countries
-     -->
-    <string name="welcome_plus_feature_servers_count">%2$s 내에 %1$s</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

@@ -761,33 +761,11 @@
     <string name="whats_new_add_widget_button">ウィジェットを追加</string>
     <string name="welcome_plus_title">VPN Plusへようこそ</string>
     <string name="welcome_plus_description">特別なプライバシー機能、超高速パフォーマンス、そしてハイレベルなVPNカスタマイズをお楽しみください。</string>
-    <string name="welcome_plus_feature_security">高度なセキュリティ機能</string>
     <string name="welcome_unlimited_title">Proton Unlimitedへようこそ</string>
     <string name="welcome_unlimited_description"><![CDATA[Proton VPN、Mail、Calendar、Drive、Pass、Walletのすべてのプレミアム機能、および合計<b>%1$d&#160;GB</b>のストレージもご利用いただけるようになりました！]]></string>
     <string name="welcome_generic_title">おめでとうございます！</string>
     <string name="welcome_generic_description">サブスクリプションをアップグレードしました。高度なプライバシー機能と次世代のパフォーマンスをお楽しみください。</string>
-    <!-- Example: Up to 10 devices at once
-         In practice one will never be a value here -->
-    <plurals name="welcome_plus_feature_devices">
-        <item quantity="other">一度に最大 %1$d 台のデバイス</item>
-    </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-     Example:
-     1200+ new servers
-     -->
-    <plurals name="welcome_plus_servers">
-        <item quantity="other">%d 台の新しいサーバー</item>
-    </plurals>
-    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
-
-         Example:
-         55 countries
-         -->
-    <plurals name="welcome_plus_countries">
-        <item quantity="other">%d カ国</item>
-    </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
      %2$s - replaced with "welcome_plus_countries"
@@ -795,7 +773,6 @@
      Example:
      1800+ new servers in 68 countries
      -->
-    <string name="welcome_plus_feature_servers_count">%2$sの %1$s</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

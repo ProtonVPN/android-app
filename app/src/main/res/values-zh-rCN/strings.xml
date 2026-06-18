@@ -761,41 +761,11 @@
     <string name="whats_new_add_widget_button">添加小组件</string>
     <string name="welcome_plus_title">欢迎使用 VPN Plus</string>
     <string name="welcome_plus_description">享受额外的隐私功能、超强的性能和更高级别的 VPN 选项。</string>
-    <string name="welcome_plus_feature_security">高级安全功能</string>
     <string name="welcome_unlimited_title">欢迎使用 Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[您已解锁所有高级的 Proton VPN、Mail、Calendar、Drive、Pass 和 Wallet 功能 —— 以及总计 <b>%1$d&#160;GB</b> 的存储空间。]]></string>
     <string name="welcome_generic_title">祝贺</string>
     <string name="welcome_generic_description">订阅已升级。享受高级隐私功能和更高水平的性能。</string>
-    <!-- Example: Up to 10 devices at once
-         In practice one will never be a value here -->
-    <plurals name="welcome_plus_feature_devices">
-        <item quantity="other">最多可同时连接 %1$d 部设备</item>
-    </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-     Example:
-     1200+ new servers
-     -->
-    <plurals name="welcome_plus_servers">
-        <item quantity="other">新增 %d+ 个服务器</item>
-    </plurals>
-    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
-
-         Example:
-         55 countries
-         -->
-    <plurals name="welcome_plus_countries">
-        <item quantity="other">%d 个国家/地区</item>
-    </plurals>
-    <!-- Parameters:
-     %1$s - replaced with "welcome_plus_servers"
-     %2$s - replaced with "welcome_plus_countries"
-
-     Example:
-     1800+ new servers in 68 countries
-     -->
-    <string name="welcome_plus_feature_servers_count">%1$s，位于 %2$s</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

@@ -866,48 +866,11 @@
     <string name="whats_new_add_widget_button">إضافة أداة</string>
     <string name="welcome_plus_title">انطلق الآن مع VPN Plus</string>
     <string name="welcome_plus_description">استمتع بمميزات خصوصية إضافية، وأداء استثنائي، ومستوى جديد من تخصيص الـ VPN.</string>
-    <string name="welcome_plus_feature_security">خصائص حماية متطورة</string>
     <string name="welcome_unlimited_title">انطلق بلا حدود مع Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[استمتع الآن بجميع المميزات المدفوعة لخدمات Proton VPN و Mail و Calendar و Drive و Pass و Wallet، بالإضافة إلى مساحة تخزين تبلغ <b>%1$d&#160;جيجا</b>.]]></string>
     <string name="welcome_generic_title">تهانينا</string>
     <string name="welcome_generic_description">تمت ترقية اشتراكك. استمتع بالمستوى المتقدم من الخصوصية والأداء الاستثنائي.</string>
-    <!-- Example: Up to 10 devices at once
-         In practice one will never be a value here -->
-    <plurals name="welcome_plus_feature_devices">
-        <item quantity="zero">حتى %1$d جهاز في نفس الوقت</item>
-        <item quantity="one">حتى %1$d جهاز في نفس الوقت</item>
-        <item quantity="two">حتى %1$d جهاز في نفس الوقت</item>
-        <item quantity="few">حتى %1$d أجهزة في نفس الوقت</item>
-        <item quantity="many">حتى %1$d جهاز في نفس الوقت</item>
-        <item quantity="other">حتى %1$d جهاز في نفس الوقت</item>
-    </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-     Example:
-     1200+ new servers
-     -->
-    <plurals name="welcome_plus_servers">
-        <item quantity="zero">%d خادم جديد</item>
-        <item quantity="one">%d خادم جديد</item>
-        <item quantity="two">%d خادم جديد</item>
-        <item quantity="few">%d خوادم جديدة</item>
-        <item quantity="many">%d خادم جديد</item>
-        <item quantity="other">أكثر من %d خادم جديد</item>
-    </plurals>
-    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
-
-         Example:
-         55 countries
-         -->
-    <plurals name="welcome_plus_countries">
-        <item quantity="zero">%d دولة</item>
-        <item quantity="one">%d دولة</item>
-        <item quantity="two">%d دولة</item>
-        <item quantity="few">%d دول</item>
-        <item quantity="many">%d دولة</item>
-        <item quantity="other">%d دولة</item>
-    </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
      %2$s - replaced with "welcome_plus_countries"
@@ -915,7 +878,6 @@
      Example:
      1800+ new servers in 68 countries
      -->
-    <string name="welcome_plus_feature_servers_count">%1$s في %2$s</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

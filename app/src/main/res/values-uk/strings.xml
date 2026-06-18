@@ -824,50 +824,11 @@
     <string name="whats_new_add_widget_button">Додати віджет</string>
     <string name="welcome_plus_title">Вітаємо у VPN Plus</string>
     <string name="welcome_plus_description">Оцініть додаткові функції приватності, вдосконалену продуктивність і налаштування VPN нового рівня.</string>
-    <string name="welcome_plus_feature_security">Розширені функції безпеки</string>
     <string name="welcome_unlimited_title">Вітаємо у Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[Ви розблокували всі преміальні функції Proton VPN, Mail, Календаря, Диска, Pass та Гаманця — і <b>%1$d&#160;ГБ</b> сховища.]]></string>
     <string name="welcome_generic_title">Вітаємо</string>
     <string name="welcome_generic_description">Ви оновили свій тарифний план. Оцініть переваги розширених функцій безпеки й продуктивності нового рівня.</string>
-    <!-- Example: Up to 10 devices at once
-         In practice one will never be a value here -->
-    <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">До %1$d пристрою одночасно</item>
-        <item quantity="few">До %1$d пристроїв одночасно</item>
-        <item quantity="many">До %1$d пристроїв одночасно</item>
-        <item quantity="other">До %1$d пристроїв одночасно</item>
-    </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-     Example:
-     1200+ new servers
-     -->
-    <plurals name="welcome_plus_servers">
-        <item quantity="one">%d новий сервер</item>
-        <item quantity="few">%d+ нові сервери</item>
-        <item quantity="many">%d+ нових серверів</item>
-        <item quantity="other">%d+ нових серверів</item>
-    </plurals>
-    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
-
-         Example:
-         55 countries
-         -->
-    <plurals name="welcome_plus_countries">
-        <item quantity="one">%d країна</item>
-        <item quantity="few">%d країни</item>
-        <item quantity="many">%d країн</item>
-        <item quantity="other">%d країн</item>
-    </plurals>
-    <!-- Parameters:
-     %1$s - replaced with "welcome_plus_servers"
-     %2$s - replaced with "welcome_plus_countries"
-
-     Example:
-     1800+ new servers in 68 countries
-     -->
-    <string name="welcome_plus_feature_servers_count">%1$s в %2$s</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

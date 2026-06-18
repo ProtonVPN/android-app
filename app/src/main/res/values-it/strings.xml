@@ -782,36 +782,11 @@
     <string name="whats_new_add_widget_button">Aggiungi widget</string>
     <string name="welcome_plus_title">Benvenuto in VPN Plus</string>
     <string name="welcome_plus_description">Approfitta di funzioni aggiuntive per la privacy, di prestazioni potenziate e di una personalizzazione della VPN di livello superiore.</string>
-    <string name="welcome_plus_feature_security">Funzioni di sicurezza avanzate</string>
     <string name="welcome_unlimited_title">Ti diamo il benvenuto in Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[Hai sbloccato tutte le funzionalità premium di Proton VPN, Mail, Calendario, Drive, Pass e portafoglio — e <b>%1$d&#160;GB</b> di archiviazione totale.]]></string>
     <string name="welcome_generic_title">Congratulazioni</string>
     <string name="welcome_generic_description">Hai effettuato l\'upgrade del tuo abbonamento. Approfitta di funzionalità per la privacy avanzate e prestazioni di livello superiore.</string>
-    <!-- Example: Up to 10 devices at once
-         In practice one will never be a value here -->
-    <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">Fino a %1$d dispositivo per volta</item>
-        <item quantity="other">Fino a %1$d dispositivi per volta</item>
-    </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-     Example:
-     1200+ new servers
-     -->
-    <plurals name="welcome_plus_servers">
-        <item quantity="one">%d nuovo server</item>
-        <item quantity="other">%d+ nuovi server</item>
-    </plurals>
-    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
-
-         Example:
-         55 countries
-         -->
-    <plurals name="welcome_plus_countries">
-        <item quantity="one">%d paese</item>
-        <item quantity="other">%d paese</item>
-    </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
      %2$s - replaced with "welcome_plus_countries"
@@ -819,7 +794,6 @@
      Example:
      1800+ new servers in 68 countries
      -->
-    <string name="welcome_plus_feature_servers_count">%1$s in %2$s</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

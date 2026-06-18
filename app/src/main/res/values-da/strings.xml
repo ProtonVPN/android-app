@@ -782,36 +782,11 @@
     <string name="whats_new_add_widget_button">Tilføj widget</string>
     <string name="welcome_plus_title">Velkommen til VPN Plus</string>
     <string name="welcome_plus_description">Nyd ekstra privatlivsfunktioner, forbedret ydeevne og VPN-tilpasning af højeste standard.</string>
-    <string name="welcome_plus_feature_security">Avancerede sikkerhedsfunktioner</string>
     <string name="welcome_unlimited_title">Velkommen til Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[De har låst op for alle premium Proton VPN-, Mail-, Kalender-, Drive-, Pass- og Wallet-funktioner — og <b>%1$d&#160;GB</b> samlet lagerplads.]]></string>
     <string name="welcome_generic_title">Tillykke</string>
     <string name="welcome_generic_description">Du har opgraderet dit abonnement. Nyd avancerede privatlivsfunktioner og ydeevne af højeste klasse.</string>
-    <!-- Example: Up to 10 devices at once
-         In practice one will never be a value here -->
-    <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">Op til %1$d enhed samtidig</item>
-        <item quantity="other">Op til %1$d enheder samtidig</item>
-    </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-     Example:
-     1200+ new servers
-     -->
-    <plurals name="welcome_plus_servers">
-        <item quantity="one">%d ny server</item>
-        <item quantity="other">%d+ nye servere</item>
-    </plurals>
-    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
-
-         Example:
-         55 countries
-         -->
-    <plurals name="welcome_plus_countries">
-        <item quantity="one">%d land</item>
-        <item quantity="other">%d lande</item>
-    </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
      %2$s - replaced with "welcome_plus_countries"
@@ -819,7 +794,6 @@
      Example:
      1800+ new servers in 68 countries
      -->
-    <string name="welcome_plus_feature_servers_count">%1$s i %2$s</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

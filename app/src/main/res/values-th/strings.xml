@@ -761,41 +761,11 @@
     <string name="whats_new_add_widget_button">เพิ่มวิดเจ็ต</string>
     <string name="welcome_plus_title">ยินดีต้อนรับสู่ VPN Plus</string>
     <string name="welcome_plus_description">เพลิดเพลินกับคุณสมบัติความเป็นส่วนตัวพิเศษ ประสิทธิภาพที่เพิ่มขึ้น และการปรับแต่ง VPN อีกระดับ</string>
-    <string name="welcome_plus_feature_security">คุณสมบัติความปลอดภัยขั้นสูง</string>
     <string name="welcome_unlimited_title">ยินดีต้อนรับสู่ Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[คุณปลดล็อกคุณสมบัติพรีเมียมทั้งหมดของ Proton VPN, Mail, Calendar, Drive, Pass และ Wallet — และพื้นที่จัดเก็บรวม <b>%1$d&#160;GB</b>]]></string>
     <string name="welcome_generic_title">ยินดีด้วย</string>
     <string name="welcome_generic_description">คุณได้อัปเกรดการสมัครสมาชิกของคุณแล้ว เพลิดเพลินกับคุณสมบัติความเป็นส่วนตัวขั้นสูงและประสิทธิภาพอีกระดับ</string>
-    <!-- Example: Up to 10 devices at once
-         In practice one will never be a value here -->
-    <plurals name="welcome_plus_feature_devices">
-        <item quantity="other">อุปกรณ์สูงสุด %1$d เครื่องพร้อมกัน</item>
-    </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
-     Example:
-     1200+ new servers
-     -->
-    <plurals name="welcome_plus_servers">
-        <item quantity="other">เซิร์ฟเวอร์ใหม่ %d+ แห่ง</item>
-    </plurals>
-    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
-
-         Example:
-         55 countries
-         -->
-    <plurals name="welcome_plus_countries">
-        <item quantity="other">%d ประเทศ</item>
-    </plurals>
-    <!-- Parameters:
-     %1$s - replaced with "welcome_plus_servers"
-     %2$s - replaced with "welcome_plus_countries"
-
-     Example:
-     1800+ new servers in 68 countries
-     -->
-    <string name="welcome_plus_feature_servers_count">%1$s ใน %2$s</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:
