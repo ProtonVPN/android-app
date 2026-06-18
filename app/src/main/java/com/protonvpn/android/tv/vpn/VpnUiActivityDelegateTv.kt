@@ -26,11 +26,11 @@ import android.os.Build
 import android.provider.Settings
 import androidx.activity.ComponentActivity
 import com.protonvpn.android.R
-import com.protonvpn.android.models.features.PaidFeature
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.tv.showTvDialog
+import com.protonvpn.android.tv.upsell.TvUpsellContent
 import com.protonvpn.android.tv.upsell.TvUpsellActivity
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
@@ -51,7 +51,7 @@ class VpnUiActivityDelegateTv(
     override fun showPlusUpgradeDialog() {
         TvUpsellActivity.launch(
             activity,
-            PaidFeature.AllCountries,
+            TvUpsellContent.AllCountries,
             UpgradeSource.COUNTRIES,
             UpgradeTrigger.ERROR_DIALOG
         )

@@ -37,11 +37,11 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.StreamingIcon
 import com.protonvpn.android.databinding.FragmentTvCountryDetailsBinding
-import com.protonvpn.android.models.features.PaidFeature
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.tv.upsell.TvUpsellActivity
+import com.protonvpn.android.tv.upsell.TvUpsellContent
 import com.protonvpn.android.utils.ViewUtils.requestAllFocus
 import com.protonvpn.android.utils.setStartDrawable
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -173,7 +173,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
     private fun onUpgradeClicked(ignored: View) {
         TvUpsellActivity.launch(
             requireContext(),
-            PaidFeature.AllCountries,
+            TvUpsellContent.AllCountries,
             UpgradeSource.COUNTRIES,
             UpgradeTrigger.COUNTRY_SELECTION,
             CountryId(getCountryCode())

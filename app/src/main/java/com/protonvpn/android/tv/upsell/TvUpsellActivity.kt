@@ -54,7 +54,6 @@ import com.protonvpn.android.base.ui.upsellBackground
 import com.protonvpn.android.base.ui.upsellGradientEnd
 import com.protonvpn.android.base.ui.upsellGradientStart
 import com.protonvpn.android.components.BaseTvActivity
-import com.protonvpn.android.models.features.PaidFeature
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
@@ -72,6 +71,14 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
+
+enum class TvUpsellContent {
+    AllCountries,
+    CustomDns,
+    LanConnections,
+    NetShield,
+    SplitTunneling,
+}
 
 @AndroidEntryPoint
 class TvUpsellActivity : BaseTvActivity() {
@@ -125,7 +132,7 @@ class TvUpsellActivity : BaseTvActivity() {
     companion object {
         fun launch(
             context: Context,
-            paidFeature: PaidFeature,
+            tvUpsellContent: TvUpsellContent,
             upgradeSource: UpgradeSource,
             upgradeTrigger: UpgradeTrigger,
             country: CountryId? = null
@@ -136,7 +143,7 @@ class TvUpsellActivity : BaseTvActivity() {
                 upgradeTrigger,
                 country
             ).apply {
-                putExtra(TvUpsellViewModel.KEY_PAID_FEATURE, paidFeature)
+                putExtra(TvUpsellViewModel.KEY_PAID_FEATURE, tvUpsellContent)
             }
             context.startActivity(intent)
         }

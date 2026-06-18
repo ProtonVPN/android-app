@@ -22,7 +22,7 @@ package com.protonvpn.app.ui.upsell
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.protonvpn.android.R
-import com.protonvpn.android.models.features.PaidFeature
+import com.protonvpn.android.tv.upsell.TvUpsellContent
 import com.protonvpn.android.tv.upsell.TvUpsellViewModel
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
@@ -70,34 +70,34 @@ class TvUpsellViewModelTests {
         serverListUpdaterPrefs.vpnServerCount = 15_187
 
         listOf(
-            PaidFeature.AllCountries to TvUpsellViewModel.ViewState(
+            TvUpsellContent.AllCountries to TvUpsellViewModel.ViewState(
                 imageResId = R.drawable.worldwide_coverage_tv,
                 titleResId = R.string.upsell_tv_all_countries_title,
                 descriptionResId = R.string.upsell_tv_all_countries_description,
                 descriptionArgs = { _ -> arrayOf("15187", "127") },
             ),
-            PaidFeature.CustomDns to TvUpsellViewModel.ViewState(
+            TvUpsellContent.CustomDns to TvUpsellViewModel.ViewState(
                 imageResId = R.drawable.customisation_tv,
                 titleResId = R.string.upsell_tv_customization_title,
                 descriptionResId = R.string.upsell_tv_customization_description,
             ),
-            PaidFeature.LanConnections to TvUpsellViewModel.ViewState(
+            TvUpsellContent.LanConnections to TvUpsellViewModel.ViewState(
                 imageResId = R.drawable.customisation_tv,
                 titleResId = R.string.upsell_tv_customization_title,
                 descriptionResId = R.string.upsell_tv_customization_description,
             ),
-            PaidFeature.NetShield to TvUpsellViewModel.ViewState(
+            TvUpsellContent.NetShield to TvUpsellViewModel.ViewState(
                 imageResId = R.drawable.netshield_tv,
                 titleResId = R.string.upsell_tv_netshield_title,
                 descriptionResId = R.string.upsell_tv_netshield_description,
             ),
-            PaidFeature.SplitTunneling to TvUpsellViewModel.ViewState(
+            TvUpsellContent.SplitTunneling to TvUpsellViewModel.ViewState(
                 imageResId = R.drawable.split_tunneling_tv,
                 titleResId = R.string.upsell_tv_split_tunneling_title,
                 descriptionResId = R.string.upsell_tv_split_tunneling_description,
             ),
-        ).forEach { (paidFeature, expectedViewState) ->
-            val viewModel = createViewModel(paidFeature = paidFeature)
+        ).forEach { (upsellContent, expectedViewState) ->
+            val viewModel = createViewModel(upsellContent = upsellContent)
 
             viewModel.viewStateFlow.test {
                 val viewState = awaitItem()
@@ -105,15 +105,15 @@ class TvUpsellViewModelTests {
                 assertEquals(
                     expected = expectedViewState,
                     actual = viewState?.copy(descriptionArgs = expectedViewState.descriptionArgs),
-                    message = "ViewState does not match for paid feature: $paidFeature",
+                    message = "ViewState does not match for paid feature: $upsellContent",
                 )
             }
         }
     }
 
-    private fun createViewModel(paidFeature: PaidFeature): TvUpsellViewModel {
+    private fun createViewModel(upsellContent: TvUpsellContent): TvUpsellViewModel {
         val savedStateHandle = SavedStateHandle().apply {
-            this["paid_feature_key"] = paidFeature
+            this["paid_feature_key"] = upsellContent
         }
 
         return TvUpsellViewModel(

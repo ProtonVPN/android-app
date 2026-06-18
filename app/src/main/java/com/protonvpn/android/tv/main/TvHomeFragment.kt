@@ -45,7 +45,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.BaseTvBrowseFragment
 import com.protonvpn.android.databinding.TvCardRowBinding
-import com.protonvpn.android.models.features.PaidFeature
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.tv.detailed.CountryDetailFragment
@@ -74,6 +73,7 @@ import com.protonvpn.android.tv.settings.netshield.TvSettingsNetShieldActivity
 import com.protonvpn.android.tv.settings.protocol.TvSettingsProtocolActivity
 import com.protonvpn.android.tv.settings.splittunneling.TvSettingsSplitTunnelingActivity
 import com.protonvpn.android.tv.showTvDialog
+import com.protonvpn.android.tv.upsell.TvUpsellContent
 import com.protonvpn.android.tv.upsell.TvUpsellActivity
 import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.CountryTools
@@ -189,7 +189,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
                 }
                 is SettingsCustomDns -> {
                     paidFeatureOpener(
-                        paidFeature = PaidFeature.CustomDns,
+                        tvUpsellContent = TvUpsellContent.CustomDns,
                         upgradeSource = UpgradeSource.ADVANCED_CUSTOMIZATION,
                         paidFeatureActivityClass = TvSettingsCustomDnsActivity::class.java,
                     )
@@ -199,14 +199,14 @@ class TvHomeFragment : BaseTvBrowseFragment() {
                 }
                 is SettingsLanConnectionsCard -> {
                     paidFeatureOpener(
-                        paidFeature = PaidFeature.LanConnections,
+                        tvUpsellContent = TvUpsellContent.LanConnections,
                         upgradeSource = UpgradeSource.ADVANCED_CUSTOMIZATION,
                         paidFeatureActivityClass = TvSettingsLanConnectionsActivity::class.java,
                     )
                 }
                 is SettingsNetShieldCard -> {
                     paidFeatureOpener(
-                        paidFeature = PaidFeature.NetShield,
+                        tvUpsellContent = TvUpsellContent.NetShield,
                         upgradeSource = UpgradeSource.NETSHIELD,
                         paidFeatureActivityClass = TvSettingsNetShieldActivity::class.java,
                     )
@@ -218,7 +218,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
 
                 is SettingsSplitTunnelingCard -> {
                     paidFeatureOpener(
-                        paidFeature = PaidFeature.SplitTunneling,
+                        tvUpsellContent = TvUpsellContent.SplitTunneling,
                         upgradeSource = UpgradeSource.SPLIT_TUNNELING,
                         paidFeatureActivityClass = TvSettingsSplitTunnelingActivity::class.java,
                     )
@@ -399,14 +399,14 @@ private class PaidFeatureOpener(private val context: Context) {
     var isFreeUser: Boolean = true
 
     operator fun invoke(
-        paidFeature: PaidFeature,
+        tvUpsellContent: TvUpsellContent,
         upgradeSource: UpgradeSource,
         paidFeatureActivityClass: Class<out Activity>
     ) {
         if (isFreeUser) {
             TvUpsellActivity.launch(
                 context,
-                paidFeature,
+                tvUpsellContent,
                 upgradeSource,
                 UpgradeTrigger.HOME,
                 null,

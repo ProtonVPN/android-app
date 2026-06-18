@@ -26,7 +26,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.models.features.PaidFeature
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -52,14 +51,14 @@ class TvUpsellViewModel @Inject constructor(
     )
 
     val viewStateFlow: StateFlow<ViewState?> = savedStateHandle
-        .getStateFlow<PaidFeature?>(
+        .getStateFlow<TvUpsellContent?>(
             key = KEY_PAID_FEATURE,
             initialValue = null,
         )
         .filterNotNull()
         .mapLatest { paidFeature ->
             when (paidFeature) {
-                PaidFeature.AllCountries -> ViewState(
+                TvUpsellContent.AllCountries -> ViewState(
                     imageResId = R.drawable.worldwide_coverage_tv,
                     titleResId = R.string.upsell_tv_all_countries_title,
                     descriptionResId = R.string.upsell_tv_all_countries_description,
@@ -79,20 +78,20 @@ class TvUpsellViewModel @Inject constructor(
                     },
                 )
 
-                PaidFeature.CustomDns,
-                PaidFeature.LanConnections -> ViewState(
+                TvUpsellContent.CustomDns,
+                TvUpsellContent.LanConnections -> ViewState(
                     imageResId = R.drawable.customisation_tv,
                     titleResId = R.string.upsell_tv_customization_title,
                     descriptionResId = R.string.upsell_tv_customization_description,
                 )
 
-                PaidFeature.NetShield -> ViewState(
+                TvUpsellContent.NetShield -> ViewState(
                     imageResId = R.drawable.netshield_tv,
                     titleResId = R.string.upsell_tv_netshield_title,
                     descriptionResId = R.string.upsell_tv_netshield_description,
                 )
 
-                PaidFeature.SplitTunneling -> ViewState(
+                TvUpsellContent.SplitTunneling -> ViewState(
                     imageResId = R.drawable.split_tunneling_tv,
                     titleResId = R.string.upsell_tv_split_tunneling_title,
                     descriptionResId = R.string.upsell_tv_split_tunneling_description,
