@@ -282,7 +282,7 @@ class WireguardBackend @Inject constructor(
     private fun handleConnectException(e: Exception) {
         ProtonLogger.log(
             ConnError,
-            "Caught exception while connecting with WireGuard\n" +
+            "Caught exception while connecting with WireGuard: $e\n" +
                 StringWriter().apply { e.printStackTrace(PrintWriter(this)) }.toString()
         )
         // TODO do not use generic error here (depends on other branch)
