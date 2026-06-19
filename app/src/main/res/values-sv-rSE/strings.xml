@@ -600,6 +600,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Blockera annonser, spårare och skadlig programvara med <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Få det bästa av båda världar med Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Dela upp din trafik i VPN- och icke-VPN-tunnlar med <b>split tunneling</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
+    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
     <string name="upsell_tv_customization_title">Få avancerade VPN-anpassningar med Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Lås upp <b>LAN-anslutningar</b>, <b>anpassad DNS</b> och mer avancerade VPN-funktioner.]]></string>
     <string name="upsell_tv_fallback_description">Gå till Proton VPN-webbplatsen för att uppgradera ditt paket.</string>
@@ -786,7 +788,6 @@
     <string name="welcome_unlimited_description"><![CDATA[Du låste upp alla premiumfunktioner i Proton VPN, Mail, Calendar, Drive, Pass och Wallet – och <b>%1$d&#160; GB</b> totalt lagringsutrymme.]]></string>
     <string name="welcome_generic_title">Grattis</string>
     <string name="welcome_generic_description">Du har uppgraderat din prenumeration. Njut av avancerade integritetsfunktioner och nästa nivå av prestanda.</string>
-
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

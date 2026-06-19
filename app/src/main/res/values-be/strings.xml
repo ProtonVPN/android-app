@@ -632,6 +632,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Блакіруйце рэкламу, праграмы сачэння і шкодныя праграмы з дапамогай <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Атрымлівайце лепшае абодвух светаў з Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[З функцыяй <b>Split Tunneling</b> вы зможаце дзяліць свой трафік на той, які будзе праходзіць праз тунэлі VPN і на той, які будзе абыходзіцца без іх.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Падпіска пратэрмінавана</string>
+    <string name="upsell_tv_subscription_expired_description">Палепшыце, каб зноў атрымаць доступ да сервераў і іншых функцый падпіскі Plus.</string>
     <string name="upsell_tv_customization_title">Атрымайце пашыраныя налады VPN з Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Разблакіруйце <b>падключэнні па LAN</b>, <b>карыстальніцкія DNS</b> і дадатковыя функцыі VPN.]]></string>
     <string name="upsell_tv_fallback_description">Перайдзіце на вэб-сайт Proton VPN, каб палепшыць свой тарыфны план.</string>
@@ -828,14 +830,6 @@
     <string name="welcome_unlimited_description"><![CDATA[Вы разблакіравалі ўсе прэміяльныя функцыі праграм Proton VPN, Mail, Calendar, Drive, Pass і Wallet. Цяпер вам даступна <b>%1$d&#160;ГБ</b> агульнага сховішча.]]></string>
     <string name="welcome_generic_title">Віншуем</string>
     <string name="welcome_generic_description">Вы палепшылі сваю падпіску. Атрымлівайце асалоду ад пашыраных функцый прыватнасці і новага ўзроўню прадукцыйнасці.</string>
-
-    <!-- Parameters:
-     %1$s - replaced with "welcome_plus_servers"
-     %2$s - replaced with "welcome_plus_countries"
-
-     Example:
-     1800+ new servers in 68 countries
-     -->
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

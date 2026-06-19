@@ -616,6 +616,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Blocați reclamele, uneltele de urmărire și programele malițioase cu <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Obțineți maxim din ambele lumi cu Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Divizați-vă traficul în tuneluri VPN și non-VPN cu funcția de <b>divizare trafic</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Abonamentul a expirat</string>
+    <string name="upsell_tv_subscription_expired_description">Modificați planul pentru a obține din nou acces la serverele și funcțiile Plus.</string>
     <string name="upsell_tv_customization_title">Obțineți personalizări VPN avansate cu Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Deblocați <b>Conexiunile în LAN</b>, <b>DNS-urile personale</b> și mai multe funcții VPN avansate.]]></string>
     <string name="upsell_tv_fallback_description">Accesați site-ul web Proton VPN pentru a vă modifica planul.</string>
@@ -807,7 +809,6 @@
     <string name="welcome_unlimited_description"><![CDATA[Ați deblocat toate funcțiile premium ale Proton VPN, Mail, Calendar, Drive, Pass și Wallet — și <b>%1$d&#160;GiB</b> de stocare totală.]]></string>
     <string name="welcome_generic_title">Felicitări</string>
     <string name="welcome_generic_description">V-ați modificat abonamentul. Bucurați-vă de funcțiile de confidențialitate și performanță de nivel superior.</string>
-
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

@@ -600,6 +600,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Bloquegeu anuncis, rastrejadors i programari maliciós amb <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Aconseguiu el millor dels dos mons amb Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Dividiu el trànsit en túnels VPN i no VPN amb <b>tunelització dividida</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">La subscripció ha caducat</string>
+    <string name="upsell_tv_subscription_expired_description">Milloreu el pla per tornar a tenir accés als servidors i a les característiques Plus.</string>
     <string name="upsell_tv_customization_title">Aconseguiu una personalització avançada de VPN amb Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Desbloquegeu <b>connexions LAN</b>, <b>DNS personalitzades</b> i funcions VPN més avançades.]]></string>
     <string name="upsell_tv_fallback_description">Aneu al lloc web de Proton VPN per millorar el vostre pla.</string>
@@ -786,14 +788,6 @@
     <string name="welcome_unlimited_description"><![CDATA[Heu desbloquejat totes les característiques prèmium de Proton VPN, Mail, Calendari, Drive, Pass i Cartera — i <b>%1$d&#160;GB</b> d\'emmagatzematge total.]]></string>
     <string name="welcome_generic_title">Felicitats</string>
     <string name="welcome_generic_description">Heu millorat la subscripció. Gaudiu de característiques de privacitat avançades i rendiment d\'alt nivell.</string>
-
-    <!-- Parameters:
-     %1$s - replaced with "welcome_plus_servers"
-     %2$s - replaced with "welcome_plus_countries"
-
-     Example:
-     1800+ new servers in 68 countries
-     -->
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

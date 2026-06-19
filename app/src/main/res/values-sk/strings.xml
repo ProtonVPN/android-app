@@ -632,6 +632,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Blokujte reklamy, sledovače a malvér pomocou <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Získajte to najlepšie z oboch svetov s Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Rozdeľte svoju prevádzku na VPN tunely a iné ako VPN pomocou <b>rozdeleného tunelovania</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
+    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
     <string name="upsell_tv_customization_title">Získajte pokročilé prispôsobenia VPN s Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Odomknite <b>LAN pripojenia</b>, <b>vlastné DNS</b> a pokročilejšie VPN funkcie.]]></string>
     <string name="upsell_tv_fallback_description">Prejdite na webovú stránku Proton VPN, aby ste si zvýšili úroveň svojho plánu.</string>
@@ -828,7 +830,6 @@
     <string name="welcome_unlimited_description"><![CDATA[Odomkli ste všetky prémiové funkcie Proton VPN, Mail, Calendar, Drive, Pass a Wallet – a celkovo <b>%1$d&#160;GB</b> úložného priestoru.]]></string>
     <string name="welcome_generic_title">Gratulujeme</string>
     <string name="welcome_generic_description">Aktualizovali ste si predplatné. Užívajte si pokročilé funkcie ochrany osobných údajov a výkon na vyššej úrovni.</string>
-
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

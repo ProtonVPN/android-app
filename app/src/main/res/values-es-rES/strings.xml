@@ -600,6 +600,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Bloquea anuncios, rastreadores y malware con <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Obtén lo mejor de ambos mundos con Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide tu tráfico en túneles VPN y no VPN con <b>túneles divididos</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">La suscripción ha caducado</string>
+    <string name="upsell_tv_subscription_expired_description">Cambia a un plan superior para obtener acceso a servidores y funciones Plus de nuevo.</string>
     <string name="upsell_tv_customization_title">Obtén una personalización VPN avanzada con Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Desbloquea <b>conexiones LAN</b>, <b>DNS personalizado</b>, y más funciones VPN avanzadas.]]></string>
     <string name="upsell_tv_fallback_description">Ve al sitio web de Proton VPN para mejorar tu plan.</string>
@@ -786,14 +788,6 @@
     <string name="welcome_unlimited_description"><![CDATA[Has desbloqueado todas las funciones prémium de Proton VPN, Mail, Calendario, Drive, Pass y Cartera — y <b>%1$d&#160;GB</b> de almacenamiento total.]]></string>
     <string name="welcome_generic_title">Felicitaciones</string>
     <string name="welcome_generic_description">Has mejorado tu suscripción. Disfruta de funciones de privacidad avanzadas y rendimiento a otro nivel.</string>
-
-    <!-- Parameters:
-     %1$s - replaced with "welcome_plus_servers"
-     %2$s - replaced with "welcome_plus_countries"
-
-     Example:
-     1800+ new servers in 68 countries
-     -->
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

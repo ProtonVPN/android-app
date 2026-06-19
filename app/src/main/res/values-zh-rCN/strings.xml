@@ -579,14 +579,16 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
+    <string name="upsell_tv_all_countries_description">解锁 %1$s 中的 %2$s</string>
     <string name="upsell_tv_netshield_title">通过 Plus 套餐享受无广告浏览体验</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[使用 <b>NetShield</b> 拦截广告、跟踪器和恶意软件。]]></string>
     <string name="upsell_tv_split_tunneling_title">通过 Plus 套餐兼享双重优势</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[通过 <b>拆分隧道</b> 将您的流量分为 VPN 和非 VPN 通道。]]></string>
+    <string name="upsell_tv_subscription_expired_title">订阅已过期</string>
+    <string name="upsell_tv_subscription_expired_description">升级即可再次使用 Plus 服务器和功能。</string>
     <string name="upsell_tv_customization_title">通过 Plus 套餐获取高级 VPN 自定义功能</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
-    <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_customization_description"><![CDATA[解锁 <b>局域网连接</b>、<b>自定义 DNS</b> 以及更多高级 VPN 功能。]]></string>
+    <string name="upsell_tv_fallback_description">前往 Proton VPN 网站升级您的套餐</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -765,7 +767,6 @@
     <string name="welcome_unlimited_description"><![CDATA[您已解锁所有高级的 Proton VPN、Mail、Calendar、Drive、Pass 和 Wallet 功能 —— 以及总计 <b>%1$d&#160;GB</b> 的存储空间。]]></string>
     <string name="welcome_generic_title">祝贺</string>
     <string name="welcome_generic_description">订阅已升级。享受高级隐私功能和更高水平的性能。</string>
-
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

@@ -600,6 +600,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Bloqueie anúncios, rastreadores e malware com o <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Obtenha o melhor dos dois mundos com o Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Divida seu tráfego em túneis VPN e não VPN com o <b>tunelamento dividido</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Assinatura expirada</string>
+    <string name="upsell_tv_subscription_expired_description">Faça upgrade para obter acesso a servidores e recursos novamente.</string>
     <string name="upsell_tv_customization_title">Obtenha personalizações avançadas de VPN com o Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Desbloqueie <b>conexões LAN</b>, <b>DNS personalizado</b> e mais recursos VPN avançados.]]></string>
     <string name="upsell_tv_fallback_description">Vá para o site do Proton VPN para fazer upgrade do seu plano.</string>
@@ -786,7 +788,6 @@
     <string name="welcome_unlimited_description"><![CDATA[Você desbloqueou todos os recursos premium do Proton VPN, Mail, Calendar, Drive, Pass e recursos do Wallet — e <b>%1$d&#160;GB</b> t de armazenamento total.]]></string>
     <string name="welcome_generic_title">Parabéns</string>
     <string name="welcome_generic_description">Você fez o upgrade da sua assinatura. Desfrute dos recursos avançados de privacidade e do desempenho de próximo nível.</string>
-
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

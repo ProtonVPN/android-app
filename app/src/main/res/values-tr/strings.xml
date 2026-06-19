@@ -600,6 +600,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[<b>NetShield</b> ile reklamları, izleyicileri ve kötü amaçlı yazılımları engelleyin.]]></string>
     <string name="upsell_tv_split_tunneling_title">Plus tarifesi ile iki dünyanın da en iyisini elde edin</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[<b>Ayrılmış tünelleme</b> ile VPN kullanan ve VPN kullanmayan trafiğinizi ayırın.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Aboneliğin geçerlilik süresi dolmuş</string>
+    <string name="upsell_tv_subscription_expired_description">Plus sunucularına ve özelliklerine yeniden erişmek için tarifenizi yükseltin.</string>
     <string name="upsell_tv_customization_title">Plus tarifesi ile gelişmiş VPN özelleştirmeleri edinin</string>
     <string name="upsell_tv_customization_description"><![CDATA[<b>Yerel ağ bağlantıları</b>, <b>Özel DNS</b> ve diğer gelişmiş VPN özelliklerine erişin.]]></string>
     <string name="upsell_tv_fallback_description">Tarifenizi yükseltmek için Proton VPN sitesine gidin.</string>
@@ -786,7 +788,6 @@
     <string name="welcome_unlimited_description"><![CDATA[Tüm ücretli Proton VPN, Mail, Calendar, Drive ve Pass özellikleri ile toplam <b>%1$d&#160;GB</b> depolama alanına erişim kazandınız.]]></string>
     <string name="welcome_generic_title">Tebrikler</string>
     <string name="welcome_generic_description">Abonelik tarifenizi yükselttiniz. Gelişmiş gizlilik özelliklerinin ve yeni nesil başarımın tadını çıkarın.</string>
-
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

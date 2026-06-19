@@ -600,6 +600,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Bloker annoncer, trackere og malware med <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Få det bedste fra begge verdener med Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Opdel din trafik i VPN- og ikke-VPN-tunneler med <b>split tunneling</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Abonnement er udløbet</string>
+    <string name="upsell_tv_subscription_expired_description">Opgradér for igen at få adgang til Plus servere og features.</string>
     <string name="upsell_tv_customization_title">Få avancerede VPN-indstillinger med Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Lås op for <b>LAN-forbindelser</b>, <b>brugerdefineret DNS</b> og mere avancerede VPN-funktioner.]]></string>
     <string name="upsell_tv_fallback_description">Gå til Proton VPN-websiden for at opgradere dit abonnement.</string>
@@ -786,14 +788,6 @@
     <string name="welcome_unlimited_description"><![CDATA[De har låst op for alle premium Proton VPN-, Mail-, Kalender-, Drive-, Pass- og Wallet-funktioner — og <b>%1$d&#160;GB</b> samlet lagerplads.]]></string>
     <string name="welcome_generic_title">Tillykke</string>
     <string name="welcome_generic_description">Du har opgraderet dit abonnement. Nyd avancerede privatlivsfunktioner og ydeevne af højeste klasse.</string>
-
-    <!-- Parameters:
-     %1$s - replaced with "welcome_plus_servers"
-     %2$s - replaced with "welcome_plus_countries"
-
-     Example:
-     1800+ new servers in 68 countries
-     -->
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:
@@ -1036,7 +1030,7 @@
          Fastest country
          Germany
      -->
-    <string name="connection_card_label_connected">Browser sikkert fra</string>
+    <string name="connection_card_label_connected">Surfer sikkert fra</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with details of the current VPN connection.
          Only used by accessibility services.

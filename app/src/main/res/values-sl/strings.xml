@@ -210,7 +210,7 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[V primeru, da je Proton blokiran, dovolite aplikaciji, da preizkusi alternativne poti za doseganje strežnikov Proton. <a href="%1$s">Več o tem</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokada s strani države</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaša država morda blokira dostop do Protona. Poskusite uporabiti <a href=\'%1$s\'>Tor</a> za dostop do Protona.]]></string>
-    <string name="settingsKillSwitchEnableTitle">Kako omogočiti kill switch</string>
+    <string name="settingsKillSwitchEnableTitle">Kako omogočiti odklopno stikalo</string>
     <string name="settingsKillSwitchEnableStep1">1. Odprite nastavitve naprave</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. Poiščite Proton VPN in tapnite %1$s</string>
@@ -220,8 +220,8 @@
          the same as in Android VPN settings. -->
     <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Omogočite »<b>Vedno vklopljen VPN</b>« in »<b>Blokiraj povezave brez VPN-ja</b>«]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Nastavitve</string>
-    <string name="settingsKillSwitchLearnMoreButton">Kaj je kill switch?</string>
-    <string name="settingsKillSwitchWarningMain">Ko je kill switch vklopljen, se ne boste mogli povezati z:</string>
+    <string name="settingsKillSwitchLearnMoreButton">Kaj je odklopno stikalo?</string>
+    <string name="settingsKillSwitchWarningMain">Ko je odklopno stikalo vklopljeno, se ne boste mogli povezati z:</string>
     <string name="settingsKillSwitchWarningPoint1">Spletna mesta in aplikacije, izključene iz vaše VPN povezave prek deljenega tuneliranja</string>
     <string name="settingsKillSwitchWarningPoint2">Naprave v vašem lokalnem omrežju (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Delite anonimne podatke o uporabi</string>
@@ -446,7 +446,7 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odklenite %1$s v %2$s z <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">Zagotovite si popolno zasebno pokritost s Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Odklenite vse premium funkcije iz Proton VPN, pošte, koledarja, Drive in Pass.</string>
+    <string name="upgrade_unlimited_all_apps_description">Odklenite vse premijske funkcije iz Proton VPN, pošte, koledarja, Drive in Pass.</string>
     <string name="upgrade_unlimited_more">In več</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Odkleni vse države</string>
     <string name="upgrade_unlimited_vpn_all_features">Vse druge funkcije VPN Plus</string>
@@ -633,6 +633,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Izkoristite najboljše iz obeh svetov s Plus-om</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
+    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
     <string name="upsell_tv_customization_title">Pridobite napredno prilagoditev VPN-ja s Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
     <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
@@ -746,7 +748,7 @@
     <string name="settings_change_icon_confirmation_details">S tem se bo aplikacija Proton VPN zaprla. Za ponovni zagon Proton VPN samo pritisnite novo ikono aplikacije.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Diskretna ikona aplikacije</string>
-    <string name="settings_widget_title">Pripomoček</string>
+    <string name="settings_widget_title">Gradnik</string>
     <string name="settings_widget_selection_title">Preizkusite gradnik Proton VPN</string>
     <string name="settings_widget_selection_description">Preverite stanje povezave in dostopajte do svojih najljubših VPN povezav z začetnega zaslona.</string>
     <!-- Placeholder is for non-translatable app_name-->
@@ -826,10 +828,9 @@
     <string name="welcome_plus_title">Dobrodošli pri Proton Plus</string>
     <string name="welcome_plus_description">Uživajte v dodatnih funkcijah zasebnosti, okrepljeni zmogljivosti in prilagoditvi VPN naslednje stopnje.</string>
     <string name="welcome_unlimited_title">Dobrodošli v Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Odklenili ste vse premium funkcije Proton VPN, pošte, koledarja, Drive, Pass in denarnice – in skupno <b>%1$d&#160;GB</b> prostora za shranjevanje.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Odklenili ste vse premijske funkcije Proton VPN, pošte, koledarja, Drive, Pass in denarnice – in skupno <b>%1$d&#160;GB</b> prostora za shranjevanje.]]></string>
     <string name="welcome_generic_title">Čestitamo</string>
     <string name="welcome_generic_description">Nadgradili ste naročnino. Uživajte v naprednih funkcijah zasebnosti in zmogljivosti naslednje ravni.</string>
-
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:
@@ -1140,7 +1141,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Razdeljeno tuneliranje</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill switch</string>
+    <string name="settings_kill_switch_title">Odklopno stikalo</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">Povezava</string>
     <!-- tag(Redesign_2023) -->
@@ -1199,7 +1200,7 @@
     <string name="country_filter_countries_list_header">Države (%1$d)</string>
     <string name="country_filter_cities_list_header">Mesta (%1$d)</string>
     <string name="country_filter_states_list_header">Države (%1$d)</string>
-    <string name="country_filter_servers_list_header">Strežnika</string>
+    <string name="country_filter_servers_list_header">Strežniki</string>
     <string name="country_filter_secure_core_list_header">„Secure Core” države (%1$d)</string>
     <string name="country_filter_p2p_list_header">Države P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P mesta (%1$d)</string>

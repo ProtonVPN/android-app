@@ -584,6 +584,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">รับสิ่งที่ดีที่สุดจากทั้งสองโลกด้วย Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
+    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
     <string name="upsell_tv_customization_title">รับการปรับแต่ง VPN ขั้นสูงด้วย Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
     <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
@@ -765,7 +767,6 @@
     <string name="welcome_unlimited_description"><![CDATA[คุณปลดล็อกคุณสมบัติพรีเมียมทั้งหมดของ Proton VPN, Mail, Calendar, Drive, Pass และ Wallet — และพื้นที่จัดเก็บรวม <b>%1$d&#160;GB</b>]]></string>
     <string name="welcome_generic_title">ยินดีด้วย</string>
     <string name="welcome_generic_description">คุณได้อัปเกรดการสมัครสมาชิกของคุณแล้ว เพลิดเพลินกับคุณสมบัติความเป็นส่วนตัวขั้นสูงและประสิทธิภาพอีกระดับ</string>
-
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:

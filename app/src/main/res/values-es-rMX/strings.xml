@@ -597,9 +597,11 @@
     -->
     <string name="upsell_tv_all_countries_description">Desbloquee %1$s en %2$s.</string>
     <string name="upsell_tv_netshield_title">Disfrute de una navegación sin anuncios con Plus</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Bloquea anuncios, rastreadores y malware con <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Bloquee anuncios, rastreadores y malware con <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Obtenga lo mejor de ambos mundos con Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Divida el tráfico en túneles VPN y no VPN con <b>túnel dividido</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
+    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
     <string name="upsell_tv_customization_title">Obtenga una personalización VPN avanzada con Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Desbloquee <b>conexiones LAN</b>, <b>DNS personalizado</b> y más funciones VPN avanzadas.]]></string>
     <string name="upsell_tv_fallback_description">Vaya al sitio web de Proton VPN para mejorar su plan.</string>
@@ -786,14 +788,6 @@
     <string name="welcome_unlimited_description"><![CDATA[Ha desbloqueado todas las funciones premium de Proton VPN, Mail, Calendar, Drive, Pass y Wallet, además de <b>%1$d&#160;GB</b> de almacenamiento total.]]></string>
     <string name="welcome_generic_title">Felicitaciones</string>
     <string name="welcome_generic_description">Ha mejorado la suscripción. Disfrute funciones de privacidad avanzadas y rendimiento de otro nivel.</string>
-
-    <!-- Parameters:
-     %1$s - replaced with "welcome_plus_servers"
-     %2$s - replaced with "welcome_plus_countries"
-
-     Example:
-     1800+ new servers in 68 countries
-     -->
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:
