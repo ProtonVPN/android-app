@@ -41,6 +41,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
@@ -179,9 +180,13 @@ fun HomeUpsellCarousel(
             .heightIn(min = minHeight.dp)
         val page = pages[pageIndex]
         with(page) {
+            val cardShape = ProtonTheme.shapes.medium
+
             pageScope.content(
-                pageSizeModifier.clickable(onClick = { onOpenUpgradeScreen(upgradeDialogFocusPage, upgradeSource) })
-           )
+                pageSizeModifier
+                    .clip(cardShape)
+                    .clickable(onClick = { onOpenUpgradeScreen(upgradeDialogFocusPage, upgradeSource) })
+            )
         }
     }
 }
