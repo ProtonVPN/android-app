@@ -93,9 +93,6 @@ abstract class SaveableSettingsActivity<VM : SaveableSettingsViewModel> : BaseAc
     companion object {
         private const val HAS_SAVED_CHANGES_KEY = "hasSavedChanges"
 
-        fun createContract(clazz: KClass<out SaveableSettingsActivity<*>>) =
-            createContract<Unit>(clazz) { /* nothing */ }
-
         fun <Input: Any> createContract(
             clazz: KClass<out SaveableSettingsActivity<*>>,
             inputHandler: Intent.(Input) -> Unit

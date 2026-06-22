@@ -21,6 +21,7 @@ package com.protonvpn.app.vpn
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.protonvpn.android.R
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.settings.data.SplitTunnelingMode
@@ -42,6 +43,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsSplitTunnelIpsViewModelTests {
@@ -77,8 +79,8 @@ class SettingsSplitTunnelIpsViewModelTests {
     @Test
     fun testAddAddress() = testScope.runTest {
         val viewModel = createViewModel()
-        viewModel.addAddress("1.1.1.1")
-        viewModel.addAddress("2000::")
+        viewModel.addAddressIfValid("1.1.1.1")
+        viewModel.addAddressIfValid("2000::")
         assertEquals(
             SettingsSplitTunnelIpsViewModel.State(
                 listOf("1.1.1.1".let { LabeledItem(it, it) }, "2000::".let { LabeledItem(it, it) }),
@@ -91,7 +93,7 @@ class SettingsSplitTunnelIpsViewModelTests {
     fun `should display IPv6 dialog`() = testScope.runTest {
         val viewModel = createViewModel(v6SettingEnabled = false, mode = SplitTunnelingMode.INCLUDE_ONLY)
         viewModel.events.test {
-            viewModel.addAddress("2000::")
+            viewModel.addAddressIfValid("2000::")
             assertEquals(SettingsSplitTunnelIpsViewModel.Event.ShowIPv6EnableSettingDialog, awaitItem())
             viewModel.onEnableIPv6()
             assertEquals(SettingsSplitTunnelIpsViewModel.Event.ShowIPv6EnabledToast, awaitItem())
@@ -102,9 +104,20 @@ class SettingsSplitTunnelIpsViewModelTests {
     fun `don't display IPv6 dialog on exclude mode`() = testScope.runTest {
         val viewModel = createViewModel(v6SettingEnabled = false, mode = SplitTunnelingMode.EXCLUDE_ONLY)
         viewModel.events.test {
-            viewModel.addAddress("2000::")
+            viewModel.addAddressIfValid("2000::")
             expectNoEvents()
         }
+    }
+
+    @Test
+    fun `return error when trying to add an invalid address`() = testScope.runTest {
+        val viewModel = createViewModel()
+        val validResult = viewModel.addAddressIfValid("1.1.1.1")
+        assertNull(validResult)
+        val duplicateResult = viewModel.addAddressIfValid("1.1.1.1")
+        assertEquals(R.string.settings_split_tunneling_already_excluded, duplicateResult)
+        val invalidResult = viewModel.addAddressIfValid("1.2.")
+        assertEquals(R.string.inputIpAddressErrorInvalid, invalidResult)
     }
 
     private suspend fun createViewModel(

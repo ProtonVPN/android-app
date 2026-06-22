@@ -56,6 +56,7 @@ fun SimpleTopAppBar(
     modifier: Modifier = Modifier,
     backgroundColor: Color = ProtonTheme.colors.backgroundNorm,
     scrolledBackgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
     val isScrolled by remember { derivedStateOf(isScrolledPredicate) }
     val topAppBarColor by animateColorAsState(
@@ -71,6 +72,7 @@ fun SimpleTopAppBar(
             ProvideTextStyle(ProtonTheme.typography.body1Medium, title)
         },
         navigationIcon = navigationIcon,
+        actions = actions,
         modifier = modifier,
     )
 }

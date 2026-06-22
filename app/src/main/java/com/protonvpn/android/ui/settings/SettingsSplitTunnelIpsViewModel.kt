@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.settings
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.R
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.logging.logUiSettingChange
@@ -73,16 +74,28 @@ class SettingsSplitTunnelIpsViewModel @Inject constructor(
 
     fun isValidIp(ip: String) = ip.isValidIp()
 
-    fun addAddress(newAddress: String): Boolean {
-        val alreadyAdded = ipAddresses.value.contains(newAddress)
-        if (!alreadyAdded)
-            ipAddresses.value = ipAddresses.value + newAddress
-        viewModelScope.launch {
-            if (shouldDisplayIPv6SettingDialog(mode, newAddress))
-                events.tryEmit(Event.ShowIPv6EnableSettingDialog)
+    // Returns null on success and string ID of error message on error.
+    fun addAddressIfValid(newAddress: String): Int? =
+        if (isValidIp(newAddress)) {
+            val alreadyAdded = ipAddresses.value.contains(newAddress)
+            if (!alreadyAdded) {
+                ipAddresses.value += newAddress
+                viewModelScope.launch {
+                    if (shouldDisplayIPv6SettingDialog(mode, newAddress))
+                        events.tryEmit(Event.ShowIPv6EnableSettingDialog)
+                }
+                null // Success, no error.
+            } else {
+                when (mode) {
+                    SplitTunnelingMode.INCLUDE_ONLY ->
+                        R.string.settings_split_tunneling_already_included
+                    SplitTunnelingMode.EXCLUDE_ONLY ->
+                        R.string.settings_split_tunneling_already_excluded
+                }
+            }
+        } else {
+            R.string.inputIpAddressErrorInvalid
         }
-        return !alreadyAdded
-    }
 
     fun removeAddress(item: LabeledItem) {
         ipAddresses.value = ipAddresses.value - item.id
