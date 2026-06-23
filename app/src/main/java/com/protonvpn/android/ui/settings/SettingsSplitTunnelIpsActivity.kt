@@ -51,11 +51,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.onClick
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextDirection
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -65,6 +62,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonTextButton
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleTopAppBar
+import com.protonvpn.android.base.ui.TextSectionHeader
 import com.protonvpn.android.base.ui.TopAppBarBackIcon
 import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.base.ui.theme.VpnTheme
@@ -262,14 +260,11 @@ fun SplitTunnelingIps(
                             SplitTunnelingMode.INCLUDE_ONLY -> R.string.settingsIncludedIPAddressesListHeader
                             SplitTunnelingMode.EXCLUDE_ONLY -> R.string.settingsExcludedIPAddressesListHeader
                         }
-                        Text(
+                        TextSectionHeader(
                             text = stringResource(headerTextRes, ipAddresses.size),
-                            style = ProtonTheme.typography.body2Medium,
-                            color = ProtonTheme.colors.textAccent,
                             modifier = Modifier
                                 .largeScreenContentPadding()
                                 .padding(horizontal = 16.dp)
-                                .padding(top = 24.dp, bottom = 8.dp)
                         )
                     }
 
@@ -277,7 +272,7 @@ fun SplitTunnelingIps(
                         items = ipAddresses,
                         key = { it.id }
                     ) { item ->
-                        RemovableLabeledItemRow(
+                        LabeledItemRowWithRemove(
                             item = item,
                             onRemove = { onRemove(item) },
                             modifier = Modifier
@@ -341,43 +336,6 @@ private fun IpInputTextField(
             Icon(
                 painterResource(CoreR.drawable.ic_proton_plus_circle_filled),
                 contentDescription = stringResource(R.string.add)
-            )
-        }
-    }
-}
-
-@Composable
-private fun RemovableLabeledItemRow(
-    item: LabeledItem,
-    onRemove: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val removeActionLabel = stringResource(R.string.remove)
-    Row(
-        modifier = modifier
-            .semantics(mergeDescendants = true) {
-                onClick(label = removeActionLabel) {
-                    onRemove()
-                    true
-                }
-        },
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = item.label,
-            maxLines = 1,
-            overflow = TextOverflow.MiddleEllipsis,
-            modifier = Modifier
-                .weight(1f)
-                .padding(vertical = 14.dp)
-        )
-        Spacer(Modifier.width(4.dp))
-        IconButton(
-            onClick = onRemove,
-        ) {
-            Icon(
-                painterResource(CoreR.drawable.ic_proton_minus_circle_filled),
-                contentDescription = null
             )
         }
     }

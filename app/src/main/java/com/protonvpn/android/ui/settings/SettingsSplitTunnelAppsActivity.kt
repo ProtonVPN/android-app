@@ -20,32 +20,49 @@
 package com.protonvpn.android.ui.settings
 
 import android.os.Bundle
-import android.view.View
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.annotation.StringRes
-import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
-import androidx.lifecycle.asLiveData
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.SimpleItemAnimator
+import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.ProtonTextButton
+import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.SimpleTopAppBar
+import com.protonvpn.android.base.ui.TextSectionHeader
+import com.protonvpn.android.base.ui.TopAppBarBackIcon
+import com.protonvpn.android.base.ui.largeScreenContentPadding
+import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
-import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
-import com.protonvpn.android.databinding.ItemSplitTunnelAppsEmptyBinding
-import com.protonvpn.android.databinding.ItemSplitTunnelAppsLoadSystemAppsBinding
 import com.protonvpn.android.settings.data.SplitTunnelingMode
-import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.SaveableSettingsActivity
-import com.protonvpn.android.utils.BindableItemEx
-import com.protonvpn.android.utils.applySystemBarInsets
 import com.protonvpn.android.utils.getSerializableExtraCompat
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.Item
-import com.xwray.groupie.OnAsyncUpdateListener
-import com.xwray.groupie.Section
-import com.xwray.groupie.viewbinding.BindableItem
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
@@ -53,166 +70,28 @@ class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTu
 
     override val viewModel: SettingsSplitTunnelAppsViewModel by viewModels()
 
-    private var previousSystemAppsState: SplitTunnelingAppsViewModelHelper.SystemAppsState? = null
-
     private lateinit var mode: SplitTunnelingMode
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdgeVpn()
         super.onCreate(savedInstanceState)
-        val binding = ActivityRecyclerWithToolbarBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        applySystemBarInsets(binding.root)
 
         mode = requireNotNull(intent.getSerializableExtraCompat<SplitTunnelingMode>(SPLIT_TUNNELING_MODE_KEY))
-        title = when (mode) {
-            SplitTunnelingMode.INCLUDE_ONLY -> getString(R.string.settings_split_tunneling_included_apps)
-            SplitTunnelingMode.EXCLUDE_ONLY -> getString(R.string.settings_split_tunneling_excluded_apps)
-        }
-        initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
-
-        val selectedItemsSection = Section()
-        val availableItemsSection = Section()
-        val itemsAdapter = GroupAdapter<GroupieViewHolder>().apply {
-            add(selectedItemsSection)
-            add(availableItemsSection)
-        }
-
-        val linearLayoutManager = LinearLayoutManager(this)
-        with(binding.recyclerItems) {
-            adapter = itemsAdapter
-            layoutManager = linearLayoutManager
-            // Avoid animating header updates.
-            (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
-        }
-
-        val actionAdd = { item: LabeledItem -> viewModel.addApp(item) }
-        val actionRemove = { item: LabeledItem -> viewModel.removeApp(item) }
-        viewModel.viewState.asLiveData().observe(this, Observer { state ->
-            when (state) {
-                is SplitTunnelingAppsViewModelHelper.ViewState.Loading ->
-                    binding.progress.isVisible = true
-                is SplitTunnelingAppsViewModelHelper.ViewState.Content -> {
-                    binding.progress.isVisible = false
-                    updateLists(
-                        itemsAdapter,
-                        state,
-                        actionAdd,
-                        actionRemove,
-                        linearLayoutManager
-                    )
-                    previousSystemAppsState = state.availableSystemApps
-                }
-            }
-        })
-    }
-
-    private fun updateLists(
-        adapter: GroupAdapter<GroupieViewHolder>,
-        content: SplitTunnelingAppsViewModelHelper.ViewState.Content,
-        actionAdd: LabeledItemAction,
-        actionRemove: LabeledItemAction,
-        layoutManager: LinearLayoutManager
-    ) {
-        val selectedItems = content.selectedApps
-        val availableRegularItems = content.availableRegularApps
-        val availableSystemItems = content.availableSystemApps
-        val headerLabel =
-            if (mode == SplitTunnelingMode.INCLUDE_ONLY) R.string.settingsIncludedAppsSelectedHeader
-            else R.string.settingsExcludedAppsSelectedHeader
-        val headerSelected = getString(headerLabel, selectedItems.size)
-        val headerAvailableRegular =
-            getString(R.string.settingsSplitTunnelingAvailableRegularHeader, availableRegularItems.size)
-        val headerAvailableSystem =
-            getString(R.string.settingsSplitTunnelingAvailableSystemHeader, availableSystemItems.appCount())
-        // Not using Section.setPlaceholder for empty state because the Section is recreated
-        // each time anyway.
-        val selectedViewHolders = if (selectedItems.isEmpty()) {
-            val emptyText =
-                if (mode == SplitTunnelingMode.EXCLUDE_ONLY) R.string.settingsExcludedAppsEmpty
-                else R.string.settingsIncludedAppsEmpty
-            listOf(EmptyStateItem(emptyText))
-        } else {
-            selectedItems.map { LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_cross, actionRemove) }
-        }
-        val availableRegularViewHolders = availableRegularItems.map {
-            LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_plus, actionAdd)
-        }
-        val availableSystemViewHolders = when (availableSystemItems) {
-            is SplitTunnelingAppsViewModelHelper.SystemAppsState.NotLoaded ->
-                listOf(LoadSystemAppsItem(this::loadSystemApps))
-            is SplitTunnelingAppsViewModelHelper.SystemAppsState.Loading ->
-                listOf(LoadSystemAppsSpinnerItem())
-            is SplitTunnelingAppsViewModelHelper.SystemAppsState.Content -> {
-                availableSystemItems.apps.map {
-                    LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_plus, actionAdd)
-                }
+        setContent {
+            VpnTheme {
+                val state by viewModel.viewState.collectAsStateWithLifecycle()
+                SplitTunnelingApps(
+                    mode = mode,
+                    viewState = state,
+                    onAdd = viewModel::addApp,
+                    onRemove = viewModel::removeApp,
+                    onToggleSystemApps = viewModel::toggleLoadSystemApps,
+                    onBack = viewModel::onGoBack,
+                    onSave = viewModel::saveAndClose,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
-        // Update both sections at once for move animations.
-        val systemAppsSection =
-            Section(HeaderViewHolder(itemId = 3, text = headerAvailableSystem), availableSystemViewHolders)
-        val sections = listOf(
-            Section(HeaderViewHolder(itemId = 1, text = headerSelected), selectedViewHolders),
-            Section(HeaderViewHolder(itemId = 2, text = headerAvailableRegular), availableRegularViewHolders),
-            systemAppsSection
-        )
-        val onAsyncFinished =
-            if (previousSystemAppsState is SplitTunnelingAppsViewModelHelper.SystemAppsState.Loading &&
-                availableSystemItems is SplitTunnelingAppsViewModelHelper.SystemAppsState.Content
-            ) {
-                OnAsyncUpdateListener {
-                    // This only works if there were no changes to the list in the meantime, but that's ok.
-                    val headerPosition = adapter.getAdapterPosition(systemAppsSection.getItem(0))
-                    if (headerPosition >= 0)
-                        layoutManager.scrollToPositionWithOffset(headerPosition, 0)
-                }
-            } else {
-                null
-            }
-        adapter.updateAsync(sections, onAsyncFinished)
-    }
-
-    private fun loadSystemApps() {
-        viewModel.toggleLoadSystemApps()
-    }
-
-    private fun SplitTunnelingAppsViewModelHelper.SystemAppsState.appCount(): Int = when (this) {
-        is SplitTunnelingAppsViewModelHelper.SystemAppsState.NotLoaded -> packageNames.size
-        is SplitTunnelingAppsViewModelHelper.SystemAppsState.Loading -> packageNames.size
-        is SplitTunnelingAppsViewModelHelper.SystemAppsState.Content -> apps.size
-    }
-
-    private class EmptyStateItem(
-        @StringRes private val textRes: Int
-    ) : BindableItemEx<ItemSplitTunnelAppsEmptyBinding>() {
-        override fun initializeViewBinding(view: View) = ItemSplitTunnelAppsEmptyBinding.bind(view).apply {
-            textLabel.setText(textRes)
-        }
-        override fun clear() = Unit
-        override fun getLayout(): Int = R.layout.item_split_tunnel_apps_empty
-        override fun getId(): Long = 1L // There's at most 1 such element in the list.
-
-    }
-
-    private class LoadSystemAppsSpinnerItem : Item<GroupieViewHolder>() {
-        override fun bind(viewHolder: GroupieViewHolder, position: Int) = Unit
-        override fun getLayout(): Int = R.layout.item_split_tunnel_apps_spinner
-        override fun getId(): Long = 1L // There's at most 1 such element in the list.
-    }
-
-    private class LoadSystemAppsItem(
-        private val onLoad: () -> Unit
-    ) : BindableItem<ItemSplitTunnelAppsLoadSystemAppsBinding>() {
-        override fun bind(viewBinding: ItemSplitTunnelAppsLoadSystemAppsBinding, position: Int) {
-            viewBinding.buttonLoadSystemApps.setOnClickListener { onLoad() }
-        }
-
-        override fun getLayout(): Int = R.layout.item_split_tunnel_apps_load_system_apps
-
-        override fun initializeViewBinding(view: View) = ItemSplitTunnelAppsLoadSystemAppsBinding.bind(view)
-
-        override fun getId(): Long = 1L // There's at most 1 such element in the list.
     }
 
     companion object {
@@ -221,5 +100,249 @@ class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTu
         fun createContract() = createContract<SplitTunnelingMode>(SettingsSplitTunnelAppsActivity::class) { mode ->
             putExtra(SPLIT_TUNNELING_MODE_KEY, mode)
         }
+    }
+}
+
+@VisibleForTesting
+@Composable
+fun SplitTunnelingApps(
+    mode: SplitTunnelingMode,
+    viewState: SplitTunnelingAppsViewModelHelper.ViewState,
+    onAdd: (LabeledItem) -> Unit,
+    onRemove: (LabeledItem) -> Unit,
+    onToggleSystemApps: () -> Unit,
+    onBack: () -> Unit,
+    onSave: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val titleRes = when (mode) {
+        SplitTunnelingMode.INCLUDE_ONLY -> R.string.settings_split_tunneling_included_apps
+        SplitTunnelingMode.EXCLUDE_ONLY -> R.string.settings_split_tunneling_excluded_apps
+    }
+    val listState = rememberLazyListState()
+    Scaffold(
+        topBar = {
+            SimpleTopAppBar(
+                title = { Text(stringResource(titleRes)) },
+                navigationIcon = { TopAppBarBackIcon(onBack) },
+                isScrolledPredicate = { listState.canScrollBackward },
+            ) {
+                ProtonTextButton(onSave) {
+                    Text(
+                        stringResource(R.string.saveButton),
+                        style = ProtonTheme.typography.body1Medium,
+                    )
+                }
+            }
+        },
+        modifier = modifier,
+    ) { paddingValues ->
+        when (viewState) {
+            SplitTunnelingAppsViewModelHelper.ViewState.Loading -> {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+            is SplitTunnelingAppsViewModelHelper.ViewState.Content -> {
+                SplitTunnelAppsLazyList(
+                    mode = mode,
+                    content = viewState,
+                    listState = listState,
+                    onAdd = onAdd,
+                    onRemove = onRemove,
+                    onToggleSystemApps = onToggleSystemApps,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SplitTunnelAppsLazyList(
+    mode: SplitTunnelingMode,
+    content: SplitTunnelingAppsViewModelHelper.ViewState.Content,
+    listState: LazyListState,
+    onAdd: (LabeledItem) -> Unit,
+    onRemove: (LabeledItem) -> Unit,
+    onToggleSystemApps: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val labeledItemModifier = Modifier
+        .fillMaxWidth()
+        .largeScreenContentPadding()
+        .padding(start = 16.dp, end = 8.dp)
+    LazyColumn(
+        state = listState,
+        modifier = modifier,
+    ) {
+        item(key = "header_selected") {
+            val headerRes =
+                if (mode == SplitTunnelingMode.INCLUDE_ONLY) R.string.settingsIncludedAppsSelectedHeader
+                else R.string.settingsExcludedAppsSelectedHeader
+            val itemModifier = Modifier
+                .padding(horizontal = 16.dp)
+                .largeScreenContentPadding()
+                .animateItem()
+            TextSectionHeader(
+                text = stringResource(headerRes, content.selectedApps.size),
+                bottomPadding = 4.dp,
+                modifier = itemModifier,
+            )
+            val explanationText = when(mode) {
+                SplitTunnelingMode.INCLUDE_ONLY -> R.string.settingsSplitTunnelingIncludedAppsList
+                SplitTunnelingMode.EXCLUDE_ONLY -> R.string.settingsSplitTunnelingExcludedAppsList
+            }
+            Text(
+                text = stringResource(explanationText),
+                style = ProtonTheme.typography.body2Medium,
+                color = ProtonTheme.colors.textWeak,
+                modifier = itemModifier,
+            )
+        }
+
+        items(
+            items = content.selectedApps,
+            key = { it.id }
+        ) { item ->
+            LabeledItemRowWithRemove(
+                item = item,
+                onRemove = { onRemove(item) },
+                modifier = labeledItemModifier.animateItem()
+            )
+        }
+
+        item(key = "header_regular_apps") {
+            TextSectionHeader(
+                text = stringResource(
+                    R.string.settingsSplitTunnelingAvailableRegularHeader,
+                    content.availableRegularApps.size
+                ),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .largeScreenContentPadding()
+                    .animateItem()
+            )
+        }
+
+        items(
+            items = content.availableRegularApps,
+            key = { it.id }
+        ) { item ->
+            LabeledItemRowWithAdd(
+                item = item,
+                onAdd = { onAdd(item) },
+                modifier = labeledItemModifier.animateItem()
+            )
+        }
+
+        item(key = "system_apps_checkbox") {
+            val isChecked =
+                content.availableSystemApps !is SplitTunnelingAppsViewModelHelper.SystemAppsState.NotLoaded
+            SystemAppsCheckboxRow(
+                isChecked = isChecked,
+                onValueChange = { onToggleSystemApps() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .largeScreenContentPadding()
+                    .animateItem()
+            )
+        }
+
+        when (content.availableSystemApps) {
+            is SplitTunnelingAppsViewModelHelper.SystemAppsState.NotLoaded -> {
+                item(key = "system_apps_loading") {
+                    // Same height as the progress indicator for loading.
+                    Spacer(Modifier.height(64.dp))
+                }
+            }
+
+            is SplitTunnelingAppsViewModelHelper.SystemAppsState.Loading -> {
+                item(key = "system_apps_loading") {
+                    Box(
+                        Modifier.heightIn(min = 64.dp)
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier.animateItem())
+                    }
+                }
+            }
+            is SplitTunnelingAppsViewModelHelper.SystemAppsState.Content -> {
+                items(
+                    items = content.availableSystemApps.apps,
+                    key = { it.id }
+                ) { item ->
+                    LabeledItemRowWithAdd(
+                        item = item,
+                        onAdd = { onAdd(item) },
+                        modifier = labeledItemModifier.animateItem()
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SystemAppsCheckboxRow(
+    isChecked: Boolean,
+    onValueChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .toggleable(
+                value = isChecked,
+                role = Role.Checkbox,
+                onValueChange = onValueChange
+            ),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            stringResource(R.string.settingsExcludedAppsLoadSystemAppsButton),
+            modifier = Modifier
+                .padding(vertical = 14.dp)
+                .weight(1f)
+        )
+        Checkbox(
+            checked = isChecked,
+            onCheckedChange = null,
+            modifier = Modifier
+                .padding(4.dp)
+                .clearAndSetSemantics() {}
+        )
+    }
+}
+
+@ProtonVpnPreview
+@Composable
+private fun SplitTunnelingAppsPreview() {
+    ProtonVpnPreview {
+        val viewState = SplitTunnelingAppsViewModelHelper.ViewState.Content(
+            selectedApps = listOf(
+                LabeledItem("1", "App 1", CoreR.drawable.ic_proton_brand_proton_vpn)
+            ),
+            availableRegularApps = listOf(
+                LabeledItem("2", "Calendar", CoreR.drawable.ic_proton_brand_proton_calendar),
+                LabeledItem("3", "Mail", CoreR.drawable.ic_proton_brand_proton_mail),
+                LabeledItem("4", "Pass", CoreR.drawable.ic_proton_brand_proton_pass),
+                LabeledItem("5", "Drive", CoreR.drawable.ic_proton_brand_proton_drive),
+            ),
+            availableSystemApps = SplitTunnelingAppsViewModelHelper.SystemAppsState.NotLoaded(emptyList())
+        )
+        SplitTunnelingApps(
+            mode = SplitTunnelingMode.EXCLUDE_ONLY,
+            viewState = viewState,
+            {}, {}, {}, {}, {}
+        )
     }
 }

@@ -32,6 +32,7 @@ import android.os.IBinder
 import android.os.Looper
 import android.os.Message
 import android.os.Messenger
+import androidx.core.graphics.drawable.toBitmap
 import com.protonvpn.android.ui.settings.AppInfoService
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -95,7 +96,11 @@ class InstalledAppsProvider @Inject constructor(
         }
 
     suspend fun getAppInfos(iconSizePx: Int, packages: List<String>): List<AppInfo> {
-        val channel = getAppInfosChannel(appContext, iconSizePx, packages)
+        val defaultAppIcon = BitmapDrawable(
+            appContext.resources,
+            packageManager.defaultActivityIcon.toBitmap(iconSizePx, iconSizePx)
+        )
+        val channel = getAppInfosChannel(appContext, defaultAppIcon, iconSizePx, packages)
         val results = ArrayList<AppInfo>(packages.size)
         try {
             do {
@@ -112,9 +117,8 @@ class InstalledAppsProvider @Inject constructor(
         if (results.size < packages.size) {
             coroutineContext.ensureActive()
             // Something went wrong, add missing items with no icon nor label.
-            val defaultIcon = appContext.packageManager.defaultActivityIcon
             packages.subList(results.size, packages.size).forEach { packageName ->
-                results.add(AppInfo(packageName, packageName, defaultIcon))
+                results.add(AppInfo(packageName, packageName, defaultAppIcon))
             }
         }
         return results
@@ -122,6 +126,7 @@ class InstalledAppsProvider @Inject constructor(
 
     private fun getAppInfosChannel(
         context: Context,
+        defaultAppIcon: Drawable,
         iconSizePx: Int,
         packages: List<String>
     ): Channel<AppInfo> {
@@ -131,7 +136,7 @@ class InstalledAppsProvider @Inject constructor(
         val connection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 val outMessenger = Messenger(service)
-                val inMessenger = Messenger(IncomingHandler(context, packages, resultsChannel))
+                val inMessenger = Messenger(IncomingHandler(context, defaultAppIcon, packages, resultsChannel))
                 val message = AppInfoService.createRequestMessage(packages, iconSizePx).apply {
                     replyTo = inMessenger
                 }
@@ -151,8 +156,9 @@ class InstalledAppsProvider @Inject constructor(
         return resultsChannel
     }
 
-    private inner class IncomingHandler(
+    private class IncomingHandler(
         private val context: Context,
+        private val defaultAppIcon: Drawable,
         private val packages: List<String>,
         private val resultsChannel: Channel<AppInfo>
     ) : Handler(Looper.myLooper()!!) {
@@ -170,7 +176,7 @@ class InstalledAppsProvider @Inject constructor(
                             val iconBitmap = BitmapFactory.decodeByteArray(iconBytes, 0, iconBytes.size)
                             BitmapDrawable(context.resources, iconBitmap)
                         } else {
-                            context.packageManager.defaultActivityIcon
+                            defaultAppIcon
                         }
                     resultsChannel.trySend(AppInfo(packageName, name, iconDrawable))
                     if (++resultCount == packages.size)
