@@ -600,8 +600,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Bloquee anuncios, rastreadores y malware con <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Obtenga lo mejor de ambos mundos con Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Divida el tráfico en túneles VPN y no VPN con <b>túnel dividido</b>.]]></string>
-    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
-    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
+    <string name="upsell_tv_subscription_expired_title">La suscripción expiró</string>
+    <string name="upsell_tv_subscription_expired_description">Cambie a un plan superior para obtener acceso a servidores y funciones Plus nuevamente.</string>
     <string name="upsell_tv_customization_title">Obtenga una personalización VPN avanzada con Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Desbloquee <b>conexiones LAN</b>, <b>DNS personalizado</b> y más funciones VPN avanzadas.]]></string>
     <string name="upsell_tv_fallback_description">Vaya al sitio web de Proton VPN para mejorar su plan.</string>

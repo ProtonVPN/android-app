@@ -506,7 +506,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Piano Plus:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -515,8 +515,8 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
-    <string name="upsell_panel_content_description_yes">Yes</string>
+    <string name="upsell_panel_content_description_value_prefix_free">Piano Free:</string>
+    <string name="upsell_panel_content_description_yes">Sí</string>
     <string name="upsell_panel_content_description_no">No</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
     <!--
@@ -526,33 +526,33 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
-    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Available countries</string>
+    <string name="upsell_panel_country_title">Sblocca %1$s con VPN Plus</string>
+    <string name="upsell_panel_countries_title">Sblocca tutti i paesi con VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Paesi disponobili</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_country_benefit_choice">Choose your location</string>
-    <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
-    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
-    <string name="upsell_panel_netshield_title">Browse without interruptions</string>
-    <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
-    <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
-    <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
-    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
-    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
-    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
-    <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
-    <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
-    <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
-    <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
-    <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
-    <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
-    <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_country_benefit_choice">Scegli la tua località</string>
+    <string name="upsell_panel_country_benefit_speed">Server ad alta velocità</string>
+    <string name="upsell_panel_country_benefit_shows">Guarda programmi disponibili solo all\'estero</string>
+    <string name="upsell_panel_netshield_title">Naviga senza interruzioni</string>
+    <string name="upsell_panel_netshield_benefit_ads">Annunci bloccati durante la navigazione</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Impedisci ai tracker di seguirti</string>
+    <string name="upsell_panel_netshield_benefit_malware">Protezione da malware e phishing</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Le pagine si caricano più velocemente </string>
+    <string name="upsell_panel_speed_title">Riproduci in streaming, gioca e scarica più velocemente</string>
+    <string name="upsell_panel_speed_benefit_servers">Server ad alta velocità</string>
+    <string name="upsell_panel_speed_benefit_gaming">Tempo di risposta durante il gioco</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Lento</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Veloce</string>
+    <string name="upsell_panel_speed_benefit_video">Streaming video senza buffering</string>
+    <string name="upsell_panel_speed_benefit_ads">Naviga senza pubblicità né tracker</string>
+    <string name="upsell_panel_streaming_title">Guarda i tuoi servizi di streaming preferiti</string>
+    <string name="upsell_panel_streaming_benefit_shows">Guarda i tuoi programmi da qualsiasi paese</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
-    <string name="upsell_panel_streaming_benefit_platforms">All major streaming platforms supported *</string>
-    <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
-    <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
-    <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
+    <string name="upsell_panel_streaming_benefit_platforms">Tutte le principali piattaforme di streaming sono supportate *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Trasmetti in HD senza interruzioni</string>
+    <string name="upsell_panel_streaming_benefit_devices">Dispositivi collegati contemporaneamente</string>
+    <string name="upsell_panel_streaming_footer">* È necessario un abbonamento alla piattaforma di streaming.</string>
     <string name="upsell_card_countries_title">Copertura globale</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -595,16 +595,16 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
+    <string name="upsell_tv_all_countries_description">Sblocca %1$s in %2$s.</string>
     <string name="upsell_tv_netshield_title">Approfitta di una navigazione senza pubblicità con Plus</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Blocca annunci, tracker e malware con <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Raddoppia i vantaggi con Plus</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
-    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
-    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Separa il tuo traffico in tunnel VPN e non-VPN con lo <b>split tunneling</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Abbonamento scaduto</string>
+    <string name="upsell_tv_subscription_expired_description">Effettua l\'upgrade per accedere nuovamente ai server e alle funzionalità Plus.</string>
     <string name="upsell_tv_customization_title">Ottieni personalizzazioni VPN avanzate con Plus</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
-    <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Sblocca <b>connessioni LAN</b>, <b>DNS personalizzato</b> e funzionalità VPN più avanzate.]]></string>
+    <string name="upsell_tv_fallback_description">Vai al sito web di Proton VPN per aggiornare il tuo piano.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -840,17 +840,17 @@
      Text added to clickable elements that provide negative feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_negative">not good</string>
+    <string name="accessibility_feedback_negative">non buona</string>
     <!--
      Text added to clickable elements that provide positive feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_positive">good</string>
+    <string name="accessibility_feedback_positive">buona</string>
     <!--
      Text added to clickable elements that allows to submit either positive or negative feedback.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_submit_feedback">submit</string>
+    <string name="accessibility_action_submit_feedback">invia</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -1049,7 +1049,7 @@
          "more information about free connections, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_free_connections">maggiori informazioni sulle connessioni gratuite</string>
-    <string name="connection_card_label_connection_feedback">How is your connection?</string>
+    <string name="connection_card_label_connection_feedback">Come è la tua connessione?</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -1514,8 +1514,8 @@
     <string name="notifications_channel_connection_errors_name">Errori di connessione</string>
     <string name="notifications_channel_connection_errors_description">Ti avvisa di problemi che sospendono o interrompono la tua connessione VPN.</string>
     <string name="notifications_channel_connection_tips_name">Suggerimenti per la connessione</string>
-    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
-    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
+    <string name="notifications_channel_connection_tips_description">Consigli contestuali che ti aiuteranno a sfruttare al meglio Proton VPN.</string>
+    <string name="countries_upsell_banner_description">Accedi a tutti i paesi con VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Aggiungi un altro livello di crittografia alla tua connessione VPN</string>
     <string name="p2p_upsell_banner_description">Scarica i file tramite BitTorrent e altri protocolli di condivisione dei file</string>
     <string name="tor_upsell_banner_description">Utilizza la rete Tor tramite la tua connessione VPN per una privacy maggiore</string>
@@ -1649,24 +1649,24 @@
     <string name="connection_preferences_smart_discovery_dialog_message">Se ci sono posizioni a cui non vuoi essere connesso automaticamente, puoi escluderle da Paese più veloce.</string>
     <string name="excluded_locations_adoption_title">Evita le posizioni indesiderate</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Ora puoi escludere paesi e città dalle connessioni <b>Fastest</b>.]]></string>
-    <string name="session_fork_no_account_title">Sign in on Android TV</string>
-    <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
-    <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
-    <string name="session_fork_no_account_signup_button">Create an account</string>
-    <string name="session_fork_no_account_signin_button">Sign in</string>
-    <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
-    <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
-    <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
+    <string name="session_fork_no_account_title">Accedi ad Android TV</string>
+    <string name="session_fork_no_account_message">Completa l\'accesso su questo dispositivo per iniziare a utilizzare Proton VPN sulla tua TV</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Utilizzando questa app accetti <a href="">Termini e Condizioni</a> di Proton.]]></string>
+    <string name="session_fork_no_account_signup_button">Crea un account</string>
+    <string name="session_fork_no_account_signin_button">Accedi</string>
+    <string name="session_fork_confirmation_title">Accedere ad Android TV?</string>
+    <string name="session_fork_confirmation_message">Ciò consentirà al televisore di accedere al tuo account Proton.</string>
+    <string name="session_fork_confirmation_bottom_note">Accedi solo dai dispositivi di cui ti fidi.</string>
     <string name="session_fork_confirmation_too_soon_toast">Per favore, revisiona prima di continuare</string>
-    <string name="session_fork_success_title">Sign-in complete</string>
-    <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
-    <string name="session_fork_error_expired_title">Code expired</string>
-    <string name="session_fork_error_expired_message">Create a new code on your TV and try again.</string>
-    <string name="session_fork_error_generic_title">Couldn’t sign in</string>
-    <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
-    <string name="session_fork_error_network_message">Check your network and try again.</string>
-    <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
-    <string name="session_fork_error_report_button">Report the issue</string>
+    <string name="session_fork_success_title">Accesso completato</string>
+    <string name="session_fork_success_message">Ora hai effettuato l\'accesso sulla TV.</string>
+    <string name="session_fork_error_expired_title">Codice scaduto</string>
+    <string name="session_fork_error_expired_message">Crea un nuovo codice sul tuo televisore e riprova.</string>
+    <string name="session_fork_error_generic_title">Impossibile accedere</string>
+    <string name="session_fork_error_fatal_message">Verifica la tua rete e riprova. Se il problema persiste, contatta il nostro servizio clienti. </string>
+    <string name="session_fork_error_network_message">Controlla la tua rete e prova di nuovo.</string>
+    <string name="session_fork_error_try_fallback_message">Fai clic su \"Problemi di accesso?\" sul televisore per seguire la procedura alternativa.</string>
+    <string name="session_fork_error_report_button">Segnala il problema</string>
     <string name="session_fork_qr_code_content_description">QR code</string>
     <string name="session_fork_qr_code_message">Scannerizza il QR code per accedere o creare un account.</string>
     <string name="session_fork_qr_code_trouble_button">Problemi ad accedere?</string>
