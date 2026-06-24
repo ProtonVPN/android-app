@@ -25,6 +25,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.logging.logUiSettingChange
+import com.protonvpn.android.models.vpn.usecase.toIPAddress
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.SaveableSettingsViewModel
@@ -72,16 +73,21 @@ class SettingsSplitTunnelIpsViewModel @Inject constructor(
         }
     }
 
-    fun isValidIp(ip: String) = ip.isValidIp()
+    fun isValidIpRange(ip: String) = ip.isValidIp(allowPrefix = true)
 
     // Returns null on success and string ID of error message on error.
-    fun addAddressIfValid(newAddress: String): Int? =
-        if (isValidIp(newAddress)) {
-            val alreadyAdded = ipAddresses.value.contains(newAddress)
+    fun addAddressIfValid(newAddressStr: String): Int? =
+        if (isValidIpRange(newAddressStr)) {
+            val newAddressIP = newAddressStr.toIPAddress()
+            val newAddressStr = if (newAddressIP.isIPv4)
+                newAddressStr.removeSuffix("/32")
+            else
+                newAddressStr.removeSuffix("/128")
+            val alreadyAdded = ipAddresses.value.any { it.toIPAddress() == newAddressIP }
             if (!alreadyAdded) {
-                ipAddresses.value += newAddress
+                ipAddresses.value += newAddressStr
                 viewModelScope.launch {
-                    if (shouldDisplayIPv6SettingDialog(mode, newAddress))
+                    if (shouldDisplayIPv6SettingDialog(mode, newAddressStr))
                         events.tryEmit(Event.ShowIPv6EnableSettingDialog)
                 }
                 null // Success, no error.

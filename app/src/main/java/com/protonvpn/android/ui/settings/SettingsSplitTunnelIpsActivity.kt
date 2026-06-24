@@ -92,7 +92,7 @@ class SettingsSplitTunnelIpsActivity : SaveableSettingsActivity<SettingsSplitTun
         setContent {
             VpnTheme {
                 val state by viewModel.state.collectAsStateWithLifecycle(null)
-                val ipInputState = rememberIpInputState(viewModel::isValidIp)
+                val ipInputState = rememberIpInputState(viewModel::isValidIpRange)
                 SplitTunnelingIps(
                     mode = mode,
                     ipInputState = ipInputState,

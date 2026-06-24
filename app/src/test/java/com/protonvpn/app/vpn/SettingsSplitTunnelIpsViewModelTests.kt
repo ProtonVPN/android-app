@@ -65,15 +65,17 @@ class SettingsSplitTunnelIpsViewModelTests {
     @Test
     fun testValidIPs() = testScope.runTest {
         val viewModel = createViewModel()
-        assertTrue(viewModel.isValidIp("1.1.1.1"))
-        assertTrue(viewModel.isValidIp("2000::"))
-        assertFalse(viewModel.isValidIp("::1"))
-        assertFalse(viewModel.isValidIp("127.0.0.1"))
-        assertFalse(viewModel.isValidIp("0.0.0.0"))
-        assertFalse(viewModel.isValidIp("1.1"))
-        assertFalse(viewModel.isValidIp("1.1.1.1/24")) // Don't allow ranges for now
-        assertFalse(viewModel.isValidIp("2000::/8"))
-        assertFalse(viewModel.isValidIp(""))
+        assertTrue(viewModel.isValidIpRange("1.1.1.1"))
+        assertTrue(viewModel.isValidIpRange("2000::"))
+        assertFalse(viewModel.isValidIpRange("::1"))
+        assertFalse(viewModel.isValidIpRange("127.0.0.1"))
+        assertFalse(viewModel.isValidIpRange("0.0.0.0"))
+        assertFalse(viewModel.isValidIpRange("1.1"))
+        assertTrue(viewModel.isValidIpRange("1.1.1.1/24"))
+        assertTrue(viewModel.isValidIpRange("2000::/8"))
+        assertFalse(viewModel.isValidIpRange("2000::/129"))
+        assertFalse(viewModel.isValidIpRange("1.1.1.1/40"))
+        assertFalse(viewModel.isValidIpRange(""))
     }
 
     @Test
@@ -82,9 +84,7 @@ class SettingsSplitTunnelIpsViewModelTests {
         viewModel.addAddressIfValid("1.1.1.1")
         viewModel.addAddressIfValid("2000::")
         assertEquals(
-            SettingsSplitTunnelIpsViewModel.State(
-                listOf("1.1.1.1".let { LabeledItem(it, it) }, "2000::".let { LabeledItem(it, it) }),
-            ),
+            listOf("1.1.1.1", "2000::").toIPViewModelState(),
             viewModel.state.first()
         )
     }
@@ -116,8 +116,27 @@ class SettingsSplitTunnelIpsViewModelTests {
         assertNull(validResult)
         val duplicateResult = viewModel.addAddressIfValid("1.1.1.1")
         assertEquals(R.string.settings_split_tunneling_already_excluded, duplicateResult)
+
+        val validResult6 = viewModel.addAddressIfValid("2000::")
+        assertNull(validResult6)
+        // Equivalent v6 address already added
+        val duplicateResult6 = viewModel.addAddressIfValid("2000:0::/128")
+        assertEquals(R.string.settings_split_tunneling_already_excluded, duplicateResult6)
+
         val invalidResult = viewModel.addAddressIfValid("1.2.")
         assertEquals(R.string.inputIpAddressErrorInvalid, invalidResult)
+    }
+
+    @Test
+    fun `remove prefix on on single address`() = testScope.runTest {
+        val viewModel = createViewModel()
+        viewModel.addAddressIfValid("1.1.1.1/32")
+        viewModel.addAddressIfValid("2000::/128")
+        viewModel.addAddressIfValid("3000::/32")
+        assertEquals(
+            listOf("1.1.1.1", "2000::", "3000::/32").toIPViewModelState(),
+            viewModel.state.first()
+        )
     }
 
     private suspend fun createViewModel(
@@ -133,3 +152,6 @@ class SettingsSplitTunnelIpsViewModelTests {
             mapOf(SettingsSplitTunnelIpsActivity.SPLIT_TUNNELING_MODE_KEY to mode))
     )
 }
+
+fun List<String>.toIPViewModelState() =
+    SettingsSplitTunnelIpsViewModel.State(map { LabeledItem(it, it) })
