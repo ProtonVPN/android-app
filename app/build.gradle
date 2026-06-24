@@ -795,8 +795,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.serialization.cbor)
-    implementation(libs.lisawray.groupie)
-    implementation(libs.lisawray.groupie.viewbinding)
     implementation(libs.tony19.logback)
     implementation(libs.slf4j.api)
     implementation(libs.androidx.preference.ktx)

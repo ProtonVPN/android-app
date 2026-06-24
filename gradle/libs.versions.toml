@@ -63,7 +63,6 @@ kotlin-version = "2.1.21"
 kotlinx-coroutines-version = "1.10.2"
 kotlinx-serialization-version = "1.8.1"
 ksp-version = "2.1.21-2.0.2"
-lisawray-groupie-version = "2.10.0"
 mockk-version = "1.13.13"
 okhttp3-version = "4.12.0"
 owasp-dependencycheck-version = "10.0.4"
@@ -198,8 +197,6 @@ kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-version" }
 kotlinx-serialization-cbor = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-cbor", version.ref = "kotlinx-serialization-version" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-version" }
-lisawray-groupie = { group = "com.github.lisawray.groupie", name = "groupie", version.ref = "lisawray-groupie-version" }
-lisawray-groupie-viewbinding = { group = "com.github.lisawray.groupie", name = "groupie-viewbinding", version.ref = "lisawray-groupie-version" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk-version" }
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk-version" }
 okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3-version" }
