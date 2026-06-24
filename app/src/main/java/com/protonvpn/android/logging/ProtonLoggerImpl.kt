@@ -61,6 +61,9 @@ interface ProtonLoggerInterface {
     fun getLogLinesForDisplay(): Flow<List<String>>
     fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>)
     suspend fun getLogFileForSharing(): File?
+
+    // Debug utility for clearing log. Need more care for concurrency for prod use.
+    suspend fun clearLogsDebugUtil()
 }
 
 open class ProtonLoggerImpl(
@@ -117,6 +120,7 @@ open class ProtonLoggerImpl(
 
     override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) = fileLogWriter.clearUploadTempFiles(files)
     override suspend fun getLogFileForSharing(): File? = fileLogWriter.getLogFileForSharing()
+    override suspend fun clearLogsDebugUtil() = fileLogWriter.clearLogsDebugUtil()
 
     private fun shouldLog(level: LogLevel): Boolean = BuildConfig.DEBUG || level > LogLevel.DEBUG || BuildConfig.ALLOW_LOGCAT
 

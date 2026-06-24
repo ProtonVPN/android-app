@@ -25,6 +25,8 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.data.DebugApiPrefs
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.promooffers.data.ApiNotificationManager
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.ifOrNull
@@ -102,6 +104,12 @@ class DebugToolsViewModel @Inject constructor(
 
     fun setCountry(country: String) {
         debugApiPrefs.country = country.takeIf { it.isNotBlank() }
+    }
+
+    fun clearLogs() {
+        viewModelScope.launch {
+            ProtonLogger.clearLogsDebugUtil()
+        }
     }
 
     fun setPcapActive(active: Boolean) {

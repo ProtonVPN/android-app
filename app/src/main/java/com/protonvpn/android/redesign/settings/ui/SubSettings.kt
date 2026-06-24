@@ -293,6 +293,7 @@ fun SubSettingsRoute(
                         onClose = onClose,
                         onConnectGuestHole = debugToolsViewModel::connectGuestHole,
                         onRefreshConfig = debugToolsViewModel::refreshConfig,
+                        onClearLogs = debugToolsViewModel::clearLogs,
                         setNetzone = debugToolsViewModel::setNetzone,
                         setCountry = debugToolsViewModel::setCountry,
                         setPcapActive = debugToolsViewModel::setPcapActive,

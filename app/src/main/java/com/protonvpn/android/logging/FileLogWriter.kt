@@ -98,6 +98,7 @@ class FileLogWriter(
         private val fileName = "Data.log"
         private val fileName2 = "Data1.log"
         private lateinit var logger: ch.qos.logback.classic.Logger
+        private lateinit var fileAppender: ExtendedRollingFileAppender<ILoggingEvent>
 
 
         init {
@@ -162,11 +163,17 @@ class FileLogWriter(
 
         fun getLogLines(): Flow<List<String>> = callbackFlow {
             getLogFiles().forEach { file ->
-                file.bufferedReader().use { reader ->
-                    reader.lineSequence()
-                        .takeWhile { isActive }
-                        .chunked(LINES_FOR_DISPLAY_CHUNK_SIZE)
-                        .forEach { lines -> send(lines) }
+                // The logs may be cleared concurrently (see clearLogsDebugUtil()); reading a file that's
+                // being deleted can throw. Skip such files instead of crashing the collector.
+                try {
+                    file.bufferedReader().use { reader ->
+                        reader.lineSequence()
+                            .takeWhile { isActive }
+                            .chunked(LINES_FOR_DISPLAY_CHUNK_SIZE)
+                            .forEach { lines -> send(lines) }
+                    }
+                } catch (e: IOException) {
+                    logException("exception reading log file", e)
                 }
             }
             val encoder = createAndStartEncoder(logger.loggerContext, LOG_PATTERN)
@@ -176,9 +183,24 @@ class FileLogWriter(
             awaitClose { logger.detachAppender(appender) }
         }.flowOn(loggerDispatcher)
 
+        suspend fun clearLogsDebugUtil() {
+            withContext(loggerDispatcher) {
+                logger.detachAppender(fileAppender)
+                fileAppender.stop()
+                getLogFiles().forEach { it.delete() }
+                fileAppender = createFileAppender()
+                logger.addAppender(fileAppender)
+            }
+        }
+
         private fun initialize() {
             logContext = LoggerFactory.getILoggerFactory() as LoggerContext
+            fileAppender = createFileAppender()
+            logger.addAppender(fileAppender)
+            StatusPrinter.print(logContext)
+        }
 
+        private fun createFileAppender(): ExtendedRollingFileAppender<ILoggingEvent> {
             val patternEncoder = createAndStartEncoder(logContext, "$LOG_PATTERN%n")
 
             val fileAppender = ExtendedRollingFileAppender<ILoggingEvent>().apply {
@@ -207,9 +229,7 @@ class FileLogWriter(
             fileAppender.encoder = patternEncoder
             fileAppender.start()
 
-            logger.addAppender(fileAppender)
-
-            StatusPrinter.print(logContext)
+            return fileAppender
         }
 
         private suspend fun processLogs() {
@@ -308,6 +328,8 @@ class FileLogWriter(
     }
 
     suspend fun getLogFileForSharing(): File? = backgroundLogger.getFileForSharing()
+
+    suspend fun clearLogsDebugUtil() = backgroundLogger.clearLogsDebugUtil()
 
     private fun multiLine(message: String) = message.replace("\n", "\n ")
 

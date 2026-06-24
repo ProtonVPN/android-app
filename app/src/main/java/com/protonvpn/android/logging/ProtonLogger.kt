@@ -59,6 +59,8 @@ object ProtonLogger : ProtonLoggerInterface {
 
     override suspend fun getLogFileForSharing(): File? = logger.getLogFileForSharing()
 
+    override suspend fun clearLogsDebugUtil() = logger.clearLogsDebugUtil()
+
     @JvmStatic
     fun setLogger(newLogger: ProtonLoggerInterface) {
         logger = newLogger
@@ -76,4 +78,5 @@ private class NoopProtonLogger : ProtonLoggerInterface {
     override fun getLogLinesForDisplay(): Flow<List<String>> = emptyFlow()
     override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) {}
     override suspend fun getLogFileForSharing(): File? = null
+    override suspend fun clearLogsDebugUtil() {}
 }

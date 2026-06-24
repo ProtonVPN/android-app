@@ -52,6 +52,7 @@ fun DebugTools(
     state: DebugToolsState,
     onConnectGuestHole: () -> Unit,
     onRefreshConfig: () -> Unit,
+    onClearLogs: () -> Unit,
     setNetzone: (String) -> Unit,
     setCountry: (String) -> Unit,
     onClose: () -> Unit,
@@ -88,6 +89,17 @@ fun DebugTools(
         VpnSolidButton(
             onClick = onRefreshConfig,
             text = "Refresh config and servers",
+            modifier = paddingModifier,
+        )
+
+        SettingsItem(
+            modifier = Modifier.clickable(onClick = onConnectGuestHole),
+            name = "Logs",
+        )
+
+        VpnSolidButton(
+            onClick = onClearLogs,
+            text = "Clear log",
             modifier = paddingModifier,
         )
 
@@ -201,6 +213,7 @@ fun DebugToolsPreview() {
                 existingPcapFileName = "protonvpn.pcap",
             ),
             onConnectGuestHole = {},
+            onClearLogs = {},
             onRefreshConfig = {},
             setNetzone = {},
             setCountry = {},
