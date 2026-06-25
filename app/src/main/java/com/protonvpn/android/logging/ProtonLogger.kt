@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.logging
 
+import com.protonvpn.android.api.data.DebugApiPrefs
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import java.io.File
@@ -65,6 +66,8 @@ object ProtonLogger : ProtonLoggerInterface {
     fun setLogger(newLogger: ProtonLoggerInterface) {
         logger = newLogger
     }
+
+    override fun setDebugPrefs(prefs: DebugApiPrefs) = logger.setDebugPrefs(prefs)
 }
 
 private class NoopProtonLogger : ProtonLoggerInterface {
@@ -79,4 +82,5 @@ private class NoopProtonLogger : ProtonLoggerInterface {
     override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) {}
     override suspend fun getLogFileForSharing(): File? = null
     override suspend fun clearLogsDebugUtil() {}
+    override fun setDebugPrefs(prefs: DebugApiPrefs) {}
 }

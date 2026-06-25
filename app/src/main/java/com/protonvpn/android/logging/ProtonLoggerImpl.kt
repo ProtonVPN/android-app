@@ -19,6 +19,7 @@
 package com.protonvpn.android.logging
 
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.api.data.DebugApiPrefs
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.io.File
@@ -29,6 +30,9 @@ import java.util.Locale
 import java.util.TimeZone
 
 private const val MAX_MESSAGE_LENGTH = 50_000
+
+val MIN_LOG_LEVEL = if (BuildConfig.DEBUG || BuildConfig.ALLOW_LOGCAT)
+    LogLevel.DEBUG else LogLevel.INFO
 
 enum class LogLevel {
     TRACE, DEBUG, INFO, WARN, ERROR, FATAL;
@@ -64,13 +68,20 @@ interface ProtonLoggerInterface {
 
     // Debug utility for clearing log. Need more care for concurrency for prod use.
     suspend fun clearLogsDebugUtil()
+    fun setDebugPrefs(prefs: DebugApiPrefs)
 }
 
 open class ProtonLoggerImpl(
     private val wallClock: () -> Long,
     private val fileLogWriter: FileLogWriter,
-    otherWriters: List<LogWriter> = emptyList()
+    otherWriters: List<LogWriter> = emptyList(),
 ) : ProtonLoggerInterface {
+
+    private var debugApiPrefs: DebugApiPrefs? = null
+    override fun setDebugPrefs(prefs: DebugApiPrefs) {
+        debugApiPrefs = prefs
+    }
+
     private val writers = otherWriters + fileLogWriter
     private val timestampFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).apply {
         timeZone = TimeZone.getTimeZone("UTC")
@@ -122,7 +133,10 @@ open class ProtonLoggerImpl(
     override suspend fun getLogFileForSharing(): File? = fileLogWriter.getLogFileForSharing()
     override suspend fun clearLogsDebugUtil() = fileLogWriter.clearLogsDebugUtil()
 
-    private fun shouldLog(level: LogLevel): Boolean = BuildConfig.DEBUG || level > LogLevel.DEBUG || BuildConfig.ALLOW_LOGCAT
+    private fun shouldLog(level: LogLevel): Boolean {
+        val override = debugApiPrefs?.logLevel?.let { LogLevel.valueOf(it) }
+        return level >= (override ?: MIN_LOG_LEVEL)
+    }
 
     private fun replaceDateForDisplay(logLine: String): String {
         val firstSeparatorIndex = logLine.indexOf(' ')

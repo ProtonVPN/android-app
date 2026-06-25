@@ -29,6 +29,7 @@ import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.promooffers.data.ApiNotificationManager
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.utils.combine
 import com.protonvpn.android.utils.ifOrNull
 import com.protonvpn.android.vpn.protun.PacketCapture
 import com.protonvpn.android.vpn.protun.PacketCapturePrefs
@@ -63,13 +64,15 @@ class DebugToolsViewModel @Inject constructor(
     val state = combine(
         debugApiPrefs.netzoneFlow,
         debugApiPrefs.countryFlow,
+        debugApiPrefs.logLevelFlow,
         packetCapturePrefs.maxBytesFlow,
         packetCapture.isCaptureActiveFlow,
         updateStateTrigger
-    ) { netzone, country, pcapMaxBytes, isPacketCaptureActive, _ ->
+    ) { netzone, country, logLevel, pcapMaxBytes, isPacketCaptureActive, _ ->
         DebugToolsState(
             netzone = netzone.orEmpty(),
             country = country.orEmpty(),
+            logLevel = logLevel?.let { LogLevel.valueOf(it) },
             isPacketCaptureActive = isPacketCaptureActive,
             pcapMaxMBytes = pcapMaxBytes / (1024 * 1024),
             existingPcapFileName = ifOrNull(!isPacketCaptureActive) { packetCapture.fileIfExists()?.name }
@@ -104,6 +107,10 @@ class DebugToolsViewModel @Inject constructor(
 
     fun setCountry(country: String) {
         debugApiPrefs.country = country.takeIf { it.isNotBlank() }
+    }
+
+    fun setLogLevel(logLevel: LogLevel?) {
+        debugApiPrefs.logLevel = logLevel?.name
     }
 
     fun clearLogs() {
@@ -143,6 +150,7 @@ class DebugToolsViewModel @Inject constructor(
 data class DebugToolsState(
     val netzone: String,
     val country: String,
+    val logLevel: LogLevel?,
     val isPacketCaptureActive: Boolean,
     val pcapMaxMBytes: Long,
     val existingPcapFileName: String?,

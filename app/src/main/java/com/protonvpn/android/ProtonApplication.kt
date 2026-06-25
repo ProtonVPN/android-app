@@ -25,6 +25,7 @@ import android.os.Build
 import android.os.SystemClock
 import android.webkit.WebView
 import com.protonvpn.android.api.DohEnabled
+import com.protonvpn.android.api.data.DebugApiPrefs
 import com.protonvpn.android.app.AppExitObservability
 import com.protonvpn.android.app.AppMmpObservability
 import com.protonvpn.android.app.AppStartExitLogger
@@ -124,6 +125,7 @@ open class ProtonApplication : Application() {
         val connectingUpdatesRecents: ConnectingUpdatesRecents?
         val coreEventManagerStarter: CoreEventManagerStarter
         val currentStateLogger: CurrentStateLogger
+        val debugApiPrefs: DebugApiPrefs?
         val deviceRecoveryHandler: DeviceRecoveryHandler
         val deviceRecoveryNotificationSetup: DeviceRecoveryNotificationSetup
         val dohEnabledProvider: DohEnabled.Provider?
@@ -200,6 +202,8 @@ open class ProtonApplication : Application() {
 
     fun initDependencies() {
         val dependencies = EntryPointAccessors.fromApplication(this, DependencyEntryPoints::class.java)
+
+        dependencies.debugApiPrefs?.let { ProtonLogger.setDebugPrefs(it) }
 
         dependencies.updateAndroidAppTheme.start() // Set UI theme early.
 
@@ -299,7 +303,7 @@ open class ProtonApplication : Application() {
                     applicationInfo.dataDir + "/log",
                     CurrentStateLoggerGlobal(this)
                 ),
-                secondaryWriters
+                secondaryWriters,
             )
         )
     }

@@ -39,9 +39,13 @@ class DebugApiPrefs @Inject constructor(
     val netzoneFlow: Flow<String?> = preferences.observe<String?>(KEY_NETZONE)
     val countryFlow: Flow<String?> = preferences.observe<String?>(KEY_COUNTRY)
 
+    var logLevel: String? by string(key = KEY_LOG_LEVEL)
+    val logLevelFlow: Flow<String?> = preferences.observe<String?>(key = KEY_LOG_LEVEL)
+
     companion object {
         private const val PREFS_NAME = "DebugApiPrefs"
         private const val KEY_NETZONE = "netzone"
         private const val KEY_COUNTRY = "country"
+        private const val KEY_LOG_LEVEL = "logLevel"
     }
 }

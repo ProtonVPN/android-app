@@ -41,6 +41,9 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.protonButtonColors
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.MIN_LOG_LEVEL
+import com.protonvpn.android.redesign.base.ui.ProtonDropdownMenu
 import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
 import com.protonvpn.android.redesign.base.ui.SettingsItem
 import me.proton.core.compose.theme.ProtonTheme
@@ -55,6 +58,7 @@ fun DebugTools(
     onClearLogs: () -> Unit,
     setNetzone: (String) -> Unit,
     setCountry: (String) -> Unit,
+    setLogLevel: (LogLevel?) -> Unit,
     onClose: () -> Unit,
     setPcapActive: (Boolean) -> Unit,
     onSharePcapFile: () -> Unit,
@@ -92,9 +96,21 @@ fun DebugTools(
             modifier = paddingModifier,
         )
 
-        SettingsItem(
-            modifier = Modifier.clickable(onClick = onConnectGuestHole),
-            name = "Logs",
+        SettingsItem(name = "Logs")
+
+        val logLevelDefaultLabel = "Build default ($MIN_LOG_LEVEL)"
+        val allowedLogLevels = LogLevel.entries.mapNotNull { level ->
+            level.name.takeIf { level.ordinal >= MIN_LOG_LEVEL.ordinal }
+        }
+        ProtonDropdownMenu(
+            labelText = "Log level (applied for new logs)",
+            placeholderText = logLevelDefaultLabel,
+            options = listOf(logLevelDefaultLabel) + allowedLogLevels,
+            selectedOption = state.logLevel?.name,
+            onSelectOption = { option ->
+                setLogLevel(if (option == logLevelDefaultLabel) null else LogLevel.valueOf(option))
+            },
+            modifier = paddingModifier,
         )
 
         VpnSolidButton(
@@ -104,7 +120,6 @@ fun DebugTools(
         )
 
         SettingsItem(
-            modifier = Modifier.clickable(onClick = onConnectGuestHole),
             name = "Packet capture",
         )
 
@@ -208,6 +223,7 @@ fun DebugToolsPreview() {
             state = DebugToolsState(
                 netzone = "netzone",
                 country = "country",
+                logLevel = null,
                 isPacketCaptureActive = true,
                 pcapMaxMBytes = 100,
                 existingPcapFileName = "protonvpn.pcap",
@@ -217,6 +233,7 @@ fun DebugToolsPreview() {
             onRefreshConfig = {},
             setNetzone = {},
             setCountry = {},
+            setLogLevel = {},
             onClose = {},
             setPcapActive = {},
             onSharePcapFile = {},

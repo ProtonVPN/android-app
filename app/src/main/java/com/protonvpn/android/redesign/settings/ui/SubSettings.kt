@@ -296,6 +296,7 @@ fun SubSettingsRoute(
                         onClearLogs = debugToolsViewModel::clearLogs,
                         setNetzone = debugToolsViewModel::setNetzone,
                         setCountry = debugToolsViewModel::setCountry,
+                        setLogLevel = debugToolsViewModel::setLogLevel,
                         setPcapActive = debugToolsViewModel::setPcapActive,
                         onRemovePcapFile = debugToolsViewModel::removePcapFile,
                         onSetMaxPcapSizeMB = debugToolsViewModel::setMaxPcapSizeMB,
