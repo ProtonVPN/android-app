@@ -34,23 +34,6 @@ dependencies = [
     "dependency": "com.google.accompanist:accompanist-permissions:0.37.2"
   },
   {
-    "project": "Accompanist System UI Controller library",
-    "description": "Utilities for Jetpack Compose",
-    "version": "0.36.0",
-    "developers": [
-      "Google"
-    ],
-    "url": "https://github.com/google/accompanist/",
-    "year": null,
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "com.google.accompanist:accompanist-systemuicontroller:0.36.0"
-  },
-  {
     "project": "account",
     "description": "Proton Core libraries for Android",
     "version": "36.6.1",
@@ -1328,23 +1311,6 @@ dependencies = [
     "dependency": "com.android.billingclient:billing-ktx:7.1.1"
   },
   {
-    "project": "biometric",
-    "description": "Proton Core libraries for Android",
-    "version": "36.6.1",
-    "developers": [
-      "Open Source Proton"
-    ],
-    "url": "https://github.com/ProtonMail/protoncore_android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
-        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-      }
-    ],
-    "dependency": "me.proton.core:biometric:36.6.1"
-  },
-  {
     "project": "Biometric",
     "description": "The Biometric library is a static library that you can add to your Android application. It invokes BiometricPrompt on devices running P and greater, and on older devices will show a compat dialog. Compatible on devices running API 14 or later.",
     "version": "1.2.0-alpha05",
@@ -1360,6 +1326,23 @@ dependencies = [
       }
     ],
     "dependency": "androidx.biometric:biometric:1.2.0-alpha05"
+  },
+  {
+    "project": "biometric",
+    "description": "Proton Core libraries for Android",
+    "version": "36.6.1",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:biometric:36.6.1"
   },
   {
     "project": "biometric-dagger",
@@ -1704,19 +1687,19 @@ dependencies = [
   {
     "project": "Compose Animation",
     "description": "Compose animation library",
-    "version": "1.7.0",
+    "version": "1.10.3",
     "developers": [
-      "Compose Multiplatform Team"
+      "The Android Open Source Project"
     ],
-    "url": "https://github.com/JetBrains/compose-jb",
-    "year": "2020",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.10.3",
+    "year": "2019",
     "licenses": [
       {
         "license": "The Apache Software License, Version 2.0",
-        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.compose.animation:animation-desktop:1.7.0"
+    "dependency": "androidx.compose.animation:animation-jvmstubs:1.10.3"
   },
   {
     "project": "Compose Animation",
@@ -1738,19 +1721,19 @@ dependencies = [
   {
     "project": "Compose Animation",
     "description": "Compose animation library",
-    "version": "1.10.3",
+    "version": "1.7.0",
     "developers": [
-      "The Android Open Source Project"
+      "Compose Multiplatform Team"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.10.3",
-    "year": "2019",
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
     "licenses": [
       {
         "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.animation:animation-jvmstubs:1.10.3"
+    "dependency": "org.jetbrains.compose.animation:animation-desktop:1.7.0"
   },
   {
     "project": "Compose Animation Core",
@@ -1806,6 +1789,23 @@ dependencies = [
   {
     "project": "Compose Foundation",
     "description": "Higher level abstractions of the Compose UI primitives. This library is design system agnostic, providing the high-level building blocks for both application and design-system developers",
+    "version": "1.10.3",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.10.3",
+    "year": "2018",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.foundation:foundation-jvmstubs:1.10.3"
+  },
+  {
+    "project": "Compose Foundation",
+    "description": "Higher level abstractions of the Compose UI primitives. This library is design system agnostic, providing the high-level building blocks for both application and design-system developers",
     "version": "1.7.0",
     "developers": [
       "Compose Multiplatform Team"
@@ -1835,41 +1835,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.foundation:foundation-jvmstubs:1.10.3"
-  },
-  {
-    "project": "Compose Foundation",
-    "description": "Higher level abstractions of the Compose UI primitives. This library is design system agnostic, providing the high-level building blocks for both application and design-system developers",
-    "version": "1.10.3",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.10.3",
-    "year": "2018",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
     "dependency": "androidx.compose.foundation:foundation-android:1.10.3"
-  },
-  {
-    "project": "Compose Geometry",
-    "description": "Compose classes related to dimensions without units",
-    "version": "1.10.3",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.10.3",
-    "year": "2020",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.compose.ui:ui-geometry-jvmstubs:1.10.3"
   },
   {
     "project": "Compose Geometry",
@@ -1887,6 +1853,23 @@ dependencies = [
       }
     ],
     "dependency": "org.jetbrains.compose.ui:ui-geometry-desktop:1.7.0"
+  },
+  {
+    "project": "Compose Geometry",
+    "description": "Compose classes related to dimensions without units",
+    "version": "1.10.3",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.10.3",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.ui:ui-geometry-jvmstubs:1.10.3"
   },
   {
     "project": "Compose Geometry",
@@ -2231,23 +2214,6 @@ dependencies = [
   {
     "project": "Compose Runtime",
     "description": "Tree composition support for code generated by the Compose compiler plugin and corresponding public API",
-    "version": "1.10.3",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.10.3",
-    "year": "2019",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.compose.runtime:runtime-desktop:1.10.3"
-  },
-  {
-    "project": "Compose Runtime",
-    "description": "Tree composition support for code generated by the Compose compiler plugin and corresponding public API",
     "version": "1.9.2",
     "developers": [
       "Compose Multiplatform Team"
@@ -2261,6 +2227,23 @@ dependencies = [
       }
     ],
     "dependency": "org.jetbrains.compose.runtime:runtime-desktop:1.9.2"
+  },
+  {
+    "project": "Compose Runtime",
+    "description": "Tree composition support for code generated by the Compose compiler plugin and corresponding public API",
+    "version": "1.10.3",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.10.3",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.runtime:runtime-desktop:1.10.3"
   },
   {
     "project": "Compose Runtime",
@@ -2486,23 +2469,6 @@ dependencies = [
   {
     "project": "Compose UI Text",
     "description": "Compose Text primitives and utilities",
-    "version": "1.7.0",
-    "developers": [
-      "Compose Multiplatform Team"
-    ],
-    "url": "https://github.com/JetBrains/compose-jb",
-    "year": "2020",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "org.jetbrains.compose.ui:ui-text-desktop:1.7.0"
-  },
-  {
-    "project": "Compose UI Text",
-    "description": "Compose Text primitives and utilities",
     "version": "1.10.3",
     "developers": [
       "The Android Open Source Project"
@@ -2516,6 +2482,23 @@ dependencies = [
       }
     ],
     "dependency": "androidx.compose.ui:ui-text-jvmstubs:1.10.3"
+  },
+  {
+    "project": "Compose UI Text",
+    "description": "Compose Text primitives and utilities",
+    "version": "1.7.0",
+    "developers": [
+      "Compose Multiplatform Team"
+    ],
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.compose.ui:ui-text-desktop:1.7.0"
   },
   {
     "project": "Compose UI Text",
@@ -2588,23 +2571,6 @@ dependencies = [
   {
     "project": "Compose Util",
     "description": "Internal Compose utilities used by other modules",
-    "version": "1.10.3",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.10.3",
-    "year": "2020",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.compose.ui:ui-util-jvmstubs:1.10.3"
-  },
-  {
-    "project": "Compose Util",
-    "description": "Internal Compose utilities used by other modules",
     "version": "1.7.0",
     "developers": [
       "Compose Multiplatform Team"
@@ -2618,6 +2584,23 @@ dependencies = [
       }
     ],
     "dependency": "org.jetbrains.compose.ui:ui-util-desktop:1.7.0"
+  },
+  {
+    "project": "Compose Util",
+    "description": "Internal Compose utilities used by other modules",
+    "version": "1.10.3",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.10.3",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.ui:ui-util-jvmstubs:1.10.3"
   },
   {
     "project": "Compose Util",
@@ -4280,7 +4263,7 @@ dependencies = [
   {
     "project": "Kotlin Android Extensions Runtime",
     "description": "Kotlin Android Extensions Runtime",
-    "version": "2.1.21",
+    "version": "2.1.0",
     "developers": [
       "Kotlin Team"
     ],
@@ -4292,29 +4275,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-android-extensions-runtime:2.1.21"
+    "dependency": "org.jetbrains.kotlin:kotlin-android-extensions-runtime:2.1.0"
   },
   {
     "project": "Kotlin Reflect",
     "description": "Kotlin Full Reflection Library",
-    "version": "2.1.21",
-    "developers": [
-      "Kotlin Team"
-    ],
-    "url": "https://kotlinlang.org/",
-    "year": null,
-    "licenses": [
-      {
-        "license": "The Apache License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "org.jetbrains.kotlin:kotlin-reflect:2.1.21"
-  },
-  {
-    "project": "Kotlin Stdlib",
-    "description": "Kotlin Standard Library",
-    "version": "2.2.20",
+    "version": "2.2.21",
     "developers": [
       "Kotlin Team"
     ],
@@ -4326,12 +4292,29 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib:2.2.20"
+    "dependency": "org.jetbrains.kotlin:kotlin-reflect:2.2.21"
+  },
+  {
+    "project": "Kotlin Stdlib",
+    "description": "Kotlin Standard Library",
+    "version": "2.3.20",
+    "developers": [
+      "Kotlin Team"
+    ],
+    "url": "https://kotlinlang.org/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache-2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib:2.3.20"
   },
   {
     "project": "Kotlin Stdlib Jdk7",
     "description": "Kotlin Standard Library JDK 7 extension",
-    "version": "2.1.21",
+    "version": "2.2.21",
     "developers": [
       "Kotlin Team"
     ],
@@ -4339,16 +4322,16 @@ dependencies = [
     "year": null,
     "licenses": [
       {
-        "license": "The Apache License, Version 2.0",
+        "license": "Apache-2.0",
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.1.21"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.2.21"
   },
   {
     "project": "Kotlin Stdlib Jdk8",
     "description": "Kotlin Standard Library JDK 8 extension",
-    "version": "2.1.21",
+    "version": "2.2.21",
     "developers": [
       "Kotlin Team"
     ],
@@ -4356,11 +4339,11 @@ dependencies = [
     "year": null,
     "licenses": [
       {
-        "license": "The Apache License, Version 2.0",
+        "license": "Apache-2.0",
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.21"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.21"
   },
   {
     "project": "kotlinx-coroutines-android",
@@ -4416,7 +4399,7 @@ dependencies = [
   {
     "project": "kotlinx-serialization-cbor",
     "description": "Kotlin multiplatform serialization runtime library",
-    "version": "1.8.1",
+    "version": "1.11.0",
     "developers": [
       "JetBrains Team"
     ],
@@ -4428,12 +4411,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-cbor-jvm:1.8.1"
+    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-cbor-jvm:1.11.0"
   },
   {
     "project": "kotlinx-serialization-core",
     "description": "Kotlin multiplatform serialization runtime library",
-    "version": "1.8.1",
+    "version": "1.11.0",
     "developers": [
       "JetBrains Team"
     ],
@@ -4445,12 +4428,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.8.1"
+    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.11.0"
   },
   {
     "project": "kotlinx-serialization-json",
     "description": "Kotlin multiplatform serialization runtime library",
-    "version": "1.8.1",
+    "version": "1.11.0",
     "developers": [
       "JetBrains Team"
     ],
@@ -4462,7 +4445,7 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.8.1"
+    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.11.0"
   },
   {
     "project": "Leanback",
@@ -4700,7 +4683,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel:2.10.0"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel-desktop:2.10.0"
   },
   {
     "project": "Lifecycle ViewModel",
@@ -4717,7 +4700,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel-desktop:2.10.0"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel:2.10.0"
   },
   {
     "project": "Lifecycle ViewModel",
@@ -4802,7 +4785,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.10.0"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel-savedstate-desktop:2.10.0"
   },
   {
     "project": "Lifecycle ViewModel with SavedState",
@@ -4819,7 +4802,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel-savedstate-desktop:2.10.0"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.10.0"
   },
   {
     "project": "Lifecycle ViewModel with SavedState",
@@ -5449,23 +5432,6 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
       }
     ],
-    "dependency": "org.mobilenativefoundation.store:multicast5-jvm:5.0.0"
-  },
-  {
-    "project": "org.mobilenativefoundation.store",
-    "description": "Store5 is a Kotlin Multiplatform network-resilient repository layer",
-    "version": "5.0.0",
-    "developers": [
-      "Dropbox"
-    ],
-    "url": "https://github.com/MobileNativeFoundation/Store",
-    "year": null,
-    "licenses": [
-      {
-        "license": "Apache License",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
-      }
-    ],
     "dependency": "org.mobilenativefoundation.store:store5-jvm:5.0.0"
   },
   {
@@ -5486,9 +5452,26 @@ dependencies = [
     "dependency": "org.mobilenativefoundation.store:cache5-jvm:5.0.0"
   },
   {
+    "project": "org.mobilenativefoundation.store",
+    "description": "Store5 is a Kotlin Multiplatform network-resilient repository layer",
+    "version": "5.0.0",
+    "developers": [
+      "Dropbox"
+    ],
+    "url": "https://github.com/MobileNativeFoundation/Store",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache License",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
+      }
+    ],
+    "dependency": "org.mobilenativefoundation.store:multicast5-jvm:5.0.0"
+  },
+  {
     "project": "Parcelize Runtime",
     "description": "Runtime library for the Parcelize compiler plugin",
-    "version": "2.1.21",
+    "version": "2.2.21",
     "developers": [
       "Kotlin Team"
     ],
@@ -5496,11 +5479,11 @@ dependencies = [
     "year": null,
     "licenses": [
       {
-        "license": "The Apache License, Version 2.0",
+        "license": "Apache-2.0",
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-parcelize-runtime:2.1.21"
+    "dependency": "org.jetbrains.kotlin:kotlin-parcelize-runtime:2.2.21"
   },
   {
     "project": "pass-validator",
@@ -6224,7 +6207,7 @@ dependencies = [
   {
     "project": "Retrofit",
     "description": "A type-safe HTTP client for Android and Java.",
-    "version": "2.11.0",
+    "version": "2.12.0",
     "developers": [
       "Square, Inc."
     ],
@@ -6236,7 +6219,7 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.squareup.retrofit2:retrofit:2.11.0"
+    "dependency": "com.squareup.retrofit2:retrofit:2.12.0"
   },
   {
     "project": "Retrofit 2 Kotlin Serialization Converter",
@@ -6368,7 +6351,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.savedstate:savedstate-desktop:1.4.0"
+    "dependency": "androidx.savedstate:savedstate:1.4.0"
   },
   {
     "project": "Saved State",
@@ -6385,7 +6368,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.savedstate:savedstate:1.4.0"
+    "dependency": "androidx.savedstate:savedstate-desktop:1.4.0"
   },
   {
     "project": "Saved State",
@@ -6504,24 +6487,7 @@ dependencies = [
         "license_url": "http://www.opensource.org/licenses/mit-license.php"
       }
     ],
-    "dependency": "io.sentry:sentry-android-replay:7.22.5"
-  },
-  {
-    "project": "Sentry SDK",
-    "description": "SDK for sentry.io",
-    "version": "7.22.5",
-    "developers": [
-      "Sentry Team and Contributors"
-    ],
-    "url": "https://github.com/getsentry/sentry-java",
-    "year": null,
-    "licenses": [
-      {
-        "license": "MIT",
-        "license_url": "http://www.opensource.org/licenses/mit-license.php"
-      }
-    ],
-    "dependency": "io.sentry:sentry-android:7.22.5"
+    "dependency": "io.sentry:sentry:7.22.5"
   },
   {
     "project": "Sentry SDK",
@@ -6555,7 +6521,24 @@ dependencies = [
         "license_url": "http://www.opensource.org/licenses/mit-license.php"
       }
     ],
-    "dependency": "io.sentry:sentry:7.22.5"
+    "dependency": "io.sentry:sentry-android-replay:7.22.5"
+  },
+  {
+    "project": "Sentry SDK",
+    "description": "SDK for sentry.io",
+    "version": "7.22.5",
+    "developers": [
+      "Sentry Team and Contributors"
+    ],
+    "url": "https://github.com/getsentry/sentry-java",
+    "year": null,
+    "licenses": [
+      {
+        "license": "MIT",
+        "license_url": "http://www.opensource.org/licenses/mit-license.php"
+      }
+    ],
+    "dependency": "io.sentry:sentry-android:7.22.5"
   },
   {
     "project": "SLF4J API Module",
@@ -6655,41 +6638,24 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "co.touchlab:stately-common-jvm:2.0.6"
-  },
-  {
-    "project": "Stately",
-    "description": "Multithreaded Kotlin Multiplatform Utilities",
-    "version": "2.0.6",
-    "developers": [
-      "Kevin Galligan"
-    ],
-    "url": "https://github.com/touchlab/Stately",
-    "year": null,
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "co.touchlab:stately-iso-collections-jvm:2.0.6"
-  },
-  {
-    "project": "Stately",
-    "description": "Multithreaded Kotlin Multiplatform Utilities",
-    "version": "2.0.6",
-    "developers": [
-      "Kevin Galligan"
-    ],
-    "url": "https://github.com/touchlab/Stately",
-    "year": null,
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
     "dependency": "co.touchlab:stately-isolate-jvm:2.0.6"
+  },
+  {
+    "project": "Stately",
+    "description": "Multithreaded Kotlin Multiplatform Utilities",
+    "version": "2.0.6",
+    "developers": [
+      "Kevin Galligan"
+    ],
+    "url": "https://github.com/touchlab/Stately",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "co.touchlab:stately-common-jvm:2.0.6"
   },
   {
     "project": "Stately",
@@ -6724,6 +6690,23 @@ dependencies = [
       }
     ],
     "dependency": "co.touchlab:stately-concurrency-jvm:2.0.6"
+  },
+  {
+    "project": "Stately",
+    "description": "Multithreaded Kotlin Multiplatform Utilities",
+    "version": "2.0.6",
+    "developers": [
+      "Kevin Galligan"
+    ],
+    "url": "https://github.com/touchlab/Stately",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "co.touchlab:stately-iso-collections-jvm:2.0.6"
   },
   {
     "project": "swagger-annotations",
