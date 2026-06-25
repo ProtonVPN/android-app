@@ -29,63 +29,13 @@
 -verbose
 -keepattributes SourceFile,LineNumberTable,Exceptions,InnerClasses,Signature,Deprecated,*Annotation*,EnclosingMethod
 
-
 # Keep kotlinx serializable classes.
 -keep @kotlinx.serialization.Serializable public class * {
-    *;
-}
-# Keep GSON serializable classes
-# https://r8.googlesource.com/r8/+/refs/heads/main/compatibility-faq.md#troubleshooting-gson
--keepclassmembers,allowobfuscation class * {
- @com.google.gson.annotations.SerializedName <fields>;
-}
--keepattributes Signature
--keepattributes RuntimeVisibleAnnotations,AnnotationDefault,RuntimeVisibleParameterAnnotations
--keep class com.google.gson.reflect.TypeToken { *; }
--keep class * extends com.google.gson.reflect.TypeToken
-
-# Keep no-args constructor of classes which can be used with @JsonAdapter
-# By default their no-args constructor is invoked to create an adapter instance
--keepclassmembers class * extends com.google.gson.TypeAdapter {
-  <init>();
-}
--keepclassmembers class * implements com.google.gson.TypeAdapterFactory {
-  <init>();
-}
--keepclassmembers class * implements com.google.gson.JsonSerializer {
-  <init>();
-}
--keepclassmembers class * implements com.google.gson.JsonDeserializer {
-  <init>();
-}
-
-# serializable classes
--keep class com.protonvpn.** implements java.io.Serializable {
     *;
 }
 
 # WireGuard
 -keep class com.wireguard.android.backend.** { *; }
-
-# Retrofit
-# https://r8.googlesource.com/r8/+/refs/heads/main/compatibility-faq.md#kotlin-suspend-functions-and-generic-signatures
--keep class kotlin.coroutines.Continuation
-# https://github.com/square/retrofit/pull/3886
--if interface * { @retrofit2.http.* public *** *(...); }
--keep,allowoptimization,allowshrinking,allowobfuscation class <3>
-# With R8 full mode generic signatures are stripped for classes that are not kept.
--keep,allowobfuscation,allowshrinking class retrofit2.Response
-# Retain service method parameters when optimizing.
--keepclassmembers,allowshrinking,allowobfuscation interface * {
-    @retrofit2.http.* <methods>;
-}
-# With R8 full mode, it sees no subtypes of Retrofit interfaces since they are created with a Proxy
-# and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
--if interface * { @retrofit2.http.* <methods>; }
--keep,allowobfuscation interface <1>
-# Keep inherited services.
--if interface * { @retrofit2.http.* <methods>; }
--keep,allowobfuscation interface * extends <1>
 
 # Logback
 # (we only use a small part, the rules can be further optimized)

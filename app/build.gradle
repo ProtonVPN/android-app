@@ -818,7 +818,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.viewbinding)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.accompanist.systemuicontroller)
     implementation(libs.calvin.reorderable)
     implementation(libs.androidx.constraintlayout.compose)
 

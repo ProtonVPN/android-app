@@ -1,5 +1,4 @@
 [versions]
-accompanist-version = "0.36.0"
 agp-version = "8.9.1"
 airbnb-lottie-version = "6.6.7"
 android-compose-screenshot-version = "0.0.1-alpha14"
@@ -59,10 +58,10 @@ jacoco-tools-version = "0.8.14"
 jaredsburrows-gradle-license-version = "0.8.91"
 java-jna-version = "5.18.1"
 junit-version = "4.13.2"
-kotlin-version = "2.1.21"
+kotlin-version = "2.2.21"
 kotlinx-coroutines-version = "1.10.2"
-kotlinx-serialization-version = "1.8.1"
-ksp-version = "2.1.21-2.0.2"
+kotlinx-serialization-version = "1.11.0"
+ksp-version = "2.2.21-2.0.5"
 mockk-version = "1.13.13"
 okhttp3-version = "4.12.0"
 owasp-dependencycheck-version = "10.0.4"
@@ -73,7 +72,7 @@ proton-vpn-govpnlib-version = "0.1.87"
 proton-vpn-core-internal-version = "0.1.55-1.0.37"
 proton-vpn-wireguard-version = "1.0.20230512.29"
 relex-circleindicator-version = "2.1.6"
-retrofit-version = "2.11.0"
+retrofit-version = "2.12.0"
 robolectric-version = "4.14.1"
 scottyab-aes-crypto-version = "0.0.5"
 seancfoley-ipaddress-version = "5.5.1"
@@ -87,7 +86,6 @@ turbine-version = "1.2.1"
 vico-version = "2.0.0-alpha.14"
 
 [libraries]
-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist-version" }
 airbnb-lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "airbnb-lottie-version" }
 airbnb-lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "airbnb-lottie-version" }
 android-flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "android-flexbox-version" }
