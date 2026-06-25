@@ -19,6 +19,7 @@
 
 package com.protonvpn.mocks
 
+import com.protonvpn.android.api.data.DebugApiPrefs
 import com.protonvpn.android.logging.FileLogWriter
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogEventType
@@ -58,4 +59,7 @@ class TestProtonLogger : ProtonLoggerInterface {
     }
 
     override suspend fun getLogFileForSharing(): File? = null
+
+    override suspend fun clearLogsDebugUtil() {}
+    override fun setDebugPrefs(prefs: DebugApiPrefs) {}
 }

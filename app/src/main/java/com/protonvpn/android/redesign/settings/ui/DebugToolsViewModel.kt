@@ -37,7 +37,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -61,21 +61,25 @@ class DebugToolsViewModel @Inject constructor(
         tryEmit(Unit)
     }
 
+    private val isRefreshingConfig = MutableStateFlow(false)
+
     val state = combine(
         debugApiPrefs.netzoneFlow,
         debugApiPrefs.countryFlow,
         debugApiPrefs.logLevelFlow,
         packetCapturePrefs.maxBytesFlow,
         packetCapture.isCaptureActiveFlow,
-        updateStateTrigger
-    ) { netzone, country, logLevel, pcapMaxBytes, isPacketCaptureActive, _ ->
+        updateStateTrigger,
+        isRefreshingConfig,
+    ) { netzone, country, logLevel, pcapMaxBytes, isPacketCaptureActive, _, isRefreshingConfig ->
         DebugToolsState(
             netzone = netzone.orEmpty(),
             country = country.orEmpty(),
             logLevel = logLevel?.let { LogLevel.valueOf(it) },
             isPacketCaptureActive = isPacketCaptureActive,
             pcapMaxMBytes = pcapMaxBytes / (1024 * 1024),
-            existingPcapFileName = ifOrNull(!isPacketCaptureActive) { packetCapture.fileIfExists()?.name }
+            existingPcapFileName = ifOrNull(!isPacketCaptureActive) { packetCapture.fileIfExists()?.name },
+            isRefreshingConfig = isRefreshingConfig,
         )
     }
 
@@ -95,9 +99,13 @@ class DebugToolsViewModel @Inject constructor(
 
     fun refreshConfig() {
         mainScope.launch {
-            appConfig.forceUpdate(currentUser.vpnUser()?.userId)
-            serverListUpdater.updateServerList(forceFreshUpdate = true)
-            apiNotificationManager.forceUpdate()
+            if (!isRefreshingConfig.value) {
+                isRefreshingConfig.value = true
+                appConfig.forceUpdate(currentUser.vpnUser()?.userId)
+                serverListUpdater.updateServerList(forceFreshUpdate = true)
+                apiNotificationManager.forceUpdate()
+                isRefreshingConfig.value = false
+            }
         }
     }
 
@@ -154,4 +162,5 @@ data class DebugToolsState(
     val isPacketCaptureActive: Boolean,
     val pcapMaxMBytes: Long,
     val existingPcapFileName: String?,
+    val isRefreshingConfig: Boolean,
 )

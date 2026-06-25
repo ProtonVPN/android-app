@@ -94,6 +94,7 @@ fun DebugTools(
             onClick = onRefreshConfig,
             text = "Refresh config and servers",
             modifier = paddingModifier,
+            isLoading = state.isRefreshingConfig,
         )
 
         SettingsItem(name = "Logs")
@@ -227,6 +228,7 @@ fun DebugToolsPreview() {
                 isPacketCaptureActive = true,
                 pcapMaxMBytes = 100,
                 existingPcapFileName = "protonvpn.pcap",
+                isRefreshingConfig = false,
             ),
             onConnectGuestHole = {},
             onClearLogs = {},
