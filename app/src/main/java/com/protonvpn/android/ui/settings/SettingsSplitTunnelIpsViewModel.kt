@@ -47,9 +47,10 @@ class SettingsSplitTunnelIpsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : SaveableSettingsViewModel() {
 
-    enum class Event {
-        ShowIPv6EnableSettingDialog,
-        ShowIPv6EnabledToast,
+    sealed interface Event {
+        object ShowIPv6EnableSettingDialog : Event
+        object ShowIPv6EnabledToast : Event
+        class ShowIPRemovedToast(val undo: () -> Unit) : Event
     }
 
     data class State(
@@ -104,7 +105,19 @@ class SettingsSplitTunnelIpsViewModel @Inject constructor(
         }
 
     fun removeAddress(item: LabeledItem) {
-        ipAddresses.value = ipAddresses.value - item.id
+        val index = ipAddresses.value.indexOf(item.id)
+        ipAddresses.value -= item.id
+        val undo = { undoRemove(item, index) }
+        events.tryEmit(Event.ShowIPRemovedToast(undo))
+    }
+
+    private fun undoRemove(item: LabeledItem, index: Int) {
+        val newIp = item.id
+        if (!ipAddresses.value.contains(newIp)) {
+            ipAddresses.value = with(ipAddresses.value) {
+                take(index) + item.id + drop(index)
+            }
+        }
     }
 
     override fun saveChanges() {

@@ -38,11 +38,17 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -55,25 +61,26 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonTextButton
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TextSectionHeader
 import com.protonvpn.android.base.ui.TopAppBarBackIcon
+import com.protonvpn.android.base.ui.collectAsEffect
 import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
+import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
+import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.SaveableSettingsActivity
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.presentation.R as CoreR
@@ -81,21 +88,58 @@ import me.proton.core.presentation.R as CoreR
 @AndroidEntryPoint
 class SettingsSplitTunnelIpsActivity : SaveableSettingsActivity<SettingsSplitTunnelIpsViewModel>() {
 
+    private sealed interface Dialog {
+        object IPv6EnableSetting : Dialog
+        object DiscardChanges : Dialog
+    }
+
     override val viewModel: SettingsSplitTunnelIpsViewModel by viewModels()
     private lateinit var mode: SplitTunnelingMode
+    // Not preserved across restarts - not a big deal.
+    private var dialog by mutableStateOf<Dialog?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdgeVpn()
         super.onCreate(savedInstanceState)
 
         mode = requireNotNull(intent.getSerializableExtraCompat<SplitTunnelingMode>(SPLIT_TUNNELING_MODE_KEY))
+
         setContent {
             VpnTheme {
                 val state by viewModel.state.collectAsStateWithLifecycle(null)
                 val ipInputState = rememberIpInputState(viewModel::isValidIpRange)
+                val snackbarHostState = remember { SnackbarHostState() }
+                val coroutineScope = rememberCoroutineScope()
+                viewModel.events.collectAsEffect { event ->
+                    when (event) {
+                        SettingsSplitTunnelIpsViewModel.Event.ShowIPv6EnableSettingDialog ->
+                            dialog = Dialog.IPv6EnableSetting
+                        SettingsSplitTunnelIpsViewModel.Event.ShowIPv6EnabledToast ->
+                            Toast.makeText(
+                                this@SettingsSplitTunnelIpsActivity,
+                                R.string.settings_ipv6_enabled_toast,
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        is SettingsSplitTunnelIpsViewModel.Event.ShowIPRemovedToast -> {
+                            coroutineScope.launch {
+                                val result = snackbarHostState.showSnackbar(
+                                    message = getString(R.string.settings_split_tunneling_ip_removed_message),
+                                    type = ProtonSnackbarType.NORM,
+                                    actionLabel = getString(R.string.undo),
+                                    duration = SnackbarDuration.Short,
+                                )
+                                if (result == SnackbarResult.ActionPerformed)
+                                    event.undo()
+                            }
+                        }
+                    }
+                }
+
                 SplitTunnelingIps(
                     mode = mode,
                     ipInputState = ipInputState,
+                    snackbarHostState = snackbarHostState,
                     ipAddresses = state?.ips,
                     onAdd = { ip ->
                         val errorMessageRes = viewModel.addAddressIfValid(ip)
@@ -105,48 +149,41 @@ class SettingsSplitTunnelIpsActivity : SaveableSettingsActivity<SettingsSplitTun
                             ipInputState.setError(getString(errorMessageRes))
                         }
                     },
-                    onRemove = { item -> confirmRemove(item) },
+                    onRemove = viewModel::removeAddress,
                     onBack = viewModel::onGoBack,
                     onSave = viewModel::saveAndClose,
                     modifier = Modifier.fillMaxSize()
                 )
-            }
-        }
 
-        viewModel.events
-            .flowWithLifecycle(lifecycle)
-            .onEach { event ->
-                when (event) {
-                    SettingsSplitTunnelIpsViewModel.Event.ShowIPv6EnableSettingDialog ->
-                        showIPv6EnableSettingDialog()
-
-                    SettingsSplitTunnelIpsViewModel.Event.ShowIPv6EnabledToast -> {
-                        Toast.makeText(
-                            this@SettingsSplitTunnelIpsActivity,
-                            R.string.settings_ipv6_enabled_toast,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                val closeDialog = { dialog = null }
+                when (dialog) {
+                    Dialog.IPv6EnableSetting ->
+                        IPv6EnableSettingDialog(viewModel::onEnableIPv6, closeDialog)
+                    Dialog.DiscardChanges ->
+                        DiscardChangesDialog(closeDialog)
+                    null -> Unit
                 }
             }
-            .launchIn(lifecycleScope)
+        }
     }
 
-    private fun showIPv6EnableSettingDialog() {
-        MaterialAlertDialogBuilder(this@SettingsSplitTunnelIpsActivity)
-            .setTitle(R.string.settings_split_tunneling_ipv6_disabled_dialog_title)
-            .setMessage(R.string.settings_split_tunneling_ipv6_disabled_dialog_message)
-            .setNegativeButton(R.string.ok, null)
-            .setPositiveButton(R.string.setting_ipv6_disabled_dialog_action_enable) { _, _ -> viewModel.onEnableIPv6() }
-            .show()
+    override fun showDiscardChangesDialog() {
+        dialog = Dialog.DiscardChanges
     }
 
-    private fun confirmRemove(item: LabeledItem) {
-        MaterialAlertDialogBuilder(this)
-            .setMessage(R.string.settings_split_tunneling_remove_ip_dialog_message)
-            .setPositiveButton(R.string.remove) { _, _ -> viewModel.removeAddress(item) }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
+    @Composable
+    private fun IPv6EnableSettingDialog(
+        onEnableIPv6: () -> Unit,
+        onDismissRequest: () -> Unit,
+    ) {
+        ProtonAlert(
+            title = stringResource(R.string.settings_split_tunneling_ipv6_disabled_dialog_title),
+            text = stringResource(R.string.settings_split_tunneling_ipv6_disabled_dialog_message),
+            confirmLabel = stringResource(R.string.setting_ipv6_disabled_dialog_action_enable),
+            onConfirm = { onEnableIPv6(); onDismissRequest() },
+            dismissLabel = stringResource(R.string.ok),
+            onDismissRequest = onDismissRequest,
+        )
     }
 
     companion object {
@@ -211,6 +248,7 @@ class IpInputState(
 fun SplitTunnelingIps(
     mode: SplitTunnelingMode,
     ipInputState: IpInputState,
+    snackbarHostState: SnackbarHostState,
     ipAddresses: List<LabeledItem>?,
     onAdd: (String) -> Unit,
     onRemove: (LabeledItem) -> Unit,
@@ -235,6 +273,14 @@ fun SplitTunnelingIps(
                     )
                 }
             }
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                snackbar = { snackbarData ->
+                    ProtonSnackbar(snackbarData = snackbarData)
+                },
+            )
         },
         modifier = modifier,
     ) { paddingValues ->
@@ -348,6 +394,7 @@ private fun SplitTunnelingIpsPreview() {
         SplitTunnelingIps(
             mode = SplitTunnelingMode.INCLUDE_ONLY,
             ipInputState = IpInputState({ false }),
+            snackbarHostState = SnackbarHostState(),
             ipAddresses = listOf(
                 LabeledItem(id = "1", label = "1.2.3.4"),
                 LabeledItem(id = "2", label = "2.3.4.5")

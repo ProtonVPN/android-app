@@ -42,6 +42,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -71,6 +73,7 @@ class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTu
     override val viewModel: SettingsSplitTunnelAppsViewModel by viewModels()
 
     private lateinit var mode: SplitTunnelingMode
+    private var showDiscardChangesDialog by mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdgeVpn()
@@ -90,8 +93,18 @@ class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTu
                     onSave = viewModel::saveAndClose,
                     modifier = Modifier.fillMaxSize()
                 )
+
+                if (showDiscardChangesDialog) {
+                    DiscardChangesDialog(
+                        onDismissRequest = { showDiscardChangesDialog = false }
+                    )
+                }
             }
         }
+    }
+
+    override fun showDiscardChangesDialog() {
+        showDiscardChangesDialog = true
     }
 
     companion object {

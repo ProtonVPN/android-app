@@ -19,7 +19,9 @@
 
 package com.protonvpn.android.tests.settings
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
@@ -41,6 +43,7 @@ fun SplitTunnelingIpsScreenTest() {
         SplitTunnelingIps(
             mode = SplitTunnelingMode.INCLUDE_ONLY,
             ipInputState = IpInputState({ false }),
+            snackbarHostState = remember { SnackbarHostState() },
             ipAddresses = items,
             {}, {}, {}, {}
         )

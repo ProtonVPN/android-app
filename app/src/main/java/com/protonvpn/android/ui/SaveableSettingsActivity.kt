@@ -28,9 +28,11 @@ import android.view.MenuItem
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.CallSuper
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
+import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.utils.launchAndCollectIn
 import kotlin.reflect.KClass
 
@@ -77,12 +79,20 @@ abstract class SaveableSettingsActivity<VM : SaveableSettingsViewModel> : BaseAc
         else -> false
     }
 
-    private fun showDiscardChangesDialog() {
-        MaterialAlertDialogBuilder(this)
-            .setMessage(R.string.discardChanges)
-            .setPositiveButton(R.string.discardChangesButtonDiscard) { _, _ -> viewModel.onDiscardChanges() }
-            .setNegativeButton(R.string.discardChangesButtonKeepEditing, null)
-            .show()
+    protected abstract fun showDiscardChangesDialog()
+
+    @Composable
+    protected fun DiscardChangesDialog(
+        onDismissRequest: () -> Unit,
+    ) {
+        ProtonAlert(
+            text = stringResource(R.string.discardChanges),
+            title = null,
+            confirmLabel = stringResource(R.string.discardChangesButtonDiscard),
+            onConfirm = { viewModel.onDiscardChanges() },
+            onDismissRequest = onDismissRequest,
+            dismissLabel = stringResource(R.string.discardChangesButtonKeepEditing),
+        )
     }
 
     private fun setResultAndFinish(hasSavedChanges: Boolean) {
