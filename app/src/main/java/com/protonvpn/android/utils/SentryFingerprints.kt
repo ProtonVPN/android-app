@@ -23,6 +23,8 @@ import android.app.BackgroundServiceStartNotAllowedException
 import android.os.Build
 import android.util.AndroidRuntimeException
 import androidx.annotation.VisibleForTesting
+import com.protonvpn.android.promooffers.GetIntroPricesError
+import com.protonvpn.android.ui.planupgrade.OneClickPaymentError
 import io.sentry.SentryEvent
 
 object SentryFingerprints {
@@ -41,20 +43,34 @@ object SentryFingerprints {
 
     fun setFingerprints(event: SentryEvent): SentryEvent {
         val throwable = event.throwable
-        if (
+        when {
             // RemoteServiceException and ForegroundServiceDidNotStartInTimeException are private
             // so they can't be handled explicitly. AndroidRuntimeException is their public super
             // class. It shouldn't hurt to apply the same grouping to its other subclasses.
             throwable is AndroidRuntimeException ||
             // Group BackgroundServiceStartNotAllowedExceptions by service name.
-            Build.VERSION.SDK_INT >= 31 && throwable is BackgroundServiceStartNotAllowedException
-        ) {
-            // Add the exception message to fingerprint so that different causes are grouped
-            // separately by Sentry. Unique parts like IDs are removed from the message.
-            event.fingerprints = listOf(
-                "{{ default }}",
-                throwable.message?.let { removeUniquesFromMessage(it) }
-            )
+            Build.VERSION.SDK_INT >= 31 && throwable is BackgroundServiceStartNotAllowedException -> {
+                // Add the exception message to fingerprint so that different causes are grouped
+                // separately by Sentry. Unique parts like IDs are removed from the message.
+                event.fingerprints = listOf(
+                    "{{ default }}",
+                    throwable.message?.let { removeUniquesFromMessage(it) }
+                )
+            }
+
+            throwable is OneClickPaymentError ->
+                event.fingerprints = listOf(
+                    throwable.message,
+                    throwable.cause?.message,
+                    // No stack trace!
+                )
+
+            throwable is GetIntroPricesError ->
+                event.fingerprints = listOf(
+                    throwable.message,
+                    throwable.cause?.message,
+                    // No stack trace!
+                )
         }
         return event
     }

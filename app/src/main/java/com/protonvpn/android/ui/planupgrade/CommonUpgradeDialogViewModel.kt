@@ -196,4 +196,4 @@ abstract class CommonUpgradeDialogViewModel(
     }
 }
 
-private class OneClickPaymentError(message: String?, cause: Throwable?) : Throwable(message, cause)
+class OneClickPaymentError(message: String?, cause: Throwable?) : Throwable(message, cause)

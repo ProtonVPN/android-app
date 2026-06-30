@@ -22,12 +22,12 @@ package com.protonvpn.android.promooffers.usecase
 import android.content.Context
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.promooffers.GetIntroPricesError
 import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers.CachedOffers
 import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.android.utils.BytesFileWriter
-import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.FileObjectStore
 import com.protonvpn.android.utils.KotlinCborObjectSerializer
 import com.protonvpn.android.utils.ObjectStore
@@ -179,4 +179,3 @@ class GetEligibleIntroductoryOffers(
         throwable == null || (throwable as? ApiException)?.error !is ApiResult.Error.Connection
 }
 
-private class GetIntroPricesError(message: String, cause: Throwable) : Exception(message, cause)
