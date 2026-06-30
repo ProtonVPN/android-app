@@ -1243,6 +1243,8 @@
     <string name="connection_details_city">City</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">State</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Routed through</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->

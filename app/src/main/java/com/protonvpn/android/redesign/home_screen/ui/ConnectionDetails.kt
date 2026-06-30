@@ -91,9 +91,11 @@ import com.patrykandpatrick.vico.core.model.ExtraStore
 import com.patrykandpatrick.vico.core.model.lineSeries
 import com.patrykandpatrick.vico.core.scroll.Scroll
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.TopAppBarBackIcon
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleTopAppBar
+import com.protonvpn.android.base.ui.TopAppBarBackIcon
+import com.protonvpn.android.base.ui.VpnDivider
+import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.base.ui.speedBytesToString
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.redesign.CountryId
@@ -101,13 +103,12 @@ import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.ServerLoadBar
-import com.protonvpn.android.base.ui.VpnDivider
-import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
+import com.protonvpn.android.redesign.vpn.ui.countryName
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
 import com.protonvpn.android.servers.StreamingService
@@ -257,6 +258,7 @@ private fun ConnectionDetailsConnected(
             city = viewState.serverCity,
             state = viewState.serverState,
             serverName = viewState.serverDisplayName,
+            serverHostCountryId = viewState.serverHostCountryId,
             serverLoad = viewState.serverLoad,
             protocol = viewState.protocolDisplay?.let { stringResource(it) },
             onOpenUrl = onOpenUrl
@@ -705,6 +707,7 @@ private fun ConnectionStats(
     city: String?,
     state: String?,
     serverName: String,
+    serverHostCountryId: CountryId?,
     serverLoad: Float,
     protocol: String? = "",
     onOpenUrl: (url: String) -> Unit,
@@ -767,6 +770,17 @@ private fun ConnectionStats(
                 labelTitle = stringResource(id = R.string.connection_details_server),
                 contentValue = serverName
             )
+
+            serverHostCountryId?.let { smartRoutingCountryId ->
+                VpnDivider()
+                ConnectionDetailRowWithTextAndInfo(
+                    labelTitle = stringResource(id = R.string.connection_details_smart_routing),
+                    infoType = InfoType.SmartRouting,
+                    contentValue = smartRoutingCountryId.countryName(),
+                    onOpenUrl = onOpenUrl,
+                )
+            }
+
             VpnDivider()
             ConnectionDetailRowWithComposable(
                 labelTitle = stringResource(id = R.string.connection_details_server_load),
@@ -1013,9 +1027,10 @@ fun ConnectionDetailsPreview() {
             serverDisplayName = "SE#1",
             serverLoad = 32F,
             protocolDisplay = ProtocolSelection.SMART.displayName,
-            serverFeatures = ConnectionDetailsViewModel.ServerFeatures()
+            serverFeatures = ConnectionDetailsViewModel.ServerFeatures(),
+            serverHostCountryId = null,
         )
-        ConnectionDetailsConnected(viewState, {})
+        ConnectionDetailsConnected(viewState) {}
     }
 }
 
@@ -1033,6 +1048,7 @@ fun ConnectionStatsPreview() {
             serverName = "SE#1",
             serverLoad = 32F,
             protocol = "WireGuard",
+            serverHostCountryId = CountryId.switzerland,
             onOpenUrl = {}
         )
     }

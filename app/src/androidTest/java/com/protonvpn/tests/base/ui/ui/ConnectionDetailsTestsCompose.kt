@@ -75,7 +75,8 @@ class ConnectionDetailsTestsCompose : FusionComposeTest() {
         serverFeatures = ConnectionDetailsViewModel.ServerFeatures(
             hasSecureCore = true,
             streamingServices = listOf(StreamingService("ProtoStream", ""))
-        )
+        ),
+        serverHostCountryId = null,
     )
 
     @Test

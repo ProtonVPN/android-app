@@ -80,12 +80,17 @@ fun ConnectIntentSecondaryLabel.contentDescription(): String? = when (this) {
 }
 
 @Composable
-fun CountryId.label(): String =
-    when(this) {
-        CountryId.Companion.fastestExcludingMyCountry -> glanceAwareStringResource(R.string.fastest_country_excluding_my_country)
-        CountryId.Companion.fastest -> glanceAwareStringResource(R.string.fastest_country)
-        else -> CountryTools.getFullName(LocalLocale.current, countryCode)
-    }
+fun CountryId.countryName(): String = CountryTools.getFullName(
+    locale = LocalLocale.current,
+    country = countryCode,
+)
+
+@Composable
+fun CountryId.label(): String = when(this) {
+    CountryId.fastestExcludingMyCountry -> glanceAwareStringResource(R.string.fastest_country_excluding_my_country)
+    CountryId.fastest -> glanceAwareStringResource(R.string.fastest_country)
+    else -> countryName()
+}
 
 @Composable
 fun viaCountry(entryCountry: CountryId): String =

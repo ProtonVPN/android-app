@@ -21,7 +21,6 @@ package com.protonvpn.android.redesign.home_screen.ui
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.bus.TrafficUpdate
@@ -86,6 +85,7 @@ class ConnectionDetailsViewModel @Inject constructor(
             val serverLoad: Float,
             @StringRes val protocolDisplay: Int? = null,
             val serverFeatures: ServerFeatures,
+            val serverHostCountryId: CountryId?,
         ) : ConnectionDetailsViewState
 
         object Close : ConnectionDetailsViewState
@@ -126,7 +126,8 @@ class ConnectionDetailsViewModel @Inject constructor(
             serverState = null,
             serverGatewayName = null,
             serverLoad = 0F,
-            serverFeatures = ServerFeatures()
+            serverFeatures = ServerFeatures(),
+            serverHostCountryId = null,
         )
     )
 
@@ -147,6 +148,14 @@ class ConnectionDetailsViewModel @Inject constructor(
             val streamingList = streamingServices.invoke(connectionParams.server.entryCountry)
             val connectIntent = connectionParams.connectIntent as ConnectIntent
             val protocol = connectionParams.protocolSelection?.displayName ?: 0
+            val smartRouting = if (server.hostCountry != null && server.isVirtualLocation) {
+                SmartRouting(
+                    entryCountry = CountryId(countryCode = server.hostCountry),
+                    exitCountry = CountryId(countryCode = server.exitCountry),
+                )
+            } else {
+                null
+            }
             ConnectionDetailsViewState.Connected(
                 userIp = userIp,
                 vpnIp = exitIp ?: EMPTY_IP_PAIR,
@@ -168,12 +177,10 @@ class ConnectionDetailsViewModel @Inject constructor(
                     server.isTor,
                     server.isP2pServer,
                     server.isSecureCoreServer,
-                    smartRouting = if (server.hostCountry != null && server.isVirtualLocation)
-                        SmartRouting(entryCountry = CountryId(server.hostCountry), exitCountry = CountryId(server.exitCountry))
-                    else
-                        null,
+                    smartRouting = smartRouting,
                     streamingServices = if (server.isStreamingServer) streamingList else null
-                )
+                ),
+                serverHostCountryId = smartRouting?.entryCountry,
             )
         }
     }
