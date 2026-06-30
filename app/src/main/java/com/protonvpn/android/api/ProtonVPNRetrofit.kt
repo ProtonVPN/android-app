@@ -26,7 +26,6 @@ import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
 import com.protonvpn.android.mmp.events.data.MmpEventRequestBody
 import com.protonvpn.android.mmp.events.data.MmpEventResponse
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
-import com.protonvpn.android.models.login.FeatureResponse
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.SessionForkBody
 import com.protonvpn.android.models.login.SessionForkResponse
@@ -155,9 +154,6 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("internal/tests/humanverification")
     suspend fun triggerHumanVerification(): GenericResponse
-
-    @GET("core/v4/features/{id}")
-    suspend fun getFeature(@Path("id") id: String): FeatureResponse
 
     @POST("payments/v4/promocode")
     suspend fun postPromoCode(@Body params: PromoCodesBody): GenericResponse
