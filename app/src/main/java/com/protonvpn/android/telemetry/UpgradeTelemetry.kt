@@ -178,7 +178,10 @@ class UpgradeTelemetry @Inject constructor(
     private fun onComparisonTableExperimentStarted() {
         helper.runSerially {
             isComparisonTableExperiment = true
-            eventExperimentComparisonTable("experiment_enrolled", emptyMap())
+            eventExperimentComparisonTable(
+                "experiment_enrolled",
+                createBasicUpsellDimensions()
+            )
         }
     }
 
@@ -218,11 +221,15 @@ class UpgradeTelemetry @Inject constructor(
         }
     }
 
-    fun onUpgradeAttempt(flowType: UpgradeFlowType) {
+    fun onUpgradeAttempt(flowType: UpgradeFlowType, planId: String?, billingCycle: Int?) {
         helper.runSerially {
             currentDimensions?.let { currentDimensions ->
-                event(eventData("upsell_upgrade_attempt", currentDimensions.withFlowType(flowType)))
-                eventExperiments("upsell_upgrade_attempt", currentDimensions)
+                val dimensions = currentDimensions + buildMap {
+                    put("upgraded_user_plan", planId ?: NO_VALUE)
+                    put("billing_cycle", billingCycle?.toString() ?: NO_VALUE)
+                }
+                event(eventData("upsell_upgrade_attempt", dimensions.withFlowType(flowType)))
+                eventExperiments("upsell_upgrade_attempt", dimensions)
             }
         }
     }
@@ -250,21 +257,29 @@ class UpgradeTelemetry @Inject constructor(
         upgradeTrigger: UpgradeTrigger,
         countryId: CountryId?,
         reference: String?,
-    ): Map<String, String> = buildMap {
+    ): Map<String, String> =
+        createBasicUpsellDimensions() + buildMap {
+            put("modal_source", upgradeSource.reportedName)
+            put("modal_trigger", upgradeTrigger.reportedName)
+            put("new_free_plan_ui", "yes") // Used to be a feature flag.
+            put("reference", reference ?: NO_VALUE)
+
+            if (countryId != null && !countryId.isFastest) {
+                put("country", countryId.countryCode)
+            }
+        }
+
+    private suspend fun createBasicUpsellDimensions(): Map<String, String> = buildMap {
         val user = currentUser.user()
         val vpnUser = currentUser.vpnUser()
 
-        commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY_LEGACY, CommonDimensions.Key.VPN_STATUS_LEGACY,
-            CommonDimensions.Key.USER_TIER_LEGACY, CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED_LEGACY)
-        put("modal_source", upgradeSource.reportedName)
-        put("modal_trigger", upgradeTrigger.reportedName)
-        put("new_free_plan_ui", "yes") // Used to be a feature flag.
-        put("reference", reference ?: NO_VALUE)
-
-        if (countryId != null && !countryId.isFastest) {
-            put("country", countryId.countryCode)
-        }
-
+        commonDimensions.add(
+            this,
+            CommonDimensions.Key.USER_COUNTRY_LEGACY,
+            CommonDimensions.Key.VPN_STATUS_LEGACY,
+            CommonDimensions.Key.USER_TIER_LEGACY,
+            CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED_LEGACY
+        )
         if (user != null && vpnUser != null) {
             val timeSinceCreation = (clock() - user.createdAtUtc).milliseconds.takeIf { user.createdAtUtc > 0 }
             put("days_since_account_creation", accountCreationBucket(timeSinceCreation))

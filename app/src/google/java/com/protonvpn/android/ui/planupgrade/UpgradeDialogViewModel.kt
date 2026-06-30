@@ -378,9 +378,12 @@ class UpgradeDialogViewModel(
         upgradeState = currentState,
         selectedCycle = currentSelectedCycle,
         onPayClicked = { activity ->
-            val flowType = UpgradeFlowType.ONE_CLICK
-            onPaymentStarted(flowType)
-            pay(activity, flowType)
+            if (currentState is State.PurchaseReady) {
+                val flowType = UpgradeFlowType.ONE_CLICK
+                val planId = currentState.selectedPlan.planName
+                onPaymentStarted(flowType, planId, currentSelectedCycle?.value)
+                pay(activity, flowType)
+            }
         },
         onStartFallback = ::onStartFallbackUpgrade,
         onErrorButtonClicked = ::reloadPlans,

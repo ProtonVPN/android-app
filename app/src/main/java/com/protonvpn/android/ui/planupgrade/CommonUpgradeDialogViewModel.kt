@@ -158,9 +158,9 @@ abstract class CommonUpgradeDialogViewModel(
         }
     }
 
-    protected fun onPaymentStarted(upgradeFlowType: UpgradeFlowType) {
+    protected fun onPaymentStarted(upgradeFlowType: UpgradeFlowType, planId: String?, billingCycle: Int?) {
         state.update { if (it is State.PurchaseReady) it.copy(inProgress = true) else it }
-        upgradeTelemetry.onUpgradeAttempt(upgradeFlowType)
+        upgradeTelemetry.onUpgradeAttempt(upgradeFlowType, planId, billingCycle)
     }
 
     suspend fun onPaymentFinished(purchaseSuccessState: State.PurchaseSuccess) {
@@ -175,7 +175,7 @@ abstract class CommonUpgradeDialogViewModel(
 
     fun onStartFallbackUpgrade() = viewModelScope.launch {
         userId.first()?.let { userId ->
-            onPaymentStarted(UpgradeFlowType.REGULAR)
+            onPaymentStarted(UpgradeFlowType.REGULAR, null, null)
             plansOrchestrator.startUpgradeWorkflow(userId)
         }
     }

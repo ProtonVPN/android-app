@@ -67,7 +67,7 @@ class PromoOfferViewModel @Inject constructor(
 
         when {
             ApiNotificationActions.isOpenUrl(button.action) -> {
-                upgradeTelemetry.onUpgradeAttempt(flowType = UpgradeFlowType.EXTERNAL)
+                upgradeTelemetry.onUpgradeAttempt(flowType = UpgradeFlowType.EXTERNAL, null, null)
                 viewModelScope.launch {
                     isLoading.value = true
                     val urlToOpen = promoOfferButtonActions.getButtonUrl(button)

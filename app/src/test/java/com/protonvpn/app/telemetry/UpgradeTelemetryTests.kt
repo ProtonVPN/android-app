@@ -147,7 +147,7 @@ class UpgradeTelemetryTests {
             upgradeTrigger = UpgradeTrigger.HOME_CAROUSEL,
             reference = "ref",
         )
-        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.ONE_CLICK)
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.ONE_CLICK, "plan", 12)
 
         verify {
             mockTelemetry.event(UPSELL_GROUP, "upsell_display", emptyMap(), any())
@@ -155,7 +155,11 @@ class UpgradeTelemetryTests {
                 UPSELL_GROUP,
                 "upsell_upgrade_attempt",
                 emptyMap(),
-                withArg { assertEquals( "one_click", it["flow_type"]) }
+                withArg {
+                    assertEquals("one_click", it["flow_type"])
+                    assertEquals("plan", it["upgraded_user_plan"])
+                    assertEquals("12", it["billing_cycle"])
+                }
             )
         }
     }
@@ -164,7 +168,7 @@ class UpgradeTelemetryTests {
     fun `modal_source and has_eligible_price are carried over to subsequent events`() = testScope.runTest {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.NETSHIELD, UpgradeTrigger.SETTINGS, null)
         upgradeTelemetry.onPricesLoaded(hasIntroPrices = true)
-        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
         upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.FREE.value)
 
         verify {
@@ -196,9 +200,9 @@ class UpgradeTelemetryTests {
     fun `when new flow starts it overrides the previous modal_source`() = testScope.runTest {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.NETSHIELD, UpgradeTrigger.SETTINGS, null)
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION, UpgradeTrigger.SETTINGS, null)
-        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROFILES, UpgradeTrigger.PROFILES, null)
-        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
         upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.FREE.value)
 
         verify {
@@ -216,7 +220,7 @@ class UpgradeTelemetryTests {
     @Test
     fun `on success both old and new plan is reported`() = testScope.runTest {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION, UpgradeTrigger.SETTINGS, null)
-        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
         upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.YEARLY.value)
 
         verify {
@@ -260,7 +264,7 @@ class UpgradeTelemetryTests {
     @Test
     fun `upgrade more than 10 minutes after first event is ignored`() = testScope.runTest {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION, UpgradeTrigger.SETTINGS, null)
-        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
         fakeTime = 10.minutes.inWholeMilliseconds + 1
         upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.MONTHLY.value)
 
@@ -281,7 +285,7 @@ class UpgradeTelemetryTests {
             with(upgradeTelemetry) {
                 onUpgradeFlowStarted(UpgradeSource.PROFILES, UpgradeTrigger.PROFILES)
                 onPricesLoaded(hasIntroPrices = true)
-                onUpgradeAttempt(UpgradeFlowType.ONE_CLICK)
+                onUpgradeAttempt(UpgradeFlowType.ONE_CLICK, null, null)
                 onUpgradeSuccess(null, UpgradeFlowType.ONE_CLICK, 1)
             }
 
@@ -307,7 +311,7 @@ class UpgradeTelemetryTests {
             with(upgradeTelemetry) {
                 onUpgradeFlowStarted(UpgradeSource.PROFILES, UpgradeTrigger.PROFILES)
                 onPricesLoaded(hasIntroPrices = true)
-                onUpgradeAttempt(UpgradeFlowType.ONE_CLICK)
+                onUpgradeAttempt(UpgradeFlowType.ONE_CLICK, null, null)
                 onUpgradeSuccess(null, UpgradeFlowType.ONE_CLICK, 1)
             }
 

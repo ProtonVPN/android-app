@@ -471,7 +471,7 @@ class HomeViewModel @Inject constructor(
                         UpgradeTrigger.PROMO_OFFER_BANNER,
                         reference = reference,
                     )
-                    upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.EXTERNAL)
+                    upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.EXTERNAL, null, null)
                     context.openUrl(url)
                 }
             }
