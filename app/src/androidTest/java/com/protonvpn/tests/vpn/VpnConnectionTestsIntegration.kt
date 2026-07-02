@@ -20,10 +20,11 @@
  */
 package com.protonvpn.tests.vpn
 
+import android.content.Context
+import android.os.PowerManager
 import androidx.activity.ComponentActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
 import com.proton.gopenpgp.localAgent.LocalAgent
@@ -70,7 +71,6 @@ import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.ui.storage.UiStateStoreProvider
-import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.AgentConnectionInterface
 import com.protonvpn.android.vpn.CAPABILITY_NOT_VPN
@@ -97,6 +97,7 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.android.vpn.alwayson.VpnAlwaysOnStorage
 import com.protonvpn.mocks.FakeSettingsFeatureFlagsFlow
+import com.protonvpn.mocks.FakeVpnBackgroundUiDelegate
 import com.protonvpn.mocks.MockAgentProvider
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.createInMemoryServerManager
@@ -145,11 +146,9 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-@RunWith(AndroidJUnit4::class)
 // These tests use mocking of final classes that's not available on API < 28
 @SdkSuppress(minSdkVersion = 28)
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -186,9 +185,6 @@ class VpnConnectionTestsIntegration {
 
     @RelaxedMockK
     lateinit var mockVpnUiDelegate: VpnUiDelegate
-
-    @MockK
-    lateinit var mockVpnBackgroundUiDelegate: VpnBackgroundUiDelegate
 
     @RelaxedMockK
     lateinit var getNetZone: GetNetZone
@@ -272,7 +268,6 @@ class VpnConnectionTestsIntegration {
 
         every { mockGhSuppressor.disableGh() } returns false
         every { mockVpnUiDelegate.shouldSkipAccessRestrictions() } returns false
-        every { mockVpnBackgroundUiDelegate.shouldSkipAccessRestrictions() } returns false
 
         currentCert = validCert
         coEvery { certificateRepository.getCertificate(any(), any()) } answers {
@@ -369,14 +364,14 @@ class VpnConnectionTestsIntegration {
             networkManager = networkManager,
             vpnErrorHandler = vpnErrorHandler,
             vpnStateMonitor = monitor,
-            vpnBackgroundUiDelegate = mockVpnBackgroundUiDelegate,
+            vpnBackgroundUiDelegate = FakeVpnBackgroundUiDelegate(),
             serverManager = serverManager2,
             scope = scope.backgroundScope,
             now = clock,
             currentVpnServiceProvider = mockk(relaxed = true),
             currentUser = currentUser,
             getSmartProtocols = getSmartProtocols,
-            powerManager = { mockk(relaxed = true) },
+            powerManager = { appContext.getSystemService(Context.POWER_SERVICE) as PowerManager },
             vpnConnectionTelemetry = vpnConnectionTelemetry,
             autoLoginManager = mockk(relaxed = true),
             vpnErrorAndFallbackObservability = mockk(relaxed = true),

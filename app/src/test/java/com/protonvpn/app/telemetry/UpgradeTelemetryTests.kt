@@ -50,8 +50,6 @@ import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import me.proton.core.domain.entity.UserId
@@ -289,11 +287,11 @@ class UpgradeTelemetryTests {
             verify {
                 val dimensionAssert: MockKAssertScope.(Map<String, String>) -> Unit =
                     { assertEquals("12m", it["experiment_variant"]) }
-                mockTelemetry.event(EXPERIMENT_GROUP, "experiment_enrolled", any(), withArg(dimensionAssert))
-                mockTelemetry.event(EXPERIMENT_GROUP, "upsell_display", any(), withArg(dimensionAssert))
-                mockTelemetry.event(EXPERIMENT_GROUP, "upsell_price_display", any(), withArg(dimensionAssert))
-                mockTelemetry.event(EXPERIMENT_GROUP, "upsell_upgrade_attempt", any(), withArg(dimensionAssert))
-                mockTelemetry.event(EXPERIMENT_GROUP, "upsell_success", any(), withArg(dimensionAssert))
+                mockTelemetry.event(EXPERIMENT_GROUP, "experiment_enrolled", any(), withArg(captureBlock = dimensionAssert))
+                mockTelemetry.event(EXPERIMENT_GROUP, "upsell_display", any(), withArg(captureBlock = dimensionAssert))
+                mockTelemetry.event(EXPERIMENT_GROUP, "upsell_price_display", any(), withArg(captureBlock = dimensionAssert))
+                mockTelemetry.event(EXPERIMENT_GROUP, "upsell_upgrade_attempt", any(), withArg(captureBlock = dimensionAssert))
+                mockTelemetry.event(EXPERIMENT_GROUP, "upsell_success", any(), withArg(captureBlock = dimensionAssert))
             }
         }
 
@@ -333,8 +331,8 @@ class UpgradeTelemetryTests {
             verify {
                 val dimensionAssert: MockKAssertScope.(Map<String, String>) -> Unit =
                     { assertEquals("control", it["experiment_variant"]) }
-                mockTelemetry.event(EXPERIMENT_GROUP, "experiment_enrolled", any(), withArg(dimensionAssert))
-                mockTelemetry.event(EXPERIMENT_GROUP, "upsell_display", any(), withArg(dimensionAssert) )
+                mockTelemetry.event(EXPERIMENT_GROUP, "experiment_enrolled", any(), withArg(captureBlock = dimensionAssert))
+                mockTelemetry.event(EXPERIMENT_GROUP, "upsell_display", any(), withArg(captureBlock = dimensionAssert))
             }
         }
 

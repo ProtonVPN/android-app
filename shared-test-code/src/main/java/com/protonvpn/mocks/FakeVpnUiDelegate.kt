@@ -21,6 +21,7 @@ package com.protonvpn.mocks
 
 import android.content.Intent
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.vpn.ReasonRestricted
 import com.protonvpn.android.vpn.VpnUiDelegate
 
@@ -33,4 +34,13 @@ class FakeVpnUiDelegate : VpnUiDelegate {
     override fun onServerRestricted(reason: ReasonRestricted): Boolean = false
 
     override fun onProtocolNotSupported() = Unit
+}
+
+class FakeVpnBackgroundUiDelegate(
+    private val delegate : FakeVpnUiDelegate = FakeVpnUiDelegate()
+) : VpnBackgroundUiDelegate, VpnUiDelegate by delegate {
+
+    override fun showErrorNotification(textRes: Int, titleRes: Int?) {
+        // Do nothing.
+    }
 }

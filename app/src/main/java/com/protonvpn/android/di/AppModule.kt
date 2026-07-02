@@ -112,6 +112,8 @@ import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonT
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.AppIconManagerImpl
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
+import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
+import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegateImpl
 import com.protonvpn.android.update.AppUpdateBannerStateFlow
 import com.protonvpn.android.update.AppUpdateBannerStateFlowImpl
 import com.protonvpn.android.update.AppUpdateManager
@@ -526,6 +528,9 @@ object AppModule {
 
         @Binds
         fun bindShouldShowAppUpdateDotFlow(impl: ShouldShowAppUpdateDotFlowImpl): ShouldShowAppUpdateDotFlow
+
+        @Binds
+        fun bindVpnBackgroundUiDelegate(impl: VpnBackgroundUiDelegateImpl): VpnBackgroundUiDelegate
 
         @Singleton
         @Binds

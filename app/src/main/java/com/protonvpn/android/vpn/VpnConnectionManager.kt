@@ -58,6 +58,7 @@ import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Storage
 import dagger.Lazy
+import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -132,6 +133,14 @@ private sealed class InternalState {
         is Error -> params
         Disabled -> null
     }
+}
+
+@Reusable
+class WakeLockProvider @Inject constructor(
+    private val powerManager: PowerManager,
+) {
+    fun getPartialWakeLock(name: String): PowerManager.WakeLock =
+        powerManager.newWakeLock(PARTIAL_WAKE_LOCK, name)
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)

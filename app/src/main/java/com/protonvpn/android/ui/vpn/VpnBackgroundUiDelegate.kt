@@ -30,11 +30,15 @@ import com.protonvpn.android.vpn.VpnUiDelegate
 import javax.inject.Inject
 import javax.inject.Singleton
 
+interface VpnBackgroundUiDelegate : VpnUiDelegate {
+    fun showErrorNotification(@StringRes textRes: Int, @StringRes titleRes: Int? = null)
+}
+
 @Singleton
-class VpnBackgroundUiDelegate @Inject constructor (
+class VpnBackgroundUiDelegateImpl @Inject constructor (
     private val notificationHelper: NotificationHelper,
     private val notificationChannels: dagger.Lazy<NotificationChannels>,
-) : VpnUiDelegate {
+) : VpnBackgroundUiDelegate {
 
     override fun askForPermissions(intent: Intent, connectIntent: AnyConnectIntent, onPermissionGranted: () -> Unit) {
         // Can't ask for permissions when in background.
@@ -50,7 +54,7 @@ class VpnBackgroundUiDelegate @Inject constructor (
         showErrorNotification(R.string.profileProtocolNotAvailable)
     }
 
-    fun showErrorNotification(@StringRes textRes: Int, @StringRes titleRes: Int? = null) {
+    override fun showErrorNotification(@StringRes textRes: Int, @StringRes titleRes: Int?) {
         notificationHelper.showSimpleNotification(
             content = textRes,
             title = titleRes,
