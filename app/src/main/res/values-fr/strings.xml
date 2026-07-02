@@ -679,6 +679,8 @@
     <string name="search_empty_result_title">Aucun résultat n\'a été trouvé.</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Effacer</string>
+    <!-- Content description for an icon button that clears text in an input field. -->
+    <string name="clear_text_field_content_description">Effacer</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Vous voulez vous connecter à un pays en particulier ?</string>
     <string name="upgrade_country_message"><![CDATA[Accédez à la <b>sélection de pays</b> en passant à VPN Plus.]]></string>
@@ -1479,6 +1481,7 @@
     <string name="settings_split_tunneling_already_excluded">Déjà exclue</string>
     <string name="settings_split_tunneling_already_included">Déjà inclue</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Retirer l’adresse IP de la liste ?</string>
+    <string name="settings_split_tunneling_ip_removed_message">Adresse IP retirée</string>
     <string name="settings_theme_title">Thème</string>
     <string name="settings_theme_value_auto">Thème de l\'appareil</string>
     <string name="settings_theme_value_light">Clair</string>

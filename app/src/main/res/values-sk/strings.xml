@@ -632,8 +632,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Blokujte reklamy, sledovače a malvér pomocou <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Získajte to najlepšie z oboch svetov s Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Rozdeľte svoju prevádzku na VPN tunely a iné ako VPN pomocou <b>rozdeleného tunelovania</b>.]]></string>
-    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
-    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
+    <string name="upsell_tv_subscription_expired_title">Predplatné vypršalo</string>
+    <string name="upsell_tv_subscription_expired_description">Navýšte úroveň svojho účtu, aby ste opäť získali prístup k serverom a funkciám verzie Plus.</string>
     <string name="upsell_tv_customization_title">Získajte pokročilé prispôsobenia VPN s Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Odomknite <b>LAN pripojenia</b>, <b>vlastné DNS</b> a pokročilejšie VPN funkcie.]]></string>
     <string name="upsell_tv_fallback_description">Prejdite na webovú stránku Proton VPN, aby ste si zvýšili úroveň svojho plánu.</string>
@@ -711,6 +711,8 @@
     <string name="search_empty_result_title">Neboli nájdené žiadne výsledky</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Vymazať</string>
+    <!-- Content description for an icon button that clears text in an input field. -->
+    <string name="clear_text_field_content_description">Vyčistiť</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Chcete sa pripojiť ku konkrétnej krajine?</string>
     <string name="upgrade_country_message"><![CDATA[Odomknite <b>výber krajiny</b> s VPN Plus.]]></string>
@@ -1545,6 +1547,7 @@
     <string name="settings_split_tunneling_already_excluded">Už je vylúčené</string>
     <string name="settings_split_tunneling_already_included">Už je zahrnutá</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Odstrániť IP adresu zo zoznamu?</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP adresa odstránená</string>
     <string name="settings_theme_title">Motív</string>
     <string name="settings_theme_value_auto">Motív zariadenia</string>
     <string name="settings_theme_value_light">Svetlý</string>

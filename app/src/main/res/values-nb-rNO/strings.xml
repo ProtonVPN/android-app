@@ -595,16 +595,16 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
+    <string name="upsell_tv_all_countries_description">Lås opp %1$s i %2$s.</string>
     <string name="upsell_tv_netshield_title">Kos deg med reklamefri surfing med Plus</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Blokkér annonser, sporere og skadelig programvare med <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Få det beste fra begge verdener med Plus</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
-    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
-    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Del trafikken din inn i VPN- og ikke-VPN-tunneler med <b>delt tunnelering</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Abonnement utløpt</string>
+    <string name="upsell_tv_subscription_expired_description">Oppgrader for å få tilbake tilgang til Plus-servere og funksjoner.</string>
     <string name="upsell_tv_customization_title">Få avanserte VPN-tilpasninger med Plus</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
-    <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Lås opp <b>LAN-forbindelser</b>, <b>Egendefinert DNS</b> og mer avanserte VPN-funksjoner.]]></string>
+    <string name="upsell_tv_fallback_description">Gå til Proton VPN-nettstedet for å oppgradere planen din.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -679,6 +679,8 @@
     <string name="search_empty_result_title">Ingen resultater funnet</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Tøm</string>
+    <!-- Content description for an icon button that clears text in an input field. -->
+    <string name="clear_text_field_content_description">Tøm</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Vil du koble til et bestemt land?</string>
     <string name="upgrade_country_message"><![CDATA[Lås opp <b>valg av land</b> med VPN Plus.]]></string>
@@ -1479,6 +1481,7 @@
     <string name="settings_split_tunneling_already_excluded">Allerede ekskludert</string>
     <string name="settings_split_tunneling_already_included">Allerede inkludert</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Fjerne IP-adressen fra listen?</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme_value_auto">Enhetstema</string>
     <string name="settings_theme_value_light">Lys</string>

@@ -664,6 +664,8 @@
     <string name="search_empty_result_title">결과를 찾을 수 없음</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">삭제</string>
+    <!-- Content description for an icon button that clears text in an input field. -->
+    <string name="clear_text_field_content_description">Clear</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">특정 국가로 연결하고 싶으세요?</string>
     <string name="upgrade_country_message"><![CDATA[VPN Plus로 <b>국가 선택</b>을 잠금 해제하세요.]]></string>
@@ -1448,6 +1450,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="settings_split_tunneling_already_excluded">이미 제외됨</string>
     <string name="settings_split_tunneling_already_included">이미 포함됨</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">IP 주소를 목록에서 삭제하시겠습니까?</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
     <string name="settings_theme_title">테마</string>
     <string name="settings_theme_value_auto">기기 테마</string>
     <string name="settings_theme_value_light">라이트</string>

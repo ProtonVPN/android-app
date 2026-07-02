@@ -695,6 +695,8 @@
     <string name="search_empty_result_title">Nu s-au găsit rezultate.</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Golire</string>
+    <!-- Content description for an icon button that clears text in an input field. -->
+    <string name="clear_text_field_content_description">Golire</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Doriți să vă conectați la o anumită țară?</string>
     <string name="upgrade_country_message"><![CDATA[Deblocați <b>selectarea țărilor</b> cu VPN Plus.]]></string>
@@ -1512,6 +1514,7 @@
     <string name="settings_split_tunneling_already_excluded">Deja exclus</string>
     <string name="settings_split_tunneling_already_included">Deja inclusă</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Eliminați adresa IP din listă?</string>
+    <string name="settings_split_tunneling_ip_removed_message">Adresă IP eliminată.</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme_value_auto">Temă dispozitiv</string>
     <string name="settings_theme_value_light">Albă</string>

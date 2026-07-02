@@ -663,6 +663,8 @@
     <string name="search_empty_result_title">Tidak ada hasil yang ditemukan</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Bersihkan</string>
+    <!-- Content description for an icon button that clears text in an input field. -->
+    <string name="clear_text_field_content_description">Clear</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Ingin terhubung ke negara tertentu?</string>
     <string name="upgrade_country_message"><![CDATA[Akses fitur <b>pemilihan negara</b> dengan VPN Plus.]]></string>
@@ -1446,6 +1448,7 @@
     <string name="settings_split_tunneling_already_excluded">Telah dikecualikan</string>
     <string name="settings_split_tunneling_already_included">Telah disertakan</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Hapus alamat IP dari daftar?</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme_value_auto">Tema perangkat</string>
     <string name="settings_theme_value_light">Terang</string>

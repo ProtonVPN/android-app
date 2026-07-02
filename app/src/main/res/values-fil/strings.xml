@@ -679,6 +679,8 @@
     <string name="search_empty_result_title">Walang nakitang resulta</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">I-clear</string>
+    <!-- Content description for an icon button that clears text in an input field. -->
+    <string name="clear_text_field_content_description">Clear</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Gustong kumonekta sa isang partikular na bansa?</string>
     <string name="upgrade_country_message"><![CDATA[I-unlock ang <b>pagpili ng bansa</b> gamit ang VPN Plus.]]></string>
@@ -1479,6 +1481,7 @@
     <string name="settings_split_tunneling_already_excluded">Ibinukod na</string>
     <string name="settings_split_tunneling_already_included">Isinama na</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Alisin ang IP address sa listahan?</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme_value_auto">Tema ng device</string>
     <string name="settings_theme_value_light">Light</string>

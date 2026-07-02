@@ -600,8 +600,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Bloker annoncer, trackere og malware med <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Få det bedste fra begge verdener med Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Opdel din trafik i VPN- og ikke-VPN-tunneler med <b>split tunneling</b>.]]></string>
-    <string name="upsell_tv_subscription_expired_title">Abonnement er udløbet</string>
-    <string name="upsell_tv_subscription_expired_description">Opgradér for igen at få adgang til Plus servere og features.</string>
+    <string name="upsell_tv_subscription_expired_title">Abonnementet er udløbet</string>
+    <string name="upsell_tv_subscription_expired_description">Opgrader for igen at få adgang til Plus servere og funktioner.</string>
     <string name="upsell_tv_customization_title">Få avancerede VPN-indstillinger med Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Lås op for <b>LAN-forbindelser</b>, <b>brugerdefineret DNS</b> og mere avancerede VPN-funktioner.]]></string>
     <string name="upsell_tv_fallback_description">Gå til Proton VPN-websiden for at opgradere dit abonnement.</string>
@@ -679,6 +679,8 @@
     <string name="search_empty_result_title">Ingen resultater fundet</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Ryd</string>
+    <!-- Content description for an icon button that clears text in an input field. -->
+    <string name="clear_text_field_content_description">Ryd</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Vil du vælge et specifikt land?</string>
     <string name="upgrade_country_message"><![CDATA[Lås op for <b>landevalg</b> med VPN Plus.]]></string>
@@ -1479,6 +1481,7 @@
     <string name="settings_split_tunneling_already_excluded">Allerede udeladt</string>
     <string name="settings_split_tunneling_already_included">Allerede medtaget</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Fjern IP-adresse fra listen?</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP-adresse fjernet</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme_value_auto">Enhedstema</string>
     <string name="settings_theme_value_light">Lys</string>
