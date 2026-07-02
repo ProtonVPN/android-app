@@ -379,7 +379,6 @@ class SettingsViewModel @Inject constructor(
         val showSignOut: Boolean,
         val showDebugTools: Boolean,
         val theme: SettingViewState.Theme,
-        val isWidgetDiscovered: Boolean,
         val accountScreenEnabled: Boolean,
         val versionName: String,
         val appUpdateBannerState: AppUpdateBannerState,
@@ -410,23 +409,19 @@ class SettingsViewModel @Inject constructor(
     private data class FeaturePreferences(
         val isConnectionPreferencesDiscovered: Boolean,
         val isExcludedLocationsDiscovered: Boolean,
-        val isWidgetDiscovered: Boolean,
     )
 
-    private val featurePreferencesFlow = combine(
-        uiStateStorage.state,
-        appFeaturePrefs.isWidgetDiscoveredFlow,
-    ) { uiStoredState, isWidgetDiscovered ->
-        FeaturePreferences(
-            isConnectionPreferencesDiscovered = uiStoredState.isConnectionPreferencesDiscovered,
-            isExcludedLocationsDiscovered = uiStoredState.isExcludedLocationsDiscovered,
-            isWidgetDiscovered = isWidgetDiscovered,
+    private val featurePreferencesFlow = uiStateStorage.state
+        .map { uiStoredState ->
+            FeaturePreferences(
+                isConnectionPreferencesDiscovered = uiStoredState.isConnectionPreferencesDiscovered,
+                isExcludedLocationsDiscovered = uiStoredState.isExcludedLocationsDiscovered,
+            )
+        }.shareIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            replay = 1,
         )
-    }.shareIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        replay = 1,
-    )
 
     private val localeFlow = MutableStateFlow<Locale?>(value = null)
 
@@ -545,7 +540,6 @@ class SettingsViewModel @Inject constructor(
                 showDebugTools = displayDebugUi,
                 showSignOut = !isCredentialLess && !managedConfig.isManaged,
                 accountScreenEnabled = !managedConfig.isManaged,
-                isWidgetDiscovered = featurePreferences.isWidgetDiscovered,
                 customDns =
                     SettingViewState.CustomDns(
                         enabled = settings.customDns.effectiveEnabled,
@@ -668,7 +662,6 @@ class SettingsViewModel @Inject constructor(
             } else {
                 event.tryEmit(UiEvent.NavigateToWidgetInstructions)
             }
-            appFeaturePrefs.isWidgetDiscovered = true
         }
     }
 
