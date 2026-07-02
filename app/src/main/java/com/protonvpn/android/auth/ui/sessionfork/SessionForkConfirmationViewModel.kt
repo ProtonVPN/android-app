@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.auth.ui.sessionfork
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Base64
@@ -32,10 +33,14 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
 import com.protonvpn.android.telemetry.CommonDimensions
+import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.telemetry.onboarding.TvSignInTelemetry
+import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeStreamingHighlightsFragment
 import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.utils.ifOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.channels.BufferOverflow
@@ -69,6 +74,7 @@ private const val MIN_TIME_FOR_READING_MS = 3_000L
 @HiltViewModel
 class SessionForkConfirmationViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    @ApplicationContext private val appContext: Context,
     private val currentUser: CurrentUser,
     private val forkSession: ForkSession,
     private val createLaunchIntent: dagger.Lazy<CreateLaunchIntent>,
@@ -126,7 +132,13 @@ class SessionForkConfirmationViewModel @Inject constructor(
                     emit(ViewState.AskForkConfirmation(isLoading = false))
                     triggerConfirmSignIn.collect {
                         emit(ViewState.AskForkConfirmation(isLoading = true))
-                        emitAll(executeConfirmFork(vpnUser.userId, userCode, initialUserTier))
+                        val confirmForkFlow = executeConfirmFork(
+                            vpnUser.userId,
+                            userCode,
+                            initialUserTier,
+                            vpnUser.isFreeUser,
+                        )
+                        emitAll(confirmForkFlow)
                     }
                 } else {
                     emit(ViewState.ErrorUserCodeInvalid)
@@ -163,6 +175,7 @@ class SessionForkConfirmationViewModel @Inject constructor(
         userId: UserId,
         userCode: String,
         initialUserTier: String,
+        isFreeUser: Boolean,
     ): Flow<ViewState.Fork> = channelFlow {
         withContext(NonCancellable) {
             try {
@@ -177,18 +190,27 @@ class SessionForkConfirmationViewModel @Inject constructor(
                     independent = true,
                     userCode = userCode
                 )
-                val mainUiLaunchIntent = if (hasSignIn) {
-                    createLaunchIntent.get().withFlags(
-                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    )
-                } else {
-                    null
+                val activityToLaunchIntent = when {
+                    hasSignIn ->
+                        createLaunchIntent.get().withFlags(
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        )
+
+                    isFreeUser && !hasTriggeredUpgrade ->
+                            CarouselUpgradeDialogActivity.createIntent<UpgradeStreamingHighlightsFragment>(
+                                appContext,
+                                UpgradeTrigger.ONBOARDING,
+                            ).apply {
+                                setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            }
+
+                    else -> null
                 }
                 // It takes a few seconds for the TV to check for success.
                 // The user might be confused if they get a success screen on their mobile while
                 // nothing happens on the TV, so let's keep the spinner spinning for a little while.
                 delay(SUCCESS_DELAY_MS)
-                send(ViewState.Fork.Success(mainUiLaunchIntent))
+                send(ViewState.Fork.Success(activityToLaunchIntent))
             } catch (e: ApiException) {
                 ProtonLogger.logCustom(
                     LogCategory.USER,
