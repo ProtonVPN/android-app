@@ -1,5 +1,5 @@
 [versions]
-agp-version = "8.9.1"
+agp-version = "8.9.1" # Remove pluginManagement R8 override from settings.gradle.kts when updating to 8.13.2 or newer.
 airbnb-lottie-version = "6.6.7"
 android-compose-screenshot-version = "0.0.1-alpha14"
 android-flexbox-version = "3.0.0"

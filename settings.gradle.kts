@@ -20,12 +20,39 @@
 rootProject.name = "ProtonVPN"
 
 pluginManagement {
+    // Override R8/D8 while on AGP 8.9.1: 8.13.19 supports Kotlin 2.3 metadata in dependencies
+    // (e.g. kotlinx-serialization) while the project compiles with Kotlin 2.2.
+    // Must be inlined here — apply(from) in build-logic does not reach the R8 minify worker.
+    // Remove when updating AGP to 8.13.2 or newer.
+    buildscript {
+        repositories {
+            mavenCentral()
+            google()
+        }
+        dependencies {
+            classpath("com.android.tools:r8:8.13.19")
+        }
+    }
+
     includeBuild("build-logic")
 
     repositories {
         maven { url = java.net.URI("https://plugins.gradle.org/m2/") }
         mavenCentral()
         google()
+    }
+
+    // Override R8 with a newer version that is compatible with Kotlin 2.2.
+    // Remove when updating AGP to 8.10 or newer.
+    buildscript {
+        repositories {
+            maven {
+                url = uri("https://storage.googleapis.com/r8-releases")
+            }
+        }
+        dependencies {
+            classpath("com.android.tools:r8:8.10.21")
+        }
     }
 }
 
