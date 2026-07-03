@@ -627,16 +627,16 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
+    <string name="upsell_tv_all_countries_description">Розблокуйте %1$s у %2$s.</string>
     <string name="upsell_tv_netshield_title">Насолоджуйтесь інтернетом без реклами з передплатою Plus</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Блокуйте рекламу, стеження і зловмисні програми з <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Отримайте найкращі можливості з передплатою Plus</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
-    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
-    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Розділіть свій трафік – з VPN і без VPN – за допомогою <b>роздільного тунелювання</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Термін дії передплати завершився</string>
+    <string name="upsell_tv_subscription_expired_description">Поновіть передплату, щоб знову користуватися серверами та функціями Plus.</string>
     <string name="upsell_tv_customization_title">Отримайте розширені налаштування VPN з передплатою Plus</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
-    <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Розблокуйте <b>LAN-з\'єднання</b>, <b>власну DNS</b> та інші розширені функції VPN.]]></string>
+    <string name="upsell_tv_fallback_description">Перейдіть на вебсайт Proton VPN, щоб покращити свій тарифний план.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -712,7 +712,7 @@
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Очистити</string>
     <!-- Content description for an icon button that clears text in an input field. -->
-    <string name="clear_text_field_content_description">Clear</string>
+    <string name="clear_text_field_content_description">Очистити</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Хочете під\'єднатися до певної країни?</string>
     <string name="upgrade_country_message"><![CDATA[Розблокуйте <b>вибір країни</b> з VPN Plus.]]></string>
@@ -1547,7 +1547,7 @@
     <string name="settings_split_tunneling_already_excluded">Уже виключено</string>
     <string name="settings_split_tunneling_already_included">Уже включено</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Вилучити IP-адресу зі списку?</string>
-    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP-адресу вилучено</string>
     <string name="settings_theme_title">Тема</string>
     <string name="settings_theme_value_auto">Тема пристрою</string>
     <string name="settings_theme_value_light">Світла</string>

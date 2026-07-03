@@ -1547,7 +1547,7 @@
     <string name="settings_split_tunneling_already_excluded">Již vyloučeno</string>
     <string name="settings_split_tunneling_already_included">Již zahrnuto</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Odebrat IP adresu ze seznamu?</string>
-    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP adresa odebrána</string>
     <string name="settings_theme_title">Motiv</string>
     <string name="settings_theme_value_auto">Motiv zařízení</string>
     <string name="settings_theme_value_light">Světlý</string>
