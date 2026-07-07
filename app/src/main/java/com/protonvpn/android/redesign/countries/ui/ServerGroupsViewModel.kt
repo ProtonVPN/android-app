@@ -126,7 +126,6 @@ data class CitiesScreenState(
     override val items: List<ServerGroupUiItem>,
     val filterButtons: List<FilterButton>,
     val countryId: CountryId,
-    val hostCountryId: CountryId?,
 ) : ServerGroupsSubScreenState()
 
 data class ServersScreenState(
@@ -315,7 +314,6 @@ abstract class ServerGroupsViewModel<MainStateT>(
                     savedState
                 ),
                 items = items,
-                hostCountryId = dataAdapter.getHostCountry(savedState.countryId)
             )
             is GatewayServersScreenSaveState -> GatewayServersScreenState(
                 gatewayName = savedState.gatewayName,
@@ -328,7 +326,13 @@ abstract class ServerGroupsViewModel<MainStateT>(
                     savedState.countryId,
                     savedState.cityStateId
                 ),
-                items = items
+                items = buildList {
+                    val hostCountryIds = dataAdapter.getHostCountryIds(savedState.countryId)
+                    if (hostCountryIds.isNotEmpty()) {
+                        add(ServerGroupUiItem.InfoCard.SmartRouting(hostCountryIds))
+                    }
+                    addAll(items)
+                },
             )
         }
     }

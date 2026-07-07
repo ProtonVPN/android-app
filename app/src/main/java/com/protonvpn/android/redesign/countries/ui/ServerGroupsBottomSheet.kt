@@ -27,7 +27,6 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -45,6 +44,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -66,7 +66,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.GatewayIndicator
-import com.protonvpn.android.redesign.base.ui.InfoButton
 import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.vpn.ui.label
@@ -91,9 +90,12 @@ fun ServerGroupsBottomSheet(
 ) {
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
+    val isBottomSheetExpanded by remember {
+        derivedStateOf { sheetState.targetValue == SheetValue.Expanded }
+    }
     val headerAreaColor by animateColorAsState(
         targetValue =
-            if (sheetState.targetValue == SheetValue.Expanded) ProtonTheme.colors.backgroundSecondary
+            if (isBottomSheetExpanded) ProtonTheme.colors.backgroundSecondary
             else ProtonTheme.colors.backgroundNorm,
         animationSpec = tween(durationMillis = 500),
         label = "BottomSheetTopColorAnimation"
@@ -152,7 +154,6 @@ private fun BottomSheetScreen(
         AnimatedBottomSheetHeader(
             screen = screen,
             onNavigateBack = onNavigateBack,
-            onOpenInfo = onOpenInfo
         )
         ServerGroupItemsList(
             listState = listState,
@@ -164,7 +165,7 @@ private fun BottomSheetScreen(
             modifier = Modifier
                 .semantics { traversalIndex = -1f }
                 .fillMaxHeight()
-                .background(ProtonTheme.colors.backgroundNorm)
+                .background(ProtonTheme.colors.backgroundNorm),
         )
     }
 }
@@ -174,7 +175,6 @@ private fun AnimatedBottomSheetHeader(
     modifier: Modifier = Modifier,
     screen: ServerGroupsSubScreenState,
     onNavigateBack: () -> Unit,
-    onOpenInfo: (InfoType) -> Unit,
 ) {
     val flagComposable: @Composable () -> Unit = when (screen) {
         is GatewayServersScreenState -> { -> GatewayIndicator(null) }
@@ -260,6 +260,7 @@ private fun AnimatedBottomSheetHeader(
                     style = ProtonTheme.typography.headlineNorm
                 )
             }
+
             AnimatedVisibility(visible = showSecondStepAnimations) {
                 Text(
                     text = cityStateDisplay ?: "",
@@ -271,31 +272,6 @@ private fun AnimatedBottomSheetHeader(
                 )
             }
         }
-
-        if (screen is CitiesScreenState) {
-            val hostCountryId = screen.hostCountryId
-            if (hostCountryId != null) {
-                Row(
-                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp, end = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    Icon(
-                        painter = painterResource(id = CoreR.drawable.ic_proton_globe),
-                        contentDescription = null,
-                        tint = ProtonTheme.colors.iconWeak,
-                        modifier = Modifier.padding(top = 4.dp)
-                    )
-                    Text(
-                        text = stringResource(R.string.country_smart_routing_info, hostCountryId.label(), screen.countryId.label()),
-                        style = ProtonTheme.typography.body2Regular,
-                        color = ProtonTheme.colors.textWeak,
-                        modifier = Modifier.weight(1f).padding(top = 4.dp)
-                    )
-                    InfoButton(info = InfoType.SmartRouting, onOpenInfo)
-                }
-            }
-        }
-
         val filterButtonsTransition = remember {
             MutableTransitionState(filterButtons)
         }
@@ -333,10 +309,8 @@ fun BottomSheetHeaderCitySelectionPreview() {
                 )
             ),
             items = emptyList(),
-            hostCountryId = CountryId("CH")
         ),
         onNavigateBack = {},
-        onOpenInfo = {}
     )
 }
 
@@ -349,6 +323,5 @@ fun BottomSheetHeaderGatewayPreview() {
             items = emptyList()
         ),
         onNavigateBack = {},
-        onOpenInfo = {}
     )
 }

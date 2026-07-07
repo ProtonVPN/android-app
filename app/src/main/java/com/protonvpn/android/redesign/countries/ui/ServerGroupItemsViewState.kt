@@ -101,4 +101,11 @@ sealed class ServerGroupUiItem {
     data class Banner(
         val type: BannerType,
     ) : ServerGroupUiItem()
+
+    sealed class InfoCard : ServerGroupUiItem() {
+
+        data class SmartRouting(val hostCountryIds: List<CountryId>) : InfoCard()
+
+    }
+
 }

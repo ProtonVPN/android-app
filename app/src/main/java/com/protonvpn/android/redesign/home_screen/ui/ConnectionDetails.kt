@@ -380,22 +380,21 @@ private fun StreamingServicesGrid(
 }
 
 @Composable
-private fun FeatureComposable(
+fun FeatureComposable(
     modifier: Modifier = Modifier,
     title: String,
     details: String,
     @DrawableRes iconId: Int,
+    backgroundColor: Color = ProtonTheme.colors.backgroundNorm,
     additionalInformation: (@Composable () -> Unit)? = null,
     onClick: (() -> Unit)
 ) {
     ConstraintLayout(
         modifier = modifier
             .fillMaxWidth()
+            .clip(shape = ProtonTheme.shapes.medium)
             .clickable(onClick = onClick)
-            .background(
-                color = ProtonTheme.colors.backgroundNorm,
-                shape = ProtonTheme.shapes.medium
-            )
+            .background(color = backgroundColor)
             .padding(16.dp)
     ) {
         val (icon, titleView, detailsView, additionalView) = createRefs()

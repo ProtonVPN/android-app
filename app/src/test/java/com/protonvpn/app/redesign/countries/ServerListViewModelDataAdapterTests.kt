@@ -19,9 +19,6 @@
 
 package com.protonvpn.app.redesign.countries
 
-import com.protonvpn.android.servers.api.LogicalsStatusId
-import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
-import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
@@ -33,6 +30,9 @@ import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapte
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.Server
+import com.protonvpn.android.servers.api.LogicalsStatusId
+import com.protonvpn.android.servers.api.SERVER_FEATURE_P2P
+import com.protonvpn.android.servers.api.SERVER_FEATURE_TOR
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.app.testRules.RobolectricHiltAndroidRule
 import com.protonvpn.test.shared.createServer
@@ -474,16 +474,31 @@ class ServerListViewModelDataAdapterTests {
     }
 
     @Test
-    fun testGetHostCountry() = runTest {
-        setServers(
-            listOf(
-                createServer(exitCountry = "PL", city = "Warsaw", hostCountry = "US"),
-                createServer(exitCountry = "US", city = "New York"),
-            ),
+    fun `GIVEN a list of none host servers WHEN getting host country ids THEN returns an empty list`() = runTest {
+        val servers = listOf(
+            createServer(exitCountry = "PL", city = "Warsaw"),
+            createServer(exitCountry = "US", city = "New York"),
         )
+        setServers(serverList = servers)
 
-        assertEquals(CountryId("US"), adapter.getHostCountry(CountryId("PL")))
-        assertEquals(null, adapter.getHostCountry(CountryId("US")))
+        val hostCountryIds = adapter.getHostCountryIds(countryId = CountryId(countryCode = "PL"))
+
+        assertTrue(hostCountryIds.isEmpty())
+    }
+
+    @Test
+    fun `GIVEN a list of servers with some host servers WHEN getting host country ids THEN returns a list of host country ids`() = runTest {
+        val servers = listOf(
+            createServer(exitCountry = "ES", city = "Barcelona", hostCountry = "FR"),
+            createServer(exitCountry = "US", city = "New York"),
+            createServer(exitCountry = "ES", city = "Madrid", hostCountry = "PT"),
+        )
+        val expectedHostCountryIds = listOf(CountryId(countryCode = "FR"), CountryId(countryCode = "PT"))
+        setServers(serverList = servers)
+
+        val hostCountryIds = adapter.getHostCountryIds(countryId = CountryId(countryCode = "ES"))
+
+        assertEquals(expected = expectedHostCountryIds, actual = hostCountryIds)
     }
 
     private suspend fun setServers(serverList: List<Server>, statusId: LogicalsStatusId? = null) {

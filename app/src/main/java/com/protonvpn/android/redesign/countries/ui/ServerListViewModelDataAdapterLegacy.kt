@@ -142,15 +142,17 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
             }
         }
 
-    override suspend fun getHostCountry(countryId: CountryId): CountryId? {
-        val hostCountry = serverManager2.getVpnExitCountry(
-            countryId.countryCode,
-            secureCoreCountry = false
-        )?.serverList?.firstOrNull {
-            it.isVirtualLocation
-        }?.hostCountry
-        return hostCountry?.let { CountryId(it) }
-    }
+    override suspend fun getHostCountryIds(
+        countryId: CountryId,
+    ): List<CountryId> = serverManager2.getVpnExitCountry(
+        countryCode = countryId.countryCode,
+        secureCoreCountry = false,
+    )
+        ?.serverList
+        ?.filter(Server::isVirtualLocation)
+        ?.mapNotNull { server -> server.hostCountry?.let(CountryId::invoke) }
+        ?.distinct()
+        .orEmpty()
 
     private fun List<Server>.asFilteredSequence(
         filter: ServerFilterType = ServerFilterType.All,

@@ -72,6 +72,8 @@ import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.UpsellBanner
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
+import com.protonvpn.android.redesign.home_screen.ui.FeatureComposable
+import com.protonvpn.android.redesign.vpn.ui.countryName
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
@@ -346,6 +348,10 @@ fun ServerGroupItemsList(
                         if (index < items.lastIndex && items[index + 1] is ServerGroupUiItem.ServerGroup)
                             VpnDivider()
                     }
+
+                    is ServerGroupUiItem.InfoCard -> {
+                        ServerGroupInfoCard(item = item, onOpenInfo = onOpenInfo)
+                    }
                 }
             }
         }
@@ -448,5 +454,31 @@ private fun ServerGroupBanner(
                 onClick = onClick,
                 modifier = modifier,
             )
+    }
+}
+
+@Composable
+private fun ServerGroupInfoCard(
+    item: ServerGroupUiItem.InfoCard,
+    onOpenInfo: (InfoType) -> Unit,
+) {
+    when (item) {
+        is ServerGroupUiItem.InfoCard.SmartRouting -> {
+            FeatureComposable(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 12.dp),
+                backgroundColor = ProtonTheme.colors.backgroundSecondary,
+                title = stringResource(id = R.string.connection_feature_smart_routing_title),
+                details = stringResource(
+                    id = R.string.connection_feature_smart_routing_description_with_countries,
+                    item.hostCountryIds
+                        .map { hostCountryId -> hostCountryId.countryName() }
+                        .joinToString(separator = ", "),
+                ),
+                iconId = CoreR.drawable.ic_proton_globe,
+                onClick = { onOpenInfo(InfoType.SmartRouting) },
+            )
+        }
     }
 }
