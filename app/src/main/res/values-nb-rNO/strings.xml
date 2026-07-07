@@ -1481,7 +1481,7 @@
     <string name="settings_split_tunneling_already_excluded">Allerede ekskludert</string>
     <string name="settings_split_tunneling_already_included">Allerede inkludert</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Fjerne IP-adressen fra listen?</string>
-    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP-adresse fjernet</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme_value_auto">Enhetstema</string>
     <string name="settings_theme_value_light">Lys</string>

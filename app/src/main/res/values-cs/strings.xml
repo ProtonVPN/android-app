@@ -348,7 +348,7 @@
     <string name="reconnect_to_server">Na server: </string>
     <string name="no_thanks">Ne, děkuji</string>
     <string name="enable">Zapnout</string>
-    <string name="notification_smart_protocol_disabled_title">Smart Protokol je momentálně deaktivován</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol je momentálně deaktivován</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN rozpoznalo, že vaše síť blokuje připojení k VPN. Zapnutí Smart Protokolu by mohlo problém vyřešit.</string>
     <string name="notification_streaming_blocked_title">Streamování nefunguje?</string>
     <string name="notification_streaming_blocked_text">Mnoho streamovacích služeb rozpoznává a blokuje připojení z bezplatných serverů VPN. Abyste to obešli, přejděte na Proton VPN Plus</string>

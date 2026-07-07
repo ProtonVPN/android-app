@@ -506,7 +506,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus-tilaus:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -516,8 +516,8 @@
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
     <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
-    <string name="upsell_panel_content_description_yes">Yes</string>
-    <string name="upsell_panel_content_description_no">No</string>
+    <string name="upsell_panel_content_description_yes">Kyllä</string>
+    <string name="upsell_panel_content_description_no">Ei</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
     <!--
         %1$s - country name in nominative
@@ -538,12 +538,12 @@
     <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
     <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
     <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
-    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Sivut latautuvat nopeammin </string>
     <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
-    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
+    <string name="upsell_panel_speed_benefit_servers">Nopeat palvelimet</string>
     <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
-    <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
-    <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Hidas</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Nopea</string>
     <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
     <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
     <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>

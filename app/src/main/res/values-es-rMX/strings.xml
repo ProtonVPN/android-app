@@ -1481,7 +1481,7 @@
     <string name="settings_split_tunneling_already_excluded">Ya excluida</string>
     <string name="settings_split_tunneling_already_included">Ya incluida</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">¿Eliminar la dirección IP de la lista?</string>
-    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
+    <string name="settings_split_tunneling_ip_removed_message">Dirección IP eliminada</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme_value_auto">Tema del dispositivo</string>
     <string name="settings_theme_value_light">Claro</string>

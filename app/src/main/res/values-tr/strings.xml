@@ -1481,7 +1481,7 @@
     <string name="settings_split_tunneling_already_excluded">Zaten katılmamış</string>
     <string name="settings_split_tunneling_already_included">Zaten katılmış</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">IP adresi listeden kaldırılsın mı?</string>
-    <string name="settings_split_tunneling_ip_removed_message">IP adresi silindi</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP adresi kaldırıldı</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme_value_auto">Aygıt teması</string>
     <string name="settings_theme_value_light">Açık</string>

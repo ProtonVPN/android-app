@@ -57,8 +57,8 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Đang được bảo trì</string>
     <string name="restrictedMaintenanceDescription">Máy chủ mà bạn đang cố gắng kết nối đang được bảo trì. Vui lòng thử một máy chủ khác.</string>
-    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
-    <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
+    <string name="restricted_location_excluded_dialog_title">Kết nối thất bại</string>
+    <string name="restricted_location_excluded_dialog_description">Không có máy chủ khả dụng. Chọn vị trí thủ công hoặc chỉnh sửa các vị trí loại trừ của bạn.</string>
     <string name="errorUserDelinquent"><![CDATA[Tài khoản hiện có một hóa đơn quá hạn. Vui lòng thanh toán tất cả các hóa đơn chưa thanh toán tại&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Đã đạt đến số lượng kết nối đồng thời tối đa mà tài khoản cho phép. Vui lòng nâng cấp gói Proton VPN để có thêm kết nối.</string>
     <string name="listItemMaintenance">Đang được bảo trì</string>
@@ -89,17 +89,17 @@
     <string name="send_report">Gửi báo cáo</string>
     <string name="report_sent">Báo cáo đã gửi</string>
     <string name="discardChanges">Hủy bỏ các thay đổi chưa lưu?</string>
-    <string name="discardChangesButtonDiscard">Discard changes</string>
-    <string name="discardChangesButtonKeepEditing">Keep editing</string>
+    <string name="discardChangesButtonDiscard">Hủy các thay đổi</string>
+    <string name="discardChangesButtonKeepEditing">Tiếp tục chỉnh sửa</string>
     <string name="done">XONG</string>
     <string name="add">THÊM</string>
     <string name="copy_to_clipboard">Sao chép</string>
     <string name="copied_to_clipboard">Đã sao chép vào bảng tạm</string>
     <string name="got_it">Đã hiểu</string>
-    <string name="exclude_locations">Exclude locations</string>
-    <string name="excluded_locations">Excluded locations</string>
-    <string name="cannot_connect">Cannot connect</string>
-    <string name="skip">Skip</string>
+    <string name="exclude_locations">Vị trí bị loại trừ</string>
+    <string name="excluded_locations">Vị trí bị loại trừ</string>
+    <string name="cannot_connect">Không thể kết nối</string>
+    <string name="skip">Bỏ qua</string>
     <string name="something_went_wrong">Đã xảy ra sự cố</string>
     <string name="try_again">Thử lại</string>
     <string name="delete">Xóa</string>
@@ -272,7 +272,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dữ liệu đã lưu</string>
     <string name="netshield_setting_warning">Một số trang web có thể không tải đúng cách khi chặn quảng cáo và trình theo dõi.</string>
-    <string name="netshield_setting_block_adult_content">Block adult content</string>
+    <string name="netshield_setting_block_adult_content">Chặn nội dung người lớn</string>
     <string name="dialogDontShowAgain">Không hiển thị lại</string>
     <string name="guestHoleNotificationContent">Đang cố gắng khắc phục sự cố mạng. Việc này sẽ giúp bạn truy cập Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Không thể khởi tạo kết nối VPN do xung đột giữa ứng dụng kép (ví dụ Dual Messenger) và tách đường hầm. Vui lòng vô hiệu hóa một trong hai tính năng và khởi động lại thiết bị.</string>
@@ -341,8 +341,8 @@
     <string name="enable">Kích hoạt</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol hiện đang bị vô hiệu hóa</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN phát hiện mạng hiện tại đang ngăn kết nối đến VPN. Kích hoạt Smart Protocol có thể giúp vượt qua những hạn chế này.</string>
-    <string name="notification_streaming_blocked_title">Streaming not working?</string>
-    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
+    <string name="notification_streaming_blocked_title">Không thể phát trực tuyến?</string>
+    <string name="notification_streaming_blocked_text">Nhiều dịch vụ phát trực tuyến phát hiện và chặn kết nối từ các máy chủ VPN miễn phí. Nâng cấp lên Proton VPN Plus để vượt qua nó</string>
     <string name="upsell_advanced_features">Các tính năng nâng cao: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Truy cập các dịch vụ phát trực tuyến (Netflix, Disney+, v.v.) ở bất kỳ đâu trên thế giới</string>
     <!-- Number of servers available in the service.
@@ -378,8 +378,8 @@
     <string name="upgrade_profiles_text">Mở khóa hồ sơ với VPN Plus</string>
     <string name="upgrade_streaming_title">Phát trực tuyến chuẩn 4K</string>
     <string name="upgrade_streaming_text">Tận hưởng phim và chương trình truyền hình yêu thích từ bất cứ đâu trên thế giới.</string>
-    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upgrade_streaming_block_title">Nâng cấp để vượt qua chặn VPN</string>
+    <string name="upgrade_streaming_block_text">Máy chủ VPN Plus cho phép bạn thưởng thức các bộ phim và chương trình truyền hình yêu thích từ khắp nơi trên thế giới.</string>
     <string name="upgrade_tor_title">Truy cập mạng Tor chỉ bằng một lần chạm</string>
     <string name="upgrade_tor_text">Kết nối với các dịch vụ ẩn và trang web onion bằng trình duyệt thông thường.</string>
     <string name="upgrade_vpn_accelerator_title">Duyệt web với tốc độ cao hơn nữa</string>
@@ -491,7 +491,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Gói Plus:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -500,10 +500,10 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
-    <string name="upsell_panel_content_description_yes">Yes</string>
-    <string name="upsell_panel_content_description_no">No</string>
-    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_content_description_value_prefix_free">Gói Free:</string>
+    <string name="upsell_panel_content_description_yes">Có</string>
+    <string name="upsell_panel_content_description_no">Không</string>
+    <string name="upsell_panel_table_header_plan_free">Miễn phí</string>
     <!--
         %1$s - country name in nominative
 
@@ -511,26 +511,26 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
-    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Available countries</string>
+    <string name="upsell_panel_country_title">Mở khóa %1$s với VPN Plus</string>
+    <string name="upsell_panel_countries_title">Mở khóa tất cả quốc gia với VPN Plus</string>
+    <string name="upsell_panel_country_benefit_countries">Các quốc gia khả dụng</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_country_benefit_choice">Choose your location</string>
-    <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
-    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
-    <string name="upsell_panel_netshield_title">Browse without interruptions</string>
-    <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
-    <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
-    <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
-    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
-    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
-    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
-    <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
-    <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
-    <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
-    <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
-    <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
+    <string name="upsell_panel_country_benefit_choice">Chọn vị trí của bạn</string>
+    <string name="upsell_panel_country_benefit_speed">Máy chủ tốc độ cao</string>
+    <string name="upsell_panel_country_benefit_shows">Xem các chương trình chỉ có ở nước ngoài</string>
+    <string name="upsell_panel_netshield_title">Duyệt không gián đoạn</string>
+    <string name="upsell_panel_netshield_benefit_ads">Chặn các quảng cáo khi bạn duyệt</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Chặn các trình theo dõi theo dõi bạn</string>
+    <string name="upsell_panel_netshield_benefit_malware">Bảo vệ khỏi mã độc và lừa đảo</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Các trang web tải nhanh hơn </string>
+    <string name="upsell_panel_speed_title">Phát, chơi, và tải xuống nhanh hơn</string>
+    <string name="upsell_panel_speed_benefit_servers">Máy chủ tốc độ cao</string>
+    <string name="upsell_panel_speed_benefit_gaming">Thời gian phản hổi khi chơi game</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Chậm</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Nhanh</string>
+    <string name="upsell_panel_speed_benefit_video">Phát video không bị buffer</string>
+    <string name="upsell_panel_speed_benefit_ads">Duyệt web không quảng cáo hoặc trình theo dõi</string>
     <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
     <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->

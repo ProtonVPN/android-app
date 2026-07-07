@@ -57,7 +57,7 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">На техобслуживании</string>
     <string name="restrictedMaintenanceDescription">Сервер, к которому вы сейчас пытаетесь подключиться, находится на техобслуживании. Пожалуйста, попробуйте другой сервер.</string>
-    <string name="restricted_location_excluded_dialog_title">Connection failed</string>
+    <string name="restricted_location_excluded_dialog_title">Сбой подключения</string>
     <string name="restricted_location_excluded_dialog_description">No servers available. Choose a location manually or edit your excluded locations.</string>
     <string name="errorUserDelinquent"><![CDATA[Ваш аккаунт имеет не оплаченный счет. Пожалуйста, оплатите все неоплаченные счета на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Вы одновременно подключили максимальное разрешенное для вашего аккаунта количество устройств. Чтобы подключить больше устройств, пожалуйста, улучшите свой тариф Proton VPN.</string>

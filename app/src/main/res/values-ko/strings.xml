@@ -1481,10 +1481,10 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="info_p2p_why_description_logs">활동 로그가 없습니다</string>
     <string name="info_p2p_why_description_hide">사용자의 IP 주소를 서비스 제공자와 피어로부터 숨깁니다</string>
     <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
-    <string name="notifications_channel_connection_status_name">Connection status</string>
-    <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
-    <string name="notifications_channel_connection_errors_name">Connection errors</string>
-    <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
+    <string name="notifications_channel_connection_status_name">연결 상태</string>
+    <string name="notifications_channel_connection_status_description">현재 어느 서버애 연결되었는지와 VPN의 속도를 보여줍니다.</string>
+    <string name="notifications_channel_connection_errors_name">연결 오류</string>
+    <string name="notifications_channel_connection_errors_description">문제에 따른 VPN 연결의 일시 중지 또는 정지가 발생할 경우 알려줍니다.</string>
     <string name="notifications_channel_connection_tips_name">연결 팁</string>
     <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
     <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
@@ -1621,7 +1621,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="connection_preferences_smart_discovery_dialog_message">자동으로 연결된 위치를 선호하지 않는 경우, 가장 빠른 국가에서 해당 위치를 제외할 수 있어요.</string>
     <string name="excluded_locations_adoption_title">원치 않는 위치 피하기</string>
     <string name="excluded_locations_adoption_description"><![CDATA[이제 <b>가장 빠른 연결</b>에서 연결되는 도시나 국가를 제외할 수 있어요.]]></string>
-    <string name="session_fork_no_account_title">Sign in on Android TV</string>
+    <string name="session_fork_no_account_title">Android TV에서 로그인</string>
     <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
     <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
     <string name="session_fork_no_account_signup_button">Create an account</string>
