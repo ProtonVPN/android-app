@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.doOnPreDraw
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.leanback.widget.HorizontalGridView
 import androidx.leanback.widget.ListRowPresenter
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
@@ -47,9 +46,13 @@ abstract class BaseTvBrowseFragment : BrowseSupportFragment() {
             // to navigate away from the GridView we can set the OnKeyInterceptListener that will be triggered
             // only when GridView limits are reached allowing us to redirect the focus to desired view
             activity?.findViewById<ComposeView>(R.id.connectionFeedbackView)?.let { connectionFeedbackView ->
-                it.findViewById<HorizontalGridView>(R.id.row_content)?.apply {
+                rowsSupportFragment.verticalGridView?.apply {
                     setOnKeyInterceptListener { event ->
-                        if (event.keyCode == KeyEvent.KEYCODE_DPAD_UP && event.action == KeyEvent.ACTION_DOWN) {
+                        if (
+                            event.keyCode == KeyEvent.KEYCODE_DPAD_UP &&
+                            event.action == KeyEvent.ACTION_DOWN &&
+                            rowsSupportFragment.selectedPosition == 0
+                        ) {
                             connectionFeedbackView.requestFocus()
 
                             return@setOnKeyInterceptListener true
