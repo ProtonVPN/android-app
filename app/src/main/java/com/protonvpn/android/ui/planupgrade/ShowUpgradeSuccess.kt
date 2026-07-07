@@ -98,7 +98,9 @@ class ShowUpgradeSuccess(
     fun showPlanUpgradeSuccess(
         context: Context, newPlan: String, refreshVpnInfo: Boolean
     ) {
-        doNotShowForPlan = newPlan
-        startUpgradeActivity(context, newPlan, refreshVpnInfo)
+        if (doNotShowForPlan != newPlan) {
+            doNotShowForPlan = newPlan
+            startUpgradeActivity(context, newPlan, refreshVpnInfo)
+        }
     }
 }

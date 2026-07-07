@@ -21,54 +21,37 @@ package com.protonvpn.android.ui.planupgrade
 
 import android.app.Activity
 import androidx.activity.ComponentActivity
-import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
-import me.proton.core.plan.presentation.ui.StartUnredeemedPurchase
 
 class UpgradeActivityHelper(
     private val activity: ComponentActivity,
-    private val afterPaymentSuccess: (CommonUpgradeDialogViewModel.State.PurchaseSuccess) -> Unit = {}
+    private val afterPaymentSuccess: (UpgradeDialogViewModel.State.PurchaseSuccess) -> Unit = {}
 ) {
-    private lateinit var redeemPurchaseLauncher: ActivityResultLauncher<Unit>
-
     fun onCreate(viewModel: UpgradeDialogViewModel) {
-        viewModel.setupOrchestrators(activity)
-        viewModel.state
+        viewModel.upgradeState
             .flowWithLifecycle(activity.lifecycle)
             .onEach(::onStateUpdate)
             .launchIn(activity.lifecycleScope)
-
-        redeemPurchaseLauncher = activity.registerForActivityResult(StartUnredeemedPurchase) { result ->
-            if (result?.redeemed == true) {
-                viewModel.onPurchaseRedeemed()
-            }
-        }
-        viewModel.eventRedeemPurchase.receiveAsFlow()
-            .flowWithLifecycle(activity.lifecycle)
-            .onEach { redeemPurchaseLauncher.launch(Unit) }
-            .launchIn(activity.lifecycleScope)
     }
 
-    private fun onStateUpdate(state: CommonUpgradeDialogViewModel.State) {
+    private fun onStateUpdate(state: UpgradeDialogViewModel.State) {
         when (state) {
-            CommonUpgradeDialogViewModel.State.Initializing,
-            CommonUpgradeDialogViewModel.State.UpgradeDisabled,
-            is CommonUpgradeDialogViewModel.State.LoadingPlans,
-            is CommonUpgradeDialogViewModel.State.LoadError,
-            is CommonUpgradeDialogViewModel.State.PurchaseReady,
-            CommonUpgradeDialogViewModel.State.PlansFallback -> Unit
+            UpgradeDialogViewModel.State.Initializing,
+            UpgradeDialogViewModel.State.UpgradeDisabled,
+            is UpgradeDialogViewModel.State.LoadingPlans,
+            is UpgradeDialogViewModel.State.LoadError,
+            is UpgradeDialogViewModel.State.PurchaseReady -> Unit
 
-            is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> {
+            is UpgradeDialogViewModel.State.PurchaseSuccess -> {
                 onPaymentSuccess(successPurchaseState = state)
             }
         }
     }
 
-    private fun onPaymentSuccess(successPurchaseState: CommonUpgradeDialogViewModel.State.PurchaseSuccess) {
+    private fun onPaymentSuccess(successPurchaseState: UpgradeDialogViewModel.State.PurchaseSuccess) {
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
         afterPaymentSuccess(successPurchaseState)

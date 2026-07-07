@@ -21,7 +21,7 @@ package com.protonvpn.android.promooffers.ui
 
 import com.protonvpn.android.promooffers.data.ApiNotificationIapAction
 import com.protonvpn.android.promooffers.data.ApiNotificationProductDetailsGoogle
-import me.proton.core.plan.presentation.entity.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PlanCycle
 
 data class NotificationIapParams(
     val planName: String,

@@ -72,12 +72,11 @@ import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.telemetry.UpgradeSource
-import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.PaymentPanel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.BenefitsViewState
 import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
 import com.protonvpn.android.utils.Constants
@@ -325,9 +324,9 @@ private fun PreviewPlanUpgradeDialog(
 ) {
     ProtonVpnPreview {
         val paymentPanelState = PaymentPanelState(
-            upgradeState = CommonUpgradeDialogViewModel.State.LoadingPlans(2, null),
+            upgradeState = UpgradeDialogViewModel.State.LoadingPlans(2, null),
             selectedCycle = null,
-            {}, {}, {}, {},
+            {}, {}, {},
         )
         PlanUpgradeDialog(
             benefitsViewState,

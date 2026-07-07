@@ -26,7 +26,8 @@ import com.protonvpn.android.promooffers.GetIntroPricesError
 import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers.CachedOffers
 import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
-import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
+import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.utils.BytesFileWriter
 import com.protonvpn.android.utils.FileObjectStore
 import com.protonvpn.android.utils.KotlinCborObjectSerializer
@@ -42,7 +43,6 @@ import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import me.proton.core.network.domain.ApiException
 import me.proton.core.network.domain.ApiResult
-import me.proton.core.plan.presentation.entity.PlanCycle
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -54,7 +54,7 @@ typealias IntroductoryOffersCacheMap = Map<String, CachedOffers>
 
 @Singleton
 class GetEligibleIntroductoryOffers(
-    private val loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans,
+    private val loadSubscriptionPlans: LoadSubscriptionPlans,
     private val inAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
     cacheObjectStore: ObjectStore<IntroductoryOffersCacheMap>,
     private val clock: () -> Long,
@@ -64,11 +64,11 @@ class GetEligibleIntroductoryOffers(
         mainScope: CoroutineScope,
         @ApplicationContext context: Context,
         dispatcherProvider: VpnDispatcherProvider,
-        loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans,
+        loadSubscriptionPlans: LoadSubscriptionPlans,
         inAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
         @WallClock clock: () -> Long,
     ) : this(
-        loadGoogleSubscriptionPlans,
+        loadSubscriptionPlans,
         inAppUpgradeAllowed,
         FileObjectStore(
             File(context.filesDir, "intro_price_eligible_offers_cache"),
@@ -145,7 +145,7 @@ class GetEligibleIntroductoryOffers(
         return if (planNames.size == cachedOffers.size) {
             cachedOffers.flatMap { it.offers }
         } else suspend {
-            val giapPlans = loadGoogleSubscriptionPlans(IapConstants.INTRO_PRICE_TAG, planNames)
+            val giapPlans = loadSubscriptionPlans(planNames, IapConstants.INTRO_PRICE_TAG)
 
             val introOffers = giapPlans.flatMap { plan ->
                 plan.cycles.mapNotNull { cycle ->
@@ -153,7 +153,7 @@ class GetEligibleIntroductoryOffers(
                     val renewPriceCents = cycle.defaultPriceCents
 
                     // Note: the prices will be equal if there is just one pricing phase, let's
-                    // be conservaive and require 2 pricing phases to display the offer.
+                    // be conservative and require 2 pricing phases to display the offer.
                     if (currentPriceCents < renewPriceCents) {
                         Offer(
                             planName = plan.name,

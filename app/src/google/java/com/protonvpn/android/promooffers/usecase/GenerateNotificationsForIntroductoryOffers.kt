@@ -39,7 +39,7 @@ import com.protonvpn.android.telemetry.AbTest12mPromo
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DefaultLocaleProvider
 import dagger.Reusable
-import me.proton.core.plan.presentation.entity.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PlanCycle
 import me.proton.core.util.kotlin.equalsNoCase
 import me.proton.core.util.kotlin.startsWith
 import java.util.concurrent.TimeUnit

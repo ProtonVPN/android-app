@@ -121,8 +121,8 @@ fun PlanSelectorPreview() {
         surfaceColor = { ProtonTheme.colors.shade60 }
     ) {
         val plans = listOf(
-            PlanModel("VPN Plus", "vpn", emptyList()),
-            PlanModel("Proton Unlimited", "bundle", emptyList())
+            PlanModel("VPN Plus", "vpn", "EUR", emptyList(), PlanCycle.YEARLY),
+            PlanModel("Proton Unlimited", "bundle", "EUR", emptyList(), PlanCycle.YEARLY),
         )
         PlanSelector(
             plans = plans,

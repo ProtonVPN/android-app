@@ -27,7 +27,7 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import me.proton.core.plan.presentation.entity.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PlanCycle
 import me.proton.core.util.kotlin.equalsNoCase
 
 object ApiNotificationTypes {

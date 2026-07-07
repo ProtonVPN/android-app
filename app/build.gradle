@@ -917,7 +917,6 @@ dependencies {
     implementation(libs.proton.core.telemetry.data)
     implementation(libs.proton.core.telemetry.domain)
     implementation(libs.proton.core.payment)
-    googleImplementation(libs.proton.core.payment.iap)
     implementation(libs.proton.core.plan)
     implementation(libs.proton.core.key)
     implementation(libs.proton.core.data)
@@ -930,6 +929,13 @@ dependencies {
     implementation(libs.proton.core.biometric)
     implementation(libs.proton.core.device.migration)
     implementation(libs.proton.core.pass.validator)
+
+    // Payments
+    implementation(libs.proton.payment)
+    googleImplementation(libs.proton.payment.billing.google)
+    testImplementation(testFixtures(libs.proton.payment))
+
+    // Proton configuration
     debugImplementation(libs.proton.core.configuration.dagger.content.resolver)
     releaseImplementation(libs.proton.core.configuration.dagger.staticdefaults)
 

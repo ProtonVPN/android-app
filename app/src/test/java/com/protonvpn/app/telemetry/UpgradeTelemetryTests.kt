@@ -53,7 +53,7 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import me.proton.core.domain.entity.UserId
-import me.proton.core.plan.presentation.entity.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PlanCycle
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -169,7 +169,7 @@ class UpgradeTelemetryTests {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.NETSHIELD, UpgradeTrigger.SETTINGS, null)
         upgradeTelemetry.onPricesLoaded(hasIntroPrices = true)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
-        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.FREE.value)
+        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.MONTHLY.cycleDurationMonths)
 
         verify {
             listOf(
@@ -203,7 +203,7 @@ class UpgradeTelemetryTests {
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROFILES, UpgradeTrigger.PROFILES, null)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
-        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.FREE.value)
+        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.MONTHLY.cycleDurationMonths)
 
         verify {
             listOf("upsell_display", "upsell_upgrade_attempt", "upsell_success").forEach { event ->
@@ -221,7 +221,7 @@ class UpgradeTelemetryTests {
     fun `on success both old and new plan is reported`() = testScope.runTest {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION, UpgradeTrigger.SETTINGS, null)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
-        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.YEARLY.value)
+        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.YEARLY.cycleDurationMonths)
 
         verify {
             mockTelemetry.event(
@@ -266,7 +266,7 @@ class UpgradeTelemetryTests {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION, UpgradeTrigger.SETTINGS, null)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
         fakeTime = 10.minutes.inWholeMilliseconds + 1
-        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.MONTHLY.value)
+        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.MONTHLY.cycleDurationMonths)
 
         verify(exactly = 0) {
             mockTelemetry.event(UPSELL_GROUP, "upsell_success", any(), any())

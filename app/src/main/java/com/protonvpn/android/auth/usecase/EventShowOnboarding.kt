@@ -28,9 +28,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import me.proton.android.payment.purchase.model.SessionState
+import me.proton.android.payment.purchase.usecase.ObserveSessionState
+import me.proton.android.payment.subscription.usecase.GetSubscriptions
 import me.proton.core.auth.domain.feature.IsCredentialLessEnabled
-import me.proton.core.plan.domain.usecase.GetDynamicSubscription
 import javax.inject.Inject
 
 sealed class OnboardingEvent {
@@ -51,10 +54,11 @@ class EventShowOnboardingImpl @Inject constructor(
     private val appFeaturesPrefs: AppFeaturesPrefs,
     private val isCredentialLessEnabled: IsCredentialLessEnabled,
     isInAppUpgradeAllowedUseCaseLazy: dagger.Lazy<IsInAppUpgradeAllowedUseCase>,
-    getDynamicSubscriptionLazy: dagger.Lazy<GetDynamicSubscription>,
+    getSubscriptionsLazy: dagger.Lazy<GetSubscriptions>,
+    observePaymentSessionLazy: dagger.Lazy<ObserveSessionState>
 ) : EventShowOnboarding {
 
-    private val getDynamicSubscription by getDynamicSubscriptionLazy
+    private val getSubscriptions by getSubscriptionsLazy
     private val isInAppUpgradeAllowedUseCase by isInAppUpgradeAllowedUseCaseLazy
 
     override val event = combine(
@@ -66,9 +70,11 @@ class EventShowOnboardingImpl @Inject constructor(
         } else {
             null
         }
-    }.filterNotNull().map { userId ->
-        val paidPlanName = getDynamicSubscription(userId)?.name
+    }.filterNotNull().map {
+        val paymentState = observePaymentSessionLazy.get().invoke().first()
+        val paidPlanName = getSubscriptions().getOrNull()?.firstOrNull()?.planId
         when {
+            paymentState != SessionState.Idle -> OnboardingEvent.None
             paidPlanName != null -> OnboardingEvent.ShowUpgradeSuccess(paidPlanName)
             !isCredentialLessEnabled() -> OnboardingEvent.ShowOnboarding
             isInAppUpgradeAllowedUseCase() -> OnboardingEvent.ShowUpgradeOnboarding

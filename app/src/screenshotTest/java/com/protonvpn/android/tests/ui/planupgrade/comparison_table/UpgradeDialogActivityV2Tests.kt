@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.comparison_table.PlanUpgradeDialog
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeContentProvider
@@ -39,9 +39,9 @@ import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivi
 fun UpgradeDialogActivityV2ScreenTest(@PreviewParameter(UpgradeContentProvider::class) state: BenefitsViewState) {
     ProtonVpnPreview {
         val paymentPanelState = PaymentPanelState(
-            upgradeState = CommonUpgradeDialogViewModel.State.LoadingPlans(2, null),
+            upgradeState = UpgradeDialogViewModel.State.LoadingPlans(2, null),
             selectedCycle = null,
-            { _ -> }, {}, {}, {},
+            { _ -> }, {}, {},
         )
         PlanUpgradeDialog(
             state,

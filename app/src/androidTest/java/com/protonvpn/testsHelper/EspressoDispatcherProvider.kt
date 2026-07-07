@@ -21,7 +21,6 @@ package com.protonvpn.testsHelper
 
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.test.espresso.idling.CountingIdlingResource
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher

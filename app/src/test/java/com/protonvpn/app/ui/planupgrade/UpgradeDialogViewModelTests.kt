@@ -19,7 +19,6 @@
 
 package com.protonvpn.app.ui.planupgrade
 
-import android.app.Activity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.protonvpn.android.R
@@ -32,33 +31,27 @@ import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.telemetry.UpgradeTrigger
-import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
-import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel.State
+import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
-import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel.State
 import com.protonvpn.android.ui.planupgrade.comparison_table.FakeIsUpsellComparisonTableExperimentEnabled
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
-import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
-import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
+import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.formatPrice
 import com.protonvpn.mocks.FakeCommonDimensions
 import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.test.shared.TestCurrentUserProvider
-import com.protonvpn.test.shared.TestLoadGoogleOffers
 import com.protonvpn.test.shared.TestVpnUser
-import com.protonvpn.test.shared.createDynamicPlan
-import com.protonvpn.test.shared.createGiapOffer
+import com.protonvpn.test.shared.createOffer
+import com.protonvpn.test.shared.createProduct
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
-import io.mockk.slot
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
@@ -68,25 +61,19 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import me.proton.core.domain.entity.UserId
-import me.proton.core.network.domain.session.SessionId
-import me.proton.core.payment.domain.entity.Currency
-import me.proton.core.payment.domain.entity.Purchase
-import me.proton.core.payment.domain.entity.PurchaseState
-import me.proton.core.payment.domain.usecase.PaymentProvider
-import me.proton.core.plan.domain.entity.DynamicPlan
-import me.proton.core.plan.domain.entity.DynamicPlanPrice
-import me.proton.core.plan.domain.usecase.PerformGiapPurchase
-import me.proton.core.plan.presentation.entity.PlanCycle
+import me.proton.android.payment.common.exception.PaymentException
+import me.proton.android.payment.product.fake.FakeGetProducts
+import me.proton.android.payment.purchase.fake.FakeObserveSessionState
+import me.proton.android.payment.purchase.fake.FakePurchaseProduct
+import me.proton.android.payment.purchase.model.SessionState
+import me.proton.android.payment.purchase.sampledata.ReconciledPurchaseSampleData
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.Optional
 import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -95,31 +82,18 @@ class UpgradeDialogViewModelTests {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    private val userIdFlow = MutableStateFlow<UserId?>(UserId("test_user_id"))
-
-    @MockK
-    private lateinit var mockPerformGiapPurchase: PerformGiapPurchase<Activity>
-
-    @RelaxedMockK
-    private lateinit var mockWaitForSubscription: WaitForSubscription
-
     @MockK
     private lateinit var mockSaveMmpEvent: SaveMmpEvent
 
     private lateinit var testScope: TestScope
     private lateinit var viewModel: UpgradeDialogViewModel
-    private lateinit var loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans
-    private lateinit var rawDynamicPlans: List<DynamicPlan>
-    private lateinit var testLoadGoogleOffers: TestLoadGoogleOffers
+    private lateinit var loadSubscriptionPlans: LoadSubscriptionPlans
+    private lateinit var testGetProducts: FakeGetProducts
+    private lateinit var testPurchaseProduct: FakePurchaseProduct
+    private lateinit var testObservePurchaseState: FakeObserveSessionState
     private lateinit var testTelemetry: TestTelemetryReporter
 
     private var isInAppAllowed = true
-    private val availablePaymentProviders = setOf(PaymentProvider.GoogleInAppPurchase)
-
-    private val dummyPrices = mapOf(
-        PlanCycle.MONTHLY to mapOf("USD" to DynamicPlanPrice("", currency = "USD", current = 10_00)),
-        PlanCycle.YEARLY to mapOf("USD" to DynamicPlanPrice("", currency = "USD", current = 100_00))
-    )
     private val testPlanName = "myplan"
 
     @Before
@@ -129,16 +103,16 @@ class UpgradeDialogViewModelTests {
         testScope = TestScope(testDispatcher)
         Dispatchers.setMain(testDispatcher)
 
-        testLoadGoogleOffers = TestLoadGoogleOffers()
+        testGetProducts = FakeGetProducts()
+        testPurchaseProduct = FakePurchaseProduct()
+        testObservePurchaseState = FakeObserveSessionState()
+        testObservePurchaseState.emit(SessionState.Idle)
         isInAppAllowed = true
-        rawDynamicPlans = listOf(createDynamicPlan(testPlanName, dummyPrices))
-        testLoadGoogleOffers.offers = dummyGiapOffers(testPlanName)
+        testGetProducts.setProductsToReturn(listOf(createProduct(testPlanName, testPlanName)))
         val currentUser = CurrentUser(TestCurrentUserProvider(TestVpnUser.create()))
-        loadGoogleSubscriptionPlans = LoadGoogleSubscriptionPlans(
+        loadSubscriptionPlans = LoadSubscriptionPlans(
             vpnUserFlow = currentUser.vpnUserFlow,
-            rawDynamicPlans = { rawDynamicPlans },
-            loadGoogleOffers = testLoadGoogleOffers::invoke,
-            availablePaymentProviders = { availablePaymentProviders },
+            getProductsLazy = { testGetProducts },
             defaultCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
             defaultPreselectedCycle = PlanCycle.MONTHLY,
         )
@@ -154,19 +128,15 @@ class UpgradeDialogViewModelTests {
             isUpsellComparisonTableExperimentEnabled = FakeIsUpsellComparisonTableExperimentEnabled(true),
             isIapClientSidePromo12MExperimentEnabled = FakeIsIapClientSidePromo12mExperimentEnabled(false),
         )
+        coEvery { mockSaveMmpEvent(eventType = any()) } returns Unit
 
         viewModel = UpgradeDialogViewModel(
-            userId = userIdFlow,
-            authOrchestrator = mockk(relaxed = true),
-            plansOrchestrator = mockk(relaxed = true),
             isInAppUpgradeAllowed = { isInAppAllowed },
             upgradeTelemetry = upgradeTelemetry,
-            loadGoogleSubscriptionPlans = loadGoogleSubscriptionPlans::invoke,
-            performGiapPurchase = mockPerformGiapPurchase,
+            loadSubscriptionPlans = loadSubscriptionPlans::invoke,
+            purchaseProduct = testPurchaseProduct,
+            observePaymentSessionState = testObservePurchaseState,
             userPlanManager = mockk(relaxed = true),
-            waitForSubscription = mockWaitForSubscription,
-            convertToObservabilityGiapStatus = Optional.empty(),
-            observabilityManager = mockk(relaxed = true),
             saveMmpEvent = mockSaveMmpEvent,
         )
     }
@@ -178,10 +148,6 @@ class UpgradeDialogViewModelTests {
 
     @Test
     fun `load default plan and purchase`() = testScope.runTest {
-        val purchaseResult = MutableSharedFlow<PerformGiapPurchase.Result>()
-        coEvery { mockPerformGiapPurchase.invoke(any(), any(), any(), any(), any()) } coAnswers {
-            purchaseResult.first()
-        }
         coEvery { mockSaveMmpEvent(any()) } returns Unit
 
         viewModel.loadPlans(listOf(testPlanName), null, null, true)
@@ -194,37 +160,63 @@ class UpgradeDialogViewModelTests {
             assertFalse(loadedState.upgradeState.inProgress)
             assertEquals(PlanCycle.MONTHLY, loadedState.selectedCycle)
 
-            loadedState.onPayClicked(mockk())
-            assertTrue(assertIs<State.PurchaseReady>(awaitItem().upgradeState).inProgress)
-
             // Fail before succeeding
-            purchaseResult.emit(PerformGiapPurchase.Result.Error.PurchaseNotFound)
-            assertFalse(assertIs<State.PurchaseReady>(awaitItem().upgradeState).inProgress)
+            val error = SessionState.Purchasing.Terminal.Failure(PaymentException.NetworkError(1, Exception()))
+            testPurchaseProduct.setResult(Result.success(error))
+            loadedState.onPayClicked(mockk())
+            testObservePurchaseState.emit(error)
+            testObservePurchaseState.emit(SessionState.Idle)
+            assertFalse(assertIs<State.PurchaseReady>(expectMostRecentItem().upgradeState).inProgress)
 
             // Try again and succeed
+            testPurchaseProduct.setResult(Result.success(SessionState.Purchasing.Terminal.ReadyToReconcile))
+            // Note: the state can't be Idle here because it's treated as a terminal state by UpdateDialogViewModel.
+            testObservePurchaseState.emit(SessionState.Purchasing.InFlight.Purchasing)
             loadedState.onPayClicked(mockk())
-            assertTrue(assertIs<State.PurchaseReady>(awaitItem().upgradeState).inProgress)
+            assertTrue(assertIs<State.PurchaseReady>(expectMostRecentItem().upgradeState).inProgress)
 
-            purchaseResult.emit(mockk<PerformGiapPurchase.Result.GiapSuccess>())
+            val purchase = ReconciledPurchaseSampleData.create(
+                planId = testPlanName,
+                cycle = PlanCycle.MONTHLY.cycleDurationMonths,
+            )
+            testObservePurchaseState.emit(
+                SessionState.Reconciling.Terminal.Success(purchase)
+            )
             assertEquals(
-                State.PurchaseSuccess("myplan", UpgradeFlowType.ONE_CLICK, PlanCycle.MONTHLY.value),
+                State.PurchaseSuccess(purchase.orderId, "myplan", PlanCycle.MONTHLY.cycleDurationMonths, "EUR"),
                 awaitItem().upgradeState
             )
+
+            val expectedMmpEventType = MmpEventType.Subscription(
+                subscriptionDetails = MmpEvent.SubscriptionDetails(
+                    price = 0L,
+                    currency = "EUR",
+                    cycle = 1,
+                    planName = "myplan",
+                    couponCode = null,
+                    transactionId = purchase.orderId,
+                    isFirstPurchase = null,
+                    isFreeToPaid = null,
+                )
+            )
+            coVerify(exactly = 1) { mockSaveMmpEvent.invoke(expectedMmpEventType) }
         }
     }
 
     @Test
     fun `in-app payments disabled`() = testScope.runTest {
         isInAppAllowed = false
-        viewModel.loadPlans(listOf(testPlanName), null, null, true)
-        Assert.assertTrue(viewModel.state.value is State.UpgradeDisabled)
+        viewModel.upgradeState.test {
+            viewModel.loadPlans(listOf(testPlanName), null, null, true)
+            assertIs<State.UpgradeDisabled>(expectMostRecentItem())
+        }
     }
 
     @Test
     fun `show error on plan load fail`() = testScope.runTest {
-        rawDynamicPlans = emptyList()
+        testGetProducts.setProductsToReturn(emptyList())
         viewModel.loadPlans(listOf(testPlanName), null, null, true)
-        val state = viewModel.state.first()
+        val state = viewModel.upgradeState.first()
         assertIs<State.LoadError>(state)
         val error = viewModel.eventErrorMessage.receiveCatching().getOrNull()
         assertEquals(R.string.error_fetching_prices, error?.messageRes)
@@ -233,7 +225,7 @@ class UpgradeDialogViewModelTests {
     @Test
     fun `show error when first plan is missing`() = testScope.runTest {
         viewModel.loadPlans(listOf("missing plan", testPlanName), null, null, true)
-        val state = viewModel.state.first()
+        val state = viewModel.upgradeState.first()
         assertIs<State.LoadError>(state)
         val error = viewModel.eventErrorMessage.receiveCatching().getOrNull()
         assertEquals(R.string.error_fetching_prices, error?.messageRes)
@@ -242,7 +234,7 @@ class UpgradeDialogViewModelTests {
     @Test
     fun `ignore subsequent plans if missing`() = testScope.runTest {
         viewModel.loadPlans(listOf(testPlanName, "missing plan"), null, null, true)
-        val state = viewModel.state.first()
+        val state = viewModel.upgradeState.first()
         assertIs<State.PurchaseReady>(state)
         assertEquals(listOf(testPlanName), state.allPlans.map { it.planName })
     }
@@ -261,11 +253,13 @@ class UpgradeDialogViewModelTests {
         assertEquals(
             // Checks also the descending order by the cycle length in the list.
             listOf(
-                CommonUpgradeDialogViewModel.CycleViewInfo(
+                UpgradeDialogViewModel.CycleViewInfo(
+                    productId = "y",
+                    offerToken = "$testPlanName-y",
                     cycle = PlanCycle.YEARLY,
                     perCycleResId = R.string.payment_price_per_year,
                     cycleLabelResId = R.string.payment_price_cycle_year_label,
-                    priceInfo = CommonUpgradeDialogViewModel.PriceInfo(
+                    priceInfo = UpgradeDialogViewModel.PriceInfo(
                         formattedPrice = formatPrice(100.0, "USD"),
                         savePercent = -44,
                         formattedPerMonthPrice = formatPrice(8.33, "USD"),
@@ -273,11 +267,13 @@ class UpgradeDialogViewModelTests {
                         hasIntroPrice = false,
                     )
                 ),
-                CommonUpgradeDialogViewModel.CycleViewInfo(
+                UpgradeDialogViewModel.CycleViewInfo(
+                    productId = "m",
+                    offerToken = "$testPlanName-m",
                     cycle = PlanCycle.MONTHLY,
                     perCycleResId = null,
                     cycleLabelResId = R.string.payment_price_cycle_month_label,
-                    priceInfo = CommonUpgradeDialogViewModel.PriceInfo(
+                    priceInfo = UpgradeDialogViewModel.PriceInfo(
                         formattedPrice = formatPrice(10.0, "USD"),
                         savePercent = -33,
                         formattedRenewPrice = formatPrice(15.0, "USD"),
@@ -290,109 +286,50 @@ class UpgradeDialogViewModelTests {
     }
 
     @Test
-    fun `show error when prices are missing for any of the plans`() = testScope.runTest {
-        val planName = Constants.CURRENT_PLUS_PLAN
-        rawDynamicPlans = listOf(
-            createDynamicPlan(
-                planName,
-                mapOf(
-                    PlanCycle.MONTHLY to mapOf("USD" to DynamicPlanPrice("1", "USD", 1_00)),
-                    PlanCycle.YEARLY to mapOf("USD" to DynamicPlanPrice("1", "USD", 2_00)),
-                )
-            )
-        )
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(planName, PlanCycle.MONTHLY, listOf(1_00))
-            // Yearly plan missing.
-        )
-
-        viewModel.loadPlans(listOf(planName), null, null, true)
-        runCurrent()
-        val state = viewModel.state.first()
-        assertIs<State.LoadError>(state)
-        val error = viewModel.eventErrorMessage.receiveCatching().getOrNull()
-        assertEquals(R.string.error_fetching_prices, error?.messageRes)
-        assertIs<LoadGoogleSubscriptionPlans.PartialPrices>(error?.throwable)
-    }
-
-    @Test
     fun `plan order matches the order of plan names to loadPlans`() = testScope.runTest {
-        val planNames = arrayOf("plan1", "plan2")
-        rawDynamicPlans = createDummyPlans(*planNames)
-        testLoadGoogleOffers.offers = planNames.flatMap { dummyGiapOffers(it) }
+        val products = listOf(
+            createProduct("p1_1", "plan1", listOf(createOffer(PlanCycle.MONTHLY, listOf(1_00)))),
+            createProduct("p2_1", "plan2", listOf(createOffer(PlanCycle.MONTHLY, listOf(1_00)))),
+            createProduct("p1_12", "plan1", listOf(createOffer(PlanCycle.YEARLY, listOf(10_00)))),
+        )
+        testGetProducts.setProductsToReturn(products)
 
         viewModel.loadPlans(listOf("plan2", "plan1"), null, null, true)
-        assertPlanNames(listOf("plan2", "plan1"), viewModel.state.first())
+        assertPlanNames(listOf("plan2", "plan1"), viewModel.upgradeState.first())
     }
 
     @Test
     fun `when allowMultiplePlans is true then Plus and Unlimited plans are used`() = testScope.runTest {
-        val planNames = arrayOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
-        rawDynamicPlans = createDummyPlans(*planNames)
-        testLoadGoogleOffers.offers = planNames.flatMap { dummyGiapOffers(it) }
+        val products = listOf(
+            createProduct("plus_1", Constants.CURRENT_PLUS_PLAN),
+            createProduct("bundle_1", Constants.CURRENT_BUNDLE_PLAN),
+        )
+        testGetProducts.setProductsToReturn(products)
+
         viewModel.loadPlans(allowMultiplePlans = true)
 
-        assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN), viewModel.state.first())
+        assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN), viewModel.upgradeState.first())
     }
 
     @Test
     fun `when allowMultiplePlans is false then only the first plan is used`() = testScope.runTest {
-        val planNames = arrayOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
-        rawDynamicPlans = createDummyPlans(*planNames)
-        testLoadGoogleOffers.offers = planNames.flatMap { dummyGiapOffers(it) }
+        val products = listOf(
+            createProduct("plus_1", Constants.CURRENT_PLUS_PLAN),
+            createProduct("bundle_1", Constants.CURRENT_BUNDLE_PLAN),
+        )
+        testGetProducts.setProductsToReturn(products)
         viewModel.loadPlans(allowMultiplePlans = false)
 
-        assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN), viewModel.state.first())
-    }
-
-    @Test
-    fun `WHEN payment is finished THEN Subscription mmp event is saved`() = testScope.runTest {
-        val mmpEventTypeSlot = slot<MmpEventType>()
-        val planName = Constants.CURRENT_PLUS_PLAN
-        val planCycle = PlanCycle.MONTHLY
-        val purchase = Purchase(
-            sessionId = SessionId(id = "test_session_id"),
-            planName = planName,
-            planCycle = planCycle.value,
-            purchaseState = PurchaseState.Purchased,
-            purchaseFailure = null,
-            paymentProvider = PaymentProvider.GoogleInAppPurchase,
-            paymentOrderId = null,
-            paymentToken = null,
-            paymentCurrency = Currency.CHF,
-            paymentAmount = 9900000,
-        )
-        val expectedMmpEventType = MmpEventType.Subscription(
-            subscriptionDetails = MmpEvent.SubscriptionDetails(
-                price = 9900000,
-                currency = "CHF",
-                cycle = 1,
-                planName = planName,
-                couponCode = null,
-                transactionId = null,
-                isFirstPurchase = null,
-                isFreeToPaid = null,
-            ) 
-        )
-        coEvery { mockSaveMmpEvent(eventType = capture(mmpEventTypeSlot)) } returns Unit
-        coEvery { mockWaitForSubscription(planName = planName, userId = userIdFlow.first()) } returns purchase
-
-        viewModel.onPaymentFinished(
-            purchaseSuccessState = State.PurchaseSuccess(
-                newPlanName = planName,
-                upgradeFlowType = UpgradeFlowType.ONE_CLICK,
-                billingCycle = planCycle.value,
-            )
-        )
-
-        assertEquals(expectedMmpEventType, mmpEventTypeSlot.captured)
+        assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN), viewModel.upgradeState.first())
     }
 
     @Test
     fun `WHEN prices are loaded THEN upsell_price_display is reported`() = testScope.runTest {
-        val planNames = arrayOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
-        rawDynamicPlans = createDummyPlans(*planNames)
-        testLoadGoogleOffers.offers = planNames.flatMap { dummyGiapOffers(it) }
+        val products = listOf(
+            createProduct("plus_1", Constants.CURRENT_PLUS_PLAN),
+            createProduct("bundle_1", Constants.CURRENT_BUNDLE_PLAN),
+        )
+        testGetProducts.setProductsToReturn(products)
         viewModel.reportUpgradeFlowStart(UpgradeSource.COUNTRIES, UpgradeTrigger.COUNTRY_SELECTION)
         viewModel.loadPlans(true)
         runCurrent()
@@ -406,12 +343,4 @@ class UpgradeDialogViewModelTests {
         assertIs<State.PurchaseReady>(state)
         assertEquals(expected, state.allPlans.map { it.planName })
     }
-
-    private fun createDummyPlans(vararg planNames: String): List<DynamicPlan> =
-        planNames.map { createDynamicPlan(it, dummyPrices) }
-
-    private fun dummyGiapOffers(planName: String) = listOf(
-        createGiapOffer(planName, PlanCycle.MONTHLY, listOf(10_00)),
-        createGiapOffer(planName, PlanCycle.YEARLY, listOf(100_00)),
-    )
 }

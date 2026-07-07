@@ -59,7 +59,7 @@ import com.protonvpn.android.base.ui.vpnGreen
 import com.protonvpn.android.tv.buttons.TvTextButton
 import com.protonvpn.android.tv.settings.ProtonTvFocusableSurface
 import com.protonvpn.android.tv.ui.TvSpinner
-import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.PricingCycleInfo
 import com.protonvpn.android.ui.planupgrade.WithMinHeightOf
@@ -78,7 +78,7 @@ fun PaymentPanelTv(
     modifier: Modifier = Modifier,
 ) {
     val upgradeState = viewState.upgradeState
-    if (upgradeState == CommonUpgradeDialogViewModel.State.Initializing)
+    if (upgradeState == UpgradeDialogViewModel.State.Initializing)
         return
 
     val focusRequester = remember { FocusRequester() }
@@ -88,8 +88,8 @@ fun PaymentPanelTv(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         when (upgradeState) {
-            CommonUpgradeDialogViewModel.State.Initializing -> Unit
-            is CommonUpgradeDialogViewModel.State.LoadingPlans -> {
+            UpgradeDialogViewModel.State.Initializing -> Unit
+            is UpgradeDialogViewModel.State.LoadingPlans -> {
                 PlanSelectionColumn(
                     renewInfoText = null,
                     showSelectPlans = upgradeState.expectedCycleCount > 1
@@ -99,7 +99,7 @@ fun PaymentPanelTv(
                     }
                 }
             }
-            is CommonUpgradeDialogViewModel.State.PurchaseReady -> {
+            is UpgradeDialogViewModel.State.PurchaseReady -> {
                 Box(
                     modifier = Modifier.height(IntrinsicSize.Max)
                 ) {
@@ -130,7 +130,7 @@ fun PaymentPanelTv(
                 }
             }
 
-            is CommonUpgradeDialogViewModel.State.LoadError -> {
+            is UpgradeDialogViewModel.State.LoadError -> {
                 LaunchedEffect(key1 = upgradeState::class) {
                     focusRequester.requestFocus()
                 }
@@ -144,8 +144,7 @@ fun PaymentPanelTv(
                 )
             }
 
-            is CommonUpgradeDialogViewModel.State.PlansFallback,
-            is CommonUpgradeDialogViewModel.State.UpgradeDisabled -> {
+            is UpgradeDialogViewModel.State.UpgradeDisabled -> {
                 LaunchedEffect(key1 = upgradeState::class) {
                     focusRequester.requestFocus()
                 }
@@ -165,7 +164,7 @@ fun PaymentPanelTv(
                 )
             }
 
-            is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> Unit
+            is UpgradeDialogViewModel.State.PurchaseSuccess -> Unit
         }
     }
 }
@@ -173,7 +172,7 @@ fun PaymentPanelTv(
 @Composable
 private fun PlanSelection(
     viewState: PaymentPanelState,
-    upgradeState: CommonUpgradeDialogViewModel.State.PurchaseReady,
+    upgradeState: UpgradeDialogViewModel.State.PurchaseReady,
     focusRequester: FocusRequester,
     modifier: Modifier = Modifier,
 ) {
@@ -238,7 +237,7 @@ private fun PlanSelectionColumn(
 private fun PlanCycleInfoSelector(
     onClick: () -> Unit,
     onFocused: () -> Unit,
-    cycle: CommonUpgradeDialogViewModel.CycleViewInfo,
+    cycle: UpgradeDialogViewModel.CycleViewInfo,
     modifier: Modifier = Modifier,
 ) {
     ProtonTvFocusableSurface(
@@ -265,7 +264,7 @@ private fun PlanCycleInfoSelector(
 
 @Composable
 private fun PlanCycleInfo(
-    cycle: CommonUpgradeDialogViewModel.CycleViewInfo,
+    cycle: UpgradeDialogViewModel.CycleViewInfo,
     modifier: Modifier = Modifier
 ) {
     Row(

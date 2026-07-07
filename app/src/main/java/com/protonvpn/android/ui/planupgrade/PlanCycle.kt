@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Proton AG
+ * Copyright (c) 2026. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,12 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.utils
 
-import android.content.Context
-import androidx.startup.AppInitializer
-import me.proton.core.paymentiap.presentation.GooglePurchaseHandlerInitializer
+package com.protonvpn.android.ui.planupgrade
 
-fun initPurchaseHandler(context: Context) {
-    AppInitializer.getInstance(context).initializeComponent(GooglePurchaseHandlerInitializer::class.java)
+private const val MONTHS_YEAR = 12
+private const val MONTHS_TWO_YEARS = 24
+private const val MONTHS_UNKNOWN = Int.MIN_VALUE
+
+enum class PlanCycle(private val value: Int) {
+    MONTHLY(1), YEARLY(MONTHS_YEAR), TWO_YEARS(MONTHS_TWO_YEARS), OTHER(MONTHS_UNKNOWN);
+
+    val cycleDurationMonths: Int = value
 }

@@ -69,7 +69,7 @@ sealed class TestApiConfig {
                     respond(ApiNotificationsResponse(emptyList()))
                 }
 
-                rule(get, path startsWith "/payments/v4/status") {
+                rule(get, path startsWith "/payments/v6/status") {
                     respond("""{"Code":1000,"Card":0,"Paypal":0,"Bitcoin":0,"InApp":0}""")
                 }
 
@@ -122,6 +122,7 @@ sealed class TestApiConfig {
                     "/tests/ping",
                     "/core/v4/domains/available",
                     "/data/v1/stats",
+                    "/data/v1/metrics",
                 ).forEach { code1000Path ->
                     rule(path eq code1000Path) { respond(GenericResponse(ResponseCodes.OK)) }
                 }

@@ -33,12 +33,12 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import com.protonvpn.android.R
+import me.proton.android.payment.common.exception.PaymentException
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.network.presentation.util.getUserMessage
 import me.proton.core.payment.domain.repository.BillingClientError
-import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.payment.presentation.R as PaymentR
 
 /**
@@ -47,7 +47,7 @@ import me.proton.core.payment.presentation.R as PaymentR
 
 @Composable
 fun renewInfoText(
-    selectedCycleInfo: CommonUpgradeDialogViewModel.CycleViewInfo,
+    selectedCycleInfo: UpgradeDialogViewModel.CycleViewInfo,
 ): String? {
     val priceInfo = selectedCycleInfo.priceInfo
     val price = priceInfo.formattedPrice
@@ -131,11 +131,11 @@ private fun getPriceAndCycleString(formattedPrice: String, @StringRes cycleResId
     }.toAnnotatedString()
 }
 
-fun CommonUpgradeDialogViewModel.Error.getPaymentErrorString(context: Context): String =
-    message
-        ?: messageRes?.let { context.getString(messageRes) }
+fun UpgradeDialogViewModel.Error.getPaymentErrorString(context: Context): String =
+    messageRes?.let { context.getString(messageRes) }
         ?: when (throwable) {
             is BillingClientError -> null
+            is PaymentException -> throwable.message
             else -> throwable?.getUserMessage(context.resources)
         }
         ?: context.getString(PaymentR.string.payments_general_error)

@@ -27,7 +27,7 @@ import com.protonvpn.android.promooffers.ui.NotificationIapParams
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import me.proton.core.plan.presentation.entity.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PlanCycle
 import me.proton.core.util.kotlin.equalsNoCase
 import javax.inject.Inject
 

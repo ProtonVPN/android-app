@@ -20,9 +20,12 @@
 package com.protonvpn.android.appconfig
 
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.utils.getValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import me.proton.core.payment.domain.PaymentManager
+import me.proton.android.payment.purchase.usecase.GetPaymentStatus
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,10 +33,12 @@ import javax.inject.Singleton
 @Singleton
 class CachedPurchaseEnabled @Inject constructor(
     private val mainScope: CoroutineScope,
-    @WallClock private val wallClock: () -> Long,
-    private val paymentManager: PaymentManager,
+    @param:WallClock private val wallClock: () -> Long,
+    getPaymentStatusLazy: dagger.Lazy<GetPaymentStatus>,
     private val prefs: AppFeaturesPrefs
 ) {
+    private val getPaymentStatus by getPaymentStatusLazy
+
     private var lastUpdateAttempt = 0L
 
     operator fun invoke() = prefs.purchaseEnabled
@@ -46,7 +51,13 @@ class CachedPurchaseEnabled @Inject constructor(
     fun forceRefresh() {
         lastUpdateAttempt = wallClock()
         mainScope.launch {
-            prefs.purchaseEnabled = paymentManager.isUpgradeAvailable(refresh=true)
+            getPaymentStatus()
+                .onSuccess { status ->
+                    prefs.purchaseEnabled = status.inApp.enabled
+                }
+                .onFailure { error ->
+                    ProtonLogger.logCustom(LogCategory.IN_APP_PURCHASE, "Fetching payment status failed: $error")
+                }
         }
     }
 

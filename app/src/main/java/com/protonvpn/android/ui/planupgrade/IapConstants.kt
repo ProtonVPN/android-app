@@ -20,6 +20,5 @@
 package com.protonvpn.android.ui.planupgrade
 
 object IapConstants {
-    const val BASE_PRICE_TAG = "base-price"
     const val INTRO_PRICE_TAG = "intro-price"
 }

@@ -51,7 +51,7 @@ class PaymentPanelFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         viewModel.eventErrorMessage.receiveAsFlow()
-            .onEach { (messageRes, message, throwable) -> onError(messageRes, message, throwable) }
+            .onEach { (messageRes, throwable) -> onError(messageRes, throwable) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         return ComposeView(requireContext()).apply {
@@ -74,11 +74,11 @@ class PaymentPanelFragment : Fragment() {
         requireActivity().finish()
     }
 
-    private fun onError(messageRes: Int?, message: String?, throwable: Throwable?) {
+    private fun onError(messageRes: Int?, throwable: Throwable?) {
         val fragmentView = view
         fragmentView?.errorSnack(
-            message = message
-                ?: messageRes?.let { getString(messageRes) }
+            message =
+                messageRes?.let { getString(messageRes) }
                 ?: getUserMessage(fragmentView.context, throwable)
                 ?: getString(PaymentR.string.payments_general_error)
         ) {

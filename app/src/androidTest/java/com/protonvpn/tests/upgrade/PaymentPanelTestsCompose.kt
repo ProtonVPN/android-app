@@ -22,28 +22,34 @@
 package com.protonvpn.tests.upgrade
 
 import androidx.compose.foundation.layout.Column
-import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.RenewInfo
 import com.protonvpn.testRules.setVpnContent
-import me.proton.core.plan.presentation.entity.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PlanCycle
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.Test
 
-private val cycleInfoWithRenew = CommonUpgradeDialogViewModel.CycleViewInfo(
+private val cycleInfoWithRenew = UpgradeDialogViewModel.CycleViewInfo(
+    productId = "ProductId",
+    offerToken = "OfferToken",
     cycle = PlanCycle.YEARLY,
     perCycleResId = 0,
     cycleLabelResId = 0,
-    priceInfo = CommonUpgradeDialogViewModel.PriceInfo(
+    priceInfo = UpgradeDialogViewModel.PriceInfo(
         formattedPrice = "10 CHF",
         formattedRenewPrice = "20 CHF",
         hasIntroPrice = true,
-    )
+    ),
 )
 
-private val cycleInfo = CommonUpgradeDialogViewModel.CycleViewInfo(
-    PlanCycle.YEARLY, 0, 0,
-    CommonUpgradeDialogViewModel.PriceInfo(formattedPrice = "10 CHF", hasIntroPrice = false)
+private val cycleInfo = UpgradeDialogViewModel.CycleViewInfo(
+    productId = "ProductId",
+    offerToken = "OfferToken",
+    cycle = PlanCycle.YEARLY,
+    perCycleResId = 0,
+    cycleLabelResId = 0,
+    priceInfo = UpgradeDialogViewModel.PriceInfo(formattedPrice = "10 CHF", hasIntroPrice = false)
 )
 
 

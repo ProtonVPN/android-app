@@ -116,8 +116,8 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
         binding.buttonNotNow.setOnClickListener { finish() }
 
         binding.composeToolbar.setContent {
-            val state by viewModel.state.collectAsStateWithLifecycle()
-            val purchaseState = state as? CommonUpgradeDialogViewModel.State.PurchaseReady
+            val state by viewModel.upgradeState.collectAsStateWithLifecycle()
+            val purchaseState = state as? UpgradeDialogViewModel.State.PurchaseReady
             VpnTheme {
                 CloseButtonAndPlanSelectionToolbar(
                     allPlans = purchaseState?.allPlans ?: emptyList(),
@@ -143,7 +143,7 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
     }
 
     @CallSuper
-    protected open fun afterPaymentSuccess(successPaymentState: CommonUpgradeDialogViewModel.State.PurchaseSuccess) = Unit
+    protected open fun afterPaymentSuccess(successPaymentState: UpgradeDialogViewModel.State.PurchaseSuccess) = Unit
 
     protected fun setGradientColors(top: Int, mid: Int, bottom: Int,  fixedAlpha: Boolean = false) {
         val alphaFraction: Float = resources.getFraction(R.fraction.upsellDialogGradientAlphaFraction, 1, 1)
@@ -342,7 +342,7 @@ class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultipleP
         binding.composeToolbar.isVisible = false
     }
 
-    override fun afterPaymentSuccess(successPaymentState: CommonUpgradeDialogViewModel.State.PurchaseSuccess) {
+    override fun afterPaymentSuccess(successPaymentState: UpgradeDialogViewModel.State.PurchaseSuccess) {
         super.afterPaymentSuccess(successPaymentState)
 
         onboardingTelemetry.onOnboardingPaymentSuccess(
@@ -425,8 +425,8 @@ private fun PreviewCloseButtonAndPlanSelectionToolbar() {
         surfaceColor = { Color(0xFF3A51A6) }
     ) {
         val plans = listOf(
-            PlanModel("VPN Plus", "plus", emptyList()),
-            PlanModel("Proton Unlimited", "bundle", emptyList())
+            PlanModel("VPN Plus", "plus", "EUR", emptyList(), PlanCycle.YEARLY),
+            PlanModel("Proton Unlimited", "bundle", "EUR", emptyList(), PlanCycle.YEARLY),
         )
         CloseButtonAndPlanSelectionToolbar(
             allPlans = plans,

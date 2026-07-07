@@ -22,12 +22,12 @@ package com.protonvpn.app.promooffers.usecase
 import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers
 import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
-import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
+import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.test.shared.InMemoryObjectStore
-import com.protonvpn.test.shared.TestGiapOffer
-import com.protonvpn.test.shared.TestLoadGoogleOffers
 import com.protonvpn.test.shared.TestVpnUser
-import com.protonvpn.test.shared.createDynamicPlan
+import com.protonvpn.test.shared.createOffersWithDiscount
+import com.protonvpn.test.shared.createProduct
 import com.protonvpn.test.shared.toProductId
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -40,10 +40,9 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
+import me.proton.android.payment.product.fake.FakeGetProducts
 import me.proton.core.domain.entity.AppStore
-import me.proton.core.payment.domain.usecase.PaymentProvider
 import me.proton.core.plan.domain.entity.DynamicPlanPrice
-import me.proton.core.plan.presentation.entity.PlanCycle
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -55,19 +54,8 @@ class GetEligibleIntroductoryOffersTests {
     @MockK
     private lateinit var mockInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase
 
-    private lateinit var spyLoadGooglePlans: LoadGoogleSubscriptionPlans
+    private lateinit var spyLoadSubscriptionPlans: LoadSubscriptionPlans
     private lateinit var testScope: TestScope
-
-    private val plans = listOf(
-        createDynamicPlan(
-            "vpn2022",
-            mapOf(PlanCycle.MONTHLY to mapOf(plan("PLN", 10_00)))
-        ),
-        createDynamicPlan(
-            "bundle2022",
-            mapOf(PlanCycle.MONTHLY to mapOf(plan("PLN", 20_00)))
-        )
-    )
 
     // Monthly intro prices are all set to 500.
     private val offerVpn2022 =
@@ -84,39 +72,30 @@ class GetEligibleIntroductoryOffersTests {
         testScope = TestScope()
         coEvery { mockInAppUpgradeAllowed.invoke() } returns true
 
-        val introTags = listOf(IapConstants.INTRO_PRICE_TAG, IapConstants.BASE_PRICE_TAG)
-        val fakeOffers = TestLoadGoogleOffers(
-            listOf(
-                TestGiapOffer(
-                    cycle = PlanCycle.MONTHLY,
-                    productId = PlanCycle.MONTHLY.toProductId(AppStore.GooglePlay, "vpn2022"),
-                    token = "offer-vpn2022-monthly",
-                    tags = introTags,
-                    pricingPhasesCents = listOf(500, 1000),
-                    currency = "PLN",
-                ),
-                TestGiapOffer(
-                    cycle = PlanCycle.MONTHLY,
-                    productId = PlanCycle.MONTHLY.toProductId(AppStore.GooglePlay, "bundle2022"),
-                    token = "offer-bundle2022-monthly",
-                    tags = introTags,
-                    pricingPhasesCents = listOf(500, 2000),
-                    currency = "PLN",
-                ),
+        val introTag = listOf(IapConstants.INTRO_PRICE_TAG)
+        val fakeProducts = listOf(
+            createProduct(
+                id = PlanCycle.MONTHLY.toProductId(AppStore.GooglePlay, "vpn2022"),
+                planName = "vpn2022",
+                offers = createOffersWithDiscount(PlanCycle.MONTHLY, 500, 1000, "PLN")
+            ),
+            createProduct(
+                id = PlanCycle.MONTHLY.toProductId(AppStore.GooglePlay, "bundle2022"),
+                planName = "bundle2022",
+                offers = createOffersWithDiscount(PlanCycle.MONTHLY, 500, 2000, "PLN"),
             )
         )
-        val loadGoogleSubscriptionPlans = LoadGoogleSubscriptionPlans(
+        val fakeGetProducts = FakeGetProducts().apply { setProductsToReturn(fakeProducts) }
+        val loadSubscriptionPlans = LoadSubscriptionPlans(
             vpnUserFlow = flowOf(TestVpnUser.create(maxTier = 0, subscribed = 0)),
-            rawDynamicPlans = { plans },
-            loadGoogleOffers = fakeOffers::invoke,
-            availablePaymentProviders = { setOf(PaymentProvider.GoogleInAppPurchase) },
+            getProductsLazy = { fakeGetProducts },
             defaultCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
             defaultPreselectedCycle = PlanCycle.YEARLY,
         )
-        spyLoadGooglePlans = spyk(loadGoogleSubscriptionPlans)
+        spyLoadSubscriptionPlans = spyk(loadSubscriptionPlans)
 
         getOffers = GetEligibleIntroductoryOffers(
-            spyLoadGooglePlans,
+            spyLoadSubscriptionPlans,
             mockInAppUpgradeAllowed,
             InMemoryObjectStore(),
             testScope::currentTime
@@ -134,8 +113,8 @@ class GetEligibleIntroductoryOffersTests {
             getOffers(listOf("bundle2022"))
         )
         coVerify(exactly = 1) {
-            spyLoadGooglePlans.invoke(IapConstants.INTRO_PRICE_TAG, listOf("vpn2022"), IapConstants.BASE_PRICE_TAG)
-            spyLoadGooglePlans.invoke(IapConstants.INTRO_PRICE_TAG, listOf("bundle2022"), IapConstants.BASE_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(listOf("vpn2022"), IapConstants.INTRO_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(listOf("bundle2022"), IapConstants.INTRO_PRICE_TAG)
         }
         // From cache
         advanceTimeBy(1.days)
@@ -152,11 +131,11 @@ class GetEligibleIntroductoryOffersTests {
             getOffers(listOf("vpn2022", "bundle2022"))
         )
         coVerify(exactly = 1) {
-            spyLoadGooglePlans.invoke(IapConstants.INTRO_PRICE_TAG, listOf("vpn2022"), IapConstants.BASE_PRICE_TAG)
-            spyLoadGooglePlans.invoke(IapConstants.INTRO_PRICE_TAG, listOf("bundle2022"), IapConstants.BASE_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(listOf("vpn2022"), IapConstants.INTRO_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(listOf("bundle2022"), IapConstants.INTRO_PRICE_TAG)
         }
         coVerify(exactly = 0) {
-            spyLoadGooglePlans.invoke(IapConstants.INTRO_PRICE_TAG, listOf("vpn2022", "bundle2022"), IapConstants.BASE_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(listOf("vpn2022", "bundle2022"), IapConstants.INTRO_PRICE_TAG)
         }
     }
 
@@ -167,8 +146,8 @@ class GetEligibleIntroductoryOffersTests {
         getOffers(listOf("bundle2022"))
         advanceTimeBy(1.5.days)
         coVerify(exactly = 1) {
-            spyLoadGooglePlans.invoke(IapConstants.INTRO_PRICE_TAG, listOf("vpn2022"), IapConstants.BASE_PRICE_TAG)
-            spyLoadGooglePlans.invoke(IapConstants.INTRO_PRICE_TAG, listOf("bundle2022"), IapConstants.BASE_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(listOf("vpn2022"), IapConstants.INTRO_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(listOf("bundle2022"), IapConstants.INTRO_PRICE_TAG)
         }
 
         assertEquals(
@@ -176,9 +155,9 @@ class GetEligibleIntroductoryOffersTests {
             getOffers(listOf("vpn2022", "bundle2022"))
         )
         coVerify(exactly = 1) {
-            spyLoadGooglePlans.invoke(IapConstants.INTRO_PRICE_TAG, listOf("vpn2022"), IapConstants.BASE_PRICE_TAG)
-            spyLoadGooglePlans.invoke(IapConstants.INTRO_PRICE_TAG, listOf("bundle2022"), IapConstants.BASE_PRICE_TAG)
-            spyLoadGooglePlans.invoke(IapConstants.INTRO_PRICE_TAG, listOf("vpn2022", "bundle2022"), IapConstants.BASE_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(listOf("vpn2022"), IapConstants.INTRO_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(listOf("bundle2022"), IapConstants.INTRO_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(listOf("vpn2022", "bundle2022"), IapConstants.INTRO_PRICE_TAG)
         }
     }
 }

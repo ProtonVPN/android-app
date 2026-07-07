@@ -119,6 +119,9 @@ dependencies {
     }
     implementation(libs.proton.core.observability.data)
     implementation(libs.proton.core.payment.data)
+    // Core puts dependencies of auth-test and data-test on IAP. It's incorrect and forces us to
+    // include IAP for test code as a workaround.
+    googleImplementation(libs.proton.core.payment.iap)
     implementation(libs.proton.core.presentation)
     implementation(libs.proton.core.plan.domain)
     implementation(libs.proton.core.plan.presentation)
@@ -132,6 +135,8 @@ dependencies {
     implementation(libs.proton.core.util.android.dagger)
     implementation(libs.proton.core.util.android.datetime)
     implementation(libs.proton.core.util.kotlin)
+
+    implementation(testFixtures(libs.proton.payment))
 
     implementation(libs.androidx.datastore.core)
     implementation(libs.androidx.lifecycle.livedata.ktx)

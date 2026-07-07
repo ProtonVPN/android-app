@@ -57,19 +57,18 @@ import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
-import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.PlanModel
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.plan.presentation.entity.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PlanCycle
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 
 enum class TvUpsellContent {
@@ -247,29 +246,33 @@ private fun TvUpsellLayoutPreview() {
             }
         )
         val cycles = listOf(
-            CommonUpgradeDialogViewModel.CycleViewInfo(
-                PlanCycle.YEARLY,
-                R.string.payment_price_per_year,
-                R.string.payment_price_cycle_year_label,
-                CommonUpgradeDialogViewModel.PriceInfo(
+            UpgradeDialogViewModel.CycleViewInfo(
+                productId = "ProductId",
+                offerToken = "OfferToken",
+                cycle = PlanCycle.YEARLY,
+                perCycleResId = R.string.payment_price_per_year,
+                cycleLabelResId = R.string.payment_price_cycle_year_label,
+                priceInfo = UpgradeDialogViewModel.PriceInfo(
                     "$120.00",
                     formattedPerMonthPrice = "$10.00",
                     savePercent = -37,
                     hasIntroPrice = true
                 )
             ),
-            CommonUpgradeDialogViewModel.CycleViewInfo(
-                PlanCycle.MONTHLY,
-                R.string.payment_price_per_month,
-                R.string.payment_price_cycle_month_label,
-                CommonUpgradeDialogViewModel.PriceInfo("$15.99", hasIntroPrice = false)
+            UpgradeDialogViewModel.CycleViewInfo(
+                productId = "ProductId",
+                offerToken = "OfferToken",
+                cycle = PlanCycle.MONTHLY,
+                perCycleResId = R.string.payment_price_per_month,
+                cycleLabelResId = R.string.payment_price_cycle_month_label,
+                priceInfo = UpgradeDialogViewModel.PriceInfo("$15.99", hasIntroPrice = false)
             ),
         )
-        val plan = PlanModel("VPN Plus", "vpn2022", cycles)
+        val plan = PlanModel("VPN Plus", "vpn2022", "USD", cycles, PlanCycle.YEARLY)
         val paymentState = PaymentPanelState(
-            upgradeState = CommonUpgradeDialogViewModel.State.PurchaseReady(listOf(plan), plan, false),
+            upgradeState = UpgradeDialogViewModel.State.PurchaseReady(listOf(plan), plan, false),
             selectedCycle = cycles.first().cycle,
-            {}, {}, {}, {}
+            {}, {}, {},
         )
         TvUpsellLayout(viewState, paymentState, {})
     }
@@ -299,9 +302,9 @@ private fun TvUpsellLayoutLoadingPreview() {
             }
         )
         val paymentState = PaymentPanelState(
-            upgradeState = CommonUpgradeDialogViewModel.State.LoadingPlans(2, null),
+            upgradeState = UpgradeDialogViewModel.State.LoadingPlans(2, null),
             selectedCycle = null,
-            {}, {}, {}, {}
+            {}, {}, {},
         )
         TvUpsellLayout(viewState, paymentState, {})
     }

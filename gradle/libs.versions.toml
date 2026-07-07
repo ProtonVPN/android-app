@@ -46,7 +46,7 @@ caverock-androidsvg-version = "1.4"
 commons-codec-version = "1.15"
 compose-bom-version = "2026.02.00"
 dagger-hilt-version = "2.58"
-detekt-version = "1.23.7"
+detekt-version = "1.23.8"
 dnsjava-version = "3.6.2"
 glide-compose-version = "1.0.0-beta08"
 glide-version = "5.0.5"
@@ -67,6 +67,7 @@ okhttp3-version = "4.12.0"
 owasp-dependencycheck-version = "10.0.4"
 proton-core-env-config-version = "1.3.1"
 proton-core-version = "36.7.0"
+proton-payment-version = "1.4.0"
 proton-test-fusion-version = "0.9.97"
 proton-vpn-govpnlib-version = "0.1.87"
 proton-vpn-core-internal-version = "2.1.2-1.0.41"
@@ -280,6 +281,8 @@ proton-core-util-android-datetime = { group = "me.proton.core", name = "util-and
 proton-core-util-android-sentry = { group = "me.proton.core", name = "util-android-sentry", version.ref = "proton-core-version" }
 proton-core-util-android-shared-preferences = { group = "me.proton.core", name = "util-android-shared-preferences", version.ref = "proton-core-version" }
 proton-core-util-kotlin = { group = "me.proton.core", name = "util-kotlin", version.ref = "proton-core-version" }
+proton-payment = { group = "me.proton.android.payment", name = "payment", version.ref = "proton-payment-version" }
+proton-payment-billing-google = { group = "me.proton.android.payment", name = "payment-billing-google", version.ref = "proton-payment-version" }
 proton-test-fusion = { group = "me.proton.test", name = "fusion", version.ref = "proton-test-fusion-version" }
 proton-vpn-govpnlib = { group = "me.proton.vpn", name = "go-vpn-lib", version.ref = "proton-vpn-govpnlib-version" }
 proton-vpn-core-internal = { group = "me.proton.vpn", name = "vpn-core-internal", version.ref = "proton-vpn-core-internal-version" }

@@ -30,15 +30,16 @@ import com.protonvpn.android.promooffers.usecase.GenerateNotificationsForIntrodu
 import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers
 import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
-import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
+import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.mocks.TestDefaultLocaleProvider
 import com.protonvpn.test.shared.InMemoryObjectStore
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
-import com.protonvpn.test.shared.TestLoadGoogleOffers
 import com.protonvpn.test.shared.TestVpnUser
-import com.protonvpn.test.shared.createDynamicPlan
-import com.protonvpn.test.shared.createGiapOffer
+import com.protonvpn.test.shared.createOffer
+import com.protonvpn.test.shared.createOffersWithDiscount
+import com.protonvpn.test.shared.createProduct
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -47,12 +48,9 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
-import me.proton.core.payment.domain.usecase.PaymentProvider
-import me.proton.core.plan.domain.entity.DynamicPlan
+import me.proton.android.payment.product.fake.FakeGetProducts
 import me.proton.core.plan.domain.entity.DynamicPlanPrice
-import me.proton.core.plan.presentation.entity.PlanCycle
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -74,6 +72,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
     private lateinit var experiment12mEnabledFF: FakeIsIapClientSidePromo12mExperimentEnabled
     private lateinit var testLocaleProvider: TestDefaultLocaleProvider
     private lateinit var testCurrentUserProvider: TestCurrentUserProvider
+    private lateinit var testGetProducts: FakeGetProducts
     private lateinit var testScope: TestScope
 
     private lateinit var generateNotificationsForIntroductoryOffers: GenerateNotificationsForIntroductoryOffers
@@ -81,45 +80,11 @@ class GenerateNotificationsForIntroductoryOffersTests {
     private val freeVpnUser = TestVpnUser.create(id = "id1", maxTier = 0, subscribed = 0)
     private val freeVpnUserAb12mGroup = TestVpnUser.create(id = "id2", maxTier = 0, subscribed = 0)
 
-    private val introTags = listOf(IapConstants.INTRO_PRICE_TAG)
-    private val baseTags = listOf(IapConstants.BASE_PRICE_TAG)
+    private val introTag = IapConstants.INTRO_PRICE_TAG
 
     // Plan data must match the hardcoded conditions in the notification.
     private val vpnPlus = "vpn2022"
     private val bundle = "bundle2022"
-    private val vpnPlusPlan = createDynamicPlan(
-        vpnPlus,
-        mapOf(
-            PlanCycle.MONTHLY to mapOf(
-                plan("PLN", 10_00),
-                plan("EUR",  4_00),
-                plan("USD",  4_00),
-                plan("CZK", 10_00),
-            ),
-            PlanCycle.YEARLY to mapOf(
-                plan("PLN", 100_00),
-                plan("EUR",  40_00),
-                plan("USD",  40_00),
-                plan("CZK", 100_00),
-            )
-        )
-    )
-    private val bundlePlan = createDynamicPlan(
-        bundle,
-        mapOf(
-            PlanCycle.MONTHLY to mapOf(
-                plan("PLN", 50_00),
-                plan("EUR", 20_00),
-            ),
-            PlanCycle.YEARLY to mapOf(
-                plan("PLN", 500_00),
-                plan("EUR", 200_00),
-            )
-        )
-    )
-
-    private lateinit var dynamicPlans: List<DynamicPlan>
-    private lateinit var testLoadGoogleOffers: TestLoadGoogleOffers
 
     @Before
     fun setup() {
@@ -130,13 +95,10 @@ class GenerateNotificationsForIntroductoryOffersTests {
         testCurrentUserProvider = TestCurrentUserProvider(freeVpnUser)
         val currentUser = CurrentUser(testCurrentUserProvider)
 
-        dynamicPlans = listOf(vpnPlusPlan, bundlePlan)
-        testLoadGoogleOffers = TestLoadGoogleOffers()
-        val loadGoogleSubscriptionPlans = LoadGoogleSubscriptionPlans(
+        testGetProducts = FakeGetProducts()
+        val loadSubscriptionPlans = LoadSubscriptionPlans(
             vpnUserFlow = currentUser.vpnUserFlow,
-            rawDynamicPlans = { dynamicPlans },
-            loadGoogleOffers = testLoadGoogleOffers::invoke,
-            availablePaymentProviders = { setOf(PaymentProvider.GoogleInAppPurchase) },
+            getProductsLazy = { testGetProducts },
             defaultCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
             defaultPreselectedCycle = PlanCycle.YEARLY,
         )
@@ -144,7 +106,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
         val getEligibleIntroductoryOffers =
             GetEligibleIntroductoryOffers(
-                loadGoogleSubscriptionPlans,
+                loadSubscriptionPlans,
                 mockInAppUpgradeAllowed,
                 InMemoryObjectStore(),
                 testScope::currentTime
@@ -169,10 +131,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `notifications are generated only for intro prices`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "USD", tags = introTags),
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(10_00), currency = "USD", tags = baseTags),
-        )
+        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "USD")
+        val product = createProduct(vpnPlus, vpnPlus, offers)
+        testGetProducts.setProductsToReturn(listOf(product))
 
         val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(2, notifications.size)
@@ -185,9 +146,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN currency EUR and language LT THEN fallback images are used`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR"),
-        )
+        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val product = createProduct(vpnPlus, vpnPlus, offers)
+        testGetProducts.setProductsToReturn(listOf(product))
         testLocaleProvider.locale = Locale("lt", "lt")
 
         val notifications = generateNotificationsForIntroductoryOffers(false)
@@ -201,9 +162,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN no plan has intro prices THEN no notifications are generated`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99), currency = "EUR", tags = introTags),
-        )
+        val offers = listOf(createOffer(PlanCycle.MONTHLY, listOf(10_00), "EUR"))
+        val product = createProduct(vpnPlus, vpnPlus, offers)
+        testGetProducts.setProductsToReturn(listOf(product))
 
         val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(emptyList<ApiNotification>(), notifications)
@@ -211,9 +172,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `WHEN time passes THEN start and end time are relative to first call`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
-        )
+        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val product = createProduct(vpnPlus, vpnPlus, offers)
+        testGetProducts.setProductsToReturn(listOf(product))
 
         val baseTimestampS = currentTime.milliseconds.inWholeSeconds
         val expectedStartTimeS: Long = baseTimestampS + 5 * 3600 // 5 hours
@@ -240,24 +201,22 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN offer period has finished (3 days) THEN no notifications are generated`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
-        )
+        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val product = createProduct(vpnPlus, vpnPlus, offers)
+        testGetProducts.setProductsToReturn(listOf(product))
 
         generateNotificationsForIntroductoryOffers(false)
-        testLoadGoogleOffers.resetWasCalled()
 
         advanceTimeBy(3.days + 1.milliseconds)
         val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(emptyList<ApiNotification>(), notifications)
-        assertFalse(testLoadGoogleOffers.wasCalled)
     }
 
     @Test
     fun `GIVEN FF is disabled WHEN generate is called THEN offer period doesn't start`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
-        )
+        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val product = createProduct(vpnPlus, vpnPlus, offers)
+        testGetProducts.setProductsToReturn(listOf(product))
         isIapEnabledFF.setEnabled(false)
 
         val beforeFfEnabled = generateNotificationsForIntroductoryOffers(false)
@@ -275,9 +234,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN cyclic FF is enabled WHEN generate is called after 80 days THEN new offers are generated`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
-        )
+        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val product = createProduct(vpnPlus, vpnPlus, offers)
+        testGetProducts.setProductsToReturn(listOf(product))
         advanceTimeBy(1.days)
         val firstRoundNotifications = generateNotificationsForIntroductoryOffers(false)
         assertTrue(firstRoundNotifications.isNotEmpty())
@@ -296,9 +255,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `WHEN second round offers are generated THEN their start time is now`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
-        )
+        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val product = createProduct(vpnPlus, vpnPlus, offers)
+        testGetProducts.setProductsToReturn(listOf(product))
 
         generateNotificationsForIntroductoryOffers(true)
         advanceTimeBy(90.days)
@@ -314,9 +273,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN second round offers were generated WHEN generate is called without trigger THEN the offers are regenerated`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
-        )
+        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val product = createProduct(vpnPlus, vpnPlus, offers)
+        testGetProducts.setProductsToReturn(listOf(product))
 
         generateNotificationsForIntroductoryOffers(true)
         advanceTimeBy(90.days)
@@ -329,9 +288,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN cyclic FF is disabled WHEN generate is called after 80 days THEN no offers are generated`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
-        )
+        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val product = createProduct(vpnPlus, vpnPlus, offers)
+        testGetProducts.setProductsToReturn(listOf(product))
         isCyclicEnabledFF.setEnabled(false)
 
         advanceTimeBy(1.days)
@@ -345,9 +304,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN offers displayed once WHEN generate is called after 80 days THEN new offers have different IDs`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "EUR", tags = introTags),
-        )
+        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val product = createProduct(vpnPlus, vpnPlus, offers)
+        testGetProducts.setProductsToReturn(listOf(product))
 
         advanceTimeBy(1.days)
         val firstRound = generateNotificationsForIntroductoryOffers(false)
@@ -368,10 +327,17 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN intro prices for monthly and yearly WHEN 12m FF is disabled THEN 1m offers are generated`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "USD", tags = introTags),
-            createGiapOffer(vpnPlus, PlanCycle.YEARLY, listOf(2_00, 100_00), currency = "USD", tags = introTags),
+        val product1m = createProduct(
+            "plus_monthly",
+            vpnPlus,
+            createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "USD")
         )
+        val product1y = createProduct(
+            "plus_yearly",
+            vpnPlus,
+            createOffersWithDiscount(PlanCycle.YEARLY, 2_00, 100_00, "USD")
+        )
+        testGetProducts.setProductsToReturn(listOf(product1m, product1y))
 
         val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(2, notifications.size)
@@ -386,10 +352,17 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN 12m experiment enabled WHEN control variant is enabled THEN 1m offers are generated`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "USD", tags = introTags),
-            createGiapOffer(vpnPlus, PlanCycle.YEARLY, listOf(2_00, 100_00), currency = "USD", tags = introTags),
+        val product1m = createProduct(
+            "plus_monthly",
+            vpnPlus,
+            createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "USD")
         )
+        val product1y = createProduct(
+            "plus_yearly",
+            vpnPlus,
+            createOffersWithDiscount(PlanCycle.YEARLY, 2_00, 100_00, "USD")
+        )
+        testGetProducts.setProductsToReturn(listOf(product1m, product1y))
         experiment12mEnabledFF.setEnabled(true)
         testCurrentUserProvider.vpnUser = freeVpnUser // Control group.
 
@@ -406,10 +379,17 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN 12m experiment enabled WHEN 12m variant is enabled THEN 12m offers are generated`() = testScope.runTest {
-        testLoadGoogleOffers.offers = listOf(
-            createGiapOffer(vpnPlus, PlanCycle.MONTHLY, listOf(99, 10_00), currency = "USD", tags = introTags),
-            createGiapOffer(vpnPlus, PlanCycle.YEARLY, listOf(2_00, 100_00), currency = "USD", tags = introTags),
+        val product1m = createProduct(
+            "plus_monthly",
+            vpnPlus,
+            createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
         )
+        val product1y = createProduct(
+            "plus_yearly",
+            vpnPlus,
+            createOffersWithDiscount(PlanCycle.YEARLY, 2_00, 100_00, "EUR")
+        )
+        testGetProducts.setProductsToReturn(listOf(product1m, product1y))
         experiment12mEnabledFF.setEnabled(true)
         testCurrentUserProvider.vpnUser = freeVpnUserAb12mGroup
 

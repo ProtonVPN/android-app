@@ -28,6 +28,7 @@ import com.protonvpn.android.api.DohEnabled
 import com.protonvpn.android.api.data.DebugApiPrefs
 import com.protonvpn.android.app.AppExitObservability
 import com.protonvpn.android.app.AppMmpObservability
+import com.protonvpn.android.app.AppOpenMmpTracker
 import com.protonvpn.android.app.AppStartExitLogger
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout
@@ -45,7 +46,6 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.ProtonLoggerImpl
 import com.protonvpn.android.logging.SettingChangesLogger
 import com.protonvpn.android.managed.AutoLoginManager
-import com.protonvpn.android.app.AppOpenMmpTracker
 import com.protonvpn.android.notifications.NotificationPermissionManager
 import com.protonvpn.android.profiles.usecases.PopulateInitialProfiles
 import com.protonvpn.android.profiles.usecases.ProfileAutoOpenHandler
@@ -66,12 +66,14 @@ import com.protonvpn.android.theme.UpdateAndroidAppTheme
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.onboarding.ReviewTracker
+import com.protonvpn.android.ui.planupgrade.PaymentsHttpCapability
+import com.protonvpn.android.ui.planupgrade.PaymentsStoreCapability
 import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess
+import com.protonvpn.android.ui.planupgrade.usecase.CredlessUpgradeHandler
 import com.protonvpn.android.utils.SentryIntegration.initSentry
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.VpnCoreLogger
-import com.protonvpn.android.utils.initPurchaseHandler
 import com.protonvpn.android.utils.isMainProcess
 import com.protonvpn.android.utils.migrateProtonPreferences
 import com.protonvpn.android.vpn.CertificateRepository
@@ -91,15 +93,17 @@ import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.asCoroutineDispatcher
+import me.proton.android.payment.Payments
+import me.proton.android.payment.configuration.PaymentsConfigurationOptions
 import me.proton.core.accountmanager.data.AccountStateHandler
 import me.proton.core.eventmanager.data.CoreEventManagerStarter
 import me.proton.core.humanverification.presentation.HumanVerificationStateHandler
-import me.proton.core.plan.data.PurchaseStateHandler
 import me.proton.core.userrecovery.presentation.compose.DeviceRecoveryHandler
 import me.proton.core.userrecovery.presentation.compose.DeviceRecoveryNotificationSetup
 import me.proton.core.util.kotlin.CoreLogger
 import me.proton.vpn.core.api.ProtonVpnCore
 import java.util.concurrent.Executors
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Base Application for both the real application and application for use in instrumented tests.
@@ -135,10 +139,11 @@ open class ProtonApplication : Application() {
         val logoutOnForceUpdate: LogoutOnForceUpdate?
         val maintenanceTracker: MaintenanceTracker?
         val oneTimePopupNotificationTrigger: OneTimePopupNotificationTrigger?
+        val paymentsHttpCapability: PaymentsHttpCapability
+        val paymentStoreCapability: PaymentsStoreCapability
         val periodicUpdateManager: PeriodicUpdateManager
         val powerStateLogger: PowerStateLogger?
         val purchasesEnabledUpdater: PurchasesEnabledUpdater
-        val purchaseStateHandler: PurchaseStateHandler
         val quickTileDataStoreUpdater: QuickTileDataStoreUpdater
         val recentsValidator: RecentsListValidator?
         val reviewTracker: ReviewTracker?
@@ -150,6 +155,7 @@ open class ProtonApplication : Application() {
         val streamingUpsellRestrictionsDialogTrigger: StreamingUpsellRestrictionsDialogTrigger
         val streamingUpsellRestrictionsNotificationTrigger: StreamingUpsellRestrictionsNotificationTrigger
         val triggerInAppPromoOnAppOpen: TriggerInAppPromoOnAppOpen
+        val credlessUpgradeHandler: CredlessUpgradeHandler
         val updateAndroidAppTheme: UpdateAndroidAppTheme
         val updateProfileLastConnected: UpdateProfileLastConnected
         val updateSettingsOnVpnUserChange: UpdateSettingsOnVpnUserChange?
@@ -237,7 +243,6 @@ open class ProtonApplication : Application() {
         dependencies.populateInitialProfiles.start()
         dependencies.profileAutoOpenHandler.start()
         dependencies.purchasesEnabledUpdater.start()
-        dependencies.purchaseStateHandler.start()
         dependencies.recentsValidator
         dependencies.reviewTracker
         dependencies.serverListUpdater
@@ -267,7 +272,15 @@ open class ProtonApplication : Application() {
         if (!dependencies.isTv()) {
             dependencies.oneTimePopupNotificationTrigger
         }
-        initPurchaseHandler(this)
+
+        // Initialize Payments and everything that depends on it.
+        Payments(
+            context = this,
+            httpCapability = dependencies.paymentsHttpCapability,
+            storeCapability = dependencies.paymentStoreCapability,
+            configurationOptions = PaymentsConfigurationOptions(delayInitBy = 5.seconds)
+        )
+        dependencies.credlessUpgradeHandler.start()
 
         if (lastMainProcessExitReason in listOf(ApplicationExitInfo.REASON_CRASH, ApplicationExitInfo.REASON_CRASH_NATIVE)) {
             dependencies.goLangCrashReporter.get().start()
