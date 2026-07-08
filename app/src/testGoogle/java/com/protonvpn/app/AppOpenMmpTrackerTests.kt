@@ -22,7 +22,6 @@ package com.protonvpn.app
 import android.app.Activity
 import com.protonvpn.android.app.AppOpenMmpTracker
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
-import com.protonvpn.android.mmp.FakeIsMmpFeatureFlagEnabled
 import com.protonvpn.android.mmp.events.MmpEventType
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -56,8 +55,6 @@ class AppOpenMmpTrackerTests {
     @RelaxedMockK
     private lateinit var mockSaveMmpEvent: SaveMmpEvent
 
-    private lateinit var isMmpEnabled: FakeIsMmpFeatureFlagEnabled
-
     private lateinit var localUserSettingsFlow: MutableStateFlow<LocalUserSettings>
 
     private lateinit var foregroundActivityTracker: ForegroundActivityTracker
@@ -76,8 +73,6 @@ class AppOpenMmpTrackerTests {
 
         testScope = TestScope(context = UnconfinedTestDispatcher())
 
-        isMmpEnabled = FakeIsMmpFeatureFlagEnabled(enabled = true)
-
         foregroundActivityFlow = MutableStateFlow(value = null)
 
         foregroundActivityTracker = ForegroundActivityTracker(
@@ -95,7 +90,6 @@ class AppOpenMmpTrackerTests {
         appFeaturesPrefs = AppFeaturesPrefs(prefsProvider = MockSharedPreferencesProvider())
 
         appOpenMmpTracker = AppOpenMmpTracker(
-            isMmpEnabled = isMmpEnabled,
             userSettings = userSettings,
             mainScope = testScope.backgroundScope,
             now = testScope::currentTime,
@@ -103,19 +97,6 @@ class AppOpenMmpTrackerTests {
             appFeaturesPrefs = { appFeaturesPrefs },
             saveMmpEvent = { mockSaveMmpEvent },
         )
-    }
-
-    @Test
-    fun `GIVEN feature flag disabled WHEN tracking app opening THEN no event is saved`() = testScope.runTest {
-        isMmpEnabled.setEnabled(isEnabled = false)
-        foregroundActivityFlow.value = activity
-        appFeaturesPrefs.lastAppInForegroundTimestamp = null
-
-        appOpenMmpTracker.start()
-
-        coVerify(exactly = 0) {
-            mockSaveMmpEvent.invoke(eventType = any(), isSessionRestartRequired = any())
-        }
     }
 
     @Test
@@ -132,8 +113,7 @@ class AppOpenMmpTrackerTests {
     }
 
     @Test
-    fun `GIVEN feature flag enabled AND telemetry enabled WHEN app is open fist time THEN open event is saved`() = testScope.runTest {
-        isMmpEnabled.setEnabled(isEnabled = true)
+    fun `GIVEN telemetry enabled WHEN app is open fist time THEN open event is saved`() = testScope.runTest {
         localUserSettingsFlow.value = LocalUserSettings.Default.copy(telemetry = true)
         foregroundActivityFlow.value = null
         appOpenMmpTracker.start()
@@ -147,8 +127,7 @@ class AppOpenMmpTrackerTests {
     }
 
     @Test
-    fun `GIVEN feature flag enabled AND telemetry enabled WHEN app is open fresh THEN open event is saved`() = testScope.runTest {
-        isMmpEnabled.setEnabled(isEnabled = true)
+    fun `GIVEN telemetry enabled WHEN app is open fresh THEN open event is saved`() = testScope.runTest {
         localUserSettingsFlow.value = LocalUserSettings.Default.copy(telemetry = true)
         appFeaturesPrefs.lastAppInForegroundTimestamp = 1776772151562
         appOpenMmpTracker.start()
@@ -162,8 +141,7 @@ class AppOpenMmpTrackerTests {
     }
 
     @Test
-    fun `GIVEN feature flag enabled AND telemetry enabled WHEN app comes from background to foreground before threshold THEN open event restoring session is not saved`() = testScope.runTest {
-        isMmpEnabled.setEnabled(isEnabled = true)
+    fun `GIVEN telemetry enabled WHEN app comes from background to foreground before threshold THEN open event restoring session is not saved`() = testScope.runTest {
         localUserSettingsFlow.value = LocalUserSettings.Default.copy(telemetry = true)
         foregroundActivityFlow.value = activity
         val lastAppInForegroundTimestamp = 1776767728299
@@ -187,8 +165,7 @@ class AppOpenMmpTrackerTests {
     }
 
     @Test
-    fun `GIVEN feature flag enabled AND telemetry enabled WHEN app comes from background to foreground after threshold THEN open event restoring session is saved`() = testScope.runTest {
-        isMmpEnabled.setEnabled(isEnabled = true)
+    fun `GIVEN telemetry enabled WHEN app comes from background to foreground after threshold THEN open event restoring session is saved`() = testScope.runTest {
         localUserSettingsFlow.value = LocalUserSettings.Default.copy(telemetry = true)
         foregroundActivityFlow.value = activity
         val lastAppInForegroundTimestamp = 1776767728299

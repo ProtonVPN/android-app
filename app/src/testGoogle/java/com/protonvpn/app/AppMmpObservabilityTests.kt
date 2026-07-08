@@ -157,7 +157,7 @@ class AppMmpObservabilityTests {
         )
 
         appMmpObservability = AppMmpObservability(
-            isMmpEnabled = isMmpEnabled,
+            isMmpFeatureFlagEnabled = isMmpEnabled,
             userSettings = userSettings,
             periodicUpdateManager = { mockPeriodicUpdateManager },
             sendMmpEvents = { sendMmpEvents },

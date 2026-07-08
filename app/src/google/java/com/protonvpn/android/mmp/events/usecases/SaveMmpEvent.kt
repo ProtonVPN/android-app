@@ -20,7 +20,6 @@
 package com.protonvpn.android.mmp.events.usecases
 
 import com.protonvpn.android.di.WallClock
-import com.protonvpn.android.mmp.IsMmpFeatureFlagEnabled
 import com.protonvpn.android.mmp.events.MmpEvent
 import com.protonvpn.android.mmp.events.MmpEventType
 import com.protonvpn.android.mmp.events.data.MmpEventsDao
@@ -36,7 +35,6 @@ import javax.inject.Inject
 
 @Reusable
 class SaveMmpEvent @Inject constructor(
-    private val isMmpEnabled: IsMmpFeatureFlagEnabled,
     private val userSettings: EffectiveCurrentUserSettings,
     private val mmpEventsDao: MmpEventsDao,
     private val getMmpReferrer: GetMmpReferrer,
@@ -48,7 +46,7 @@ class SaveMmpEvent @Inject constructor(
         eventType: MmpEventType,
         isSessionRestartRequired: Boolean = false,
     ) = withContext(context = NonCancellable) {
-        if (!(isMmpEnabled() && userSettings.telemetry.first())) return@withContext
+        if (!userSettings.telemetry.first()) return@withContext
 
         if (isSessionRestartRequired) {
             mmpReferrerStorage.updateMmpReferrer { localMmpReferrer ->

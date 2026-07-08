@@ -30,8 +30,8 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import dagger.Lazy
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -39,7 +39,7 @@ import kotlin.time.Duration.Companion.days
 
 @Reusable
 class AppMmpObservability @Inject constructor(
-    private val isMmpEnabled: IsMmpFeatureFlagEnabled,
+    private val isMmpFeatureFlagEnabled: IsMmpFeatureFlagEnabled,
     private val userSettings: EffectiveCurrentUserSettings,
     private val mainScope: CoroutineScope,
     private val periodicUpdateManager: Lazy<PeriodicUpdateManager>,
@@ -54,14 +54,14 @@ class AppMmpObservability @Inject constructor(
         defaultInput = { getMmpEvents.get().invoke() },
     )
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     fun start() {
         combine(
-            isMmpEnabled.observe(),
+            isMmpFeatureFlagEnabled.observe().distinctUntilChanged(),
             userSettings.telemetry,
-        ) { isMmpEnabled, isTelemetryEnabled -> isMmpEnabled && isTelemetryEnabled }
-            .onEach { isSendingMmpEventsAllowed ->
-                if (isSendingMmpEventsAllowed) {
+            ::Pair,
+        )
+            .onEach { (isMmpEnabled, isTelemetryEnabled) ->
+                if(isMmpEnabled && isTelemetryEnabled) {
                     periodicUpdateManager.get().registerUpdateAction(
                         action = updateMmpEventsAction,
                         updateSpec = arrayOf(
@@ -74,7 +74,11 @@ class AppMmpObservability @Inject constructor(
                 } else {
                     periodicUpdateManager.get().unregister(action = updateMmpEventsAction)
 
-                    resetMmpEvents.get().invoke()
+                    val mmpFeatureFlag = isMmpFeatureFlagEnabled.getFlag()
+
+                    if(!isTelemetryEnabled || (mmpFeatureFlag != null && !mmpFeatureFlag.value)) {
+                        resetMmpEvents.get().invoke()
+                    }
                 }
             }
             .launchIn(scope = mainScope)

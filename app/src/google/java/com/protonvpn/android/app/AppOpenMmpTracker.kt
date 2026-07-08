@@ -21,7 +21,6 @@ package com.protonvpn.android.app
 
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.di.WallClock
-import com.protonvpn.android.mmp.IsMmpFeatureFlagEnabled
 import com.protonvpn.android.mmp.events.MmpEventType
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -29,7 +28,6 @@ import com.protonvpn.android.ui.ForegroundActivityTracker
 import dagger.Lazy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
@@ -40,7 +38,6 @@ import javax.inject.Singleton
 
 @Singleton
 class AppOpenMmpTracker @Inject constructor(
-    private val isMmpEnabled: IsMmpFeatureFlagEnabled,
     private val userSettings: EffectiveCurrentUserSettings,
     private val mainScope: CoroutineScope,
     @param:WallClock private val now: () -> Long,
@@ -54,11 +51,8 @@ class AppOpenMmpTracker @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun start() {
-        combine(
-            isMmpEnabled.observe(),
-            userSettings.telemetry,
-        ) { isMmpEnabled, isTelemetryEnabled -> isMmpEnabled && isTelemetryEnabled }
-            .filter { isSavingMmpEventsAllowed -> isSavingMmpEventsAllowed }
+        userSettings.telemetry
+            .filter { isTelemetryEnabled -> isTelemetryEnabled }
             .flatMapLatest { foregroundActivityTracker.get().foregroundBackgroundTransitionFlow }
             .onEach { (wasInForeground, isInForeground) ->
                 when {

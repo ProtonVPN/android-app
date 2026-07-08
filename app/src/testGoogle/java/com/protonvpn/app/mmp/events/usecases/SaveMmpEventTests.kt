@@ -64,8 +64,6 @@ class SaveMmpEventTests {
 
     private lateinit var appDatabase: AppDatabase
 
-    private lateinit var isMmpEnabled: FakeIsMmpFeatureFlagEnabled
-
     private lateinit var mmpEventsDao: MmpEventsDao
 
     private lateinit var mmpReferrerStorage: MmpReferrerStorage
@@ -87,8 +85,6 @@ class SaveMmpEventTests {
             klass = AppDatabase::class.java,
         ).buildDatabase()
 
-        isMmpEnabled = FakeIsMmpFeatureFlagEnabled(enabled = true)
-
         mmpEventsDao = appDatabase.mmpEventsDao()
 
         testScope = TestScope(context = testDispatcher)
@@ -101,7 +97,7 @@ class SaveMmpEventTests {
         localUserSettingsFlow = MutableStateFlow(value = LocalUserSettings.Default)
 
         val getMmpReferrer = GetMmpReferrer(
-            isMmpEnabled = isMmpEnabled,
+            isMmpEnabled = FakeIsMmpFeatureFlagEnabled(enabled = true),
             mmpReferrerStorage = mmpReferrerStorage,
             fetchMmpReferrer = mockFetchMmpReferrer,
         )
@@ -112,7 +108,6 @@ class SaveMmpEventTests {
         )
 
         saveMmpEvent = SaveMmpEvent(
-            isMmpEnabled = isMmpEnabled,
             userSettings = userSettings,
             mmpEventsDao = mmpEventsDao,
             getMmpReferrer = getMmpReferrer,
@@ -127,17 +122,7 @@ class SaveMmpEventTests {
     }
 
     @Test
-    fun `GIVEN feature flag is disabled WHEN saving event THEN event is not saved`() = testScope.runTest {
-        isMmpEnabled.setEnabled(isEnabled = false)
-
-        saveMmpEvent(eventType = MmpEventType.Install)
-
-        assertTrue(actual = mmpEventsDao.getAll().isEmpty())
-    }
-
-    @Test
-    fun `GIVEN feature flag is enabled AND telemetry is disabled WHEN saving event THEN event is not saved`() = testScope.runTest {
-        isMmpEnabled.setEnabled(isEnabled = true)
+    fun `GIVEN telemetry is disabled WHEN saving event THEN event is not saved`() = testScope.runTest {
         localUserSettingsFlow.value = LocalUserSettings.Default.copy(telemetry = false)
 
         saveMmpEvent(eventType = MmpEventType.Install)
@@ -146,8 +131,7 @@ class SaveMmpEventTests {
     }
 
     @Test
-    fun `GIVEN feature flag is enabled AND no referrer WHEN saving event THEN event is saved`() = testScope.runTest {
-        isMmpEnabled.setEnabled(isEnabled = true)
+    fun `GIVEN no referrer WHEN saving event THEN event is saved`() = testScope.runTest {
         val eventType = MmpEventType.Install
         val expectedMmpEvents = listOf(
             TestMmpEvent.create(
@@ -165,8 +149,7 @@ class SaveMmpEventTests {
     }
 
     @Test
-    fun `GIVEN feature flag is enabled AND referrer WHEN saving event THEN event is saved`() = testScope.runTest {
-        isMmpEnabled.setEnabled(isEnabled = true)
+    fun `GIVEN referrer WHEN saving event THEN event is saved`() = testScope.runTest {
         val sessionStartTimestamp = 1776180474817
         val mmpReferrer = TestMmpReferrer.create(sessionStartTimestamp = sessionStartTimestamp)
         val eventType = MmpEventType.Install
@@ -188,8 +171,7 @@ class SaveMmpEventTests {
     }
 
     @Test
-    fun `GIVEN feature flag is enabled AND referrer WHEN saving event THEN referrer session is not restarted`() = testScope.runTest {
-        isMmpEnabled.setEnabled(isEnabled = true)
+    fun `GIVEN referrer WHEN saving event THEN referrer session is not restarted`() = testScope.runTest {
         val sessionStartTimestamp = 162827328732
         val mmpReferrer = TestMmpReferrer.create(sessionStartTimestamp = sessionStartTimestamp)
         val eventType = MmpEventType.Install
@@ -204,8 +186,7 @@ class SaveMmpEventTests {
     }
 
     @Test
-    fun `GIVEN feature flag is enabled AND referrer AND session restart required WHEN saving event THEN event is saved`() = testScope.runTest {
-        isMmpEnabled.setEnabled(isEnabled = true)
+    fun `GIVEN referrer AND session restart required WHEN saving event THEN event is saved`() = testScope.runTest {
         val mmpReferrer = TestMmpReferrer.create(sessionStartTimestamp = 179927328711)
         val eventType = MmpEventType.Install
         val expectedMmpEvents = listOf(
@@ -224,8 +205,7 @@ class SaveMmpEventTests {
     }
 
     @Test
-    fun `GIVEN feature flag is enabled AND referrer AND session restart required WHEN saving event THEN referrer session is restarted`() = testScope.runTest {
-        isMmpEnabled.setEnabled(isEnabled = true)
+    fun `GIVEN referrer AND session restart required WHEN saving event THEN referrer session is restarted`() = testScope.runTest {
         val mmpReferrer = TestMmpReferrer.create(sessionStartTimestamp = 179927328711)
         val eventType = MmpEventType.Install
         mmpReferrerStorage.updateMmpReferrer { mmpReferrer }
