@@ -180,7 +180,10 @@ class TvQrLoginViewModel @Inject constructor(
     val viewState: StateFlow<ViewState> = triggerNewQrCode.receiveAsFlow()
         .flatMapLatest { sessionForkFlow }
         .onStart { triggerNewQrCode.trySend(Unit) }
-        .catch { e -> logUnexpectedState("TV sign in unexpected error", e) }
+        .catch { e ->
+            logUnexpectedState("TV sign in unexpected error", e)
+            emit(ViewState.Login.Error)
+        }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ViewState.Loading)
 
     fun createNewCode() {
