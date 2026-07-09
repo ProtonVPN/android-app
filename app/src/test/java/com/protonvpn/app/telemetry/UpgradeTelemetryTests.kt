@@ -76,8 +76,8 @@ class UpgradeTelemetryTests {
     private lateinit var experimentComparisonTableFF: FakeIsUpsellComparisonTableExperimentEnabled
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
-    private val freeVpnUserAbControl = TestUser.freeUser.vpnUser.copy(userId = UserId("id2"))
-    private val freeVpnUserAbTreatment = TestUser.freeUser.vpnUser.copy(userId = UserId("id3"))
+    private val freeVpnUserAbControl = TestUser.freeUser.vpnUser.copy(userId = UserId("id1"))
+    private val freeVpnUserAbTreatment = TestUser.freeUser.vpnUser.copy(userId = UserId("id2"))
 
     private lateinit var upgradeTelemetry: UpgradeTelemetry
 

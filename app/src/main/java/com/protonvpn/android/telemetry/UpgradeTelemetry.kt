@@ -36,7 +36,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import me.proton.core.domain.entity.UserId
-import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -90,7 +89,7 @@ enum class AbTestComparisonTable(val reportedValue: String) {
 
     companion object {
         fun fromUserId(userId: UserId) =
-            if (userId.isControlGroup()) CONTROL else COMPARISON_TABLE
+            if (userId.id.hashCode() % 2 == 0) CONTROL else COMPARISON_TABLE
     }
 }
 
@@ -99,18 +98,8 @@ enum class AbTest12mPromo(val reportedValue: String) {
 
     companion object {
         fun fromUserId(userId: UserId) =
-            if (userId.isControlGroup()) CONTROL else YEARLY
+            if (userId.id.hashCode() % 2 == 0) CONTROL else YEARLY
     }
-}
-
-private fun UserId.isControlGroup(): Boolean =
-    id.toMd5().last() % 2 == 0
-
-
-private fun String.toMd5(): ByteArray {
-    val md5 = MessageDigest.getInstance("md5")
-    md5.update(this.toByteArray())
-    return md5.digest()
 }
 
 @Singleton

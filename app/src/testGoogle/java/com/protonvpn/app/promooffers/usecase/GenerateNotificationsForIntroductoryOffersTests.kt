@@ -79,7 +79,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
     private lateinit var generateNotificationsForIntroductoryOffers: GenerateNotificationsForIntroductoryOffers
 
     private val freeVpnUser = TestVpnUser.create(id = "id1", maxTier = 0, subscribed = 0)
-    private val freeVpnUserAbControlGroup = TestVpnUser.create(id = "id2", maxTier = 0, subscribed = 0)
+    private val freeVpnUserAb12mGroup = TestVpnUser.create(id = "id2", maxTier = 0, subscribed = 0)
 
     private val introTags = listOf(IapConstants.INTRO_PRICE_TAG)
     private val baseTags = listOf(IapConstants.BASE_PRICE_TAG)
@@ -391,7 +391,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
             createGiapOffer(vpnPlus, PlanCycle.YEARLY, listOf(2_00, 100_00), currency = "USD", tags = introTags),
         )
         experiment12mEnabledFF.setEnabled(true)
-        testCurrentUserProvider.vpnUser = freeVpnUserAbControlGroup
+        testCurrentUserProvider.vpnUser = freeVpnUser // Control group.
 
         val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(2, notifications.size)
@@ -411,7 +411,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
             createGiapOffer(vpnPlus, PlanCycle.YEARLY, listOf(2_00, 100_00), currency = "USD", tags = introTags),
         )
         experiment12mEnabledFF.setEnabled(true)
-        testCurrentUserProvider.vpnUser = freeVpnUser // 12m group.
+        testCurrentUserProvider.vpnUser = freeVpnUserAb12mGroup
 
         val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(2, notifications.size)
