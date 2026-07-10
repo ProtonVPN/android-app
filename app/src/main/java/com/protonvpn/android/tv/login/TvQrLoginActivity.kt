@@ -42,12 +42,15 @@ import com.protonvpn.android.tv.main.TvMainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
+import me.proton.core.presentation.utils.addOnBackPressedCallback
 
 @AndroidEntryPoint
 class TvQrLoginActivity : BaseTvActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        addOnBackPressedCallback { onClose() }
 
         setContent {
             ProtonThemeTv {
@@ -81,6 +84,11 @@ class TvQrLoginActivity : BaseTvActivity() {
         // background but it's not guaranteed.
         setResult(Activity.RESULT_OK)
         startActivity(Intent(this, TvMainActivity::class.java))
+        finish()
+    }
+
+    private fun onClose() {
+        setResult(Activity.RESULT_CANCELED)
         finish()
     }
 
