@@ -1481,7 +1481,7 @@
     <string name="settings_split_tunneling_already_excluded">Redan exkluderad</string>
     <string name="settings_split_tunneling_already_included">Redan inkluderat</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Ta bort IP-adress från listan?</string>
-    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP-adress borttagen</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme_value_auto">Enhetstema</string>
     <string name="settings_theme_value_light">Ljus</string>

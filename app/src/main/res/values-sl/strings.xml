@@ -511,7 +511,7 @@
     <string name="upgrade_unlimited_pass_credit_cards">Neomejeno število plačilnih kartic</string>
     <string name="upgrade_unlimited_pass_devices">Neomejeno število naprav</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Share with up to %1$d other</item>
+        <item quantity="one">Dajte v skupno rabo z %1$d osebami</item>
         <item quantity="two">Share with up to %1$d others</item>
         <item quantity="few">Share with up to %1$d others</item>
         <item quantity="other">Dajte v skupno rabo z %1$d osebami</item>
@@ -566,15 +566,15 @@
     <string name="upsell_panel_country_benefit_speed">Hitri strežniki</string>
     <string name="upsell_panel_country_benefit_shows">Glejte oddaje, ki so na voljo le v tujini</string>
     <string name="upsell_panel_netshield_title">Brskajte brez prekinitev</string>
-    <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
-    <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
-    <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
-    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
-    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
-    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
-    <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
-    <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
-    <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
+    <string name="upsell_panel_netshield_benefit_ads">Oglasi blokirani med brskanjem</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Preprečite sledilcem, da bi vam sledili</string>
+    <string name="upsell_panel_netshield_benefit_malware">Zaščita pred zlonamerno programsko opremo in lažnim predstavljanjem</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Strani se nalagajo hitreje </string>
+    <string name="upsell_panel_speed_title">Hitrejše pretakanje vsebin, igranje iger in prenašanje datotek</string>
+    <string name="upsell_panel_speed_benefit_servers">Hitri strežniki</string>
+    <string name="upsell_panel_speed_benefit_gaming">Odzivni čas med igranjem iger</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Počasen</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Hiter</string>
     <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
     <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
     <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
@@ -713,7 +713,7 @@
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Počisti</string>
     <!-- Content description for an icon button that clears text in an input field. -->
-    <string name="clear_text_field_content_description">Clear</string>
+    <string name="clear_text_field_content_description">Počisti</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Se želite povezati z določeno državo?</string>
     <string name="upgrade_country_message"><![CDATA[Odklenite <b>izbiro držav</b> z VPN Plus.]]></string>
@@ -885,17 +885,17 @@
      Text added to clickable elements that provide negative feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_negative">not good</string>
+    <string name="accessibility_feedback_negative">Ni dobro</string>
     <!--
      Text added to clickable elements that provide positive feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_positive">good</string>
+    <string name="accessibility_feedback_positive">dobro</string>
     <!--
      Text added to clickable elements that allows to submit either positive or negative feedback.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_submit_feedback">submit</string>
+    <string name="accessibility_action_submit_feedback">pošlji</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -1738,9 +1738,9 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="session_fork_error_network_message">Check your network and try again.</string>
     <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
     <string name="session_fork_error_report_button">Report the issue</string>
-    <string name="session_fork_qr_code_content_description">QR code</string>
+    <string name="session_fork_qr_code_content_description">QR koda</string>
     <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
-    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
+    <string name="session_fork_qr_code_trouble_button">Imate težave s prijavo?</string>
     <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
     <string name="session_fork_qr_code_error_network">Check your network and try again</string>
     <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
