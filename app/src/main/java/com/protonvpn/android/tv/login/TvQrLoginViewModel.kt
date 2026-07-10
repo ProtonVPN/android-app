@@ -267,21 +267,20 @@ class TvQrLoginViewModel @Inject constructor(
         } ?: PollResult.Timeout
 
     private suspend fun login(session: Session.Authenticated, fork: ForkData): ViewState.Login {
-        try {
+        val result = try {
             createLoginSessionFromFork.get().invoke(accountType, null, session)
+            postLoginAccountSetup.get().invoke(
+                userId = session.userId,
+                encryptedAuthSecret = EncryptedAuthSecret.Absent,
+                requiredAccountType = accountType,
+                isSecondFactorNeeded = false,
+                isTwoPassModeNeeded = false,
+                temporaryPassword = false,
+            )
         } catch (e: ApiException) {
             ProtonLogger.logCustom(LogCategory.USER, "TV sign in failed: creating session failed: $e")
             return ViewState.Login.Error
         }
-
-        val result = postLoginAccountSetup.get().invoke(
-            userId = session.userId,
-            encryptedAuthSecret = EncryptedAuthSecret.Absent,
-            requiredAccountType = accountType,
-            isSecondFactorNeeded = false,
-            isTwoPassModeNeeded = false,
-            temporaryPassword = false,
-        )
         return when (result) {
             is PostLoginAccountSetup.Result.AccountReady -> {
                 ProtonLogger.logCustom(LogCategory.USER, "TV sign in successful")
