@@ -38,6 +38,7 @@ import com.protonvpn.android.utils.Storage
 import dagger.Lazy
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
@@ -46,10 +47,13 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import me.proton.core.account.domain.entity.Account
+import me.proton.core.account.domain.entity.AccountState
+import me.proton.core.account.domain.entity.SessionState
 import me.proton.core.account.domain.entity.isDisabled
 import me.proton.core.account.domain.entity.isReady
 import me.proton.core.account.domain.entity.isStepNeeded
 import me.proton.core.accountmanager.domain.AccountManager
+import me.proton.core.accountmanager.domain.getAccounts
 import me.proton.core.accountmanager.presentation.observe
 import me.proton.core.accountmanager.presentation.onAccountCreateAccountNeeded
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressFailed
@@ -163,6 +167,20 @@ abstract class AccountViewModel(
                     }
                 }
                 .launchIn(activity.lifecycleScope)
+        }
+    }
+
+    fun disableInitialNotReadyAccounts() {
+        // Accounts that were left in NotReady state are disabled.
+        viewModelScope.launch {
+            accountManager.getAccounts(AccountState.NotReady, AccountState.Removed)
+                .first()
+                .forEach {
+                    // Do not disable if SecondFactor is pending.
+                    if (it.sessionState != SessionState.SecondFactorNeeded) {
+                        accountManager.disableAccount(it.userId)
+                    }
+                }
         }
     }
 

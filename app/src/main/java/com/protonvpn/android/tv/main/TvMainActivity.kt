@@ -83,6 +83,7 @@ class TvMainActivity : BaseTvActivity() {
         val binding = ActivityTvMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         helper.onCreate(accountViewModel)
+        accountViewModel.disableInitialNotReadyAccounts()
 
         val isTvIntent = intent.hasCategory(Intent.CATEGORY_LEANBACK_LAUNCHER)
         isTv.onUiLaunched(isTvIntent)
