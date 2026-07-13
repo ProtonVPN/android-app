@@ -64,6 +64,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnDivider
+import com.protonvpn.android.base.ui.cards.InfoCard
 import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.base.ui.protonElevation
 import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
@@ -72,7 +73,6 @@ import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.UpsellBanner
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
-import com.protonvpn.android.redesign.home_screen.ui.FeatureComposable
 import com.protonvpn.android.redesign.vpn.ui.countryName
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
@@ -464,7 +464,7 @@ private fun ServerGroupInfoCard(
 ) {
     when (item) {
         is ServerGroupUiItem.InfoCard.SmartRouting -> {
-            FeatureComposable(
+            InfoCard(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .padding(top = 12.dp),

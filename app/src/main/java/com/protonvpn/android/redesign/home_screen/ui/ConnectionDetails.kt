@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.redesign.home_screen.ui
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -64,8 +63,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -95,6 +92,7 @@ import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarBackIcon
 import com.protonvpn.android.base.ui.VpnDivider
+import com.protonvpn.android.base.ui.cards.InfoCard
 import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.base.ui.speedBytesToString
 import com.protonvpn.android.bus.TrafficUpdate
@@ -284,7 +282,7 @@ private fun ServerFeatures(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         if (features.hasSecureCore) {
-            FeatureComposable(
+            InfoCard(
                 title = stringResource(id = R.string.connection_feature_secure_core_title),
                 details = stringResource(id = R.string.connection_feature_secure_core_description),
                 iconId = R.drawable.ic_lock_layers,
@@ -292,7 +290,7 @@ private fun ServerFeatures(
             )
         }
         if (features.hasP2P) {
-            FeatureComposable(
+            InfoCard(
                 title = stringResource(id = R.string.connection_feature_p2p_title),
                 details = stringResource(id = R.string.connection_feature_p2p_description),
                 iconId = CoreR.drawable.ic_proton_arrow_right_arrow_left,
@@ -300,7 +298,7 @@ private fun ServerFeatures(
             )
         }
         if (features.hasTor) {
-            FeatureComposable(
+            InfoCard(
                 title = stringResource(id = R.string.connection_feature_tor_title),
                 details = stringResource(id = R.string.connection_feature_tor_description),
                 iconId = CoreR.drawable.ic_proton_brand_tor,
@@ -308,7 +306,7 @@ private fun ServerFeatures(
             )
         }
         if (features.smartRouting != null) {
-            FeatureComposable(
+            InfoCard(
                 title = stringResource(id = R.string.connection_feature_smart_routing_title),
                 details = stringResource(R.string.connection_feature_smart_routing_description),
                 iconId = CoreR.drawable.ic_proton_globe,
@@ -316,7 +314,7 @@ private fun ServerFeatures(
             )
         }
         if (features.streamingServices != null) {
-            FeatureComposable(
+            InfoCard(
                 title = stringResource(id = R.string.connection_feature_streaming_title),
                 details = stringResource(id = R.string.connection_feature_streaming_description),
                 iconId = CoreR.drawable.ic_proton_play,
@@ -374,99 +372,6 @@ private fun StreamingServicesGrid(
                         modifier = Modifier
                     )
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun FeatureComposable(
-    modifier: Modifier = Modifier,
-    title: String,
-    details: String,
-    @DrawableRes iconId: Int,
-    backgroundColor: Color = ProtonTheme.colors.backgroundNorm,
-    additionalInformation: (@Composable () -> Unit)? = null,
-    onClick: (() -> Unit)
-) {
-    ConstraintLayout(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(shape = ProtonTheme.shapes.medium)
-            .clickable(onClick = onClick)
-            .background(color = backgroundColor)
-            .padding(16.dp)
-    ) {
-        val (icon, titleView, detailsView, additionalView) = createRefs()
-
-        Icon(
-            painter = painterResource(id = iconId),
-            tint = ProtonTheme.colors.iconNorm,
-            contentDescription = null,
-            modifier = Modifier
-                .size(20.dp)
-                .constrainAs(icon) {
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                }
-        )
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.constrainAs(titleView) {
-                start.linkTo(icon.end, margin = 8.dp)
-                end.linkTo(parent.end)
-                top.linkTo(icon.top)
-                width = Dimension.fillToConstraints
-            }
-        ) {
-            Text(
-                text = title,
-                style = ProtonTheme.typography.body2Medium,
-                color = ProtonTheme.colors.textNorm,
-                modifier = Modifier.weight(1f)
-            )
-
-            Text(
-                text = stringResource(id = R.string.connection_details_info_label),
-                style = ProtonTheme.typography.body2Medium,
-                color = ProtonTheme.colors.textWeak,
-                modifier = Modifier.padding(end = 4.dp)
-            )
-
-            Icon(
-                painter = painterResource(id = CoreR.drawable.ic_info_circle),
-                tint = ProtonTheme.colors.iconHint,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(20.dp)
-                    .padding(end = 4.dp)
-            )
-        }
-
-
-        Text(
-            text = details,
-            style = ProtonTheme.typography.body2Regular,
-            color = ProtonTheme.colors.textWeak,
-            modifier = Modifier.constrainAs(detailsView) {
-                start.linkTo(titleView.start)
-                end.linkTo(titleView.end)
-                top.linkTo(titleView.bottom, margin = 8.dp)
-                width = Dimension.fillToConstraints
-            }
-        )
-
-        additionalInformation?.let {
-            Box(
-                modifier = Modifier.constrainAs(additionalView) {
-                    start.linkTo(parent.start)
-                    top.linkTo(detailsView.bottom, margin = 8.dp)
-                    end.linkTo(parent.end)
-                    width = Dimension.fillToConstraints
-                }
-            ) {
-                it()
             }
         }
     }
@@ -1075,36 +980,6 @@ fun ServerFeaturesPreview() {
             ),
             onInfoOpen = {}
         )
-    }
-}
-
-@ProtonVpnPreview
-@Composable
-fun FeaturePreview() {
-    ProtonVpnPreview {
-        Column {
-            FeatureComposable(
-                title = "P2P",
-                details = "Very long text to indicate multiple lines. Very long text to indicate multiple lines. Very long text to indicate multiple lines.",
-                iconId = CoreR.drawable.ic_proton_brand_tor,
-                onClick = {}
-            )
-
-            FeatureComposable(
-                title = stringResource(id = R.string.connection_feature_streaming_title),
-                details = stringResource(id = R.string.connection_feature_streaming_description),
-                iconId = CoreR.drawable.ic_proton_play,
-                additionalInformation = {
-                    Text(
-                        text = "Additional composable here",
-                        style = ProtonTheme.typography.body2Medium,
-                        color = ProtonTheme.colors.textNorm,
-                    )
-                },
-                onClick = {},
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
-        }
     }
 }
 
