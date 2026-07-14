@@ -601,7 +601,7 @@
     <string name="upsell_tv_split_tunneling_title">Få det bästa av båda världar med Plus</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Dela upp din trafik i VPN- och icke-VPN-tunnlar med <b>split tunneling</b>.]]></string>
     <string name="upsell_tv_subscription_expired_title">Prenumeration löpt ut</string>
-    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
+    <string name="upsell_tv_subscription_expired_description">Uppgradera för att få åtkomst till Plus-servrar och funktioner igen.</string>
     <string name="upsell_tv_customization_title">Få avancerade VPN-anpassningar med Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Lås upp <b>LAN-anslutningar</b>, <b>anpassad DNS</b> och mer avancerade VPN-funktioner.]]></string>
     <string name="upsell_tv_fallback_description">Gå till Proton VPN-webbplatsen för att uppgradera ditt paket.</string>
