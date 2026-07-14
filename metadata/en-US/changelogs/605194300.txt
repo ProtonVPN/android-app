@@ -1,0 +1,2 @@
+What's new
+Improved split tunneling. You can now enter IP ranges (using CIDR notation) to include in or exclude from the VPN tunnel
