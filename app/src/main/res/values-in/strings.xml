@@ -766,7 +766,6 @@
     <string name="welcome_plus_title">Selamat datang di VPN Plus</string>
     <string name="welcome_plus_description">Nikmati berbagai fitur privasi tambahan, performa yang jauh lebih cepat, dan opsi kustomisasi VPN tingkat lanjut.</string>
     <string name="welcome_unlimited_title">Selamat datang di Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Anda telah membuka akses ke seluruh fitur premium Proton VPN, Mail, Calendar, Drive, Pass, dan Wallet — beserta dengan total penyimpanan <b>%1$d&#160;GB</b>.]]></string>
     <string name="welcome_generic_title">Selamat</string>
     <string name="welcome_generic_description">Anda telah meningkatkan paket langganan Anda. Nikmati berbagai fitur privasi mutakhir dan performa tingkat lanjut.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

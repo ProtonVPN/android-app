@@ -26,7 +26,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.updatePadding
 import androidx.fragment.app.commitNow
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
@@ -34,7 +33,6 @@ import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityCongratsPlanBinding
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.applySystemBarInsets
@@ -42,7 +40,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
 class CongratsPlanActivity : BaseActivityV2() {
@@ -138,16 +135,13 @@ class CongratsPlusHighlightsFragment : PlanHighlightsFragment() {
 @AndroidEntryPoint
 class CongratsUnlimitedHighlightsFragment : PlanHighlightsFragment() {
 
-    private val congratsViewModel by viewModels<CongratsPlanViewModel>(ownerProducer = { requireActivity() })
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
-            val storageGb = congratsViewModel.getStorageGBs()
             binding.set(
                 imageResource = R.drawable.welcome_unlimited,
                 title = getString(R.string.welcome_unlimited_title),
-                message = HtmlTools.fromHtml(getString(R.string.welcome_unlimited_description, storageGb)),
+                message = getString(R.string.welcome_unlimited_description)
             )
         }
     }

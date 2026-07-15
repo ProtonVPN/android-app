@@ -829,7 +829,6 @@
     <string name="welcome_plus_title">Вітаємо у VPN Plus</string>
     <string name="welcome_plus_description">Оцініть додаткові функції приватності, вдосконалену продуктивність і налаштування VPN нового рівня.</string>
     <string name="welcome_unlimited_title">Вітаємо у Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Ви розблокували всі преміальні функції Proton VPN, Mail, Календаря, Диска, Pass та Гаманця — і <b>%1$d&#160;ГБ</b> сховища.]]></string>
     <string name="welcome_generic_title">Вітаємо</string>
     <string name="welcome_generic_description">Ви оновили свій тарифний план. Оцініть переваги розширених функцій безпеки й продуктивності нового рівня.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

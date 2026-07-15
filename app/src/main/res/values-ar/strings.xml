@@ -871,7 +871,6 @@
     <string name="welcome_plus_title">انطلق الآن مع VPN Plus</string>
     <string name="welcome_plus_description">استمتع بمميزات خصوصية إضافية، وأداء استثنائي، ومستوى جديد من تخصيص الـ VPN.</string>
     <string name="welcome_unlimited_title">انطلق بلا حدود مع Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[استمتع الآن بجميع المميزات المدفوعة لخدمات Proton VPN و Mail و Calendar و Drive و Pass و Wallet، بالإضافة إلى مساحة تخزين تبلغ <b>%1$d&#160;جيجا</b>.]]></string>
     <string name="welcome_generic_title">تهانينا</string>
     <string name="welcome_generic_description">تمت ترقية اشتراكك. استمتع بالمستوى المتقدم من الخصوصية والأداء الاستثنائي.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

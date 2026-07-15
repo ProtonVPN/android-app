@@ -787,7 +787,6 @@
     <string name="welcome_plus_title">Us donem la benvinguda a VPN Plus</string>
     <string name="welcome_plus_description">Gaudiu de funcions de privadesa addicionals, rendiment excepcional i una personalització de VPN d\'un altre nivell.</string>
     <string name="welcome_unlimited_title">Us donem la benvinguda a Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Heu desbloquejat totes les característiques prèmium de Proton VPN, Mail, Calendari, Drive, Pass i Cartera — i <b>%1$d&#160;GB</b> d\'emmagatzematge total.]]></string>
     <string name="welcome_generic_title">Felicitats</string>
     <string name="welcome_generic_description">Heu millorat la subscripció. Gaudiu de característiques de privacitat avançades i rendiment d\'alt nivell.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

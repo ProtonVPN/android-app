@@ -830,7 +830,6 @@
     <string name="welcome_plus_title">Dobrodošli pri Proton Plus</string>
     <string name="welcome_plus_description">Uživajte v dodatnih funkcijah zasebnosti, okrepljeni zmogljivosti in prilagoditvi VPN naslednje stopnje.</string>
     <string name="welcome_unlimited_title">Dobrodošli v Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Odklenili ste vse premijske funkcije Proton VPN, pošte, koledarja, Drive, Pass in denarnice – in skupno <b>%1$d&#160;GB</b> prostora za shranjevanje.]]></string>
     <string name="welcome_generic_title">Čestitamo</string>
     <string name="welcome_generic_description">Nadgradili ste naročnino. Uživajte v naprednih funkcijah zasebnosti in zmogljivosti naslednje ravni.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

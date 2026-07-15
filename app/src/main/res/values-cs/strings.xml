@@ -829,7 +829,6 @@
     <string name="welcome_plus_title">Vítejte ve VPN Plus</string>
     <string name="welcome_plus_description">Užívejte si další funkce pro ochranu soukromí, vyšší výkon a další úroveň přizpůsobení VPN.</string>
     <string name="welcome_unlimited_title">Vítejte na Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Odemkl(a) jste všechny prémiové funkce Proton VPN, Mail, Calendar, Drive, Pass a Wallet — a celkem <b>%1$d&#160;GB</b> úložiště.]]></string>
     <string name="welcome_generic_title">Gratulujeme</string>
     <string name="welcome_generic_description">Navýšili jste své předplatné. Užívejte si pokročilé funkce ochrany soukromí a výkon na vyšší úrovni.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

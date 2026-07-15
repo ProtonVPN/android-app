@@ -808,7 +808,6 @@
     <string name="welcome_plus_title">Bun venit la VPN Plus</string>
     <string name="welcome_plus_description">Bucurați-vă de funcții suplimentare de confidențialitate, performanță îmbunătățită și personalizare VPN la nivelul următor.</string>
     <string name="welcome_unlimited_title">Bun venit la Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Ați deblocat toate funcțiile premium ale Proton VPN, Mail, Calendar, Drive, Pass și Wallet — și <b>%1$d&#160;GiB</b> de stocare totală.]]></string>
     <string name="welcome_generic_title">Felicitări</string>
     <string name="welcome_generic_description">V-ați modificat abonamentul. Bucurați-vă de funcțiile de confidențialitate și performanță de nivel superior.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

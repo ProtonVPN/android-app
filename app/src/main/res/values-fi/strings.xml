@@ -787,7 +787,6 @@
     <string name="welcome_plus_title">Tervetuloa VPN Plussaan</string>
     <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja uuden tason VPN-mukautuksesta.</string>
     <string name="welcome_unlimited_title">Tervetuloa Proton Unlimitediin</string>
-    <string name="welcome_unlimited_description"><![CDATA[Avasit kaikki Proton VPN:n, Mailin, Calendarin, Driven, Passin ja Walletin premium-ominaisuudet ja <b>%1$d&#160;Gt</b> tallennustilaa.]]></string>
     <string name="welcome_generic_title">Onnittelut</string>
     <string name="welcome_generic_description">Olet päivittänyt tilauksesi. Nauti edistyneistä yksityisyyttäsi tehostavista ominaisuuksista ja huipputason suorituskyvystä.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

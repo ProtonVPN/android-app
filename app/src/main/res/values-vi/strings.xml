@@ -766,7 +766,6 @@
     <string name="welcome_plus_title">Chào mừng đến với VPN Plus</string>
     <string name="welcome_plus_description">Tận hưởng các tính năng quyền riêng tư bổ sung, hiệu năng tăng cường và tùy chỉnh VPN cao cấp hơn.</string>
     <string name="welcome_unlimited_title">Chào mừng đến với Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Bạn đã mở khóa tất cả tính năng cao cấp của Proton VPN, Mail, Calendar, Drive, Pass và Wallet — cùng tổng dung lượng lưu trữ <b>%1$d&#160;GB</b>.]]></string>
     <string name="welcome_generic_title">Xin chúc mừng</string>
     <string name="welcome_generic_description">Bạn đã nâng cấp gói đăng ký. Tận hưởng các tính năng quyền riêng tư nâng cao và hiệu năng cao cấp hơn.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

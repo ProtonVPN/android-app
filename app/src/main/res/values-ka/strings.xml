@@ -787,7 +787,6 @@
     <string name="welcome_plus_title">მოგესალმებათ VPN Plus</string>
     <string name="welcome_plus_description">ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით, ჩქაროსნული წარმადობით და შემდეგ დონეზე აყვანილი VPN-ის მორგებით.</string>
     <string name="welcome_unlimited_title">მოგესალმებათ Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[თქვენ განბლოკეთ Proton VPN, Mail, Calendar, Drive, Pass და Wallet-ის ყველა პრემიუმ ფუნქცია — და ჯამში <b>%1$d&#160;GB</b> საცავი.]]></string>
     <string name="welcome_generic_title">გილოცავთ</string>
     <string name="welcome_generic_description">თქვენ ასწიეთ თქვენი ტარიფი. ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით და შემდეგი დონის წარმადობით.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

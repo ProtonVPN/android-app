@@ -766,7 +766,6 @@
     <string name="welcome_plus_title">欢迎使用 VPN Plus</string>
     <string name="welcome_plus_description">享受额外的隐私功能、超强的性能和更高级别的 VPN 选项。</string>
     <string name="welcome_unlimited_title">欢迎使用 Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[您已解锁所有高级的 Proton VPN、Mail、Calendar、Drive、Pass 和 Wallet 功能 —— 以及总计 <b>%1$d&#160;GB</b> 的存储空间。]]></string>
     <string name="welcome_generic_title">祝贺</string>
     <string name="welcome_generic_description">订阅已升级。享受高级隐私功能和更高水平的性能。</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

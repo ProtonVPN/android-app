@@ -787,7 +787,6 @@
     <string name="welcome_plus_title">Velkommen til VPN Plus</string>
     <string name="welcome_plus_description">Nyt ekstra personvernfunksjoner, forbedret ytelse og VPN-tilpasning på neste nivå.</string>
     <string name="welcome_unlimited_title">Velkommen til Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Du har låst opp alle premium Proton VPN, E-post, Kalender, Drive, Pass og Wallet-funksjoner – og <b>%1$d&#160;GB</b> total lagringsplass.]]></string>
     <string name="welcome_generic_title">Gratulerer</string>
     <string name="welcome_generic_description">Du har oppgradert abonnementet ditt. Gled deg over avanserte personvernfunksjoner og neste-nivå ytelse.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

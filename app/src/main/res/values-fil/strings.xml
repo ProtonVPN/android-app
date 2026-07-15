@@ -787,7 +787,6 @@
     <string name="welcome_plus_title">Welcome sa VPN Plus</string>
     <string name="welcome_plus_description">I-enjoy ang mga karagdagang feature sa privacy, pinahusay na performance, at next-level na customization ng VPN.</string>
     <string name="welcome_unlimited_title">Welcome sa Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Na-unlock mo ang lahat ng premium na feature ng Proton VPN, Mail, Calendar, Drive, Pass at Wallet — at <b>%1$d&#160;GB</b> na kabuuang storage.]]></string>
     <string name="welcome_generic_title">Congratulations</string>
     <string name="welcome_generic_description">Na-upgrade mo na ang subscription mo. I-enjoy ang mga advanced na feature sa privacy at next-level na performance.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
