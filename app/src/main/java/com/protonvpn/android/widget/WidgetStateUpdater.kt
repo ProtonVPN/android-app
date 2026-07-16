@@ -29,6 +29,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.hasConnectionsAssigned
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.WidgetStateUpdate
+import com.protonvpn.android.redesign.app.ui.MainActivity
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
@@ -144,7 +145,6 @@ class WidgetStateUpdater @Inject constructor(
                                 WidgetRecent(
                                     action = actionConnect(
                                         canConnectInBackground = canConnectInBackground,
-                                        mainComponentName = mainComponentName,
                                         recentId = recentItemViewState.id,
                                     ),
                                     connectIntentViewState = recentItemViewState.connectIntent,
@@ -156,7 +156,6 @@ class WidgetStateUpdater @Inject constructor(
                             val cardAction = if (vpnStatus.isActionConnect) {
                                 actionConnect(
                                     canConnectInBackground = canCardConnectInBackground,
-                                    mainComponentName = mainComponentName,
                                 )
                             } else {
                                 actionSendBroadcast(
@@ -193,13 +192,13 @@ class WidgetStateUpdater @Inject constructor(
 
     private fun actionConnect(
         canConnectInBackground: Boolean,
-        mainComponentName: ComponentName,
         recentId: Long? = null
     ) = if (canConnectInBackground) {
         actionSendBroadcast(WidgetActionBroadcastReceiver.intentConnect(appContext, recentId))
     } else {
+        // Use non-exported InternalMainActivity alias for connect action
         actionStartActivity(
-            mainComponentName,
+            ComponentName(appContext, MainActivity.INTERNAL_MAIN_ACTIVITY),
             WidgetActionHandler.connectActionParameters(recentId),
         )
     }

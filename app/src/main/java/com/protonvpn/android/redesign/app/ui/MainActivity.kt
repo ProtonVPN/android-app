@@ -322,16 +322,24 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     fun processIntent(intent: Intent) {
         processDeepLink(intent)
         handleCoreDeepLink(intent)
-        if (intent.data?.scheme == GLANCE_ACTION_SCHEME) {
-            lifecycleScope.launch {
-                widgetActionHandler.onIntent(vpnActivityDelegate, intent)
-            }
-        }
+        processInternalIntent(intent)
         if (intent.action == Intent.ACTION_MAIN &&
             intent.getBooleanExtra(EXTRA_SHOW_STREAMING_RESTRICTION_UPSELL, false)
         ) {
             lifecycleScope.launch {
                 streamingUpsellRestrictionsDialogTrigger.showNow(this@MainActivity)
+            }
+        }
+    }
+
+    // Only honor intents for the non-exported InternalMainActivity (coming only from our app)
+    fun processInternalIntent(intent: Intent) {
+        val internalComponent = intent.component?.className == INTERNAL_MAIN_ACTIVITY
+        if (internalComponent) {
+            if (intent.data?.scheme == GLANCE_ACTION_SCHEME) {
+                lifecycleScope.launch {
+                    widgetActionHandler.onIntent(vpnActivityDelegate, intent)
+                }
             }
         }
     }
@@ -357,6 +365,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
     companion object {
         const val EXTRA_SHOW_STREAMING_RESTRICTION_UPSELL = "ShowStreamingRestrictionUpsell"
+        const val INTERNAL_MAIN_ACTIVITY = "ch.protonvpn.android.InternalMainActivity"
     }
 }
 

@@ -78,6 +78,13 @@
             </intent-filter>
         </activity>
 
+        <!-- Non-exported alias of MainActivity dedicated for intents that can -->
+        <!-- only be started by our own app (e.g. the widget's connect PendingIntent) -->
+        <activity-alias
+            android:name="ch.protonvpn.android.InternalMainActivity"
+            android:targetActivity=".redesign.app.ui.MainActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="android.content.APP_RESTRICTIONS"
             android:resource="@xml/app_restrictions" />
