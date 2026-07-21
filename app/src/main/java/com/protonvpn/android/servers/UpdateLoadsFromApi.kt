@@ -22,7 +22,8 @@ package com.protonvpn.android.servers
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
 import com.protonvpn.android.appconfig.periodicupdates.toPeriodicActionResult
-import com.protonvpn.android.utils.DebugUtils
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import me.proton.core.network.domain.ApiResult
@@ -35,18 +36,11 @@ class UpdateLoadsFromApi @Inject constructor(
 ) {
     suspend operator fun invoke(): PeriodicActionResult<out Any> {
         val serversData = serversDataManager.serverLists.first()
-        if (serversData.allServers.isEmpty()) {
-            return PeriodicActionResult(Unit, isSuccess = true)
-        }
-
         val statusId = serversData.statusId
         if (statusId == null) {
-            DebugUtils.debugAssert(
-                message = "Update loads should be only called when statusId is not null",
-                predicate = { false },
-            )
-
-            return PeriodicActionResult(result = Unit, isSuccess = true)
+            // This may happen when only bundled guest hole servers are added to server manager.
+            ProtonLogger.logCustom(LogCategory.APP, "Update loads with no statusId")
+            return PeriodicActionResult(Unit, isSuccess = true)
         }
 
         val result = api.getBinaryStatus(statusId)
