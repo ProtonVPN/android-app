@@ -829,6 +829,7 @@
     <string name="welcome_plus_title">Вітаем у VPN Plus</string>
     <string name="welcome_plus_description">Атрымлівайце асалоду ад дадатковых функцый прыватнасці, палепшанай прадукцыйнасці і больш гнуткага наладжвання вашага падключэння да VPN.</string>
     <string name="welcome_unlimited_title">Вітаем у Proton Unlimited</string>
+    <string name="welcome_unlimited_description">Вы разблакіравалі ўсе прэміяльныя функцыі праграм Proton VPN, Mail, Calendar, Drive, Pass і Wallet.</string>
     <string name="welcome_generic_title">Віншуем</string>
     <string name="welcome_generic_description">Вы палепшылі сваю падпіску. Атрымлівайце асалоду ад пашыраных функцый прыватнасці і новага ўзроўню прадукцыйнасці.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1262,6 +1263,8 @@
     <string name="connection_details_city">Горад</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">Штат</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Маршрутызаваць праз</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1334,6 +1337,8 @@
     <string name="connection_feature_streaming_description">Гэты сервер аптымізаваны для тэлебачання і прагляду фільмаў.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Падключае вас да вашай краіны прызначэння праз серверы, якія фізічна знаходзяцца дзе-небудзь у іншым месцы.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Падключае вас да вашай краіны прызначэння праз серверы, якія фізічна знаходзяцца дзе-небудзь у іншым месцы: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

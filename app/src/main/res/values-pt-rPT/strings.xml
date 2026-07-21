@@ -787,6 +787,7 @@
     <string name="welcome_plus_title">Bem-vindo à VPN Plus</string>
     <string name="welcome_plus_description">Aproveite funcionalidades de privacidade extra, desempenho de alta qualidade, e uma personalização da VPN de outro nível.</string>
     <string name="welcome_unlimited_title">Boas-vindas ao Proton Unlimited</string>
+    <string name="welcome_unlimited_description">You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features.</string>
     <string name="welcome_generic_title">Parabéns</string>
     <string name="welcome_generic_description">Atualizou a sua subscrição. Desfrute de funcionalidades de privacidade avançadas e de um desempenho de alto nível.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1218,6 +1219,8 @@
     <string name="connection_details_city">Cidade</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">State</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Routed through</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1290,6 +1293,8 @@
     <string name="connection_feature_streaming_description">Este servidor está otimizado para a transmissão de filmes e programas de TV.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Conecta-o ao seu país de destino através de servidores localizados fisicamente em outro lugar.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Connects you to your destination country through servers physically located elsewhere: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

@@ -787,6 +787,7 @@
     <string name="welcome_plus_title">Benvenuto in VPN Plus</string>
     <string name="welcome_plus_description">Approfitta di funzioni aggiuntive per la privacy, di prestazioni potenziate e di una personalizzazione della VPN di livello superiore.</string>
     <string name="welcome_unlimited_title">Ti diamo il benvenuto in Proton Unlimited</string>
+    <string name="welcome_unlimited_description">Hai sbloccato tutte le funzionalità premium di Proton VPN, Mail, Calendar, Drive, Pass e Wallet.</string>
     <string name="welcome_generic_title">Congratulazioni</string>
     <string name="welcome_generic_description">Hai effettuato l\'upgrade del tuo abbonamento. Approfitta di funzionalità per la privacy avanzate e prestazioni di livello superiore.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1218,6 +1219,8 @@
     <string name="connection_details_city">Città</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">Stato</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Inoltrato tramite</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1290,6 +1293,8 @@
     <string name="connection_feature_streaming_description">Questo server è ottimizzato per la riproduzione di programmi TV e film.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Connette il tuo dispositivo al paese scelto tramite server che sono fisicamente situati altrove.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Ti connette al Paese di destinazione tramite server fisicamente situati altrove: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

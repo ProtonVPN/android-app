@@ -511,9 +511,9 @@
     <string name="upgrade_unlimited_pass_credit_cards">Neomejeno število plačilnih kartic</string>
     <string name="upgrade_unlimited_pass_devices">Neomejeno število naprav</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Dajte v skupno rabo z %1$d osebami</item>
-        <item quantity="two">Share with up to %1$d others</item>
-        <item quantity="few">Share with up to %1$d others</item>
+        <item quantity="one">Dajte v skupno rabo z %1$d osebo</item>
+        <item quantity="two">Dajte v skupno rabo z %1$d osebama</item>
+        <item quantity="few">Dajte v skupno rabo z %1$d osebami</item>
         <item quantity="other">Dajte v skupno rabo z %1$d osebami</item>
     </plurals>
     <string name="upgrade_unlimited_pass_2fa_auth">Vgrajen modul za preverjanje pristnosti 2FA</string>
@@ -575,14 +575,14 @@
     <string name="upsell_panel_speed_benefit_gaming">Odzivni čas med igranjem iger</string>
     <string name="upsell_panel_speed_benefit_gaming_slow">Počasen</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Hiter</string>
-    <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
-    <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
-    <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
-    <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_speed_benefit_video">Pretočne video vsebine brez čakanja</string>
+    <string name="upsell_panel_speed_benefit_ads">Brskajte brez oglasov in sledilnikov</string>
+    <string name="upsell_panel_streaming_title">Glejte svoje priljubljene storitve za pretočno predvajanje</string>
+    <string name="upsell_panel_streaming_benefit_shows">Glejte svoje serije iz katere koli države</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
-    <string name="upsell_panel_streaming_benefit_platforms">All major streaming platforms supported *</string>
-    <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
-    <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
+    <string name="upsell_panel_streaming_benefit_platforms">Podprte so vse popularne platforme za pretočno predvajanje *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Glejte v HD ločljivosti brez čakanja na nalaganje</string>
+    <string name="upsell_panel_streaming_benefit_devices">Naprave, ki so hkrati povezane</string>
     <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
     <string name="upsell_card_countries_title">Pokritost po vsem svetu</string>
     <!-- Parameters:
@@ -633,8 +633,8 @@
     <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Izkoristite najboljše iz obeh svetov s Plus-om</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
-    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
-    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
+    <string name="upsell_tv_subscription_expired_title">Naročnina je potekla</string>
+    <string name="upsell_tv_subscription_expired_description">Nadgradite za ponoven dostop do strežnikov Plus in funkcij.</string>
     <string name="upsell_tv_customization_title">Pridobite napredno prilagoditev VPN-ja s Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
     <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
@@ -830,6 +830,7 @@
     <string name="welcome_plus_title">Dobrodošli pri Proton Plus</string>
     <string name="welcome_plus_description">Uživajte v dodatnih funkcijah zasebnosti, okrepljeni zmogljivosti in prilagoditvi VPN naslednje stopnje.</string>
     <string name="welcome_unlimited_title">Dobrodošli v Proton Unlimited</string>
+    <string name="welcome_unlimited_description">Odklenili ste vse premijske funkcije Proton VPN, Mail, Calendar, Drive, Pass, in Wallet.</string>
     <string name="welcome_generic_title">Čestitamo</string>
     <string name="welcome_generic_description">Nadgradili ste naročnino. Uživajte v naprednih funkcijah zasebnosti in zmogljivosti naslednje ravni.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1263,6 +1264,8 @@
     <string name="connection_details_city">Mesto</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">Država</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Preusmerjeno skozi</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1335,6 +1338,8 @@
     <string name="connection_feature_streaming_description">Ta strežnik je optimiziran za predvajanje televizije in filmov.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Povezuje vas z vašo ciljno državo prek strežnikov, ki so fizično nameščeni drugje.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Povezuje vas z vašo ciljno državo prek strežnikov, ki so fizično nameščeni drugje: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1548,7 +1553,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_split_tunneling_already_excluded">Že izključeno</string>
     <string name="settings_split_tunneling_already_included">Že vključeno</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Želite odstraniti naslov IP s seznama?</string>
-    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP-naslov je bil odstranjen</string>
     <string name="settings_theme_title">Tema</string>
     <string name="settings_theme_value_auto">Tema naprave</string>
     <string name="settings_theme_value_light">Svetla</string>
@@ -1722,27 +1727,27 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="session_fork_no_account_title">Sign in on Android TV</string>
     <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
     <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
-    <string name="session_fork_no_account_signup_button">Create an account</string>
-    <string name="session_fork_no_account_signin_button">Sign in</string>
+    <string name="session_fork_no_account_signup_button">Ustvarite račun</string>
+    <string name="session_fork_no_account_signin_button">Prijava</string>
     <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
     <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
     <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
     <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
-    <string name="session_fork_success_title">Sign-in complete</string>
+    <string name="session_fork_success_title">Prijava je zaključena</string>
     <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
-    <string name="session_fork_error_expired_title">Code expired</string>
-    <string name="session_fork_error_expired_message">Create a new code on your TV and try again.</string>
-    <string name="session_fork_error_generic_title">Couldn’t sign in</string>
+    <string name="session_fork_error_expired_title">Koda je potekla</string>
+    <string name="session_fork_error_expired_message">Na televizorju ustvarite novo kodo in poskusite še enkrat.</string>
+    <string name="session_fork_error_generic_title">Prijava ni uspela</string>
     <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
     <string name="session_fork_error_network_message">Check your network and try again.</string>
     <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
-    <string name="session_fork_error_report_button">Report the issue</string>
+    <string name="session_fork_error_report_button">Prijavi težavo</string>
     <string name="session_fork_qr_code_content_description">QR koda</string>
     <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
     <string name="session_fork_qr_code_trouble_button">Imate težave s prijavo?</string>
     <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
     <string name="session_fork_qr_code_error_network">Check your network and try again</string>
-    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
+    <string name="session_fork_qr_code_error_create_new_button">Ustvarite novo kodo</string>
     <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
     <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">Sign in or create an account</string>

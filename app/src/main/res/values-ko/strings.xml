@@ -767,6 +767,7 @@
     <string name="welcome_plus_title">VPN Plus에 오신 것을 환영합니다</string>
     <string name="welcome_plus_description">더 많은 개인정보 보호 기능과 강력한 성능, 그리고 한 차원 높은 VPN 사용자화를 사용해 보세요.</string>
     <string name="welcome_unlimited_title">Proton Unlimited에 오신 것을 환영합니다</string>
+    <string name="welcome_unlimited_description">You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features.</string>
     <string name="welcome_generic_title">축하합니다</string>
     <string name="welcome_generic_description">구독을 업그레이드 했습니다. 한 차원 높은 개인정보 보호 기능과 성능을 즐겨보세요.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1197,6 +1198,8 @@
     <string name="connection_details_city">시/군/구</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">주/도</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Routed through</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1269,6 +1272,8 @@
     <string name="connection_feature_streaming_description">이 서버는 TV 및 영화 다시보기에 최적화 되어있습니다.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">물리적으로 다른 곳에 위치한 서버를 통해 목적지 국가로 연결합니다.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Connects you to your destination country through servers physically located elsewhere: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

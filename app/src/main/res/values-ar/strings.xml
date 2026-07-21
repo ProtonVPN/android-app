@@ -229,7 +229,8 @@
     <string name="settingsSendCrashReportsTitle">مشاركة تقارير الأعطال بشكل مجهول</string>
     <string name="settingsSendCrashReportsDescription">تُساهم تقارير الأعطال في معالجة الأخطاء، ورصد جدران الحماية، وتفادي قيود حظر VPN.</string>
     <string name="settingsTelemetryScreenTitle">بيانات الاستخدام</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[لا تتضمن هذه البيانات عنوان IP الخاص بك، ولا تكشف عن هويتك بأي حال. نلتزم بعدم مشاركتها مع أي أطراف ثالثة. <a href="%1$s">معرفة المزيد</a>]]></string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[لا تتضمن هذه البيانات عنوان IP الخاص بك، ولا تكشف عن هويتك بأي حال. نلتزم بعدم مشاركتها مع أي أطراف ثالثة. <a href="%1$s">معرفة المزيد</a>
+]]></string>
     <string name="netshield_settings_description_not_html">احمي خصوصيتك بحظر الإعلانات والبرامج الضارة وأدوات التتبع عبر المواقع والتطبيقات. %1$s</string>
     <string name="netshield_settings_description_tv">يوفر حماية من إعلانات الطرف الثالث، وأدوات التتبع، والبرامج الضارة. علماً بأن NetShield لا يحظر الإعلانات المدمجة برمجياً في محتوى منصات المشاهدة مثل YouTube و Netflix.</string>
     <string name="netshield_settings_more_info_title_tv">كيف يعمل NetShield</string>
@@ -871,6 +872,7 @@
     <string name="welcome_plus_title">انطلق الآن مع VPN Plus</string>
     <string name="welcome_plus_description">استمتع بمميزات خصوصية إضافية، وأداء استثنائي، ومستوى جديد من تخصيص الـ VPN.</string>
     <string name="welcome_unlimited_title">انطلق بلا حدود مع Proton Unlimited</string>
+    <string name="welcome_unlimited_description">You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features.</string>
     <string name="welcome_generic_title">تهانينا</string>
     <string name="welcome_generic_description">تمت ترقية اشتراكك. استمتع بالمستوى المتقدم من الخصوصية والأداء الاستثنائي.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1306,6 +1308,8 @@
     <string name="connection_details_city">المدينة</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">الولاية</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Routed through</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1378,6 +1382,8 @@
     <string name="connection_feature_streaming_description">يدعم هذا الخادم مشاهدة الأفلام والبرامج التلفزيونية.</string>
     <string name="connection_feature_smart_routing_title">التوجيه الذكي</string>
     <string name="connection_feature_smart_routing_description">يمنحك اتصالاً بالدولة التي اخترتها عبر خوادم سريعة تقع في دولة أخرى.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Connects you to your destination country through servers physically located elsewhere: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

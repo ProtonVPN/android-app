@@ -808,6 +808,7 @@
     <string name="welcome_plus_title">Bun venit la VPN Plus</string>
     <string name="welcome_plus_description">Bucurați-vă de funcții suplimentare de confidențialitate, performanță îmbunătățită și personalizare VPN la nivelul următor.</string>
     <string name="welcome_unlimited_title">Bun venit la Proton Unlimited</string>
+    <string name="welcome_unlimited_description">Ați deblocat toate funcțiile premium din Proton VPN, Mail, Calendar, Drive, Pass și Wallet.</string>
     <string name="welcome_generic_title">Felicitări</string>
     <string name="welcome_generic_description">V-ați modificat abonamentul. Bucurați-vă de funcțiile de confidențialitate și performanță de nivel superior.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1240,6 +1241,8 @@
     <string name="connection_details_city">Oraș</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">Stat</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Rutat prin</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1312,6 +1315,8 @@
     <string name="connection_feature_streaming_description">Aceste servere este optimizat pentru redare filme și emisiuni TV.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Vă conectează la țara de destinație prin servere care sunt situate fizic în altă parte.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Vă conectează la țara de destinație prin servere care sunt situate fizic în altă parte: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1483,7 +1488,7 @@
     <string name="settings_advanced_nat_type_moderate_short">Tip 2</string>
     <string name="settings_advanced_nat_type_strict_description">Restricționează datele care intră în rețeaua proprie. Această opțiune este mai sigură, dar poate face mai dificilă conexiunile jocurilor cu utilizatori multipli.</string>
     <string name="settings_advanced_nat_type_moderate_description">O anumită restricție la datele care intră în rețeaua personală. Această opțiune este cea mai bună pentru jocurile video online.</string>
-    <string name="settings_split_tunneling_description">Personalizați-vă conexiunea decizând ce aplicații și adrese IP sunt protejate de VPN. %1$s</string>
+    <string name="settings_split_tunneling_description">Personalizați-vă conexiunea decizând care aplicații și adrese IP sunt protejate de VPN. %1$s</string>
     <string name="settings_protocol_description">Un protocol VPN determină modul în care datele se mută între un server VPN și dispozitivul personal. %1$s</string>
     <string name="settings_protocol_description_no_link">Un protocol VPN determină modul în care datele se mută între un server VPN și dispozitivul personal.</string>
     <string name="settings_protocol_section_speed">Viteză (UDP)</string>

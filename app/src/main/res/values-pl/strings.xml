@@ -829,6 +829,7 @@
     <string name="welcome_plus_title">Witaj w planie VPN Plus</string>
     <string name="welcome_plus_description">Ciesz się dodatkowymi funkcjami prywatności, zwiększoną wydajnością i dostosowaniem VPN na wyższym poziomie.</string>
     <string name="welcome_unlimited_title">Witaj w planie Proton Unlimited</string>
+    <string name="welcome_unlimited_description">You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features.</string>
     <string name="welcome_generic_title">Gratulacje</string>
     <string name="welcome_generic_description">Subskrypcja została ulepszona. Ciesz się zaawansowanymi funkcjami prywatności i wydajnością na wyższym poziomie.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1262,6 +1263,8 @@
     <string name="connection_details_city">Miasto</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">State</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Routed through</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1334,6 +1337,8 @@
     <string name="connection_feature_streaming_description">Serwer jest zoptymalizowany pod kątem odtwarzania telewizji i filmów.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Łączy użytkownika z krajem docelowym za pomocą serwerów, które fizycznie znajdują się w innej lokalizacji.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Connects you to your destination country through servers physically located elsewhere: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

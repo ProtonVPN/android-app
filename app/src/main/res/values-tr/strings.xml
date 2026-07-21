@@ -29,7 +29,7 @@
     <string name="connectionAllocationHelpTitle">Tarifenizi yükselttiğiniz için teşekkürler</string>
     <string name="connectionAllocationHelpDescription1">Proton VPN yolculuğunuza başlamak için lütfen hesabınıza ya da başka bir alt hesaba VPN bağlantıları atayın.</string>
     <string name="connectionAllocationHelpDescription2">Bu adım birkaç dakika sürecek. Bundan sonra oturum açabilir ve tüm aygıtlarınızı koruyabilirsiniz.</string>
-    <string name="connectionAllocationHelpDescription1AskAdmin">Şu anda bu hesap için herhangi bir VPN bağlantısı açılmamış. Proton VPN yolcuğunuza başlamak için yöneticinizle görüşün. </string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Şu anda bu hesap için herhangi bir VPN bağlantısı açılmamış. Proton VPN yolcuğunuza başlamak için yöneticiniz ile görüşün. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">VPN bağlantılarını aç</string>
     <string name="connectionAllocationHelpLoginAgainButton">Yeniden oturum aç</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
@@ -343,7 +343,7 @@
     <string name="no_thanks">Hayır, teşekkürler</string>
     <string name="enable">Aç</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol şu anda kapalı</string>
-    <string name="notification_smart_protocol_disabled_content">ProtonVPN, kullandığınız ağın VPN bağlantısı engellediğini algıladı. Smart Protocol özelliğini açmak bu kısıtlamaları aşabilir.</string>
+    <string name="notification_smart_protocol_disabled_content">ProtonVPN, kullandığınız ağın VPN bağlantılarını engellediğini algıladı. Smart Protocol özelliğini açmak bu kısıtlamaları aşabilir.</string>
     <string name="notification_streaming_blocked_title">Yayın akışı çalışmıyor mu?</string>
     <string name="notification_streaming_blocked_text">Birçok yayın akış hizmeti ücretsiz VPN sunucularından gelen bağlantıları farkedip engeller. Bu engellemeleri aşmak için Proton VPN Plus tarifesine yükseltin</string>
     <string name="upsell_advanced_features">Gelişmiş özellikler: NetShield, Secure Core, Tor, P2P</string>
@@ -787,6 +787,7 @@
     <string name="welcome_plus_title">VPN Plus tarifesine hoş geldiniz</string>
     <string name="welcome_plus_description">Ek gizlilik özelliklerinin, güçlendirilmiş başarımın ve üst düzey VPN özelleştirmenin tadını çıkarın.</string>
     <string name="welcome_unlimited_title">Proton Unlimited tarifesine hoş geldiniz</string>
+    <string name="welcome_unlimited_description">Proton VPN, Mail, Calendar, Drive, Pass ve Wallet uygulamalarının tüm ücretli özelliklerine erişebilirsiniz.</string>
     <string name="welcome_generic_title">Tebrikler</string>
     <string name="welcome_generic_description">Abonelik tarifenizi yükselttiniz. Gelişmiş gizlilik özelliklerinin ve yeni nesil başarımın tadını çıkarın.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1218,6 +1219,8 @@
     <string name="connection_details_city">İl</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">Eyalet</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Üzerinden yönlendirildi</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1290,6 +1293,8 @@
     <string name="connection_feature_streaming_description">Bu sunucu TV ve filmleri oynatmak için ayarlanmıştır.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Sizi fiziksel olarak başka bir yerde bulunan sunucular üzerinden hedef ülkenize bağlar.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Sizi fiziksel olarak başka bir yerde bulunan sunucular üzerinden hedef ülkenize bağlar: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1402,7 +1407,7 @@
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">Adım %1$d/%2$d</string>
+    <string name="create_profile_steps">%1$d / %2$d. adım</string>
     <string name="create_profile_button_next">Sonraki</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)

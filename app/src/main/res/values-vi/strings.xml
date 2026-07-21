@@ -766,6 +766,7 @@
     <string name="welcome_plus_title">Chào mừng đến với VPN Plus</string>
     <string name="welcome_plus_description">Tận hưởng các tính năng quyền riêng tư bổ sung, hiệu năng tăng cường và tùy chỉnh VPN cao cấp hơn.</string>
     <string name="welcome_unlimited_title">Chào mừng đến với Proton Unlimited</string>
+    <string name="welcome_unlimited_description">You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features.</string>
     <string name="welcome_generic_title">Xin chúc mừng</string>
     <string name="welcome_generic_description">Bạn đã nâng cấp gói đăng ký. Tận hưởng các tính năng quyền riêng tư nâng cao và hiệu năng cao cấp hơn.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1196,6 +1197,8 @@
     <string name="connection_details_city">Thành phố</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">Bang</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Routed through</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1268,6 +1271,8 @@
     <string name="connection_feature_streaming_description">Máy chủ này được tối ưu để phát chương trình truyền hình và phim.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Kết nối bạn đến quốc gia đích thông qua các máy chủ được đặt vật lý ở nơi khác.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Connects you to your destination country through servers physically located elsewhere: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

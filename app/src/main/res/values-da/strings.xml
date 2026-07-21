@@ -787,6 +787,7 @@
     <string name="welcome_plus_title">Velkommen til VPN Plus</string>
     <string name="welcome_plus_description">Nyd ekstra privatlivsfunktioner, forbedret ydeevne og VPN-tilpasning af højeste standard.</string>
     <string name="welcome_unlimited_title">Velkommen til Proton Unlimited</string>
+    <string name="welcome_unlimited_description">Du har låst op for alle premium-funktioner i Proton VPN, Mail, Calendar, Drive, Pass og Wallet.</string>
     <string name="welcome_generic_title">Tillykke</string>
     <string name="welcome_generic_description">Du har opgraderet dit abonnement. Nyd avancerede privatlivsfunktioner og ydeevne af højeste klasse.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1218,6 +1219,8 @@
     <string name="connection_details_city">By</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">Stat</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Routet gennem</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1290,6 +1293,8 @@
     <string name="connection_feature_streaming_description">Denne server er optimeret til afspilning af tv og film.</string>
     <string name="connection_feature_smart_routing_title">Smart routing</string>
     <string name="connection_feature_smart_routing_description">Forbinder dig med dit destinationsland via servere, der fysisk befinder sig et andet sted.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Forbinder dig til dit destinationsland via servere, der fysisk befinder sig et andet sted: %1$s</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

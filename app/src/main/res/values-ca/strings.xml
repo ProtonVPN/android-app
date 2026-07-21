@@ -787,6 +787,7 @@
     <string name="welcome_plus_title">Us donem la benvinguda a VPN Plus</string>
     <string name="welcome_plus_description">Gaudiu de funcions de privadesa addicionals, rendiment excepcional i una personalització de VPN d\'un altre nivell.</string>
     <string name="welcome_unlimited_title">Us donem la benvinguda a Proton Unlimited</string>
+    <string name="welcome_unlimited_description">Heu desbloquejat totes les funcions prèmium de Proton VPN, Mail, Calendar, Drive, Pass i Wallet.</string>
     <string name="welcome_generic_title">Felicitats</string>
     <string name="welcome_generic_description">Heu millorat la subscripció. Gaudiu de característiques de privacitat avançades i rendiment d\'alt nivell.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1218,6 +1219,8 @@
     <string name="connection_details_city">Ciutat</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">Estat</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Encaminat a través de</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1290,6 +1293,8 @@
     <string name="connection_feature_streaming_description">Aquest servidor està optimitzat per a la reproducció de TV i pel·lícules.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Us connecta al vostre país de destinació mitjançant servidors que es troben físicament en un altre lloc.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Us connecta al vostre país de destinació a través de servidors físicament ubicats en altres llocs: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

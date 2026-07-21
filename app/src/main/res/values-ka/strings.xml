@@ -787,6 +787,7 @@
     <string name="welcome_plus_title">მოგესალმებათ VPN Plus</string>
     <string name="welcome_plus_description">ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით, ჩქაროსნული წარმადობით და შემდეგ დონეზე აყვანილი VPN-ის მორგებით.</string>
     <string name="welcome_unlimited_title">მოგესალმებათ Proton Unlimited</string>
+    <string name="welcome_unlimited_description">თქვენ განბლოკეთ Proton VPN, Mail, Calendar, Drive და Pass-ის და Wallet-ის ყველა ფასიანი ფუნქცია.</string>
     <string name="welcome_generic_title">გილოცავთ</string>
     <string name="welcome_generic_description">თქვენ ასწიეთ თქვენი ტარიფი. ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით და შემდეგი დონის წარმადობით.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1218,6 +1219,8 @@
     <string name="connection_details_city">ქალაქი</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">შტატი</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">მარშრუტიზაცია გავლით</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1290,6 +1293,8 @@
     <string name="connection_feature_streaming_description">ეს სერვერი ოპტიმიზებულია TV-ისა და ფილმების საყურებლად</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">მიგაერთებთ თქვენს სამიზნე ქვეყანასთან სერვერების გავლით, რომლებიც ფიზიკურად სადღაც სხვაგანაა განთავსებული.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">მიგაერთებთ თქვენს სამიზნე ქვეყანასთან სერვერების გავლით, რომლებიც ფიზიკურად სადღაც სხვაგანაა განთავსებული: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1480,7 +1485,7 @@
     <string name="settings_split_tunneling_already_excluded">უკვე გამორიცხულია</string>
     <string name="settings_split_tunneling_already_included">უკვე ჩასმულია</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">წავშალო IP მისამართი სიიდან?</string>
-    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP მისამართი წაიშალა</string>
     <string name="settings_theme_title">თემა</string>
     <string name="settings_theme_value_auto">მოწყობილობის თემა</string>
     <string name="settings_theme_value_light">ღია</string>

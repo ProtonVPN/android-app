@@ -787,6 +787,7 @@
     <string name="welcome_plus_title">Tervetuloa VPN Plussaan</string>
     <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja uuden tason VPN-mukautuksesta.</string>
     <string name="welcome_unlimited_title">Tervetuloa Proton Unlimitediin</string>
+    <string name="welcome_unlimited_description">Olet avannut kaikki Proton VPN:n, Mailin, Calendarin, Driven, Passin ja Walletin premium-ominaisuudet.</string>
     <string name="welcome_generic_title">Onnittelut</string>
     <string name="welcome_generic_description">Olet päivittänyt tilauksesi. Nauti edistyneistä yksityisyyttäsi tehostavista ominaisuuksista ja huipputason suorituskyvystä.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1218,6 +1219,8 @@
     <string name="connection_details_city">Kaupunki</string>
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">Osavaltio</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Reititetty läpi</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1290,6 +1293,8 @@
     <string name="connection_feature_streaming_description">Tämä palvelin on optimoitu TV-ohjelmien ja elokuvien toistoon.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Yhdistää sinut kohdemaahan, fyysisesti muualla sijaitsevien palvelimien välityksellä.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Yhdistää sinut kohdemaahasi palvelimien kautta, jotka sijaitsevat fyysisesti muualla: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
