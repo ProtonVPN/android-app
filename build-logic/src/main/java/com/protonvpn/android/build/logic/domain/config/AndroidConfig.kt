@@ -27,7 +27,7 @@ internal object AndroidConfig {
 
     internal const val MIN_SDK_VERSION = 26
 
-    internal const val TARGET_SDK_VERSION = 35
+    internal const val TARGET_SDK_VERSION = 36
 
     internal const val NDK_VERSION = "28.1.13356709"
 
