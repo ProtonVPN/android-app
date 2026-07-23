@@ -1,0 +1,2 @@
+What's new
+Fixed a glitch with controller support on Android TV. Fixed some logic errors that could prevent you signing in on Android TV.
