@@ -583,7 +583,7 @@
     <string name="upsell_panel_streaming_benefit_platforms">Podprte so vse popularne platforme za pretočno predvajanje *</string>
     <string name="upsell_panel_streaming_benefit_hd">Glejte v HD ločljivosti brez čakanja na nalaganje</string>
     <string name="upsell_panel_streaming_benefit_devices">Naprave, ki so hkrati povezane</string>
-    <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
+    <string name="upsell_panel_streaming_footer">* Potrebna je naročnina na platformo za pretočno predvajanje.</string>
     <string name="upsell_card_countries_title">Pokritost po vsem svetu</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -628,16 +628,16 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
+    <string name="upsell_tv_all_countries_description">Odkleni %1$s v %2$s.</string>
     <string name="upsell_tv_netshield_title">Uživajte v brskanju brez oglasov s Plus-om</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Blokirajte oglase, sledilnike in zlonamerno programsko opremo z <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Izkoristite najboljše iz obeh svetov s Plus-om</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Razdelite promet na tunele VPN in tunele brez VPN z <b>deljenim tuneliranjem</b>.]]></string>
     <string name="upsell_tv_subscription_expired_title">Naročnina je potekla</string>
     <string name="upsell_tv_subscription_expired_description">Nadgradite za ponoven dostop do strežnikov Plus in funkcij.</string>
     <string name="upsell_tv_customization_title">Pridobite napredno prilagoditev VPN-ja s Plus</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
-    <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Odklenite <b>LAN povezave</b>, <b>DNS po meri</b> in naprednejše funkcije VPN.]]></string>
+    <string name="upsell_tv_fallback_description">Pojdite na spletno mesto Proton VPN, da nadgradite svoj paket.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -1096,7 +1096,7 @@
          "more information about free connections, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_free_connections">več informacij o brezplačnih povezavah</string>
-    <string name="connection_card_label_connection_feedback">How is your connection?</string>
+    <string name="connection_card_label_connection_feedback">Kakšna je vaša povezava?</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -1724,35 +1724,35 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="connection_preferences_smart_discovery_dialog_message">Če obstajajo lokacije, na katere se ne želite samodejno povezati, jih lahko izključite iz Najhitrejša država.</string>
     <string name="excluded_locations_adoption_title">Izogni se neželenim lokacijam</string>
     <string name="excluded_locations_adoption_description"><![CDATA[Zdaj lahko izključite države in mesta iz povezav <b>Najhitrejše</b>.]]></string>
-    <string name="session_fork_no_account_title">Sign in on Android TV</string>
-    <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
-    <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
+    <string name="session_fork_no_account_title">Prijavite se na Android TV</string>
+    <string name="session_fork_no_account_message">Dokončajte prijavo na tej napravi, da boste lahko začeli uporabljati Proton VPN na svojem televizorju</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Z uporabo te aplikacije sprejemate naše <a href="">Pogoje storitve</a>.]]></string>
     <string name="session_fork_no_account_signup_button">Ustvarite račun</string>
     <string name="session_fork_no_account_signin_button">Prijava</string>
-    <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
-    <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
-    <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
-    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
+    <string name="session_fork_confirmation_title">Ali se želite prijaviti v Android TV?</string>
+    <string name="session_fork_confirmation_message">Ta postopek bo televizorju omogočil dostop do vašega računa Proton.</string>
+    <string name="session_fork_confirmation_bottom_note">Prijavite se le na napravah, ki jim zaupate</string>
+    <string name="session_fork_confirmation_too_soon_toast">Preden nadaljujete preberite naslednje informacije</string>
     <string name="session_fork_success_title">Prijava je zaključena</string>
-    <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
+    <string name="session_fork_success_message">Sedaj ste prijavljeni na svojem televizorju.</string>
     <string name="session_fork_error_expired_title">Koda je potekla</string>
     <string name="session_fork_error_expired_message">Na televizorju ustvarite novo kodo in poskusite še enkrat.</string>
     <string name="session_fork_error_generic_title">Prijava ni uspela</string>
-    <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
-    <string name="session_fork_error_network_message">Check your network and try again.</string>
-    <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
+    <string name="session_fork_error_fatal_message">Preverite svojo omrežno povezavo in poskusite znova. Če težava še vedno obstaja, se obrnite na našo službo za podporo strankam. </string>
+    <string name="session_fork_error_network_message">Preverite svojo omrežno povezavo in poskusite znova.</string>
+    <string name="session_fork_error_try_fallback_message">Na televizorju kliknite \'Težave pri prijavi?\', da sledite alternativnim navodilom.</string>
     <string name="session_fork_error_report_button">Prijavi težavo</string>
     <string name="session_fork_qr_code_content_description">QR koda</string>
-    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
+    <string name="session_fork_qr_code_message">Za prijavo ali ustvarjanje računa skenirajte QR-kodo.</string>
     <string name="session_fork_qr_code_trouble_button">Imate težave s prijavo?</string>
-    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
-    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
+    <string name="session_fork_qr_code_error_expired">Zaradi varnostnih razlogov je potekel rok veljavnosti potrditvenega kode</string>
+    <string name="session_fork_qr_code_error_network">Preverite svojo omrežno povezavo in poskusite znova</string>
     <string name="session_fork_qr_code_error_create_new_button">Ustvarite novo kodo</string>
-    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
-    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_step2">Sign in or create an account</string>
+    <string name="session_fork_user_code_title">Ne morete skenirati kode? Prijavite se ročno</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Pojdite na: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Vpišite se ali ustvarite račun</string>
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
-    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step3"><![CDATA[Vnesite kodo: <b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Potrebujete dodatno pomoč? Obiščite <b>%1$s</b>]]></string>
 </resources>
