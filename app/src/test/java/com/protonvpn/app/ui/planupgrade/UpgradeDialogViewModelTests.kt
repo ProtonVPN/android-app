@@ -111,8 +111,6 @@ class UpgradeDialogViewModelTests {
         val currentUser = CurrentUser(TestCurrentUserProvider(TestVpnUser.create()))
         loadSubscriptionPlans = LoadSubscriptionPlans(
             getProductsLazy = { testGetProducts },
-            defaultCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
-            defaultPreselectedCycle = PlanCycle.MONTHLY,
         )
         testTelemetry = TestTelemetryReporter()
         val telemetryFlowHelper = TelemetryFlowHelper(testScope.backgroundScope, testTelemetry)
@@ -146,7 +144,7 @@ class UpgradeDialogViewModelTests {
     fun `load default plan and purchase`() = testScope.runTest {
         coEvery { mockSaveMmpEvent(any()) } returns Unit
 
-        viewModel.loadPlans(listOf(testPlanName), null, null, true)
+        viewModel.loadBuiltinUpsellPlans(listOf(testPlanName))
 
         viewModel.fullPanelState.test {
             val loadedState = awaitItem()
@@ -203,7 +201,7 @@ class UpgradeDialogViewModelTests {
     fun `in-app payments disabled`() = testScope.runTest {
         isInAppAllowed = false
         viewModel.upgradeState.test {
-            viewModel.loadPlans(listOf(testPlanName), null, null, true)
+            viewModel.loadBuiltinUpsellPlans(listOf(testPlanName))
             assertIs<State.UpgradeDisabled>(expectMostRecentItem())
         }
     }
@@ -211,28 +209,11 @@ class UpgradeDialogViewModelTests {
     @Test
     fun `show error on plan load fail`() = testScope.runTest {
         testGetProducts.setProductsToReturn(emptyList())
-        viewModel.loadPlans(listOf(testPlanName), null, null, true)
+        viewModel.loadBuiltinUpsellPlans(listOf(testPlanName))
         val state = viewModel.upgradeState.first()
         assertIs<State.LoadError>(state)
         val error = viewModel.eventErrorMessage.receiveCatching().getOrNull()
         assertEquals(R.string.error_fetching_prices, error?.messageRes)
-    }
-
-    @Test
-    fun `show error when first plan is missing`() = testScope.runTest {
-        viewModel.loadPlans(listOf("missing plan", testPlanName), null, null, true)
-        val state = viewModel.upgradeState.first()
-        assertIs<State.LoadError>(state)
-        val error = viewModel.eventErrorMessage.receiveCatching().getOrNull()
-        assertEquals(R.string.error_fetching_prices, error?.messageRes)
-    }
-
-    @Test
-    fun `ignore subsequent plans if missing`() = testScope.runTest {
-        viewModel.loadPlans(listOf(testPlanName, "missing plan"), null, null, true)
-        val state = viewModel.upgradeState.first()
-        assertIs<State.PurchaseReady>(state)
-        assertEquals(listOf(testPlanName), state.allPlans.map { it.planName })
     }
 
     @Test
@@ -241,8 +222,8 @@ class UpgradeDialogViewModelTests {
             "vpn2022",
             "USD",
             listOf(
-                CycleInfo(PlanCycle.MONTHLY, "m", "$testPlanName-m", 10_00, 15_00),
-                CycleInfo(PlanCycle.YEARLY, "y", "$testPlanName-y", 100_00, 100_00),
+                CycleInfo(PlanCycle.MONTHLY, "m", "$testPlanName-m", emptyList(), 10_00, 15_00),
+                CycleInfo(PlanCycle.YEARLY, "y", "$testPlanName-y", emptyList(), 100_00, 100_00),
             ),
             withSavePercent = true,
         )
@@ -290,7 +271,7 @@ class UpgradeDialogViewModelTests {
         )
         testGetProducts.setProductsToReturn(products)
 
-        viewModel.loadPlans(listOf("plan2", "plan1"), null, null, true)
+        viewModel.loadBuiltinUpsellPlans(listOf("plan2", "plan1"))
         assertPlanNames(listOf("plan2", "plan1"), viewModel.upgradeState.first())
     }
 
@@ -302,7 +283,7 @@ class UpgradeDialogViewModelTests {
         )
         testGetProducts.setProductsToReturn(products)
         viewModel.reportUpgradeFlowStart(UpgradeSource.COUNTRIES, UpgradeTrigger.COUNTRY_SELECTION)
-        viewModel.loadPlans(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN))
+        viewModel.loadBuiltinUpsellPlans(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN))
         runCurrent()
 
         val event = testTelemetry.collectedEvents.lastOrNull()

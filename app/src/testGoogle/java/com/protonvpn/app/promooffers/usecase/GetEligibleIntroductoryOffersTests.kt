@@ -23,8 +23,10 @@ import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers
 import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.test.shared.InMemoryObjectStore
+import com.protonvpn.test.shared.createOffer
 import com.protonvpn.test.shared.createOffersWithDiscount
 import com.protonvpn.test.shared.createProduct
 import com.protonvpn.test.shared.toProductId
@@ -40,7 +42,6 @@ import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
 import me.proton.android.payment.product.fake.FakeGetProducts
 import me.proton.core.domain.entity.AppStore
-import me.proton.core.plan.domain.entity.DynamicPlanPrice
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -55,11 +56,29 @@ class GetEligibleIntroductoryOffersTests {
     private lateinit var spyLoadSubscriptionPlans: LoadSubscriptionPlans
     private lateinit var testScope: TestScope
 
+    private val customTag = "custom-tag"
     // Monthly intro prices are all set to 500.
-    private val offerVpn2022 =
-        GetEligibleIntroductoryOffers.Offer("vpn2022", PlanCycle.MONTHLY, "PLN", 500)
-    private val offerBundle2022 =
-        GetEligibleIntroductoryOffers.Offer("bundle2022", PlanCycle.MONTHLY, "PLN", 500)
+    private val offerVpn2022 = GetEligibleIntroductoryOffers.Offer(
+        planName = "vpn2022",
+        cycle = PlanCycle.MONTHLY,
+        currency = "PLN",
+        currentPriceCents = 500,
+        offerTags = listOf(IapConstants.INTRO_PRICE_TAG)
+    )
+    private val offerBundle2022 = GetEligibleIntroductoryOffers.Offer(
+        planName = "bundle2022",
+        cycle = PlanCycle.MONTHLY,
+        currency = "PLN",
+        currentPriceCents = 500,
+        offerTags = listOf(IapConstants.INTRO_PRICE_TAG)
+    )
+    private val offerVpn2022Custom = GetEligibleIntroductoryOffers.Offer(
+        planName = "vpn2022",
+        cycle = PlanCycle.MONTHLY,
+        currency = "PLN",
+        currentPriceCents = 100,
+        offerTags = listOf(customTag)
+    )
 
     private lateinit var getOffers: GetEligibleIntroductoryOffers
 
@@ -70,25 +89,23 @@ class GetEligibleIntroductoryOffersTests {
         testScope = TestScope()
         coEvery { mockInAppUpgradeAllowed.invoke() } returns true
 
-        val introTag = listOf(IapConstants.INTRO_PRICE_TAG)
         val fakeProducts = listOf(
             createProduct(
                 id = PlanCycle.MONTHLY.toProductId(AppStore.GooglePlay, "vpn2022"),
                 planName = "vpn2022",
-                offers = createOffersWithDiscount(PlanCycle.MONTHLY, 500, 1000, "PLN")
+                offers = buildList {
+                    addAll(createOffersWithDiscount(PlanCycle.MONTHLY, 500, 1000, "PLN"))
+                    add(createOffer(PlanCycle.MONTHLY, listOf(100, 1000), "PLN", listOf(customTag)))
+                },
             ),
             createProduct(
                 id = PlanCycle.MONTHLY.toProductId(AppStore.GooglePlay, "bundle2022"),
                 planName = "bundle2022",
                 offers = createOffersWithDiscount(PlanCycle.MONTHLY, 500, 2000, "PLN"),
-            )
+            ),
         )
         val fakeGetProducts = FakeGetProducts().apply { setProductsToReturn(fakeProducts) }
-        val loadSubscriptionPlans = LoadSubscriptionPlans(
-            getProductsLazy = { fakeGetProducts },
-            defaultCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
-            defaultPreselectedCycle = PlanCycle.YEARLY,
-        )
+        val loadSubscriptionPlans = LoadSubscriptionPlans({ fakeGetProducts })
         spyLoadSubscriptionPlans = spyk(loadSubscriptionPlans)
 
         getOffers = GetEligibleIntroductoryOffers(
@@ -101,63 +118,88 @@ class GetEligibleIntroductoryOffersTests {
 
     @Test
     fun `WHEN different plans are queried THEN they are requested from load`() = testScope.runTest {
+        val planCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
+        val loadConfigVpn2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("vpn2022"), planCycles, IapConstants.INTRO_PRICE_TAG)
+        val loadConfigIntroPrice = LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG)
         assertEquals(
             listOf(offerVpn2022),
-            getOffers(listOf("vpn2022"))
+            getOffers(loadConfigVpn2022)
         )
         assertEquals(
-            listOf(offerBundle2022),
-            getOffers(listOf("bundle2022"))
+            listOf(offerVpn2022, offerBundle2022),
+            getOffers(loadConfigIntroPrice)
         )
         coVerify(exactly = 1) {
-            spyLoadSubscriptionPlans.invoke(listOf("vpn2022"), IapConstants.INTRO_PRICE_TAG)
-            spyLoadSubscriptionPlans.invoke(listOf("bundle2022"), IapConstants.INTRO_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(loadConfigVpn2022)
+            spyLoadSubscriptionPlans.invoke(loadConfigIntroPrice)
         }
         // From cache
         advanceTimeBy(1.days)
         assertEquals(
             listOf(offerVpn2022),
-            getOffers(listOf("vpn2022"))
-        )
-        assertEquals(
-            listOf(offerBundle2022),
-            getOffers(listOf("bundle2022"))
+            getOffers(loadConfigVpn2022)
         )
         assertEquals(
             listOf(offerVpn2022, offerBundle2022),
-            getOffers(listOf("vpn2022", "bundle2022"))
+            getOffers(loadConfigIntroPrice)
+        )
+
+        val loadConfigBundle2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("bundle2022"), planCycles, IapConstants.INTRO_PRICE_TAG)
+        assertEquals(
+            listOf(offerBundle2022),
+            getOffers(loadConfigBundle2022)
         )
         coVerify(exactly = 1) {
-            spyLoadSubscriptionPlans.invoke(listOf("vpn2022"), IapConstants.INTRO_PRICE_TAG)
-            spyLoadSubscriptionPlans.invoke(listOf("bundle2022"), IapConstants.INTRO_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(loadConfigBundle2022)
         }
-        coVerify(exactly = 0) {
-            spyLoadSubscriptionPlans.invoke(listOf("vpn2022", "bundle2022"), IapConstants.INTRO_PRICE_TAG)
+
+        // Request vpn2022 with a different tag, requires loading plans again.
+        val loadConfigVpn2022Tag = LoadPlansConfig.WithOfferTagAndFilter(listOf("vpn2022"), planCycles, "custom-tag")
+        assertEquals(
+            listOf(offerVpn2022Custom),
+            getOffers(loadConfigVpn2022Tag)
+        )
+        coVerify(exactly = 1) {
+            spyLoadSubscriptionPlans.invoke(loadConfigVpn2022Tag)
+        }
+
+        // Verify no extra calls.
+        coVerify(exactly = 1) {
+            listOf(loadConfigVpn2022, loadConfigVpn2022Tag, loadConfigBundle2022, loadConfigIntroPrice)
+                .forEach { spyLoadSubscriptionPlans.invoke(it) }
         }
     }
 
     @Test
     fun `WHEN 2 days pass THEN data is loaded from Google again`() = testScope.runTest {
-        getOffers(listOf("vpn2022"))
+        val planCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
+        val loadConfigVpn2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("vpn2022"), planCycles, IapConstants.INTRO_PRICE_TAG)
+        val loadConfigIntroPrice = LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG)
+        getOffers(loadConfigVpn2022)
         advanceTimeBy(1.days)
-        getOffers(listOf("bundle2022"))
-        advanceTimeBy(1.5.days)
+        getOffers(loadConfigIntroPrice)
         coVerify(exactly = 1) {
-            spyLoadSubscriptionPlans.invoke(listOf("vpn2022"), IapConstants.INTRO_PRICE_TAG)
-            spyLoadSubscriptionPlans.invoke(listOf("bundle2022"), IapConstants.INTRO_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(loadConfigVpn2022)
+            spyLoadSubscriptionPlans.invoke(loadConfigIntroPrice)
         }
 
+        advanceTimeBy(1.5.days)
+        // Load.
+        assertEquals(
+            listOf(offerVpn2022),
+            getOffers(loadConfigVpn2022)
+        )
+        // From cache.
         assertEquals(
             listOf(offerVpn2022, offerBundle2022),
-            getOffers(listOf("vpn2022", "bundle2022"))
+            getOffers(loadConfigIntroPrice)
         )
+
+        coVerify(exactly = 2) {
+            spyLoadSubscriptionPlans.invoke(loadConfigVpn2022)
+        }
         coVerify(exactly = 1) {
-            spyLoadSubscriptionPlans.invoke(listOf("vpn2022"), IapConstants.INTRO_PRICE_TAG)
-            spyLoadSubscriptionPlans.invoke(listOf("bundle2022"), IapConstants.INTRO_PRICE_TAG)
-            spyLoadSubscriptionPlans.invoke(listOf("vpn2022", "bundle2022"), IapConstants.INTRO_PRICE_TAG)
+            spyLoadSubscriptionPlans.invoke(loadConfigIntroPrice)
         }
     }
 }
-
-private fun plan(currency: String, price: Int): Pair<String, DynamicPlanPrice> =
-    currency to DynamicPlanPrice("", currency, price)

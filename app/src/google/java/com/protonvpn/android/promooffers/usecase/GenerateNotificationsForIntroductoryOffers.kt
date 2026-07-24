@@ -35,8 +35,9 @@ import com.protonvpn.android.promooffers.data.ApiNotificationOfferFullScreenImag
 import com.protonvpn.android.promooffers.data.ApiNotificationOfferImageSource
 import com.protonvpn.android.promooffers.data.ApiNotificationOfferPanel
 import com.protonvpn.android.promooffers.data.ApiNotificationTypes
+import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.PlanCycle
-import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.utils.DefaultLocaleProvider
 import dagger.Reusable
 import me.proton.core.util.kotlin.equalsNoCase
@@ -54,6 +55,7 @@ private const val CAMPAIGN_NAME = "internal_intro_price"
 private const val NOTIFICATION_REFERENCE_BANNER = "IntroPricePromoBanner"
 private const val NOTIFICATION_REFERENCE_FULLSCREEN = "IntroPricePromoModal"
 private const val PLAN_NAME = "vpn2022"
+private const val OFFER_TAG = IapConstants.INTRO_PRICE_TAG
 private val REPEAT_INTERVAL_MS = 70.days.inWholeMilliseconds
 private val REPEAT_INTERVAL_MAX_JITTER_MS = 10.days.inWholeMilliseconds
 
@@ -95,8 +97,8 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
             getBaseTimestamp(triggerCyclicPromos && isIapClientSidePromoCyclicEnabled())
         if (baseTimestampMs + PROMO_ACTIVITY_PERIOD_END_MS < nowMs) return emptyList()
 
-        val allPlans = listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
-        val introductoryOffers = getEligibleIntroductoryOffers(allPlans) ?: return emptyList()
+        val loadPlansConfig = LoadPlansConfig.WithOfferTag(OFFER_TAG)
+        val introductoryOffers = getEligibleIntroductoryOffers(loadPlansConfig) ?: return emptyList()
         val planCycle = PlanCycle.MONTHLY
 
         val startTimeMs = baseTimestampMs + if (isFirstPromo) PROMO_ACTIVITY_PERIOD_START_MS else 0L
@@ -108,7 +110,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
 
         if (BuildConfig.DEBUG) {
             val offersLog = introductoryOffers.joinToString("; ") {
-                with(it) { "$planName $cycle $introPriceCents $currency" }
+                with(it) { "$planName $cycle $currentPriceCents $currency" }
             }
             ProtonLogger.logCustom(
                 LogLevel.DEBUG,
@@ -124,7 +126,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
                         planCycle = planCycle,
                         language = userLanguage,
                         country = userCountry,
-                        priceCents = playOffer.introPriceCents,
+                        priceCents = playOffer.currentPriceCents,
                         currency = playOffer.currency
                     )
                 }.maxByOrNull { it.matchCount }
@@ -268,6 +270,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
                     cycle = config.planCycle,
                     priceCents = config.priceCents,
                     currency = config.currency,
+                    offerTag = OFFER_TAG,
                 ),
                 panel = buttonPanel
             ),

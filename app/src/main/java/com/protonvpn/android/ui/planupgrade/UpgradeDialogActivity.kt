@@ -107,7 +107,7 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
             } else {
                 listOf(Constants.CURRENT_PLUS_PLAN)
             }
-            viewModel.loadPlans(plans)
+            viewModel.loadBuiltinUpsellPlans(plans)
             lifecycleScope.launch {
                 viewModel.reportUpgradeFlowStart(
                     getTelemetryUpgradeSource(),

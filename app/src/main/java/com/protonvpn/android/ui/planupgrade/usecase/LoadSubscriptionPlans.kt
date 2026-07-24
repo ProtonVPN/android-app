@@ -27,10 +27,11 @@ import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.utils.ifOrNull
 import dagger.Reusable
-import me.proton.android.payment.common.model.PlanId
+import kotlinx.serialization.Serializable
 import me.proton.android.payment.common.model.ProductId
 import me.proton.android.payment.product.model.BillingCycle
 import me.proton.android.payment.product.model.Offer
+import me.proton.android.payment.product.model.OfferTag
 import me.proton.android.payment.product.model.Product
 import me.proton.android.payment.product.usecase.GetProducts
 import javax.inject.Inject
@@ -39,6 +40,7 @@ data class CycleInfo(
     val cycle: PlanCycle,
     val productId: String,
     val offerToken: String,
+    val offerTags: List<OfferTag>,
     val currentPriceCents: Int,
     val defaultPriceCents: Int,
 )
@@ -48,73 +50,123 @@ data class SubscriptionPlanInfo(
     val displayName: String,
     val currency: String,
     val cycles: List<CycleInfo>,
-    val preselectedCycle: PlanCycle,
 )
+
+@Serializable
+sealed interface LoadPlansConfig {
+
+    @Serializable
+    data class WithOptionalDiscount(
+        val planNames: List<String>,
+        val planCycles: List<PlanCycle>,
+        val discountOfferTag: String,
+    ) : LoadPlansConfig
+
+
+    // Needed for client generated intro offer promos - hopefully to be removed soonish.
+    @Serializable
+    data class WithOfferTagAndFilter(
+        val planNames: List<String>,
+        val planCycles: List<PlanCycle>,
+        val offerTag: String,
+    ) : LoadPlansConfig
+
+    @Serializable
+    data class WithOfferTag(
+        val offerTag: String,
+    ) : LoadPlansConfig
+}
+
 @Reusable
-class LoadSubscriptionPlans(
+class LoadSubscriptionPlans @Inject constructor(
     getProductsLazy: dagger.Lazy<GetProducts>,
-    private val defaultCycles: List<PlanCycle>,
-    private val defaultPreselectedCycle: PlanCycle
 ) {
     private val getProducts by getProductsLazy
 
-    @Inject constructor(
-        getProductsLazy: dagger.Lazy<GetProducts>,
-    ) : this(
-        getProductsLazy = getProductsLazy,
-        DEFAULT_CYCLES,
-        DEFAULT_PRESELECTED_CYCLE
+    private data class OfferInfo(
+        val offer: Offer,
+        val baseOffer: Offer.NonDiscounted, // May be the same as offer.
     )
 
-    /**
-     * Loads IAP subscriptions for given Proton plan names.
-     * If discountedOfferTag is not null, selects offers with the given tag, if available.
-     * Otherwise, the base plan price is used.
-     */
     suspend operator fun invoke(
-        planNames: List<String>,
-        discountOfferTag: String?,
+        selection: LoadPlansConfig,
     ): List<SubscriptionPlanInfo> {
-        return loadPlans(
-            planNames = planNames,
-            planCycles = defaultCycles,
-            preselectedCycle = defaultPreselectedCycle,
-            discountOfferTag = discountOfferTag,
-        )
+        val offerSelector = when(selection) {
+            is LoadPlansConfig.WithOfferTag -> { product: Product ->
+                product.offers
+                    .find { it.tags.contains(selection.offerTag) }
+                    ?.let { offerWithTag ->
+                        val baseOffer = offerWithTag as? Offer.NonDiscounted
+                            ?: product.offers.filterIsInstance<Offer.NonDiscounted>().firstOrNull()
+                            ?: return@let null
+                        OfferInfo(offerWithTag, baseOffer)
+                    }
+            }
+
+            is LoadPlansConfig.WithOfferTagAndFilter -> { product: Product ->
+                ifOrNull(product.planId in selection.planNames) {
+                    product.offers
+                        .find { it.tags.contains(selection.offerTag) }
+                        ?.let { offerWithTag ->
+                            val baseOffer = offerWithTag as? Offer.NonDiscounted
+                                ?: product.offers.filterIsInstance<Offer.NonDiscounted>().firstOrNull()
+                            val planCycle = offerWithTag.pricingPeriods.firstOrNull()?.cycle?.toPlanCycle()
+                            if (planCycle == null || baseOffer == null) // Should not happen.
+                                return@ifOrNull null
+                            ifOrNull(planCycle in selection.planCycles) {
+                                OfferInfo(offerWithTag, baseOffer)
+                            }
+                        }
+                }
+            }
+
+            is LoadPlansConfig.WithOptionalDiscount -> { product: Product ->
+                ifOrNull(product.planId in selection.planNames) {
+                    val baseOffer = product.offers.filterIsInstance<Offer.NonDiscounted>().firstOrNull()
+                    val discountedOffer = product.offers
+                        .filterIsInstance<Offer.Discounted>()
+                        .find { it.tags.contains(selection.discountOfferTag) }
+                    val currentOffer = discountedOffer ?: baseOffer
+                    val planCycle = currentOffer?.pricingPeriods?.firstOrNull()?.cycle?.toPlanCycle()
+                    if (planCycle == null || baseOffer == null) // Should not happen.
+                        return@ifOrNull null
+                    ifOrNull(planCycle in selection.planCycles) {
+                        OfferInfo(discountedOffer ?: baseOffer, baseOffer)
+                    }
+                }
+            }
+        }
+
+        return loadPlans(offerSelector)
     }
 
     private suspend fun loadPlans(
-        planNames: List<String>,
-        planCycles: List<PlanCycle>,
-        preselectedCycle: PlanCycle,
-        discountOfferTag: String?,
+        offerSelector: (Product) -> OfferInfo?
     ): List<SubscriptionPlanInfo> {
         val subscriptionPlans = getProducts().fold(
             onSuccess = { products ->
                 products
-                    .filter { product -> product.planId in planNames }
                     .groupBy { it.planId }
                     .mapNotNull { (planName, products) ->
                         var currency: String? = null
-                        val allCycles = products.map { product ->
+                        val cycles = products.mapNotNull { product ->
                             DebugUtils.debugAssert { product.offers.count { it is Offer.NonDiscounted } == 1 }
-                            val baseOffer = product.offers.filterIsInstance<Offer.NonDiscounted>().first()
-                            DebugUtils.debugAssert { baseOffer.pricingPeriods.isNotEmpty() }
-                            val discountedOffer = ifOrNull(discountOfferTag != null) {
-                                product.offers
-                                    .filterIsInstance<Offer.Discounted>()
-                                    .find { it.tags.contains(discountOfferTag) }
+                            val offer = offerSelector(product)
+                            offer?.let {
+                                DebugUtils.debugAssert { offer.baseOffer.pricingPeriods.isNotEmpty() }
+                                currency = offer.baseOffer.pricingPeriods.first().price.currency
+                                createCycleInfo(product.id, offer)
                             }
-
-                            currency = baseOffer.pricingPeriods.get(0).price.currency
-                            createCycleInfo(product.id, discountedOffer ?: baseOffer, baseOffer)
                         }
 
-                        val cycles = allCycles.filter { it.cycle in planCycles }
                         if (cycles.isNotEmpty() && currency != null) {
-                            createPlanInfo(cycles, preselectedCycle, planName, products, currency)
+                            SubscriptionPlanInfo(
+                                name = requireNotNull(planName),
+                                displayName = products.first().title,
+                                currency = currency,
+                                cycles = cycles,
+                            )
                         } else {
-                            logWarning("plan '${planName}' has no Google products/offers.")
                             null
                         }
                     }
@@ -133,30 +185,10 @@ class LoadSubscriptionPlans(
         return subscriptionPlans
     }
 
-    private fun createPlanInfo(
-        cycles: List<CycleInfo>,
-        preselectedCycle: PlanCycle,
-        planName: PlanId?,
-        products: List<Product>,
-        currency: String,
-    ): SubscriptionPlanInfo {
-        val preselectedCycle = if (cycles.any { it.cycle == preselectedCycle }) {
-            preselectedCycle
-        } else {
-            cycles.first().cycle
-        }
-        return SubscriptionPlanInfo(
-            name = requireNotNull(planName),
-            displayName = products.first().title,
-            currency = currency,
-            cycles = cycles,
-            preselectedCycle = preselectedCycle,
-        )
-    }
-
-    private fun createCycleInfo(productId: ProductId, offer: Offer, baseOffer: Offer.NonDiscounted): CycleInfo {
+    private fun createCycleInfo(productId: ProductId, offerInfo: OfferInfo): CycleInfo {
+        val offer = offerInfo.offer
         val purchasePeriod = offer.pricingPeriods.first()
-        val renewPeriod = baseOffer.pricingPeriods.first()
+        val renewPeriod = offerInfo.baseOffer.pricingPeriods.first()
         val planCycle = purchasePeriod.cycle.toPlanCycle()
         logDebug("Product: $productId $planCycle, purchase offer: ${offer.tags} ${purchasePeriod}, renew offer: $renewPeriod")
         logDebug("Purchase offer phases: ${offer.pricingPeriods}")
@@ -164,6 +196,7 @@ class LoadSubscriptionPlans(
             planCycle,
             productId,
             offer.token,
+            offer.tags,
             (purchasePeriod.price.amount / SDK_AMOUNT_TO_CENTS_PRICE_DIVIDER).toInt(),
             (renewPeriod.price.amount / SDK_AMOUNT_TO_CENTS_PRICE_DIVIDER).toInt()
         )
@@ -185,10 +218,6 @@ class LoadSubscriptionPlans(
     }
 
     companion object {
-        // TODO: in future this should come from API
-        private val DEFAULT_CYCLES = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
-        private val DEFAULT_PRESELECTED_CYCLE = PlanCycle.YEARLY
-
         private const val SDK_AMOUNT_TO_CENTS_PRICE_DIVIDER = 10_000
     }
 }

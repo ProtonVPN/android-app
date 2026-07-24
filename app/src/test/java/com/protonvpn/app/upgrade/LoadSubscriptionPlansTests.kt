@@ -21,25 +21,20 @@ package com.protonvpn.app.upgrade
 import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
+import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createOffer
 import com.protonvpn.test.shared.createOffersWithDiscount
 import com.protonvpn.test.shared.createProduct
-import com.protonvpn.test.shared.toProductId
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.android.payment.product.fake.FakeGetProducts
-import me.proton.core.domain.entity.AppStore
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
-
-private val DEFAULT_CYCLES = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
-private val PRESELECTED_CYCLE = PlanCycle.YEARLY
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoadSubscriptionPlansTests {
@@ -72,25 +67,23 @@ class LoadSubscriptionPlansTests {
         }
         loadSubscriptionPlans = LoadSubscriptionPlans(
             getProductsLazy = { testGetProducts },
-            defaultCycles = DEFAULT_CYCLES,
-            defaultPreselectedCycle = PRESELECTED_CYCLE
         )
     }
 
     @Test
-    fun `load default plans and cycles if available`() = testScope.runTest {
+    fun `load plans and cycles if available`() = testScope.runTest {
+        val cyclesToLoad = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
         val plans = loadSubscriptionPlans(
-            planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-            discountOfferTag = IapConstants.INTRO_PRICE_TAG,
+            LoadPlansConfig.WithOptionalDiscount(
+                planNames = listOf(Constants.CURRENT_PLUS_PLAN),
+                planCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
+                discountOfferTag = IapConstants.INTRO_PRICE_TAG,
+            )
         )
         assertEquals(1, plans.size)
         val plan = plans.first()
         assertEquals(Constants.CURRENT_PLUS_PLAN, plan.name)
-        assertEquals(DEFAULT_CYCLES, plan.cycles.map { it.cycle })
-        assertEquals(
-            DEFAULT_CYCLES.map { it.toProductId(AppStore.GooglePlay, plan.name) },
-            plan.cycles.map { it.productId })
-        assertEquals(PRESELECTED_CYCLE, plan.preselectedCycle)
+        assertEquals(cyclesToLoad, plan.cycles.map { it.cycle })
     }
 
     @Test
@@ -101,14 +94,17 @@ class LoadSubscriptionPlansTests {
         assertEquals(
             emptyList(),
             loadSubscriptionPlans(
-                planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-                discountOfferTag = IapConstants.INTRO_PRICE_TAG,
+                LoadPlansConfig.WithOptionalDiscount(
+                    planNames = listOf(Constants.CURRENT_PLUS_PLAN),
+                    planCycles = listOf(PlanCycle.MONTHLY),
+                    discountOfferTag = IapConstants.INTRO_PRICE_TAG,
+                )
             )
         )
     }
 
     @Test
-    fun `pick offers with offer tag and if missing, use the base plan`() = testScope.runTest {
+    fun `WithOptionalDiscount picks offers with offer tag and if missing, uses the base plan`() = testScope.runTest {
         val offers = listOf(
             createOffer(PlanCycle.MONTHLY, listOf(5_00), tags = emptyList(), token = "token_base"),
             createOffer(
@@ -128,27 +124,33 @@ class LoadSubscriptionPlansTests {
         testGetProducts.setProductsToReturn(listOf(product))
 
         val loadedIntroPlans = loadSubscriptionPlans(
-            planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-            discountOfferTag = IapConstants.INTRO_PRICE_TAG,
+            LoadPlansConfig.WithOptionalDiscount(
+                planNames = listOf(Constants.CURRENT_PLUS_PLAN),
+                planCycles = listOf(PlanCycle.MONTHLY),
+                discountOfferTag = IapConstants.INTRO_PRICE_TAG,
+            )
         )
         assertEquals(1, loadedIntroPlans.size)
         val loadedIntroPlan = loadedIntroPlans.first()
-        assertEquals(
-            listOf(CycleInfo(PlanCycle.MONTHLY, "productId", "token_intro", 99, 5_00)),
-            loadedIntroPlan.cycles
-        )
+        val expectedCycle = CycleInfo(PlanCycle.MONTHLY, "productId", "token_intro", listOf(IapConstants.INTRO_PRICE_TAG), 99, 5_00)
+        assertEquals(listOf(expectedCycle), loadedIntroPlan.cycles)
 
         val loadedBasePlans = loadSubscriptionPlans(
-            planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-            discountOfferTag = "unknown_tag",
+            LoadPlansConfig.WithOptionalDiscount(
+                planNames = listOf(Constants.CURRENT_PLUS_PLAN),
+                planCycles = listOf(PlanCycle.MONTHLY),
+                discountOfferTag = "unknown_tag",
+            )
         )
         assertEquals(1, loadedIntroPlans.size)
         val loadedBasePlan = loadedBasePlans.first()
         assertEquals(
-            listOf(CycleInfo(PlanCycle.MONTHLY, "productId", "token_base", 5_00, 5_00)),
+            listOf(CycleInfo(PlanCycle.MONTHLY, "productId", "token_base", emptyList(), 5_00, 5_00)),
             loadedBasePlan.cycles
         )
     }
+
+    // TODO: test WithOfferTag
 
     @Test
     fun `fallback to available cycles`() = testScope.runTest {
@@ -160,14 +162,14 @@ class LoadSubscriptionPlansTests {
         )
         testGetProducts.setProductsToReturn(products)
         val loadedPlans = loadSubscriptionPlans(
-            planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-            discountOfferTag = IapConstants.INTRO_PRICE_TAG,
+            LoadPlansConfig.WithOptionalDiscount(
+                planNames = listOf(Constants.CURRENT_PLUS_PLAN),
+                planCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
+                discountOfferTag = IapConstants.INTRO_PRICE_TAG,
+            )
         )
         assertEquals(1, loadedPlans.size)
         val plan = loadedPlans.first()
         assertEquals(listOf(PlanCycle.MONTHLY), plan.cycles.map { it.cycle })
-        assertEquals(PlanCycle.MONTHLY, plan.preselectedCycle)
     }
 }
-
-private fun createVpnUser(subscribed: Int) = TestVpnUser.create(subscribed = subscribed)

@@ -35,6 +35,7 @@ import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel.CycleViewInfo
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel.State.PurchaseSuccess
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
+import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.SubscriptionPlanInfo
 import com.protonvpn.android.ui.planupgrade.usecase.shouldReportToSentry
@@ -83,7 +84,7 @@ class PlanModel(
 class UpgradeDialogViewModel(
     private val isInAppUpgradeAllowed: suspend () -> Boolean,
     private val upgradeTelemetry: UpgradeTelemetry,
-    private val loadSubscriptionPlans: suspend (planNames: List<String>, discountOfferTag: String?) -> List<SubscriptionPlanInfo>,
+    private val loadSubscriptionPlans: suspend (selection: LoadPlansConfig) -> List<SubscriptionPlanInfo>,
     private val purchaseProduct: PurchaseProduct,
     private val observePaymentSessionState: ObserveSessionState,
     private val userPlanManager: UserPlanManager,
@@ -160,10 +161,10 @@ class UpgradeDialogViewModel(
     val eventErrorMessage: ReceiveChannel<Error> = errorMessage
 
     private class ReloadState(
-        val plans: List<String>,
-        val cycles: List<PlanCycle>?,
-        val buttonLabelOverride: String? = null,
-        val showDiscountBadge: Boolean = true,
+        val selection: LoadPlansConfig,
+        val preselectedCycle: PlanCycle?,
+        val buttonLabelOverride: String?,
+        val showDiscountBadge: Boolean,
     )
     private var plansForReload: ReloadState? = null
 
@@ -238,61 +239,80 @@ class UpgradeDialogViewModel(
     }
 
     fun reloadPlans() {
-        plansForReload?.let { loadPlans(it.plans, it.cycles, it.buttonLabelOverride, it.showDiscountBadge) }
-    }
-
-    fun loadPlans(
-        planNames: List<String>,
-        cycles: List<PlanCycle>? = null,
-        buttonLabelOverride: String? = null,
-        showDiscountBadge: Boolean = true
-    ) {
-        plansForReload = ReloadState(planNames, cycles, null, showDiscountBadge)
-        viewModelScope.launch {
-            if (!isInAppUpgradeAllowed()) {
-                loadPurchaseState.value = State.UpgradeDisabled
-            } else {
-                loadPlansInternal(planNames, cycles, buttonLabelOverride, showDiscountBadge)
+        plansForReload?.let {
+            viewModelScope.launch {
+                loadPlansInternal(it.selection, null, it.preselectedCycle, it.buttonLabelOverride, it.showDiscountBadge)
             }
         }
     }
 
-    // The plan first on the list is mandatory and will be preselected.
+    fun loadBuiltinUpsellPlans(planNames: List<String>) {
+        loadPlans(
+            selection = LoadPlansConfig.WithOptionalDiscount(
+                planNames = planNames,
+                planCycles = IapConstants.DEFAULT_PLAN_CYCLES,
+                discountOfferTag = IapConstants.INTRO_PRICE_TAG,
+            ),
+            preselectedCycle = PlanCycle.YEARLY,
+        )
+    }
+
+    fun loadPlans(
+        selection: LoadPlansConfig,
+        preselectedCycle: PlanCycle? = null,
+        buttonLabelOverride: String? = null,
+        showDiscountBadge: Boolean = true,
+    ) {
+        viewModelScope.launch {
+            if (!isInAppUpgradeAllowed()) {
+                loadPurchaseState.value = State.UpgradeDisabled
+            } else {
+                plansForReload = ReloadState(
+                    selection = selection,
+                    preselectedCycle = preselectedCycle,
+                    buttonLabelOverride = buttonLabelOverride,
+                    showDiscountBadge = showDiscountBadge
+                )
+                reloadPlans()
+            }
+        }
+    }
+
     private suspend fun loadPlansInternal(
-        planNames: List<String>,
-        cycleFilter: List<PlanCycle>?,
+        selection: LoadPlansConfig,
+        preselectedPlan: String?,
+        preselectedCycle: PlanCycle?,
         buttonLabelOverride: String?,
         showDiscountBadge: Boolean,
     ) {
-        loadPurchaseState.value = State.LoadingPlans(cycleFilter?.size ?: 2, buttonLabelOverride)
+        loadPurchaseState.value = State.LoadingPlans(2, buttonLabelOverride)
         suspend {
-            val unorderedPlans = loadSubscriptionPlans(planNames, IapConstants.INTRO_PRICE_TAG)
-                .map { inputPlanInfo ->
-                    val planInfo = if (cycleFilter != null) {
-                        val filteredCycles = inputPlanInfo.cycles.filter { cycleFilter.contains(it.cycle) }
-                        val selectedCycle =
-                            (filteredCycles.find { it.cycle == inputPlanInfo.preselectedCycle }
-                                ?: filteredCycles.first()).cycle
-                        inputPlanInfo.copy(
-                            cycles = filteredCycles,
-                            preselectedCycle = selectedCycle
-                        )
-                    } else {
-                        inputPlanInfo
-                    }
+            val unorderedPlans = loadSubscriptionPlans(selection)
+                .map { planInfo ->
+                    val cyclesDescending = calculatePriceInfos(
+                        planInfo.name,
+                        planInfo.currency,
+                        planInfo.cycles,
+                        showDiscountBadge
+                    )
+                    val preselectedCycle =
+                        if (preselectedCycle != null && cyclesDescending.any { it.cycle == preselectedCycle }) {
+                            preselectedCycle
+                        } else {
+                            cyclesDescending.first().cycle
+                        }
                     PlanModel(
                         displayName = planInfo.displayName,
                         planName = planInfo.name,
                         currency = planInfo.currency,
-                        cycles = calculatePriceInfos(planInfo.name, planInfo.currency, planInfo.cycles, showDiscountBadge),
-                        preselectedCycle = planInfo.preselectedCycle,
+                        cycles = cyclesDescending,
+                        preselectedCycle = preselectedCycle,
                     )
                 }
-            // Plans order should match order of planNames.
-            loadedPlans = planNames.mapNotNull { planName -> unorderedPlans.find { it.planName == planName } }
-            val preselectedPlan = loadedPlans.find { it.planName == planNames.first() }
+            loadedPlans = unorderedPlans.orderForConfig(selection)
+            val preselectedPlan = loadedPlans.find { it.planName == preselectedPlan } ?: loadedPlans.firstOrNull()
             if (loadedPlans.isEmpty()
-                // Note: plans with no Google prices should already be filtered out by GetDynamicPlansAdjustedPrices.
+                // Note: plans with no Google prices should already be filtered out by LoadSubscriptionPlans.
                 || loadedPlans.any { it.cycles.isEmpty() }
                 || preselectedPlan == null
             ) {
@@ -303,7 +323,7 @@ class UpgradeDialogViewModel(
                     error = IllegalArgumentException("Missing prices: $errorInfo")
                 )
             } else {
-                reportPricesLoaded(loadedPlans.hasIntroPrice())
+                reportPricesLoaded(loadedPlans.hasDiscountPrice())
                 selectPlan(preselectedPlan, buttonLabelOverride)
             }
         }.runCatchingCheckedExceptions { e ->
@@ -382,6 +402,17 @@ class UpgradeDialogViewModel(
         userPlanManager.refreshVpnInfo()
     }
 
+    private fun List<PlanModel>.orderForConfig(config: LoadPlansConfig): List<PlanModel> {
+        fun List<PlanModel>.matchPlanNames(planNames: List<String>) =
+            planNames.mapNotNull { planName -> find { it.planName == planName } }
+
+        return when (config) {
+            is LoadPlansConfig.WithOfferTag -> this
+            is LoadPlansConfig.WithOfferTagAndFilter -> matchPlanNames(config.planNames)
+            is LoadPlansConfig.WithOptionalDiscount -> matchPlanNames(config.planNames)
+        }
+    }
+
     private fun onError(messageRes: Int? = null, error: Throwable? = null, paymentsCode: Int? = null) {
         if (shouldReportToSentry(error))
             logToSentry(error?.message, error, paymentsCode) // Remove this once we know payments are in a good shape.
@@ -390,7 +421,7 @@ class UpgradeDialogViewModel(
         errorMessage.trySend(Error(messageRes, error))
     }
 
-    private fun List<PlanModel>.hasIntroPrice(): Boolean =
+    private fun List<PlanModel>.hasDiscountPrice(): Boolean =
         any { plan -> plan.cycles.any { it.priceInfo.hasIntroPrice }}
 
     private fun buildFullState(

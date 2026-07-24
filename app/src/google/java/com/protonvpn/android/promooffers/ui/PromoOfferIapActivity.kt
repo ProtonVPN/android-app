@@ -102,8 +102,8 @@ class PromoOfferIapActivity : BaseActivityV2() {
                     if (resources.configuration.isNightMode()) offer.imageUrlDark else offer.imageUrlLight
                 bgImageContentDescription.value = offer.imageContentDescription
                 upgradeViewModel.loadPlans(
-                    planNames = listOf(offer.iapParams.planName),
-                    cycles = listOf(offer.iapParams.cycle),
+                    selection = offer.iapParams.loadPlansConfig,
+                    preselectedCycle = offer.iapParams.preselectedCycle,
                     buttonLabelOverride = offer.buttonLabel,
                     showDiscountBadge = offer.iapParams.showDiscountBadge
                 )

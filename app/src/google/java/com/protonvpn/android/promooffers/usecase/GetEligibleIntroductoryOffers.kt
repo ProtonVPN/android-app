@@ -24,9 +24,9 @@ import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.promooffers.GetIntroPricesError
 import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers.CachedOffers
-import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.shouldReportToSentry
 import com.protonvpn.android.utils.BytesFileWriter
@@ -41,7 +41,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.MapSerializer
-import kotlinx.serialization.builtins.serializer
 import me.proton.android.payment.common.exception.PaymentException
 import java.io.File
 import javax.inject.Inject
@@ -50,13 +49,15 @@ import kotlin.time.Duration.Companion.days
 
 private val CacheDuration = 2.days
 
-typealias IntroductoryOffersCacheMap = Map<String, CachedOffers>
+typealias DiscountOffersKey = LoadPlansConfig
+typealias DiscountOffersCacheMap = Map<DiscountOffersKey, CachedOffers>
 
+// TODO: rename, it's no longer about intro offers.
 @Singleton
 class GetEligibleIntroductoryOffers(
     private val loadSubscriptionPlans: LoadSubscriptionPlans,
     private val inAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
-    cacheObjectStore: ObjectStore<IntroductoryOffersCacheMap>,
+    cacheObjectStore: ObjectStore<DiscountOffersCacheMap>,
     private val clock: () -> Long,
 ) {
     @Inject
@@ -76,7 +77,7 @@ class GetEligibleIntroductoryOffers(
             dispatcherProvider,
             KotlinCborObjectSerializer(
                 MapSerializer(
-                    String.serializer(),
+                    LoadPlansConfig.serializer(),
                     CachedOffers.serializer()
                 )
             ),
@@ -90,7 +91,8 @@ class GetEligibleIntroductoryOffers(
         val planName: String,
         val cycle: PlanCycle,
         val currency: String,
-        val introPriceCents: Int
+        val currentPriceCents: Int,
+        val offerTags: List<String>,
     )
 
     @Serializable
@@ -100,15 +102,15 @@ class GetEligibleIntroductoryOffers(
     )
 
     private class Cache(
-        private val cacheObjectStore: ObjectStore<IntroductoryOffersCacheMap>,
+        private val cacheObjectStore: ObjectStore<DiscountOffersCacheMap>,
     ) {
 
         private val mutex = Mutex()
         private var isLoaded = false
-        private val cacheData = HashMap<String, CachedOffers>()
+        private val cacheData = HashMap<DiscountOffersKey, CachedOffers>()
 
         // Only access when protected by the mutex.
-        private suspend fun getCache(): HashMap<String, CachedOffers> {
+        private suspend fun getCache(): HashMap<DiscountOffersKey, CachedOffers> {
             if (!isLoaded) {
                 cacheData.putAll(cacheObjectStore.read() ?: emptyMap())
                 isLoaded = true
@@ -116,18 +118,22 @@ class GetEligibleIntroductoryOffers(
             return cacheData
         }
 
-        suspend fun get(planName: String, now: Long): CachedOffers? = mutex.withLock {
-            getCache().get(planName)
+        suspend fun get(
+            loadPlansConfig: LoadPlansConfig,
+            now: Long
+        ): CachedOffers? = mutex.withLock {
+            getCache()[loadPlansConfig]
                 ?.takeIf { it.timestamp + CacheDuration.inWholeMilliseconds > now }
         }
 
-        suspend fun update(planNames: List<String>, timestamp: Long, offers: List<Offer>) {
+        suspend fun update(
+            loadPlansConfig: LoadPlansConfig,
+            timestamp: Long,
+            offers: List<Offer>
+        ) {
             mutex.withLock {
                 val cache = getCache()
-                planNames.forEach { planName ->
-                    cache[planName] =
-                        CachedOffers(timestamp, offers.filter { it.planName == planName })
-                }
+                cache[loadPlansConfig] = CachedOffers(timestamp, offers)
                 cacheObjectStore.store(cache)
             }
         }
@@ -135,47 +141,44 @@ class GetEligibleIntroductoryOffers(
 
     private val cache = Cache(cacheObjectStore)
 
-    suspend operator fun invoke(planNames: List<String>): List<Offer>? {
+    suspend operator fun invoke(
+        loadPlansConfig: LoadPlansConfig,
+    ): List<Offer>? {
         if (!inAppUpgradeAllowed()) return null
 
         val now = clock()
-        val cachedOffers = planNames.mapNotNull {
-            cache.get(it, now)
-        }
-        return if (planNames.size == cachedOffers.size) {
-            cachedOffers.flatMap { it.offers }
-        } else suspend {
-            val giapPlans = loadSubscriptionPlans(planNames, IapConstants.INTRO_PRICE_TAG)
-
-            val introOffers = giapPlans.flatMap { plan ->
-                plan.cycles.mapNotNull { cycle ->
-                    val currentPriceCents = cycle.currentPriceCents
-                    val renewPriceCents = cycle.defaultPriceCents
-
-                    // Note: the prices will be equal if there is just one pricing phase, let's
-                    // be conservative and require 2 pricing phases to display the offer.
-                    if (currentPriceCents < renewPriceCents) {
-                        Offer(
-                            planName = plan.name,
-                            cycle = cycle.cycle,
-                            currency = plan.currency,
-                            introPriceCents = currentPriceCents
-                        )
-                    } else {
-                        null
-                    }
-                }
+        val cachedOffers = cache.get(loadPlansConfig, now)
+        return if (cachedOffers != null) {
+            cachedOffers.offers
+        } else {
+            loadOffers(loadPlansConfig)
+                ?.also { cache.update(loadPlansConfig, clock(), it)
             }
-            cache.update(planNames, clock(), introOffers)
-            introOffers
-        }.runCatchingCheckedExceptions { e ->
-            if (shouldReportToSentry(e)) {
-                val code = if (e is PaymentException) e.code else null
-                val message = "Error fetching offer prices${if (code != null) ", payments code: $code" else ""}."
-                Sentry.captureException(GetIntroPricesError(message, e))
-            }
-            null
         }
     }
-}
 
+    private suspend fun loadOffers(
+        loadPlansConfig: LoadPlansConfig,
+    ): List<Offer>? = suspend {
+        val subscriptionPlans = loadSubscriptionPlans(loadPlansConfig)
+        val offers = subscriptionPlans.flatMap { plan ->
+            plan.cycles.map { cycle ->
+                Offer(
+                    planName = plan.name,
+                    cycle = cycle.cycle,
+                    currency = plan.currency,
+                    currentPriceCents = cycle.currentPriceCents,
+                    offerTags = cycle.offerTags
+                )
+            }
+        }
+        offers
+    }.runCatchingCheckedExceptions { e ->
+        if (shouldReportToSentry(e)) {
+            val code = if (e is PaymentException) e.code else null
+            val message = "Error fetching offer prices${if (code != null) ", payments code: $code" else ""}."
+            Sentry.captureException(GetIntroPricesError(message, e))
+        }
+        null
+    }
+}

@@ -57,19 +57,20 @@ import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
+import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.PlanModel
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
+import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
+import com.protonvpn.android.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
-import com.protonvpn.android.ui.planupgrade.PlanCycle
-import com.protonvpn.android.utils.Constants
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 
 enum class TvUpsellContent {
@@ -92,7 +93,7 @@ class TvUpsellActivity : BaseTvActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.loadPlans(listOf(Constants.CURRENT_PLUS_PLAN))
+        viewModel.loadBuiltinUpsellPlans(listOf(Constants.CURRENT_PLUS_PLAN))
         upgradeActivityHelper.onCreate(viewModel)
 
         if (savedInstanceState == null) {

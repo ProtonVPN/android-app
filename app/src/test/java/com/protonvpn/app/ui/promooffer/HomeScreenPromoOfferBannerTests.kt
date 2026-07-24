@@ -26,10 +26,12 @@ import com.protonvpn.android.promooffers.data.ApiNotificationOfferButton
 import com.protonvpn.android.promooffers.data.ApiNotificationProductDetails
 import com.protonvpn.android.promooffers.data.ApiNotificationProductDetailsGoogle
 import com.protonvpn.android.promooffers.data.ApiNotificationTypes
+import com.protonvpn.android.promooffers.data.PromoOffersPrefs
 import com.protonvpn.android.promooffers.ui.HomeScreenPromoBannerFlow
 import com.protonvpn.android.promooffers.ui.PromoOfferBannerState
-import com.protonvpn.android.promooffers.data.PromoOffersPrefs
 import com.protonvpn.android.promooffers.usecase.EnsureIapOfferStillValid
+import com.protonvpn.android.ui.planupgrade.IapConstants
+import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePanel
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
@@ -41,7 +43,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import com.protonvpn.android.ui.planupgrade.PlanCycle
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
@@ -149,7 +150,7 @@ class HomeScreenPromoOfferBannerTests {
 
     @Test
     fun `notification with IAP is displayed only when eligible`() = runTest {
-        val productDetails = ApiNotificationProductDetailsGoogle("plan", PlanCycle.MONTHLY)
+        val productDetails = ApiNotificationProductDetailsGoogle(PlanCycle.MONTHLY, offerTag = IapConstants.INTRO_PRICE_TAG)
         val action = ApiNotificationOfferButton(
             action = "IapPopup",
             panel = mockFullScreenImagePanel(

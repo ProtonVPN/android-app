@@ -24,10 +24,10 @@ import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.promooffers.data.ApiNotificationManager
 import com.protonvpn.android.promooffers.ui.NotificationIapParams
+import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import com.protonvpn.android.ui.planupgrade.PlanCycle
 import me.proton.core.util.kotlin.equalsNoCase
 import javax.inject.Inject
 
@@ -38,24 +38,24 @@ class EnsureIapOfferStillValid @Inject constructor(
     private val apiNotificationsManager: ApiNotificationManager
 ) {
     suspend operator fun invoke(iapParams: NotificationIapParams) =
-        with (iapParams) { invoke(planName, cycle, priceCents, currency) }
+        with(iapParams) {
+            invoke(loadPlansConfig, currency, priceCents)
+        }
 
     private suspend operator fun invoke(
-        planName: String,
-        planCycle: PlanCycle,
+        loadPlansConfig: LoadPlansConfig,
+        currency: String?,
         priceCents: Int?,
-        currency: String?
     ): Boolean {
-        val valid = getEligibleIntroductoryOffers(listOf(planName))?.any { offer ->
-            offer.planName == planName && offer.cycle == planCycle &&
-                (currency == null || offer.currency equalsNoCase currency) &&
-                (priceCents == null || offer.introPriceCents == priceCents)
+        val valid = getEligibleIntroductoryOffers(loadPlansConfig)?.any { offer ->
+            (currency == null || offer.currency equalsNoCase currency) &&
+                    (priceCents == null || offer.currentPriceCents == priceCents)
         }
         val isError = valid == null
         if (valid == false) {
             mainScope.launch {
                 val logInfo =
-                    listOfNotNull(planName, planCycle, priceCents, currency).joinToString()
+                    listOfNotNull(loadPlansConfig, currency).joinToString()
                 ProtonLogger.logCustom(
                     LogLevel.DEBUG,
                     LogCategory.PROMO,

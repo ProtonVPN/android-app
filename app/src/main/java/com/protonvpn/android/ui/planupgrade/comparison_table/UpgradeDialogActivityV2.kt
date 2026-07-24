@@ -155,7 +155,7 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
         }
 
         val content = mutableStateOf(initialContent)
-        viewModel.loadPlans(listOf(Constants.CURRENT_PLUS_PLAN))
+        viewModel.loadBuiltinUpsellPlans(listOf(Constants.CURRENT_PLUS_PLAN))
         upgradeActivityHelper.onCreate(viewModel)
         if (savedInstanceState == null) {
             viewModel.reportUpgradeFlowStart(upgradeSource, upgradeTrigger, country)

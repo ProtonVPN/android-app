@@ -59,7 +59,6 @@ class HomeScreenPromoBannerFlow @Inject constructor(
                 it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER
                         && !dismissedOffers.contains(it.id)
             }.firstOrNull {
-
                 val iapParams = with(it.offer?.panel?.button?.panel) {
                     this?.iapProductDetails?.google?.toIapParams()
                         ?: this?.button?.iapActionDetails?.toIapParams()

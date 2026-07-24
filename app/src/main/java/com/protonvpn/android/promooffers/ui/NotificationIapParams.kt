@@ -22,23 +22,32 @@ package com.protonvpn.android.promooffers.ui
 import com.protonvpn.android.promooffers.data.ApiNotificationIapAction
 import com.protonvpn.android.promooffers.data.ApiNotificationProductDetailsGoogle
 import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 
 data class NotificationIapParams(
-    val planName: String,
-    val cycle: PlanCycle,
+    val loadPlansConfig: LoadPlansConfig,
+    val preselectedCycle: PlanCycle?,
     val currency: String? = null,
     val priceCents: Int? = null,
     val showDiscountBadge: Boolean = false,
 )
 
 fun ApiNotificationIapAction.toIapParams() = NotificationIapParams(
-    planName = planName,
-    cycle = cycle,
+    loadPlansConfig = LoadPlansConfig.WithOfferTagAndFilter(
+        offerTag = offerTag,
+        planNames = listOf(planName),
+        planCycles = listOf(cycle),
+    ),
+    preselectedCycle = cycle,
     currency = currency,
     priceCents = priceCents,
     showDiscountBadge = false,
 )
 
 fun ApiNotificationProductDetailsGoogle.toIapParams() = NotificationIapParams(
-    planName = planName, cycle = cycle,
+    // Empty offer tag should not match anything and thus eligibility checks will fail.
+    loadPlansConfig = LoadPlansConfig.WithOfferTag(offerTag.orEmpty()),
+    preselectedCycle = preselectedCycle,
+    showDiscountBadge = false,
 )
+
