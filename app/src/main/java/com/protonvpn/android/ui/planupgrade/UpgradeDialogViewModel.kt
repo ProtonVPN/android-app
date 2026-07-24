@@ -38,7 +38,6 @@ import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.SubscriptionPlanInfo
 import com.protonvpn.android.ui.planupgrade.usecase.shouldReportToSentry
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.formatPrice
 import com.protonvpn.android.utils.ifOrNull
@@ -242,22 +241,11 @@ class UpgradeDialogViewModel(
         plansForReload?.let { loadPlans(it.plans, it.cycles, it.buttonLabelOverride, it.showDiscountBadge) }
     }
 
-    fun loadPlans(allowMultiplePlans: Boolean) {
-        val plans = when {
-            allowMultiplePlans ->
-                listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
-
-            else ->
-                listOf(Constants.CURRENT_PLUS_PLAN)
-        }
-        loadPlans(plans, cycles = null, buttonLabelOverride = null, showDiscountBadge = true)
-    }
-
     fun loadPlans(
         planNames: List<String>,
-        cycles: List<PlanCycle>?,
-        buttonLabelOverride: String?,
-        showDiscountBadge: Boolean
+        cycles: List<PlanCycle>? = null,
+        buttonLabelOverride: String? = null,
+        showDiscountBadge: Boolean = true
     ) {
         plansForReload = ReloadState(planNames, cycles, null, showDiscountBadge)
         viewModelScope.launch {

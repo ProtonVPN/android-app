@@ -102,7 +102,12 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
         if (savedInstanceState == null) {
             initHighlightsFragment()
             initPaymentsPanelFragment()
-            viewModel.loadPlans(allowMultiplePlans)
+            val plans = if (allowMultiplePlans) {
+                listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
+            } else {
+                listOf(Constants.CURRENT_PLUS_PLAN)
+            }
+            viewModel.loadPlans(plans)
             lifecycleScope.launch {
                 viewModel.reportUpgradeFlowStart(
                     getTelemetryUpgradeSource(),

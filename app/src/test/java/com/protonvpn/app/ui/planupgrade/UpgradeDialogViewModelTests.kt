@@ -295,31 +295,6 @@ class UpgradeDialogViewModelTests {
     }
 
     @Test
-    fun `when allowMultiplePlans is true then Plus and Unlimited plans are used`() = testScope.runTest {
-        val products = listOf(
-            createProduct("plus_1", Constants.CURRENT_PLUS_PLAN),
-            createProduct("bundle_1", Constants.CURRENT_BUNDLE_PLAN),
-        )
-        testGetProducts.setProductsToReturn(products)
-
-        viewModel.loadPlans(allowMultiplePlans = true)
-
-        assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN), viewModel.upgradeState.first())
-    }
-
-    @Test
-    fun `when allowMultiplePlans is false then only the first plan is used`() = testScope.runTest {
-        val products = listOf(
-            createProduct("plus_1", Constants.CURRENT_PLUS_PLAN),
-            createProduct("bundle_1", Constants.CURRENT_BUNDLE_PLAN),
-        )
-        testGetProducts.setProductsToReturn(products)
-        viewModel.loadPlans(allowMultiplePlans = false)
-
-        assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN), viewModel.upgradeState.first())
-    }
-
-    @Test
     fun `WHEN prices are loaded THEN upsell_price_display is reported`() = testScope.runTest {
         val products = listOf(
             createProduct("plus_1", Constants.CURRENT_PLUS_PLAN),
@@ -327,7 +302,7 @@ class UpgradeDialogViewModelTests {
         )
         testGetProducts.setProductsToReturn(products)
         viewModel.reportUpgradeFlowStart(UpgradeSource.COUNTRIES, UpgradeTrigger.COUNTRY_SELECTION)
-        viewModel.loadPlans(true)
+        viewModel.loadPlans(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN))
         runCurrent()
 
         val event = testTelemetry.collectedEvents.lastOrNull()
