@@ -57,7 +57,10 @@ fun FreeConnectionsInfoBottomSheet(
     val context = LocalContext.current
     FreeConnectionsInfoBottomSheet(
         onDismissRequest = onDismissRequest,
-        onUpgrade = { upgradeDialogLauncher.launchCountries(context, UpgradeTrigger.HOME, null) },
+        onUpgrade = {
+            upgradeDialogLauncher.launchCountries(context, UpgradeTrigger.HOME, null)
+            onDismissRequest()
+        },
         freeCountries = viewModel.freeCountriesCodes
     )
 }
