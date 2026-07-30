@@ -22,7 +22,6 @@ package com.protonvpn.android.ui.planupgrade
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonObject
 import me.proton.android.payment.billing.extension.invokeOrBillingUnavailable
 import me.proton.android.payment.billing.model.StoreProduct
 import me.proton.android.payment.billing.usecase.AcknowledgePurchase
@@ -35,11 +34,9 @@ import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.accountmanager.domain.getPrimaryAccount
 import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.protonApi.BaseRetrofitApi
-import me.proton.core.network.data.protonApi.GenericResponse
 import me.proton.core.network.domain.ApiException
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
-import me.proton.core.util.kotlin.serializeToJsonElement
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -86,10 +83,7 @@ class PaymentsHttpCapability @Inject constructor(
                 HttpResponse(status = value.code(), body = value.body())
             }
             is ApiResult.Error.Http -> {
-                val reconstructedBody = proton?.let {
-                    GenericResponse(it.code).serializeToJsonElement().jsonObject
-                }
-                HttpResponse(status = httpCode, body = reconstructedBody)
+                HttpResponse(status = httpCode, body = body)
             }
             is ApiResult.Error -> {
                 throw ApiException(this)
