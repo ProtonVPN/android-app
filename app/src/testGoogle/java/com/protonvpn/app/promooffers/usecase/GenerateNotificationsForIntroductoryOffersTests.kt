@@ -97,7 +97,6 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
         testGetProducts = FakeGetProducts()
         val loadSubscriptionPlans = LoadSubscriptionPlans(
-            vpnUserFlow = currentUser.vpnUserFlow,
             getProductsLazy = { testGetProducts },
             defaultCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
             defaultPreselectedCycle = PlanCycle.YEARLY,

@@ -25,7 +25,6 @@ import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.test.shared.InMemoryObjectStore
-import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createOffersWithDiscount
 import com.protonvpn.test.shared.createProduct
 import com.protonvpn.test.shared.toProductId
@@ -35,7 +34,6 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
@@ -87,7 +85,6 @@ class GetEligibleIntroductoryOffersTests {
         )
         val fakeGetProducts = FakeGetProducts().apply { setProductsToReturn(fakeProducts) }
         val loadSubscriptionPlans = LoadSubscriptionPlans(
-            vpnUserFlow = flowOf(TestVpnUser.create(maxTier = 0, subscribed = 0)),
             getProductsLazy = { fakeGetProducts },
             defaultCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
             defaultPreselectedCycle = PlanCycle.YEARLY,

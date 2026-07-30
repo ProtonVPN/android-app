@@ -18,7 +18,6 @@
  */
 package com.protonvpn.app.upgrade
 
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
@@ -30,7 +29,6 @@ import com.protonvpn.test.shared.createOffersWithDiscount
 import com.protonvpn.test.shared.createProduct
 import com.protonvpn.test.shared.toProductId
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -49,13 +47,11 @@ class LoadSubscriptionPlansTests {
     private lateinit var testScope: TestScope
     private lateinit var testGetProducts: FakeGetProducts
 
-    private lateinit var currentVpnUser: MutableStateFlow<VpnUser?>
     private lateinit var loadSubscriptionPlans: LoadSubscriptionPlans
 
     @Before
     fun setup() {
         testScope = TestScope(UnconfinedTestDispatcher())
-        currentVpnUser = MutableStateFlow(createVpnUser(subscribed = 0))
         // Put all combinations in the default offers.
         val allCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY, PlanCycle.TWO_YEARS)
         val products = allCycles.flatMap { planCycle ->
@@ -75,7 +71,6 @@ class LoadSubscriptionPlansTests {
             setProductsToReturn(products)
         }
         loadSubscriptionPlans = LoadSubscriptionPlans(
-            vpnUserFlow = currentVpnUser,
             getProductsLazy = { testGetProducts },
             defaultCycles = DEFAULT_CYCLES,
             defaultPreselectedCycle = PRESELECTED_CYCLE
@@ -96,18 +91,6 @@ class LoadSubscriptionPlansTests {
             DEFAULT_CYCLES.map { it.toProductId(AppStore.GooglePlay, plan.name) },
             plan.cycles.map { it.productId })
         assertEquals(PRESELECTED_CYCLE, plan.preselectedCycle)
-    }
-
-    @Test
-    fun `don't load plan if user has subscription`() = testScope.runTest {
-        currentVpnUser.value = createVpnUser(subscribed = VpnUser.VPN_SUBSCRIBED_FLAG)
-        assertEquals(
-            emptyList(),
-            loadSubscriptionPlans(
-                planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-                discountOfferTag = IapConstants.INTRO_PRICE_TAG,
-            )
-        )
     }
 
     @Test

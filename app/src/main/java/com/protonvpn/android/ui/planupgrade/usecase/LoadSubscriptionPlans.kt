@@ -19,8 +19,6 @@
 
 package com.protonvpn.android.ui.planupgrade.usecase
 
-import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
@@ -29,8 +27,6 @@ import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.utils.ifOrNull
 import dagger.Reusable
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import me.proton.android.payment.common.model.PlanId
 import me.proton.android.payment.common.model.ProductId
 import me.proton.android.payment.product.model.BillingCycle
@@ -54,10 +50,8 @@ data class SubscriptionPlanInfo(
     val cycles: List<CycleInfo>,
     val preselectedCycle: PlanCycle,
 )
-
 @Reusable
 class LoadSubscriptionPlans(
-    private val vpnUserFlow: Flow<VpnUser?>,
     getProductsLazy: dagger.Lazy<GetProducts>,
     private val defaultCycles: List<PlanCycle>,
     private val defaultPreselectedCycle: PlanCycle
@@ -65,10 +59,8 @@ class LoadSubscriptionPlans(
     private val getProducts by getProductsLazy
 
     @Inject constructor(
-        currentUser: CurrentUser,
         getProductsLazy: dagger.Lazy<GetProducts>,
     ) : this(
-        vpnUserFlow = currentUser.vpnUserFlow,
         getProductsLazy = getProductsLazy,
         DEFAULT_CYCLES,
         DEFAULT_PRESELECTED_CYCLE
@@ -83,12 +75,6 @@ class LoadSubscriptionPlans(
         planNames: List<String>,
         discountOfferTag: String?,
     ): List<SubscriptionPlanInfo> {
-        val vpnUser = vpnUserFlow.first() ?: return emptyList()
-        if (vpnUser.hasSubscription) {
-            ProtonLogger.logCustom(LogCategory.IN_APP_PURCHASE, "IAP unavailable, user has a subscription")
-            return emptyList()
-        }
-
         return loadPlans(
             planNames = planNames,
             planCycles = defaultCycles,
@@ -97,7 +83,7 @@ class LoadSubscriptionPlans(
         )
     }
 
-    suspend fun loadPlans(
+    private suspend fun loadPlans(
         planNames: List<String>,
         planCycles: List<PlanCycle>,
         preselectedCycle: PlanCycle,

@@ -22,8 +22,11 @@ package com.protonvpn.android.appconfig
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.getValue
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.android.payment.purchase.usecase.GetPaymentStatus
 import java.util.concurrent.TimeUnit
@@ -35,11 +38,18 @@ class CachedPurchaseEnabled @Inject constructor(
     private val mainScope: CoroutineScope,
     @param:WallClock private val wallClock: () -> Long,
     getPaymentStatusLazy: dagger.Lazy<GetPaymentStatus>,
-    private val prefs: AppFeaturesPrefs
+    userPlanManager: UserPlanManager,
+    private val prefs: AppFeaturesPrefs,
 ) {
     private val getPaymentStatus by getPaymentStatusLazy
 
     private var lastUpdateAttempt = 0L
+
+    init {
+        userPlanManager.infoChangeFlow
+            .onEach { forceRefresh() }
+            .launchIn(mainScope)
+    }
 
     operator fun invoke() = prefs.purchaseEnabled
 

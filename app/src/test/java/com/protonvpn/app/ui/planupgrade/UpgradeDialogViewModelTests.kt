@@ -111,7 +111,6 @@ class UpgradeDialogViewModelTests {
         testGetProducts.setProductsToReturn(listOf(createProduct(testPlanName, testPlanName)))
         val currentUser = CurrentUser(TestCurrentUserProvider(TestVpnUser.create()))
         loadSubscriptionPlans = LoadSubscriptionPlans(
-            vpnUserFlow = currentUser.vpnUserFlow,
             getProductsLazy = { testGetProducts },
             defaultCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
             defaultPreselectedCycle = PlanCycle.MONTHLY,

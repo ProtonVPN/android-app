@@ -20,7 +20,6 @@
 package com.protonvpn.android.ui.planupgrade
 
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.upsell.IsTvIapEnabled
 import dagger.Reusable
@@ -28,12 +27,10 @@ import javax.inject.Inject
 
 @Reusable
 class IsInAppUpgradeAllowedUseCase @Inject constructor(
-    private val currentUser: CurrentUser,
     private val purchaseEnabled: CachedPurchaseEnabled,
     private val isTvIapEnabled: IsTvIapEnabled,
     private val isTv: IsTvCheck,
 ) {
-    suspend operator fun invoke() = (isTvIapEnabled() || !isTv()) &&
-            purchaseEnabled() &&
-            (currentUser.vpnUser()?.let { user -> user.subscribed == 0 && user.credit == 0 } ?: false)
+    suspend operator fun invoke() =
+        (isTvIapEnabled() || !isTv()) && purchaseEnabled()
 }
