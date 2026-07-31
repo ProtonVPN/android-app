@@ -84,6 +84,7 @@ class ConnectionParamsProTun(
             customDns = userSettings.customDns.effectiveDnsList,
             routes = allowedIps.map { it.toIpNetworkPrefix() },
             splitTunnelAppsConfig = splitTunnelAppsConfig(context.packageName, userSettings),
+            mtu = 1420,
         )
 
         val privateKey = certificateRepository.getX25519Key(sessionId)
