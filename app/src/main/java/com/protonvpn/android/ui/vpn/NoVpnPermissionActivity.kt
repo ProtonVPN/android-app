@@ -30,10 +30,12 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.LayoutRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityNoVpnPermissionBinding
 import com.protonvpn.android.databinding.FragmentNoVpnPermissionDisableAlwaysOnBinding
@@ -46,6 +48,7 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.ui.vpn.NoVpnPermissionActivity.Companion.EXTRA_RECONNECT_INTENT
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.ViewUtils.viewBinding
+import com.protonvpn.android.utils.applySystemBarInsets
 import com.protonvpn.android.utils.openVpnSettings
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -56,9 +59,13 @@ class NoVpnPermissionActivity : BaseActivityV2() {
     private val binding by viewBinding(ActivityNoVpnPermissionBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdgeVpn()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
+        applySystemBarInsets(binding.root) { v, insets ->
+            v.updatePadding(top = insets.top, bottom = insets.bottom)
+        }
 
         if (savedInstanceState == null) {
             // Older Android versions don't have the "Always-on VPN" setting. In this case show
