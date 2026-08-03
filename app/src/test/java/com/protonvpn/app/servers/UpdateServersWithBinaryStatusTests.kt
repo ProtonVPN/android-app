@@ -20,6 +20,7 @@
 package com.protonvpn.app.servers
 
 import com.protonvpn.android.appconfig.UserCountryIpBased
+import com.protonvpn.android.appconfig.UserCountryPhysical
 import com.protonvpn.android.logging.InitializeRustLogging
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatusImpl
@@ -44,6 +45,9 @@ class UpdateServersWithBinaryStatusTests {
     @MockK
     private lateinit var mockUserCountry: UserCountryIpBased
 
+    @MockK
+    private lateinit var mockUserCountryPhysical: UserCountryPhysical
+
     private lateinit var updater: UpdateServersWithBinaryStatusImpl
 
     @Before
@@ -51,9 +55,11 @@ class UpdateServersWithBinaryStatusTests {
         MockKAnnotations.init(this)
 
         every { mockUserCountry.invoke() } returns null
+        every { mockUserCountryPhysical.invoke() } returns null
 
         updater = UpdateServersWithBinaryStatusImpl(
             ServerListUpdaterPrefs(MockSharedPreferencesProvider()),
+            mockUserCountryPhysical,
             mockUserCountry,
             initializeRustLogging = InitializeRustLogging(VpnSdkLogger())
         )
