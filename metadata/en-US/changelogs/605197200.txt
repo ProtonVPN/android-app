@@ -1,0 +1,2 @@
+What's new
+Updated the ProTUN codebase that underpins Proton Protocols, bringing improved stability  Increased target Android version to 16 (API 36)
