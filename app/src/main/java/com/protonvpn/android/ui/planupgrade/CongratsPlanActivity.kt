@@ -63,6 +63,7 @@ class CongratsPlanActivity : BaseActivityV2() {
         }
 
         val button = binding.buttonGetStarted
+        button.requestFocus()
         button.setOnClickListener { finish() }
 
         val shouldRefresh = intent.getBooleanExtra(EXTRA_REFRESH_VPN_USER, false)
@@ -82,6 +83,7 @@ class CongratsPlanActivity : BaseActivityV2() {
                         CongratsPlanViewModel.State.Success -> {
                             button.setIdle()
                             button.isEnabled = true
+                            button.requestFocus()
                         }
                     }
                 }
