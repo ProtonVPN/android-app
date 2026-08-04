@@ -351,7 +351,7 @@
     <string name="notification_smart_protocol_disabled_title">Pametni protokol je trenutno onemogočen</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN je zaznal, da vaše trenutno omrežje preprečuje povezavo z VPN. Če omogočite pametni protokol, lahko zaobidete te omejitve.</string>
     <string name="notification_streaming_blocked_title">Pretakanje ne deluje?</string>
-    <string name="notification_streaming_blocked_text">Številne pretočne storitve zaznajo in blokirajo povezave iz brezplačnih VPN strežnikov. Nadgradite na Proton VPN Plus, da zaobidete blokiranje</string>
+    <string name="notification_streaming_blocked_text">Številne pretočne storitve zaznajo in blokirajo povezave iz brezplačnih VPN strežnikov. Nadgradite na Proton VPN Plus, da zaobidete blokiranje.</string>
     <string name="upsell_advanced_features">Napredne funkcije: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Dostopajte do storitev pretakanja (Netflix, Disney+ itd.) kjer koli na svetu</string>
     <!-- Number of servers available in the service.
@@ -537,7 +537,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Paket Plus</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Paket Plus:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -546,7 +546,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Brezplačen paket</string>
+    <string name="upsell_panel_content_description_value_prefix_free">Brezplačen paket:</string>
     <string name="upsell_panel_content_description_yes">Da</string>
     <string name="upsell_panel_content_description_no">Ne</string>
     <string name="upsell_panel_table_header_plan_free">Brezplačno</string>
@@ -557,7 +557,7 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Odklenite VPN Plus za dostop do: %1$s</string>
+    <string name="upsell_panel_country_title">Pridobite VPN Plus za dostop do: %1$s</string>
     <string name="upsell_panel_countries_title">Odklenite vse države s storitvijo VPN Plus</string>
     <string name="upsell_panel_country_benefit_countries">Razpoložljive države</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
@@ -830,7 +830,7 @@
     <string name="welcome_plus_title">Dobrodošli pri Proton Plus</string>
     <string name="welcome_plus_description">Uživajte v dodatnih funkcijah zasebnosti, okrepljeni zmogljivosti in prilagoditvi VPN naslednje stopnje.</string>
     <string name="welcome_unlimited_title">Dobrodošli v Proton Unlimited</string>
-    <string name="welcome_unlimited_description">Odklenili ste vse premijske funkcije Proton VPN, Mail, Calendar, Drive, Pass, in Wallet.</string>
+    <string name="welcome_unlimited_description">Odklenili ste vse premijske funkcije Proton VPN, Mail, Calendar, Drive, Pass in Wallet.</string>
     <string name="welcome_generic_title">Čestitamo</string>
     <string name="welcome_generic_description">Nadgradili ste naročnino. Uživajte v naprednih funkcijah zasebnosti in zmogljivosti naslednje ravni.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -1647,7 +1647,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="profiles_zero_state_description">Profili so shranjene povezave z vašo izbrano lokacijo, strežnikom in protokolom.</string>
     <string name="profiles_button_create_profile">Ustvari profil</string>
     <string name="profile_deleted_snackbar_message">Profil je izbrisan</string>
-    <string name="profile_connected_edit_setting">Ta nastavitev je povezana z vašim aktivnim profilom.\n\nUredite svoj profil, če želite narediti spremembe, ali pa prekinite povezavo, če želite urediti splošne nastavitve VPN.</string>
+    <string name="profile_connected_edit_setting">Ta nastavitev je povezana z vašim aktivnim profilom. \n\nUredite svoj profil, če želite narediti spremembe, ali pa prekinite povezavo, če želite urediti splošne nastavitve VPN.</string>
     <string name="profile_connected_dialog_title">Upravljajte %1$s v profilih</string>
     <string name="undo">Razveljavi</string>
     <string name="profile_unavailable_dialog_title">Profil ni na voljo</string>
