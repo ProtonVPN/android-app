@@ -515,7 +515,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_free">Ilmainen tilaus:</string>
     <string name="upsell_panel_content_description_yes">Kyllä</string>
     <string name="upsell_panel_content_description_no">Ei</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
@@ -534,25 +534,25 @@
     <string name="upsell_panel_country_benefit_choice">Valitse sijaintisi</string>
     <string name="upsell_panel_country_benefit_speed">Nopeat palvelimet</string>
     <string name="upsell_panel_country_benefit_shows">Katso vain ulkomailla saatavilla olevia ohjelmia</string>
-    <string name="upsell_panel_netshield_title">Browse without interruptions</string>
-    <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
+    <string name="upsell_panel_netshield_title">Selaa ilman keskeytyksiä</string>
+    <string name="upsell_panel_netshield_benefit_ads">Mainokset estetään selaamisen aikana</string>
     <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
-    <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
+    <string name="upsell_panel_netshield_benefit_malware">Haittaohjelmien ja tietojenkalastelun torjunta</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Sivut latautuvat nopeammin </string>
-    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
+    <string name="upsell_panel_speed_title">Suoratoista, pelaa ja lataa nopeammin</string>
     <string name="upsell_panel_speed_benefit_servers">Nopeat palvelimet</string>
     <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
     <string name="upsell_panel_speed_benefit_gaming_slow">Hidas</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Nopea</string>
     <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
     <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
-    <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
-    <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_streaming_title">Katso suosikkisuoratoistopalvelujasi</string>
+    <string name="upsell_panel_streaming_benefit_shows">Katso sarjojasi mistä tahansa maasta</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
-    <string name="upsell_panel_streaming_benefit_platforms">All major streaming platforms supported *</string>
+    <string name="upsell_panel_streaming_benefit_platforms">Tukee kaikkia suosituimpia suoratoistopalveluita *</string>
     <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
     <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
-    <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
+    <string name="upsell_panel_streaming_footer">* Vaatii suoratoistopalvelun tilauksen.</string>
     <string name="upsell_card_countries_title">Maailmalaajuinen kattavuus</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -597,14 +597,14 @@
     -->
     <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
     <string name="upsell_tv_netshield_title">Nauti mainosvapaasta selauksesta Plussalla</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Estä mainokset, seurannat ja haittaohjelmat <b>NetShieldillä</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Hanki molempien parhaat puolet Plussalla</string>
     <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
     <string name="upsell_tv_subscription_expired_title">Tilaus on päättynyt</string>
     <string name="upsell_tv_subscription_expired_description">Päivitä tilauksesi palauttaaksesi Plus-palvelimet ja -ominaisuudet käyttöösi.</string>
     <string name="upsell_tv_customization_title">Saat edistyneet VPN-mukautukset Plus-versiolla.</string>
     <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
-    <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_fallback_description">Siirry Proton VPN:n sivustolle päivittääksesi tilauksesi.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -1662,11 +1662,11 @@
     <string name="session_fork_no_account_signup_button">Luo tili</string>
     <string name="session_fork_no_account_signin_button">Kirjaudu</string>
     <string name="session_fork_confirmation_title">Kirjaudu Android TV:llä?</string>
-    <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
+    <string name="session_fork_confirmation_message">Tämän avulla televisio voi käyttää Proton-tiliäsi.</string>
     <string name="session_fork_confirmation_bottom_note">Kirjaudu vain laitteilla, joihin luotat</string>
     <string name="session_fork_confirmation_too_soon_toast">Tarkista tämä ennen kuin jatkat</string>
     <string name="session_fork_success_title">Kirjautuminen onnistui</string>
-    <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
+    <string name="session_fork_success_message">Olet nyt kirjautunut televisioosi.</string>
     <string name="session_fork_error_expired_title">Koodi on vanhentunut</string>
     <string name="session_fork_error_expired_message">Luo uusi koodi TV:lläsi ja yritä uudelleen.</string>
     <string name="session_fork_error_generic_title">Kirjautuminen epäonnistui</string>
