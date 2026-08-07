@@ -528,9 +528,9 @@
         -->
     <string name="upsell_panel_country_title">Avaa %1$s VPN Plus -tilauksella</string>
     <string name="upsell_panel_countries_title">Pääsy kaikkiin maihin VPN Plussalla</string>
-    <string name="upsell_panel_country_benefit_countries">Saatavilla olevat maat</string>
+    <string name="upsell_panel_general_benefit_countries">Saatavilla olevat maat</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Valitse sijaintisi</string>
     <string name="upsell_panel_country_benefit_speed">Nopeat palvelimet</string>
     <string name="upsell_panel_country_benefit_shows">Katso vain ulkomailla saatavilla olevia ohjelmia</string>

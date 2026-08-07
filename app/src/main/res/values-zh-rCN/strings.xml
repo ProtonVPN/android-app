@@ -513,9 +513,9 @@
         -->
     <string name="upsell_panel_country_title">开通 VPN Plus 以解锁 %1$s</string>
     <string name="upsell_panel_countries_title">开通 VPN Plus 以解锁所有国家/地区</string>
-    <string name="upsell_panel_country_benefit_countries">可用国家/地区</string>
+    <string name="upsell_panel_general_benefit_countries">可用国家/地区</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">选择您的位置</string>
     <string name="upsell_panel_country_benefit_speed">高速服务器</string>
     <string name="upsell_panel_country_benefit_shows">观看仅海外可看的节目</string>

@@ -47,10 +47,12 @@ fun UpsellComparisonTablePanel(
     @DrawableRes imageRes: Int,
     modifier: Modifier = Modifier,
     windowInsets: WindowInsets = WindowInsets.systemBars,
+    @StringRes descriptionRes: Int? = null,
     content: @Composable () -> Unit,
 ) {
     UpsellComparisonTablePanel(
         title = stringResource(titleRes),
+        description = descriptionRes?.let { stringResource(it) },
         image = @Composable {
             Image(
                 painterResource(imageRes),
@@ -69,6 +71,7 @@ fun UpsellComparisonTablePanel(
     image: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     windowInsets: WindowInsets = WindowInsets.systemBars,
+    description: String? = null,
     content: @Composable () -> Unit,
 ) {
     Column(
@@ -87,6 +90,15 @@ fun UpsellComparisonTablePanel(
             style = ProtonTheme.typography.hero,
             textAlign = TextAlign.Center,
         )
+        if (description != null) {
+            VerticalSpacer(height = 12.dp)
+            Text(
+                text = description,
+                style = ProtonTheme.typography.body1Regular,
+                color = ProtonTheme.colors.textWeak,
+                textAlign = TextAlign.Center,
+            )
+        }
         VerticalSpacer(height = 24.dp)
 
         content()

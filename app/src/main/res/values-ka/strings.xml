@@ -528,9 +528,9 @@
         -->
     <string name="upsell_panel_country_title">განბლოკეთ %1$s VPN Plus-თან ერთად</string>
     <string name="upsell_panel_countries_title">განბლოკეთ ყველა ქვეყანა VPN Plus-თან ერთად</string>
-    <string name="upsell_panel_country_benefit_countries">ხელმისაწვდომი ქვეყნები</string>
+    <string name="upsell_panel_general_benefit_countries">ხელმისაწვდომი ქვეყნები</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">აირჩიეთ თქვენი მდებარეობა</string>
     <string name="upsell_panel_country_benefit_speed">ჩქაროსნული სერვერები</string>
     <string name="upsell_panel_country_benefit_shows">უყურეთ სერიალებს, რომლებიც, მხოლოდ, საზღვარგარეთაა ხელმისაწვდომი</string>

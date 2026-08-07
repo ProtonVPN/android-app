@@ -33,6 +33,22 @@ import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
+fun UpsellStreamingBlockTablePanel(
+    modifier: Modifier = Modifier,
+    windowInsets: WindowInsets = WindowInsets.systemBars
+) {
+    UpsellComparisonTablePanel(
+        titleRes = R.string.upsell_panel_streaming_block_title,
+        descriptionRes = R.string.upsell_panel_streaming_block_description,
+        imageRes = R.drawable.upsell_header_streaming_block,
+        windowInsets = windowInsets,
+        modifier = modifier
+    ) {
+        StreamingBenefitsColumn()
+    }
+}
+
+@Composable
 fun UpsellStreamingTablePanel(
     modifier: Modifier = Modifier,
     windowInsets: WindowInsets = WindowInsets.systemBars
@@ -43,25 +59,32 @@ fun UpsellStreamingTablePanel(
         windowInsets = windowInsets,
         modifier = modifier
     ) {
-        Column {
-            BenefitTableFreePlusHeader()
-            BenefitTableRowNoYes(stringResource(R.string.upsell_panel_streaming_benefit_shows))
-            BenefitTableRowNoYes(stringResource(R.string.upsell_panel_streaming_benefit_platforms))
-            BenefitTableRowNoYes(stringResource(R.string.upsell_panel_streaming_benefit_hd))
-            BenefitTableRow(
-                stringResource(R.string.upsell_panel_streaming_benefit_devices),
-                { Text("%d".format(1)) },
-                { Text("%d".format(Constants.MAX_CONNECTIONS_IN_PLUS_PLAN)) },
-                secondPlanBackgroundShape = BenefitTableRowDefaults.ShapeBottom,
-                bottomSeparator = false,
-            )
+        StreamingBenefitsColumn()
+    }
+}
 
-            VerticalSpacer(height = 12.dp)
-            Text(
-                stringResource(R.string.upsell_panel_streaming_footer),
-                style = ProtonTheme.typography.captionRegular,
-                color = ProtonTheme.colors.textWeak,
-            )
-        }
+@Composable
+private fun StreamingBenefitsColumn(
+    modifier: Modifier = Modifier
+) {
+    Column(modifier) {
+        BenefitTableFreePlusHeader()
+        BenefitTableRowNoYes(stringResource(R.string.upsell_panel_streaming_benefit_shows))
+        BenefitTableRowNoYes(stringResource(R.string.upsell_panel_streaming_benefit_platforms))
+        BenefitTableRowNoYes(stringResource(R.string.upsell_panel_streaming_benefit_hd))
+        BenefitTableRow(
+            stringResource(R.string.upsell_panel_streaming_benefit_devices),
+            { Text("%d".format(1)) },
+            { Text("%d".format(Constants.MAX_CONNECTIONS_IN_PLUS_PLAN)) },
+            secondPlanBackgroundShape = BenefitTableRowDefaults.ShapeBottom,
+            bottomSeparator = false,
+        )
+
+        VerticalSpacer(height = 12.dp)
+        Text(
+            stringResource(R.string.upsell_panel_streaming_footer),
+            style = ProtonTheme.typography.captionRegular,
+            color = ProtonTheme.colors.textWeak,
+        )
     }
 }

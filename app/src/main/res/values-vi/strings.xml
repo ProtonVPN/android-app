@@ -513,9 +513,9 @@
         -->
     <string name="upsell_panel_country_title">Mở khóa %1$s với VPN Plus</string>
     <string name="upsell_panel_countries_title">Mở khóa tất cả quốc gia với VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Các quốc gia khả dụng</string>
+    <string name="upsell_panel_general_benefit_countries">Các quốc gia khả dụng</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Chọn vị trí của bạn</string>
     <string name="upsell_panel_country_benefit_speed">Máy chủ tốc độ cao</string>
     <string name="upsell_panel_country_benefit_shows">Xem các chương trình chỉ có ở nước ngoài</string>

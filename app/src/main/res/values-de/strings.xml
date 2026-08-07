@@ -528,9 +528,9 @@
         -->
     <string name="upsell_panel_country_title">%1$s mit VPN Plus freischalten</string>
     <string name="upsell_panel_countries_title">Mit VPN Plus alle Länder freischalten</string>
-    <string name="upsell_panel_country_benefit_countries">Verfügbare Länder</string>
+    <string name="upsell_panel_general_benefit_countries">Verfügbare Länder</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">mehr als %1$d</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">mehr als %1$d</string>
     <string name="upsell_panel_country_benefit_choice">Eigenen Standort auswählen</string>
     <string name="upsell_panel_country_benefit_speed">Hochgeschwindigkeitsserver</string>
     <string name="upsell_panel_country_benefit_shows">Sendungen ansehen, die nur im Ausland verfügbar sind</string>

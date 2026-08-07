@@ -109,6 +109,31 @@ fun BenefitTableRowNoYes(
 
 @Composable
 fun BenefitTableRow(
+    benefitText: String,
+    firstPlanContentText: String,
+    secondPlanContentText: String,
+    firstPlanContentDescriptionPrefix: String = stringResource(R.string.upsell_panel_content_description_value_prefix_free),
+    secondPlanContentDescriptionPrefix: String = stringResource(R.string.upsell_panel_content_description_value_prefix_plus),
+    modifier: Modifier = Modifier,
+    bottomSeparator: Boolean = true,
+    secondPlanBackgroundShape: Shape = RectangleShape,
+    itemVerticalPadding: Dp = 12.dp
+) {
+    BenefitTableRow(
+        benefitText = benefitText,
+        firstPlanContent = { Text(firstPlanContentText) },
+        secondPlanContent = { Text(secondPlanContentText) },
+        firstPlanContentDescriptionPrefix,
+        secondPlanContentDescriptionPrefix,
+        modifier,
+        bottomSeparator,
+        secondPlanBackgroundShape,
+        itemVerticalPadding,
+    )
+}
+
+@Composable
+fun BenefitTableRow(
     benefitText: String?,
     firstPlanContent: @Composable () -> Unit,
     secondPlanContent: @Composable () -> Unit,

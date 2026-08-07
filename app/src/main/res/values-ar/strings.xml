@@ -589,9 +589,9 @@
         -->
     <string name="upsell_panel_country_title">خوادم %1$s بانتظارك مع VPN Plus</string>
     <string name="upsell_panel_countries_title">وصول غير محدود لجميع خوادمنا مع باقة VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">الدول المتاحة</string>
+    <string name="upsell_panel_general_benefit_countries">الدول المتاحة</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">أكثر من %1$d</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">أكثر من %1$d</string>
     <string name="upsell_panel_country_benefit_choice">حرية اختيار موقعك</string>
     <string name="upsell_panel_country_benefit_speed">خوادم بسرعات استثنائية</string>
     <string name="upsell_panel_country_benefit_shows">شاهد محتواك المفضل أينما كنت</string>

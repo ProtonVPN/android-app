@@ -528,9 +528,9 @@
         -->
     <string name="upsell_panel_country_title">Lås upp %1$s med VPN Plus</string>
     <string name="upsell_panel_countries_title">Lås upp alla länder med  VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Tillgängliga länder</string>
+    <string name="upsell_panel_general_benefit_countries">Tillgängliga länder</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Välj din plats</string>
     <string name="upsell_panel_country_benefit_speed">Höghastighetsservrar</string>
     <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>

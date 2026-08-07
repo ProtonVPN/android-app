@@ -514,9 +514,9 @@
         -->
     <string name="upsell_panel_country_title">VPN Plus로 %1$s 잠금 해제</string>
     <string name="upsell_panel_countries_title"> VPN Plus로 모든 국가 잠금 해제</string>
-    <string name="upsell_panel_country_benefit_countries">사용 가능한 국가</string>
+    <string name="upsell_panel_general_benefit_countries">사용 가능한 국가</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">%1$d개 이상</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d개 이상</string>
     <string name="upsell_panel_country_benefit_choice">어떠한 지역이든 선택하세요</string>
     <string name="upsell_panel_country_benefit_speed">초고속 서버</string>
     <string name="upsell_panel_country_benefit_shows">특정 국가 전용 콘텐츠를 시정하세요</string>

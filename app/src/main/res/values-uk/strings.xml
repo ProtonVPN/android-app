@@ -558,9 +558,9 @@
         -->
     <string name="upsell_panel_country_title">Розблокуйте %1$s з VPN Plus</string>
     <string name="upsell_panel_countries_title">Розблокуйте всі країни з VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Доступні країни</string>
+    <string name="upsell_panel_general_benefit_countries">Доступні країни</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Обирайте своє розташування</string>
     <string name="upsell_panel_country_benefit_speed">Високошвидкісні сервери</string>
     <string name="upsell_panel_country_benefit_shows">Переглядайте медіа, доступне тільки за кордоном</string>

@@ -47,7 +47,7 @@ import me.proton.core.compose.theme.ProtonTheme
 fun UpsellCountryTablePanel(
     country: CountryId?,
     freeCountries: Int,
-    plusCountries: Int,
+    plusCountriesRounded: Int,
     modifier: Modifier = Modifier,
     windowInsets: WindowInsets = WindowInsets.systemBars
 ) {
@@ -76,14 +76,13 @@ fun UpsellCountryTablePanel(
     ) {
         Column {
             BenefitTableFreePlusHeader()
-            val plusCountriesRounded = (plusCountries / 10) * 10
             BenefitTableRow(
-                stringResource(R.string.upsell_panel_country_benefit_countries),
+                stringResource(R.string.upsell_panel_general_benefit_countries),
                 firstPlanContent = {
                     Text("%s".format(freeCountries))
                 },
                 secondPlanContent = {
-                    Text(stringResource(R.string.upsell_panel_country_benefit_countries_rounded, plusCountriesRounded))
+                    Text(stringResource(R.string.upsell_panel_general_benefit_countries_rounded, plusCountriesRounded))
                 },
             )
             BenefitTableRowNoYes(

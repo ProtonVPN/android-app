@@ -528,9 +528,9 @@
         -->
     <string name="upsell_panel_country_title">VPN Plus ile %1$s erişimi sağlayın</string>
     <string name="upsell_panel_countries_title">VPN Plus ile tüm ülkelere erişin</string>
-    <string name="upsell_panel_country_benefit_countries">Kullanılabilecek ülkeler</string>
+    <string name="upsell_panel_general_benefit_countries">Kullanılabilecek ülkeler</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Konumunuzu seçin</string>
     <string name="upsell_panel_country_benefit_speed">Yüksek hızlı sunucular</string>
     <string name="upsell_panel_country_benefit_shows">Yalnızca yurt dışında yayınlanan dizileri izleyin</string>

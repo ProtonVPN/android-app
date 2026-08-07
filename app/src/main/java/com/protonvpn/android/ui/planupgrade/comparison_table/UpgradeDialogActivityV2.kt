@@ -72,11 +72,11 @@ import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.telemetry.UpgradeSource
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.PaymentPanel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.BenefitsViewState
 import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
 import com.protonvpn.android.utils.Constants
@@ -96,14 +96,29 @@ import me.proton.core.compose.theme.ProtonTheme
 class UpgradeDialogActivityV2 : AppCompatActivity() {
 
     sealed interface BenefitsViewState {
+        object AdvancedCustomization : BenefitsViewState
         data class Countries(
             val country: CountryId?,
             val freeCountries: Int,
-            val plusCountries: Int,
+            val plusCountriesRounded: Int,
+        ) : BenefitsViewState
+        data class Devices(
+            val freeCountries: Int,
+            val plusCountriesRounded: Int,
         ) : BenefitsViewState
         object NetShield : BenefitsViewState
+        object P2p : BenefitsViewState
+        object Profiles : BenefitsViewState
+        object SecureCore : BenefitsViewState
         object Speed : BenefitsViewState
+        data class SplitTunneling(
+            val freeCountries: Int,
+            val plusCountriesRounded: Int,
+        ) : BenefitsViewState
         object Streaming : BenefitsViewState
+        object StreamingBlocked : BenefitsViewState
+        object Tor : BenefitsViewState
+
     }
 
     private val viewModel by viewModels<UpgradeDialogViewModel>()
@@ -132,9 +147,15 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            val current = content.value
-            if (current is BenefitsViewState.Countries) {
-                content.value = current.copy(freeCountries = upsellBenefitsViewModel.getFreeCountryCount())
+            when(val current = content.value) {
+                is BenefitsViewState.Countries ->
+                    content.value = current.copy(freeCountries = upsellBenefitsViewModel.getFreeCountryCount())
+                is BenefitsViewState.Devices ->
+                    content.value = current.copy(freeCountries = upsellBenefitsViewModel.getFreeCountryCount())
+                is BenefitsViewState.SplitTunneling ->
+                    content.value = current.copy(freeCountries = upsellBenefitsViewModel.getFreeCountryCount())
+
+                else -> Unit
             }
         }
         val snackbarHostState = SnackbarHostState()
@@ -168,14 +189,35 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
             country: CountryId?,
             plusCountries: Int,
         ): BenefitsViewState? = when (upgradeSource) {
+            UpgradeSource.ADVANCED_CUSTOMIZATION,
+            UpgradeSource.ALLOW_LAN,
+            UpgradeSource.CUSTOM_DNS,
+            UpgradeSource.DEFAULT_CONNECTION,
+            UpgradeSource.EXCLUDE_LOCATIONS,
+            UpgradeSource.MODERATE_NAT -> BenefitsViewState.AdvancedCustomization
+
             UpgradeSource.COUNTRIES -> BenefitsViewState.Countries(
                 country = country,
                 freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
-                plusCountries = plusCountries
+                plusCountriesRounded = plusCountries.roundToTens(),
             )
-            UpgradeSource.VPN_ACCELERATOR -> BenefitsViewState.Speed
+            UpgradeSource.DEVICES -> BenefitsViewState.Devices(
+                freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
+                plusCountriesRounded = plusCountries.roundToTens(),
+            )
             UpgradeSource.NETSHIELD -> BenefitsViewState.NetShield
+            UpgradeSource.P2P -> BenefitsViewState.P2p
+            UpgradeSource.PROFILES -> BenefitsViewState.Profiles
+            UpgradeSource.SECURE_CORE -> BenefitsViewState.SecureCore
+            UpgradeSource.SPLIT_TUNNELING -> BenefitsViewState.SplitTunneling(
+                freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
+                plusCountriesRounded = plusCountries.roundToTens(),
+            )
             UpgradeSource.STREAMING -> BenefitsViewState.Streaming
+            UpgradeSource.STREAMING_ACTIVITY -> BenefitsViewState.StreamingBlocked
+            UpgradeSource.TOR -> BenefitsViewState.Tor
+            UpgradeSource.VPN_ACCELERATOR -> BenefitsViewState.Speed
+
             else -> null
         }
     }
@@ -264,10 +306,27 @@ private fun UpgradeBenefitsPanel(
         // Note: UpgradeSource to panel type is not an ideal mapping, but it makes it easy to
         // combine old and new dialogs during the experiments.
         when (benefitsViewState) {
-            BenefitsViewState.Streaming ->
-                UpsellStreamingTablePanel(
+            BenefitsViewState.AdvancedCustomization ->
+               UpsellAdvancedCustomizationTablePanel(
                     windowInsets = windowInsets,
-                    modifier = tableModifier
+                    modifier = tableModifier,
+                )
+
+            is BenefitsViewState.Countries ->
+                UpsellCountryTablePanel(
+                    country = benefitsViewState.country,
+                    freeCountries = benefitsViewState.freeCountries,
+                    plusCountriesRounded = benefitsViewState.plusCountriesRounded,
+                    windowInsets = windowInsets,
+                    modifier = tableModifier,
+                )
+
+            is BenefitsViewState.Devices ->
+                UpsellDevicesTablePanel(
+                    freeCountries = benefitsViewState.freeCountries,
+                    plusCountriesRounded = benefitsViewState.plusCountriesRounded,
+                    windowInsets = windowInsets,
+                    modifier = tableModifier,
                 )
 
             BenefitsViewState.NetShield ->
@@ -276,40 +335,86 @@ private fun UpgradeBenefitsPanel(
                     modifier = tableModifier
                 )
 
+            BenefitsViewState.P2p ->
+                UpsellP2pTablePanel(
+                    windowInsets = windowInsets,
+                    modifier = tableModifier,
+                )
+
+            BenefitsViewState.Profiles ->
+                UpsellProfilesTablePanel(
+                    windowInsets = windowInsets,
+                    modifier = tableModifier,
+                )
+
+            BenefitsViewState.SecureCore ->
+                UpsellSecureCoreTablePanel(
+                    windowInsets = windowInsets,
+                    modifier = tableModifier,
+                )
+
             BenefitsViewState.Speed ->
                 UpsellSpeedTablePanel(
                     windowInsets = windowInsets,
                     modifier = tableModifier
                 )
 
-            is BenefitsViewState.Countries ->
-                UpsellCountryTablePanel(
-                    country = benefitsViewState.country,
+            is BenefitsViewState.SplitTunneling ->
+                UpsellSplitTunnelingTablePanel(
                     freeCountries = benefitsViewState.freeCountries,
-                    plusCountries = benefitsViewState.plusCountries,
+                    plusCountriesRounded = benefitsViewState.plusCountriesRounded,
                     windowInsets = windowInsets,
                     modifier = tableModifier,
+                )
+
+            BenefitsViewState.Streaming ->
+                UpsellStreamingTablePanel(
+                    windowInsets = windowInsets,
+                    modifier = tableModifier,
+                )
+
+            BenefitsViewState.StreamingBlocked ->
+                UpsellStreamingBlockTablePanel(
+                    windowInsets = windowInsets,
+                    modifier = tableModifier,
+                )
+
+            BenefitsViewState.Tor ->
+                UpsellTorTablePanel(
+                    windowInsets = windowInsets,
+                    modifier = tableModifier
                 )
         }
     }
 }
 
+private fun Int.roundToTens() = (this / 10) * 10
+
 @VisibleForTesting
 class UpgradeContentProvider : PreviewParameterProvider<BenefitsViewState> {
     override val values: Sequence<BenefitsViewState> = sequenceOf(
+        BenefitsViewState.AdvancedCustomization,
         BenefitsViewState.Countries(
             country = CountryId.sweden,
             freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
-            plusCountries = Constants.FALLBACK_COUNTRY_COUNT,
+            plusCountriesRounded = Constants.FALLBACK_COUNTRY_COUNT.roundToTens(),
         ),
         BenefitsViewState.Countries(
             country = null,
             freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
-            plusCountries = Constants.FALLBACK_COUNTRY_COUNT,
+            plusCountriesRounded = Constants.FALLBACK_COUNTRY_COUNT.roundToTens(),
+        ),
+        BenefitsViewState.Devices(
+            freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
+            plusCountriesRounded = Constants.FALLBACK_COUNTRY_COUNT.roundToTens(),
         ),
         BenefitsViewState.NetShield,
+        BenefitsViewState.P2p,
+        BenefitsViewState.Profiles,
+        BenefitsViewState.SecureCore,
         BenefitsViewState.Speed,
-        BenefitsViewState.Streaming
+        BenefitsViewState.Streaming,
+        BenefitsViewState.Tor,
     )
 
     override fun getDisplayName(index: Int): String {

@@ -559,9 +559,9 @@
         -->
     <string name="upsell_panel_country_title">Pridobite VPN Plus za dostop do: %1$s</string>
     <string name="upsell_panel_countries_title">Odklenite vse države s storitvijo VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Razpoložljive države</string>
+    <string name="upsell_panel_general_benefit_countries">Razpoložljive države</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Izberite svojo lokacijo</string>
     <string name="upsell_panel_country_benefit_speed">Hitri strežniki</string>
     <string name="upsell_panel_country_benefit_shows">Glejte oddaje, ki so na voljo le v tujini</string>
