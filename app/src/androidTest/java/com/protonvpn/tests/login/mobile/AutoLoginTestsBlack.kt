@@ -22,10 +22,10 @@
 package com.protonvpn.tests.login.mobile
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.protonvpn.robots.mobile.HomeRobot
-import com.protonvpn.interfaces.verify
 import com.protonvpn.android.managed.AutoLoginConfig
 import com.protonvpn.android.managed.ManagedConfig
+import com.protonvpn.interfaces.verify
+import com.protonvpn.robots.mobile.HomeRobot
 import com.protonvpn.robots.mobile.LoginRobotVpn
 import com.protonvpn.test.shared.TestUserEndToEnd
 import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
@@ -101,6 +101,7 @@ class AutoLoginTestsBlack {
         autoLoginConfig.value = AutoLoginConfig.UsernamePassword(freeUser.email, freeUser.password)
         HomeRobot.verify { isLoggedIn() }
 
+        quark.jailUnban()
         autoLoginConfig.value = AutoLoginConfig.UsernamePassword(plusUser.email, plusUser.password)
         HomeRobot.verify { isPlusUserLoggedIn() }
     }
