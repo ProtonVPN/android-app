@@ -23,7 +23,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Text
@@ -31,12 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.BlurredEdgeTreatment
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -80,11 +74,8 @@ fun UpsellCountryTablePanel(
         windowInsets = windowInsets,
         modifier = modifier
     ) {
-        val rowModifier = Modifier.fillMaxWidth()
         Column {
-            BenefitTableFreePlusHeader(
-                modifier = rowModifier,
-            )
+            BenefitTableFreePlusHeader()
             val plusCountriesRounded = (plusCountries / 10) * 10
             BenefitTableRow(
                 stringResource(R.string.upsell_panel_country_benefit_countries),
@@ -94,19 +85,15 @@ fun UpsellCountryTablePanel(
                 secondPlanContent = {
                     Text(stringResource(R.string.upsell_panel_country_benefit_countries_rounded, plusCountriesRounded))
                 },
-                modifier = rowModifier,
             )
             BenefitTableRowNoYes(
                 stringResource(R.string.upsell_panel_country_benefit_choice),
-                modifier = rowModifier,
             )
             BenefitTableRowNoYes(
                 stringResource(R.string.upsell_panel_country_benefit_speed),
-                modifier = rowModifier,
             )
             BenefitTableRowNoYes(
                 stringResource(R.string.upsell_panel_country_benefit_shows),
-                modifier = rowModifier,
                 secondPlanBackgroundShape = BenefitTableRowDefaults.ShapeBottom,
                 bottomSeparator = false,
             )

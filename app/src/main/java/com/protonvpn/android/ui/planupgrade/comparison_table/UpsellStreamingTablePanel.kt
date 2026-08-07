@@ -21,7 +21,6 @@ package com.protonvpn.android.ui.planupgrade.comparison_table
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,28 +43,15 @@ fun UpsellStreamingTablePanel(
         windowInsets = windowInsets,
         modifier = modifier
     ) {
-        val rowModifier = Modifier.fillMaxWidth()
         Column {
-            BenefitTableFreePlusHeader(
-                modifier = rowModifier,
-            )
-            BenefitTableRowNoYes(
-                stringResource(R.string.upsell_panel_streaming_benefit_shows),
-                modifier = rowModifier,
-            )
-            BenefitTableRowNoYes(
-                stringResource(R.string.upsell_panel_streaming_benefit_platforms),
-                modifier = rowModifier,
-            )
-            BenefitTableRowNoYes(
-                stringResource(R.string.upsell_panel_streaming_benefit_hd),
-                modifier = rowModifier,
-            )
+            BenefitTableFreePlusHeader()
+            BenefitTableRowNoYes(stringResource(R.string.upsell_panel_streaming_benefit_shows))
+            BenefitTableRowNoYes(stringResource(R.string.upsell_panel_streaming_benefit_platforms))
+            BenefitTableRowNoYes(stringResource(R.string.upsell_panel_streaming_benefit_hd))
             BenefitTableRow(
                 stringResource(R.string.upsell_panel_streaming_benefit_devices),
                 { Text("%d".format(1)) },
                 { Text("%d".format(Constants.MAX_CONNECTIONS_IN_PLUS_PLAN)) },
-                modifier = rowModifier,
                 secondPlanBackgroundShape = BenefitTableRowDefaults.ShapeBottom,
                 bottomSeparator = false,
             )
