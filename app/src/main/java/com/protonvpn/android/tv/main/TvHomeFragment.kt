@@ -73,8 +73,8 @@ import com.protonvpn.android.tv.settings.netshield.TvSettingsNetShieldActivity
 import com.protonvpn.android.tv.settings.protocol.TvSettingsProtocolActivity
 import com.protonvpn.android.tv.settings.splittunneling.TvSettingsSplitTunnelingActivity
 import com.protonvpn.android.tv.showTvDialog
-import com.protonvpn.android.tv.upsell.TvUpsellContent
 import com.protonvpn.android.tv.upsell.TvUpsellActivity
+import com.protonvpn.android.tv.upsell.TvUpsellContent
 import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -190,7 +190,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
                 is SettingsCustomDns -> {
                     paidFeatureOpener(
                         tvUpsellContent = TvUpsellContent.CustomDns,
-                        upgradeSource = UpgradeSource.ADVANCED_CUSTOMIZATION,
+                        upgradeSource = UpgradeSource.CUSTOM_DNS,
                         paidFeatureActivityClass = TvSettingsCustomDnsActivity::class.java,
                     )
                 }
@@ -200,7 +200,7 @@ class TvHomeFragment : BaseTvBrowseFragment() {
                 is SettingsLanConnectionsCard -> {
                     paidFeatureOpener(
                         tvUpsellContent = TvUpsellContent.LanConnections,
-                        upgradeSource = UpgradeSource.ADVANCED_CUSTOMIZATION,
+                        upgradeSource = UpgradeSource.ALLOW_LAN,
                         paidFeatureActivityClass = TvSettingsLanConnectionsActivity::class.java,
                     )
                 }

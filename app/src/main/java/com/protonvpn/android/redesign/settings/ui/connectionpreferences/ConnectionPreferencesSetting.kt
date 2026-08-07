@@ -34,10 +34,11 @@ fun ConnectionPreferencesSetting(
     state: SettingViewState.ConnectionPreferencesState,
     onClose: () -> Unit,
     onDefaultConnectionClick: () -> Unit,
+    onDefaultConnectionRestricted: () -> Unit,
     onExcludeLocationClick: () -> Unit,
+    onExcludedLocationsRestricted: () -> Unit,
     onDeleteExcludedLocationClick: (ExcludedLocationUiItem.Location) -> Unit,
     onExcludedLocationsFeatureDiscovered: () -> Unit,
-    onUpsellClick: () -> Unit,
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
 ) {
@@ -50,8 +51,8 @@ fun ConnectionPreferencesSetting(
         if (state.isFreeUser) {
             ConnectionPreferencesFreeContent(
                 modifier = Modifier.fillMaxWidth(),
-                onDefaultConnectionClick = onUpsellClick,
-                onExcludeLocationClick = onUpsellClick,
+                onDefaultConnectionClick = onDefaultConnectionRestricted,
+                onExcludeLocationClick = onExcludedLocationsRestricted,
             )
         } else {
             ConnectionPreferencesPaidContent(

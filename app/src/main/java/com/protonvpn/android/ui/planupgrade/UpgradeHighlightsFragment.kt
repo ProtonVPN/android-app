@@ -169,11 +169,11 @@ private fun FragmentUpgradeHighlightsBinding.set(
 
 abstract class FragmentWithUpgradeSource(
     @LayoutRes layoutId: Int,
-    val upgradeSource: UpgradeSource
+    val upgradeSource: UpgradeSource,
 ) : Fragment(layoutId)
 
 abstract class UpgradeHighlightsFragmentWithSource(
-    upgradeSource: UpgradeSource
+    upgradeSource: UpgradeSource,
 ) : FragmentWithUpgradeSource(R.layout.fragment_upgrade_highlights, upgradeSource) {
 
     protected val binding by viewBinding(FragmentUpgradeHighlightsBinding::bind)

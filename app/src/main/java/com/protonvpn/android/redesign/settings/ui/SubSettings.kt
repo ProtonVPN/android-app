@@ -215,7 +215,7 @@ fun SubSettingsRoute(
                                 onOverrideSettingClick(OverrideType.LAN) {
                                     upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
                                         context,
-                                        UpgradeSource.ADVANCED_CUSTOMIZATION,
+                                        UpgradeSource.ALLOW_LAN,
                                         UpgradeTrigger.SETTINGS,
                                     )
                                 }
@@ -223,7 +223,7 @@ fun SubSettingsRoute(
                             onNatTypeRestricted = {
                                 upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
                                     context,
-                                    UpgradeSource.ADVANCED_CUSTOMIZATION,
+                                    UpgradeSource.MODERATE_NAT,
                                     UpgradeTrigger.SETTINGS,
                                 )
                             },
@@ -236,7 +236,7 @@ fun SubSettingsRoute(
                             onCustomDnsRestricted = {
                                 upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
                                     context,
-                                    UpgradeSource.ADVANCED_CUSTOMIZATION,
+                                    UpgradeSource.CUSTOM_DNS,
                                     UpgradeTrigger.SETTINGS,
                                 )
                             }
@@ -413,18 +413,25 @@ fun SubSettingsRoute(
                         onDefaultConnectionClick = {
                             onNavigateToSubSetting(SubSettingsScreen.Type.DefaultConnection)
                         },
-                        onExcludeLocationClick = {
-                            onNavigateToSubSetting(SubSettingsScreen.Type.ExcludedLocations)
-                        },
-                        onDeleteExcludedLocationClick = settingsChangeViewModel::onRemoveExcludedLocation,
-                        onExcludedLocationsFeatureDiscovered = viewModel::onExcludedLocationsDiscovered,
-                        onUpsellClick = {
+                        onDefaultConnectionRestricted = {
                             upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
                                 context,
-                                UpgradeSource.ADVANCED_CUSTOMIZATION,
+                                UpgradeSource.DEFAULT_CONNECTION,
                                 UpgradeTrigger.SETTINGS,
                             )
                         },
+                        onExcludeLocationClick = {
+                            onNavigateToSubSetting(SubSettingsScreen.Type.ExcludedLocations)
+                        },
+                        onExcludedLocationsRestricted = {
+                            upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
+                                context,
+                                UpgradeSource.EXCLUDE_LOCATIONS,
+                                UpgradeTrigger.SETTINGS,
+                            )
+                        },
+                        onDeleteExcludedLocationClick = settingsChangeViewModel::onRemoveExcludedLocation,
+                        onExcludedLocationsFeatureDiscovered = viewModel::onExcludedLocationsDiscovered,
                         snackbarHostState = snackbarHostState,
                     )
                 }

@@ -304,13 +304,6 @@ class CarouselUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
         const val UPGRADE_SOURCE_EXTRA = "upgrade source"
         const val CAROUSEL_FRAGMENT_ARGS_EXTRA = "carousel args"
 
-        inline fun <reified F : FragmentWithUpgradeSource> createIntent(
-            context: Context,
-            upgradeTrigger: UpgradeTrigger,
-        ) = createIntent<CarouselUpgradeDialogActivity>(context, upgradeTrigger, null).apply {
-            putExtra(CAROUSEL_FRAGMENT_ARGS_EXTRA, UpgradeHighlightsCarouselFragment.args(F::class))
-        }
-
         inline fun <reified F : Fragment> createIntent(
             context: Context,
             upgradeSource: UpgradeSource,
@@ -325,11 +318,6 @@ class CarouselUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
             upgradeSource: UpgradeSource,
             upgradeTrigger: UpgradeTrigger
         ) = context.startActivity(createIntent<F>(context, upgradeSource, upgradeTrigger))
-
-        inline fun <reified F : FragmentWithUpgradeSource> launch(
-            context: Context,
-            upgradeTrigger: UpgradeTrigger
-        ) = context.startActivity(createIntent<F>(context, upgradeTrigger))
 
         fun launch(context: Context, upgradeSource: UpgradeSource, upgradeTrigger: UpgradeTrigger, focusedFragmentClass: KClass<out Fragment>? = null) {
             val intent = createIntent<CarouselUpgradeDialogActivity>(context, upgradeTrigger, null).apply {

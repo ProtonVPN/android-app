@@ -56,7 +56,7 @@ class UpgradeDialogLauncher @Inject constructor(
                 context, upgradeSource, upgradeTrigger
             )
         } else {
-            CarouselUpgradeDialogActivity.createIntent<F>(context, upgradeTrigger)
+            CarouselUpgradeDialogActivity.createIntent<F>(context, upgradeSource, upgradeTrigger)
         }
 
     suspend fun launch(
@@ -102,7 +102,7 @@ class UpgradeDialogLauncherVM @Inject constructor(
     ) {
         viewModelScope.launch {
             upgradeDialogLauncher.launch(context, upgradeSource, upgradeTrigger) {
-                CarouselUpgradeDialogActivity.launch<F>(context, upgradeTrigger)
+                CarouselUpgradeDialogActivity.launch<F>(context, upgradeSource, upgradeTrigger)
             }
         }
     }

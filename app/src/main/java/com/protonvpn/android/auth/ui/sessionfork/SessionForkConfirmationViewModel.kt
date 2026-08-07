@@ -33,6 +33,7 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
 import com.protonvpn.android.telemetry.CommonDimensions
+import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.telemetry.onboarding.TvSignInTelemetry
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
@@ -199,6 +200,7 @@ class SessionForkConfirmationViewModel @Inject constructor(
                     isFreeUser && !hasTriggeredUpgrade ->
                             CarouselUpgradeDialogActivity.createIntent<UpgradeStreamingHighlightsFragment>(
                                 appContext,
+                                UpgradeSource.STREAMING,
                                 UpgradeTrigger.ONBOARDING,
                             ).apply {
                                 setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
