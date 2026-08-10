@@ -22,6 +22,7 @@ package com.protonvpn.android.auth.usecase
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.utils.getValue
+import com.protonvpn.android.utils.ifOrNull
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -34,6 +35,8 @@ import me.proton.android.payment.purchase.model.SessionState
 import me.proton.android.payment.purchase.usecase.ObserveSessionState
 import me.proton.android.payment.subscription.usecase.GetSubscriptions
 import me.proton.core.auth.domain.feature.IsCredentialLessEnabled
+import me.proton.core.user.domain.UserManager
+import me.proton.core.user.domain.extension.isNullOrCredentialLess
 import javax.inject.Inject
 
 sealed class OnboardingEvent {
@@ -50,7 +53,8 @@ interface EventShowOnboarding {
 
 @Reusable
 class EventShowOnboardingImpl @Inject constructor(
-    private val currentUser: CurrentUser,
+    currentUser: CurrentUser,
+    private val userManager: UserManager,
     private val appFeaturesPrefs: AppFeaturesPrefs,
     private val isCredentialLessEnabled: IsCredentialLessEnabled,
     isInAppUpgradeAllowedUseCaseLazy: dagger.Lazy<IsInAppUpgradeAllowedUseCase>,
@@ -70,13 +74,18 @@ class EventShowOnboardingImpl @Inject constructor(
         } else {
             null
         }
-    }.filterNotNull().map {
+    }.filterNotNull().map { primaryUserId ->
         val paymentState = observePaymentSessionLazy.get().invoke().first()
-        val paidPlanName = getSubscriptions().getOrNull()?.firstOrNull()?.planId
+        val credentiallessEnabled = isCredentialLessEnabled()
+        val isCredentiallessUser =
+            credentiallessEnabled && primaryUserId.isNullOrCredentialLess(userManager)
+        val paidPlanName = ifOrNull(!isCredentiallessUser) {
+            getSubscriptions().getOrNull()?.firstOrNull()?.planId
+        }
         when {
             paymentState != SessionState.Idle -> OnboardingEvent.None
             paidPlanName != null -> OnboardingEvent.ShowUpgradeSuccess(paidPlanName)
-            !isCredentialLessEnabled() -> OnboardingEvent.ShowOnboarding
+            !credentiallessEnabled -> OnboardingEvent.ShowOnboarding
             isInAppUpgradeAllowedUseCase() -> OnboardingEvent.ShowUpgradeOnboarding
             else -> OnboardingEvent.None
         }
