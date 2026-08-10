@@ -428,7 +428,7 @@ class UpgradeDialogViewModel(
 
     private fun logToSentry(errorMessage: String?, throwable: Throwable?, errorCode: Int?) {
         val sentryMessage = buildList {
-            if (errorCode != null) add("Core: $errorCode")
+            if (errorCode != null) add("Code: $errorCode")
             if (errorMessage != null) add("Error message: $errorMessage")
         }.joinToString("; ")
         Sentry.captureEvent(SentryEvent(OneClickPaymentError(sentryMessage, throwable)))
