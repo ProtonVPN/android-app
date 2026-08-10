@@ -58,6 +58,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import me.proton.android.payment.common.exception.PaymentException
 import me.proton.android.payment.common.model.OfferToken
 import me.proton.android.payment.common.model.ProductId
 import me.proton.android.payment.purchase.extension.transacting
@@ -321,7 +322,7 @@ class UpgradeDialogViewModel(
         }.runCatchingCheckedExceptions { e ->
             // loadGoogleSubscriptionPlans throws errors.
             loadPurchaseState.value = State.LoadError
-            onError(error = e)
+            onError(error = e, errorCode = if (e is PaymentException) e.code else null)
         }
     }
 
