@@ -1,0 +1,4 @@
+What's new
+- Fixed the layout of the screen shown when VPN permission isn't granted. It no longer overlaps the system top bar
+- Improved connection stability on Proton Protocols by fixing MTU settings
+- Fixed compatibility with newer devices using 16 KB memory pages.
