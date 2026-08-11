@@ -1220,7 +1220,7 @@
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">Estado</string>
     <!-- Label for server smart routing, a country which is routed through. -->
-    <string name="connection_details_smart_routing">Routed through</string>
+    <string name="connection_details_smart_routing">Enrutado a través de</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1294,7 +1294,7 @@
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Te conecta a tu país destino a través de servidores que están ubicados físicamente en otro lugar.</string>
     <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
-    <string name="connection_feature_smart_routing_description_with_countries">Connects you to your destination country through servers physically located elsewhere: %1$s.</string>
+    <string name="connection_feature_smart_routing_description_with_countries">Te conecta al país de destino a través de servidores ubicados físicamente en otro lugar: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
