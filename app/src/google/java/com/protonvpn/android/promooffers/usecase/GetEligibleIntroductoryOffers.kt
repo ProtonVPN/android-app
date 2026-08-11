@@ -28,6 +28,7 @@ import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
+import com.protonvpn.android.ui.planupgrade.usecase.shouldReportToSentry
 import com.protonvpn.android.utils.BytesFileWriter
 import com.protonvpn.android.utils.FileObjectStore
 import com.protonvpn.android.utils.KotlinCborObjectSerializer
@@ -41,8 +42,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import me.proton.core.network.domain.ApiException
-import me.proton.core.network.domain.ApiResult
+import me.proton.android.payment.common.exception.PaymentException
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -169,13 +169,13 @@ class GetEligibleIntroductoryOffers(
             cache.update(planNames, clock(), introOffers)
             introOffers
         }.runCatchingCheckedExceptions { e ->
-            if (shouldReportToSentry(e))
-                Sentry.captureException(GetIntroPricesError("Error fetching intro prices", e))
+            if (shouldReportToSentry(e)) {
+                val code = if (e is PaymentException) e.code else null
+                val message = "Error fetching offer prices${if (code != null) ", payments code: $code" else ""}."
+                Sentry.captureException(GetIntroPricesError(message, e))
+            }
             null
         }
     }
-
-    private fun shouldReportToSentry(throwable: Throwable?): Boolean =
-        throwable == null || (throwable as? ApiException)?.error !is ApiResult.Error.Connection
 }
 

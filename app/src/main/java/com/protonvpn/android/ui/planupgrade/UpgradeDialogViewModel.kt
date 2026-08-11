@@ -37,6 +37,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel.State.Purchas
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.SubscriptionPlanInfo
+import com.protonvpn.android.ui.planupgrade.usecase.shouldReportToSentry
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.formatPrice
@@ -66,8 +67,6 @@ import me.proton.android.payment.purchase.model.PendingPurchase
 import me.proton.android.payment.purchase.model.SessionState
 import me.proton.android.payment.purchase.usecase.ObserveSessionState
 import me.proton.android.payment.purchase.usecase.PurchaseProduct
-import me.proton.core.network.domain.ApiException
-import me.proton.core.network.domain.ApiResult
 import me.proton.core.util.kotlin.filterNotNullValues
 import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
@@ -231,9 +230,9 @@ class UpgradeDialogViewModel(
             .onEach { state ->
                 when (state) {
                     is SessionState.Purchasing.Terminal.Failure ->
-                        onError(error = state.exception, errorCode = state.exception.code)
+                        onError(error = state.exception, paymentsCode = state.exception.code)
                     is SessionState.Reconciling.Terminal.Failure ->
-                        onError(error = state.exception, errorCode = state.exception.code)
+                        onError(error = state.exception, paymentsCode = state.exception.code)
                     else -> Unit
                 }
             }.launchIn(viewModelScope)
@@ -322,7 +321,7 @@ class UpgradeDialogViewModel(
         }.runCatchingCheckedExceptions { e ->
             // loadGoogleSubscriptionPlans throws errors.
             loadPurchaseState.value = State.LoadError
-            onError(error = e, errorCode = if (e is PaymentException) e.code else null)
+            onError(error = e, paymentsCode = if (e is PaymentException) e.code else null)
         }
     }
 
@@ -395,11 +394,11 @@ class UpgradeDialogViewModel(
         userPlanManager.refreshVpnInfo()
     }
 
-    private fun onError(messageRes: Int? = null, error: Throwable? = null, errorCode: Int? = null) {
+    private fun onError(messageRes: Int? = null, error: Throwable? = null, paymentsCode: Int? = null) {
         if (shouldReportToSentry(error))
-            logToSentry(error?.message, error, errorCode) // Remove this once we know payments are in a good shape.
-        if (errorCode != null || error != null)
-            ProtonLogger.logCustom(LogCategory.IN_APP_PURCHASE, "Code: $errorCode; ${error?.message}")
+            logToSentry(error?.message, error, paymentsCode) // Remove this once we know payments are in a good shape.
+        if (paymentsCode != null || error != null)
+            ProtonLogger.logCustom(LogCategory.IN_APP_PURCHASE, "Code: $paymentsCode; ${error?.message}")
         errorMessage.trySend(Error(messageRes, error))
     }
 
@@ -424,12 +423,9 @@ class UpgradeDialogViewModel(
         onCycleSelected = { selectedCycle.value = it },
     )
 
-    private fun shouldReportToSentry(throwable: Throwable?): Boolean =
-        throwable == null || (throwable as? ApiException)?.error !is ApiResult.Error.Connection
-
-    private fun logToSentry(errorMessage: String?, throwable: Throwable?, errorCode: Int?) {
+    private fun logToSentry(errorMessage: String?, throwable: Throwable?, paymentsCode: Int?) {
         val sentryMessage = buildList {
-            if (errorCode != null) add("Code: $errorCode")
+            if (paymentsCode != null) add("Payments code: $paymentsCode")
             if (errorMessage != null) add("Error message: $errorMessage")
         }.joinToString("; ")
         Sentry.captureEvent(SentryEvent(OneClickPaymentError(sentryMessage, throwable)))
