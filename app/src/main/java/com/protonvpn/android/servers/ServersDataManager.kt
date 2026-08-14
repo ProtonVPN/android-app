@@ -26,6 +26,7 @@ import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.utils.replace
+import io.sentry.Sentry
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,7 +42,7 @@ class ServersDataManager @Inject constructor(
     private val dispatcherProvider: VpnDispatcherProvider,
     private val serversStore: ServersStore,
     private val updateServersWithBinaryStatus: UpdateServersWithBinaryStatus,
-    @WallClock private val wallClock: () -> Long,
+    @param:WallClock private val wallClock: () -> Long,
 ) {
     data class ServerLists(
         val allServers: List<Server>,
@@ -80,7 +81,7 @@ class ServersDataManager @Inject constructor(
     // Load servers from storage. Returns true if servers were loaded successfully.
     suspend fun load(): Boolean {
         var loaded = false
-        updateWithMutex(saveToStorage = false) {
+        updateWithMutex("Load", saveToStorage = false) {
             loaded = serversStore.load()
             with(serversStore) {
                 UpdateResult(serversStatusId, allServers, lastUpdateTimestamp)
@@ -94,7 +95,7 @@ class ServersDataManager @Inject constructor(
         newStatusId: LogicalsStatusId?,
         retainIDs: Set<String>
     ) {
-        updateWithMutex {
+        updateWithMutex("Replace servers") {
             if (retainIDs.isNotEmpty()) {
                 withContext(dispatcherProvider.Comp) {
                     val missingServerIDs = retainIDs.toMutableSet()
@@ -113,7 +114,7 @@ class ServersDataManager @Inject constructor(
     }
 
     suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
-        updateWithMutex {
+        updateWithMutex("Update domain status") {
             val allServers = currentServers().allServers
             val updatedServers = buildList(allServers.size) {
                 allServers.forEach { currentServer ->
@@ -139,7 +140,7 @@ class ServersDataManager @Inject constructor(
     }
 
     suspend fun updateBinaryLoads(statusId: LogicalsStatusId, statusData: ByteArray) {
-        updateWithMutex {
+        updateWithMutex("Binary loads") {
             if (statusId != currentServers().statusId) return@updateWithMutex null
             val updatedServers = updateServersWithBinaryStatus(serversStore.allServers, statusData)
             updatedServers?.let {
@@ -149,13 +150,13 @@ class ServersDataManager @Inject constructor(
     }
 
     suspend fun updateLastUpdateTimestamp(timestamp: Long = wallClock()) {
-        updateWithMutex {
+        updateWithMutex("Update timestamp") {
             UpdateResult(currentServers().statusId, currentServers().allServers, timestamp)
         }
     }
 
     suspend fun updateOrAddServer(server: Server) {
-        updateWithMutex {
+        updateWithMutex("Update server ${server.serverName}") {
             withContext(dispatcherProvider.Comp) {
                 UpdateResult(
                     currentServers().statusId,
@@ -170,10 +171,12 @@ class ServersDataManager @Inject constructor(
     }
 
     private suspend fun updateWithMutex(
+        operationName: String,
         saveToStorage: Boolean = true,
         updateBlock: suspend () -> UpdateResult?,
     ) {
         updateMutex.withLock {
+            val initialSuspiciousFreeServers = suspiciousFreeServers() // VPNAND-2617
             val updateResult: Triple<List<Server>, ServerLists, Long?>? =
                 withContext(dispatcherProvider.Comp) {
                     val update = updateBlock() ?: return@withContext null
@@ -192,14 +195,32 @@ class ServersDataManager @Inject constructor(
                 if (saveToStorage) {
                     serversStore.save(allServers, newServerLists.statusId, lastUpdateTimestamp)
                 }
-
                 serverListsFlow.value = newServerLists
+                reportSuspiciousNonFreeServers(initialSuspiciousFreeServers, operationName)
             }
         }
     }
 
     // Use only when protected by the updateMutex.
     private fun currentServers() = serverListsFlow.value ?: ServerLists.Empty
+
+    private fun suspiciousFreeServers() = currentServers().allServers
+        .filter { it.serverName.contains("FREE") && it.tier > 0 }
+
+    private fun reportSuspiciousNonFreeServers(existingSuspiciousServers: List<Server>, operationName: String) {
+        val currentSuspiciousServers = suspiciousFreeServers()
+        val newSuspiciousServers = currentSuspiciousServers.filter { current ->
+            existingSuspiciousServers.none { current.serverId == it.serverId }
+        }
+        if (newSuspiciousServers.isNotEmpty()) {
+            val serversString = newSuspiciousServers.joinToString("; ") {
+                with(it) { "$serverName tier: $tier id: $serverId" }
+            }
+            Sentry.captureException(
+                FreeNonFreeServer("$operationName: $serversString")
+            )
+        }
+    }
 
     companion object {
         private fun updateServerLists(
@@ -247,3 +268,5 @@ class ServersDataManager @Inject constructor(
         }
     }
 }
+
+private class FreeNonFreeServer(message: String) : Exception(message)
