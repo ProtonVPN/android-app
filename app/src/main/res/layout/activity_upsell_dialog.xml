@@ -17,44 +17,59 @@
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/composeToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/layoutContent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true"
-        android:requiresFadingEdge="vertical"
-        android:fadingEdgeLength="48dp">
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/composeToolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintWidth_max="800dp">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fadingEdgeLength="48dp"
+            android:fillViewport="true"
+            android:requiresFadingEdge="vertical">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </androidx.core.widget.NestedScrollView>
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContent"
+            android:id="@+id/payment_panel_fragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
-    </androidx.core.widget.NestedScrollView>
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/payment_panel_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <me.proton.core.presentation.ui.view.ProtonButton
-        android:id="@+id/buttonNotNow"
-        style="@style/ProtonButton.Borderless.Text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-        android:text="@string/upgrade_not_now_button"
-        android:visibility="gone"/>
-</LinearLayout>
+        <me.proton.core.presentation.ui.view.ProtonButton
+            android:id="@+id/buttonNotNow"
+            style="@style/ProtonButton.Borderless.Text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:text="@string/upgrade_not_now_button"
+            android:visibility="gone" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
