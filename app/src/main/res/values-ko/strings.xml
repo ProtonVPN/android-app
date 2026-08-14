@@ -343,7 +343,7 @@
     <string name="notification_smart_protocol_disabled_title">Smart Protocol은 현재 비활성화 되었습니다</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN이 현재 네트워크에서는 VPN에 연결할 수 없음을 감지했습니다. Smart Protocol을 활성화하면 이러한 제한을 우회할 수도 있습니다.</string>
     <string name="notification_streaming_blocked_title">스트리밍에 문제가 있나요?</string>
-    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
+    <string name="notification_streaming_blocked_text">대다수의 스트리밍 서비스는 무료 VPN 서버에 대한 연결을 감지 및 차단합니다. Proton VPN Plus로 업그레이드하여 이러한 차단을 우회할 수 있습니다.</string>
     <string name="upsell_advanced_features">고급 기능: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">전 세계 어디에서나 스트리밍 서비스(Netflix, Disney+ 등) 에 액세스</string>
     <!-- Number of servers available in the service.
@@ -379,8 +379,8 @@
     <string name="upgrade_profiles_text">프로필을 VPN Plus로 잠금 해제하세요.</string>
     <string name="upgrade_streaming_title">4K로 스트리밍</string>
     <string name="upgrade_streaming_text">전세계에 있는 영화와 TV 콘텐츠를 즐겨보세요.</string>
-    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upgrade_streaming_block_title">VPN 차단을 우회하려면 업그레이드</string>
+    <string name="upgrade_streaming_block_text">VPN Plus 서버를 이용하면 전 세계의 좋아하는 영화와 TV 프로그램을 즐길 수 있습니다.</string>
     <string name="upgrade_tor_title">한 번의 탭으로 Tor 네트워크에 접근하세요</string>
     <string name="upgrade_tor_text">쓰던 브라우저에서 숨겨진 서비스와 onion 사이트로 연결하세요.</string>
     <string name="upgrade_vpn_accelerator_title">더욱 빠른 브라우징</string>
@@ -492,7 +492,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus 플랜:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -501,10 +501,10 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
-    <string name="upsell_panel_content_description_yes">Yes</string>
-    <string name="upsell_panel_content_description_no">No</string>
-    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_content_description_value_prefix_free">무료 플랜:</string>
+    <string name="upsell_panel_content_description_yes">예</string>
+    <string name="upsell_panel_content_description_no">아니오</string>
+    <string name="upsell_panel_table_header_plan_free">무료</string>
     <!--
         %1$s - country name in nominative
 
@@ -512,33 +512,33 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
-    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
-    <string name="upsell_panel_country_benefit_countries">Available countries</string>
+    <string name="upsell_panel_country_title">VPN Plus로 %1$s 잠금 해제</string>
+    <string name="upsell_panel_countries_title"> VPN Plus로 모든 국가 잠금 해제</string>
+    <string name="upsell_panel_country_benefit_countries">사용 가능한 국가</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_country_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_country_benefit_choice">Choose your location</string>
-    <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
-    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
-    <string name="upsell_panel_netshield_title">Browse without interruptions</string>
-    <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
-    <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
-    <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
-    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
-    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
-    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
-    <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
-    <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
-    <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
-    <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
-    <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
-    <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
-    <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_country_benefit_countries_rounded">%1$d개 이상</string>
+    <string name="upsell_panel_country_benefit_choice">어떠한 지역이든 선택하세요</string>
+    <string name="upsell_panel_country_benefit_speed">초고속 서버</string>
+    <string name="upsell_panel_country_benefit_shows">특정 국가 전용 콘텐츠를 시정하세요</string>
+    <string name="upsell_panel_netshield_title">방해 없이 탐색하세요</string>
+    <string name="upsell_panel_netshield_benefit_ads">브라우징 중에도 광고가 차단됩니다</string>
+    <string name="upsell_panel_netshield_benefit_trackers">나를 추적하는 트래커를 중단시키세요</string>
+    <string name="upsell_panel_netshield_benefit_malware">멀웨어 및 피싱 보호</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">페이지가 더 빠르게 로드됩니디 </string>
+    <string name="upsell_panel_speed_title">더 빠른 속도로 스트리밍, 게이밍, 다운로드하세요</string>
+    <string name="upsell_panel_speed_benefit_servers">초고속 서버</string>
+    <string name="upsell_panel_speed_benefit_gaming">게임 중 응답 시간</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">느림</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">빠름</string>
+    <string name="upsell_panel_speed_benefit_video">버퍼링 없이 비디오 스트리밍</string>
+    <string name="upsell_panel_speed_benefit_ads">광고 및 트래커 없이 브라우징</string>
+    <string name="upsell_panel_streaming_title">좋아하는 스트리밍 서비스로 영상 시청</string>
+    <string name="upsell_panel_streaming_benefit_shows">모든 국가의 TV 프로그램 시청</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
-    <string name="upsell_panel_streaming_benefit_platforms">All major streaming platforms supported *</string>
-    <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
-    <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
-    <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
+    <string name="upsell_panel_streaming_benefit_platforms">모든 메이저 스트리밍 서비스 플랫폼 지원 *</string>
+    <string name="upsell_panel_streaming_benefit_hd">버퍼링 없이 HD로 스트리밍</string>
+    <string name="upsell_panel_streaming_benefit_devices">한 번에 기기 모두를 연결</string>
+    <string name="upsell_panel_streaming_footer">* 해당 스트리밍 서비스의 구독이 필요합니다.</string>
     <string name="upsell_card_countries_title">전세계 커버리지</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -580,16 +580,16 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
+    <string name="upsell_tv_all_countries_description">%2$s내의 %1$s 잠금 해제</string>
     <string name="upsell_tv_netshield_title">Plus로 광고 없는 인터넷 서핑을 즐기실 수 있습니다</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[<b>NetShield</b>로 광고와 트래커, 멀웨어를 차단하세요.]]></string>
     <string name="upsell_tv_split_tunneling_title">Plus와 함께 두 가지 혜택을 누리세요</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
-    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
-    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[<b>분할 터널링</b>으로 VPN에 들어갈 트래픽을 분류하세요.]]></string>
+    <string name="upsell_tv_subscription_expired_title">구독 기간이 만료되었습니다.</string>
+    <string name="upsell_tv_subscription_expired_description">다시 Plus 서버 및 기능에 접근하려면 업그레이드 하세요.</string>
     <string name="upsell_tv_customization_title">플러스로 고급 VPN 사용자화를 이용하세요.</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
-    <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_customization_description"><![CDATA[<b>LAN 연결</b>, <b>사용자 지정 DNS</b> 및 더 많은 고급 VPN 기능을 이용하세요.]]></string>
+    <string name="upsell_tv_fallback_description">Proton VPN 웹사이트에서 플랜을 업그레이드하세요.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -665,13 +665,13 @@
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">삭제</string>
     <!-- Content description for an icon button that clears text in an input field. -->
-    <string name="clear_text_field_content_description">Clear</string>
+    <string name="clear_text_field_content_description">삭제</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">특정 국가로 연결하고 싶으세요?</string>
     <string name="upgrade_country_message"><![CDATA[VPN Plus로 <b>국가 선택</b>을 잠금 해제하세요.]]></string>
     <string name="free_connections_info_message">Proton Free가 사용 가능한 가장 빠른 서버에 자동으로 연결합니다. 보통 소재한 곳에서 가장 가까운 서버가 선택됩니다.</string>
     <string name="free_connections_info_server_locations">무료 서버 지역 (%1$d)</string>
-    <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
+    <string name="free_connections_info_banner_text">VPN Plus로 모든 국가에 접근하세요</string>
     <string name="free_connection_info_title">무료 연결</string>
     <string name="search_upsell_banner_title">언제 어디서나 스트리밍</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -767,7 +767,7 @@
     <string name="welcome_plus_title">VPN Plus에 오신 것을 환영합니다</string>
     <string name="welcome_plus_description">더 많은 개인정보 보호 기능과 강력한 성능, 그리고 한 차원 높은 VPN 사용자화를 사용해 보세요.</string>
     <string name="welcome_unlimited_title">Proton Unlimited에 오신 것을 환영합니다</string>
-    <string name="welcome_unlimited_description">You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features.</string>
+    <string name="welcome_unlimited_description">프리미엄 Proton VPN, Mail, Calendar, Drive, Pass 및 Wallet 기능을 잠금 해제하셨어요.</string>
     <string name="welcome_generic_title">축하합니다</string>
     <string name="welcome_generic_description">구독을 업그레이드 했습니다. 한 차원 높은 개인정보 보호 기능과 성능을 즐겨보세요.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -822,17 +822,17 @@
      Text added to clickable elements that provide negative feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_negative">not good</string>
+    <string name="accessibility_feedback_negative">좋지 않음</string>
     <!--
      Text added to clickable elements that provide positive feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_positive">good</string>
+    <string name="accessibility_feedback_positive">좋음</string>
     <!--
      Text added to clickable elements that allows to submit either positive or negative feedback.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_submit_feedback">submit</string>
+    <string name="accessibility_action_submit_feedback">제출</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -1030,7 +1030,7 @@
          "more information about free connections, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_free_connections">무료 연결에 대한 추가 정보</string>
-    <string name="connection_card_label_connection_feedback">How is your connection?</string>
+    <string name="connection_card_label_connection_feedback">연결 상태는 양호했나요?</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -1058,7 +1058,7 @@
     <string name="message_server_in_maintenance">서버가 점검 중입니다</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">서버를 이용할 수 없습니다.</string>
-    <string name="message_server_location_excluded">Server location excluded</string>
+    <string name="message_server_location_excluded">서버 위치 제외됨</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">게이트웨이가 점검 중입니다.</string>
     <!-- tag(Redesign_2023) -->
@@ -1199,7 +1199,7 @@
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">주/도</string>
     <!-- Label for server smart routing, a country which is routed through. -->
-    <string name="connection_details_smart_routing">Routed through</string>
+    <string name="connection_details_smart_routing">다음 국가 경유:</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
