@@ -72,8 +72,6 @@ import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
 import com.protonvpn.android.promooffers.data.GlideImagePrefetcher
 import com.protonvpn.android.promooffers.data.ImagePrefetcher
-import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromo12mExperimentEnabled
-import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromo12mExperimentEnabledImpl
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoCyclicEnabled
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoCyclicEnabledImpl
 import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabled
@@ -453,11 +451,6 @@ object AppModule {
         fun bindIsIapClientSidePromoFeatureFlagEnabled(
             impl: IsIapClientSidePromoFeatureFlagEnabledImpl
         ): IsIapClientSidePromoFeatureFlagEnabled
-
-        @Binds
-        fun bindIsIapClientSidePromo12mEnabled(
-            impl: IsIapClientSidePromo12mExperimentEnabledImpl
-        ): IsIapClientSidePromo12mExperimentEnabled
 
         @Binds
         fun bindIsIapClientSidePromoCyclicEnabled(

@@ -20,9 +20,6 @@
 package com.protonvpn.app.telemetry
 
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromo12mExperimentEnabled
-import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers
-import com.protonvpn.android.promooffers.usecase.HasAnyIntroOffer
 import com.protonvpn.android.telemetry.DefaultCommonDimensions
 import com.protonvpn.android.telemetry.DefaultTelemetryReporter
 import com.protonvpn.android.telemetry.Telemetry
@@ -31,6 +28,7 @@ import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
+import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.planupgrade.comparison_table.FakeIsUpsellComparisonTableExperimentEnabled
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -40,7 +38,6 @@ import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser
 import io.mockk.MockKAnnotations
 import io.mockk.MockKAssertScope
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -53,7 +50,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import me.proton.core.domain.entity.UserId
-import com.protonvpn.android.ui.planupgrade.PlanCycle
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -67,21 +63,15 @@ import kotlin.time.Duration.Companion.seconds
 class UpgradeTelemetryTests {
 
     @MockK
-    private lateinit var mockGetEligibleIntroductoryOffers: GetEligibleIntroductoryOffers
-    @MockK
     private lateinit var mockTelemetry: Telemetry
 
     private var fakeTime: Long = 0L // It's not related to test scheduler's clock.
-    private lateinit var experiment12mPromoFF: FakeIsIapClientSidePromo12mExperimentEnabled
     private lateinit var experimentComparisonTableFF: FakeIsUpsellComparisonTableExperimentEnabled
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
     private val freeVpnUserAbControl = TestUser.freeUser.vpnUser.copy(userId = UserId("id1"))
-    private val freeVpnUserAbTreatment = TestUser.freeUser.vpnUser.copy(userId = UserId("id2"))
 
     private lateinit var upgradeTelemetry: UpgradeTelemetry
-
-    private val dummyOffer = GetEligibleIntroductoryOffers.Offer("", PlanCycle.MONTHLY, "EUR", 99)
 
     @Before
     fun setup() {
@@ -91,7 +81,6 @@ class UpgradeTelemetryTests {
 
         every { mockTelemetry.event(UPSELL_GROUP, any(), any(), any()) } just runs
 
-        experiment12mPromoFF = FakeIsIapClientSidePromo12mExperimentEnabled(false)
         experimentComparisonTableFF = FakeIsUpsellComparisonTableExperimentEnabled(false)
         testUserProvider = TestCurrentUserProvider(freeVpnUserAbControl, createAccountUser(createdAtUtc = 100L))
         val currentUser = CurrentUser(testUserProvider)
@@ -109,9 +98,7 @@ class UpgradeTelemetryTests {
             currentUser = currentUser,
             clock = { fakeTime },
             telemetryHelperLazy = { helper },
-            hasAnyIntroOffer = HasAnyIntroOffer({ mockGetEligibleIntroductoryOffers }),
             isUpsellComparisonTableExperimentEnabled = experimentComparisonTableFF,
-            isIapClientSidePromo12MExperimentEnabled = experiment12mPromoFF,
         )
     }
 
@@ -274,74 +261,6 @@ class UpgradeTelemetryTests {
     }
 
     @Test
-    fun `GIVEN 12m experiment WHEN user is eligible for intro price THEN experiment events are reported`() =
-        testScope.runTest {
-            coEvery { mockGetEligibleIntroductoryOffers.invoke(any()) } returns listOf(dummyOffer)
-            every { mockTelemetry.event(EXPERIMENT_12M_GROUP, any(), any(), any()) } just runs
-            upgradeTelemetry.start()
-            testUserProvider.vpnUser = freeVpnUserAbTreatment
-            experiment12mPromoFF.setEnabled(true)
-
-            with(upgradeTelemetry) {
-                onUpgradeFlowStarted(UpgradeSource.PROFILES, UpgradeTrigger.PROFILES)
-                onPricesLoaded(hasIntroPrices = true)
-                onUpgradeAttempt(UpgradeFlowType.ONE_CLICK, null, null)
-                onUpgradeSuccess(null, UpgradeFlowType.ONE_CLICK, 1)
-            }
-
-            verify {
-                val dimensionAssert: MockKAssertScope.(Map<String, String>) -> Unit =
-                    { assertEquals("12m", it["experiment_variant"]) }
-                mockTelemetry.event(EXPERIMENT_12M_GROUP, "experiment_enrolled", any(), withArg(captureBlock = dimensionAssert))
-                mockTelemetry.event(EXPERIMENT_12M_GROUP, "upsell_display", any(), withArg(captureBlock = dimensionAssert))
-                mockTelemetry.event(EXPERIMENT_12M_GROUP, "upsell_price_display", any(), withArg(captureBlock = dimensionAssert))
-                mockTelemetry.event(EXPERIMENT_12M_GROUP, "upsell_upgrade_attempt", any(), withArg(captureBlock = dimensionAssert))
-                mockTelemetry.event(EXPERIMENT_12M_GROUP, "upsell_success", any(), withArg(captureBlock = dimensionAssert))
-            }
-        }
-
-    @Test
-    fun `GIVEN 12m experiment WHEN user is not eligible for intro price THEN no experiment events are reported`() =
-        testScope.runTest {
-            coEvery { mockGetEligibleIntroductoryOffers.invoke(any()) } returns emptyList()
-            upgradeTelemetry.start()
-            experiment12mPromoFF.setVariantName("12m")
-            experiment12mPromoFF.setEnabled(true)
-
-            with(upgradeTelemetry) {
-                onUpgradeFlowStarted(UpgradeSource.PROFILES, UpgradeTrigger.PROFILES)
-                onPricesLoaded(hasIntroPrices = true)
-                onUpgradeAttempt(UpgradeFlowType.ONE_CLICK, null, null)
-                onUpgradeSuccess(null, UpgradeFlowType.ONE_CLICK, 1)
-            }
-
-            verify(exactly = 0) {
-                mockTelemetry.event(EXPERIMENT_12M_GROUP, any(), any(), any())
-            }
-        }
-
-    @Test
-    fun `GIVEN 12m experiment WHEN user is eligible for intro price in control group THEN experiment events report the control group`() =
-        testScope.runTest {
-            coEvery { mockGetEligibleIntroductoryOffers.invoke(any()) } returns listOf(dummyOffer)
-            every { mockTelemetry.event(EXPERIMENT_12M_GROUP, any(), any(), any()) } just runs
-
-            upgradeTelemetry.start()
-            testUserProvider.vpnUser = freeVpnUserAbControl
-            experiment12mPromoFF.setEnabled(true)
-            with(upgradeTelemetry) {
-                onUpgradeFlowStarted(UpgradeSource.PROFILES, UpgradeTrigger.PROFILES)
-            }
-
-            verify {
-                val dimensionAssert: MockKAssertScope.(Map<String, String>) -> Unit =
-                    { assertEquals("control", it["experiment_variant"]) }
-                mockTelemetry.event(EXPERIMENT_12M_GROUP, "experiment_enrolled", any(), withArg(captureBlock = dimensionAssert))
-                mockTelemetry.event(EXPERIMENT_12M_GROUP, "upsell_display", any(), withArg(captureBlock = dimensionAssert) )
-            }
-        }
-
-    @Test
     fun `GIVEN comparison table experiment THEN experiment events are reported`() =
         testScope.runTest {
             every { mockTelemetry.event(EXPERIMENT_COMPARISON_TABLE_GROUP, any(), any(), any()) } just runs
@@ -363,7 +282,6 @@ class UpgradeTelemetryTests {
 
     companion object {
         private const val UPSELL_GROUP = "vpn.any.upsell"
-        private const val EXPERIMENT_12M_GROUP = "vpn.any.experiment_12m_promo_202605"
         private const val EXPERIMENT_COMPARISON_TABLE_GROUP = "vpn.any.experiment_upsell_comparison_table_202607"
     }
 }

@@ -26,7 +26,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.mmp.events.MmpEvent
 import com.protonvpn.android.mmp.events.MmpEventType
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
-import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromo12mExperimentEnabled
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
@@ -123,9 +122,7 @@ class UpgradeDialogViewModelTests {
             currentUser = currentUser,
             clock = { testScope.currentTime },
             telemetryHelperLazy = { telemetryFlowHelper },
-            hasAnyIntroOffer = mockk(),
             isUpsellComparisonTableExperimentEnabled = FakeIsUpsellComparisonTableExperimentEnabled(true),
-            isIapClientSidePromo12MExperimentEnabled = FakeIsIapClientSidePromo12mExperimentEnabled(false),
         )
         coEvery { mockSaveMmpEvent(eventType = any()) } returns Unit
 

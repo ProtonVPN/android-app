@@ -20,6 +20,12 @@
 package com.protonvpn.android.promooffers.usecase
 
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.promooffers.data.ApiNotification
 import com.protonvpn.android.promooffers.data.ApiNotificationActions
 import com.protonvpn.android.promooffers.data.ApiNotificationIapAction
@@ -29,17 +35,10 @@ import com.protonvpn.android.promooffers.data.ApiNotificationOfferFullScreenImag
 import com.protonvpn.android.promooffers.data.ApiNotificationOfferImageSource
 import com.protonvpn.android.promooffers.data.ApiNotificationOfferPanel
 import com.protonvpn.android.promooffers.data.ApiNotificationTypes
-import com.protonvpn.android.appconfig.AppFeaturesPrefs
-import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.di.WallClock
-import com.protonvpn.android.logging.LogCategory
-import com.protonvpn.android.logging.LogLevel
-import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.telemetry.AbTest12mPromo
+import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DefaultLocaleProvider
 import dagger.Reusable
-import com.protonvpn.android.ui.planupgrade.PlanCycle
 import me.proton.core.util.kotlin.equalsNoCase
 import me.proton.core.util.kotlin.startsWith
 import java.util.concurrent.TimeUnit
@@ -68,12 +67,11 @@ fun ApiNotification.isIntroductoryPriceOffer(): Boolean =
 class GenerateNotificationsForIntroductoryOffers @Inject constructor(
     private val isIapClientSidePromoFeatureFlagEnabled: IsIapClientSidePromoFeatureFlagEnabled,
     private val isIapClientSidePromoCyclicEnabled: IsIapClientSidePromoCyclicEnabled,
-    private val isIapClientSidePromo12MExperimentEnabled: IsIapClientSidePromo12mExperimentEnabled,
     private val currentUser: CurrentUser,
     private val getEligibleIntroductoryOffers: GetEligibleIntroductoryOffers,
     private val appFeaturesPrefs: AppFeaturesPrefs,
     private val locale: DefaultLocaleProvider,
-    @WallClock private val clock: () -> Long,
+    @param:WallClock private val clock: () -> Long,
 ) {
 
     private data class NotificationConfig(
@@ -99,17 +97,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
 
         val allPlans = listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
         val introductoryOffers = getEligibleIntroductoryOffers(allPlans) ?: return emptyList()
-        val planCycle = when {
-            isIapClientSidePromo12MExperimentEnabled() -> {
-                val abGroup = currentUser.vpnUser()?.let { AbTest12mPromo.fromUserId(it.userId) }
-                when(abGroup) {
-                    AbTest12mPromo.CONTROL -> PlanCycle.MONTHLY
-                    AbTest12mPromo.YEARLY -> PlanCycle.YEARLY
-                    null -> PlanCycle.MONTHLY
-                }
-            }
-            else -> PlanCycle.MONTHLY
-        }
+        val planCycle = PlanCycle.MONTHLY
 
         val startTimeMs = baseTimestampMs + if (isFirstPromo) PROMO_ACTIVITY_PERIOD_START_MS else 0L
         val startTimeS = TimeUnit.MILLISECONDS.toSeconds(startTimeMs)

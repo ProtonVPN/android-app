@@ -23,12 +23,10 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.promooffers.data.ApiNotification
 import com.protonvpn.android.promooffers.data.ApiNotificationTypes
-import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromo12mExperimentEnabled
 import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromoCyclicEnabled
 import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromoFeatureFlagEnabled
 import com.protonvpn.android.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
 import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers
-import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
@@ -69,7 +67,6 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     private lateinit var isIapEnabledFF: FakeIsIapClientSidePromoFeatureFlagEnabled
     private lateinit var isCyclicEnabledFF: FakeIsIapClientSidePromoCyclicEnabled
-    private lateinit var experiment12mEnabledFF: FakeIsIapClientSidePromo12mExperimentEnabled
     private lateinit var testLocaleProvider: TestDefaultLocaleProvider
     private lateinit var testCurrentUserProvider: TestCurrentUserProvider
     private lateinit var testGetProducts: FakeGetProducts
@@ -78,13 +75,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
     private lateinit var generateNotificationsForIntroductoryOffers: GenerateNotificationsForIntroductoryOffers
 
     private val freeVpnUser = TestVpnUser.create(id = "id1", maxTier = 0, subscribed = 0)
-    private val freeVpnUserAb12mGroup = TestVpnUser.create(id = "id2", maxTier = 0, subscribed = 0)
-
-    private val introTag = IapConstants.INTRO_PRICE_TAG
 
     // Plan data must match the hardcoded conditions in the notification.
     private val vpnPlus = "vpn2022"
-    private val bundle = "bundle2022"
 
     @Before
     fun setup() {
@@ -113,11 +106,9 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
         isIapEnabledFF = FakeIsIapClientSidePromoFeatureFlagEnabled(true)
         isCyclicEnabledFF = FakeIsIapClientSidePromoCyclicEnabled(true)
-        experiment12mEnabledFF = FakeIsIapClientSidePromo12mExperimentEnabled(false)
         generateNotificationsForIntroductoryOffers = GenerateNotificationsForIntroductoryOffers(
             isIapClientSidePromoFeatureFlagEnabled = isIapEnabledFF,
             isIapClientSidePromoCyclicEnabled = isCyclicEnabledFF,
-            isIapClientSidePromo12MExperimentEnabled = experiment12mEnabledFF,
             currentUser = currentUser,
             getEligibleIntroductoryOffers = getEligibleIntroductoryOffers,
             appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider()),
@@ -347,60 +338,6 @@ class GenerateNotificationsForIntroductoryOffersTests {
         )
         val banner = notifications.find { it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER }
         assertEquals("IntroPricePromoBanner", banner?.reference)
-    }
-
-    @Test
-    fun `GIVEN 12m experiment enabled WHEN control variant is enabled THEN 1m offers are generated`() = testScope.runTest {
-        val product1m = createProduct(
-            "plus_monthly",
-            vpnPlus,
-            createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "USD")
-        )
-        val product1y = createProduct(
-            "plus_yearly",
-            vpnPlus,
-            createOffersWithDiscount(PlanCycle.YEARLY, 2_00, 100_00, "USD")
-        )
-        testGetProducts.setProductsToReturn(listOf(product1m, product1y))
-        experiment12mEnabledFF.setEnabled(true)
-        testCurrentUserProvider.vpnUser = freeVpnUser // Control group.
-
-        val notifications = generateNotificationsForIntroductoryOffers(false)
-        assertEquals(2, notifications.size)
-        assertImages(
-            expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_1_usd_99_en_any_dark.png",
-            expectedFullscreenUrl = "file:///android_asset/promooffers/internal_intro_price_modal_vpn2022_1_usd_99_en_any_dark.png",
-            notifications = notifications
-        )
-        val banner = notifications.find { it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER }
-        assertEquals("IntroPricePromoBanner", banner?.reference)
-    }
-
-    @Test
-    fun `GIVEN 12m experiment enabled WHEN 12m variant is enabled THEN 12m offers are generated`() = testScope.runTest {
-        val product1m = createProduct(
-            "plus_monthly",
-            vpnPlus,
-            createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
-        )
-        val product1y = createProduct(
-            "plus_yearly",
-            vpnPlus,
-            createOffersWithDiscount(PlanCycle.YEARLY, 2_00, 100_00, "EUR")
-        )
-        testGetProducts.setProductsToReturn(listOf(product1m, product1y))
-        experiment12mEnabledFF.setEnabled(true)
-        testCurrentUserProvider.vpnUser = freeVpnUserAb12mGroup
-
-        val notifications = generateNotificationsForIntroductoryOffers(false)
-        assertEquals(2, notifications.size)
-        assertImages(
-            expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_12_any_any_any_any_dark.png",
-            expectedFullscreenUrl = "file:///android_asset/promooffers/internal_intro_price_modal_vpn2022_12_any_any_any_any_dark.png",
-            notifications = notifications
-        )
-        val banner = notifications.find { it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER }
-        assertEquals("IntroPricePromoBanner12", banner?.reference)
     }
 
     private fun assertImages(

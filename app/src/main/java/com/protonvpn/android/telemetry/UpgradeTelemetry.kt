@@ -21,13 +21,10 @@ package com.protonvpn.android.telemetry
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
-import com.protonvpn.android.promooffers.usecase.HasAnyIntroOffer
-import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromo12mExperimentEnabled
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableExperimentEnabled
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.utils.ifOrNull
 import kotlinx.coroutines.CoroutineScope
@@ -98,48 +95,22 @@ enum class AbTestComparisonTable(val reportedValue: String) {
     }
 }
 
-enum class AbTest12mPromo(val reportedValue: String) {
-    CONTROL("control"), YEARLY("12m");
-
-    companion object {
-        fun fromUserId(userId: UserId) =
-            if (userId.id.hashCode() % 2 == 0) CONTROL else YEARLY
-    }
-}
-
 @Singleton
 class UpgradeTelemetry @Inject constructor(
     private val mainScope: CoroutineScope,
     private val commonDimensions: CommonDimensions,
     private val currentUser: CurrentUser,
-    @WallClock private val clock: () -> Long,
+    @param:WallClock private val clock: () -> Long,
     telemetryHelperLazy: dagger.Lazy<TelemetryFlowHelper>,
-    private val hasAnyIntroOffer: HasAnyIntroOffer,
     private val isUpsellComparisonTableExperimentEnabled: IsUpsellComparisonTableExperimentEnabled,
-    private val isIapClientSidePromo12MExperimentEnabled: IsIapClientSidePromo12mExperimentEnabled,
 ) {
     private val helper by telemetryHelperLazy
 
     private var currentUpgradeFlow: UpgradeFlow? = null
     private val currentDimensions get() = currentUpgradeFlow?.getCurrentDimensions()
-    private var isEligibleFor12mExperiment: Boolean? = null
     private var isComparisonTableExperiment: Boolean? = null
 
     fun start() {
-        combine(
-            currentUser.vpnUserFlow,
-            isIapClientSidePromo12MExperimentEnabled.observe()
-        ) { vpnUser, isEnabled -> vpnUser?.isFreeUser == true && isEnabled }
-            .distinctUntilChanged()
-            .onEach { isExperimentEnabled ->
-                if (isExperimentEnabled) {
-                    on12mExperimentStarted()
-                } else {
-                    reset12mExperiment()
-                }
-            }
-            .launchIn(mainScope)
-
         combine(
             currentUser.vpnUserFlow,
             isUpsellComparisonTableExperimentEnabled.observe()
@@ -153,20 +124,6 @@ class UpgradeTelemetry @Inject constructor(
                 }
             }
             .launchIn(mainScope)
-    }
-
-    private fun on12mExperimentStarted() {
-        helper.runSerially {
-            if (isEligibleFor12mExperiment != null) return@runSerially
-            isEligibleFor12mExperiment = hasAnyIntroOffer(listOf(Constants.CURRENT_PLUS_PLAN))
-            eventExperiment12m("experiment_enrolled", emptyMap())
-        }
-    }
-
-    private fun reset12mExperiment() {
-        helper.runSerially {
-            isEligibleFor12mExperiment = null
-        }
     }
 
     private fun onComparisonTableExperimentStarted() {
@@ -285,26 +242,7 @@ class UpgradeTelemetry @Inject constructor(
         eventName: String,
         dimensions: Map<String, String>,
     ) {
-        eventExperiment12m(eventName, dimensions)
         eventExperimentComparisonTable(eventName, dimensions)
-    }
-
-    private suspend fun TelemetryFlowHelper.RunSeriallyScope.eventExperiment12m(
-        eventName: String,
-        dimensions: Map<String, String>,
-    ) {
-        val group12m = ifOrNull(isEligibleFor12mExperiment == true) {
-            currentUser.vpnUser()?.let { AbTest12mPromo.fromUserId(it.userId) }
-        }
-        if (group12m != null) {
-            val experimentVariant: Pair<String, String> =
-                "experiment_variant" to group12m.reportedValue
-            event(
-                measurementGroup = EXPERIMENT_12M_MEASUREMENT_GROUP,
-                event = eventName,
-                dimensions = dimensions + experimentVariant
-            )
-        }
     }
 
     private suspend fun TelemetryFlowHelper.RunSeriallyScope.eventExperimentComparisonTable(
@@ -342,7 +280,7 @@ class UpgradeTelemetry @Inject constructor(
 
     private class UpgradeFlow(
         private var dimensions: Map<String, String>,
-        @WallClock private val clock: () -> Long
+        @param:WallClock private val clock: () -> Long
     ) {
         private val timestamp = clock()
 
@@ -355,7 +293,6 @@ class UpgradeTelemetry @Inject constructor(
 
     companion object {
         private const val MEASUREMENT_GROUP = "vpn.any.upsell"
-        private const val EXPERIMENT_12M_MEASUREMENT_GROUP = "vpn.any.experiment_12m_promo_202605"
         private const val EXPERIMENT_COMPARISON_TABLE_MEASUREMENT_GROUP =
             "vpn.any.experiment_upsell_comparison_table_202607"
         private val UPGRADE_FLOW_VALID_MS = TimeUnit.MINUTES.toMillis(10)
