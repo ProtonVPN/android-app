@@ -26,7 +26,7 @@ import com.protonvpn.android.promooffers.data.ApiNotificationTypes
 import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromoCyclicEnabled
 import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromoFeatureFlagEnabled
 import com.protonvpn.android.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
-import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers
+import com.protonvpn.android.promooffers.usecase.GetEligibleOffers
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
@@ -94,8 +94,8 @@ class GenerateNotificationsForIntroductoryOffersTests {
         )
         coEvery { mockInAppUpgradeAllowed.invoke() } returns true
 
-        val getEligibleIntroductoryOffers =
-            GetEligibleIntroductoryOffers(
+        val getEligibleOffers =
+            GetEligibleOffers(
                 loadSubscriptionPlans,
                 mockInAppUpgradeAllowed,
                 InMemoryObjectStore(),
@@ -108,7 +108,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
             isIapClientSidePromoFeatureFlagEnabled = isIapEnabledFF,
             isIapClientSidePromoCyclicEnabled = isCyclicEnabledFF,
             currentUser = currentUser,
-            getEligibleIntroductoryOffers = getEligibleIntroductoryOffers,
+            getEligibleOffers = getEligibleOffers,
             appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider()),
             locale = testLocaleProvider,
             clock = testScope::currentTime

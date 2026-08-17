@@ -19,7 +19,7 @@
 
 package com.protonvpn.app.promooffers.usecase
 
-import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers
+import com.protonvpn.android.promooffers.usecase.GetEligibleOffers
 import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.PlanCycle
@@ -48,7 +48,7 @@ import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.days
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class GetEligibleIntroductoryOffersTests {
+class GetEligibleOffersTests {
 
     @MockK
     private lateinit var mockInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase
@@ -58,21 +58,21 @@ class GetEligibleIntroductoryOffersTests {
 
     private val customTag = "custom-tag"
     // Monthly intro prices are all set to 500.
-    private val offerVpn2022 = GetEligibleIntroductoryOffers.Offer(
+    private val offerVpn2022 = GetEligibleOffers.Offer(
         planName = "vpn2022",
         cycle = PlanCycle.MONTHLY,
         currency = "PLN",
         currentPriceCents = 500,
         offerTags = listOf(IapConstants.INTRO_PRICE_TAG)
     )
-    private val offerBundle2022 = GetEligibleIntroductoryOffers.Offer(
+    private val offerBundle2022 = GetEligibleOffers.Offer(
         planName = "bundle2022",
         cycle = PlanCycle.MONTHLY,
         currency = "PLN",
         currentPriceCents = 500,
         offerTags = listOf(IapConstants.INTRO_PRICE_TAG)
     )
-    private val offerVpn2022Custom = GetEligibleIntroductoryOffers.Offer(
+    private val offerVpn2022Custom = GetEligibleOffers.Offer(
         planName = "vpn2022",
         cycle = PlanCycle.MONTHLY,
         currency = "PLN",
@@ -80,7 +80,7 @@ class GetEligibleIntroductoryOffersTests {
         offerTags = listOf(customTag)
     )
 
-    private lateinit var getOffers: GetEligibleIntroductoryOffers
+    private lateinit var getOffers: GetEligibleOffers
 
     @Before
     fun setup() {
@@ -108,7 +108,7 @@ class GetEligibleIntroductoryOffersTests {
         val loadSubscriptionPlans = LoadSubscriptionPlans({ fakeGetProducts })
         spyLoadSubscriptionPlans = spyk(loadSubscriptionPlans)
 
-        getOffers = GetEligibleIntroductoryOffers(
+        getOffers = GetEligibleOffers(
             spyLoadSubscriptionPlans,
             mockInAppUpgradeAllowed,
             InMemoryObjectStore(),

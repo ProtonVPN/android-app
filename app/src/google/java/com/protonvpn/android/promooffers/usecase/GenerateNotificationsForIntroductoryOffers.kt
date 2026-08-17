@@ -70,7 +70,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
     private val isIapClientSidePromoFeatureFlagEnabled: IsIapClientSidePromoFeatureFlagEnabled,
     private val isIapClientSidePromoCyclicEnabled: IsIapClientSidePromoCyclicEnabled,
     private val currentUser: CurrentUser,
-    private val getEligibleIntroductoryOffers: GetEligibleIntroductoryOffers,
+    private val getEligibleOffers: GetEligibleOffers,
     private val appFeaturesPrefs: AppFeaturesPrefs,
     private val locale: DefaultLocaleProvider,
     @param:WallClock private val clock: () -> Long,
@@ -98,7 +98,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
         if (baseTimestampMs + PROMO_ACTIVITY_PERIOD_END_MS < nowMs) return emptyList()
 
         val loadPlansConfig = LoadPlansConfig.WithOfferTag(OFFER_TAG)
-        val introductoryOffers = getEligibleIntroductoryOffers(loadPlansConfig) ?: return emptyList()
+        val introductoryOffers = getEligibleOffers(loadPlansConfig) ?: return emptyList()
         val planCycle = PlanCycle.MONTHLY
 
         val startTimeMs = baseTimestampMs + if (isFirstPromo) PROMO_ACTIVITY_PERIOD_START_MS else 0L

@@ -34,7 +34,7 @@ import javax.inject.Inject
 @Reusable
 class EnsureIapOfferStillValid @Inject constructor(
     private val mainScope: CoroutineScope,
-    private val getEligibleIntroductoryOffers: GetEligibleIntroductoryOffers,
+    private val getEligibleOffers: GetEligibleOffers,
     private val apiNotificationsManager: ApiNotificationManager
 ) {
     suspend operator fun invoke(iapParams: NotificationIapParams) =
@@ -47,7 +47,7 @@ class EnsureIapOfferStillValid @Inject constructor(
         currency: String?,
         priceCents: Int?,
     ): Boolean {
-        val valid = getEligibleIntroductoryOffers(loadPlansConfig)?.any { offer ->
+        val valid = getEligibleOffers(loadPlansConfig)?.any { offer ->
             (currency == null || offer.currency equalsNoCase currency) &&
                     (priceCents == null || offer.currentPriceCents == priceCents)
         }

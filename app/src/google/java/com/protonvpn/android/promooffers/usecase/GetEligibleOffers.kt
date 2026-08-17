@@ -23,7 +23,7 @@ import android.content.Context
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.promooffers.GetIntroPricesError
-import com.protonvpn.android.promooffers.usecase.GetEligibleIntroductoryOffers.CachedOffers
+import com.protonvpn.android.promooffers.usecase.GetEligibleOffers.CachedOffers
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
@@ -52,9 +52,8 @@ private val CacheDuration = 2.days
 typealias DiscountOffersKey = LoadPlansConfig
 typealias DiscountOffersCacheMap = Map<DiscountOffersKey, CachedOffers>
 
-// TODO: rename, it's no longer about intro offers.
 @Singleton
-class GetEligibleIntroductoryOffers(
+class GetEligibleOffers(
     private val loadSubscriptionPlans: LoadSubscriptionPlans,
     private val inAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
     cacheObjectStore: ObjectStore<DiscountOffersCacheMap>,
