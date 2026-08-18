@@ -505,6 +505,20 @@
     <string name="upsell_panel_content_description_yes">예</string>
     <string name="upsell_panel_content_description_no">아니오</string>
     <string name="upsell_panel_table_header_plan_free">무료</string>
+    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_devices">Protected devices</string>
+    <string name="upsell_panel_general_benefit_server">Choose your server</string>
+    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_general_benefit_speed">Server speed</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
+    <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
+    <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Use your own DNS service</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Better connections for gaming</string>
     <!--
         %1$s - country name in nominative
 
@@ -514,17 +528,26 @@
         -->
     <string name="upsell_panel_country_title">VPN Plus로 %1$s 잠금 해제</string>
     <string name="upsell_panel_countries_title"> VPN Plus로 모든 국가 잠금 해제</string>
-    <string name="upsell_panel_general_benefit_countries">사용 가능한 국가</string>
-    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_general_benefit_countries_rounded">%1$d개 이상</string>
     <string name="upsell_panel_country_benefit_choice">어떠한 지역이든 선택하세요</string>
     <string name="upsell_panel_country_benefit_speed">초고속 서버</string>
     <string name="upsell_panel_country_benefit_shows">특정 국가 전용 콘텐츠를 시정하세요</string>
+    <string name="upsell_panel_devices_title">Protect every device you own</string>
+    <string name="upsell_panel_devices_description">Your phone, laptop, TV, and everything in between.</string>
     <string name="upsell_panel_netshield_title">방해 없이 탐색하세요</string>
     <string name="upsell_panel_netshield_benefit_ads">브라우징 중에도 광고가 차단됩니다</string>
     <string name="upsell_panel_netshield_benefit_trackers">나를 추적하는 트래커를 중단시키세요</string>
     <string name="upsell_panel_netshield_benefit_malware">멀웨어 및 피싱 보호</string>
     <string name="upsell_panel_netshield_benefit_load_speed">페이지가 더 빠르게 로드됩니디 </string>
+    <string name="upsell_panel_p2p_title">Downloads at full speed</string>
+    <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
+    <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
+    <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Saved profiles</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
+    <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
+    <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
+    <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">더 빠른 속도로 스트리밍, 게이밍, 다운로드하세요</string>
     <string name="upsell_panel_speed_benefit_servers">초고속 서버</string>
     <string name="upsell_panel_speed_benefit_gaming">게임 중 응답 시간</string>
@@ -532,6 +555,9 @@
     <string name="upsell_panel_speed_benefit_gaming_fast">빠름</string>
     <string name="upsell_panel_speed_benefit_video">버퍼링 없이 비디오 스트리밍</string>
     <string name="upsell_panel_speed_benefit_ads">광고 및 트래커 없이 브라우징</string>
+    <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
+    <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
     <string name="upsell_panel_streaming_title">좋아하는 스트리밍 서비스로 영상 시청</string>
     <string name="upsell_panel_streaming_benefit_shows">모든 국가의 TV 프로그램 시청</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -539,6 +565,11 @@
     <string name="upsell_panel_streaming_benefit_hd">버퍼링 없이 HD로 스트리밍</string>
     <string name="upsell_panel_streaming_benefit_devices">한 번에 기기 모두를 연결</string>
     <string name="upsell_panel_streaming_footer">* 해당 스트리밍 서비스의 구독이 필요합니다.</string>
+    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
+    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
+    <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
     <string name="upsell_card_countries_title">전세계 커버리지</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

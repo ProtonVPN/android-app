@@ -519,6 +519,20 @@
     <string name="upsell_panel_content_description_yes">Sí</string>
     <string name="upsell_panel_content_description_no">No</string>
     <string name="upsell_panel_table_header_plan_free">Gratuït</string>
+    <string name="upsell_panel_general_benefit_countries">Països disponibles</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_devices">Dispositius protegits</string>
+    <string name="upsell_panel_general_benefit_server">Trieu el vostre servidor</string>
+    <string name="upsell_panel_general_benefit_shows">Mireu els vostres programes des de qualsevol país</string>
+    <string name="upsell_panel_general_benefit_speed">Velocitat del servidor</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Estàndard</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Màxima</string>
+    <string name="upsell_panel_adv_customization_title">Ajusteu la vostra connexió</string>
+    <string name="upsell_panel_adv_customization_description">Permeteu les connexions LAN, configureu un DNS personalitzat i trieu el vostre tipus de NAT. Els controls avançats, tots a Plus.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Accediu a la vostra impressora i als dispositius de casa</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Utilitzeu el vostre propi servei de DNS</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Millors connexions per a jocs</string>
     <!--
         %1$s - country name in nominative
 
@@ -528,17 +542,26 @@
         -->
     <string name="upsell_panel_country_title">Desbloquegeu-ho %1$s amb VPN Plus</string>
     <string name="upsell_panel_countries_title">Desbloquegeu tots els països amb VPN Plus</string>
-    <string name="upsell_panel_general_benefit_countries">Països disponibles</string>
-    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Trieu la vostra ubicació</string>
     <string name="upsell_panel_country_benefit_speed">Servidors d\'alta velocitat</string>
     <string name="upsell_panel_country_benefit_shows">Mireu programes que només estan disponibles a l\'estranger</string>
+    <string name="upsell_panel_devices_title">Protegiu tots els dispositius que tingueu</string>
+    <string name="upsell_panel_devices_description">El vostre telèfon, ordinador portàtil, TV i tot el que hi hagi entremig.</string>
     <string name="upsell_panel_netshield_title">Navegueu sense interrupcions</string>
     <string name="upsell_panel_netshield_benefit_ads">Bloqueig d\'anuncis mentre navegueu</string>
     <string name="upsell_panel_netshield_benefit_trackers">Eviteu que els rastrejadors us segueixin</string>
     <string name="upsell_panel_netshield_benefit_malware">Protecció contra programari maliciós suplantació de credencials</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Les pàgines es carreguen més ràpidament </string>
+    <string name="upsell_panel_p2p_title">Descàrregues a màxima velocitat</string>
+    <string name="upsell_panel_p2p_description">Servidors creats per compartir fitxers, amb el vostre client de torrent habitual.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">Compartició de fitxers P2P</string>
+    <string name="upsell_panel_profiles_title">Reproducció, jocs, feina: un perfil per cada cosa</string>
+    <string name="upsell_panel_profiles_description">Configureu les connexions al vostre estil i, després, torneu a connectar-vos-hi amb un sol toc.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Perfils desats</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Il·limitat</string>
+    <string name="upsell_panel_secure_core_title">Dues capes de xifratge entre vós i el web</string>
+    <string name="upsell_panel_secure_core_description">S\'encamina mitjançant un servidor de Proton a Suïssa, Islàndia o Suècia abans del país que hàgiu triat.</string>
+    <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">Reproduïu contingut, jugueu i descarregueu més ràpidament</string>
     <string name="upsell_panel_speed_benefit_servers">Servidors d\'alta velocitat</string>
     <string name="upsell_panel_speed_benefit_gaming">Temps de resposta mentre jugueu</string>
@@ -546,6 +569,9 @@
     <string name="upsell_panel_speed_benefit_gaming_fast">Ràpid</string>
     <string name="upsell_panel_speed_benefit_video">Transmissions de vídeo sense esperes</string>
     <string name="upsell_panel_speed_benefit_ads">Navegueu sense anuncis ni rastrejadors</string>
+    <string name="upsell_panel_split_tunneling_title">Trieu quines aplicacions utilitzen la VPN</string>
+    <string name="upsell_panel_split_tunneling_description">El navegador a través de la VPN, l\'aplicació bancària per fora. Vosaltres trieu, aplicació per aplicació.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Tunelització dividida</string>
     <string name="upsell_panel_streaming_title">Mireu els vostres serveis de reproducció en línia preferits</string>
     <string name="upsell_panel_streaming_benefit_shows">Mireu els vostres programes des de qualsevol país</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -553,6 +579,11 @@
     <string name="upsell_panel_streaming_benefit_hd">Reproduïu en HD sense esperes</string>
     <string name="upsell_panel_streaming_benefit_devices">Dispositius connectats alhora</string>
     <string name="upsell_panel_streaming_footer">* Cal subscripció a la plataforma de reproducció en línia.</string>
+    <string name="upsell_panel_streaming_block_title">Milloreu de pla per esquivar els bloquejos de la VPN.</string>
+    <string name="upsell_panel_streaming_block_description">Els servidors VPN Plus us permeten gaudir de les vostres pel·lícules i sèries preferides d\'arreu del món.</string>
+    <string name="upsell_panel_tor_title">Llocs Onion, sense necessitat del navegador Tor</string>
+    <string name="upsell_panel_tor_description">Accediu a llocs .onion des del navegador que ja utilitzeu.</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor sobre VPN</string>
     <string name="upsell_card_countries_title">Cobertura mundial</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

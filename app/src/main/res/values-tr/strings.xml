@@ -519,6 +519,20 @@
     <string name="upsell_panel_content_description_yes">Evet</string>
     <string name="upsell_panel_content_description_no">Hayır</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_countries">Kullanılabilecek ülkeler</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_devices">Korunan aygıtlar</string>
+    <string name="upsell_panel_general_benefit_server">Sunucunuzu seçin</string>
+    <string name="upsell_panel_general_benefit_shows">İstediğiniz ülkedeki dizileri izleyin</string>
+    <string name="upsell_panel_general_benefit_speed">Sunucu hızı</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Standart</string>
+    <string name="upsell_panel_general_benefit_speed_highest">En hızlı</string>
+    <string name="upsell_panel_adv_customization_title">Bağlantınıza ince ayar yapın</string>
+    <string name="upsell_panel_adv_customization_description">LAN bağlantılarına izin verin, özel DNS ayarlayın ve NAT türünüzü seçin. Tüm ek özellikler Plus tarifesinde.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Yazıcınıza ve evinizdeki aygıtlara erişin</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Kendi DNS hizmetinizi kullanın</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Oyun için daha iyi bağlantı</string>
     <!--
         %1$s - country name in nominative
 
@@ -528,17 +542,26 @@
         -->
     <string name="upsell_panel_country_title">VPN Plus ile %1$s erişimi sağlayın</string>
     <string name="upsell_panel_countries_title">VPN Plus ile tüm ülkelere erişin</string>
-    <string name="upsell_panel_general_benefit_countries">Kullanılabilecek ülkeler</string>
-    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Konumunuzu seçin</string>
     <string name="upsell_panel_country_benefit_speed">Yüksek hızlı sunucular</string>
     <string name="upsell_panel_country_benefit_shows">Yalnızca yurt dışında yayınlanan dizileri izleyin</string>
+    <string name="upsell_panel_devices_title">Kullandığınız her aygıtı koruyun</string>
+    <string name="upsell_panel_devices_description">Telefonunuz, dizüstü bilgisayarınız, televizyonunuz ve bunların arasındaki her şey.</string>
     <string name="upsell_panel_netshield_title">Kesintisiz gezinin</string>
     <string name="upsell_panel_netshield_benefit_ads">Gezinirken reklamlar engellenir</string>
     <string name="upsell_panel_netshield_benefit_trackers">Etkinlik izleyicilerin sizi izlemesini engelleyin</string>
     <string name="upsell_panel_netshield_benefit_malware">Kötü amaçlı yazılım ve kimlik avı koruması</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Sayfalar daha hızlı yüklenir </string>
+    <string name="upsell_panel_p2p_title">Tam hızda indirme</string>
+    <string name="upsell_panel_p2p_description">Dosya paylaşımı için tasarlanmış sunucuları her zamanki torrent istemcinizle kullanabilirsiniz.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">P2P dosya paylaşımı</string>
+    <string name="upsell_panel_profiles_title">Yayın akışı, oyun, iş: Her biri için ayrı profil</string>
+    <string name="upsell_panel_profiles_description">Bağlantılarınızı istediğiniz gibi ayarlayın ardından tek dokunuşla bunlardan birine yeniden bağlanın.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Kaydedilmiş profiller</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Sınırsız</string>
+    <string name="upsell_panel_secure_core_title">Siz ve internet arasında iki katmanlı şifreleme</string>
+    <string name="upsell_panel_secure_core_description">Seçtiğiniz ülkeden önce İsviçre, İzlanda veya İsveç içindeki bir Proton sunucusundan geçirilir.</string>
+    <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">Daha hızlı yayın akışı, oyun ve indirme</string>
     <string name="upsell_panel_speed_benefit_servers">Yüksek hızlı sunucular</string>
     <string name="upsell_panel_speed_benefit_gaming">Oyun oynarken tepki süresi</string>
@@ -546,6 +569,9 @@
     <string name="upsell_panel_speed_benefit_gaming_fast">Hızlı</string>
     <string name="upsell_panel_speed_benefit_video">Takılmasız video yayın akışları</string>
     <string name="upsell_panel_speed_benefit_ads">Reklamlar ve etkinlik izleyiciler olmadan gezinin</string>
+    <string name="upsell_panel_split_tunneling_title">Hangi uygulamaların VPN kullanacağını seçin</string>
+    <string name="upsell_panel_split_tunneling_description">VPN üzerinden tarayıcınıza, onun üzerinden de bankacılık uygulamanıza erişebilirsiniz. Her uygulama için ayrı ayrı seçim yapabilirsiniz.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Ayrılmış tünelleme</string>
     <string name="upsell_panel_streaming_title">Sevdiğiniz dijital yayın akışı hizmetlerini izleyin</string>
     <string name="upsell_panel_streaming_benefit_shows">İstediğiniz ülkedeki dizileri izleyin</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -553,6 +579,11 @@
     <string name="upsell_panel_streaming_benefit_hd">Takılmasız HD kalitesinde izleyin</string>
     <string name="upsell_panel_streaming_benefit_devices">Aynı anda bağlanabilecek aygıt sayısı</string>
     <string name="upsell_panel_streaming_footer">* Dijital yayın akışı platformu aboneliği gereklidir.</string>
+    <string name="upsell_panel_streaming_block_title">VPN engellemelerini aşmak için tarifenizi yükseltin</string>
+    <string name="upsell_panel_streaming_block_description">VPN Plus sunucuları dünyanın her yerindeki sevdiğiniz filmleri ve TV programlarını izlemenizi sağlar.</string>
+    <string name="upsell_panel_tor_title">Onion sitelerine Tor Browser olmadan erişin</string>
+    <string name="upsell_panel_tor_description">Günlük kullandığınız tarayıcıdan .onion sitelerine erişin.</string>
+    <string name="upsell_panel_tor_benefit_tor">VPN üzerinden Tor</string>
     <string name="upsell_card_countries_title">Dünya çapında kapsama</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

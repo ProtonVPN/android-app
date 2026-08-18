@@ -519,6 +519,20 @@
     <string name="upsell_panel_content_description_yes">Ja</string>
     <string name="upsell_panel_content_description_no">Nej</string>
     <string name="upsell_panel_table_header_plan_free">Gratis</string>
+    <string name="upsell_panel_general_benefit_countries">Tillgängliga länder</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_devices">Skyddade enheter</string>
+    <string name="upsell_panel_general_benefit_server">Välj din server</string>
+    <string name="upsell_panel_general_benefit_shows">Titta på dina program från vilket land som helst</string>
+    <string name="upsell_panel_general_benefit_speed">Server speed</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Högsta</string>
+    <string name="upsell_panel_adv_customization_title">Finjustera din anslutning</string>
+    <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Använd din egen DNS-tjänst</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Better connections for gaming</string>
     <!--
         %1$s - country name in nominative
 
@@ -528,17 +542,26 @@
         -->
     <string name="upsell_panel_country_title">Lås upp %1$s med VPN Plus</string>
     <string name="upsell_panel_countries_title">Lås upp alla länder med  VPN Plus</string>
-    <string name="upsell_panel_general_benefit_countries">Tillgängliga länder</string>
-    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Välj din plats</string>
     <string name="upsell_panel_country_benefit_speed">Höghastighetsservrar</string>
     <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
+    <string name="upsell_panel_devices_title">Skydda varje enhet du äger</string>
+    <string name="upsell_panel_devices_description">Your phone, laptop, TV, and everything in between.</string>
     <string name="upsell_panel_netshield_title">Surfa utan avbrott</string>
     <string name="upsell_panel_netshield_benefit_ads">Annonser blockeras medan du surfar</string>
     <string name="upsell_panel_netshield_benefit_trackers">Stoppa spårare från att följa dig</string>
     <string name="upsell_panel_netshield_benefit_malware">Skydd mot skadlig kod och nätfiske</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Sidor laddas snabbare </string>
+    <string name="upsell_panel_p2p_title">Nedladdningar i full hastighet</string>
+    <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
+    <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
+    <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Sparade profiler</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Obegränsat</string>
+    <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
+    <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
+    <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">Streama, spela och ladda ner snabbare</string>
     <string name="upsell_panel_speed_benefit_servers">Höghastighetsservrar</string>
     <string name="upsell_panel_speed_benefit_gaming">Svarstid under spel</string>
@@ -546,6 +569,9 @@
     <string name="upsell_panel_speed_benefit_gaming_fast">Snabb</string>
     <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
     <string name="upsell_panel_speed_benefit_ads">Surfa utan annonser eller spårare</string>
+    <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
+    <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
     <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
     <string name="upsell_panel_streaming_benefit_shows">Titta på dina program från vilket land som helst</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -553,6 +579,11 @@
     <string name="upsell_panel_streaming_benefit_hd">Streama i HD utan buffring</string>
     <string name="upsell_panel_streaming_benefit_devices">Enheter anslutna samtidigt</string>
     <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
+    <string name="upsell_panel_streaming_block_title">Uppgradera för att kringgå VPN-blockeringar</string>
+    <string name="upsell_panel_streaming_block_description">VPN Plus-servrar låter dig njuta av dina favoritfilmer och TV-program från hela världen.</string>
+    <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
+    <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor över VPN</string>
     <string name="upsell_card_countries_title">Världsomspännande täckning</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

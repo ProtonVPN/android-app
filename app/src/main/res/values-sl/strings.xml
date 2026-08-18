@@ -550,6 +550,20 @@
     <string name="upsell_panel_content_description_yes">Da</string>
     <string name="upsell_panel_content_description_no">Ne</string>
     <string name="upsell_panel_table_header_plan_free">Brezplačno</string>
+    <string name="upsell_panel_general_benefit_countries">Razpoložljive države</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_devices">Zaščitene naprave</string>
+    <string name="upsell_panel_general_benefit_server">Izberite svoj strežnik</string>
+    <string name="upsell_panel_general_benefit_shows">Glejte svoje serije iz katere koli države</string>
+    <string name="upsell_panel_general_benefit_speed">Hitrost strežnika</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Standardno</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Najvišja</string>
+    <string name="upsell_panel_adv_customization_title">Natančno prilagodite povezavo</string>
+    <string name="upsell_panel_adv_customization_description">Omogočite povezave prek lokalnega omrežja (LAN), nastavite lastni DNS in izberite vrsto NAT. V paketu Plus so vključene vse napredne nastavitve.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Dostop do tiskalnikov in ostalih domačih naprav</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Uporabite lastno storitev DNS</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Boljše povezave za igranje</string>
     <!--
         %1$s - country name in nominative
 
@@ -559,17 +573,26 @@
         -->
     <string name="upsell_panel_country_title">Pridobite VPN Plus za dostop do: %1$s</string>
     <string name="upsell_panel_countries_title">Odklenite vse države s storitvijo VPN Plus</string>
-    <string name="upsell_panel_general_benefit_countries">Razpoložljive države</string>
-    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Izberite svojo lokacijo</string>
     <string name="upsell_panel_country_benefit_speed">Hitri strežniki</string>
     <string name="upsell_panel_country_benefit_shows">Glejte oddaje, ki so na voljo le v tujini</string>
+    <string name="upsell_panel_devices_title">Zaščitite vse svoje naprave</string>
+    <string name="upsell_panel_devices_description">Od telefona do televizorja, in vse, kar je vmes.</string>
     <string name="upsell_panel_netshield_title">Brskajte brez prekinitev</string>
     <string name="upsell_panel_netshield_benefit_ads">Oglasi blokirani med brskanjem</string>
     <string name="upsell_panel_netshield_benefit_trackers">Preprečite sledilcem, da bi vam sledili</string>
     <string name="upsell_panel_netshield_benefit_malware">Zaščita pred zlonamerno programsko opremo in lažnim predstavljanjem</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Strani se nalagajo hitreje </string>
+    <string name="upsell_panel_p2p_title">Prenosi s polno hitrostjo</string>
+    <string name="upsell_panel_p2p_description">Strežniki, namenjeni za izmenjavo datotek z uporabo običajnega torrent odjemalca.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">Izmenjava datotek P2P</string>
+    <string name="upsell_panel_profiles_title">Pretakanje, igranje iger, delo: vsaka dejavnost ima svoj profil</string>
+    <string name="upsell_panel_profiles_description">Shranite nastavitve povezav in se znova povežite z enim klikom.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Shranjeni profili</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Neomejeno</string>
+    <string name="upsell_panel_secure_core_title">Dve plasti šifriranja med vami in spletom</string>
+    <string name="upsell_panel_secure_core_description">Preden je povezava usmerjena v izbrano državo, gre prek strežnika Proton v Švici, na Islandiji ali Švedskem.</string>
+    <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">Hitrejše pretakanje vsebin, igranje iger in prenašanje datotek</string>
     <string name="upsell_panel_speed_benefit_servers">Hitri strežniki</string>
     <string name="upsell_panel_speed_benefit_gaming">Odzivni čas med igranjem iger</string>
@@ -577,6 +600,9 @@
     <string name="upsell_panel_speed_benefit_gaming_fast">Hiter</string>
     <string name="upsell_panel_speed_benefit_video">Pretočne video vsebine brez čakanja</string>
     <string name="upsell_panel_speed_benefit_ads">Brskajte brez oglasov in sledilnikov</string>
+    <string name="upsell_panel_split_tunneling_title">Izberite, katere aplikacije lahko uporabijo VPN</string>
+    <string name="upsell_panel_split_tunneling_description">Vaš brskalnik upirabi VPN, vaša bančna aplikacija za zaobide. Vi določite, za vsako aplikacijo posebej.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Razdeljeno tuneliranje</string>
     <string name="upsell_panel_streaming_title">Glejte svoje priljubljene storitve za pretočno predvajanje</string>
     <string name="upsell_panel_streaming_benefit_shows">Glejte svoje serije iz katere koli države</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -584,6 +610,11 @@
     <string name="upsell_panel_streaming_benefit_hd">Glejte v HD ločljivosti brez čakanja na nalaganje</string>
     <string name="upsell_panel_streaming_benefit_devices">Naprave, ki so hkrati povezane</string>
     <string name="upsell_panel_streaming_footer">* Potrebna je naročnina na platformo za pretočno predvajanje.</string>
+    <string name="upsell_panel_streaming_block_title">Nadgradite, da obidete blokade VPN</string>
+    <string name="upsell_panel_streaming_block_description">Strežniki VPN Plus vam omogočajo uživanje v vaših najljubših filmih in TV-oddajah z vsega sveta.</string>
+    <string name="upsell_panel_tor_title">Spletne strani \"Onion\", brez potrebe po brskalniku Tor</string>
+    <string name="upsell_panel_tor_description">Dostop do .onion strani v brskalniku, katerega običajno uporabljate.</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor preko VPN</string>
     <string name="upsell_card_countries_title">Pokritost po vsem svetu</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

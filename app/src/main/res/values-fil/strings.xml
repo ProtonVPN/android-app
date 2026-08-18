@@ -519,6 +519,20 @@
     <string name="upsell_panel_content_description_yes">Yes</string>
     <string name="upsell_panel_content_description_no">No</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_devices">Protected devices</string>
+    <string name="upsell_panel_general_benefit_server">Choose your server</string>
+    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_general_benefit_speed">Server speed</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
+    <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
+    <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Use your own DNS service</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Better connections for gaming</string>
     <!--
         %1$s - country name in nominative
 
@@ -528,17 +542,26 @@
         -->
     <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
     <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
-    <string name="upsell_panel_general_benefit_countries">Available countries</string>
-    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Choose your location</string>
     <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
     <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
+    <string name="upsell_panel_devices_title">Protect every device you own</string>
+    <string name="upsell_panel_devices_description">Your phone, laptop, TV, and everything in between.</string>
     <string name="upsell_panel_netshield_title">Browse without interruptions</string>
     <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
     <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
     <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
+    <string name="upsell_panel_p2p_title">Downloads at full speed</string>
+    <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
+    <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
+    <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Saved profiles</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
+    <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
+    <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
+    <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
     <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
     <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
@@ -546,6 +569,9 @@
     <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
     <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
     <string name="upsell_panel_speed_benefit_ads">Browse without ads or trackers</string>
+    <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
+    <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
     <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
     <string name="upsell_panel_streaming_benefit_shows">Watch your shows from any country</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -553,6 +579,11 @@
     <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
     <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
     <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
+    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
+    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
+    <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
     <string name="upsell_card_countries_title">Pandaigdigang coverage</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

@@ -534,6 +534,20 @@
     <string name="upsell_panel_content_description_yes">Da</string>
     <string name="upsell_panel_content_description_no">Nu</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_countries">Țări disponibile</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_general_benefit_countries_rounded">peste %1$d</string>
+    <string name="upsell_panel_general_benefit_devices">Dispozitive protejate</string>
+    <string name="upsell_panel_general_benefit_server">Alegeți-vă serverul</string>
+    <string name="upsell_panel_general_benefit_shows">Vizionați emisiunile favorite din orice țară</string>
+    <string name="upsell_panel_general_benefit_speed">Viteză server</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Maximă</string>
+    <string name="upsell_panel_adv_customization_title">Ajustați-vă conexiunea</string>
+    <string name="upsell_panel_adv_customization_description">Permiteți conexiuni LAN, setați un DNS personal și alegeți tipul de NAT. Controalele avansate, toate în planul Plus.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Accesați imprimanta și dispozitivele locale</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Folosiți propriul serviciu de DNS</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Conexiune mai bună pentru jocuri</string>
     <!--
         %1$s - country name in nominative
 
@@ -543,17 +557,26 @@
         -->
     <string name="upsell_panel_country_title">Deblocați %1$s cu VPN Plus</string>
     <string name="upsell_panel_countries_title">Deblocați toate țările cu VPN Plus</string>
-    <string name="upsell_panel_general_benefit_countries">Țări disponibile</string>
-    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_general_benefit_countries_rounded">peste %1$d</string>
     <string name="upsell_panel_country_benefit_choice">Alegeți orice țară</string>
     <string name="upsell_panel_country_benefit_speed">Servere de mare viteză</string>
     <string name="upsell_panel_country_benefit_shows">Vizionați emisiuni disponibile doar în afara țării</string>
+    <string name="upsell_panel_devices_title">Protejați fiecare dispozitiv deținut</string>
+    <string name="upsell_panel_devices_description">Telefonul, laptop-ul, TV-ul și orice altceva asemănător.</string>
     <string name="upsell_panel_netshield_title">Navigare fără întreruperi</string>
     <string name="upsell_panel_netshield_benefit_ads">Blocare reclame în timp ce navigați</string>
     <string name="upsell_panel_netshield_benefit_trackers">Oprire instrumente de urmărire care vă monitorizează</string>
     <string name="upsell_panel_netshield_benefit_malware">Protecție împotriva programelor malițioase și a înșelăciunilor</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Paginile se încarcă mai repede</string>
+    <string name="upsell_panel_p2p_title">Descărcări cu viteză maximă</string>
+    <string name="upsell_panel_p2p_description">Servere construite pentru partajarea fișierelor, cu clientul torrent obișnuit.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">Partajare fișiere P2P</string>
+    <string name="upsell_panel_profiles_title">Transmisii în flux, jocuri, muncă: câte un profil pentru fiecare</string>
+    <string name="upsell_panel_profiles_description">Configurați-vă conexiunile în felul propriu, apoi reconectați-vă la oricare dintre ele cu o singură atingere.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Profiluri salvate</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Nelimitate</string>
+    <string name="upsell_panel_secure_core_title">Două straturi de criptare între dvs. și web</string>
+    <string name="upsell_panel_secure_core_description">Direcționat printr-un server Proton din Elveția, Islanda sau Suedia înainte de țara aleasă.</string>
+    <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">Vizionați, jucați și descărcați mai repede</string>
     <string name="upsell_panel_speed_benefit_servers">Servere de mare viteză</string>
     <string name="upsell_panel_speed_benefit_gaming">Timp de răspuns rapid în jocuri</string>
@@ -561,6 +584,9 @@
     <string name="upsell_panel_speed_benefit_gaming_fast">Mic</string>
     <string name="upsell_panel_speed_benefit_video">Vizionare videoclipuri fără sacadare</string>
     <string name="upsell_panel_speed_benefit_ads">Navigare fără reclame sau instrumente de urmărire</string>
+    <string name="upsell_panel_split_tunneling_title">Alegeți care aplicații trec prin VPN</string>
+    <string name="upsell_panel_split_tunneling_description">Navigatorul web prin VPN, aplicația bancară în afara sa. Puteți alege, aplicație cu aplicație.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Divizare trafic</string>
     <string name="upsell_panel_streaming_title">Vizionați serviciile de transmisie în flux favorite</string>
     <string name="upsell_panel_streaming_benefit_shows">Vizionați emisiunile favorite din orice țară</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -568,6 +594,11 @@
     <string name="upsell_panel_streaming_benefit_hd">Vizionați în HD fără sacadare</string>
     <string name="upsell_panel_streaming_benefit_devices">Dispozitive conectate simultan</string>
     <string name="upsell_panel_streaming_footer">* Necesită un abonament la platforma de transmisie în flux.</string>
+    <string name="upsell_panel_streaming_block_title">Treceți la un plan cu plată pentru a ocoli blocările prin VPN</string>
+    <string name="upsell_panel_streaming_block_description">Serverele VPN Plus vă permit să vă bucurați de filmele și serialele preferate din întreaga lume.</string>
+    <string name="upsell_panel_tor_title">Site-uri Onion, fără a fi nevoie de navigator web Tor</string>
+    <string name="upsell_panel_tor_description">Accesați site-urile .onion în navigatorul web pe care îl utilizați deja.</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor prin VPN</string>
     <string name="upsell_card_countries_title">Acoperire mondială</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

@@ -549,6 +549,20 @@
     <string name="upsell_panel_content_description_yes">Áno</string>
     <string name="upsell_panel_content_description_no">Nie</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_countries">Dostupné krajiny</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_devices">Chránené zariadenia</string>
+    <string name="upsell_panel_general_benefit_server">Vyberte váš server</string>
+    <string name="upsell_panel_general_benefit_shows">Sledujte svoje seriály z akejkoľvek krajiny</string>
+    <string name="upsell_panel_general_benefit_speed">Rýchlosť servera</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Štandardná</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Najvyššia</string>
+    <string name="upsell_panel_adv_customization_title">Vylepšite si pripojenie</string>
+    <string name="upsell_panel_adv_customization_description">Povoľte pripojenia cez LAN, nastavte vlastnú DNS a vyberte typ NAT. Pokročilé nastavenia sú k dispozícii výhradne vo verzii Plus.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Pripojte sa k tlačiarni a domácim zariadeniam</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Použite vlastnú DNS službu</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Lepšie pripojenie pre hranie hier</string>
     <!--
         %1$s - country name in nominative
 
@@ -558,17 +572,26 @@
         -->
     <string name="upsell_panel_country_title">Odomknite %1$s s VPN Plus</string>
     <string name="upsell_panel_countries_title">Odomknite všetky krajiny s VPN Plus</string>
-    <string name="upsell_panel_general_benefit_countries">Dostupné krajiny</string>
-    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_country_benefit_choice">Vyberte vašu lokalitu</string>
     <string name="upsell_panel_country_benefit_speed">Vysokorýchlostné servery</string>
     <string name="upsell_panel_country_benefit_shows">Pozerajte seriály dostupné len v zahraničí</string>
+    <string name="upsell_panel_devices_title">Chráňte každé zariadenie, ktoré vlastníte</string>
+    <string name="upsell_panel_devices_description">Váš telefón, notebook, televízor a všetko medzi tým.</string>
     <string name="upsell_panel_netshield_title">Surfujte bez prerušení</string>
     <string name="upsell_panel_netshield_benefit_ads">Reklamy sú počas prehliadania blokované</string>
     <string name="upsell_panel_netshield_benefit_trackers">Zabráňte sledovacím nástrojom, aby vás sledovali</string>
     <string name="upsell_panel_netshield_benefit_malware">Ochrana pred malvérom a phishingom</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Stránky sa načítajú rýchlejšie </string>
+    <string name="upsell_panel_p2p_title">Sťahovanie v plnej rýchlosti</string>
+    <string name="upsell_panel_p2p_description">Servery určené na zdieľanie súborov prostredníctvom vášho obvyklého torrentového klienta.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">P2P zdieľanie súborov</string>
+    <string name="upsell_panel_profiles_title">Streamovanie, hranie hier, práca: profil pre každú z týchto činností</string>
+    <string name="upsell_panel_profiles_description">Nastavte si pripojenia podľa vlastných predstáv a potom sa ku ktorémukoľvek z nich pripojte jedným ťuknutím.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Uložené profily</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Bez obmedzenia</string>
+    <string name="upsell_panel_secure_core_title">Dve vrstvy šifrovania medzi vami a internetom</string>
+    <string name="upsell_panel_secure_core_description">Smerované cez server Proton vo Švajčiarsku, na Islande alebo vo Švédsku pred vašou zvolenou krajinou.</string>
+    <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">Rýchlejšie streamovanie, hranie a sťahovanie</string>
     <string name="upsell_panel_speed_benefit_servers">Vysokorýchlostné servery</string>
     <string name="upsell_panel_speed_benefit_gaming">Doba odozvy pri hraní hier</string>
@@ -576,6 +599,9 @@
     <string name="upsell_panel_speed_benefit_gaming_fast">Rýchla</string>
     <string name="upsell_panel_speed_benefit_video">Streamovanie videa bez bufferingu</string>
     <string name="upsell_panel_speed_benefit_ads">Surfujte bez reklám a sledovacích nástrojov</string>
+    <string name="upsell_panel_split_tunneling_title">Vyberte aplikácie, ktoré budú používať VPN</string>
+    <string name="upsell_panel_split_tunneling_description">Prehliadač cez VPN, vaša banková aplikácia mimo nej. Rozhodnete sa sami, aplikáciu po aplikácii.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Delené tunelovanie</string>
     <string name="upsell_panel_streaming_title">Sledujte svoje obľúbené streamovacie služby</string>
     <string name="upsell_panel_streaming_benefit_shows">Sledujte svoje seriály z akejkoľvek krajiny</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -583,6 +609,11 @@
     <string name="upsell_panel_streaming_benefit_hd">Streaming v HD bez bufferingu</string>
     <string name="upsell_panel_streaming_benefit_devices">zaradení pripojených súčasne</string>
     <string name="upsell_panel_streaming_footer">* Je potrebné predplatné streamovacej platformy.</string>
+    <string name="upsell_panel_streaming_block_title">Zvýšte úroveň na obídenie blokovania VPN</string>
+    <string name="upsell_panel_streaming_block_description">Servery VPN Plus vám umožňujú vychutnávať si vaše obľúbené filmy a televízne programy z celého sveta.</string>
+    <string name="upsell_panel_tor_title">Onionové weby bez potreby Tor prehliadača</string>
+    <string name="upsell_panel_tor_description">Prístup k stránkam s koncovkou .onion môžete získať v prehliadači, ktorý už používate.</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor cez VPN</string>
     <string name="upsell_card_countries_title">Celosvetové pokrytie</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
