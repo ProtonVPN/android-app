@@ -22,14 +22,16 @@ package com.protonvpn.android.ui.planupgrade.usecase
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.toPaymentCycle
+import com.protonvpn.android.ui.planupgrade.toPaymentRecurrence
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.utils.ifOrNull
 import dagger.Reusable
 import kotlinx.serialization.Serializable
 import me.proton.android.payment.common.model.ProductId
-import me.proton.android.payment.product.model.BillingCycle
 import me.proton.android.payment.product.model.Offer
 import me.proton.android.payment.product.model.OfferTag
 import me.proton.android.payment.product.model.Product
@@ -58,7 +60,7 @@ sealed interface LoadPlansConfig {
     @Serializable
     data class WithOptionalDiscount(
         val planNames: List<String>,
-        val planCycles: List<PlanCycle>,
+        val paymentCycles: List<PaymentCycle>,
         val discountOfferTag: String,
     ) : LoadPlansConfig
 
@@ -67,7 +69,7 @@ sealed interface LoadPlansConfig {
     @Serializable
     data class WithOfferTagAndFilter(
         val planNames: List<String>,
-        val planCycles: List<PlanCycle>,
+        val paymentCycles: List<PaymentCycle>,
         val offerTag: String,
     ) : LoadPlansConfig
 
@@ -110,10 +112,10 @@ class LoadSubscriptionPlans @Inject constructor(
                         ?.let { offerWithTag ->
                             val baseOffer = offerWithTag as? Offer.NonDiscounted
                                 ?: product.offers.filterIsInstance<Offer.NonDiscounted>().firstOrNull()
-                            val planCycle = offerWithTag.pricingPeriods.firstOrNull()?.cycle?.toPlanCycle()
-                            if (planCycle == null || baseOffer == null) // Should not happen.
+                            val paymentCycle = offerWithTag.pricingPeriods.firstOrNull()?.cycle?.toPaymentCycle()
+                            if (paymentCycle == null || baseOffer == null) // Should not happen.
                                 return@ifOrNull null
-                            ifOrNull(planCycle in selection.planCycles) {
+                            ifOrNull(paymentCycle in selection.paymentCycles) {
                                 OfferInfo(offerWithTag, baseOffer)
                             }
                         }
@@ -127,10 +129,10 @@ class LoadSubscriptionPlans @Inject constructor(
                         .filterIsInstance<Offer.Discounted>()
                         .find { it.tags.contains(selection.discountOfferTag) }
                     val currentOffer = discountedOffer ?: baseOffer
-                    val planCycle = currentOffer?.pricingPeriods?.firstOrNull()?.cycle?.toPlanCycle()
-                    if (planCycle == null || baseOffer == null) // Should not happen.
+                    val paymentCycle = currentOffer?.pricingPeriods?.firstOrNull()?.cycle?.toPaymentCycle()
+                    if (paymentCycle == null || baseOffer == null) // Should not happen.
                         return@ifOrNull null
-                    ifOrNull(planCycle in selection.planCycles) {
+                    ifOrNull(paymentCycle in selection.paymentCycles) {
                         OfferInfo(discountedOffer ?: baseOffer, baseOffer)
                     }
                 }
@@ -189,7 +191,10 @@ class LoadSubscriptionPlans @Inject constructor(
         val offer = offerInfo.offer
         val purchasePeriod = offer.pricingPeriods.first()
         val renewPeriod = offerInfo.baseOffer.pricingPeriods.first()
-        val planCycle = purchasePeriod.cycle.toPlanCycle()
+        val planCycle = PlanCycle(
+            purchasePeriod.cycle.toPaymentCycle(),
+            purchasePeriod.recurrence.toPaymentRecurrence()
+        )
         logDebug("Product: $productId $planCycle, purchase offer: ${offer.tags} ${purchasePeriod}, renew offer: $renewPeriod")
         logDebug("Purchase offer phases: ${offer.pricingPeriods}")
         return CycleInfo(
@@ -202,19 +207,8 @@ class LoadSubscriptionPlans @Inject constructor(
         )
     }
 
-    private fun BillingCycle.toPlanCycle(): PlanCycle = when(this) {
-        is BillingCycle.Month if count == 1 -> PlanCycle.MONTHLY
-        is BillingCycle.Year if count == 1 -> PlanCycle.YEARLY
-        is BillingCycle.Year if count == 2 -> PlanCycle.TWO_YEARS
-        else -> PlanCycle.OTHER
-    }
-
     private fun logDebug(message: String) {
         ProtonLogger.logCustom(LogLevel.DEBUG, LogCategory.IN_APP_PURCHASE, message)
-    }
-
-    private fun logWarning(message: String) {
-        ProtonLogger.logCustom(LogLevel.WARN, LogCategory.IN_APP_PURCHASE, message)
     }
 
     companion object {

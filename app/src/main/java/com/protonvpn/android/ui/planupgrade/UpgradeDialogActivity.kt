@@ -352,7 +352,7 @@ class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultipleP
 
         onboardingTelemetry.onOnboardingPaymentSuccess(
             newPlanName = successPaymentState.newPlanName,
-            billingCycle = successPaymentState.billingCycle,
+            paymentCycle = successPaymentState.paymentCycle,
         )
     }
 
@@ -430,8 +430,8 @@ private fun PreviewCloseButtonAndPlanSelectionToolbar() {
         surfaceColor = { Color(0xFF3A51A6) }
     ) {
         val plans = listOf(
-            PlanModel("VPN Plus", "plus", "EUR", emptyList(), PlanCycle.YEARLY),
-            PlanModel("Proton Unlimited", "bundle", "EUR", emptyList(), PlanCycle.YEARLY),
+            PlanModel("VPN Plus", "plus", "EUR", emptyList(), PaymentCycle.Year(1)),
+            PlanModel("Proton Unlimited", "bundle", "EUR", emptyList(), PaymentCycle.Year(1)),
         )
         CloseButtonAndPlanSelectionToolbar(
             allPlans = plans,

@@ -649,10 +649,6 @@
     <string name="payment_price_with_period">%1$s /%2$s</string>
     <string name="payment_price_per_month">μήνας</string>
     <string name="payment_price_per_year">έτος</string>
-    <string name="payment_price_per_2years">2 έτη</string>
-    <string name="payment_price_cycle_month_label">1 μήνας</string>
-    <string name="payment_price_cycle_year_label">1 έτος</string>
-    <string name="payment_price_cycle_2years_label">2 έτη</string>
     <string name="payment_select_your_plan">Επιλέξτε το πλάνο σας</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -660,12 +656,6 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">Αποκτήστε %1$s</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Προσφορά καλωσορίσματος. Αυτόματη ανανέωση στα %1$s/μήνα</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Προσφορά καλωσορίσματος. Αυτόματη ανανέωση στα %1$s/χρόνο</string>
-    <string name="payment_auto_renew_message_monthly">Η συνδρομή ανανεώνεται αυτόματα στα %1$s/μήνα</string>
-    <string name="payment_auto_renew_message_annual">Η συνδρομή ανανεώνεται αυτόματα στα %1$s/χρόνο</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Η τεχνολογία αυτή επιτρέπει στο Proton VPN να παρέχει υψηλότερες ταχύτητες Internet και ασφάλεια σε χώρες με δυσκολίες στην παροχή του.</string>
     <string name="tor_title">Tor</string>

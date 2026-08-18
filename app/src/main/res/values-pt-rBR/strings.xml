@@ -649,10 +649,6 @@
     <string name="payment_price_with_period">%1$s / %2$s</string>
     <string name="payment_price_per_month">mês</string>
     <string name="payment_price_per_year">ano</string>
-    <string name="payment_price_per_2years">2 anos</string>
-    <string name="payment_price_cycle_month_label">1 mês</string>
-    <string name="payment_price_cycle_year_label">1 ano</string>
-    <string name="payment_price_cycle_2years_label">2 anos</string>
     <string name="payment_select_your_plan">Selecione seu plano</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -660,12 +656,6 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">Obter %1$s</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Oferta de boas-vindas. Renovação automática por %1$s/mês</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Oferta de boas-vindas. Renovação automática por %1$s/ano</string>
-    <string name="payment_auto_renew_message_monthly">A assinatura é renovada automaticamente por %1$s/mês</string>
-    <string name="payment_auto_renew_message_annual">A assinatura é renovada automaticamente por %1$s/ano</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Essa tecnologia permite que o Proton VPN forneça maior velocidade e segurança em países de difícil atendimento.</string>
     <string name="tor_title">Tor</string>

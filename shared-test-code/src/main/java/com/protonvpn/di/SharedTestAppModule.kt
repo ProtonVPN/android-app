@@ -83,16 +83,6 @@ import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asExecutor
-import me.proton.android.payment.product.fake.FakeGetProducts
-import me.proton.android.payment.product.usecase.GetProducts
-import me.proton.android.payment.purchase.fake.FakeObserveSessionState
-import me.proton.android.payment.purchase.fake.FakePurchaseProduct
-import me.proton.android.payment.purchase.fake.FakeResolveUnredeemedPurchases
-import me.proton.android.payment.purchase.usecase.ObserveSessionState
-import me.proton.android.payment.purchase.usecase.PurchaseProduct
-import me.proton.android.payment.purchase.usecase.ResolveUnredeemedPurchases
-import me.proton.android.payment.subscription.fake.FakeGetSubscriptions
-import me.proton.android.payment.subscription.usecase.GetSubscriptions
 import me.proton.core.configuration.EnvironmentConfiguration
 import me.proton.core.network.data.di.AlternativeApiPins
 import me.proton.core.network.data.di.BaseProtonApiUrl

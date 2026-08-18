@@ -198,7 +198,7 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
     private fun afterPaymentSuccess(successPaymentState: UpgradeDialogViewModel.State.PurchaseSuccess) {
         onboardingTelemetry.get().onOnboardingPaymentSuccess(
             newPlanName = successPaymentState.newPlanName,
-            billingCycle = successPaymentState.billingCycle,
+            paymentCycle = successPaymentState.paymentCycle,
         )
     }
 

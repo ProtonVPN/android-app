@@ -633,10 +633,6 @@
     <string name="payment_price_with_period">%1$s / %2$s</string>
     <string name="payment_price_per_month">月</string>
     <string name="payment_price_per_year">年</string>
-    <string name="payment_price_per_2years">2 年</string>
-    <string name="payment_price_cycle_month_label">1 個月</string>
-    <string name="payment_price_cycle_year_label">1年</string>
-    <string name="payment_price_cycle_2years_label">2年</string>
     <string name="payment_select_your_plan">選擇你的方案</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -644,12 +640,6 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">選用 %1$s</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">迎新優惠。以 %1$s/月自動續期</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">迎新優惠。以 %1$s/年自動續期</string>
-    <string name="payment_auto_renew_message_monthly">訂閱以 %1$s/月自動續期</string>
-    <string name="payment_auto_renew_message_annual">訂閱以 %1$s/年自動續期</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">這項技術讓 Proton VPN 可在難以提供服務的國家提供較高的速度與安全性。</string>
     <string name="tor_title">洋蔥路由器</string>

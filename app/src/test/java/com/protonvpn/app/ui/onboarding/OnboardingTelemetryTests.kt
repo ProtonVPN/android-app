@@ -32,6 +32,7 @@ import com.protonvpn.android.telemetry.onboarding.OnboardingTelemetry
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -145,7 +146,7 @@ class OnboardingTelemetryTests {
     @Test
     fun `payment_done reported`() = testScope.runTest {
         val telemetry = createTelemetry()
-        telemetry.onOnboardingPaymentSuccess(newPlanName = "new plan", billingCycle = 1)
+        telemetry.onOnboardingPaymentSuccess(newPlanName = "new plan", PaymentCycle.Month(1))
         runCurrent()
 
         val expectedDimensions = mapOf(
@@ -180,7 +181,7 @@ class OnboardingTelemetryTests {
         testUserProvider.vpnUser = TestUser.freeUser.vpnUser
         testUserProvider.user = createAccountUser()
         runCurrent()
-        telemetry.onOnboardingPaymentSuccess(newPlanName = "vpnPlus", billingCycle = 12)
+        telemetry.onOnboardingPaymentSuccess(newPlanName = "vpnPlus", PaymentCycle.Year(1))
         runCurrent()
 
         verify(exactly = 1) {

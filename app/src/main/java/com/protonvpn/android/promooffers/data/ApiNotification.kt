@@ -19,7 +19,9 @@
 package com.protonvpn.android.promooffers.data
 
 import com.protonvpn.android.BuildConfig
-import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
+import com.protonvpn.android.ui.planupgrade.parsePaymentCycle
+import com.protonvpn.android.ui.planupgrade.toISO8601
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -121,7 +123,7 @@ data class ApiNotificationProminentBanner(
 @Serializable
 data class ApiNotificationIapAction(
     val planName: String,
-    val cycle: PlanCycle,
+    val cycle: PaymentCycle,
     val offerTag: String,
     val currency: String?,
     val priceCents: Int?,
@@ -134,8 +136,8 @@ data class ApiNotificationProductDetails(
 
 @Serializable
 data class ApiNotificationProductDetailsGoogle(
-    @Serializable(StringToPlanCycleSerializer::class)
-    @SerialName("PreselectedCycle") val preselectedCycle: PlanCycle? = null,
+    @Serializable(StringToPaymentCycleSerializer::class)
+    @SerialName("PreselectedCycle") val preselectedCycle: PaymentCycle? = null,
     @SerialName("OfferTag") val offerTag: String? = null,
 )
 
@@ -164,25 +166,14 @@ data class ApiNotificationOfferImageSource(
     @SerialName("Width") val width: Int? = null
 )
 
-private class StringToPlanCycleSerializer : KSerializer<PlanCycle> {
+private class StringToPaymentCycleSerializer : KSerializer<PaymentCycle> {
     override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor(StringToPlanCycleSerializer::class.qualifiedName!!, PrimitiveKind.STRING)
+        PrimitiveSerialDescriptor(StringToPaymentCycleSerializer::class.qualifiedName!!, PrimitiveKind.STRING)
 
-    override fun serialize(encoder: Encoder, value: PlanCycle) {
-        val encodedName = when (value) {
-            PlanCycle.MONTHLY -> "monthly"
-            PlanCycle.YEARLY -> "yearly"
-            else -> throw IllegalArgumentException("Unsupported cycle $value")
-        }
-        encoder.encodeString(encodedName)
+    override fun serialize(encoder: Encoder, value: PaymentCycle) {
+        encoder.encodeString(value.toISO8601())
     }
 
-    override fun deserialize(decoder: Decoder): PlanCycle {
-        val decodedName = decoder.decodeString()
-        return when (decodedName.lowercase()) {
-            "monthly" -> PlanCycle.MONTHLY
-            "yearly" -> PlanCycle.YEARLY
-            else -> throw IllegalArgumentException("Unknown cycle $decodedName")
-        }
-    }
+    override fun deserialize(decoder: Decoder): PaymentCycle =
+        decoder.decodeString().parsePaymentCycle()
 }

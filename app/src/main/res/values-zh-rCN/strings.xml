@@ -633,10 +633,6 @@
     <string name="payment_price_with_period">%1$s /%2$s</string>
     <string name="payment_price_per_month">月</string>
     <string name="payment_price_per_year">年</string>
-    <string name="payment_price_per_2years">2 年</string>
-    <string name="payment_price_cycle_month_label">1 个月</string>
-    <string name="payment_price_cycle_year_label">1 年</string>
-    <string name="payment_price_cycle_2years_label">2 年</string>
     <string name="payment_select_your_plan">选择套餐</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -644,12 +640,6 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">开通 %1$s</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">新人特惠。自动续订 %1$s/月</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">新人特惠。自动续订 %1$s/年</string>
-    <string name="payment_auto_renew_message_monthly">订阅自动续订，每月 %1$s</string>
-    <string name="payment_auto_renew_message_annual">订阅自动续订，每年 %1$s</string>
     <string name="smart_routing_title">智能路由</string>
     <string name="smart_routing_description">这项技术让 Proton VPN 在难以服务的地域更快更安全。</string>
     <string name="tor_title">Tor</string>

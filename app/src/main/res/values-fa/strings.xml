@@ -649,10 +649,6 @@
     <string name="payment_price_with_period">%1$s /%2$s</string>
     <string name="payment_price_per_month">ماه</string>
     <string name="payment_price_per_year">سال</string>
-    <string name="payment_price_per_2years">۲ سال</string>
-    <string name="payment_price_cycle_month_label">۱ ماه</string>
-    <string name="payment_price_cycle_year_label">۱ سال</string>
-    <string name="payment_price_cycle_2years_label">۲ سال</string>
     <string name="payment_select_your_plan">اشتراکتان را انتخاب کنید</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -660,12 +656,6 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">دریافت %1$s</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">اشتراک به‌صورت خودکار با مبلغ %1$s در سال تمدید می‌شود</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">این فناوری به Proton VPN اجازه می‌دهد تا در کشورهایی که ارائهٔ خدمات در آن‌ها دشوار است، سرعت و امنیت بالاتری را ارائه کند.</string>
     <string name="tor_title">Tor</string>

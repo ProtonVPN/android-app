@@ -20,7 +20,7 @@
 package com.protonvpn.test.shared
 
 import com.protonvpn.android.ui.planupgrade.IapConstants
-import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import me.proton.android.payment.common.model.Money
 import me.proton.android.payment.product.model.BillingCycle
 import me.proton.android.payment.product.model.BillingRecurrence
@@ -31,7 +31,7 @@ import me.proton.android.payment.product.sampledata.ProductSampleData
 fun createProduct(
     id: String,
     planName: String,
-    offers: List<Offer> = listOf(createOffer(PlanCycle.MONTHLY, listOf(99))),
+    offers: List<Offer> = listOf(createOffer(PaymentCycle.Month(1), listOf(99))),
 ) = ProductSampleData.create(
     id = id,
     planId = planName,
@@ -39,21 +39,29 @@ fun createProduct(
 )
 
 fun createOffersWithDiscount(
-    planCycle: PlanCycle,
+    paymentCycle: PaymentCycle,
     discountPriceCents: Int,
     basePriceCents: Int,
     currency: String = "EUR",
     discountTag: String = IapConstants.INTRO_PRICE_TAG,
+    offerCycleCount: Int = 1,
 ) = listOf(
-    createOffer(planCycle, listOf(discountPriceCents, basePriceCents), currency, listOf(discountTag)),
-    createOffer(planCycle, listOf(basePriceCents), currency, emptyList())
+    createOffer(
+        paymentCycle = paymentCycle,
+        pricesCents = listOf(discountPriceCents, basePriceCents),
+        currency = currency,
+        tags = listOf(discountTag),
+        offerCycleCount = offerCycleCount
+    ),
+    createOffer(paymentCycle, listOf(basePriceCents), currency, emptyList())
 )
 
 fun createOffer(
-    planCycle: PlanCycle,
+    paymentCycle: PaymentCycle,
     pricesCents: List<Int>,
     currency: String = "EUR",
     tags: List<String>? = null,
+    offerCycleCount: Int = 1,
     token: String = "dummy-token"
 ): Offer {
     val hasIntroPrice = pricesCents.size > 1
@@ -62,11 +70,11 @@ fun createOffer(
         hasIntroPrice -> listOf(IapConstants.INTRO_PRICE_TAG)
         else -> emptyList()
     }
-    val billingCycle = when (planCycle) {
-        PlanCycle.MONTHLY -> BillingCycle.Month(1)
-        PlanCycle.YEARLY -> BillingCycle.Year(1)
-        PlanCycle.TWO_YEARS -> BillingCycle.Year(2)
-        PlanCycle.OTHER -> throw IllegalArgumentException()
+    val billingCycle = when (paymentCycle) {
+        is PaymentCycle.Day -> BillingCycle.Day(paymentCycle.count)
+        is PaymentCycle.Week -> BillingCycle.Week(paymentCycle.count)
+        is PaymentCycle.Month -> BillingCycle.Month(paymentCycle.count)
+        is PaymentCycle.Year -> BillingCycle.Year(paymentCycle.count)
     }
     val pricingPeriods = pricesCents.mapIndexed { index, price ->
         val isLast = index == pricesCents.lastIndex
@@ -75,7 +83,7 @@ fun createOffer(
         PricingPeriodSampleData.create(
             price = Money(priceMicros, "${price.toFloat() / 100} $currency", currency),
             cycle = billingCycle,
-            recurrence = if (isLast) BillingRecurrence.Infinite else BillingRecurrence.Finite(1),
+            recurrence = if (isLast) BillingRecurrence.Infinite else BillingRecurrence.Finite(offerCycleCount),
         )
     }
     return if (hasIntroPrice) {

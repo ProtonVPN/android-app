@@ -50,6 +50,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
@@ -59,10 +60,11 @@ import com.protonvpn.android.base.ui.vpnGreen
 import com.protonvpn.android.tv.buttons.TvTextButton
 import com.protonvpn.android.tv.settings.ProtonTvFocusableSurface
 import com.protonvpn.android.tv.ui.TvSpinner
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.PricingCycleInfo
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.WithMinHeightOf
+import com.protonvpn.android.ui.planupgrade.cycleLabelStringResource
 import com.protonvpn.android.ui.planupgrade.renewInfoText
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonDimens
@@ -194,7 +196,7 @@ private fun PlanSelection(
         cycles.forEachIndexed { index, cycle ->
             PlanCycleInfoSelector(
                 onClick = { if (enabled && activity != null) { viewState.onPayClicked(activity) } },
-                onFocused = { viewState.onCycleSelected(cycle.cycle) },
+                onFocused = { viewState.onCycleSelected(cycle.cycle.paymentCycle) },
                 cycle = cycle,
                 modifier = Modifier
                     .optional({ index == 0 }, Modifier.focusRequester(focusRequester))
@@ -250,7 +252,7 @@ private fun PlanCycleInfoSelector(
     ) {
         WithMinHeightOf(
             minHeightContent = {
-                PricingCycleInfo("123", R.string.payment_price_per_year, "123") { text, style ->
+                PricingCycleInfo("123", "123") { text, style ->
                     Text(text, style = style)
                 }
             },
@@ -264,7 +266,7 @@ private fun PlanCycleInfoSelector(
 
 @Composable
 private fun PlanCycleInfo(
-    cycle: UpgradeDialogViewModel.CycleViewInfo,
+    cycleInfo: UpgradeDialogViewModel.CycleViewInfo,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -276,10 +278,10 @@ private fun PlanCycleInfo(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                stringResource(id = cycle.cycleLabelResId),
+                cycleLabelStringResource(cycleInfo.cycle.paymentCycle),
                 style = ProtonTheme.typography.body1Regular,
             )
-            cycle.priceInfo.savePercent?.let {
+            cycleInfo.priceInfo.savePercent?.let {
                 Text(
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
@@ -294,10 +296,9 @@ private fun PlanCycleInfo(
                 )
             }
         }
-        with(cycle) {
+        with(cycleInfo) {
             PricingCycleInfo(
                 priceInfo.formattedPrice,
-                perCycleResId,
                 priceInfo.formattedPerMonthPrice,
             ) { text, style -> Text(text, style = style) }
         }
@@ -310,7 +311,7 @@ private fun PlanCycleInfoSelectorPlaceholder(
 ) {
     WithMinHeightOf(
         minHeightContent = {
-            PricingCycleInfo("123", R.string.payment_price_per_year, "123") { text, style ->
+            PricingCycleInfo("123", "123") { text, style ->
                 Text(text, style = style)
             }
         },
@@ -338,6 +339,7 @@ private fun RenewInfoText(
     Text(
         text = renewInfoText,
         style = ProtonTheme.typography.captionWeak,
+        textAlign = TextAlign.Center,
         modifier = modifier
     )
 }

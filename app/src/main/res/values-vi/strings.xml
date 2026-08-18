@@ -633,10 +633,6 @@
     <string name="payment_price_with_period">%1$s/%2$s</string>
     <string name="payment_price_per_month">tháng</string>
     <string name="payment_price_per_year">năm</string>
-    <string name="payment_price_per_2years">2 năm</string>
-    <string name="payment_price_cycle_month_label">1 tháng</string>
-    <string name="payment_price_cycle_year_label">1 năm</string>
-    <string name="payment_price_cycle_2years_label">2 năm</string>
     <string name="payment_select_your_plan">Chọn gói của bạn</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -644,12 +640,6 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">Mua %1$s</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Ưu đãi chào mừng. Tự động gia hạn với mức phí %1$s/tháng</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Ưu đãi chào mừng. Tự động gia hạn ở mức %1$s/năm</string>
-    <string name="payment_auto_renew_message_monthly">Gói đăng ký tự động gia hạn với mức phí %1$s/tháng</string>
-    <string name="payment_auto_renew_message_annual">Gói đăng ký tự động gia hạn với mức phí %1$s/năm</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Công nghệ này cho phép Proton VPN cung cấp tốc độ và bảo mật cao hơn ở các quốc gia khó phục vụ.</string>
     <string name="tor_title">Tor</string>

@@ -25,9 +25,11 @@ import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.TelemetryEventData
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
+import com.protonvpn.android.telemetry.toTelemetryBillingCycleMonths
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
 import com.protonvpn.android.ui.planupgrade.BaseUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.Lazy
@@ -91,8 +93,8 @@ class OnboardingTelemetry @Inject constructor(
 
     private fun onOnboardingStart() = sendEvent(EventName.ONBOARDING_START)
 
-    fun onOnboardingPaymentSuccess(newPlanName: String, billingCycle: Int) = sendEvent(EventName.PAYMENT_DONE) {
-        getDimensions(newPlanName, billingCycle)
+    fun onOnboardingPaymentSuccess(newPlanName: String, paymentCycle: PaymentCycle?) = sendEvent(EventName.PAYMENT_DONE) {
+        getDimensions(newPlanName, paymentCycle)
     }
 
     private fun onConnectionAttempt() = sendEvent(EventName.FIRST_CONNECTION)
@@ -120,7 +122,7 @@ class OnboardingTelemetry @Inject constructor(
 
     private suspend fun getDimensions(
         selectedPlan: String? = null,
-        billingCycle: Int? = null,
+        paymentCycle: PaymentCycle? = null,
     ): Map<String, String> = buildMap {
         currentUser.vpnUser()?.planName?.let {
             put("user_plan", it)
@@ -130,8 +132,8 @@ class OnboardingTelemetry @Inject constructor(
             put("plan_selected", it)
         }
 
-        billingCycle?.let {
-            put("billing_cycle", it.toString())
+        paymentCycle?.let {
+            put("billing_cycle", it.toTelemetryBillingCycleMonths() ?: CommonDimensions.NO_VALUE)
         }
 
         commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY_LEGACY,

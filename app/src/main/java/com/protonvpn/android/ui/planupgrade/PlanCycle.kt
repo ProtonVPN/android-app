@@ -19,12 +19,80 @@
 
 package com.protonvpn.android.ui.planupgrade
 
-private const val MONTHS_YEAR = 12
-private const val MONTHS_TWO_YEARS = 24
-private const val MONTHS_UNKNOWN = Int.MIN_VALUE
+import kotlinx.serialization.Serializable
+import me.proton.android.payment.product.model.BillingCycle
+import me.proton.android.payment.product.model.BillingRecurrence
 
-enum class PlanCycle(private val value: Int) {
-    MONTHLY(1), YEARLY(MONTHS_YEAR), TWO_YEARS(MONTHS_TWO_YEARS), OTHER(MONTHS_UNKNOWN);
+@Serializable
+data class PlanCycle(
+    val paymentCycle: PaymentCycle,
+    val recurrence: PaymentRecurrence,
+)
 
-    val cycleDurationMonths: Int = value
+@Serializable
+sealed interface PaymentRecurrence {
+    @Serializable
+    object Infinite : PaymentRecurrence
+    @Serializable
+    data class Finite(val count: Int) : PaymentRecurrence
+}
+
+
+@Serializable
+sealed interface PaymentCycle {
+    val count: Int
+
+    @Serializable
+    data class Day(override val count: Int) : PaymentCycle
+    @Serializable
+    data class Week(override val count: Int) : PaymentCycle
+    @Serializable
+    data class Month(override val count: Int) : PaymentCycle
+    @Serializable
+    data class Year(override val count: Int) : PaymentCycle
+}
+
+// Used for comparisons, e.g. Week.unitOrder < Year.unitOrder.
+// Don't rely on nor store the actual values.
+fun PaymentCycle.unitOrder() = when(this) {
+    is PaymentCycle.Day -> 1
+    is PaymentCycle.Week -> 2
+    is PaymentCycle.Month -> 3
+    is PaymentCycle.Year -> 4
+}
+
+fun PaymentCycle.toISO8601() = when (this) {
+    is PaymentCycle.Day -> "P${count}D"
+    is PaymentCycle.Week -> "P${count}W"
+    is PaymentCycle.Month -> "P${count}M"
+    is PaymentCycle.Year -> "P${count}Y"
+}
+
+fun BillingCycle.toPaymentCycle(): PaymentCycle = when(this) {
+    is BillingCycle.Day -> PaymentCycle.Day(count)
+    is BillingCycle.Week -> PaymentCycle.Week(count)
+    is BillingCycle.Month -> PaymentCycle.Month(count)
+    is BillingCycle.Year -> PaymentCycle.Year(count)
+}
+
+// Very simple parsing with limited validation.
+// No regex is used as this happens early in app start.
+fun String.parsePaymentCycle(): PaymentCycle {
+    val lowercased = lowercase()
+    require(length >= 3 && lowercased.first() == 'p' && lowercased[1].isDigit())
+    val endNumberIndex = lowercased.substring(1).indexOfFirst { !it.isDigit() }
+    require(endNumberIndex > -1)
+    val count = lowercased.substring(1, endNumberIndex + 1).toInt()
+    return when (val lastChar = lowercased.last()) {
+        'd' -> PaymentCycle.Day(count)
+        'w' -> PaymentCycle.Week(count)
+        'm' -> PaymentCycle.Month(count)
+        'y' -> PaymentCycle.Year(count)
+        else -> throw IllegalArgumentException("Unknown period $lastChar")
+    }
+}
+
+fun BillingRecurrence.toPaymentRecurrence() = when (this) {
+    is BillingRecurrence.Finite -> PaymentRecurrence.Finite(count)
+    BillingRecurrence.Infinite -> PaymentRecurrence.Infinite
 }

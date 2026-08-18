@@ -22,7 +22,7 @@ package com.protonvpn.app.promooffers.usecase
 import com.protonvpn.android.promooffers.usecase.GetEligibleOffers
 import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
-import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.test.shared.InMemoryObjectStore
@@ -60,21 +60,21 @@ class GetEligibleOffersTests {
     // Monthly intro prices are all set to 500.
     private val offerVpn2022 = GetEligibleOffers.Offer(
         planName = "vpn2022",
-        cycle = PlanCycle.MONTHLY,
+        cycle = PaymentCycle.Month(1),
         currency = "PLN",
         currentPriceCents = 500,
         offerTags = listOf(IapConstants.INTRO_PRICE_TAG)
     )
     private val offerBundle2022 = GetEligibleOffers.Offer(
         planName = "bundle2022",
-        cycle = PlanCycle.MONTHLY,
+        cycle = PaymentCycle.Month(1),
         currency = "PLN",
         currentPriceCents = 500,
         offerTags = listOf(IapConstants.INTRO_PRICE_TAG)
     )
     private val offerVpn2022Custom = GetEligibleOffers.Offer(
         planName = "vpn2022",
-        cycle = PlanCycle.MONTHLY,
+        cycle = PaymentCycle.Month(1),
         currency = "PLN",
         currentPriceCents = 100,
         offerTags = listOf(customTag)
@@ -91,17 +91,17 @@ class GetEligibleOffersTests {
 
         val fakeProducts = listOf(
             createProduct(
-                id = PlanCycle.MONTHLY.toProductId(AppStore.GooglePlay, "vpn2022"),
+                id = PaymentCycle.Month(1).toProductId(AppStore.GooglePlay, "vpn2022"),
                 planName = "vpn2022",
                 offers = buildList {
-                    addAll(createOffersWithDiscount(PlanCycle.MONTHLY, 500, 1000, "PLN"))
-                    add(createOffer(PlanCycle.MONTHLY, listOf(100, 1000), "PLN", listOf(customTag)))
+                    addAll(createOffersWithDiscount(PaymentCycle.Month(1), 500, 1000, "PLN"))
+                    add(createOffer(PaymentCycle.Month(1), listOf(100, 1000), "PLN", listOf(customTag)))
                 },
             ),
             createProduct(
-                id = PlanCycle.MONTHLY.toProductId(AppStore.GooglePlay, "bundle2022"),
+                id = PaymentCycle.Month(1).toProductId(AppStore.GooglePlay, "bundle2022"),
                 planName = "bundle2022",
-                offers = createOffersWithDiscount(PlanCycle.MONTHLY, 500, 2000, "PLN"),
+                offers = createOffersWithDiscount(PaymentCycle.Month(1), 500, 2000, "PLN"),
             ),
         )
         val fakeGetProducts = FakeGetProducts().apply { setProductsToReturn(fakeProducts) }
@@ -118,7 +118,7 @@ class GetEligibleOffersTests {
 
     @Test
     fun `WHEN different plans are queried THEN they are requested from load`() = testScope.runTest {
-        val planCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
+        val planCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1))
         val loadConfigVpn2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("vpn2022"), planCycles, IapConstants.INTRO_PRICE_TAG)
         val loadConfigIntroPrice = LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG)
         assertEquals(
@@ -172,7 +172,7 @@ class GetEligibleOffersTests {
 
     @Test
     fun `WHEN 2 days pass THEN data is loaded from Google again`() = testScope.runTest {
-        val planCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
+        val planCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1))
         val loadConfigVpn2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("vpn2022"), planCycles, IapConstants.INTRO_PRICE_TAG)
         val loadConfigIntroPrice = LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG)
         getOffers(loadConfigVpn2022)

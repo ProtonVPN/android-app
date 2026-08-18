@@ -649,10 +649,6 @@
     <string name="payment_price_with_period">%1$s /%2$s</string>
     <string name="payment_price_per_month">maand</string>
     <string name="payment_price_per_year">jaar</string>
-    <string name="payment_price_per_2years">2 jaar</string>
-    <string name="payment_price_cycle_month_label">1 maand</string>
-    <string name="payment_price_cycle_year_label">1 jaar</string>
-    <string name="payment_price_cycle_2years_label">2 jaar</string>
     <string name="payment_select_your_plan">Kies uw abonnement</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -660,12 +656,6 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">Kies %1$s</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welkomstaanbod. Verlengt automatisch voor %1$s per maand</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welkomstaanbod. Verlengt automatisch voor %1$s per jaar</string>
-    <string name="payment_auto_renew_message_monthly">Abonnement wordt automatisch verlengd voor %1$s per maand</string>
-    <string name="payment_auto_renew_message_annual">Abonnement wordt automatisch verlengd voor %1$s per jaar</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Met deze technologie kan Proton VPN hogere snelheid en beveiliging bieden in landen waar de toegang tot VPNs beperkt is.</string>
     <string name="tor_title">Tor</string>

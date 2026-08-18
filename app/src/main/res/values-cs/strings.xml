@@ -681,10 +681,6 @@
     <string name="payment_price_with_period">%1$s /%2$s</string>
     <string name="payment_price_per_month">měsíc</string>
     <string name="payment_price_per_year">rok</string>
-    <string name="payment_price_per_2years">2 roky</string>
-    <string name="payment_price_cycle_month_label">1 měsíc</string>
-    <string name="payment_price_cycle_year_label">1 rok</string>
-    <string name="payment_price_cycle_2years_label">2 roky</string>
     <string name="payment_select_your_plan">Vyberte tarif</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -692,12 +688,6 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">Získejte %1$s</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Uvítací nabídka. Obnovuje se automaticky za %1$s/měsíc</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Uvítací nabídka. Obnovuje se automaticky za %1$s/rok</string>
-    <string name="payment_auto_renew_message_monthly">Předplatné se automaticky obnovuje za %1$s/měsíc</string>
-    <string name="payment_auto_renew_message_annual">Předplatné se automaticky obnovuje za %1$s/rok</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Tato technologie umožňuje, aby aplikace Proton VPN byly rychlejší a bezpečnější v zemích, které nerespektují soukromí.</string>
     <string name="tor_title">Tor</string>

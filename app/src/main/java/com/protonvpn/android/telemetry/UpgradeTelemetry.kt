@@ -23,6 +23,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableExperimentEnabled
 import com.protonvpn.android.utils.getValue
@@ -172,12 +173,12 @@ class UpgradeTelemetry @Inject constructor(
         }
     }
 
-    fun onUpgradeAttempt(flowType: UpgradeFlowType, planId: String?, billingCycle: Int?) {
+    fun onUpgradeAttempt(flowType: UpgradeFlowType, planId: String?, paymentCycle: PaymentCycle?) {
         helper.runSerially {
             currentDimensions?.let { currentDimensions ->
                 val dimensions = currentDimensions + buildMap {
                     put("upgraded_user_plan", planId ?: NO_VALUE)
-                    put("billing_cycle", billingCycle?.toString() ?: NO_VALUE)
+                    put("billing_cycle", paymentCycle.toTelemetryBillingCycleMonths() ?: NO_VALUE)
                 }
                 event(eventData("upsell_upgrade_attempt", dimensions.withFlowType(flowType)))
                 eventExperiments("upsell_upgrade_attempt", dimensions)
@@ -185,13 +186,13 @@ class UpgradeTelemetry @Inject constructor(
         }
     }
 
-    fun onUpgradeSuccess(newPlanId: String?, flowType: UpgradeFlowType, billingCycle: Int) {
+    fun onUpgradeSuccess(newPlanId: String?, flowType: UpgradeFlowType, paymentCycle: PaymentCycle?) {
         helper.runSerially {
             currentDimensions?.let { currentDimensions ->
                 val upgradedPlan = newPlanId ?: NO_VALUE
                 val dimensions = currentDimensions + mapOf(
                     "upgraded_user_plan" to upgradedPlan,
-                    "billing_cycle" to billingCycle.toString(),
+                    "billing_cycle" to (paymentCycle.toTelemetryBillingCycleMonths() ?: NO_VALUE),
                 )
                 currentUpgradeFlow = null
                 event(eventData("upsell_success", dimensions.withFlowType(flowType)))

@@ -30,6 +30,8 @@ import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
+import com.protonvpn.android.ui.planupgrade.PaymentRecurrence
 import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel.State
@@ -152,7 +154,7 @@ class UpgradeDialogViewModelTests {
             val loadedPlan = loadedState.upgradeState.selectedPlan
             assertEquals("myplan", loadedPlan.planName)
             assertFalse(loadedState.upgradeState.inProgress)
-            assertEquals(PlanCycle.MONTHLY, loadedState.selectedCycle)
+            assertEquals(PaymentCycle.Month(1), loadedState.selectedCycle)
 
             // Fail before succeeding
             val error = SessionState.Purchasing.Terminal.Failure(PaymentException.NetworkError(1, Exception()))
@@ -169,15 +171,12 @@ class UpgradeDialogViewModelTests {
             loadedState.onPayClicked(mockk())
             assertTrue(assertIs<State.PurchaseReady>(expectMostRecentItem().upgradeState).inProgress)
 
-            val purchase = ReconciledPurchaseSampleData.create(
-                planId = testPlanName,
-                cycle = PlanCycle.MONTHLY.cycleDurationMonths,
-            )
+            val purchase = ReconciledPurchaseSampleData.create(planId = testPlanName)
             testObservePurchaseState.emit(
                 SessionState.Reconciling.Terminal.Success(purchase)
             )
             assertEquals(
-                State.PurchaseSuccess(purchase.orderId, "myplan", PlanCycle.MONTHLY.cycleDurationMonths, "EUR"),
+                State.PurchaseSuccess(purchase.orderId, "myplan", PaymentCycle.Month(1), "EUR"),
                 awaitItem().upgradeState
             )
 
@@ -218,12 +217,14 @@ class UpgradeDialogViewModelTests {
 
     @Test
     fun `calculate price info with and without savings`() = testScope.runTest {
+        val cycleMonthly = PlanCycle(PaymentCycle.Month(1), PaymentRecurrence.Finite(1))
+        val cycleYearly = PlanCycle(PaymentCycle.Year(1), PaymentRecurrence.Infinite)
         val priceInfo = UpgradeDialogViewModel.calculatePriceInfos(
             "vpn2022",
             "USD",
             listOf(
-                CycleInfo(PlanCycle.MONTHLY, "m", "$testPlanName-m", emptyList(), 10_00, 15_00),
-                CycleInfo(PlanCycle.YEARLY, "y", "$testPlanName-y", emptyList(), 100_00, 100_00),
+                CycleInfo(cycleMonthly, "m", "$testPlanName-m", emptyList(), 10_00, 15_00),
+                CycleInfo(cycleYearly, "y", "$testPlanName-y", emptyList(), 100_00, 100_00),
             ),
             withSavePercent = true,
         )
@@ -233,28 +234,24 @@ class UpgradeDialogViewModelTests {
                 UpgradeDialogViewModel.CycleViewInfo(
                     productId = "y",
                     offerToken = "$testPlanName-y",
-                    cycle = PlanCycle.YEARLY,
-                    perCycleResId = R.string.payment_price_per_year,
-                    cycleLabelResId = R.string.payment_price_cycle_year_label,
+                    cycle = cycleYearly,
                     priceInfo = UpgradeDialogViewModel.PriceInfo(
                         formattedPrice = formatPrice(100.0, "USD"),
                         savePercent = -44,
                         formattedPerMonthPrice = formatPrice(8.33, "USD"),
                         formattedRenewPrice = formatPrice(100.0, "USD"),
-                        hasIntroPrice = false,
+                        hasDiscountPrice = false,
                     )
                 ),
                 UpgradeDialogViewModel.CycleViewInfo(
                     productId = "m",
                     offerToken = "$testPlanName-m",
-                    cycle = PlanCycle.MONTHLY,
-                    perCycleResId = null,
-                    cycleLabelResId = R.string.payment_price_cycle_month_label,
+                    cycle = cycleMonthly,
                     priceInfo = UpgradeDialogViewModel.PriceInfo(
                         formattedPrice = formatPrice(10.0, "USD"),
                         savePercent = -33,
                         formattedRenewPrice = formatPrice(15.0, "USD"),
-                        hasIntroPrice = true,
+                        hasDiscountPrice = true,
                     )
                 ),
             ),
@@ -265,9 +262,9 @@ class UpgradeDialogViewModelTests {
     @Test
     fun `plan order matches the order of plan names to loadPlans`() = testScope.runTest {
         val products = listOf(
-            createProduct("p1_1", "plan1", listOf(createOffer(PlanCycle.MONTHLY, listOf(1_00)))),
-            createProduct("p2_1", "plan2", listOf(createOffer(PlanCycle.MONTHLY, listOf(1_00)))),
-            createProduct("p1_12", "plan1", listOf(createOffer(PlanCycle.YEARLY, listOf(10_00)))),
+            createProduct("p1_1", "plan1", listOf(createOffer(PaymentCycle.Month(1), listOf(1_00)))),
+            createProduct("p2_1", "plan2", listOf(createOffer(PaymentCycle.Month(1), listOf(1_00)))),
+            createProduct("p1_12", "plan1", listOf(createOffer(PaymentCycle.Year(1), listOf(10_00)))),
         )
         testGetProducts.setProductsToReturn(products)
 

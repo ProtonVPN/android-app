@@ -25,7 +25,7 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.promooffers.GetIntroPricesError
 import com.protonvpn.android.promooffers.usecase.GetEligibleOffers.CachedOffers
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
-import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.shouldReportToSentry
@@ -88,7 +88,7 @@ class GetEligibleOffers(
     @Serializable
     data class Offer(
         val planName: String,
-        val cycle: PlanCycle,
+        val cycle: PaymentCycle,
         val currency: String,
         val currentPriceCents: Int,
         val offerTags: List<String>,
@@ -161,13 +161,13 @@ class GetEligibleOffers(
     ): List<Offer>? = suspend {
         val subscriptionPlans = loadSubscriptionPlans(loadPlansConfig)
         val offers = subscriptionPlans.flatMap { plan ->
-            plan.cycles.map { cycle ->
+            plan.cycles.map { cycleInfo ->
                 Offer(
                     planName = plan.name,
-                    cycle = cycle.cycle,
+                    cycle = cycleInfo.cycle.paymentCycle,
                     currency = plan.currency,
-                    currentPriceCents = cycle.currentPriceCents,
-                    offerTags = cycle.offerTags
+                    currentPriceCents = cycleInfo.currentPriceCents,
+                    offerTags = cycleInfo.offerTags
                 )
             }
         }

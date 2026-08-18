@@ -28,7 +28,7 @@ import com.protonvpn.android.promooffers.usecase.FakeIsIapClientSidePromoFeature
 import com.protonvpn.android.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
 import com.protonvpn.android.promooffers.usecase.GetEligibleOffers
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
-import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.mocks.TestDefaultLocaleProvider
 import com.protonvpn.test.shared.InMemoryObjectStore
@@ -119,22 +119,22 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `notifications are generated only for intro prices`() = testScope.runTest {
-        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "USD")
+        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00, "USD")
         val product = createProduct(vpnPlus, vpnPlus, offers)
         testGetProducts.setProductsToReturn(listOf(product))
 
         val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(2, notifications.size)
         assertImages(
-            expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_1_usd_99_en_any_dark.png",
-            expectedFullscreenUrl = "file:///android_asset/promooffers/internal_intro_price_modal_vpn2022_1_usd_99_en_any_dark.png",
+            expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_p1m_usd_99_en_any_dark.png",
+            expectedFullscreenUrl = "file:///android_asset/promooffers/internal_intro_price_modal_vpn2022_p1m_usd_99_en_any_dark.png",
             notifications = notifications
         )
     }
 
     @Test
     fun `GIVEN currency EUR and language LT THEN fallback images are used`() = testScope.runTest {
-        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00, "EUR")
         val product = createProduct(vpnPlus, vpnPlus, offers)
         testGetProducts.setProductsToReturn(listOf(product))
         testLocaleProvider.locale = Locale("lt", "lt")
@@ -142,15 +142,15 @@ class GenerateNotificationsForIntroductoryOffersTests {
         val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(2, notifications.size)
         assertImages(
-            expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_1_any_any_any_any_dark.png",
-            expectedFullscreenUrl = "file:///android_asset/promooffers/internal_intro_price_modal_vpn2022_1_any_any_any_any_dark.png",
+            expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_p1m_any_any_any_any_dark.png",
+            expectedFullscreenUrl = "file:///android_asset/promooffers/internal_intro_price_modal_vpn2022_p1m_any_any_any_any_dark.png",
             notifications = notifications
         )
     }
 
     @Test
     fun `GIVEN no plan has intro prices THEN no notifications are generated`() = testScope.runTest {
-        val offers = listOf(createOffer(PlanCycle.MONTHLY, listOf(10_00), "EUR"))
+        val offers = listOf(createOffer(PaymentCycle.Month(1), listOf(10_00), "EUR"))
         val product = createProduct(vpnPlus, vpnPlus, offers)
         testGetProducts.setProductsToReturn(listOf(product))
 
@@ -160,7 +160,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `WHEN time passes THEN start and end time are relative to first call`() = testScope.runTest {
-        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00, "EUR")
         val product = createProduct(vpnPlus, vpnPlus, offers)
         testGetProducts.setProductsToReturn(listOf(product))
 
@@ -189,7 +189,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN offer period has finished (3 days) THEN no notifications are generated`() = testScope.runTest {
-        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00, "EUR")
         val product = createProduct(vpnPlus, vpnPlus, offers)
         testGetProducts.setProductsToReturn(listOf(product))
 
@@ -202,7 +202,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN FF is disabled WHEN generate is called THEN offer period doesn't start`() = testScope.runTest {
-        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00, "EUR")
         val product = createProduct(vpnPlus, vpnPlus, offers)
         testGetProducts.setProductsToReturn(listOf(product))
         isIapEnabledFF.setEnabled(false)
@@ -222,7 +222,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN cyclic FF is enabled WHEN generate is called after 80 days THEN new offers are generated`() = testScope.runTest {
-        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00, "EUR")
         val product = createProduct(vpnPlus, vpnPlus, offers)
         testGetProducts.setProductsToReturn(listOf(product))
         advanceTimeBy(1.days)
@@ -243,7 +243,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `WHEN second round offers are generated THEN their start time is now`() = testScope.runTest {
-        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00, "EUR")
         val product = createProduct(vpnPlus, vpnPlus, offers)
         testGetProducts.setProductsToReturn(listOf(product))
 
@@ -261,7 +261,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN second round offers were generated WHEN generate is called without trigger THEN the offers are regenerated`() = testScope.runTest {
-        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00, "EUR")
         val product = createProduct(vpnPlus, vpnPlus, offers)
         testGetProducts.setProductsToReturn(listOf(product))
 
@@ -276,7 +276,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN cyclic FF is disabled WHEN generate is called after 80 days THEN no offers are generated`() = testScope.runTest {
-        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00, "EUR")
         val product = createProduct(vpnPlus, vpnPlus, offers)
         testGetProducts.setProductsToReturn(listOf(product))
         isCyclicEnabledFF.setEnabled(false)
@@ -292,7 +292,7 @@ class GenerateNotificationsForIntroductoryOffersTests {
 
     @Test
     fun `GIVEN offers displayed once WHEN generate is called after 80 days THEN new offers have different IDs`() = testScope.runTest {
-        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "EUR")
+        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00, "EUR")
         val product = createProduct(vpnPlus, vpnPlus, offers)
         testGetProducts.setProductsToReturn(listOf(product))
 
@@ -318,24 +318,24 @@ class GenerateNotificationsForIntroductoryOffersTests {
         val product1m = createProduct(
             "plus_monthly",
             vpnPlus,
-            createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00, "USD")
+            createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00, "USD")
         )
         val product1y = createProduct(
             "plus_yearly",
             vpnPlus,
-            createOffersWithDiscount(PlanCycle.YEARLY, 2_00, 100_00, "USD")
+            createOffersWithDiscount(PaymentCycle.Year(1), 2_00, 100_00, "USD")
         )
         testGetProducts.setProductsToReturn(listOf(product1m, product1y))
 
         val notifications = generateNotificationsForIntroductoryOffers(false)
         assertEquals(2, notifications.size)
         assertImages(
-            expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_1_usd_99_en_any_dark.png",
-            expectedFullscreenUrl = "file:///android_asset/promooffers/internal_intro_price_modal_vpn2022_1_usd_99_en_any_dark.png",
+            expectedBannerUrl = "file:///android_asset/promooffers/internal_intro_price_banner_vpn2022_p1m_usd_99_en_any_dark.png",
+            expectedFullscreenUrl = "file:///android_asset/promooffers/internal_intro_price_modal_vpn2022_p1m_usd_99_en_any_dark.png",
             notifications = notifications
         )
         val banner = notifications.find { it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER }
-        assertEquals("IntroPricePromoBanner", banner?.reference)
+        assertEquals("IntroPricePromoBannerP1M", banner?.reference)
     }
 
     private fun assertImages(

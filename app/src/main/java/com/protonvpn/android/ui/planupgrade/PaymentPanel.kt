@@ -46,6 +46,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.PlaceholderRect
@@ -63,10 +64,10 @@ import me.proton.core.compose.theme.defaultSmallWeak
 @Immutable
 data class PaymentPanelState(
     val upgradeState: UpgradeDialogViewModel.State,
-    val selectedCycle: PlanCycle?,
+    val selectedCycle: PaymentCycle?,
     val onPayClicked: (Activity) -> Unit,
     val onErrorButtonClicked: () -> Unit,
-    val onCycleSelected: (PlanCycle) -> Unit,
+    val onCycleSelected: (PaymentCycle) -> Unit,
 )
 
 @Composable
@@ -119,14 +120,16 @@ fun PaymentPanel(
                             selectPlanText()
                         }
                         cycles.forEach { cycle ->
+                            val paymentCycle = cycle.cycle.paymentCycle
                             CycleComposable(
-                                cycle,
-                                cycle.cycle == viewState.selectedCycle,
-                                viewState.onCycleSelected
+                                cycleInfo = cycle,
+                                isSelected = paymentCycle == viewState.selectedCycle,
+                                onCycleSelected = viewState.onCycleSelected,
+                                modifier = Modifier.testTag("cycle${paymentCycle.toISO8601()}")
                             )
                         }
 
-                        val selectedCycleInfo = cycles.firstOrNull { it.cycle == viewState.selectedCycle }
+                        val selectedCycleInfo = cycles.firstOrNull { it.cycle.paymentCycle == viewState.selectedCycle }
                         if (selectedCycleInfo != null) {
                             RenewInfo(
                                 selectedCycleInfo = selectedCycleInfo,
@@ -204,30 +207,39 @@ private fun RenewInfoText(
     renewInfoText: String,
     modifier: Modifier = Modifier
 ) {
-    Text(
-        text = renewInfoText,
-        style = ProtonTheme.typography.captionWeak,
+    WithMinHeightOf(
+        minHeightContent = { Text("\n", style = ProtonTheme.typography.captionWeak) },
         modifier = modifier
-    )
+    ) {
+        Text(
+            text = renewInfoText,
+            style = ProtonTheme.typography.captionWeak,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .testTag("renewInfoText")
+        )
+    }
 }
 
 @Composable
 private fun CycleComposable(
-    cycle: UpgradeDialogViewModel.CycleViewInfo,
+    cycleInfo: UpgradeDialogViewModel.CycleViewInfo,
     isSelected: Boolean,
-    onCycleSelected: (PlanCycle) -> Unit,
+    onCycleSelected: (PaymentCycle) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val paymentCycle = cycleInfo.cycle.paymentCycle
     CycleSelectionRow(
         isSelected,
-        onSelected = { onCycleSelected(cycle.cycle) },
+        onSelected = { onCycleSelected(paymentCycle) },
         modifier
     ) {
         Text(
-            stringResource(id = cycle.cycleLabelResId),
+            cycleLabelStringResource(paymentCycle),
             style = ProtonTheme.typography.defaultNorm
         )
-        cycle.priceInfo.savePercent?.let {
+        cycleInfo.priceInfo.savePercent?.let {
             Text(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
@@ -242,8 +254,12 @@ private fun CycleComposable(
             )
         }
         Spacer(modifier = Modifier.weight(1f))
-        with(cycle) {
-            PricingCycleInfo(priceInfo.formattedPrice, perCycleResId, priceInfo.formattedPerMonthPrice) { text, style -> Text(text, style = style) }
+        with(cycleInfo) {
+            PricingCycleInfo(
+                priceInfo.formattedPrice,
+                priceInfo.formattedPerMonthPrice,
+                modifier = Modifier.testTag("prices")
+            ) { text, style -> Text(text, style = style) }
         }
     }
 }
@@ -279,7 +295,7 @@ private fun CycleSelectionRow(
 
     WithMinHeightOf(
         minHeightContent = {
-            PricingCycleInfo("123", R.string.payment_price_per_year, "123") { text, style -> Text(text, style = style) }
+            PricingCycleInfo("123", "123") { text, style -> Text(text, style = style) }
         },
         modifier = modifier
             .then(borderModifier)
@@ -304,26 +320,22 @@ private fun PreviewPlan() {
             UpgradeDialogViewModel.CycleViewInfo(
                 productId = "ProductId",
                 offerToken = "OfferToken",
-                cycle = PlanCycle.YEARLY,
-                perCycleResId = R.string.payment_price_per_year,
-                cycleLabelResId = R.string.payment_price_cycle_year_label,
+                cycle = PlanCycle(PaymentCycle.Year(1), PaymentRecurrence.Finite(2)),
                 priceInfo = UpgradeDialogViewModel.PriceInfo(
                     "$120.00",
                     formattedPerMonthPrice = "$10.00",
                     savePercent = -37,
-                    hasIntroPrice = true
+                    hasDiscountPrice = true
                 )
             ),
             UpgradeDialogViewModel.CycleViewInfo(
                 productId = "ProductId",
                 offerToken = "OfferToken",
-                cycle = PlanCycle.MONTHLY,
-                perCycleResId = R.string.payment_price_per_month,
-                cycleLabelResId = R.string.payment_price_cycle_month_label,
-                priceInfo = UpgradeDialogViewModel.PriceInfo("$15.99", hasIntroPrice = false)
+                cycle = PlanCycle(PaymentCycle.Month(2), PaymentRecurrence.Infinite),
+                priceInfo = UpgradeDialogViewModel.PriceInfo("$15.99", hasDiscountPrice = false)
             ),
         )
-        val plan = PlanModel("VPN Plus", "vpn2022", "USD", cycles, PlanCycle.YEARLY)
+        val plan = PlanModel("VPN Plus", "vpn2022", "USD", cycles, PaymentCycle.Year(1))
         PaymentPanel(
             viewState = PaymentPanelState(
                 UpgradeDialogViewModel.State.PurchaseReady(
@@ -332,7 +344,7 @@ private fun PreviewPlan() {
                     inProgress = false,
                     buttonLabelOverride = null,
                 ),
-                selectedCycle = PlanCycle.YEARLY,
+                selectedCycle = PaymentCycle.Year(1),
                 {}, {}, {},
             ),
             onClose = {}
@@ -348,27 +360,23 @@ private fun PreviewPlanWithWelcomePrice() {
             UpgradeDialogViewModel.CycleViewInfo(
                 productId = "ProductId",
                 offerToken = "OfferToken",
-                cycle = PlanCycle.YEARLY,
-                perCycleResId = null,
-                cycleLabelResId = R.string.payment_price_cycle_year_label,
+                cycle = PlanCycle(PaymentCycle.Year(1), PaymentRecurrence.Finite(1)),
                 priceInfo = UpgradeDialogViewModel.PriceInfo(
                     "$120.00",
                     formattedPerMonthPrice = null,
                     savePercent = -37,
                     formattedRenewPrice = "$150",
-                    hasIntroPrice = true
+                    hasDiscountPrice = true
                 )
             ),
             UpgradeDialogViewModel.CycleViewInfo(
                 productId = "ProductId",
                 offerToken = "OfferToken",
-                cycle = PlanCycle.MONTHLY,
-                perCycleResId = null,
-                cycleLabelResId = R.string.payment_price_cycle_month_label,
-                priceInfo = UpgradeDialogViewModel.PriceInfo("$15.99", hasIntroPrice = false)
+                cycle = PlanCycle(PaymentCycle.Month(1), PaymentRecurrence.Infinite),
+                priceInfo = UpgradeDialogViewModel.PriceInfo("$15.99", hasDiscountPrice = false)
             ),
         )
-        val plan = PlanModel("VPN Plus", "vpn2022", "USD", cycles, PlanCycle.YEARLY)
+        val plan = PlanModel("VPN Plus", "vpn2022", "USD", cycles, PaymentCycle.Year(1))
         PaymentPanel(
             viewState = PaymentPanelState(
                 UpgradeDialogViewModel.State.PurchaseReady(
@@ -377,7 +385,7 @@ private fun PreviewPlanWithWelcomePrice() {
                     inProgress = false,
                     buttonLabelOverride = null,
                 ),
-                selectedCycle = PlanCycle.YEARLY,
+                selectedCycle = PaymentCycle.Year(1),
                 {}, {}, {},
             ),
             onClose = {}

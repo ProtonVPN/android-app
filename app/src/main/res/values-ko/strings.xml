@@ -634,10 +634,6 @@
     <string name="payment_price_with_period">%1$s /%2$s</string>
     <string name="payment_price_per_month">월간</string>
     <string name="payment_price_per_year">연간</string>
-    <string name="payment_price_per_2years">2년</string>
-    <string name="payment_price_cycle_month_label">1개월</string>
-    <string name="payment_price_cycle_year_label">1년</string>
-    <string name="payment_price_cycle_2years_label">2년</string>
     <string name="payment_select_your_plan">플랜을 선택하세요.</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -645,12 +641,6 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">%1$s 구독</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">환영 할인. 매월 %1$s(으)로 갱신됩니다.</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">환영 할인. 매월 %1$s(으)로 갱신됩니다.</string>
-    <string name="payment_auto_renew_message_monthly">구독이 매월 %1$s(으)로 자동 갱신됩니다.</string>
-    <string name="payment_auto_renew_message_annual">구독이 매년 %1$s(으)로 자동 갱신됩니다</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">이 기술로 Proton VPN은 이용이 어려운 국가에서도 더 높은 속도와 보안을 제공하고 있습니다.</string>
     <string name="tor_title">Tor</string>

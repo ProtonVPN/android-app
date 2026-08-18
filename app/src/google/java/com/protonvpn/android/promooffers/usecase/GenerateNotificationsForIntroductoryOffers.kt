@@ -36,7 +36,8 @@ import com.protonvpn.android.promooffers.data.ApiNotificationOfferImageSource
 import com.protonvpn.android.promooffers.data.ApiNotificationOfferPanel
 import com.protonvpn.android.promooffers.data.ApiNotificationTypes
 import com.protonvpn.android.ui.planupgrade.IapConstants
-import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
+import com.protonvpn.android.ui.planupgrade.toISO8601
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.utils.DefaultLocaleProvider
 import dagger.Reusable
@@ -77,7 +78,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
 ) {
 
     private data class NotificationConfig(
-        val planCycle: PlanCycle,
+        val paymentCycle: PaymentCycle,
         val language: String?,
         val country: String?,
         val priceCents: Int?,
@@ -99,7 +100,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
 
         val loadPlansConfig = LoadPlansConfig.WithOfferTag(OFFER_TAG)
         val introductoryOffers = getEligibleOffers(loadPlansConfig) ?: return emptyList()
-        val planCycle = PlanCycle.MONTHLY
+        val paymentCycle = PaymentCycle.Month(1)
 
         val startTimeMs = baseTimestampMs + if (isFirstPromo) PROMO_ACTIVITY_PERIOD_START_MS else 0L
         val startTimeS = TimeUnit.MILLISECONDS.toSeconds(startTimeMs)
@@ -119,11 +120,11 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
             )
         }
         return introductoryOffers.flatMap { playOffer ->
-            if (playOffer.planName == PLAN_NAME && playOffer.cycle == planCycle) {
+            if (playOffer.planName == PLAN_NAME && playOffer.cycle == paymentCycle) {
 
                 val notification = notificationConfigs.filter { notification ->
                     notification.matches(
-                        planCycle = planCycle,
+                        paymentCycle = paymentCycle,
                         language = userLanguage,
                         country = userCountry,
                         priceCents = playOffer.currentPriceCents,
@@ -161,7 +162,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
     }
 
     private fun NotificationConfig.matches(
-        planCycle: PlanCycle,
+        paymentCycle: PaymentCycle,
         language: String,
         country: String,
         priceCents: Int,
@@ -169,7 +170,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
     ): Boolean {
         infix fun String?.matches(other: String) = this == null || this equalsNoCase other
 
-        return this.planCycle == planCycle &&
+        return this.paymentCycle == paymentCycle &&
             (this.priceCents == null || this.priceCents == priceCents) &&
             this.language matches language &&
             this.country matches country &&
@@ -184,7 +185,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
         CAMPAIGN_NAME,
         typeToken,
         planName,
-        config.planCycle.cycleDurationMonths.toString(),
+        config.paymentCycle.toISO8601().lowercase(),
         config.currency,
         config.priceCents?.toString(),
         config.language,
@@ -228,9 +229,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
             else -> throw IllegalArgumentException("Unsupported type $type")
         }
 
-        if (config.planCycle.cycleDurationMonths != 1) {
-            notificationReference += config.planCycle.cycleDurationMonths.toString()
-        }
+        notificationReference += config.paymentCycle.toISO8601()
         val notificationId = "${CAMPAIGN_NAME}_${typeToken}_${startTimeS}"
         return ApiNotification(
             id = notificationId,
@@ -267,7 +266,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
                 action = ApiNotificationActions.IN_APP_PURCHASE_POPUP,
                 iapActionDetails = ApiNotificationIapAction(
                     planName = planName,
-                    cycle = config.planCycle,
+                    cycle = config.paymentCycle,
                     priceCents = config.priceCents,
                     currency = config.currency,
                     offerTag = OFFER_TAG,
@@ -311,109 +310,109 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
     companion object {
         private val notificationConfigs = arrayOf(
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 null, null, null, null,
                 altText = "Special offer. Try VPN Plus for less.",
                 buttonText = "Claim offer",
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "en", null, 99, "usd",
                 altText = "Special offer. Try VPN Plus for less.",
                 buttonText = "Claim offer"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "en", "gb", 99, "gbp",
                 altText = "Special offer. Try VPN Plus for less.",
                 buttonText = "Claim offer"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "en", "ca", 99, "cad",
                 altText = "Special offer. Try VPN Plus for less.",
                 buttonText = "Claim offer"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "en", "au", 99, "aud",
                 altText = "Special offer. Try VPN Plus for less.",
                 buttonText = "Claim offer"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "fr", "ch", 99, "chf",
                 altText = "Offre spéciale. Essayez VPN Plus pour moins cher.",
                 buttonText = "Profiter de l'offre"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "fr", "fr", 99, "eur",
                 altText = "Offre spéciale. Essayez VPN Plus pour moins cher.",
                 buttonText = "Profiter de l'offre"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "de", "de", 99, "eur",
                 altText = "Sonderangebot. Teste VPN Plus günstiger.",
                 buttonText = "Angebot sichern"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "de", "ch", 99, "chf",
                 altText = "Sonderangebot. Teste VPN Plus günstiger.",
                 buttonText = "Angebot sichern"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "cz", "cz", null, null,
                 altText = "Speciální nabídka. Vyzkoušejte VPN Plus levněji.",
                 buttonText = "Využít nabídku"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "es", "es", 99, "eur",
                 altText = "Oferta especial. Prueba VPN Plus por menos.",
                 buttonText = "Solicitar oferta"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "es", null, null, null,
                 altText = "Oferta especial. Pruebe VPN Plus por menos",
                 buttonText = "Reclamar oferta"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "it", "it", 99, "eur",
                 altText = "Offerta speciale. Prova VPN Plus a meno.",
                 buttonText = "Ottieni offerta"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "nl", "nl", 99, "eur",
                 altText = "Speciale aanbieding. Probeer VPN Plus voor minder.",
                 buttonText = "Aanbieding claimen"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "pl", "pl", 99, "pln",
                 altText = "Oferta specjalna. Wypróbuj VPN Plus taniej.",
                 buttonText = "Odbierz ofertę"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "ru", "ru", null, null,
                 altText = "Специальное предложение. Попробуйте VPN Plus по выгодной цене.",
                 buttonText = "Воспользоваться"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "pt", "br", 99, "brl",
                 altText = "Oferta especial. Experimente o VPN Plus por menos.",
                 buttonText = "Resgatar oferta"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.MONTHLY,
+                paymentCycle = PaymentCycle.Month(1),
                 "tr", "tr", null, null,
                 altText = "Özel teklif. VPN Plus'ı daha uygun fiyata deneyin.",
                 buttonText = "Teklifi Alın"
@@ -421,73 +420,73 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
 
             // 12 month offers
             NotificationConfig(
-                planCycle = PlanCycle.YEARLY,
+                paymentCycle = PaymentCycle.Year(1),
                 null, null, null, null,
                 altText = "Special offer. Try VPN Plus for less.",
                 buttonText = "Claim offer",
             ),
             NotificationConfig(
-                planCycle = PlanCycle.YEARLY,
+                paymentCycle = PaymentCycle.Year(1),
                 "cz", null, null, null,
                 altText = "Speciální nabídka. Vyzkoušejte VPN Plus levněji.",
                 buttonText = "Využít nabídku"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.YEARLY,
+                paymentCycle = PaymentCycle.Year(1),
                 "de", null, null, null,
                 altText = "Sonderangebot. Teste VPN Plus günstiger.",
                 buttonText = "Angebot sichern",
             ),
             NotificationConfig(
-                planCycle = PlanCycle.YEARLY,
+                paymentCycle = PaymentCycle.Year(1),
                 "es", null, null, null,
                 altText = "Oferta especial. Pruebe VPN Plus por menos",
                 buttonText = "Reclamar oferta",
             ),
             NotificationConfig(
-                planCycle = PlanCycle.YEARLY,
+                paymentCycle = PaymentCycle.Year(1),
                 "es", "es", null, null,
                 altText = "Oferta especial. Prueba VPN Plus por menos.",
                 buttonText = "Solicitar oferta",
             ),
             NotificationConfig(
-                planCycle = PlanCycle.YEARLY,
+                paymentCycle = PaymentCycle.Year(1),
                 "fr", null, null, null,
                 altText = "Offre spéciale. Essayez VPN Plus pour moins cher.",
                 buttonText = "Profiter de l'offre",
             ),
             NotificationConfig(
-                planCycle = PlanCycle.YEARLY,
+                paymentCycle = PaymentCycle.Year(1),
                 "it", null, null, null,
                 altText = "Offerta speciale. Prova VPN Plus a meno.",
                 buttonText = "Ottieni offerta",
             ),
             NotificationConfig(
-                planCycle = PlanCycle.YEARLY,
+                paymentCycle = PaymentCycle.Year(1),
                 "nl", null, null, null,
                 altText = "Speciale aanbieding. Probeer VPN Plus voor minder.",
                 buttonText = "Aanbieding claimen",
             ),
             NotificationConfig(
-                planCycle = PlanCycle.YEARLY,
+                paymentCycle = PaymentCycle.Year(1),
                 "pl", null, null, null,
                 altText = "Oferta specjalna. Wypróbuj VPN Plus taniej.",
                 buttonText = "Odbierz ofertę",
             ),
             NotificationConfig(
-                planCycle = PlanCycle.YEARLY,
+                paymentCycle = PaymentCycle.Year(1),
                 "pt", null, null, null,
                 altText = "Oferta especial. Experimente o VPN Plus por menos.",
                 buttonText = "Resgatar oferta"
             ),
             NotificationConfig(
-                planCycle = PlanCycle.YEARLY,
+                paymentCycle = PaymentCycle.Year(1),
                 "ru", null, null, null,
                 altText = "Специальное предложение. Попробуйте VPN Plus по выгодной цене.",
                 buttonText = "Воспользоваться",
             ),
             NotificationConfig(
-                planCycle = PlanCycle.YEARLY,
+                paymentCycle = PaymentCycle.Year(1),
                 "tr", null, null, null,
                 altText = "Özel teklif. VPN Plus'ı daha uygun fiyata deneyin.",
                 buttonText = "Teklifi Alın",

@@ -17,9 +17,25 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.ui.planupgrade
+package com.protonvpn.app.ui.planupgrade
 
-object IapConstants {
-    const val INTRO_PRICE_TAG = "intro-price"
-    val DEFAULT_PAYMENT_CYCLES = listOf(PaymentCycle.Year(1), PaymentCycle.Month(1))
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
+import com.protonvpn.android.ui.planupgrade.parsePaymentCycle
+import org.junit.Assert.assertEquals
+import org.junit.Test
+
+class PlanCycleTests {
+
+    @Test
+    fun `parse_payment_cycle`() {
+        val cases = listOf(
+            "p1M" to PaymentCycle.Month(1),
+            "P2W" to PaymentCycle.Week(2),
+            "P14d" to PaymentCycle.Day(14),
+            "p1y" to PaymentCycle.Year(1),
+        )
+        cases.forEach { (iso, cycle) ->
+            assertEquals(cycle, iso.parsePaymentCycle())
+        }
+    }
 }

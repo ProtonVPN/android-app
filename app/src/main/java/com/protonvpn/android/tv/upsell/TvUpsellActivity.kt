@@ -57,14 +57,15 @@ import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
+import com.protonvpn.android.ui.planupgrade.PaymentRecurrence
 import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.PlanModel
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
-import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -251,29 +252,25 @@ private fun TvUpsellLayoutPreview() {
             UpgradeDialogViewModel.CycleViewInfo(
                 productId = "ProductId",
                 offerToken = "OfferToken",
-                cycle = PlanCycle.YEARLY,
-                perCycleResId = R.string.payment_price_per_year,
-                cycleLabelResId = R.string.payment_price_cycle_year_label,
+                cycle = PlanCycle(PaymentCycle.Year(1), PaymentRecurrence.Finite(1)),
                 priceInfo = UpgradeDialogViewModel.PriceInfo(
                     "$120.00",
                     formattedPerMonthPrice = "$10.00",
                     savePercent = -37,
-                    hasIntroPrice = true
+                    hasDiscountPrice = true
                 )
             ),
             UpgradeDialogViewModel.CycleViewInfo(
                 productId = "ProductId",
                 offerToken = "OfferToken",
-                cycle = PlanCycle.MONTHLY,
-                perCycleResId = R.string.payment_price_per_month,
-                cycleLabelResId = R.string.payment_price_cycle_month_label,
-                priceInfo = UpgradeDialogViewModel.PriceInfo("$15.99", hasIntroPrice = false)
+                cycle = PlanCycle(PaymentCycle.Month(1), PaymentRecurrence.Infinite),
+                priceInfo = UpgradeDialogViewModel.PriceInfo("$15.99", hasDiscountPrice = false)
             ),
         )
-        val plan = PlanModel("VPN Plus", "vpn2022", "USD", cycles, PlanCycle.YEARLY)
+        val plan = PlanModel("VPN Plus", "vpn2022", "USD", cycles, PaymentCycle.Year(1))
         val paymentState = PaymentPanelState(
             upgradeState = UpgradeDialogViewModel.State.PurchaseReady(listOf(plan), plan, false),
-            selectedCycle = cycles.first().cycle,
+            selectedCycle = cycles.first().cycle.paymentCycle,
             {}, {}, {},
         )
         TvUpsellLayout(viewState, paymentState, {})

@@ -77,7 +77,7 @@ class ShowUpgradeSuccess(
                     val newPlan = upgradedUser.userTierName
                     val purchase = purchaseManager.get().getPurchase(newPlan)
                     if (purchase != null) {
-                        upgradeTelemetry.get().onUpgradeSuccess(newPlan, UpgradeFlowType.EXTERNAL, purchase.planCycle)
+                        upgradeTelemetry.get().onUpgradeSuccess(newPlan, UpgradeFlowType.EXTERNAL, null)
                     }
                     showPlanUpgradeSuccess(
                         activity,

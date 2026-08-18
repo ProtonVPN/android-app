@@ -19,19 +19,18 @@
 
 package com.protonvpn.testSuites
 
+import com.protonvpn.tests.base.ui.nav.NavigationTests
+import com.protonvpn.tests.base.ui.ui.ConnectionDetailsTestsCompose
+import com.protonvpn.tests.base.ui.ui.GetConnectIntentViewStateTestsCompose
+import com.protonvpn.tests.base.ui.ui.ProtonTextFieldTestsCompose
+import com.protonvpn.tests.base.ui.ui.VpnStatusViewTests
 import com.protonvpn.tests.db.MigrationTestsIntegration
 import com.protonvpn.tests.netshield.NetShieldTestsCompose
 import com.protonvpn.tests.profiles.ProfilesTestsMocked
 import com.protonvpn.tests.promooffer.PromoOfferCountDownTestsCompose
-import com.protonvpn.tests.base.ui.ui.ProtonTextFieldTestsCompose
-import com.protonvpn.tests.base.ui.nav.NavigationTests
 import com.protonvpn.tests.recents.RecentsListTestsCompose
 import com.protonvpn.tests.recents.RecentsListValidatorTestsIntegration
-import com.protonvpn.tests.base.ui.ui.ConnectionDetailsTestsCompose
-import com.protonvpn.tests.base.ui.ui.GetConnectIntentViewStateTestsCompose
-import com.protonvpn.tests.base.ui.ui.VpnStatusViewTests
 import com.protonvpn.tests.settings.data.EffectiveCurrentUserSettingsCachedTests
-import com.protonvpn.tests.upgrade.PaymentPanelTestsCompose
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
@@ -46,7 +45,6 @@ import org.junit.runners.Suite
     MigrationTestsIntegration::class,
     NavigationTests::class,
     NetShieldTestsCompose::class,
-    PaymentPanelTestsCompose::class,
     ProfilesTestsMocked::class,
     PromoOfferCountDownTestsCompose::class,
     ProtonTextFieldTestsCompose::class,

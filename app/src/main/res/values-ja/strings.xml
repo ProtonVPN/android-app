@@ -633,10 +633,6 @@
     <string name="payment_price_with_period">%1$s/%2$s</string>
     <string name="payment_price_per_month">月</string>
     <string name="payment_price_per_year">年</string>
-    <string name="payment_price_per_2years">2年</string>
-    <string name="payment_price_cycle_month_label">1ヶ月</string>
-    <string name="payment_price_cycle_year_label">1年</string>
-    <string name="payment_price_cycle_2years_label">2年</string>
     <string name="payment_select_your_plan">プランを選択してください</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -644,12 +640,6 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">%1$sを入手</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">歓迎オファー。%1$s/月で自動更新</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">歓迎オファー。%1$s/年で自動更新</string>
-    <string name="payment_auto_renew_message_monthly">サブスクリプションは%1$s/月で自動更新</string>
-    <string name="payment_auto_renew_message_annual">サブスクリプションは%1$s/年で自動更新</string>
     <string name="smart_routing_title">スマートルーティング</string>
     <string name="smart_routing_description">この技術は Proton VPN の提供が困難な国で高速な速度とセキュリティを提供します。</string>
     <string name="tor_title">Tor</string>

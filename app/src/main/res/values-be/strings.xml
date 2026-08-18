@@ -681,10 +681,6 @@
     <string name="payment_price_with_period">%1$s /%2$s</string>
     <string name="payment_price_per_month">месяц</string>
     <string name="payment_price_per_year">год</string>
-    <string name="payment_price_per_2years">2 гады</string>
-    <string name="payment_price_cycle_month_label">1 месяц</string>
-    <string name="payment_price_cycle_year_label">1 год</string>
-    <string name="payment_price_cycle_2years_label">2 гады</string>
     <string name="payment_select_your_plan">Выберыце тарыфны план</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -692,12 +688,6 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">Атрымаць %1$s</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Вітальная прапанова. Аўтаматычнае падаўжэнне за %1$s у месяц</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Вітальная прапанова. Аўтаматычнае падаўжэнне за %1$s у год</string>
-    <string name="payment_auto_renew_message_monthly">Падпіска будзе аўтаматычна падаўжацца за %1$s у месяц</string>
-    <string name="payment_auto_renew_message_annual">Падпіска будзе аўтаматычна падаўжацца за %1$s у год</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Гэта тэхналогія дазваляе Proton VPN забяспечваць больш высокую хуткасць і бяспеку ў краінах, дзе ёсць праблемы з прыватнасцю.</string>
     <string name="tor_title">Tor</string>

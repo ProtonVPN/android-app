@@ -19,7 +19,10 @@
 package com.protonvpn.app.upgrade
 
 import com.protonvpn.android.ui.planupgrade.IapConstants
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
+import com.protonvpn.android.ui.planupgrade.PaymentRecurrence
 import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.toISO8601
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
@@ -48,17 +51,17 @@ class LoadSubscriptionPlansTests {
     fun setup() {
         testScope = TestScope(UnconfinedTestDispatcher())
         // Put all combinations in the default offers.
-        val allCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY, PlanCycle.TWO_YEARS)
-        val products = allCycles.flatMap { planCycle ->
+        val allCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1), PaymentCycle.Year(2))
+        val products = allCycles.flatMap { paymentCycle ->
             val productPlus = createProduct(
-                "productId-GooglePlay-vpn2022-${planCycle.cycleDurationMonths}",
+                "productId-GooglePlay-vpn2022-${paymentCycle.toISO8601()}",
                 Constants.CURRENT_PLUS_PLAN,
-                offers = createOffersWithDiscount(planCycle, 99, 10_00),
+                offers = createOffersWithDiscount(paymentCycle, 99, 10_00),
             )
             val productUnlimited = createProduct(
-                "productId-GooglePlay-bundle2022-${planCycle.cycleDurationMonths}",
+                "productId-GooglePlay-bundle2022-${paymentCycle.toISO8601()}",
                 Constants.CURRENT_BUNDLE_PLAN,
-                offers = createOffersWithDiscount(planCycle, 2_99, 200_00),
+                offers = createOffersWithDiscount(paymentCycle, 2_99, 200_00),
             )
             listOf(productPlus, productUnlimited)
         }
@@ -72,23 +75,23 @@ class LoadSubscriptionPlansTests {
 
     @Test
     fun `load plans and cycles if available`() = testScope.runTest {
-        val cyclesToLoad = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
+        val cyclesToLoad = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1))
         val plans = loadSubscriptionPlans(
             LoadPlansConfig.WithOptionalDiscount(
                 planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-                planCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
+                paymentCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1)),
                 discountOfferTag = IapConstants.INTRO_PRICE_TAG,
             )
         )
         assertEquals(1, plans.size)
         val plan = plans.first()
         assertEquals(Constants.CURRENT_PLUS_PLAN, plan.name)
-        assertEquals(cyclesToLoad, plan.cycles.map { it.cycle })
+        assertEquals(cyclesToLoad, plan.cycles.map { it.cycle.paymentCycle })
     }
 
     @Test
     fun `don't load other plans`() = testScope.runTest {
-        val offers = createOffersWithDiscount(PlanCycle.MONTHLY, 99, 10_00)
+        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00)
         val otherProduct = createProduct("other", "other_plan", offers)
         testGetProducts.setProductsToReturn(listOf(otherProduct))
         assertEquals(
@@ -96,7 +99,7 @@ class LoadSubscriptionPlansTests {
             loadSubscriptionPlans(
                 LoadPlansConfig.WithOptionalDiscount(
                     planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-                    planCycles = listOf(PlanCycle.MONTHLY),
+                    paymentCycles = listOf(PaymentCycle.Month(1)),
                     discountOfferTag = IapConstants.INTRO_PRICE_TAG,
                 )
             )
@@ -106,15 +109,15 @@ class LoadSubscriptionPlansTests {
     @Test
     fun `WithOptionalDiscount picks offers with offer tag and if missing, uses the base plan`() = testScope.runTest {
         val offers = listOf(
-            createOffer(PlanCycle.MONTHLY, listOf(5_00), tags = emptyList(), token = "token_base"),
+            createOffer(PaymentCycle.Month(1), listOf(5_00), tags = emptyList(), token = "token_base"),
             createOffer(
-                PlanCycle.MONTHLY,
+                PaymentCycle.Month(1),
                 listOf(99, 5_00),
                 tags = listOf(IapConstants.INTRO_PRICE_TAG),
                 token = "token_intro"
             ),
             createOffer(
-                PlanCycle.MONTHLY,
+                PaymentCycle.Month(1),
                 listOf(2_00, 10_00),
                 tags = listOf(),
                 token = "token_intro_2"
@@ -126,26 +129,28 @@ class LoadSubscriptionPlansTests {
         val loadedIntroPlans = loadSubscriptionPlans(
             LoadPlansConfig.WithOptionalDiscount(
                 planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-                planCycles = listOf(PlanCycle.MONTHLY),
+                paymentCycles = listOf(PaymentCycle.Month(1)),
                 discountOfferTag = IapConstants.INTRO_PRICE_TAG,
             )
         )
         assertEquals(1, loadedIntroPlans.size)
         val loadedIntroPlan = loadedIntroPlans.first()
-        val expectedCycle = CycleInfo(PlanCycle.MONTHLY, "productId", "token_intro", listOf(IapConstants.INTRO_PRICE_TAG), 99, 5_00)
+        val monthlyOfferPlanCycle = PlanCycle(PaymentCycle.Month(1), PaymentRecurrence.Finite(1))
+        val expectedCycle = CycleInfo(monthlyOfferPlanCycle, "productId", "token_intro", listOf(IapConstants.INTRO_PRICE_TAG), 99, 5_00)
         assertEquals(listOf(expectedCycle), loadedIntroPlan.cycles)
 
         val loadedBasePlans = loadSubscriptionPlans(
             LoadPlansConfig.WithOptionalDiscount(
                 planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-                planCycles = listOf(PlanCycle.MONTHLY),
+                paymentCycles = listOf(PaymentCycle.Month(1)),
                 discountOfferTag = "unknown_tag",
             )
         )
         assertEquals(1, loadedIntroPlans.size)
         val loadedBasePlan = loadedBasePlans.first()
+        val monthlyBasePlanCycle = PlanCycle(PaymentCycle.Month(1), PaymentRecurrence.Infinite)
         assertEquals(
-            listOf(CycleInfo(PlanCycle.MONTHLY, "productId", "token_base", emptyList(), 5_00, 5_00)),
+            listOf(CycleInfo(monthlyBasePlanCycle, "productId", "token_base", emptyList(), 5_00, 5_00)),
             loadedBasePlan.cycles
         )
     }
@@ -154,8 +159,8 @@ class LoadSubscriptionPlansTests {
 
     @Test
     fun `fallback to available cycles`() = testScope.runTest {
-        val offer1m = createOffer(PlanCycle.MONTHLY, listOf(99))
-        val offer2y = createOffer(PlanCycle.TWO_YEARS, listOf(50_00))
+        val offer1m = createOffer(PaymentCycle.Month(1), listOf(99))
+        val offer2y = createOffer(PaymentCycle.Year(2), listOf(50_00))
         val products = listOf(
             createProduct("plus_1m", Constants.CURRENT_PLUS_PLAN, listOf(offer1m)),
             createProduct("plus_2y", Constants.CURRENT_PLUS_PLAN, listOf(offer2y)),
@@ -164,12 +169,12 @@ class LoadSubscriptionPlansTests {
         val loadedPlans = loadSubscriptionPlans(
             LoadPlansConfig.WithOptionalDiscount(
                 planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-                planCycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY),
+                paymentCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1)),
                 discountOfferTag = IapConstants.INTRO_PRICE_TAG,
             )
         )
         assertEquals(1, loadedPlans.size)
         val plan = loadedPlans.first()
-        assertEquals(listOf(PlanCycle.MONTHLY), plan.cycles.map { it.cycle })
+        assertEquals(listOf(PaymentCycle.Month(1)), plan.cycles.map { it.cycle.paymentCycle })
     }
 }

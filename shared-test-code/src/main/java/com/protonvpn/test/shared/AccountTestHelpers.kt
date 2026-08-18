@@ -19,18 +19,12 @@
 
 package com.protonvpn.test.shared
 
-import com.protonvpn.android.ui.planupgrade.IapConstants
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
+import com.protonvpn.android.ui.planupgrade.toISO8601
 import me.proton.core.domain.entity.AppStore
 import me.proton.core.domain.entity.UserId
-import me.proton.core.plan.domain.entity.DynamicPlan
-import me.proton.core.plan.domain.entity.DynamicPlanInstance
-import me.proton.core.plan.domain.entity.DynamicPlanPrice
-import me.proton.core.plan.domain.entity.DynamicPlanState
-import me.proton.core.plan.domain.entity.DynamicPlanVendor
-import com.protonvpn.android.ui.planupgrade.PlanCycle
 import me.proton.core.user.domain.entity.Type
 import me.proton.core.user.domain.entity.User
-import java.time.Instant
 
 // We should upstream such helpers to Account modules.
 fun createAccountUser(id: UserId = UserId("id"), type: Type = Type.Proton, createdAtUtc: Long = 0L, name: String? = null) = User(
@@ -55,37 +49,4 @@ fun createAccountUser(id: UserId = UserId("id"), type: Type = Type.Proton, creat
     flags = emptyMap()
 )
 
-fun PlanCycle.toProductId(appStore: AppStore, name: String) = "productId-$appStore-$name-$cycleDurationMonths"
-
-fun createDynamicPlan(
-    name: String,
-    prices: Map<PlanCycle, Map</*currency*/String, DynamicPlanPrice>> = emptyMap(),
-    appStore: AppStore = AppStore.GooglePlay
-) = createDynamicPlan(
-    name = name,
-    instances = prices.map { (cycle, cyclePrices) ->
-        cycle.cycleDurationMonths to createDynamicPlanInstance(name, cycle, appStore, cyclePrices)
-    }.toMap()
-)
-
-fun createDynamicPlan(
-    name: String,
-    instances: Map<Int, DynamicPlanInstance>,
-) = DynamicPlan(
-    name,
-    0,
-    DynamicPlanState.Available,
-    "$name title",
-    null,
-    instances = instances
-)
-
-fun createDynamicPlanInstance(
-    productName: String,
-    cycle: PlanCycle,
-    appStore: AppStore,
-    currencyToPrice: Map<String, DynamicPlanPrice>?
-) = DynamicPlanInstance(
-    cycle.cycleDurationMonths, "", Instant.MAX, currencyToPrice ?: emptyMap(),
-    mapOf(appStore to DynamicPlanVendor(cycle.toProductId(appStore, productName), ""))
-)
+fun PaymentCycle.toProductId(appStore: AppStore, name: String) = "productId-$appStore-$name-${toISO8601()}"

@@ -649,10 +649,6 @@
     <string name="payment_price_with_period">%1$s /%2$s</string>
     <string name="payment_price_per_month">buwan</string>
     <string name="payment_price_per_year">taon</string>
-    <string name="payment_price_per_2years">2 taon</string>
-    <string name="payment_price_cycle_month_label">1 buwan</string>
-    <string name="payment_price_cycle_year_label">1 taon</string>
-    <string name="payment_price_cycle_2years_label">2 taon</string>
     <string name="payment_select_your_plan">Piliin ang iyong plan</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -660,12 +656,6 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">Kunin ang %1$s</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Awtomatikong magre-renew sa halagang %1$s/buwan.</string>
-    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Awtomatikong magre-renew sa halagang %1$s/taon.</string>
-    <string name="payment_auto_renew_message_monthly">Awtomatikong magre-renew ang subscription sa halagang %1$s/buwan</string>
-    <string name="payment_auto_renew_message_annual">Awtomatikong magre-renew ang subscription sa halagang %1$s/taon</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Pinapayagan ng teknolohiyang ito ang Proton VPN na magbigay ng mas mabilis at ligtas na serbisyo sa mga bansang mahirap serbisyuhan.</string>
     <string name="tor_title">Tor</string>

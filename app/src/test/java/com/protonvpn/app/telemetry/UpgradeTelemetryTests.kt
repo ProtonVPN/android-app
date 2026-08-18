@@ -28,7 +28,7 @@ import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
-import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.planupgrade.comparison_table.FakeIsUpsellComparisonTableExperimentEnabled
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -134,7 +134,7 @@ class UpgradeTelemetryTests {
             upgradeTrigger = UpgradeTrigger.HOME_CAROUSEL,
             reference = "ref",
         )
-        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.ONE_CLICK, "plan", 12)
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.ONE_CLICK, "plan", PaymentCycle.Year(1))
 
         verify {
             mockTelemetry.event(UPSELL_GROUP, "upsell_display", emptyMap(), any())
@@ -156,7 +156,7 @@ class UpgradeTelemetryTests {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.NETSHIELD, UpgradeTrigger.SETTINGS, null)
         upgradeTelemetry.onPricesLoaded(hasIntroPrices = true)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
-        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.MONTHLY.cycleDurationMonths)
+        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PaymentCycle.Month(1))
 
         verify {
             listOf(
@@ -190,7 +190,7 @@ class UpgradeTelemetryTests {
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROFILES, UpgradeTrigger.PROFILES, null)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
-        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.MONTHLY.cycleDurationMonths)
+        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PaymentCycle.Month(1))
 
         verify {
             listOf("upsell_display", "upsell_upgrade_attempt", "upsell_success").forEach { event ->
@@ -208,7 +208,7 @@ class UpgradeTelemetryTests {
     fun `on success both old and new plan is reported`() = testScope.runTest {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION, UpgradeTrigger.SETTINGS, null)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
-        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.YEARLY.cycleDurationMonths)
+        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PaymentCycle.Year(1))
 
         verify {
             mockTelemetry.event(
@@ -253,7 +253,7 @@ class UpgradeTelemetryTests {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION, UpgradeTrigger.SETTINGS, null)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR, null, null)
         fakeTime = 10.minutes.inWholeMilliseconds + 1
-        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PlanCycle.MONTHLY.cycleDurationMonths)
+        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR, PaymentCycle.Month(1))
 
         verify(exactly = 0) {
             mockTelemetry.event(UPSELL_GROUP, "upsell_success", any(), any())

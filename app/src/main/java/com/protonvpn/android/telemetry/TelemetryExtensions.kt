@@ -25,6 +25,7 @@ import com.protonvpn.android.profiles.ui.ProfileType
 import com.protonvpn.android.profiles.usecases.PrivateBrowsingAvailability
 import com.protonvpn.android.redesign.recents.usecases.ConnectionFeedback
 import com.protonvpn.android.redesign.settings.ui.NatType
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.alwayson.VpnAlwaysOn
 
@@ -77,4 +78,15 @@ fun ConnectionFeedback.toTelemetry(): String = when (this) {
     ConnectionFeedback.Negative -> "negative"
     ConnectionFeedback.None -> "ignore"
     ConnectionFeedback.Positive -> "positive"
+}
+
+fun PaymentCycle?.toTelemetryBillingCycleMonths(): String? {
+    val monthsIfPossible = when (this) {
+        is PaymentCycle.Day -> null
+        is PaymentCycle.Week -> null
+        is PaymentCycle.Month -> count
+        is PaymentCycle.Year -> count * 12
+        null -> null
+    }
+    return monthsIfPossible?.toString()
 }

@@ -31,7 +31,7 @@ import com.protonvpn.android.promooffers.ui.HomeScreenPromoBannerFlow
 import com.protonvpn.android.promooffers.ui.PromoOfferBannerState
 import com.protonvpn.android.promooffers.usecase.EnsureIapOfferStillValid
 import com.protonvpn.android.ui.planupgrade.IapConstants
-import com.protonvpn.android.ui.planupgrade.PlanCycle
+import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePanel
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
@@ -150,7 +150,7 @@ class HomeScreenPromoOfferBannerTests {
 
     @Test
     fun `notification with IAP is displayed only when eligible`() = runTest {
-        val productDetails = ApiNotificationProductDetailsGoogle(PlanCycle.MONTHLY, offerTag = IapConstants.INTRO_PRICE_TAG)
+        val productDetails = ApiNotificationProductDetailsGoogle(PaymentCycle.Month(1), offerTag = IapConstants.INTRO_PRICE_TAG)
         val action = ApiNotificationOfferButton(
             action = "IapPopup",
             panel = mockFullScreenImagePanel(

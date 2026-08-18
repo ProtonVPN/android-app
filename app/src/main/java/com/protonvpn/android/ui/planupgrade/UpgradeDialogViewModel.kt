@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.ui.planupgrade
 
-import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
@@ -77,7 +76,7 @@ class PlanModel(
     val planName: String,
     val currency: String,
     val cycles: List<CycleViewInfo>,
-    val preselectedCycle: PlanCycle,
+    val preselectedCycle: PaymentCycle,
 )
 
 @HiltViewModel
@@ -113,7 +112,7 @@ class UpgradeDialogViewModel(
     data class PriceInfo(
         val formattedPrice: String,
         val formattedRenewPrice: String = formattedPrice,
-        val hasIntroPrice: Boolean,
+        val hasDiscountPrice: Boolean,
         val savePercent: Int? = null,
         val formattedPerMonthPrice: String? = null,
     )
@@ -121,8 +120,6 @@ class UpgradeDialogViewModel(
         val productId: ProductId,
         val offerToken: OfferToken,
         val cycle: PlanCycle,
-        @param:StringRes val perCycleResId: Int?,
-        @param:StringRes val cycleLabelResId: Int,
         val priceInfo: PriceInfo,
     )
     sealed interface State {
@@ -150,7 +147,7 @@ class UpgradeDialogViewModel(
         data class PurchaseSuccess(
             val orderId: String,
             val newPlanName: String,
-            val billingCycle: Int,
+            val paymentCycle: PaymentCycle?,
             val currency: String?,
         ) : State
     }
@@ -162,14 +159,14 @@ class UpgradeDialogViewModel(
 
     private class ReloadState(
         val selection: LoadPlansConfig,
-        val preselectedCycle: PlanCycle?,
+        val preselectedCycle: PaymentCycle?,
         val buttonLabelOverride: String?,
         val showDiscountBadge: Boolean,
     )
     private var plansForReload: ReloadState? = null
 
     private lateinit var loadedPlans: List<PlanModel>
-    private val selectedCycle = MutableStateFlow<PlanCycle?>(null)
+    private val selectedCycle = MutableStateFlow<PaymentCycle?>(null)
     private val paymentSessionState = observePaymentSessionState()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), SessionState.Idle)
     private val loadPurchaseState = MutableStateFlow<State.LoadPurchase>(State.Initializing)
@@ -185,7 +182,7 @@ class UpgradeDialogViewModel(
                 with(paymentState.purchase) {
                     PurchaseSuccess(
                         newPlanName = planId,
-                        billingCycle = cycle ?: 0,
+                        paymentCycle = selectedCycle.value,
                         orderId = this.orderId,
                         currency = selectedPlan?.currency,
                     )
@@ -220,7 +217,7 @@ class UpgradeDialogViewModel(
             .filterIsInstance<PurchaseSuccess>()
             .onEach {
                 onPaymentFinished(
-                    it.orderId, it.newPlanName, it.currency, it.billingCycle,
+                    it.orderId, it.newPlanName, it.currency, it.paymentCycle,
                     UpgradeFlowType.ONE_CLICK
                 )
             }
@@ -250,16 +247,16 @@ class UpgradeDialogViewModel(
         loadPlans(
             selection = LoadPlansConfig.WithOptionalDiscount(
                 planNames = planNames,
-                planCycles = IapConstants.DEFAULT_PLAN_CYCLES,
+                paymentCycles = IapConstants.DEFAULT_PAYMENT_CYCLES,
                 discountOfferTag = IapConstants.INTRO_PRICE_TAG,
             ),
-            preselectedCycle = PlanCycle.YEARLY,
+            preselectedCycle = PaymentCycle.Year(1),
         )
     }
 
     fun loadPlans(
         selection: LoadPlansConfig,
-        preselectedCycle: PlanCycle? = null,
+        preselectedCycle: PaymentCycle? = null,
         buttonLabelOverride: String? = null,
         showDiscountBadge: Boolean = true,
     ) {
@@ -281,7 +278,7 @@ class UpgradeDialogViewModel(
     private suspend fun loadPlansInternal(
         selection: LoadPlansConfig,
         preselectedPlan: String?,
-        preselectedCycle: PlanCycle?,
+        preselectedCycle: PaymentCycle?,
         buttonLabelOverride: String?,
         showDiscountBadge: Boolean,
     ) {
@@ -296,10 +293,10 @@ class UpgradeDialogViewModel(
                         showDiscountBadge
                     )
                     val preselectedCycle =
-                        if (preselectedCycle != null && cyclesDescending.any { it.cycle == preselectedCycle }) {
+                        if (preselectedCycle != null && cyclesDescending.any { it.cycle.paymentCycle == preselectedCycle }) {
                             preselectedCycle
                         } else {
-                            cyclesDescending.first().cycle
+                            cyclesDescending.first().cycle.paymentCycle
                         }
                     PlanModel(
                         displayName = planInfo.displayName,
@@ -344,7 +341,7 @@ class UpgradeDialogViewModel(
             inProgress = false,
             buttonLabelOverride = buttonLabelOverride
         )
-        if (plan.cycles.none { it.cycle == selectedCycle.value }) {
+        if (plan.cycles.none { it.cycle.paymentCycle == selectedCycle.value }) {
             selectedCycle.value = plan.preselectedCycle
         }
     }
@@ -354,7 +351,7 @@ class UpgradeDialogViewModel(
         require(currentState is State.PurchaseReady)
         val cycle = requireNotNull(selectedCycle.value) { "Missing plan cycle." }
         val plan = currentState.selectedPlan
-        val planCycle = requireNotNull(plan.cycles.find { it.cycle == cycle }) {
+        val planCycle = requireNotNull(plan.cycles.find { it.cycle.paymentCycle == cycle }) {
             "Missing cycle $cycle for ${plan.planName}"
         }
 
@@ -384,15 +381,20 @@ class UpgradeDialogViewModel(
         orderId: String,
         newPlanName: String,
         currency: String?,
-        billingCycle: Int,
+        paymentCycle: PaymentCycle?,
         upgradeFlowType: UpgradeFlowType,
     ) {
-        upgradeTelemetry.onUpgradeSuccess(newPlanName, upgradeFlowType, billingCycle)
+        upgradeTelemetry.onUpgradeSuccess(newPlanName, upgradeFlowType, paymentCycle)
+        val mmpSubscriptionCycle = when (paymentCycle) {
+            is PaymentCycle.Month -> paymentCycle.count
+            is PaymentCycle.Year -> paymentCycle.count * 12
+            else -> 0
+        }
         val subscriptionDetails = MmpEvent.SubscriptionDetails(
             price = 0L,
             currency = currency ?: "",
             planName = newPlanName,
-            cycle = billingCycle,
+            cycle = mmpSubscriptionCycle,
             transactionId = orderId,
             couponCode = null,
             isFirstPurchase = null,
@@ -422,11 +424,11 @@ class UpgradeDialogViewModel(
     }
 
     private fun List<PlanModel>.hasDiscountPrice(): Boolean =
-        any { plan -> plan.cycles.any { it.priceInfo.hasIntroPrice }}
+        any { plan -> plan.cycles.any { it.priceInfo.hasDiscountPrice }}
 
     private fun buildFullState(
         currentState: State,
-        currentSelectedCycle: PlanCycle?,
+        currentSelectedCycle: PaymentCycle?,
     ) = PaymentPanelState(
         upgradeState = currentState,
         selectedCycle = currentSelectedCycle,
@@ -434,7 +436,7 @@ class UpgradeDialogViewModel(
             if (currentState is State.PurchaseReady) {
                 val flowType = UpgradeFlowType.ONE_CLICK
                 val planId = currentState.selectedPlan.planName
-                upgradeTelemetry.onUpgradeAttempt(flowType, planId, currentSelectedCycle?.cycleDurationMonths)
+                upgradeTelemetry.onUpgradeAttempt(flowType, planId, currentSelectedCycle)
                 pay()
             }
         },
@@ -467,7 +469,13 @@ class UpgradeDialogViewModel(
         ): List<CycleViewInfo> {
             fun perMonthPrice(cycleInfo: CycleInfo, price: (CycleInfo) -> Int): Double? {
                 val amount = price(cycleInfo).centsToUnits()
-                val months = cycleInfo.cycle.cycleDurationMonths
+                val months = when (val paymentCycle = cycleInfo.cycle.paymentCycle) {
+                    // We don't support weekly yet.
+                    is PaymentCycle.Day -> 0
+                    is PaymentCycle.Week -> 0
+                    is PaymentCycle.Month -> paymentCycle.count
+                    is PaymentCycle.Year -> 12 * paymentCycle.count
+                }
                 return if (months > 0 && amount > 0.0) {
                     amount / months
                 } else {
@@ -483,15 +491,16 @@ class UpgradeDialogViewModel(
                 .mapNotNull { cycleInfo ->
                     perMonthPrice(cycleInfo) { max(it.currentPriceCents, it.defaultPriceCents) }
                 }
-                .max()
+                .maxOrNull()
 
             val cyclesWithPrices = cycles.map { cycleInfo ->
                 val cycle = cycleInfo.cycle
                 val perMonthPrice = perMonthCurrentPrices[cycle]
                 val priceAmount = cycleInfo.currentPriceCents.centsToUnits()
                 val renewPriceAmount = cycleInfo.defaultPriceCents.centsToUnits()
-                val showPerMonthPrice =
-                    perMonthPrice != null && cycleInfo.cycle.cycleDurationMonths != 1 && renewPriceAmount == priceAmount
+                val showPerMonthPrice = perMonthPrice != null && with(cycleInfo.cycle) {
+                    paymentCycle != PaymentCycle.Month(1) && paymentCycle.unitOrder() >= PaymentCycle.Month(1).unitOrder()
+                }
                 val priceInfo = PriceInfo(
                     formattedPrice = formatPrice(priceAmount, currency),
                     formattedRenewPrice = formatPrice(renewPriceAmount, currency),
@@ -499,17 +508,19 @@ class UpgradeDialogViewModel(
                         calculateSavingsPercentage(perMonthPrice, maxPerMonthPrice)
                     },
                     formattedPerMonthPrice = if (showPerMonthPrice) { formatPrice(perMonthPrice, currency) } else null,
-                    hasIntroPrice = priceAmount != renewPriceAmount,
+                    hasDiscountPrice = priceAmount != renewPriceAmount,
                 )
                 CycleViewInfo(
                     productId = cycleInfo.productId,
                     offerToken = cycleInfo.offerToken,
                     cycle = cycle,
-                    perCycleResId = ifOrNull(!priceInfo.hasIntroPrice) { planPerCycleResId(cycle) },
-                    cycleLabelResId = planCycleLabelResId(cycle),
                     priceInfo = priceInfo
                 )
-            }.sortedByDescending { it.cycle.cycleDurationMonths }
+            }.sortedWith(
+                compareBy<CycleViewInfo> { it.cycle.paymentCycle.unitOrder() }
+                    .thenBy { it.cycle.paymentCycle.count }
+                    .reversed()
+            )
 
             reportDuplicatesToSentry(planName, cyclesWithPrices)
             return cyclesWithPrices
@@ -527,29 +538,13 @@ private fun reportDuplicatesToSentry(
     byCycle.filter { (_, prices) -> prices.size > 1 }
         .onEach { (cycle, prices) ->
             val pricesString = prices.joinToString { it.priceInfo.formattedPrice }
-            val message = "Multiple prices for plan '$planName' ${cycle.name}: $pricesString"
+            val message = "Multiple prices for plan '$planName' $cycle: $pricesString"
             ProtonLogger.logCustom(LogCategory.IN_APP_PURCHASE, message)
             captureException(DuplicatePricesError(message))
         }
 }
 
 private class DuplicatePricesError(message: String) : Throwable(message)
-
-@StringRes
-private fun planPerCycleResId(cycle: PlanCycle): Int = when(cycle) {
-    PlanCycle.MONTHLY -> R.string.payment_price_per_month
-    PlanCycle.YEARLY -> R.string.payment_price_per_year
-    PlanCycle.TWO_YEARS -> R.string.payment_price_per_2years
-    PlanCycle.OTHER -> throw IllegalArgumentException("Invalid plan cycle")
-}
-
-@StringRes
-private fun planCycleLabelResId(cycle: PlanCycle): Int = when(cycle) {
-    PlanCycle.MONTHLY -> R.string.payment_price_cycle_month_label
-    PlanCycle.YEARLY -> R.string.payment_price_cycle_year_label
-    PlanCycle.TWO_YEARS -> R.string.payment_price_cycle_2years_label
-    PlanCycle.OTHER -> throw IllegalArgumentException("Invalid plan cycle")
-}
 
 @Suppress("MagicNumber")
 private fun Int.centsToUnits(): Double = this / 100.0
