@@ -49,11 +49,11 @@ private class AppConfigStorageMigration : DataMigration<AppConfigResponse> {
 class AppConfigStoreProvider @Inject constructor(
     factory: LocalDataStoreFactory
 ) : StoreProvider<AppConfigResponse>(
-    "app_config",
-    AppConfigResponse(),
-    AppConfigResponse.serializer(),
-    factory,
-    listOf(AppConfigStorageMigration())
+    filename = "app_config",
+    default = AppConfigResponse(),
+    serializer = AppConfigResponse.serializer(),
+    factory = factory,
+    migrations = listOf(AppConfigStorageMigration())
 )
 
 @Singleton

@@ -164,11 +164,11 @@ class CurrentUserLocalSettingsManager @Inject constructor(
 class LocalUserSettingsStoreProvider @Inject constructor(
     factory: LocalDataStoreFactory,
 ) : StoreProvider<LocalUserSettings>(
-    "local_user_settings",
-    LocalUserSettings.Default,
-    LocalUserSettings.serializer(),
-    factory,
-    listOf(SaveStartingValuesMigration())
+    filename = "local_user_settings",
+    default = LocalUserSettings.Default,
+    serializer = LocalUserSettings.serializer(),
+    factory = factory,
+    migrations = listOf(SaveStartingValuesMigration())
 )
 
 // Migration exists to serialize all current values explicitly (which is achieved together with

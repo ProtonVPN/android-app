@@ -99,9 +99,8 @@ class CertificateStorage @Inject constructor(
     private val inMemoryCache = mutableMapOf<String, CertInfo>()
     private val dataStore = mainScope.async(start = CoroutineStart.LAZY) {
         localDataStoreFactory.getDataStore(
-            FILE_NAME,
-            JsonDataStoreSerializer(Data(emptyMap()), Data.serializer()),
-            emptyList()
+            fileName = FILE_NAME,
+            serializer = JsonDataStoreSerializer(Data(emptyMap()), Data.serializer()),
         )
     }
 

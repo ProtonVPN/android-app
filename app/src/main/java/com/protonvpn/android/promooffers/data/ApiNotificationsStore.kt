@@ -19,7 +19,10 @@
 
 package com.protonvpn.android.promooffers.data
 
-import com.protonvpn.android.appconfig.AppConfigResponse
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.userstorage.SharedStoreProvider
 import com.protonvpn.android.userstorage.StoreProvider
@@ -32,10 +35,14 @@ import javax.inject.Singleton
 class ApiNotificationsStoreProvider @Inject constructor(
     factory: LocalDataStoreFactory,
 ) : StoreProvider<ApiNotificationsResponse>(
-    "api_notifications",
-    ApiNotificationsResponse(emptyList()),
-    ApiNotificationsResponse.serializer(),
-    factory,
+    filename = "api_notifications",
+    default = ApiNotificationsResponse(emptyList()),
+    serializer = ApiNotificationsResponse.serializer(),
+    factory = factory,
+    corruptionHandler = ReplaceFileCorruptionHandler { e ->
+        ProtonLogger.logCustom(LogLevel.WARN, LogCategory.PROMO, "Corrupted cache ($e: ${e.cause}), clearing.")
+        ApiNotificationsResponse(emptyList())
+    }
 )
 
 @Singleton

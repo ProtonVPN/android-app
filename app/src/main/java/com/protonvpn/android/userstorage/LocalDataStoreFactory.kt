@@ -25,6 +25,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.MultiProcessDataStoreFactory
 import androidx.datastore.core.Serializer
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.dataStoreFile
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.sync.Mutex
@@ -36,7 +37,8 @@ interface LocalDataStoreFactory {
     suspend fun <T> getDataStore(
         fileName: String,
         serializer: Serializer<T>,
-        migrations: List<DataMigration<T>>
+        corruptionHandler: ReplaceFileCorruptionHandler<T>? = null,
+        migrations: List<DataMigration<T>> = emptyList(),
     ): DataStore<T>
 
     suspend fun <T> getMultiProcessDataStore(
@@ -48,7 +50,7 @@ interface LocalDataStoreFactory {
 
 @Singleton
 class DefaultLocalDataStoreFactory @Inject constructor(
-    @ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context
 ) : LocalDataStoreFactory {
     // Single-file DataStores can be created one per process. Store them in the map in case they are requested again.
     private val dataStores: MutableMap<String, DataStore<*>> = HashMap()
@@ -58,11 +60,13 @@ class DefaultLocalDataStoreFactory @Inject constructor(
     override suspend fun <T> getDataStore(
         fileName: String,
         serializer: Serializer<T>,
-        migrations: List<DataMigration<T>>
+        corruptionHandler: ReplaceFileCorruptionHandler<T>?,
+        migrations: List<DataMigration<T>>,
     ): DataStore<T> = mutex.withLock {
         dataStores.getOrElse(fileName) {
             DataStoreFactory.create(
-                serializer,
+                serializer = serializer,
+                corruptionHandler = corruptionHandler,
                 migrations = migrations,
                 produceFile = { context.dataStoreFile(fileName) }
             ).also { newDataStore ->

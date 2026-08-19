@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.planupgrade
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
 import me.proton.android.payment.product.model.BillingCycle
 import me.proton.android.payment.product.model.BillingRecurrence
 
@@ -79,16 +80,19 @@ fun BillingCycle.toPaymentCycle(): PaymentCycle = when(this) {
 // No regex is used as this happens early in app start.
 fun String.parsePaymentCycle(): PaymentCycle {
     val lowercased = lowercase()
-    require(length >= 3 && lowercased.first() == 'p' && lowercased[1].isDigit())
+    if (!(length >= 3 && lowercased.first() == 'p' && lowercased[1].isDigit()))
+        throw SerializationException("Invalid PaymentCycle '$this'")
+
     val endNumberIndex = lowercased.substring(1).indexOfFirst { !it.isDigit() }
-    require(endNumberIndex > -1)
+    if (endNumberIndex < 1)
+        throw SerializationException("Invalid PaymentCycle '$this'")
     val count = lowercased.substring(1, endNumberIndex + 1).toInt()
     return when (val lastChar = lowercased.last()) {
         'd' -> PaymentCycle.Day(count)
         'w' -> PaymentCycle.Week(count)
         'm' -> PaymentCycle.Month(count)
         'y' -> PaymentCycle.Year(count)
-        else -> throw IllegalArgumentException("Unknown period $lastChar")
+        else -> throw SerializationException("Unknown period '$lastChar' in '$this'")
     }
 }
 

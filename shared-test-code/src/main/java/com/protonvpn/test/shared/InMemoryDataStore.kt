@@ -22,6 +22,7 @@ package com.protonvpn.test.shared
 import androidx.datastore.core.DataMigration
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,7 +40,8 @@ class InMemoryDataStoreFactory @Inject constructor() : LocalDataStoreFactory {
     override suspend fun <T> getDataStore(
         fileName: String,
         serializer: Serializer<T>,
-        migrations: List<DataMigration<T>>
+        corruptionHandler: ReplaceFileCorruptionHandler<T>?,
+        migrations: List<DataMigration<T>>,
     ): DataStore<T> = mutex.withLock {
         allStores.getOrElse(fileName) {
             InMemoryDataStore(serializer.defaultValue).also { newStore -> allStores[fileName] = newStore }
@@ -50,7 +52,7 @@ class InMemoryDataStoreFactory @Inject constructor() : LocalDataStoreFactory {
         fileName: String,
         serializer: Serializer<T>,
         migrations: List<DataMigration<T>>
-    ): DataStore<T> = getDataStore(fileName, serializer, migrations)
+    ): DataStore<T> = getDataStore(fileName, serializer, null, migrations)
 }
 
 class InMemoryDataStore<T>(defaultValue: T) : DataStore<T> {

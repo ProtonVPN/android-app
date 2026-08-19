@@ -21,6 +21,7 @@ package com.protonvpn.android.userstorage
 
 import androidx.datastore.core.DataMigration
 import androidx.datastore.core.DataStore
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -40,7 +41,8 @@ open class StoreProvider<T>(
     default: T,
     serializer: KSerializer<T>,
     private val factory: LocalDataStoreFactory,
-    private val migrations: List<DataMigration<T>> = emptyList()
+    private val corruptionHandler: ReplaceFileCorruptionHandler<T>? = null,
+    private val migrations: List<DataMigration<T>> = emptyList(),
 ) {
     private val dataStoreSerializer = JsonDataStoreSerializer(default, serializer)
 
@@ -48,7 +50,8 @@ open class StoreProvider<T>(
         factory.getDataStore(
             listOf(filename, id).joinToString("-"),
             dataStoreSerializer,
-            migrations
+            corruptionHandler,
+            migrations,
         )
 }
 

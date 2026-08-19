@@ -39,8 +39,8 @@ class JsonDataStoreSerializer<T>(
     override suspend fun readFrom(input: InputStream): T =
         try {
             json.decodeFromString(serializer, input.readBytes().decodeToString())
-        } catch (serialization: SerializationException) {
-            throw CorruptionException("Unable to read local data store $serializer", serialization)
+        } catch (error: SerializationException) {
+            throw CorruptionException("Unable to read local data store ${serializer::class.simpleName}", error)
         }
 
     @Suppress("BlockingMethodInNonBlockingContext")
