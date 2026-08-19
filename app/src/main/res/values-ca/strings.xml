@@ -568,7 +568,6 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Lent</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Ràpid</string>
     <string name="upsell_panel_speed_benefit_video">Transmissions de vídeo sense esperes</string>
-    <string name="upsell_panel_speed_benefit_ads">Navegueu sense anuncis ni rastrejadors</string>
     <string name="upsell_panel_split_tunneling_title">Trieu quines aplicacions utilitzen la VPN</string>
     <string name="upsell_panel_split_tunneling_description">El navegador a través de la VPN, l\'aplicació bancària per fora. Vosaltres trieu, aplicació per aplicació.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Tunelització dividida</string>

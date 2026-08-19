@@ -598,7 +598,6 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Slabá</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Rýchla</string>
     <string name="upsell_panel_speed_benefit_video">Streamovanie videa bez bufferingu</string>
-    <string name="upsell_panel_speed_benefit_ads">Surfujte bez reklám a sledovacích nástrojov</string>
     <string name="upsell_panel_split_tunneling_title">Vyberte aplikácie, ktoré budú používať VPN</string>
     <string name="upsell_panel_split_tunneling_description">Prehliadač cez VPN, vaša banková aplikácia mimo nej. Rozhodnete sa sami, aplikáciu po aplikácii.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Delené tunelovanie</string>

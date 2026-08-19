@@ -598,7 +598,6 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Повільно</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Швидко</string>
     <string name="upsell_panel_speed_benefit_video">Відео транслюється без буферування</string>
-    <string name="upsell_panel_speed_benefit_ads">Переглядайте без реклами та стеження</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>

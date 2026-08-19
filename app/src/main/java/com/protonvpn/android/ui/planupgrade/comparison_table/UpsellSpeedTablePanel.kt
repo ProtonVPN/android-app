@@ -53,7 +53,7 @@ fun UpsellSpeedTablePanel(
             )
             BenefitTableRowNoYes(stringResource(R.string.upsell_panel_speed_benefit_video))
             BenefitTableRowNoYes(
-                stringResource(R.string.upsell_panel_speed_benefit_ads),
+                stringResource(R.string.upsell_panel_speed_benefit_p2p),
                 secondPlanBackgroundShape = BenefitTableRowDefaults.ShapeBottom,
                 bottomSeparator = false,
             )

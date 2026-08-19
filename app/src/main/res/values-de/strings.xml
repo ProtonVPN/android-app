@@ -568,7 +568,6 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Langsam</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Schnell</string>
     <string name="upsell_panel_speed_benefit_video">Videostreams, die nicht zwischengespeichert werden müssen</string>
-    <string name="upsell_panel_speed_benefit_ads">Surfen ohne Werbung und Tracker</string>
     <string name="upsell_panel_split_tunneling_title">Auswählen, welche Apps das VPN nutzen sollen</string>
     <string name="upsell_panel_split_tunneling_description">Dein Browser läuft über das VPN, deine Banking-App umgeht es. Du entscheidest – App für App.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Split‐Tunneling</string>

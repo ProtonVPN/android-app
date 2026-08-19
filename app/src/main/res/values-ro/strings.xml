@@ -583,7 +583,6 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Mare</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Mic</string>
     <string name="upsell_panel_speed_benefit_video">Vizionare videoclipuri fără sacadare</string>
-    <string name="upsell_panel_speed_benefit_ads">Navigare fără reclame sau instrumente de urmărire</string>
     <string name="upsell_panel_split_tunneling_title">Alegeți care aplicații trec prin VPN</string>
     <string name="upsell_panel_split_tunneling_description">Navigatorul web prin VPN, aplicația bancară în afara sa. Puteți alege, aplicație cu aplicație.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Divizare trafic</string>

@@ -599,7 +599,6 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Počasen</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Hiter</string>
     <string name="upsell_panel_speed_benefit_video">Pretočne video vsebine brez čakanja</string>
-    <string name="upsell_panel_speed_benefit_ads">Brskajte brez oglasov in sledilnikov</string>
     <string name="upsell_panel_split_tunneling_title">Izberite, katere aplikacije lahko uporabijo VPN</string>
     <string name="upsell_panel_split_tunneling_description">Vaš brskalnik upirabi VPN, vaša bančna aplikacija za zaobide. Vi določite, za vsako aplikacijo posebej.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Razdeljeno tuneliranje</string>

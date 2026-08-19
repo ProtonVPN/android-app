@@ -55,7 +55,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.BoxWithVerticalScrollEdgeFade
-import com.protonvpn.android.base.ui.BoxWithVerticalScrollEdgeFadeDefaults
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarCloseIcon
@@ -291,9 +290,7 @@ private fun UpgradeBenefitsPanel(
     BoxWithVerticalScrollEdgeFade(
         scrollableState = scrollState,
         topFadeColor = mixDstOver(ProtonTheme.colors.upsellGradientStart,ProtonTheme.colors.backgroundNorm),
-        topFadeHeight =
-            BoxWithVerticalScrollEdgeFadeDefaults.FadeHeight +
-                    windowInsets.asPaddingValues().calculateTopPadding(),
+        topFadeHeight = 72.dp + windowInsets.asPaddingValues().calculateTopPadding(),
         contentAlignment = Alignment.Center,
         modifier = modifier,
     ) {

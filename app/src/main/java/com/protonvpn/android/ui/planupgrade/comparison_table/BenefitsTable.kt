@@ -55,9 +55,9 @@ import com.protonvpn.android.base.ui.vpnGreen
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
 
-private const val BENEFIT_TEXT_COLUMN_WEIGHT = 17f
-private const val BENEFIT_FIRST_COLUMN_WEIGHT = 7f
-private const val BENEFIT_SECOND_COLUMN_WEIGHT = 9f
+private const val BENEFIT_TEXT_COLUMN_WEIGHT = 2f
+private const val BENEFIT_FIRST_COLUMN_WEIGHT = 1f
+private const val BENEFIT_SECOND_COLUMN_WEIGHT = 1f
 
 object BenefitTableRowDefaults {
     val ShapeTop =  RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)

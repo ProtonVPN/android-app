@@ -553,7 +553,6 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Chậm</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Nhanh</string>
     <string name="upsell_panel_speed_benefit_video">Phát video không bị buffer</string>
-    <string name="upsell_panel_speed_benefit_ads">Duyệt web không quảng cáo hoặc trình theo dõi</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>

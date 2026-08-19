@@ -56,6 +56,9 @@ fun UpsellDevicesTablePanel(
             stringResource(R.string.upsell_panel_general_benefit_speed),
             stringResource(R.string.upsell_panel_general_benefit_speed_standard),
             stringResource(R.string.upsell_panel_general_benefit_speed_highest),
+        )
+        BenefitTableRowNoYes(
+            stringResource(R.string.upsell_panel_general_benefit_shows),
             bottomSeparator = false,
             secondPlanBackgroundShape = BenefitTableRowDefaults.ShapeBottom,
         )

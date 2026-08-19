@@ -568,7 +568,6 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Lenta</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Rápida</string>
     <string name="upsell_panel_speed_benefit_video">Reproduzca sin largos tiempos de espera</string>
-    <string name="upsell_panel_speed_benefit_ads">Navegue sin anuncios o rastreadores</string>
     <string name="upsell_panel_split_tunneling_title">Elija cuáles aplicaciones usan la VPN</string>
     <string name="upsell_panel_split_tunneling_description">Su navegador a través de la VPN, la aplicación del banco la rodea. Usted elige, aplicación por aplicación.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Túnel dividido</string>

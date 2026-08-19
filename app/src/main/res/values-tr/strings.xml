@@ -568,7 +568,6 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Yavaş</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Hızlı</string>
     <string name="upsell_panel_speed_benefit_video">Takılmasız video yayın akışları</string>
-    <string name="upsell_panel_speed_benefit_ads">Reklamlar ve etkinlik izleyiciler olmadan gezinin</string>
     <string name="upsell_panel_split_tunneling_title">Hangi uygulamaların VPN kullanacağını seçin</string>
     <string name="upsell_panel_split_tunneling_description">VPN üzerinden tarayıcınıza, onun üzerinden de bankacılık uygulamanıza erişebilirsiniz. Her uygulama için ayrı ayrı seçim yapabilirsiniz.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Ayrılmış tünelleme</string>
