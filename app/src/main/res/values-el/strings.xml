@@ -542,7 +542,7 @@
         -->
     <string name="upsell_panel_country_title">Ξεκλειδώστε %1$s με το VPN Plus</string>
     <string name="upsell_panel_countries_title">Ξεκλειδώστε όλες τις χώρες με το VPN Plus</string>
-    <string name="upsell_panel_country_benefit_choice">Επιλέξτε την τοποθεσία σας</string>
+    <string name="upsell_panel_general_benefit_location">Επιλέξτε την τοποθεσία σας</string>
     <string name="upsell_panel_country_benefit_speed">Διακομιστές υψηλής ταχύτητας</string>
     <string name="upsell_panel_country_benefit_shows">Παρακολουθήστε εκπομπές διαθέσιμες μόνο στο εξωτερικό</string>
     <string name="upsell_panel_devices_title">Προστατέψτε κάθε συσκευή που διαθέτετε</string>

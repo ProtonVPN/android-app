@@ -86,7 +86,7 @@ fun UpsellCountryTablePanel(
                 },
             )
             BenefitTableRowNoYes(
-                stringResource(R.string.upsell_panel_country_benefit_choice),
+                stringResource(R.string.upsell_panel_general_benefit_location),
             )
             BenefitTableRowNoYes(
                 stringResource(R.string.upsell_panel_country_benefit_speed),

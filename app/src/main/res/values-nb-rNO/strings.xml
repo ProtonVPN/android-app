@@ -542,7 +542,7 @@
         -->
     <string name="upsell_panel_country_title">Lås opp %1$s med VPN Plus</string>
     <string name="upsell_panel_countries_title">Lås opp alle land med VPN Plus</string>
-    <string name="upsell_panel_country_benefit_choice">Velg plasseringen din</string>
+    <string name="upsell_panel_general_benefit_location">Velg plasseringen din</string>
     <string name="upsell_panel_country_benefit_speed">Høyhastighetsservere</string>
     <string name="upsell_panel_country_benefit_shows">Se programmer som bare er tilgjengelige i utlandet</string>
     <string name="upsell_panel_devices_title">Protect every device you own</string>

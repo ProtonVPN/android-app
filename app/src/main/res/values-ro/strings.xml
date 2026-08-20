@@ -557,7 +557,7 @@
         -->
     <string name="upsell_panel_country_title">Deblocați %1$s cu VPN Plus</string>
     <string name="upsell_panel_countries_title">Deblocați toate țările cu VPN Plus</string>
-    <string name="upsell_panel_country_benefit_choice">Alegeți orice țară</string>
+    <string name="upsell_panel_general_benefit_location">Alegeți orice țară</string>
     <string name="upsell_panel_country_benefit_speed">Servere de mare viteză</string>
     <string name="upsell_panel_country_benefit_shows">Vizionați emisiuni disponibile doar în afara țării</string>
     <string name="upsell_panel_devices_title">Protejați fiecare dispozitiv deținut</string>

@@ -542,7 +542,7 @@
         -->
     <string name="upsell_panel_country_title">Ontgrendel %1$s met VPN Plus</string>
     <string name="upsell_panel_countries_title">Krijg toegang tot alle landen met VPN Plus</string>
-    <string name="upsell_panel_country_benefit_choice">Kies uw locatie</string>
+    <string name="upsell_panel_general_benefit_location">Kies uw locatie</string>
     <string name="upsell_panel_country_benefit_speed">Snelle servers</string>
     <string name="upsell_panel_country_benefit_shows">Bekijk programma\'s die alleen in het buitenland te zien zijn</string>
     <string name="upsell_panel_devices_title">Protect every device you own</string>

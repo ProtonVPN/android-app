@@ -603,7 +603,7 @@
         -->
     <string name="upsell_panel_country_title">خوادم %1$s بانتظارك مع VPN Plus</string>
     <string name="upsell_panel_countries_title">وصول غير محدود لجميع خوادمنا مع باقة VPN Plus</string>
-    <string name="upsell_panel_country_benefit_choice">حرية اختيار موقعك</string>
+    <string name="upsell_panel_general_benefit_location">حرية اختيار موقعك</string>
     <string name="upsell_panel_country_benefit_speed">خوادم بسرعات استثنائية</string>
     <string name="upsell_panel_country_benefit_shows">شاهد محتواك المفضل أينما كنت</string>
     <string name="upsell_panel_devices_title">Protect every device you own</string>

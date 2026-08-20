@@ -542,7 +542,7 @@
         -->
     <string name="upsell_panel_country_title">Sblocca %1$s con VPN Plus</string>
     <string name="upsell_panel_countries_title">Sblocca tutti i paesi con VPN Plus</string>
-    <string name="upsell_panel_country_benefit_choice">Scegli la tua località</string>
+    <string name="upsell_panel_general_benefit_location">Scegli la tua località</string>
     <string name="upsell_panel_country_benefit_speed">Server ad alta velocità</string>
     <string name="upsell_panel_country_benefit_shows">Guarda programmi disponibili solo all\'estero</string>
     <string name="upsell_panel_devices_title">Proteggi ogni tuo dispositivo</string>

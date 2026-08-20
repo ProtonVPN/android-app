@@ -572,7 +572,7 @@
         -->
     <string name="upsell_panel_country_title">Розблокуйте %1$s з VPN Plus</string>
     <string name="upsell_panel_countries_title">Розблокуйте всі країни з VPN Plus</string>
-    <string name="upsell_panel_country_benefit_choice">Обирайте своє розташування</string>
+    <string name="upsell_panel_general_benefit_location">Обирайте своє розташування</string>
     <string name="upsell_panel_country_benefit_speed">Високошвидкісні сервери</string>
     <string name="upsell_panel_country_benefit_shows">Переглядайте медіа, доступне тільки за кордоном</string>
     <string name="upsell_panel_devices_title">Protect every device you own</string>

@@ -542,7 +542,7 @@
         -->
     <string name="upsell_panel_country_title">%1$s mit VPN Plus freischalten</string>
     <string name="upsell_panel_countries_title">Mit VPN Plus alle Länder freischalten</string>
-    <string name="upsell_panel_country_benefit_choice">Eigenen Standort auswählen</string>
+    <string name="upsell_panel_general_benefit_location">Eigenen Standort auswählen</string>
     <string name="upsell_panel_country_benefit_speed">Hochgeschwindigkeitsserver</string>
     <string name="upsell_panel_country_benefit_shows">Sendungen ansehen, die nur im Ausland verfügbar sind</string>
     <string name="upsell_panel_devices_title">Schütze alle deine Geräte</string>

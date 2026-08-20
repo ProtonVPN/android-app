@@ -26,6 +26,7 @@ import androidx.activity.viewModels
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -47,6 +48,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
@@ -58,6 +60,7 @@ import com.protonvpn.android.base.ui.BoxWithVerticalScrollEdgeFade
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarCloseIcon
+import com.protonvpn.android.base.ui.VpnTextButton
 import com.protonvpn.android.base.ui.copy
 import com.protonvpn.android.base.ui.horizontalPaddingForWindowSize
 import com.protonvpn.android.base.ui.largeScreenContentPadding
@@ -71,6 +74,7 @@ import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.onboarding.OnboardingTelemetry
 import com.protonvpn.android.ui.planupgrade.PaymentPanel
 import com.protonvpn.android.ui.planupgrade.PaymentPanelState
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
@@ -85,7 +89,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
+import javax.inject.Inject
 
 /**
  * Upgrade activity with a plan comparison table.
@@ -94,36 +100,46 @@ import me.proton.core.compose.theme.ProtonTheme
 @AndroidEntryPoint
 class UpgradeDialogActivityV2 : AppCompatActivity() {
 
-    sealed interface BenefitsViewState {
-        object AdvancedCustomization : BenefitsViewState
+    sealed class BenefitsViewState {
+        open val showNotNowButton = false
+
+        object AdvancedCustomization : BenefitsViewState()
         data class Countries(
             val country: CountryId?,
             val freeCountries: Int,
             val plusCountriesRounded: Int,
-        ) : BenefitsViewState
+        ) : BenefitsViewState()
         data class Devices(
             val freeCountries: Int,
             val plusCountriesRounded: Int,
-        ) : BenefitsViewState
-        object NetShield : BenefitsViewState
-        object P2p : BenefitsViewState
-        object Profiles : BenefitsViewState
-        object SecureCore : BenefitsViewState
-        object Speed : BenefitsViewState
+        ) : BenefitsViewState()
+        object NetShield : BenefitsViewState()
+        data class Onboarding(
+            val freeCountries: Int,
+            val plusCountriesRounded: Int,
+        ) : BenefitsViewState() {
+            override val showNotNowButton: Boolean = true
+        }
+        object P2p : BenefitsViewState()
+        object Profiles : BenefitsViewState()
+        object SecureCore : BenefitsViewState()
+        object Speed : BenefitsViewState()
         data class SplitTunneling(
             val freeCountries: Int,
             val plusCountriesRounded: Int,
-        ) : BenefitsViewState
-        object Streaming : BenefitsViewState
-        object StreamingBlocked : BenefitsViewState
-        object Tor : BenefitsViewState
+        ) : BenefitsViewState()
+        object Streaming : BenefitsViewState()
+        object StreamingBlocked : BenefitsViewState()
+        object Tor : BenefitsViewState()
 
     }
 
     private val viewModel by viewModels<UpgradeDialogViewModel>()
     private val upsellBenefitsViewModel by viewModels<UpsellBenefitsViewModel>()
 
-    private val upgradeActivityHelper = UpgradeActivityHelper(this)
+    @Inject lateinit var onboardingTelemetry: dagger.Lazy<OnboardingTelemetry>
+
+    private val upgradeActivityHelper = UpgradeActivityHelper(this, ::afterPaymentSuccess)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -179,6 +195,13 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
         }
     }
 
+    private fun afterPaymentSuccess(successPaymentState: UpgradeDialogViewModel.State.PurchaseSuccess) {
+        onboardingTelemetry.get().onOnboardingPaymentSuccess(
+            newPlanName = successPaymentState.newPlanName,
+            billingCycle = successPaymentState.billingCycle,
+        )
+    }
+
     companion object {
         fun isSupported(upgradeSource: UpgradeSource): Boolean =
             getContentType(upgradeSource, null, plusCountries = 0) != null
@@ -205,6 +228,10 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
                 plusCountriesRounded = plusCountries.roundToTens(),
             )
             UpgradeSource.NETSHIELD -> BenefitsViewState.NetShield
+            UpgradeSource.ONBOARDING -> BenefitsViewState.Onboarding(
+                freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
+                plusCountriesRounded = plusCountries.roundToTens(),
+            )
             UpgradeSource.P2P -> BenefitsViewState.P2p
             UpgradeSource.PROFILES -> BenefitsViewState.Profiles
             UpgradeSource.SECURE_CORE -> BenefitsViewState.SecureCore
@@ -239,21 +266,34 @@ fun PlanUpgradeDialog(
     )
     Scaffold(
         topBar = {
-            SimpleTopAppBar(
-                title = {},
-                navigationIcon = { TopAppBarCloseIcon(onClose) },
-                backgroundColor = Color.Transparent,
-            )
+            if (!benefitsViewState.showNotNowButton) {
+                SimpleTopAppBar(
+                    title = {},
+                    navigationIcon = { TopAppBarCloseIcon(onClose) },
+                    backgroundColor = Color.Transparent,
+                )
+            }
         },
         bottomBar = {
-            PaymentPanel(
-                viewState = paymentPanelState,
-                onClose = onClose,
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .windowInsetsPadding(windowInsets.only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal))
-            )
+            ) {
+                PaymentPanel(
+                    viewState = paymentPanelState,
+                    onClose = onClose,
+                    modifier = Modifier
+                )
+                if (benefitsViewState.showNotNowButton) {
+                    VerticalSpacer(height = 8.dp)
+                    VpnTextButton(
+                        text = stringResource(R.string.upgrade_not_now_button),
+                        onClick = onClose
+                    )
+                }
+            }
         },
         snackbarHost = {
             SnackbarHost(
@@ -332,6 +372,14 @@ private fun UpgradeBenefitsPanel(
                     modifier = tableModifier
                 )
 
+            is BenefitsViewState.Onboarding ->
+                UpsellOnboardingTablePanel(
+                    freeCountries = benefitsViewState.freeCountries,
+                    plusCountriesRounded = benefitsViewState.plusCountriesRounded,
+                    windowInsets = windowInsets,
+                    modifier = tableModifier,
+                )
+
             BenefitsViewState.P2p ->
                 UpsellP2pTablePanel(
                     windowInsets = windowInsets,
@@ -406,6 +454,10 @@ class UpgradeContentProvider : PreviewParameterProvider<BenefitsViewState> {
             plusCountriesRounded = Constants.FALLBACK_COUNTRY_COUNT.roundToTens(),
         ),
         BenefitsViewState.NetShield,
+        BenefitsViewState.Onboarding(
+            freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
+            plusCountriesRounded = Constants.FALLBACK_COUNTRY_COUNT.roundToTens(),
+        ),
         BenefitsViewState.P2p,
         BenefitsViewState.Profiles,
         BenefitsViewState.SecureCore,

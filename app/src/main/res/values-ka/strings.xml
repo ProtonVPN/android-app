@@ -542,7 +542,7 @@
         -->
     <string name="upsell_panel_country_title">განბლოკეთ %1$s VPN Plus-თან ერთად</string>
     <string name="upsell_panel_countries_title">განბლოკეთ ყველა ქვეყანა VPN Plus-თან ერთად</string>
-    <string name="upsell_panel_country_benefit_choice">აირჩიეთ თქვენი მდებარეობა</string>
+    <string name="upsell_panel_general_benefit_location">აირჩიეთ თქვენი მდებარეობა</string>
     <string name="upsell_panel_country_benefit_speed">ჩქაროსნული სერვერები</string>
     <string name="upsell_panel_country_benefit_shows">უყურეთ სერიალებს, რომლებიც, მხოლოდ, საზღვარგარეთაა ხელმისაწვდომი</string>
     <string name="upsell_panel_devices_title">Protect every device you own</string>
