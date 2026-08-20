@@ -44,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
@@ -79,7 +80,7 @@ fun PaymentPanel(
         return
 
     Column(
-        modifier = modifier
+        modifier = modifier.testTag("paymentPanel")
     ) {
         val selectPlanText = @Composable {
             Text(

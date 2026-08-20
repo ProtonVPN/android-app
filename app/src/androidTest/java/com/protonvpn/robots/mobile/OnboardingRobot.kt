@@ -21,6 +21,7 @@
 
 package com.protonvpn.robots.mobile
 
+import androidx.test.espresso.NoMatchingViewException
 import com.protonvpn.android.R
 import com.protonvpn.data.Timeouts
 import com.protonvpn.interfaces.Robot
@@ -29,9 +30,10 @@ import me.proton.test.fusion.Fusion.view
 
 object OnboardingRobot : Robot {
     private val getStartedButton get() = node.withText(R.string.onboarding_welcome_action)
-    private val skipOnboardingButton get() = view.withId(R.id.buttonNotNow)
+    private val skipOnboardingButtonViews get() = view.withId(R.id.buttonNotNow)
+    private val skipOnboardingButtonCompose get() = node.withText(R.string.upgrade_not_now_button)
     private val welcomeLabel get() = node.withText(R.string.onboarding_welcome_title)
-    private val upgradePrivacyLabel get() = view.withText(R.string.upgrade_plus_title)
+    private val paymentPanel get() = node.withTag("paymentPanel")
 
     fun closeWelcomeDialog(): OnboardingRobot {
         getStartedButton.click()
@@ -39,17 +41,28 @@ object OnboardingRobot : Robot {
     }
 
     fun skipOnboardingPayment(): OnboardingRobot {
-        skipOnboardingButton.click()
+        // Needed to handle A/B test in onboarding dialog.
+        val hasViews = try {
+            skipOnboardingButtonViews.await(Timeouts.TEN_SECONDS) { checkIsDisplayed() }
+            true
+        }  catch (e: NoMatchingViewException) {
+            false
+        }
+        if (hasViews) {
+            skipOnboardingButtonViews.click()
+        } else {
+            skipOnboardingButtonCompose.click()
+        }
         return this
     }
 
     fun welcomeScreenIsDisplayed() : OnboardingRobot {
-        welcomeLabel.await(Timeouts.ONE_MINUTE ) { assertIsDisplayed() }
+        welcomeLabel.await(Timeouts.ONE_MINUTE) { assertIsDisplayed() }
         return this
     }
 
     fun onboardingPaymentIdDisplayed() : OnboardingRobot {
-        upgradePrivacyLabel.await(Timeouts.ONE_MINUTE) { checkIsDisplayed() }
+        paymentPanel.assertIsDisplayed()
         return this
     }
 }
