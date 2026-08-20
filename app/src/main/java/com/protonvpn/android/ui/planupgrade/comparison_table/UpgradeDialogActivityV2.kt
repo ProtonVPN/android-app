@@ -279,6 +279,7 @@ fun PlanUpgradeDialog(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
+                    .largeScreenContentPadding()
                     .windowInsetsPadding(windowInsets.only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal))
             ) {
                 PaymentPanel(
