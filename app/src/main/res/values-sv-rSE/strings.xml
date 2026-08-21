@@ -519,10 +519,12 @@
     <string name="upsell_panel_content_description_yes">Ja</string>
     <string name="upsell_panel_content_description_no">Nej</string>
     <string name="upsell_panel_table_header_plan_free">Gratis</string>
+    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
     <string name="upsell_panel_general_benefit_countries">Tillgängliga länder</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Skyddade enheter</string>
+    <string name="upsell_panel_general_benefit_location">Choose your location</string>
     <string name="upsell_panel_general_benefit_server">Välj din server</string>
     <string name="upsell_panel_general_benefit_shows">Titta på dina program från vilket land som helst</string>
     <string name="upsell_panel_general_benefit_speed">Server speed</string>
@@ -542,7 +544,6 @@
         -->
     <string name="upsell_panel_country_title">Lås upp %1$s med VPN Plus</string>
     <string name="upsell_panel_countries_title">Lås upp alla länder med  VPN Plus</string>
-    <string name="upsell_panel_general_benefit_location">Välj din plats</string>
     <string name="upsell_panel_country_benefit_speed">Höghastighetsservrar</string>
     <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
     <string name="upsell_panel_devices_title">Skydda varje enhet du äger</string>
@@ -552,6 +553,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">Stoppa spårare från att följa dig</string>
     <string name="upsell_panel_netshield_benefit_malware">Skydd mot skadlig kod och nätfiske</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Sidor laddas snabbare </string>
+    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
     <string name="upsell_panel_p2p_title">Nedladdningar i full hastighet</string>
     <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
     <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
@@ -568,6 +570,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Långsam</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Snabb</string>
     <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>

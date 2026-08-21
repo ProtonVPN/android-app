@@ -549,10 +549,12 @@
     <string name="upsell_panel_content_description_yes">Так</string>
     <string name="upsell_panel_content_description_no">Ні</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
     <string name="upsell_panel_general_benefit_countries">Available countries</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Protected devices</string>
+    <string name="upsell_panel_general_benefit_location">Choose your location</string>
     <string name="upsell_panel_general_benefit_server">Choose your server</string>
     <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
     <string name="upsell_panel_general_benefit_speed">Server speed</string>
@@ -572,7 +574,6 @@
         -->
     <string name="upsell_panel_country_title">Розблокуйте %1$s з VPN Plus</string>
     <string name="upsell_panel_countries_title">Розблокуйте всі країни з VPN Plus</string>
-    <string name="upsell_panel_general_benefit_location">Обирайте своє розташування</string>
     <string name="upsell_panel_country_benefit_speed">Високошвидкісні сервери</string>
     <string name="upsell_panel_country_benefit_shows">Переглядайте медіа, доступне тільки за кордоном</string>
     <string name="upsell_panel_devices_title">Protect every device you own</string>
@@ -582,6 +583,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">Не дозволяйте вистежувачам переслідувати вас</string>
     <string name="upsell_panel_netshield_benefit_malware">Захист від зловмисних програм і шахрайства</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Швидше завантаження сторінок </string>
+    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
     <string name="upsell_panel_p2p_title">Downloads at full speed</string>
     <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
     <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
@@ -598,6 +600,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Повільно</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Швидко</string>
     <string name="upsell_panel_speed_benefit_video">Відео транслюється без буферування</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>

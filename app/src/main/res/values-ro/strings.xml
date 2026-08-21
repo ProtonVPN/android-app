@@ -534,10 +534,12 @@
     <string name="upsell_panel_content_description_yes">Da</string>
     <string name="upsell_panel_content_description_no">Nu</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_block_ads">Blocați reclame și urmăritori</string>
     <string name="upsell_panel_general_benefit_countries">Țări disponibile</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">peste %1$d</string>
     <string name="upsell_panel_general_benefit_devices">Dispozitive protejate</string>
+    <string name="upsell_panel_general_benefit_location">Alegeți orice loc</string>
     <string name="upsell_panel_general_benefit_server">Alegeți-vă serverul</string>
     <string name="upsell_panel_general_benefit_shows">Vizionați emisiunile favorite din orice țară</string>
     <string name="upsell_panel_general_benefit_speed">Viteză server</string>
@@ -557,7 +559,6 @@
         -->
     <string name="upsell_panel_country_title">Deblocați %1$s cu VPN Plus</string>
     <string name="upsell_panel_countries_title">Deblocați toate țările cu VPN Plus</string>
-    <string name="upsell_panel_general_benefit_location">Alegeți orice țară</string>
     <string name="upsell_panel_country_benefit_speed">Servere de mare viteză</string>
     <string name="upsell_panel_country_benefit_shows">Vizionați emisiuni disponibile doar în afara țării</string>
     <string name="upsell_panel_devices_title">Protejați fiecare dispozitiv deținut</string>
@@ -567,6 +568,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">Oprire instrumente de urmărire care vă monitorizează</string>
     <string name="upsell_panel_netshield_benefit_malware">Protecție împotriva programelor malițioase și a înșelăciunilor</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Paginile se încarcă mai repede</string>
+    <string name="upsell_panel_onboarding_title">Obțineți mai mult cu VPN Plus</string>
     <string name="upsell_panel_p2p_title">Descărcări cu viteză maximă</string>
     <string name="upsell_panel_p2p_description">Servere construite pentru partajarea fișierelor, cu clientul torrent obișnuit.</string>
     <string name="upsell_panel_p2p_benefit_p2p">Partajare fișiere P2P</string>
@@ -583,6 +585,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Mare</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Mic</string>
     <string name="upsell_panel_speed_benefit_video">Vizionare videoclipuri fără sacadare</string>
+    <string name="upsell_panel_speed_benefit_p2p">Descărcări P2P suportate</string>
     <string name="upsell_panel_split_tunneling_title">Alegeți care aplicații trec prin VPN</string>
     <string name="upsell_panel_split_tunneling_description">Navigatorul web prin VPN, aplicația bancară în afara sa. Puteți alege, aplicație cu aplicație.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Divizare trafic</string>

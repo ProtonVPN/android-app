@@ -519,10 +519,12 @@
     <string name="upsell_panel_content_description_yes">Evet</string>
     <string name="upsell_panel_content_description_no">Hayır</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_block_ads">Reklamları ve etkinlik izleyicileri engelleyebilirsiniz</string>
     <string name="upsell_panel_general_benefit_countries">Kullanılabilecek ülkeler</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Korunan aygıtlar</string>
+    <string name="upsell_panel_general_benefit_location">Konumunuzu seçin</string>
     <string name="upsell_panel_general_benefit_server">Sunucunuzu seçin</string>
     <string name="upsell_panel_general_benefit_shows">İstediğiniz ülkedeki dizileri izleyin</string>
     <string name="upsell_panel_general_benefit_speed">Sunucu hızı</string>
@@ -542,7 +544,6 @@
         -->
     <string name="upsell_panel_country_title">VPN Plus ile %1$s erişimi sağlayın</string>
     <string name="upsell_panel_countries_title">VPN Plus ile tüm ülkelere erişin</string>
-    <string name="upsell_panel_general_benefit_location">Konumunuzu seçin</string>
     <string name="upsell_panel_country_benefit_speed">Yüksek hızlı sunucular</string>
     <string name="upsell_panel_country_benefit_shows">Yalnızca yurt dışında yayınlanan dizileri izleyin</string>
     <string name="upsell_panel_devices_title">Kullandığınız her aygıtı koruyun</string>
@@ -552,6 +553,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">Etkinlik izleyicilerin sizi izlemesini engelleyin</string>
     <string name="upsell_panel_netshield_benefit_malware">Kötü amaçlı yazılım ve kimlik avı koruması</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Sayfalar daha hızlı yüklenir </string>
+    <string name="upsell_panel_onboarding_title">VPN Plus ile daha fazlasını edinin</string>
     <string name="upsell_panel_p2p_title">Tam hızda indirme</string>
     <string name="upsell_panel_p2p_description">Dosya paylaşımı için tasarlanmış sunucuları her zamanki torrent istemcinizle kullanabilirsiniz.</string>
     <string name="upsell_panel_p2p_benefit_p2p">P2P dosya paylaşımı</string>
@@ -568,6 +570,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Yavaş</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Hızlı</string>
     <string name="upsell_panel_speed_benefit_video">Takılmasız video yayın akışları</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P indirmeleri desteklenir</string>
     <string name="upsell_panel_split_tunneling_title">Hangi uygulamaların VPN kullanacağını seçin</string>
     <string name="upsell_panel_split_tunneling_description">VPN üzerinden tarayıcınıza, onun üzerinden de bankacılık uygulamanıza erişebilirsiniz. Her uygulama için ayrı ayrı seçim yapabilirsiniz.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Ayrılmış tünelleme</string>

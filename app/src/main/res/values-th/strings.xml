@@ -504,10 +504,12 @@
     <string name="upsell_panel_content_description_yes">ใช่</string>
     <string name="upsell_panel_content_description_no">ไม่</string>
     <string name="upsell_panel_table_header_plan_free">ฟรี</string>
+    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
     <string name="upsell_panel_general_benefit_countries">Available countries</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Protected devices</string>
+    <string name="upsell_panel_general_benefit_location">Choose your location</string>
     <string name="upsell_panel_general_benefit_server">Choose your server</string>
     <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
     <string name="upsell_panel_general_benefit_speed">Server speed</string>
@@ -527,7 +529,6 @@
         -->
     <string name="upsell_panel_country_title">ปลดล็อก %1$s ใน  ด้วย VPN Plus</string>
     <string name="upsell_panel_countries_title">ปลดล็อกเพื่อใข้ VPN Plus ได้ทุกประเทศ</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
     <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
     <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
     <string name="upsell_panel_devices_title">Protect every device you own</string>
@@ -537,6 +538,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
     <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
+    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
     <string name="upsell_panel_p2p_title">Downloads at full speed</string>
     <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
     <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
@@ -553,6 +555,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
     <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>

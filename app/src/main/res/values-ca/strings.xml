@@ -519,10 +519,12 @@
     <string name="upsell_panel_content_description_yes">Sí</string>
     <string name="upsell_panel_content_description_no">No</string>
     <string name="upsell_panel_table_header_plan_free">Gratuït</string>
+    <string name="upsell_panel_general_benefit_block_ads">Bloqueja anuncis i rastrejadors</string>
     <string name="upsell_panel_general_benefit_countries">Països disponibles</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Dispositius protegits</string>
+    <string name="upsell_panel_general_benefit_location">Trieu la vostra ubicació</string>
     <string name="upsell_panel_general_benefit_server">Trieu el vostre servidor</string>
     <string name="upsell_panel_general_benefit_shows">Mireu els vostres programes des de qualsevol país</string>
     <string name="upsell_panel_general_benefit_speed">Velocitat del servidor</string>
@@ -542,7 +544,6 @@
         -->
     <string name="upsell_panel_country_title">Desbloquegeu-ho %1$s amb VPN Plus</string>
     <string name="upsell_panel_countries_title">Desbloquegeu tots els països amb VPN Plus</string>
-    <string name="upsell_panel_general_benefit_location">Trieu la vostra ubicació</string>
     <string name="upsell_panel_country_benefit_speed">Servidors d\'alta velocitat</string>
     <string name="upsell_panel_country_benefit_shows">Mireu programes que només estan disponibles a l\'estranger</string>
     <string name="upsell_panel_devices_title">Protegiu tots els dispositius que tingueu</string>
@@ -552,6 +553,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">Eviteu que els rastrejadors us segueixin</string>
     <string name="upsell_panel_netshield_benefit_malware">Protecció contra programari maliciós suplantació de credencials</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Les pàgines es carreguen més ràpidament </string>
+    <string name="upsell_panel_onboarding_title">Obtingueu més amb VPN Plus</string>
     <string name="upsell_panel_p2p_title">Descàrregues a màxima velocitat</string>
     <string name="upsell_panel_p2p_description">Servidors creats per compartir fitxers, amb el vostre client de torrent habitual.</string>
     <string name="upsell_panel_p2p_benefit_p2p">Compartició de fitxers P2P</string>
@@ -568,6 +570,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Lent</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Ràpid</string>
     <string name="upsell_panel_speed_benefit_video">Transmissions de vídeo sense esperes</string>
+    <string name="upsell_panel_speed_benefit_p2p">Admet les descàrregues P2P</string>
     <string name="upsell_panel_split_tunneling_title">Trieu quines aplicacions utilitzen la VPN</string>
     <string name="upsell_panel_split_tunneling_description">El navegador a través de la VPN, l\'aplicació bancària per fora. Vosaltres trieu, aplicació per aplicació.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Tunelització dividida</string>

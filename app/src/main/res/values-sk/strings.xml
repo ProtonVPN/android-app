@@ -549,10 +549,12 @@
     <string name="upsell_panel_content_description_yes">Áno</string>
     <string name="upsell_panel_content_description_no">Nie</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
     <string name="upsell_panel_general_benefit_countries">Dostupné krajiny</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Chránené zariadenia</string>
+    <string name="upsell_panel_general_benefit_location">Choose your location</string>
     <string name="upsell_panel_general_benefit_server">Vyberte váš server</string>
     <string name="upsell_panel_general_benefit_shows">Sledujte svoje seriály z akejkoľvek krajiny</string>
     <string name="upsell_panel_general_benefit_speed">Rýchlosť servera</string>
@@ -572,7 +574,6 @@
         -->
     <string name="upsell_panel_country_title">Odomknite %1$s s VPN Plus</string>
     <string name="upsell_panel_countries_title">Odomknite všetky krajiny s VPN Plus</string>
-    <string name="upsell_panel_general_benefit_location">Vyberte vašu lokalitu</string>
     <string name="upsell_panel_country_benefit_speed">Vysokorýchlostné servery</string>
     <string name="upsell_panel_country_benefit_shows">Pozerajte seriály dostupné len v zahraničí</string>
     <string name="upsell_panel_devices_title">Chráňte každé zariadenie, ktoré vlastníte</string>
@@ -582,6 +583,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">Zabráňte sledovacím nástrojom, aby vás sledovali</string>
     <string name="upsell_panel_netshield_benefit_malware">Ochrana pred malvérom a phishingom</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Stránky sa načítajú rýchlejšie </string>
+    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
     <string name="upsell_panel_p2p_title">Sťahovanie v plnej rýchlosti</string>
     <string name="upsell_panel_p2p_description">Servery určené na zdieľanie súborov prostredníctvom vášho obvyklého torrentového klienta.</string>
     <string name="upsell_panel_p2p_benefit_p2p">P2P zdieľanie súborov</string>
@@ -598,6 +600,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Slabá</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Rýchla</string>
     <string name="upsell_panel_speed_benefit_video">Streamovanie videa bez bufferingu</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Vyberte aplikácie, ktoré budú používať VPN</string>
     <string name="upsell_panel_split_tunneling_description">Prehliadač cez VPN, vaša banková aplikácia mimo nej. Rozhodnete sa sami, aplikáciu po aplikácii.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Delené tunelovanie</string>

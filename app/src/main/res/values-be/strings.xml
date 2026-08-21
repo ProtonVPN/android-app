@@ -549,20 +549,22 @@
     <string name="upsell_panel_content_description_yes">Так</string>
     <string name="upsell_panel_content_description_no">Не</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
-    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
+    <string name="upsell_panel_general_benefit_countries">Даступныя краіны</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_general_benefit_devices">Protected devices</string>
-    <string name="upsell_panel_general_benefit_server">Choose your server</string>
-    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
-    <string name="upsell_panel_general_benefit_speed">Server speed</string>
-    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
-    <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
-    <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
-    <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
-    <string name="upsell_panel_adv_customization_benefit_dns">Use your own DNS service</string>
-    <string name="upsell_panel_adv_customization_benefit_gaming">Better connections for gaming</string>
+    <string name="upsell_panel_general_benefit_devices">Абароненыя прылады</string>
+    <string name="upsell_panel_general_benefit_location">Choose your location</string>
+    <string name="upsell_panel_general_benefit_server">Выберыце свой сервер</string>
+    <string name="upsell_panel_general_benefit_shows">Глядзіце свае шоу з любой краіны</string>
+    <string name="upsell_panel_general_benefit_speed">Хуткасць сервера</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Стандартная</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Найвышэйшая</string>
+    <string name="upsell_panel_adv_customization_title">Дакладна наладзьце сваё падключэнне</string>
+    <string name="upsell_panel_adv_customization_description">Дазвольце падключэнні па LAN, задайце карыстальніцкі DNS і выберыце свой тып NAT. Пашыраныя налады даступны з тарыфным планам Plus.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Атрымайце доступ да прынтара і іншых хатніх прылад</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Выкарыстоўвайце свой уласны сэрвіс DNS</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Лепшыя падключэнні для гульняў</string>
     <!--
         %1$s - country name in nominative
 
@@ -572,25 +574,25 @@
         -->
     <string name="upsell_panel_country_title">Разблакіруйце %1$s з дапамогай VPN Plus</string>
     <string name="upsell_panel_countries_title">Разблакіруйце ўсе краіны з дапамогай VPN Plus</string>
-    <string name="upsell_panel_general_benefit_location">Выбірайце сваё месцазнаходжанне</string>
     <string name="upsell_panel_country_benefit_speed">Высакахуткасныя серверы</string>
     <string name="upsell_panel_country_benefit_shows">Глядзіце шоу, якія даступны толькі за мяжой</string>
-    <string name="upsell_panel_devices_title">Protect every device you own</string>
-    <string name="upsell_panel_devices_description">Your phone, laptop, TV, and everything in between.</string>
+    <string name="upsell_panel_devices_title">Абараніце кожную прыладу, якой валодаеце</string>
+    <string name="upsell_panel_devices_description">Вашага смартфона, ноўтбука, тэлевізара і ўсяго, што знаходзіцца паміж імі.</string>
     <string name="upsell_panel_netshield_title">Прагляд без перапыненняў</string>
     <string name="upsell_panel_netshield_benefit_ads">Рэклама заблакіравана, калі вы праглядаеце старонкі</string>
     <string name="upsell_panel_netshield_benefit_trackers">Забараніце праграмам сачэння назіраць за вамі</string>
     <string name="upsell_panel_netshield_benefit_malware">Абарона ад шкодных праграм і фішынгу</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Старонкі загружаюцца хутчэй </string>
-    <string name="upsell_panel_p2p_title">Downloads at full speed</string>
-    <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
-    <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
-    <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
-    <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
-    <string name="upsell_panel_profiles_benefit_profiles">Saved profiles</string>
-    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
-    <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
-    <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
+    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
+    <string name="upsell_panel_p2p_title">Спампоўванні на поўнай хуткасці</string>
+    <string name="upsell_panel_p2p_description">Серверы, якія створаны для абагульвання файлаў, з вашым паўсядзённым кліентам торэнт.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">Абагульванне файлаў P2P</string>
+    <string name="upsell_panel_profiles_title">Трансляцыі, гульні, праца: свой профіль пад кожную дзейнасць</string>
+    <string name="upsell_panel_profiles_description">Наладзьце свае падключэнні пад свае патрабаванні, а потым падключайцеся да любога з іх адным дотыкам.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Захаваныя профілі</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Неабмежавана</string>
+    <string name="upsell_panel_secure_core_title">Два слаі шыфравання паміж вамі і інтэрнэтам</string>
+    <string name="upsell_panel_secure_core_description">Маршрутызуецца праз сервер Proton у Швейцарыі, Ісландыі або Швецыі да таго, як вы выберыце краіну.</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">Трансляцыі, гульні і хутчэйшае спампоўванне</string>
     <string name="upsell_panel_speed_benefit_servers">Высакахуткасныя серверы</string>
@@ -598,9 +600,10 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Павольна</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Хутка</string>
     <string name="upsell_panel_speed_benefit_video">Відэатрансляцыі без буферызацыі</string>
-    <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
-    <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
-    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
+    <string name="upsell_panel_split_tunneling_title">Выберыце, якія праграмы будуць выкарыстоўваць VPN</string>
+    <string name="upsell_panel_split_tunneling_description">Ваш браўзер праз VPN, а ваша банкаўская праграма ў абыход яго. Вы можаце размеркаваць усе свае праграмы.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Split Tunneling</string>
     <string name="upsell_panel_streaming_title">Глядзіце свае абраныя сэрвісы з трансляцыямі</string>
     <string name="upsell_panel_streaming_benefit_shows">Глядзіце свае шоу з любой краіны</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -608,11 +611,11 @@
     <string name="upsell_panel_streaming_benefit_hd">Трансляцыі ў высокай якасці без буферызацыі</string>
     <string name="upsell_panel_streaming_benefit_devices">Прылады, падключаныя адначасова</string>
     <string name="upsell_panel_streaming_footer">* Патрабуецца падпіска на платформу трансляцыі.</string>
-    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
-    <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
-    <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
-    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
+    <string name="upsell_panel_streaming_block_title">Палепшыць, каб абыходзіць блакіроўкі VPN</string>
+    <string name="upsell_panel_streaming_block_description">Серверы VPN Plus дазволяць вам атрымліваць асалоду ад абраных фільмаў і тэлеперадач па ўсім свеце.</string>
+    <string name="upsell_panel_tor_title">Сайты onion без неабходнасці выкарыстання браўзера Tor</string>
+    <string name="upsell_panel_tor_description">Атрымлівайце доступ да сайтаў .onion у браўзеры, якім вы карыстаецеся штодзень.</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor праз VPN</string>
     <string name="upsell_card_countries_title">Пакрыццё па ўсім свеце</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

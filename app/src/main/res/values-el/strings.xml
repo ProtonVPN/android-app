@@ -519,10 +519,12 @@
     <string name="upsell_panel_content_description_yes">Ναι</string>
     <string name="upsell_panel_content_description_no">Όχι</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_block_ads">Αποκλεισμός διαφημίσεων και ιχνηλατών</string>
     <string name="upsell_panel_general_benefit_countries">Διαθέσιμες χώρες</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Προστατευμένες συσκευές</string>
+    <string name="upsell_panel_general_benefit_location">Επιλέξτε την τοποθεσία σας</string>
     <string name="upsell_panel_general_benefit_server">Επιλέξτε τον διακομιστή σας</string>
     <string name="upsell_panel_general_benefit_shows">Παρακολουθήστε τις εκπομπές σας από οποιαδήποτε χώρα</string>
     <string name="upsell_panel_general_benefit_speed">Ταχύτητα διακομιστή</string>
@@ -542,7 +544,6 @@
         -->
     <string name="upsell_panel_country_title">Ξεκλειδώστε %1$s με το VPN Plus</string>
     <string name="upsell_panel_countries_title">Ξεκλειδώστε όλες τις χώρες με το VPN Plus</string>
-    <string name="upsell_panel_general_benefit_location">Επιλέξτε την τοποθεσία σας</string>
     <string name="upsell_panel_country_benefit_speed">Διακομιστές υψηλής ταχύτητας</string>
     <string name="upsell_panel_country_benefit_shows">Παρακολουθήστε εκπομπές διαθέσιμες μόνο στο εξωτερικό</string>
     <string name="upsell_panel_devices_title">Προστατέψτε κάθε συσκευή που διαθέτετε</string>
@@ -552,6 +553,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">Αποτρέψτε τους ιχνηλάτες από το να σας ακολουθούν</string>
     <string name="upsell_panel_netshield_benefit_malware">Προστασία από κακόβουλο λογισμικό και ηλεκτρονικό ψάρεμα (phishing)</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Οι σελίδες φορτώνουν πιο γρήγορα </string>
+    <string name="upsell_panel_onboarding_title">Αποκτήστε περισσότερα με το VPN Plus</string>
     <string name="upsell_panel_p2p_title">Λήψεις σε πλήρη ταχύτητα</string>
     <string name="upsell_panel_p2p_description">Διακομιστές κατασκευασμένοι για κοινή χρήση αρχείων, με το συνηθισμένο πρόγραμμα-πελάτη torrent.</string>
     <string name="upsell_panel_p2p_benefit_p2p">Κοινή χρήση αρχείων P2P</string>
@@ -568,6 +570,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Αργή</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Γρήγορη</string>
     <string name="upsell_panel_speed_benefit_video">Ροές βίντεο χωρίς διακοπές</string>
+    <string name="upsell_panel_speed_benefit_p2p">Υποστηρίζονται λήψεις P2P</string>
     <string name="upsell_panel_split_tunneling_title">Επιλέξτε ποιες εφαρμογές χρησιμοποιούν το VPN</string>
     <string name="upsell_panel_split_tunneling_description">Το πρόγραμμα περιήγησής σας μέσω του VPN, η τραπεζική σας εφαρμογή γύρω από αυτό. Εσείς επιλέγετε, εφαρμογή ανά εφαρμογή.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Διαίρεση σήραγγας</string>

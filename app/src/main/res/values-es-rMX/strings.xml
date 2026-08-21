@@ -519,10 +519,12 @@
     <string name="upsell_panel_content_description_yes">Sí</string>
     <string name="upsell_panel_content_description_no">No</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
     <string name="upsell_panel_general_benefit_countries">Países disponibles</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Dispositivos protegidos</string>
+    <string name="upsell_panel_general_benefit_location">Choose your location</string>
     <string name="upsell_panel_general_benefit_server">Elija su servidor</string>
     <string name="upsell_panel_general_benefit_shows">Vea sus series en cualquier país</string>
     <string name="upsell_panel_general_benefit_speed">Velocidad del servidor</string>
@@ -542,7 +544,6 @@
         -->
     <string name="upsell_panel_country_title">Desbloquee %1$s con VPN Plus</string>
     <string name="upsell_panel_countries_title">Acceda a todos los países con VPN Plus</string>
-    <string name="upsell_panel_general_benefit_location">Elija su ubicación</string>
     <string name="upsell_panel_country_benefit_speed">Servidores de alta velocidad</string>
     <string name="upsell_panel_country_benefit_shows">Mire programas disponibles solo en el extranjero</string>
     <string name="upsell_panel_devices_title">Proteja cada dispositivo que posea</string>
@@ -552,6 +553,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">Detenga el seguimiento de rastreadores</string>
     <string name="upsell_panel_netshield_benefit_malware">Protección de malware y suplantación</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Carga de páginas más rápida </string>
+    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
     <string name="upsell_panel_p2p_title">Descargas a máxima velocidad</string>
     <string name="upsell_panel_p2p_description">Servidores diseñados para intercambio de archivos con su cliente de torrent usual.</string>
     <string name="upsell_panel_p2p_benefit_p2p">Intercambio de archivos P2P</string>
@@ -568,6 +570,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Lenta</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Rápida</string>
     <string name="upsell_panel_speed_benefit_video">Reproduzca sin largos tiempos de espera</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Elija cuáles aplicaciones usan la VPN</string>
     <string name="upsell_panel_split_tunneling_description">Su navegador a través de la VPN, la aplicación del banco la rodea. Usted elige, aplicación por aplicación.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Túnel dividido</string>

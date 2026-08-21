@@ -550,10 +550,12 @@
     <string name="upsell_panel_content_description_yes">Da</string>
     <string name="upsell_panel_content_description_no">Ne</string>
     <string name="upsell_panel_table_header_plan_free">Brezplačno</string>
+    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
     <string name="upsell_panel_general_benefit_countries">Razpoložljive države</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Zaščitene naprave</string>
+    <string name="upsell_panel_general_benefit_location">Choose your location</string>
     <string name="upsell_panel_general_benefit_server">Izberite svoj strežnik</string>
     <string name="upsell_panel_general_benefit_shows">Glejte svoje serije iz katere koli države</string>
     <string name="upsell_panel_general_benefit_speed">Hitrost strežnika</string>
@@ -573,7 +575,6 @@
         -->
     <string name="upsell_panel_country_title">Pridobite VPN Plus za dostop do: %1$s</string>
     <string name="upsell_panel_countries_title">Odklenite vse države s storitvijo VPN Plus</string>
-    <string name="upsell_panel_general_benefit_location">Izberite svojo lokacijo</string>
     <string name="upsell_panel_country_benefit_speed">Hitri strežniki</string>
     <string name="upsell_panel_country_benefit_shows">Glejte oddaje, ki so na voljo le v tujini</string>
     <string name="upsell_panel_devices_title">Zaščitite vse svoje naprave</string>
@@ -583,6 +584,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">Preprečite sledilcem, da bi vam sledili</string>
     <string name="upsell_panel_netshield_benefit_malware">Zaščita pred zlonamerno programsko opremo in lažnim predstavljanjem</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Strani se nalagajo hitreje </string>
+    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
     <string name="upsell_panel_p2p_title">Prenosi s polno hitrostjo</string>
     <string name="upsell_panel_p2p_description">Strežniki, namenjeni za izmenjavo datotek z uporabo običajnega torrent odjemalca.</string>
     <string name="upsell_panel_p2p_benefit_p2p">Izmenjava datotek P2P</string>
@@ -599,6 +601,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Počasen</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Hiter</string>
     <string name="upsell_panel_speed_benefit_video">Pretočne video vsebine brez čakanja</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Izberite, katere aplikacije lahko uporabijo VPN</string>
     <string name="upsell_panel_split_tunneling_description">Vaš brskalnik upirabi VPN, vaša bančna aplikacija za zaobide. Vi določite, za vsako aplikacijo posebej.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Razdeljeno tuneliranje</string>

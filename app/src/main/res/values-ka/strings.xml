@@ -519,10 +519,12 @@
     <string name="upsell_panel_content_description_yes">დიახ</string>
     <string name="upsell_panel_content_description_no">არა</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
     <string name="upsell_panel_general_benefit_countries">Available countries</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Protected devices</string>
+    <string name="upsell_panel_general_benefit_location">Choose your location</string>
     <string name="upsell_panel_general_benefit_server">Choose your server</string>
     <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
     <string name="upsell_panel_general_benefit_speed">Server speed</string>
@@ -542,7 +544,6 @@
         -->
     <string name="upsell_panel_country_title">განბლოკეთ %1$s VPN Plus-თან ერთად</string>
     <string name="upsell_panel_countries_title">განბლოკეთ ყველა ქვეყანა VPN Plus-თან ერთად</string>
-    <string name="upsell_panel_general_benefit_location">აირჩიეთ თქვენი მდებარეობა</string>
     <string name="upsell_panel_country_benefit_speed">ჩქაროსნული სერვერები</string>
     <string name="upsell_panel_country_benefit_shows">უყურეთ სერიალებს, რომლებიც, მხოლოდ, საზღვარგარეთაა ხელმისაწვდომი</string>
     <string name="upsell_panel_devices_title">Protect every device you own</string>
@@ -552,6 +553,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">შეუშალეთ ხელი ტრეკერებს, თვალი გადევნონ</string>
     <string name="upsell_panel_netshield_benefit_malware">მავნე პროგრამებისგან დაცვა</string>
     <string name="upsell_panel_netshield_benefit_load_speed">გვერდები უფრო სწრაფად იტვირტება </string>
+    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
     <string name="upsell_panel_p2p_title">Downloads at full speed</string>
     <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
     <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
@@ -568,6 +570,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">ნელი</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">სწრაფი</string>
     <string name="upsell_panel_speed_benefit_video">ვიდეონაკადები ბუფერიზაციის გარეშე</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>

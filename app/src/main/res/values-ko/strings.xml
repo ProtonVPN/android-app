@@ -505,10 +505,12 @@
     <string name="upsell_panel_content_description_yes">예</string>
     <string name="upsell_panel_content_description_no">아니오</string>
     <string name="upsell_panel_table_header_plan_free">무료</string>
+    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
     <string name="upsell_panel_general_benefit_countries">Available countries</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Protected devices</string>
+    <string name="upsell_panel_general_benefit_location">Choose your location</string>
     <string name="upsell_panel_general_benefit_server">Choose your server</string>
     <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
     <string name="upsell_panel_general_benefit_speed">Server speed</string>
@@ -528,7 +530,6 @@
         -->
     <string name="upsell_panel_country_title">VPN Plus로 %1$s 잠금 해제</string>
     <string name="upsell_panel_countries_title"> VPN Plus로 모든 국가 잠금 해제</string>
-    <string name="upsell_panel_general_benefit_location">어떠한 지역이든 선택하세요</string>
     <string name="upsell_panel_country_benefit_speed">초고속 서버</string>
     <string name="upsell_panel_country_benefit_shows">특정 국가 전용 콘텐츠를 시정하세요</string>
     <string name="upsell_panel_devices_title">Protect every device you own</string>
@@ -538,6 +539,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">나를 추적하는 트래커를 중단시키세요</string>
     <string name="upsell_panel_netshield_benefit_malware">멀웨어 및 피싱 보호</string>
     <string name="upsell_panel_netshield_benefit_load_speed">페이지가 더 빠르게 로드됩니디 </string>
+    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
     <string name="upsell_panel_p2p_title">Downloads at full speed</string>
     <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
     <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
@@ -554,6 +556,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">느림</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">빠름</string>
     <string name="upsell_panel_speed_benefit_video">버퍼링 없이 비디오 스트리밍</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
