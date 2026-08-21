@@ -30,6 +30,7 @@ fun shouldReportToSentry(throwable: Throwable?): Boolean = when(throwable) {
             PaymentExceptionCode.CORE_LOGGING,
             PaymentExceptionCode.CORE_UNSUPPORTED_PLATFORM,
 
+            PaymentExceptionCode.NETWORK_INTERNAL, // Captures DNS and connection errors.
             PaymentExceptionCode.NETWORK_REQUEST_TIMEOUT,
             PaymentExceptionCode.NETWORK_TOO_MANY_REQUESTS,
             PaymentExceptionCode.NETWORK_UNREACHABLE,
