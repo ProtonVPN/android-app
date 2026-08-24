@@ -27,6 +27,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -48,6 +49,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastMapNotNull
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.PlaceholderRect
 import com.protonvpn.android.base.ui.ProtonSolidButton
@@ -99,6 +101,7 @@ fun PaymentPanel(
         ) {
             val renewInfoModifier = Modifier
                 .padding(top = 4.dp)
+                .fillMaxWidth()
             when (upgradeState) {
                 is UpgradeDialogViewModel.State.Initializing -> {}
                 is UpgradeDialogViewModel.State.LoadingPlans -> {
@@ -133,6 +136,7 @@ fun PaymentPanel(
                         if (selectedCycleInfo != null) {
                             RenewInfo(
                                 selectedCycleInfo = selectedCycleInfo,
+                                allCycleInfos = cycles,
                                 modifier = renewInfoModifier
                                     .align(Alignment.CenterHorizontally)
                             )
@@ -194,11 +198,27 @@ fun PaymentPanel(
 @Composable
 fun RenewInfo(
     selectedCycleInfo: UpgradeDialogViewModel.CycleViewInfo,
+    allCycleInfos: List<UpgradeDialogViewModel.CycleViewInfo>,
     modifier: Modifier = Modifier
 ) {
-    val renewInfoText = renewInfoText(selectedCycleInfo)
-    if (renewInfoText != null) {
-        RenewInfoText(renewInfoText, modifier)
+    val displayedText = renewInfoText(selectedCycleInfo)
+    if (displayedText != null) {
+        val allTexts = allCycleInfos.fastMapNotNull { renewInfoText(it) }
+        WithMinHeightOf(
+            minHeightContent = {
+                Box {
+                    allTexts.forEach { RenewInfoText(it) }
+                }
+            },
+            modifier
+        ) {
+            RenewInfoText(
+                renewInfoText = displayedText,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .testTag("renewInfoText")
+            )
+        }
     }
 }
 
@@ -207,19 +227,12 @@ private fun RenewInfoText(
     renewInfoText: String,
     modifier: Modifier = Modifier
 ) {
-    WithMinHeightOf(
-        minHeightContent = { Text("\n", style = ProtonTheme.typography.captionWeak) },
+    Text(
+        text = renewInfoText,
+        style = ProtonTheme.typography.captionWeak,
+        textAlign = TextAlign.Center,
         modifier = modifier
-    ) {
-        Text(
-            text = renewInfoText,
-            style = ProtonTheme.typography.captionWeak,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .align(Alignment.Center)
-                .testTag("renewInfoText")
-        )
-    }
+    )
 }
 
 @Composable
