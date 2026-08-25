@@ -656,15 +656,37 @@
     <string name="upsell_tv_fallback_description">Accesați site-ul web Proton VPN pentru a vă modifica planul.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
-        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")
 
         Examples:
         50 PLN /month
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s/%2$s</string>
+    <string name="payment_price_per_day">zi</string>
+    <string name="payment_price_per_week">săptămână</string>
     <string name="payment_price_per_month">lună</string>
     <string name="payment_price_per_year">an</string>
+    <plurals name="payment_price_cycle_label_day">
+        <item quantity="one">%1$d zi</item>
+        <item quantity="few">%1$d zile</item>
+        <item quantity="other">%1$d de zile</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_week">
+        <item quantity="one">%1$d săptămână</item>
+        <item quantity="few">%1$d săptămâni</item>
+        <item quantity="other">%1$d de săptămâni</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_month">
+        <item quantity="one">%1$d lună</item>
+        <item quantity="few">%1$d luni</item>
+        <item quantity="other">%1$d de luni</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_year">
+        <item quantity="one">%1$d an</item>
+        <item quantity="few">%1$d ani</item>
+        <item quantity="other">%1$d de ani</item>
+    </plurals>
     <string name="payment_select_your_plan">Selectați planul</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -672,6 +694,202 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">Luați %1$s</string>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of days -->
+    <plurals name="payment_discount_renewal_price_message_daily">
+        <item quantity="one">Ofertă specială. Reînnoire automată cu %1$s/zi.</item>
+        <item quantity="few">Ofertă specială. Reînnoire automată cu %1$s la fiecare %2$d zile.</item>
+        <item quantity="other">Ofertă specială. Reînnoire automată cu %1$s la fiecare %2$d de zile.</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_discount_renewal_price_message_weekly">
+        <item quantity="one">Ofertă specială. Reînnoire automată cu %1$s/săptămână.</item>
+        <item quantity="few">Ofertă specială. Reînnoire automată cu %1$s la fiecare %2$d săptămâni.</item>
+        <item quantity="other">Ofertă specială. Reînnoire automată cu %1$s la fiecare %2$d de săptămâni.</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of months -->
+    <plurals name="payment_discount_renewal_price_message_monthly">
+        <item quantity="one">Ofertă specială. Reînnoire automată cu %1$s/lună.</item>
+        <item quantity="few">Ofertă specială. Reînnoire automată cu %1$s la fiecare %2$d luni.</item>
+        <item quantity="other">Ofertă specială. Reînnoire automată cu %1$s la fiecare %2$d de luni.</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_discount_renewal_price_message_yearly">
+        <item quantity="one">Ofertă specială. Reînnoire automată cu %1$s/an.</item>
+        <item quantity="few">Ofertă specială. Reînnoire automată cu %1$s la fiecare %2$d ani.</item>
+        <item quantity="other">Ofertă specială. Reînnoire automată cu %1$s la fiecare %2$d de ani.</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of days -->
+    <plurals name="payment_renewal_price_message_daily">
+        <item quantity="one">Abonamentul se reînnoiește automat cu %1$s/zi.</item>
+        <item quantity="few">Abonamentul se reînnoiește automat cu %1$s la fiecare %2$d zile.</item>
+        <item quantity="other">Abonamentul se reînnoiește automat cu %1$s la fiecare %2$d de zile.</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_renewal_price_message_weekly">
+        <item quantity="one">Abonamentul se reînnoiește automat cu %1$s/săptămână.</item>
+        <item quantity="few">Abonamentul se reînnoiește automat cu %1$s la fiecare %2$d săptămâni.</item>
+        <item quantity="other">Abonamentul se reînnoiește automat cu %1$s la fiecare %2$d de săptămâni.</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of months -->
+    <plurals name="payment_renewal_price_message_monthly">
+        <item quantity="one">Abonamentul se reînnoiește automat cu %1$s/lună.</item>
+        <item quantity="few">Abonamentul se reînnoiește automat cu %1$s la fiecare %2$d lună.</item>
+        <item quantity="other">Abonamentul se reînnoiește automat cu %1$s la fiecare %2$d de luni.</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_renewal_price_message_yearly">
+        <item quantity="one">Abonamentul se reînnoiește automat cu %1$s/an.</item>
+        <item quantity="few">Abonamentul se reînnoiește automat cu %1$s la fiecare %2$d ani.</item>
+        <item quantity="other">Abonamentul se reînnoiește automat cu %1$s la fiecare %2$d de ani.</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_daily">
+        <item quantity="one">%1$s/zi</item>
+        <item quantity="few">%1$s la fiecare %2$d zile</item>
+        <item quantity="other">%1$s la fiecare %2$d de zile</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_discount_weekly">
+        <item quantity="one">%1$s/săptămână</item>
+        <item quantity="few">%1$s la fiecare %2$d săptămâni</item>
+        <item quantity="other">%1$s la fiecare %2$d de săptămâni</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_discount_monthly">
+        <item quantity="one">%1$s/lună</item>
+        <item quantity="few">%1$s la fiecare %2$d luni</item>
+        <item quantity="other">%1$s la fiecare %2$d de luni</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_yearly">
+        <item quantity="one">%1$s/an</item>
+        <item quantity="few">%1$s la fiecare %2$d ani</item>
+        <item quantity="other">%1$s la fiecare %2$d de ani</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_for_days">
+        <item quantity="one">pentru prima zi</item>
+        <item quantity="few">pentru primele %1$d zile</item>
+        <item quantity="other">pentru primele %1$d de zile</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_discount_for_weeks">
+        <item quantity="one">pentru prima săptămână</item>
+        <item quantity="few">pentru primele %1$d săptămâni</item>
+        <item quantity="other">pentru primele %1$d de săptămâni</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_discount_for_months">
+        <item quantity="one">pentru prima lună</item>
+        <item quantity="few">pentru primele %1$d luni</item>
+        <item quantity="other">pentru primele %1$d de luni</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of years -->
+    <plurals name="payment_multi_renewal_discount_for_years">
+        <item quantity="one">pentru primul an</item>
+        <item quantity="few">pentru primii %1$d ani</item>
+        <item quantity="other">pentru primii %1$d de ani</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_rest_daily">
+        <item quantity="one">apoi se reînnoiește cu %1$s/zi</item>
+        <item quantity="few">apoi se reînnoiește cu %1$s la fiecare %2$d zile</item>
+        <item quantity="other">apoi se reînnoiește cu %1$s la fiecare %2$d de zile</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_rest_weekly">
+        <item quantity="one">apoi se reînnoiește cu %1$s/săptămână</item>
+        <item quantity="few">apoi se reînnoiește cu %1$s la fiecare %2$d săptămâni</item>
+        <item quantity="other">apoi se reînnoiește cu %1$s la fiecare %2$d de săptămâni</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_rest_monthly">
+        <item quantity="one">apoi se reînnoiește cu %1$s/lună</item>
+        <item quantity="few">apoi se reînnoiește cu %1$s la fiecare %2$d luni</item>
+        <item quantity="other">apoi se reînnoiește cu %1$s la fiecare %2$d de luni</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_multi_renewal_rest_yearly">
+        <item quantity="one">apoi se reînnoiește cu %1$s/an</item>
+        <item quantity="few">apoi se reînnoiește cu %1$s la fiecare %2$d ani</item>
+        <item quantity="other">apoi se reînnoiește cu %1$s la fiecare %2$d de ani</item>
+    </plurals>
+    <!-- Explains renewal cycle when first there's a discount price for several periods
+     (e.g. 2 months) and then the subscription renews at full price.
+     Periods (days, months etc) are never mixed between the messages, the whole message uses one
+     unit.
+
+     Parameters:
+      %1$s - one of payment_multi_renewal_discount_*
+      %2$s - one of payment_multi_renewal_discount_for_*
+      %3$s - one of payment_multi_renewal_rest_*
+
+     Examples:
+      "$2.99/month for the first 2 months, then auto renews at $3.99/month"
+      "$19.99/year for the first 3 years, then auto renews at $24.99/year"
+      "$3.99 every 2 months for the first 4 months, then auto renews at 5.99 every 2 months"
+    -->
+    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Această tehnologie permite ca Proton VPN să ofere viteză și securitate mai mare în țările dificil de accesat.</string>
     <string name="tor_title">Tor</string>

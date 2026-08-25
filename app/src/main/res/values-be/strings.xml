@@ -549,12 +549,12 @@
     <string name="upsell_panel_content_description_yes">Так</string>
     <string name="upsell_panel_content_description_no">Не</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
+    <string name="upsell_panel_general_benefit_block_ads">Блакіраваць рэкламу і праграмы сачэння</string>
     <string name="upsell_panel_general_benefit_countries">Даступныя краіны</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Абароненыя прылады</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
+    <string name="upsell_panel_general_benefit_location">Выбірайце сваё месцазнаходжанне</string>
     <string name="upsell_panel_general_benefit_server">Выберыце свой сервер</string>
     <string name="upsell_panel_general_benefit_shows">Глядзіце свае шоу з любой краіны</string>
     <string name="upsell_panel_general_benefit_speed">Хуткасць сервера</string>
@@ -572,18 +572,18 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Разблакіруйце %1$s з дапамогай VPN Plus</string>
+    <string name="upsell_panel_country_title">Разблакіруйце краіну %1$s з дапамогай VPN Plus</string>
     <string name="upsell_panel_countries_title">Разблакіруйце ўсе краіны з дапамогай VPN Plus</string>
     <string name="upsell_panel_country_benefit_speed">Высакахуткасныя серверы</string>
     <string name="upsell_panel_country_benefit_shows">Глядзіце шоу, якія даступны толькі за мяжой</string>
     <string name="upsell_panel_devices_title">Абараніце кожную прыладу, якой валодаеце</string>
-    <string name="upsell_panel_devices_description">Вашага смартфона, ноўтбука, тэлевізара і ўсяго, што знаходзіцца паміж імі.</string>
+    <string name="upsell_panel_devices_description">Вашага смартфона, ноўтбука, тэлевізара і ўсяго таго, што знаходзіцца паміж імі.</string>
     <string name="upsell_panel_netshield_title">Прагляд без перапыненняў</string>
     <string name="upsell_panel_netshield_benefit_ads">Рэклама заблакіравана, калі вы праглядаеце старонкі</string>
     <string name="upsell_panel_netshield_benefit_trackers">Забараніце праграмам сачэння назіраць за вамі</string>
     <string name="upsell_panel_netshield_benefit_malware">Абарона ад шкодных праграм і фішынгу</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Старонкі загружаюцца хутчэй </string>
-    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
+    <string name="upsell_panel_onboarding_title">Атрымайце больш з VPN Plus</string>
     <string name="upsell_panel_p2p_title">Спампоўванні на поўнай хуткасці</string>
     <string name="upsell_panel_p2p_description">Серверы, якія створаны для абагульвання файлаў, з вашым паўсядзённым кліентам торэнт.</string>
     <string name="upsell_panel_p2p_benefit_p2p">Абагульванне файлаў P2P</string>
@@ -600,7 +600,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Павольна</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Хутка</string>
     <string name="upsell_panel_speed_benefit_video">Відэатрансляцыі без буферызацыі</string>
-    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
+    <string name="upsell_panel_speed_benefit_p2p">Падтрымліваюцца спампоўванні P2P</string>
     <string name="upsell_panel_split_tunneling_title">Выберыце, якія праграмы будуць выкарыстоўваць VPN</string>
     <string name="upsell_panel_split_tunneling_description">Ваш браўзер праз VPN, а ваша банкаўская праграма ў абыход яго. Вы можаце размеркаваць усе свае праграмы.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Split Tunneling</string>
@@ -672,15 +672,41 @@
     <string name="upsell_tv_fallback_description">Перайдзіце на вэб-сайт Proton VPN, каб палепшыць свой тарыфны план.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
-        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")
 
         Examples:
         50 PLN /month
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
+    <string name="payment_price_per_day">дзень</string>
+    <string name="payment_price_per_week">тыдзень</string>
     <string name="payment_price_per_month">месяц</string>
     <string name="payment_price_per_year">год</string>
+    <plurals name="payment_price_cycle_label_day">
+        <item quantity="one">%1$d дзень</item>
+        <item quantity="few">%1$d дні</item>
+        <item quantity="many">%1$d дзён</item>
+        <item quantity="other">%1$d дзён</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_week">
+        <item quantity="one">%1$d тыдзень</item>
+        <item quantity="few">%1$d тыдні</item>
+        <item quantity="many">%1$d тыдняў</item>
+        <item quantity="other">%1$d тыдняў</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_month">
+        <item quantity="one">%1$d месяц</item>
+        <item quantity="few">%1$d месяцы</item>
+        <item quantity="many">%1$d месяцаў</item>
+        <item quantity="other">%1$d месяцаў</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_year">
+        <item quantity="one">%1$d год</item>
+        <item quantity="few">%1$d гады</item>
+        <item quantity="many">%1$d гадоў</item>
+        <item quantity="other">%1$d гадоў</item>
+    </plurals>
     <string name="payment_select_your_plan">Выберыце тарыфны план</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -688,6 +714,222 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">Атрымаць %1$s</string>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of days -->
+    <plurals name="payment_discount_renewal_price_message_daily">
+        <item quantity="one">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s у дзень</item>
+        <item quantity="few">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s кожныя %2$d дні</item>
+        <item quantity="many">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s кожныя %2$d дзён</item>
+        <item quantity="other">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s кожныя %2$d дзён</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_discount_renewal_price_message_weekly">
+        <item quantity="one">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s у тыдзень</item>
+        <item quantity="few">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s кожныя %2$d тыдні</item>
+        <item quantity="many">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s кожныя %2$d тыдняў</item>
+        <item quantity="other">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s кожныя %2$d тыдняў</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of months -->
+    <plurals name="payment_discount_renewal_price_message_monthly">
+        <item quantity="one">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s у месяц</item>
+        <item quantity="few">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s кожныя %2$d месяцы</item>
+        <item quantity="many">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s кожныя %2$d месяцаў</item>
+        <item quantity="other">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s кожныя %2$d месяцаў</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_discount_renewal_price_message_yearly">
+        <item quantity="one">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s у год</item>
+        <item quantity="few">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s кожныя %2$d гады</item>
+        <item quantity="many">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s кожныя %2$d гадоў</item>
+        <item quantity="other">Спецыяльная прапанова. Аўтаматычнае падаўжэнне за %1$s кожныя %2$d гадоў</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of days -->
+    <plurals name="payment_renewal_price_message_daily">
+        <item quantity="one">Падпіска будзе аўтаматычна падаўжацца за %1$s у дзень</item>
+        <item quantity="few">Падпіска будзе аўтаматычна падаўжацца за %1$s кожныя %2$d дні</item>
+        <item quantity="many">Падпіска будзе аўтаматычна падаўжацца за %1$s кожныя %2$d дзён</item>
+        <item quantity="other">Падпіска будзе аўтаматычна падаўжацца за %1$s кожныя %2$d дзён</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_renewal_price_message_weekly">
+        <item quantity="one">Падпіска будзе аўтаматычна падаўжацца за %1$s у тыдзень</item>
+        <item quantity="few">Падпіска будзе аўтаматычна падаўжацца за %1$s кожныя %2$d тыдні</item>
+        <item quantity="many">Падпіска будзе аўтаматычна падаўжацца за %1$s кожныя %2$d тыдняў</item>
+        <item quantity="other">Падпіска будзе аўтаматычна падаўжацца за %1$s кожныя %2$d тыдняў</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of months -->
+    <plurals name="payment_renewal_price_message_monthly">
+        <item quantity="one">Падпіска будзе аўтаматычна падаўжацца за %1$s у месяц</item>
+        <item quantity="few">Падпіска будзе аўтаматычна падаўжацца за %1$s кожныя %2$d месяцы</item>
+        <item quantity="many">Падпіска будзе аўтаматычна падаўжацца за %1$s кожныя %2$d месяцаў</item>
+        <item quantity="other">Падпіска будзе аўтаматычна падаўжацца за %1$s кожныя %2$d месяцаў</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_renewal_price_message_yearly">
+        <item quantity="one">Падпіска будзе аўтаматычна падаўжацца за %1$s у год</item>
+        <item quantity="few">Падпіска будзе аўтаматычна падаўжацца за %1$s кожныя %2$d гады</item>
+        <item quantity="many">Падпіска будзе аўтаматычна падаўжацца за %1$s кожныя %2$d гадоў</item>
+        <item quantity="other">Падпіска будзе аўтаматычна падаўжацца за %1$s кожныя %2$d гадоў</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_daily">
+        <item quantity="one">%1$s у дзень</item>
+        <item quantity="few">%1$s кожныя %2$d дні</item>
+        <item quantity="many">%1$s кожныя %2$d дзён</item>
+        <item quantity="other">%1$s кожныя %2$d дзён</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_discount_weekly">
+        <item quantity="one">%1$s у тыдзень</item>
+        <item quantity="few">%1$s кожныя %2$d тыдні</item>
+        <item quantity="many">%1$s кожныя %2$d тыдняў</item>
+        <item quantity="other">%1$s кожныя %2$d тыдняў</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_discount_monthly">
+        <item quantity="one">%1$s у месяц</item>
+        <item quantity="few">%1$s кожныя %2$d месяцы</item>
+        <item quantity="many">%1$s кожныя %2$d месяцаў</item>
+        <item quantity="other">%1$s кожныя %2$d месяцаў</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_yearly">
+        <item quantity="one">%1$s у год</item>
+        <item quantity="few">%1$s кожныя %2$d гады</item>
+        <item quantity="many">%1$s кожныя %2$d гадоў</item>
+        <item quantity="other">%1$s кожныя %2$d гадоў</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_for_days">
+        <item quantity="one">за першы дзень</item>
+        <item quantity="few">за першыя %1$d дні</item>
+        <item quantity="many">за першыя %1$d дзён</item>
+        <item quantity="other">за першыя %1$d дзён</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_discount_for_weeks">
+        <item quantity="one">за першы тыдзень</item>
+        <item quantity="few">за першыя %1$d тыдні</item>
+        <item quantity="many">за першыя %1$d тыдняў</item>
+        <item quantity="other">за першыя %1$d тыдняў</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_discount_for_months">
+        <item quantity="one">за першы месяц</item>
+        <item quantity="few">за першыя %1$d месяцы</item>
+        <item quantity="many">за першыя %1$d месяцаў</item>
+        <item quantity="other">за першыя %1$d месяцаў</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of years -->
+    <plurals name="payment_multi_renewal_discount_for_years">
+        <item quantity="one">за першы год</item>
+        <item quantity="few">за першыя %1$d гады</item>
+        <item quantity="many">за першыя %1$d гадоў</item>
+        <item quantity="other">за першыя %1$d гадоў</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_rest_daily">
+        <item quantity="one">потым аўтаматычнае падаўжэнне за %1$s у дзень</item>
+        <item quantity="few">потым аўтаматычнае падаўжэнне за %1$s кожныя %2$d дні</item>
+        <item quantity="many">потым аўтаматычнае падаўжэнне за %1$s кожныя %2$d дзён</item>
+        <item quantity="other">потым аўтаматычнае падаўжэнне за %1$s кожныя %2$d дзён</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_rest_weekly">
+        <item quantity="one">потым аўтаматычнае падаўжэнне за %1$s у тыдзень</item>
+        <item quantity="few">потым аўтаматычнае падаўжэнне за %1$s кожныя %2$d тыдні</item>
+        <item quantity="many">потым аўтаматычнае падаўжэнне за %1$s кожныя %2$d тыдняў</item>
+        <item quantity="other">потым аўтаматычнае падаўжэнне за %1$s кожныя %2$d тыдняў</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_rest_monthly">
+        <item quantity="one">потым аўтаматычнае падаўжэнне за %1$s у месяц</item>
+        <item quantity="few">потым аўтаматычнае падаўжэнне за %1$s кожныя %2$d месяцы</item>
+        <item quantity="many">потым аўтаматычнае падаўжэнне за %1$s кожныя %2$d месяцаў</item>
+        <item quantity="other">потым аўтаматычнае падаўжэнне за %1$s кожныя %2$d месяцаў</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_multi_renewal_rest_yearly">
+        <item quantity="one">потым аўтаматычнае падаўжэнне за %1$s у год</item>
+        <item quantity="few">потым аўтаматычнае падаўжэнне за %1$s кожныя %2$d гады</item>
+        <item quantity="many">потым аўтаматычнае падаўжэнне за %1$s кожныя %2$d гадоў</item>
+        <item quantity="other">потым аўтаматычнае падаўжэнне за %1$s кожныя %2$d гадоў</item>
+    </plurals>
+    <!-- Explains renewal cycle when first there's a discount price for several periods
+     (e.g. 2 months) and then the subscription renews at full price.
+     Periods (days, months etc) are never mixed between the messages, the whole message uses one
+     unit.
+
+     Parameters:
+      %1$s - one of payment_multi_renewal_discount_*
+      %2$s - one of payment_multi_renewal_discount_for_*
+      %3$s - one of payment_multi_renewal_rest_*
+
+     Examples:
+      "$2.99/month for the first 2 months, then auto renews at $3.99/month"
+      "$19.99/year for the first 3 years, then auto renews at $24.99/year"
+      "$3.99 every 2 months for the first 4 months, then auto renews at 5.99 every 2 months"
+    -->
+    <string name="payment_multi_renewal_template">%1$s %2$s %3$s</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Гэта тэхналогія дазваляе Proton VPN забяспечваць больш высокую хуткасць і бяспеку ў краінах, дзе ёсць праблемы з прыватнасцю.</string>
     <string name="tor_title">Tor</string>

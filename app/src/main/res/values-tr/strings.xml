@@ -640,15 +640,33 @@
     <string name="upsell_tv_fallback_description">Tarifenizi yükseltmek için Proton VPN sitesine gidin.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
-        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")
 
         Examples:
         50 PLN /month
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s / %2$s</string>
+    <string name="payment_price_per_day">gün</string>
+    <string name="payment_price_per_week">hafta</string>
     <string name="payment_price_per_month">ay</string>
     <string name="payment_price_per_year">yıl</string>
+    <plurals name="payment_price_cycle_label_day">
+        <item quantity="one">%1$d gün</item>
+        <item quantity="other">%1$d gün</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_week">
+        <item quantity="one">%1$d hafta</item>
+        <item quantity="other">%1$d hafta</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_month">
+        <item quantity="one">%1$d ay</item>
+        <item quantity="other">%1$d ay</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_year">
+        <item quantity="one">%1$d yıl</item>
+        <item quantity="other">%1$d yıl</item>
+    </plurals>
     <string name="payment_select_your_plan">Tarifenizi seçin</string>
     <!-- Label on a button for purchasing a subscription.
          Parameter: %1$s - plan name
@@ -656,6 +674,182 @@
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">%1$s edinin</string>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of days -->
+    <plurals name="payment_discount_renewal_price_message_daily">
+        <item quantity="one">Özel teklif. Günlük %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="other">Özel teklif. Her %2$d günde bir %1$s karşılığında otomatik olarak yenilenir</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_discount_renewal_price_message_weekly">
+        <item quantity="one">Özel teklif. Haftalık %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="other">Özel teklif. Her %2$d haftada bir %1$s karşılığında otomatik olarak yenilenir</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of months -->
+    <plurals name="payment_discount_renewal_price_message_monthly">
+        <item quantity="one">Özel teklif. Aylık %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="other">Özel teklif. Her %2$d ayda bir %1$s karşılığında otomatik olarak yenilenir</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_discount_renewal_price_message_yearly">
+        <item quantity="one">Özel teklif. Yıllık %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="other">Özel teklif. Her %2$d yılda bir %1$s karşılığında otomatik olarak yenilenir</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of days -->
+    <plurals name="payment_renewal_price_message_daily">
+        <item quantity="one">Abonelik günlük %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="other">Abonelik %2$d günde bir %1$s karşılığında otomatik olarak yenilenir</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_renewal_price_message_weekly">
+        <item quantity="one">Abonelik haftalık %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="other">Abonelik %2$d haftada bir %1$s karşılığında otomatik olarak yenilenir</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of months -->
+    <plurals name="payment_renewal_price_message_monthly">
+        <item quantity="one">Abonelik aylık %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="other">Abonelik %2$d ayda bir %1$s karşılığında otomatik olarak yenilenir</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_renewal_price_message_yearly">
+        <item quantity="one">Abonelik yıllık %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="other">Abonelik %2$d yılda bir %1$s karşılığında otomatik olarak yenilenir</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_daily">
+        <item quantity="one">%1$s/gün</item>
+        <item quantity="other">her %2$d günde bir %1$s</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_discount_weekly">
+        <item quantity="one">%1$s/hafta</item>
+        <item quantity="other">her %2$d haftada bir %1$s</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_discount_monthly">
+        <item quantity="one">%1$s/ay</item>
+        <item quantity="other">her %2$d ayda bir %1$s</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_yearly">
+        <item quantity="one">%1$s/yıl</item>
+        <item quantity="other">her %2$d yılda bir %1$s</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_for_days">
+        <item quantity="one">ilk gün için</item>
+        <item quantity="other">ilk %1$d gün için</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_discount_for_weeks">
+        <item quantity="one">ilk hafta için</item>
+        <item quantity="other">ilk %1$d hafta için</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_discount_for_months">
+        <item quantity="one">ilk ay için</item>
+        <item quantity="other">ilk %1$d ay için</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of years -->
+    <plurals name="payment_multi_renewal_discount_for_years">
+        <item quantity="one">ilk yıl için</item>
+        <item quantity="other">ilk %1$d yıl için</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_rest_daily">
+        <item quantity="one">ardından %1$s/gün karşılığında otomatik olarak yenilenir</item>
+        <item quantity="other">ardından her %2$d günde bir %1$s karşılığında otomatik olarak yenilenir</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_rest_weekly">
+        <item quantity="one">ardından %1$s/hafta karşılığında otomatik olarak yenilenir</item>
+        <item quantity="other">ardından her %2$d haftada bir %1$s karşılığında otomatik olarak yenilenir</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_rest_monthly">
+        <item quantity="one">ardından %1$s/ay karşılığında otomatik olarak yenilenir</item>
+        <item quantity="other">ardından her %2$d ayda bir %1$s karşılığında otomatik olarak yenilenir</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_multi_renewal_rest_yearly">
+        <item quantity="one">ardından %1$s/yıl karşılığında otomatik olarak yenilenir</item>
+        <item quantity="other">ardından her %2$d yılda bir %1$s karşılığında otomatik olarak yenilenir</item>
+    </plurals>
+    <!-- Explains renewal cycle when first there's a discount price for several periods
+     (e.g. 2 months) and then the subscription renews at full price.
+     Periods (days, months etc) are never mixed between the messages, the whole message uses one
+     unit.
+
+     Parameters:
+      %1$s - one of payment_multi_renewal_discount_*
+      %2$s - one of payment_multi_renewal_discount_for_*
+      %3$s - one of payment_multi_renewal_rest_*
+
+     Examples:
+      "$2.99/month for the first 2 months, then auto renews at $3.99/month"
+      "$19.99/year for the first 3 years, then auto renews at $24.99/year"
+      "$3.99 every 2 months for the first 4 months, then auto renews at 5.99 every 2 months"
+    -->
+    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Bu teknoloji, hizmet verilmesi zor ülkelerde Proton VPN için daha yüksek hız ve güvenlik sağlar.</string>
     <string name="tor_title">Tor</string>
