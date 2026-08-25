@@ -122,13 +122,17 @@ build vanilla f-droid release:
   rules: *vanilla_build_rules
   tags:
     - android-xlarge
+  variables:
+    # Git-based version name may be incorrect after cleaning the repository, use VERSION_NAME
+    # from export archive name.
+    OVERRIDE_VERSION_NAME: $VERSION_NAME
   script:
     # Remove files placed in .publishignore locally to build from the exact same history that will
     # be published. It's important for reproducible builds.
     - publish-repo-cleanup
     - ./gradlew assembleProductionVanillaDirectRelease -P appId=ch.protonvpn.android.reproducible
     - pushd app/build/outputs/apk/productionVanillaDirect/release/
-    - mv ${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk ${ARCHIVES_BASE_NAME}-fdroid-reproducible-release.apk
+    - mv "${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk" "${ARCHIVES_BASE_NAME}-fdroid-reproducible-release.apk"
     - popd
   artifacts:
     expire_in: 3 week
