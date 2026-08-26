@@ -231,11 +231,11 @@
     <string name="settingsTelemetryScreenTitle">사용 통계</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[이 통계에는 회원님의 IP 주소가 담기지 않으며 식별에 사용할 수 없습니다. 제 3자에게 공유하지도 않습니다. <a href="%1$s">더 알아보기</a>]]></string>
     <string name="netshield_settings_description_not_html">웹 사이트와 앱들의 광고, 멀웨어 및 트래커들로부터 보호 받으세요. %1$s</string>
-    <string name="netshield_settings_description_tv">제 3자(타사) 광고, 트래커, 멀웨어로부터 귀하를 보호합니다. NetShield는 YouTube 및 Netflix와 같은 스트리밍 서비스에 내장된 광고를 차단하지 않습니다.</string>
+    <string name="netshield_settings_description_tv">제 3자(타사) 광고, 트래커, 멀웨어로부터 회원님을 보호합니다. NetShield는 YouTube 및 Netflix와 같은 스트리밍 서비스에 내장된 광고를 차단하지 않습니다.</string>
     <string name="netshield_settings_more_info_title_tv">NetShield 작동 방식</string>
     <string-array name="netshield_settings_more_info_paragraphs_tv">
         <item>NetShield는 광고, 트래커 및 멀웨어로 알려진 제 3 자(타사)의 도메인으로의 DNS 요청을 차단합니다.</item>
-        <item>이것은 귀하의 브라우저 또는 제 3자(타사) 광고 서비스를 사용하는 무료 앱으로부터 광고를 수신받지 않음을 의미합니다.</item>
+        <item>즉, 브라우저 또는 제 3자(타사) 광고 서비스를 사용하는 무료 앱으로부터 광고를 수신받지 않음을 의미합니다.</item>
         <item>하지만, YouTube 및 Netflix와 같은 스트리밍 플랫폼의 광고는 자체 서버에서 직접 광고가 제공되기 때문에 차단할 수 없습니다.</item>
     </string-array>
     <string name="settings_icon_change_description">비밀 아이콘으로 Proton VPN 앱을 위장하세요.
@@ -505,22 +505,22 @@
     <string name="upsell_panel_content_description_yes">예</string>
     <string name="upsell_panel_content_description_no">아니오</string>
     <string name="upsell_panel_table_header_plan_free">무료</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
-    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <string name="upsell_panel_general_benefit_block_ads">광고 및 추적기 차단</string>
+    <string name="upsell_panel_general_benefit_countries">사용 가능한 국가</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_general_benefit_devices">Protected devices</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
-    <string name="upsell_panel_general_benefit_server">Choose your server</string>
-    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
-    <string name="upsell_panel_general_benefit_speed">Server speed</string>
-    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
-    <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
-    <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
-    <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
-    <string name="upsell_panel_adv_customization_benefit_dns">Use your own DNS service</string>
-    <string name="upsell_panel_adv_customization_benefit_gaming">Better connections for gaming</string>
+    <string name="upsell_panel_general_benefit_devices">보호되는 기기</string>
+    <string name="upsell_panel_general_benefit_location">원하는 위치 선택</string>
+    <string name="upsell_panel_general_benefit_server">원하는 서버 선택</string>
+    <string name="upsell_panel_general_benefit_shows">모든 국가의 TV 프로그램 시청</string>
+    <string name="upsell_panel_general_benefit_speed">서버 속도</string>
+    <string name="upsell_panel_general_benefit_speed_standard">일반</string>
+    <string name="upsell_panel_general_benefit_speed_highest">가장 빠름</string>
+    <string name="upsell_panel_adv_customization_title">정제된 연결</string>
+    <string name="upsell_panel_adv_customization_description">LAN 연결을 허용하고, 사용자 지정 DNS를 설정하며, NAT 유형을 선택해 보세요. 고급 관리 기능은 모두 Plus에서 사용할 수 있습니다.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">프린터와 홈 디바이스에 연결</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">나만의 DNS 서비스 그대로 사용</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">게이밍을 위한 더 나은 연결 성능</string>
     <!--
         %1$s - country name in nominative
 
@@ -532,23 +532,23 @@
     <string name="upsell_panel_countries_title"> VPN Plus로 모든 국가 잠금 해제</string>
     <string name="upsell_panel_country_benefit_speed">초고속 서버</string>
     <string name="upsell_panel_country_benefit_shows">특정 국가 전용 콘텐츠를 시정하세요</string>
-    <string name="upsell_panel_devices_title">Protect every device you own</string>
-    <string name="upsell_panel_devices_description">Your phone, laptop, TV, and everything in between.</string>
+    <string name="upsell_panel_devices_title">가지고 있는 모든 기기에서 연결</string>
+    <string name="upsell_panel_devices_description">휴대폰, 컴퓨터, TV 등등 모든 기기에서 누리는 VPN.</string>
     <string name="upsell_panel_netshield_title">방해 없이 탐색하세요</string>
     <string name="upsell_panel_netshield_benefit_ads">브라우징 중에도 광고가 차단됩니다</string>
     <string name="upsell_panel_netshield_benefit_trackers">나를 추적하는 트래커를 중단시키세요</string>
     <string name="upsell_panel_netshield_benefit_malware">멀웨어 및 피싱 보호</string>
     <string name="upsell_panel_netshield_benefit_load_speed">페이지가 더 빠르게 로드됩니디 </string>
-    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
-    <string name="upsell_panel_p2p_title">Downloads at full speed</string>
-    <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
-    <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
-    <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
-    <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
-    <string name="upsell_panel_profiles_benefit_profiles">Saved profiles</string>
-    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
-    <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
-    <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
+    <string name="upsell_panel_onboarding_title">VPN Plus로 더 많은 혜택 누리기</string>
+    <string name="upsell_panel_p2p_title">최대 속도로 다운로드</string>
+    <string name="upsell_panel_p2p_description">일반 Torrent 클라이언트를 사용하면서 파일 공유에 최적화된 서버에 접근하세요.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">P2P 파일 공유</string>
+    <string name="upsell_panel_profiles_title">스트리밍, 게이밍, 업무: 각 용도에 맞는 프로필 사용하기</string>
+    <string name="upsell_panel_profiles_description">나만의 방식으로 연결을 지정하세요. 그 구성으로 다시 연결하고 싶을 때는 탭 한 번이면 끝.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">저장된 프로필</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">무제한</string>
+    <string name="upsell_panel_secure_core_title">나와 웹 사이의 2개의 암호화 레이어</string>
+    <string name="upsell_panel_secure_core_description">선택한 국가로 직접 연결되지 않고, 스위스, 아이슬란드, 스웨덴에 위치한 Proton 서버를 한 번 더 거쳐 연결합니다.</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">더 빠른 속도로 스트리밍, 게이밍, 다운로드하세요</string>
     <string name="upsell_panel_speed_benefit_servers">초고속 서버</string>
@@ -556,10 +556,10 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">느림</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">빠름</string>
     <string name="upsell_panel_speed_benefit_video">버퍼링 없이 비디오 스트리밍</string>
-    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
-    <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
-    <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
-    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P 다운로드 지원</string>
+    <string name="upsell_panel_split_tunneling_title">VPN을 사용하는 앱 선택</string>
+    <string name="upsell_panel_split_tunneling_description">브라우저는 VPN으로 안전하게, 금융 앱은 일반 네트워크로 빠르게. 앱마다 원하는 대로 자유롭게 설정하세요.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">분할 터널링</string>
     <string name="upsell_panel_streaming_title">좋아하는 스트리밍 서비스로 영상 시청</string>
     <string name="upsell_panel_streaming_benefit_shows">모든 국가의 TV 프로그램 시청</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -567,11 +567,11 @@
     <string name="upsell_panel_streaming_benefit_hd">버퍼링 없이 HD로 스트리밍</string>
     <string name="upsell_panel_streaming_benefit_devices">한 번에 기기 모두를 연결</string>
     <string name="upsell_panel_streaming_footer">* 해당 스트리밍 서비스의 구독이 필요합니다.</string>
-    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
-    <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
-    <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
-    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
+    <string name="upsell_panel_streaming_block_title">VPN 차단을 우회하려면 업그레이드</string>
+    <string name="upsell_panel_streaming_block_description">VPN Plus로 전세계의 모든 영화나 TV 프로그램에 자유롭게 접근하여 스트리밍하세요.</string>
+    <string name="upsell_panel_tor_title">Tor Browser 없이 Onion 사이트에 접근</string>
+    <string name="upsell_panel_tor_description">평소 브라우저에서도 .onion사이트에 접근하세요.</string>
+    <string name="upsell_panel_tor_benefit_tor">VPN을 통한 Tor</string>
     <string name="upsell_card_countries_title">전세계 커버리지</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -632,21 +632,21 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_day">day</string>
-    <string name="payment_price_per_week">week</string>
+    <string name="payment_price_per_day">일</string>
+    <string name="payment_price_per_week">주</string>
     <string name="payment_price_per_month">월간</string>
     <string name="payment_price_per_year">연간</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="other">%1$d days</item>
+        <item quantity="other">%1$d일</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="other">%1$d주</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="other">%1$d months</item>
+        <item quantity="other">%1$d개월</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="other">%1$d years</item>
+        <item quantity="other">%1$d년</item>
     </plurals>
     <string name="payment_select_your_plan">플랜을 선택하세요.</string>
     <!-- Label on a button for purchasing a subscription.
@@ -659,43 +659,43 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_discount_renewal_price_message_daily">
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d days</item>
+        <item quantity="other">특별 할인. 매 %2$d일마다 %1$s(으)로 자동 갱신됩니다.</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_discount_renewal_price_message_weekly">
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d weeks</item>
+        <item quantity="other">특별 할인. 매 %2$d주마다 %1$s(으)로 자동 갱신됩니다.</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_discount_renewal_price_message_monthly">
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d months</item>
+        <item quantity="other">특별 할인. 매 %2$d개월마다 %1$s(으)로 자동 갱신됩니다.</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_discount_renewal_price_message_yearly">
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d years</item>
+        <item quantity="other">특별 할인. 매 %2$d년마다 %1$s(으)로 자동 갱신됩니다.</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_renewal_price_message_daily">
-        <item quantity="other">Subscription auto renews at %1$s every %2$d days</item>
+        <item quantity="other">매 %2$d일마다 %1$s(으)로 자동 갱신됩니다.</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_renewal_price_message_weekly">
-        <item quantity="other">Subscription auto renews at %1$s every %2$d weeks</item>
+        <item quantity="other">매 %2$d주마다 %1$s(으)로 자동 갱신됩니다.</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
+        <item quantity="other">매 %2$d개월마다 %1$s(으)로 자동 갱신됩니다.</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
@@ -1811,7 +1811,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="no_connections_action_refresh">새로고침</string>
     <string name="no_connections_action_sign_out">로그아웃</string>
     <string name="no_connections_help_contact_us"><![CDATA[도움이 필요하세요? <a href="">문의해 주세요</a>]]></string>
-    <string name="no_connections_help_follow_instructions"><![CDATA[귀하의 관리자가 VPN 접근 활성화에 도움이 필요하다면, <a href="">이 지침</a>을 보내십시오.]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[관리자가 VPN 접근 활성화에 도움이 필요하다면, <a href="">이 지침</a>을 보내십시오.]]></string>
     <string name="settings_protocol_proton_protocols">Proton 프로토콜</string>
     <string name="settings_protocol_proton_protocols_description">Proton VPN가 자체적으로 구현한 WireGuard를 사용합니다. 실험적인 기능으로, 일부 불안정성을 경험할 수 있습니다.</string>
     <string name="connection_preferences_smart_discovery_dialog_title">원하던 국가가 아닌가요?</string>

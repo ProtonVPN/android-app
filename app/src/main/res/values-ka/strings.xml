@@ -519,22 +519,22 @@
     <string name="upsell_panel_content_description_yes">დიახ</string>
     <string name="upsell_panel_content_description_no">არა</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
-    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <string name="upsell_panel_general_benefit_block_ads">დაბლოკეთ რეკლამები და ტრეკერები</string>
+    <string name="upsell_panel_general_benefit_countries">ხელმისაწვდომი ქვეყნები</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_general_benefit_devices">Protected devices</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
-    <string name="upsell_panel_general_benefit_server">Choose your server</string>
-    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
-    <string name="upsell_panel_general_benefit_speed">Server speed</string>
-    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
-    <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
+    <string name="upsell_panel_general_benefit_devices">დაცული მოწყობილობები</string>
+    <string name="upsell_panel_general_benefit_location">აირჩიეთ თქვენი მდებარეობა</string>
+    <string name="upsell_panel_general_benefit_server">აირჩიეთ თქვენი სერვერი</string>
+    <string name="upsell_panel_general_benefit_shows">უყურეთ თქვენს სერიალებს ნებისმიერი ქვეყნიდან</string>
+    <string name="upsell_panel_general_benefit_speed">სერვერის სიჩქარე</string>
+    <string name="upsell_panel_general_benefit_speed_standard">სტანდარტული</string>
+    <string name="upsell_panel_general_benefit_speed_highest">უმაღლესი</string>
+    <string name="upsell_panel_adv_customization_title">მოირგეთ თქვენი კავშირი უფრო ზუსტად</string>
     <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
-    <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
-    <string name="upsell_panel_adv_customization_benefit_dns">Use your own DNS service</string>
-    <string name="upsell_panel_adv_customization_benefit_gaming">Better connections for gaming</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">წვდომა თქვენს პრინტერთან და სახლში არსებულ მოწყობილობებთან</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">გამოიყენეთ თქვენი საკუთარი DNS სერვისი</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">უკეთესი კავშირი თამაშისთვის</string>
     <!--
         %1$s - country name in nominative
 
@@ -546,21 +546,21 @@
     <string name="upsell_panel_countries_title">განბლოკეთ ყველა ქვეყანა VPN Plus-თან ერთად</string>
     <string name="upsell_panel_country_benefit_speed">ჩქაროსნული სერვერები</string>
     <string name="upsell_panel_country_benefit_shows">უყურეთ სერიალებს, რომლებიც, მხოლოდ, საზღვარგარეთაა ხელმისაწვდომი</string>
-    <string name="upsell_panel_devices_title">Protect every device you own</string>
+    <string name="upsell_panel_devices_title">დაიცავით ყველა მოწყობილობა, რომელსაც ფლობთ</string>
     <string name="upsell_panel_devices_description">Your phone, laptop, TV, and everything in between.</string>
     <string name="upsell_panel_netshield_title">იმუშავეთ ინტერნეტში წყვეტების გარეშე</string>
     <string name="upsell_panel_netshield_benefit_ads">რეკლამები იბლოკება, როცა ინტერნეტში მუშაობთ</string>
     <string name="upsell_panel_netshield_benefit_trackers">შეუშალეთ ხელი ტრეკერებს, თვალი გადევნონ</string>
     <string name="upsell_panel_netshield_benefit_malware">მავნე პროგრამებისგან დაცვა</string>
     <string name="upsell_panel_netshield_benefit_load_speed">გვერდები უფრო სწრაფად იტვირტება </string>
-    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
-    <string name="upsell_panel_p2p_title">Downloads at full speed</string>
+    <string name="upsell_panel_onboarding_title">მიიღეთ მეტი VPN Plus-თან ერთად</string>
+    <string name="upsell_panel_p2p_title">გადმოწერები სრული სიჩქარით</string>
     <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
-    <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
+    <string name="upsell_panel_p2p_benefit_p2p">P2P ფაილების გაზიარება</string>
     <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
     <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
-    <string name="upsell_panel_profiles_benefit_profiles">Saved profiles</string>
-    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
+    <string name="upsell_panel_profiles_benefit_profiles">შენახული პროფილები</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">შეუზღუდავი</string>
     <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
     <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
@@ -570,22 +570,22 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">ნელი</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">სწრაფი</string>
     <string name="upsell_panel_speed_benefit_video">ვიდეონაკადები ბუფერიზაციის გარეშე</string>
-    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
-    <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
+    <string name="upsell_panel_speed_benefit_p2p">მხარდაჭერილია P2P გადმოწერები</string>
+    <string name="upsell_panel_split_tunneling_title">აირჩიეთ, რომელი აპები იყენებენ VPN-ს</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
     <string name="upsell_panel_streaming_title">უყურეთ თქვენს რჩეულ სტრიმინგის სერვისებს</string>
-    <string name="upsell_panel_streaming_benefit_shows">უყურეთ ტქვენს სეერიალებს ნებისმიერი ქვეყნიდან</string>
+    <string name="upsell_panel_streaming_benefit_shows">უყურეთ თქვენს სერიალებს ნებისმიერი ქვეყნიდან</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
     <string name="upsell_panel_streaming_benefit_platforms">მხარდაჭერილია ყველა დიდი სტრიმინგის პლატფორმა *</string>
     <string name="upsell_panel_streaming_benefit_hd">სტრიმინგი HD-ში ბუფერიზაციის გარეშე</string>
     <string name="upsell_panel_streaming_benefit_devices">ერთდროულად დაკავშირებული მოწყობილობები</string>
     <string name="upsell_panel_streaming_footer">* სტრიმინგის პლატფორმის გამოწერა აუცილებელია.</string>
-    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
+    <string name="upsell_panel_streaming_block_title">VPN-ის დაბლოკვების გვერდის ასავლელად ასწიეთ სატარიფო გეგმა</string>
     <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
-    <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
+    <string name="upsell_panel_tor_title">Onion-ის საიტები. Tor Browser საჭირო არაა</string>
     <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
-    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor VPN-ის ზემოდან</string>
     <string name="upsell_card_countries_title">მთელი დედამიწის დაფარვა</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -647,25 +647,25 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_day">day</string>
-    <string name="payment_price_per_week">week</string>
+    <string name="payment_price_per_day">დღე</string>
+    <string name="payment_price_per_week">კვირა</string>
     <string name="payment_price_per_month">თვე</string>
     <string name="payment_price_per_year">წელი</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="one">%1$d day</item>
-        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d დღე</item>
+        <item quantity="other">%1$d დღე</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="one">%1$d week</item>
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="one">%1$d კვირა</item>
+        <item quantity="other">%1$d კვირა</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="one">%1$d month</item>
-        <item quantity="other">%1$d months</item>
+        <item quantity="one">%1$d თვე</item>
+        <item quantity="other">%1$d თვე</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="one">%1$d year</item>
-        <item quantity="other">%1$d years</item>
+        <item quantity="one">%1$d წელი</item>
+        <item quantity="other">%1$d წელი</item>
     </plurals>
     <string name="payment_select_your_plan">აირჩიეთ ტარიფი</string>
     <!-- Label on a button for purchasing a subscription.
@@ -736,8 +736,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_daily">
-        <item quantity="one">%1$s/day</item>
-        <item quantity="other">%1$s every %2$d days</item>
+        <item quantity="one">%1$s/დღე</item>
+        <item quantity="other">%1$s ყოველ %2$d დღეში</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -745,8 +745,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
-        <item quantity="one">%1$s/week</item>
-        <item quantity="other">%1$s every %2$d weeks</item>
+        <item quantity="one">%1$s / კვირა</item>
+        <item quantity="other">%1$s ყოველ %2$d კვირაში</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -754,8 +754,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s/month</item>
-        <item quantity="other">%1$s every %2$d months</item>
+        <item quantity="one">%1$s/თვეში</item>
+        <item quantity="other">%1$s ყოველ %2$d თვეში</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -763,40 +763,40 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_yearly">
-        <item quantity="one">%1$s/year</item>
-        <item quantity="other">%1$s every %2$d years</item>
+        <item quantity="one">%1$s / წელი</item>
+        <item quantity="other">%1$s ყოველ %2$d წელიწადში</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
-        <item quantity="one">for the first day</item>
-        <item quantity="other">for the first %1$d days</item>
+        <item quantity="one">პირველი დღისთვის</item>
+        <item quantity="other">პირველი %1$d დღისთვის</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
-        <item quantity="one">for the first week</item>
-        <item quantity="other">for the first %1$d weeks</item>
+        <item quantity="one">პირველი კვირისთვის</item>
+        <item quantity="other">პირველი %1$d კვირისთვის</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">for the first month</item>
-        <item quantity="other">for the first %1$d months</item>
+        <item quantity="one">პირველი თვისთვის</item>
+        <item quantity="other">პირველი %1$d თვისთვის</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
-        <item quantity="one">for the first year</item>
-        <item quantity="other">for the first %1$d years</item>
+        <item quantity="one">პირველი წლისთვის</item>
+        <item quantity="other">პირველი %1$d წლისთვის</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -804,8 +804,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="one">then auto renews at %1$s/day</item>
-        <item quantity="other">then auto renews at %1$s every %2$d days</item>
+        <item quantity="one">შემდეგ ავტომატუარდ განახლდება ტარიფით %1$s/დღეში</item>
+        <item quantity="other">შემდეგ ავტომატურად განახლდება ტარიფით %1$s ყოველ %2$d დღეში</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -813,8 +813,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="one">then auto renews at %1$s/week</item>
-        <item quantity="other">then auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">შემდეგ ავტომატუარდ განახლდება ტარიფით %1$s/კვირაში</item>
+        <item quantity="other">შემდეგ ავტომატურად განახლდება ტარიფით %1$s ყოველ %2$d კვირაში</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -822,8 +822,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="one">then auto renews at %1$s/month</item>
-        <item quantity="other">then auto renews at %1$s every %2$d months</item>
+        <item quantity="one">შემდეგ ავტომატუარდ განახლდება ტარიფით %1$s/თვეში</item>
+        <item quantity="other">შემდეგ ავტომატურად განახლდება ტარიფით %1$s ყოველ %2$d თვეში</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -831,8 +831,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="one">then auto renews at %1$s/year</item>
-        <item quantity="other">then auto renews at %1$s every %2$d years</item>
+        <item quantity="one">შემდეგ ავტომატუარდ განახლდება ტარიფით %1$s/წელიწადში</item>
+        <item quantity="other">შემდეგ ავტომატურად განახლდება ტარიფით %1$s ყოველ %2$d წელიწადში</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
      (e.g. 2 months) and then the subscription renews at full price.
