@@ -71,7 +71,7 @@ class GetEligibleOffers(
         loadSubscriptionPlans,
         inAppUpgradeAllowed,
         FileObjectStore(
-            File(context.filesDir, "intro_price_eligible_offers_cache"),
+            File(context.cacheDir, "intro_price_eligible_offers_cache"),
             mainScope,
             dispatcherProvider,
             KotlinCborObjectSerializer(
