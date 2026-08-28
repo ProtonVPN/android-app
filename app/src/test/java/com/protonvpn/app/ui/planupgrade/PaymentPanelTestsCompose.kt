@@ -39,6 +39,7 @@ import com.protonvpn.android.ui.planupgrade.PaymentPanel
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
+import com.protonvpn.android.ui.planupgrade.usecase.UpgradeDialogLoadPlansConfig
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.app.testRules.RobolectricHiltAndroidRule
 import com.protonvpn.test.shared.createOffer
@@ -119,7 +120,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
         val baseOffer = createOffer(PaymentCycle.Month(1), listOf(199))
         setupComposablesAndLoadPlans(
             listOf(createProduct("id", "vpn2022", listOf(baseOffer))),
-            LoadPlansConfig.WithOptionalDiscount(listOf("vpn2022"), listOf(PaymentCycle.Month(1)), "unknownTag")
+            LoadPlansConfig.WithOptionalDiscount(listOf("vpn2022"), listOf(PaymentCycle.Month(1)), listOf("unknownTag"))
         )
         node.withTag("renewInfoText")
             .assertContainsText("Subscription auto renews at €1.99/month")
@@ -221,7 +222,14 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
     ) {
         testGetProducts.setProductsToReturn(products)
         val viewModel = viewModelInjector.createViewModel()
-        viewModel.loadPlans(loadPlansConfig, preselectedCycle, showDiscountBadge = false)
+        val config = UpgradeDialogLoadPlansConfig(
+            planSelection = loadPlansConfig,
+            preselectedCycle = preselectedCycle,
+            buttonLabelOverride = null,
+            showDiscountBadge = false,
+            notificationReference = null,
+        )
+        viewModel.loadPlans(config)
         composeRule.setContent {
             val state = viewModel.fullPanelState.collectAsStateWithLifecycle().value
             PaymentPanel(state, {})
@@ -258,7 +266,6 @@ class UpgradeDialogViewModelInjector @Inject constructor(
     private val saveMmpEvent: SaveMmpEvent,
 ) {
     fun createViewModel() = UpgradeDialogViewModel(
-        isInAppUpgradeAllowed = suspend { true },
         upgradeTelemetry = upgradeTelemetry,
         loadSubscriptionPlans = loadSubscriptionPlans::invoke,
         purchaseProduct = purchaseProduct,

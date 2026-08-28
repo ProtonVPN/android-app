@@ -26,6 +26,11 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.mmp.events.MmpEvent
 import com.protonvpn.android.mmp.events.MmpEventType
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
+import com.protonvpn.android.promooffers.data.ApiNotification
+import com.protonvpn.android.promooffers.data.ApiNotificationOfferPanel
+import com.protonvpn.android.promooffers.data.ApiNotificationProductDetails
+import com.protonvpn.android.promooffers.data.ApiNotificationProductDetailsGoogle
+import com.protonvpn.android.promooffers.data.ApiNotificationTypes
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
@@ -37,14 +42,17 @@ import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel.State
 import com.protonvpn.android.ui.planupgrade.comparison_table.FakeIsUpsellComparisonTableExperimentEnabled
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
+import com.protonvpn.android.ui.planupgrade.usecase.GetUpgradeDialogPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.formatPrice
 import com.protonvpn.mocks.FakeCommonDimensions
 import com.protonvpn.mocks.TestTelemetryReporter
+import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createOffer
+import com.protonvpn.test.shared.createOffersWithDiscount
 import com.protonvpn.test.shared.createProduct
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -53,6 +61,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
@@ -75,6 +84,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.util.Locale
 import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -87,6 +97,7 @@ class UpgradeDialogViewModelTests {
     private lateinit var mockSaveMmpEvent: SaveMmpEvent
 
     private lateinit var testScope: TestScope
+    private lateinit var getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig
     private lateinit var viewModel: UpgradeDialogViewModel
     private lateinit var loadSubscriptionPlans: LoadSubscriptionPlans
     private lateinit var testGetProducts: FakeGetProducts
@@ -95,6 +106,7 @@ class UpgradeDialogViewModelTests {
     private lateinit var testTelemetry: TestTelemetryReporter
 
     private var isInAppAllowed = true
+    private lateinit var activeNotifications: MutableStateFlow<List<ApiNotification>>
     private val testPlanName = "myplan"
 
     @Before
@@ -103,6 +115,7 @@ class UpgradeDialogViewModelTests {
         val testDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
         testScope = TestScope(testDispatcher)
         Dispatchers.setMain(testDispatcher)
+        Locale.setDefault(Locale.US)
 
         testGetProducts = FakeGetProducts()
         testPurchaseProduct = FakePurchaseProduct()
@@ -126,8 +139,13 @@ class UpgradeDialogViewModelTests {
         )
         coEvery { mockSaveMmpEvent(eventType = any()) } returns Unit
 
-        viewModel = UpgradeDialogViewModel(
+        activeNotifications = MutableStateFlow(emptyList())
+        getUpgradeDialogPlansConfig = GetUpgradeDialogPlansConfig(
             isInAppUpgradeAllowed = { isInAppAllowed },
+            activeNotificationsFlow = activeNotifications,
+            awaitNotificationsUpdate = {},
+        )
+        viewModel = UpgradeDialogViewModel(
             upgradeTelemetry = upgradeTelemetry,
             loadSubscriptionPlans = loadSubscriptionPlans::invoke,
             purchaseProduct = testPurchaseProduct,
@@ -146,7 +164,9 @@ class UpgradeDialogViewModelTests {
     fun `load default plan and purchase`() = testScope.runTest {
         coEvery { mockSaveMmpEvent(any()) } returns Unit
 
-        viewModel.loadBuiltinUpsellPlans(listOf(testPlanName))
+        val config =
+            getUpgradeDialogPlansConfig.forBuiltinUpsell(ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK, listOf(testPlanName))
+        viewModel.loadPlans(config)
 
         viewModel.fullPanelState.test {
             val loadedState = awaitItem()
@@ -200,7 +220,9 @@ class UpgradeDialogViewModelTests {
     fun `in-app payments disabled`() = testScope.runTest {
         isInAppAllowed = false
         viewModel.upgradeState.test {
-            viewModel.loadBuiltinUpsellPlans(listOf(testPlanName))
+            val config =
+                getUpgradeDialogPlansConfig.forBuiltinUpsell(ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK, listOf(testPlanName))
+            viewModel.loadPlans(config)
             assertIs<State.UpgradeDisabled>(expectMostRecentItem())
         }
     }
@@ -208,7 +230,9 @@ class UpgradeDialogViewModelTests {
     @Test
     fun `show error on plan load fail`() = testScope.runTest {
         testGetProducts.setProductsToReturn(emptyList())
-        viewModel.loadBuiltinUpsellPlans(listOf(testPlanName))
+        val config =
+            getUpgradeDialogPlansConfig.forBuiltinUpsell(ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK, listOf(testPlanName))
+        viewModel.loadPlans(config)
         val state = viewModel.upgradeState.first()
         assertIs<State.LoadError>(state)
         val error = viewModel.eventErrorMessage.receiveCatching().getOrNull()
@@ -268,7 +292,9 @@ class UpgradeDialogViewModelTests {
         )
         testGetProducts.setProductsToReturn(products)
 
-        viewModel.loadBuiltinUpsellPlans(listOf("plan2", "plan1"))
+        val config =
+            getUpgradeDialogPlansConfig.forBuiltinUpsell(ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK, listOf("plan2", "plan1"))
+        viewModel.loadPlans(config)
         assertPlanNames(listOf("plan2", "plan1"), viewModel.upgradeState.first())
     }
 
@@ -279,8 +305,12 @@ class UpgradeDialogViewModelTests {
             createProduct("bundle_1", Constants.CURRENT_BUNDLE_PLAN),
         )
         testGetProducts.setProductsToReturn(products)
-        viewModel.reportUpgradeFlowStart(UpgradeSource.COUNTRIES, UpgradeTrigger.COUNTRY_SELECTION)
-        viewModel.loadBuiltinUpsellPlans(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN))
+        viewModel.reportUpgradeFlowStart(UpgradeSource.COUNTRIES, UpgradeTrigger.COUNTRY_SELECTION, null)
+        val config = getUpgradeDialogPlansConfig.forBuiltinUpsell(
+            ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
+            listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
+        )
+        viewModel.loadPlans(config)
         runCurrent()
 
         val event = testTelemetry.collectedEvents.lastOrNull()
@@ -288,8 +318,105 @@ class UpgradeDialogViewModelTests {
         assertEquals("false", event?.dimensions["has_intro_price"])
     }
 
+    @Test
+    fun `GIVEN notifications for builtin upsells WHEN loading plans THEN offer is overridden by notification`() = testScope.runTest {
+        setupProductWithIntroAndCustomDiscount(
+            introPrice = 99,
+            customDiscountPrice = 199,
+            basePrice = 499,
+            customDiscountTag = "notification"
+        )
+        activeNotifications.value = listOf(
+            createUpgradeOverrideNotification(ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK, "notification")
+        )
+
+        val config = getUpgradeDialogPlansConfig.forBuiltinUpsell(
+            ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
+            listOf(Constants.CURRENT_PLUS_PLAN)
+        )
+        viewModel.loadPlans(config)
+        runCurrent()
+
+        val state = viewModel.upgradeState.first()
+        assertIs<State.PurchaseReady>(state)
+        assertEquals(listOf("€1.99"), state.selectedPlan.cycles.map { it.priceInfo.formattedPrice })
+        assertEquals(listOf("€4.99"), state.selectedPlan.cycles.map { it.priceInfo.formattedRenewPrice })
+    }
+
+    @Test
+    fun `GIVEN notifications for builtin upsells but no offer WHEN loading plans THEN default offers are loaded`() = testScope.runTest {
+        setupProductWithIntroAndCustomDiscount(
+            introPrice = 99,
+            customDiscountPrice = 199,
+            basePrice = 499,
+            customDiscountTag = "other"
+        )
+        activeNotifications.value = listOf(
+            createUpgradeOverrideNotification(ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK, "notification")
+        )
+        val config = getUpgradeDialogPlansConfig.forBuiltinUpsell(
+            ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
+            listOf(Constants.CURRENT_PLUS_PLAN)
+        )
+        viewModel.loadPlans(config)
+        runCurrent()
+
+        val state = viewModel.upgradeState.first()
+        assertIs<State.PurchaseReady>(state)
+        assertEquals(listOf("€0.99"), state.selectedPlan.cycles.map { it.priceInfo.formattedPrice })
+        assertEquals(listOf("€4.99"), state.selectedPlan.cycles.map { it.priceInfo.formattedRenewPrice })
+    }
+
+    @Test
+    fun `GIVEN notification for builtin upsell WHEN get plans config THEN notification reference is provided`() = testScope.runTest {
+        setupProductWithIntroAndCustomDiscount(
+            introPrice = 99,
+            customDiscountPrice = 199,
+            basePrice = 499,
+            customDiscountTag = "notification"
+        )
+        activeNotifications.value = listOf(
+            createUpgradeOverrideNotification(
+                ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
+                "notification",
+                reference = "notification-reference"
+            )
+        )
+
+        val config = getUpgradeDialogPlansConfig.forBuiltinUpsell(
+            ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
+            listOf(Constants.CURRENT_PLUS_PLAN)
+        )
+        assertEquals("notification-reference", config?.notificationReference)
+    }
+
     private fun assertPlanNames(expected: List<String>, state: State) {
         assertIs<State.PurchaseReady>(state)
         assertEquals(expected, state.allPlans.map { it.planName })
     }
+
+    private fun setupProductWithIntroAndCustomDiscount(
+        introPrice: Int,
+        customDiscountPrice: Int,
+        basePrice: Int,
+        customDiscountTag: String
+    ) {
+        val defaultOffers = createOffersWithDiscount(PaymentCycle.Month(1), introPrice, basePrice)
+        val notificationOffer = createOffer(PaymentCycle.Month(1), listOf(customDiscountPrice, basePrice), tags = listOf(customDiscountTag))
+        val offers = defaultOffers + notificationOffer
+        val products = listOf(createProduct("plus_1", Constants.CURRENT_PLUS_PLAN, offers))
+        testGetProducts.setProductsToReturn(products)
+    }
+
+    private fun createUpgradeOverrideNotification(type: Int, offerTag: String, reference: String = offerTag) =
+        mockOffer(
+            id = "id",
+            type = type,
+            reference = reference,
+            panel = ApiNotificationOfferPanel(
+                iapProductDetails = ApiNotificationProductDetails(
+                    ApiNotificationProductDetailsGoogle(offerTag = offerTag)
+                )
+            )
+        )
 }

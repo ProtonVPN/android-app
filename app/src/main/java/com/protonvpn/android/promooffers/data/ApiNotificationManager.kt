@@ -31,6 +31,8 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicApiCallResult
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
+import com.protonvpn.android.appconfig.periodicupdates.UpdateState
+import com.protonvpn.android.appconfig.periodicupdates.withUpdateState
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
@@ -53,6 +55,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -75,6 +78,8 @@ import me.proton.core.util.kotlin.takeIfNotEmpty
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 private val MIN_NOTIFICATION_REFRESH_INTERVAL_MS = TimeUnit.HOURS.toMillis(3)
 
@@ -84,7 +89,7 @@ fun interface ImagePrefetcher {
 
 @Singleton
 class GlideImagePrefetcher @Inject constructor(
-    @ApplicationContext private val appContext: Context
+    @param:ApplicationContext private val appContext: Context
 ) : ImagePrefetcher {
     override fun prefetch(url: String): Boolean {
         val future = Glide.with(appContext).download(url).submit()
@@ -101,9 +106,9 @@ class GlideImagePrefetcher @Inject constructor(
 @SuppressWarnings("LongParameterList")
 @OptIn(ExperimentalCoroutinesApi::class)
 class ApiNotificationManager @Inject constructor(
-    @ApplicationContext private val appContext: Context,
+    @param:ApplicationContext private val appContext: Context,
     private val mainScope: CoroutineScope,
-    @WallClock private val wallClockMs: () -> Long,
+    @param:WallClock private val wallClockMs: () -> Long,
     appConfig: AppConfig,
     private val apiNotificationsStore: ApiNotificationsStore,
     private val api: ProtonApiRetroFit,
@@ -113,8 +118,8 @@ class ApiNotificationManager @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     lazyImagePrefetcher: dagger.Lazy<ImagePrefetcher>,
     private val periodicUpdateManager: PeriodicUpdateManager,
-    @IsInForeground private val inForeground: Flow<Boolean>,
-    @IsLoggedIn private val isLoggedIn: Flow<Boolean>,
+    @param:IsInForeground private val inForeground: Flow<Boolean>,
+    @param:IsLoggedIn private val isLoggedIn: Flow<Boolean>,
 ) {
     private val imagePrefetcher by lazyImagePrefetcher
 
@@ -148,6 +153,8 @@ class ApiNotificationManager @Inject constructor(
         .flowOn(dispatcherProvider.Io)
         .shareIn(mainScope, SharingStarted.Eagerly, replay = 1)
 
+    private val updateState: MutableStateFlow<UpdateState<Unit>> = MutableStateFlow(UpdateState.Idle(Unit))
+
     // Active notifications are sorted by end time - the ones that end sooner are first.
     val activeListFlow = notificationsFlow
         .onStart { prefetchTrigger.emit(Unit) }
@@ -155,8 +162,8 @@ class ApiNotificationManager @Inject constructor(
             flow {
                 var nextUpdateDelayS: Long? = 0
                 while (nextUpdateDelayS != null) {
-                    delay(TimeUnit.SECONDS.toMillis(nextUpdateDelayS))
-                    val nowS = TimeUnit.MILLISECONDS.toSeconds(wallClockMs())
+                    delay(nextUpdateDelayS.seconds)
+                    val nowS = wallClockMs().milliseconds.inWholeSeconds
                     val activeNotifications = activeNotifications(nowS, notifications)
                         .sortedBy { it.endTime }
                     emit(activeNotifications)
@@ -198,16 +205,23 @@ class ApiNotificationManager @Inject constructor(
         periodicUpdateManager.executeNow(notificationsUpdate)
     }
 
+    suspend fun awaitUpdateFinish() {
+        updateState.first { it is UpdateState.Idle }
+    }
+
     @VisibleForTesting
     suspend fun updateNotifications(): ApiResult<ApiNotificationsResponse> {
-        val fullScreenImageSize = PromoOfferImage.getFullScreenImageMaxSizePx(appContext)
-        val response = api.getApiNotifications(
-            PromoOfferImage.SupportedFormats.entries.map { it.toString() },
-            fullScreenImageSize.width,
-            fullScreenImageSize.height
-        )
-        response.valueOrNull?.let { notifications ->
-            replaceNotifications(notifications.notifications, iapIntroOffers = false)
+        val response = withUpdateState(updateState, resultMapper = {}, Unit) {
+            val fullScreenImageSize = PromoOfferImage.getFullScreenImageMaxSizePx(appContext)
+            val response = api.getApiNotifications(
+                PromoOfferImage.SupportedFormats.entries.map { it.toString() },
+                fullScreenImageSize.width,
+                fullScreenImageSize.height
+            )
+            response.valueOrNull?.let { notifications ->
+                replaceNotifications(notifications.notifications, iapIntroOffers = false)
+            }
+            response
         }
 
         mainScope.launch {

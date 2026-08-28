@@ -69,6 +69,7 @@ import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.base.ui.upsellGradientEnd
 import com.protonvpn.android.base.ui.upsellGradientMid
 import com.protonvpn.android.base.ui.upsellGradientStart
+import com.protonvpn.android.promooffers.data.ApiNotificationTypes
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
@@ -82,6 +83,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2.BenefitsViewState
 import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
+import com.protonvpn.android.ui.planupgrade.usecase.GetUpgradeDialogPlansConfig
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.mixDstOver
 import dagger.hilt.android.AndroidEntryPoint
@@ -141,6 +143,9 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
 
     private val upgradeActivityHelper = UpgradeActivityHelper(this, ::afterPaymentSuccess)
 
+    @Inject
+    lateinit var getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdgeVpn()
@@ -155,11 +160,7 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
         }
 
         val content = mutableStateOf(initialContent)
-        viewModel.loadBuiltinUpsellPlans(listOf(Constants.CURRENT_PLUS_PLAN))
         upgradeActivityHelper.onCreate(viewModel)
-        if (savedInstanceState == null) {
-            viewModel.reportUpgradeFlowStart(upgradeSource, upgradeTrigger, country)
-        }
 
         lifecycleScope.launch {
             when(val current = content.value) {
@@ -171,6 +172,23 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
                     content.value = current.copy(freeCountries = upsellBenefitsViewModel.getFreeCountryCount())
 
                 else -> Unit
+            }
+        }
+        lifecycleScope.launch {
+            val plansConfig = getUpgradeDialogPlansConfig.forBuiltinUpsell(
+                notificationType =
+                    if (upgradeSource == UpgradeSource.ONBOARDING) ApiNotificationTypes.TYPE_BUILTIN_UPSELL_ONBOARDING
+                    else ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
+                supportedPlanNames = listOf(Constants.CURRENT_PLUS_PLAN)
+            )
+            viewModel.loadPlans(plansConfig)
+            if (savedInstanceState == null) {
+                viewModel.reportUpgradeFlowStart(
+                    upgradeSource = upgradeSource,
+                    upgradeTrigger = upgradeTrigger,
+                    reference = plansConfig?.notificationReference,
+                    countryId = country
+                )
             }
         }
         val snackbarHostState = SnackbarHostState()

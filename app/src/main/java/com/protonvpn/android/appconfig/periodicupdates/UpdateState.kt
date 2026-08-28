@@ -46,8 +46,7 @@ suspend fun <T : Any, R> withUpdateState(
     } catch (e: Throwable) {
         updateState.value = when(e) {
             is CancellationException -> UpdateState.Idle(null)
-            !is RuntimeException -> UpdateState.Idle(exceptionError)
-            else -> throw e
+            else -> UpdateState.Idle(exceptionError)
         }
         throw e
     }

@@ -61,7 +61,12 @@ sealed interface LoadPlansConfig {
     data class WithOptionalDiscount(
         val planNames: List<String>,
         val paymentCycles: List<PaymentCycle>,
-        val discountOfferTag: String,
+        /** An ordered list of offer tags to try.
+         *
+         * If there is no offer for the first tag, search for offer with the next tag in line and
+         * finally use the non-discounted offer.
+         */
+        val discountOfferTags: List<String>,
     ) : LoadPlansConfig
 
 
@@ -125,9 +130,11 @@ class LoadSubscriptionPlans @Inject constructor(
             is LoadPlansConfig.WithOptionalDiscount -> { product: Product ->
                 ifOrNull(product.planId in selection.planNames) {
                     val baseOffer = product.offers.filterIsInstance<Offer.NonDiscounted>().firstOrNull()
-                    val discountedOffer = product.offers
-                        .filterIsInstance<Offer.Discounted>()
-                        .find { it.tags.contains(selection.discountOfferTag) }
+                    val discountedOffer = selection.discountOfferTags.firstNotNullOfOrNull { tag ->
+                        product.offers
+                            .filterIsInstance<Offer.Discounted>()
+                            .find { it.tags.contains(tag) }
+                    }
                     val currentOffer = discountedOffer ?: baseOffer
                     val paymentCycle = currentOffer?.pricingPeriods?.firstOrNull()?.cycle?.toPaymentCycle()
                     if (paymentCycle == null || baseOffer == null) // Should not happen.

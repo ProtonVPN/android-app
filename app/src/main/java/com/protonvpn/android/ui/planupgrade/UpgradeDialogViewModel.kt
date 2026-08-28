@@ -37,6 +37,7 @@ import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.SubscriptionPlanInfo
+import com.protonvpn.android.ui.planupgrade.usecase.UpgradeDialogLoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.shouldReportToSentry
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.formatPrice
@@ -81,7 +82,6 @@ class PlanModel(
 
 @HiltViewModel
 class UpgradeDialogViewModel(
-    private val isInAppUpgradeAllowed: suspend () -> Boolean,
     private val upgradeTelemetry: UpgradeTelemetry,
     private val loadSubscriptionPlans: suspend (selection: LoadPlansConfig) -> List<SubscriptionPlanInfo>,
     private val purchaseProduct: PurchaseProduct,
@@ -92,7 +92,6 @@ class UpgradeDialogViewModel(
 
     @Inject
     constructor(
-        isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
         upgradeTelemetry: UpgradeTelemetry,
         loadSubscriptionPlans: LoadSubscriptionPlans,
         purchaseProduct: PurchaseProduct,
@@ -100,7 +99,6 @@ class UpgradeDialogViewModel(
         userPlanManager: UserPlanManager,
         saveMmpEvent: SaveMmpEvent,
     ) : this(
-        isInAppUpgradeAllowed = isInAppUpgradeAllowed::invoke,
         upgradeTelemetry = upgradeTelemetry,
         loadSubscriptionPlans = loadSubscriptionPlans::invoke,
         purchaseProduct = purchaseProduct,
@@ -157,13 +155,7 @@ class UpgradeDialogViewModel(
     private val errorMessage = Channel<Error>(capacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     val eventErrorMessage: ReceiveChannel<Error> = errorMessage
 
-    private class ReloadState(
-        val selection: LoadPlansConfig,
-        val preselectedCycle: PaymentCycle?,
-        val buttonLabelOverride: String?,
-        val showDiscountBadge: Boolean,
-    )
-    private var plansForReload: ReloadState? = null
+    private var plansForReload: UpgradeDialogLoadPlansConfig? = null
 
     private lateinit var loadedPlans: List<PlanModel>
     private val selectedCycle = MutableStateFlow<PaymentCycle?>(null)
@@ -238,40 +230,17 @@ class UpgradeDialogViewModel(
     fun reloadPlans() {
         plansForReload?.let {
             viewModelScope.launch {
-                loadPlansInternal(it.selection, null, it.preselectedCycle, it.buttonLabelOverride, it.showDiscountBadge)
+                loadPlansInternal(it.planSelection, null, it.preselectedCycle, it.buttonLabelOverride, it.showDiscountBadge)
             }
         }
     }
 
-    fun loadBuiltinUpsellPlans(planNames: List<String>) {
-        loadPlans(
-            selection = LoadPlansConfig.WithOptionalDiscount(
-                planNames = planNames,
-                paymentCycles = IapConstants.DEFAULT_PAYMENT_CYCLES,
-                discountOfferTag = IapConstants.INTRO_PRICE_TAG,
-            ),
-            preselectedCycle = PaymentCycle.Year(1),
-        )
-    }
-
-    fun loadPlans(
-        selection: LoadPlansConfig,
-        preselectedCycle: PaymentCycle? = null,
-        buttonLabelOverride: String? = null,
-        showDiscountBadge: Boolean = true,
-    ) {
-        viewModelScope.launch {
-            if (!isInAppUpgradeAllowed()) {
-                loadPurchaseState.value = State.UpgradeDisabled
-            } else {
-                plansForReload = ReloadState(
-                    selection = selection,
-                    preselectedCycle = preselectedCycle,
-                    buttonLabelOverride = buttonLabelOverride,
-                    showDiscountBadge = showDiscountBadge
-                )
-                reloadPlans()
-            }
+    fun loadPlans(config: UpgradeDialogLoadPlansConfig?) {
+        if (config == null) {
+            loadPurchaseState.value = State.UpgradeDisabled
+        } else {
+            plansForReload = config
+            reloadPlans()
         }
     }
 
@@ -362,8 +331,8 @@ class UpgradeDialogViewModel(
     fun reportUpgradeFlowStart(
         upgradeSource: UpgradeSource,
         upgradeTrigger: UpgradeTrigger,
+        reference: String?,
         countryId: CountryId? = null,
-        reference: String? = null,
     ) {
         upgradeTelemetry.onUpgradeFlowStarted(
             upgradeSource,

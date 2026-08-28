@@ -224,11 +224,12 @@ class SendMmpEventsTests {
         mmpReferrerStorage.updateMmpReferrer { mmpReferrer }
         mmpEventEntities.forEach { mmpEventEntity -> mmpEventsDao.insert(entity = mmpEventEntity) }
         coEvery {
-            mockApi.postMmpEvents(body = mmpEventRequestBody)
+            mockApi.postMmpEvents(any())
         } returns TestMmpEventResponse.Success.create(sessionStartMs = expectedSessionStartMs)
 
         sendMmpEvents(mmpEvents = mmpEvents)
 
+        coVerify { mockApi.postMmpEvents(body = mmpEventRequestBody) }
         assertEquals(
             expected = expectedSessionStartMs,
             actual = mmpReferrerStorage.getMmpReferrer()?.sessionStartTimestamp,

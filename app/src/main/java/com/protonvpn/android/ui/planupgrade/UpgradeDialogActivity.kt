@@ -61,10 +61,12 @@ import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
+import com.protonvpn.android.promooffers.data.ApiNotificationTypes
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.telemetry.onboarding.OnboardingTelemetry
+import com.protonvpn.android.ui.planupgrade.usecase.GetUpgradeDialogPlansConfig
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -80,13 +82,20 @@ import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 import me.proton.core.presentation.R as CoreR
 
-abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean) : BaseActivityV2() {
+@AndroidEntryPoint
+abstract class BaseUpgradeDialogActivity(
+    private val allowMultiplePlans: Boolean,
+    private val isOnboarding: Boolean = false
+) : BaseActivityV2() {
 
     protected val viewModel by viewModels<UpgradeDialogViewModel>()
     protected val binding by viewBinding(ActivityUpsellDialogBinding::inflate)
     private val carouselViewModel: UpgradeHighlightsCarouselViewModel by viewModels()
 
     private val upgradeHelper = UpgradeActivityHelper(this, this::afterPaymentSuccess)
+
+    @Inject
+    lateinit var getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig
 
     private lateinit var backgroundGradient: GradientDrawable
 
@@ -102,17 +111,26 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
         if (savedInstanceState == null) {
             initHighlightsFragment()
             initPaymentsPanelFragment()
+        }
+        lifecycleScope.launch {
             val plans = if (allowMultiplePlans) {
                 listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
             } else {
                 listOf(Constants.CURRENT_PLUS_PLAN)
             }
-            viewModel.loadBuiltinUpsellPlans(plans)
-            lifecycleScope.launch {
+            val plansConfig = getUpgradeDialogPlansConfig.forBuiltinUpsell(
+                notificationType =
+                    if (isOnboarding) ApiNotificationTypes.TYPE_BUILTIN_UPSELL_ONBOARDING
+                    else ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
+                supportedPlanNames = plans
+            )
+            viewModel.loadPlans(plansConfig)
+            if (savedInstanceState == null) {
                 viewModel.reportUpgradeFlowStart(
-                    getTelemetryUpgradeSource(),
-                    getTelemetryUpgradeTrigger(),
-                    getTelemetryCountryId(),
+                    upgradeSource = getTelemetryUpgradeSource(),
+                    upgradeTrigger = getTelemetryUpgradeTrigger(),
+                    countryId = getTelemetryCountryId(),
+                    reference = plansConfig?.notificationReference,
                 )
             }
         }
@@ -337,7 +355,7 @@ class CarouselUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
 }
 
 @AndroidEntryPoint
-class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultiplePlans = false) {
+class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultiplePlans = false, isOnboarding = true) {
 
     @Inject lateinit var onboardingTelemetry: OnboardingTelemetry
 

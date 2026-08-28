@@ -39,6 +39,9 @@ object ApiNotificationTypes {
     const val TYPE_HOME_PROMINENT_BANNER = 3
     const val TYPE_NPS = 4
     const val TYPE_ONE_TIME_IAP_POPUP = 5
+    const val TYPE_BUILTIN_UPSELL_ONBOARDING = 6
+    const val TYPE_BUILTIN_UPSELL_PADLOCK = 7
+
     // Internal types are used without the backend support.
     const val TYPE_INTERNAL_ONE_TIME_IAP_POPUP = 1_000_000
 }

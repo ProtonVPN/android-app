@@ -54,6 +54,7 @@ import com.protonvpn.android.base.ui.upsellBackground
 import com.protonvpn.android.base.ui.upsellGradientEnd
 import com.protonvpn.android.base.ui.upsellGradientStart
 import com.protonvpn.android.components.BaseTvActivity
+import com.protonvpn.android.promooffers.data.ApiNotificationTypes
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
@@ -66,13 +67,16 @@ import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
+import com.protonvpn.android.ui.planupgrade.usecase.GetUpgradeDialogPlansConfig
 import com.protonvpn.android.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
+import javax.inject.Inject
 
 enum class TvUpsellContent {
     AllCountries,
@@ -91,20 +95,35 @@ class TvUpsellActivity : BaseTvActivity() {
 
     private val upgradeActivityHelper = UpgradeActivityHelper(this)
 
+    @Inject
+    lateinit var getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.loadBuiltinUpsellPlans(listOf(Constants.CURRENT_PLUS_PLAN))
+        val (upgradeSource, upgradeTrigger, country) = UpgradeDialogLauncherVM.getUpgradeSourceInfo(intent)
         upgradeActivityHelper.onCreate(viewModel)
 
-        if (savedInstanceState == null) {
-            val (upgradeSource, upgradeTrigger, country) = UpgradeDialogLauncherVM.getUpgradeSourceInfo(intent)
-            if (upgradeSource == null || upgradeTrigger == null) {
-                Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
-                finish()
-                return
+
+        if (upgradeSource == null || upgradeTrigger == null) {
+            Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        lifecycleScope.launch {
+            val plansConfig = getUpgradeDialogPlansConfig.forBuiltinUpsell(
+                notificationType = ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
+                supportedPlanNames = listOf(Constants.CURRENT_PLUS_PLAN)
+            )
+            viewModel.loadPlans(plansConfig)
+            if (savedInstanceState == null) {
+                viewModel.reportUpgradeFlowStart(
+                    upgradeSource = upgradeSource,
+                    upgradeTrigger = upgradeTrigger,
+                    reference = plansConfig?.notificationReference,
+                    countryId = country
+                )
             }
-            viewModel.reportUpgradeFlowStart(upgradeSource, upgradeTrigger, country)
         }
 
         viewModel.eventErrorMessage
