@@ -701,7 +701,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
+        <item quantity="other">매 %2$d주마다 %1$s(으)로 자동 갱신됩니다.</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -709,7 +709,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_daily">
-        <item quantity="other">%1$s every %2$d days</item>
+        <item quantity="other">매 %2$d일간 %1$s</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -717,7 +717,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
-        <item quantity="other">%1$s every %2$d weeks</item>
+        <item quantity="other">매 %2$d주간 %1$s</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -725,7 +725,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="other">%1$s every %2$d months</item>
+        <item quantity="other">매 %2$d달간 %1$s</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -733,7 +733,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_yearly">
-        <item quantity="other">%1$s every %2$d years</item>
+        <item quantity="other">매 %2$d년간 %1$s</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -769,7 +769,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="other">then auto renews at %1$s every %2$d days</item>
+        <item quantity="other">이후 매 %2$d일마다 %1$s(으)로 자동 갱신됩니다.</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -777,7 +777,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="other">then auto renews at %1$s every %2$d weeks</item>
+        <item quantity="other">이후 매 %2$d주마다 %1$s(으)로 자동 갱신됩니다.</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -785,7 +785,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="other">then auto renews at %1$s every %2$d months</item>
+        <item quantity="other">이후 매 %2$d개월마다 %1$s(으)로 자동 갱신됩니다.</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -793,7 +793,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="other">then auto renews at %1$s every %2$d years</item>
+        <item quantity="other">이후 매 %2$d년마다 %1$s(으)로 자동 갱신됩니다.</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
      (e.g. 2 months) and then the subscription renews at full price.
@@ -1466,7 +1466,7 @@
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">물리적으로 다른 곳에 위치한 서버를 통해 목적지 국가로 연결합니다.</string>
     <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
-    <string name="connection_feature_smart_routing_description_with_countries">Connects you to your destination country through servers physically located elsewhere: %1$s.</string>
+    <string name="connection_feature_smart_routing_description_with_countries">목적지 국가와 물리적으로 다른 위치에 속해 있는 서버를 통해 연결합니다: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1647,7 +1647,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="settings_split_tunneling_already_excluded">이미 제외됨</string>
     <string name="settings_split_tunneling_already_included">이미 포함됨</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">IP 주소를 목록에서 삭제하시겠습니까?</string>
-    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP 주소 삭제됨</string>
     <string name="settings_theme_title">테마</string>
     <string name="settings_theme_value_auto">기기 테마</string>
     <string name="settings_theme_value_light">라이트</string>
@@ -1677,14 +1677,14 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="info_p2p_why_description_speed">업로드와 다운로드 속도가 더욱 증가됩니다</string>
     <string name="info_p2p_why_description_logs">활동 로그가 없습니다</string>
     <string name="info_p2p_why_description_hide">사용자의 IP 주소를 서비스 제공자와 피어로부터 숨깁니다</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing은 가상 서버를 이용하여 접근이 어려운 국가에 VPN 커버리지를 제공합니다.\n\nSmart Routing 서버에 접속했다면 물리적 서버의 위치와 상관없이 목적지 국가에서 탐색하는 것으로 보이게 됩니다.\n\nSmart Routing은 보통 안티-프라이버시 법령과 기타 유형의 검열을 우회하는 데 쓸모가 있습니다.</string>
     <string name="notifications_channel_connection_status_name">연결 상태</string>
     <string name="notifications_channel_connection_status_description">현재 어느 서버애 연결되었는지와 VPN의 속도를 보여줍니다.</string>
     <string name="notifications_channel_connection_errors_name">연결 오류</string>
     <string name="notifications_channel_connection_errors_description">문제에 따른 VPN 연결의 일시 중지 또는 정지가 발생할 경우 알려줍니다.</string>
     <string name="notifications_channel_connection_tips_name">연결 팁</string>
-    <string name="notifications_channel_connection_tips_description">Contextual tips that help you get more out of Proton VPN.</string>
-    <string name="countries_upsell_banner_description">Access all countries with VPN Plus</string>
+    <string name="notifications_channel_connection_tips_description">Proton VPN을 더 많이 활용하는 데 도움이 되는 컨텍스트 팁.</string>
+    <string name="countries_upsell_banner_description">VPN Plus로 어디로든 연결하기</string>
     <string name="secure_core_upsell_banner_description">VPN 연결에 암호화 계층 추가</string>
     <string name="p2p_upsell_banner_description">BitTorrent와 다른 파일 공유 프로토콜로 파일을 다운로드하세요</string>
     <string name="tor_upsell_banner_description">추가적인 개인 정보 보호를 위해 VPN 연결을 통해 Tor 네트워크를 사용하세요</string>
@@ -1819,34 +1819,34 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="excluded_locations_adoption_title">원치 않는 위치 피하기</string>
     <string name="excluded_locations_adoption_description"><![CDATA[이제 <b>가장 빠른 연결</b>에서 연결되는 도시나 국가를 제외할 수 있어요.]]></string>
     <string name="session_fork_no_account_title">Android TV에서 로그인</string>
-    <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
-    <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
-    <string name="session_fork_no_account_signup_button">Create an account</string>
-    <string name="session_fork_no_account_signin_button">Sign in</string>
-    <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
-    <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
-    <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
-    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
-    <string name="session_fork_success_title">Sign-in complete</string>
-    <string name="session_fork_success_message">You\'re now signed in on your TV.</string>
-    <string name="session_fork_error_expired_title">Code expired</string>
-    <string name="session_fork_error_expired_message">Create a new code on your TV and try again.</string>
-    <string name="session_fork_error_generic_title">Couldn’t sign in</string>
-    <string name="session_fork_error_fatal_message">Check your network and try again. If the problem persists, get in touch with our customer support team. </string>
-    <string name="session_fork_error_network_message">Check your network and try again.</string>
-    <string name="session_fork_error_try_fallback_message">Click \‘Trouble signing in?\’ on your TV to follow the alternative steps.</string>
-    <string name="session_fork_error_report_button">Report the issue</string>
-    <string name="session_fork_qr_code_content_description">QR code</string>
-    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
-    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
-    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
-    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
-    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
-    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
-    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_step2">Sign in or create an account</string>
+    <string name="session_fork_no_account_message">TV에서 Proton VPN을 사용하려면 이 기기에서 로그인을 완료해야 합니다</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[앱 사용시 <a href="">이용 약관</a>에 동의하는 것으로 간주됩니다.]]></string>
+    <string name="session_fork_no_account_signup_button">계정 만들기</string>
+    <string name="session_fork_no_account_signin_button">로그인</string>
+    <string name="session_fork_confirmation_title">Android TV에서 로그인하시나요?</string>
+    <string name="session_fork_confirmation_message">TV의 Proton 계정 접근을 허용합니다.</string>
+    <string name="session_fork_confirmation_bottom_note">신뢰하는 기기에서만 로그인하세요</string>
+    <string name="session_fork_confirmation_too_soon_toast">계속하기 전 확인해 주세요</string>
+    <string name="session_fork_success_title">로그인 성공</string>
+    <string name="session_fork_success_message">TV에서 로그인 되었습니다.</string>
+    <string name="session_fork_error_expired_title">코드 만료됨</string>
+    <string name="session_fork_error_expired_message">새로운 코드를 생성한 뒤 다시 시도하세요.</string>
+    <string name="session_fork_error_generic_title">로그인할 수 없음</string>
+    <string name="session_fork_error_fatal_message">네트워크 확인 후 다시 시도하세요. 문제가 다시 발생한다면, Proton 고객 지원 팀으로 문의해 주세요. </string>
+    <string name="session_fork_error_network_message">네트워크 상태 확인 후 다시 시도하세요.</string>
+    <string name="session_fork_error_try_fallback_message">TV에서 다른 방법으로 로그인하려면 \'로그인에 문제를 겪고 계신가요?\'\를 클릭하세요.</string>
+    <string name="session_fork_error_report_button">문제 보고</string>
+    <string name="session_fork_qr_code_content_description">QR코드</string>
+    <string name="session_fork_qr_code_message">QR 코드를 스캔하여 로그인하거나 계정을 생성하세요.</string>
+    <string name="session_fork_qr_code_trouble_button">로그인에 문제를 겪고 계신가요?</string>
+    <string name="session_fork_qr_code_error_expired">보안 상의 이유로 인증 코드가 만료되었습니다.</string>
+    <string name="session_fork_qr_code_error_network">네트워크 상태 확인 후 다시 시도하세요</string>
+    <string name="session_fork_qr_code_error_create_new_button">새 코드 만들기</string>
+    <string name="session_fork_user_code_title">코드를 스캔할 수 없다면? 수동으로 로그인하세요.</string>
+    <string name="session_fork_user_code_step1"><![CDATA[다음 사이트로 이동하세요: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">로그인 하거나 계정을 생성하세요</string>
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
-    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step3"><![CDATA[다음 코드를 입력하세요: <b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[여전히 도움이 필요하시다면? <b>%1$s</b>에 방문하세요]]></string>
 </resources>

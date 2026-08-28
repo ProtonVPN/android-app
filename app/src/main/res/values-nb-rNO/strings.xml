@@ -519,22 +519,22 @@
     <string name="upsell_panel_content_description_yes">Ja</string>
     <string name="upsell_panel_content_description_no">Nei</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
-    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <string name="upsell_panel_general_benefit_block_ads">Blokkér annonser og sporere</string>
+    <string name="upsell_panel_general_benefit_countries">Tilgjengelige land</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_general_benefit_devices">Protected devices</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
-    <string name="upsell_panel_general_benefit_server">Choose your server</string>
-    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
-    <string name="upsell_panel_general_benefit_speed">Server speed</string>
+    <string name="upsell_panel_general_benefit_devices">Beskyttede enheter</string>
+    <string name="upsell_panel_general_benefit_location">Velg sted</string>
+    <string name="upsell_panel_general_benefit_server">Velg server</string>
+    <string name="upsell_panel_general_benefit_shows">Se programmene dine fra alle land</string>
+    <string name="upsell_panel_general_benefit_speed">Serverhastighet</string>
     <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
-    <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
-    <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
-    <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
-    <string name="upsell_panel_adv_customization_benefit_dns">Use your own DNS service</string>
-    <string name="upsell_panel_adv_customization_benefit_gaming">Better connections for gaming</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Høyeste</string>
+    <string name="upsell_panel_adv_customization_title">Finjuster forbindelsen</string>
+    <string name="upsell_panel_adv_customization_description">Tillat LAN-tilkoblinger, angi en egendefinert DNS og velg NAT-type. De avanserte kontrollene, alt med Plus.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Oppnå kontakt med skriver og hjemmeenheter</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Bruk egen DNS-tjeneste</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Bedre tilkoblinger for spilling</string>
     <!--
         %1$s - country name in nominative
 
@@ -546,23 +546,23 @@
     <string name="upsell_panel_countries_title">Lås opp alle land med VPN Plus</string>
     <string name="upsell_panel_country_benefit_speed">Høyhastighetsservere</string>
     <string name="upsell_panel_country_benefit_shows">Se programmer som bare er tilgjengelige i utlandet</string>
-    <string name="upsell_panel_devices_title">Protect every device you own</string>
-    <string name="upsell_panel_devices_description">Your phone, laptop, TV, and everything in between.</string>
+    <string name="upsell_panel_devices_title">Beskytt alle enhetene du eier</string>
+    <string name="upsell_panel_devices_description">Telefonen, den bærbare datamaskinen, TV-en og alt i mellom.</string>
     <string name="upsell_panel_netshield_title">Surf uten avbrudd</string>
     <string name="upsell_panel_netshield_benefit_ads">Annonser blokkert mens du surfer</string>
     <string name="upsell_panel_netshield_benefit_trackers">Stopp sporere fra å følge deg</string>
     <string name="upsell_panel_netshield_benefit_malware">Beskyttelse mot skadelig programvare og nettfisking</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Sider lastes inn raskere </string>
-    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
-    <string name="upsell_panel_p2p_title">Downloads at full speed</string>
-    <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
-    <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
-    <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
-    <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
-    <string name="upsell_panel_profiles_benefit_profiles">Saved profiles</string>
-    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
-    <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
-    <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
+    <string name="upsell_panel_onboarding_title">Få mer med VPN Plus</string>
+    <string name="upsell_panel_p2p_title">Nedlastinger i full hastighet</string>
+    <string name="upsell_panel_p2p_description">Servere bygget for fildeling, med din vanlige torrentklient.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">P2P-fildeling</string>
+    <string name="upsell_panel_profiles_title">Strømming, spilling, jobb: en profil for hver</string>
+    <string name="upsell_panel_profiles_description">Konfigurer forbindelsene på din måte, og koble deg deretter til hvilken som helst av dem på nytt med ett trykk.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Lagrede profiler</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Ubegrenset</string>
+    <string name="upsell_panel_secure_core_title">To lag med kryptering mellom deg og nettet</string>
+    <string name="upsell_panel_secure_core_description">Rutes gjennom en Proton-server i Sveits, Island eller Sverige før ditt valgte land.</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">Strøm, spill og last ned raskere</string>
     <string name="upsell_panel_speed_benefit_servers">Høyhastighetsservere</string>
@@ -570,10 +570,10 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Treg</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Rask</string>
     <string name="upsell_panel_speed_benefit_video">Videostrømmer uten bufring</string>
-    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
-    <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
-    <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
-    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
+    <string name="upsell_panel_speed_benefit_p2p">Støtte for P2P-nedlastinger</string>
+    <string name="upsell_panel_split_tunneling_title">Velg hvilke apper som bruker VPN-et</string>
+    <string name="upsell_panel_split_tunneling_description">Nettleseren via VPN-et, bankappen rundt det. Du velger, app for app.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Delt tunnelering</string>
     <string name="upsell_panel_streaming_title">Se på dine favorittstrømmetjenester</string>
     <string name="upsell_panel_streaming_benefit_shows">Se programmene dine fra alle land</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -581,10 +581,10 @@
     <string name="upsell_panel_streaming_benefit_hd">Strøm i HD uten bufring</string>
     <string name="upsell_panel_streaming_benefit_devices">Enheter koblet til samtidig</string>
     <string name="upsell_panel_streaming_footer">* Abonnement på strømmeplattform kreves.</string>
-    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
-    <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
-    <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
+    <string name="upsell_panel_streaming_block_title">Oppgrader for å omgå VPN-blokkeringer</string>
+    <string name="upsell_panel_streaming_block_description">VPN Plus-servere lar deg se favorittfilmene og TV-programmene fra hele verden.</string>
+    <string name="upsell_panel_tor_title">Onion-nettsteder, ingen Tor-nettleser nødvendig</string>
+    <string name="upsell_panel_tor_description">Gå til .onion-nettsteder i nettleseren du allerede bruker.</string>
     <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
     <string name="upsell_card_countries_title">Verdensomspennende dekning</string>
     <!-- Parameters:
@@ -647,25 +647,25 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_day">day</string>
-    <string name="payment_price_per_week">week</string>
+    <string name="payment_price_per_day">dag</string>
+    <string name="payment_price_per_week">uke</string>
     <string name="payment_price_per_month">måned</string>
     <string name="payment_price_per_year">år</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="one">%1$d day</item>
-        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d dag</item>
+        <item quantity="other">%1$d dager</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="one">%1$d week</item>
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="one">%1$d uke</item>
+        <item quantity="other">%1$d uker</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="one">%1$d month</item>
-        <item quantity="other">%1$d months</item>
+        <item quantity="one">%1$d måned</item>
+        <item quantity="other">%1$d måneder</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="one">%1$d year</item>
-        <item quantity="other">%1$d years</item>
+        <item quantity="one">%1$d år</item>
+        <item quantity="other">%1$d år</item>
     </plurals>
     <string name="payment_select_your_plan">Velg din plan</string>
     <!-- Label on a button for purchasing a subscription.
@@ -678,57 +678,57 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_discount_renewal_price_message_daily">
-        <item quantity="one">Special offer. Auto renews at %1$s/day</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d days</item>
+        <item quantity="one">Spesialtilbud. Fornyes automatisk til %1$s/dag</item>
+        <item quantity="other">Spesialtilbud. Fornyes automatisk til %1$s hver %2$d. dag</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_discount_renewal_price_message_weekly">
-        <item quantity="one">Special offer. Auto renews at %1$s/week</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">Spesialtilbud. Fornyes automatisk til %1$s/uke</item>
+        <item quantity="other">Spesialtilbud. Fornyes automatisk til %1$s hver %2$d. uke</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_discount_renewal_price_message_monthly">
-        <item quantity="one">Special offer. Auto renews at %1$s/month</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d months</item>
+        <item quantity="one">Spesialtilbud. Fornyes automatisk til %1$s/måned</item>
+        <item quantity="other">Spesialtilbud. Fornyes automatisk til %1$s hver %2$d. måned</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_discount_renewal_price_message_yearly">
-        <item quantity="one">Special offer. Auto renews at %1$s/year</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d years</item>
+        <item quantity="one">Spesialtilbud. Fornyes automatisk til %1$s/år</item>
+        <item quantity="other">Spesialtilbud. Fornyes automatisk til %1$s hvert %2$d. år</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_renewal_price_message_daily">
-        <item quantity="one">Subscription auto renews at %1$s/day</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d days</item>
+        <item quantity="one">Abonnementet fornyes automatisk til %1$s/dag</item>
+        <item quantity="other">Abonnementet fornyes automatisk til %1$s hver %2$d. dag</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_renewal_price_message_weekly">
-        <item quantity="one">Subscription auto renews at %1$s/week</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">Abonnementet fornyes automatisk til %1$s/uke</item>
+        <item quantity="other">Abonnementet fornyes automatisk til %1$s hver %2$d. uke</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Subscription auto renews at %1$s/month</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
+        <item quantity="one">Abonnementet fornyes automatisk til %1$s/måned</item>
+        <item quantity="other">Abonnementet fornyes automatisk til %1$s hver %2$d. måned</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Subscription auto renews at %1$s/year</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
+        <item quantity="one">Abonnementet fornyes automatisk til %1$s/år</item>
+        <item quantity="other">Abonnementet fornyes automatisk til %1$s hvert %2$d. år</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -736,8 +736,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_daily">
-        <item quantity="one">%1$s/day</item>
-        <item quantity="other">%1$s every %2$d days</item>
+        <item quantity="one">%1$s/dag</item>
+        <item quantity="other">%1$s hver %2$d. dag</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -745,8 +745,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
-        <item quantity="one">%1$s/week</item>
-        <item quantity="other">%1$s every %2$d weeks</item>
+        <item quantity="one">%1$s/uke</item>
+        <item quantity="other">%1$s hver %2$d. uke</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -754,8 +754,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s/month</item>
-        <item quantity="other">%1$s every %2$d months</item>
+        <item quantity="one">%1$s/måned</item>
+        <item quantity="other">%1$s hver %2$d. måned</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -763,40 +763,40 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_yearly">
-        <item quantity="one">%1$s/year</item>
-        <item quantity="other">%1$s every %2$d years</item>
+        <item quantity="one">%1$s/år</item>
+        <item quantity="other">%1$s hver %2$d. år</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
-        <item quantity="one">for the first day</item>
-        <item quantity="other">for the first %1$d days</item>
+        <item quantity="one">den første dagen</item>
+        <item quantity="other">for de første %1$d dagene</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
-        <item quantity="one">for the first week</item>
-        <item quantity="other">for the first %1$d weeks</item>
+        <item quantity="one">den første uken</item>
+        <item quantity="other">for de første %1$d ukene</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">for the first month</item>
-        <item quantity="other">for the first %1$d months</item>
+        <item quantity="one">den første måneden</item>
+        <item quantity="other">for de første %1$d månedene</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
-        <item quantity="one">for the first year</item>
-        <item quantity="other">for the first %1$d years</item>
+        <item quantity="one">det første året</item>
+        <item quantity="other">for de første %1$d årene</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -804,8 +804,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="one">then auto renews at %1$s/day</item>
-        <item quantity="other">then auto renews at %1$s every %2$d days</item>
+        <item quantity="one">fornyes deretter til %1$s/dag</item>
+        <item quantity="other">fornyes deretter til %1$s hver %2$d. dag</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -813,8 +813,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="one">then auto renews at %1$s/week</item>
-        <item quantity="other">then auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">fornyes deretter til %1$s/uke</item>
+        <item quantity="other">fornyes deretter til %1$s hver %2$d. uke</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -822,8 +822,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="one">then auto renews at %1$s/month</item>
-        <item quantity="other">then auto renews at %1$s every %2$d months</item>
+        <item quantity="one">fornyes deretter til %1$s/måned</item>
+        <item quantity="other">fornyes deretter til %1$s hver %2$d. måned</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -831,8 +831,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="one">then auto renews at %1$s/year</item>
-        <item quantity="other">then auto renews at %1$s every %2$d years</item>
+        <item quantity="one">fornyes deretter til %1$s/år</item>
+        <item quantity="other">fornyes deretter til %1$s hvert %2$d. år</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
      (e.g. 2 months) and then the subscription renews at full price.

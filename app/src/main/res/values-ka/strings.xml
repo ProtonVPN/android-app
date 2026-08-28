@@ -531,7 +531,7 @@
     <string name="upsell_panel_general_benefit_speed_standard">სტანდარტული</string>
     <string name="upsell_panel_general_benefit_speed_highest">უმაღლესი</string>
     <string name="upsell_panel_adv_customization_title">მოირგეთ თქვენი კავშირი უფრო ზუსტად</string>
-    <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
+    <string name="upsell_panel_adv_customization_description">დაუშვით LAN-თან კავშირი, დააყენეთ სასურველი DNS და აირჩიეთ თქვენი NAT-ის ტიპი. დამატებითი კონტროლები, ყველა Plus-ზე.</string>
     <string name="upsell_panel_adv_customization_benefit_lan">წვდომა თქვენს პრინტერთან და სახლში არსებულ მოწყობილობებთან</string>
     <string name="upsell_panel_adv_customization_benefit_dns">გამოიყენეთ თქვენი საკუთარი DNS სერვისი</string>
     <string name="upsell_panel_adv_customization_benefit_gaming">უკეთესი კავშირი თამაშისთვის</string>
@@ -547,7 +547,7 @@
     <string name="upsell_panel_country_benefit_speed">ჩქაროსნული სერვერები</string>
     <string name="upsell_panel_country_benefit_shows">უყურეთ სერიალებს, რომლებიც, მხოლოდ, საზღვარგარეთაა ხელმისაწვდომი</string>
     <string name="upsell_panel_devices_title">დაიცავით ყველა მოწყობილობა, რომელსაც ფლობთ</string>
-    <string name="upsell_panel_devices_description">Your phone, laptop, TV, and everything in between.</string>
+    <string name="upsell_panel_devices_description">თქვენი ტელეფონი, ნოუთბუქი, ტელევიზორი და ყველაფერი შუაში.</string>
     <string name="upsell_panel_netshield_title">იმუშავეთ ინტერნეტში წყვეტების გარეშე</string>
     <string name="upsell_panel_netshield_benefit_ads">რეკლამები იბლოკება, როცა ინტერნეტში მუშაობთ</string>
     <string name="upsell_panel_netshield_benefit_trackers">შეუშალეთ ხელი ტრეკერებს, თვალი გადევნონ</string>
@@ -555,14 +555,14 @@
     <string name="upsell_panel_netshield_benefit_load_speed">გვერდები უფრო სწრაფად იტვირტება </string>
     <string name="upsell_panel_onboarding_title">მიიღეთ მეტი VPN Plus-თან ერთად</string>
     <string name="upsell_panel_p2p_title">გადმოწერები სრული სიჩქარით</string>
-    <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
+    <string name="upsell_panel_p2p_description">სერვერები, აგებული ფაილების გაზიარებისთვის, თქვენი ტორენტის კლიენტით.</string>
     <string name="upsell_panel_p2p_benefit_p2p">P2P ფაილების გაზიარება</string>
-    <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
-    <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
+    <string name="upsell_panel_profiles_title">სტრიმინგი, თამაშები, საქმე: პროფილი თითოეულისთვის</string>
+    <string name="upsell_panel_profiles_description">მოირგეთ თქვენი კავშირები ისე, როგორც გნებავთ. შემდეგ კი დაუკავშირდით თავიდან ნებისმიერ მათგანს ერთი დატყაპუნებით.</string>
     <string name="upsell_panel_profiles_benefit_profiles">შენახული პროფილები</string>
     <string name="upsell_panel_profiles_benefit_profiles_unlimited">შეუზღუდავი</string>
-    <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
-    <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
+    <string name="upsell_panel_secure_core_title">ორფენიანი დაშიფვრა თქვენსა და ვებს შორის</string>
+    <string name="upsell_panel_secure_core_description">თქვენს მიერ არჩეულ ქვეყანამდე დარაუტებულია Proton-ის სერვერის გავლით შვეიცარიაში, ისლანდიაში, ან შვედეთში.</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">დსატრიმეთ, ითამაშეთ და გადმოწერეთ უფრო სწრაფად</string>
     <string name="upsell_panel_speed_benefit_servers">ჩქაროსნული სერვერები</string>
@@ -572,7 +572,7 @@
     <string name="upsell_panel_speed_benefit_video">ვიდეონაკადები ბუფერიზაციის გარეშე</string>
     <string name="upsell_panel_speed_benefit_p2p">მხარდაჭერილია P2P გადმოწერები</string>
     <string name="upsell_panel_split_tunneling_title">აირჩიეთ, რომელი აპები იყენებენ VPN-ს</string>
-    <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
+    <string name="upsell_panel_split_tunneling_description">ბრაუზერი VPN-ით, ბანკის აპლიკაცია კი პირდაპირ. თქვენი არჩევანი.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
     <string name="upsell_panel_streaming_title">უყურეთ თქვენს რჩეულ სტრიმინგის სერვისებს</string>
     <string name="upsell_panel_streaming_benefit_shows">უყურეთ თქვენს სერიალებს ნებისმიერი ქვეყნიდან</string>
@@ -582,9 +582,9 @@
     <string name="upsell_panel_streaming_benefit_devices">ერთდროულად დაკავშირებული მოწყობილობები</string>
     <string name="upsell_panel_streaming_footer">* სტრიმინგის პლატფორმის გამოწერა აუცილებელია.</string>
     <string name="upsell_panel_streaming_block_title">VPN-ის დაბლოკვების გვერდის ასავლელად ასწიეთ სატარიფო გეგმა</string>
-    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upsell_panel_streaming_block_description">VPN Plus სერვერები საშუალებას გაძლევთ, ისიამოვნოთ თქვენი საყვარელი ფილმებითა და სერიალებით მთელი მსოფლიოდან.</string>
     <string name="upsell_panel_tor_title">Onion-ის საიტები. Tor Browser საჭირო არაა</string>
-    <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
+    <string name="upsell_panel_tor_description">იქონიეთ წვდომა .onion საიტებთან ბრაუზერში, რომელსაც უკვე იყენებთ.</string>
     <string name="upsell_panel_tor_benefit_tor">Tor VPN-ის ზემოდან</string>
     <string name="upsell_card_countries_title">მთელი დედამიწის დაფარვა</string>
     <!-- Parameters:
@@ -678,57 +678,57 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_discount_renewal_price_message_daily">
-        <item quantity="one">Special offer. Auto renews at %1$s/day</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d days</item>
+        <item quantity="one">სპეციალური შეთავაზება. ავტომატური განახლება ფასით %1$s/დღეში</item>
+        <item quantity="other">სპეციალური შეთავაზება. ავტომატური განახლება ფასით %1$s ყოველ %2$d დღეში</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_discount_renewal_price_message_weekly">
-        <item quantity="one">Special offer. Auto renews at %1$s/week</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">სპეციალური შეთავაზება. ავტომატური განახლება ფასით %1$s/კვირაში</item>
+        <item quantity="other">სპეციალური შეთავაზება. ავტომატური განახლება ფასით %1$s ყოველ %2$d კვირაში</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_discount_renewal_price_message_monthly">
-        <item quantity="one">Special offer. Auto renews at %1$s/month</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d months</item>
+        <item quantity="one">სპეციალური შეთავაზება. ავტომატური განახლება ფასით %1$s/თვეში</item>
+        <item quantity="other">სპეციალური შეთავაზება. ავტომატური განახლება ფასით %1$s ყოველ %2$d თვეში</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_discount_renewal_price_message_yearly">
-        <item quantity="one">Special offer. Auto renews at %1$s/year</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d years</item>
+        <item quantity="one">სპეციალური შეთავაზება. ავტომატური განახლება ფასით %1$s/წელიწადში</item>
+        <item quantity="other">სპეციალური შეთავაზება. ავტომატური განახლება ფასით %1$s ყოველ %2$d წელიწადში</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_renewal_price_message_daily">
-        <item quantity="one">Subscription auto renews at %1$s/day</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d days</item>
+        <item quantity="one">გამოწერა ავტომატურად განახლდება ტარიფით %1$s/დღეში</item>
+        <item quantity="other">გამოწერა ავტომატურად განახლდება ტარიფით %1$s ყოველ %2$d დღეში</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_renewal_price_message_weekly">
-        <item quantity="one">Subscription auto renews at %1$s/week</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">გამოწერა ავტომატურად განახლდება ტარიფით %1$s/კვირაში</item>
+        <item quantity="other">გამოწერა ავტომატურად განახლდება ტარიფით %1$s ყოველ %2$d კვირაში</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Subscription auto renews at %1$s/month</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
+        <item quantity="one">გამოწერა ავტომატურად განახლდება ტარიფით %1$s/თვეში</item>
+        <item quantity="other">გამოწერა ავტომატურად განახლდება ტარიფით %1$s ყოველ %2$d თვეში</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Subscription auto renews at %1$s/year</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
+        <item quantity="one">გამოწერა ავტომატურად განახლდება ტარიფით %1$s/წელიწადში</item>
+        <item quantity="other">გამოწერა ავტომატურად განახლდება ტარიფით %1$s ყოველ %2$d წელიწადში</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
