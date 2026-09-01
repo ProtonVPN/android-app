@@ -131,7 +131,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
         val discountOffers = createOffersWithDiscount(PaymentCycle.Week(1), 99, 199, "USD")
         setupComposablesAndLoadPlans(
             listOf(createProduct("id", "vpn2022",discountOffers)),
-            LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG)
+            LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null)
         )
         node.withTag("renewInfoText")
             .assertContainsText("Special offer. Auto renews at $1.99/week")
@@ -148,7 +148,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
         )
         setupComposablesAndLoadPlans(
             listOf(createProduct("id", "vpn2022", discount2yOffers)),
-            LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG)
+            LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null)
         )
         node.withTag("renewInfoText")
             .assertContainsText("PLN 49.99/year for the first 2 years, then auto renews at PLN 99.99/year")
@@ -164,7 +164,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
         )
         setupComposablesAndLoadPlans(
             listOf(createProduct("id", "vpn2022", discount)),
-            LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG)
+            LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null)
         )
         node.withTag("renewInfoText")
             .assertContainsText("Special offer. Auto renews at $5.99 every 2 months")
@@ -181,7 +181,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
         )
         setupComposablesAndLoadPlans(
             listOf(createProduct("id", "vpn2022", discount)),
-            LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG)
+            LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null)
         )
         node.withTag("renewInfoText")
             .assertContainsText("$1.99 every 2 months for the first 4 months, then auto renews at $5.99 every 2 months")
@@ -198,7 +198,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
         )
         // All products must be on the same plan.
         val products = offers.map { offer -> createProduct("id", "plan", listOf(offer)) }
-        setupComposablesAndLoadPlans(products, LoadPlansConfig.WithOfferTag(tags.first()))
+        setupComposablesAndLoadPlans(products, LoadPlansConfig.WithOfferTag(tags.first(), tags.first()), null)
 
         assertPriceString("cycleP1W", "€1.00", null)
         assertPriceString("cycleP1M", "€2.00", null)
@@ -210,7 +210,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
     fun cycleNoPerMonthPriceOnMultiCycleMonthlyOffer() {
         val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 199, offerCycleCount = 2)
         val products = listOf(createProduct("id", "plan", offers))
-        setupComposablesAndLoadPlans(products, LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG))
+        setupComposablesAndLoadPlans(products, LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null))
 
         assertPriceString("cycleP1M", "€0.99", null)
     }

@@ -142,6 +142,7 @@ data class ApiNotificationProductDetailsGoogle(
     @Serializable(StringToPaymentCycleSerializer::class)
     @SerialName("PreselectedCycle") val preselectedCycle: PaymentCycle? = null,
     @SerialName("OfferTag") val offerTag: String? = null,
+    @SerialName("BaseOfferTag") val baseOfferTag: String? = null,
 )
 
 @Serializable

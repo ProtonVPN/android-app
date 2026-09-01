@@ -80,7 +80,8 @@ sealed interface LoadPlansConfig {
 
     @Serializable
     data class WithOfferTag(
-        val offerTag: String,
+        val discountOfferTag: String?,
+        val baseOfferTag: String?,
     ) : LoadPlansConfig
 }
 
@@ -98,32 +99,55 @@ class LoadSubscriptionPlans @Inject constructor(
     suspend operator fun invoke(
         selection: LoadPlansConfig,
     ): List<SubscriptionPlanInfo> {
+        fun getOffersWithTag(
+            product: Product,
+            discountTag: String?,
+            baseTag: String?,
+        ): Pair<Offer, Offer.NonDiscounted>? {
+            if (discountTag == null && baseTag == null) {
+                logWarn("Config contains neither discount nor base offer tag.")
+            }
+            return product.offers
+                .filter { it.tags.contains(discountTag) }
+                .let { offersWithTag ->
+                    val discountedOffer =
+                        offersWithTag.filterIsInstance<Offer.Discounted>().firstOrNull()
+                    val baseOffer =
+                        // There is always exactly one non-discounted offer.
+                        product.offers.filterIsInstance<Offer.NonDiscounted>().firstOrNull()
+                            ?: return@let null
+                    when {
+                        discountedOffer != null ->
+                            Pair(discountedOffer, baseOffer)
+
+                        baseOffer.tags.contains(baseTag) ->
+                            Pair(baseOffer, baseOffer)
+
+                        else -> null
+                    }
+                }
+        }
+
         val offerSelector = when(selection) {
             is LoadPlansConfig.WithOfferTag -> { product: Product ->
-                product.offers
-                    .find { it.tags.contains(selection.offerTag) }
-                    ?.let { offerWithTag ->
-                        val baseOffer = offerWithTag as? Offer.NonDiscounted
-                            ?: product.offers.filterIsInstance<Offer.NonDiscounted>().firstOrNull()
-                            ?: return@let null
-                        OfferInfo(offerWithTag, baseOffer)
-                    }
+                getOffersWithTag(
+                    product,
+                    selection.discountOfferTag,
+                    selection.baseOfferTag
+                )?.let { (discounted, base) ->
+                    OfferInfo(discounted, base)
+                }
             }
 
             is LoadPlansConfig.WithOfferTagAndFilter -> { product: Product ->
                 ifOrNull(product.planId in selection.planNames) {
-                    product.offers
-                        .find { it.tags.contains(selection.offerTag) }
-                        ?.let { offerWithTag ->
-                            val baseOffer = offerWithTag as? Offer.NonDiscounted
-                                ?: product.offers.filterIsInstance<Offer.NonDiscounted>().firstOrNull()
-                            val paymentCycle = offerWithTag.pricingPeriods.firstOrNull()?.cycle?.toPaymentCycle()
-                            if (paymentCycle == null || baseOffer == null) // Should not happen.
-                                return@ifOrNull null
-                            ifOrNull(paymentCycle in selection.paymentCycles) {
-                                OfferInfo(offerWithTag, baseOffer)
-                            }
+                    val offers = getOffersWithTag(product, selection.offerTag, baseTag = null)
+                    offers?.let { (discounted, base) ->
+                        val paymentCycle = base.pricingPeriods.firstOrNull()?.cycle?.toPaymentCycle()
+                        ifOrNull(paymentCycle in selection.paymentCycles) {
+                            OfferInfo(discounted, base)
                         }
+                    }
                 }
             }
 
@@ -216,6 +240,10 @@ class LoadSubscriptionPlans @Inject constructor(
 
     private fun logDebug(message: String) {
         ProtonLogger.logCustom(LogLevel.DEBUG, LogCategory.IN_APP_PURCHASE, message)
+    }
+
+    private fun logWarn(message: String) {
+        ProtonLogger.logCustom(LogLevel.WARN, LogCategory.IN_APP_PURCHASE, message)
     }
 
     companion object {

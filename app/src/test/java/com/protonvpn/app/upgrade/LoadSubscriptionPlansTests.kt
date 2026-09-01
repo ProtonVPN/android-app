@@ -47,6 +47,9 @@ class LoadSubscriptionPlansTests {
     private val tag1 = "tag1"
     private val tag2 = "tag2"
 
+    private val monthly = PaymentCycle.Month(1)
+    private val yearly = PaymentCycle.Year(1)
+
     @Before
     fun setup() {
         testScope = TestScope(UnconfinedTestDispatcher())
@@ -75,11 +78,11 @@ class LoadSubscriptionPlansTests {
 
     @Test
     fun `load plans and cycles if available`() = testScope.runTest {
-        val cyclesToLoad = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1))
+        val cyclesToLoad = listOf(monthly, yearly)
         val plans = loadSubscriptionPlans(
             LoadPlansConfig.WithOptionalDiscount(
                 planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-                paymentCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1)),
+                paymentCycles = listOf(monthly, yearly),
                 discountOfferTags = listOf(IapConstants.INTRO_PRICE_TAG),
             )
         )
@@ -91,7 +94,7 @@ class LoadSubscriptionPlansTests {
 
     @Test
     fun `don't load other plans`() = testScope.runTest {
-        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 10_00)
+        val offers = createOffersWithDiscount(monthly, 99, 10_00)
         val otherProduct = createProduct("other", "other_plan", offers)
         testGetProducts.setProductsToReturn(listOf(otherProduct))
         assertEquals(
@@ -99,7 +102,7 @@ class LoadSubscriptionPlansTests {
             loadSubscriptionPlans(
                 LoadPlansConfig.WithOptionalDiscount(
                     planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-                    paymentCycles = listOf(PaymentCycle.Month(1)),
+                    paymentCycles = listOf(monthly),
                     discountOfferTags = listOf(IapConstants.INTRO_PRICE_TAG),
                 )
             )
@@ -108,27 +111,27 @@ class LoadSubscriptionPlansTests {
 
     private fun setupProductsForWithOptionalDiscountTests() {
         val offersPlusMonthly = listOf(
-            createOffer(PaymentCycle.Month(1), listOf(5_00), tags = emptyList(), token = "monthly_base"),
+            createOffer(monthly, listOf(5_00), tags = emptyList(), token = "monthly_base"),
             createOffer(
-                PaymentCycle.Month(1),
+                monthly,
                 listOf(99, 5_00),
                 tags = listOf(tag1),
                 token = "monthly_discount_1"
             ),
             createOffer(
-                PaymentCycle.Month(1),
+                monthly,
                 listOf(2_00, 10_00),
                 tags = listOf(tag2),
                 token = "monthly_discount_2"
             ),
         )
         val offersPlusYearly = listOf(
-            createOffer(PaymentCycle.Year(1), listOf(50_00), tags = emptyList(), token = "yearly_base"),
-            createOffer(PaymentCycle.Year(1), listOf(25_00, 50_00), tags = listOf(tag2), token = "yearly_discount_2"),
+            createOffer(yearly, listOf(50_00), tags = emptyList(), token = "yearly_base"),
+            createOffer(yearly, listOf(25_00, 50_00), tags = listOf(tag2), token = "yearly_discount_2"),
         )
         val offersUnlimitedMonthly = listOf(
-            createOffer(PaymentCycle.Month(1), listOf(100_00), tags = emptyList(), token = "yearly_unlimited_base"),
-            createOffer(PaymentCycle.Month(1), listOf(75_00, 100_00), tags = listOf(tag1), token = "yearly_unlimited_discount_1"),
+            createOffer(monthly, listOf(100_00), tags = emptyList(), token = "yearly_unlimited_base"),
+            createOffer(monthly, listOf(75_00, 100_00), tags = listOf(tag1), token = "yearly_unlimited_discount_1"),
         )
         val plusMonthly = createProduct("idPlusMonthly", Constants.CURRENT_PLUS_PLAN, offersPlusMonthly)
         val plusYearly = createProduct("idPlusYearly", Constants.CURRENT_PLUS_PLAN, offersPlusYearly)
@@ -142,7 +145,7 @@ class LoadSubscriptionPlansTests {
         val loadedPlans = loadSubscriptionPlans(
             LoadPlansConfig.WithOptionalDiscount(
                 planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-                paymentCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1)),
+                paymentCycles = listOf(monthly, yearly),
                 discountOfferTags = listOf(tag1, tag2),
             )
         )
@@ -157,7 +160,7 @@ class LoadSubscriptionPlansTests {
         val loadedBasePlans = loadSubscriptionPlans(
             LoadPlansConfig.WithOptionalDiscount(
                 planNames = listOf(Constants.CURRENT_PLUS_PLAN),
-                paymentCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1)),
+                paymentCycles = listOf(monthly, yearly),
                 discountOfferTags = listOf("unknown_tag"),
             )
         )
@@ -166,7 +169,46 @@ class LoadSubscriptionPlansTests {
         assertEquals(setOf("yearly_base", "monthly_base"), loadedBasePlan.cycles.mapTo(HashSet()) { it.offerToken })
     }
 
-    // TODO: test WithOfferTag
+    fun setupProductsForWithOfferTagTests() {
+        val baseOffer = createOffer(monthly, listOf(10_00), tags = listOf(tag1))
+        val discountOffer = createOffer(monthly, listOf(5_00, 10_00), tags = listOf(tag1))
+        val otherOffer = createOffer(monthly, listOf(1_00, 10_00), tags = listOf(tag2))
+        val product = createProduct("plus1m", Constants.CURRENT_PLUS_PLAN, listOf(baseOffer, discountOffer, otherOffer))
+        testGetProducts.setProductsToReturn(listOf(product))
+    }
+
+    @Test
+    fun `WithOfferTag with only discount tag set`() = testScope.runTest {
+        setupProductsForWithOfferTagTests()
+        val loadedPlans = loadSubscriptionPlans(LoadPlansConfig.WithOfferTag(tag2, null))
+
+        assertEquals(1, loadedPlans.size)
+        val cycle = loadedPlans.first().cycles.firstOrNull()
+        assertEquals(1_00, cycle?.currentPriceCents)
+        assertEquals(10_00, cycle?.defaultPriceCents)
+    }
+
+    @Test
+    fun `WithOfferTag with only base tag set`() = testScope.runTest {
+        setupProductsForWithOfferTagTests()
+        val loadedPlans = loadSubscriptionPlans(LoadPlansConfig.WithOfferTag(null, tag1))
+
+        assertEquals(1, loadedPlans.size)
+        val cycle = loadedPlans.first().cycles.firstOrNull()
+        assertEquals(10_00, cycle?.currentPriceCents)
+        assertEquals(10_00, cycle?.defaultPriceCents)
+    }
+
+    @Test
+    fun `WithOfferTag with tag for both discount and base offer`() = testScope.runTest {
+        setupProductsForWithOfferTagTests()
+        val loadedPlans = loadSubscriptionPlans(LoadPlansConfig.WithOfferTag(tag1, tag1))
+
+        assertEquals(1, loadedPlans.size)
+        val cycle = loadedPlans.first().cycles.firstOrNull()
+        assertEquals(5_00, cycle?.currentPriceCents)
+        assertEquals(10_00, cycle?.defaultPriceCents)
+    }
 
     @Test
     fun `fallback to available cycles`() = testScope.runTest {

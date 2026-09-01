@@ -98,7 +98,7 @@ class GenerateNotificationsForIntroductoryOffers @Inject constructor(
             getBaseTimestamp(triggerCyclicPromos && isIapClientSidePromoCyclicEnabled())
         if (baseTimestampMs + PROMO_ACTIVITY_PERIOD_END_MS < nowMs) return emptyList()
 
-        val loadPlansConfig = LoadPlansConfig.WithOfferTag(OFFER_TAG)
+        val loadPlansConfig = LoadPlansConfig.WithOfferTag(OFFER_TAG, null)
         val introductoryOffers = getEligibleOffers(loadPlansConfig) ?: return emptyList()
         val paymentCycle = PaymentCycle.Month(1)
 

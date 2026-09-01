@@ -45,8 +45,7 @@ fun ApiNotificationIapAction.toIapParams() = NotificationIapParams(
 )
 
 fun ApiNotificationProductDetailsGoogle.toIapParams() = NotificationIapParams(
-    // Empty offer tag should not match anything and thus eligibility checks will fail.
-    loadPlansConfig = LoadPlansConfig.WithOfferTag(offerTag.orEmpty()),
+    loadPlansConfig = LoadPlansConfig.WithOfferTag(offerTag, baseOfferTag),
     preselectedCycle = preselectedCycle,
     showDiscountBadge = false,
 )

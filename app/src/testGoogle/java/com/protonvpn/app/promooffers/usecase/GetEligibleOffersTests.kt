@@ -120,7 +120,7 @@ class GetEligibleOffersTests {
     fun `WHEN different plans are queried THEN they are requested from load`() = testScope.runTest {
         val planCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1))
         val loadConfigVpn2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("vpn2022"), planCycles, IapConstants.INTRO_PRICE_TAG)
-        val loadConfigIntroPrice = LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG)
+        val loadConfigIntroPrice = LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null)
         assertEquals(
             listOf(offerVpn2022),
             getOffers(loadConfigVpn2022)
@@ -174,7 +174,7 @@ class GetEligibleOffersTests {
     fun `WHEN 2 days pass THEN data is loaded from Google again`() = testScope.runTest {
         val planCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1))
         val loadConfigVpn2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("vpn2022"), planCycles, IapConstants.INTRO_PRICE_TAG)
-        val loadConfigIntroPrice = LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG)
+        val loadConfigIntroPrice = LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null)
         getOffers(loadConfigVpn2022)
         advanceTimeBy(1.days)
         getOffers(loadConfigIntroPrice)
