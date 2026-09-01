@@ -647,25 +647,25 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_day">day</string>
-    <string name="payment_price_per_week">week</string>
+    <string name="payment_price_per_day">giorno</string>
+    <string name="payment_price_per_week">settimana</string>
     <string name="payment_price_per_month">mese</string>
     <string name="payment_price_per_year">anno</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="one">%1$d day</item>
-        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d giorno</item>
+        <item quantity="other">%1$d giorni</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="one">%1$d week</item>
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="one">%1$d settimana</item>
+        <item quantity="other">%1$d settimane</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="one">%1$d month</item>
-        <item quantity="other">%1$d months</item>
+        <item quantity="one">%1$d mese</item>
+        <item quantity="other">%1$d mesi</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="one">%1$d year</item>
-        <item quantity="other">%1$d years</item>
+        <item quantity="one">%1$d anno</item>
+        <item quantity="other">%1$d anni</item>
     </plurals>
     <string name="payment_select_your_plan">Seleziona il tuo piano</string>
     <!-- Label on a button for purchasing a subscription.
@@ -678,57 +678,57 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_discount_renewal_price_message_daily">
-        <item quantity="one">Special offer. Auto renews at %1$s/day</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d days</item>
+        <item quantity="one">Offerta speciale. Rinnovo automatico a %1$s/giorno</item>
+        <item quantity="other">Offerta speciale. Rinnovo automatico a %1$s ogni %2$d giorni</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_discount_renewal_price_message_weekly">
-        <item quantity="one">Special offer. Auto renews at %1$s/week</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">Offerta speciale. Rinnovo automatico a %1$s/settimana</item>
+        <item quantity="other">Offerta speciale. Rinnovo automatico a %1$s ogni %2$d settimane</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_discount_renewal_price_message_monthly">
-        <item quantity="one">Special offer. Auto renews at %1$s/month</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d months</item>
+        <item quantity="one">Offerta speciale. Rinnovo automatico a %1$s/mese</item>
+        <item quantity="other">Offerta speciale. Rinnovo automatico a %1$s ogni %2$d mesi</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_discount_renewal_price_message_yearly">
-        <item quantity="one">Special offer. Auto renews at %1$s/year</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d years</item>
+        <item quantity="one">Offerta speciale. Rinnovo automatico a %1$s/anno</item>
+        <item quantity="other">Offerta speciale. Rinnovo automatico a %1$s ogni %2$d anni</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_renewal_price_message_daily">
-        <item quantity="one">Subscription auto renews at %1$s/day</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d days</item>
+        <item quantity="one">L\'abbonamento si rinnova automaticamente a %1$s/giorno</item>
+        <item quantity="other">L\'abbonamento si rinnova automaticamente a %1$s ogni %2$d giorni</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_renewal_price_message_weekly">
-        <item quantity="one">Subscription auto renews at %1$s/week</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">L\'abbonamento si rinnova automaticamente a %1$s/settimana</item>
+        <item quantity="other">L\'abbonamento si rinnova automaticamente a %1$s ogni %2$d settimane</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Subscription auto renews at %1$s/month</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
+        <item quantity="one">L\'abbonamento si rinnova automaticamente a %1$s/mese</item>
+        <item quantity="other">L\'abbonamento si rinnova automaticamente a %1$s ogni %2$d mesi</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Subscription auto renews at %1$s/year</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
+        <item quantity="one">L\'abbonamento si rinnova automaticamente a %1$s/anno</item>
+        <item quantity="other">L\'abbonamento si rinnova automaticamente a %1$s ogni %2$d anni</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -736,8 +736,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_daily">
-        <item quantity="one">%1$s/day</item>
-        <item quantity="other">%1$s every %2$d days</item>
+        <item quantity="one">%1$s/giorno</item>
+        <item quantity="other">%1$s ogni %2$d giorni</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -745,8 +745,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
-        <item quantity="one">%1$s/week</item>
-        <item quantity="other">%1$s every %2$d weeks</item>
+        <item quantity="one">%1$s/settimana</item>
+        <item quantity="other">%1$s ogni %2$d settimane</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -754,8 +754,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s/month</item>
-        <item quantity="other">%1$s every %2$d months</item>
+        <item quantity="one">%1$s/mese</item>
+        <item quantity="other">%1$s ogni %2$d mesi</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -763,40 +763,40 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_yearly">
-        <item quantity="one">%1$s/year</item>
-        <item quantity="other">%1$s every %2$d years</item>
+        <item quantity="one">%1$s/anno</item>
+        <item quantity="other">%1$s ogni %2$d anni</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
-        <item quantity="one">for the first day</item>
-        <item quantity="other">for the first %1$d days</item>
+        <item quantity="one">per il primo giorno</item>
+        <item quantity="other">per i primi %1$d giorni</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
-        <item quantity="one">for the first week</item>
-        <item quantity="other">for the first %1$d weeks</item>
+        <item quantity="one">per la prima settimana</item>
+        <item quantity="other">per le prime %1$d settimane</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">for the first month</item>
-        <item quantity="other">for the first %1$d months</item>
+        <item quantity="one">per il primo mese</item>
+        <item quantity="other">per i primi %1$d mesi</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
-        <item quantity="one">for the first year</item>
-        <item quantity="other">for the first %1$d years</item>
+        <item quantity="one">per il primo anno</item>
+        <item quantity="other">per i primi %1$d anni</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -804,8 +804,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="one">then auto renews at %1$s/day</item>
-        <item quantity="other">then auto renews at %1$s every %2$d days</item>
+        <item quantity="one">poi si rinnova automaticamente a %1$s/giorno</item>
+        <item quantity="other">poi si rinnova automaticamente a %1$s ogni %2$d giorni</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -813,8 +813,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="one">then auto renews at %1$s/week</item>
-        <item quantity="other">then auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">poi si rinnova automaticamente a %1$s/settimana</item>
+        <item quantity="other">poi si rinnova automaticamente a %1$s ogni %2$d settimane</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -822,8 +822,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="one">then auto renews at %1$s/month</item>
-        <item quantity="other">then auto renews at %1$s every %2$d months</item>
+        <item quantity="one">poi si rinnova automaticamente a %1$s/mese</item>
+        <item quantity="other">poi si rinnova automaticamente a %1$s ogni %2$d mesi</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -831,8 +831,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="one">then auto renews at %1$s/year</item>
-        <item quantity="other">then auto renews at %1$s every %2$d years</item>
+        <item quantity="one">poi si rinnova automaticamente a %1$s/anno</item>
+        <item quantity="other">poi si rinnova automaticamente a %1$s ogni %2$d anni</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
      (e.g. 2 months) and then the subscription renews at full price.
@@ -849,7 +849,7 @@
       "$19.99/year for the first 3 years, then auto renews at $24.99/year"
       "$3.99 every 2 months for the first 4 months, then auto renews at 5.99 every 2 months"
     -->
-    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s</string>
+    <string name="payment_multi_renewal_template">%1$s%2$s, %3$s</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Questa tecnologia consente a Proton VPN di fornire maggiore velocità e sicurezza in paesi difficili da servire.</string>
     <string name="tor_title">Tor</string>

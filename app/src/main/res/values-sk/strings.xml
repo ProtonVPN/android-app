@@ -549,12 +549,12 @@
     <string name="upsell_panel_content_description_yes">Áno</string>
     <string name="upsell_panel_content_description_no">Nie</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
+    <string name="upsell_panel_general_benefit_block_ads">Blokovanie reklám a sledovačov</string>
     <string name="upsell_panel_general_benefit_countries">Dostupné krajiny</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Chránené zariadenia</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
+    <string name="upsell_panel_general_benefit_location">Vyberte vašu lokalitu</string>
     <string name="upsell_panel_general_benefit_server">Vyberte váš server</string>
     <string name="upsell_panel_general_benefit_shows">Sledujte svoje seriály z akejkoľvek krajiny</string>
     <string name="upsell_panel_general_benefit_speed">Rýchlosť servera</string>
@@ -583,7 +583,7 @@
     <string name="upsell_panel_netshield_benefit_trackers">Zabráňte sledovacím nástrojom, aby vás sledovali</string>
     <string name="upsell_panel_netshield_benefit_malware">Ochrana pred malvérom a phishingom</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Stránky sa načítajú rýchlejšie </string>
-    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
+    <string name="upsell_panel_onboarding_title">Získajte viac s VPN Plus</string>
     <string name="upsell_panel_p2p_title">Sťahovanie v plnej rýchlosti</string>
     <string name="upsell_panel_p2p_description">Servery určené na zdieľanie súborov prostredníctvom vášho obvyklého torrentového klienta.</string>
     <string name="upsell_panel_p2p_benefit_p2p">P2P zdieľanie súborov</string>
@@ -600,7 +600,7 @@
     <string name="upsell_panel_speed_benefit_gaming_slow">Slabá</string>
     <string name="upsell_panel_speed_benefit_gaming_fast">Rýchla</string>
     <string name="upsell_panel_speed_benefit_video">Streamovanie videa bez bufferingu</string>
-    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
+    <string name="upsell_panel_speed_benefit_p2p">Podpora sťahovania cez P2P</string>
     <string name="upsell_panel_split_tunneling_title">Vyberte aplikácie, ktoré budú používať VPN</string>
     <string name="upsell_panel_split_tunneling_description">Prehliadač cez VPN, vaša banková aplikácia mimo nej. Rozhodnete sa sami, aplikáciu po aplikácii.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Delené tunelovanie</string>
@@ -679,33 +679,33 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_day">day</string>
-    <string name="payment_price_per_week">week</string>
+    <string name="payment_price_per_day">deň</string>
+    <string name="payment_price_per_week">týždeň</string>
     <string name="payment_price_per_month">mesiac</string>
     <string name="payment_price_per_year">rok</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="one">%1$d day</item>
-        <item quantity="few">%1$d days</item>
-        <item quantity="many">%1$d days</item>
-        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d deň</item>
+        <item quantity="few">%1$d dni</item>
+        <item quantity="many">%1$d dní</item>
+        <item quantity="other">%1$d dni</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="one">%1$d week</item>
-        <item quantity="few">%1$d weeks</item>
-        <item quantity="many">%1$d weeks</item>
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="one">%1$d týždeň</item>
+        <item quantity="few">%1$d týždne</item>
+        <item quantity="many">%1$d týždňov</item>
+        <item quantity="other">%1$d týždňov</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="one">%1$d month</item>
-        <item quantity="few">%1$d months</item>
-        <item quantity="many">%1$d months</item>
-        <item quantity="other">%1$d months</item>
+        <item quantity="one">%1$d mesiac</item>
+        <item quantity="few">%1$d mesiace</item>
+        <item quantity="many">%1$d mesiacov</item>
+        <item quantity="other">%1$d mesiacov</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="one">%1$d year</item>
-        <item quantity="few">%1$d years</item>
-        <item quantity="many">%1$d years</item>
-        <item quantity="other">%1$d years</item>
+        <item quantity="one">%1$d rok</item>
+        <item quantity="few">%1$d roky</item>
+        <item quantity="many">%1$d rokov</item>
+        <item quantity="other">%1$d rokov</item>
     </plurals>
     <string name="payment_select_your_plan">Vyberte svoj plán</string>
     <!-- Label on a button for purchasing a subscription.
@@ -718,73 +718,73 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_discount_renewal_price_message_daily">
-        <item quantity="one">Special offer. Auto renews at %1$s/day</item>
-        <item quantity="few">Special offer. Auto renews at %1$s every %2$d days</item>
-        <item quantity="many">Special offer. Auto renews at %1$s every %2$d days</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d days</item>
+        <item quantity="one">Špeciálna ponuka. Automatické obnovenie za %1$s/deň</item>
+        <item quantity="few">Špeciálna ponuka. Automatické obnovenie za %1$s každé %2$d dni</item>
+        <item quantity="many">Špeciálna ponuka. Automatické obnovenie za %1$s každých %2$d dní</item>
+        <item quantity="other">Špeciálna ponuka. Automatické obnovenie za %1$s každých %2$d dní</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_discount_renewal_price_message_weekly">
-        <item quantity="one">Special offer. Auto renews at %1$s/week</item>
-        <item quantity="few">Special offer. Auto renews at %1$s every %2$d weeks</item>
-        <item quantity="many">Special offer. Auto renews at %1$s every %2$d weeks</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">Špeciálna ponuka. Automatické obnovenie za %1$s/týždeň</item>
+        <item quantity="few">Špeciálna ponuka. Automatické obnovenie za %1$s každé %2$d týždne</item>
+        <item quantity="many">Špeciálna ponuka. Automatické obnovenie za %1$s každých %2$d týždňov</item>
+        <item quantity="other">Špeciálna ponuka. Automatické obnovenie za %1$s každých %2$d týždňov</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_discount_renewal_price_message_monthly">
-        <item quantity="one">Special offer. Auto renews at %1$s/month</item>
-        <item quantity="few">Special offer. Auto renews at %1$s every %2$d months</item>
-        <item quantity="many">Special offer. Auto renews at %1$s every %2$d months</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d months</item>
+        <item quantity="one">Špeciálna ponuka. Automatické obnovenie za %1$s/mesiac</item>
+        <item quantity="few">Špeciálna ponuka. Automatické obnovenie za %1$s každé %2$d mesiace</item>
+        <item quantity="many">Špeciálna ponuka. Automatické obnovenie za %1$s každých %2$d mesiacov</item>
+        <item quantity="other">Špeciálna ponuka. Automatické obnovenie za %1$s každých %2$d mesiacov</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_discount_renewal_price_message_yearly">
-        <item quantity="one">Special offer. Auto renews at %1$s/year</item>
-        <item quantity="few">Special offer. Auto renews at %1$s every %2$d years</item>
-        <item quantity="many">Special offer. Auto renews at %1$s every %2$d years</item>
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d years</item>
+        <item quantity="one">Špeciálna ponuka. Automatické obnovenie za %1$s/rok</item>
+        <item quantity="few">Špeciálna ponuka. Automatické obnovenie za %1$s každé %2$d roky</item>
+        <item quantity="many">Špeciálna ponuka. Automatické obnovenie za %1$s každých %2$d rokov</item>
+        <item quantity="other">Špeciálna ponuka. Automatické obnovenie za %1$s každých %2$d rokov</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_renewal_price_message_daily">
-        <item quantity="one">Subscription auto renews at %1$s/day</item>
-        <item quantity="few">Subscription auto renews at %1$s every %2$d days</item>
-        <item quantity="many">Subscription auto renews at %1$s every %2$d days</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d days</item>
+        <item quantity="one">Predplatné sa automaticky obnovuje za %1$s/deň</item>
+        <item quantity="few">Predplatné sa automaticky obnoví za %1$s každé %2$d dni</item>
+        <item quantity="many">Predplatné sa automaticky obnoví za %1$s každých %2$d dní</item>
+        <item quantity="other">Predplatné sa automaticky obnoví za %1$s každých %2$d dní</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_renewal_price_message_weekly">
-        <item quantity="one">Subscription auto renews at %1$s/week</item>
-        <item quantity="few">Subscription auto renews at %1$s every %2$d weeks</item>
-        <item quantity="many">Subscription auto renews at %1$s every %2$d weeks</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">Predplatné sa automaticky obnoví za %1$s/týždeň</item>
+        <item quantity="few">Predplatné sa automaticky obnoví za %1$s každé %2$d týždne</item>
+        <item quantity="many">Predplatné sa automaticky obnoví za %1$s každých %2$d týždňov</item>
+        <item quantity="other">Predplatné sa automaticky obnoví za %1$s každých %2$d týždňov</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Subscription auto renews at %1$s/month</item>
-        <item quantity="few">Subscription auto renews at %1$s every %2$d months</item>
-        <item quantity="many">Subscription auto renews at %1$s every %2$d months</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
+        <item quantity="one">Predplatné sa automaticky obnoví za %1$s/mesiac</item>
+        <item quantity="few">Predplatné sa automaticky obnoví za %1$s každé %2$d mesiace</item>
+        <item quantity="many">Predplatné sa automaticky obnoví za %1$s každých %2$d mesiacov</item>
+        <item quantity="other">Predplatné sa automaticky obnoví za %1$s každých %2$d mesiacov</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Subscription auto renews at %1$s/year</item>
-        <item quantity="few">Subscription auto renews at %1$s every %2$d years</item>
-        <item quantity="many">Subscription auto renews at %1$s every %2$d years</item>
-        <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
+        <item quantity="one">Predplatné sa automaticky obnoví za %1$s/rok</item>
+        <item quantity="few">Predplatné sa automaticky obnoví za %1$s každé %2$d roky</item>
+        <item quantity="many">Predplatné sa automaticky obnoví za %1$s každých %2$d rokov</item>
+        <item quantity="other">Predplatné sa automaticky obnoví za %1$s každých %2$d rokov</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -792,10 +792,10 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_daily">
-        <item quantity="one">%1$s/day</item>
-        <item quantity="few">%1$s every %2$d days</item>
-        <item quantity="many">%1$s every %2$d days</item>
-        <item quantity="other">%1$s every %2$d days</item>
+        <item quantity="one">%1$s/deň</item>
+        <item quantity="few">%1$s každé %2$d dni</item>
+        <item quantity="many">%1$s každých %2$d dní</item>
+        <item quantity="other">%1$s každých %2$d dní</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -803,10 +803,10 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
-        <item quantity="one">%1$s/week</item>
-        <item quantity="few">%1$s every %2$d weeks</item>
-        <item quantity="many">%1$s every %2$d weeks</item>
-        <item quantity="other">%1$s every %2$d weeks</item>
+        <item quantity="one">%1$s/týždeň</item>
+        <item quantity="few">%1$s každé %2$d týždne</item>
+        <item quantity="many">%1$s každých %2$d týždňov</item>
+        <item quantity="other">%1$s každých %2$d týždňov</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -814,10 +814,10 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s/month</item>
-        <item quantity="few">%1$s every %2$d months</item>
-        <item quantity="many">%1$s every %2$d months</item>
-        <item quantity="other">%1$s every %2$d months</item>
+        <item quantity="one">%1$s/mesiac</item>
+        <item quantity="few">%1$s každé %2$d mesiace</item>
+        <item quantity="many">%1$s každých %2$d mesiacov</item>
+        <item quantity="other">%1$s každých %2$d mesiacov</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -825,50 +825,50 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_yearly">
-        <item quantity="one">%1$s/year</item>
-        <item quantity="few">%1$s every %2$d years</item>
-        <item quantity="many">%1$s every %2$d years</item>
-        <item quantity="other">%1$s every %2$d years</item>
+        <item quantity="one">%1$s/rok</item>
+        <item quantity="few">%1$s každé %2$d roky</item>
+        <item quantity="many">%1$s každých %2$d rokov</item>
+        <item quantity="other">%1$s každých %2$d rokov</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
-        <item quantity="one">for the first day</item>
-        <item quantity="few">for the first %1$d days</item>
-        <item quantity="many">for the first %1$d days</item>
-        <item quantity="other">for the first %1$d days</item>
+        <item quantity="one">za prvý deň</item>
+        <item quantity="few">za prvé %1$d dni</item>
+        <item quantity="many">za prvých %1$d dní</item>
+        <item quantity="other">za prvých %1$d dní</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
-        <item quantity="one">for the first week</item>
-        <item quantity="few">for the first %1$d weeks</item>
-        <item quantity="many">for the first %1$d weeks</item>
-        <item quantity="other">for the first %1$d weeks</item>
+        <item quantity="one">za prvý týždeň</item>
+        <item quantity="few">za prvé %1$d týždne</item>
+        <item quantity="many">za prvých %1$d týždňov</item>
+        <item quantity="other">za prvých %1$d týždňov</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">for the first month</item>
-        <item quantity="few">for the first %1$d months</item>
-        <item quantity="many">for the first %1$d months</item>
-        <item quantity="other">for the first %1$d months</item>
+        <item quantity="one">za prvý mesiac</item>
+        <item quantity="few">za prvé %1$d mesiace</item>
+        <item quantity="many">za prvých %1$d mesiacov</item>
+        <item quantity="other">za prvých %1$d mesiacov</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
-        <item quantity="one">for the first year</item>
-        <item quantity="few">for the first %1$d years</item>
-        <item quantity="many">for the first %1$d years</item>
-        <item quantity="other">for the first %1$d years</item>
+        <item quantity="one">za prvý rok</item>
+        <item quantity="few">za prvé %1$d roky</item>
+        <item quantity="many">za prvých %1$d rokov</item>
+        <item quantity="other">za prvých %1$d rokov</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -876,10 +876,10 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="one">then auto renews at %1$s/day</item>
-        <item quantity="few">then auto renews at %1$s every %2$d days</item>
-        <item quantity="many">then auto renews at %1$s every %2$d days</item>
-        <item quantity="other">then auto renews at %1$s every %2$d days</item>
+        <item quantity="one">potom sa automaticky obnovuje za %1$s/deň</item>
+        <item quantity="few">potom sa automaticky obnoví za %1$s každé %2$d dni</item>
+        <item quantity="many">potom sa automaticky obnoví za %1$s každých %2$d dní</item>
+        <item quantity="other">potom sa automaticky obnoví za %1$s každých %2$d dní</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -887,10 +887,10 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="one">then auto renews at %1$s/week</item>
-        <item quantity="few">then auto renews at %1$s every %2$d weeks</item>
-        <item quantity="many">then auto renews at %1$s every %2$d weeks</item>
-        <item quantity="other">then auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">potom sa automaticky obnovuje za %1$s/týždeň</item>
+        <item quantity="few">potom sa automaticky obnoví za %1$s každé %2$d týždne</item>
+        <item quantity="many">potom sa automaticky obnoví za %1$s každých %2$d týždňov</item>
+        <item quantity="other">potom sa automaticky obnoví za %1$s každých %2$d týždňov</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -898,10 +898,10 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="one">then auto renews at %1$s/month</item>
-        <item quantity="few">then auto renews at %1$s every %2$d months</item>
-        <item quantity="many">then auto renews at %1$s every %2$d months</item>
-        <item quantity="other">then auto renews at %1$s every %2$d months</item>
+        <item quantity="one">potom sa automaticky obnovuje za %1$s/mesiac</item>
+        <item quantity="few">potom sa automaticky obnoví za %1$s každé %2$d mesiace</item>
+        <item quantity="many">potom sa automaticky obnoví za %1$s každých %2$d mesiacov</item>
+        <item quantity="other">potom sa automaticky obnoví za %1$s každých %2$d mesiacov</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -909,10 +909,10 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="one">then auto renews at %1$s/year</item>
-        <item quantity="few">then auto renews at %1$s every %2$d years</item>
-        <item quantity="many">then auto renews at %1$s every %2$d years</item>
-        <item quantity="other">then auto renews at %1$s every %2$d years</item>
+        <item quantity="one">potom sa automaticky obnovuje za %1$s/rok</item>
+        <item quantity="few">potom sa automaticky obnoví za %1$s každé %2$d roky</item>
+        <item quantity="many">potom sa automaticky obnoví za %1$s každých %2$d rokov</item>
+        <item quantity="other">potom sa automaticky obnoví za %1$s každých %2$d rokov</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
      (e.g. 2 months) and then the subscription renews at full price.

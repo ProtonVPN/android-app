@@ -70,11 +70,11 @@
     <string name="state_connected">Падключана</string>
     <string name="state_disconnecting">Адключэнне…</string>
     <string name="state_error">Памылка</string>
-    <string name="error_server_list_load_failed">Праверце сваё падключэнне да інтэрнэту і паспрабуйце яшчэ раз.</string>
-    <string name="error_server_unreachable">Немагчыма падключыцца па VPN. Праверце сваё падключэнне да сеткі і паспрабуйце яшчэ раз.</string>
+    <string name="error_server_list_load_failed">Праверце сваё падключэнне да інтэрнэту і паўтарыце спробу.</string>
+    <string name="error_server_unreachable">Немагчыма падключыцца да VPN. Праверце сваё падключэнне да сеткі і паўтарыце спробу.</string>
     <string name="error_auth_failed">Збой аўтэнтыфікацыі карыстальніка.</string>
     <string name="error_generic">Пры падключэнні адбыўся невядомы збой.</string>
-    <string name="error_generic_with_reason">Proton VPN не можа ўсталяваць падключэнне па VPN. Паспрабуйце яшчэ раз праз некалькі секунд.<br/><br/> Падрабязнасці: %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN не можа ўсталяваць падключэнне па VPN. Паўтарыце спробу праз некалькі секунд.<br/><br/> Падрабязнасці: %1$s</string>
     <string name="reconnect">Перападключыцца</string>
     <string name="reconnect_now">Перападключыцца</string>
     <string name="try_reconnecting">Паспрабуйце перападключыцца</string>
@@ -101,7 +101,7 @@
     <string name="cannot_connect">Немагчыма падключыцца</string>
     <string name="skip">Прапусціць</string>
     <string name="something_went_wrong">Нешта пайшло не так</string>
-    <string name="try_again">Паспрабаваць яшчэ раз</string>
+    <string name="try_again">Паўтарыць спробу</string>
     <string name="delete">Выдаліць</string>
     <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Перамясціць на самы верх</string>
     <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Перамясціць уверх</string>
@@ -123,7 +123,7 @@
     <string name="noNotificationPermissionGrantTitle">Будзьце ў курсе…</string>
     <string name="noNotificationPermissionGrantDescription">Уключыць апавяшчэнні для атрымання абвестак аб змяненні вашага статусу падключэння.</string>
     <string name="noNotificationPermissionGrantNowTitle">Уключыць апавяшчэнні</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Адключыце пастаяннае падключэнне па VPN для ўсіх іншых праграм VPN у наладах аперацыйнай сістэмы, бо гэта перашкаджае Proton VPN усталяваць падключэнне з серверам VPN. Таксама дайце правы VPN, калі з\'яўляецца адпаведнае патрабаванне дазволіць доступ па VPN. Магчыма, што неабходна будзе выдаліць іншыя праграмы VPN для прадухілення канфліктаў. Пасля гэтага паспрабуйце яшчэ раз. <a href="%1$s">Даведацца больш</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Адключыце пастаяннае падключэнне па VPN для ўсіх іншых праграм VPN у наладах аперацыйнай сістэмы, бо гэта перашкаджае Proton VPN усталяваць падключэнне з серверам VPN. Таксама дайце правы VPN, калі з\'яўляецца адпаведнае патрабаванне дазволіць доступ па VPN. Магчыма, што неабходна будзе выдаліць іншыя праграмы VPN для прадухілення канфліктаў. Пасля гэтага паўтарыце спробу. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="error_prepare_vpn_settings">Перайсці да налад VPN для Android</string>
     <string name="error_prepare_vpn_title">Памылка: праблема дазволу VPN</string>
     <string name="error_server_not_set">Сервер больш недаступны</string>
@@ -190,7 +190,7 @@
     <string name="accessibility_action_item_move_down">Перамясціць уніз</string>
     <string name="tileConnected">Падключана: %1$s</string>
     <string name="openUrlError">Не атрымалася адкрыць %1$s. На вашай прыладзе не знойдзены вэб-браўзер.</string>
-    <string name="loaderErrorTimeout">Час чакання падключэння завяршыўся. Паспрабуйце яшчэ раз.</string>
+    <string name="loaderErrorTimeout">Час чакання падключэння завяршыўся. Паўтарыце спробу.</string>
     <string name="troubleshootButton">Выпраўленне непаладак</string>
     <string name="activityTroubleshootTitle">Выпраўленне непаладак</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Магчымыя рашэнні</string>
@@ -315,7 +315,7 @@
     <string name="tv_quick_connect_recommened">Рэкамендавана</string>
     <string name="tv_quick_connect_favourite">Абраны</string>
     <string name="tv_country_maintenance_dialog_title">Краіна недаступна</string>
-    <string name="tv_country_maintenance_dialog_description">Паспрабуйце пазней або выберыце іншую краіну.</string>
+    <string name="tv_country_maintenance_dialog_description">Паўтарыце спробу або выберыце іншую краіну.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
@@ -950,9 +950,9 @@
     <string name="dynamic_report_logs_title">Адправіць журналы з памылкамі</string>
     <string name="dynamic_report_logs_tooltip">Журналы памылак паказваюць, што пайшло не так і якія дзеянні прывялі да праблемы. Дадзеныя файлы выкарыстоўвацца выключна для таго, каб дапамагчы нашым інжынерам выправіць памылкі ў праграме.</string>
     <string name="dynamic_report_error_title">Не ўдалося адправіць вашу справаздачу.</string>
-    <string name="dynamic_report_completion_error_description_generic">Не ўдалося адправіць вашу справаздачу. Паспрабуйце яшчэ раз.</string>
-    <string name="dynamic_report_completion_error_description_no_internet">Не ўдалося адправіць вашу справаздачу. Праверце сваё падключэнне і паспрабуйце яшчэ раз.</string>
-    <string name="dynamic_report_completion_error_description_timeout">Не ўдалося адправіць вашу справаздачу. Час чакання падключэння завяршыўся. Паспрабуйце яшчэ раз.</string>
+    <string name="dynamic_report_completion_error_description_generic">Не ўдалося адправіць вашу справаздачу. Паўтарыце спробу.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Не ўдалося адправіць вашу справаздачу. Праверце сваё падключэнне і паўтарыце спробу.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Не ўдалося адправіць вашу справаздачу. Час чакання падключэння завяршыўся. Паўтарыце спробу.</string>
     <string name="dynamic_report_completion_success_title">Дзякуй за водгук. Вы атрымаеце адказ у бліжэйшы час.</string>
     <string name="dynamic_report_success_title">Дзякуй за ваш водгук</string>
     <string name="dynamic_report_success_description">Вы атрымаеце зваротную сувязь у самы бліжэйшы час.</string>
@@ -1916,8 +1916,8 @@
     <string name="profile_unavailable_dialog_title">Профіль недаступны</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
-    <string name="profile_unavailable_dialog_message">Выбраны вамі сервер для %1$s у цяперашні час недаступны. Выберыце іншы сервер або паспрабуйце яшчэ раз пазней.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[Выбраны вамі сервер для <b>%1$s</b> недаступны. Выберыце іншы сервер, праверце свае выключаныя месцазнаходжанні або паспрабуйце пазней.]]></string>
+    <string name="profile_unavailable_dialog_message">Выбраны вамі сервер для %1$s у цяперашні час недаступны. Выберыце іншы сервер або паўтарыце спробу пазней.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Выбраны вамі сервер для <b>%1$s</b> недаступны. Выберыце іншы сервер, праверце свае выключаныя месцазнаходжанні або паўтарыце спробу.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Значок %1$d</string>
@@ -2001,15 +2001,15 @@
     <string name="session_fork_error_expired_title">Код пратэрмінаваны</string>
     <string name="session_fork_error_expired_message">Стварыце новы код на сваім тэлевізары і паўтарыце спробу.</string>
     <string name="session_fork_error_generic_title">Не ўдалося ўвайсці</string>
-    <string name="session_fork_error_fatal_message">Праверце сетку і паспрабуйце яшчэ раз. Калі праблема застанецца, звярніцеся ў нашу каманду падтрымкі кліентаў. </string>
-    <string name="session_fork_error_network_message">Праверце сетку і паспрабуйце яшчэ раз.</string>
+    <string name="session_fork_error_fatal_message">Праверце сетку і паўтарыце спробу. Калі праблема застанецца, звярніцеся ў нашу каманду падтрымкі кліентаў. </string>
+    <string name="session_fork_error_network_message">Праверце сетку і паўтарыце спробу.</string>
     <string name="session_fork_error_try_fallback_message">Націсніце \‘Праблемы з уваходам?\’ у тэлевізары і прытрымлівайцеся альтэрнатыўных крокаў.</string>
     <string name="session_fork_error_report_button">Паведаміць аб праблеме</string>
     <string name="session_fork_qr_code_content_description">QR-код</string>
     <string name="session_fork_qr_code_message">Сканіруйце QR-код, каб увайсці або стварыць уліковы запіс</string>
     <string name="session_fork_qr_code_trouble_button">Праблемы з уваходам?</string>
     <string name="session_fork_qr_code_error_expired">У мэтах бяспекі тэрмін дзеяння праверачнага кода мінуў</string>
-    <string name="session_fork_qr_code_error_network">Праверце сетку і паспрабуйце яшчэ раз</string>
+    <string name="session_fork_qr_code_error_network">Праверце сетку і паўтарыце спробу</string>
     <string name="session_fork_qr_code_error_create_new_button">Стварыць новы код</string>
     <string name="session_fork_user_code_title">Не атрымліваецца адсканіраваць код? Увайдзіце звычайным спосабам</string>
     <string name="session_fork_user_code_step1"><![CDATA[Перайдзіце: <b>%1$s</b>]]></string>
