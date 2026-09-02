@@ -22,12 +22,13 @@
 package com.protonvpn.app.vpn
 
 import com.protonvpn.android.servers.Server
-import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.android.servers.ServersDataManager
+import com.protonvpn.android.servers.ServersStore
 import com.protonvpn.mocks.FakeUpdateServersWithBinaryStatus
 import com.protonvpn.test.shared.InMemoryObjectStore
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.createServer
+import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -65,6 +66,7 @@ class ServersDataManagerTests {
             store,
             fakeServerStateUpdater,
             testScope::currentTime,
+            mockk(relaxed = true),
         )
     }
 

@@ -27,6 +27,7 @@ import com.protonvpn.android.servers.api.ConnectingDomain
 import com.protonvpn.android.servers.api.LogicalsStatusId
 import com.protonvpn.android.utils.replace
 import io.sentry.Sentry
+import io.sentry.SentryEvent
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,6 +44,7 @@ class ServersDataManager @Inject constructor(
     private val serversStore: ServersStore,
     private val updateServersWithBinaryStatus: UpdateServersWithBinaryStatus,
     @param:WallClock private val wallClock: () -> Long,
+    private val isReportFreeNonFreeEnabled: IsReportFreeNonFreeEnabled,
 ) {
     data class ServerLists(
         val allServers: List<Server>,
@@ -207,18 +209,28 @@ class ServersDataManager @Inject constructor(
     private fun suspiciousFreeServers() = currentServers().allServers
         .filter { it.serverName.contains("FREE") && it.tier > 0 }
 
-    private fun reportSuspiciousNonFreeServers(existingSuspiciousServers: List<Server>, operationName: String) {
-        val currentSuspiciousServers = suspiciousFreeServers()
-        val newSuspiciousServers = currentSuspiciousServers.filter { current ->
-            existingSuspiciousServers.none { current.serverId == it.serverId }
-        }
-        if (newSuspiciousServers.isNotEmpty()) {
-            val serversString = newSuspiciousServers.joinToString("; ") {
+    private suspend fun reportSuspiciousNonFreeServers(existingSuspiciousServers: List<Server>, operationName: String) {
+        if (isReportFreeNonFreeEnabled()) {
+            val currentSuspiciousServers = suspiciousFreeServers()
+
+            if (currentSuspiciousServers.isEmpty() && existingSuspiciousServers.isEmpty()) return
+
+            val newSuspiciousServers = currentSuspiciousServers.filter { current ->
+                existingSuspiciousServers.none { current.serverId == it.serverId }
+            }
+            val newSuspiciousServersString = newSuspiciousServers.joinToString("; ") {
                 with(it) { "$serverName tier: $tier id: $serverId" }
             }
-            Sentry.captureException(
-                FreeNonFreeServer("$operationName: $serversString")
-            )
+            val allSuspiciousServersString = currentSuspiciousServers.take(20).joinToString("; ") {
+                with(it) { "$serverName tier: $tier id: $serverId" }
+            }
+            val message = "$operationName: newly suspicious: $newSuspiciousServersString, all: $allSuspiciousServersString (count: ${existingSuspiciousServers.size} -> ${currentSuspiciousServers.size})"
+            val event = SentryEvent(
+                FreeNonFreeServer(message),
+            ).apply {
+                fingerprints = listOf("FreeNonFreeServer", operationName)
+            }
+            Sentry.captureEvent(event)
         }
     }
 

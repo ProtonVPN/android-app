@@ -32,6 +32,7 @@ import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUserCountryTelephonyBased
 import com.protonvpn.test.shared.createInMemoryServersStore
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.currentTime
@@ -50,7 +51,8 @@ fun createInMemoryServersDataManager(
         testDispatcherProvider,
         serverStore,
         updateWithBinaryStatus,
-        testScope::currentTime
+        testScope::currentTime,
+        mockk(relaxed = true)
     )
 }
 
