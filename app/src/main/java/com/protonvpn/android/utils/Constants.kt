@@ -67,6 +67,7 @@ object Constants {
     const val WIREGUARD_TUNNEL_NAME = "ProtonTunnel"
     const val SECONDARY_PROCESS_TAG = "SecondaryProcess"
     const val DISTRIBUTION_AMAZON = "amazon"
+    const val DISTRIBUTION_OPENSOURCE = "openSource"
     val DEFAULT_CONNECTION = DefaultConnection.FastestConnection
 
     const val MOBILE_CLIENT_ID: String = "android-vpn"
