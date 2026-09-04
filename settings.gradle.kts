@@ -37,7 +37,7 @@ pluginManagement {
     includeBuild("build-logic")
 
     repositories {
-        maven { url = java.net.URI("https://plugins.gradle.org/m2/") }
+        maven { url = uri("https://plugins.gradle.org/m2/") }
         mavenCentral()
         google()
     }
