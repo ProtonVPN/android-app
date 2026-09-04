@@ -519,17 +519,17 @@
     <string name="upsell_panel_content_description_yes">Sim</string>
     <string name="upsell_panel_content_description_no">Não</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
+    <string name="upsell_panel_general_benefit_block_ads">Bloqueie anúncios e rastreadores</string>
     <string name="upsell_panel_general_benefit_countries">Países disponíveis</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Dispositivos protegidos</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
+    <string name="upsell_panel_general_benefit_location">Escolha sua local</string>
     <string name="upsell_panel_general_benefit_server">Escolha seu servidor</string>
-    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
-    <string name="upsell_panel_general_benefit_speed">Server speed</string>
-    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
+    <string name="upsell_panel_general_benefit_shows">Assista suas séries de qualquer país</string>
+    <string name="upsell_panel_general_benefit_speed">Velocidade do servidor</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Padrão</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Máxima</string>
     <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
     <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
     <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
@@ -573,7 +573,7 @@
     <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
-    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Tunelamento dividido</string>
     <string name="upsell_panel_streaming_title">Assista seus serviços favoritos de streaming</string>
     <string name="upsell_panel_streaming_benefit_shows">Assista suas séries de qualquer país</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -581,11 +581,11 @@
     <string name="upsell_panel_streaming_benefit_hd">Faça streaming em HD sem buffering</string>
     <string name="upsell_panel_streaming_benefit_devices">Dispositivos conectados ao mesmo tempo</string>
     <string name="upsell_panel_streaming_footer">* É necessária uma assinatura da plataforma de streaming.</string>
-    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upsell_panel_streaming_block_title">Fazer upgrade para contornar bloqueios de VPN</string>
+    <string name="upsell_panel_streaming_block_description">Os servidores VPN Plus permitem que você assista aos seus filmes e programas de TV favoritos de todo o mundo.</string>
     <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
     <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
-    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor sobre VPN</string>
     <string name="upsell_card_countries_title">Cobertura global</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -647,25 +647,25 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s / %2$s</string>
-    <string name="payment_price_per_day">day</string>
-    <string name="payment_price_per_week">week</string>
+    <string name="payment_price_per_day">dia</string>
+    <string name="payment_price_per_week">semana</string>
     <string name="payment_price_per_month">mês</string>
     <string name="payment_price_per_year">ano</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="one">%1$d day</item>
-        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d dia</item>
+        <item quantity="other">%1$d dias</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="one">%1$d week</item>
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="one">%1$d semana</item>
+        <item quantity="other">%1$d semanas</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="one">%1$d month</item>
-        <item quantity="other">%1$d months</item>
+        <item quantity="one">%1$d mês</item>
+        <item quantity="other">%1$d messes</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="one">%1$d year</item>
-        <item quantity="other">%1$d years</item>
+        <item quantity="one">%1$d ano</item>
+        <item quantity="other">%1$d anos</item>
     </plurals>
     <string name="payment_select_your_plan">Selecione seu plano</string>
     <!-- Label on a button for purchasing a subscription.

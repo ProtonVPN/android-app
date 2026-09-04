@@ -549,17 +549,17 @@
     <string name="upsell_panel_content_description_yes">Ano</string>
     <string name="upsell_panel_content_description_no">Ne</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
-    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <string name="upsell_panel_general_benefit_block_ads">Blokování reklam a sledovacích prvků</string>
+    <string name="upsell_panel_general_benefit_countries">Dostupné země</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_general_benefit_devices">Protected devices</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
-    <string name="upsell_panel_general_benefit_server">Choose your server</string>
-    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
-    <string name="upsell_panel_general_benefit_speed">Server speed</string>
-    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
+    <string name="upsell_panel_general_benefit_devices">Chráněná zařízení</string>
+    <string name="upsell_panel_general_benefit_location">Vyberte své umístění</string>
+    <string name="upsell_panel_general_benefit_server">Vyberte svůj server</string>
+    <string name="upsell_panel_general_benefit_shows">Sledujte své pořady z jakékoli země</string>
+    <string name="upsell_panel_general_benefit_speed">Rychlost serveru</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Standardní</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Nejvyšší</string>
     <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
     <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
     <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
