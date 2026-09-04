@@ -448,7 +448,7 @@ sentry {
     includeProguardMapping = true
     uploadNativeSymbols = true
     ignoredBuildTypes = ["debug", "benchmarkRelease", "nonMinifiedRelease"]
-    ignoredFlavors = ["openSource", "dev"]
+    ignoredFlavors = ["productionVanillaOpenSource"]
 
     // We don't want the sentry plugin to add anything to our builds:
     tracingInstrumentation { enabled = false }
