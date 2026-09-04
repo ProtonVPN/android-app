@@ -130,9 +130,9 @@ build vanilla f-droid release:
     # Remove files placed in .publishignore locally to build from the exact same history that will
     # be published. It's important for reproducible builds.
     - publish-repo-cleanup
-    - ./gradlew assembleProductionVanillaDirectRelease -P appId=ch.protonvpn.android.reproducible
-    - pushd app/build/outputs/apk/productionVanillaDirect/release/
-    - mv "${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk" "${ARCHIVES_BASE_NAME}-fdroid-reproducible-release.apk"
+    - ./gradlew assembleProductionVanillaOpenSourceRelease -P appId=ch.protonvpn.android.reproducible
+    - pushd app/build/outputs/apk/productionVanillaOpenSource/release/
+    - mv "${ARCHIVES_BASE_NAME}-production-vanilla-openSource-release.apk" "${ARCHIVES_BASE_NAME}-production-vanilla-openSource-release-fdroid.apk"
     - popd
   artifacts:
     expire_in: 3 week
@@ -208,7 +208,7 @@ sign vanilla apks:
   needs: ["build vanilla release", "build vanilla f-droid release",  "export archive name"]
   variables:
     ARTIFACT_SIGNATURE_KIND: android-package-kit
-    ARTIFACT_SIGNATURE_FILES: app/build/outputs/apk/productionVanillaDirect/release/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk app/build/outputs/apk/productionVanillaDirect/release/${ARCHIVES_BASE_NAME}-fdroid-reproducible-release.apk
+    ARTIFACT_SIGNATURE_FILES: app/build/outputs/apk/productionVanillaDirect/release/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk app/build/outputs/apk/productionVanillaOpenSource/release/${ARCHIVES_BASE_NAME}-production-vanilla-openSource-release-fdroid.apk
 
 sync-app:
   cache: {}
@@ -289,7 +289,7 @@ publish-github:
     OAUTH_URL: "https://oauth2:${GH_TOKEN}@github.com/ProtonVPN/android-app.git"
     ARTIFACT1_PATH: "signedArtifacts/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk"
     ARTIFACT1_DISPLAY_NAME: "ProtonVPN-${VERSION_NAME}.apk"
-    ARTIFACT2_PATH: "signedArtifacts/${ARCHIVES_BASE_NAME}-fdroid-reproducible-release.apk"
+    ARTIFACT2_PATH: "signedArtifacts/${ARCHIVES_BASE_NAME}-production-vanilla-openSource-release-fdroid.apk"
     ARTIFACT2_DISPLAY_NAME: "ProtonVPN-${VERSION_NAME}-fdroid.apk"
   script:
     # Verify that uploaded artifact is signed with prod key
