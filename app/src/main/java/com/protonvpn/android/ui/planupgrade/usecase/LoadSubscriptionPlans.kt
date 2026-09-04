@@ -143,6 +143,7 @@ class LoadSubscriptionPlans @Inject constructor(
                 ifOrNull(product.planId in selection.planNames) {
                     val offers = getOffersWithTag(product, selection.offerTag, baseTag = null)
                     offers?.let { (discounted, base) ->
+                        // All pricing periods (base, discount offers) must use the same payment cycle.
                         val paymentCycle = base.pricingPeriods.firstOrNull()?.cycle?.toPaymentCycle()
                         ifOrNull(paymentCycle in selection.paymentCycles) {
                             OfferInfo(discounted, base)

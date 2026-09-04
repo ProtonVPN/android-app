@@ -66,7 +66,6 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.telemetry.onboarding.OnboardingTelemetry
-import com.protonvpn.android.ui.planupgrade.usecase.GetUpgradeDialogPlansConfig
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -76,7 +75,6 @@ import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
@@ -94,9 +92,6 @@ abstract class BaseUpgradeDialogActivity(
 
     private val upgradeHelper = UpgradeActivityHelper(this, this::afterPaymentSuccess)
 
-    @Inject
-    lateinit var getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig
-
     private lateinit var backgroundGradient: GradientDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,28 +107,21 @@ abstract class BaseUpgradeDialogActivity(
             initHighlightsFragment()
             initPaymentsPanelFragment()
         }
-        lifecycleScope.launch {
-            val plans = if (allowMultiplePlans) {
-                listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
-            } else {
-                listOf(Constants.CURRENT_PLUS_PLAN)
-            }
-            val plansConfig = getUpgradeDialogPlansConfig.forBuiltinUpsell(
-                notificationType =
-                    if (isOnboarding) ApiNotificationTypes.TYPE_BUILTIN_UPSELL_ONBOARDING
-                    else ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
-                supportedPlanNames = plans
-            )
-            viewModel.loadPlans(plansConfig)
-            if (savedInstanceState == null) {
-                viewModel.reportUpgradeFlowStart(
-                    upgradeSource = getTelemetryUpgradeSource(),
-                    upgradeTrigger = getTelemetryUpgradeTrigger(),
-                    countryId = getTelemetryCountryId(),
-                    reference = plansConfig?.notificationReference,
-                )
-            }
+        val plans = if (allowMultiplePlans) {
+            listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
+        } else {
+            listOf(Constants.CURRENT_PLUS_PLAN)
         }
+        viewModel.loadBuiltinUpsellPlans(
+            notificationType =
+                if (isOnboarding) ApiNotificationTypes.TYPE_BUILTIN_UPSELL_ONBOARDING
+                else ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
+            supportedPlanNames = plans,
+            shouldReportTelemetry = savedInstanceState == null,
+            upgradeSource = getTelemetryUpgradeSource(),
+            upgradeTrigger = getTelemetryUpgradeTrigger(),
+            countryId = getTelemetryCountryId()
+        )
         upgradeHelper.onCreate(viewModel)
 
         binding.buttonNotNow.setOnClickListener { finish() }

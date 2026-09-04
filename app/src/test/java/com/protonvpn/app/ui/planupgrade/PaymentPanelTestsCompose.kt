@@ -37,6 +37,7 @@ import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.PaymentPanel
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
+import com.protonvpn.android.ui.planupgrade.usecase.GetUpgradeDialogPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.UpgradeDialogLoadPlansConfig
@@ -51,6 +52,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.test.runTest
 import me.proton.android.payment.di.ScreenUseCaseModule
 import me.proton.android.payment.product.fake.FakeGetProducts
 import me.proton.android.payment.product.model.Product
@@ -116,7 +118,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
     }
 
     @Test
-    fun renewTextBasePlanOnly() {
+    fun renewTextBasePlanOnly() = runTest {
         val baseOffer = createOffer(PaymentCycle.Month(1), listOf(199))
         setupComposablesAndLoadPlans(
             listOf(createProduct("id", "vpn2022", listOf(baseOffer))),
@@ -127,7 +129,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
     }
 
     @Test
-    fun renewTextOfferSingleCycle() {
+    fun renewTextOfferSingleCycle() = runTest {
         val discountOffers = createOffersWithDiscount(PaymentCycle.Week(1), 99, 199, "USD")
         setupComposablesAndLoadPlans(
             listOf(createProduct("id", "vpn2022",discountOffers)),
@@ -138,7 +140,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
     }
 
     @Test
-    fun renewTextOfferMultiCycle() {
+    fun renewTextOfferMultiCycle() = runTest {
         val discount2yOffers = createOffersWithDiscount(
             paymentCycle = PaymentCycle.Year(1),
             discountPriceCents = 4999,
@@ -155,7 +157,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
     }
 
     @Test
-    fun renewTextOffer2MonthCycle() {
+    fun renewTextOffer2MonthCycle() = runTest {
         val discount = createOffersWithDiscount(
             PaymentCycle.Month(2),
             discountPriceCents = 199,
@@ -171,7 +173,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
     }
 
     @Test
-    fun renewTextOfferMultiCycle2MonthCycle() {
+    fun renewTextOfferMultiCycle2MonthCycle() = runTest {
         val discount = createOffersWithDiscount(
             PaymentCycle.Month(2),
             discountPriceCents = 199,
@@ -188,7 +190,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
     }
 
     @Test
-    fun cyclePerMonthPrice() {
+    fun cyclePerMonthPrice() = runTest {
         val tags = listOf("tag")
         val offers = listOf(
             createOffer(PaymentCycle.Week(1), listOf(100), tags = tags),
@@ -207,7 +209,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
     }
 
     @Test
-    fun cycleNoPerMonthPriceOnMultiCycleMonthlyOffer() {
+    fun cycleNoPerMonthPriceOnMultiCycleMonthlyOffer() = runTest {
         val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 199, offerCycleCount = 2)
         val products = listOf(createProduct("id", "plan", offers))
         setupComposablesAndLoadPlans(products, LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null))
@@ -215,7 +217,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
         assertPriceString("cycleP1M", "€0.99", null)
     }
 
-    private fun setupComposablesAndLoadPlans(
+    private suspend fun setupComposablesAndLoadPlans(
         products: List<Product>,
         loadPlansConfig: LoadPlansConfig,
         preselectedCycle: PaymentCycle? = null
@@ -229,7 +231,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
             showDiscountBadge = false,
             notificationReference = null,
         )
-        viewModel.loadPlans(config)
+        viewModel.loadPlansForTests(config)
         composeRule.setContent {
             val state = viewModel.fullPanelState.collectAsStateWithLifecycle().value
             PaymentPanel(state, {})
@@ -259,6 +261,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
 @Distinct
 class UpgradeDialogViewModelInjector @Inject constructor(
     private val upgradeTelemetry: UpgradeTelemetry,
+    private val getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig,
     private val loadSubscriptionPlans: LoadSubscriptionPlans,
     private val purchaseProduct: PurchaseProduct,
     private val observeSessionState: ObserveSessionState,
@@ -267,6 +270,7 @@ class UpgradeDialogViewModelInjector @Inject constructor(
 ) {
     fun createViewModel() = UpgradeDialogViewModel(
         upgradeTelemetry = upgradeTelemetry,
+        getUpgradeDialogPlansConfig = getUpgradeDialogPlansConfig,
         loadSubscriptionPlans = loadSubscriptionPlans::invoke,
         purchaseProduct = purchaseProduct,
         observePaymentSessionState = observeSessionState,

@@ -67,16 +67,13 @@ import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.getPaymentErrorString
-import com.protonvpn.android.ui.planupgrade.usecase.GetUpgradeDialogPlansConfig
 import com.protonvpn.android.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
-import javax.inject.Inject
 
 enum class TvUpsellContent {
     AllCountries,
@@ -95,9 +92,6 @@ class TvUpsellActivity : BaseTvActivity() {
 
     private val upgradeActivityHelper = UpgradeActivityHelper(this)
 
-    @Inject
-    lateinit var getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -110,21 +104,14 @@ class TvUpsellActivity : BaseTvActivity() {
             finish()
             return
         }
-        lifecycleScope.launch {
-            val plansConfig = getUpgradeDialogPlansConfig.forBuiltinUpsell(
-                notificationType = ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
-                supportedPlanNames = listOf(Constants.CURRENT_PLUS_PLAN)
-            )
-            viewModel.loadPlans(plansConfig)
-            if (savedInstanceState == null) {
-                viewModel.reportUpgradeFlowStart(
-                    upgradeSource = upgradeSource,
-                    upgradeTrigger = upgradeTrigger,
-                    reference = plansConfig?.notificationReference,
-                    countryId = country
-                )
-            }
-        }
+        viewModel.loadBuiltinUpsellPlans(
+            notificationType = ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
+            supportedPlanNames = listOf(Constants.CURRENT_PLUS_PLAN),
+            shouldReportTelemetry = savedInstanceState == null,
+            upgradeSource = upgradeSource,
+            upgradeTrigger = upgradeTrigger,
+            countryId = country,
+        )
 
         viewModel.eventErrorMessage
             .receiveAsFlow()

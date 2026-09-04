@@ -27,6 +27,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.mmp.events.MmpEvent
 import com.protonvpn.android.mmp.events.MmpEventType
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
+import com.protonvpn.android.promooffers.ui.NotificationIapParams
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
@@ -34,6 +35,7 @@ import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel.CycleViewInfo
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel.State.PurchaseSuccess
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
+import com.protonvpn.android.ui.planupgrade.usecase.GetUpgradeDialogPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.SubscriptionPlanInfo
@@ -83,6 +85,7 @@ class PlanModel(
 @HiltViewModel
 class UpgradeDialogViewModel(
     private val upgradeTelemetry: UpgradeTelemetry,
+    private val getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig,
     private val loadSubscriptionPlans: suspend (selection: LoadPlansConfig) -> List<SubscriptionPlanInfo>,
     private val purchaseProduct: PurchaseProduct,
     private val observePaymentSessionState: ObserveSessionState,
@@ -93,6 +96,7 @@ class UpgradeDialogViewModel(
     @Inject
     constructor(
         upgradeTelemetry: UpgradeTelemetry,
+        getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig,
         loadSubscriptionPlans: LoadSubscriptionPlans,
         purchaseProduct: PurchaseProduct,
         observePaymentSessionState: ObserveSessionState,
@@ -100,6 +104,7 @@ class UpgradeDialogViewModel(
         saveMmpEvent: SaveMmpEvent,
     ) : this(
         upgradeTelemetry = upgradeTelemetry,
+        getUpgradeDialogPlansConfig = getUpgradeDialogPlansConfig,
         loadSubscriptionPlans = loadSubscriptionPlans::invoke,
         purchaseProduct = purchaseProduct,
         observePaymentSessionState = observePaymentSessionState,
@@ -230,21 +235,78 @@ class UpgradeDialogViewModel(
     fun reloadPlans() {
         plansForReload?.let {
             viewModelScope.launch {
-                loadPlansInternal(it.planSelection, null, it.preselectedCycle, it.buttonLabelOverride, it.showDiscountBadge)
+                loadPlans(it.planSelection, null, it.preselectedCycle, it.buttonLabelOverride, it.showDiscountBadge)
             }
         }
     }
 
-    fun loadPlans(config: UpgradeDialogLoadPlansConfig?) {
+    fun loadBuiltinUpsellPlans(
+        notificationType: Int,
+        supportedPlanNames: List<String>,
+        shouldReportTelemetry: Boolean,
+        upgradeSource: UpgradeSource,
+        upgradeTrigger: UpgradeTrigger,
+        countryId: CountryId? = null,
+    ) {
+        loadPurchaseState.value = State.LoadingPlans(2, null)
+        viewModelScope.launch {
+            val config = getUpgradeDialogPlansConfig.forBuiltinUpsell(notificationType, supportedPlanNames)
+            if (shouldReportTelemetry) {
+                upgradeTelemetry.onUpgradeFlowStarted(
+                    upgradeSource,
+                    upgradeTrigger,
+                    countryId,
+                    config?.notificationReference
+                )
+            }
+            loadPlans(config)
+        }
+    }
+
+    fun loadPlansForNotification(
+        iapParams: NotificationIapParams,
+        buttonLabelOverride: String?,
+        shouldReportTelemetry: Boolean,
+        upgradeSource: UpgradeSource,
+        upgradeTrigger: UpgradeTrigger,
+        notificationReference: String?,
+    ) {
+        loadPurchaseState.value = State.LoadingPlans(1, null)
+        viewModelScope.launch {
+            val config = getUpgradeDialogPlansConfig.forNotification(iapParams, buttonLabelOverride, notificationReference)
+            if (shouldReportTelemetry) {
+                upgradeTelemetry.onUpgradeFlowStarted(
+                    upgradeSource,
+                    upgradeTrigger,
+                    null,
+                    notificationReference
+                )
+            }
+            loadPlans(config)
+        }
+    }
+
+    @VisibleForTesting
+    suspend fun loadPlansForTests(config: UpgradeDialogLoadPlansConfig?) = loadPlans(config)
+
+    private suspend fun loadPlans(config: UpgradeDialogLoadPlansConfig?) {
         if (config == null) {
             loadPurchaseState.value = State.UpgradeDisabled
         } else {
             plansForReload = config
-            reloadPlans()
+            with(config) {
+                loadPlans(
+                    planSelection,
+                    null,
+                    preselectedCycle,
+                    buttonLabelOverride,
+                    showDiscountBadge
+                )
+            }
         }
     }
 
-    private suspend fun loadPlansInternal(
+    private suspend fun loadPlans(
         selection: LoadPlansConfig,
         preselectedPlan: String?,
         preselectedCycle: PaymentCycle?,
@@ -326,20 +388,6 @@ class UpgradeDialogViewModel(
 
         val purchase = PendingPurchase(planCycle.productId, planCycle.offerToken)
         purchaseProduct(purchase) // Ignore result, the payment session state will report everything.
-    }
-
-    fun reportUpgradeFlowStart(
-        upgradeSource: UpgradeSource,
-        upgradeTrigger: UpgradeTrigger,
-        reference: String?,
-        countryId: CountryId? = null,
-    ) {
-        upgradeTelemetry.onUpgradeFlowStarted(
-            upgradeSource,
-            upgradeTrigger,
-            countryId,
-            reference,
-        )
     }
 
     fun reportPricesLoaded(hasIntroPrices: Boolean) {

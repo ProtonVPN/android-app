@@ -58,11 +58,9 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.planupgrade.UpgradeActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
-import com.protonvpn.android.ui.planupgrade.usecase.GetUpgradeDialogPlansConfig
 import com.protonvpn.android.utils.isNightMode
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class PromoOfferIapActivity : BaseActivityV2() {
@@ -71,9 +69,6 @@ class PromoOfferIapActivity : BaseActivityV2() {
     // This screen is an activity because PaymentPanelFragment expects an UpgradeDialogViewModel in its parent activity.
     private val upgradeViewModel by viewModels<UpgradeDialogViewModel>()
     private val upgradeActivityHelper = UpgradeActivityHelper(this)
-
-    @Inject
-    lateinit var getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdgeVpn()
@@ -106,19 +101,14 @@ class PromoOfferIapActivity : BaseActivityV2() {
                 bgImageUrl.value =
                     if (resources.configuration.isNightMode()) offer.imageUrlDark else offer.imageUrlLight
                 bgImageContentDescription.value = offer.imageContentDescription
-                val plansConfig = getUpgradeDialogPlansConfig.forNotification(
+                upgradeViewModel.loadPlansForNotification(
                     offer.iapParams,
                     offer.buttonLabel,
-                    offer.notificationReference
+                    shouldReportTelemetry = savedInstanceState == null,
+                    upgradeSource = UpgradeSource.PROMO_OFFER,
+                    upgradeTrigger = offer.upgradeTrigger,
+                    notificationReference = offer.notificationReference,
                 )
-                upgradeViewModel.loadPlans(plansConfig)
-                if (savedInstanceState == null) {
-                    upgradeViewModel.reportUpgradeFlowStart(
-                        upgradeSource = UpgradeSource.PROMO_OFFER,
-                        upgradeTrigger = offer.upgradeTrigger,
-                        reference = offer.notificationReference,
-                    )
-                }
             }
         }
         upgradeActivityHelper.onCreate(upgradeViewModel)
