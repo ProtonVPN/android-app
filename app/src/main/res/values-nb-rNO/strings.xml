@@ -43,7 +43,7 @@
     <string name="loaderDisconnecting">Kobler fra</string>
     <string name="loaderReconnecting">Kobler til på nytt</string>
     <string name="loaderReconnectNoNetwork">Venter på brukbart nettverk</string>
-    <string name="loaderCheckingAvailability">Kontrollerer tjenertilgjengelighet</string>
+    <string name="loaderCheckingAvailability">Sjekker servertilgjengelighet</string>
     <string name="quickConnect">Hurtigtilkobling</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
@@ -56,9 +56,9 @@
     <string name="action_share">Del</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Under vedlikehold</string>
-    <string name="restrictedMaintenanceDescription">Tjeneren du prøver å koble til, er under vedlikehold. Prøv en annen tjener.</string>
+    <string name="restrictedMaintenanceDescription">Serveren du prøver å koble til er under vedlikehold. Prøv en annen server.</string>
     <string name="restricted_location_excluded_dialog_title">Tilkobling mislyktes</string>
-    <string name="restricted_location_excluded_dialog_description">Ingen tjenere tilgjengelig. Velg en plassering manuelt eller rediger dine ekskluderte plasseringer.</string>
+    <string name="restricted_location_excluded_dialog_description">Ingen servere tilgjengelig. Velg et sted manuelt eller rediger dine ekskluderte plasseringer.</string>
     <string name="errorUserDelinquent"><![CDATA[Kontoen din har for øyeblikket en forfalt faktura. Betal alle ubetalte fakturaer på &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Du har truffet maksimalt antall samtidige tilkoblinger som er tillatt for kontoen din. Oppgrader Proton VPN-planen din for å få flere tilkoblinger.</string>
     <string name="listItemMaintenance">Under vedlikehold</string>
@@ -126,7 +126,7 @@
     <string name="error_prepare_vpn_description"><![CDATA[Deaktiver alltid på-VPN for alle andre VPN-apper i Android VPN-systeminnstillinger, da det forhindrer Proton VPN i å opprette en VPN-tilkobling. Gi også VPN-tillatelser hvis en dialogboks som ber om VPN-tillatelser vises. Andre VPN-apper må kanskje også avinstalleres for å forhindre konflikter. Forsøk igjen etterpå. <a href="%1$s">Lær mer</a>]]></string>
     <string name="error_prepare_vpn_settings">Gå til Android VPN-innstillinger</string>
     <string name="error_prepare_vpn_title">Feil: VPN-tillatelsesproblem</string>
-    <string name="error_server_not_set">Tjeneren er ikke lenger tilgjengelig</string>
+    <string name="error_server_not_set">Serveren er ikke lenger tilgjengelig</string>
     <string name="bugReportErrorEmptyEmail">E-post kan ikke være tom</string>
     <string name="bugReportErrorInvalidEmail">Ugyldig e-postadresse</string>
     <string name="bugReportLabelVpnLogsTitle">Inkluder feillogger</string>
@@ -136,7 +136,7 @@
     <string name="loaderErrorNoInternet">Ingen internettforbindelse</string>
     <string name="loaderErrorGeneric">Noe gikk galt</string>
     <string name="inputIpAddressLabel">IP-adresse</string>
-    <string name="inputIpAddressHelp">Oppgi tjenerens IPv4- eller IPv6-adresse</string>
+    <string name="inputIpAddressHelp">Oppgi serverens IPv4- eller IPv6-adresse</string>
     <string name="inputIpAddressErrorInvalid">Ugyldig IP-adresse</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NY</string>
@@ -207,7 +207,7 @@
     <string name="troubleshootContactUsSectionTitle">Trenger du fortsatt hjelp? Kontakt oss direkte</string>
     <string name="troubleshootCustomerSupport">Kundestøtte</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternativ ruting</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[I tilfelle Proton er blokkert, la appen prøve alternative baner for å nå Proton-tjenere. <a href="%1$s">Lær mer</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Hvis Proton er blokkert, tillat appen å prøve alternative stier for å nå Proton-serverne. <a href="%1$s">Lær mer</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Regjeringsblokkering</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Kan hende landet ditt blokkerer tilgang til Proton. Prøv å bruke <a href=\'%1$s\'>Tor</a> for å få tilgang til Proton.]]></string>
     <string name="settingsKillSwitchEnableTitle">Hvordan aktivere nødstopp</string>
@@ -236,7 +236,7 @@
     <string-array name="netshield_settings_more_info_paragraphs_tv">
         <item>NetShield blokkerer DNS-forespørsler til tredjepartsdomener kjent for annonser, sporere og skadelig programvare.</item>
         <item>Dette betyr at du ikke vil motta annonser fra nettleseren din eller gratis apper som bruker tredjeparts annonsetjenester.</item>
-        <item>Den kan imidlertid ikke blokkere annonser fra strømmingsplattformer som YouTube og Netflix, fordi annonsene kommer fra deres egne tjenere.</item>
+        <item>Den kan imidlertid ikke blokkere annonser fra strømmingsplattformer som YouTube og Netflix, fordi annonsene kommer fra deres egne servere.</item>
     </string-array>
     <string name="settings_icon_change_description">Skjul Proton VPN-appen med et diskret ikon. Varsler vil fortsatt vise standard Proton VPN-navn og ikon. %1$s.</string>
     <string name="settings_icon_change_learn_more">Lær mer</string>
@@ -278,8 +278,8 @@
     <string name="dialogDontShowAgain">Ikke vis igjen</string>
     <string name="guestHoleNotificationContent">Prøver å omgå nettverksproblemer. Dette vil hjelpe deg med å få tilgang til Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Kunne ikke initialisere VPN-tilkobling på grunn av en konflikt mellom dual-app (for eksempel Dual Messenger) og delt tunnelering. Deaktiver en av disse og start enheten på nytt.</string>
-    <string name="errorTorrentNotAllowed">P2P er ikke tillatt på denne tjeneren</string>
-    <string name="error_profile_fallback_unavailable">Tilkobling mislyktes. Tjenervalget for profilen din er utilgjengelig.</string>
+    <string name="errorTorrentNotAllowed">P2P er ikke tillatt på denne serveren</string>
+    <string name="error_profile_fallback_unavailable">Tilkoblingen mislyktes. Servervalget for profilen er ikke tilgjengelig.</string>
     <string name="profileProtocolNotAvailable">Denne profilens VPN-protokoll er for øyeblikket ikke tilgjengelig. Prøv å endre protokollen for å koble til.</string>
     <string name="stateConnectedTo">Koblet til %1$s</string>
     <string name="stateNotConnected">Du er ikke tilkoblet</string>
@@ -292,7 +292,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Delt tunnelering</string>
     <string name="tv_card_protocol_label">Protokoll</string>
-    <string name="tv_dialog_delete_server_title">Slette tjener %1$s?</string>
+    <string name="tv_dialog_delete_server_title">Slette server %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Favoritt</string>
     <string name="tv_detail_connect_streaming">Strøm med Plus</string>
     <string name="tv_detail_connect">Koble til</string>
@@ -306,7 +306,7 @@
     <string name="tv_vpn_error_dialog_title">VPN-forbindelse mislyktes</string>
     <string name="tv_signout_label">Logg av</string>
     <string name="tv_signout_dialog_title">Er du sikker på at du vil logge av?</string>
-    <string name="tv_signout_dialog_description_connected">Dette vil koble TV-en din fra en hvilken som helst VPN-tjener.</string>
+    <string name="tv_signout_dialog_description_connected">Dette vil koble TV-en fra en hvilken som helst VPN-server.</string>
     <string name="tv_signout_dialog_ok">Logg av</string>
     <string name="tv_quick_connect_recommened">Anbefalt</string>
     <string name="tv_quick_connect_favourite">Favoritt</string>
@@ -316,15 +316,15 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% tjenerbelastning</string>
-    <string name="tv_recently_used_servers">Nylig brukte tjenere</string>
-    <string name="tv_available_servers">Tilgjengelige tjenere</string>
-    <string name="tv_locked_servers">Låste tjenere</string>
-    <string name="tv_other_servers">Andre tjenere</string>
-    <string name="tv_server_list">Tjenerliste</string>
+    <string name="tv_server_list_load">%1$s%% serverbelastning</string>
+    <string name="tv_recently_used_servers">Nylig brukte servere</string>
+    <string name="tv_available_servers">Tilgjengelige servere</string>
+    <string name="tv_locked_servers">Låste servere</string>
+    <string name="tv_other_servers">Andre servere</string>
+    <string name="tv_server_list">Serverliste</string>
     <string name="tv_server_list_action_unavailable">Utilgjengelig</string>
     <string name="notification_subscription_expired_title">Proton VPN-abonnementsplanen din er utløpt</string>
-    <string name="notification_subscription_expired_content">Vi måtte nedgradere planen din, men vi kobler deg til den raskeste tjeneren som er tilgjengelig på den planen.</string>
+    <string name="notification_subscription_expired_content">Vi måtte nedgradere planen din, men vi kobler deg til den raskeste serveren som er tilgjengelig på den planen.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Abonnementet ditt er nedgradert.</string>
     <string name="notification_delinquent_title">Proton VPN-kontoen din har ventende fakturaer</string>
     <string name="notification_delinquent_content">Bruk litt tid på å oppdatere faktureringsinformasjonen for å holde abonnementet ditt aktivt.</string>
@@ -335,11 +335,11 @@
         <item quantity="other">Koble fra en annen enhet for å koble til denne, eller oppgrader til Plus for å få opptil %1$d-enheter tilkoblet samtidig.</item>
     </plurals>
     <string name="notification_max_sessions_content">Koble fra en annen enhet for å koble til denne.</string>
-    <string name="notification_cancel_to_free">Du er på Free-planen. Gratis tjenere og funksjoner er tilgjengelige.</string>
-    <string name="notification_cancel_to_basic">Du er på Basic-planen. Basic &amp; gratis tjenere og funksjoner er tilgjengelige.</string>
+    <string name="notification_cancel_to_free">Du er på Free-planen. Gratis servere og funksjoner er tilgjengelige.</string>
+    <string name="notification_cancel_to_basic">Du er på Basic-planen. Grunnleggende &amp; gratis servere og funksjoner er tilgjengelige.</string>
     <string name="notification_cancel_to_delinquent">Du vil kunne få tilgang til premiumfunksjoner igjen etter at ventende fakturaer er betalt.</string>
-    <string name="reconnect_from_server">Fra tjener: </string>
-    <string name="reconnect_to_server">Til tjener: </string>
+    <string name="reconnect_from_server">Fra server: </string>
+    <string name="reconnect_to_server">Til server: </string>
     <string name="no_thanks">Nei, takk</string>
     <string name="enable">Aktiver</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol er for øyeblikket deaktivert</string>
@@ -354,8 +354,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">%1$d tjener</item>
-        <item quantity="other">%1$d tjenere</item>
+        <item quantity="one">%1$d server</item>
+        <item quantity="other">%1$d servere</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -385,7 +385,7 @@
     <string name="upgrade_streaming_title">Strøm i 4K</string>
     <string name="upgrade_streaming_text">Nyt favorittfilmene og TV-programmene dine fra hvor som helst i verden.</string>
     <string name="upgrade_streaming_block_title">Oppgrader for å omgå VPN-blokkeringer</string>
-    <string name="upgrade_streaming_block_text">VPN Plus-tjenere lar deg se favorittfilmene og TV-programmene dine fra hele verden.</string>
+    <string name="upgrade_streaming_block_text">VPN Plus-servere lar deg se favorittfilmene og TV-programmene fra hele verden.</string>
     <string name="upgrade_tor_title">Få tilgang til Tor-nettverket med ett trykk</string>
     <string name="upgrade_tor_text">Koble til skjulte tjenester og onion-sider med din vanlige nettleser.</string>
     <string name="upgrade_vpn_accelerator_title">Surf med enda høyere hastigheter</string>
@@ -394,7 +394,7 @@
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Lås opp raskere, mindre overfylte tjenere med hastigheter på opptil %1$d Gbps.</string>
+    <string name="upgrade_vpn_accelerator_message">Lås opp raskere, mindre overfylte servere med hastigheter på opptil %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Få det beste fra to verdener</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Del trafikken din inn i VPN- og ikke-VPN-tunneler med <b>delt tunnelering</b>.]]></string>
     <string name="upgrade_customization_title">Lås opp avansert VPN-tilpasning</string>
@@ -407,8 +407,8 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d sikker tjener</item>
-        <item quantity="other">%d sikre tjenere</item>
+        <item quantity="one">%d sikker server</item>
+        <item quantity="other">%d sikre servere</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 

@@ -1004,7 +1004,7 @@
     <string name="welcome_plus_title">Welkom bij VPN Plus</string>
     <string name="welcome_plus_description">Geniet van de extra privacyfuncties, verhoogde prestaties en geoptimaliseerde VPN-aanpassingen.</string>
     <string name="welcome_unlimited_title">Welkom bij Proton Unlimited</string>
-    <string name="welcome_unlimited_description">U hebt alle premium Proton VPN-, Mail-, Agenda-, Drive-, Pass- en Wallet-functies ontgrendeld.</string>
+    <string name="welcome_unlimited_description">U heeft alle premium Proton VPN-, Mail-, Agenda-, Drive-, Pass- en Wallet-functies ontgrendeld.</string>
     <string name="welcome_generic_title">Gefeliciteerd</string>
     <string name="welcome_generic_description">U heeft uw abonnement geüpgraded. Geniet van geavanceerde privacyfuncties en next-level prestaties.</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions

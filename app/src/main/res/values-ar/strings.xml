@@ -581,17 +581,17 @@
     <string name="upsell_panel_content_description_no">لا</string>
     <string name="upsell_panel_table_header_plan_free">مجاني</string>
     <string name="upsell_panel_general_benefit_block_ads">حظر الإعلانات والمتتبعين</string>
-    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <string name="upsell_panel_general_benefit_countries">الدول المتاحة</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_general_benefit_devices">Protected devices</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">أكثر من %1$d</string>
+    <string name="upsell_panel_general_benefit_devices">الأجهزة المحمية</string>
     <string name="upsell_panel_general_benefit_location">اختر موقعك</string>
-    <string name="upsell_panel_general_benefit_server">Choose your server</string>
-    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
-    <string name="upsell_panel_general_benefit_speed">Server speed</string>
-    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
-    <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
+    <string name="upsell_panel_general_benefit_server">اختر خادمك</string>
+    <string name="upsell_panel_general_benefit_shows">متابعة محتواك من أي مكان حول العالم</string>
+    <string name="upsell_panel_general_benefit_speed">سرعة الخادم</string>
+    <string name="upsell_panel_general_benefit_speed_standard">القياسي</string>
+    <string name="upsell_panel_general_benefit_speed_highest">فائقة</string>
+    <string name="upsell_panel_adv_customization_title">خصص إعدادات اتصالك</string>
     <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
     <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
     <string name="upsell_panel_adv_customization_benefit_dns">Use your own DNS service</string>
