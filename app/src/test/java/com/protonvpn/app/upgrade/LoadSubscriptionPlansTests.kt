@@ -111,27 +111,27 @@ class LoadSubscriptionPlansTests {
 
     private fun setupProductsForWithOptionalDiscountTests() {
         val offersPlusMonthly = listOf(
-            createOffer(monthly, listOf(5_00), tags = emptyList(), token = "monthly_base"),
+            createOffer(monthly, listOf(5_00), tags = emptyList(), tkn = "monthly_base"),
             createOffer(
                 monthly,
                 listOf(99, 5_00),
                 tags = listOf(tag1),
-                token = "monthly_discount_1"
+                tkn = "monthly_discount_1"
             ),
             createOffer(
                 monthly,
                 listOf(2_00, 10_00),
                 tags = listOf(tag2),
-                token = "monthly_discount_2"
+                tkn = "monthly_discount_2"
             ),
         )
         val offersPlusYearly = listOf(
-            createOffer(yearly, listOf(50_00), tags = emptyList(), token = "yearly_base"),
-            createOffer(yearly, listOf(25_00, 50_00), tags = listOf(tag2), token = "yearly_discount_2"),
+            createOffer(yearly, listOf(50_00), tags = emptyList(), tkn = "yearly_base"),
+            createOffer(yearly, listOf(25_00, 50_00), tags = listOf(tag2), tkn = "yearly_discount_2"),
         )
         val offersUnlimitedMonthly = listOf(
-            createOffer(monthly, listOf(100_00), tags = emptyList(), token = "yearly_unlimited_base"),
-            createOffer(monthly, listOf(75_00, 100_00), tags = listOf(tag1), token = "yearly_unlimited_discount_1"),
+            createOffer(monthly, listOf(100_00), tags = emptyList(), tkn = "yearly_unlimited_base"),
+            createOffer(monthly, listOf(75_00, 100_00), tags = listOf(tag1), tkn = "yearly_unlimited_discount_1"),
         )
         val plusMonthly = createProduct("idPlusMonthly", Constants.CURRENT_PLUS_PLAN, offersPlusMonthly)
         val plusYearly = createProduct("idPlusYearly", Constants.CURRENT_PLUS_PLAN, offersPlusYearly)

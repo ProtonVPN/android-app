@@ -62,7 +62,7 @@ fun createOffer(
     currency: String = "EUR",
     tags: List<String>? = null,
     offerCycleCount: Int = 1,
-    token: String = "dummy-token"
+    tkn: String = "dummy-token",
 ): Offer {
     val hasIntroPrice = pricesCents.size > 1
     val offerTags = when {
@@ -90,13 +90,13 @@ fun createOffer(
         Offer.Discounted(
             pricingPeriods = pricingPeriods,
             tags = offerTags,
-            token = token,
+            token = tkn,
         )
     } else {
         Offer.NonDiscounted(
             pricingPeriods = pricingPeriods,
             tags = offerTags,
-            token = token,
+            token = tkn,
         )
     }
 }
