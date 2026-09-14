@@ -27,6 +27,7 @@ import com.protonvpn.android.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.base.ui.nav.addToGraph
 import com.protonvpn.android.bugreport.ui.BugReportViewModel
+import com.protonvpn.android.bugreport.ui.BugReportViewModel.BugReportFormState
 import com.protonvpn.android.bugreport.ui.steps.BugReportStepsNav
 import com.protonvpn.android.models.config.bugreport.InputField
 
@@ -34,6 +35,7 @@ object BugReportFormScreen : ScreenNoArg<BugReportStepsNav>("bugReportStepForm")
 
     fun SafeNavGraphBuilder<BugReportStepsNav>.bugReportFormScreen(
         viewState: BugReportViewModel.ViewState,
+        formState: BugReportFormState,
         onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
         onFormEmailChanged: (String) -> Unit,
         onFormFieldChanged: (InputField, String) -> Unit,
@@ -44,6 +46,7 @@ object BugReportFormScreen : ScreenNoArg<BugReportStepsNav>("bugReportStepForm")
                 .fillMaxWidth()
                 .padding(top = 16.dp),
             viewState = viewState,
+            formState = formState,
             onSetCurrentStep = onSetCurrentStep,
             onFormEmailChanged = onFormEmailChanged,
             onFormFieldChanged = onFormFieldChanged,

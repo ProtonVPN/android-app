@@ -1,25 +1,26 @@
 package com.protonvpn.android.bugreport.ui
 
 import android.app.Activity
+import android.os.Parcelable
 import android.util.Patterns
 import androidx.annotation.StringRes
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.bugreport.BugReportConfigStore
+import com.protonvpn.android.bugreport.PrepareAndPostBugReport
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.models.config.bugreport.Suggestion
-import com.protonvpn.android.models.config.bugreport.TYPE_DROPDOWN
 import com.protonvpn.android.models.login.GenericResponse
-import com.protonvpn.android.bugreport.PrepareAndPostBugReport
 import com.protonvpn.android.update.AppUpdateBannerState
 import com.protonvpn.android.update.AppUpdateBannerStateFlow
-import com.protonvpn.android.update.AppUpdateInfo
 import com.protonvpn.android.update.AppUpdateManager
-import com.protonvpn.android.utils.combine
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
@@ -29,13 +30,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import me.proton.core.network.domain.ApiResult
-import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,7 +62,6 @@ class BugReportViewModel @Inject constructor(
         val categories: List<Category>,
         val selectedCategory: Category?,
         val appUpdateBannerState: AppUpdateBannerState,
-        val form: BugReportForm,
         val isLoading: Boolean,
     ) {
 
@@ -80,23 +81,19 @@ class BugReportViewModel @Inject constructor(
 
     }
 
-    data class BugReportForm(
-        val initialEmail: String = "",
-        val email: String = "",
+    @Parcelize
+    data class BugReportFormState(
+        val email: String? = null,
         val isValidEmail: Boolean = true,
-        val reportInputs: Map<String, BugReportFormInput> = emptyMap(),
+        val dynamicInputs: Map<String, String> = emptyMap(),
+        val dynamicInputValidations: Map<String, Boolean> = emptyMap(),
         val sendLogs: Boolean = true,
-    ) {
+    ) : Parcelable
 
-        fun getValueForField(field: InputField): String = reportInputs[field.submitLabel]
-            ?.value
-            .orEmpty()
-
-        fun getIsErrorForField(field: InputField): Boolean = reportInputs[field.submitLabel]
-            ?.isError
-            ?: false
-
-    }
+    var formState by mutableStateOf(
+        value = savedStateHandle.get<BugReportFormState>(FORM_KEY) ?: BugReportFormState()
+    )
+        private set
 
     enum class BugReportNetworkError(@param:StringRes val resId: Int) {
         NoInternet(resId = R.string.dynamic_report_completion_error_description_no_internet),
@@ -112,14 +109,15 @@ class BugReportViewModel @Inject constructor(
 
     }
 
-    private val bugReportFormFlow = MutableStateFlow(value = BugReportForm())
-
     private val categoriesFlow: Flow<List<Category>> = flow {
         val reportModel = bugReportConfigStore.load()
         emit(value = reportModel.categories)
     }
 
-    private val currentStepFlow = MutableStateFlow<BugReportSteps>(value = BugReportSteps.Menu)
+    private val currentStepFlow = savedStateHandle.getStateFlow<BugReportSteps>(
+        key = CURRENT_STEP_KEY,
+        initialValue = BugReportSteps.Menu,
+    )
 
     private val selectedCategoryFlow = savedStateHandle.getStateFlow<Category?>(
         key = SELECTED_CATEGORY_KEY,
@@ -140,7 +138,6 @@ class BugReportViewModel @Inject constructor(
         categoriesFlow,
         selectedCategoryFlow,
         appUpdateBannerStateFlow,
-        bugReportFormFlow,
         isLoadingFlow,
         ::ViewState,
     ).stateIn(
@@ -162,38 +159,23 @@ class BugReportViewModel @Inject constructor(
             }
 
             BugReportSteps.Form -> {
-                initForm()
+                initFormEmail()
             }
         }
     }
 
-    private suspend fun initForm() {
-        val inputFields = viewStateFlow.value?.inputFields ?: emptyList()
+    private suspend fun initFormEmail() {
+        if (formState.email == null) {
+            currentUser.user()?.email?.let { userEmail ->
+                val newFormState = formState.copy(email = userEmail)
 
-        val currentForm = bugReportFormFlow.value
-
-        val initialEmail = currentUser.user()?.email.orEmpty()
-
-        val email = currentForm.email.takeIfNotBlank() ?: initialEmail
-
-        val initialReportInputs = inputFields.associate { field ->
-            field.submitLabel to field.toFormInput(
-                value = currentForm.getValueForField(field = field),
-                isError = currentForm.getIsErrorForField(field = field),
-            )
-        }
-
-        bugReportFormFlow.update {
-            BugReportForm(
-                initialEmail = initialEmail,
-                email = email,
-                reportInputs = initialReportInputs,
-            )
+                updateFormState(newFormState = newFormState)
+            }
         }
     }
 
     private fun resetForm() {
-        bugReportFormFlow.update { BugReportForm() }
+        updateFormState(newFormState = BugReportFormState())
     }
 
     private fun resetCategory() {
@@ -209,35 +191,31 @@ class BugReportViewModel @Inject constructor(
     }
 
     fun onUpdateCurrentStep(newCurrentStep: BugReportSteps) {
-        currentStepFlow.update { newCurrentStep }
+        savedStateHandle[CURRENT_STEP_KEY] = newCurrentStep
     }
 
     fun onFormEmailChanged(newEmail: String) {
-        bugReportFormFlow.update { currentForm ->
-            currentForm.copy(
-                email = newEmail,
-                isValidEmail = true,
-            )
-        }
+        val newFormState = formState.copy(
+            email = newEmail,
+            isValidEmail = true,
+        )
+
+        updateFormState(newFormState = newFormState)
     }
 
     fun onFormFieldChanged(field: InputField, newValue: String) {
-        bugReportFormFlow.update { currentForm ->
-            val updatedInput = field.submitLabel to field.toFormInput(
-                value = newValue,
-                isError = false,
-            )
+        val newFormState = formState.copy(
+            dynamicInputs = formState.dynamicInputs + (field.submitLabel to newValue),
+            dynamicInputValidations = formState.dynamicInputValidations + (field.submitLabel to false),
+        )
 
-            currentForm.copy(
-                reportInputs = currentForm.reportInputs + updatedInput
-            )
-        }
+        updateFormState(newFormState = newFormState)
     }
 
     fun onFormSendLogsChanged(newSendLogs: Boolean) {
-        bugReportFormFlow.update { currentForm ->
-            currentForm.copy(sendLogs = newSendLogs)
-        }
+        val newFormState = formState.copy(sendLogs = newSendLogs)
+
+        updateFormState(newFormState = newFormState)
     }
 
     fun onSubmitReport() {
@@ -245,17 +223,16 @@ class BugReportViewModel @Inject constructor(
 
         if (viewState.selectedCategory == null) return
 
-        if (!validateBugReportForm(form = viewState.form)) return
+        if (!validateBugReportForm(inputFields = viewState.inputFields)) return
 
         mainScope.launch {
             isLoadingFlow.update { true }
 
             val networkError = prepareAndPostBugReport(
-                email = viewState.form.email,
-                attachLog = viewState.form.sendLogs,
+                email = formState.email.orEmpty(),
+                attachLog = formState.sendLogs,
                 userGeneratedDescription = generateBugReportDescription(
-                    form = viewState.form,
-                    category = viewState.selectedCategory,
+                    category = viewState.selectedCategory
                 ),
             ).getNetworkError()
 
@@ -281,60 +258,49 @@ class BugReportViewModel @Inject constructor(
         is ApiResult.Success<GenericResponse> -> null
     }
 
-    private fun InputField.toFormInput(
-        value: String,
-        isError: Boolean
-    ): BugReportFormInput = when (type) {
-        TYPE_DROPDOWN -> BugReportFormInput.Dropdown(
-            value = value,
-            isError = isError,
-            isMandatory = isMandatory,
-            dropdownOptions = dropdownOptions,
-        )
-
-        else -> BugReportFormInput.TextField(
-            value = value,
-            isError = isError,
-            isMandatory = isMandatory,
-        )
-    }
-
-    private fun validateBugReportForm(form: BugReportForm): Boolean {
-        val isValidEmail = Patterns.EMAIL_ADDRESS.matcher(form.email).matches()
+    private fun validateBugReportForm(inputFields: List<InputField>): Boolean {
+        val isValidEmail = Patterns.EMAIL_ADDRESS.matcher(formState.email.orEmpty()).matches()
 
         var isValidForm = isValidEmail
 
-        val validatedInputs = form.reportInputs.toMutableMap()
+        val dynamicInputValidations = formState.dynamicInputValidations.toMutableMap()
 
-        form.reportInputs.forEach { (id, input) ->
-            if (input.isMandatory && input.submitValue.isNullOrBlank()) {
-                validatedInputs[id] = input.copy(isError = true)
+        inputFields.forEach { inputField ->
+            if(inputField.isMandatory && formState.dynamicInputs[inputField.submitLabel].isNullOrBlank()) {
+                dynamicInputValidations[inputField.submitLabel] = true
 
                 isValidForm = false
             }
         }
 
         if (!isValidForm) {
-            bugReportFormFlow.update {
-                form.copy(
-                    isValidEmail = isValidEmail,
-                    reportInputs = validatedInputs,
-                )
-            }
+            val newFormState = formState.copy(
+                isValidEmail = isValidEmail,
+                dynamicInputValidations = dynamicInputValidations,
+            )
+
+            updateFormState(newFormState = newFormState)
         }
 
         return isValidForm
     }
 
-    private fun generateBugReportDescription(form: BugReportForm, category: Category) =
-        form.reportInputs
-            .asIterable()
-            .joinToString("\n\n") { inputEntry -> "${inputEntry.key} \n ${inputEntry.value.submitValue}" }
-            .let { fields -> "Category: ${category.submitLabel}\n\n$fields" }
+    private fun updateFormState(newFormState: BugReportFormState) {
+        formState = newFormState
+
+        savedStateHandle[FORM_KEY] = newFormState
+    }
+
+    private fun generateBugReportDescription(category: Category) = formState.dynamicInputs
+        .asIterable()
+        .joinToString("\n\n") { inputEntry -> "${inputEntry.key} \n ${inputEntry.value}" }
+        .let { fields -> "Category: ${category.submitLabel}\n\n$fields" }
 
     private companion object {
 
+        private const val CURRENT_STEP_KEY = "bug_report_current_step"
 
+        private const val FORM_KEY = "bug_report_form"
 
         private const val SELECTED_CATEGORY_KEY = "bug_report_selected_category"
 

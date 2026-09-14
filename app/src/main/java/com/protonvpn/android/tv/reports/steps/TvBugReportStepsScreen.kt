@@ -79,6 +79,7 @@ object TvBugReportStepsScreen : ScreenNoArg<BugReportNav>("tvBugReportSteps") {
                 tvBugReportStepsNav.NavHost(
                     modifier = Modifier.fillMaxSize(),
                     viewState = viewState,
+                    formState = bugReportViewModel.formState,
                     onClose = onClose,
                     onContactUs = {
                         tvBugReportStepsNav.navigateInternal(screen = TvBugReportFormScreen)

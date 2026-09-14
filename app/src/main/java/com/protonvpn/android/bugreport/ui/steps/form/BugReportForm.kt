@@ -28,22 +28,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.bugreport.ui.BugReportViewModel
+import com.protonvpn.android.bugreport.ui.BugReportViewModel.BugReportFormState
 import com.protonvpn.android.models.config.bugreport.DropdownField
 import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.models.config.bugreport.TYPE_DROPDOWN
@@ -56,6 +51,7 @@ import me.proton.core.compose.theme.ProtonTheme
 @Composable
 fun BugReportForm(
     viewState: BugReportViewModel.ViewState,
+    formState: BugReportFormState,
     onSetCurrentStep: (BugReportViewModel.BugReportSteps) -> Unit,
     onFormEmailChanged: (String) -> Unit,
     onFormFieldChanged: (InputField, String) -> Unit,
@@ -76,20 +72,6 @@ fun BugReportForm(
         verticalArrangement = Arrangement.spacedBy(space = 32.dp),
     ) {
         item(key = "form_email_key") {
-            val initialEmailName = viewState.form.initialEmail
-
-            var emailValue by rememberSaveable(
-                initialEmailName,
-                stateSaver = TextFieldValue.Saver,
-            ) {
-                mutableStateOf(
-                    value = TextFieldValue(
-                        text = initialEmailName,
-                        selection = TextRange(index = initialEmailName.length),
-                    )
-                )
-            }
-
             ProtonOutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -98,16 +80,12 @@ fun BugReportForm(
                         bottom = 16.dp,
                     )
                     .focusRequester(focusRequester = focusRequester),
-                value = emailValue,
-                onValueChange = { newEmailValue ->
-                    emailValue = newEmailValue
-
-                    onFormEmailChanged(newEmailValue.text)
-                },
+                value = formState.email.orEmpty(),
+                onValueChange = onFormEmailChanged,
                 labelText = stringResource(id = R.string.report_bug_email_label),
                 placeholderText = stringResource(id = R.string.report_bug_email_hint),
                 errorText = stringResource(id = R.string.bugReportErrorInvalidEmail),
-                isError = !viewState.form.isValidEmail,
+                isError = !formState.isValidEmail,
                 singleLine = true,
                 cursorColor = ProtonTheme.colors.interactionNorm,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -120,22 +98,17 @@ fun BugReportForm(
         ) { inputField ->
             val labelText = inputField.label
             val placeholderText = inputField.placeholder
-            val isError = viewState.form.getIsErrorForField(field = inputField)
+            val value = formState.dynamicInputs[inputField.submitLabel]
+            val isError = formState.dynamicInputValidations[inputField.submitLabel] == true
             val errorText = stringResource(id = R.string.dynamic_report_field_mandatory)
 
             when (inputField.type) {
                 TYPE_SINGLELINE -> {
-                    var singleLineValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-                        mutableStateOf(value = TextFieldValue(text = ""))
-                    }
-
                     ProtonOutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = singleLineValue,
+                        value = value.orEmpty(),
                         onValueChange = { newSingleLineValue ->
-                            singleLineValue = newSingleLineValue
-
-                            onFormFieldChanged(inputField, newSingleLineValue.text)
+                            onFormFieldChanged(inputField, newSingleLineValue)
                         },
                         labelText = labelText,
                         placeholderText = placeholderText,
@@ -148,17 +121,11 @@ fun BugReportForm(
                 }
 
                 TYPE_MULTILINE -> {
-                    var multiLineValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-                        mutableStateOf(value = TextFieldValue(text = ""))
-                    }
-
                     ProtonOutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = multiLineValue,
+                        value = value.orEmpty(),
                         onValueChange = { newMultiLineValue ->
-                            multiLineValue = newMultiLineValue
-
-                            onFormFieldChanged(inputField, newMultiLineValue.text)
+                            onFormFieldChanged(inputField, newMultiLineValue)
                         },
                         labelText = labelText,
                         placeholderText = placeholderText,
@@ -172,10 +139,6 @@ fun BugReportForm(
                 }
 
                 TYPE_DROPDOWN -> {
-                    var dropdownValue by rememberSaveable {
-                        mutableStateOf<String?>(value = null)
-                    }
-
                     ProtonDropdownMenu(
                         modifier = Modifier.fillMaxWidth(),
                         labelText = labelText,
@@ -183,10 +146,8 @@ fun BugReportForm(
                         errorText = errorText,
                         isError = isError,
                         options = inputField.dropdownOptions.map(DropdownField::label),
-                        selectedOption = dropdownValue,
+                        selectedOption = value,
                         onSelectOption = { newSelectedOption ->
-                            dropdownValue = newSelectedOption
-
                             onFormFieldChanged(inputField, newSelectedOption)
                         },
                     )
@@ -195,18 +156,10 @@ fun BugReportForm(
         }
 
         item(key = "form_send_logs_key") {
-            var sendLogsValue by rememberSaveable {
-                mutableStateOf(value = viewState.form.sendLogs)
-            }
-
             BugReportFormCheckBox(
                 modifier = Modifier.fillMaxWidth(),
-                isChecked = sendLogsValue,
-                onCheckedChange = { isChecked ->
-                    sendLogsValue = isChecked
-
-                    onFormSendLogsChanged(isChecked)
-                },
+                isChecked = formState.sendLogs,
+                onCheckedChange = onFormSendLogsChanged,
             )
         }
     }

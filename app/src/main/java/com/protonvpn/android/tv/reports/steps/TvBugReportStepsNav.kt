@@ -42,6 +42,7 @@ class TvBugReportStepsNav(
     @Composable
     fun NavHost(
         viewState: BugReportViewModel.ViewState,
+        formState: BugReportViewModel.BugReportFormState,
         onClose: () -> Unit,
         onContactUs: () -> Unit,
         onSelectCategory: (Category) -> Unit,
@@ -79,6 +80,7 @@ class TvBugReportStepsNav(
 
             tvBugReportFormScreen(
                 viewState = viewState,
+                formState = formState,
                 onSetCurrentStep = onSetCurrentStep,
                 onFormEmailChanged = onFormEmailChanged,
                 onFormFieldChanged = onFormFieldChanged,

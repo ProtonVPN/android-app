@@ -153,6 +153,7 @@ fun ProtonOutlinedTextField(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
     textHeightIn: Dp = Dp.Unspecified,
+    cursorColor: Color = cursorColor(textStyle, isError).value,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
@@ -186,7 +187,7 @@ fun ProtonOutlinedTextField(
         enabled = enabled,
         readOnly = readOnly,
         textStyle = textStyle,
-        cursorBrush = SolidColor(cursorColor(textStyle, isError).value),
+        cursorBrush = SolidColor(value = cursorColor),
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,

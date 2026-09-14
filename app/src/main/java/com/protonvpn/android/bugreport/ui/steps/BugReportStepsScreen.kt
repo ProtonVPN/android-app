@@ -20,23 +20,16 @@
 package com.protonvpn.android.bugreport.ui.steps
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.BottomButtonsColumn
@@ -54,7 +47,6 @@ import com.protonvpn.android.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.base.ui.nav.addToGraph
 import com.protonvpn.android.bugreport.ui.BugReportNav
 import com.protonvpn.android.bugreport.ui.BugReportViewModel
-import com.protonvpn.android.bugreport.ui.BugReportViewModel.BugReportSteps
 import com.protonvpn.android.bugreport.ui.steps.form.BugReportFormScreen
 import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
@@ -99,6 +91,7 @@ object BugReportStepsScreen : ScreenNoArg<BugReportNav>("bugReportSteps") {
                 bugReportStepsNav.NavHost(
                     modifier = Modifier.fillMaxSize(),
                     viewState = state,
+                    formState = bugReportViewModel.formState,
                     onUpdateApp = onUpdateApp,
                     onOpenLink = onOpenLink,
                     onSelectCategory = bugReportViewModel::onSelectCategory,
@@ -192,7 +185,6 @@ private fun BugReportStepBottomBar(
     onContactUsClick: () -> Unit,
     onSubmitReportClick: () -> Unit,
     modifier: Modifier = Modifier,
-    windowInsets: WindowInsets = BottomAppBarDefaults.windowInsets,
 ) {
     BottomButtonsColumn(
         modifier = modifier
@@ -232,7 +224,7 @@ private fun BugReportStepBottomBar(
 private fun BugReportBottomFormUploading() {
     ProtonVpnPreview {
         BugReportStepBottomBar(
-            step = BugReportSteps.Form,
+            step = BugReportViewModel.BugReportSteps.Form,
             isLoading = true,
             onSubmitReportClick = {},
             onContactUsClick = {},

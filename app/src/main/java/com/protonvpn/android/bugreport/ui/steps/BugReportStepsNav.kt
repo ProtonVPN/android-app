@@ -9,13 +9,13 @@ import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.base.ui.nav.BaseNav
 import com.protonvpn.android.bugreport.ui.BugReportViewModel
+import com.protonvpn.android.bugreport.ui.BugReportViewModel.BugReportFormState
 import com.protonvpn.android.bugreport.ui.steps.form.BugReportFormScreen
 import com.protonvpn.android.bugreport.ui.steps.form.BugReportFormScreen.bugReportFormScreen
 import com.protonvpn.android.bugreport.ui.steps.menu.BugReportMenuScreen
 import com.protonvpn.android.bugreport.ui.steps.menu.BugReportMenuScreen.bugReportMenuScreen
 import com.protonvpn.android.bugreport.ui.steps.suggestions.BugReportSuggestionsScreen
 import com.protonvpn.android.bugreport.ui.steps.suggestions.BugReportSuggestionsScreen.bugReportSuggestionsScreen
-import com.protonvpn.android.update.AppUpdateInfo
 
 class BugReportStepsNav(
     selfNav: NavHostController,
@@ -24,6 +24,7 @@ class BugReportStepsNav(
     @Composable
     fun NavHost(
         viewState: BugReportViewModel.ViewState,
+        formState: BugReportFormState,
         onUpdateApp: suspend () -> Unit,
         onOpenLink: (String) -> Unit,
         onSelectCategory: (Category) -> Unit,
@@ -60,6 +61,7 @@ class BugReportStepsNav(
 
             bugReportFormScreen(
                 viewState = viewState,
+                formState = formState,
                 onSetCurrentStep = onSetCurrentStep,
                 onFormEmailChanged = onFormEmailChanged,
                 onFormFieldChanged = onFormFieldChanged,

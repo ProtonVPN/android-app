@@ -21,6 +21,7 @@ package com.protonvpn.android.tv.textfields
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -34,16 +35,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
 import com.protonvpn.android.base.ui.optional
 import com.protonvpn.android.base.ui.previews.PreviewBooleanProvider
+import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultNorm
 
 @Composable
 internal fun TvOutlinedTextField(
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
+    value: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     assistiveText: String? = null,
     labelText: String? = null,
@@ -57,9 +58,11 @@ internal fun TvOutlinedTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     focusRequester: FocusRequester? = null,
 ) {
-    Column(
+    TvOutlinedTextFieldContainer(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+        assistiveText = assistiveText,
+        errorText = errorText,
+        isError = isError,
     ) {
         ProtonOutlinedTextField(
             modifier = Modifier
@@ -89,6 +92,76 @@ internal fun TvOutlinedTextField(
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
         )
+    }
+}
+
+@Composable
+internal fun TvOutlinedTextField(
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    modifier: Modifier = Modifier,
+    assistiveText: String? = null,
+    labelText: String? = null,
+    placeholderText: String? = null,
+    errorText: String? = null,
+    isError: Boolean = false,
+    singleLine: Boolean = false,
+    maxLines: Int = Int.MAX_VALUE,
+    minLines: Int = 1,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    focusRequester: FocusRequester? = null,
+) {
+    TvOutlinedTextFieldContainer(
+        modifier = modifier,
+        assistiveText = assistiveText,
+        errorText = errorText,
+        isError = isError,
+    ) {
+        ProtonOutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .optional(
+                    predicate = { focusRequester != null },
+                    modifier = if (focusRequester == null) {
+                        Modifier
+                    } else {
+                        Modifier.focusRequester(focusRequester)
+                    }
+                ),
+            value = value,
+            onValueChange = onValueChange,
+            labelText = labelText,
+            placeholderText = placeholderText,
+            isError = isError,
+            singleLine = singleLine,
+            maxLines = maxLines,
+            minLines = minLines,
+            textStyle = if (isError) {
+                ProtonTheme.typography.defaultNorm.copy(color = ProtonTheme.colors.notificationError)
+            } else {
+                ProtonTheme.typography.defaultNorm
+            },
+            cursorColor = ProtonTheme.colors.interactionNorm,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+        )
+    }
+}
+
+@Composable
+private fun TvOutlinedTextFieldContainer(
+    modifier: Modifier = Modifier,
+    assistiveText: String? = null,
+    errorText: String? = null,
+    isError: Boolean = false,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+    ) {
+        content()
 
         if (isError && errorText != null) {
             Text(
