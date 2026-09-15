@@ -53,6 +53,7 @@ class LocalUserSettingsUnitTests {
                 "lanConnectionsAllowDirect": false,
                 "mtuSize": 1375,
                 "netShield": "ENABLED_EXTENDED",
+                "isAdultContentBlocked": false,
                 "protocol": {
                     "vpn": "Smart",
                     "transmission": null
@@ -88,9 +89,9 @@ class LocalUserSettingsUnitTests {
     }
 
     @Test
-    fun `deserialize LocalUserSettings from JSON`() {
+    fun `deserialize non-default LocalUserSettings from JSON`() {
         // Tests for renamed fields etc.
-        // Use non-default values in the test.
+        // IMPORTANT: Use NON-DEFAULT values in the test.
         val settingsJson = """
             {
                 "version": 2,
@@ -101,6 +102,7 @@ class LocalUserSettingsUnitTests {
                 "lanConnectionsAllowDirect": true,
                 "mtuSize": 1000,
                 "netShield": "DISABLED",
+                "isAdultContentBlocked": true,
                 "protocol": {
                     "vpn": "WireGuard",
                     "transmission": "TCP"
@@ -141,6 +143,7 @@ class LocalUserSettingsUnitTests {
             lanConnectionsAllowDirect = true,
             mtuSize = 1000,
             netShield = NetShieldProtocol.DISABLED,
+            isAdultContentBlocked = true,
             protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
             randomizedNat = false,
             splitTunneling = SplitTunnelingSettings(

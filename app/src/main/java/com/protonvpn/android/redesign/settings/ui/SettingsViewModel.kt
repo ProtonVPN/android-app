@@ -131,6 +131,7 @@ class SettingsViewModel @Inject constructor(
     ) {
         class NetShield(
             netShieldProtocol: NetShieldProtocol,
+            val isAdultContentBlocked: Boolean,
             isRestricted: Boolean,
             profileOverrideInfo: ProfileOverrideInfo?,
             val dnsOverride: DnsOverride,
@@ -164,8 +165,6 @@ class SettingsViewModel @Inject constructor(
         ) {
 
             override val iconRes: Int = if (value) R.drawable.feature_netshield_on else R.drawable.feature_netshield_off
-
-            val isAdultContentBlocked: Boolean = netShieldProtocol == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT
 
             val isAdultContentBlockAvailable: Boolean = isNetShieldLevelThreeAvailable && value && dnsOverride == DnsOverride.None
 
@@ -474,6 +473,7 @@ class SettingsViewModel @Inject constructor(
                 user.vpnUser.getNetShieldAvailability().let { netShieldAvailability ->
                     SettingViewState.NetShield(
                         netShieldProtocol = settings.netShield,
+                        isAdultContentBlocked = settings.isAdultContentBlocked,
                         profileOverrideInfo = profileOverrideInfo,
                         isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE,
                         dnsOverride = getDnsOverride(isPrivateDnsActive, settings),

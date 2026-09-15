@@ -120,6 +120,14 @@ abstract class BaseApplyEffectiveUserSettings(
                 NetShieldProtocol.ENABLED_EXTENDED
             }
 
+            settings.isAdultContentBlocked && settings.netShield == NetShieldProtocol.ENABLED_EXTENDED -> {
+                NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT
+            }
+
+            !settings.isAdultContentBlocked && settings.netShield == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> {
+                NetShieldProtocol.ENABLED_EXTENDED
+            }
+
             else -> {
                 settings.netShield
             }

@@ -52,6 +52,7 @@ fun NetshieldSettingPage() {
             onToggleNetShieldAdultContentBlock = {},
             netShield = SettingsViewModel.SettingViewState.NetShield(
                 netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+                isAdultContentBlocked = false,
                 isRestricted = false,
                 profileOverrideInfo = null,
                 dnsOverride = DnsOverride.None,
@@ -96,6 +97,7 @@ fun NetshieldPrivateDnsSettingPage() {
             onToggleNetShieldAdultContentBlock = {},
             netShield = SettingsViewModel.SettingViewState.NetShield(
                 netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+                isAdultContentBlocked = false,
                 isRestricted = false,
                 profileOverrideInfo = null,
                 dnsOverride = DnsOverride.SystemPrivateDns,
@@ -121,6 +123,7 @@ fun NetshieldCustomDnsSettingPage() {
             onToggleNetShieldAdultContentBlock = {},
             netShield = SettingsViewModel.SettingViewState.NetShield(
                 netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+                isAdultContentBlocked = false,
                 isRestricted = false,
                 profileOverrideInfo = null,
                 dnsOverride = DnsOverride.CustomDns,
@@ -145,6 +148,7 @@ fun NetShieldAdultContentBlockSettingPage() {
             onToggleNetShieldAdultContentBlock = {},
             netShield = SettingsViewModel.SettingViewState.NetShield(
                 netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT,
+                isAdultContentBlocked = false,
                 isRestricted = false,
                 profileOverrideInfo = null,
                 dnsOverride = DnsOverride.None,

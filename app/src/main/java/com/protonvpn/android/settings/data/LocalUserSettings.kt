@@ -93,6 +93,7 @@ data class LocalUserSettings(
     val lanConnectionsAllowDirect: Boolean = false,
     val mtuSize: Int = 1375,
     val netShield: NetShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+    val isAdultContentBlocked: Boolean = netShield == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT,
     val protocol: ProtocolSelection = ProtocolSelection.SMART,
     val randomizedNat: Boolean = true,
     val splitTunneling: SplitTunnelingSettings = SplitTunnelingSettings(),
@@ -118,6 +119,7 @@ fun LocalUserSettings.toLogList(): List<String> {
         "LAN connections: ${lanConnections.toLog()} (allow direct: ${lanConnectionsAllowDirect.toLog()})",
         "MTU size: $mtuSize bytes",
         "NetShield: $netShield",
+        "IsAdultContentBlocked: $isAdultContentBlocked",
         "Protocol: ${protocol.apiName}",
         "Restricted NAT: ${randomizedNat.toLog()}",
         with(splitTunneling) {

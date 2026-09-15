@@ -322,6 +322,7 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
 
     private val netshield = SettingViewState.NetShield(
         netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+        isAdultContentBlocked = false,
         isRestricted = isFree,
         profileOverrideInfo = overrideInfo,
         dnsOverride = if (isPrivateDnsActive) DnsOverride.SystemPrivateDns else DnsOverride.None,

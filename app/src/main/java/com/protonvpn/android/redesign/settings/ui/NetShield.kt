@@ -157,6 +157,7 @@ private class PreviewSettingNetShieldViewStateProvider :
     override val values: Sequence<SettingsViewModel.SettingViewState.NetShield> = sequenceOf(
         SettingsViewModel.SettingViewState.NetShield(
             netShieldProtocol = NetShieldProtocol.DISABLED,
+            isAdultContentBlocked = false,
             isRestricted = false,
             profileOverrideInfo = null,
             dnsOverride = DnsOverride.None,
@@ -164,6 +165,7 @@ private class PreviewSettingNetShieldViewStateProvider :
         ),
         SettingsViewModel.SettingViewState.NetShield(
             netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+            isAdultContentBlocked = false,
             isRestricted = true,
             profileOverrideInfo = null,
             dnsOverride = DnsOverride.None,
@@ -171,6 +173,7 @@ private class PreviewSettingNetShieldViewStateProvider :
         ),
         SettingsViewModel.SettingViewState.NetShield(
             netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+            isAdultContentBlocked = false,
             isRestricted = false,
             profileOverrideInfo = null,
             dnsOverride = DnsOverride.None,
@@ -178,6 +181,7 @@ private class PreviewSettingNetShieldViewStateProvider :
         ),
         SettingsViewModel.SettingViewState.NetShield(
             netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT,
+            isAdultContentBlocked = true,
             isRestricted = false,
             profileOverrideInfo = null,
             dnsOverride = DnsOverride.None,
