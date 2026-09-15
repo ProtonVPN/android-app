@@ -218,12 +218,10 @@ fun NetShieldBottomPrivateDns(
 
 @Composable
 fun NetShieldBottomSettings(
-    currentNetShield: NetShieldProtocol,
-    onValueChanged: (protocol: NetShieldProtocol) -> Unit,
+    isNetShieldEnabled: Boolean,
+    onToggleChanged: (Boolean) -> Unit,
     onNetShieldLearnMore: () -> Unit
 ) {
-    val switchEnabled = currentNetShield != NetShieldProtocol.DISABLED
-
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -231,11 +229,9 @@ fun NetShieldBottomSettings(
     ) {
         SettingsFeatureToggle(
             label = stringResource(id = R.string.settings_netshield_title),
-            checked = switchEnabled,
-            onCheckedChange = { isEnabled ->
-                onValueChanged(if (isEnabled) NetShieldProtocol.ENABLED_EXTENDED else NetShieldProtocol.DISABLED)
-            },
-            modifier = Modifier.padding(bottom = 8.dp)
+            checked = isNetShieldEnabled,
+            onCheckedChange = onToggleChanged,
+            modifier = Modifier.padding(bottom = 8.dp),
         )
         AnnotatedClickableText(
             fullText = stringResource(
@@ -343,8 +339,8 @@ private fun StatsDescription(
 private fun NetShieldBottomPreview() {
     ProtonVpnPreview {
         NetShieldBottomSettings(
-            currentNetShield = NetShieldProtocol.DISABLED,
-            onValueChanged = {},
+            isNetShieldEnabled = false,
+            onToggleChanged = {},
             onNetShieldLearnMore = {}
         )
     }
@@ -355,8 +351,8 @@ private fun NetShieldBottomPreview() {
 private fun NetShieldBottomSheetPreview() {
     ProtonVpnPreview {
         NetShieldBottomSettings(
-            currentNetShield = NetShieldProtocol.DISABLED,
-            onValueChanged = {},
+            isNetShieldEnabled = false,
+            onToggleChanged = {},
             onNetShieldLearnMore = {}
         )
     }

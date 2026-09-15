@@ -45,6 +45,14 @@ sealed interface NetShieldViewState {
 
         val bandwidthShown = protocol != NetShieldProtocol.DISABLED
 
+        val isNetShieldEnabled: Boolean = when (protocol) {
+            NetShieldProtocol.DISABLED -> false
+
+            NetShieldProtocol.ENABLED,
+            NetShieldProtocol.ENABLED_EXTENDED,
+            NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> true
+        }
+
         override val iconRes = when (protocol) {
             NetShieldProtocol.DISABLED -> R.drawable.ic_netshield_off
             NetShieldProtocol.ENABLED,

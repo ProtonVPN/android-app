@@ -352,9 +352,9 @@ private fun VpnConnectedView(
             content = {
                 when (banner.netShieldState) {
                     is NetShieldViewState.Available -> NetShieldBottomSettings(
-                        currentNetShield = banner.netShieldState.protocol,
+                        isNetShieldEnabled = banner.netShieldState.isNetShieldEnabled,
                         onNetShieldLearnMore = netShieldActions.onNetShieldLearnMore,
-                        onValueChanged = netShieldActions.onNetShieldValueChanged
+                        onToggleChanged = netShieldActions.onNetShieldToggleChanged,
                     )
                     is NetShieldViewState.Unavailable -> when (banner.netShieldState.dnsOverride) {
                         DnsOverride.None -> check(false) { "Should never happen" }

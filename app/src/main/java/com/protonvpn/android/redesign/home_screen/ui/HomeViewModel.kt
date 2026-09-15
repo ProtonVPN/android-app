@@ -100,19 +100,31 @@ import kotlin.time.Duration.Companion.seconds
 private const val DialogStateKey = "dialog"
 
 @Reusable
-class SetNetShield @Inject constructor(
+class ToggleNetShield @Inject constructor(
     private val profilesDao: ProfilesDao,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
 ) {
-    suspend operator fun invoke(protocol: NetShieldProtocol) {
+
+    suspend operator fun invoke(isEnabled: Boolean) {
         val profileId = vpnStatusProviderUI.connectionIntent?.profileId
+
         if (profileId != null) {
-            profilesDao.updateNetShield(profileId, protocol)
+            val profileNetShield = if (isEnabled) {
+                NetShieldProtocol.ENABLED_EXTENDED
+            } else {
+                NetShieldProtocol.DISABLED
+            }
+
+            profilesDao.updateNetShield(
+                profileId = profileId,
+                netShield = profileNetShield,
+            )
         } else {
-            userSettingsManager.updateNetShield(protocol)
+            userSettingsManager.toggleNetShield()
         }
     }
+
 }
 
 @HiltViewModel
@@ -135,7 +147,7 @@ class HomeViewModel @Inject constructor(
     private val promoOfferButtonActions: PromoOfferButtonActions,
     private val promoOffersPrefs: PromoOffersPrefs,
     @param:ElapsedRealtimeClock val elapsedRealtimeClock: () -> Long,
-    private val setNetShield: SetNetShield,
+    private val toggleNetShield: ToggleNetShield,
     private val widgetManager: WidgetManager,
     private val disableCustomDnsForCurrentConnection: DisableCustomDnsForCurrentConnection,
     observeShowExcludedLocationsAdoption: ObserveShowExcludedLocationsAdoption,
@@ -333,9 +345,9 @@ class HomeViewModel @Inject constructor(
         bottomPromoBannerFlow(isNightMode)
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
-    fun setNetShieldProtocol(netShieldProtocol: NetShieldProtocol) {
+    fun onToggleNetShieldProtocol(isEnabled: Boolean) {
         viewModelScope.launch {
-            setNetShield(netShieldProtocol)
+            toggleNetShield(isEnabled = isEnabled)
         }
     }
 

@@ -75,7 +75,6 @@ import com.protonvpn.android.base.ui.collectAsEffect
 import com.protonvpn.android.base.ui.extraPaddingForWindowSize
 import com.protonvpn.android.excludedlocations.ui.ExcludedLocationsAdoptionBottomSheet
 import com.protonvpn.android.netshield.NetShieldActions
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.promooffers.ui.ProminentBannerState
 import com.protonvpn.android.promooffers.ui.PromoOfferBanner
 import com.protonvpn.android.promooffers.ui.PromoOfferBannerState
@@ -233,7 +232,7 @@ fun HomeRoute(
         upsellCarouselState = upsellCarouselState,
         elapsedRealtimeClock = homeViewModel.elapsedRealtimeClock,
         onDismissDialog = homeViewModel::dismissDialog,
-        onNetshieldValueChanged = homeViewModel::setNetShieldProtocol,
+        onNetShieldToggleChanged = homeViewModel::onToggleNetShieldProtocol,
         onDisableCustomDns = {
             if (homeViewModel.disableCustomDns())
                 settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate)
@@ -302,7 +301,7 @@ fun HomeView(
     upsellCarouselState: UpsellCarouselState?,
     elapsedRealtimeClock: () -> Long,
     onDismissDialog: () -> Unit,
-    onNetshieldValueChanged: (protocol: NetShieldProtocol) -> Unit,
+    onNetShieldToggleChanged: (Boolean) -> Unit,
     onDisableCustomDns: () -> Unit,
     bottomPromoComponent: BottomPromoComponent?,
     prominentPromoComponent: ProminentPromoComponent?,
@@ -429,7 +428,7 @@ fun HomeView(
         val netShieldActions = remember {
             NetShieldActions(
                 onChangeServerPromoUpgrade = { onLaunchUpgradeDialog(UpgradeSource.COUNTRIES, UpgradeTrigger.HOME_BANNER) },
-                onNetShieldValueChanged = onNetshieldValueChanged,
+                onNetShieldToggleChanged = onNetShieldToggleChanged,
                 onUpgradeNetShield = { onLaunchUpgradeDialog(UpgradeSource.NETSHIELD, UpgradeTrigger.HOME_BANNER) },
                 onNetShieldLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
                 onDisableCustomDns = onDisableCustomDns,
