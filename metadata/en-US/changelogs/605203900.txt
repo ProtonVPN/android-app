@@ -1,0 +1,2 @@
+What's new
+Made minor under-the-hood changes to prepare for future UI improvements.
