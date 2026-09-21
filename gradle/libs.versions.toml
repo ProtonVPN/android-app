@@ -254,6 +254,7 @@ proton-core-pass-validator = { group = "me.proton.core", name = "pass-validator"
 proton-core-payment = { group = "me.proton.core", name = "payment", version.ref = "proton-core-version" }
 proton-core-payment-data = { group = "me.proton.core", name = "payment-data", version.ref = "proton-core-version" }
 proton-core-payment-iap = { group = "me.proton.core", name = "payment-iap", version.ref = "proton-core-version" }
+proton-core-proguard-rules = { group = "me.proton.core", name = "proguard-rules", version.ref = "proton-core-version" }
 proton-core-plan = { group = "me.proton.core", name = "plan", version.ref = "proton-core-version" }
 proton-core-plan-domain = { group = "me.proton.core", name = "plan-domain", version.ref = "proton-core-version" }
 proton-core-plan-presentation = { group = "me.proton.core", name = "plan-presentation", version.ref = "proton-core-version" }

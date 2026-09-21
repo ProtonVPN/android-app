@@ -337,7 +337,7 @@ android {
             minifyEnabled true
             shrinkResources true
             signingConfig signingConfigs.debug
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -916,6 +916,7 @@ dependencies {
     implementation(libs.proton.core.event.manager)
     implementation(libs.proton.core.feature.flag)
     implementation(libs.proton.core.observability)
+    implementation(libs.proton.core.proguard.rules)
     implementation(libs.proton.core.telemetry.data)
     implementation(libs.proton.core.telemetry.domain)
     implementation(libs.proton.core.payment)

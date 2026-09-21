@@ -37,6 +37,20 @@
 -keepnames class com.protonvpn.android.vpn.RecentsManager
 -keepnames class com.protonvpn.android.vpn.VpnState$*
 
+# R8 has been observed to optimize the body of Hilt_XxxActivity.inject()
+# down to a no-op for some @AndroidEntryPoint siblings in a class hierarchy
+# (verified in a release build: Hilt_CarouselUpgradeDialogActivity.inject()
+# and Hilt_PlusOnlyUpgradeDialogActivity.inject() compiled to `return-void`,
+# dropping members-injection of fields declared on a shared non-entry-point
+# base class, e.g. BaseActivityV2.isTv). Keeping just the class isn't enough;
+# the method bodies themselves must be kept from being optimized/inlined.
+# It's most likely this issue: https://issuetracker.google.com/issues/379034741
+# but we're using a version that should be new enough to include the fix...
+# Try to remove this rule when updating AGP to 9+ (with its associated R8 version).
+-keep,allowobfuscation,allowshrinking class * implements dagger.hilt.internal.GeneratedComponentManagerHolder {
+    *;
+}
+
 # ProcessLifecycleOwner
 # release_tests crash when ProcessLifecycleOwner is not excluded from obfuscation.
 # Perhaps it's because we have some dependencies that were built with old lifecycle library (esp. Sentry).
@@ -70,6 +84,7 @@
 # (but copied&pasted manually :) )
 -dontwarn com.google.android.gms.common.annotation.NoNullnessRewrite
 -dontwarn com.google.errorprone.annotations.Immutable
+-dontwarn java.net.spi.InetAddressResolverProvider
 -dontwarn javax.lang.model.element.Modifier
 -dontwarn javax.mail.Address
 -dontwarn javax.mail.Authenticator
