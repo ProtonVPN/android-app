@@ -41,9 +41,6 @@ object ApiNotificationTypes {
     const val TYPE_ONE_TIME_IAP_POPUP = 5
     const val TYPE_BUILTIN_UPSELL_ONBOARDING = 6
     const val TYPE_BUILTIN_UPSELL_PADLOCK = 7
-
-    // Internal types are used without the backend support.
-    const val TYPE_INTERNAL_ONE_TIME_IAP_POPUP = 1_000_000
 }
 
 // TODO: introduce a set of domain-level classes for representing the parsed notifications. It will simplify
@@ -122,16 +119,6 @@ data class ApiNotificationProminentBanner(
     @SerialName("Style") val style: ApiNotificationProminentBannerStyle,
 )
 
-// It's not being used in actions from the backend, it's injected within the application.
-@Serializable
-data class ApiNotificationIapAction(
-    val planName: String,
-    val cycle: PaymentCycle,
-    val offerTag: String,
-    val currency: String?,
-    val priceCents: Int?,
-)
-
 @Serializable
 data class ApiNotificationProductDetails(
     @SerialName("Google") val google: ApiNotificationProductDetailsGoogle? = null
@@ -152,8 +139,6 @@ data class ApiNotificationOfferButton(
     @SerialName("Action") val action: String = "OpenURL",
     @SerialName("Behaviors") val actionBehaviors: List<String> = emptyList(),
     @SerialName("IapPanel") val panel: ApiNotificationOfferPanel? = null,
-    // iapActionDetails is not being provided by the backend, it's injected within the application.
-    @SerialName("_iapDetails") val iapActionDetails: ApiNotificationIapAction? = null,
 )
 
 @Serializable

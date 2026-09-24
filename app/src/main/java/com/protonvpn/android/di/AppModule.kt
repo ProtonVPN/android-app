@@ -72,10 +72,6 @@ import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
 import com.protonvpn.android.promooffers.data.GlideImagePrefetcher
 import com.protonvpn.android.promooffers.data.ImagePrefetcher
-import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoCyclicEnabled
-import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoCyclicEnabledImpl
-import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabled
-import com.protonvpn.android.promooffers.usecase.IsIapClientSidePromoFeatureFlagEnabledImpl
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapterLegacy
 import com.protonvpn.android.redesign.recents.ui.IsConnectionFeedbackFeatureFlagEnabled
@@ -442,16 +438,6 @@ object AppModule {
 
         @Binds
         fun bindBuiltInGuestHolesProvider(impl: AssetsBuiltInGuestHoles): BuiltInGuestHoles
-
-        @Binds
-        fun bindIsIapClientSidePromoFeatureFlagEnabled(
-            impl: IsIapClientSidePromoFeatureFlagEnabledImpl
-        ): IsIapClientSidePromoFeatureFlagEnabled
-
-        @Binds
-        fun bindIsIapClientSidePromoCyclicEnabled(
-            impl: IsIapClientSidePromoCyclicEnabledImpl
-        ): IsIapClientSidePromoCyclicEnabled
 
         @Binds
         fun bindsIsPrivateBrowsingAvailable(impl: GetPrivateBrowsingAvailabilityImpl): GetPrivateBrowsingAvailability

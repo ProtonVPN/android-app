@@ -22,47 +22,31 @@ package com.protonvpn.android.promooffers.usecase
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.promooffers.data.ApiNotificationManager
 import com.protonvpn.android.promooffers.ui.NotificationIapParams
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import dagger.Reusable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import me.proton.core.util.kotlin.equalsNoCase
 import javax.inject.Inject
 
 @Reusable
 class EnsureIapOfferStillValid @Inject constructor(
-    private val mainScope: CoroutineScope,
     private val getEligibleOffers: GetEligibleOffers,
-    private val apiNotificationsManager: ApiNotificationManager
 ) {
     suspend operator fun invoke(iapParams: NotificationIapParams) =
         with(iapParams) {
-            invoke(loadPlansConfig, currency, priceCents)
+            invoke(loadPlansConfig)
         }
 
     private suspend operator fun invoke(
         loadPlansConfig: LoadPlansConfig,
-        currency: String?,
-        priceCents: Int?,
     ): Boolean {
-        val valid = getEligibleOffers(loadPlansConfig)?.any { offer ->
-            (currency == null || offer.currency equalsNoCase currency) &&
-                    (priceCents == null || offer.currentPriceCents == priceCents)
-        }
+        val valid = getEligibleOffers(loadPlansConfig)?.isNotEmpty()
         val isError = valid == null
         if (valid == false) {
-            mainScope.launch {
-                val logInfo =
-                    listOfNotNull(loadPlansConfig, currency).joinToString()
-                ProtonLogger.logCustom(
-                    LogLevel.DEBUG,
-                    LogCategory.PROMO,
-                    "User not eligible for: $logInfo"
-                )
-                apiNotificationsManager.updateIapIntroOffers(false)
-            }
+            ProtonLogger.logCustom(
+                LogLevel.DEBUG,
+                LogCategory.PROMO,
+                "User not eligible for: $loadPlansConfig"
+            )
         }
         return valid == true || isError
     }

@@ -51,7 +51,6 @@ import com.protonvpn.android.profiles.usecases.PopulateInitialProfiles
 import com.protonvpn.android.profiles.usecases.ProfileAutoOpenHandler
 import com.protonvpn.android.profiles.usecases.UpdateProfileLastConnected
 import com.protonvpn.android.promooffers.usecase.OneTimePopupNotificationTrigger
-import com.protonvpn.android.promooffers.usecase.TriggerInAppPromoOnAppOpen
 import com.protonvpn.android.quicktile.QuickTileDataStoreUpdater
 import com.protonvpn.android.redesign.recents.usecases.ConnectingUpdatesRecents
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
@@ -155,7 +154,6 @@ open class ProtonApplication : Application() {
         val streamingServicesUpdater: StreamingServicesUpdater
         val streamingUpsellRestrictionsDialogTrigger: StreamingUpsellRestrictionsDialogTrigger
         val streamingUpsellRestrictionsNotificationTrigger: StreamingUpsellRestrictionsNotificationTrigger
-        val triggerInAppPromoOnAppOpen: TriggerInAppPromoOnAppOpen
         val credlessUpgradeHandler: CredlessUpgradeHandler
         val updateAndroidAppTheme: UpdateAndroidAppTheme
         val updateProfileLastConnected: UpdateProfileLastConnected
@@ -258,7 +256,6 @@ open class ProtonApplication : Application() {
         dependencies.streamingServicesUpdater
         dependencies.streamingUpsellRestrictionsDialogTrigger.start()
         dependencies.streamingUpsellRestrictionsNotificationTrigger.start()
-        dependencies.triggerInAppPromoOnAppOpen.start()
         dependencies.vpnConnectionObservability
         dependencies.vpnConnectionTelemetry.start()
         dependencies.vpnErrorUiManager

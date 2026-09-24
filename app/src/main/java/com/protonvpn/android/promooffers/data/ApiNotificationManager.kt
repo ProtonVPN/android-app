@@ -39,8 +39,6 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.promooffers.ui.PromoOfferImage
-import com.protonvpn.android.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
-import com.protonvpn.android.promooffers.usecase.isIntroductoryPriceOffer
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.getValue
@@ -67,14 +65,12 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
-import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.mapAsync
 import me.proton.core.util.kotlin.mapNotNullAsync
 import me.proton.core.util.kotlin.serialize
-import me.proton.core.util.kotlin.startsWith
 import me.proton.core.util.kotlin.takeIfNotEmpty
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -116,7 +112,6 @@ class ApiNotificationManager @Inject constructor(
     private val getNetZone: GetNetZone,
     private val currentUser: CurrentUser,
     private val userPlanManager: UserPlanManager,
-    private val generateNotificationsForIntroductoryOffers: GenerateNotificationsForIntroductoryOffers,
     private val dispatcherProvider: DispatcherProvider,
     lazyImagePrefetcher: dagger.Lazy<ImagePrefetcher>,
     private val periodicUpdateManager: PeriodicUpdateManager,
@@ -237,8 +232,8 @@ class ApiNotificationManager @Inject constructor(
     }
 
     @VisibleForTesting
-    suspend fun updateNotifications(): ApiResult<ApiNotificationsResponse> {
-        val response = withUpdateState(updateState, resultMapper = {}, Unit) {
+    suspend fun updateNotifications(): ApiResult<ApiNotificationsResponse> =
+        withUpdateState(updateState, resultMapper = {}, Unit) {
             val fullScreenImageSize = PromoOfferImage.getFullScreenImageMaxSizePx(appContext)
             val response = api.getApiNotifications(
                 PromoOfferImage.SupportedFormats.entries.map { it.toString() },
@@ -247,28 +242,10 @@ class ApiNotificationManager @Inject constructor(
                 getNetZone(),
             )
             response.valueOrNull?.let { notifications ->
-                replaceNotifications(notifications.notifications, iapIntroOffers = false)
+                apiNotificationsStore.save(notifications)
             }
             response
         }
-
-        mainScope.launch {
-            // Checking intro offers may be a bit heavy, delay it to avoid running on start.
-            delay(10_000)
-            updateIapIntroOffers(false)
-        }
-        return response
-    }
-
-    suspend fun updateIapIntroOffers(triggerCyclicPromos: Boolean) {
-        replaceNotifications(generateNotificationsForIntroductoryOffers(triggerCyclicPromos), iapIntroOffers = true)
-    }
-
-    private suspend fun replaceNotifications(notifications: List<ApiNotification>, iapIntroOffers: Boolean) {
-        apiNotificationsStore.update { existingNotifications ->
-            existingNotifications.filterNot { it.isIntroductoryPriceOffer() == iapIntroOffers } + notifications
-        }
-    }
 
     private fun activeNotifications(nowS: Long, notifications: List<ApiNotification>) =
         notifications.filter { nowS >= it.startTime && nowS < it.endTime }
@@ -304,7 +281,7 @@ class ApiNotificationManager @Inject constructor(
         add(offer?.iconUrl)
     }
     .filterNotNull()
-    .filter { it.isNotBlank() && !it.startsWith("file:") }
+    .filter { it.isNotBlank() }
 
     private fun ApiNotification.allActionNames(): List<String> = buildList {
         val buttons: List<ApiNotificationOfferButton> = listOfNotNull(

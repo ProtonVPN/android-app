@@ -55,18 +55,6 @@ class PromoOfferIapViewModel @Inject constructor(
             ?: return null
 
         val offer = when {
-            notification.type == ApiNotificationTypes.TYPE_INTERNAL_ONE_TIME_IAP_POPUP -> {
-                val panel = notification.offer?.panel
-                getOfferViewState(
-                    image = panel?.fullScreenImage,
-                    width = width,
-                    button = panel?.button,
-                    iapParams = panel?.button?.iapActionDetails?.toIapParams(),
-                    reference = notification.reference,
-                    upgradeTrigger = UpgradeTrigger.PROMO_OFFER_POPUP,
-                )
-            }
-
             notification.type == ApiNotificationTypes.TYPE_ONE_TIME_IAP_POPUP -> {
                 val panel = notification.offer?.panel
                 getOfferViewState(
@@ -82,16 +70,11 @@ class PromoOfferIapViewModel @Inject constructor(
             notification.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER &&
                 ApiNotificationActions.isInAppPurchasePopup(notification.offer?.panel?.button?.action) -> {
                 val panel = notification.offer?.panel?.button?.panel
-                val iapParams = if (panel?.iapProductDetails != null) {
-                    panel.iapProductDetails.google?.toIapParams()
-                } else {
-                    panel?.button?.iapActionDetails?.toIapParams()
-                }
                 getOfferViewState(
                     image = panel?.fullScreenImage,
                     width = width,
                     button = panel?.button,
-                    iapParams = iapParams,
+                    iapParams = panel?.iapProductDetails?.google?.toIapParams(),
                     reference = notification.reference,
                     upgradeTrigger = UpgradeTrigger.PROMO_OFFER_BANNER,
                 )

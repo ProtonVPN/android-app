@@ -200,15 +200,6 @@ class OneTimePopupNotificationTriggerTests {
     }
 
     @Test
-    fun `IAP activity triggered for IAP notification type`() = testScope.runTest {
-        coEvery { mockEnsureIapOfferStillValid.invoke(any()) } returns true
-        activeNotificationsFlow.value =
-            listOf(createTestNotification(NOTIFICATION_ID, ApiNotificationTypes.TYPE_INTERNAL_ONE_TIME_IAP_POPUP))
-        foregroundActivityFlow.value = mockMainActivity
-        verify(exactly = 0) { mockPromoIapActivityOpener.open(any(), NOTIFICATION_ID) }
-    }
-
-    @Test
     fun `promo activity triggered only when MainActivity is opened`() = testScope.runTest {
         activeNotificationsFlow.value = listOf(
             createTestNotification(NOTIFICATION_ID, ApiNotificationTypes.TYPE_ONE_TIME_POPUP),

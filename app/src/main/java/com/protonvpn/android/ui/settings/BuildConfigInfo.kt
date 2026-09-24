@@ -31,11 +31,11 @@ import javax.inject.Singleton
 
 @Singleton
 class BuildConfigInfo @Inject constructor(
-    @BaseProtonApiUrl val apiUrl: HttpUrl,
-    @DohProviderUrls val dohProviders: Array<String>,
-    @CertificatePins val certificatePins: Array<String>,
-    @AlternativeApiPins val alternativeApiPins: List<String>,
-    @HumanVerificationApiHost val humanVerificationApiHost: String,
+    @param:BaseProtonApiUrl val apiUrl: HttpUrl,
+    @param:DohProviderUrls val dohProviders: Array<String>,
+    @param:CertificatePins val certificatePins: Array<String>,
+    @param:AlternativeApiPins val alternativeApiPins: List<String>,
+    @param:HumanVerificationApiHost val humanVerificationApiHost: String,
 ) {
     operator fun invoke() = """
             API: $apiUrl

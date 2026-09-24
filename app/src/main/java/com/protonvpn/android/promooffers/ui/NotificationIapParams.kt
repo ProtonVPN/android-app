@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.promooffers.ui
 
-import com.protonvpn.android.promooffers.data.ApiNotificationIapAction
 import com.protonvpn.android.promooffers.data.ApiNotificationProductDetailsGoogle
 import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
@@ -27,21 +26,7 @@ import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 data class NotificationIapParams(
     val loadPlansConfig: LoadPlansConfig,
     val preselectedCycle: PaymentCycle?,
-    val currency: String? = null,
-    val priceCents: Int? = null,
     val showDiscountBadge: Boolean = false,
-)
-
-fun ApiNotificationIapAction.toIapParams() = NotificationIapParams(
-    loadPlansConfig = LoadPlansConfig.WithOfferTagAndFilter(
-        offerTag = offerTag,
-        planNames = listOf(planName),
-        paymentCycles = listOf(cycle),
-    ),
-    preselectedCycle = cycle,
-    currency = currency,
-    priceCents = priceCents,
-    showDiscountBadge = false,
 )
 
 fun ApiNotificationProductDetailsGoogle.toIapParams() = NotificationIapParams(

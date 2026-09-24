@@ -34,7 +34,6 @@ import com.protonvpn.android.promooffers.data.ApiNotificationsStore
 import com.protonvpn.android.promooffers.data.ApiNotificationsStoreProvider
 import com.protonvpn.android.promooffers.data.ImagePrefetcher
 import com.protonvpn.android.promooffers.ui.PromoOfferImage
-import com.protonvpn.android.promooffers.usecase.GenerateNotificationsForIntroductoryOffers
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.UserPlanManager
@@ -91,8 +90,6 @@ class ApiNotificationManagerTests {
     private lateinit var mockUserPlanManager: UserPlanManager
     @MockK
     private lateinit var mockApi: ProtonApiRetroFit
-    @MockK
-    private lateinit var mockGenerateNotificationsForIntroductoryOffers: GenerateNotificationsForIntroductoryOffers
     @RelaxedMockK
     private lateinit var mockPeriodicUpdateManager: PeriodicUpdateManager
 
@@ -133,7 +130,6 @@ class ApiNotificationManagerTests {
         every { mockAppConfig.appConfigUpdateEvent } returns MutableSharedFlow()
         every { mockAppConfig.appConfigFlow } returns appConfigFlow
         coEvery { mockImagePrefetcher.prefetch(any()) } returns true
-        coEvery { mockGenerateNotificationsForIntroductoryOffers.invoke(any()) } returns emptyList()
 
         infoChangeFlow = MutableSharedFlow()
         every { mockUserPlanManager.infoChangeFlow } returns infoChangeFlow
@@ -276,41 +272,6 @@ class ApiNotificationManagerTests {
         assertEquals(expectedNotificationIds, notificationIds)
     }
 
-    @Test
-    fun `notifications for intro offers are restored on restart`() = testScope.runTest {
-        val store = createApiNotificationsStore()
-        notificationManager = createNotificationsManager(store)
-        mockResponse()
-        val introOffers = listOf(mockOffer("internal_intro_price_1"))
-        coEvery { mockGenerateNotificationsForIntroductoryOffers.invoke(any()) } returns introOffers
-
-        val expectedNotificationIds = listOf("internal_intro_price_1")
-        notificationManager.updateNotifications()
-        advanceTimeBy(10_001)
-        assertEquals(expectedNotificationIds, notificationManager.activeListFlow.first().map { it.id })
-
-        val newNotificationManager = createNotificationsManager(store)
-        val notificationIds = newNotificationManager.activeListFlow.first().map { it.id }
-        assertEquals(expectedNotificationIds, notificationIds)
-    }
-
-    @Test
-    fun `API and generated notifications are combined and replaced`() = testScope.runTest {
-        mockResponse(mockOffer("api_offer_1"))
-        val introOffers = listOf(mockOffer("internal_intro_price_1"))
-        coEvery { mockGenerateNotificationsForIntroductoryOffers.invoke(any()) } returns introOffers
-
-        repeat(2) {
-            notificationManager.updateNotifications()
-            advanceTimeBy(10_001)
-            assertEquals(
-                // Comparing lists, not sets, to catch duplicates.
-                listOf("api_offer_1", "internal_intro_price_1").sorted(),
-                notificationManager.activeListFlow.first().map { it.id }.sorted()
-            )
-        }
-    }
-
     private fun createNotificationsManager(
         apiNotificationsStore: ApiNotificationsStore = createApiNotificationsStore()
     ) = ApiNotificationManager(
@@ -324,7 +285,6 @@ class ApiNotificationManagerTests {
         getNetZone = GetNetZone(ServerListUpdaterPrefs(MockSharedPreferencesProvider())),
         currentUser = currentUser,
         userPlanManager = mockUserPlanManager,
-        generateNotificationsForIntroductoryOffers = mockGenerateNotificationsForIntroductoryOffers,
         lazyImagePrefetcher = dagger.Lazy { mockImagePrefetcher },
         periodicUpdateManager = mockPeriodicUpdateManager,
         inForeground = flowOf(true),

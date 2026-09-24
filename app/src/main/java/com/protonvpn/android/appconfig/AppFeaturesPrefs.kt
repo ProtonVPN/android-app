@@ -59,9 +59,6 @@ class AppFeaturesPrefs @Inject constructor(
     var lastUpdatePromptTimestamp: Long by long(0)
     var lastUpdatePromptTryCount: Int by int(0)
 
-    var iapFirstIntroPriceCheckTimestamp: Long by long(0L)
-    var iapLastIntroPriceBaseTimestamp: Long by long(0L)
-
     var lastAppInForegroundTimestamp: Long? by long()
 
     companion object {

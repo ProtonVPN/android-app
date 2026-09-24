@@ -98,7 +98,7 @@ class OneTimePopupNotificationTrigger @Inject constructor(
             .first()
             .firstOrNull { notification ->
                 (notification.isOneTimeNotification() || notification.isNpsType() ||
-                        notification.isBuiltinOneTimeIap() || notification.isOneTimeIapPopup()) &&
+                        notification.isOneTimeIapPopup()) &&
                         !promoOffersPrefs.visitedOffers.contains(notification.id)
             }
 
@@ -113,13 +113,6 @@ class OneTimePopupNotificationTrigger @Inject constructor(
 
                 it.isOneTimeIapPopup() -> {
                     val iapParams = it.offer?.panel?.iapProductDetails?.google?.toIapParams()
-                    if (iapParams != null && ensureIapOfferStillValid(iapParams)) {
-                        promoIapOpener.open(activity, it.id)
-                    }
-                }
-
-                it.isBuiltinOneTimeIap() -> {
-                    val iapParams = it.offer?.panel?.button?.iapActionDetails?.toIapParams()
                     if (iapParams != null && ensureIapOfferStillValid(iapParams)) {
                         promoIapOpener.open(activity, it.id)
                     }
@@ -141,8 +134,4 @@ class OneTimePopupNotificationTrigger @Inject constructor(
     private fun ApiNotification.isOneTimeIapPopup(): Boolean =
         type == ApiNotificationTypes.TYPE_ONE_TIME_IAP_POPUP
                 && offer?.panel?.iapProductDetails != null && offer.panel.fullScreenImage != null
-
-    private fun ApiNotification.isBuiltinOneTimeIap(): Boolean =
-        type == ApiNotificationTypes.TYPE_INTERNAL_ONE_TIME_IAP_POPUP && offer != null && offer.panel != null &&
-            offer.panel.fullScreenImage != null && offer.panel.button != null
 }
