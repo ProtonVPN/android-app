@@ -336,7 +336,7 @@ class UpgradeDialogViewModelTests {
     }
 
     @Test
-    fun `GIVEN notifications for builtin upsells but no offer WHEN loading plans THEN default offers are loaded`() = testScope.runTest {
+    fun `GIVEN notifications for builtin upsells but no offer WHEN loading plans THEN base plan is loaded`() = testScope.runTest {
         setupProductWithIntroAndCustomDiscount(
             introPrice = 99,
             customDiscountPrice = 199,
@@ -351,7 +351,7 @@ class UpgradeDialogViewModelTests {
 
         val state = viewModel.upgradeState.first()
         assertIs<State.PurchaseReady>(state)
-        assertEquals(listOf("€0.99"), state.selectedPlan.cycles.map { it.priceInfo.formattedPrice })
+        assertEquals(listOf("€4.99"), state.selectedPlan.cycles.map { it.priceInfo.formattedPrice })
         assertEquals(listOf("€4.99"), state.selectedPlan.cycles.map { it.priceInfo.formattedRenewPrice })
     }
 

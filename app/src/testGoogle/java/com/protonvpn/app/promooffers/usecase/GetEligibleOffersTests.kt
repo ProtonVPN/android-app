@@ -20,12 +20,12 @@
 package com.protonvpn.app.promooffers.usecase
 
 import com.protonvpn.android.promooffers.usecase.GetEligibleOffers
-import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.test.shared.InMemoryObjectStore
+import com.protonvpn.test.shared.TestIapConstants
 import com.protonvpn.test.shared.createOffer
 import com.protonvpn.test.shared.createOffersWithDiscount
 import com.protonvpn.test.shared.createProduct
@@ -63,14 +63,14 @@ class GetEligibleOffersTests {
         cycle = PaymentCycle.Month(1),
         currency = "PLN",
         currentPriceCents = 500,
-        offerTags = listOf(IapConstants.INTRO_PRICE_TAG)
+        offerTags = listOf(TestIapConstants.INTRO_PRICE_TAG)
     )
     private val offerBundle2022 = GetEligibleOffers.Offer(
         planName = "bundle2022",
         cycle = PaymentCycle.Month(1),
         currency = "PLN",
         currentPriceCents = 500,
-        offerTags = listOf(IapConstants.INTRO_PRICE_TAG)
+        offerTags = listOf(TestIapConstants.INTRO_PRICE_TAG)
     )
     private val offerVpn2022Custom = GetEligibleOffers.Offer(
         planName = "vpn2022",
@@ -119,8 +119,8 @@ class GetEligibleOffersTests {
     @Test
     fun `WHEN different plans are queried THEN they are requested from load`() = testScope.runTest {
         val planCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1))
-        val loadConfigVpn2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("vpn2022"), planCycles, IapConstants.INTRO_PRICE_TAG)
-        val loadConfigIntroPrice = LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null)
+        val loadConfigVpn2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("vpn2022"), planCycles, TestIapConstants.INTRO_PRICE_TAG)
+        val loadConfigIntroPrice = LoadPlansConfig.WithOfferTag(TestIapConstants.INTRO_PRICE_TAG, null)
         assertEquals(
             listOf(offerVpn2022),
             getOffers(loadConfigVpn2022)
@@ -144,7 +144,7 @@ class GetEligibleOffersTests {
             getOffers(loadConfigIntroPrice)
         )
 
-        val loadConfigBundle2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("bundle2022"), planCycles, IapConstants.INTRO_PRICE_TAG)
+        val loadConfigBundle2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("bundle2022"), planCycles, TestIapConstants.INTRO_PRICE_TAG)
         assertEquals(
             listOf(offerBundle2022),
             getOffers(loadConfigBundle2022)
@@ -173,8 +173,8 @@ class GetEligibleOffersTests {
     @Test
     fun `WHEN 2 days pass THEN data is loaded from Google again`() = testScope.runTest {
         val planCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1))
-        val loadConfigVpn2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("vpn2022"), planCycles, IapConstants.INTRO_PRICE_TAG)
-        val loadConfigIntroPrice = LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null)
+        val loadConfigVpn2022 = LoadPlansConfig.WithOfferTagAndFilter(listOf("vpn2022"), planCycles, TestIapConstants.INTRO_PRICE_TAG)
+        val loadConfigIntroPrice = LoadPlansConfig.WithOfferTag(TestIapConstants.INTRO_PRICE_TAG, null)
         getOffers(loadConfigVpn2022)
         advanceTimeBy(1.days)
         getOffers(loadConfigIntroPrice)

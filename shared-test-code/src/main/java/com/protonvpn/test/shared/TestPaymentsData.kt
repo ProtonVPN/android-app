@@ -19,7 +19,6 @@
 
 package com.protonvpn.test.shared
 
-import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import me.proton.android.payment.common.model.Money
 import me.proton.android.payment.product.model.BillingCycle
@@ -27,6 +26,10 @@ import me.proton.android.payment.product.model.BillingRecurrence
 import me.proton.android.payment.product.model.Offer
 import me.proton.android.payment.product.sampledata.PricingPeriodSampleData
 import me.proton.android.payment.product.sampledata.ProductSampleData
+
+object TestIapConstants {
+    const val INTRO_PRICE_TAG = "intro-price"
+}
 
 fun createProduct(
     id: String,
@@ -43,7 +46,7 @@ fun createOffersWithDiscount(
     discountPriceCents: Int,
     basePriceCents: Int,
     currency: String = "EUR",
-    discountTag: String = IapConstants.INTRO_PRICE_TAG,
+    discountTag: String = TestIapConstants.INTRO_PRICE_TAG,
     offerCycleCount: Int = 1,
 ) = listOf(
     createOffer(
@@ -67,7 +70,7 @@ fun createOffer(
     val hasIntroPrice = pricesCents.size > 1
     val offerTags = when {
         tags != null -> tags
-        hasIntroPrice -> listOf(IapConstants.INTRO_PRICE_TAG)
+        hasIntroPrice -> listOf(TestIapConstants.INTRO_PRICE_TAG)
         else -> emptyList()
     }
     val billingCycle = when (paymentCycle) {

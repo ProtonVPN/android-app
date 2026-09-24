@@ -18,12 +18,12 @@
  */
 package com.protonvpn.app.upgrade
 
-import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.toISO8601
 import com.protonvpn.android.ui.planupgrade.usecase.LoadPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.test.shared.TestIapConstants
 import com.protonvpn.test.shared.createOffer
 import com.protonvpn.test.shared.createOffersWithDiscount
 import com.protonvpn.test.shared.createProduct
@@ -83,7 +83,7 @@ class LoadSubscriptionPlansTests {
             LoadPlansConfig.WithOptionalDiscount(
                 planNames = listOf(Constants.CURRENT_PLUS_PLAN),
                 paymentCycles = listOf(monthly, yearly),
-                discountOfferTags = listOf(IapConstants.INTRO_PRICE_TAG),
+                discountOfferTags = listOf(TestIapConstants.INTRO_PRICE_TAG),
             )
         )
         assertEquals(1, plans.size)
@@ -103,7 +103,7 @@ class LoadSubscriptionPlansTests {
                 LoadPlansConfig.WithOptionalDiscount(
                     planNames = listOf(Constants.CURRENT_PLUS_PLAN),
                     paymentCycles = listOf(monthly),
-                    discountOfferTags = listOf(IapConstants.INTRO_PRICE_TAG),
+                    discountOfferTags = listOf(TestIapConstants.INTRO_PRICE_TAG),
                 )
             )
         )
@@ -223,7 +223,7 @@ class LoadSubscriptionPlansTests {
             LoadPlansConfig.WithOptionalDiscount(
                 planNames = listOf(Constants.CURRENT_PLUS_PLAN),
                 paymentCycles = listOf(PaymentCycle.Month(1), PaymentCycle.Year(1)),
-                discountOfferTags = listOf(IapConstants.INTRO_PRICE_TAG),
+                discountOfferTags = listOf(TestIapConstants.INTRO_PRICE_TAG),
             )
         )
         assertEquals(1, loadedPlans.size)

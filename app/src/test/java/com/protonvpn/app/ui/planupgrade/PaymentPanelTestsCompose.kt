@@ -33,7 +33,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.di.Distinct
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
 import com.protonvpn.android.telemetry.UpgradeTelemetry
-import com.protonvpn.android.ui.planupgrade.IapConstants
 import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.PaymentPanel
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
@@ -43,6 +42,7 @@ import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.UpgradeDialogLoadPlansConfig
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.app.testRules.RobolectricHiltAndroidRule
+import com.protonvpn.test.shared.TestIapConstants
 import com.protonvpn.test.shared.createOffer
 import com.protonvpn.test.shared.createOffersWithDiscount
 import com.protonvpn.test.shared.createProduct
@@ -133,7 +133,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
         val discountOffers = createOffersWithDiscount(PaymentCycle.Week(1), 99, 199, "USD")
         setupComposablesAndLoadPlans(
             listOf(createProduct("id", "vpn2022",discountOffers)),
-            LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null)
+            LoadPlansConfig.WithOfferTag(TestIapConstants.INTRO_PRICE_TAG, null)
         )
         node.withTag("renewInfoText")
             .assertContainsText("Special offer. Auto renews at $1.99/week")
@@ -150,7 +150,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
         )
         setupComposablesAndLoadPlans(
             listOf(createProduct("id", "vpn2022", discount2yOffers)),
-            LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null)
+            LoadPlansConfig.WithOfferTag(TestIapConstants.INTRO_PRICE_TAG, null)
         )
         node.withTag("renewInfoText")
             .assertContainsText("PLN 49.99/year for the first 2 years, then auto renews at PLN 99.99/year")
@@ -166,7 +166,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
         )
         setupComposablesAndLoadPlans(
             listOf(createProduct("id", "vpn2022", discount)),
-            LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null)
+            LoadPlansConfig.WithOfferTag(TestIapConstants.INTRO_PRICE_TAG, null)
         )
         node.withTag("renewInfoText")
             .assertContainsText("Special offer. Auto renews at $5.99 every 2 months")
@@ -183,7 +183,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
         )
         setupComposablesAndLoadPlans(
             listOf(createProduct("id", "vpn2022", discount)),
-            LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null)
+            LoadPlansConfig.WithOfferTag(TestIapConstants.INTRO_PRICE_TAG, null)
         )
         node.withTag("renewInfoText")
             .assertContainsText("$1.99 every 2 months for the first 4 months, then auto renews at $5.99 every 2 months")
@@ -212,7 +212,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
     fun cycleNoPerMonthPriceOnMultiCycleMonthlyOffer() = runTest {
         val offers = createOffersWithDiscount(PaymentCycle.Month(1), 99, 199, offerCycleCount = 2)
         val products = listOf(createProduct("id", "plan", offers))
-        setupComposablesAndLoadPlans(products, LoadPlansConfig.WithOfferTag(IapConstants.INTRO_PRICE_TAG, null))
+        setupComposablesAndLoadPlans(products, LoadPlansConfig.WithOfferTag(TestIapConstants.INTRO_PRICE_TAG, null))
 
         assertPriceString("cycleP1M", "€0.99", null)
     }

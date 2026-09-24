@@ -20,6 +20,5 @@
 package com.protonvpn.android.ui.planupgrade
 
 object IapConstants {
-    const val INTRO_PRICE_TAG = "intro-price"
     val DEFAULT_PAYMENT_CYCLES = listOf(PaymentCycle.Year(1), PaymentCycle.Month(1))
 }

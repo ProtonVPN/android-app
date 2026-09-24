@@ -69,7 +69,6 @@ sealed interface LoadPlansConfig {
         val discountOfferTags: List<String>,
     ) : LoadPlansConfig
 
-
     // Needed for client generated intro offer promos - hopefully to be removed soonish.
     @Serializable
     data class WithOfferTagAndFilter(
