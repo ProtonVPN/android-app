@@ -211,6 +211,14 @@ class LoadSubscriptionPlansTests {
     }
 
     @Test
+    fun `WithOfferTag with unknown discount tag doesn't fall back to the base offer`() = testScope.runTest {
+        setupProductsForWithOfferTagTests()
+        val loadedPlans = loadSubscriptionPlans(LoadPlansConfig.WithOfferTag("unknown-tag", null))
+
+        assertEquals(0, loadedPlans.size)
+    }
+
+    @Test
     fun `fallback to available cycles`() = testScope.runTest {
         val offer1m = createOffer(PaymentCycle.Month(1), listOf(99))
         val offer2y = createOffer(PaymentCycle.Year(2), listOf(50_00))

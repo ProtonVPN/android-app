@@ -29,6 +29,7 @@ import me.proton.android.payment.product.sampledata.ProductSampleData
 
 object TestIapConstants {
     const val INTRO_PRICE_TAG = "intro-price"
+    const val BASE_PLAN_TAG = "base-price"
 }
 
 fun createProduct(
@@ -53,10 +54,10 @@ fun createOffersWithDiscount(
         paymentCycle = paymentCycle,
         pricesCents = listOf(discountPriceCents, basePriceCents),
         currency = currency,
-        tags = listOf(discountTag),
+        tags = listOf(TestIapConstants.BASE_PLAN_TAG, discountTag),
         offerCycleCount = offerCycleCount
     ),
-    createOffer(paymentCycle, listOf(basePriceCents), currency, emptyList())
+    createOffer(paymentCycle, listOf(basePriceCents), currency)
 )
 
 fun createOffer(
@@ -70,8 +71,9 @@ fun createOffer(
     val hasIntroPrice = pricesCents.size > 1
     val offerTags = when {
         tags != null -> tags
-        hasIntroPrice -> listOf(TestIapConstants.INTRO_PRICE_TAG)
-        else -> emptyList()
+        // Google Play Store adds base plan tag to all its offers, do the same in test data.
+        hasIntroPrice -> listOf(TestIapConstants.BASE_PLAN_TAG, TestIapConstants.INTRO_PRICE_TAG)
+        else -> listOf(TestIapConstants.BASE_PLAN_TAG)
     }
     val billingCycle = when (paymentCycle) {
         is PaymentCycle.Day -> BillingCycle.Day(paymentCycle.count)

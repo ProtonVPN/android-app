@@ -50,6 +50,7 @@ import com.protonvpn.mocks.FakeCommonDimensions
 import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
 import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestIapConstants
 import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createOffer
 import com.protonvpn.test.shared.createOffersWithDiscount
@@ -378,6 +379,54 @@ class UpgradeDialogViewModelTests {
         assertEquals("notification-reference", config?.notificationReference)
     }
 
+    @Test
+    fun `GIVEN notification for builtin upsell for base offer WHEN loading plans THEN base prices are loaded`() = testScope.runTest {
+        val monthlyOffers = createOffersWithDiscount(PaymentCycle.Month(1), 5_00, 10_00)
+        val yearlyOffers = createOffersWithDiscount(PaymentCycle.Year(1), 20_00, 80_00)
+        val monthlyProduct = createProduct("monthly", Constants.CURRENT_PLUS_PLAN, monthlyOffers)
+        val yearlyProduct = createProduct("yearly", Constants.CURRENT_PLUS_PLAN, yearlyOffers)
+
+        testGetProducts.setProductsToReturn(listOf(monthlyProduct, yearlyProduct))
+
+        activeNotifications.value = listOf(
+            createUpgradeOverrideNotification(
+                ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
+                offerTag = null,
+                baseOfferTag = TestIapConstants.BASE_PLAN_TAG,
+                reference = "base-ref",
+            )
+        )
+
+        viewModel.loadBuiltinUpsellPlans(listOf(Constants.CURRENT_PLUS_PLAN))
+        runCurrent()
+
+        val state = viewModel.upgradeState.first()
+        assertIs<State.PurchaseReady>(state)
+        assertEquals(listOf("€80.00", "€10.00"), state.selectedPlan.cycles.map { it.priceInfo.formattedPrice })
+    }
+
+    @Test
+    fun `GIVEN notification for builtin upsell for incorrect base offer WHEN loading plans THEN error is displayed`() = testScope.runTest {
+        val offers = createOffersWithDiscount(PaymentCycle.Month(1), 5_00, 10_00)
+        val product = createProduct("plus", Constants.CURRENT_PLUS_PLAN, offers)
+        testGetProducts.setProductsToReturn(listOf(product))
+
+        activeNotifications.value = listOf(
+            createUpgradeOverrideNotification(
+                ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
+                offerTag = null,
+                baseOfferTag = "invalid-tag",
+                reference = "base-ref",
+            )
+        )
+
+        viewModel.loadBuiltinUpsellPlans(listOf(Constants.CURRENT_PLUS_PLAN))
+        runCurrent()
+
+        val state = viewModel.upgradeState.first()
+        assertIs<State.LoadError>(state)
+    }
+
     private fun assertPlanNames(expected: List<String>, state: State) {
         assertIs<State.PurchaseReady>(state)
         assertEquals(expected, state.allPlans.map { it.planName })
@@ -396,17 +445,21 @@ class UpgradeDialogViewModelTests {
         testGetProducts.setProductsToReturn(products)
     }
 
-    private fun createUpgradeOverrideNotification(type: Int, offerTag: String, reference: String = offerTag) =
-        mockOffer(
-            id = "id",
-            type = type,
-            reference = reference,
-            panel = ApiNotificationOfferPanel(
-                iapProductDetails = ApiNotificationProductDetails(
-                    ApiNotificationProductDetailsGoogle(offerTag = offerTag)
-                )
+    private fun createUpgradeOverrideNotification(
+        type: Int,
+        offerTag: String?,
+        baseOfferTag: String? = null,
+        reference: String? = offerTag,
+    ) = mockOffer(
+        id = "id",
+        type = type,
+        reference = reference,
+        panel = ApiNotificationOfferPanel(
+            iapProductDetails = ApiNotificationProductDetails(
+                ApiNotificationProductDetailsGoogle(offerTag = offerTag, baseOfferTag = baseOfferTag)
             )
         )
+    )
 }
 
 private fun UpgradeDialogViewModel.loadBuiltinUpsellPlans(supportedPlanNames: List<String>) =

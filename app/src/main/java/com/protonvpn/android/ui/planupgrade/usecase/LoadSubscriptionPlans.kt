@@ -69,12 +69,11 @@ sealed interface LoadPlansConfig {
         val discountOfferTags: List<String>,
     ) : LoadPlansConfig
 
-    // Needed for client generated intro offer promos - hopefully to be removed soonish.
     @Serializable
-    data class WithOfferTagAndFilter(
+    data class WithBaseOfferTagAndFilter(
         val planNames: List<String>,
         val paymentCycles: List<PaymentCycle>,
-        val offerTag: String,
+        val baseOfferTag: String
     ) : LoadPlansConfig
 
     @Serializable
@@ -106,25 +105,22 @@ class LoadSubscriptionPlans @Inject constructor(
             if (discountTag == null && baseTag == null) {
                 logWarn("Config contains neither discount nor base offer tag.")
             }
-            return product.offers
-                .filter { it.tags.contains(discountTag) }
-                .let { offersWithTag ->
-                    val discountedOffer =
-                        offersWithTag.filterIsInstance<Offer.Discounted>().firstOrNull()
-                    val baseOffer =
-                        // There is always exactly one non-discounted offer.
-                        product.offers.filterIsInstance<Offer.NonDiscounted>().firstOrNull()
-                            ?: return@let null
-                    when {
-                        discountedOffer != null ->
-                            Pair(discountedOffer, baseOffer)
+            val discountedOffer = product.offers
+                .filterIsInstance<Offer.Discounted>()
+                .firstOrNull { it.tags.contains(discountTag) }
+            val baseOffer =
+                // There is always exactly one non-discounted offer.
+                product.offers.filterIsInstance<Offer.NonDiscounted>().firstOrNull()
+                    ?: return null
+            return when {
+                discountTag != null && discountedOffer != null ->
+                    Pair(discountedOffer, baseOffer)
 
-                        baseOffer.tags.contains(baseTag) ->
-                            Pair(baseOffer, baseOffer)
+                baseTag != null && baseOffer.tags.contains(baseTag) ->
+                    Pair(baseOffer, baseOffer)
 
-                        else -> null
-                    }
-                }
+                else -> null
+            }
         }
 
         val offerSelector = when(selection) {
@@ -138,14 +134,14 @@ class LoadSubscriptionPlans @Inject constructor(
                 }
             }
 
-            is LoadPlansConfig.WithOfferTagAndFilter -> { product: Product ->
+            is LoadPlansConfig.WithBaseOfferTagAndFilter -> { product: Product ->
                 ifOrNull(product.planId in selection.planNames) {
-                    val offers = getOffersWithTag(product, selection.offerTag, baseTag = null)
-                    offers?.let { (discounted, base) ->
+                    val offers = getOffersWithTag(product, discountTag = null, baseTag = selection.baseOfferTag)
+                    offers?.let { (current, base) ->
                         // All pricing periods (base, discount offers) must use the same payment cycle.
                         val paymentCycle = base.pricingPeriods.firstOrNull()?.cycle?.toPaymentCycle()
                         ifOrNull(paymentCycle in selection.paymentCycles) {
-                            OfferInfo(discounted, base)
+                            OfferInfo(current, base)
                         }
                     }
                 }

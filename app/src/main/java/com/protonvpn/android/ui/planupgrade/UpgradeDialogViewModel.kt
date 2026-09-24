@@ -427,7 +427,7 @@ class UpgradeDialogViewModel(
 
         return when (config) {
             is LoadPlansConfig.WithOfferTag -> this
-            is LoadPlansConfig.WithOfferTagAndFilter -> matchPlanNames(config.planNames)
+            is LoadPlansConfig.WithBaseOfferTagAndFilter -> matchPlanNames(config.planNames)
             is LoadPlansConfig.WithOptionalDiscount -> matchPlanNames(config.planNames)
         }
     }

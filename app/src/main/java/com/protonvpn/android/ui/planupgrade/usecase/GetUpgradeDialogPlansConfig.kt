@@ -82,30 +82,46 @@ class GetUpgradeDialogPlansConfig(
         }
         val panel = notification?.offer?.panel
         val iapParams = panel?.iapProductDetails?.google
-        return if (iapParams != null && iapParams.offerTag != null) {
-            UpgradeDialogLoadPlansConfig(
-                planSelection = LoadPlansConfig.WithOptionalDiscount(
-                    planNames = supportedPlanNames,
-                    paymentCycles = IapConstants.DEFAULT_PAYMENT_CYCLES,
-                    discountOfferTags = listOf(iapParams.offerTag),
-                ),
-                preselectedCycle = iapParams.preselectedCycle,
-                showDiscountBadge = false,
-                buttonLabelOverride = panel.button?.text,
-                notificationReference = notification.reference,
-            )
-        } else {
-            UpgradeDialogLoadPlansConfig(
-                planSelection = LoadPlansConfig.WithOptionalDiscount(
-                    planNames = supportedPlanNames,
-                    paymentCycles = IapConstants.DEFAULT_PAYMENT_CYCLES,
-                    discountOfferTags = listOf(),
-                ),
-                preselectedCycle = PaymentCycle.Year(1),
-                showDiscountBadge = true,
-                buttonLabelOverride = null,
-                notificationReference = null,
-            )
+        return when {
+            iapParams != null && iapParams.offerTag != null -> {
+                UpgradeDialogLoadPlansConfig(
+                    planSelection = LoadPlansConfig.WithOptionalDiscount(
+                        planNames = supportedPlanNames,
+                        paymentCycles = IapConstants.DEFAULT_PAYMENT_CYCLES,
+                        discountOfferTags = listOf(iapParams.offerTag),
+                    ),
+                    preselectedCycle = iapParams.preselectedCycle,
+                    showDiscountBadge = false,
+                    buttonLabelOverride = panel.button?.text,
+                    notificationReference = notification.reference,
+                )
+            }
+            iapParams != null && iapParams.baseOfferTag != null -> {
+                UpgradeDialogLoadPlansConfig(
+                    planSelection = LoadPlansConfig.WithBaseOfferTagAndFilter(
+                        planNames = supportedPlanNames,
+                        paymentCycles = IapConstants.DEFAULT_PAYMENT_CYCLES,
+                        baseOfferTag = iapParams.baseOfferTag,
+                    ),
+                    preselectedCycle = iapParams.preselectedCycle,
+                    showDiscountBadge = false,
+                    buttonLabelOverride = panel.button?.text,
+                    notificationReference = notification.reference
+                )
+            }
+            else -> {
+                UpgradeDialogLoadPlansConfig(
+                    planSelection = LoadPlansConfig.WithOptionalDiscount(
+                        planNames = supportedPlanNames,
+                        paymentCycles = IapConstants.DEFAULT_PAYMENT_CYCLES,
+                        discountOfferTags = emptyList(),
+                    ),
+                    preselectedCycle = PaymentCycle.Year(1),
+                    showDiscountBadge = true,
+                    buttonLabelOverride = null,
+                    notificationReference = null,
+                )
+            }
         }
     }
 
