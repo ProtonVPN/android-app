@@ -314,7 +314,7 @@ class ApiNotificationManager @Inject constructor(
             val removedIds = before.toSet().subtract(after).takeIfNotEmpty()?.joinToString(", ") { it.id }
             if (removedIds != null) {
                 ProtonLogger.logCustom(
-                    LogLevel.DEBUG,
+                    LogLevel.INFO,
                     LogCategory.PROMO,
                     "Ignored notifications ($reason): $removedIds"
                 )
