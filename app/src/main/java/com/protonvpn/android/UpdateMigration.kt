@@ -31,11 +31,15 @@ import com.protonvpn.android.servers.StreamingServicesUpdater
 import com.protonvpn.android.settings.usecases.EnableTvLanSettingOnMigration
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.LastKnownVpnPermission
 import com.protonvpn.android.vpn.usecases.UpdateCertForCurrentUser
+import com.protonvpn.android.widget.data.WidgetTracker
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,6 +55,8 @@ class UpdateMigration @Inject constructor(
     private val apiNotificationManager: dagger.Lazy<ApiNotificationManager>,
     private val notificationChannels: dagger.Lazy<NotificationChannels>,
     private val saveMmpEvent: dagger.Lazy<SaveMmpEvent>,
+    private val widgetTracker: dagger.Lazy<WidgetTracker>,
+    private val lastKnownVpnPermission: dagger.Lazy<LastKnownVpnPermission>,
 ) {
     private val oldVersionCode = Storage.getInt(KEY_VERSION_CODE)
     private val newVersionCode = BuildConfig.VERSION_CODE
@@ -71,6 +77,7 @@ class UpdateMigration @Inject constructor(
             updateStreamingServices(strippedOldVersionCode)
             removeLegacyStorage(strippedOldVersionCode)
             updateNotificationChannels(strippedOldVersionCode)
+            assumeVpnPermissionForWidgetUsers(strippedOldVersionCode)
         }
         if (isNewInstall || isUpdatedVersion) {
             Storage.saveInt("VERSION_CODE", newVersionCode)
@@ -165,6 +172,19 @@ class UpdateMigration @Inject constructor(
     private fun updateNotificationChannels(oldVersionCode: Int) {
         if (oldVersionCode <= 5_17_03_00) {
             notificationChannels.get().updateChannels(appContext)
+        }
+    }
+
+    @SuppressWarnings("MagicNumber")
+    private fun assumeVpnPermissionForWidgetUsers(oldVersionCode: Int) {
+        // Widget used to check VPN permission with VpnService.prepare(), now it relies on a cached value. Assume
+        // existing widget users have the permission so that the widget keeps connecting in the background. If it's
+        // not the case a notification is shown and the cached value is corrected.
+        if (oldVersionCode < 5_20_58_00) {
+            mainScope.launch {
+                val widgetCount = widgetTracker.get().widgetCount.filterNotNull().first()
+                if (widgetCount > 0) lastKnownVpnPermission.get().assumeGrantedIfUnknown()
+            }
         }
     }
 

@@ -27,12 +27,26 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 fun interface VpnPermissionDelegate {
+    /**
+     * Calls VpnService.prepare(). Note: if the app already has VPN permission, this will stop any other active VPN.
+     */
     fun prepareVpnPermission(): Intent?
+
+    fun onPermissionGranted() {}
 }
 
 @Reusable
 class VpnServicePermissionDelegate @Inject constructor(
-    @ApplicationContext private val appContext: Context
+    @ApplicationContext private val appContext: Context,
+    private val lastKnownVpnPermission: LastKnownVpnPermission,
 ) : VpnPermissionDelegate {
-    override fun prepareVpnPermission(): Intent? = VpnService.prepare(appContext)
+    override fun prepareVpnPermission(): Intent? =
+        VpnService.prepare(appContext).also { intent ->
+            lastKnownVpnPermission.update(hasPermission = intent == null)
+        }
+
+    // No need for onPermissionDenied: prepareVpnPermission() has already stored the permission as missing.
+    override fun onPermissionGranted() {
+        lastKnownVpnPermission.update(hasPermission = true)
+    }
 }

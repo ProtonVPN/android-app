@@ -113,6 +113,7 @@ import me.proton.core.util.kotlin.DispatcherProvider
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
+import javax.inject.Provider
 import javax.inject.Singleton
 import kotlin.time.ExperimentalTime
 import kotlin.time.TimeSource
@@ -198,11 +199,11 @@ class SharedTestAppModule {
         TestProtonApiRetroFitWrapper(realImpl)
 
     @Provides
-    fun provideVpnPrepareDelegate(@ApplicationContext context: Context): VpnPermissionDelegate =
+    fun provideVpnPrepareDelegate(impl: Provider<VpnServicePermissionDelegate>): VpnPermissionDelegate =
         if (TestSettings.mockedConnectionUsed) {
             VpnPermissionDelegate { null }
         } else {
-            VpnServicePermissionDelegate(context)
+            impl.get()
         }
 
     @Singleton

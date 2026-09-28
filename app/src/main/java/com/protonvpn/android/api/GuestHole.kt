@@ -217,6 +217,7 @@ class GuestHole @Inject constructor(
 
                 // Ask for permissions and if granted execute original method and return it back to core
                 if (currentActivity.suspendForPermissions(intent)) {
+                    vpnPermissionDelegate.onPermissionGranted()
                     withTimeoutOrNull(GUEST_HOLE_ATTEMPT_TIMEOUT) {
                         unblockWithPermission(delegate, backendCall)
                     }

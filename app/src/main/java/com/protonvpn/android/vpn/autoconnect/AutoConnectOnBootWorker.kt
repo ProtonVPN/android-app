@@ -21,7 +21,6 @@ package com.protonvpn.android.vpn.autoconnect
 
 import android.content.Context
 import android.content.pm.ServiceInfo
-import android.net.VpnService
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
@@ -42,6 +41,7 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -60,13 +60,14 @@ class AutoConnectOnBootWorker  @AssistedInject constructor(
     private val tvProfileManager: dagger.Lazy<ProfileManager>,
     private val serverManager: dagger.Lazy<ServerManager>,
     private val currentUser: dagger.Lazy<CurrentUser>,
+    private val vpnPermissionDelegate: dagger.Lazy<VpnPermissionDelegate>,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
         ProtonLogger.logCustom(LogCategory.CONN, "AutoConnectOnBootWorker start")
         val settings = effectiveUserSettings.effectiveSettings.first()
         if (settings.tvAutoConnectOnBoot && !vpnUiStatus.isEstablishingOrConnected) {
-            val haveVpnPermission = VpnService.prepare(context) == null
+            val haveVpnPermission = vpnPermissionDelegate.get().prepareVpnPermission() == null
             if (!haveVpnPermission) {
                 ProtonLogger.logCustom(LogCategory.CONN, "AutoConnectOnBootWorker: no VPN permission, aborting")
             } else {

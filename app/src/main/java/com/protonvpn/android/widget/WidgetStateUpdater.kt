@@ -21,7 +21,6 @@ package com.protonvpn.android.widget
 
 import android.content.ComponentName
 import android.content.Context
-import android.net.VpnService
 import androidx.glance.action.actionStartActivity
 import androidx.glance.appwidget.action.actionSendBroadcast
 import androidx.glance.appwidget.updateAll
@@ -36,6 +35,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.utils.flatMapLatestNotNull
+import com.protonvpn.android.vpn.LastKnownVpnPermission
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.widget.data.WidgetTracker
@@ -67,6 +67,7 @@ class WidgetStateUpdater @Inject constructor(
     appIconManager: dagger.Lazy<AppIconManager>,
     serverManager2: dagger.Lazy<ServerManager2>,
     widgetTracker: WidgetTracker,
+    lastKnownVpnPermission: LastKnownVpnPermission,
 ) {
 
     private val vpnStatusFlow = vpnStatusProviderUi.get().uiStatus
@@ -136,9 +137,10 @@ class WidgetStateUpdater @Inject constructor(
                         combine(
                             vpnStatusFlow,
                             recentsListViewStateFlow.get(),
-                        ) { vpnStatus, recents ->
-                            val hasVpnPermission = VpnService.prepare(appContext) == null
-
+                            // Don't use VpnService.prepare() here, it would stop any other active VPN. If the cached
+                            // value is stale, the background connection will show a notification.
+                            lastKnownVpnPermission.hasPermission,
+                        ) { vpnStatus, recents, hasVpnPermission ->
                             val widgetRecents = recents.recents.map { recentItemViewState ->
                                 val canConnectInBackground = hasVpnPermission && !recentItemViewState.connectIntent.isProfileAutoOpen
 

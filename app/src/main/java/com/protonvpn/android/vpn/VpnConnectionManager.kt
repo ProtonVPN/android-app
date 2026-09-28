@@ -567,6 +567,7 @@ class VpnConnectionManager @Inject constructor(
             scope.launch { vpnStateMonitor.newSessionEvent.emit(connectIntent to triggerAction) }
         if (intent != null) {
             uiDelegate.askForPermissions(intent, connectIntent) {
+                permissionDelegate.onPermissionGranted()
                 connectWithPermission(uiDelegate, connectIntent, triggerAction, disconnectTrigger, clearFallback = true)
             }
         } else {
