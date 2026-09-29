@@ -108,6 +108,38 @@ fun FullHomeScreenConnected() {
     }
 }
 
+@PreviewTest
+@ProtonVpnTestPreview
+@Composable
+fun FullHomeScreenConnectedChangeServerCooldown() {
+    ProtonVpnPreview {
+        HomeView(
+            vpnState = VpnStatusViewState.Connected(
+                isSecureCoreServer = false,
+                banner = StatusBanner.UnwantedCountry
+            ),
+            // Map state is not loaded properly in preview
+            mapState = null,
+            dialogState = null,
+            upsellCarouselState = UpsellCarouselState(1500, 1600),
+            elapsedRealtimeClock = SystemClock::elapsedRealtime,
+            onDismissDialog = {},
+            onNetshieldValueChanged = {},
+            onDisableCustomDns = {},
+            bottomPromoComponent = null,
+            prominentPromoComponent = null,
+            connectionCardComponent = HomeViewData.connectionCardConnectedChangeServerCooldownComponent,
+            snackbarHostState = SnackbarHostState(),
+            recentsComponent = HomeViewData.recentsComponentConnected,
+            adoptionComponent = null,
+            onOpenConnectionPreferences = {},
+            onOpenSmartDiscoveryConnectionPreferences = {},
+            onDismissSmartDiscoveryConnectionPreferencesDialog = {},
+            onLaunchUpgradeDialog = { _, _, _ -> },
+        )
+    }
+}
+
 private object HomeViewData {
     val connectionCardDisconnectedComponent = getConnectionCardComponent()
 
@@ -116,6 +148,14 @@ private object HomeViewData {
             remainingTimeInSeconds = 154,
             totalCooldownSeconds = 600,
             isFullLocked = true
+        )
+    )
+
+    val connectionCardConnectedChangeServerCooldownComponent = getConnectionCardComponent(
+        ChangeServerViewState.Locked(
+            remainingTimeInSeconds = 35,
+            totalCooldownSeconds = 600,
+            isFullLocked = false,
         )
     )
 
