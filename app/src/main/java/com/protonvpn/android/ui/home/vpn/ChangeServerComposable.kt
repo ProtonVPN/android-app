@@ -97,7 +97,7 @@ fun ChangeServerButton(
             disabledContentColor = ProtonTheme.colors.textHint,
         ),
         border = BorderStroke(1.dp, color = ProtonTheme.colors.separatorNorm),
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
     ) {
         when (state) {
             is ChangeServerViewState.Unlocked,
@@ -113,18 +113,19 @@ fun ChangeServerButton(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 12.dp), // Additional content padding.
-                    horizontalArrangement = Arrangement.SpaceBetween
+                        .padding(horizontal = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
                         stringResource(id = R.string.server_change_button_title),
                         style = ProtonTheme.typography.defaultUnspecified,
-                        color = ProtonTheme.colors.textWeak
+                        color = ProtonTheme.colors.textWeak,
                     )
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.testTag("remainingTimeRow")
+                        modifier = Modifier.testTag("remainingTimeRow"),
                     ) {
                         Icon(
                             painter = painterResource(id = CoreR.drawable.ic_proton_hourglass),
