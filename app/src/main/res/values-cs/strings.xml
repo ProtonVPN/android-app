@@ -560,11 +560,11 @@
     <string name="upsell_panel_general_benefit_speed">Rychlost serveru</string>
     <string name="upsell_panel_general_benefit_speed_standard">Standardní</string>
     <string name="upsell_panel_general_benefit_speed_highest">Nejvyšší</string>
-    <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
-    <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
-    <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
-    <string name="upsell_panel_adv_customization_benefit_dns">Use your own DNS service</string>
-    <string name="upsell_panel_adv_customization_benefit_gaming">Better connections for gaming</string>
+    <string name="upsell_panel_adv_customization_title">Vylaďte si své připojení</string>
+    <string name="upsell_panel_adv_customization_description">Povolte připojení v síti LAN, nastavte si vlastní DNS a zvolte typ NAT. Pokročilé ovládání, vše v tarifu Plus.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Přistupujte ke své tiskárně a domácím zařízením</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Používejte vlastní službu DNS</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Lepší připojení pro hraní her</string>
     <!--
         %1$s - country name in nominative
 
@@ -576,14 +576,14 @@
     <string name="upsell_panel_countries_title">Odemkněte přístup ke všem zemím s VPN Plus</string>
     <string name="upsell_panel_country_benefit_speed">Vysokorychlostní servery</string>
     <string name="upsell_panel_country_benefit_shows">Sledujte pořady dostupné pouze v zahraničí</string>
-    <string name="upsell_panel_devices_title">Protect every device you own</string>
-    <string name="upsell_panel_devices_description">Your phone, laptop, TV, and everything in between.</string>
+    <string name="upsell_panel_devices_title">Ochrana všech vašich zařízení</string>
+    <string name="upsell_panel_devices_description">Váš telefon, notebook, televize a všechna ostatní zařízení.</string>
     <string name="upsell_panel_netshield_title">Procházejte internet bez přerušení</string>
     <string name="upsell_panel_netshield_benefit_ads">Během prohlížení jsou reklamy blokovány</string>
     <string name="upsell_panel_netshield_benefit_trackers">Zabraňte sledovacím prvkům, aby vás sledovaly</string>
     <string name="upsell_panel_netshield_benefit_malware">Ochrana před malwarem a phishingem</string>
     <string name="upsell_panel_netshield_benefit_load_speed">Stránky se načítají rychleji </string>
-    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
+    <string name="upsell_panel_onboarding_title">Získejte více s VPN Plus</string>
     <string name="upsell_panel_p2p_title">Downloads at full speed</string>
     <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
     <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
