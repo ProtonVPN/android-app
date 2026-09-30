@@ -89,6 +89,8 @@ import com.protonvpn.android.telemetry.SnapshotScheduler
 import com.protonvpn.android.telemetry.TelemetryReporter
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
+import com.protonvpn.android.tv.main_screen.IsTvMainScreenRedesignEnabled
+import com.protonvpn.android.tv.main_screen.IsTvMainScreenRedesignEnabledImpl
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabledImpl
 import com.protonvpn.android.tv.upsell.IsTvIapEnabled
@@ -450,6 +452,9 @@ object AppModule {
 
         @Binds
         fun bindIsTvIapEnabled(impl: IsTvIapEnabledImpl): IsTvIapEnabled
+
+        @Binds
+        fun bindIsTvMainScreenRedesignEnabled(impl: IsTvMainScreenRedesignEnabledImpl): IsTvMainScreenRedesignEnabled
 
         @Binds
         fun bindTvDisableFavoriteCountryForFreeUser(

@@ -25,6 +25,7 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Configuration.UI_MODE_TYPE_NORMAL
 import androidx.compose.ui.tooling.preview.Preview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.ProtonVpnTvPreview
 
 @ProtonVpnPreview
 @Preview(name = "200%", fontScale = 2f, uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL)
@@ -34,3 +35,6 @@ annotation class ProtonVpnTestPreview
 @Preview(name = "Dark", heightDp = 1625, uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL)
 @Preview(name = "200%", heightDp = 1625, fontScale = 2f, uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL)
 annotation class ProtonVpnTestPreviewLong
+
+@ProtonVpnTvPreview
+annotation class ProtonVpnTvTestPreview

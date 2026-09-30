@@ -34,6 +34,8 @@ import com.protonvpn.android.redesign.app.ui.VpnAppViewModel
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.login.TvPostLoginFragment
 import com.protonvpn.android.tv.login.TvQrLoginActivity
+import com.protonvpn.android.tv.main_screen.IsTvMainScreenRedesignEnabled
+import com.protonvpn.android.tv.main_screen.ui.TvMainScreenFragment
 import com.protonvpn.android.ui.main.MainActivityHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -54,6 +56,9 @@ class TvMainActivity : BaseTvActivity() {
 
     @Inject
     lateinit var guestHole: GuestHole
+
+    @Inject
+    lateinit var isTvMainScreenRedesignEnabled: IsTvMainScreenRedesignEnabled
 
     private val helper = object : MainActivityHelper(this) {
 
@@ -89,16 +94,16 @@ class TvMainActivity : BaseTvActivity() {
         isTv.onUiLaunched(isTvIntent)
     }
 
-    private fun onAppStateChanged(loaderState: VpnAppViewModel.LoaderState?) {
+    private suspend fun onAppStateChanged(loaderState: VpnAppViewModel.LoaderState?) {
         // The most common path is for the state to change: null -> Loaded.
         // Don't set ant fragment for null to avoid unnecessary work on app start.
         if (loaderState == null)
             return
 
-        val fragmentClass = if (loaderState == VpnAppViewModel.LoaderState.Loaded) {
-            TvMainFragment::class.java
-        } else {
-            TvPostLoginFragment::class.java
+        val fragmentClass = when {
+            loaderState != VpnAppViewModel.LoaderState.Loaded -> TvPostLoginFragment::class.java
+            isTvMainScreenRedesignEnabled() -> TvMainScreenFragment::class.java
+            else -> TvMainFragment::class.java
         }
         supportFragmentManager.commit {
             replace(R.id.container, fragmentClass, null)
