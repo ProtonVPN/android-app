@@ -25,6 +25,8 @@ object BuildConfigUtils {
     fun isBlack() = BuildConfig.FLAVOR_environment.startsWith("black")
     fun useAltRoutingCertVerificationForMainRoute() = BuildConfig.ALT_ROUTING_CERT_FOR_MAIN_ROUTE
     fun displayDebugUi() = BuildConfig.DEBUG || isBlack()
+    fun supportsSentry() =
+        !BuildConfig.DEBUG && BuildConfig.FLAVOR_distribution != Constants.DISTRIBUTION_OPENSOURCE
 
     // Make sure that DoH services URLs end with a slash (expected by OkHttp)
     fun sanitizedDohServices() = BuildConfig.DOH_SERVICES_URLS?.map {

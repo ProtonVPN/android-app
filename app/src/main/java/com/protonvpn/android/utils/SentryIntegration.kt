@@ -74,12 +74,8 @@ object SentryIntegration {
     fun isEnabled() = Storage.getBoolean(SENTRY_ENABLED_KEY, true)
 
     private fun initSentry() {
-        val sentryDsn =
-            if (!BuildConfig.DEBUG && BuildConfig.FLAVOR_distribution != Constants.DISTRIBUTION_OPENSOURCE && isEnabled()) {
-                BuildConfig.Sentry_DSN
-            } else {
-                ""
-            }
+        val sentryDsn = BuildConfig.Sentry_DSN.takeIf { BuildConfigUtils.supportsSentry() && isEnabled() }.orEmpty()
+
         SentryAndroid.init(application) { options ->
             options.dsn = sentryDsn
             options.release = BuildConfig.VERSION_NAME
@@ -114,7 +110,7 @@ object SentryIntegration {
         )
 
         entryPoint.accountSentryHubBuilder().invoke(
-            sentryDsn = BuildConfig.ACCOUNT_SENTRY_DSN.takeIf { !BuildConfig.DEBUG }.orEmpty(),
+            sentryDsn = BuildConfig.ACCOUNT_SENTRY_DSN.takeIf { BuildConfigUtils.supportsSentry() }.orEmpty(),
             installationId = getInstallationId()
         ) { options ->
             options.beforeSend = SentryOptions.BeforeSendCallback { event, _ ->
