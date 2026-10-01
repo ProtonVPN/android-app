@@ -22,6 +22,7 @@
 package com.protonvpn.robots.mobile
 
 import android.view.KeyEvent
+import com.protonvpn.android.R
 import com.protonvpn.interfaces.Robot
 import me.proton.core.auth.test.robot.signup.SignUpRobot
 import me.proton.test.fusion.Fusion.byObject
@@ -59,4 +60,15 @@ object SettingsRobot : Robot {
     }
 
     fun usernameIsDisplayed(name: String) = node.withText(name).await { assertIsDisplayed() }
+
+    /** Opens Account settings from the logged-in account row (display name). */
+    fun openAccountMenu(username: String): SettingsRobot {
+        node.withText(username).scrollTo().click()
+        return this
+    }
+
+    fun accountSettingsScreenIsDisplayed(): SettingsRobot {
+        nodeWithTextDisplayed(R.string.settings_account_settings_title)
+        return this
+    }
 }

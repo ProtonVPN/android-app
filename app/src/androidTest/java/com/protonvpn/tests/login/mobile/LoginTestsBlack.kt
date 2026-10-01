@@ -76,8 +76,15 @@ class LoginTestsBlack {
 
     @Test
     fun loginWithPlusUser() {
-        LoginRobotVpn.signIn(testUserEndToEnd.plusUser)
+        val user = testUserEndToEnd.plusUser
+        LoginRobotVpn.signIn(user)
         HomeRobot.verify { isLoggedIn() }
+            .navigateToSettings()
+            .openAccountMenu(user.email)
+            .verify {
+                accountSettingsScreenIsDisplayed()
+                usernameIsDisplayed(user.email)
+            }
     }
 
     @Test
