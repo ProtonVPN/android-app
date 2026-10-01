@@ -440,10 +440,6 @@ object AppModule {
         @Binds
         fun bindGuestHoleFallbackListener(guestHole: GuestHole): DohAlternativesListener
 
-        @Singleton
-        @Binds
-        fun bindImagePrefetcher(glide: GlideImagePrefetcher): ImagePrefetcher
-
         @Binds
         fun bindBuiltInGuestHolesProvider(impl: AssetsBuiltInGuestHoles): BuiltInGuestHoles
 
@@ -531,4 +527,14 @@ object AppModule {
 
         // Alphabetically☝️
     }
+}
+
+// Separate module so that tests can replace it with a fake prefetcher, since the real one uses
+// Glide which asserts it isn't run on the main thread (test dispatchers run everything on it).
+@Module
+@InstallIn(SingletonComponent::class)
+interface ImagePrefetcherModule {
+    @Singleton
+    @Binds
+    fun bindImagePrefetcher(glide: GlideImagePrefetcher): ImagePrefetcher
 }

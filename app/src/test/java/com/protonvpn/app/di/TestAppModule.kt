@@ -20,16 +20,15 @@
 
 package com.protonvpn.app.di
 
-import android.os.SystemClock
-import android.os.SystemClock.elapsedRealtime
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.di.ElapsedRealtimeClock
+import com.protonvpn.android.di.ImagePrefetcherModule
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.promooffers.data.ImagePrefetcher
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatus
 import com.protonvpn.android.servers.UpdateServersWithBinaryStatusImpl
-import com.protonvpn.mocks.FakeUpdateServersWithBinaryStatus
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestSetVpnUser
@@ -38,6 +37,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -95,4 +95,15 @@ object TestScopeAppModule {
         @Binds
         fun bindUpdateServersWithBinaryStatus(impl: UpdateServersWithBinaryStatusImpl): UpdateServersWithBinaryStatus
     }
+}
+
+// Replaces GlideImagePrefetcher: Glide asserts it isn't called on the main thread, but unit test
+// dispatchers run everything on the thread Robolectric treats as main.
+@Module
+@TestInstallIn(components = [SingletonComponent::class], replaces = [ImagePrefetcherModule::class])
+object TestImagePrefetcherModule {
+
+    @Provides
+    @Singleton
+    fun provideImagePrefetcher(): ImagePrefetcher = ImagePrefetcher { true }
 }
