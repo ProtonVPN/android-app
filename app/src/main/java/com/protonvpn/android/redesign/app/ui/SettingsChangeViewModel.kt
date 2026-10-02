@@ -67,9 +67,9 @@ class SettingsChangeViewModel @Inject constructor(
         }
     }
 
-    fun toggleNetShield() {
+    fun setNetShieldEnabled(isEnabled: Boolean) {
         viewModelScope.launch {
-            userSettingsManager.toggleNetShield()
+            userSettingsManager.setNetShieldEnabled(isEnabled = isEnabled)
         }
     }
 
@@ -90,44 +90,44 @@ class SettingsChangeViewModel @Inject constructor(
         }
     }
 
-    fun toggleVpnAccelerator() {
+    fun setVpnAcceleratorEnabled(isEnabled: Boolean) {
         viewModelScope.launch {
-            userSettingsManager.toggleVpnAccelerator()
+            userSettingsManager.setVpnAcceleratorEnabled(isEnabled = isEnabled)
         }
     }
 
-    fun toggleAltRouting() {
+    fun setAltRoutingEnabled(isEnabled: Boolean) {
         viewModelScope.launch {
-            userSettingsManager.toggleAltRouting()
+            userSettingsManager.setAltRoutingEnabled(isEnabled = isEnabled)
         }
     }
 
-    fun toggleIPv6(uiDelegate: VpnUiDelegate) {
+    fun setIPv6Enabled(isEnabled: Boolean, uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
-            userSettingsManager.toggleIPv6()
+            userSettingsManager.setIPv6Enabled(isEnabled = isEnabled)
             reconnectionCheck(uiDelegate, DontShowAgainStore.Type.IPv6ChangeWhenConnected)
         }
     }
 
-    fun toggleLanConnections(uiDelegate: VpnUiDelegate) {
+    fun setLanConnectionsEnabled(isEnabled: Boolean, uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
-            userSettingsManager.toggleLanConnections()
+            userSettingsManager.setLanConnectionsEnabled(isEnabled = isEnabled)
             reconnectionCheck(uiDelegate, DontShowAgainStore.Type.LanConnectionsChangeWhenConnected)
         }
     }
 
-    fun toggleLanAllowDirectConnections(delegate: VpnUiDelegate) {
+    fun setLanAllowDirectConnectionsEnabled(isEnabled: Boolean, delegate: VpnUiDelegate) {
         viewModelScope.launch {
-            userSettingsManager.toggleLanAllowDirectConnections()
+            userSettingsManager.setLanAllowDirectConnectionsEnabled(isEnabled = isEnabled)
             reconnectionCheck(delegate, DontShowAgainStore.Type.LanConnectionsChangeWhenConnected)
         }
     }
 
-    fun toggleSplitTunneling(uiDelegate: VpnUiDelegate) {
+    fun setSplitTunnelingEnabled(isEnabled: Boolean, uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
             userSettingsManager.update { current ->
                 val oldValue = current.splitTunneling
-                val newValue = oldValue.copy(isEnabled = !oldValue.isEnabled)
+                val newValue = oldValue.copy(isEnabled = isEnabled)
                 if (!oldValue.isEffectivelySameAs(newValue)) viewModelScope.launch {
                     reconnectionCheck(uiDelegate, DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected)
                 }
@@ -185,9 +185,9 @@ class SettingsChangeViewModel @Inject constructor(
         }
     }
 
-    fun toggleNetShieldAdultContentBlock() {
+    fun setNetShieldAdultContentBlockEnabled(isEnabled: Boolean) {
         viewModelScope.launch {
-            userSettingsManager.toggleNetShieldAdultContentBlock()
+            userSettingsManager.setNetShieldAdultContentBlockEnabled(isEnabled = isEnabled)
         }
     }
 

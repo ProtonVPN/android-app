@@ -125,7 +125,7 @@ class TvSettingsCustomDnsActivity : BaseTvActivity() {
                         TvSettingsCustomDns(
                             modifier = Modifier.fillMaxWidth(),
                             viewState = viewState,
-                            onToggled = viewModel::onToggleIsCustomDnsEnabled,
+                            onToggled = viewModel::setCustomDnsEnabled,
                             onSelectedCustomDns = viewModel::onCustomDnsSelected,
                             onMoveCustomDnsToTop = viewModel::onMoveCustomDnsToTop,
                             onMoveCustomDnsUp = viewModel::onMoveCustomDnsUp,
@@ -252,7 +252,7 @@ private fun TvSettingsCustomDnsEmpty(
 @Composable
 private fun TvSettingsCustomDns(
     viewState: TvSettingsCustomDnsViewModel.ViewState.CustomDns,
-    onToggled: () -> Unit,
+    onToggled: (Boolean) -> Unit,
     onSelectedCustomDns: (Int, String) -> Unit,
     onMoveCustomDnsToTop: (TvSettingsCustomDnsViewModel.SelectedCustomDns) -> Unit,
     onMoveCustomDnsUp: (TvSettingsCustomDnsViewModel.SelectedCustomDns) -> Unit,
@@ -293,7 +293,7 @@ private fun TvSettingsCustomDns(
 @Composable
 private fun TvSettingsCustomDnsContent(
     viewState: TvSettingsCustomDnsViewModel.ViewState.CustomDns,
-    onToggled: () -> Unit,
+    onToggled: (Boolean) -> Unit,
     onCustomDnsSelected: (Int, String) -> Unit,
     onAddNewCustomDns: () -> Unit,
     modifier: Modifier = Modifier,

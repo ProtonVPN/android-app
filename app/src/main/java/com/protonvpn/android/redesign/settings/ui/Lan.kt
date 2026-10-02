@@ -34,8 +34,8 @@ import com.protonvpn.android.base.ui.largeScreenContentPadding
 fun LanSetting(
     onClose: () -> Unit,
     lan: SettingsViewModel.SettingViewState.LanConnections,
-    onToggleLan: () -> Unit,
-    onToggleAllowDirectConnection: () -> Unit,
+    onToggleLan: (Boolean) -> Unit,
+    onToggleAllowDirectConnection: (Boolean) -> Unit,
 ) {
     val listState = rememberLazyListState()
     FeatureSubSettingScaffold(
@@ -64,7 +64,7 @@ fun LanSetting(
                         title = stringResource(id = R.string.settings_lan_allow_direct_connection_title),
                         description = stringResource(id = R.string.settings_lan_allow_direct_connection_description),
                         value = lan.allowDirectConnections,
-                        onValueChange = { onToggleAllowDirectConnection() },
+                        onValueChange = onToggleAllowDirectConnection,
                     )
                 }
             }

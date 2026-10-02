@@ -73,10 +73,9 @@ class CurrentUserLocalSettingsManager @Inject constructor(
             current.copy(customDns = updatedCustomDns)
         }
 
-    suspend fun toggleCustomDNS() =
-        update { current ->
-            current.copy(customDns = current.customDns.copy(toggleEnabled = !current.customDns.toggleEnabled))
-        }
+    suspend fun setCustomDnsEnabled(isEnabled: Boolean) = update { current ->
+        current.copy(customDns = current.customDns.copy(toggleEnabled = isEnabled))
+    }
 
     suspend fun disableCustomDNS() =
         update { current -> current.copy(customDns = current.customDns.copy(toggleEnabled = false)) }
@@ -88,23 +87,22 @@ class CurrentUserLocalSettingsManager @Inject constructor(
         )
     }
 
-    suspend fun toggleNetShield() = update { current ->
-        current.copy(isNetShieldEnabled = !current.isNetShieldEnabled)
+    suspend fun setNetShieldEnabled(isEnabled: Boolean) = update { current ->
+        current.copy(isNetShieldEnabled = isEnabled)
     }
 
-    suspend fun toggleNetShieldAdultContentBlock() = update { current ->
+    suspend fun setNetShieldAdultContentBlockEnabled(isEnabled: Boolean) = update { current ->
         // Adult content block is tied to extended netshield. If it was enabled, then the off state for adult content block
         // still has netshield extended enabled. There is a separate toggle controlling the extended netshield state.
-        current.copy(isAdultContentBlocked = !current.isAdultContentBlocked)
+        current.copy(isAdultContentBlocked = isEnabled)
     }
 
     suspend fun updateProtocol(newProtocol: ProtocolSelection) =
         update { current -> current.copy(protocol = newProtocol) }
 
-    suspend fun toggleSplitTunneling() =
-        update { current ->
-            current.copy(splitTunneling = current.splitTunneling.copy(isEnabled = !current.splitTunneling.isEnabled))
-        }
+    suspend fun setSplitTunnelingEnabled(isEnabled: Boolean) = update { current ->
+        current.copy(splitTunneling = current.splitTunneling.copy(isEnabled = isEnabled))
+    }
 
     suspend fun updateSplitTunnelingMode(mode: SplitTunnelingMode) {
         update { current ->
@@ -112,20 +110,25 @@ class CurrentUserLocalSettingsManager @Inject constructor(
         }
     }
 
-    suspend fun toggleVpnAccelerator() =
-        update { current -> current.copy(vpnAccelerator = !current.vpnAccelerator) }
+    suspend fun setVpnAcceleratorEnabled(isEnabled: Boolean) = update { current ->
+        current.copy(vpnAccelerator = isEnabled)
+    }
 
-    suspend fun toggleAltRouting() =
-        update { current -> current.copy(apiUseDoh = !current.apiUseDoh) }
+    suspend fun setAltRoutingEnabled(isEnabled: Boolean) = update { current ->
+        current.copy(apiUseDoh = isEnabled)
+    }
 
-    suspend fun toggleIPv6() =
-        update { current -> current.copy(ipV6Enabled = !current.ipV6Enabled) }
+    suspend fun setIPv6Enabled(isEnabled: Boolean) = update { current ->
+        current.copy(ipV6Enabled = isEnabled)
+    }
 
-    suspend fun toggleLanConnections() =
-        update { current -> current.copy(lanConnections = !current.lanConnections) }
+    suspend fun setLanConnectionsEnabled(isEnabled: Boolean) = update { current ->
+        current.copy(lanConnections = isEnabled)
+    }
 
-    suspend fun toggleLanAllowDirectConnections() =
-        update { current -> current.copy(lanConnectionsAllowDirect = !current.lanConnectionsAllowDirect) }
+    suspend fun setLanAllowDirectConnectionsEnabled(isEnabled: Boolean) = update { current ->
+        current.copy(lanConnectionsAllowDirect = isEnabled)
+    }
 
     suspend fun setRandomizedNat(value: Boolean) =
         update { current -> current.copy(randomizedNat = value) }

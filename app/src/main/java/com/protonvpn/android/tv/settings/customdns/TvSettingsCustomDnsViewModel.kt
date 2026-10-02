@@ -172,9 +172,9 @@ class TvSettingsCustomDnsViewModel @Inject constructor(
         initialValue = null,
     )
 
-    fun onToggleIsCustomDnsEnabled() {
+    fun setCustomDnsEnabled(isEnabled: Boolean) {
         mainScope.launch {
-            userSettingsManager.toggleCustomDNS()
+            userSettingsManager.setCustomDnsEnabled(isEnabled = isEnabled)
         }
     }
 

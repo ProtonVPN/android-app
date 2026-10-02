@@ -132,7 +132,7 @@ fun SubSettingsRoute(
                         setting = vpnAccelerator,
                         onClose = onClose,
                         onLearnMore = { context.openUrl(Constants.VPN_ACCELERATOR_INFO_URL) },
-                        onToggle = settingsChangeViewModel::toggleVpnAccelerator,
+                        onToggle = settingsChangeViewModel::setVpnAcceleratorEnabled,
                     )
                 }
             }
@@ -148,8 +148,8 @@ fun SubSettingsRoute(
                         onCustomDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE) },
                         onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
                         onPrivateDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_PRIVATE_DNS_LEARN_MORE) },
-                        onNetShieldToggle = settingsChangeViewModel::toggleNetShield,
-                        onToggleNetShieldAdultContentBlock = settingsChangeViewModel::toggleNetShieldAdultContentBlock,
+                        onNetShieldToggle = settingsChangeViewModel::setNetShieldEnabled,
+                        onToggleNetShieldAdultContentBlock = settingsChangeViewModel::setNetShieldAdultContentBlockEnabled,
                     )
                 }
             }
@@ -190,7 +190,7 @@ fun SubSettingsRoute(
                             allowLan = advancedViewState.lanConnections,
                             natType = advancedViewState.natType,
                             customDns = advancedViewState.customDns,
-                            onAltRoutingChange = settingsChangeViewModel::toggleAltRouting,
+                            onAltRoutingChange = settingsChangeViewModel::setAltRoutingEnabled,
                             onNavigateToLan = {
                                 onOverrideSettingClick(OverrideType.LAN) {
                                     onNavigateToSubSetting(SubSettingsScreen.Type.Lan)
@@ -218,7 +218,9 @@ fun SubSettingsRoute(
                                 upgradeDialogLauncher.launch(context, UpgradeSource.MODERATE_NAT, UpgradeTrigger.SETTINGS)
                             },
                             ipV6 = advancedViewState.ipV6,
-                            onIPv6Toggle = { settingsChangeViewModel.toggleIPv6(vpnUiDelegate) },
+                            onIPv6Toggle = { isEnabled ->
+                                settingsChangeViewModel.setIPv6Enabled(isEnabled, vpnUiDelegate)
+                            },
                             onIPv6InfoClick = { infoSheetState.show(InfoType.IPv6Traffic) },
                             onCustomDnsLearnMore = {
                                 context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE)
@@ -243,7 +245,7 @@ fun SubSettingsRoute(
                             onAddDns = customDnsViewModel::validateAndAddDnsAddress,
                             onAddDnsTextChanged = dataSource::onAddDnsTextChanged,
                             removeDns = customDnsViewModel::removeDnsItem,
-                            toggleSetting = customDnsViewModel::toggleCustomDns,
+                            toggleSetting = customDnsViewModel::setCustomDnsEnabled,
                             updateDnsList = customDnsViewModel::updateCustomDnsList,
                             openAddDnsScreen = dataSource::openAddDnsScreen,
                             closeAddDnsScreen = dataSource::closeAddDnsScreen,
@@ -258,9 +260,11 @@ fun SubSettingsRoute(
                     LanSetting(
                         onClose = onClose,
                         lan = lan,
-                        onToggleLan = { settingsChangeViewModel.toggleLanConnections(vpnUiDelegate) },
-                        onToggleAllowDirectConnection = {
-                            settingsChangeViewModel.toggleLanAllowDirectConnections(vpnUiDelegate)
+                        onToggleLan = { isEnabled ->
+                            settingsChangeViewModel.setLanConnectionsEnabled(isEnabled, vpnUiDelegate)
+                        },
+                        onToggleAllowDirectConnection = { isEnabled ->
+                            settingsChangeViewModel.setLanAllowDirectConnectionsEnabled(isEnabled, vpnUiDelegate)
                         },
                     )
                 }
@@ -342,7 +346,9 @@ fun SubSettingsRoute(
                         onClose = onClose,
                         splitTunneling = splitTunnelingSettings,
                         onLearnMore = { context.openUrl(Constants.SPLIT_TUNNELING_INFO_URL) },
-                        onSplitTunnelToggle = { settingsChangeViewModel.toggleSplitTunneling(vpnUiDelegate) },
+                        onSplitTunnelToggle = { isEnabled ->
+                            settingsChangeViewModel.setSplitTunnelingEnabled(isEnabled, vpnUiDelegate)
+                        },
                         onSplitTunnelModeSelected = onModeSet,
                         onAppsClick = { mode -> splitTunnelAppsLauncher.launch(mode) },
                         onIpsClick = { mode -> splitTunnelIpLauncher.launch(mode) }

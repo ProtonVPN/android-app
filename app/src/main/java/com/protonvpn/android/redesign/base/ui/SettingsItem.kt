@@ -142,7 +142,7 @@ fun SettingsToggleItem(
     name: String,
     description: String?,
     value: Boolean,
-    onToggle: () -> Unit,
+    onToggle: (Boolean) -> Unit,
     needsUpgrade: Boolean = false,
     settingsValue: SettingValue? = null, // Needed only for override, value is passed as "value". Simplify this.
     descriptionAnnotation: ClickableTextAnnotation? = null,
@@ -154,7 +154,7 @@ fun SettingsToggleItem(
     val itemModifier = if (needsUpgrade && onUpgrade != null) {
         modifier.clickable(onClick = onUpgrade)
     } else {
-        modifier.toggleable(value, onValueChange = { onToggle() })
+        modifier.toggleable(value, onValueChange = onToggle)
     }
     val trailingContent = @Composable {
         when {

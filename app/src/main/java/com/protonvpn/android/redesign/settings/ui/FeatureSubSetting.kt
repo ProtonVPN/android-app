@@ -43,9 +43,9 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.SettingsFeatureToggle
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarBackIcon
+import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.ClickableTextAnnotation
 import com.protonvpn.android.redesign.base.ui.SettingDescription
-import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
 import me.proton.core.compose.theme.ProtonTheme
 import kotlin.math.min
@@ -99,7 +99,7 @@ fun FeatureSubSetting(
     onClose: () -> Unit,
     setting: SettingViewState<Boolean>,
     onLearnMore: () -> Unit,
-    onToggle: () -> Unit,
+    onToggle: (Boolean) -> Unit,
 ) {
     val listState = rememberLazyListState()
     FeatureSubSettingScaffold(
@@ -164,7 +164,7 @@ fun LazyListScope.addFeatureSettingItems(
     setting: SettingViewState<Boolean>,
     @DrawableRes imageRes: Int,
     onLearnMore: () -> Unit,
-    onToggle: () -> Unit,
+    onToggle: (Boolean) -> Unit,
     itemModifier: Modifier = Modifier,
 ) {
     addFeatureSettingItems(
@@ -197,7 +197,7 @@ fun LazyListScope.addFeatureSettingItems(
         SettingsFeatureToggle(
             label = stringResource(setting.titleRes),
             checked = setting.value,
-            onCheckedChange = { _ -> onToggle() },
+            onCheckedChange = onToggle,
             modifier = itemModifier.padding(vertical = 16.dp)
         )
     }

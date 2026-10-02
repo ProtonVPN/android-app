@@ -124,7 +124,7 @@ fun FullHomeScreenConnectedChangeServerCooldown() {
             upsellCarouselState = UpsellCarouselState(1500, 1600),
             elapsedRealtimeClock = SystemClock::elapsedRealtime,
             onDismissDialog = {},
-            onNetshieldValueChanged = {},
+            onNetShieldToggleChanged = {},
             onDisableCustomDns = {},
             bottomPromoComponent = null,
             prominentPromoComponent = null,

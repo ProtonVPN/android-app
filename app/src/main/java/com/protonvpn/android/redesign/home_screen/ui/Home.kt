@@ -232,7 +232,7 @@ fun HomeRoute(
         upsellCarouselState = upsellCarouselState,
         elapsedRealtimeClock = homeViewModel.elapsedRealtimeClock,
         onDismissDialog = homeViewModel::dismissDialog,
-        onNetShieldToggleChanged = homeViewModel::onToggleNetShieldProtocol,
+        onNetShieldToggleChanged = homeViewModel::setNetShieldEnabled,
         onDisableCustomDns = {
             if (homeViewModel.disableCustomDns())
                 settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate)

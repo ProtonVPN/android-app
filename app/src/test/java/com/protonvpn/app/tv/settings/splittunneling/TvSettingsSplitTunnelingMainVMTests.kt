@@ -187,7 +187,7 @@ class TvSettingsSplitTunnelingMainVMTests {
             it.copy(mode = SplitTunnelingMode.INCLUDE_ONLY, includedApps = listOf("app"))
         }
         testBackAndDialog(expectedDialog = false, expectedNavigateBack = false) {
-            viewModel.onToggleEnabled()
+            viewModel.setEnabled(isEnabled = true)
         }
     }
 
@@ -200,7 +200,7 @@ class TvSettingsSplitTunnelingMainVMTests {
         viewModel.mainViewState
             .filterNotNull()
             .test {
-                viewModel.onToggleEnabled()
+                viewModel.setEnabled(isEnabled = true)
 
                 awaitMatchingItem { it.needsReconnect }
                 assertNull(viewModel.showReconnectDialogFlow.value)

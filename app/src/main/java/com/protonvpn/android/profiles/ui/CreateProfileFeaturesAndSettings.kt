@@ -69,7 +69,7 @@ fun CreateProfileFeaturesAndSettingsRoute(
                 onNatChange = viewModel::setNatType,
                 onOpenLan = onOpenLan,
                 onAutoOpenChange = viewModel::setAutoOpen,
-                onDisableCustomDns = { viewModel.toggleCustomDns() },
+                onDisableCustomDns = { viewModel.setCustomDnsEnabled(isEnabled = false) },
                 onDisablePrivateDns = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
                 onOpenCustomDns = onOpenCustomDns,
                 onCustomDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE) },

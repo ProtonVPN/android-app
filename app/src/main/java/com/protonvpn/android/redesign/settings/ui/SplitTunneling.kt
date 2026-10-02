@@ -51,7 +51,7 @@ fun SplitTunnelingSubSetting(
     onClose: () -> Unit,
     splitTunneling: SettingsViewModel.SettingViewState.SplitTunneling,
     onLearnMore: () -> Unit,
-    onSplitTunnelToggle: () -> Unit,
+    onSplitTunnelToggle: (Boolean) -> Unit,
     onSplitTunnelModeSelected: (SplitTunnelingMode) -> Unit,
     onAppsClick: (SplitTunnelingMode) -> Unit,
     onIpsClick: (SplitTunnelingMode) -> Unit,

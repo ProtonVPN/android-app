@@ -121,7 +121,7 @@ class ToggleNetShield @Inject constructor(
                 netShield = profileNetShield,
             )
         } else {
-            userSettingsManager.toggleNetShield()
+            userSettingsManager.setNetShieldEnabled(isEnabled = isEnabled)
         }
     }
 
@@ -345,7 +345,7 @@ class HomeViewModel @Inject constructor(
         bottomPromoBannerFlow(isNightMode)
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
-    fun onToggleNetShieldProtocol(isEnabled: Boolean) {
+    fun setNetShieldEnabled(isEnabled: Boolean) {
         viewModelScope.launch {
             toggleNetShield(isEnabled = isEnabled)
         }

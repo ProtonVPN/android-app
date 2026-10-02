@@ -55,7 +55,7 @@ class TvSettingsAutoConnectActivity : BaseTvActivity() {
                     if (viewState != null) {
                         TvSettingsAutoConnect(
                             viewState = viewState,
-                            onToggled = viewModel::toggleAutoConnect,
+                            onToggled = viewModel::setAutoConnectEnabled,
                             modifier = Modifier.widthIn(max = TvUiConstants.SingleColumnWidth),
                         )
                     }
@@ -68,7 +68,7 @@ class TvSettingsAutoConnectActivity : BaseTvActivity() {
 @Composable
 private fun TvSettingsAutoConnect(
     viewState: TvSettingsAutoConnectViewModel.ViewState,
-    onToggled: () -> Unit,
+    onToggled: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     TvSettingsMainToggleLayout(

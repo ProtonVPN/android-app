@@ -108,9 +108,9 @@ class TvSettingsSplitTunnelingMainVM @Inject constructor(
         updateInitialSettings()
     }
 
-    fun onToggleEnabled() {
+    fun setEnabled(isEnabled: Boolean) {
         mainScope.launch {
-            userSettingsManager.toggleSplitTunneling()?.splitTunneling
+            userSettingsManager.setSplitTunnelingEnabled(isEnabled = isEnabled)
         }
     }
 

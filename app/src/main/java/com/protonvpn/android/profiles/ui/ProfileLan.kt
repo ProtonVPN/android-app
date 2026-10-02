@@ -45,8 +45,8 @@ fun ProfileLanRoute(
             LanSetting(
                 onClose = onClose,
                 lan = lan,
-                onToggleLan = viewModel::toggleLanConnections,
-                onToggleAllowDirectConnection = viewModel::toggleLanAllowDirectConnections,
+                onToggleLan = viewModel::setLanConnectionsEnabled,
+                onToggleAllowDirectConnection = viewModel::setLanAllowDirectConnectionsEnabled,
             )
         }
     }

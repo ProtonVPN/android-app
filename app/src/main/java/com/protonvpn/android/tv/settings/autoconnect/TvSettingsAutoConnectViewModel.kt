@@ -46,10 +46,10 @@ class TvSettingsAutoConnectViewModel @Inject constructor(
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
-    fun toggleAutoConnect() {
+    fun setAutoConnectEnabled(isEnabled: Boolean) {
         mainScope.launch {
             userSettingsManager.update {
-                it.copy(tvAutoConnectOnBoot = !it.tvAutoConnectOnBoot)
+                it.copy(tvAutoConnectOnBoot = isEnabled)
             }
         }
     }

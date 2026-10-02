@@ -85,12 +85,12 @@ fun TvSettingsItem(
 fun TvSettingsItemSwitch(
     title: String,
     checked: Boolean,
-    onClick: () -> Unit,
+    onToggle: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     trailingTitleContent: @Composable (() -> Unit)? = null
 ) {
     TvListRow(
-        onClick,
+        onClick = { onToggle(!checked) },
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.semantics {
             toggleableState = ToggleableState(checked)

@@ -23,16 +23,13 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.tv.settings.TvSettingDescriptionRow
@@ -40,7 +37,6 @@ import com.protonvpn.android.tv.settings.TvSettingsMainToggleLayout
 import com.protonvpn.android.tv.settings.TvSettingsReconnectDialog
 import com.protonvpn.android.tv.ui.TvUiConstants
 import dagger.hilt.android.AndroidEntryPoint
-import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 
 @AndroidEntryPoint
@@ -60,7 +56,9 @@ class TvSettingsLanConnectionsActivity : BaseTvActivity() {
                     if (viewState != null) {
                         TvSettingsLanConnections(
                             viewState = viewState,
-                            onToggled = { viewModel.toggleLanConnections(getVpnUiDelegate()) },
+                            onToggled = { isEnabled ->
+                                viewModel.setLanConnectionsEnabled(isEnabled, getVpnUiDelegate())
+                            },
                             onReconnect = { viewModel.onReconnectClicked(getVpnUiDelegate()) },
                             onReconnectDismiss = viewModel::onReconnectDismissed,
                             modifier = Modifier.widthIn(max = TvUiConstants.SingleColumnWidth),
@@ -75,7 +73,7 @@ class TvSettingsLanConnectionsActivity : BaseTvActivity() {
 @Composable
 private fun TvSettingsLanConnections(
     viewState: TvSettingsLanConnectionsViewModel.ViewState,
-    onToggled: () -> Unit,
+    onToggled: (Boolean) -> Unit,
     onReconnect: () -> Unit,
     onReconnectDismiss: () -> Unit,
     modifier: Modifier = Modifier,

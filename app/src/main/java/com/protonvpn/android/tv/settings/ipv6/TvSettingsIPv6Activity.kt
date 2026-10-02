@@ -72,7 +72,9 @@ class TvSettingsIPv6Activity : BaseTvActivity() {
                             TvSettingsIPv6(
                                 modifier = Modifier.fillMaxWidth(),
                                 viewState = viewState,
-                                onToggled = { viewModel.toggle(getVpnUiDelegate()) },
+                                onToggled = { isEnabled ->
+                                    viewModel.setEnabled(isEnabled, getVpnUiDelegate())
+                                },
                             )
                         }
                     )
@@ -94,7 +96,7 @@ class TvSettingsIPv6Activity : BaseTvActivity() {
 @Composable
 private fun TvSettingsIPv6(
     viewState: TvSettingsIPv6ViewModel.ViewState,
-    onToggled: () -> Unit,
+    onToggled: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(

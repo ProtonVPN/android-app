@@ -127,7 +127,7 @@ class SettingsChangeViewModelTests {
     @Test
     fun `lan connection triggers reconnect dialog`() = testScope.runTest {
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        viewModel.toggleLanConnections(mockUiDelegate)
+        viewModel.setLanConnectionsEnabled(isEnabled = true, mockUiDelegate)
         assertEquals(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected, viewModel.showReconnectDialogFlow.first())
     }
 
@@ -170,13 +170,13 @@ class SettingsChangeViewModelTests {
             current.copy(splitTunneling = newSplitTunnelingSettings)
         }
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        viewModel.toggleSplitTunneling(mockUiDelegate)
+        viewModel.setSplitTunnelingEnabled(isEnabled = true, mockUiDelegate)
         assertEquals(null, viewModel.showReconnectDialogFlow.first())
     }
 
     @Test
     fun `no reconnection dialog when not connected`() = testScope.runTest {
-        viewModel.toggleLanConnections(mockUiDelegate)
+        viewModel.setLanConnectionsEnabled(isEnabled = true, mockUiDelegate)
         assertEquals(null, viewModel.showReconnectDialogFlow.first())
     }
 
@@ -184,7 +184,7 @@ class SettingsChangeViewModelTests {
     fun `saved reconnection 'yes' choice reconnects automatically`() = testScope.runTest {
         dontShowAgainStore.setChoice(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected, DontShowAgainStore.Choice.Positive)
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        viewModel.toggleLanConnections(mockUiDelegate)
+        viewModel.setLanConnectionsEnabled(isEnabled = true, mockUiDelegate)
         assertEquals(null, viewModel.showReconnectDialogFlow.first())
         coVerify(exactly = 1) { mockConnectionManager.reconnect(any(), any()) }
     }
@@ -193,7 +193,7 @@ class SettingsChangeViewModelTests {
     fun `saved reconnection 'no' don't reconnects automatically`() = testScope.runTest {
         dontShowAgainStore.setChoice(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected, DontShowAgainStore.Choice.Negative)
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        viewModel.toggleLanConnections(mockUiDelegate)
+        viewModel.setLanConnectionsEnabled(isEnabled = true, mockUiDelegate)
         assertEquals(null, viewModel.showReconnectDialogFlow.first())
         coVerify(exactly = 0) { mockConnectionManager.reconnect(any(), any()) }
     }
@@ -201,7 +201,7 @@ class SettingsChangeViewModelTests {
     @Test
     fun `reconnect & save reconnection dialog`() = testScope.runTest {
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        viewModel.toggleLanConnections(mockUiDelegate)
+        viewModel.setLanConnectionsEnabled(isEnabled = true, mockUiDelegate)
         assertEquals(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected, viewModel.showReconnectDialogFlow.first())
         viewModel.onReconnectClicked(mockUiDelegate, true, DontShowAgainStore.Type.LanConnectionsChangeWhenConnected)
         assertEquals(DontShowAgainStore.Choice.Positive, dontShowAgainStore.getChoice(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected))
@@ -211,7 +211,7 @@ class SettingsChangeViewModelTests {
     @Test
     fun `dismiss & save reconnection dialog`() = testScope.runTest {
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        viewModel.toggleLanConnections(mockUiDelegate)
+        viewModel.setLanConnectionsEnabled(isEnabled = true, mockUiDelegate)
         assertEquals(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected, viewModel.showReconnectDialogFlow.first())
         viewModel.dismissReconnectDialog(true, DontShowAgainStore.Type.LanConnectionsChangeWhenConnected)
         assertEquals(DontShowAgainStore.Choice.Negative, dontShowAgainStore.getChoice(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected))

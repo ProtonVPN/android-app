@@ -107,9 +107,9 @@ class TvSettingsNetShieldViewModel @Inject constructor(
         initialValue = null,
     )
 
-    fun toggleNetShield() {
+    fun setNetShieldEnabled(isEnabled: Boolean) {
         mainScope.launch {
-            userSettingsManager.toggleNetShield()
+            userSettingsManager.setNetShieldEnabled(isEnabled = isEnabled)
         }
     }
 

@@ -772,11 +772,11 @@ class CreateEditProfileViewModel @Inject constructor(
         settingsScreenState = settingsScreenState?.copy(protocol = protocol)
     }
 
-    fun toggleCustomDns() {
+    fun setCustomDnsEnabled(isEnabled: Boolean) {
         val currentDns = settingsScreenState?.customDnsSettings
         currentDns?.let {
             val updatedSettings = CustomDnsSettings(
-                toggleEnabled = !it.toggleEnabled,
+                toggleEnabled = isEnabled,
                 rawDnsList = it.rawDnsList
             )
             settingsScreenState = settingsScreenState?.copy(customDnsSettings = updatedSettings)
@@ -791,14 +791,14 @@ class CreateEditProfileViewModel @Inject constructor(
         settingsScreenState = settingsScreenState?.copy(natType = natType)
     }
 
-    fun toggleLanConnections() {
-        settingsScreenState = settingsScreenState?.let { state -> state.copy(lanConnections = !state.lanConnections) }
+    fun setLanConnectionsEnabled(isEnabled: Boolean) {
+        settingsScreenState = settingsScreenState?.copy(lanConnections = isEnabled)
     }
 
-    fun toggleLanAllowDirectConnections() {
+    fun setLanAllowDirectConnectionsEnabled(isEnabled: Boolean) {
         settingsScreenState = settingsScreenState?.let { state ->
             if (state.lanConnectionsAllowDirect != null) {
-                state.copy(lanConnectionsAllowDirect = !state.lanConnectionsAllowDirect)
+                state.copy(lanConnectionsAllowDirect = isEnabled)
             } else {
                 state
             }

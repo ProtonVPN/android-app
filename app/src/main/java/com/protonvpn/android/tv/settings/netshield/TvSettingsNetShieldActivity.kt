@@ -112,7 +112,7 @@ class TvSettingsNetShieldActivity : BaseTvActivity() {
                                     TvSettingsNetShield(
                                         modifier = Modifier.fillMaxWidth(),
                                         viewState = viewState,
-                                        onToggled = viewModel::toggleNetShield,
+                                        onToggled = viewModel::setNetShieldEnabled,
                                         onLearnMoreClicked = { isDrawerOpen = true },
                                     )
                                 }
@@ -157,7 +157,7 @@ class TvSettingsNetShieldActivity : BaseTvActivity() {
 @Composable
 private fun TvSettingsNetShield(
     viewState: TvSettingsNetShieldViewModel.ViewState,
-    onToggled: () -> Unit,
+    onToggled: (Boolean) -> Unit,
     onLearnMoreClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {

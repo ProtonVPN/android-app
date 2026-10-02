@@ -44,12 +44,12 @@ fun NetShieldSetting(
     onClose: () -> Unit,
     netShield: SettingsViewModel.SettingViewState.NetShield,
     onLearnMore: () -> Unit,
-    onNetShieldToggle: () -> Unit,
+    onNetShieldToggle: (Boolean) -> Unit,
     onDisableCustomDns: () -> Unit,
     onCustomDnsLearnMore: () -> Unit,
     onPrivateDnsLearnMore: () -> Unit,
     onOpenPrivateDnsSettings: () -> Unit,
-    onToggleNetShieldAdultContentBlock: () -> Unit,
+    onToggleNetShieldAdultContentBlock: (Boolean) -> Unit,
 ) {
     val listState = rememberLazyListState()
     FeatureSubSettingScaffold(
@@ -76,7 +76,7 @@ fun NetShieldSetting(
                     DnsOverride.None -> SettingsFeatureToggle(
                         label = stringResource(netShield.titleRes),
                         checked = netShield.value,
-                        onCheckedChange = { _ -> onNetShieldToggle() },
+                        onCheckedChange = onNetShieldToggle,
                         modifier = horizontalItemPaddingModifier.padding(top = 16.dp)
                     )
 
@@ -120,7 +120,7 @@ fun NetShieldSetting(
                             .padding(vertical = 16.dp),
                         title = stringResource(id = R.string.netshield_setting_block_adult_content),
                         value = netShield.isAdultContentBlocked,
-                        onValueChange = { _ -> onToggleNetShieldAdultContentBlock() },
+                        onValueChange = onToggleNetShieldAdultContentBlock,
                     )
                 }
             }

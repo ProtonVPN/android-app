@@ -36,7 +36,7 @@ import com.protonvpn.android.tv.ui.TvUiConstants
 fun TvSettingsMainToggleLayout(
     title: String,
     toggleValue: Boolean,
-    onToggled: () -> Unit,
+    onToggled: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     titleImageRes: Int? = null,
     toggleLabel: String = title,
@@ -68,7 +68,7 @@ fun TvSettingsMainToggleLayout(
                 TvSettingsItemSwitch(
                     title = toggleLabel,
                     checked = toggleValue,
-                    onClick = onToggled,
+                    onToggle = onToggled,
                     modifier = Modifier.focusRequester(focusRequester)
                 )
             }

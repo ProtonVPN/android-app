@@ -92,7 +92,7 @@ fun TvSettingsProtocolMain(
                             )
                         },
                         checked = selectedProtocol.vpn == VpnProtocol.ProTun,
-                        onClick = {
+                        onToggle = {
                             onSelected(
                                 if (protonProtocolsEnabled) {
                                     selectedProtocol.mapFromProtun()

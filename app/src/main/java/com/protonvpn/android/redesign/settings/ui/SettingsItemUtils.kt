@@ -28,7 +28,7 @@ import com.protonvpn.android.redesign.base.ui.SettingsToggleItem
 @Composable
 fun SettingsToggleItem(
     setting: SettingsViewModel.SettingViewState<Boolean>,
-    onToggle: () -> Unit,
+    onToggle: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     onAnnotatedClick: () -> Unit = {},
     onRestricted: () -> Unit = {},
@@ -45,7 +45,9 @@ fun SettingsToggleItem(
             ClickableTextAnnotation(
                 annotatedPart = stringResource(it),
                 onAnnotatedClick = onAnnotatedClick,
-                onAnnotatedOutsideClick = if (isRestricted) onRestricted else onToggle
+                onAnnotatedOutsideClick = {
+                    if (isRestricted) onRestricted() else onToggle(!value)
+                }
             )
         },
         onToggle = onToggle,

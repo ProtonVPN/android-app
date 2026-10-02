@@ -74,9 +74,9 @@ class TvSettingsIPv6ViewModel @Inject constructor(
         initialValue = null,
     )
 
-    fun toggle(uiVpnUiDelegate: VpnUiDelegate) {
+    fun setEnabled(isEnabled: Boolean, uiVpnUiDelegate: VpnUiDelegate) {
         mainScope.launch {
-            userSettingsManager.toggleIPv6()
+            userSettingsManager.setIPv6Enabled(isEnabled = isEnabled)
             settingsReconnectHandler.reconnectionCheck(uiVpnUiDelegate, RECONNECT_TYPE)
         }
     }

@@ -134,9 +134,9 @@ class CustomDnsViewModel @Inject constructor(
         }
     }
 
-    fun toggleCustomDns() {
+    fun setCustomDnsEnabled(isEnabled: Boolean) {
         mainScope.launch {
-            userSettingsManager.toggleCustomDNS()
+            userSettingsManager.setCustomDnsEnabled(isEnabled = isEnabled)
         }
     }
 

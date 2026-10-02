@@ -54,7 +54,7 @@ fun ProfileCustomDnsRoute(
                     onAddDns = viewModel::validateAndAddDnsAddress,
                     onAddDnsTextChanged = dataSource::onAddDnsTextChanged,
                     removeDns = viewModel::removeDnsAddress,
-                    toggleSetting = viewModel::toggleCustomDns,
+                    toggleSetting = viewModel::setCustomDnsEnabled,
                     updateDnsList = viewModel::updateDnsList,
                     openAddDnsScreen = dataSource::openAddDnsScreen,
                     closeAddDnsScreen = dataSource::closeAddDnsScreen,

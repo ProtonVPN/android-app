@@ -195,7 +195,7 @@ class TvSettingsNetShieldViewModelTests {
                 dnsOverride = DnsOverride.None,
             )
 
-            viewModel.toggleNetShield()
+            viewModel.setNetShieldEnabled(isEnabled = !isNetShieldEnabled)
 
             viewModel.viewState.test {
                 val viewState = awaitItem()

@@ -86,12 +86,12 @@ import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonTextButton
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.VpnSolidButton
+import com.protonvpn.android.base.ui.collectAsEffect
+import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.DIALOG_CONTENT_PADDING
 import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
-import com.protonvpn.android.base.ui.collectAsEffect
-import com.protonvpn.android.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.settings.ui.DnsConflictBanner
 import com.protonvpn.android.redesign.settings.ui.FeatureSubSettingScaffold
@@ -111,7 +111,7 @@ data class CustomDnsActions(
     val onClose: () -> Unit,
     val onAddDns: (String) -> Unit,
     val onAddDnsTextChanged: () -> Unit,
-    val toggleSetting: () -> Unit,
+    val toggleSetting: (Boolean) -> Unit,
     val updateDnsList: (List<String>) -> Unit,
     val removeDns: suspend (String) -> UndoCustomDnsRemove?,
     val openAddDnsScreen: () -> Unit,
@@ -247,7 +247,7 @@ private fun CustomDnsNetShieldConflictDialog(
 @Composable
 fun CustomDnsScreen(
     onClose: () -> Unit,
-    onDnsToggled: () -> Unit,
+    onDnsToggled: (Boolean) -> Unit,
     onLearnMore: () -> Unit,
     onDnsChange: (List<String>) -> Unit,
     onItemRemoved: (String) -> Unit,
@@ -414,7 +414,7 @@ private fun CustomDnsContent(
     currentDnsList: List<String>,
     settingViewState: SettingViewState<Boolean>,
     onLearnMore: () -> Unit,
-    onToggle: () -> Unit,
+    onToggle: (Boolean) -> Unit,
     onItemRemoved: (String) -> Unit,
     onDnsChange: (List<String>) -> Unit,
     onCopyToClipboard: (String) -> Unit,

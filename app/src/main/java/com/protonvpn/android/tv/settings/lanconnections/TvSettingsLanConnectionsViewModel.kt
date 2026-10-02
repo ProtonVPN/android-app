@@ -54,9 +54,9 @@ class TvSettingsLanConnectionsViewModel @Inject constructor(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
-    fun toggleLanConnections(uiVpnUiDelegate: VpnUiDelegate) {
+    fun setLanConnectionsEnabled(isEnabled: Boolean, uiVpnUiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
-            userSettingsManager.toggleLanConnections()
+            userSettingsManager.setLanConnectionsEnabled(isEnabled = isEnabled)
             reconnectDialogHandler.reconnectionCheck(uiVpnUiDelegate, RECONNECT_TYPE)
         }
     }

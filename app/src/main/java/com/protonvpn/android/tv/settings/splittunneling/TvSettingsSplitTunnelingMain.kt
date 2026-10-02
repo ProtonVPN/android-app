@@ -87,7 +87,7 @@ fun TvSettingsSplitTunnelingMainRoute(
         TvSettingsSplitTunnelingMain(
             viewState = viewState,
             showReconnectDialog = showReconnectDialog,
-            onToggleEnabled = viewModel::onToggleEnabled,
+            onToggleEnabled = viewModel::setEnabled,
             onModeChanged = viewModel::onModeChanged,
             onClickApps = navigateEditApps,
             onReconnectBannerReconnect = { viewModel.onBannerReconnect(vpnUiDelegate) },
@@ -102,7 +102,7 @@ fun TvSettingsSplitTunnelingMainRoute(
 private fun TvSettingsSplitTunnelingMain(
     viewState: TvSettingsSplitTunnelingMainVM.MainViewState,
     showReconnectDialog: DontShowAgainStore.Type?,
-    onToggleEnabled: () -> Unit,
+    onToggleEnabled: (Boolean) -> Unit,
     onModeChanged: (SplitTunnelingMode) -> Unit,
     onClickApps: (SplitTunnelingMode) -> Unit,
     onReconnectBannerReconnect: () -> Unit,
@@ -143,7 +143,7 @@ private fun TvSettingsSplitTunnelingMain(
             TvSettingsItemSwitch(
                 stringResource(R.string.settings_split_tunneling_title),
                 checked = viewState.isEnabled,
-                onClick = onToggleEnabled,
+                onToggle = onToggleEnabled,
                 modifier = Modifier.focusRequester(focusRequester)
             )
             Text(

@@ -197,7 +197,7 @@ class TvSettingsCustomDnsViewModelTests {
             val viewStateDisabled = awaitItem()
             assertEquals(expectedViewStateDisabled, viewStateDisabled)
 
-            viewModel.onToggleIsCustomDnsEnabled()
+            viewModel.setCustomDnsEnabled(isEnabled = true)
 
             val viewStateEnabled = awaitItem()
             assertEquals(expectedViewStateEnabled, viewStateEnabled)
