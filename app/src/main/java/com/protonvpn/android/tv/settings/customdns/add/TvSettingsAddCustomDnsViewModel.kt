@@ -21,7 +21,6 @@ package com.protonvpn.android.tv.settings.customdns.add
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsError
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
@@ -111,7 +110,7 @@ class TvSettingsAddCustomDnsViewModel @Inject constructor(
         .first()
         .connectionSettings
         .let { connectionSettings ->
-            val isNetShieldEnabled = connectionSettings.netShield != NetShieldProtocol.DISABLED
+            val isNetShieldEnabled = connectionSettings.isNetShieldEnabled
             val isCustomDnsEmpty = connectionSettings.customDns.rawDnsList.isEmpty()
             isNetShieldEnabled && isCustomDnsEmpty
         }

@@ -24,7 +24,6 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
@@ -32,7 +31,6 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.userstorage.ProfileManager
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
@@ -50,6 +48,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -122,15 +121,9 @@ class UpdateSettingsOnVpnUserChangeTests {
     @Test
     fun `upgrade changes netshield value to default`() = testScope.runTest {
         vpnUserFlow.value = plusUser
-        assertEquals(
-            NetShieldProtocol.ENABLED_EXTENDED,
-            userSettingsManager.rawCurrentUserSettingsFlow.first().netShield
-        )
+        assertTrue(userSettingsManager.rawCurrentUserSettingsFlow.first().isNetShieldEnabled)
         planFlow.emit(UserPlanManager.InfoChange.PlanChange(TestUser.freeUser.vpnUser, plusUser))
-        assertEquals(
-            Constants.DEFAULT_NETSHIELD_AFTER_UPGRADE,
-            userSettingsManager.rawCurrentUserSettingsFlow.first().netShield
-        )
+        assertTrue(userSettingsManager.rawCurrentUserSettingsFlow.first().isNetShieldEnabled)
     }
 
     @Test
@@ -138,7 +131,7 @@ class UpdateSettingsOnVpnUserChangeTests {
         vpnUserFlow.value = plusUser
         userSettingsManager.update { settings ->
             settings.copy(
-                netShield = NetShieldProtocol.ENABLED_EXTENDED,
+                isNetShieldEnabled = true,
                 randomizedNat = false,
             )
         }
@@ -147,7 +140,7 @@ class UpdateSettingsOnVpnUserChangeTests {
 
         val updatedSettings = userSettingsManager.rawCurrentUserSettingsFlow.first()
         assertTrue(updatedSettings.randomizedNat)
-        assertEquals(NetShieldProtocol.ENABLED_EXTENDED, updatedSettings.netShield)
+        assertTrue(updatedSettings.isNetShieldEnabled)
     }
 
     @Test
@@ -194,7 +187,7 @@ class UpdateSettingsOnVpnUserChangeTests {
         val initialSettings = userSettingsManager.update { settings ->
             settings.copy(
                 defaultProfileId = defaultProfile.id,
-                netShield = NetShieldProtocol.ENABLED_EXTENDED,
+                isNetShieldEnabled = true,
                 randomizedNat = false,
             )
         }

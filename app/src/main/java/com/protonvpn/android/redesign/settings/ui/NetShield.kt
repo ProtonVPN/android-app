@@ -36,7 +36,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SettingsFeatureToggle
 import com.protonvpn.android.base.ui.largeScreenContentPadding
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.vpn.DnsOverride
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -156,7 +155,7 @@ private class PreviewSettingNetShieldViewStateProvider :
 
     override val values: Sequence<SettingsViewModel.SettingViewState.NetShield> = sequenceOf(
         SettingsViewModel.SettingViewState.NetShield(
-            netShieldProtocol = NetShieldProtocol.DISABLED,
+            isNetShieldEnabled = false,
             isAdultContentBlocked = false,
             isRestricted = false,
             profileOverrideInfo = null,
@@ -164,7 +163,7 @@ private class PreviewSettingNetShieldViewStateProvider :
             isNetShieldLevelThreeAvailable = true,
         ),
         SettingsViewModel.SettingViewState.NetShield(
-            netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+            isNetShieldEnabled = true,
             isAdultContentBlocked = false,
             isRestricted = true,
             profileOverrideInfo = null,
@@ -172,7 +171,7 @@ private class PreviewSettingNetShieldViewStateProvider :
             isNetShieldLevelThreeAvailable = false,
         ),
         SettingsViewModel.SettingViewState.NetShield(
-            netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+            isNetShieldEnabled = true,
             isAdultContentBlocked = false,
             isRestricted = false,
             profileOverrideInfo = null,
@@ -180,7 +179,7 @@ private class PreviewSettingNetShieldViewStateProvider :
             isNetShieldLevelThreeAvailable = true,
         ),
         SettingsViewModel.SettingViewState.NetShield(
-            netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT,
+            isNetShieldEnabled = true,
             isAdultContentBlocked = true,
             isRestricted = false,
             profileOverrideInfo = null,

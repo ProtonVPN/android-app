@@ -22,7 +22,6 @@ package com.protonvpn.android.redesign.settings.ui.customdns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.ProfileOverrideInfo
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
 import com.protonvpn.android.redesign.settings.ui.customdns.DnsSettingViewModelHelper.Event
@@ -144,8 +143,8 @@ class CustomDnsViewModel @Inject constructor(
     fun validateAndAddDnsAddress(dns: String) {
         viewModelScope.launch {
             val connectionSettings =  settingsForConnection.getFlowForCurrentConnection().first().connectionSettings
-            val netShieldConflict = connectionSettings.netShield != NetShieldProtocol.DISABLED
-                && connectionSettings.customDns.effectiveDnsList.isEmpty()
+            val netShieldConflict = connectionSettings.isNetShieldEnabled &&
+                    connectionSettings.customDns.effectiveDnsList.isEmpty()
             customDnsHelper.validateAndAddDnsAddress(dns, netShieldConflict) {
                 addNewDns(dns.trim())
             }

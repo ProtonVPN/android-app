@@ -77,16 +77,15 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleModalBottomSheet
+import com.protonvpn.android.base.ui.vpnGreen
 import com.protonvpn.android.netshield.NetShieldActions
 import com.protonvpn.android.netshield.NetShieldBottomCustomDns
 import com.protonvpn.android.netshield.NetShieldBottomPrivateDns
 import com.protonvpn.android.netshield.NetShieldBottomSettings
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.netshield.NetShieldView
 import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.redesign.base.ui.UpsellBannerContent
-import com.protonvpn.android.base.ui.vpnGreen
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.DnsOverride
@@ -564,7 +563,7 @@ private fun PreviewVpnConnectedState() {
         state = VpnStatusViewState.Connected(
             false, banner = StatusBanner.NetShieldBanner(
                 NetShieldViewState.Available(
-                    protocol = NetShieldProtocol.ENABLED_EXTENDED,
+                    isNetShieldEnabled = true,
                     netShieldStats = NetShieldStats(
                         adsBlocked = 3,
                         trackersBlocked = 0,
@@ -586,7 +585,7 @@ private fun PreviewVpnConnectedSecureCoreState() {
         state = VpnStatusViewState.Connected(
             true, banner = StatusBanner.NetShieldBanner(
                 NetShieldViewState.Available(
-                    protocol = NetShieldProtocol.ENABLED_EXTENDED,
+                    isNetShieldEnabled = true,
                     netShieldStats = NetShieldStats(
                         adsBlocked = 3,
                         trackersBlocked = 0,

@@ -25,3 +25,7 @@ enum class NetShieldProtocol(val protocolString: String) {
     ENABLED_EXTENDED("+f2"),
     ENABLED_EXTENDED_ADULT_CONTENT("+f3"),
 }
+
+fun NetShieldProtocol.isEnabled(): Boolean = this != NetShieldProtocol.DISABLED
+
+fun NetShieldProtocol.blocksAdultContent(): Boolean = this == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT

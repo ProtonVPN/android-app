@@ -247,7 +247,7 @@ class SettingsViewModelTests {
 
     @Test
     fun `netshield enabled for plus users`() = testScope.runTest {
-        settingsManager.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
+        settingsManager.update { it.copy(isNetShieldEnabled = true) }
         val netShieldState = settingsViewModel.viewState.first().netShield
         assertNotNull(netShieldState)
         assertCommonProperties(
@@ -257,7 +257,7 @@ class SettingsViewModelTests {
 
     @Test
     fun `netshield disabled for plus users`() = testScope.runTest {
-        settingsManager.update { it.copy(netShield = NetShieldProtocol.DISABLED) }
+        settingsManager.update { it.copy(isNetShieldEnabled = false) }
         val netShieldState = settingsViewModel.viewState.first().netShield
         assertNotNull(netShieldState)
         assertCommonProperties(
@@ -267,7 +267,7 @@ class SettingsViewModelTests {
 
     @Test
     fun `netshield disabled for free users even if setting is on`() = testScope.runTest {
-        settingsManager.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
+        settingsManager.update { it.copy(isNetShieldEnabled = true) }
         testUserProvider.vpnUser = freeUser
         val netShieldState = settingsViewModel.viewState.first().netShield
         assertNotNull(netShieldState)
@@ -280,7 +280,7 @@ class SettingsViewModelTests {
     fun `GIVEN business essential user WHEN enabling NetShield THEN NetShield setting is on`() = testScope.runTest {
         testUserProvider.vpnUser = businessEssentialUser
 
-        settingsManager.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
+        settingsManager.update { it.copy(isNetShieldEnabled = true) }
 
         val netShieldState = settingsViewModel.viewState.first().netShield
         assertNotNull(netShieldState)
@@ -297,7 +297,7 @@ class SettingsViewModelTests {
     fun `GIVEN business essential user WHEN disabling NetShield THEN NetShield setting is off`() = testScope.runTest {
         testUserProvider.vpnUser = businessEssentialUser
 
-        settingsManager.update { it.copy(netShield = NetShieldProtocol.DISABLED) }
+        settingsManager.update { it.copy(isNetShieldEnabled = false) }
 
         val netShieldState = settingsViewModel.viewState.first().netShield
         assertNotNull(netShieldState)

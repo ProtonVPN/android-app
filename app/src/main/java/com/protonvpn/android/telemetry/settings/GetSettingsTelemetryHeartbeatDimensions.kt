@@ -220,7 +220,7 @@ class GetSettingsTelemetryHeartbeatDimensions @Inject constructor(
 
         put(
             key = DIMENSION_NETSHIELD_LEVEL,
-            value = settings.netShield.toTelemetry(),
+            value = settings.netShieldProtocol.toTelemetry(),
         )
 
         vpnAlwaysOnStorage.getLastKnownVpnAlwaysOn()?.let { vpnAlwaysOn ->

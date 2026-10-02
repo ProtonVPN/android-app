@@ -25,13 +25,15 @@ sealed interface NetShieldViewState {
     val iconRes: Int
     val stateRes: Int
 
-    data class Unavailable(val protocol: NetShieldProtocol, val dnsOverride: DnsOverride) : NetShieldViewState {
+    data class Unavailable(
+        val isNetShieldEnabled: Boolean,
+        val dnsOverride: DnsOverride,
+    ) : NetShieldViewState {
 
-        override val iconRes = when (protocol) {
-            NetShieldProtocol.DISABLED -> R.drawable.ic_netshield_off
-            NetShieldProtocol.ENABLED,
-            NetShieldProtocol.ENABLED_EXTENDED,
-            NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> R.drawable.ic_netshield_f2
+        override val iconRes = if (isNetShieldEnabled) {
+            R.drawable.ic_netshield_f2
+        } else {
+            R.drawable.ic_netshield_off
         }
 
         override val stateRes = R.string.netshield_state_unavailable
@@ -39,32 +41,22 @@ sealed interface NetShieldViewState {
     }
 
     data class Available(
-        val protocol: NetShieldProtocol,
+        val isNetShieldEnabled: Boolean,
         val netShieldStats: NetShieldStats
     ) : NetShieldViewState {
 
-        val bandwidthShown = protocol != NetShieldProtocol.DISABLED
+        val bandwidthShown = isNetShieldEnabled
 
-        val isNetShieldEnabled: Boolean = when (protocol) {
-            NetShieldProtocol.DISABLED -> false
-
-            NetShieldProtocol.ENABLED,
-            NetShieldProtocol.ENABLED_EXTENDED,
-            NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> true
+        override val iconRes = if (isNetShieldEnabled) {
+            R.drawable.ic_netshield_f2
+        } else {
+            R.drawable.ic_netshield_off
         }
 
-        override val iconRes = when (protocol) {
-            NetShieldProtocol.DISABLED -> R.drawable.ic_netshield_off
-            NetShieldProtocol.ENABLED,
-            NetShieldProtocol.ENABLED_EXTENDED,
-            NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> R.drawable.ic_netshield_f2
-        }
-
-        override val stateRes = when (protocol) {
-            NetShieldProtocol.DISABLED -> R.string.netshield_state_off
-            NetShieldProtocol.ENABLED,
-            NetShieldProtocol.ENABLED_EXTENDED,
-            NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT-> R.string.netshield_state_on
+        override val stateRes = if (isNetShieldEnabled) {
+            R.string.netshield_state_on
+        } else {
+            R.string.netshield_state_off
         }
 
     }

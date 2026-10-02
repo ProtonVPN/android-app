@@ -20,7 +20,6 @@
 package com.protonvpn.app.settings.data
 
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.settings.data.ApplyEffectiveUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -130,11 +129,11 @@ class EffectiveCurrentUserSettingsFlowTests {
     @Test
     fun `NetShield only available to paying users`() = testScope.runTest {
         testUserProvider.vpnUser = freeUser
-        rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
-        assertEquals(NetShieldProtocol.DISABLED, effectiveSettings().netShield)
+        rawSettingsFlow.update { it.copy(isNetShieldEnabled = true) }
+        assertFalse(effectiveSettings().isNetShieldEnabled)
 
         testUserProvider.vpnUser = plusUser
-        assertEquals(NetShieldProtocol.ENABLED_EXTENDED, effectiveSettings().netShield)
+        assertTrue(effectiveSettings().isNetShieldEnabled)
     }
 
     @Test

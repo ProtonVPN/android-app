@@ -24,7 +24,6 @@ import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.usecases.ConnectionFeedback
 import com.protonvpn.android.servers.Server
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -261,7 +260,7 @@ class VpnConnectionTelemetry @Inject constructor(
             add("moderate_nat")
         }
 
-        if(settings.netShield != NetShieldProtocol.DISABLED) {
+        if(settings.isNetShieldEnabled) {
             add("netshield")
         }
 

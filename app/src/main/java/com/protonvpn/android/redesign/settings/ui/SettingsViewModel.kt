@@ -33,7 +33,6 @@ import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.netshield.NetShieldAvailability
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
@@ -130,14 +129,14 @@ class SettingsViewModel @Inject constructor(
         @DrawableRes open val iconRes: Int? = null,
     ) {
         class NetShield(
-            netShieldProtocol: NetShieldProtocol,
+            val isNetShieldEnabled: Boolean,
             val isAdultContentBlocked: Boolean,
             isRestricted: Boolean,
             profileOverrideInfo: ProfileOverrideInfo?,
             val dnsOverride: DnsOverride,
             isNetShieldLevelThreeAvailable: Boolean
         ) : SettingViewState<Boolean>(
-            value = netShieldProtocol != NetShieldProtocol.DISABLED,
+            value = isNetShieldEnabled,
             isRestricted = isRestricted,
             titleRes = R.string.netshield_feature_name,
             settingValueView = when {
@@ -147,7 +146,7 @@ class SettingsViewModel @Inject constructor(
                 else -> {
                     val subtitleRes = when {
                         dnsOverride != DnsOverride.None -> R.string.netshield_state_unavailable
-                        netShieldProtocol != NetShieldProtocol.DISABLED -> R.string.netshield_state_on
+                        isNetShieldEnabled -> R.string.netshield_state_on
                         else -> R.string.netshield_state_off
                     }
                     if (profileOverrideInfo != null) {
@@ -472,7 +471,7 @@ class SettingsViewModel @Inject constructor(
             val netShieldSetting =
                 user.vpnUser.getNetShieldAvailability().let { netShieldAvailability ->
                     SettingViewState.NetShield(
-                        netShieldProtocol = settings.netShield,
+                        isNetShieldEnabled = settings.isNetShieldEnabled,
                         isAdultContentBlocked = settings.isAdultContentBlocked,
                         profileOverrideInfo = profileOverrideInfo,
                         isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE,

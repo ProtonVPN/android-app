@@ -23,6 +23,8 @@ import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataMigration
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.netshield.blocksAdultContent
+import com.protonvpn.android.netshield.isEnabled
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.userstorage.SharedStoreProvider
 import com.protonvpn.android.userstorage.StoreProvider
@@ -79,13 +81,15 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun disableCustomDNS() =
         update { current -> current.copy(customDns = current.customDns.copy(toggleEnabled = false)) }
 
-    suspend fun updateNetShield(newNetShieldProtocol: NetShieldProtocol) =
-        update { current -> current.copy(netShield = newNetShieldProtocol) }
+    suspend fun updateNetShield(newNetShieldProtocol: NetShieldProtocol) = update { current ->
+        current.copy(
+            isNetShieldEnabled = newNetShieldProtocol != NetShieldProtocol.DISABLED,
+            isAdultContentBlocked = newNetShieldProtocol == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT,
+        )
+    }
 
     suspend fun toggleNetShield() = update { current ->
-        val newNetShieldState =
-            if (current.netShield == NetShieldProtocol.DISABLED) NetShieldProtocol.ENABLED_EXTENDED else NetShieldProtocol.DISABLED
-        current.copy(netShield = newNetShieldState)
+        current.copy(isNetShieldEnabled = !current.isNetShieldEnabled)
     }
 
     suspend fun toggleNetShieldAdultContentBlock() = update { current ->
@@ -162,7 +166,10 @@ class LocalUserSettingsStoreProvider @Inject constructor(
     default = LocalUserSettings.Default,
     serializer = LocalUserSettings.serializer(),
     factory = factory,
-    migrations = listOf(SaveStartingValuesMigration())
+    migrations = listOf(
+        SaveStartingValuesMigration(),
+        NetShieldToBooleansMigration(),
+    )
 )
 
 // Migration exists to serialize all current values explicitly (which is achieved together with
@@ -177,4 +184,31 @@ class SaveStartingValuesMigration : DataMigration<LocalUserSettings> {
         currentData.copy(startingValuesSaved = true)
 
     override suspend fun cleanUp() = Unit
+}
+
+class NetShieldToBooleansMigration : DataMigration<LocalUserSettings> {
+
+    override suspend fun shouldMigrate(currentData: LocalUserSettings): Boolean {
+        return currentData.version < 3 || currentData.legacyNetShield != null
+    }
+
+    override suspend fun migrate(currentData: LocalUserSettings): LocalUserSettings {
+        val isNetShieldEnabled = currentData.legacyNetShield
+            ?.isEnabled()
+            ?: currentData.isNetShieldEnabled
+
+        val isAdultContentBlocked = currentData.legacyNetShield
+            ?.blocksAdultContent()
+            ?: currentData.isAdultContentBlocked
+
+        return currentData.copy(
+            version = 3,
+            legacyNetShield = null,
+            isNetShieldEnabled = isNetShieldEnabled,
+            isAdultContentBlocked = isAdultContentBlocked,
+        )
+    }
+
+    override suspend fun cleanUp() = Unit
+
 }

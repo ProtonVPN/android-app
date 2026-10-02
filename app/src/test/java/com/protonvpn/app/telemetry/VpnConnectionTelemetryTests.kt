@@ -26,7 +26,6 @@ import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.usecases.ConnectionFeedback
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -474,7 +473,7 @@ class VpnConnectionTelemetryTests {
             ),
             lanConnections = true,
             randomizedNat = false,
-            netShield = NetShieldProtocol.ENABLED_EXTENDED,
+            isNetShieldEnabled = true,
             splitTunneling = SplitTunnelingSettings(
                 isEnabled = true,
             ),

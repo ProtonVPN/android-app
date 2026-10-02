@@ -363,7 +363,7 @@ private fun NetShieldOnPreview() {
     ProtonVpnPreview {
         NetShieldView(
             state = NetShieldViewState.Available(
-                protocol = NetShieldProtocol.ENABLED_EXTENDED,
+                isNetShieldEnabled = true,
                 netShieldStats = NetShieldStats(
                     adsBlocked = 3,
                     trackersBlocked = 0,
@@ -381,7 +381,7 @@ private fun NetShieldOffPreview() {
     ProtonVpnPreview {
         NetShieldView(
             state = NetShieldViewState.Available(
-                protocol = NetShieldProtocol.DISABLED,
+                isNetShieldEnabled = false,
                 netShieldStats = NetShieldStats(
                     adsBlocked = 3,
                     trackersBlocked = 5,
@@ -398,8 +398,8 @@ private fun NetShieldUnavailablePreview() {
     ProtonVpnPreview {
         NetShieldView(
             state = NetShieldViewState.Unavailable(
-                protocol = NetShieldProtocol.ENABLED_EXTENDED,
-                DnsOverride.CustomDns
+                isNetShieldEnabled = true,
+                dnsOverride = DnsOverride.CustomDns,
             ),
             onNavigateToSubsetting = {}
         )

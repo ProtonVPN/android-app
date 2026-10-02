@@ -24,7 +24,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.netshield.NetShieldAvailability
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
@@ -111,25 +110,17 @@ abstract class BaseApplyEffectiveUserSettings(
             else -> null
         }
 
-        val netShieldProtocol = when {
+        val (isNetShieldEnabled, isAdultContentBlocked) = when {
             vpnUser.getNetShieldAvailability() != NetShieldAvailability.AVAILABLE -> {
-                NetShieldProtocol.DISABLED
+                false to settings.isAdultContentBlocked
             }
 
-            vpnUser?.hasNetShieldLevelThreeAvailable != true && settings.netShield == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> {
-                NetShieldProtocol.ENABLED_EXTENDED
-            }
-
-            settings.isAdultContentBlocked && settings.netShield == NetShieldProtocol.ENABLED_EXTENDED -> {
-                NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT
-            }
-
-            !settings.isAdultContentBlocked && settings.netShield == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT -> {
-                NetShieldProtocol.ENABLED_EXTENDED
+            vpnUser?.hasNetShieldLevelThreeAvailable != true && settings.isAdultContentBlocked -> {
+                settings.isNetShieldEnabled to false
             }
 
             else -> {
-                settings.netShield
+                settings.isNetShieldEnabled to settings.isAdultContentBlocked
             }
         }
 
@@ -137,7 +128,8 @@ abstract class BaseApplyEffectiveUserSettings(
             defaultProfileId = defaultProfileId,
             lanConnections = lanConnections,
             lanConnectionsAllowDirect = lanConnections && settings.lanConnectionsAllowDirect,
-            netShield = netShieldProtocol,
+            isNetShieldEnabled = isNetShieldEnabled,
+            isAdultContentBlocked = isAdultContentBlocked,
             customDns = if (isUserPlusOrAbove) settings.customDns else CustomDnsSettings(false),
             theme = settings.theme,
             tvAutoConnectOnBoot = if (isTv && flags.isTvAutoConnectEnabled) settings.tvAutoConnectOnBoot else false,
@@ -203,7 +195,6 @@ class EffectiveCurrentUserSettings(
 
     val apiUseDoh = distinct { it.apiUseDoh }
     val defaultProfileId = distinct { it.defaultProfileId }
-    val netShield = distinct { it.netShield }
     val protocol = distinct { it.protocol }
     val telemetry = distinct { it.telemetry }
     val tvAutoConnectOnBoot = distinct { it.tvAutoConnectOnBoot }

@@ -20,7 +20,6 @@ package com.protonvpn.tests.base.ui.ui
 
 import androidx.compose.foundation.layout.Column
 import com.protonvpn.android.netshield.NetShieldActions
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.redesign.vpn.ui.LocationText
@@ -70,7 +69,7 @@ class VpnStatusViewTests : FusionComposeTest() {
             isSecureCoreServer = true,
             banner = StatusBanner.NetShieldBanner(
                 NetShieldViewState.Available(
-                    protocol = NetShieldProtocol.ENABLED_EXTENDED,
+                    isNetShieldEnabled = true,
                     netShieldStats = NetShieldStats(
                         adsBlocked = 5,
                         trackersBlocked = 0,
@@ -95,7 +94,10 @@ class VpnStatusViewTests : FusionComposeTest() {
         val state = VpnStatusViewState.Connected(
             isSecureCoreServer = true,
             banner = StatusBanner.NetShieldBanner(
-                NetShieldViewState.Unavailable(NetShieldProtocol.ENABLED_EXTENDED, DnsOverride.CustomDns)
+                NetShieldViewState.Unavailable(
+                    isNetShieldEnabled = true,
+                    dnsOverride = DnsOverride.CustomDns,
+                )
             ),
         )
 

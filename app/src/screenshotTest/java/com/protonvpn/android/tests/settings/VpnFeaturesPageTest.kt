@@ -25,7 +25,6 @@ import androidx.compose.runtime.Composable
 import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.settings.ui.KillSwitchInfo
 import com.protonvpn.android.redesign.settings.ui.LanSetting
 import com.protonvpn.android.redesign.settings.ui.NetShieldSetting
@@ -51,7 +50,7 @@ fun NetshieldSettingPage() {
             onNetShieldToggle = {},
             onToggleNetShieldAdultContentBlock = {},
             netShield = SettingsViewModel.SettingViewState.NetShield(
-                netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+                isNetShieldEnabled = true,
                 isAdultContentBlocked = false,
                 isRestricted = false,
                 profileOverrideInfo = null,
@@ -96,7 +95,7 @@ fun NetshieldPrivateDnsSettingPage() {
             onNetShieldToggle = {},
             onToggleNetShieldAdultContentBlock = {},
             netShield = SettingsViewModel.SettingViewState.NetShield(
-                netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+                isNetShieldEnabled = true,
                 isAdultContentBlocked = false,
                 isRestricted = false,
                 profileOverrideInfo = null,
@@ -122,7 +121,7 @@ fun NetshieldCustomDnsSettingPage() {
             onNetShieldToggle = {},
             onToggleNetShieldAdultContentBlock = {},
             netShield = SettingsViewModel.SettingViewState.NetShield(
-                netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+                isNetShieldEnabled = true,
                 isAdultContentBlocked = false,
                 isRestricted = false,
                 profileOverrideInfo = null,
@@ -147,8 +146,8 @@ fun NetShieldAdultContentBlockSettingPage() {
             onNetShieldToggle = {},
             onToggleNetShieldAdultContentBlock = {},
             netShield = SettingsViewModel.SettingViewState.NetShield(
-                netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT,
-                isAdultContentBlocked = false,
+                isNetShieldEnabled = true,
+                isAdultContentBlocked = true,
                 isRestricted = false,
                 profileOverrideInfo = null,
                 dnsOverride = DnsOverride.None,

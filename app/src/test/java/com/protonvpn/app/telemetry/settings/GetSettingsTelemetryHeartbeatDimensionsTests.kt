@@ -24,7 +24,6 @@ import com.protonvpn.android.excludedlocations.data.ExcludedLocationEntity
 import com.protonvpn.android.excludedlocations.data.ExcludedLocationType
 import com.protonvpn.android.excludedlocations.data.ExcludedLocationsDao
 import com.protonvpn.android.excludedlocations.usecases.ObserveExcludedLocations
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.ObserveDefaultConnection
 import com.protonvpn.android.redesign.settings.ui.NatType
@@ -690,12 +689,15 @@ class GetSettingsTelemetryHeartbeatDimensionsTests {
         val dimension = "netshield_level"
 
         listOf(
-            NetShieldProtocol.DISABLED to "off",
-            NetShieldProtocol.ENABLED to "malware",
-            NetShieldProtocol.ENABLED_EXTENDED to "ads_trackers_and_malware",
-            NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT to "ads_trackers_malware_and_adult_content",
-        ).forEach { (netShieldProtocol, expectedDimensionValue) ->
-            localUserSettingsFlow.value = LocalUserSettings(netShield = netShieldProtocol)
+            Triple(false, false, "off"),
+            Triple(false, true, "off"),
+            Triple(true, false, "ads_trackers_and_malware"),
+            Triple(true, true, "ads_trackers_malware_and_adult_content"),
+        ).forEach { (isNetShieldEnabled, isAdultContentBlocked, expectedDimensionValue) ->
+            localUserSettingsFlow.value = LocalUserSettings(
+                isNetShieldEnabled = isNetShieldEnabled,
+                isAdultContentBlocked = isAdultContentBlocked,
+            )
 
             val dimensions = getSettingsTelemetryHeartbeatDimensions()
 

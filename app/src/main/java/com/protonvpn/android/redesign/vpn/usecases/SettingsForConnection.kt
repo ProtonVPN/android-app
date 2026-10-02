@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.redesign.vpn.usecases
 
+import com.protonvpn.android.netshield.blocksAdultContent
+import com.protonvpn.android.netshield.isEnabled
 import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.redesign.recents.data.SettingsOverrides
@@ -131,7 +133,8 @@ private fun LocalUserSettings.applyOverrides(overrides: SettingsOverrides?): Loc
     if (overrides == null) return this
     val lan = overrides.lanConnections ?: lanConnections
     return copy(
-        netShield = overrides.netShield ?: netShield,
+        isNetShieldEnabled = overrides.netShield?.isEnabled() ?: isNetShieldEnabled,
+        isAdultContentBlocked = overrides.netShield?.blocksAdultContent() ?: isAdultContentBlocked,
         lanConnections = lan,
         lanConnectionsAllowDirect = lan && overrides.lanConnectionsAllowDirect ?: lanConnectionsAllowDirect,
         randomizedNat = overrides.randomizedNat ?: randomizedNat,

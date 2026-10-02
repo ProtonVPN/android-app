@@ -57,6 +57,8 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class SettingsForConnectionTests {
 
@@ -117,7 +119,7 @@ class SettingsForConnectionTests {
     fun `overrides from intent are applied`() = testScope.runTest {
         rawSettingsFlow.value = LocalUserSettings.Default.copy(
             protocol = ProtocolSelection.STEALTH,
-            netShield = NetShieldProtocol.ENABLED_EXTENDED,
+            isNetShieldEnabled = true,
             randomizedNat = true,
             lanConnections = true,
             lanConnectionsAllowDirect = true,
@@ -133,7 +135,7 @@ class SettingsForConnectionTests {
         )
         assertEquals(LocalUserSettings.Default.copy(
             protocol = ProtocolSelection(VpnProtocol.ProTun, TransmissionProtocol.TCP),
-            netShield = NetShieldProtocol.DISABLED,
+            isNetShieldEnabled = false,
             randomizedNat = false,
             lanConnections = false,
             lanConnectionsAllowDirect = false,
@@ -163,7 +165,7 @@ class SettingsForConnectionTests {
             val settingsForConnectionTurbine =
                 settingsForConnection.getFlowForCurrentConnection().testIn(backgroundScope)
             val before = settingsForConnectionTurbine.awaitItem()
-            assertEquals(NetShieldProtocol.DISABLED, before.connectionSettings.netShield)
+            assertFalse(before.connectionSettings.isNetShieldEnabled)
 
             val updatedOverrides = overrides.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED)
             val updatedProfile = profile.copy(
@@ -172,7 +174,7 @@ class SettingsForConnectionTests {
             profileById.set(updatedProfile)
 
             val after = settingsForConnectionTurbine.awaitItem()
-            assertEquals(NetShieldProtocol.ENABLED_EXTENDED, after.connectionSettings.netShield)
+            assertTrue(after.connectionSettings.isNetShieldEnabled)
         }
     }
 
@@ -189,9 +191,8 @@ class SettingsForConnectionTests {
             customDns = CustomDnsSettings(false)
         )
         val connectIntent = ConnectIntent.Fastest.copy(settingsOverrides = settingsOverrides)
-        val expectedNetShieldProtocol = settingsForConnection.getFor(connectIntent).netShield
 
-        assertEquals(NetShieldProtocol.ENABLED_EXTENDED, expectedNetShieldProtocol)
+        assertTrue(settingsForConnection.getFor(connectIntent).isNetShieldEnabled)
     }
 
     private fun createSettingsOverrides(

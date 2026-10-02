@@ -28,6 +28,7 @@ import com.protonvpn.android.theme.ThemeType
 import com.protonvpn.android.userstorage.UUIDSerializer
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.UUID
@@ -84,7 +85,7 @@ data class CustomDnsSettings(
 
 @Serializable
 data class LocalUserSettings(
-    val version: Int = 2,
+    val version: Int = 3,
     val startingValuesSaved: Boolean = false, // see SaveDefaultValuesMigration
     val apiUseDoh: Boolean = true,
     @Serializable(with = UUIDSerializer::class)
@@ -92,8 +93,13 @@ data class LocalUserSettings(
     val lanConnections: Boolean = false,
     val lanConnectionsAllowDirect: Boolean = false,
     val mtuSize: Int = 1375,
-    val netShield: NetShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
-    val isAdultContentBlocked: Boolean = netShield == NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT,
+    // Legacy; only used to migrate users coming from version <= 2.
+    // EncodeDefault.NEVER keeps this out of the JSON once it's null (post-migration).
+    @SerialName("netShield")
+    @EncodeDefault(EncodeDefault.Mode.NEVER)
+    internal val legacyNetShield: NetShieldProtocol? = null,
+    val isNetShieldEnabled: Boolean = true,
+    val isAdultContentBlocked: Boolean = false,
     val protocol: ProtocolSelection = ProtocolSelection.SMART,
     val randomizedNat: Boolean = true,
     val splitTunneling: SplitTunnelingSettings = SplitTunnelingSettings(),
@@ -105,6 +111,14 @@ data class LocalUserSettings(
     val customDns: CustomDnsSettings = CustomDnsSettings(false)
     // Whenever adding a new setting add it also in toLogList below.
 ) {
+
+    val netShieldProtocol: NetShieldProtocol
+        get() = when {
+            isNetShieldEnabled && isAdultContentBlocked -> NetShieldProtocol.ENABLED_EXTENDED_ADULT_CONTENT
+            isNetShieldEnabled -> NetShieldProtocol.ENABLED_EXTENDED
+            else -> NetShieldProtocol.DISABLED
+        }
+
     companion object {
         // Hack: we want to enable LAN by default but only for new installations. If we change
         // the default it will affect existing ones as defaults are currently not saved to json.
@@ -118,7 +132,7 @@ fun LocalUserSettings.toLogList(): List<String> {
     val regularSettings = listOf(
         "LAN connections: ${lanConnections.toLog()} (allow direct: ${lanConnectionsAllowDirect.toLog()})",
         "MTU size: $mtuSize bytes",
-        "NetShield: $netShield",
+        "IsNetShieldEnabled: $isNetShieldEnabled",
         "IsAdultContentBlocked: $isAdultContentBlocked",
         "Protocol: ${protocol.apiName}",
         "Restricted NAT: ${randomizedNat.toLog()}",

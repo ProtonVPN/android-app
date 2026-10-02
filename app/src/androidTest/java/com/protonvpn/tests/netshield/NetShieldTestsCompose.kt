@@ -22,7 +22,6 @@
 package com.protonvpn.tests.netshield
 
 import androidx.compose.runtime.collectAsState
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.netshield.NetShieldView
 import com.protonvpn.android.netshield.NetShieldViewState
@@ -40,13 +39,13 @@ class NetShieldTestsCompose : FusionComposeTest() {
     fun setup() {
         netShieldStateFlow = MutableStateFlow(
             NetShieldViewState.Available(
-                NetShieldProtocol.ENABLED,
-                NetShieldStats(1, 2, 0)
+                isNetShieldEnabled = true,
+                netShieldStats = NetShieldStats(1, 2, 0),
             )
         )
         withContent {
             NetShieldView(
-                netShieldStateFlow.collectAsState().value as NetShieldViewState,
+                state = netShieldStateFlow.collectAsState().value,
                 onNavigateToSubsetting = {}
             )
         }
@@ -55,8 +54,8 @@ class NetShieldTestsCompose : FusionComposeTest() {
     @Test
     fun savedBytesExpressedInKbAndMb() {
         netShieldStateFlow.value = NetShieldViewState.Available(
-            NetShieldProtocol.ENABLED,
-            NetShieldStats(1, 2, 10_000)
+            isNetShieldEnabled = true,
+            netShieldStats = NetShieldStats(1, 2, 10_000),
         )
 
         node.useUnmergedTree()
@@ -65,8 +64,8 @@ class NetShieldTestsCompose : FusionComposeTest() {
             .assertContainsText("10.00 KB")
 
         netShieldStateFlow.value = NetShieldViewState.Available(
-            NetShieldProtocol.ENABLED,
-            NetShieldStats(1, 2, 10_000_000)
+            isNetShieldEnabled = true,
+            netShieldStats = NetShieldStats(1, 2, 10_000_000),
         )
 
         node.useUnmergedTree()

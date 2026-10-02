@@ -21,7 +21,6 @@ package com.protonvpn.android.tv.settings.netshield
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.userstorage.DontShowAgainStore
@@ -96,7 +95,7 @@ class TvSettingsNetShieldViewModel @Inject constructor(
         userSettingsManager.rawCurrentUserSettingsFlow,
     ) { isPrivateDnsActive, localUserSettings ->
         ViewState(
-            isNetShieldEnabled = localUserSettings.netShield != NetShieldProtocol.DISABLED,
+            isNetShieldEnabled = localUserSettings.isNetShieldEnabled,
             dnsOverride = getDnsOverride(
                 isPrivateDnsActive = isPrivateDnsActive,
                 effectiveSettings = localUserSettings,

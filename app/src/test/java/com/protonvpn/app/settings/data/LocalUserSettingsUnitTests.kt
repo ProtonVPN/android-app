@@ -21,7 +21,6 @@ package com.protonvpn.app.settings.data
 
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
@@ -45,14 +44,14 @@ class LocalUserSettingsUnitTests {
     fun `settings tests are up-to-date`() {
         val defaultSettingsJson = """
             {
-                "version": 2,
+                "version": 3,
                 "startingValuesSaved": false,
                 "apiUseDoh": true,
                 "defaultProfileId": null,
                 "lanConnections": false,
                 "lanConnectionsAllowDirect": false,
                 "mtuSize": 1375,
-                "netShield": "ENABLED_EXTENDED",
+                "isNetShieldEnabled": true,
                 "isAdultContentBlocked": false,
                 "protocol": {
                     "vpn": "Smart",
@@ -94,14 +93,14 @@ class LocalUserSettingsUnitTests {
         // IMPORTANT: Use NON-DEFAULT values in the test.
         val settingsJson = """
             {
-                "version": 2,
+                "version": 3,
                 "startingValuesSaved": false,
                 "apiUseDoh": false,
                 "defaultProfileId": "00000000-0000-0001-0000-000000000002",
                 "lanConnections": true, 
                 "lanConnectionsAllowDirect": true,
                 "mtuSize": 1000,
-                "netShield": "DISABLED",
+                "isNetShieldEnabled": false,
                 "isAdultContentBlocked": true,
                 "protocol": {
                     "vpn": "WireGuard",
@@ -135,14 +134,14 @@ class LocalUserSettingsUnitTests {
             }
         """.trimIndent()
         val expectedSettings = LocalUserSettings(
-            version = 2,
+            version = 3,
             startingValuesSaved = false,
             apiUseDoh = false,
             defaultProfileId = UUID(1L, 2L),
             lanConnections = true,
             lanConnectionsAllowDirect = true,
             mtuSize = 1000,
-            netShield = NetShieldProtocol.DISABLED,
+            isNetShieldEnabled = false,
             isAdultContentBlocked = true,
             protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
             randomizedNat = false,

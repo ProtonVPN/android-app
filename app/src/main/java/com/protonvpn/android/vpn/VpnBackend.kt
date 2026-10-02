@@ -434,7 +434,7 @@ abstract class VpnBackend(
     }
 
     private fun getFeatures(settings: LocalUserSettings) = Features().apply {
-        setInt(FEATURES_NETSHIELD, settings.netShield.ordinal.toLong())
+        setInt(FEATURES_NETSHIELD, settings.netShieldProtocol.ordinal.toLong())
         setBool(FEATURES_RANDOMIZED_NAT, settings.randomizedNat)
         setBool(FEATURES_SPLIT_TCP, settings.vpnAccelerator)
 

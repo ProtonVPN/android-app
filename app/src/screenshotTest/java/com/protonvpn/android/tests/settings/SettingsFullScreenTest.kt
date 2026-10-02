@@ -26,7 +26,6 @@ import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.annotations.ProtonVpnTestPreview
 import com.protonvpn.android.annotations.ProtonVpnTestPreviewLong
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.redesign.CountryId
@@ -321,7 +320,7 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
     ), "name") else null
 
     private val netshield = SettingViewState.NetShield(
-        netShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+        isNetShieldEnabled = true,
         isAdultContentBlocked = false,
         isRestricted = isFree,
         profileOverrideInfo = overrideInfo,
