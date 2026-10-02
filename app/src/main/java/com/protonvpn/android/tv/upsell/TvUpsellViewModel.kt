@@ -52,6 +52,8 @@ class TvUpsellViewModel @Inject constructor(
         val descriptionArgs: (Context) -> Array<String> = { emptyArray() },
     )
 
+    val upsellContent: TvUpsellContent? = savedStateHandle[KEY_PAID_FEATURE]
+
     val viewStateFlow: StateFlow<ViewState?> = savedStateHandle
         .getStateFlow<TvUpsellContent?>(
             key = KEY_PAID_FEATURE,
@@ -60,7 +62,7 @@ class TvUpsellViewModel @Inject constructor(
         .filterNotNull()
         .mapLatest { paidFeature ->
             when (paidFeature) {
-                TvUpsellContent.AllCountries -> ViewState(
+                is TvUpsellContent.Country -> ViewState(
                     imageResId = R.drawable.worldwide_coverage_tv,
                     titleResId = R.string.upsell_tv_all_countries_title,
                     descriptionResId = R.string.upsell_tv_all_countries_description,

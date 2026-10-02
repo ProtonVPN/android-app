@@ -51,7 +51,7 @@ class VpnUiActivityDelegateTv(
     override fun showPlusUpgradeDialog() {
         TvUpsellActivity.launch(
             activity,
-            TvUpsellContent.AllCountries,
+            TvUpsellContent.Country(null),
             UpgradeSource.COUNTRIES,
             UpgradeTrigger.ERROR_DIALOG
         )

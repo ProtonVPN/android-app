@@ -30,7 +30,9 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToLog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.Distinct
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.mmp.events.usecases.SaveMmpEvent
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.planupgrade.PaymentCycle
@@ -260,6 +262,7 @@ class PaymentPanelTestsCompose : FusionComposeTest() {
 
 @Distinct
 class UpgradeDialogViewModelInjector @Inject constructor(
+    private val currentUser: CurrentUser,
     private val upgradeTelemetry: UpgradeTelemetry,
     private val getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig,
     private val loadSubscriptionPlans: LoadSubscriptionPlans,
@@ -267,8 +270,10 @@ class UpgradeDialogViewModelInjector @Inject constructor(
     private val observeSessionState: ObserveSessionState,
     private val userPlanManager: UserPlanManager,
     private val saveMmpEvent: SaveMmpEvent,
+    @param:WallClock private val clock: () -> Long,
 ) {
     fun createViewModel() = UpgradeDialogViewModel(
+        currentUser = currentUser,
         upgradeTelemetry = upgradeTelemetry,
         getUpgradeDialogPlansConfig = getUpgradeDialogPlansConfig,
         loadSubscriptionPlans = loadSubscriptionPlans::invoke,
@@ -276,5 +281,6 @@ class UpgradeDialogViewModelInjector @Inject constructor(
         observePaymentSessionState = observeSessionState,
         userPlanManager = userPlanManager,
         saveMmpEvent = saveMmpEvent,
+        clock = clock,
     )
 }

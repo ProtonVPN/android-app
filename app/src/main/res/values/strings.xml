@@ -587,6 +587,15 @@
     <string name="upsell_tv_customization_title">Get advanced VPN customization with Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
     <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Scan the code or visit:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">High-speed servers for streaming and gaming</string>
+    <string name="upsell_tv_non_iap_netshield_title">Keep malware off your TV</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Fewer ads on the websites you open on your TV</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Reach your media server and home devices</string>
+    <string name="upsell_tv_non_iap_customization_description">Allow LAN connections and set a custom DNS.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">Your plan has been downgraded to Proton Free, and we’re reconnecting you to the fastest free server.</string>
+    <string name="upsell_tv_non_iap_maybe_later">Maybe later</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

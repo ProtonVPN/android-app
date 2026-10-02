@@ -43,13 +43,9 @@ fun UpsellSpeedTablePanel(
             BenefitTableFreePlusHeader()
             BenefitTableRowNoYes(stringResource(R.string.upsell_panel_speed_benefit_servers))
             BenefitTableRow(
-                stringResource(R.string.upsell_panel_speed_benefit_gaming),
-                firstPlanContent = {
-                    Text(stringResource(R.string.upsell_panel_speed_benefit_gaming_slow))
-                },
-                secondPlanContent = {
-                    Text(stringResource(R.string.upsell_panel_speed_benefit_gaming_fast))
-                },
+                benefitText = stringResource(R.string.upsell_panel_speed_benefit_gaming),
+                firstPlanContentText = stringResource(R.string.upsell_panel_speed_benefit_gaming_slow),
+                secondPlanContentText = stringResource(R.string.upsell_panel_speed_benefit_gaming_fast),
             )
             BenefitTableRowNoYes(stringResource(R.string.upsell_panel_speed_benefit_video))
             BenefitTableRowNoYes(

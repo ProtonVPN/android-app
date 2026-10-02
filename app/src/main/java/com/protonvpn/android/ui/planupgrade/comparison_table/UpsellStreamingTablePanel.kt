@@ -73,9 +73,9 @@ private fun StreamingBenefitsColumn(
         BenefitTableRowNoYes(stringResource(R.string.upsell_panel_streaming_benefit_platforms))
         BenefitTableRowNoYes(stringResource(R.string.upsell_panel_streaming_benefit_hd))
         BenefitTableRow(
-            stringResource(R.string.upsell_panel_streaming_benefit_devices),
-            { Text("%d".format(1)) },
-            { Text("%d".format(Constants.MAX_CONNECTIONS_IN_PLUS_PLAN)) },
+            benefitText = stringResource(R.string.upsell_panel_streaming_benefit_devices),
+            firstPlanContentText = "%d".format(1),
+            secondPlanContentText = "%d".format(Constants.MAX_CONNECTIONS_IN_PLUS_PLAN),
             secondPlanBackgroundShape = BenefitTableRowDefaults.ShapeBottom,
             bottomSeparator = false,
         )

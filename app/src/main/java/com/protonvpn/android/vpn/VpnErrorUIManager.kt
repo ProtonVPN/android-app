@@ -256,7 +256,7 @@ class VpnErrorUIManager @Inject constructor(
     private suspend fun createPlanUpgradeAction(upgradeSource: UpgradeSource): ActionItem {
         val upgradeTrigger = UpgradeTrigger.ERROR_DIALOG
         val activityIntent = if (isTv()) {
-            TvUpsellActivity.createIntent(appContext, TvUpsellContent.AllCountries, upgradeSource, upgradeTrigger)
+            TvUpsellActivity.createIntent(appContext, TvUpsellContent.Country(null), upgradeSource, upgradeTrigger)
         } else {
             upgradeDialogLauncher.createIntent(
                 appContext,

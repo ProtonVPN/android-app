@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -79,12 +78,8 @@ fun UpsellCountryTablePanel(
             BenefitTableFreePlusHeader()
             BenefitTableRow(
                 stringResource(R.string.upsell_panel_general_benefit_countries),
-                firstPlanContent = {
-                    Text("%s".format(freeCountries))
-                },
-                secondPlanContent = {
-                    Text(stringResource(R.string.upsell_panel_general_benefit_countries_rounded, plusCountriesRounded))
-                },
+                "%s".format(freeCountries),
+                stringResource(R.string.upsell_panel_general_benefit_countries_rounded, plusCountriesRounded),
             )
             BenefitTableRowNoYes(
                 stringResource(R.string.upsell_panel_general_benefit_location),
@@ -102,7 +97,7 @@ fun UpsellCountryTablePanel(
 }
 
 @Composable
-private fun SparklingFlag(
+fun SparklingFlag(
     country: CountryId,
     modifier: Modifier = Modifier,
 ) {

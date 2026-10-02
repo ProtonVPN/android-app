@@ -40,7 +40,7 @@ class UpgradeActivityHelper(
     private fun onStateUpdate(state: UpgradeDialogViewModel.State) {
         when (state) {
             UpgradeDialogViewModel.State.Initializing,
-            UpgradeDialogViewModel.State.UpgradeDisabled,
+            is UpgradeDialogViewModel.State.UpgradeDisabled,
             is UpgradeDialogViewModel.State.LoadingPlans,
             is UpgradeDialogViewModel.State.LoadError,
             is UpgradeDialogViewModel.State.PurchaseReady -> Unit

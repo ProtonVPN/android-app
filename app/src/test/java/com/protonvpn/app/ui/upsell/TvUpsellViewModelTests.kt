@@ -22,6 +22,7 @@ package com.protonvpn.app.ui.upsell
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.tv.upsell.FakeIsTvNonIapScreenDisabled
 import com.protonvpn.android.tv.upsell.TvUpsellContent
 import com.protonvpn.android.tv.upsell.TvUpsellViewModel
@@ -73,7 +74,14 @@ class TvUpsellViewModelTests {
         serverListUpdaterPrefs.vpnServerCount = 15_187
 
         listOf(
-            TvUpsellContent.AllCountries to TvUpsellViewModel.ViewState(
+            TvUpsellContent.Country(null) to TvUpsellViewModel.ViewState(
+                imageResId = R.drawable.worldwide_coverage_tv,
+                titleResId = R.string.upsell_tv_all_countries_title,
+                descriptionResId = R.string.upsell_tv_all_countries_description,
+                descriptionArgs = { _ -> arrayOf("15187", "127") },
+            ),
+            // The IAP screen uses the generic text even for a specific country.
+            TvUpsellContent.Country(CountryId("CH")) to TvUpsellViewModel.ViewState(
                 imageResId = R.drawable.worldwide_coverage_tv,
                 titleResId = R.string.upsell_tv_all_countries_title,
                 descriptionResId = R.string.upsell_tv_all_countries_description,

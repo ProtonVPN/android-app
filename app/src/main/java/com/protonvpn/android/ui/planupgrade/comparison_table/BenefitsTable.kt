@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.planupgrade.comparison_table
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
@@ -40,14 +41,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.text
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
@@ -62,6 +66,13 @@ private const val BENEFIT_SECOND_COLUMN_WEIGHT = 1f
 object BenefitTableRowDefaults {
     val ShapeTop =  RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
     val ShapeBottom =  RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+
+    val benefitContentColor: Color @Composable get() = ProtonTheme.colors.textNorm
+    val benefitTextStyle: TextStyle @Composable get() = ProtonTheme.typography.body2Medium
+    val firstPlanContentColor: Color @Composable get() = ProtonTheme.colors.textWeak
+    val firstPlanTextStyle: TextStyle @Composable get() = ProtonTheme.typography.body2Regular
+    val secondPlanContentColor: Color @Composable get() = ProtonTheme.colors.vpnGreen
+    val secondPlanTextStyle: TextStyle @Composable get() = ProtonTheme.typography.body2Medium
 }
 
 @Composable
@@ -69,9 +80,11 @@ fun BenefitTableFreePlusHeader(
     modifier: Modifier = Modifier
 ) {
     BenefitTableRow(
-        null,
-        { Text(stringResource(R.string.upsell_panel_table_header_plan_free)) },
-        { PlanPlusBadge() },
+        benefitContent = null,
+        firstPlanContent = {
+            FirstPlanCell { Text(stringResource(R.string.upsell_panel_table_header_plan_free)) }
+        },
+        secondPlanContent = { SecondPlanCell { PlanPlusBadge() } },
         modifier = modifier
             .clearAndSetSemantics {},
         bottomSeparator = false,
@@ -82,24 +95,28 @@ fun BenefitTableFreePlusHeader(
 
 @Composable
 fun BenefitTableRowNoYes(
-    benefitText: String?,
+    benefitText: String,
     modifier: Modifier = Modifier,
     bottomSeparator: Boolean = true,
     secondPlanBackgroundShape: Shape = RectangleShape,
 ) {
     BenefitTableRow(
-        benefitText = benefitText,
+        benefitContent = { BenefitCell { Text(benefitText) } },
         firstPlanContent = {
-            Icon(
-                painterResource(CoreR.drawable.ic_proton_cross),
-                contentDescription = stringResource(R.string.upsell_panel_content_description_no),
-            )
+            FirstPlanCell {
+                Icon(
+                    painter = painterResource(CoreR.drawable.ic_proton_cross),
+                    contentDescription = stringResource(R.string.upsell_panel_content_description_no),
+                )
+            }
         },
         secondPlanContent = {
-            Icon(
-                painterResource(CoreR.drawable.ic_proton_checkmark_circle_filled),
-                contentDescription = stringResource(R.string.upsell_panel_content_description_yes),
-            )
+            SecondPlanCell {
+                Icon(
+                    painterResource(CoreR.drawable.ic_proton_checkmark_circle_filled),
+                    stringResource(R.string.upsell_panel_content_description_yes),
+                )
+            }
         },
         modifier = modifier,
         bottomSeparator = bottomSeparator,
@@ -109,7 +126,7 @@ fun BenefitTableRowNoYes(
 
 @Composable
 fun BenefitTableRow(
-    benefitText: String,
+    benefitText: String?,
     firstPlanContentText: String,
     secondPlanContentText: String,
     firstPlanContentDescriptionPrefix: String = stringResource(R.string.upsell_panel_content_description_value_prefix_free),
@@ -120,9 +137,9 @@ fun BenefitTableRow(
     itemVerticalPadding: Dp = 12.dp
 ) {
     BenefitTableRow(
-        benefitText = benefitText,
-        firstPlanContent = { Text(firstPlanContentText) },
-        secondPlanContent = { Text(secondPlanContentText) },
+        benefitContent = benefitText?.let { @Composable { BenefitCell { Text(benefitText) } } },
+        firstPlanContent = { FirstPlanCell { Text(firstPlanContentText) } },
+        secondPlanContent = { SecondPlanCell { Text(secondPlanContentText) } },
         firstPlanContentDescriptionPrefix,
         secondPlanContentDescriptionPrefix,
         modifier,
@@ -132,11 +149,13 @@ fun BenefitTableRow(
     )
 }
 
+// Material-agnostic layout of a table row. All content is provided via slots so that it can be used
+// with both mobile and TV Material.
 @Composable
 fun BenefitTableRow(
-    benefitText: String?,
-    firstPlanContent: @Composable () -> Unit,
-    secondPlanContent: @Composable () -> Unit,
+    benefitContent: (@Composable BoxScope.() -> Unit)?,
+    firstPlanContent: @Composable BoxScope.() -> Unit,
+    secondPlanContent: @Composable BoxScope.() -> Unit,
     firstPlanContentDescriptionPrefix: String = stringResource(R.string.upsell_panel_content_description_value_prefix_free),
     secondPlanContentDescriptionPrefix: String = stringResource(R.string.upsell_panel_content_description_value_prefix_plus),
     modifier: Modifier = Modifier,
@@ -154,13 +173,12 @@ fun BenefitTableRow(
                 .height(IntrinsicSize.Max)
                 .semantics(mergeDescendants = true) {}
         ) {
-            if (benefitText != null) {
-                Text(
-                    benefitText,
-                    style = ProtonTheme.typography.body2Medium,
+            if (benefitContent != null) {
+                Box(
                     modifier = Modifier
                         .weight(BENEFIT_TEXT_COLUMN_WEIGHT)
-                        .padding(itemVerticalPadding)
+                        .padding(itemVerticalPadding),
+                    content = benefitContent,
                 )
             } else {
                 Spacer(Modifier.weight(BENEFIT_TEXT_COLUMN_WEIGHT))
@@ -172,32 +190,59 @@ fun BenefitTableRow(
                     .padding(itemVerticalPadding)
                     .padding(horizontal = 8.dp),
                 contentAlignment = Alignment.Center,
-            ) {
-                CompositionLocalProvider(
-                    LocalContentColor provides ProtonTheme.colors.textWeak,
-                    LocalTextStyle provides ProtonTheme.typography.body2Regular,
-                    content = firstPlanContent
-                )
-            }
+                content = firstPlanContent,
+            )
             Box(
                 modifier = Modifier
                     .weight(BENEFIT_SECOND_COLUMN_WEIGHT)
                     .fillMaxHeight()
                     .semantics { text = AnnotatedString(secondPlanContentDescriptionPrefix) }
-                    .background(ProtonTheme.colors.vpnGreen.copy(alpha = 0.2f), secondPlanBackgroundShape)
+                    .background(
+                        ProtonTheme.colors.vpnGreen.copy(alpha = 0.2f),
+                        secondPlanBackgroundShape
+                    )
                     .padding(itemVerticalPadding)
                     .padding(horizontal = 8.dp),
                 contentAlignment = Alignment.Center,
-            ) {
-                CompositionLocalProvider(
-                    LocalContentColor provides ProtonTheme.colors.vpnGreen,
-                    LocalTextStyle provides ProtonTheme.typography.body2Medium,
-                    content = secondPlanContent
-                )
-            }
+                content = secondPlanContent,
+            )
         }
         if (bottomSeparator) {
             HorizontalDivider(thickness = Dp.Hairline, color = ProtonTheme.colors.shade100.copy(alpha = 0.1f))
         }
     }
+}
+
+@Composable
+private fun BenefitCell(content: @Composable () -> Unit) = ProvideCellStyle(
+    BenefitTableRowDefaults.benefitContentColor,
+    BenefitTableRowDefaults.benefitTextStyle,
+    content,
+)
+
+@Composable
+private fun FirstPlanCell(content: @Composable () -> Unit) = ProvideCellStyle(
+    BenefitTableRowDefaults.firstPlanContentColor,
+    BenefitTableRowDefaults.firstPlanTextStyle,
+    content,
+)
+
+@Composable
+private fun SecondPlanCell(content: @Composable () -> Unit) = ProvideCellStyle(
+    BenefitTableRowDefaults.secondPlanContentColor,
+    BenefitTableRowDefaults.secondPlanTextStyle,
+    content,
+)
+
+@Composable
+private fun ProvideCellStyle(
+    color: Color,
+    textStyle: TextStyle,
+    content: @Composable () -> Unit,
+) {
+    CompositionLocalProvider(
+        LocalContentColor provides color,
+        LocalTextStyle provides textStyle,
+        content = content
+    )
 }

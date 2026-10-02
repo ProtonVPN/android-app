@@ -17,29 +17,22 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.tv.upsell
+package com.protonvpn.android.tv.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.protonvpn.android.base.ui.ProtonVpnTvPreview
-import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.res.painterResource
+import com.protonvpn.android.R
+import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
-fun TvUpsellLayoutInfo(
-    modifier: Modifier = Modifier,
-) {
-    // TODO: replace with the actual layout.
-    Box(modifier = modifier.background(Color.Blue))
-}
-
-@ProtonVpnTvPreview
-@Composable
-private fun TvUpsellLayoutInfoPreview() {
-    ProtonThemeTv {
-        TvUpsellLayoutInfo(modifier = Modifier.fillMaxSize())
-    }
-}
+fun Modifier.tvGradientGlowBackground(): Modifier = this
+    .background(ProtonTheme.colors.backgroundNorm)
+    .paint(
+        painterResource(R.drawable.bg_gradient_glow),
+        sizeToIntrinsics = false,
+        alignment = Alignment.TopCenter,
+    )

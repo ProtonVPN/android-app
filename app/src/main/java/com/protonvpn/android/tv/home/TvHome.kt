@@ -75,7 +75,7 @@ fun TvHomeRoute(
     val launchUpsell = { countryId: CountryId ->
         TvUpsellActivity.launch(
             context,
-            TvUpsellContent.AllCountries,
+            TvUpsellContent.Country(countryId),
             UpgradeSource.COUNTRIES,
             UpgradeTrigger.COUNTRY_SELECTION,
             countryId

@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.planupgrade.comparison_table
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,20 +38,31 @@ import me.proton.core.compose.theme.ProtonTheme
 fun PlanPlusBadge(
     modifier: Modifier = Modifier,
 ) {
+    PlanPlusBadgeFrame(modifier) {
+        Text(stringResource(R.string.badge_plan_plus))
+    }
+}
+
+// Material-agnostic frame of the badge, the text is provided via a slot.
+@Composable
+fun PlanPlusBadgeFrame(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
     val borderGradient = Brush.linearGradient(
         0f to ProtonTheme.colors.vpnGreen.copy(alpha = 0f),
         1f to ProtonTheme.colors.vpnGreen,
         start = Offset.Infinite.copy(x = 0f),
         end = Offset.Infinite.copy(y = 0f),
     )
-    Text(
-        stringResource(R.string.badge_plan_plus),
+    Box(
         modifier = modifier
             .border(1.dp, borderGradient, ProtonTheme.shapes.medium)
             .background(
                 ProtonTheme.colors.backgroundNorm,
                 ProtonTheme.shapes.medium
             )
-            .padding(horizontal = 10.dp, vertical = 4.dp)
+            .padding(horizontal = 10.dp, vertical = 4.dp),
+        content = { content() },
     )
 }

@@ -22,6 +22,8 @@ package com.protonvpn.android.ui.planupgrade
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.mmp.events.MmpEvent
@@ -49,14 +51,21 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.sentry.Sentry
 import io.sentry.Sentry.captureException
 import io.sentry.SentryEvent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -73,6 +82,9 @@ import me.proton.core.util.kotlin.filterNotNullValues
 import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 import kotlin.math.max
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 class PlanModel(
     val displayName: String,
@@ -84,6 +96,7 @@ class PlanModel(
 
 @HiltViewModel
 class UpgradeDialogViewModel(
+    private val currentUser: CurrentUser,
     private val upgradeTelemetry: UpgradeTelemetry,
     private val getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig,
     private val loadSubscriptionPlans: suspend (selection: LoadPlansConfig) -> List<SubscriptionPlanInfo>,
@@ -91,10 +104,12 @@ class UpgradeDialogViewModel(
     private val observePaymentSessionState: ObserveSessionState,
     private val userPlanManager: UserPlanManager,
     private val saveMmpEvent: SaveMmpEvent,
+    private val clock: () -> Long,
 ) : ViewModel() {
 
     @Inject
     constructor(
+        currentUser: CurrentUser,
         upgradeTelemetry: UpgradeTelemetry,
         getUpgradeDialogPlansConfig: GetUpgradeDialogPlansConfig,
         loadSubscriptionPlans: LoadSubscriptionPlans,
@@ -102,7 +117,9 @@ class UpgradeDialogViewModel(
         observePaymentSessionState: ObserveSessionState,
         userPlanManager: UserPlanManager,
         saveMmpEvent: SaveMmpEvent,
+        @WallClock clock: () -> Long,
     ) : this(
+        currentUser = currentUser,
         upgradeTelemetry = upgradeTelemetry,
         getUpgradeDialogPlansConfig = getUpgradeDialogPlansConfig,
         loadSubscriptionPlans = loadSubscriptionPlans::invoke,
@@ -110,6 +127,7 @@ class UpgradeDialogViewModel(
         observePaymentSessionState = observePaymentSessionState,
         userPlanManager = userPlanManager,
         saveMmpEvent = saveMmpEvent,
+        clock = clock,
     )
 
     data class PriceInfo(
@@ -132,7 +150,7 @@ class UpgradeDialogViewModel(
         val inProgress: Boolean get() = false
 
         object Initializing : LoadPurchase
-        object UpgradeDisabled : LoadPurchase
+        data class UpgradeDisabled(val isPayingUser: Boolean) : LoadPurchase
         data class LoadingPlans(
             val expectedCycleCount: Int,
             val buttonLabelOverride: String?,
@@ -208,6 +226,20 @@ class UpgradeDialogViewModel(
         SharingStarted.WhileSubscribed(5_000),
         buildFullState(State.Initializing, null)
     )
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val refreshVpnUserFrequently: Flow<Unit> = upgradeState
+        .filterIsInstance<State.UpgradeDisabled>()
+        .flatMapLatest {
+            delay(1.minutes)
+            val startTime = clock().milliseconds
+            do {
+                val now = clock().milliseconds
+                userPlanManager.refreshVpnInfo()
+                delay(15.seconds)
+            } while((now - startTime).inWholeMinutes < 9)
+            emptyFlow()
+        }
 
     init {
         upgradeState
@@ -301,7 +333,7 @@ class UpgradeDialogViewModel(
 
     private suspend fun loadPlans(config: UpgradeDialogLoadPlansConfig?) {
         if (config == null) {
-            loadPurchaseState.value = State.UpgradeDisabled
+            observeUserWhenUpgradeDisabled()
         } else {
             plansForReload = config
             with(config) {
@@ -369,6 +401,16 @@ class UpgradeDialogViewModel(
             loadPurchaseState.value = State.LoadError
             onError(error = e, paymentsCode = if (e is PaymentException) e.code else null)
         }
+    }
+
+    private suspend fun observeUserWhenUpgradeDisabled() {
+        currentUser.vpnUserFlow
+            .cancellable()
+            .onEach { vpnUser ->
+                val isPaying = vpnUser?.isFreeUser == false
+                loadPurchaseState.value = State.UpgradeDisabled(isPaying)
+            }
+            .collect()
     }
 
     fun selectPlan(plan: PlanModel) {

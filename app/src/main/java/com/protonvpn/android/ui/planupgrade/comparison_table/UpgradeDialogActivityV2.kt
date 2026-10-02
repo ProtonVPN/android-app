@@ -443,7 +443,7 @@ private fun UpgradeBenefitsPanel(
     }
 }
 
-private fun Int.roundToTens() = (this / 10) * 10
+internal fun Int.roundToTens() = (this / 10) * 10
 
 @VisibleForTesting
 class UpgradeContentProvider : PreviewParameterProvider<BenefitsViewState> {

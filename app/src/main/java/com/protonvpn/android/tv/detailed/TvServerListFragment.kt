@@ -44,8 +44,8 @@ import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.tv.detailed.TvServerListScreenFragment.Companion.EXTRA_COUNTRY
 import com.protonvpn.android.tv.presenters.AbstractCardPresenter
-import com.protonvpn.android.tv.upsell.TvUpsellContent
 import com.protonvpn.android.tv.upsell.TvUpsellActivity
+import com.protonvpn.android.tv.upsell.TvUpsellContent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -78,12 +78,12 @@ class TvServerListFragment : BaseTvBrowseFragment() {
             item.click(
                 (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate(),
                 onUpgrade = {
+                    val countryCode = requireArguments().getString(EXTRA_COUNTRY)
                     TvUpsellActivity.launch(
                         requireContext(),
-                        TvUpsellContent.AllCountries,
+                        TvUpsellContent.Country(countryCode?.let { CountryId(it) }),
                         UpgradeSource.COUNTRIES,
                         UpgradeTrigger.COUNTRY_SELECTION,
-                        requireArguments().getString(EXTRA_COUNTRY)?.let { CountryId(it) }
                     )
                 }
             )

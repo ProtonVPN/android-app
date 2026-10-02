@@ -127,7 +127,7 @@ class UpgradeDialogViewModelTests {
         testObservePurchaseState.emit(SessionState.Idle)
         isInAppAllowed = true
         testGetProducts.setProductsToReturn(listOf(createProduct(testPlanName, testPlanName)))
-        val currentUser = CurrentUser(TestCurrentUserProvider(TestVpnUser.create()))
+        val currentUser = CurrentUser(TestCurrentUserProvider(TestVpnUser.create(maxTier = 0)))
         loadSubscriptionPlans = LoadSubscriptionPlans(
             getProductsLazy = { testGetProducts },
         )
@@ -149,6 +149,7 @@ class UpgradeDialogViewModelTests {
             awaitNotificationsUpdate = { awaitNotificationsUpdate() },
         )
         viewModel = UpgradeDialogViewModel(
+            currentUser = currentUser,
             upgradeTelemetry = upgradeTelemetry,
             getUpgradeDialogPlansConfig = getUpgradeDialogPlansConfig,
             loadSubscriptionPlans = loadSubscriptionPlans::invoke,
@@ -156,6 +157,7 @@ class UpgradeDialogViewModelTests {
             observePaymentSessionState = testObservePurchaseState,
             userPlanManager = mockk(relaxed = true),
             saveMmpEvent = mockSaveMmpEvent,
+            clock = { testScope.currentTime },
         )
     }
 
@@ -237,7 +239,7 @@ class UpgradeDialogViewModelTests {
             expectNoEvents()
 
             inAppAllowedCheck.complete(Unit)
-            assertEquals(State.UpgradeDisabled, awaitItem())
+            assertEquals(State.UpgradeDisabled(false), awaitItem())
         }
     }
 

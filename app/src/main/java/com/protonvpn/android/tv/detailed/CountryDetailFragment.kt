@@ -173,10 +173,9 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
     private fun onUpgradeClicked(ignored: View) {
         TvUpsellActivity.launch(
             requireContext(),
-            TvUpsellContent.AllCountries,
+            TvUpsellContent.Country(CountryId(getCountryCode())),
             UpgradeSource.COUNTRIES,
             UpgradeTrigger.COUNTRY_SELECTION,
-            CountryId(getCountryCode())
         )
     }
 
