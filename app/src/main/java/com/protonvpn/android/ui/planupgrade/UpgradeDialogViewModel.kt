@@ -248,9 +248,14 @@ class UpgradeDialogViewModel(
         upgradeTrigger: UpgradeTrigger,
         countryId: CountryId? = null,
     ) {
-        loadPurchaseState.value = State.LoadingPlans(2, null)
         viewModelScope.launch {
-            val config = getUpgradeDialogPlansConfig.forBuiltinUpsell(notificationType, supportedPlanNames)
+            // Stay in Initializing until it's known whether upgrade is possible, the UI may depend on it.
+            val config = if (getUpgradeDialogPlansConfig.isUpgradeAllowed()) {
+                loadPurchaseState.value = State.LoadingPlans(2, null)
+                getUpgradeDialogPlansConfig.forBuiltinUpsell(notificationType, supportedPlanNames)
+            } else {
+                null
+            }
             if (shouldReportTelemetry) {
                 upgradeTelemetry.onUpgradeFlowStarted(
                     upgradeSource,
@@ -271,9 +276,14 @@ class UpgradeDialogViewModel(
         upgradeTrigger: UpgradeTrigger,
         notificationReference: String?,
     ) {
-        loadPurchaseState.value = State.LoadingPlans(1, null)
         viewModelScope.launch {
-            val config = getUpgradeDialogPlansConfig.forNotification(iapParams, buttonLabelOverride, notificationReference)
+            // Stay in Initializing until it's known whether upgrade is possible, the UI may depend on it.
+            val config = if (getUpgradeDialogPlansConfig.isUpgradeAllowed()) {
+                loadPurchaseState.value = State.LoadingPlans(1, null)
+                getUpgradeDialogPlansConfig.forNotification(iapParams, buttonLabelOverride, notificationReference)
+            } else {
+                null
+            }
             if (shouldReportTelemetry) {
                 upgradeTelemetry.onUpgradeFlowStarted(
                     upgradeSource,

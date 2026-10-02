@@ -59,12 +59,13 @@ class GetUpgradeDialogPlansConfig(
         awaitNotificationsUpdate = notificationsManager::awaitUpdateFinish,
     )
 
+    // Check this before fetching the config. The config functions don't check it.
+    suspend fun isUpgradeAllowed(): Boolean = isInAppUpgradeAllowed()
+
     suspend fun forBuiltinUpsell(
         notificationType: Int,
         supportedPlanNames: List<String>
-    ): UpgradeDialogLoadPlansConfig? {
-        if (!isInAppUpgradeAllowed()) return null
-
+    ): UpgradeDialogLoadPlansConfig {
         val notification = withTimeoutOrNull(5.seconds) {
             // Note: this relies on ApiNotificationManager starting the first update
             // before onboarding view model calls this function.
@@ -129,9 +130,7 @@ class GetUpgradeDialogPlansConfig(
         iapParams: NotificationIapParams,
         buttonLabelOverride: String?,
         notificationReference: String?,
-    ): UpgradeDialogLoadPlansConfig? {
-        if (!isInAppUpgradeAllowed()) return null
-
+    ): UpgradeDialogLoadPlansConfig {
         return UpgradeDialogLoadPlansConfig(
             planSelection = iapParams.loadPlansConfig,
             preselectedCycle = iapParams.preselectedCycle,

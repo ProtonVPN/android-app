@@ -134,7 +134,7 @@ class NotificationTimeOverlapIntegrationTests {
 
             assertSelectionsAtCheckpoints(
                 listOf("long", "short", "long") to {
-                    getUpgradeDialogPlansConfig.forBuiltinUpsell(type, listOf("vpnplus"))?.notificationReference
+                    getUpgradeDialogPlansConfig.forBuiltinUpsell(type, listOf("vpnplus")).notificationReference
                 },
             )
         }
@@ -160,7 +160,7 @@ class NotificationTimeOverlapIntegrationTests {
                     prominentBannerFlow.first()?.notificationId
                 },
                 listOf("upsell-long", "upsell-short", "upsell-long") to {
-                    getUpgradeDialogPlansConfig.forBuiltinUpsell(upsellType, listOf("vpnplus"))?.notificationReference
+                    getUpgradeDialogPlansConfig.forBuiltinUpsell(upsellType, listOf("vpnplus")).notificationReference
                 },
             )
         }

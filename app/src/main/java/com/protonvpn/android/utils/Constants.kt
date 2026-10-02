@@ -68,6 +68,7 @@ object Constants {
     const val SECONDARY_PROCESS_TAG = "SecondaryProcess"
     const val DISTRIBUTION_AMAZON = "amazon"
     const val DISTRIBUTION_OPENSOURCE = "openSource"
+    const val DISTRIBUTION_PLAYSTORE = "playStore"
     val DEFAULT_CONNECTION = DefaultConnection.FastestConnection
 
     const val MOBILE_CLIENT_ID: String = "android-vpn"

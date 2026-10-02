@@ -19,9 +19,11 @@
 
 package com.protonvpn.android.ui.planupgrade
 
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.upsell.IsTvIapEnabled
+import com.protonvpn.android.utils.Constants
 import dagger.Reusable
 import javax.inject.Inject
 
@@ -32,5 +34,6 @@ class IsInAppUpgradeAllowedUseCase @Inject constructor(
     private val isTv: IsTvCheck,
 ) {
     suspend operator fun invoke() =
-        (isTvIapEnabled() || !isTv()) && purchaseEnabled()
+        // TODO: fix VPNAND-2632 and revert the FLAVOR check.
+        BuildConfig.FLAVOR_distribution == Constants.DISTRIBUTION_PLAYSTORE && (isTvIapEnabled() || !isTv()) && purchaseEnabled()
 }

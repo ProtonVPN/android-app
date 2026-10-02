@@ -95,6 +95,8 @@ import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabled
 import com.protonvpn.android.tv.settings.IsTvAutoConnectFeatureFlagEnabledImpl
 import com.protonvpn.android.tv.upsell.IsTvIapEnabled
 import com.protonvpn.android.tv.upsell.IsTvIapEnabledImpl
+import com.protonvpn.android.tv.upsell.IsTvNonIapScreenDisabled
+import com.protonvpn.android.tv.upsell.IsTvNonIapScreenDisabledImpl
 import com.protonvpn.android.tv.usecases.IsIsTvFreeUserAlphabeticalSortingForCountriesEnabledEnabledImpl
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabled
 import com.protonvpn.android.tv.usecases.IsTvFavoriteCountryForFreeUserDisabledImpl
@@ -455,6 +457,9 @@ object AppModule {
 
         @Binds
         fun bindIsTvMainScreenRedesignEnabled(impl: IsTvMainScreenRedesignEnabledImpl): IsTvMainScreenRedesignEnabled
+
+        @Binds
+        fun bindIsTvNonIapScreenDisabled(impl: IsTvNonIapScreenDisabledImpl): IsTvNonIapScreenDisabled
 
         @Binds
         fun bindTvDisableFavoriteCountryForFreeUser(

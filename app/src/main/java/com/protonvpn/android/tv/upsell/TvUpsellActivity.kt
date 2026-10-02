@@ -96,19 +96,22 @@ class TvUpsellActivity : BaseTvActivity() {
             ProtonThemeTv {
                 val benefitsViewState = benefitsViewModel.viewStateFlow.collectAsStateWithLifecycle().value
                 val paymentPanelState = viewModel.fullPanelState.collectAsStateWithLifecycle().value
+                val isNonIapScreenEnabled = benefitsViewModel.isNonIapScreenEnabled.collectAsStateWithLifecycle().value
+                val upgradeState = paymentPanelState.upgradeState
 
-                when (paymentPanelState.upgradeState) {
+                when {
                     // Not known yet which variant to show.
-                    UpgradeDialogViewModel.State.Initializing -> Unit
-                    else ->
-                        if (benefitsViewState != null) {
-                            TvUpsellLayoutIap(
-                                modifier = Modifier.fillMaxSize(),
-                                viewState = benefitsViewState,
-                                paymentPanelState = paymentPanelState,
-                                onClose = { finish() },
-                            )
-                        }
+                    isNonIapScreenEnabled == null -> Unit
+                    isNonIapScreenEnabled && upgradeState == UpgradeDialogViewModel.State.Initializing -> Unit
+                    isNonIapScreenEnabled && upgradeState == UpgradeDialogViewModel.State.UpgradeDisabled ->
+                        TvUpsellLayoutInfo(modifier = Modifier.fillMaxSize())
+                    benefitsViewState != null ->
+                        TvUpsellLayoutIap(
+                            modifier = Modifier.fillMaxSize(),
+                            viewState = benefitsViewState,
+                            paymentPanelState = paymentPanelState,
+                            onClose = { finish() },
+                        )
                 }
             }
         }

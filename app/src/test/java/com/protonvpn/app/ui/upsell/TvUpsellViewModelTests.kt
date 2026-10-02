@@ -22,6 +22,7 @@ package com.protonvpn.app.ui.upsell
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.protonvpn.android.R
+import com.protonvpn.android.tv.upsell.FakeIsTvNonIapScreenDisabled
 import com.protonvpn.android.tv.upsell.TvUpsellContent
 import com.protonvpn.android.tv.upsell.TvUpsellViewModel
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
@@ -43,6 +44,7 @@ import kotlin.test.assertEquals
 class TvUpsellViewModelTests {
 
     private lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
+    private lateinit var isTvNonIapScreenDisabled: FakeIsTvNonIapScreenDisabled
 
     private lateinit var testScope: TestScope
 
@@ -57,6 +59,7 @@ class TvUpsellViewModelTests {
         serverListUpdaterPrefs = ServerListUpdaterPrefs(
             prefsProvider = MockSharedPreferencesProvider(),
         )
+        isTvNonIapScreenDisabled = FakeIsTvNonIapScreenDisabled(false)
     }
 
     @After
@@ -111,6 +114,18 @@ class TvUpsellViewModelTests {
         }
     }
 
+    @Test
+    fun `GIVEN non-IAP screen kill-switch WHEN observing THEN non-IAP screen enabled state is emitted`() = testScope.runTest {
+        val viewModel = createViewModel(upsellContent = TvUpsellContent.NetShield)
+
+        viewModel.isNonIapScreenEnabled.test {
+            assertEquals(true, awaitItem())
+
+            isTvNonIapScreenDisabled.setEnabled(true)
+            assertEquals(false, awaitItem())
+        }
+    }
+
     private fun createViewModel(upsellContent: TvUpsellContent): TvUpsellViewModel {
         val savedStateHandle = SavedStateHandle().apply {
             this["paid_feature_key"] = upsellContent
@@ -119,6 +134,7 @@ class TvUpsellViewModelTests {
         return TvUpsellViewModel(
             savedStateHandle = savedStateHandle,
             serverListUpdaterPrefs = serverListUpdaterPrefs,
+            isTvNonIapScreenDisabled = isTvNonIapScreenDisabled,
         )
     }
 

@@ -32,6 +32,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -41,12 +42,13 @@ import javax.inject.Inject
 class TvUpsellViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val serverListUpdaterPrefs: ServerListUpdaterPrefs,
+    isTvNonIapScreenDisabled: IsTvNonIapScreenDisabled,
 ) : ViewModel() {
 
     data class ViewState(
-        @DrawableRes val imageResId: Int,
-        @StringRes val titleResId: Int,
-        @StringRes val descriptionResId: Int,
+        @param:DrawableRes val imageResId: Int,
+        @param:StringRes val titleResId: Int,
+        @param:StringRes val descriptionResId: Int,
         val descriptionArgs: (Context) -> Array<String> = { emptyArray() },
     )
 
@@ -104,6 +106,15 @@ class TvUpsellViewModel @Inject constructor(
                 )
             }
         }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = null,
+        )
+
+    // Null until the flag is known, the UI must not render either variant before that.
+    val isNonIapScreenEnabled: StateFlow<Boolean?> = isTvNonIapScreenDisabled.observe()
+        .map { disabled -> !disabled }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),

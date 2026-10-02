@@ -59,6 +59,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -107,6 +108,8 @@ class UpgradeDialogViewModelTests {
     private lateinit var testTelemetry: TestTelemetryReporter
 
     private var isInAppAllowed = true
+    private var awaitInAppAllowedCheck: suspend () -> Unit = {}
+    private var awaitNotificationsUpdate: suspend () -> Unit = {}
     private lateinit var activeNotifications: MutableStateFlow<List<ApiNotification>>
     private val testPlanName = "myplan"
 
@@ -140,10 +143,10 @@ class UpgradeDialogViewModelTests {
 
         activeNotifications = MutableStateFlow(emptyList())
         getUpgradeDialogPlansConfig = GetUpgradeDialogPlansConfig(
-            isInAppUpgradeAllowed = { isInAppAllowed },
+            isInAppUpgradeAllowed = { awaitInAppAllowedCheck(); isInAppAllowed },
             activeOnboardingNotificationsFlow = activeNotifications.map { it.filter { it.type == ApiNotificationTypes.TYPE_BUILTIN_UPSELL_ONBOARDING }},
             activeNonOnboardingNotificationsFlow = activeNotifications.map { it.filter { it.type != ApiNotificationTypes.TYPE_BUILTIN_UPSELL_ONBOARDING }},
-            awaitNotificationsUpdate = {},
+            awaitNotificationsUpdate = { awaitNotificationsUpdate() },
         )
         viewModel = UpgradeDialogViewModel(
             upgradeTelemetry = upgradeTelemetry,
@@ -220,6 +223,35 @@ class UpgradeDialogViewModelTests {
         viewModel.upgradeState.test {
             viewModel.loadBuiltinUpsellPlans(listOf(testPlanName))
             assertIs<State.UpgradeDisabled>(expectMostRecentItem())
+        }
+    }
+
+    @Test
+    fun `state stays Initializing until it is known whether upgrade is allowed`() = testScope.runTest {
+        val inAppAllowedCheck = CompletableDeferred<Unit>()
+        awaitInAppAllowedCheck = { inAppAllowedCheck.await() }
+        isInAppAllowed = false
+        viewModel.upgradeState.test {
+            assertEquals(State.Initializing, awaitItem())
+            viewModel.loadBuiltinUpsellPlans(listOf(testPlanName))
+            expectNoEvents()
+
+            inAppAllowedCheck.complete(Unit)
+            assertEquals(State.UpgradeDisabled, awaitItem())
+        }
+    }
+
+    @Test
+    fun `plans loading state emitted only after upgrade is known to be allowed`() = testScope.runTest {
+        val notificationsUpdate = CompletableDeferred<Unit>()
+        awaitNotificationsUpdate = { notificationsUpdate.await() }
+        viewModel.upgradeState.test {
+            assertEquals(State.Initializing, awaitItem())
+            viewModel.loadBuiltinUpsellPlans(listOf(testPlanName))
+            assertIs<State.LoadingPlans>(awaitItem())
+
+            notificationsUpdate.complete(Unit)
+            assertIs<State.PurchaseReady>(awaitItem())
         }
     }
 
@@ -373,7 +405,7 @@ class UpgradeDialogViewModelTests {
             ApiNotificationTypes.TYPE_BUILTIN_UPSELL_PADLOCK,
             listOf(Constants.CURRENT_PLUS_PLAN)
         )
-        assertEquals("notification-reference", config?.notificationReference)
+        assertEquals("notification-reference", config.notificationReference)
     }
 
     @Test
