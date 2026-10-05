@@ -22,11 +22,9 @@ package com.protonvpn.android.redesign.base.ui
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -239,9 +237,7 @@ private fun ProtonOutlineDecorationBox(
     val placeholder: @Composable (() -> Unit)? =
         placeholderText?.let { @Composable { Text(placeholderText, style = ProtonTheme.typography.defaultHint) } }
     Column(
-        modifier = Modifier
-            .width(IntrinsicSize.Max)
-            .widthIn(min = TextFieldDefaults.MinWidth)
+        modifier = Modifier.widthIn(min = TextFieldDefaults.MinWidth)
     ) {
         if (labelText != null) {
             Text(
