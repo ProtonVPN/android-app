@@ -30,14 +30,12 @@ import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
-import com.protonvpn.android.ui.planupgrade.comparison_table.FakeIsUpsellComparisonTableExperimentEnabled
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser
 import io.mockk.MockKAnnotations
-import io.mockk.MockKAssertScope
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -66,7 +64,6 @@ class UpgradeTelemetryTests {
     private lateinit var mockTelemetry: Telemetry
 
     private var fakeTime: Long = 0L // It's not related to test scheduler's clock.
-    private lateinit var experimentComparisonTableFF: FakeIsUpsellComparisonTableExperimentEnabled
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
     private val freeVpnUserAbControl = TestUser.freeUser.vpnUser.copy(userId = UserId("id1"))
@@ -81,7 +78,6 @@ class UpgradeTelemetryTests {
 
         every { mockTelemetry.event(UPSELL_GROUP, any(), any(), any()) } just runs
 
-        experimentComparisonTableFF = FakeIsUpsellComparisonTableExperimentEnabled(false)
         testUserProvider = TestCurrentUserProvider(freeVpnUserAbControl, createAccountUser(createdAtUtc = 100L))
         val currentUser = CurrentUser(testUserProvider)
 
@@ -93,12 +89,10 @@ class UpgradeTelemetryTests {
         )
         val helper = TelemetryFlowHelper(testScope.backgroundScope, DefaultTelemetryReporter(mockTelemetry))
         upgradeTelemetry = UpgradeTelemetry(
-            mainScope = testScope.backgroundScope,
             commonDimensions = commonDimensions,
             currentUser = currentUser,
             clock = { fakeTime },
             telemetryHelperLazy = { helper },
-            isUpsellComparisonTableExperimentEnabled = experimentComparisonTableFF,
         )
     }
 
@@ -260,28 +254,7 @@ class UpgradeTelemetryTests {
         }
     }
 
-    @Test
-    fun `GIVEN comparison table experiment THEN experiment events are reported`() =
-        testScope.runTest {
-            every { mockTelemetry.event(EXPERIMENT_COMPARISON_TABLE_GROUP, any(), any(), any()) } just runs
-
-            upgradeTelemetry.start()
-            testUserProvider.vpnUser = freeVpnUserAbControl
-            experimentComparisonTableFF.setEnabled(true)
-            with(upgradeTelemetry) {
-                onUpgradeFlowStarted(UpgradeSource.PROFILES, UpgradeTrigger.PROFILES)
-            }
-
-            verify {
-                val dimensionAssert: MockKAssertScope.(Map<String, String>) -> Unit =
-                    { assertEquals("control", it["experiment_variant"]) }
-                mockTelemetry.event(EXPERIMENT_COMPARISON_TABLE_GROUP, "experiment_enrolled", any(), withArg(captureBlock = dimensionAssert))
-                mockTelemetry.event(EXPERIMENT_COMPARISON_TABLE_GROUP, "upsell_display", any(), withArg(captureBlock = dimensionAssert) )
-            }
-        }
-
     companion object {
         private const val UPSELL_GROUP = "vpn.any.upsell"
-        private const val EXPERIMENT_COMPARISON_TABLE_GROUP = "vpn.any.experiment_upsell_comparison_table_202607"
     }
 }

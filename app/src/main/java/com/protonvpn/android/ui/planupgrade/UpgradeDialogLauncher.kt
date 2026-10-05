@@ -22,61 +22,35 @@ package com.protonvpn.android.ui.planupgrade
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.telemetry.AbTestComparisonTable
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM.Companion.createIntent
-import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableExperimentEnabled
 import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.Reusable
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.reflect.KClass
 
 @Reusable
-class UpgradeDialogLauncher @Inject constructor(
-    private val currentUser: CurrentUser,
-    private val isUpsellComparisonTableExperimentEnabled: dagger.Lazy<IsUpsellComparisonTableExperimentEnabled>,
-) {
+class UpgradeDialogLauncher @Inject constructor() {
 
-    suspend inline fun <reified F: FragmentWithUpgradeSource> createCarouselIntent(
+    fun launch(
         context: Context,
         upgradeSource: UpgradeSource,
         upgradeTrigger: UpgradeTrigger,
-    ): Intent =
-        if (UpgradeDialogActivityV2.isSupported(upgradeSource) && useV2Dialogs()) {
-            UpgradeDialogLauncherVM.createIntent<UpgradeDialogActivityV2>(
-                context, upgradeSource, upgradeTrigger
-            )
-        } else {
-            CarouselUpgradeDialogActivity.createIntent<F>(context, upgradeSource, upgradeTrigger)
-        }
-
-    suspend fun launch(
-        context: Context,
-        upgradeSource: UpgradeSource,
-        upgradeTrigger: UpgradeTrigger,
-        legacyLaunch: () -> Unit
     ) {
-        if (UpgradeDialogActivityV2.isSupported(upgradeSource) && useV2Dialogs()) {
-            launch<UpgradeDialogActivityV2>(context, upgradeSource, upgradeTrigger)
-        } else {
-            legacyLaunch()
-        }
+        launch<UpgradeDialogActivityV2>(context, upgradeSource, upgradeTrigger)
     }
 
-    suspend fun useV2Dialogs(): Boolean {
-        if (!isUpsellComparisonTableExperimentEnabled.get().invoke()) return false
-        val userId = currentUser.vpnUser()?.userId ?: return false
-        return AbTestComparisonTable.fromUserId(userId) == AbTestComparisonTable.COMPARISON_TABLE
-    }
+    fun createIntent(
+        context: Context,
+        upgradeSource: UpgradeSource,
+        upgradeTrigger: UpgradeTrigger,
+        country: CountryId? = null,
+    ): Intent = createIntent<UpgradeDialogActivityV2>(context, upgradeSource, upgradeTrigger, country)
+
 
     companion object {
         inline fun <reified T : Activity> launch(
@@ -95,34 +69,12 @@ class UpgradeDialogLauncherVM @Inject constructor(
     val upgradeDialogLauncher: UpgradeDialogLauncher,
 ) : ViewModel() {
 
-    inline fun <reified F : FragmentWithUpgradeSource> launchCarousel(
+    fun launch(
         context: Context,
         upgradeSource: UpgradeSource,
         upgradeTrigger: UpgradeTrigger,
     ) {
-        viewModelScope.launch {
-            upgradeDialogLauncher.launch(context, upgradeSource, upgradeTrigger) {
-                CarouselUpgradeDialogActivity.launch<F>(context, upgradeSource, upgradeTrigger)
-            }
-        }
-    }
-
-    fun launchCarousel(
-        context: Context,
-        upgradeSource: UpgradeSource,
-        upgradeTrigger: UpgradeTrigger,
-        focusedFragmentClass: KClass<out Fragment>?,
-    ) {
-        viewModelScope.launch {
-            upgradeDialogLauncher.launch(context, upgradeSource, upgradeTrigger) {
-                CarouselUpgradeDialogActivity.launch(
-                    context,
-                    upgradeSource,
-                    upgradeTrigger,
-                    focusedFragmentClass
-                )
-            }
-        }
+        upgradeDialogLauncher.launch(context, upgradeSource, upgradeTrigger)
     }
 
     fun launchCountries(
@@ -130,43 +82,17 @@ class UpgradeDialogLauncherVM @Inject constructor(
         upgradeTrigger: UpgradeTrigger,
         country: CountryId?,
     ) {
-        viewModelScope.launch {
-            val countryId = country?.takeIf { !it.isFastest }
-            if (upgradeDialogLauncher.useV2Dialogs()) {
-                UpgradeDialogLauncher.launch<UpgradeDialogActivityV2>(
-                    context,
-                    UpgradeSource.COUNTRIES,
-                    upgradeTrigger,
-                    countryId
-                )
-            } else {
-                if (countryId != null) {
-                    PlusOnlyUpgradeDialogActivity.launch<UpgradeCountryHighlightsFragment>(
-                        context,
-                        upgradeTrigger,
-                        countryId = countryId
-                    )
-                } else {
-                    PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(
-                        context,
-                        upgradeTrigger,
-                        null
-                    )
-                }
-            }
-        }
+        val countryId = country?.takeIf { !it.isFastest }
+        UpgradeDialogLauncher.launch<UpgradeDialogActivityV2>(
+            context,
+            UpgradeSource.COUNTRIES,
+            upgradeTrigger,
+            countryId
+        )
     }
 
     fun launchOnboarding(context: Context) {
-        viewModelScope.launch {
-            upgradeDialogLauncher.launch(context, UpgradeSource.ONBOARDING, UpgradeTrigger.ONBOARDING) {
-                val intent = BaseUpgradeDialogActivity.createIntent<UpgradeOnboardingDialogActivity>(
-                    context,
-                    UpgradeTrigger.ONBOARDING
-                )
-                context.startActivity(intent)
-            }
-        }
+        upgradeDialogLauncher.launch(context, UpgradeSource.ONBOARDING, UpgradeTrigger.ONBOARDING)
     }
 
     companion object {

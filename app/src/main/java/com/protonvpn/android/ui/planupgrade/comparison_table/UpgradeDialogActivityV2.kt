@@ -210,9 +210,6 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
     }
 
     companion object {
-        fun isSupported(upgradeSource: UpgradeSource): Boolean =
-            getContentType(upgradeSource, null, plusCountries = 0) != null
-
         private fun getContentType(
             upgradeSource: UpgradeSource,
             country: CountryId?,
@@ -225,6 +222,9 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
             UpgradeSource.EXCLUDE_LOCATIONS,
             UpgradeSource.MODERATE_NAT -> BenefitsViewState.AdvancedCustomization
 
+            UpgradeSource.ACCOUNT,
+            UpgradeSource.CHANGE_SERVER,
+            UpgradeSource.DOWNGRADE,
             UpgradeSource.COUNTRIES -> BenefitsViewState.Countries(
                 country = country,
                 freeCountries = Constants.FALLBACK_FREE_COUNTRY_COUNT,
@@ -251,7 +251,9 @@ class UpgradeDialogActivityV2 : AppCompatActivity() {
             UpgradeSource.TOR -> BenefitsViewState.Tor
             UpgradeSource.VPN_ACCELERATOR -> BenefitsViewState.Speed
 
-            else -> null
+            UpgradeSource.PROMO_OFFER -> {
+                throw IllegalArgumentException("Notifications don't open UpgradeDialogActivity.")
+            }
         }
     }
 }

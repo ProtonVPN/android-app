@@ -362,38 +362,11 @@
         <item quantity="other">%1$d カ国</item>
     </plurals>
     <string name="upsell_upgrade_again">再度すべての機能を利用するにはアップデートしてください:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="other">一度に%1$d 台のデバイスを保護</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPNは8つの異なるプラットフォームでご利用いただけます。</string>
-    <string name="upgrade_plus_title">プライバシーをアップグレードする</string>
-    <string name="upgrade_plus_message">VPN Plus を使用すると、高度なプライバシー機能と高速性を実現できます。</string>
-    <string name="upgrade_netshield_title">広告なしのブラウジングをお楽しみください</string>
-    <string name="upgrade_netshield_message"><![CDATA[<b>NetShield</b> で広告、トラッカー、マルウェアをブロックします。]]></string>
-    <string name="upgrade_secure_core_title">暗号化を2倍にする</string>
-    <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b> を使用して、VPN 接続に別の暗号化層を追加します。]]></string>
-    <string name="upgrade_p2p_title">ピアツーピア(P2P)通信のダウンロードとファイル共有をアンロック </string>
-    <string name="upgrade_p2p_text">あなたのIPアドレスを隠したままアップロードとダウンロード速度が向上します。</string>
-    <string name="upgrade_profiles_title">頻繁に利用するコネクションに素早くアクセス</string>
-    <string name="upgrade_profiles_text">VPN Plusでプロファイルをアンロック</string>
-    <string name="upgrade_streaming_title">4Kでストリーミング</string>
-    <string name="upgrade_streaming_text">世界中どこからでもお気に入りの映画やテレビ番組を楽しめます。</string>
-    <string name="upgrade_streaming_block_title">VPNブロックを回避するためにアップグレード</string>
-    <string name="upgrade_streaming_block_text">VPN Plusサーバーを利用して、お気に入りの映画やテレビ番組を世界中からお楽しみください。</string>
-    <string name="upgrade_tor_title">Torネットワークへワンタップでアクセス</string>
-    <string name="upgrade_tor_text">普段使っているブラウザで、隠れたサービスやオニオンサイトに接続できます。</string>
-    <string name="upgrade_vpn_accelerator_title">さらに高速なブラウジング</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">最大 %1$d Gbps の速度で、より高速で混雑の少ないサーバーのロックを解除します。</string>
-    <string name="upgrade_split_tunneling_title">両方の利点を最大限に活用</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[<b>スプリットトンネル</b>を使用して、トラフィックを VPN トンネルと非 VPN トンネルに分割します。]]></string>
-    <string name="upgrade_customization_title">高度な VPN カスタマイズを解除する</string>
-    <string name="upgrade_customization_message"><![CDATA[VPN Plus で <b>LAN 接続</b>, <b>カスタム DNS</b>, <b>NATタイプ 2</b> をアンロック。]]></string>
-    <string name="upgrade_all_countries_title">すべての国にアクセス</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -418,59 +391,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[<b>VPN Plus</b> を使用して %2$s の %1$s のロックを解除します。]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Proton Unlimitedで完全なプライバシー保護を入手</string>
-    <string name="upgrade_unlimited_all_apps_description">Proton VPN、Mail、Clanedar、Drive、Pass のすべてのプレミアム機能をご利用いただけます。</string>
-    <string name="upgrade_unlimited_more">さらに</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">全ての国をアンロック</string>
-    <string name="upgrade_unlimited_vpn_all_features">他のすべてのVPN Plus機能</string>
-    <string name="upgrade_unlimited_vpn_any_location">任意の場所を選択</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">さらに高速なVPN速度</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="other">一度に%1$d台のデバイスを保護</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">安全なストリーミング</string>
-    <string name="upgrade_unlimited_vpn_adblocker">広告ブロックとマルウェア保護</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">ダブルVPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P対応</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="other">%1$d個の独自メールドメイン</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="other">%1$d MBの添付ファイル</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="other">%1$d 個のメールアドレス</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">無制限のフォルダとフィルタ</string>
-    <string name="upgrade_unlimited_mail_dark_web">ダークウェブモニタリング</string>
-    <string name="upgrade_unlimited_mail_aliases">無制限のメール非表示ide-my-emailエイリアス</string>
-    <string name="upgrade_unlimited_mail_autoreply">自動返信</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">送信予約</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="other">%1$d個の個人用カレンダー</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">カレンダー共有</string>
-    <string name="upgrade_unlimited_calendar_invites">招待の送受信</string>
-    <string name="upgrade_unlimited_drive_encryption">暗号化ファイルストレージ</string>
-    <string name="upgrade_unlimited_drive_storage_size">写真やファイル、メールのための合計%1$d GBのストレージ</string>
-    <string name="upgrade_unlimited_drive_link_share">リンクで写真やファイルを共有</string>
-    <string name="upgrade_unlimited_drive_sharing_security">高度な共有セキュリティ</string>
-    <string name="upgrade_unlimited_drive_version_history">バージョン履歴</string>
-    <string name="upgrade_unlimited_pass_manager">暗号化パスワードマネージャー</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">無制限のログインとメール非表示ide-my-emailエイリアス</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="other">%1$d個の保管庫</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">無制限のログイン</string>
-    <string name="upgrade_unlimited_pass_aliases">無制限のメール非表示ide-my-emailエイリアス</string>
-    <string name="upgrade_unlimited_pass_credit_cards">無制限のクレジットカード</string>
-    <string name="upgrade_unlimited_pass_devices">無制限のデバイス</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="other">最大%1$d人までと共有</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">統合された2要素認証機能</string>
     <string name="upgrade_not_now_button">後で</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -859,8 +779,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Clear</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">特定の国に接続したいですか?</string>
-    <string name="upgrade_country_message"><![CDATA[VPN Plus で<b>国の選択</b>を解除します。]]></string>
     <string name="free_connections_info_message">Proton Freeでは、利用可能な最速のサーバーに自動的に接続されます。これは通常、あなたの所在地に最も近いサーバーとなります。</string>
     <string name="free_connections_info_server_locations">無料のサーバーの場所 (%1$d)</string>
     <string name="free_connections_info_banner_text">VPN Plusですべての国にアクセス</string>

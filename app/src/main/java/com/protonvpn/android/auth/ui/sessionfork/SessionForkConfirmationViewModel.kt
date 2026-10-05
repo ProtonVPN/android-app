@@ -36,8 +36,7 @@ import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.telemetry.onboarding.TvSignInTelemetry
-import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeStreamingHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
 import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.utils.ifOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -79,6 +78,7 @@ class SessionForkConfirmationViewModel @Inject constructor(
     private val currentUser: CurrentUser,
     private val forkSession: ForkSession,
     private val createLaunchIntent: dagger.Lazy<CreateLaunchIntent>,
+    private val upgradeDialogLauncher: UpgradeDialogLauncher,
     tvSignInTelemetryLazy: dagger.Lazy<TvSignInTelemetry>,
     @param:ElapsedRealtimeClock private val clock: () -> Long,
 ) : ViewModel() {
@@ -198,7 +198,7 @@ class SessionForkConfirmationViewModel @Inject constructor(
                         )
 
                     isFreeUser && !hasTriggeredUpgrade ->
-                            CarouselUpgradeDialogActivity.createIntent<UpgradeStreamingHighlightsFragment>(
+                            upgradeDialogLauncher.createIntent(
                                 appContext,
                                 UpgradeSource.STREAMING,
                                 UpgradeTrigger.ONBOARDING,

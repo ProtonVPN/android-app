@@ -367,39 +367,11 @@
         <item quantity="other">%1$d χώρες</item>
     </plurals>
     <string name="upsell_upgrade_again">Αναβάθμιση ξανά, προς απόλαυση όλων των χαρακτηριστικών:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="one">Προστατέψτε %1$d συσκευή ταυτόχρονα</item>
-        <item quantity="other">Προστατέψτε %1$d συσκευές ταυτόχρονα</item>
-    </plurals>
-    <string name="upgrade_devices_text">Το Proton VPN είναι διαθέσιμο σε 8 διαφορετικές πλατφόρμες.</string>
-    <string name="upgrade_plus_title">Αναβαθμίστε το απόρρητό σας</string>
-    <string name="upgrade_plus_message">Αποκτήστε προηγμένες λειτουργίες απορρήτου και υψηλότερη ταχύτητα με το VPN Plus.</string>
-    <string name="upgrade_netshield_title">Απολαύστε περιήγηση χωρίς διαφημίσεις</string>
-    <string name="upgrade_netshield_message"><![CDATA[Αποκλεισμός διαφημίσεων, ιχνηλατών και κακόβουλου λογισμικού με το <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Διπλασιάστε την κρυπτογράφηση</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Προσθέστε άλλο ένα επίπεδο κρυπτογράφησης στη σύνδεσή σας VPN με το <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Ξεκλείδωμα ομότιμων λήψεων (P2P) και κοινής χρήσης αρχείων </string>
-    <string name="upgrade_p2p_text">Βελτιώστε τις ταχύτητες μεταφόρτωσης και λήψης ενώ αποκρύπτετε τη διεύθυνση IP σας.</string>
-    <string name="upgrade_profiles_title">Αποκτήστε γρήγορη πρόσβαση στις συχνές συνδέσεις σας</string>
-    <string name="upgrade_profiles_text">Ξεκλειδώστε τα προφίλ με το VPN Plus</string>
-    <string name="upgrade_streaming_title">Ροή σε 4K</string>
-    <string name="upgrade_streaming_text">Απολαύστε τις αγαπημένες σας ταινίες και τηλεοπτικές εκπομπές από οπουδήποτε στον κόσμο.</string>
-    <string name="upgrade_streaming_block_title">Αναβάθμιση για παράκαμψη αποκλεισμών VPN</string>
-    <string name="upgrade_streaming_block_text">Οι διακομιστές VPN Plus σας επιτρέπουν να απολαμβάνετε τις αγαπημένες σας ταινίες και τηλεοπτικές εκπομπές από όλο τον κόσμο.</string>
-    <string name="upgrade_tor_title">Αποκτήστε πρόσβαση στο δίκτυο Tor με ένα πάτημα</string>
-    <string name="upgrade_tor_text">Συνδεθείτε σε κρυφές υπηρεσίες και ιστότοπους onion με το κανονικό σας πρόγραμμα περιήγησης.</string>
-    <string name="upgrade_vpn_accelerator_title">Περιηγηθείτε σε ακόμα υψηλότερες ταχύτητες</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Ξεκλειδώστε ταχύτερους, λιγότερο γεμάτους διακομιστές με ταχύτητες έως και %1$d Gbps.</string>
-    <string name="upgrade_split_tunneling_title">Αξιοποιήστε στο έπακρο και τους δύο κόσμους</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Χωρίστε την κίνησή σας σε σήραγγες VPN και μη VPN με <b>διαίρεση σήραγγας</b>.]]></string>
-    <string name="upgrade_customization_title">Ξεκλειδώστε προχωρημένες προσαρμογές VPN</string>
-    <string name="upgrade_customization_message"><![CDATA[Ξεκλειδώστε <b>συνδέσεις LAN</b>, <b>προσαρμοσμένο DNS</b> και <b>NAT τύπου 2</b> με το VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Πρόσβαση σε όλες τις χώρες</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -426,66 +398,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Ξεκλειδώστε %1$s σε %2$s με το <b>VPN Plus</b>.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Αποκτήστε πλήρη κάλυψη απορρήτου με το Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Ξεκλειδώστε όλες τις premium λειτουργίες στα Proton VPN, Mail, Calendar, Drive και Pass.</string>
-    <string name="upgrade_unlimited_more">Και άλλα</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Ξεκλειδώστε όλες τις χώρες</string>
-    <string name="upgrade_unlimited_vpn_all_features">Όλα τα άλλα χαρακτηριστικά του VPN Plus</string>
-    <string name="upgrade_unlimited_vpn_any_location">Επιλέξτε οποιαδήποτε τοποθεσία</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Ακόμα υψηλότερες ταχύτητες VPN</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Προστατέψτε %1$d συσκευή ταυτόχρονα</item>
-        <item quantity="other">Προστατέψτε %1$d συσκευές ταυτόχρονα</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Διασφαλισμένη μετάδοση</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Αποκλεισμός διαφημίσεων και προστασία από κακόβουλο λογισμικό</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Διπλό VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">Υποστήριξη P2P</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d προσαρμοσμένος τομέας ηλεκτρονικού ταχυδρομείου</item>
-        <item quantity="other">%1$d προσαρμοσμένοι τομείς ηλεκτρονικού ταχυδρομείου</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d ΜΒ συνημμένο</item>
-        <item quantity="other">%1$d ΜΒ συνημμένα</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d διεύθυνση ηλεκτρονικού ταχυδρομείου</item>
-        <item quantity="other">%1$d διευθύνσεις ηλεκτρονικού ταχυδρομείου</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Απεριόριστοι φάκελοι και φίλτρα</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
-    <string name="upgrade_unlimited_mail_aliases">Απεριόριστα hide-my-email ψευδώνυμα</string>
-    <string name="upgrade_unlimited_mail_autoreply">Αυτόματη απάντηση</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Προγραμματισμένη αποστολή</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d προσωπικό ημερολόγιο</item>
-        <item quantity="other">%1$d προσωπικά ημερολόγια</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Κοινή χρήση ημερολογίου</string>
-    <string name="upgrade_unlimited_calendar_invites">Αποστολή και λήψη προσκλήσεων</string>
-    <string name="upgrade_unlimited_drive_encryption">Κρυπτογραφημένη αποθήκευση αρχείων</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB συνολικού χώρου αποθήκευσης για φωτογραφίες, αρχεία και αλληλογραφία</string>
-    <string name="upgrade_unlimited_drive_link_share">Μοιραστείτε φωτογραφίες και αρχεία μέσω συνδέσμου</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Προχωρημένη διασφάλιση κοινοποίησης</string>
-    <string name="upgrade_unlimited_drive_version_history">Ιστορικό εκδόσεων</string>
-    <string name="upgrade_unlimited_pass_manager">Κρυπτογραφημένος διαχειριστής κωδικών πρόσβασης</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Απεριόριστες συνδέσεις και hide-my-email ψευδώνυμα</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d κρύπτη</item>
-        <item quantity="other">%1$d κρύπτες</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Απεριόριστες συνδέσεις</string>
-    <string name="upgrade_unlimited_pass_aliases">Απεριόριστα hide-my-email ψευδώνυμα</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Απεριόριστες πιστωτικές κάρτες</string>
-    <string name="upgrade_unlimited_pass_devices">Απεριόριστες συσκευές</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Κοινή χρήση με έως και %1$d άλλο</item>
-        <item quantity="other">Κοινή χρήση με έως και %1$d άλλους</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Ενσωματωμένος ελεγκτής 2FA</string>
     <string name="upgrade_not_now_button">Όχι τώρα</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -899,8 +811,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Εκκαθάριση</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Θέλετε να συνδεθήτε σε μια συγκεκριμένη χώρα;</string>
-    <string name="upgrade_country_message"><![CDATA[Ξεκλειδώστε την <b>επιλογή χώρας</b> με το VPN Plus.]]></string>
     <string name="free_connections_info_message">Το Proton Free σας συνδέει αυτόματα στον ταχύτερο διαθέσιμο διακομιστή. Αυτός θα είναι συνήθως ο πλησιέστερος διακομιστής στην τοποθεσία σας.</string>
     <string name="free_connections_info_server_locations">Τοποθεσίες δωρεάν διακομιστών (%1$d)</string>
     <string name="free_connections_info_banner_text">Πρόσβαση σε όλες τις χώρες με το VPN Plus</string>

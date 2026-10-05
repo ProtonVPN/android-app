@@ -28,8 +28,8 @@ import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.toTelemetryBillingCycleMonths
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
-import com.protonvpn.android.ui.planupgrade.BaseUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.PaymentCycle
+import com.protonvpn.android.ui.planupgrade.comparison_table.UpgradeDialogActivityV2
 import com.protonvpn.android.utils.getValue
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.Lazy
@@ -67,7 +67,7 @@ class OnboardingTelemetry @Inject constructor(
             .onEach { activity ->
                 when (activity) {
                     is SignupActivity -> onSignupStart()
-                    is OnboardingActivity, is BaseUpgradeDialogActivity -> onOnboardingStart()
+                    is OnboardingActivity, is UpgradeDialogActivityV2 -> onOnboardingStart()
                 }
             }
             .launchIn(mainScope)

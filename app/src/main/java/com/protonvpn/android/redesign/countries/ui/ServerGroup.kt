@@ -77,10 +77,6 @@ import com.protonvpn.android.redesign.vpn.ui.countryName
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
-import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeTorHighlightsFragment
 import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
@@ -368,39 +364,19 @@ fun UpgradeDialogLauncherVM.launchBannerUpgradeDialog(context: Context, bannerTy
     val countriesBanner = UpgradeTrigger.COUNTRIES_BANNER
     when (bannerType) {
         ServerGroupUiItem.BannerType.Countries ->
-            launchCarousel<UpgradePlusCountriesHighlightsFragment>(
-                context,
-                UpgradeSource.COUNTRIES,
-                countriesBanner
-            )
+            launch(context, UpgradeSource.COUNTRIES, countriesBanner)
 
         ServerGroupUiItem.BannerType.SecureCore ->
-            launchCarousel<UpgradeSecureCoreHighlightsFragment>(
-                context,
-                UpgradeSource.SECURE_CORE,
-                countriesBanner
-            )
+            launch(context, UpgradeSource.SECURE_CORE, countriesBanner)
 
         ServerGroupUiItem.BannerType.P2P ->
-            launchCarousel<UpgradeP2PHighlightsFragment>(
-                context,
-                UpgradeSource.P2P,
-                countriesBanner
-            )
+            launch(context, UpgradeSource.P2P, countriesBanner)
 
         ServerGroupUiItem.BannerType.Tor ->
-            launchCarousel<UpgradeTorHighlightsFragment>(
-                context,
-                UpgradeSource.TOR,
-                countriesBanner
-            )
+            launch(context, UpgradeSource.TOR, countriesBanner)
 
         is ServerGroupUiItem.BannerType.Search ->
-            launchCarousel<UpgradePlusCountriesHighlightsFragment>(
-                context,
-                UpgradeSource.COUNTRIES,
-                UpgradeTrigger.SEARCH
-            )
+            launch(context, UpgradeSource.COUNTRIES, UpgradeTrigger.SEARCH)
     }
 }
 

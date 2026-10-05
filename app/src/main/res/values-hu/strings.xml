@@ -367,39 +367,11 @@
         <item quantity="other">%1$d országban</item>
     </plurals>
     <string name="upsell_upgrade_again">Fizessen elő újra, hogy élvezhesse az összes funkciót:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="one">%1$d eszköz egyszerre történő védelme</item>
-        <item quantity="other">%1$d eszköz egyszerre történő védelme</item>
-    </plurals>
-    <string name="upgrade_devices_text">A Proton VPN 8 különböző platformon érhető el.</string>
-    <string name="upgrade_plus_title">Fejlessze az adatvédelmét</string>
-    <string name="upgrade_plus_message">Fejlett adatvédelmi funkciók és nagyobb sebesség a VPN Plus segítségével.</string>
-    <string name="upgrade_netshield_title">Élvezze a reklámmentes böngészést</string>
-    <string name="upgrade_netshield_message"><![CDATA[A <b>NetShield</b> segítségével blokkolhatja a hirdetéseket, nyomkövetőket és rosszindulatú programokat.]]></string>
-    <string name="upgrade_secure_core_title">Duplázza meg a titkosítást</string>
-    <string name="upgrade_secure_core_message"><![CDATA[A <b>Secure Core</b> segítségével a titkosítás egy újabb szintjét adhatja hozzá a VPN-kapcsolatához.]]></string>
-    <string name="upgrade_p2p_title">Peer-to-peer (P2P) letöltések és fájlmegosztás feloldása </string>
-    <string name="upgrade_p2p_text">Javítsa a feltöltési és letöltési sebességet, miközben elrejti IP-címét.</string>
-    <string name="upgrade_profiles_title">Gyors hozzáférés a gyakori kapcsolatokhoz</string>
-    <string name="upgrade_profiles_text">Profilok feloldása VPN Plusszal</string>
-    <string name="upgrade_streaming_title">Lejátszás 4K-ban</string>
-    <string name="upgrade_streaming_text">Élvezze kedvenc filmjeit és tévéműsorait a világ bármely pontjáról.</string>
-    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
-    <string name="upgrade_tor_title">Hozzáférés a Tor hálózathoz egyetlen érintéssel</string>
-    <string name="upgrade_tor_text">A rejtett szolgáltatásokhoz és onion oldalakhoz a hagyományos böngészőjével csatlakozhat.</string>
-    <string name="upgrade_vpn_accelerator_title">Még nagyobb sebességgel böngészhet</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Érjen el gyorsabb, kevésbé terhelt szervereket akár %1$d Gbps sebességgel.</string>
-    <string name="upgrade_split_tunneling_title">Mindkét világból a legjobbat</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Ossza fel a forgalmat VPN és nem VPN csatornákra a <b>osztott alagút</b> segítségével.]]></string>
-    <string name="upgrade_customization_title">Haladó VPN testreszabás feloldása</string>
-    <string name="upgrade_customization_message"><![CDATA[Használjon <b>LAN kapcsolatokat</b>, az <b>egyéni DNS</b>-t és a <b>2. típusú NAT</b>-ot a VPN Plusszal.]]></string>
-    <string name="upgrade_all_countries_title">Hozzáférés minden országhoz</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -426,66 +398,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[%1$s feloldása %2$s a <b>VPN Plus</b> segítségével.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">A Proton Unlimited teljes körű adatvédelmi fedezetet nyújt</string>
-    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
-    <string name="upgrade_unlimited_more">És még több</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Minden ország feloldása</string>
-    <string name="upgrade_unlimited_vpn_all_features">Minden más VPN Plus funkció</string>
-    <string name="upgrade_unlimited_vpn_any_location">Válasszon tetszőleges helyszínt</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Még nagyobb VPN sebességek</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">%1$d eszköz egyszerre történő védelme</item>
-        <item quantity="other">%1$d eszköz egyszerre történő védelme</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Biztonságos videónézés</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Hirdetésblokkoló és rosszindulatú programok elleni védelem</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Kettős VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P támogatás</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d saját e-mail domain név</item>
-        <item quantity="other">%1$d saját e-mail domain név</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB melléklet</item>
-        <item quantity="other">%1$d MB melléklet</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d e-mail cím</item>
-        <item quantity="other">%1$d e-mail cím</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Korlátlan mappa és címke</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark web figyelés</string>
-    <string name="upgrade_unlimited_mail_aliases">Korlátlan számú hide-my-email álnév</string>
-    <string name="upgrade_unlimited_mail_autoreply">Automatikus válasz</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Ütemezett küldés</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d személyes naptár</item>
-        <item quantity="other">%1$d személyes naptár</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Naptár megosztás</string>
-    <string name="upgrade_unlimited_calendar_invites">Meghívók küldése és fogadása</string>
-    <string name="upgrade_unlimited_drive_encryption">Titkosított fájltárolás</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB teljes tárhely a fényképek, fájlok és levelek számára</string>
-    <string name="upgrade_unlimited_drive_link_share">Fényképek és fájlok megosztása hivatkozáson keresztül</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Fejlett megosztási biztonság</string>
-    <string name="upgrade_unlimited_drive_version_history">Korábbi változatok</string>
-    <string name="upgrade_unlimited_pass_manager">Titkosított jelszókezelő</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Korlátlan bejelentkezés és hide-my-email álnevek</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d tároló</item>
-        <item quantity="other">%1$d tároló</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Korlátlan bejelentkezés</string>
-    <string name="upgrade_unlimited_pass_aliases">Korlátlan hide-my-email álnév</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Korlátlan bankkártya</string>
-    <string name="upgrade_unlimited_pass_devices">Korlátlan számú eszköz</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Megosztás %1$d személlyel</item>
-        <item quantity="other">Megosztás akár %1$d személlyel</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Beépített kétlépcsős hitelesítés</string>
     <string name="upgrade_not_now_button">Most nem</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -899,8 +811,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Clear</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Egy adott országhoz szeretne csatlakozni?</string>
-    <string name="upgrade_country_message"><![CDATA[Oldja fel az <b>ország választást</b> a VPN Plusszal.]]></string>
     <string name="free_connections_info_message">A Proton Free automatikusan a leggyorsabb elérhető szerverhez csatlakozik. Ez általában a legközelebbi szerver lesz.</string>
     <string name="free_connections_info_server_locations">Ingyenes szerver helyek (%1$d)</string>
     <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>

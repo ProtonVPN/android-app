@@ -37,19 +37,38 @@
 -keepnames class com.protonvpn.android.vpn.RecentsManager
 -keepnames class com.protonvpn.android.vpn.VpnState$*
 
+### BEGIN: R8 bugs
+### Try to remove the rules below when updating AGP to 9+
+
 # R8 has been observed to optimize the body of Hilt_XxxActivity.inject()
 # down to a no-op for some @AndroidEntryPoint siblings in a class hierarchy
-# (verified in a release build: Hilt_CarouselUpgradeDialogActivity.inject()
-# and Hilt_PlusOnlyUpgradeDialogActivity.inject() compiled to `return-void`,
-# dropping members-injection of fields declared on a shared non-entry-point
-# base class, e.g. BaseActivityV2.isTv). Keeping just the class isn't enough;
-# the method bodies themselves must be kept from being optimized/inlined.
+# (verified in a release build: two sibling Hilt_XxxActivity.inject() methods
+# compiled to `return-void`, dropping members-injection of fields declared on
+# a shared non-entry-point base class, e.g. BaseActivityV2.isTv). Keeping just
+# the class isn't enough; the method bodies themselves must be kept from being
+# optimized/inlined.
 # It's most likely this issue: https://issuetracker.google.com/issues/379034741
 # but we're using a version that should be new enough to include the fix...
 # Try to remove this rule when updating AGP to 9+ (with its associated R8 version).
 -keep,allowobfuscation,allowshrinking class * implements dagger.hilt.internal.GeneratedComponentManagerHolder {
     *;
 }
+
+# R8 class merging bug: release_tests crashed at app startup with
+# "VerifyError: Verifier rejected class eo.k6: ... eo.k6.v0(int, int, l1.m)
+# failed to verify: ... returning 'Reference: androidx.compose.ui.graphics.
+# vector.VectorPainter', but expected from declaration 'Reference: l2.a'".
+# Deobfuscating with the mapping.txt in that build showed the merged method
+# body was androidx.compose.ui.res.PainterResources_androidKt.painterResource().
+# R8 had merged it into an unrelated synthetic class together with other
+# library/app code and narrowed its declared return type incorrectly, which
+# ART's verifier then rejects when the class is loaded. Keeping this class
+# prevents R8 from merging/optimizing it this way.
+-keep class androidx.compose.ui.res.PainterResources_androidKt {
+    *;
+}
+
+### END: R8 bugs
 
 # ProcessLifecycleOwner
 # release_tests crash when ProcessLifecycleOwner is not excluded from obfuscation.

@@ -362,38 +362,11 @@
         <item quantity="other">%1$d quốc gia</item>
     </plurals>
     <string name="upsell_upgrade_again">Nâng cấp lại để tận hưởng tất cả các tính năng:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="other">Bảo vệ %1$d thiết bị cùng lúc</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPN có sẵn trên 8 nền tảng khác nhau.</string>
-    <string name="upgrade_plus_title">Nâng cấp quyền riêng tư của bạn</string>
-    <string name="upgrade_plus_message">Tận hưởng các tính năng nâng cao về quyền riêng tư và tốc độ cao hơn với VPN Plus.</string>
-    <string name="upgrade_netshield_title">Tận hưởng duyệt web không quảng cáo</string>
-    <string name="upgrade_netshield_message"><![CDATA[Chặn quảng cáo, trình theo dõi và phần mềm độc hại bằng <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Mã hóa gấp đôi</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Thêm một lớp mã hóa khác cho kết nối VPN với <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Mở khóa tải xuống ngang hàng (P2P) và chia sẻ tệp</string>
-    <string name="upgrade_p2p_text">Cải thiện tốc độ tải lên và tải xuống trong khi ẩn địa chỉ IP.</string>
-    <string name="upgrade_profiles_title">Truy cập nhanh vào các kết nối thường xuyên của bạn</string>
-    <string name="upgrade_profiles_text">Mở khóa hồ sơ với VPN Plus</string>
-    <string name="upgrade_streaming_title">Phát trực tuyến chuẩn 4K</string>
-    <string name="upgrade_streaming_text">Tận hưởng phim và chương trình truyền hình yêu thích từ bất cứ đâu trên thế giới.</string>
-    <string name="upgrade_streaming_block_title">Nâng cấp để vượt qua chặn VPN</string>
-    <string name="upgrade_streaming_block_text">Máy chủ VPN Plus cho phép bạn thưởng thức các bộ phim và chương trình truyền hình yêu thích từ khắp nơi trên thế giới.</string>
-    <string name="upgrade_tor_title">Truy cập mạng Tor chỉ bằng một lần chạm</string>
-    <string name="upgrade_tor_text">Kết nối với các dịch vụ ẩn và trang web onion bằng trình duyệt thông thường.</string>
-    <string name="upgrade_vpn_accelerator_title">Duyệt web với tốc độ cao hơn nữa</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Mở khóa các máy chủ nhanh hơn, ít người dùng hơn với tốc độ lên đến %1$d Gbps.</string>
-    <string name="upgrade_split_tunneling_title">Tận dụng lợi ích từ cả hai</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Phân chia lưu lượng truy cập thành các đường hầm VPN và không phải VPN với tính năng <b>tách đường hầm</b>.]]></string>
-    <string name="upgrade_customization_title">Mở khóa tùy chỉnh VPN nâng cao</string>
-    <string name="upgrade_customization_message"><![CDATA[Mở khóa <b>kết nối LAN</b>, <b>DNS tùy chỉnh</b> và <b>NAT loại 2</b> với VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Truy cập tất cả quốc gia</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -418,59 +391,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Mở khóa %1$s tại %2$s với <b>VPN Plus</b>.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Nhận bảo vệ quyền riêng tư toàn diện với Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Mở khóa tất cả tính năng cao cấp từ Proton VPN, Mail, Calendar, Drive và Pass.</string>
-    <string name="upgrade_unlimited_more">Và hơn thế nữa</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Mở khóa tất cả quốc gia</string>
-    <string name="upgrade_unlimited_vpn_all_features">Tất cả tính năng khác của VPN Plus</string>
-    <string name="upgrade_unlimited_vpn_any_location">Chọn vị trí bất kì</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Tốc độ VPN cao hơn nữa</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="other">Bảo vệ %1$d thiết bị cùng lúc</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Phát trực tuyến an toàn</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Chặn quảng cáo và bảo vệ khỏi phần mềm độc hại</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">VPN kép</string>
-    <string name="upgrade_unlimited_vpn_p2p">Hỗ trợ P2P</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="other">%1$d miền email tùy chỉnh</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="other">%1$d MB tập tin đính kèm</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="other">%1$d địa chỉ email</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Thư mục và bộ lọc không giới hạn</string>
-    <string name="upgrade_unlimited_mail_dark_web">Giám sát Dark Web</string>
-    <string name="upgrade_unlimited_mail_aliases">Biệt danh hide-my-email không giới hạn</string>
-    <string name="upgrade_unlimited_mail_autoreply">Tự động trả lời</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Gửi theo lịch trình</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="other">%1$d lịch cá nhân</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Chia sẻ lịch</string>
-    <string name="upgrade_unlimited_calendar_invites">Gửi và nhận lời mời</string>
-    <string name="upgrade_unlimited_drive_encryption">Lưu trữ tệp được mã hóa</string>
-    <string name="upgrade_unlimited_drive_storage_size">Tổng dung lượng lưu trữ %1$d GB cho ảnh, tệp và thư</string>
-    <string name="upgrade_unlimited_drive_link_share">Chia sẻ ảnh và tệp qua liên kết</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Bảo mật chia sẻ nâng cao</string>
-    <string name="upgrade_unlimited_drive_version_history">Lịch sử phiên bản</string>
-    <string name="upgrade_unlimited_pass_manager">Trình quản lý mật khẩu mã hóa</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Đăng nhập và biệt danh hide-my-email không giới hạn</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="other">%1$d kho</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Đăng nhập không giới hạn</string>
-    <string name="upgrade_unlimited_pass_aliases">Biệt danh hide-my-email không giới hạn</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Thẻ tín dụng không giới hạn</string>
-    <string name="upgrade_unlimited_pass_devices">Số lượng thiết bị không giới hạn</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="other">Chia sẻ với tối đa %1$d người khác</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Trình xác thực 2FA được tích hợp</string>
     <string name="upgrade_not_now_button">Để sau</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -859,8 +779,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Clear</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Muốn kết nối đến một quốc gia cụ thể?</string>
-    <string name="upgrade_country_message"><![CDATA[Mở khóa <b>chọn quốc gia</b> với VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free tự động kết nối bạn với máy chủ nhanh nhất hiện có. Thông thường, đây sẽ là máy chủ gần nhất với vị trí của bạn.</string>
     <string name="free_connections_info_server_locations">Các vị trí máy chủ miễn phí (%1$d)</string>
     <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>

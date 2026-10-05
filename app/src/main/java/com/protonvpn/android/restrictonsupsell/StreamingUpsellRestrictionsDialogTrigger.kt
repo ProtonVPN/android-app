@@ -26,9 +26,7 @@ import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.ForegroundActivityTracker
-import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
-import com.protonvpn.android.ui.planupgrade.UpgradeStreamingBlockFragment
 import com.protonvpn.android.utils.flatMapLatestFreeUser
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
@@ -50,13 +48,8 @@ private val UpsellDialogMinIntervalMs = 1.minutes.inWholeMilliseconds
 class OpenUpgradeStreamingBlockDialog @Inject constructor(
     private val upgradeDialogLauncher: UpgradeDialogLauncher,
 ) {
-    suspend operator fun invoke(activity: Activity) {
-        upgradeDialogLauncher.launch(activity, UpgradeSource.STREAMING_ACTIVITY, UpgradeTrigger.NETWORK_RESTRICTION) {
-            PlusOnlyUpgradeDialogActivity.launch<UpgradeStreamingBlockFragment>(
-                activity,
-                UpgradeTrigger.NETWORK_RESTRICTION
-            )
-        }
+    operator fun invoke(activity: Activity) {
+        upgradeDialogLauncher.launch(activity, UpgradeSource.STREAMING_ACTIVITY, UpgradeTrigger.NETWORK_RESTRICTION)
     }
 }
 

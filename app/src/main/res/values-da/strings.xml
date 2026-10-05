@@ -367,39 +367,11 @@
         <item quantity="other">%1$d lande</item>
     </plurals>
     <string name="upsell_upgrade_again">Opgrader igen for at udnytte alle funktionerne:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="one">Beskyt %1$d enhed med det samme</item>
-        <item quantity="other">Beskyt %1$d enheder med det samme</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPN er tilgængelig på 8 forskellige platforme.</string>
-    <string name="upgrade_plus_title">Opgradér dit privatlivs fred</string>
-    <string name="upgrade_plus_message">Få avancerede privatlivsfunktioner og højere hastighed med VPN Plus.</string>
-    <string name="upgrade_netshield_title">Nyd reklamefri browsing</string>
-    <string name="upgrade_netshield_message"><![CDATA[Bloker annoncer, trackere og malware med <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Dobbelt op på kryptering</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Tilføj et ekstra lag kryptering til din VPN-forbindelse med <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Lås op for peer-to-peer (P2P) downloads og fildeling </string>
-    <string name="upgrade_p2p_text">Forbedre din upload og download hastigheder, mens du skjuler din IP-adresse.</string>
-    <string name="upgrade_profiles_title">Få hurtig adgang til dine hyppige forbindelser</string>
-    <string name="upgrade_profiles_text">Lås op for profiler med VPN Plus</string>
-    <string name="upgrade_streaming_title">Stream i 4K</string>
-    <string name="upgrade_streaming_text">Nyd dine yndlingsfilm og tv-serier fra overalt i verden</string>
-    <string name="upgrade_streaming_block_title">Opgradér for at omgå VPN-blokeringer</string>
-    <string name="upgrade_streaming_block_text">VPN Plus-servere lader dig nyde dine yndlingsfilm og tv-serier fra hele verden.</string>
-    <string name="upgrade_tor_title">Tilgå Tor-netværket med et enkelt tryk</string>
-    <string name="upgrade_tor_text">Tilgå hidden services og .onion sider i din almindelige browser.</string>
-    <string name="upgrade_vpn_accelerator_title">Browse med endnu højere hastigheder</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Lås op for hurtigere, mindre overfyldte servere med hastigheder på op til %1$d Gbps.</string>
-    <string name="upgrade_split_tunneling_title">Få det bedste fra begge verdener</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Opdel din trafik i VPN- og ikke-VPN-tunneler med <b>split tunneling</b>.]]></string>
-    <string name="upgrade_customization_title">Lås op for avanceret VPN-tilpasning</string>
-    <string name="upgrade_customization_message"><![CDATA[Lås op for <b>LAN-forbindelser</b>, <b>brugerdefineret DNS</b> og <b>NAT type 2</b> med VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Få adgang til alle lande</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -426,66 +398,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Lås op for %1$s i %2$s med <b>VPN Plus</b>.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Få komplet privatlivsdækning med Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Lås op for alle premium-funktioner fra Proton VPN, Mail, Kalender, Drive og Pass.</string>
-    <string name="upgrade_unlimited_more">Og mere</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Lås op for alle lande</string>
-    <string name="upgrade_unlimited_vpn_all_features">Alle VPN Plus-funktioner</string>
-    <string name="upgrade_unlimited_vpn_any_location">Vælg enhver placering</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Endnu højere VPN-hastighed</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Beskyt %1$d enhed med det samme</item>
-        <item quantity="other">Beskyt %1$d enheder med det samme</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Sikker streaming</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Annonceblokering og beskyttelse mod malware</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Dobbelt VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P-understøttelse</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d tilpasset e-maildomæne</item>
-        <item quantity="other">%1$d tilpassede e-maildomæner</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB vedhæftning</item>
-        <item quantity="other">%1$d MB vedhæftninger</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d e-mailadresse</item>
-        <item quantity="other">%1$d e-mailadresser</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Ubegrænsede mapper og etiketter</string>
-    <string name="upgrade_unlimited_mail_dark_web">Overvågning af det mørke net</string>
-    <string name="upgrade_unlimited_mail_aliases">Ubegrænsede hide-my-email-aliasser</string>
-    <string name="upgrade_unlimited_mail_autoreply">Autosvar</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Planlagt afsendelse</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d personlig kalender</item>
-        <item quantity="other">%1$d personlige kalendere</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Kalenderdeling</string>
-    <string name="upgrade_unlimited_calendar_invites">Send og modtag invitationer</string>
-    <string name="upgrade_unlimited_drive_encryption">Krypteret fil-lagring</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB samlet lagerplads til billeder, filer og mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Del billeder og filer via link</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Avanceret delingssikkerhed</string>
-    <string name="upgrade_unlimited_drive_version_history">Versionshistorik</string>
-    <string name="upgrade_unlimited_pass_manager">Krypteret adgangskodehåndtering</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Ubegrænsede indlogninger og hide-my-email-aliasser</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d boks</item>
-        <item quantity="other">%1$d bokse</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Ubegrænsede indlogninger</string>
-    <string name="upgrade_unlimited_pass_aliases">Ubegrænsede hide-my-email-aliasser</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Ubegrænsede betalingskort</string>
-    <string name="upgrade_unlimited_pass_devices">Ubegrænsede enheder</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Del med op til %1$d anden</item>
-        <item quantity="other">Del med op til %1$d andre</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Integreret 2FA-godkendelsesværktøj</string>
     <string name="upgrade_not_now_button">Ikke nu</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -899,8 +811,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Ryd</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Vil du vælge et specifikt land?</string>
-    <string name="upgrade_country_message"><![CDATA[Lås op for <b>landevalg</b> med VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free forbinder dig automatisk, til den hurtigste tilgængelige server. Dette vil normalt være den server der er tættest på din lokation.</string>
     <string name="free_connections_info_server_locations">Gratis serverlokationer (%1$d)</string>
     <string name="free_connections_info_banner_text">Tilgå alle lande med VPN Plus</string>

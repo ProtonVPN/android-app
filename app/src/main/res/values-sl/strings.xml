@@ -377,42 +377,11 @@
         <item quantity="other">%1$d držav</item>
     </plurals>
     <string name="upsell_upgrade_again">Znova nadgradite in uživajte v vseh funkcijah:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="one">Zaščitite %1$d napravo hkrati</item>
-        <item quantity="two">Zaščitite %1$d napravi hkrati</item>
-        <item quantity="few">Zaščitite %1$d naprave hkrati</item>
-        <item quantity="other">Zaščitite %1$d naprav hkrati</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPN je na voljo na 8 različnih platformah.</string>
-    <string name="upgrade_plus_title">Nadgradite svojo zasebnost</string>
-    <string name="upgrade_plus_message">Zagotovite si napredne funkcije zasebnosti in večjo hitrost z VPN Plus.</string>
-    <string name="upgrade_netshield_title">Uživajte v brskanju brez oglasov</string>
-    <string name="upgrade_netshield_message"><![CDATA[Blokirajte oglase, sledilnike in zlonamerno programsko opremo z <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Podvojite šifriranje</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Dodajte še eno plast šifriranja svoji VPN povezavi s <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Odklenite prenose enakovrednih (P2P) in skupno rabo datotek </string>
-    <string name="upgrade_p2p_text">Izboljšajte hitrost nalaganja in prenosa, medtem ko skrivate svoj naslov IP.</string>
-    <string name="upgrade_profiles_title">Zagotovite si hiter dostop do pogostih povezav</string>
-    <string name="upgrade_profiles_text">Odklenite profile z VPN Plus</string>
-    <string name="upgrade_streaming_title">Pretakajte v 4K</string>
-    <string name="upgrade_streaming_text">Uživajte v svojih najljubših filmih in serijah kjer koli na svetu.</string>
-    <string name="upgrade_streaming_block_title">Nadgradite, da obidete blokade VPN</string>
-    <string name="upgrade_streaming_block_text">Strežniki VPN Plus vam omogočajo uživanje v vaših najljubših filmih in TV-oddajah z vsega sveta.</string>
-    <string name="upgrade_tor_title">Dostopajte do omrežja Tor z enim dotikom</string>
-    <string name="upgrade_tor_text">Povežite se s skritimi storitvami in Tor spletnimi mesti z običajnim brskalnikom.
-​</string>
-    <string name="upgrade_vpn_accelerator_title">Brskajte pri še višjih hitrostih</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Odklenite hitrejše strežnike z manj gneče s hitrostmi do %1$d Gb/s.</string>
-    <string name="upgrade_split_tunneling_title">Izkoristite najboljše iz obeh svetov</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Razdelite promet na tunele VPN in tunele brez VPN z <b>deljenim tuneliranjem</b>.]]></string>
-    <string name="upgrade_customization_title">Odklenite napredno prilagoditev VPN</string>
-    <string name="upgrade_customization_message"><![CDATA[Odklenite <b>LAN povezave</b>, <b>DNS po meri</b> in <b>NAT tipa 2</b> z VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Dostop do vseh držav</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -443,80 +412,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Odklenite %1$s v %2$s z <b>VPN Plus</b>.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Zagotovite si popolno zasebno pokritost s Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Odklenite vse premijske funkcije iz Proton VPN, pošte, koledarja, Drive in Pass.</string>
-    <string name="upgrade_unlimited_more">In več</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Odkleni vse države</string>
-    <string name="upgrade_unlimited_vpn_all_features">Vse druge funkcije VPN Plus</string>
-    <string name="upgrade_unlimited_vpn_any_location">Izberite poljubno lokacijo</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Še večje hitrosti VPN</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Zaščitite %1$d napravo hkrati</item>
-        <item quantity="two">Zaščitite %1$d napravi hkrati</item>
-        <item quantity="few">Zaščitite %1$d naprave hkrati</item>
-        <item quantity="other">Zaščitite %1$d naprav hkrati</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Varni pretočni prenos</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Onemogočanje oglasov in zaščita pred zlonamerno programsko opremo</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Dvojni VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">Podpora za P2P</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d e-poštna domena po meri</item>
-        <item quantity="two">%1$d e-poštni domeni po meri</item>
-        <item quantity="few">%1$d e-poštne domene po meri</item>
-        <item quantity="other">%1$d e-poštnih domen po meri</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB priponka</item>
-        <item quantity="two">%1$d MB priponki</item>
-        <item quantity="few">%1$d MB priponk</item>
-        <item quantity="other">%1$d MB priponk</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d e-poštni naslov</item>
-        <item quantity="two">%1$d e-poštna naslova</item>
-        <item quantity="few">%1$d e-poštni naslovi</item>
-        <item quantity="other">%1$d e-poštnih naslovov</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Neomejeno število map in filtrov</string>
-    <string name="upgrade_unlimited_mail_dark_web">Spremljanje temnega spleta</string>
-    <string name="upgrade_unlimited_mail_aliases">Neomejeno število vzdevkov hide-my-email</string>
-    <string name="upgrade_unlimited_mail_autoreply">Samodejni odgovor</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Načrtovano pošiljanje</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d osebni koledar</item>
-        <item quantity="two">%1$d osebna koledarja</item>
-        <item quantity="few">%1$d osebni koledarji</item>
-        <item quantity="other">%1$d osebnih koledarjev</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Deljenje koledarja</string>
-    <string name="upgrade_unlimited_calendar_invites">Pošiljanje in prejemanje povabil</string>
-    <string name="upgrade_unlimited_drive_encryption">Šifrirana shramba za datoteke</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB skupne shrambe za fotografije, datoteke in pošto</string>
-    <string name="upgrade_unlimited_drive_link_share">Deli fotografije in datoteke prek povezave</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Napredna varnost deljenja</string>
-    <string name="upgrade_unlimited_drive_version_history">Zgodovina različic</string>
-    <string name="upgrade_unlimited_pass_manager">Šifriran upravitelj gesel</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Neomejeno prijav in vzdevkov za hide-my-email</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d trezor</item>
-        <item quantity="two">%1$d trezorja</item>
-        <item quantity="few">%1$d trezorji</item>
-        <item quantity="other">%1$d trezorjev</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Neomejeno prijav</string>
-    <string name="upgrade_unlimited_pass_aliases">Neomejeno število vzdevkov hide-my-email</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Neomejeno število plačilnih kartic</string>
-    <string name="upgrade_unlimited_pass_devices">Neomejeno število naprav</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Dajte v skupno rabo z %1$d osebo</item>
-        <item quantity="two">Dajte v skupno rabo z %1$d osebama</item>
-        <item quantity="few">Dajte v skupno rabo z %1$d osebami</item>
-        <item quantity="other">Dajte v skupno rabo z %1$d osebami</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Vgrajen modul za preverjanje pristnosti 2FA</string>
     <string name="upgrade_not_now_button">Ne zdaj</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -980,8 +875,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Počisti</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Se želite povezati z določeno državo?</string>
-    <string name="upgrade_country_message"><![CDATA[Odklenite <b>izbiro držav</b> z VPN Plus.]]></string>
     <string name="free_connections_info_message">Brezplačni Proton vas samodejno poveže z najhitrejšim razpoložljivim strežnikom. To bo običajno vaši lokaciji najbližji strežnik.</string>
     <string name="free_connections_info_server_locations">Lokacije brezplačnih strežnikov (%1$d)</string>
     <string name="free_connections_info_banner_text">Dostopajte do vseh držav s storitvijo VPN Plus</string>

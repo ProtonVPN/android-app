@@ -362,38 +362,11 @@
         <item quantity="other">%1$d ประเทศ</item>
     </plurals>
     <string name="upsell_upgrade_again">อัปเกรดอีกครั้งเพื่อเพลิดเพลินกับคุณสมบัติทั้งหมด:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="other">ปกป้องอุปกรณ์ %1$d เครื่องพร้อมกัน</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPN พร้อมใช้งานบน 8 แพลตฟอร์มที่แตกต่างกัน</string>
-    <string name="upgrade_plus_title">อัปเกรดความเป็นส่วนตัวของคุณ</string>
-    <string name="upgrade_plus_message">รับคุณสมบัติความเป็นส่วนตัวขั้นสูงและความเร็วที่สูงขึ้นด้วย VPN Plus</string>
-    <string name="upgrade_netshield_title">เพลิดเพลินกับการท่องเว็บแบบไม่มีโฆษณา</string>
-    <string name="upgrade_netshield_message"><![CDATA[บล็อกโฆษณา ตัวติดตาม และมัลแวร์ด้วย <b>NetShield</b>]]></string>
-    <string name="upgrade_secure_core_title">เพิ่มการเข้ารหัสลับเป็นสองเท่า</string>
-    <string name="upgrade_secure_core_message"><![CDATA[เพิ่มเลเยอร์การเข้ารหัสลับอีกชั้นให้กับการเชื่อมต่อ VPN ของคุณด้วย <b>Secure Core</b>]]></string>
-    <string name="upgrade_p2p_title">ปลดล็อกการดาวน์โหลดแบบ Peer-to-peer (P2P) และการแชร์ไฟล์</string>
-    <string name="upgrade_p2p_text">ปรับปรุงความเร็วในการอัปโหลดและดาวน์โหลดของคุณขณะซ่อนที่อยู่ IP ของคุณ</string>
-    <string name="upgrade_profiles_title">เข้าถึงการเชื่อมต่อที่คุณใช้บ่อยได้อย่างรวดเร็ว</string>
-    <string name="upgrade_profiles_text">ปลดล็อกโปรไฟล์ด้วย VPN Plus</string>
-    <string name="upgrade_streaming_title">สตรีมในระดับ 4K</string>
-    <string name="upgrade_streaming_text">เพลิดเพลินกับภาพยนตร์และรายการทีวีที่คุณชื่นชอบจากทุกที่ในโลก</string>
-    <string name="upgrade_streaming_block_title">อัปเกรดเพื่อหลีกเลี่ยงการบล็อก VPN เหล่านี้</string>
-    <string name="upgrade_streaming_block_text">เซิร์ฟเวอร์ VPN Plus ให้คุณเพลิดเพลินกับภาพยนตร์และรายการทีวีที่ชื่นชอบจากทั่วโลก</string>
-    <string name="upgrade_tor_title">เข้าถึงเครือข่าย Tor ในแตะเดียว</string>
-    <string name="upgrade_tor_text">เชื่อมต่อกับบริการที่ซ่อนอยู่และไซต์ Onion ด้วยเบราว์เซอร์ปกติของคุณ</string>
-    <string name="upgrade_vpn_accelerator_title">ท่องเว็บด้วยความเร็วที่สูงยิ่งขึ้น</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">ปลดล็อกเซิร์ฟเวอร์ที่เร็วกว่าและแออัดน้อยกว่าด้วยความเร็วสูงสุด %1$d Gbps</string>
-    <string name="upgrade_split_tunneling_title">รับสิ่งที่ดีที่สุดจากทั้งสองโลก</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[แบ่งทราฟฟิกของคุณเป็นช่องทาง VPN และที่ไม่ใช่ VPN ด้วย<b>การแยกช่องสัญญาณ</b>]]></string>
-    <string name="upgrade_customization_title">ปลดล็อกการปรับแต่ง VPN ขั้นสูง</string>
-    <string name="upgrade_customization_message"><![CDATA[ปลดล็อก <b>การเชื่อมต่อ LAN</b>, <b>DNS กำหนดเอง</b> และ <b>NAT ประเภท 2</b> ด้วย VPN Plus]]></string>
-    <string name="upgrade_all_countries_title">เข้าถึงทุกประเทศ</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -418,59 +391,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[ปลดล็อก %1$s ใน %2$s ด้วย <b>VPN Plus</b>]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">รับความคุ้มครองความเป็นส่วนตัวที่สมบูรณ์แบบด้วย Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">ปลดล็อกคุณสมบัติพรีเมียมทั้งหมดจาก Proton VPN, Mail, Calendar, Drive และ Pass</string>
-    <string name="upgrade_unlimited_more">และอื่นๆ</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">ปลดล็อกทุกประเทศ</string>
-    <string name="upgrade_unlimited_vpn_all_features">คุณสมบัติ VPN Plus อื่นๆ ทั้งหมด</string>
-    <string name="upgrade_unlimited_vpn_any_location">เลือกตำแหน่งใดก็ได้</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">ความเร็ว VPN ที่สูงยิ่งขึ้น</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="other">ปกป้องอุปกรณ์ %1$d เครื่องพร้อมกัน</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">การสตรีมที่ปลอดภัย</string>
-    <string name="upgrade_unlimited_vpn_adblocker">บล็อกโฆษณาและป้องกันมัลแวร์</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">VPN สองชั้น</string>
-    <string name="upgrade_unlimited_vpn_p2p">รองรับ P2P</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="other">%1$dคัสตอมอีเมลโดเมน</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="other">ไฟล์แนบ %1$d MB</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="other">ที่อยู่อีเมล %1$d แห่ง</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">โฟลเดอร์และตัวกรองไม่จำกัด</string>
-    <string name="upgrade_unlimited_mail_dark_web">การตรวจสอบดาร์กเว็บ</string>
-    <string name="upgrade_unlimited_mail_aliases">นามแฝง hide-my-email ไม่จำกัด</string>
-    <string name="upgrade_unlimited_mail_autoreply">ตอบกลับอัตโนมัติ</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">การส่งตามกำหนดเวลา</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="other">ปฏิทินส่วนตัว %1$d ปฏิทิน</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">การแชร์ปฏิทิน</string>
-    <string name="upgrade_unlimited_calendar_invites">ส่งและรับคำเชิญ</string>
-    <string name="upgrade_unlimited_drive_encryption">พื้นที่จัดเก็บไฟล์ที่เข้ารหัส</string>
-    <string name="upgrade_unlimited_drive_storage_size">พื้นที่จัดเก็บรวม %1$d GB สำหรับรูปภาพ ไฟล์ และเมล</string>
-    <string name="upgrade_unlimited_drive_link_share">แชร์รูปภาพและไฟล์ผ่านลิงก์</string>
-    <string name="upgrade_unlimited_drive_sharing_security">ความปลอดภัยในการแชร์ขั้นสูง</string>
-    <string name="upgrade_unlimited_drive_version_history">ประวัติเวอร์ชัน</string>
-    <string name="upgrade_unlimited_pass_manager">โปรแกรมจัดการรหัสผ่านที่เข้ารหัส</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">การเข้าสู่ระบบและนามแฝง hide-my-email ไม่จำกัด</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="other">%1$dห้องนิรภัย</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">การเข้าสู่ระบบไม่จำกัด</string>
-    <string name="upgrade_unlimited_pass_aliases">นามแฝง hide-my-email ไม่จำกัด</string>
-    <string name="upgrade_unlimited_pass_credit_cards">บัตรเครดิตไม่จำกัด</string>
-    <string name="upgrade_unlimited_pass_devices">อุปกรณ์ไม่จำกัด</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="other">แชร์กับผู้อื่นสูงสุด %1$d คน</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">ตัวยืนยันตัวตน 2FA แบบรวม</string>
     <string name="upgrade_not_now_button">ไม่ใช่ตอนนี้</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -859,8 +779,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Clear</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">ต้องการเชื่อมต่อไปยังประเทศที่เฉพาะเจาะจงใช่หรือไม่?</string>
-    <string name="upgrade_country_message"><![CDATA[ปลดล็อก <b>การเลือกประเทศ</b> ด้วย VPN Plus]]></string>
     <string name="free_connections_info_message">Proton Free จะเชื่อมต่อคุณกับเซิร์ฟเวอร์ที่เร็วที่สุดที่มีอยู่โดยอัตโนมัติ โดยปกติจะเป็นเซิร์ฟเวอร์ที่ใกล้กับตำแหน่งของคุณมากที่สุด</string>
     <string name="free_connections_info_server_locations">ตำแหน่งเซิร์ฟเวอร์ฟรี (%1$d)</string>
     <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>

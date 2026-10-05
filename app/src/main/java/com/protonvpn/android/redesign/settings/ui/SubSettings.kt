@@ -72,7 +72,6 @@ import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
-import com.protonvpn.android.ui.planupgrade.UpgradeAdvancedCustomizationHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelAppsActivity
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelIpsActivity
@@ -170,11 +169,10 @@ fun SubSettingsRoute(
                         onOpenMyAccount = { context.openUrl(Constants.URL_ACCOUNT_LOGIN) },
                         onDeleteAccount = { context.openUrl(Constants.URL_ACCOUNT_DELETE) },
                         onUpgrade = {
-                            upgradeDialogLauncher.launchCarousel(
+                            upgradeDialogLauncher.launch(
                                 context,
                                 UpgradeSource.ACCOUNT,
                                 UpgradeTrigger.SETTINGS,
-                                focusedFragmentClass = null,
                             )
                         }
                     )
@@ -213,19 +211,11 @@ fun SubSettingsRoute(
                             },
                             onAllowLanRestricted = {
                                 onOverrideSettingClick(OverrideType.LAN) {
-                                    upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
-                                        context,
-                                        UpgradeSource.ALLOW_LAN,
-                                        UpgradeTrigger.SETTINGS,
-                                    )
+                                    upgradeDialogLauncher.launch(context, UpgradeSource.ALLOW_LAN, UpgradeTrigger.SETTINGS)
                                 }
                             },
                             onNatTypeRestricted = {
-                                upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
-                                    context,
-                                    UpgradeSource.MODERATE_NAT,
-                                    UpgradeTrigger.SETTINGS,
-                                )
+                                upgradeDialogLauncher.launch(context, UpgradeSource.MODERATE_NAT, UpgradeTrigger.SETTINGS)
                             },
                             ipV6 = advancedViewState.ipV6,
                             onIPv6Toggle = { settingsChangeViewModel.toggleIPv6(vpnUiDelegate) },
@@ -234,11 +224,7 @@ fun SubSettingsRoute(
                                 context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE)
                             },
                             onCustomDnsRestricted = {
-                                upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
-                                    context,
-                                    UpgradeSource.CUSTOM_DNS,
-                                    UpgradeTrigger.SETTINGS,
-                                )
+                                upgradeDialogLauncher.launch(context, UpgradeSource.CUSTOM_DNS, UpgradeTrigger.SETTINGS)
                             }
                         )
                     }
@@ -414,21 +400,13 @@ fun SubSettingsRoute(
                             onNavigateToSubSetting(SubSettingsScreen.Type.DefaultConnection)
                         },
                         onDefaultConnectionRestricted = {
-                            upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
-                                context,
-                                UpgradeSource.DEFAULT_CONNECTION,
-                                UpgradeTrigger.SETTINGS,
-                            )
+                            upgradeDialogLauncher.launch(context, UpgradeSource.DEFAULT_CONNECTION, UpgradeTrigger.SETTINGS)
                         },
                         onExcludeLocationClick = {
                             onNavigateToSubSetting(SubSettingsScreen.Type.ExcludedLocations)
                         },
                         onExcludedLocationsRestricted = {
-                            upgradeDialogLauncher.launchCarousel<UpgradeAdvancedCustomizationHighlightsFragment>(
-                                context,
-                                UpgradeSource.EXCLUDE_LOCATIONS,
-                                UpgradeTrigger.SETTINGS,
-                            )
+                            upgradeDialogLauncher.launch(context, UpgradeSource.EXCLUDE_LOCATIONS, UpgradeTrigger.SETTINGS)
                         },
                         onDeleteExcludedLocationClick = settingsChangeViewModel::onRemoveExcludedLocation,
                         onExcludedLocationsFeatureDiscovered = viewModel::onExcludedLocationsDiscovered,

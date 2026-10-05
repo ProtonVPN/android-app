@@ -367,39 +367,11 @@
         <item quantity="other">%1$d ülkede</item>
     </plurals>
     <string name="upsell_upgrade_again">Tüm özelliklerin tadını çıkarmak için yeniden yükseltin:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="one">Aynı anda %1$d aygıtı koruyun</item>
-        <item quantity="other">Aynı anda %1$d aygıtı koruyun</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPN 8 farklı platformda kullanılabilir.</string>
-    <string name="upgrade_plus_title">Gizlilik düzeyinizi yükseltin</string>
-    <string name="upgrade_plus_message">VPN Plus tarifesi ile gelişmiş gizlilik özelliklerine ve daha yüksek hızlara erişin.</string>
-    <string name="upgrade_netshield_title">Reklamsız gezinmenin tadını çıkarın</string>
-    <string name="upgrade_netshield_message"><![CDATA[<b>NetShield</b> ile reklamları, izleyicileri ve kötü niyetli yazılımları engelleyin.]]></string>
-    <string name="upgrade_secure_core_title">Gizliliğinizi iki katına çıkarın</string>
-    <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b> ile VPN bağlantınıza ek bir güvenlik katmanı ekleyin.]]></string>
-    <string name="upgrade_p2p_title">Eşler arası (P2P) indirmeleri ve dosya paylaşımını kullanın </string>
-    <string name="upgrade_p2p_text">IP adresinizi gizlerken yükleme ve indirme hızlarınızı iyileştirin.</string>
-    <string name="upgrade_profiles_title">Sık kullandığınız bağlantılara hızla erişin</string>
-    <string name="upgrade_profiles_text">VPN Plus ile profiller özelliğine erişin</string>
-    <string name="upgrade_streaming_title">4K yayın akışlarını izleyin</string>
-    <string name="upgrade_streaming_text">Dünya üzerinde her yerdeki beğendiğiniz film ve TV dizilerini izleyin.</string>
-    <string name="upgrade_streaming_block_title">VPN engellemelerini aşmak için tarifenizi yükseltin</string>
-    <string name="upgrade_streaming_block_text">VPN Plus sunucuları dünyanın her yerindeki sevdiğiniz filmleri ve TV programlarını izlemenizi sağlar.</string>
-    <string name="upgrade_tor_title">Tek dokunmayla Tor ağına erişin</string>
-    <string name="upgrade_tor_text">Her gün kullandığınız tarayıcı ile gizli hizmetlere ve onion sitelerine bağlanın.</string>
-    <string name="upgrade_vpn_accelerator_title">Daha yüksek hızlarla gezinin</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Daha az kullanıcısı bulunan sunuculara, %1$d Gb/sn değerine çıkabilen daha yüksek hızlarla erişin.</string>
-    <string name="upgrade_split_tunneling_title">İki dünyanın da en iyisini edinin</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[<b>Ayrılmış tünelleme</b> ile VPN kullanan ve VPN kullanmayan trafiğinizi ayırın.]]></string>
-    <string name="upgrade_customization_title">Gelişmiş VPN özelleştirmelerine erişin</string>
-    <string name="upgrade_customization_message"><![CDATA[VPN Plus ile <b>Yerel ağ bağlantıları</b>, <b>Özel DNS</b> ve <b>NAT Type 2</b> özelliklerine erişin.]]></string>
-    <string name="upgrade_all_countries_title">Tüm ülkelere erişim</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -426,66 +398,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[<b>VPN Plus tarifesi</b> ile %2$sdeki %1$sya erişin.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Proton Unlimited ile tam bir gizlilik koruması edinin</string>
-    <string name="upgrade_unlimited_all_apps_description">Proton VPN, Mail, Calendar, Drive ve Pass ürünlerinin tüm ücretli özelliklerine erişin.</string>
-    <string name="upgrade_unlimited_more">Ve daha fazlası</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Tüm ülkelere erişim</string>
-    <string name="upgrade_unlimited_vpn_all_features">Tüm diğer VPN Plus özellikleri</string>
-    <string name="upgrade_unlimited_vpn_any_location">İstediğiniz konumu seçin</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Daha yüksek VPN hızı</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Aynı anda %1$d aygıtı koruyun</item>
-        <item quantity="other">Aynı anda %1$d aygıtı koruyun</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Güvenli yayın akışı</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Reklam engelleyici ve kötü amaçlı yazılım koruması</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Çift VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P desteği</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d özel e-posta etki alanı</item>
-        <item quantity="other">%1$d özel e-posta etki alanı</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB ek dosya boyutu</item>
-        <item quantity="other">%1$d MB ek dosya boyutu</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d e-posta adresi</item>
-        <item quantity="other">%1$d e-posta adresi</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Sınırsız sayıda klasör ve süzgeç</string>
-    <string name="upgrade_unlimited_mail_dark_web">Karanlık ağ izleme</string>
-    <string name="upgrade_unlimited_mail_aliases">Sınırsız sayıda hide-my-email takma adı</string>
-    <string name="upgrade_unlimited_mail_autoreply">Otomatik yanıtlama</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Zamanlanmış gönderim</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d kişisel takvim</item>
-        <item quantity="other">%1$d kişisel takvim</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Takvim paylaşımı</string>
-    <string name="upgrade_unlimited_calendar_invites">Davet gönderme ve alma</string>
-    <string name="upgrade_unlimited_drive_encryption">Şifrelenmiş dosya depolama alanı</string>
-    <string name="upgrade_unlimited_drive_storage_size">Fotoğraflar, dosyalar ve e-postalar için toplam %1$d GB depolama alanı</string>
-    <string name="upgrade_unlimited_drive_link_share">Bağlantı ile fotoğraf ve dosya paylaşma</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Gelişmiş paylaşım güvenliği</string>
-    <string name="upgrade_unlimited_drive_version_history">Sürüm geçmişi</string>
-    <string name="upgrade_unlimited_pass_manager">Şifrelenmiş parola yöneticisi</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Sınırsız sayıda oturum açma kaydı ve hide-my-email takma adı</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d kasa</item>
-        <item quantity="other">%1$d kasa</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Sınırsız sayıda oturum açma kaydı</string>
-    <string name="upgrade_unlimited_pass_aliases">Sınırsız sayıda hide-my-email takma adı</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Sınırsız sayıda kredi kartı</string>
-    <string name="upgrade_unlimited_pass_devices">Sınırsız sayıda aygıt</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">%1$d başka kişiyle paylaşım</item>
-        <item quantity="other">%1$d başka kişiyle paylaşım</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Bütünleşik iki adımlı doğrulayıcı</string>
     <string name="upgrade_not_now_button">Şimdi değil</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -899,8 +811,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Temizle</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Belirli bir ülke ile bağlantı kurmak ister misiniz?</string>
-    <string name="upgrade_country_message"><![CDATA[VPN Plus tarifesi ile <b>ülkeleri seçin.</b>]]></string>
     <string name="free_connections_info_message">Proton Free sizi otomatik olarak kullanılabilecek en hızlı sunucuya bağlar. Bu sunucu normalde konumunuza en yakın sunucudur.</string>
     <string name="free_connections_info_server_locations">Free sunucuları konumları (%1$d)</string>
     <string name="free_connections_info_banner_text">VPN Plus ile tüm ülkelere erişin</string>

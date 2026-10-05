@@ -40,7 +40,6 @@ import com.protonvpn.android.ui.planupgrade.PaymentRecurrence
 import com.protonvpn.android.ui.planupgrade.PlanCycle
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel.State
-import com.protonvpn.android.ui.planupgrade.comparison_table.FakeIsUpsellComparisonTableExperimentEnabled
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.GetUpgradeDialogPlansConfig
 import com.protonvpn.android.ui.planupgrade.usecase.LoadSubscriptionPlans
@@ -132,12 +131,10 @@ class UpgradeDialogViewModelTests {
         testTelemetry = TestTelemetryReporter()
         val telemetryFlowHelper = TelemetryFlowHelper(testScope.backgroundScope, testTelemetry)
         val upgradeTelemetry = UpgradeTelemetry(
-            mainScope = testScope.backgroundScope,
             commonDimensions = FakeCommonDimensions(emptyMap()),
             currentUser = currentUser,
             clock = { testScope.currentTime },
             telemetryHelperLazy = { telemetryFlowHelper },
-            isUpsellComparisonTableExperimentEnabled = FakeIsUpsellComparisonTableExperimentEnabled(true),
         )
         coEvery { mockSaveMmpEvent(eventType = any()) } returns Unit
 

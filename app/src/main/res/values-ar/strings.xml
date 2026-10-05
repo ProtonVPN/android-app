@@ -388,43 +388,11 @@
         <item quantity="other">%1$d دولة</item>
     </plurals>
     <string name="upsell_upgrade_again">اشترك مجدداً لاستعادة جميع المميزات:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="zero">حماية %1$d جهاز في وقت واحد</item>
-        <item quantity="one">حماية %1$d جهاز في وقت واحد</item>
-        <item quantity="two">حماية %1$d جهاز في وقت واحد</item>
-        <item quantity="few">حماية %1$d أجهزة في وقت واحد</item>
-        <item quantity="many">حماية %1$d جهاز في وقت واحد</item>
-        <item quantity="other">حماية %1$d جهاز في وقت واحد</item>
-    </plurals>
-    <string name="upgrade_devices_text">يتوفر Proton VPN على 8 منصات مختلفة.</string>
-    <string name="upgrade_plus_title">عزز حماية خصوصيتك</string>
-    <string name="upgrade_plus_message">استفد من مميزات الخصوصية المتقدمة والسرعة الفائقة مع باقة VPN Plus.</string>
-    <string name="upgrade_netshield_title">تمتع بتجربة تصفح بلا إعلانات</string>
-    <string name="upgrade_netshield_message"><![CDATA[تخلص من الإعلانات وأدوات التتبع والبرامج الضارة باستخدام <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">ضاعف مستوى التشفير</string>
-    <string name="upgrade_secure_core_message"><![CDATA[ارفع مستوى حماية اتصالك بطبقة تشفير إضافية عبر <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">دعم تنزيلات P2P ومشاركة الملفات </string>
-    <string name="upgrade_p2p_text">عزز سرعتي الرفع والتنزيل مع الحفاظ على خصوصية عنوان IP الخاص بك.</string>
-    <string name="upgrade_profiles_title">وصول سريع إلى اتصالاتك المتكررة</string>
-    <string name="upgrade_profiles_text">احصل على ملفات الاتصال ضمن باقة VPN Plus</string>
-    <string name="upgrade_streaming_title">شاهد المحتوى بجودة 4K</string>
-    <string name="upgrade_streaming_text">وصول بلا قيود لأفلامك وعروضك التلفزيونية المفضلة أينما كنت.</string>
-    <string name="upgrade_streaming_block_title">تجاوز القيود من خلال ترقية VPN</string>
-    <string name="upgrade_streaming_block_text">تمنحك خوادم VPN Plus حرية مشاهدة أفلامك وبرامجك المفضلة من أي مكان في العالم.</string>
-    <string name="upgrade_tor_title">الوصول إلى شبكة Tor بضغطة واحدة</string>
-    <string name="upgrade_tor_text">تصفح مواقع onion والخدمات المخفية مباشرة من متصفحك المعتاد.</string>
-    <string name="upgrade_vpn_accelerator_title">تمتع بسرعات تصفح أعلى</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">صلاحية الوصول لخوادم فائقة السرعة وأقل ازدحام، بقدرات تصل إلى %1$d ج.ب/ث.</string>
-    <string name="upgrade_split_tunneling_title">اجمع بين أفضل مزايا الاتصال</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[قسم اتصالك بين الـ VPN وموقعك الحقيقي باستخدام ميزة <b>تقسيم الاتصال</b>.]]></string>
-    <string name="upgrade_customization_title">صلاحيات تخصيص متقدمة للـ VPN</string>
-    <string name="upgrade_customization_message"><![CDATA[إتاحة الوصول إلى <b>اتصالات LAN</b> و<b>DNS المخصص</b> و<b>NAT النوع 2</b> ضمن باقة VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">إتاحة الاتصال بكافة الدول والمدن</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -459,94 +427,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[الوصول إلى %1$s في %2$s ضمن باقة <b>VPN Plus</b>]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">الخصوصية القصوى بانتظارك مع Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">تجربة رقمية متكاملة تضع بين يديك كافة المزايا المتقدمة لـ Proton VPN و Mail و Calendar و Drive و Pass.</string>
-    <string name="upgrade_unlimited_more">مزايا إضافية</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">وصول غير محدود لكافة خوادمنا العالمية</string>
-    <string name="upgrade_unlimited_vpn_all_features">كامل المزايا المتقدمة لباقة VPN Plus</string>
-    <string name="upgrade_unlimited_vpn_any_location">حرية تحديد مواقع الاتصال</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">سرعات VPN فائقة ومحسنة</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="zero">تأمين وحماية %1$d جهاز في آن واحد</item>
-        <item quantity="one">تأمين وحماية %1$d جهاز في آن واحد</item>
-        <item quantity="two">تأمين وحماية %1$d جهاز في آن واحد</item>
-        <item quantity="few">تأمين وحماية %1$d أجهزة في آن واحد</item>
-        <item quantity="many">تأمين وحماية %1$d جهاز في آن واحد</item>
-        <item quantity="other">تأمين وحماية %1$d جهاز في آن واحد</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">مشاهدة مشفرة وبلا قيود</string>
-    <string name="upgrade_unlimited_vpn_adblocker">حظر الإعلانات والبرامج الضارة</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">اتصال VPN مزدوج</string>
-    <string name="upgrade_unlimited_vpn_p2p">دعم كامل للـ P2P</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="zero">%1$d نطاق بريدي مخصص</item>
-        <item quantity="one">%1$d نطاق بريدي مخصص</item>
-        <item quantity="two">%1$d نطاق بريدي مخصص</item>
-        <item quantity="few">%1$d نطاقات بريدية مخصصة</item>
-        <item quantity="many">%1$d نطاق بريدي مخصص</item>
-        <item quantity="other">%1$d نطاق بريدي مخصص</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="zero">إرسال مرفقات حتى %1$d م.ب</item>
-        <item quantity="one">إرسال مرفقات حتى %1$d م.ب</item>
-        <item quantity="two">إرسال مرفقات حتى %1$d م.ب</item>
-        <item quantity="few">إرسال مرفقات حتى %1$d م.ب</item>
-        <item quantity="many">إرسال مرفقات حتى %1$d م.ب</item>
-        <item quantity="other">إرسال مرفقات حتى %1$d م.ب</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="zero">%1$d عنوان بريد إلكتروني</item>
-        <item quantity="one">%1$d عنوان بريد إلكتروني</item>
-        <item quantity="two">%1$d عنوان بريد إلكتروني</item>
-        <item quantity="few">%1$d عناوين بريد إلكتروني</item>
-        <item quantity="many">%1$d عنوان بريد إلكتروني</item>
-        <item quantity="other">%1$d عنوان بريد إلكتروني</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">قواعد تصفية ومجلدات غير محدودة</string>
-    <string name="upgrade_unlimited_mail_dark_web">مراقبة تسريبات الإنترنت المظلم</string>
-    <string name="upgrade_unlimited_mail_aliases">عناوين مستعارة لا نهائية عبر hide-my-email</string>
-    <string name="upgrade_unlimited_mail_autoreply">ميزة الرد التلقائي</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">تحديد موعد لإرسال الرسالة</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="zero">%1$d تقويم خاص</item>
-        <item quantity="one">%1$d تقويم خاص</item>
-        <item quantity="two">%1$d تقويم خاص</item>
-        <item quantity="few">%1$d تقويمات خاصة</item>
-        <item quantity="many">%1$d تقويماً خاصاً</item>
-        <item quantity="other">%1$d تقويم خاص</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">مشاركة خططك وجدولك</string>
-    <string name="upgrade_unlimited_calendar_invites">إرسال واستقبال الدعوات</string>
-    <string name="upgrade_unlimited_drive_encryption">مساحة تخزين مشفرة</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d ج.ب تجمع كل صورك وملفاتك وبريدك</string>
-    <string name="upgrade_unlimited_drive_link_share">مشاركة صورك وملفاتك عبر روابط</string>
-    <string name="upgrade_unlimited_drive_sharing_security">حماية متقدمة لروابط المشاركة</string>
-    <string name="upgrade_unlimited_drive_version_history">أرشيف بنسخ ملفاتك السابقة</string>
-    <string name="upgrade_unlimited_pass_manager">مدير كلمات مرور مشفر</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">بيانات دخول وعناوين مستعارة لا نهائية عبر hide-my-email</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="zero">إنشاء حتى %1$d خزنة</item>
-        <item quantity="one">إنشاء حتى %1$d خزنة</item>
-        <item quantity="two">إنشاء حتى %1$d خزنة</item>
-        <item quantity="few">إنشاء حتى %1$d خزائن</item>
-        <item quantity="many">إنشاء حتى %1$d خزنة</item>
-        <item quantity="other">إنشاء حتى %1$d خزنة</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">حفظ بيانات الدخول بلا حدود</string>
-    <string name="upgrade_unlimited_pass_aliases">عناوين مستعارة لا نهائية عبر hide-my-email</string>
-    <string name="upgrade_unlimited_pass_credit_cards">حفظ بطاقات الائتمان بلا حدود</string>
-    <string name="upgrade_unlimited_pass_devices">دعم عدد غير محدود من الأجهزة</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="zero">مشاركة تشمل %1$d فرد</item>
-        <item quantity="one">مشاركة تشمل %1$d فرد</item>
-        <item quantity="two">مشاركة تشمل %1$d فرد</item>
-        <item quantity="few">مشاركة تشمل %1$d أفراد</item>
-        <item quantity="many">مشاركة تشمل %1$d فرد</item>
-        <item quantity="other">مشاركة تشمل %1$d فرد</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">توثيق ثنائي 2FA مدمج</string>
     <string name="upgrade_not_now_button">ليس الآن</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -1060,8 +940,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">امحُ</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">هل تريد الاتصال بدولة معينة؟</string>
-    <string name="upgrade_country_message"><![CDATA[استمتع بميزة <b>اختيار الدولة</b> مع باقة VPN Plus.]]></string>
     <string name="free_connections_info_message">يختار لك Proton Free أسرع الخوادم المتاحة ويربطك بها تلقائياً، مع إعطاء الأولوية للخادم الأقرب لموقعك الجغرافي.</string>
     <string name="free_connections_info_server_locations">المواقع المجانية المتاحة (%1$d)</string>
     <string name="free_connections_info_banner_text">وصول غير محدود لجميع خوادمنا مع باقة VPN Plus</string>

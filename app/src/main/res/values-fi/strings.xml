@@ -367,39 +367,11 @@
         <item quantity="other">%1$d maasta</item>
     </plurals>
     <string name="upsell_upgrade_again">Tilaa uudelleen nauttiaksesi kaikista ominaisuuksista:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="one">Suojaa samanaikaisesti %1$d laite</item>
-        <item quantity="other">Suojaa samanaikaisesti %1$d laitetta</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPN on saatavilla kahdeksalla eri alustalla</string>
-    <string name="upgrade_plus_title">Paranna yksityisyyttäsi</string>
-    <string name="upgrade_plus_message">Hanki edistyneitä yksityisyytäsi tehostavia ominaisuuksia ja korkeampi nopeus VPN Plus -tilauksella.</string>
-    <string name="upgrade_netshield_title">Nauti mainosvapaasta selaamisesta</string>
-    <string name="upgrade_netshield_message"><![CDATA[Estä mainoksia, seurantoja ja haittaohjelmia <b>NetShieldin</b> avulla.]]></string>
-    <string name="upgrade_secure_core_title">Tuplaa salaus</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Lisää VPN-yhteyteesi toinen salaustaso <b>Secure Corella</b>.]]></string>
-    <string name="upgrade_p2p_title">Avaa peer-to-peer (P2P) lataukset ja tiedostojaot </string>
-    <string name="upgrade_p2p_text">Paranna lähetys- ja latausnopeuksiasi samalla kun piilotat IP-osoitteesi.</string>
-    <string name="upgrade_profiles_title">Löydä yleisimmät yhteytesi nopeasti</string>
-    <string name="upgrade_profiles_text">Avaa profiilit VPN Plussalla</string>
-    <string name="upgrade_streaming_title">Suoratoista 4K-tarkkuudella</string>
-    <string name="upgrade_streaming_text">Nauti suosikkielokuvistasi ja -sarjoistasi kaikkialta maailmasta.</string>
-    <string name="upgrade_streaming_block_title">Päivitä ohittaaksesi VPN-estot</string>
-    <string name="upgrade_streaming_block_text">VPN Plus -palvelimien avulla voit nauttia suosikkielokuvista ja TV-ohjelmista eri puolilta maailmaa.</string>
-    <string name="upgrade_tor_title">Käytä Tor-verkkoa yhdellä napautuksella</string>
-    <string name="upgrade_tor_text">Yhdistä piilotettuihin palveluihin ja avaa Onion-sivustot tavallisella selaimellasi.</string>
-    <string name="upgrade_vpn_accelerator_title">Selaa vielä korkeammilla nopeuksilla</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Avaa nopeampia ja ruuhkattomampia palvelimia, joiden nopeudet ovat jopa %1$d Gbps.</string>
-    <string name="upgrade_split_tunneling_title">Hanki molempien parhaat puolet</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Jaa tietoliikenteesi VPN-tunneliin ja sen ulkopuolelle <b>jaetun tunneloinnin</b> avulla.]]></string>
-    <string name="upgrade_customization_title">Avaa edistyneet VPN-mukautukset</string>
-    <string name="upgrade_customization_message"><![CDATA[Avaa <b>LAN-yhteydet</b>, <b>mukautettu DNS</b> ja <b>NAT-tyyppi 2</b> VPN Plus -palvelulla.]]></string>
-    <string name="upgrade_all_countries_title">Käytä kaikkia maita</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -426,66 +398,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Avaa %1$s %2$s <b>VPN Plus</b> -tilauksella.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Hanki täyden kattavuuden yksityisyyttä Proton Unlimitedilla</string>
-    <string name="upgrade_unlimited_all_apps_description">Avaa kaikki Proton VPN:n, Mailin, Calenderin, Driven ja Passin premium-ominaisuudet.</string>
-    <string name="upgrade_unlimited_more">Ja muuta</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Avaa kaikki maat</string>
-    <string name="upgrade_unlimited_vpn_all_features">Kaikki muut VPN Plus -ominaisuudet</string>
-    <string name="upgrade_unlimited_vpn_any_location">Valitse mikä tahansa sijainti</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Vielä korkeammat VPN-nopeudet</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Suojaa samanaikaisesti %1$d laite</item>
-        <item quantity="other">Suojaa samanaikaisesti %1$d laitetta</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Turvallinen suoratoisto</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Mainos- ja haittaohjelmaesto</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Tuplattu-VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P-tuki</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d oma sähköpostiverkkotunnus</item>
-        <item quantity="other">%1$d omaa sähköpostiverkkotunnusta</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d Mt liite</item>
-        <item quantity="other">%1$d Mt liitteet</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d sähköpostiosoite</item>
-        <item quantity="other">%1$d sähköpostiosoitetta</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Rajattomasti kansioita ja suodattimia</string>
-    <string name="upgrade_unlimited_mail_dark_web">Pimeän verkon valvonta</string>
-    <string name="upgrade_unlimited_mail_aliases">Rajattomasti Hide-my-email-aliaksia</string>
-    <string name="upgrade_unlimited_mail_autoreply">Automaattivastaus</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Ajoitettu lähetys</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d henkilökohtainen kalenteri</item>
-        <item quantity="other">%1$d henkilökohtaista kalenteria</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Kalenterin jakaminen</string>
-    <string name="upgrade_unlimited_calendar_invites">Kutsujen lähetys ja vastaanotto</string>
-    <string name="upgrade_unlimited_drive_encryption">Salattu tiedostojen tallennustila</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d Gt tallennustilaa kuville, tiedostoille ja sähköposteille</string>
-    <string name="upgrade_unlimited_drive_link_share">Jaa kuvia ja tiedostoja linkin välityksellä</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Edistynyt jakosuojaus</string>
-    <string name="upgrade_unlimited_drive_version_history">Versiohistoria</string>
-    <string name="upgrade_unlimited_pass_manager">Salattu salasanahallinta</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Rajattomasti kirjautumistietoja ja Hide-my-email-aliaksia</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d holvi</item>
-        <item quantity="other">%1$d holvia</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Rajattomasti kirjautumistietoja</string>
-    <string name="upgrade_unlimited_pass_aliases">Rajattomasti Hide-my-email-aliaksia</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Rajattomasti maksukortteja</string>
-    <string name="upgrade_unlimited_pass_devices">Rajattomasti laitteita</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Jaa enimmillään %1$d muun kanssa</item>
-        <item quantity="other">Jaa enimmillään %1$d muun kanssa</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Sisäänrakennettu kaksivaiheinen todentaja</string>
     <string name="upgrade_not_now_button">Ei nyt</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -899,8 +811,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Tyhjennä</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Haluatko yhdistää tiettyyn maahan?</string>
-    <string name="upgrade_country_message"><![CDATA[Avaa <b>maavalinta</b> VPN Plus -tilauksella.]]></string>
     <string name="free_connections_info_message">Proton Free yhdistää automaattisesti nopeimpaan käytettävissä olevaan palvelimeen. Yleensä tämä on lähinnä sijaintiasi oleva palvelin.</string>
     <string name="free_connections_info_server_locations">Ilmaiset palvelinsijainnnit (%1$d)</string>
     <string name="free_connections_info_banner_text">Pääsy kaikkiin maihin VPN Plussalla</string>

@@ -20,7 +20,6 @@ import com.protonvpn.android.tv.upsell.TvUpsellContent
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncher
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
@@ -39,7 +38,7 @@ import javax.inject.Singleton
 @Singleton
 class VpnErrorUIManager @Inject constructor(
     scope: CoroutineScope,
-    @ApplicationContext private val appContext: Context,
+    @param:ApplicationContext private val appContext: Context,
     private val currentUser: CurrentUser,
     private val isTv: IsTvCheck,
     private val userPlanManager: UserPlanManager,
@@ -259,7 +258,7 @@ class VpnErrorUIManager @Inject constructor(
         val activityIntent = if (isTv()) {
             TvUpsellActivity.createIntent(appContext, TvUpsellContent.AllCountries, upgradeSource, upgradeTrigger)
         } else {
-            upgradeDialogLauncher.createCarouselIntent<UpgradePlusCountriesHighlightsFragment>(
+            upgradeDialogLauncher.createIntent(
                 appContext,
                 UpgradeSource.COUNTRIES,
                 upgradeTrigger

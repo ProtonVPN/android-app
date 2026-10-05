@@ -71,7 +71,7 @@ fun FullHomeScreenDisconnected() {
             onOpenConnectionPreferences = {},
             onOpenSmartDiscoveryConnectionPreferences = {},
             onDismissSmartDiscoveryConnectionPreferencesDialog = {},
-            onLaunchUpgradeDialog = { _, _, _ -> },
+            onLaunchUpgradeDialog = { _, _ -> },
         )
     }
 }
@@ -103,7 +103,7 @@ fun FullHomeScreenConnected() {
             onOpenConnectionPreferences = {},
             onOpenSmartDiscoveryConnectionPreferences = {},
             onDismissSmartDiscoveryConnectionPreferencesDialog = {},
-            onLaunchUpgradeDialog = { _, _, _ -> },
+            onLaunchUpgradeDialog = { _, _ -> },
         )
     }
 }
@@ -135,7 +135,7 @@ fun FullHomeScreenConnectedChangeServerCooldown() {
             onOpenConnectionPreferences = {},
             onOpenSmartDiscoveryConnectionPreferences = {},
             onDismissSmartDiscoveryConnectionPreferencesDialog = {},
-            onLaunchUpgradeDialog = { _, _, _ -> },
+            onLaunchUpgradeDialog = { _, _ -> },
         )
     }
 }

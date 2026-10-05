@@ -362,38 +362,11 @@
         <item quantity="other">%1$d negara</item>
     </plurals>
     <string name="upsell_upgrade_again">Tingkatkan kembali untuk menikmati seluruh fitur berikut:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="other">Lindungi %1$d perangkat secara bersamaan</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPN tersedia di 8 platform berbeda.</string>
-    <string name="upgrade_plus_title">Tingkatkan privasi Anda</string>
-    <string name="upgrade_plus_message">Dapatkan berbagai fitur privasi mutakhir dan kecepatan yang lebih tinggi dengan VPN Plus.</string>
-    <string name="upgrade_netshield_title">Nikmati penjelajahan tanpa iklan</string>
-    <string name="upgrade_netshield_message"><![CDATA[Blok iklan, pelacak, dan malware dengan <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Gandakan enkripsi Anda</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Tambahkan lapisan enkripsi lain ke koneksi VPN Anda dengan <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Akses unduhan dan berbagi file secara peer-to-peer (P2P) </string>
-    <string name="upgrade_p2p_text">Tingkatkan kecepatan unggahan dan unduhan Anda sambil menyembunyikan alamat IP Anda.</string>
-    <string name="upgrade_profiles_title">Dapatkan akses cepat ke koneksi yang sering Anda gunakan</string>
-    <string name="upgrade_profiles_text">Akses profil dengan VPN Plus</string>
-    <string name="upgrade_streaming_title">Streaming dengan kualitas 4K</string>
-    <string name="upgrade_streaming_text">Nikmati film dan tayangan TV kesayangan Anda di mana pun Anda berada.</string>
-    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
-    <string name="upgrade_tor_title">Akses jaringan Tor dengan sekali ketuk</string>
-    <string name="upgrade_tor_text">Hubungkan diri Anda ke layanan tersembunyi dan situs onion melalui peramban yang biasa Anda gunakan.</string>
-    <string name="upgrade_vpn_accelerator_title">Jelajahi internet dengan kecepatan yang jauh lebih tinggi</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Dapatkan akses ke server yang lebih cepat dan lebih lowong dengan kecepatan hingga %1$d Gbps.</string>
-    <string name="upgrade_split_tunneling_title">Dapatkan yang terbaik dari keduanya</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Pisahkan lalu lintas jaringan Anda ke dalam tunnel VPN dan non-VPN dengan <b>split tunneling</b>.]]></string>
-    <string name="upgrade_customization_title">Akses opsi kustomisasi VPN lanjutan</string>
-    <string name="upgrade_customization_message"><![CDATA[Dapatkan akses ke <b>koneksi LAN</b>, <b>DNS khusus</b>, dan <b>Tipe NAT 2</b> dengan VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Akses seluruh negara</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -418,59 +391,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Dapatkan akses ke %1$s di %2$s dengan <b>VPN Plus</b>.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Dapatkan cakupan privasi yang menyeluruh dengan Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Dapatkan akses ke seluruh fitur premium Proton VPN, Mail, Calendar, Drive, dan Pass.</string>
-    <string name="upgrade_unlimited_more">Dan masih banyak lagi</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Akses seluruh negara</string>
-    <string name="upgrade_unlimited_vpn_all_features">Seluruh fitur VPN Plus lainnya</string>
-    <string name="upgrade_unlimited_vpn_any_location">Pilih lokasi mana pun</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Kecepatan VPN yang jauh lebih tinggi</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="other">Lindungi %1$d perangkat secara bersamaan</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Streaming aman</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Pemblokir iklan dan perlindungan malware</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">VPN Ganda</string>
-    <string name="upgrade_unlimited_vpn_p2p">Dukungan P2P</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="other">%1$d domain email khusus</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="other">Lampiran %1$d MB</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="other">%1$d alamat email</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Folder dan filter tak terbatas</string>
-    <string name="upgrade_unlimited_mail_dark_web">Monitoring Dark Web</string>
-    <string name="upgrade_unlimited_mail_aliases">Tanpa batasan jumlah alias hide-my-email</string>
-    <string name="upgrade_unlimited_mail_autoreply">Balasan otomatis</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Pengiriman terjadwal</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="other">%1$d kalender pribadi</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Berbagi kalender</string>
-    <string name="upgrade_unlimited_calendar_invites">Kirim dan terima undangan</string>
-    <string name="upgrade_unlimited_drive_encryption">Penyimpanan file terenkripsi</string>
-    <string name="upgrade_unlimited_drive_storage_size">Total penyimpanan %1$d GB untuk foto, file, dan surat</string>
-    <string name="upgrade_unlimited_drive_link_share">Bagikan foto dan file via tautan</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Keamanan berbagi tingkat lanjut</string>
-    <string name="upgrade_unlimited_drive_version_history">Riwayat versi</string>
-    <string name="upgrade_unlimited_pass_manager">Pengelola kata sandi terenkripsi</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Tanpa batasan jumlah entri masuk dan alias hide-my-email</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="other">%1$d brankas</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Login tak terbatas</string>
-    <string name="upgrade_unlimited_pass_aliases">Tanpa batasan jumlah alias hide-my-email</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Jumlah kartu kredit tak terbatas</string>
-    <string name="upgrade_unlimited_pass_devices">Jumlah perangkat tak terbatas</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="other">Bagikan dengan hingga %1$d pengguna lainnya</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Autentikator 2FA terintegrasi</string>
     <string name="upgrade_not_now_button">Tidak sekarang</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -859,8 +779,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Clear</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Ingin terhubung ke negara tertentu?</string>
-    <string name="upgrade_country_message"><![CDATA[Akses fitur <b>pemilihan negara</b> dengan VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free akan menghubungkan Anda secara otomatis ke server tercepat yang tersedia. Pada umumnya, server ini adalah server yang terletak paling dekat dengan lokasi Anda.</string>
     <string name="free_connections_info_server_locations">Lokasi server Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>

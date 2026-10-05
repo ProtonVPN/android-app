@@ -367,39 +367,11 @@
         <item quantity="other">%1$d país</item>
     </plurals>
     <string name="upsell_upgrade_again">Faça o upgrade novamente para aproveitar todos os recursos:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="one">Proteja %1$d dispositivo de uma só vez</item>
-        <item quantity="other">Proteja %1$d dispositivos de uma só vez</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPN está disponível em 8 plataformas diferentes.</string>
-    <string name="upgrade_plus_title">Aumente sua privacidade</string>
-    <string name="upgrade_plus_message">Obtenha recursos avançados de privacidade e maior velocidade com VPN Plus.</string>
-    <string name="upgrade_netshield_title">Aproveite a navegação sem anúncios</string>
-    <string name="upgrade_netshield_message"><![CDATA[Bloqueie anúncios, rastreadores e malware com o <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Duplique a criptografia</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Adicione outra camada de criptografia à sua conexão VPN com o <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Desbloqueie downloads peer-to-peer (P2P) e compartilhamento de arquivos </string>
-    <string name="upgrade_p2p_text">Melhore suas velocidades de upload e download enquanto oculta seu endereço IP.</string>
-    <string name="upgrade_profiles_title">Obtenha acesso rápido às suas conexões frequentes</string>
-    <string name="upgrade_profiles_text">Desbloqueie perfis com VPN Plus</string>
-    <string name="upgrade_streaming_title">Faça streaming em 4K</string>
-    <string name="upgrade_streaming_text">Aproveite seus filmes e programas favoritos de qualquer lugar do mundo.</string>
-    <string name="upgrade_streaming_block_title">Fazer upgrade para contornar bloqueios de VPN</string>
-    <string name="upgrade_streaming_block_text">Os servidores VPN Plus permitem que você assista aos seus filmes e programas de TV favoritos de todo o mundo.</string>
-    <string name="upgrade_tor_title">Acesse a rede Tor em um toque</string>
-    <string name="upgrade_tor_text">Conecte-se a serviços ocultos e sites onion com seu navegador normal.</string>
-    <string name="upgrade_vpn_accelerator_title">Navegue em velocidades ainda mais altas</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Desbloqueie servidores mais rápidos e menos lotados com velocidades de até %1$d Gbps.</string>
-    <string name="upgrade_split_tunneling_title">Obtenha o melhor dos dois mundos</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Divida seu tráfego em túneis VPN e não VPN com o <b>tunelamento dividido</b>.]]></string>
-    <string name="upgrade_customization_title">Desbloqueie personalizações avançadas de VPN</string>
-    <string name="upgrade_customization_message"><![CDATA[Desbloqueie <b>conexões LAN</b>, <b>DNS personalizado</b> e <b>NAT tipo 2</b> com VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Acesso a todos os países</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -426,66 +398,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Desbloqueie %1$s em %2$s com <b>VPN Plus</b>.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Obtenha cobertura completa de privacidade com o Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Desbloqueie todos os recursos premium do Proton VPN, Mail, Calendar, Drive e Pass.</string>
-    <string name="upgrade_unlimited_more">E mais</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Desbloqueie todos os países</string>
-    <string name="upgrade_unlimited_vpn_all_features">Todos os outros recursos do Proton VPN Plus</string>
-    <string name="upgrade_unlimited_vpn_any_location">Escolha qualquer local</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Velocidades de VPN ainda maiores</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Proteja %1$d dispositivo de uma só vez</item>
-        <item quantity="other">Proteja %1$d dispositivos de uma só vez</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Streaming seguro</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Bloqueador de anúncios e proteção contra malware</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">VPN dupla</string>
-    <string name="upgrade_unlimited_vpn_p2p">Suporte P2P</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d domínio de e-mail personalizado</item>
-        <item quantity="other">%1$d domínios de e-mail personalizados</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">Anexo de %1$d MB</item>
-        <item quantity="other">%1$d MB de anexos</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d endereço de e-mail</item>
-        <item quantity="other">%1$d endereços de e-mail</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Pastas e filtros ilimitados</string>
-    <string name="upgrade_unlimited_mail_dark_web">Monitoramento da Dark Web</string>
-    <string name="upgrade_unlimited_mail_aliases">Aliases do Hide-my-email ilimitados</string>
-    <string name="upgrade_unlimited_mail_autoreply">Resposta automática</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Envio agendado</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d calendário pessoal</item>
-        <item quantity="other">%1$d calendários pessoais</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Calendários compartilhados</string>
-    <string name="upgrade_unlimited_calendar_invites">Envie e receba convites</string>
-    <string name="upgrade_unlimited_drive_encryption">Armazenamento criptografado de arquivos</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB de armazenamento total para fotos, arquivos e correio eletrônico</string>
-    <string name="upgrade_unlimited_drive_link_share">Compartilhe fotos e arquivos por link</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Segurança avançada de compartilhamento</string>
-    <string name="upgrade_unlimited_drive_version_history">Histórico de versões</string>
-    <string name="upgrade_unlimited_pass_manager">Gerenciador de senhas criptografado</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Inícios de sessão ilimitados e aliases do tipo hide-my-email</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d cofre</item>
-        <item quantity="other">%1$d cofre</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Inícios de sessão ilimitados</string>
-    <string name="upgrade_unlimited_pass_aliases">Aliases do Hide-my-email ilimitados</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Cartões de crédito ilimitados</string>
-    <string name="upgrade_unlimited_pass_devices">Dispositivos ilimitados</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Compartilhe com até %1$d outro</item>
-        <item quantity="other">Compartilhe com até %1$d outros</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Autenticador A2F integrado</string>
     <string name="upgrade_not_now_button">Agora não</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -899,8 +811,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Limpar</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Quer conectar a um país específico?</string>
-    <string name="upgrade_country_message"><![CDATA[Desbloqueie a <b>seleção de países</b> com VPN Plus.]]></string>
     <string name="free_connections_info_message">O Proton Free automaticamente se conecta ao servidor grátis mais rápido. Normalmente será o servidor mais próximo da sua localização.</string>
     <string name="free_connections_info_server_locations">Localizações dos servidores gratuitos (%1$d)</string>
     <string name="free_connections_info_banner_text">Acesse todos os países com o VPN Plus</string>

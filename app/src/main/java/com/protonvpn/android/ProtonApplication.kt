@@ -59,7 +59,6 @@ import com.protonvpn.android.restrictonsupsell.StreamingUpsellRestrictionsDialog
 import com.protonvpn.android.restrictonsupsell.StreamingUpsellRestrictionsNotificationTrigger
 import com.protonvpn.android.servers.StreamingServicesUpdater
 import com.protonvpn.android.servers.UpdateServerTranslations
-import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.theme.UpdateAndroidAppTheme
 import com.protonvpn.android.tv.IsTvCheck
@@ -160,7 +159,6 @@ open class ProtonApplication : Application() {
         val updateSettingsOnVpnUserChange: UpdateSettingsOnVpnUserChange?
         val updateSettingsOnFeatureFlagChange: UpdateSettingsOnFeatureFlagChange?
         val updateServerTranslations: UpdateServerTranslations
-        val upgradeTelemetry: UpgradeTelemetry
         val userPlanManager: UserPlanManager
         val vpnConnectionObservability: VpnConnectionObservability?
         val vpnConnectionTelemetry: VpnConnectionTelemetry
@@ -250,7 +248,6 @@ open class ProtonApplication : Application() {
         dependencies.updateSettingsOnVpnUserChange
         dependencies.updateSettingsOnFeatureFlagChange
         dependencies.updateServerTranslations
-        dependencies.upgradeTelemetry.start()
         dependencies.userPlanManager
         dependencies.showUpgradeSuccess
         dependencies.streamingServicesUpdater

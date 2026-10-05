@@ -48,7 +48,6 @@ import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
-import com.protonvpn.android.ui.planupgrade.UpgradeProfilesHighlightsFragment
 import com.protonvpn.android.vpn.ui.LocalVpnUiDelegate
 import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
@@ -91,7 +90,7 @@ fun ProfilesRoute(
             val context = LocalContext.current
             val uiDelegate = LocalVpnUiDelegate.current
             val navigateToUpsell = {
-                upgradeDialogLauncher.launchCarousel<UpgradeProfilesHighlightsFragment>(
+                upgradeDialogLauncher.launch(
                     context,
                     UpgradeSource.PROFILES,
                     UpgradeTrigger.PROFILES,

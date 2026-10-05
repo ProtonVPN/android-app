@@ -362,38 +362,11 @@
         <item quantity="other">%1$d 個國家</item>
     </plurals>
     <string name="upsell_upgrade_again">再次升級以享受下列種種功能：</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="other">同時保護 %1$d 台裝置</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPN 可用於 8 個不同的作業平台。</string>
-    <string name="upgrade_plus_title">升級您的隱私</string>
-    <string name="upgrade_plus_message">選用 VPN Plus 獲享進階的隱私功能與更快速度。</string>
-    <string name="upgrade_netshield_title">享受無廣告的瀏覽體驗</string>
-    <string name="upgrade_netshield_message"><![CDATA[使用 <b>NetShield</b> 封鎖廣告、追蹤器與惡意軟體。]]></string>
-    <string name="upgrade_secure_core_title">雙重加密</string>
-    <string name="upgrade_secure_core_message"><![CDATA[使用 <b>Secure Core</b> 為您的 VPN 連線多添一層加密。]]></string>
-    <string name="upgrade_p2p_title">解鎖點對點 (P2P) 下載與檔案共享 </string>
-    <string name="upgrade_p2p_text">提升上、下載速度，同時不失隱藏您的 IP 位址。</string>
-    <string name="upgrade_profiles_title">快速存取您的常用連線</string>
-    <string name="upgrade_profiles_text">使用 VPN Plus 解鎖帳戶</string>
-    <string name="upgrade_streaming_title">使用4K影音串流</string>
-    <string name="upgrade_streaming_text">盡情觀看您喜愛的電影與電視節目，不受地域隔閡。</string>
-    <string name="upgrade_streaming_block_title">升級以繞過 VPN 封鎖</string>
-    <string name="upgrade_streaming_block_text">VPN Plus 伺服器讓您能觀賞來自世界各地的喜愛電影與電視節目。</string>
-    <string name="upgrade_tor_title">一按及存取Tor網路</string>
-    <string name="upgrade_tor_text">以您一貫的瀏覽器，連接隱藏服務與 onion 網站。</string>
-    <string name="upgrade_vpn_accelerator_title">使用更快的速度瀏覽</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">解鎖速度更快、負載較少的伺服器，速度高達 %1$d Gbps。</string>
-    <string name="upgrade_split_tunneling_title">獲得兩全其美</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[使用<b>分梭通道</b>將您的網路流量分流到 VPN 和非 VPN 通道。]]></string>
-    <string name="upgrade_customization_title">解鎖進階 VPN 客製化</string>
-    <string name="upgrade_customization_message"><![CDATA[使用 VPN Plus 解鎖 <b>LAN 連線</b>、<b>自訂 DNS</b> 和 <b>NAT type 2</b>。]]></string>
-    <string name="upgrade_all_countries_title">存取所有國家</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -418,59 +391,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[選用 <b>VPN Plus</b> 解鎖 %1$s，分布於 %2$s。]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Get complete privacy coverage with Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Unlock all premium features from Proton VPN, Mail, Calendar, Drive, and Pass.</string>
-    <string name="upgrade_unlimited_more">以及更多</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">存取所有國家</string>
-    <string name="upgrade_unlimited_vpn_all_features">所有其他 VPN Plus 功能</string>
-    <string name="upgrade_unlimited_vpn_any_location">選擇任何位址</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">更高的 VPN 速度</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="other">同時保護 %1$d 台裝置</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">安全的串流</string>
-    <string name="upgrade_unlimited_vpn_adblocker">廣告攔截器及惡意軟體防護</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">雙重 VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P支援服務</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="other">%1$d 個自訂電子郵件網域</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="other">%1$d MB 附件上限</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="other">%1$d 個電子郵件地址</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">資料夾與篩選器無上限</string>
-    <string name="upgrade_unlimited_mail_dark_web">暗網監測</string>
-    <string name="upgrade_unlimited_mail_aliases">hide-my-email 別名無上限</string>
-    <string name="upgrade_unlimited_mail_autoreply">自動回覆</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">排程送出</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="other">%1$d 個個人行事曆</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">行事曆共享</string>
-    <string name="upgrade_unlimited_calendar_invites">傳送並接收邀請</string>
-    <string name="upgrade_unlimited_drive_encryption">經加密的檔案儲存空間</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB 合計儲存空間，用於相片、檔案與郵件</string>
-    <string name="upgrade_unlimited_drive_link_share">透過連結分享相片與檔案</string>
-    <string name="upgrade_unlimited_drive_sharing_security">進階的分享安全設定</string>
-    <string name="upgrade_unlimited_drive_version_history">版本歷史紀錄</string>
-    <string name="upgrade_unlimited_pass_manager">加密密碼管理</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">無限制的登入和 hide-my-email 別名</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="other">%1$d 個保管庫</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">無限制登入</string>
-    <string name="upgrade_unlimited_pass_aliases">無限制的 hide-my-email別名</string>
-    <string name="upgrade_unlimited_pass_credit_cards">無限制的信用或簽帳卡</string>
-    <string name="upgrade_unlimited_pass_devices">無限裝置數</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="other">可與最多 %1$d 位其他人共享</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">整合雙重驗證</string>
     <string name="upgrade_not_now_button">現在不要</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -859,8 +779,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">清除</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">想要連接特定的國家嗎?</string>
-    <string name="upgrade_country_message"><![CDATA[取得 VPN Plus 來解鎖 <b>國家選擇</b>]]></string>
     <string name="free_connections_info_message">Proton Free 會自動替你連接到最快且可用的伺服器。通常這些伺服器都是最接近您的地區。</string>
     <string name="free_connections_info_server_locations">免費伺服器位置 (%1$d)</string>
     <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>

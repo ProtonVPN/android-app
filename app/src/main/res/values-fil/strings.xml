@@ -367,39 +367,11 @@
         <item quantity="other">%1$d bansa</item>
     </plurals>
     <string name="upsell_upgrade_again">Mag-upgrade muli upang ma-enjoy ang lahat ng feature:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="one">Protektahan ang %1$d device nang sabay</item>
-        <item quantity="other">Protektahan ang %1$d device nang sabay</item>
-    </plurals>
-    <string name="upgrade_devices_text">Available ang Proton VPN sa 8 magkakaibang platform.</string>
-    <string name="upgrade_plus_title">I-upgrade ang privacy mo</string>
-    <string name="upgrade_plus_message">Magkaroon ng mga advanced na feature sa privacy at mas mabilis na speed gamit ang VPN Plus.</string>
-    <string name="upgrade_netshield_title">I-enjoy ang pag-browse nang walang ad</string>
-    <string name="upgrade_netshield_message"><![CDATA[I-block ang mga ad, tracker at malware gamit ang <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Doblehin ang encryption</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Magdagdag ng isa pang layer ng encryption sa iyong koneksyon ng VPN gamit ang <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">I-unlock ang mga peer-to-peer (P2P) download at pagbabahagi ng file </string>
-    <string name="upgrade_p2p_text">Pahusayin ang bilis ng pag-upload at pag-download mo habang itinatago ang IP address mo.</string>
-    <string name="upgrade_profiles_title">Magkaroon ng mabilis na access sa iyong mga madalas na koneksyon</string>
-    <string name="upgrade_profiles_text">I-unlock ang mga profile gamit ang VPN Plus</string>
-    <string name="upgrade_streaming_title">Mag-stream sa 4K</string>
-    <string name="upgrade_streaming_text">I-enjoy ang mga paborito mong pelikula at palabas sa TV mula saanman sa mundo.</string>
-    <string name="upgrade_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upgrade_streaming_block_text">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
-    <string name="upgrade_tor_title">I-access ang Tor network sa isang tap</string>
-    <string name="upgrade_tor_text">Kumonekta sa mga nakatagong serbisyo at onion site gamit ang iyong regular na browser.</string>
-    <string name="upgrade_vpn_accelerator_title">Mag-browse nang mas mabilis pa</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">I-unlock ang mas mabilis, hindi siksikang mga server na may bilis na hanggang %1$d Gbps.</string>
-    <string name="upgrade_split_tunneling_title">Kunin ang pinakamahusay mula sa dalawang mundo</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Hatiin ang traffic sa mga VPN at non-VPN tunnel gamit ang <b>split tunneling</b>.]]></string>
-    <string name="upgrade_customization_title">I-unlock ang advanced na customization ng VPN</string>
-    <string name="upgrade_customization_message"><![CDATA[I-unlock ang <b>mga koneksyon ng LAN</b>, <b>Custom DNS</b> at <b>NAT type 2</b> gamit ang VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">I-access ang lahat ng bansa</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -426,66 +398,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[I-unlock ang %1$s sa %2$s gamit ang <b>VPN Plus</b>.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Magkaroon ng kumpletong privacy coverage gamit ang Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">I-unlock ang lahat ng premium na feature mula sa Proton VPN, Mail, Calendar, Drive at Pass.</string>
-    <string name="upgrade_unlimited_more">At marami pa</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">I-unlock ang lahat ng bansa</string>
-    <string name="upgrade_unlimited_vpn_all_features">Lahat ng iba pang feature ng VPN Plus</string>
-    <string name="upgrade_unlimited_vpn_any_location">Pumili ng anumang lokasyon</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Mas mataas pang bilis ng VPN</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Protektahan ang %1$d device nang sabay</item>
-        <item quantity="other">Protektahan ang %1$d device nang sabay</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Ligtas na streaming</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker at proteksyon sa malware</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Dobleng VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">Suporta sa P2P</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d custom email domain</item>
-        <item quantity="other">%1$d custom email domain</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB attachment</item>
-        <item quantity="other">%1$d MB attachment</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d email address</item>
-        <item quantity="other">%1$d email address</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited na folder at filter</string>
-    <string name="upgrade_unlimited_mail_dark_web">Pagsubaybay sa Dark Web</string>
-    <string name="upgrade_unlimited_mail_aliases">Unlimited na hide-my-email alias</string>
-    <string name="upgrade_unlimited_mail_autoreply">Auto-reply</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Naka-schedule na pagpapadala</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d personal na kalendaryo</item>
-        <item quantity="other">%1$d personal na kalendaryo</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Pag-share ng kalendaryo</string>
-    <string name="upgrade_unlimited_calendar_invites">Magpadala at tumanggap ng mga imbitasyon</string>
-    <string name="upgrade_unlimited_drive_encryption">Naka-encrypt na file storage</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB na kabuuang storage para sa mga larawan, file at mail</string>
-    <string name="upgrade_unlimited_drive_link_share">I-share ang mga larawan at file gamit ang link</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Advanced na seguridad sa pag-share</string>
-    <string name="upgrade_unlimited_drive_version_history">History ng bersyon</string>
-    <string name="upgrade_unlimited_pass_manager">Naka-encrypt na tagapamahala ng password</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Unlimited na login at hide-my-email alias</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d vault</item>
-        <item quantity="other">%1$d vault</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Unlimited na login</string>
-    <string name="upgrade_unlimited_pass_aliases">Unlimited na hide-my-email alias</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Unlimited na credit card</string>
-    <string name="upgrade_unlimited_pass_devices">Unlimited na device</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">I-share sa hanggang %1$d iba pa</item>
-        <item quantity="other">I-share sa hanggang %1$d iba pa</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Integrated na 2FA authenticator</string>
     <string name="upgrade_not_now_button">Huwag muna</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -899,8 +811,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Clear</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Gustong kumonekta sa isang partikular na bansa?</string>
-    <string name="upgrade_country_message"><![CDATA[I-unlock ang <b>pagpili ng bansa</b> gamit ang VPN Plus.]]></string>
     <string name="free_connections_info_message">Awtomatiko kang ikinokonekta ng Proton Free sa pinakamabilis na available na server. Karaniwang ito ang pinakamalapit na server sa lokasyon mo.</string>
     <string name="free_connections_info_server_locations">Mga lokasyon ng libreng server (%1$d)</string>
     <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>

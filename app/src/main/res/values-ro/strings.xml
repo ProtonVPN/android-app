@@ -372,40 +372,11 @@
         <item quantity="other">%1$d de țări</item>
     </plurals>
     <string name="upsell_upgrade_again">Remodernizați planul pentru a accesa toate funcțiile:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="one">Protejați %1$d dispozitiv</item>
-        <item quantity="few">Protejați %1$d dispozitive simultan</item>
-        <item quantity="other">Protejați %1$d de dispozitive simultan</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPN este disponibil pe 8 platforme diferite.</string>
-    <string name="upgrade_plus_title">Îmbunătățiți-vă confidențialitatea</string>
-    <string name="upgrade_plus_message">Obțineți funcții avansate de confidențialitate și viteze maxime cu VPN Plus.</string>
-    <string name="upgrade_netshield_title">Bucurați-vă de navigare pe internet fără reclame</string>
-    <string name="upgrade_netshield_message"><![CDATA[Blocați reclamele, utilitarele de urmărire și programele malware cu <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Dublați criptarea</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Adăugați încă un nivel de criptare cu conexiunea VPN prin <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Deblocați descărcările și partajările persoană-la-persoană (P2P)</string>
-    <string name="upgrade_p2p_text">Îmbunătățiți-vă viteza de încărcare și descărcare ascunzându-vă și adresa IP.</string>
-    <string name="upgrade_profiles_title">Obțineți acces rapid la conexiunile frecvent utilizate</string>
-    <string name="upgrade_profiles_text">Deblocați profilurile cu VPN Plus</string>
-    <string name="upgrade_streaming_title">Vizionați în 4K</string>
-    <string name="upgrade_streaming_text">Bucurați-vă de filmele și emisiunile TV favorite de oriunde din lume.</string>
-    <string name="upgrade_streaming_block_title">Treceți la un plan cu plată pentru a ocoli blocările prin VPN</string>
-    <string name="upgrade_streaming_block_text">Serverele VPN Plus vă permit să vă bucurați de filmele și serialele preferate din întreaga lume.</string>
-    <string name="upgrade_tor_title">Accesați rețeaua Tor cu o singură atingere</string>
-    <string name="upgrade_tor_text">Conectați-vă la serviciile ascunse și site-urile onion cu navigatorul web obișnuit.</string>
-    <string name="upgrade_vpn_accelerator_title">Navigați cu viteze și mai mari</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Deblocați servere mai rapide și mai puțin aglomerate, cu viteze de până la %1$d Gbps.</string>
-    <string name="upgrade_split_tunneling_title">Obțineți maximum din ambele părți</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Divizați-vă traficul în tuneluri VPN și non-VPN cu funcția de <b>divizare trafic</b>.]]></string>
-    <string name="upgrade_customization_title">Deblocați personalizarea avansată pentru VPN</string>
-    <string name="upgrade_customization_message"><![CDATA[Deblocați <b>Conexiunile în LAN</b>, <b>DNS-urile personale</b> și <b>NAT tip 2</b> cu VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Accesați toate țările</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -434,73 +405,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Deblocați %1$s în %2$s cu <b>VPN Plus</b>.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Obțineți o acoperire completă a confidențialității cu Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Deblocați toate funcțiile premium ale Proton VPN, Mail, Calendar, Unitate și Pass.</string>
-    <string name="upgrade_unlimited_more">Și altele</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Deblocați toate țările</string>
-    <string name="upgrade_unlimited_vpn_all_features">Toate celelalte funcții din VPN Plus</string>
-    <string name="upgrade_unlimited_vpn_any_location">Alegeți orice țară</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Viteze în VPN și mai mari</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Protejați %1$d dispozitiv</item>
-        <item quantity="few">Protejați %1$d dispozitive simultan</item>
-        <item quantity="other">Protejați %1$d de dispozitive simultan</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Transmisii în flux securizate</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Protecție programe malițioase și reclame</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">VPN dublu</string>
-    <string name="upgrade_unlimited_vpn_p2p">Suport P2P</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">Domenii personale de e-mail: %1$d</item>
-        <item quantity="few">Domenii personale de e-mail: %1$d</item>
-        <item quantity="other">Domenii personale de e-mail: %1$d</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">Atașamente de %1$d MiB</item>
-        <item quantity="few">Atașamente de %1$d MiB</item>
-        <item quantity="other">Atașamente de %1$d MiB</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">Adrese de e-mail: %1$d</item>
-        <item quantity="few">Adrese de e-mail: %1$d</item>
-        <item quantity="other">Adrese de e-mail: %1$d</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Foldere și etichete nelimitate</string>
-    <string name="upgrade_unlimited_mail_dark_web">Monitorizare pe internetul ascuns</string>
-    <string name="upgrade_unlimited_mail_aliases">Aliasuri hide-my-email nelimitate</string>
-    <string name="upgrade_unlimited_mail_autoreply">Răspunsuri automate</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Trimitere planificată</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">Calendare personale: %1$d</item>
-        <item quantity="few">Calendare personale: %1$d</item>
-        <item quantity="other">Calendare personale: %1$d</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Partajare calendar</string>
-    <string name="upgrade_unlimited_calendar_invites">Trimiteți și primiți invitații</string>
-    <string name="upgrade_unlimited_drive_encryption">Stocare criptată de fișiere</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GiB spațiu total de stocare pentru fotografii, fișiere și mesaje pe e-mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Partajați fotografii și fișiere cu legături web</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Securitate avansată pentru partajări</string>
-    <string name="upgrade_unlimited_drive_version_history">Istoric versiuni</string>
-    <string name="upgrade_unlimited_pass_manager">Manager criptat de parole</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Conectări nelimitate și aliasuri hide-my-email</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">Seifuri: %1$d</item>
-        <item quantity="few">Seifuri: %1$d</item>
-        <item quantity="other">Seifuri: %1$d</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Conectări nelimitate</string>
-    <string name="upgrade_unlimited_pass_aliases">Aliasuri hide-my-email nelimitate</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Carduri de plată nelimitate</string>
-    <string name="upgrade_unlimited_pass_devices">Dispozitive nelimitate</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Partajați cu încă %1$d persoană</item>
-        <item quantity="few">Partajați cu maxim %1$d persoane</item>
-        <item quantity="other">Partajați cu maxim %1$d de persoane</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Autentificare cu doi factori integrată</string>
     <string name="upgrade_not_now_button">Nu acum</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -939,8 +843,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Golire</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Doriți să vă conectați la o anumită țară?</string>
-    <string name="upgrade_country_message"><![CDATA[Deblocați <b>selectarea țărilor</b> cu VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton gratuit vă conectează automat la cel mai rapid server disponibil. Acesta va fi în mod normal cel mai apropiat server de locul de unde vă conectați.</string>
     <string name="free_connections_info_server_locations">Țări cu servere gratuite (%1$d)</string>
     <string name="free_connections_info_banner_text">Accesați toate țările cu VPN Plus</string>

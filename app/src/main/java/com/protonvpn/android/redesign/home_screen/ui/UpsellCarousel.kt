@@ -50,28 +50,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.Fragment
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.optional
 import com.protonvpn.android.base.ui.rtlMirror
 import com.protonvpn.android.telemetry.UpgradeSource
-import com.protonvpn.android.ui.planupgrade.UpgradeAdvancedCustomizationHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeDevicesHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeProfilesHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeStreamingHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeTorHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorHighlightsFragment
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ViewUtils.toDp
 import me.proton.core.compose.theme.ProtonTheme
 import kotlin.math.roundToInt
-import kotlin.reflect.KClass
 
 private class PageScope(
     val roundedServerCount: Int,
@@ -79,7 +66,6 @@ private class PageScope(
 )
 
 private class Page(
-    val upgradeDialogFocusPage: KClass<out Fragment>,
     val upgradeSource: UpgradeSource,
     val content: @Composable PageScope.(Modifier) -> Unit,
 )
@@ -87,67 +73,56 @@ private class Page(
 private fun createPages() = buildList {
     add(
         Page(
-            UpgradePlusCountriesHighlightsFragment::class,
             UpgradeSource.COUNTRIES,
         ) { modifier -> UpsellCardCountries(roundedServerCount, countriesCount, modifier) }
     )
     add(
         Page(
-            UpgradeVpnAcceleratorHighlightsFragment::class,
             UpgradeSource.VPN_ACCELERATOR,
         ) { modifier -> UpsellCardFasterBrowsing(modifier) }
     )
     add(
         Page(
-            UpgradeStreamingHighlightsFragment::class,
             UpgradeSource.STREAMING,
         ) { modifier -> UpsellCardStreaming(modifier) }
     )
     add(
         Page(
-            UpgradeNetShieldHighlightsFragment::class,
             UpgradeSource.NETSHIELD,
         ) { modifier -> UpsellCardNetShield(modifier) }
     )
     add(
         Page(
-            UpgradeSecureCoreHighlightsFragment::class,
             UpgradeSource.SECURE_CORE,
         ) { modifier -> UpsellCardSecureCore(modifier) }
     )
     add(
         Page(
-            UpgradeP2PHighlightsFragment::class,
             UpgradeSource.P2P,
         ) { modifier -> UpsellCardP2P(modifier) }
     )
     add(
         Page(
-            UpgradeDevicesHighlightsFragment::class,
             UpgradeSource.DEVICES,
         ) { modifier -> UpsellCardDevices(modifier) }
     )
     add(
         Page(
-            UpgradeTorHighlightsFragment::class,
             UpgradeSource.TOR,
         ) { modifier -> UpsellCardTor(modifier) }
     )
     add(
         Page(
-            UpgradeSplitTunnelingHighlightsFragment::class,
             UpgradeSource.SPLIT_TUNNELING,
         ) { modifier -> UpsellCardSplitTunneling(modifier) }
     )
     add(
         Page(
-            UpgradeProfilesHighlightsFragment::class,
             UpgradeSource.PROFILES,
         ) { modifier -> UpsellCardProfiles(modifier) }
     )
     add(
         Page(
-            UpgradeAdvancedCustomizationHighlightsFragment::class,
             UpgradeSource.ADVANCED_CUSTOMIZATION,
         ) { modifier -> UpsellCardCustomization(modifier) }
     )
@@ -157,7 +132,7 @@ private fun createPages() = buildList {
 fun HomeUpsellCarousel(
     state: UpsellCarouselState,
     horizontalMargin: Dp,
-    onOpenUpgradeScreen: (focusedPage: KClass<out Fragment>, UpgradeSource) -> Unit,
+    onOpenUpgradeScreen: (UpgradeSource) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val pageScope = remember(state.roundedServerCount, state.countryCount) {
@@ -180,7 +155,7 @@ fun HomeUpsellCarousel(
         val page = pages[pageIndex]
         with(page) {
             pageScope.content(
-                pageSizeModifier.clickable(onClick = { onOpenUpgradeScreen(upgradeDialogFocusPage, upgradeSource) })
+                pageSizeModifier.clickable(onClick = { onOpenUpgradeScreen(upgradeSource) })
            )
         }
     }
@@ -394,7 +369,7 @@ private fun PreviewHomeUpsellCarousel() {
                 countryCount = 20,
             ),
             horizontalMargin = 16.dp,
-            onOpenUpgradeScreen = { _, _ -> },
+            onOpenUpgradeScreen = { _ -> },
             modifier = Modifier.heightIn(min = 128.dp)
         )
     }

@@ -377,41 +377,11 @@
         <item quantity="other">%1$d краінах</item>
     </plurals>
     <string name="upsell_upgrade_again">Палепшыць яшчэ раз, каб карыстацца ўсімі функцыямі:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="one">Абараняйце да %1$d прылады адначасова</item>
-        <item quantity="few">Абараняйце да %1$d прылад адначасова</item>
-        <item quantity="many">Абараняйце да %1$d прылад адначасова</item>
-        <item quantity="other">Абараняйце да %1$d прылад адначасова</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPN даступны на 8 розных платформах.</string>
-    <string name="upgrade_plus_title">Палепшыце сваю прыватнасць</string>
-    <string name="upgrade_plus_message">Атрымайце дадатковыя функцыі прыватнасці і найвышэйшую хуткасць з VPN Plus.</string>
-    <string name="upgrade_netshield_title">Атрымлівайце асалоду ад прагляду старонак у інтэрнэце без рэкламы</string>
-    <string name="upgrade_netshield_message"><![CDATA[Блакіруйце рэкламу, праграмы сачэння і шкодныя праграмы з дапамогай <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Двайное шыфраванне</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Дадайце яшчэ адзін слой шыфравання ў сваё падключэнне па VPN з дапамогай <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Разблакіруйце аднарангавыя спампоўванні (P2P) і абагульванне файлаў </string>
-    <string name="upgrade_p2p_text">Палепшыце хуткасць спампоўвання і запампоўвання не раскрываючы свой IP-адрас.</string>
-    <string name="upgrade_profiles_title">Атрымайце хуткі доступ да падключэнняў, якімі часта карыстаецеся</string>
-    <string name="upgrade_profiles_text">Разблакіруйце профілі з дапамогай VPN Plus</string>
-    <string name="upgrade_streaming_title">Прагляд у 4K</string>
-    <string name="upgrade_streaming_text">Атрымлівайце асалоду ад прагляду абраных фільмаў і тэлеперадач з любой краіны ў свеце.</string>
-    <string name="upgrade_streaming_block_title">Палепшыць, каб абыходзіць блакіроўкі VPN</string>
-    <string name="upgrade_streaming_block_text">Серверы VPN Plus дазволяць вам атрымліваць асалоду ад абраных фільмаў і тэлеперадач па ўсім свеце.</string>
-    <string name="upgrade_tor_title">Доступ да сеткі Tor у адзін націск</string>
-    <string name="upgrade_tor_text">Падключэнне да схаваных сэрвісаў і сайтаў onion з дапамогай вашага браўзера.</string>
-    <string name="upgrade_vpn_accelerator_title">Прагляд на яшчэ больш высокіх хуткасцях</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Вам стануць даступны больш хуткія і менш загружаныя серверы з хуткасцю да %1$d Гбіт/с.</string>
-    <string name="upgrade_split_tunneling_title">Атрымлівайце лепшае ад абодвух светаў</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[З функцыяй <b>Split Tunneling</b> вы зможаце дзяліць свой трафік на той, які будзе праходзіць праз тунэлі VPN і на той, які будзе абыходзіцца без іх.]]></string>
-    <string name="upgrade_customization_title">Атрымайце доступ да пашыраных налад VPN</string>
-    <string name="upgrade_customization_message"><![CDATA[Разблакіруйце <b>падключэнні па LAN</b>, <b>карыстальніцкія DNS</b> і <b>NAT тып 2</b> з дапамогай VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Доступ да ўсіх краін</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -442,80 +412,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Разблакіруйце %1$s у %2$s з дапамогай <b>VPN Plus</b>.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Атрымайце ўсёабдымную прыватнасць з Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Разблакіруйце ўсе прэміяльныя функцыі ад Proton VPN, Mail, Calendar, Drive і Pass.</string>
-    <string name="upgrade_unlimited_more">І іншыя функцыі</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Разблакіруйце ўсе краіны</string>
-    <string name="upgrade_unlimited_vpn_all_features">Усе іншыя функцыі VPN Plus</string>
-    <string name="upgrade_unlimited_vpn_any_location">Выбірайце любое месцазнаходжанне</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Яшчэ больш высокая хуткасць VPN</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Абараняйце да %1$d прылады адначасова</item>
-        <item quantity="few">Абараняйце да %1$d прылад адначасова</item>
-        <item quantity="many">Абараняйце да %1$d прылад адначасова</item>
-        <item quantity="other">Абараняйце да %1$d прылад адначасова</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Бяспечная трансляцыя</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Блакіроўшчык рэкламы і абарона ад шкодных праграм</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">Падтрымка P2P</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d карыстальніцкі дамен электроннай пошты</item>
-        <item quantity="few">%1$d карыстальніцкія дамены электроннай пошты</item>
-        <item quantity="many">%1$d карыстальніцкіх даменаў электроннай пошты</item>
-        <item quantity="other">%1$d карыстальніцкіх даменаў электроннай пошты</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">Далучэнне памерам %1$d МБ</item>
-        <item quantity="few">Далучэнні памерам %1$d МБ</item>
-        <item quantity="many">Далучэнні памерам %1$d МБ</item>
-        <item quantity="other">Далучэнні памерам %1$d МБ</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d адрас электроннай пошты</item>
-        <item quantity="few">%1$d адрасы электроннай пошты</item>
-        <item quantity="many">%1$d адрасоў электроннай пошты</item>
-        <item quantity="other">%1$d адрасоў электроннай пошты</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Неабмежаваная колькасць папак і фільтраў</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
-    <string name="upgrade_unlimited_mail_aliases">Неабмежаваная колькасць псеўданімаў hide-my-email</string>
-    <string name="upgrade_unlimited_mail_autoreply">Аўтаматычны адказ</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Планаванне адпраўкі</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d асабісты каляндар</item>
-        <item quantity="few">%1$d асабістыя календары</item>
-        <item quantity="many">%1$d асабістых календароў</item>
-        <item quantity="other">%1$d асабістых календароў</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Абагульванне календара</string>
-    <string name="upgrade_unlimited_calendar_invites">Адпраўка і атрыманне запрашэнняў</string>
-    <string name="upgrade_unlimited_drive_encryption">Зашыфраванае файлавае сховішча</string>
-    <string name="upgrade_unlimited_drive_storage_size">Сховішча памерам %1$d ГБ для фатаграфій, файлаў і лістоў</string>
-    <string name="upgrade_unlimited_drive_link_share">Абагульванне фатаграфій і файлаў праз спасылку</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Дадатковая бяспека пры абагульванні</string>
-    <string name="upgrade_unlimited_drive_version_history">Гісторыя версій</string>
-    <string name="upgrade_unlimited_pass_manager">Зашыфраваны менеджар пароляў</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Неабмежаваная колькасць запісаў уваходу і псеўданімаў hide-my-email</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d сховішча</item>
-        <item quantity="few">%1$d сховішчы</item>
-        <item quantity="many">%1$d сховішчаў</item>
-        <item quantity="other">%1$d сховішчаў</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Неабмежаваная колькасць запісаў уваходу</string>
-    <string name="upgrade_unlimited_pass_aliases">Неабмежаваная колькасць псеўданімаў hide-my-email</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Неабмежаваная колькасць крэдытных картак</string>
-    <string name="upgrade_unlimited_pass_devices">Неабмежаваная колькасць прылад</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Абагуленне з %1$d іншым карыстальнікам</item>
-        <item quantity="few">Абагуленне з %1$d іншымі карыстальнікамі</item>
-        <item quantity="many">Абагуленне з %1$d іншымі карыстальнікамі</item>
-        <item quantity="other">Абагуленне з %1$d іншымі карыстальнікамі</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Інтэграваная аўтэнтыфікацыя 2ФА</string>
     <string name="upgrade_not_now_button">Не цяпер</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -979,8 +875,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Ачысціць</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Хочаце падключыцца да пэўнай краіны?</string>
-    <string name="upgrade_country_message"><![CDATA[Атрымайце доступ <b>да выбару краін</b> з VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free аўтаматычна падключае вас да самага хуткага з даступных сервераў. Звычайна гэта самы блізкі сервер адносна вашага месцазнаходжання.</string>
     <string name="free_connections_info_server_locations">Размяшчэнні бясплатных сервераў (%1$d)</string>
     <string name="free_connections_info_banner_text">Доступ да ўсіх краін з VPN Plus</string>

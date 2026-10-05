@@ -25,15 +25,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import com.protonvpn.android.ui.planupgrade.PaymentCycle
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
-import com.protonvpn.android.ui.planupgrade.comparison_table.IsUpsellComparisonTableExperimentEnabled
 import com.protonvpn.android.utils.getValue
-import com.protonvpn.android.utils.ifOrNull
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import me.proton.core.domain.entity.UserId
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -56,7 +48,6 @@ enum class UpgradeSource {
     ONBOARDING,
     P2P,
     TOR,
-    PORT_FORWARDING,
     PROFILES,
     SECURE_CORE,
     SPLIT_TUNNELING,
@@ -87,61 +78,17 @@ enum class UpgradeTrigger {
     val reportedName = name.lowercase()
 }
 
-enum class AbTestComparisonTable(val reportedValue: String) {
-    CONTROL("control"), COMPARISON_TABLE("comparison_table");
-
-    companion object {
-        fun fromUserId(userId: UserId) =
-            if (userId.id.hashCode() % 2 == 0) CONTROL else COMPARISON_TABLE
-    }
-}
-
 @Singleton
 class UpgradeTelemetry @Inject constructor(
-    private val mainScope: CoroutineScope,
     private val commonDimensions: CommonDimensions,
     private val currentUser: CurrentUser,
     @param:WallClock private val clock: () -> Long,
     telemetryHelperLazy: dagger.Lazy<TelemetryFlowHelper>,
-    private val isUpsellComparisonTableExperimentEnabled: IsUpsellComparisonTableExperimentEnabled,
 ) {
     private val helper by telemetryHelperLazy
 
     private var currentUpgradeFlow: UpgradeFlow? = null
     private val currentDimensions get() = currentUpgradeFlow?.getCurrentDimensions()
-    private var isComparisonTableExperiment: Boolean? = null
-
-    fun start() {
-        combine(
-            currentUser.vpnUserFlow,
-            isUpsellComparisonTableExperimentEnabled.observe()
-        ) { vpnUser, isEnabled -> vpnUser?.isFreeUser == true && isEnabled }
-            .distinctUntilChanged()
-            .onEach { isExperimentEnabled ->
-                if (isExperimentEnabled) {
-                    onComparisonTableExperimentStarted()
-                } else {
-                    resetComparisonTableExperiment()
-                }
-            }
-            .launchIn(mainScope)
-    }
-
-    private fun onComparisonTableExperimentStarted() {
-        helper.runSerially {
-            isComparisonTableExperiment = true
-            eventExperimentComparisonTable(
-                "experiment_enrolled",
-                createBasicUpsellDimensions()
-            )
-        }
-    }
-
-    private fun resetComparisonTableExperiment() {
-        helper.runSerially {
-            isComparisonTableExperiment = false
-        }
-    }
 
     fun onUpgradeFlowStarted(
         upgradeSource: UpgradeSource,
@@ -158,8 +105,6 @@ class UpgradeTelemetry @Inject constructor(
             )
             currentUpgradeFlow = UpgradeFlow(dimensions, clock)
             event(eventData("upsell_display", dimensions))
-
-            eventExperiments("upsell_display", dimensions)
         }
     }
 
@@ -168,7 +113,6 @@ class UpgradeTelemetry @Inject constructor(
             currentUpgradeFlow?.update { it + Pair("has_intro_price", hasIntroPrices.toTelemetry()) }
             currentDimensions?.let {
                 event(eventData("upsell_price_display", it))
-                eventExperiments("upsell_price_display", it)
             }
         }
     }
@@ -181,7 +125,6 @@ class UpgradeTelemetry @Inject constructor(
                     put("billing_cycle", paymentCycle.toTelemetryBillingCycleMonths() ?: NO_VALUE)
                 }
                 event(eventData("upsell_upgrade_attempt", dimensions.withFlowType(flowType)))
-                eventExperiments("upsell_upgrade_attempt", dimensions)
             }
         }
     }
@@ -196,7 +139,6 @@ class UpgradeTelemetry @Inject constructor(
                 )
                 currentUpgradeFlow = null
                 event(eventData("upsell_success", dimensions.withFlowType(flowType)))
-                eventExperiments("upsell_success", dimensions)
             }
         }
     }
@@ -239,30 +181,6 @@ class UpgradeTelemetry @Inject constructor(
         }
     }
 
-    private suspend fun TelemetryFlowHelper.RunSeriallyScope.eventExperiments(
-        eventName: String,
-        dimensions: Map<String, String>,
-    ) {
-        eventExperimentComparisonTable(eventName, dimensions)
-    }
-
-    private suspend fun TelemetryFlowHelper.RunSeriallyScope.eventExperimentComparisonTable(
-        eventName: String,
-        dimensions: Map<String, String>,
-    ) {
-        val groupComparisonTable = ifOrNull(isComparisonTableExperiment == true) {
-            currentUser.vpnUser()?.let { AbTestComparisonTable.fromUserId(it.userId) }
-        }
-        if (groupComparisonTable != null) {
-            val experimentVariant: Pair<String, String> = "experiment_variant" to groupComparisonTable.reportedValue
-            event(
-                measurementGroup = EXPERIMENT_COMPARISON_TABLE_MEASUREMENT_GROUP,
-                event = eventName,
-                dimensions = dimensions + experimentVariant
-            )
-        }
-    }
-
     private fun Map<String, String>.withFlowType(flowType: UpgradeFlowType) =
         this + ("flow_type" to flowType.toStatsName())
 
@@ -294,8 +212,6 @@ class UpgradeTelemetry @Inject constructor(
 
     companion object {
         private const val MEASUREMENT_GROUP = "vpn.any.upsell"
-        private const val EXPERIMENT_COMPARISON_TABLE_MEASUREMENT_GROUP =
-            "vpn.any.experiment_upsell_comparison_table_202607"
         private val UPGRADE_FLOW_VALID_MS = TimeUnit.MINUTES.toMillis(10)
     }
 }

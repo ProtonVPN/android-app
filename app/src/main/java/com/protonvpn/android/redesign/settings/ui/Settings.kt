@@ -78,9 +78,6 @@ import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTrigger
 import com.protonvpn.android.ui.drawer.LogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
-import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorHighlightsFragment
 import com.protonvpn.android.ui.settings.OssLicensesActivity
 import com.protonvpn.android.ui.settings.SettingsTelemetryActivity
 import com.protonvpn.android.update.VpnUpdateBanner
@@ -164,7 +161,7 @@ fun SettingsRoute(
                     }
                 },
                 onNetShieldUpgradeClick = {
-                    upgradeDialogLauncher.launchCarousel<UpgradeNetShieldHighlightsFragment>(
+                    upgradeDialogLauncher.launch(
                         context,
                         UpgradeSource.NETSHIELD,
                         UpgradeTrigger.SETTINGS,
@@ -174,7 +171,7 @@ fun SettingsRoute(
                     onNavigateToSubSetting(SubSettingsScreen.Type.SplitTunneling)
                 },
                 onSplitTunnelUpgrade = {
-                    upgradeDialogLauncher.launchCarousel<UpgradeSplitTunnelingHighlightsFragment>(
+                    upgradeDialogLauncher.launch(
                         context,
                         UpgradeSource.SPLIT_TUNNELING,
                         UpgradeTrigger.SETTINGS,
@@ -195,7 +192,7 @@ fun SettingsRoute(
                     onNavigateToSubSetting(SubSettingsScreen.Type.VpnAccelerator)
                 },
                 onVpnAcceleratorUpgrade = {
-                    upgradeDialogLauncher.launchCarousel<UpgradeVpnAcceleratorHighlightsFragment>(
+                    upgradeDialogLauncher.launch(
                         context,
                         UpgradeSource.VPN_ACCELERATOR,
                         UpgradeTrigger.SETTINGS,

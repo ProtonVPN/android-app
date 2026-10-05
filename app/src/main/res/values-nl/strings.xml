@@ -367,39 +367,11 @@
         <item quantity="other">%1$d+ landen</item>
     </plurals>
     <string name="upsell_upgrade_again">Upgrade opnieuw om te genieten van alle functies:</string>
-    <plurals name="upgrade_devices_title">
-        <item quantity="one">%1$d apparaat tegelijk beschermen</item>
-        <item quantity="other">%1$d apparaten tegelijk beschermen</item>
-    </plurals>
-    <string name="upgrade_devices_text">Proton VPN is beschikbaar op 8 verschillende platformen.</string>
-    <string name="upgrade_plus_title">Upgrade uw privacy</string>
-    <string name="upgrade_plus_message">Krijg geavanceerde privacyfuncties en hogere snelheid met VPN Plus.</string>
-    <string name="upgrade_netshield_title">Geniet van advertentievrij browsen</string>
-    <string name="upgrade_netshield_message"><![CDATA[Blokkeer advertenties, trackers en malware met <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Verdubbel de versleuteling</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Voeg nog een laag versleuteling toe aan uw VPN-verbinding met <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Ontgrendel peer-to-peer (P2P) downloads en delen van bestanden </string>
-    <string name="upgrade_p2p_text">Verbeter uw upload- en downloadsnelheden tijdens het verbergen van uw IP-adres.</string>
-    <string name="upgrade_profiles_title">Krijg snel toegang tot uw vaak gebruikte connecties</string>
-    <string name="upgrade_profiles_text">Ontgrendel profielen met VPN Plus</string>
-    <string name="upgrade_streaming_title">Stream in 4K</string>
-    <string name="upgrade_streaming_text">Geniet van uw favoriete films en tv-series van overal ter wereld.</string>
-    <string name="upgrade_streaming_block_title">Upgrade om VPN-blokkades te omzeilen</string>
-    <string name="upgrade_streaming_block_text">VPN Plus servers stellen u in staat om uw favoriete films en tv-programma\'s van over de hele wereld te bekijken.</string>
-    <string name="upgrade_tor_title">Open het Tor-netwerk in één tik</string>
-    <string name="upgrade_tor_text">Maak verbinding met verborgen services en privé (onion) websites met uw normale browser.</string>
-    <string name="upgrade_vpn_accelerator_title">Surf met nog hogere snelheden</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Ontgrendel snellere, minder volle servers met snelheid tot %1$dGbps.</string>
-    <string name="upgrade_split_tunneling_title">Krijg het beste van beide werelden</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Verdeel uw verkeer in VPN- en niet-VPN-tunnels met <b>split tunneling</b>.]]></string>
-    <string name="upgrade_customization_title">Ontgrendel geavanceerde VPN-aanpassingen</string>
-    <string name="upgrade_customization_message"><![CDATA[Ontgrendel <b>LAN-verbindingen</b>, <b>Aanpasbare DNS</b>en <b>NAT-type 2</b> met VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Toegang tot alle landen</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -426,66 +398,6 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Ontgrendel %1$s in %2$s met <b>VPN Plus</b>.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">Krijg volledige privacy dekking met Proton Unlimited</string>
-    <string name="upgrade_unlimited_all_apps_description">Ontgrendel alle premium functies van Proton VPN, Mail, Agenda, Drive en Pass.</string>
-    <string name="upgrade_unlimited_more">En meer</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Ontgrendel toegang tot alle landen</string>
-    <string name="upgrade_unlimited_vpn_all_features">Alle andere VPN Plus functies</string>
-    <string name="upgrade_unlimited_vpn_any_location">Kies enige locatie</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Nog hogere VPN-snelheden</string>
-    <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">%1$d apparaat tegelijk beschermen</item>
-        <item quantity="other">%1$d apparaten tegelijk beschermen</item>
-    </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Beveiligd streamen</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Advertentieblokkering en bescherming tegen malware</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Dubbele VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P-ondersteuning</string>
-    <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d eigen e-maildomein</item>
-        <item quantity="other">%1$d aangepaste e-maildomeinen</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB bijlage</item>
-        <item quantity="other">%1$d MB bijlagen</item>
-    </plurals>
-    <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d e-mailadres</item>
-        <item quantity="other">%1$d e-mailadressen</item>
-    </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Onbeperkte mappen en filters</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
-    <string name="upgrade_unlimited_mail_aliases">Onbeperkt aantal hide-my-email-aliassen</string>
-    <string name="upgrade_unlimited_mail_autoreply">Automatisch beantwoorden</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Geplande verzending</string>
-    <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d persoonlijke agenda</item>
-        <item quantity="other">%1$d persoonlijke agenda\'s</item>
-    </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Agenda\'s delen</string>
-    <string name="upgrade_unlimited_calendar_invites">Uitnodigingen verzenden en ontvangen</string>
-    <string name="upgrade_unlimited_drive_encryption">Versleutelde bestandsopslag</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB totale opslag voor foto\'s, bestanden en mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Foto\'s en bestanden delen via koppeling</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Geavanceerde beveiliging voor delen</string>
-    <string name="upgrade_unlimited_drive_version_history">Versiegeschiedenis</string>
-    <string name="upgrade_unlimited_pass_manager">Versleutelde wachtwoordmanager</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Onbeperkte aanmeldingen en hide-my-email aliassen</string>
-    <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d kluis</item>
-        <item quantity="other">%1$d kluizen</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_logins">Onbeperkte logins</string>
-    <string name="upgrade_unlimited_pass_aliases">Onbeperkt aantal hide-my-email-aliassen</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Onbeperkt aantal creditcards</string>
-    <string name="upgrade_unlimited_pass_devices">Onbeperkt aantal apparaten</string>
-    <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Delen met maximaal %1$d andere</item>
-        <item quantity="other">Deel met maximaal %1$d anderen</item>
-    </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Geïntegreerde 2FA-authenticator</string>
     <string name="upgrade_not_now_button">Niet nu</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -899,8 +811,6 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Wissen</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Wilt u verbinding maken met een specifiek land?</string>
-    <string name="upgrade_country_message"><![CDATA[Ontgrendel <b>landkeuze</b> met VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free connecteert u automatisch met de snelste beschikbare server. Dit zal normaal gezien de dichtstbijzijnde server zijn.</string>
     <string name="free_connections_info_server_locations">Gratis serverlocaties (%1$d)</string>
     <string name="free_connections_info_banner_text">Krijg toegang tot alle landen met VPN Plus</string>
