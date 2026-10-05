@@ -133,6 +133,11 @@ fun BugReportForm(
                         isError = isError,
                         singleLine = false,
                         minLines = 3,
+                        // If TextField is allowed to grow arbitrarily within a LazyColumn, it
+                        // could cross the 2^18px limit of Compose constraints, so limit max
+                        // line count (which also has better UX). A similar behavior is seen in
+                        // https://issuetracker.google.com/issues/312294386 .
+                        maxLines = 10,
                         cursorColor = ProtonTheme.colors.interactionNorm,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                     )
