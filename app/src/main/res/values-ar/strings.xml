@@ -622,8 +622,8 @@
     <string name="upsell_panel_profiles_description">اضبط اتصالاتك بالطريقة التي تفضلها، وبدل بينها بضغطة واحدة.</string>
     <string name="upsell_panel_profiles_benefit_profiles">ملفات اتصال محفوظة</string>
     <string name="upsell_panel_profiles_benefit_profiles_unlimited">غير محدود</string>
-    <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
-    <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
+    <string name="upsell_panel_secure_core_title">طبقتان من التشفير بينك وبين الويب أثناء التصفح</string>
+    <string name="upsell_panel_secure_core_description">يتم توجيه اتصالك أولاً عبر خادم Proton إما في سويسرا أو آيسلندا أو السويد، قبل وصوله إلى البلد الذي اخترته.</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
     <string name="upsell_panel_speed_title">تحميل وألعاب ومشاهدة بلا حدود</string>
     <string name="upsell_panel_speed_benefit_servers">خوادم بسرعات استثنائية</string>
@@ -632,9 +632,9 @@
     <string name="upsell_panel_speed_benefit_gaming_fast">سريعة</string>
     <string name="upsell_panel_speed_benefit_video">مشاهدة المحتوى دون انقطاع</string>
     <string name="upsell_panel_speed_benefit_p2p">يدعم تنزيلات P2P</string>
-    <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
-    <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
-    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
+    <string name="upsell_panel_split_tunneling_title">حدد التطبيقات التي ستستخدم الـ VPN</string>
+    <string name="upsell_panel_split_tunneling_description">متصفحك داخل الـ VPN، وتطبيق المصرف خارجه. تحكم بمسار كل تطبيق بمفرده.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">تقسيم الاتصال</string>
     <string name="upsell_panel_streaming_title">مشاهدة منصاتك المفضلة بلا قيود</string>
     <string name="upsell_panel_streaming_benefit_shows">مشاهدة برامج من أي دولة</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -642,11 +642,11 @@
     <string name="upsell_panel_streaming_benefit_hd">بث بدقة عالية دون تقطيع</string>
     <string name="upsell_panel_streaming_benefit_devices">توصيل كافة أجهزتك بآن واحد</string>
     <string name="upsell_panel_streaming_footer">* يشترط وجود اشتراك مسبق في خدمات المشاهدة</string>
-    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
-    <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
-    <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
-    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
+    <string name="upsell_panel_streaming_block_title">تجاوز القيود من خلال ترقية VPN</string>
+    <string name="upsell_panel_streaming_block_description">تمنحك خوادم VPN Plus حرية مشاهدة أفلامك وبرامجك المفضلة من أي مكان في العالم.</string>
+    <string name="upsell_panel_tor_title">وصول مباشر لمواقع Onion بلا متصفح Tor</string>
+    <string name="upsell_panel_tor_description">تصفح مواقع .onion عبر متصفحك المعتاد ودون الحاجة لأي أدوات إضافية.</string>
+    <string name="upsell_panel_tor_benefit_tor">اتصال Tor عبر VPN</string>
     <string name="upsell_card_countries_title">تغطية عالمية شاملة</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -693,16 +693,16 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
+    <string name="upsell_tv_all_countries_description">استمتع بـ %1$s موزعة في %2$s.</string>
     <string name="upsell_tv_netshield_title">تمتع بتجربة تصفح بلا إعلانات مع باقة Plus</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[تخلص من الإعلانات وأدوات التتبع والبرامج الضارة باستخدام <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">اجمع بين أفضل مزايا الاتصال مع باقة Plus</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
-    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
-    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[قسم اتصالك بين الـ VPN وموقعك الحقيقي باستخدام ميزة <b>تقسيم الاتصال</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">انتهاء صلاحية الاشتراك</string>
+    <string name="upsell_tv_subscription_expired_description">قم بالترقية للوصول إلى خوادم ومزايا الـ Plus مرة أخرى.</string>
     <string name="upsell_tv_customization_title">إعدادات مخصصة ومتقدمة للـ VPN مع باقة Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
-    <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_fallback_description">تفضل بزيارة موقع Proton VPN لترقية اشتراكك.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

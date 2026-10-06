@@ -575,7 +575,7 @@
     <string name="upsell_panel_split_tunneling_description">Il tuo browser attraverso la VPN, la tua app bancaria attorno ad essa. Scegli tu, app per app.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Tunneling parziale</string>
     <string name="upsell_panel_streaming_title">Guarda i tuoi servizi di streaming preferiti</string>
-    <string name="upsell_panel_streaming_benefit_shows">Watch shows from any country</string>
+    <string name="upsell_panel_streaming_benefit_shows">Guarda i programmi da qualsiasi paese</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
     <string name="upsell_panel_streaming_benefit_platforms">Tutte le principali piattaforme di streaming sono supportate *</string>
     <string name="upsell_panel_streaming_benefit_hd">Trasmetti in HD senza interruzioni</string>

@@ -523,13 +523,13 @@
     <string name="upsell_panel_general_benefit_countries">Available countries</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_general_benefit_devices">Protected devices</string>
+    <string name="upsell_panel_general_benefit_devices">Suojatut laitteet</string>
     <string name="upsell_panel_general_benefit_location">Choose your location</string>
     <string name="upsell_panel_general_benefit_server">Choose your server</string>
     <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
-    <string name="upsell_panel_general_benefit_speed">Server speed</string>
+    <string name="upsell_panel_general_benefit_speed">Palvelimen nopeus</string>
     <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Korkein</string>
     <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
     <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
     <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
@@ -559,7 +559,7 @@
     <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
     <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
     <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
-    <string name="upsell_panel_profiles_benefit_profiles">Saved profiles</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Tallennetut profiilit</string>
     <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
     <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
     <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
@@ -573,7 +573,7 @@
     <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
-    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Jaettu tunnelointi</string>
     <string name="upsell_panel_streaming_title">Katso suosikkisuoratoistopalvelujasi</string>
     <string name="upsell_panel_streaming_benefit_shows">Watch shows from any country</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -585,7 +585,7 @@
     <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
     <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
     <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
-    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor + VPN</string>
     <string name="upsell_card_countries_title">Maailmalaajuinen kattavuus</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -647,25 +647,25 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_day">day</string>
-    <string name="payment_price_per_week">week</string>
+    <string name="payment_price_per_day">päivä</string>
+    <string name="payment_price_per_week">viikko</string>
     <string name="payment_price_per_month">kuukausi</string>
     <string name="payment_price_per_year">vuosi</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="one">%1$d day</item>
-        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d päivä</item>
+        <item quantity="other">%1$d päivää</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="one">%1$d week</item>
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="one">%1$d viikko</item>
+        <item quantity="other">%1$d viikkoa</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="one">%1$d month</item>
-        <item quantity="other">%1$d months</item>
+        <item quantity="one">%1$d kuukausi</item>
+        <item quantity="other">%1$d kuukautta</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="one">%1$d year</item>
-        <item quantity="other">%1$d years</item>
+        <item quantity="one">%1$d vuosi</item>
+        <item quantity="other">%1$d vuotta</item>
     </plurals>
     <string name="payment_select_your_plan">Valitse tilauksesi</string>
     <!-- Label on a button for purchasing a subscription.

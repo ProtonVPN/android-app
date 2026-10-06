@@ -795,8 +795,8 @@
      Parameters:
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
-        <item quantity="one">for the first year</item>
-        <item quantity="other">for the first %1$d years</item>
+        <item quantity="one">för första året</item>
+        <item quantity="other">för första %1$d åren</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
