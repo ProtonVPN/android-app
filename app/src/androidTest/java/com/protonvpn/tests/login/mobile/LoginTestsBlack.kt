@@ -34,7 +34,6 @@ import com.protonvpn.test.shared.TestUserEndToEnd
 import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testsHelper.AtlasEnvVarHelper
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.serialization.SerializationException
 import me.proton.core.auth.test.robot.CredentialLessWelcomeRobot
 import me.proton.core.auth.test.robot.login.LoginRobot
 import me.proton.core.compose.component.PROTON_OUTLINED_TEXT_INPUT_TAG
@@ -125,7 +124,7 @@ class LoginTestsBlack {
         )
         try {
             quark.userCreate(specialCharsUser)
-        } catch (e: SerializationException) {
+        } catch (e: IllegalStateException) {
             // The test environment returns a non-JSON response when the user already exists.
             // TODO: remove once the test environment is fixed.
             Log.e("LoginTests", "Error when decoding Quark command response", e)
