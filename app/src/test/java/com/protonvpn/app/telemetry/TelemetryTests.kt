@@ -20,14 +20,17 @@
 package com.protonvpn.app.telemetry
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.telemetry.IsWithinFreshInstallPeriod
 import com.protonvpn.android.telemetry.SettingsSnapshotScheduler
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryCache
 import com.protonvpn.android.telemetry.TelemetryEvent
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploader
+import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -48,10 +51,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
 
 private val DISCARD_AGE = 1000.milliseconds
 private const val MAX_EVENTS = 3
+private val FRESH_INSTALL_PERIOD = 24.hours
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TelemetryTests {
@@ -71,6 +76,9 @@ class TelemetryTests {
     @RelaxedMockK
     private lateinit var mockSnapshotScheduler: SettingsSnapshotScheduler
 
+    private lateinit var appFeaturesPrefs: AppFeaturesPrefs
+    private lateinit var isWithinFreshInstallPeriod: IsWithinFreshInstallPeriod
+
     private lateinit var effectiveUserSettings: EffectiveCurrentUserSettings
     private lateinit var userSettings: MutableStateFlow<LocalUserSettings>
 
@@ -82,6 +90,9 @@ class TelemetryTests {
         testScope = TestScope(UnconfinedTestDispatcher())
         userSettings = MutableStateFlow(LocalUserSettings.Default.copy(telemetry = true))
         effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, userSettings)
+
+        appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
+        isWithinFreshInstallPeriod = IsWithinFreshInstallPeriod(appFeaturesPrefs) { testScope.currentTime }
 
         coEvery { mockUploader.uploadEvents(any()) } returns Telemetry.UploadResult.Success(false)
     }
@@ -202,6 +213,32 @@ class TelemetryTests {
 
         telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS, sendImmediately = true)
         verify(exactly = 1) { mockScheduler.scheduleImmediateTelemetryUpload() }
+    }
+
+    @Test
+    fun `when within install grace period then upload is scheduled immediately even without sendImmediately`() =
+        testScope.runTest {
+            advanceTimeBy(1) // Timestamp 0 is treated as "not installed".
+            appFeaturesPrefs.installTimestamp = currentTime
+            val telemetry = createNewTelemetryObject()
+
+            telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
+
+            verify(exactly = 1) { mockScheduler.scheduleImmediateTelemetryUpload() }
+            verify(exactly = 0) { mockScheduler.scheduleTelemetryUpload() }
+        }
+
+    @Test
+    fun `when install grace period has elapsed events are batched normally`() = testScope.runTest {
+        advanceTimeBy(1) // Timestamp 0 is treated as "not installed".
+        appFeaturesPrefs.installTimestamp = currentTime
+        advanceTimeBy(FRESH_INSTALL_PERIOD.inWholeMilliseconds)
+        val telemetry = createNewTelemetryObject()
+
+        telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
+
+        verify(exactly = 1) { mockScheduler.scheduleTelemetryUpload() }
+        verify(exactly = 0) { mockScheduler.scheduleImmediateTelemetryUpload() }
     }
 
     @Test
@@ -329,6 +366,7 @@ class TelemetryTests {
             mockUploader,
             mockScheduler,
             mockSnapshotScheduler,
+            isWithinFreshInstallPeriod,
             DISCARD_AGE,
             MAX_EVENTS
         )

@@ -79,6 +79,7 @@ class Telemetry(
     private val uploader: TelemetryUploader,
     private val uploadScheduler: TelemetryUploadScheduler,
     snapshotScheduler: SnapshotScheduler,
+    private val isWithinFreshInstallPeriod: IsWithinFreshInstallPeriod,
     private val discardAge: Duration,
     private val eventCountLimit: Int,
 ) {
@@ -107,8 +108,18 @@ class Telemetry(
         uploader: TelemetryUploader,
         uploadScheduler: TelemetryUploadScheduler,
         snapshotScheduler: SnapshotScheduler,
+        isWithinFreshInstallPeriod: IsWithinFreshInstallPeriod,
     ) : this(
-        mainScope, wallClock, userSettings, cache, uploader, uploadScheduler, snapshotScheduler, DISCARD_AGE, MAX_EVENT_COUNT
+        mainScope = mainScope,
+        wallClock = wallClock,
+        userSettings = userSettings,
+        cache = cache,
+        uploader = uploader,
+        uploadScheduler = uploadScheduler,
+        snapshotScheduler = snapshotScheduler,
+        isWithinFreshInstallPeriod = isWithinFreshInstallPeriod,
+        discardAge = DISCARD_AGE,
+        eventCountLimit = MAX_EVENT_COUNT
     )
 
     fun event(
@@ -169,7 +180,7 @@ class Telemetry(
         logi("event added, total: ${pendingEvents.size}")
         cache.save(pendingEvents)
         when {
-            sendImmediately -> uploadScheduler.scheduleImmediateTelemetryUpload()
+            sendImmediately || isWithinFreshInstallPeriod() -> uploadScheduler.scheduleImmediateTelemetryUpload()
             isFirstEvent -> uploadScheduler.scheduleTelemetryUpload()
         }
     }

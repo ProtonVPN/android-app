@@ -61,11 +61,15 @@ class AppFeaturesPrefs @Inject constructor(
 
     var lastAppInForegroundTimestamp: Long? by long()
 
+    // 0 means "not recorded" (unknown for installs that predate this field).
+    var installTimestamp: Long by long(default = 0L, key = KEY_INSTALL_TIMESTAMP)
+
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
         private const val KEY_SHOW_WHATS_NEW = "showWhatsNew"
         private const val KEY_REPORTED_ONBOARDING_EVENTS = "reportedOnboardingEvents"
         private const val KEY_SHOW_ONBOARDING_USER_ID = "showOnboardingUserId"
+        private const val KEY_INSTALL_TIMESTAMP = "installTimestamp"
     }
 
 }

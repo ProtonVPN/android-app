@@ -21,6 +21,7 @@ package com.protonvpn.android
 
 import android.content.Context
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.AppUpdateUpdated
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.mmp.events.MmpEventType
@@ -47,6 +48,7 @@ import javax.inject.Inject
 class UpdateMigration @Inject constructor(
     @param:ApplicationContext private val appContext: Context,
     private val mainScope: CoroutineScope,
+    @param:WallClock private val wallClock: () -> Long,
     private val appPrefs: dagger.Lazy<AppFeaturesPrefs>,
     private val uiStateStorage: dagger.Lazy<UiStateStorage>,
     private val updateCertForCurrentUser: dagger.Lazy<UpdateCertForCurrentUser>,
@@ -84,6 +86,7 @@ class UpdateMigration @Inject constructor(
         }
 
         if (isNewInstall) {
+            appPrefs.get().installTimestamp = wallClock()
             mainScope.launch {
                 saveMmpEvent.get().invoke(eventType = MmpEventType.Install)
             }
