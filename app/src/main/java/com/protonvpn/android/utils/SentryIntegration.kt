@@ -22,6 +22,7 @@ package com.protonvpn.android.utils
 import android.app.Application
 import android.os.Build
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.logging.signatureHashes
 import com.protonvpn.android.tv.IsTvCheck
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -43,6 +44,7 @@ object SentryIntegration {
     private lateinit var application: Application
 
     private val isRooted by lazy { isDeviceRooted(application) }
+    private val apkSignatures by lazy { signatureHashes(application).joinToString() }
 
     @EntryPoint
     @InstallIn(SingletonComponent::class)
@@ -91,6 +93,7 @@ object SentryIntegration {
                 val deps = EntryPointAccessors.fromApplication(application, HiltEntryPoint::class.java)
                 SentryFingerprints.setFingerprints(event)
                 event.setTag("os.rooted", if (isRooted) "yes" else "no")
+                event.setTag("apk.signature", apkSignatures)
                 event.setTag("isTv", deps.isTv().toString())
                 event
             }
