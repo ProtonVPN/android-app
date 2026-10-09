@@ -48,12 +48,12 @@ object CountryTools {
             ?: 0
 
     /**
-     * Returns a large and detailed flag resource.
+     * Returns a large and detailed flag resource from flag_tv_* drawables.
      * Falls back to getFlagResource which returns drawables of a different size so don't rely on the intrinsic size of
      * the returned drawable.
      */
     fun getLargeFlagResource(context: Context, flag: String?): Int =
-        flag?.let { getDrawableRes(context, "flag_large_${flagCode(flag)}") }
+        flag?.let { getDrawableRes(context, "flag_tv_${flagCode(flag)}") }
             ?: getFlagResource(context, flag)
 
     private fun getDrawableRes(context: Context, resString: String): Int? =

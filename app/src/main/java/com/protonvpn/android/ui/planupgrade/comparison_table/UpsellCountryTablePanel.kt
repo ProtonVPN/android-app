@@ -42,6 +42,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.country.presentation.R as CountryR
 
 @Composable
 fun UpsellCountryTablePanel(
@@ -107,7 +108,7 @@ private fun SparklingFlag(
 ) {
     val context = LocalContext.current
     val flagResource = if (LocalInspectionMode.current) {
-        R.drawable.flag_large_ad
+        CountryR.drawable.flag_ad
     } else {
         CountryTools.getFlagResource(context, country.countryCode)
     }
