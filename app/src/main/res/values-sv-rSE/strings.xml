@@ -367,11 +367,6 @@
         <item quantity="other">%1$d länder</item>
     </plurals>
     <string name="upsell_upgrade_again">Uppgradera igen för att njuta av alla funktioner:</string>
-    <!--
-        %1$s - speed in Gbps
-        Example:
-        Unlock faster, less crowded servers with speeds of up to 10 Gbps.
-    -->
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -391,13 +386,6 @@
         <item quantity="one">%d land</item>
         <item quantity="other">%d länder</item>
     </plurals>
-    <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_servers_new"
-     %2$s - replaced with "upgrade_plus_countries"
-
-     Example:
-     Unlock 1300+ secure servers in 61 countries with VPN Plus.
-     -->
     <string name="upgrade_not_now_button">Inte nu</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -810,7 +798,6 @@
     <string name="search_clear_query_content_description">Rensa</string>
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Rensa</string>
-    <!-- Example: Want to connect to Italy? -->
     <string name="free_connections_info_message">Proton Free ansluter dig automatiskt till den snabbaste tillgängliga servern. Detta kommer normalt att vara den server som ligger närmast din plats.</string>
     <string name="free_connections_info_server_locations">Gratisserverplatser (%1$d)</string>
     <string name="free_connections_info_banner_text">Åtkomst till alla länder med VPN Plus</string>

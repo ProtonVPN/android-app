@@ -362,11 +362,6 @@
         <item quantity="other">%1$d 個國家</item>
     </plurals>
     <string name="upsell_upgrade_again">再次升級以享受下列種種功能：</string>
-    <!--
-        %1$s - speed in Gbps
-        Example:
-        Unlock faster, less crowded servers with speeds of up to 10 Gbps.
-    -->
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -384,13 +379,6 @@
     <plurals name="upgrade_plus_countries">
         <item quantity="other">%d 個國家</item>
     </plurals>
-    <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_servers_new"
-     %2$s - replaced with "upgrade_plus_countries"
-
-     Example:
-     Unlock 1300+ secure servers in 61 countries with VPN Plus.
-     -->
     <string name="upgrade_not_now_button">現在不要</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -778,7 +766,6 @@
     <string name="search_clear_query_content_description">清除</string>
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">清除</string>
-    <!-- Example: Want to connect to Italy? -->
     <string name="free_connections_info_message">Proton Free 會自動替你連接到最快且可用的伺服器。通常這些伺服器都是最接近您的地區。</string>
     <string name="free_connections_info_server_locations">免費伺服器位置 (%1$d)</string>
     <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>

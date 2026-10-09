@@ -363,11 +363,6 @@
         <item quantity="other">%1$d개 국가</item>
     </plurals>
     <string name="upsell_upgrade_again">다시 업그레이드하고 모든 기능들을 즐기세요:</string>
-    <!--
-        %1$s - speed in Gbps
-        Example:
-        Unlock faster, less crowded servers with speeds of up to 10 Gbps.
-    -->
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -385,13 +380,6 @@
     <plurals name="upgrade_plus_countries">
         <item quantity="other">%d개 국가</item>
     </plurals>
-    <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_servers_new"
-     %2$s - replaced with "upgrade_plus_countries"
-
-     Example:
-     Unlock 1300+ secure servers in 61 countries with VPN Plus.
-     -->
     <string name="upgrade_not_now_button">다음에</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -779,7 +767,6 @@
     <string name="search_clear_query_content_description">삭제</string>
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">삭제</string>
-    <!-- Example: Want to connect to Italy? -->
     <string name="free_connections_info_message">Proton Free가 사용 가능한 가장 빠른 서버에 자동으로 연결합니다. 보통 소재한 곳에서 가장 가까운 서버가 선택됩니다.</string>
     <string name="free_connections_info_server_locations">무료 서버 지역 (%1$d)</string>
     <string name="free_connections_info_banner_text">VPN Plus로 모든 국가에 접근하세요</string>

@@ -367,11 +367,6 @@
         <item quantity="other">%1$d país</item>
     </plurals>
     <string name="upsell_upgrade_again">Faça o upgrade novamente para aproveitar todos os recursos:</string>
-    <!--
-        %1$s - speed in Gbps
-        Example:
-        Unlock faster, less crowded servers with speeds of up to 10 Gbps.
-    -->
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -391,13 +386,6 @@
         <item quantity="one">%d país</item>
         <item quantity="other">%d países</item>
     </plurals>
-    <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_servers_new"
-     %2$s - replaced with "upgrade_plus_countries"
-
-     Example:
-     Unlock 1300+ secure servers in 61 countries with VPN Plus.
-     -->
     <string name="upgrade_not_now_button">Agora não</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -810,7 +798,6 @@
     <string name="search_clear_query_content_description">Limpar</string>
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Limpar</string>
-    <!-- Example: Want to connect to Italy? -->
     <string name="free_connections_info_message">O Proton Free automaticamente se conecta ao servidor grátis mais rápido. Normalmente será o servidor mais próximo da sua localização.</string>
     <string name="free_connections_info_server_locations">Localizações dos servidores gratuitos (%1$d)</string>
     <string name="free_connections_info_banner_text">Acesse todos os países com o VPN Plus</string>
