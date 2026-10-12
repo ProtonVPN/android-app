@@ -51,7 +51,6 @@ import com.protonvpn.android.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.base.ui.nav.addToGraph
 import com.protonvpn.android.base.ui.nav.baseRoute
-import com.protonvpn.android.base.ui.nav.popToStartNavOptions
 import com.protonvpn.android.redesign.countries.ui.nav.CountryListScreen
 import com.protonvpn.android.redesign.countries.ui.nav.CountryListScreen.countryList
 import com.protonvpn.android.redesign.countries.ui.nav.GatewaysScreen
@@ -104,23 +103,14 @@ class MainNav(
 
     fun navigate(target: MainTarget) {
         // Don't record whole history of bottom bar navigation
-        val navOptions = controller.popToStartNavOptions()
-        when (target) {
-            MainTarget.Home ->
-                navigateInternal(HomeScreen, navOptions)
-
-            MainTarget.Profiles ->
-                navigateInternal(ProfilesScreen, navOptions)
-
-            MainTarget.Gateways ->
-                navigateInternal(GatewaysScreen, navOptions)
-
-            MainTarget.Countries ->
-                navigateInternal(CountryListScreen, navOptions)
-
-            MainTarget.Settings ->
-                navigateInternal(SettingsScreen, navOptions)
+        val screen = when (target) {
+            MainTarget.Home -> HomeScreen
+            MainTarget.Profiles -> ProfilesScreen
+            MainTarget.Gateways -> GatewaysScreen
+            MainTarget.Countries -> CountryListScreen
+            MainTarget.Settings -> SettingsScreen
         }
+        navigateToTopLevel(screen)
     }
 
     // Gets current bottom bar target and triggers recomposition on change

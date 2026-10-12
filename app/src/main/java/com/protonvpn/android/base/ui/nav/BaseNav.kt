@@ -143,6 +143,19 @@ open class BaseNav<N : BaseNav<N>>(
         printBackStackRoutes("navigate")
     }
 
+    /**
+     * Navigates to a top level screen (e.g. a bottom bar tab), rolling back to the start destination first.
+     *
+     * Navigating back to the start destination only pops the back stack. NavHost places a popped-to screen below the
+     * screen it replaces for the whole transition, so the exiting screen would stay on top, receiving touches meant for
+     * the entering one. All other top level screens are pushed on top of the start destination (entering screen on
+     * top). Make the start destination behave the same way.
+     */
+    fun navigateToTopLevel(screen: ScreenNoArg<N>) {
+        navigateInternal(screen, controller.popToStartNavOptions())
+        controller.markTransitionAsForward()
+    }
+
     fun currentRoute() = controller.currentRoute()
 
     // Debug util to print navigator back stack

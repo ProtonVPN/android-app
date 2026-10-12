@@ -22,6 +22,7 @@ package com.protonvpn.android.base.ui.nav
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptions
+import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.navOptions
 
 // Nav options to rollback to start destination before navigating
@@ -35,6 +36,13 @@ fun NavController.popToStartNavOptions(): NavOptions =
         launchSingleTop = true
         restoreState = true
     }
+
+// NavHost decides the order of screens during a transition (and which transitions to use) based on whether the last
+// navigation was a pop or a push. The flag is reset by ComposeNavigator.navigate, call it with no entries to make
+// NavHost treat the last navigation as a push without actually changing the back stack.
+fun NavController.markTransitionAsForward() {
+    navigatorProvider.getNavigator(ComposeNavigator::class.java).navigate(emptyList(), null, null)
+}
 
 // Rollback to start destination
 fun NavController.popUpToStart() {
