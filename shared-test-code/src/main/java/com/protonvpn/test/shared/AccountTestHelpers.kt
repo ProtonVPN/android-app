@@ -25,6 +25,8 @@ import me.proton.core.domain.entity.AppStore
 import me.proton.core.domain.entity.UserId
 import me.proton.core.user.domain.entity.Type
 import me.proton.core.user.domain.entity.User
+import me.proton.core.usersettings.domain.entity.RecoverySetting
+import me.proton.core.usersettings.domain.entity.UserSettings
 
 // We should upstream such helpers to Account modules.
 fun createAccountUser(id: UserId = UserId("id"), type: Type = Type.Proton, createdAtUtc: Long = 0L, name: String? = null) = User(
@@ -47,6 +49,15 @@ fun createAccountUser(id: UserId = UserId("id"), type: Type = Type.Proton, creat
     recovery = null,
     keys = emptyList(),
     flags = emptyMap()
+)
+
+fun createAccountUserSettings(
+    userId: UserId = UserId("id"),
+    recoveryEmail: String? = "recovery@proton.me",
+): UserSettings = UserSettings.nil(userId).copy(
+    email = recoveryEmail?.let { email ->
+        RecoverySetting(value = email, status = null, notify = null, reset = null)
+    },
 )
 
 fun PaymentCycle.toProductId(appStore: AppStore, name: String) = "productId-$appStore-$name-${toISO8601()}"

@@ -71,6 +71,7 @@ import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser
+import com.protonvpn.test.shared.createAccountUserSettings
 import com.protonvpn.test.shared.createProfileEntity
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.createSettingsOverrides
@@ -82,6 +83,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
@@ -91,6 +93,8 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.proton.core.auth.domain.feature.IsFido2Enabled
+import me.proton.core.auth.fido.domain.entity.Fido2RegisteredKey
+import me.proton.core.domain.entity.UserId
 import me.proton.core.usersettings.domain.usecase.ObserveRegisteredSecurityKeys
 import me.proton.core.usersettings.domain.usecase.ObserveUserSettings
 import org.junit.After
@@ -170,6 +174,9 @@ class SettingsViewModelTests {
         coEvery { mockObserveDefaultConnection(any()) } returns flowOf(Constants.DEFAULT_CONNECTION)
         coEvery { mockServerManager2.hasAnyCountryFlow } returns hasCountriesFlow
         coEvery { mockExcludedLocationsDao.observeAll(any()) } returns flowOf(emptyList())
+        coEvery { mockObserveUserSettings.invoke(any(), any()) } returns flowOf(createAccountUserSettings())
+        coEvery { observeRegisteredSecurityKeys.invoke(any<UserId>()) } returns flowOf(emptyList<Fido2RegisteredKey>())
+        every { isFido2Enabled.invoke(any<UserId>()) } returns false
         val accountUser = createAccountUser()
         testUserProvider = TestCurrentUserProvider(plusUser, accountUser)
         val currentUser = CurrentUser(testUserProvider)
@@ -243,6 +250,14 @@ class SettingsViewModelTests {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+    }
+
+    @Test
+    fun `accountSettings displayName uses account user uiName`() = testScope.runTest {
+        val expectedDisplayName = "plus.user@proton.me"
+        testUserProvider.user = createAccountUser(name = expectedDisplayName)
+        val accountState = settingsViewModel.accountSettings.filterNotNull().first()
+        assertEquals(expectedDisplayName, accountState.displayName)
     }
 
     @Test
