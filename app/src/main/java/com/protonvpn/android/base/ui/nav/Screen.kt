@@ -25,7 +25,15 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
@@ -34,6 +42,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
+import me.proton.core.presentation.R as CoreR
 
 /**
  * Holds navigation info for a given Compose Navigation destination in a more
@@ -114,7 +123,23 @@ fun <N : BaseNav<N>> Screen<*, N>.addToGraph(
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
         arguments = navArgs,
-        content = content
+        content = @Composable { navBackStackEntry ->
+            if (LocalInspectionMode.current) {
+                // Placeholder for previews and screenshot tests.
+                // Don't use any material components, it's used in both TV and mobile.
+                Box(
+                    Modifier.background(Color(0x80808080)),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Image(
+                        painterResource(CoreR.drawable.ic_proton_cross_big),
+                        contentDescription = null,
+                    )
+                }
+            } else {
+                content(navBackStackEntry)
+            }
+        }
     )
 }
 
