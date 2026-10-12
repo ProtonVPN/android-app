@@ -148,10 +148,6 @@ internal fun TvMainScreen(
     }
 }
 
-@Composable
-fun TvHomePlaceholder(modifier: Modifier = Modifier) {
-    PagePlaceholder(stringResource(TvMainTarget.Home.labelRes()), Color(0xFF2B4C7E), modifier)
-}
 
 @Composable
 fun TvSettingsPlaceholder(modifier: Modifier = Modifier) {

@@ -29,7 +29,7 @@ import com.protonvpn.android.base.ui.nav.VpnNavHostController
 import com.protonvpn.android.base.ui.nav.addToGraph
 import com.protonvpn.android.base.ui.nav.baseRoute
 import com.protonvpn.android.base.ui.nav.popToStartNavOptions
-import com.protonvpn.android.tv.main_screen.ui.TvHomePlaceholder
+import com.protonvpn.android.tv.home.TvHomeRoute
 import com.protonvpn.android.tv.main_screen.ui.TvSettingsPlaceholder
 
 enum class TvMainTarget(val screen: ScreenNoArg<TvMainScreenNav>) {
@@ -60,7 +60,7 @@ class TvMainScreenNav(
     @Composable
     fun NavHost(modifier: Modifier = Modifier) {
         SafeNavHost(startScreen = startScreen.screen, modifier = modifier) {
-            TvHomeScreen.addToGraph(this) { TvHomePlaceholder() }
+            TvHomeScreen.addToGraph(this) { TvHomeRoute() }
             TvSettingsScreen.addToGraph(this) { TvSettingsPlaceholder() }
         }
     }
