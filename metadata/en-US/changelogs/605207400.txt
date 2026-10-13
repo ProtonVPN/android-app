@@ -1,0 +1,2 @@
+What's new
+- Prevented unintended sending of logs under specific and very rare conditions - Stopped our widget from interfering with third-party VPNs installed on your device - Improved start-up time and UI performance
