@@ -46,12 +46,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.ui.AccountViewModel
 import com.protonvpn.android.auth.usecase.OnboardingEvent
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.nav.rememberVpnNavHostController
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.bugreport.ui.BugReportActivity
 import com.protonvpn.android.components.VpnUiDelegateProvider
@@ -240,7 +240,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                             CompositionLocalProvider(
                                 LocalVpnUiDelegate provides this@MainActivity.vpnActivityDelegate
                             ) {
-                                val rootController = rememberNavController()
+                                val rootController = rememberVpnNavHostController()
                                 VpnApp(
                                     onSignOut = { coreNavigation.onSignOut() },
                                     modifier =  Modifier.semantics { testTagsAsResourceId = true }

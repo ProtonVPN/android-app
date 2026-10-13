@@ -27,6 +27,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -68,7 +69,7 @@ enum class NavigationTransition(
 }
 
 /**
- * Wrapper around [NavHostController] with more high-level interface, logging and navigation
+ * Wrapper around [VpnNavHostController] with more high-level interface, logging and navigation
  * type-safety. Dedicated [BaseNav] child classes should be used for different nav graphs and each
  * [Screen] will be tied to a single [BaseNav] child.
  *
@@ -101,9 +102,19 @@ enum class NavigationTransition(
  * ```
  */
 open class BaseNav<N : BaseNav<N>>(
-    val controller: NavHostController,
+    private val vpnController: VpnNavHostController,
     val name: String,
 ) {
+    val controller: NavHostController = vpnController.navController
+
+    // Kept in VpnNavHostController, BaseNav instances may be recreated on recomposition.
+    private var pendingTopLevelScreen: ScreenNoArg<N>?
+        @Suppress("UNCHECKED_CAST")
+        get() = vpnController.pendingTopLevelScreen as ScreenNoArg<N>?
+        set(value) {
+            vpnController.pendingTopLevelScreen = value
+        }
+
     init {
         printBackStackRoutes("init")
     }
@@ -150,8 +161,21 @@ open class BaseNav<N : BaseNav<N>>(
      * screen it replaces for the whole transition, so the exiting screen would stay on top, receiving touches meant for
      * the entering one. All other top level screens are pushed on top of the start destination (entering screen on
      * top). Make the start destination behave the same way.
+     *
+     * If the graph is not set yet (NavHost not composed) the navigation is deferred until it is.
      */
     fun navigateToTopLevel(screen: ScreenNoArg<N>) {
+        if (controller.currentBackStackEntry == null) {
+            navLog("graph not set, deferring navigation to ${screen.route}")
+            pendingTopLevelScreen = screen
+        } else {
+            // Latest navigation request wins.
+            pendingTopLevelScreen = null
+            navigateToTopLevelNow(screen)
+        }
+    }
+
+    private fun navigateToTopLevelNow(screen: ScreenNoArg<N>) {
         navigateInternal(screen, controller.popToStartNavOptions())
         controller.markTransitionAsForward()
     }
@@ -186,6 +210,13 @@ open class BaseNav<N : BaseNav<N>>(
             popExitTransition = transition.popExitTransition,
         ) {
             SafeNavGraphBuilder<N>(this).build()
+        }
+        // NavHost sets the graph during composition, pending navigation can be executed now.
+        LaunchedEffect(pendingTopLevelScreen) {
+            pendingTopLevelScreen?.let { screen ->
+                pendingTopLevelScreen = null
+                navigateToTopLevelNow(screen)
+            }
         }
     }
 }

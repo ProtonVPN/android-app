@@ -37,20 +37,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import com.protonvpn.android.base.ui.nav.BaseNav
+import com.protonvpn.android.base.ui.nav.SafeNavGraphBuilder
+import com.protonvpn.android.base.ui.nav.ScreenNoArg
+import com.protonvpn.android.base.ui.nav.VpnNavHostController
+import com.protonvpn.android.base.ui.nav.addToGraph
+import com.protonvpn.android.base.ui.nav.baseRoute
+import com.protonvpn.android.base.ui.nav.rememberVpnNavHostController
 import com.protonvpn.android.profiles.ui.nav.AddEditProfileScreen
 import com.protonvpn.android.profiles.ui.nav.ProfilesScreen
 import com.protonvpn.android.profiles.ui.nav.ProfilesScreen.profiles
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
-import com.protonvpn.android.base.ui.nav.BaseNav
-import com.protonvpn.android.base.ui.nav.SafeNavGraphBuilder
-import com.protonvpn.android.base.ui.nav.ScreenNoArg
-import com.protonvpn.android.base.ui.nav.addToGraph
-import com.protonvpn.android.base.ui.nav.baseRoute
 import com.protonvpn.android.redesign.countries.ui.nav.CountryListScreen
 import com.protonvpn.android.redesign.countries.ui.nav.CountryListScreen.countryList
 import com.protonvpn.android.redesign.countries.ui.nav.GatewaysScreen
@@ -86,7 +86,7 @@ enum class MainTarget {
 fun rememberMainNav(
     coreNavigation: CoreNavigation,
     rootNav: RootNav,
-    selfController: NavHostController = rememberNavController(),
+    selfController: VpnNavHostController = rememberVpnNavHostController(),
 ) = remember(selfController) {
     MainNav(
         selfNav = selfController,
@@ -96,7 +96,7 @@ fun rememberMainNav(
 }
 
 class MainNav(
-    selfNav: NavHostController,
+    selfNav: VpnNavHostController,
     private val coreNavigation: CoreNavigation,
     private val rootNav: RootNav,
 ) : BaseNav<MainNav>(selfNav, "main") {

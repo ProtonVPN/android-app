@@ -51,12 +51,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarCloseIcon
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
+import com.protonvpn.android.base.ui.nav.VpnNavHostController
+import com.protonvpn.android.base.ui.nav.rememberVpnNavHostController
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationSubscreenTarget
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
 import com.protonvpn.android.profiles.ui.nav.ProfilesAddEditStepNav
@@ -116,7 +117,7 @@ fun AddEditProfileScreen(
         )
     }
 
-    val mainNavController = rememberNavController()
+    val mainNavController = rememberVpnNavHostController()
     val mainNavigator = remember { ProfilesRegularAndSubscreenNav(mainNavController) }
     mainNavigator.NavHost(
         viewModel = viewModel,
@@ -130,7 +131,7 @@ fun AddEditProfileScreen(
 @Composable
 fun AddEditProfileSteps(
     viewModel: CreateEditProfileViewModel,
-    navController: NavHostController,
+    navController: VpnNavHostController,
     navigateTo: ProfileCreationStepTarget?,
     isEditMode: Boolean = false,
     onNavigateToSubscreen: (ProfileCreationSubscreenTarget) -> Unit,
@@ -168,7 +169,7 @@ fun AddEditProfileSteps(
             // Workaround for https://issuetracker.google.com/issues/249727298
             .consumeWindowInsets(paddingValues)
         ) {
-            StepHeader(navController, totalSteps)
+            StepHeader(navigator.controller, totalSteps)
 
             Spacer(modifier = Modifier.height(16.dp))
             navigator.NavHost(

@@ -27,7 +27,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
+import com.protonvpn.android.base.ui.nav.rememberVpnNavHostController
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.vpn.ui.LocalVpnUiDelegate
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +45,7 @@ class TvSettingsSplitTunnelingActivity : BaseTvActivity() {
                         contentAlignment = Alignment.TopCenter,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        val navHostController = rememberNavController()
+                        val navHostController = rememberVpnNavHostController()
                         val navigator = remember { TvSplitTunnelingNav(navHostController) }
                         navigator.NavHost(::finish)
                     }

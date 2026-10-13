@@ -21,7 +21,7 @@ package com.protonvpn.android.redesign.app.ui.nav
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
+import com.protonvpn.android.base.ui.nav.VpnNavHostController
 import com.protonvpn.android.profiles.ui.nav.AddEditProfileScreen
 import com.protonvpn.android.profiles.ui.nav.AddEditProfileScreen.addEditProfile
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
@@ -39,7 +39,7 @@ import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen.subSettings
 
 class RootNav(
-    selfNav: NavHostController,
+    selfNav: VpnNavHostController,
 ) : BaseNav<RootNav>(selfNav, "rootNav") {
 
     @Composable

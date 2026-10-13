@@ -27,19 +27,19 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.base.ui.nav.BaseNav
 import com.protonvpn.android.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.base.ui.nav.ScreenNoArg
+import com.protonvpn.android.base.ui.nav.VpnNavHostController
 import com.protonvpn.android.base.ui.nav.addToGraph
+import com.protonvpn.android.base.ui.nav.rememberVpnNavHostController
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
-private class TabNav(controller: NavHostController) : BaseNav<TabNav>(controller, "tabs") {
+private class TabNav(controller: VpnNavHostController) : BaseNav<TabNav>(controller, "tabs") {
     fun navigate(screen: ScreenNoArg<TabNav>) = navigateToTopLevel(screen)
 }
 
@@ -58,7 +58,7 @@ class TabNavigationTouchTests {
 
     private fun setContent() {
         composeRule.setContent {
-            nav = TabNav(rememberNavController())
+            nav = TabNav(rememberVpnNavHostController())
             nav.SafeNavHost(startScreen = HomeTab) {
                 listOf(HomeTab, SettingsTab, ProfilesTab).forEach { screen ->
                     screen.addToGraph(this) {

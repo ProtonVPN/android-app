@@ -3,8 +3,8 @@ package com.protonvpn.android.bugreport.ui.steps
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.protonvpn.android.base.ui.nav.VpnNavHostController
+import com.protonvpn.android.base.ui.nav.rememberVpnNavHostController
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.base.ui.nav.BaseNav
@@ -18,7 +18,7 @@ import com.protonvpn.android.bugreport.ui.steps.suggestions.BugReportSuggestions
 import com.protonvpn.android.bugreport.ui.steps.suggestions.BugReportSuggestionsScreen.bugReportSuggestionsScreen
 
 class BugReportStepsNav(
-    selfNav: NavHostController,
+    selfNav: VpnNavHostController,
 ) : BaseNav<BugReportStepsNav>(selfNav, "bugReportSteps") {
 
     @Composable
@@ -74,7 +74,7 @@ class BugReportStepsNav(
 
 @Composable
 fun rememberBugReportStepsNav(
-    selfNavController: NavHostController = rememberNavController(),
+    selfNavController: VpnNavHostController = rememberVpnNavHostController(),
 ) = remember(key1 = selfNavController) {
     BugReportStepsNav(
         selfNav = selfNavController,

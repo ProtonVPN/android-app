@@ -22,8 +22,8 @@ package com.protonvpn.android.tv.reports.steps
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.protonvpn.android.base.ui.nav.VpnNavHostController
+import com.protonvpn.android.base.ui.nav.rememberVpnNavHostController
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.base.ui.nav.BaseNav
@@ -36,7 +36,7 @@ import com.protonvpn.android.tv.reports.steps.suggestions.TvBugReportSuggestions
 import com.protonvpn.android.tv.reports.steps.suggestions.TvBugReportSuggestionsScreen.tvBugReportSuggestionsScreen
 
 class TvBugReportStepsNav(
-    selfNav: NavHostController,
+    selfNav: VpnNavHostController,
 ) : BaseNav<TvBugReportStepsNav>(selfNav, "tvBugReportSteps") {
 
     @Composable
@@ -94,7 +94,7 @@ class TvBugReportStepsNav(
 
 @Composable
 fun rememberTvBugReportStepsNav(
-    selfNavController: NavHostController = rememberNavController(),
+    selfNavController: VpnNavHostController = rememberVpnNavHostController(),
 ) = remember(key1 = selfNavController) {
     TvBugReportStepsNav(
         selfNav = selfNavController,

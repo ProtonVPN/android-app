@@ -23,7 +23,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
+import com.protonvpn.android.base.ui.nav.rememberVpnNavHostController
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.enableEdgeToEdgeVpn
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,7 +41,7 @@ class BugReportActivity : AppCompatActivity() {
             VpnTheme {
                 val bugReportViewModel = hiltViewModel<BugReportViewModel>()
 
-                val navController = rememberNavController()
+                val navController = rememberVpnNavHostController()
 
                 BugReportNav(selfNav = navController).NavHost(
                     bugReportViewModel = bugReportViewModel,

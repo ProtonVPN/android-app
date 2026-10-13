@@ -28,11 +28,12 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
+import com.protonvpn.android.base.ui.nav.VpnNavHostController
+import com.protonvpn.android.base.ui.nav.createVpnNavHostControllerForTest
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.nav.BaseNav
 import com.protonvpn.android.base.ui.nav.Graph
@@ -62,8 +63,8 @@ import me.proton.test.fusion.ui.device.OnDevice
 import org.junit.Before
 import org.junit.Test
 
-class NavA(navController: NavHostController) : BaseNav<NavA>(navController, "NavA")
-class NavB(navController: NavHostController) : BaseNav<NavB>(navController, "NavB")
+class NavA(navController: VpnNavHostController) : BaseNav<NavA>(navController, "NavA")
+class NavB(navController: VpnNavHostController) : BaseNav<NavB>(navController, "NavB")
 
 class NavigationTests : FusionComposeTest() {
 
@@ -74,8 +75,8 @@ class NavigationTests : FusionComposeTest() {
     @Before
     fun setup() {
         withContent {
-            navA = NavA(TestNavHostController(LocalContext.current))
-            navB = NavB(TestNavHostController(LocalContext.current))
+            navA = NavA(createVpnNavHostControllerForTest(TestNavHostController(LocalContext.current)))
+            navB = NavB(createVpnNavHostControllerForTest(TestNavHostController(LocalContext.current)))
             navA.controller.navigatorProvider.addNavigator(ComposeNavigator())
             navB.controller.navigatorProvider.addNavigator(ComposeNavigator())
             VpnTheme {

@@ -24,16 +24,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.protonvpn.android.base.ui.nav.BaseNav
 import com.protonvpn.android.base.ui.nav.NavigationTransition
 import com.protonvpn.android.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.base.ui.nav.Screen
 import com.protonvpn.android.base.ui.nav.ScreenNoArg
+import com.protonvpn.android.base.ui.nav.VpnNavHostController
 import com.protonvpn.android.base.ui.nav.addToGraph
 import com.protonvpn.android.base.ui.nav.addToGraphWithSlideAnim
+import com.protonvpn.android.base.ui.nav.rememberVpnNavHostController
 import com.protonvpn.android.profiles.ui.AddEditProfileRoute
 import com.protonvpn.android.profiles.ui.AddEditProfileSteps
 import com.protonvpn.android.profiles.ui.CreateEditProfileViewModel
@@ -120,7 +120,7 @@ object ProfileMainScreen : ScreenNoArg<ProfilesRegularAndSubscreenNav>("profileM
 
     fun SafeNavGraphBuilder<ProfilesRegularAndSubscreenNav>.profileMainScreen(
         viewModel: CreateEditProfileViewModel,
-        stepsNavController: NavHostController,
+        stepsNavController: VpnNavHostController,
         navigateTo: ProfileCreationStepTarget?,
         isEditMode: Boolean = false,
         onNavigateToSubscreen: (ProfileCreationSubscreenTarget) -> Unit,
@@ -194,7 +194,7 @@ object ProfileFeaturesAndSettingsScreen : ScreenNoArg<ProfilesAddEditStepNav>("p
 }
 
 class ProfilesRegularAndSubscreenNav(
-    selfNav: NavHostController,
+    selfNav: VpnNavHostController,
 ) : BaseNav<ProfilesRegularAndSubscreenNav>(selfNav, "profilesNav") {
 
     @Composable
@@ -202,7 +202,7 @@ class ProfilesRegularAndSubscreenNav(
         viewModel: CreateEditProfileViewModel,
         isEditMode: Boolean,
         navigateTo: ProfileCreationStepTarget?,
-        stepsNavController: NavHostController = rememberNavController(),
+        stepsNavController: VpnNavHostController = rememberVpnNavHostController(),
         onDone: () -> Unit,
         onClose: () -> Unit,
         modifier: Modifier = Modifier
@@ -237,7 +237,7 @@ class ProfilesRegularAndSubscreenNav(
 }
 
 class ProfilesAddEditStepNav(
-    selfNav: NavHostController,
+    selfNav: VpnNavHostController,
 ) : BaseNav<ProfilesAddEditStepNav>(selfNav, "profileStepsNav") {
 
     @Composable

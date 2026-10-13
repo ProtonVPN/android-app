@@ -22,7 +22,7 @@ package com.protonvpn.android.tv.reports
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
+import com.protonvpn.android.base.ui.nav.rememberVpnNavHostController
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.bugreport.ui.BugReportViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +38,7 @@ class TvBugReportActivity : BaseTvActivity() {
             ProtonThemeTv {
                 val bugReportViewModel = hiltViewModel<BugReportViewModel>()
 
-                val navController = rememberNavController()
+                val navController = rememberVpnNavHostController()
 
                 TvBugReportNav(selfNav = navController).NavHost(
                     bugReportViewModel = bugReportViewModel,

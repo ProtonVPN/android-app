@@ -21,9 +21,9 @@ package com.protonvpn.android.bugreport.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.navOptions
 import com.protonvpn.android.base.ui.nav.BaseNav
+import com.protonvpn.android.base.ui.nav.VpnNavHostController
 import com.protonvpn.android.bugreport.ui.completion.error.BugReportCompletionErrorScreen
 import com.protonvpn.android.bugreport.ui.completion.error.BugReportCompletionErrorScreen.bugReportCompletionErrorScreen
 import com.protonvpn.android.bugreport.ui.completion.success.BugReportCompletionSuccessScreen
@@ -33,7 +33,7 @@ import com.protonvpn.android.bugreport.ui.steps.BugReportStepsScreen.bugReportSt
 import com.protonvpn.android.bugreport.ui.steps.rememberBugReportStepsNav
 import com.protonvpn.android.update.AppUpdateInfo
 
-class BugReportNav(selfNav: NavHostController) : BaseNav<BugReportNav>(selfNav, "bugReport") {
+class BugReportNav(selfNav: VpnNavHostController) : BaseNav<BugReportNav>(selfNav, "bugReport") {
 
     @Composable
     fun NavHost(
