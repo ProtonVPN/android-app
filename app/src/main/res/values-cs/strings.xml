@@ -474,7 +474,7 @@
     <string name="upsell_panel_profiles_title">Streamování, hraní her, práce: pro každou činnost samostatný profil</string>
     <string name="upsell_panel_profiles_description">Nastavte si připojení podle svých představ a poté se k libovolnému z nich připojte jediným klepnutím.</string>
     <string name="upsell_panel_profiles_benefit_profiles">Uložené profily</string>
-    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Bez omezení</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
     <string name="upsell_panel_secure_core_title">Dvě vrstvy šifrování mezi vámi a webem</string>
     <string name="upsell_panel_secure_core_description">Směrováno skrze server Proton ve Švýcarsku, na Islandu nebo ve Švédsku předtím, než se dostane do vámi vybrané země.</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
@@ -630,9 +630,9 @@
      %2$d - replaced with number of years -->
     <plurals name="payment_discount_renewal_price_message_yearly">
         <item quantity="one">Speciální nabídka. Obnovuje se automaticky za %1$s/rok</item>
-        <item quantity="few">Speciálnínabídka. Obnovuje se automaticky za %1$s každé %2$d roky</item>
-        <item quantity="many">Speciálnínabídka. Obnovuje se automaticky za %1$s každých %2$d let</item>
-        <item quantity="other">Speciálnínabídka. Obnovuje se automaticky za %1$s každých %2$d let</item>
+        <item quantity="few">Speciální nabídka. Obnovuje se automaticky za %1$s každé %2$d roky</item>
+        <item quantity="many">Speciální nabídka. Obnovuje se automaticky za %1$s každých %2$d let</item>
+        <item quantity="other">Speciální nabídka. Obnovuje se automaticky za %1$s každých %2$d let</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
@@ -719,40 +719,40 @@
      Parameters:
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
-        <item quantity="one">for the first day</item>
-        <item quantity="few">for the first %1$d days</item>
-        <item quantity="many">for the first %1$d days</item>
-        <item quantity="other">for the first %1$d days</item>
+        <item quantity="one">za první den</item>
+        <item quantity="few">za první %1$d dny</item>
+        <item quantity="many">za prvních %1$d dnů</item>
+        <item quantity="other">za prvních %1$d dnů</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
-        <item quantity="one">for the first week</item>
-        <item quantity="few">for the first %1$d weeks</item>
-        <item quantity="many">for the first %1$d weeks</item>
-        <item quantity="other">for the first %1$d weeks</item>
+        <item quantity="one">za první týden</item>
+        <item quantity="few">za první %1$d týdny</item>
+        <item quantity="many">za prvních %1$d týdnů</item>
+        <item quantity="other">za prvních %1$d týdnů</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">for the first month</item>
-        <item quantity="few">for the first %1$d months</item>
-        <item quantity="many">for the first %1$d months</item>
-        <item quantity="other">for the first %1$d months</item>
+        <item quantity="one">za první měsíc</item>
+        <item quantity="few">za první %1$d měsíce</item>
+        <item quantity="many">za prvních %1$d měsíců</item>
+        <item quantity="other">za prvních %1$d měsíců</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
-        <item quantity="one">for the first year</item>
-        <item quantity="few">for the first %1$d years</item>
-        <item quantity="many">for the first %1$d years</item>
-        <item quantity="other">for the first %1$d years</item>
+        <item quantity="one">za první rok</item>
+        <item quantity="few">za první %1$d roky</item>
+        <item quantity="many">za prvních %1$d let</item>
+        <item quantity="other">za prvních %1$d let</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.

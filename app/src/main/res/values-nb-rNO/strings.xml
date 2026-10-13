@@ -493,7 +493,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ tjenerplasseringer i %2$s</string>
+    <string name="upsell_card_countries_description">%1$d+ serverplasseringer i %2$s</string>
     <string name="upsell_card_customization_title">Og mye mer…</string>
     <string name="upsell_card_customization_description">Få tilgang til enda flere ytelses- og personvernfunksjoner</string>
     <plurals name="upsell_card_devices_title">
@@ -753,7 +753,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Denne teknologien lar Proton VPN gi høyere hastighet og sikkerhet i vanskelige-å betjene-land.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Tjenerbelastning</string>
+    <string name="server_load_title">Serverbelastning</string>
     <string name="activity_information_learn_more">Lær mer</string>
     <string name="server_load_low">Lav</string>
     <string name="server_load_medium">Middels</string>
@@ -798,8 +798,8 @@
     <string name="search_clear_query_content_description">Tøm</string>
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Tøm</string>
-    <string name="free_connections_info_message">Proton Free kobler deg automatisk til den raskeste tilgjengelige tjeneren. Dette vil normalt være den nærmeste tjeneren til din plassering.</string>
-    <string name="free_connections_info_server_locations">Gratis tjenerplasseringer (%1$d)</string>
+    <string name="free_connections_info_message">Proton Free kobler deg automatisk til den raskeste tilgjengelige serveren. Dette vil normalt være den nærmeste serveren til din plassering.</string>
+    <string name="free_connections_info_server_locations">Gratis serverplasseringer (%1$d)</string>
     <string name="free_connections_info_banner_text">Få tilgang til alle land med VPN Plus</string>
     <string name="free_connection_info_title">Gratis forbindelser</string>
     <string name="search_upsell_banner_title">Strøm fra hvor som helst</string>
@@ -810,11 +810,11 @@
     </plurals>
     <string name="select_default_connection">Velg standardtilkobling</string>
     <string name="settings_default_connection_title">Standard forbindelse</string>
-    <string name="fastest_country_description">Den beste tjeneren basert på plasseringen din</string>
+    <string name="fastest_country_description">Den beste serveren basert på plasseringen din</string>
     <string name="settings_connection_preferences_title">Tilkoblingspreferanser</string>
     <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Element fjernet</string>
     <string name="settings_excluded_locations_title">Ekskluderte plasseringer</string>
-    <string name="settings_excluded_locations_description">De valgte stedene vil aldri bli valgt når du kobler til den raskeste tjeneren.</string>
+    <string name="settings_excluded_locations_description">De valgte stedene vil aldri bli valgt når du kobler til den raskeste serveren.</string>
     <string name="settings_excluded_locations_unavailable">Ingen steder tilgjengelig</string>
     <string name="settings_excluded_locations_selection_hint">Velg…</string>
     <string name="settings_excluded_locations_accessibility_label_deletion">Fjern fra ekskluderte plasseringer</string>
@@ -869,9 +869,9 @@
         <item quantity="one">%1$d dag</item>
         <item quantity="other">%1$d dager</item>
     </plurals>
-    <string name="server_change_max_reached">Du har nådd maksimalt antall gratis tjenerbytter for nå.</string>
+    <string name="server_change_max_reached">Du har nådd maksimalt antall gratis serverbytter for nå.</string>
     <string name="server_change_upsell">Skaff deg ubegrenset antall bytter med VPN Plus.</string>
-    <string name="server_change_button_title">Endre tjener</string>
+    <string name="server_change_button_title">Endre server</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services.
 
@@ -891,10 +891,10 @@
     <string name="server_change_button_time_left_seconds_content_description">Tilgjengelig om %1$s</string>
     <string name="server_change_progress_finished_contend_description">Tilgjengelig nå</string>
     <string name="not_wanted_country_title">Ikke det landet du ønsket?</string>
-    <string name="not_wanted_country_description">Oppgrader for å velge hvilken som helst tjener</string>
+    <string name="not_wanted_country_description">Oppgrader for å velge hvilken som helst server</string>
     <string name="whats_new_title">Hva er nytt</string>
     <string name="whats_new_profiles_title">Profiler er tilbake</string>
-    <string name="whats_new_profiles_description">Opprett og lagre tilpassede tilkoblinger med ditt valg av plassering, tjener og protokoll.</string>
+    <string name="whats_new_profiles_description">Opprett og lagre tilpassede tilkoblinger med ditt valg av plassering, server og protokoll.</string>
     <string name="whats_new_widget_title">Vi introduserer widgets</string>
     <string name="whats_new_widget_description">Du kan nå se og administrere VPN-en din uten å forlate startskjermen.</string>
     <string name="whats_new_add_widget_button">Legg til widget</string>
@@ -915,7 +915,7 @@
     <string name="no_logs_banner_description">VPN-aktiviteten din er beskyttet av sveitsiske personvernlover. Vi vil aldri spore deg på nettet eller dele informasjonen din med tredjeparter.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Hjem</string>
-    <string name="bottom_nav_gateways">Gateway-tjenere</string>
+    <string name="bottom_nav_gateways">Gateway-servere</string>
     <string name="bottom_nav_profiles">Profiler</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Land</string>
@@ -1014,7 +1014,7 @@
     <string name="fastest_country">Raskeste land</string>
     <string name="fastest_country_excluding_my_country">Raskeste land (unntatt landet mitt)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
-    <string name="fastest_free_server">Raskeste gratis tjener</string>
+    <string name="fastest_free_server">Raskeste gratis server</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -1133,7 +1133,7 @@
          Label above the connection card indicating that a connection to a different server is
          being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
-    <string name="connection_card_label_changing_server">Endrer tjener...</string>
+    <string name="connection_card_label_changing_server">Endrer server...</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
@@ -1184,23 +1184,23 @@
     -->
     <string name="recent_action_accessibility_state_pinned">Festet</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">Alle tjenere i dette landet er under vedlikehold</string>
+    <string name="message_country_servers_in_maintenance">Alle servere i dette landet er under vedlikehold</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">Alle tjenere i denne byen er under vedlikehold</string>
+    <string name="message_city_servers_in_maintenance">Alle servere i denne byen er under vedlikehold</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">All tjenere i denne staten er under vedlikehold</string>
+    <string name="message_state_servers_in_maintenance">All servere i denne staten er under vedlikehold</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_in_maintenance">Tjeneren blir vedlikeholdt</string>
+    <string name="message_server_in_maintenance">Serveren blir vedlikeholdt</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_not_available">Tjener ikke tilgjengelig</string>
-    <string name="message_server_location_excluded">Tjenerplassering ekskludert</string>
+    <string name="message_server_not_available">Server ikke tilgjengelig</string>
+    <string name="message_server_location_excluded">Serverplassering ekskludert</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway blir vedlikeholdt</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">Logg av</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Innstillinger</string>
-    <string name="gateways_title">Gateway-tjenere</string>
+    <string name="gateways_title">Gateway-servere</string>
     <string name="countries_title">Land</string>
     <string name="profiles_title">Profiler</string>
     <string name="settings_autoconnect_title">Koble til automatisk</string>
@@ -1271,14 +1271,14 @@
     <string name="country_filter_countries_list_header">Land (%1$d)</string>
     <string name="country_filter_cities_list_header">Byer (%1$d)</string>
     <string name="country_filter_states_list_header">Stater (%1$d)</string>
-    <string name="country_filter_servers_list_header">Tjenere</string>
+    <string name="country_filter_servers_list_header">Servere</string>
     <string name="country_filter_secure_core_list_header">Secure Core-land (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P-land (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P-land (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P-stater (%1$d)</string>
-    <string name="counrty_filter_p2p_servers_list_header">P2P-tjenere</string>
+    <string name="counrty_filter_p2p_servers_list_header">P2P-servere</string>
     <string name="country_filter_tor_list_header">Tor-land (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor-tjenere</string>
+    <string name="country_filter_tor_servers_list_header">Tor-servere</string>
     <string name="country_filter_info_label">Info</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
@@ -1324,7 +1324,7 @@
     -->
     <string name="connection_details_connected_for">Tilkoblet for</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server">Tjener</string>
+    <string name="connection_details_server">Server</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_gateway">Gateway</string>
     <!-- tag(Redesign_2023) -->
@@ -1338,11 +1338,11 @@
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
-    <string name="connection_details_server_load">Tjenerbelastning</string>
+    <string name="connection_details_server_load">Serverbelastning</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_question">Hva er tjenerbelastning?</string>
+    <string name="connection_details_server_load_question">Hva er serverbelastning?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_description">Tjenerbelastning viser hvor nær en server er maksimal kapasitet. \n\nEn høy tjenerbelastning kan redusere tilkoblingen.</string>
+    <string name="connection_details_server_load_description">Serverbelastning viser hvor nær en server er maksimal kapasitet. \n\nEn høy serverbelastning kan redusere tilkoblingen.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_title">Lav (1–75%)</string>
     <!-- tag(Redesign_2023) -->
@@ -1358,7 +1358,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokoll</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol_description">En protokoll er et sett med instruksjoner enheten følger for å koble til og kommunisere med en tjener.</string>
+    <string name="connection_details_protocol_description">En protokoll er et sett med instruksjoner enheten følger for å koble til og kommunisere med en server.</string>
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
@@ -1374,23 +1374,23 @@
     <string name="connection_details_vpn_speed_question">Hva er VPN-hastighet?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
-    <string name="info_dialog_secure_core_description">Secure Core kobler deg til destinasjonstjeneren din via en andre, VPN-tjener med maksimal sikkerhet.\n\nDette høyere beskyttelsesnivået kan føre til høyere latens og lavere hastigheter.</string>
+    <string name="info_dialog_secure_core_description">Secure Core kobler deg til destinasjonsserveren din via en andre, VPN-server med maksimal sikkerhet.\n\nDette høyere beskyttelsesnivået kan føre til høyere latens og lavere hastigheter.</string>
     <string name="info_secure_core_standard_header">Standard VPN- forbindelse</string>
     <string name="info_secure_core_secure_header">Secure Core VPN- forbindelse</string>
-    <string name="info_dialog_tor_description">Koble til en Tor-tjener for å få tilgang til skjulte tjenester og onion-sider ved hjelp av hvilken som helst nettleser.</string>
+    <string name="info_dialog_tor_description">Koble til en Tor-server for å få tilgang til skjulte tjenester og onion-sider ved hjelp av hvilken som helst nettleser.</string>
     <string name="info_dialog_button_learn_more_tor">Hvordan få tilgang til Tor-nettverket</string>
     <string name="info_dialog_button_learn_more_p2p">Hvordan laste ned/opp torrent med P2P</string>
     <string name="info_dialog_button_learn_more_ipaddress">Hva er en IP-adresse?</string>
     <string name="info_dialog_button_learn_more_streaming">Trenger du hjelp med strømming?</string>
     <string name="info_dialog_streaming_title">Strømming</string>
-    <string name="info_dialog_streaming_description">Strømmetjenere er designet for rask og sikker TV- og filmavspilling.</string>
+    <string name="info_dialog_streaming_description">Strømmeservere er designet for rask og sikker TV- og filmavspilling.</string>
     <string name="info_dialog_how_to_stream">Hvordan strømme:</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Gå til telefoninnstillingene og slå av posisjonstjenester</string>
     <!-- item 2 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_2">Start strømmetjenesten på nytt</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Koble til hvilken som helst Plus-tjener og start å strømme</string>
+    <string name="info_dialog_how_to_stream_step_3">Koble til hvilken som helst Plus-server og start å strømme</string>
     <string name="info_dialog_profiles_title">Profiler</string>
     <string name="info_dialog_ipaddress_title">IP-adresse</string>
     <string name="info_dialog_ipv6_traffic_title">IPv6-trafikk</string>
@@ -1398,15 +1398,15 @@
     <string name="info_dialog_ipaddress_description">VPN IP-en din maskerer din virkelige IP-adresse. Dette får det til å se ut som om du surfer fra VPN-posisjonen din, slik at nettaktiviteten din ikke kan kobles til enheten din.</string>
     <string name="info_dialog_ipv6_traffic_description">Internet Protocol (IP) tildeler adresser til enheter og ruter internett-trafikk. IPv6 er den nyeste versjonen, og tilbyr flere adresser og bedre tilkobling, men den er ennå ikke universelt tatt i bruk.</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Node-til-node-fildeling er aktivert på denne tjeneren.</string>
+    <string name="connection_feature_p2p_description">Node-til-node-fildeling er aktivert på denne serveren.</string>
     <string name="connection_feature_tor_title">Tor</string>
     <string name="connection_feature_tor_description">Du kan koble til .onion-nettsteder med den vanlige nettleseren din.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Aktiviteten din er kryptert bak 2 VPN-tjenere med høy sikkerhet.</string>
+    <string name="connection_feature_secure_core_description">Aktiviteten din er kryptert bak 2 VPN-servere med høy sikkerhet.</string>
     <string name="connection_feature_streaming_title">Strømming</string>
-    <string name="connection_feature_streaming_description">Denne tjeneren er optimalisert for TV- og filmavspilling.</string>
+    <string name="connection_feature_streaming_description">Denne serveren er optimalisert for TV- og filmavspilling.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <string name="connection_feature_smart_routing_description">Kobler deg til destinasjonslandet ditt gjennom tjenere som fysisk befinner seg et annet sted.</string>
+    <string name="connection_feature_smart_routing_description">Kobler deg til destinasjonslandet ditt gjennom servere som fysisk befinner seg et annet sted.</string>
     <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
     <string name="connection_feature_smart_routing_description_with_countries">Kobler deg til destinasjonslandet ditt gjennom servere som fysisk befinner seg et annet sted: %1$s.</string>
     <!--
@@ -1416,7 +1416,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Tjenere er fysisk plassert i %1$s, men det ser ut til at du surfer fra %2$s.</string>
+    <string name="country_smart_routing_info">Servere er fysisk plassert i %1$s, men det ser ut til at du surfer fra %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1538,17 +1538,17 @@
     <string name="settings_custom_dns_title">Egendefinert DNS</string>
     <string name="settings_custom_dns_description_tv">Koble til VPN med et selvdrevet eller tredjeparts domenenavnsystem (DNS).</string>
     <string name="settings_add_dns_placeholder">192.0.2.0</string>
-    <string name="settings_add_dns_title">Legg til ny DNS-tjener</string>
+    <string name="settings_add_dns_title">Legg til ny DNS-server</string>
     <string name="settings_add_dns_new_entry_button">Legg til</string>
-    <string name="settings_add_dns_description">Skriv inn tjenerens IPv4 - eller IPv6-adresse</string>
+    <string name="settings_add_dns_description">Skriv inn serverens IPv4 - eller IPv6-adresse</string>
     <string name="settings_add_dns_invalid_input">Skriv inn en gyldig IPv4 - eller IPv6-adresse</string>
     <string name="settings_add_dns_empty_input">Skriv inn en IPv4 - eller IPv6-adresse</string>
-    <string name="settings_add_dns_duplicate_input">Tjener allerede lagt til</string>
+    <string name="settings_add_dns_duplicate_input">Server allerede lagt til</string>
     <string name="settings_advanced_dns_description">Koble til VPN med et selvdrevet eller tredjeparts domenenavnsystem (DNS). Lær mer</string>
     <!-- %1$d - Corresponds to number of servers added -->
-    <string name="settings_dns_list_title">Tjenere (%1$d)</string>
-    <string name="settings_dns_list_description">Hvis din tilpassede DNS-tjener ikke fungerer, vil standard VPN DNS bli brukt.</string>
-    <string name="settings_dns_list_description_multiple">Vi vil prøve å koble til disse tjenerne i rekkefølge. Hvis ingen av dem fungerer, vil VPN DNS brukes.</string>
+    <string name="settings_dns_list_title">Servere (%1$d)</string>
+    <string name="settings_dns_list_description">Hvis din tilpassede DNS-server ikke fungerer, vil standard VPN DNS bli brukt.</string>
+    <string name="settings_dns_list_description_multiple">Vi vil prøve å koble til disse serverne i rekkefølge. Hvis ingen av dem fungerer, vil VPN DNS brukes.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Endringer trer i kraft når du kobler til på nytt</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield vil være utilgjengelig</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield kan ikke filtrere ut annonser, sporere og skadelig programvare når egendefinert DNS brukes. Lær mer</string>
@@ -1570,8 +1570,8 @@
     <string name="settings_advanced_nat_type_strict_description">Begrenser dataene som kommer inn i nettverket. Dette alternativet er sikrere, men kan gjøre node-til-node-spilltilkoblinger vanskeligere.</string>
     <string name="settings_advanced_nat_type_moderate_description">Noen begrensninger på data som kommer inn i nettverket ditt. Dette alternativet er best for nettvideospill.</string>
     <string name="settings_split_tunneling_description">Tilpass tilkoblingen din ved å bestemme hvilke apper og IP-adresser som er beskyttet av VPN. %1$s.</string>
-    <string name="settings_protocol_description">En VPN-protokoll bestemmer hvordan data beveger seg mellom en VPN-tjener og enheten din. %1$s.</string>
-    <string name="settings_protocol_description_no_link">En VPN-protokoll bestemmer hvordan data beveger seg mellom en VPN-tjener og enheten din.</string>
+    <string name="settings_protocol_description">En VPN-protokoll bestemmer hvordan data beveger seg mellom en VPN-server og enheten din. %1$s.</string>
+    <string name="settings_protocol_description_no_link">En VPN-protokoll bestemmer hvordan data beveger seg mellom en VPN-server og enheten din.</string>
     <string name="settings_protocol_section_speed">Hastighet (UDP)</string>
     <string name="settings_protocol_section_reliability">Pålitelighet (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
@@ -1622,16 +1622,16 @@
     <string name="info_secure_core_advanced_privacy">Avansert personvern</string>
     <string name="info_secure_core_higher_latency">Høyere latens</string>
     <string name="info_p2p_what_title">Hva er P2P?</string>
-    <string name="info_p2p_what_description">Node-til-node (P2P)-teknologi lar deg koble til og dele filer direkte med andre enheter.\n\nVåre P2P-tjenere er spesialdesignet for å støtte denne typen fildeling.</string>
+    <string name="info_p2p_what_description">Node-til-node (P2P)-teknologi lar deg koble til og dele filer direkte med andre enheter.\n\nVåre P2P-servere er spesialdesignet for å støtte denne typen fildeling.</string>
     <string name="info_p2p_torrenting_title">Hva er torrenting?</string>
     <string name="info_p2p_torrenting_description">Rask deling og nedlasting av store filer over et P2P-nettverk.</string>
-    <string name="info_p2p_why_title">Hvorfor bruke en P2P-tjener når du driver med torrenter?</string>
+    <string name="info_p2p_why_title">Hvorfor bruke en P2P-server når du driver med torrenter?</string>
     <string name="info_p2p_why_description_speed">Økte opplastings- og nedlastingshastigheter</string>
     <string name="info_p2p_why_description_logs">Ingen aktivitetslogger</string>
     <string name="info_p2p_why_description_hide">Skjul IP-adressen din for tjenesteleverandøren og noder</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing bruker virtuelle tjenere for å gi VPN-dekning i vanskelig tilgjengelige land.\n\nNår du kobler til en Smart Routing-tjener, ser det ut til at du surfer i destinasjonslandet ditt, selv om den fysiske tjeneren befinner seg et annet sted.  \n\nSmart Routing brukes vanligvis til å omgå personvernlover og andre former for sensur.</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing bruker virtuelle servere for å gi VPN-dekning i vanskelig tilgjengelige land.\n\nNår du kobler til en Smart Routing-server, ser det ut til at du surfer i destinasjonslandet ditt, selv om den fysiske serveren befinner seg et annet sted.  \n\nSmart Routing brukes vanligvis til å omgå personvernlover og andre former for sensur.</string>
     <string name="notifications_channel_connection_status_name">Tilkoblingsstatus</string>
-    <string name="notifications_channel_connection_status_description">Viser hvilken tjener du er koblet til og VPN-hastigheten.</string>
+    <string name="notifications_channel_connection_status_description">Viser hvilken server du er koblet til og VPN-hastigheten.</string>
     <string name="notifications_channel_connection_errors_name">Tilkoblingsfeil</string>
     <string name="notifications_channel_connection_errors_description">Varsler deg om problemer som pauser eller stopper VPN-tilkoblingen din.</string>
     <string name="notifications_channel_connection_tips_name">Tilkoblingstips</string>
@@ -1644,7 +1644,7 @@
     <string name="search_zero_screen_title">Prøv å søke etter…</string>
     <string name="search_zero_screen_info_countries_title">Land</string>
     <string name="search_zero_screen_info_cities_title">Byer</string>
-    <string name="search_zero_screen_info_servers_title">Tjenere</string>
+    <string name="search_zero_screen_info_servers_title">Servere</string>
     <string name="search_zero_screen_info_countries_examples">Sveits, USA, Italia, Canada...</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
@@ -1674,7 +1674,7 @@
     <string name="create_profile_gateway">Gateway</string>
     <string name="create_profile_pick_state_title">Stat</string>
     <string name="create_profile_pick_city_title">By</string>
-    <string name="create_profile_pick_server_title">Tjener</string>
+    <string name="create_profile_pick_server_title">Server</string>
     <string name="create_profile_pick_gateway_title">Gateway</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_netshield_description">Blokkér annonser, sporere og skadelig programvare på nettsteder og apper</string>
@@ -1690,7 +1690,7 @@
     <string name="create_profile_fastest_server">Raskeste</string>
     <string name="create_profile_pick_middle_country_title">Mellomland</string>
     <string name="profiles_zero_state_title">Opprett din første profil</string>
-    <string name="profiles_zero_state_description">Profiler er lagrede tilkoblinger med ditt valg av plassering, tjener og protokoll.</string>
+    <string name="profiles_zero_state_description">Profiler er lagrede tilkoblinger med ditt valg av plassering, server og protokoll.</string>
     <string name="profiles_button_create_profile">Opprett profil</string>
     <string name="profile_deleted_snackbar_message">Profil slettet</string>
     <string name="profile_connected_edit_setting">Denne innstillingen er koblet til den aktive profilen din. \n\nRediger profilen din for å gjøre endringer, eller koble fra for å redigere de generelle VPN-innstillingene dine.</string>
@@ -1699,8 +1699,8 @@
     <string name="profile_unavailable_dialog_title">Profilen er utilgjengelig</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
-    <string name="profile_unavailable_dialog_message">Tjenervalget ditt for %1$s er ikke tilgjengelig. Velg en annen tjener eller prøv igjen senere.</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[Valget ditt av tjener for <b>%1$s</b> er utilgjengelig. Velg en annen tjener, sjekk dine ekskluderte plasseringer eller prøv igjen senere.]]></string>
+    <string name="profile_unavailable_dialog_message">Servervalget ditt for %1$s er ikke tilgjengelig. Velg en annen server eller prøv igjen senere.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Valget ditt av server for <b>%1$s</b> er utilgjengelig. Velg en annen server, sjekk dine ekskluderte plasseringer eller prøv igjen senere.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ikon %1$d</string>
@@ -1758,7 +1758,7 @@
     <string name="settings_lan_allow_direct_connection_title">Tillat direkte enhetstilkoblinger</string>
     <string name="settings_lan_allow_direct_connection_description">Koble til smart-TV-er, Android Auto og andre enheter som oppretter sitt eget nettverk. For maksimal sikkerhet, bare aktiver når du kobler til disse enhetene.</string>
     <string name="no_connections_title">Ingen VPN-tilkoblinger tilgjengelig</string>
-    <string name="no_connections_description_loading_error">Vi kunne ikke laste inn tjenerlisten.</string>
+    <string name="no_connections_description_loading_error">Vi kunne ikke laste inn serverlisten.</string>
     <string name="no_connections_description_no_servers">Be administratoren din om å aktivere VPN-tilgang for kontoen din.</string>
     <string name="no_connections_action_refresh">Oppdater</string>
     <string name="no_connections_action_sign_out">Logg av</string>
