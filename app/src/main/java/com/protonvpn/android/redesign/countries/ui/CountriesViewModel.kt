@@ -66,7 +66,7 @@ class CountriesViewModel @Inject constructor(
         currentConnection: ActiveConnection?,
     ): Flow<ServerGroupsMainScreenState> =
         savedStateFlow.flatMapLatest { savedState ->
-            dataAdapter.countries(savedState.selectedFilter).map { countries ->
+            dataAdapter.countries(savedState.selectedFilter, includeFreeServers).map { countries ->
                 val filterType = savedState.selectedFilter
                 val isFreeUser = userTier != null && userTier == VpnUser.FREE_TIER
 

@@ -167,6 +167,9 @@ abstract class ServerGroupsViewModel<MainStateT>(
         val server: Server?,
     )
 
+    // Free servers are not shown on the server lists (except for gateways).
+    protected val includeFreeServers = false
+
     // Helper flows
     val localeFlow = MutableStateFlow<Locale?>(null)
     private val userTierFlow = currentUser.vpnUserFlow.map { it?.maxTier }
@@ -226,16 +229,22 @@ abstract class ServerGroupsViewModel<MainStateT>(
         when (savedState) {
             is CitiesScreenSaveState -> when (savedState.selectedFilter) {
                 ServerFilterType.All, ServerFilterType.P2P ->
-                    dataAdapter.cities(savedState.selectedFilter, savedState.countryId, translations)
+                    dataAdapter.cities(savedState.selectedFilter, savedState.countryId, translations, includeFreeServers)
                 ServerFilterType.SecureCore ->
                     dataAdapter.entryCountries(savedState.countryId)
                 ServerFilterType.Tor ->
-                    dataAdapter.servers(savedState.selectedFilter, savedState.countryId, null, null)
+                    dataAdapter.servers(savedState.selectedFilter, savedState.countryId, null, null, includeFreeServers)
             }
             is GatewayServersScreenSaveState ->
-                dataAdapter.servers(savedState.selectedFilter, null, null, savedState.gatewayName)
+                dataAdapter.servers(savedState.selectedFilter, null, null, savedState.gatewayName, includeFreeServers = true)
             is ServersScreenSaveState ->
-                dataAdapter.servers(savedState.selectedFilter, savedState.countryId, savedState.cityStateId, null)
+                dataAdapter.servers(
+                    savedState.selectedFilter,
+                    savedState.countryId,
+                    savedState.cityStateId,
+                    null,
+                    includeFreeServers
+                )
         }.map { dataItems ->
             buildList {
                 val filterType = savedState.selectedFilter
@@ -264,7 +273,7 @@ abstract class ServerGroupsViewModel<MainStateT>(
         selectedFilter: ServerFilterType,
         savedState: CitiesScreenSaveState
     ): List<FilterButton> {
-        val allLabel = if (dataAdapter.haveStates(savedState.countryId))
+        val allLabel = if (dataAdapter.haveStates(savedState.countryId, includeFreeServers))
             R.string.country_filter_states
         else
             R.string.country_filter_cities

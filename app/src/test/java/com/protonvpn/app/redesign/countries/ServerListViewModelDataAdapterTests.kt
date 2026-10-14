@@ -87,10 +87,10 @@ class ServerListViewModelDataAdapterTests {
             )
         )
 
-        val allCountries = adapter.countries().first()
-        val secureCoreCountries = adapter.countries(ServerFilterType.SecureCore).first()
-        val torCountries = adapter.countries(ServerFilterType.Tor).first()
-        val p2pCountries = adapter.countries(ServerFilterType.P2P).first()
+        val allCountries = adapter.countries(includeFreeServers = false).first()
+        val secureCoreCountries = adapter.countries(ServerFilterType.SecureCore, includeFreeServers = false).first()
+        val torCountries = adapter.countries(ServerFilterType.Tor, includeFreeServers = false).first()
+        val p2pCountries = adapter.countries(ServerFilterType.P2P, includeFreeServers = false).first()
 
         assertEquals(listOf("PL", "FR"), allCountries.map { it.countryId.countryCode })
         assertEquals(listOf("PL", "FR"), torCountries.map { it.countryId.countryCode })
@@ -135,13 +135,14 @@ class ServerListViewModelDataAdapterTests {
             states = emptyMap()
         )
 
-        val plCities = adapter.cities(country = CountryId("PL"), translations = translations).first()
+        val plCities = adapter.cities(country = CountryId("PL"), translations = translations, includeFreeServers = false).first()
         val torCities = adapter.cities(
             country = CountryId("PL"),
             filter = ServerFilterType.Tor,
-            translations = translations
+            translations = translations,
+            includeFreeServers = false,
         ).first()
-        val states = adapter.cities(country = CountryId("US"), translations = translations).first()
+        val states = adapter.cities(country = CountryId("US"), translations = translations, includeFreeServers = false).first()
 
         assertEquals(
             listOf(
@@ -184,11 +185,11 @@ class ServerListViewModelDataAdapterTests {
             )
         )
 
-        val plWarsawServers = adapter.servers(country = CountryId("PL"), cityStateId = CityStateId("Warsaw", false)).first()
-        val plAllCracowServers = adapter.servers(country = CountryId("PL"), cityStateId = CityStateId("Cracow", false)).first()
-        val plScCracowServers = adapter.servers(country = CountryId("PL"), cityStateId = CityStateId("Cracow", false), filter = ServerFilterType.SecureCore).first()
-        val californiaServers = adapter.servers(country = CountryId("US"), cityStateId = CityStateId("California", true)).first()
-        val gatewayServers = adapter.servers(gatewayName = "gateway").first()
+        val plWarsawServers = adapter.servers(country = CountryId("PL"), cityStateId = CityStateId("Warsaw", false), includeFreeServers = false).first()
+        val plAllCracowServers = adapter.servers(country = CountryId("PL"), cityStateId = CityStateId("Cracow", false), includeFreeServers = false).first()
+        val plScCracowServers = adapter.servers(country = CountryId("PL"), cityStateId = CityStateId("Cracow", false), filter = ServerFilterType.SecureCore, includeFreeServers = false).first()
+        val californiaServers = adapter.servers(country = CountryId("US"), cityStateId = CityStateId("California", true), includeFreeServers = false).first()
+        val gatewayServers = adapter.servers(gatewayName = "gateway", includeFreeServers = true).first()
 
         assertEquals(
             listOf(
@@ -269,8 +270,8 @@ class ServerListViewModelDataAdapterTests {
                 createServer(exitCountry = "US", state = "Alabama"),
             ),
         )
-        assertEquals(false, adapter.haveStates(CountryId("PL")))
-        assertEquals(true, adapter.haveStates(CountryId("US")))
+        assertEquals(false, adapter.haveStates(CountryId("PL"), includeFreeServers = false))
+        assertEquals(true, adapter.haveStates(CountryId("US"), includeFreeServers = false))
     }
 
     @Test
@@ -364,15 +365,37 @@ class ServerListViewModelDataAdapterTests {
     }
 
     @Test
-    fun freeServersNotListed() = runTest {
+    fun `free servers are excluded when includeFreeServers is false`() = runTest {
+        setFreeAndPaidServers()
+
+        val countries = adapter.countries(includeFreeServers = false).first()
+        val servers = adapter.servers(country = CountryId("PL"), includeFreeServers = false).first()
+
+        assertEquals(listOf("PL"), countries.map { it.countryId.countryCode })
+        assertEquals(1, countries.single().tier)
+        assertEquals(listOf("PL#1"), servers.map { it.name })
+    }
+
+    @Test
+    fun `free servers are included when includeFreeServers is true`() = runTest {
+        setFreeAndPaidServers()
+
+        val countries = adapter.countries(includeFreeServers = true).first()
+        val servers = adapter.servers(country = CountryId("PL"), includeFreeServers = true).first()
+
+        assertEquals(listOf("PL", "US"), countries.map { it.countryId.countryCode })
+        assertEquals(listOf(0, 0), countries.map { it.tier })
+        assertEquals(listOf("PL-FREE#1", "PL#1"), servers.map { it.name })
+    }
+
+    private suspend fun setFreeAndPaidServers() {
         setServers(
             listOf(
-                createServer(exitCountry = "PL", tier = 0),
-                createServer(exitCountry = "PL", tier = 1),
+                createServer(exitCountry = "PL", serverName = "PL-FREE#1", tier = 0),
+                createServer(exitCountry = "PL", serverName = "PL#1", tier = 1),
+                createServer(exitCountry = "US", serverName = "US-FREE#1", tier = 0),
             )
         )
-        val servers = adapter.servers(country = CountryId("PL")).first()
-        assertEquals(1, servers.size)
     }
 
     private suspend fun searchTestSetup() {

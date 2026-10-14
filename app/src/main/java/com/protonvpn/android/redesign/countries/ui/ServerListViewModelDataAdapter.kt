@@ -31,15 +31,18 @@ interface ServerListViewModelDataAdapter {
 
     suspend fun availableTypesFor(country: CountryId?): Set<ServerFilterType>
 
-    suspend fun haveStates(country: CountryId): Boolean
+    suspend fun haveStates(country: CountryId, includeFreeServers: Boolean): Boolean
 
-    fun countries(filter: ServerFilterType = ServerFilterType.All):
-        Flow<List<ServerGroupItemData.Country>>
+    fun countries(
+        filter: ServerFilterType = ServerFilterType.All,
+        includeFreeServers: Boolean,
+    ): Flow<List<ServerGroupItemData.Country>>
 
     fun cities(
         filter: ServerFilterType = ServerFilterType.All,
         country: CountryId,
-        translations: TranslationsData?
+        translations: TranslationsData?,
+        includeFreeServers: Boolean,
     ): Flow<List<ServerGroupItemData.City>>
 
     fun servers(
@@ -47,6 +50,7 @@ interface ServerListViewModelDataAdapter {
         country: CountryId? = null,
         cityStateId: CityStateId? = null,
         gatewayName: String? = null,
+        includeFreeServers: Boolean,
     ): Flow<List<ServerGroupItemData.Server>>
 
     fun entryCountries(country: CountryId):
