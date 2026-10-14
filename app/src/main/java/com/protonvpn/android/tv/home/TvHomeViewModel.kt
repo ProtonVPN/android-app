@@ -24,12 +24,14 @@ import com.protonvpn.android.tv.countries.ui.CountriesGridFlow
 import com.protonvpn.android.tv.countries.ui.CountryGridUiItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class TvHomeViewModel @Inject constructor(
-    countriesGridFlow: CountriesGridFlow,
+    private val countriesGridFlow: CountriesGridFlow,
 ) : ViewModel() {
 
-    val countries: Flow<List<CountryGridUiItem>> = countriesGridFlow
+    fun observeCountries(locale: Locale): Flow<List<CountryGridUiItem>> =
+        countriesGridFlow.observeCountries(locale)
 }

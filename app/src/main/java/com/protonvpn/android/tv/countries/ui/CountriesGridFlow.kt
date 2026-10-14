@@ -24,12 +24,13 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.countries.ui.ServerFilterType
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -42,15 +43,16 @@ class CountriesGridFlow @Inject constructor(
     @param:ApplicationContext private val context: Context,
     private val adapter: ServerListViewModelDataAdapter,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
-    currentUser: CurrentUser,
-) : Flow<List<CountryGridUiItem>> {
+    private val currentUser: CurrentUser,
+) {
 
-    private val countriesFlow: Flow<List<CountryGridUiItem>> = currentUser.vpnUserFlow
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun observeCountries(locale: Locale): Flow<List<CountryGridUiItem>> = currentUser.vpnUserFlow
         .mapNotNull { it?.maxTier }
         .distinctUntilChanged()
         .flatMapLatest { userTier ->
             combine(
-                adapter.countries(ServerFilterType.All),
+                adapter.countries(ServerFilterType.All, includeFreeServers = true),
                 vpnStatusProviderUI.uiStatus
             ) { countries, vpnStatus ->
                 val isConnecting = vpnStatus.state == VpnState.Connecting
@@ -73,11 +75,7 @@ class CountriesGridFlow @Inject constructor(
                         available = isAvailable,
                         tier = country.tier,
                     )
-                }
+                }.sortedByLocaleAware(locale) { it.countryName }
             }
         }
-
-    override suspend fun collect(collector: FlowCollector<List<CountryGridUiItem>>) {
-        countriesFlow.collect(collector)
-    }
 }
