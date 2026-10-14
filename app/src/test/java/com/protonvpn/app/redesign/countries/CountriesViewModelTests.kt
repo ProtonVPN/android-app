@@ -305,6 +305,116 @@ class CountriesViewModelTests {
         assertFalse(connectRequested)
     }
 
+    @Test
+    fun `countries with only free servers are not listed`() = runTest {
+        serverManager.setServers(
+            listOf(
+                createServer(exitCountry = "PL", tier = 0),
+                createServer(exitCountry = "US", tier = 1),
+            ),
+            null,
+        )
+        viewModel.localeFlow.value = localePl
+
+        val state = viewModel.stateFlow.filterNotNull().first()
+        state.assertCountries(listOf("US"), shouldHaveFastest = false)
+    }
+
+    @Test
+    fun `country tier ignores free servers`() = runTest {
+        serverManager.setServers(
+            listOf(
+                createServer(exitCountry = "PL", tier = 0),
+                createServer(exitCountry = "PL", tier = 1),
+            ),
+            null,
+        )
+        viewModel.localeFlow.value = localePl
+
+        val state = viewModel.stateFlow.filterNotNull().first()
+        val country = state.items.filterIsInstance<ServerGroupUiItem.ServerGroup>().single().data
+        assertEquals(CountryId("PL"), country.countryId)
+        assertEquals(1, country.tier)
+    }
+
+    @Test
+    fun `country is in maintenance when only its free servers are online`() = runTest {
+        serverManager.setServers(
+            listOf(
+                createServer(exitCountry = "PL", tier = 0, isOnline = true),
+                createServer(exitCountry = "PL", tier = 1, isOnline = false),
+            ),
+            null,
+        )
+        viewModel.localeFlow.value = localePl
+
+        val state = viewModel.stateFlow.filterNotNull().first()
+        val country = state.items.filterIsInstance<ServerGroupUiItem.ServerGroup>().single().data
+        assertTrue(country.inMaintenance)
+    }
+
+    @Test
+    fun `cities with only free servers are not listed`() = runTest {
+        serverManager.setServers(
+            listOf(
+                createServer(exitCountry = "PL", city = "Warsaw", tier = 0),
+                createServer(exitCountry = "PL", city = "Cracow", tier = 0),
+                createServer(exitCountry = "PL", city = "Cracow", tier = 1),
+            ),
+            null,
+        )
+        viewModel.localeFlow.value = localePl
+
+        val countryItem = ServerGroupItemData.Country(
+            CountryId("PL"),
+            inMaintenance = false,
+            tier = 1,
+            entryCountryId = null,
+        )
+        viewModel.onItemOpen(
+            ServerGroupUiItem.ServerGroup(data = countryItem, available = true, connected = false),
+            ServerFilterType.All
+        )
+        val state = viewModel.subScreenStateFlow.filterNotNull().first()
+        val cities = state.items
+            .filterIsInstance<ServerGroupUiItem.ServerGroup>()
+            .map { it.data }
+            .filterIsInstance<ServerGroupItemData.City>()
+        assertEquals(listOf("Cracow"), cities.map { it.name })
+        assertEquals(1, cities.single().tier)
+    }
+
+    @Test
+    fun `free servers are not listed in city servers screen`() = runTest {
+        val city = "Warsaw"
+        serverManager.setServers(
+            listOf(
+                createServer(serverName = "PL-FREE#1", exitCountry = "PL", city = city, tier = 0),
+                createServer(serverName = "PL#1", exitCountry = "PL", city = city, tier = 1),
+            ),
+            null,
+        )
+        viewModel.localeFlow.value = localePl
+
+        val cityItem = ServerGroupItemData.City(
+            CountryId("PL"),
+            cityStateId = CityStateId(city, false),
+            name = city,
+            inMaintenance = false,
+            tier = 1
+        )
+        viewModel.onItemOpen(
+            ServerGroupUiItem.ServerGroup(data = cityItem, available = true, connected = false),
+            ServerFilterType.All
+        )
+        val state = viewModel.subScreenStateFlow.filterNotNull().first()
+        val servers = state.items
+            .filterIsInstance<ServerGroupUiItem.ServerGroup>()
+            .map { it.data }
+            .filterIsInstance<ServerGroupItemData.Server>()
+        assertEquals(listOf("PL#1"), servers.map { it.name })
+    }
+
     private fun ServerGroupsMainScreenState.assertCountries(
         expectedCountries: List<String>,
         expectedFilter: ServerFilterType = ServerFilterType.All,
