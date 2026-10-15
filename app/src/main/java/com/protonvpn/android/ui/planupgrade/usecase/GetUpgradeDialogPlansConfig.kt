@@ -114,7 +114,7 @@ class GetUpgradeDialogPlansConfig(
                     planSelection = LoadPlansConfig.WithOptionalDiscount(
                         planNames = supportedPlanNames,
                         paymentCycles = IapConstants.DEFAULT_PAYMENT_CYCLES,
-                        discountOfferTags = emptyList(),
+                        discountOfferTags = listOf(IapConstants.INTRO_PRICE),
                     ),
                     preselectedCycle = PaymentCycle.Year(1),
                     showDiscountBadge = true,
