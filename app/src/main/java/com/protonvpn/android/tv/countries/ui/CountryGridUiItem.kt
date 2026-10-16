@@ -29,6 +29,8 @@ data class CountryGridUiItem(
     val status: Status,
     val available: Boolean,
     val tier: Int,
+    val cityStateCount: Int,
+    val hasStates: Boolean,
 ) {
     enum class Status { Regular, Connecting, Connected, InMaintenance }
 }

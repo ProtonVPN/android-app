@@ -468,7 +468,9 @@ internal fun fastestCountryItem(filter: ServerFilterType): ServerGroupItemData.C
         countryId = CountryId.fastest,
         inMaintenance = false,
         tier = 0,
-        entryCountryId = if (filter == ServerFilterType.SecureCore) CountryId.fastest else null
+        entryCountryId = if (filter == ServerFilterType.SecureCore) CountryId.fastest else null,
+        cityStateCount = 0,
+        hasStates = false,
     )
 
 internal fun <T : ServerGroupItemData> List<T>.sortedForUi(locale: Locale): List<T> {

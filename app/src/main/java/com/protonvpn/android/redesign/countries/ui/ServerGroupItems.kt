@@ -395,6 +395,8 @@ fun CountryItemPreview(
                 entryCountryId = entry,
                 inMaintenance = inMaintenance,
                 tier = 0,
+                cityStateCount = 1,
+                hasStates = false,
                 textMatch = match
             ),
             available = available,

@@ -370,6 +370,8 @@ class CountriesViewModelTests {
             inMaintenance = false,
             tier = 1,
             entryCountryId = null,
+            cityStateCount = 0,
+            hasStates = false,
         )
         viewModel.onItemOpen(
             ServerGroupUiItem.ServerGroup(data = countryItem, available = true, connected = false),

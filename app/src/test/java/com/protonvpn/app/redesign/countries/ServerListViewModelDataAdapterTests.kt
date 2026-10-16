@@ -102,6 +102,8 @@ class ServerListViewModelDataAdapterTests {
                 inMaintenance = true,
                 tier = 1,
                 entryCountryId = CountryId.fastest,
+                cityStateCount = 0,
+                hasStates = false,
             ),
             secureCoreCountries.first()
         )
@@ -111,6 +113,8 @@ class ServerListViewModelDataAdapterTests {
                 inMaintenance = false,
                 tier = 2,
                 entryCountryId = null,
+                cityStateCount = 0,
+                hasStates = false,
             ),
             allCountries.first()
         )
@@ -319,6 +323,8 @@ class ServerListViewModelDataAdapterTests {
                     inMaintenance = false,
                     tier = 2,
                     entryCountryId = CountryId("IS"),
+                    cityStateCount = 0,
+                    hasStates = false,
                 )
             ),
             plEntries
@@ -330,12 +336,16 @@ class ServerListViewModelDataAdapterTests {
                     inMaintenance = false,
                     tier = 2,
                     entryCountryId = CountryId("IS"),
+                    cityStateCount = 0,
+                    hasStates = false,
                 ),
                 ServerGroupItemData.Country(
                     countryId = CountryId("DE"),
                     inMaintenance = false,
                     tier = 2,
                     entryCountryId = CountryId("SE"),
+                    cityStateCount = 0,
+                    hasStates = false,
                 )
             ),
             deEntries
@@ -386,6 +396,37 @@ class ServerListViewModelDataAdapterTests {
         assertEquals(listOf("PL", "US"), countries.map { it.countryId.countryCode })
         assertEquals(listOf(0, 0), countries.map { it.tier })
         assertEquals(listOf("PL-FREE#1", "PL#1"), servers.map { it.name })
+    }
+
+    @Test
+    fun `country city count includes distinct cities or states of its servers`() = runTest {
+        setServers(
+            listOf(
+                createServer(exitCountry = "PL", city = "Warsaw", serverName = "PL#1"),
+                createServer(exitCountry = "PL", city = "Warsaw", serverName = "PL#2"),
+                createServer(exitCountry = "PL", city = "Cracow", serverName = "PL#3"),
+                // Secure Core, gateway and free servers in other cities.
+                createServer(exitCountry = "PL", city = "Gdansk", isSecureCore = true),
+                createServer(exitCountry = "PL", city = "Poznan", gatewayName = "gateway"),
+                createServer(exitCountry = "PL", city = "Lodz", tier = 0),
+                // Countries with states count states, not cities.
+                createServer(exitCountry = "US", state = "California", city = "Los Angeles"),
+                createServer(exitCountry = "US", state = "California", city = "San Francisco"),
+                createServer(exitCountry = "US", state = "New York", city = "New York"),
+                createServer(exitCountry = "CH"), // No city.
+            )
+        )
+
+        fun List<ServerGroupItemData.Country>.counts() =
+            associate { it.countryId.countryCode to (it.cityStateCount to it.hasStates) }
+        assertEquals(
+            mapOf("PL" to (2 to false), "US" to (2 to true), "CH" to (0 to false)),
+            adapter.countries(includeFreeServers = false).first().counts()
+        )
+        assertEquals(
+            mapOf("PL" to (3 to false), "US" to (2 to true), "CH" to (0 to false)),
+            adapter.countries(includeFreeServers = true).first().counts()
+        )
     }
 
     private suspend fun setFreeAndPaidServers() {

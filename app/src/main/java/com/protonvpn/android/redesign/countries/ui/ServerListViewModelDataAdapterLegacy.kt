@@ -176,13 +176,20 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
     }
 }
 
-fun List<Server>.toCountryItem(countryCode: String, entryCountryId: CountryId?, match: TextMatch? = null) = ServerGroupItemData.Country(
-    countryId = CountryId(countryCode),
-    entryCountryId = entryCountryId,
-    inMaintenance = all { !it.online },
-    tier = minOf { it.tier },
-    textMatch = match,
-)
+fun List<Server>.toCountryItem(countryCode: String, entryCountryId: CountryId?, match: TextMatch? = null): ServerGroupItemData.Country {
+    // Same grouping as in cities(): countries with states are listed by state.
+    val hasStates = any { it.state != null }
+    val cityOrStateSelector = if (hasStates) Server::state else Server::city
+    return ServerGroupItemData.Country(
+        countryId = CountryId(countryCode),
+        entryCountryId = entryCountryId,
+        inMaintenance = all { !it.online },
+        tier = minOf { it.tier },
+        cityStateCount = mapNotNull(cityOrStateSelector).distinct().size,
+        hasStates = hasStates,
+        textMatch = match,
+    )
+}
 
 fun Server.toServerItem(match: TextMatch? = null) = ServerGroupItemData.Server(
     countryId = CountryId(exitCountry),

@@ -74,6 +74,8 @@ class CountriesGridFlow @Inject constructor(
                         },
                         available = isAvailable,
                         tier = country.tier,
+                        cityStateCount = country.cityStateCount,
+                        hasStates = country.hasStates,
                     )
                 }.sortedByLocaleAware(locale) { it.countryName }
             }

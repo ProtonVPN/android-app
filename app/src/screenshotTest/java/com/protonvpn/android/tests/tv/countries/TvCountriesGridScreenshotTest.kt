@@ -19,13 +19,20 @@
 
 package com.protonvpn.android.tests.tv.countries
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.R
 import com.protonvpn.android.annotations.ProtonVpnTvTestPreview
 import com.protonvpn.android.base.ui.ProtonVpnTvPreview
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.tv.countries.ui.CountriesGrid
+import com.protonvpn.android.tv.countries.ui.CountryGridTileContent
 import com.protonvpn.android.tv.countries.ui.CountryGridUiItem
 import com.protonvpn.android.tv.countries.ui.CountryGridUiItem.Status
 
@@ -56,6 +63,59 @@ fun TvCountriesGrid_WithMaintenance_Screenshot() {
     }
 }
 
+@PreviewTest
+@ProtonVpnTvTestPreview
+@Composable
+fun TvCountryGridTile_States_Screenshot() {
+    ProtonVpnTvPreview {
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            listOf(0f, 1f).forEach { focusProgress ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                ) {
+                    createTileStates().forEach { item ->
+                        CountryGridTileContent(item = item, focusProgress = focusProgress)
+                    }
+                }
+            }
+        }
+    }
+}
+
+private fun createTileStates(): List<CountryGridUiItem> {
+    val norway = CountryGridUiItem(
+        countryId = CountryId("no"),
+        countryName = "Norway",
+        flagResource = R.drawable.flag_tv_no,
+        status = Status.Regular,
+        available = true,
+        tier = 0,
+        cityStateCount = 3,
+        hasStates = false,
+    )
+    return listOf(
+        norway,
+        norway.copy(status = Status.Connecting),
+        norway.copy(status = Status.Connected),
+        norway.copy(status = Status.InMaintenance),
+        norway.copy(
+            countryId = CountryId("ae"),
+            countryName = "United Arab Emirates",
+            flagResource = R.drawable.flag_tv_ae,
+        ),
+        norway.copy(
+            countryId = CountryId("de"),
+            countryName = "Germany",
+            flagResource = R.drawable.flag_tv_de,
+            available = false,
+            tier = 2,
+            cityStateCount = 1,
+            hasStates = false,
+        ),
+    )
+}
+
 @Composable
 private fun createMixedStateCountries(): List<CountryGridUiItem> = listOf(
     CountryGridUiItem(
@@ -65,6 +125,8 @@ private fun createMixedStateCountries(): List<CountryGridUiItem> = listOf(
         status = Status.Regular,
         available = true,
         tier = 0,
+        cityStateCount = 1,
+        hasStates = false,
     ),
     CountryGridUiItem(
         countryId = CountryId("us"),
@@ -73,6 +135,8 @@ private fun createMixedStateCountries(): List<CountryGridUiItem> = listOf(
         status = Status.Connected,
         available = true,
         tier = 0,
+        cityStateCount = 1,
+        hasStates = false,
     ),
     CountryGridUiItem(
         countryId = CountryId("de"),
@@ -81,6 +145,8 @@ private fun createMixedStateCountries(): List<CountryGridUiItem> = listOf(
         status = Status.Connecting,
         available = true,
         tier = 0,
+        cityStateCount = 1,
+        hasStates = false,
     ),
     CountryGridUiItem(
         countryId = CountryId("fr"),
@@ -89,6 +155,8 @@ private fun createMixedStateCountries(): List<CountryGridUiItem> = listOf(
         status = Status.InMaintenance,
         available = true,
         tier = 0,
+        cityStateCount = 1,
+        hasStates = false,
     ),
     CountryGridUiItem(
         countryId = CountryId("jp"),
@@ -97,6 +165,8 @@ private fun createMixedStateCountries(): List<CountryGridUiItem> = listOf(
         status = Status.Regular,
         available = true,
         tier = 0,
+        cityStateCount = 1,
+        hasStates = false,
     ),
     CountryGridUiItem(
         countryId = CountryId("uk"),
@@ -105,6 +175,8 @@ private fun createMixedStateCountries(): List<CountryGridUiItem> = listOf(
         status = Status.Regular,
         available = true,
         tier = 0,
+        cityStateCount = 1,
+        hasStates = false,
     ),
 )
 
@@ -117,6 +189,8 @@ private fun createUnavailableCountries(): List<CountryGridUiItem> = listOf(
         status = Status.Regular,
         available = false,
         tier = 2,
+        cityStateCount = 1,
+        hasStates = false,
     ),
     CountryGridUiItem(
         countryId = CountryId("us"),
@@ -125,6 +199,8 @@ private fun createUnavailableCountries(): List<CountryGridUiItem> = listOf(
         status = Status.Regular,
         available = false,
         tier = 2,
+        cityStateCount = 1,
+        hasStates = false,
     ),
     CountryGridUiItem(
         countryId = CountryId("de"),
@@ -133,6 +209,8 @@ private fun createUnavailableCountries(): List<CountryGridUiItem> = listOf(
         status = Status.Regular,
         available = false,
         tier = 2,
+        cityStateCount = 1,
+        hasStates = false,
     ),
     CountryGridUiItem(
         countryId = CountryId("fr"),
@@ -141,6 +219,8 @@ private fun createUnavailableCountries(): List<CountryGridUiItem> = listOf(
         status = Status.Regular,
         available = false,
         tier = 2,
+        cityStateCount = 1,
+        hasStates = false,
     ),
 )
 
@@ -153,6 +233,8 @@ private fun createMaintenanceCountries(): List<CountryGridUiItem> = listOf(
         status = Status.InMaintenance,
         available = true,
         tier = 0,
+        cityStateCount = 1,
+        hasStates = false,
     ),
     CountryGridUiItem(
         countryId = CountryId("us"),
@@ -161,6 +243,8 @@ private fun createMaintenanceCountries(): List<CountryGridUiItem> = listOf(
         status = Status.InMaintenance,
         available = true,
         tier = 0,
+        cityStateCount = 1,
+        hasStates = false,
     ),
     CountryGridUiItem(
         countryId = CountryId("de"),
@@ -169,6 +253,8 @@ private fun createMaintenanceCountries(): List<CountryGridUiItem> = listOf(
         status = Status.InMaintenance,
         available = true,
         tier = 0,
+        cityStateCount = 1,
+        hasStates = false,
     ),
     CountryGridUiItem(
         countryId = CountryId("fr"),
@@ -177,5 +263,7 @@ private fun createMaintenanceCountries(): List<CountryGridUiItem> = listOf(
         status = Status.InMaintenance,
         available = true,
         tier = 0,
+        cityStateCount = 1,
+        hasStates = false,
     ),
 )

@@ -41,6 +41,8 @@ sealed class ServerGroupItemData {
         override val inMaintenance: Boolean,
         override val tier: Int,
         val entryCountryId: CountryId?,
+        val cityStateCount: Int,
+        val hasStates: Boolean,
         override val textMatch: TextMatch? = null
     ) : ServerGroupItemData()
 

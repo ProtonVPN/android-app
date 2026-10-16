@@ -21,16 +21,18 @@ package com.protonvpn.android.tv.countries.ui
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -41,31 +43,40 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Icon
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.ProtonVpnTvPreview
+import com.protonvpn.android.base.ui.theme.backgroundSelected
 import com.protonvpn.android.base.ui.vpnGreen
-import com.protonvpn.android.redesign.base.ui.ActiveDot
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.tv.ui.ActiveDotTv
+import com.protonvpn.android.tv.ui.PlusBadgeTv
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
 
+internal val CountryGridTileWidth = 125.dp
 private val FlagSize = DpSize(105.dp, 70.dp)
-private val FlagShape = RoundedCornerShape(8.dp)
-private val FocusFrameShape = RoundedCornerShape(12.dp)
-private val FocusFramePadding = 4.dp
 private val FocusBorderWidth = 2.dp
-private val TileWidth = FlagSize.width + (FocusFramePadding + FocusBorderWidth) * 2
-private const val FOCUSED_SCALE = 1.1f
 private const val UNAVAILABLE_FLAG_ALPHA = 0.3f
 private const val MAINTENANCE_FLAG_ALPHA = 0.5f
 
@@ -77,23 +88,56 @@ fun CountryGridTile(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
-    val scale by animateFloatAsState(if (isFocused) FOCUSED_SCALE else 1f, label = "country tile scale")
-    val isInMaintenance = item.status == CountryGridUiItem.Status.InMaintenance
-    val flagAlpha = when {
-        !item.available -> UNAVAILABLE_FLAG_ALPHA
-        isInMaintenance -> MAINTENANCE_FLAG_ALPHA
-        else -> 1f
-    }
+    val focusProgress by animateFloatAsState(if (isFocused) 1f else 0f, label = "country tile focus")
+    CountryGridTileContent(
+        item = item,
+        focusProgress = focusProgress,
+        modifier = modifier.clickable(interactionSource = interactionSource, indication = null, onClick = onClick),
+    )
+}
 
+// All focus effects are applied when drawing so that focus changes never affect the grid layout.
+@Composable
+internal fun CountryGridTileContent(
+    item: CountryGridUiItem,
+    focusProgress: Float,
+    modifier: Modifier = Modifier,
+) {
+    // 1.2x when focused.
+    val scale = 1f + 0.2f * focusProgress
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .width(TileWidth)
-            .graphicsLayer {
+            .width(CountryGridTileWidth)
+            .padding(vertical = 16.dp)
+    ) {
+        CountryTileFlag(item, scale, focusProgress)
+        Spacer(Modifier.height(17.dp))
+        CountryTileText(
+            item,
+            focusProgress,
+            modifier = Modifier.graphicsLayer {
                 scaleX = scale
                 scaleY = scale
+                transformOrigin = TransformOrigin(0.5f, 0f)
+                // Pushes the scaled text down so that it keeps its distance from the scaled flag.
+                translationY = 5.dp.toPx() * focusProgress
             }
-            .clickable(interactionSource = interactionSource, indication = null, onClick = onClick)
+        )
+    }
+}
+
+@Composable
+private fun CountryTileFlag(item: CountryGridUiItem, scale: Float, focusProgress: Float) {
+    val flagAlpha = when {
+        !item.available -> UNAVAILABLE_FLAG_ALPHA
+        item.status == CountryGridUiItem.Status.InMaintenance -> MAINTENANCE_FLAG_ALPHA
+        else -> 1f
+    }
+    Box(
+        modifier = Modifier
+            .size(FlagSize)
+            .focusBorder(ProtonTheme.colors.backgroundSelected, scale, focusProgress)
     ) {
         Image(
             painter = painterResource(item.flagResource),
@@ -101,16 +145,46 @@ fun CountryGridTile(
             contentScale = ContentScale.Crop,
             alpha = flagAlpha,
             modifier = Modifier
-                .border(
-                    FocusBorderWidth,
-                    if (isFocused) ProtonTheme.colors.textNorm else Color.Transparent,
-                    FocusFrameShape
-                )
-                .padding(FocusBorderWidth + FocusFramePadding)
-                .size(FlagSize)
-                .clip(FlagShape)
+                .fillMaxSize()
+                .graphicsLayer {
+                    scaleX = scale
+                    scaleY = scale
+                    shape = RoundedCornerShape(10.dp)
+                    clip = true
+                }
         )
-        Spacer(Modifier.height(8.dp))
+    }
+}
+
+// Draws the border around the flag scaled by [scale]. The border itself isn't scaled, it keeps its width and radius.
+private fun Modifier.focusBorder(color: Color, scale: Float, focusProgress: Float) = drawBehind {
+    if (focusProgress > 0f) {
+        val strokeWidth = FocusBorderWidth.toPx()
+        val outset = 4.dp.toPx()
+        // The stroke is centered on the rectangle's outline.
+        val borderSize = Size(
+            size.width * scale + 2 * outset - strokeWidth,
+            size.height * scale + 2 * outset - strokeWidth
+        )
+        drawRoundRect(
+            color = color,
+            topLeft = Offset((size.width - borderSize.width) / 2, (size.height - borderSize.height) / 2),
+            size = borderSize,
+            cornerRadius = CornerRadius(15.dp.toPx() - strokeWidth / 2),
+            style = Stroke(strokeWidth),
+            alpha = focusProgress,
+        )
+    }
+}
+
+@Composable
+private fun CountryTileText(item: CountryGridUiItem, focusProgress: Float, modifier: Modifier = Modifier) {
+    val isInMaintenance = item.status == CountryGridUiItem.Status.InMaintenance
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(2.dp),
+        modifier = modifier.fillMaxWidth()
+    ) {
         Text(
             item.countryName,
             style = ProtonTheme.typography.body2Regular,
@@ -120,30 +194,31 @@ fun CountryGridTile(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
         )
-        CountryTileStatus(item, isFocused)
+        // Always laid out so that all tiles have the same height regardless of their status.
+        // It fits both the Plus badge and a line of status text at any font scale.
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.heightIn(min = 24.dp) // Height of the Plus badge.,
+        ) {
+            Text("", style = StatusTextStyle, modifier = Modifier.clearAndSetSemantics {})
+            CountryTileStatus(item, focusProgress)
+        }
     }
 }
 
 @Composable
-private fun CountryTileStatus(item: CountryGridUiItem, isFocused: Boolean) {
+private fun CountryTileStatus(item: CountryGridUiItem, focusProgress: Float) {
     when {
         item.status == CountryGridUiItem.Status.Connected ->
             StatusLabel(stringResource(R.string.tv_country_tile_connected), ProtonTheme.colors.vpnGreen) {
-                ActiveDot()
+                ActiveDotTv()
             }
         item.status == CountryGridUiItem.Status.Connecting ->
             StatusLabel(stringResource(R.string.tv_country_tile_connecting), ProtonTheme.colors.vpnGreen) {
-                ActiveDot()
+                ActiveDotTv()
             }
         !item.available ->
-            // Always laid out so that focus changes don't resize the grid row.
-            Image(
-                painter = painterResource(R.drawable.vpn_plus_badge),
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(top = 4.dp)
-                    .alpha(if (isFocused) 1f else 0f)
-            )
+            PlusBadgeTv(Modifier.alpha(focusProgress))
         item.status == CountryGridUiItem.Status.InMaintenance ->
             StatusLabel(stringResource(R.string.tv_country_tile_maintenance), ProtonTheme.colors.textWeak) {
                 Icon(
@@ -153,6 +228,20 @@ private fun CountryTileStatus(item: CountryGridUiItem, isFocused: Boolean) {
                     modifier = Modifier.size(12.dp),
                 )
             }
+        // A hint that there are several locations to choose from, a single city or state doesn't need the label.
+        item.cityStateCount > 1 ->
+            Text(
+                pluralStringResource(
+                    if (item.hasStates) R.plurals.tv_country_tile_states else R.plurals.tv_country_tile_cities,
+                    item.cityStateCount,
+                    item.cityStateCount
+                ),
+                style = StatusTextStyle,
+                color = ProtonTheme.colors.textWeak,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.alpha(focusProgress),
+            )
     }
 }
 
@@ -162,7 +251,83 @@ private fun StatusLabel(text: String, color: Color, trailingIcon: @Composable ()
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        Text(text, style = ProtonTheme.typography.captionRegular, color = color)
+        // A single line keeps the tile height the same for all statuses.
+        Text(
+            text,
+            style = StatusTextStyle,
+            color = color,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f, fill = false),
+        )
         trailingIcon()
+    }
+}
+
+private val StatusTextStyle: TextStyle
+    @Composable get() = ProtonTheme.typography.captionRegular
+
+private val previewItem = CountryGridUiItem(
+    countryId = CountryId("no"),
+    countryName = "Norway",
+    flagResource = R.drawable.flag_tv_no,
+    status = CountryGridUiItem.Status.Regular,
+    available = true,
+    tier = 1,
+    cityStateCount = 3,
+    hasStates = false,
+)
+
+@Preview
+@Composable
+private fun CountryGridTileFocusedPreview() {
+    ProtonVpnTvPreview {
+        CountryGridTileContent(previewItem, focusProgress = 1f, modifier = Modifier.padding(16.dp))
+    }
+}
+
+@Preview
+@Composable
+private fun CountryGridTileStatesFocusedPreview() {
+    ProtonVpnTvPreview {
+        CountryGridTileContent(
+            previewItem.copy(
+                countryId = CountryId("us"),
+                countryName = "United States",
+                flagResource = R.drawable.flag_tv_us,
+                cityStateCount = 12,
+                hasStates = true,
+            ),
+            focusProgress = 1f,
+            modifier = Modifier.padding(16.dp)
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun CountryGridTileConnectedPreview() {
+    ProtonVpnTvPreview {
+        CountryGridTileContent(previewItem.copy(status = CountryGridUiItem.Status.Connected), focusProgress = 0f)
+    }
+}
+
+@Preview
+@Composable
+private fun CountryGridTileMaintenancePreview() {
+    ProtonVpnTvPreview {
+        CountryGridTileContent(previewItem.copy(status = CountryGridUiItem.Status.InMaintenance), focusProgress = 0f)
+    }
+}
+
+@Preview
+@Composable
+private fun CountryGridTilePlusFocusedPreview() {
+    ProtonVpnTvPreview {
+        CountryGridTileContent(
+            previewItem.copy(available = false, tier = 2),
+            focusProgress = 1f,
+            modifier = Modifier.padding(16.dp)
+        )
     }
 }

@@ -343,6 +343,18 @@
     <string name="tv_country_tile_connecting">Connecting</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
     <string name="tv_country_tile_maintenance">Maintenance</string>
+    <!-- Label below a focused country flag on the TV home screen, the number of cities with servers in that country. -->
+    <plurals name="tv_country_tile_cities">
+        <item quantity="one">%1$d city</item>
+        <item quantity="other">%1$d cities</item>
+    </plurals>
+    <!-- Label below a focused country flag on the TV home screen, the number of states with servers in that country (e.g. in the US). -->
+    <plurals name="tv_country_tile_states">
+        <item quantity="one">%1$d state</item>
+        <item quantity="other">%1$d states</item>
+    </plurals>
+    <!-- Title above the grid of all country flags on the TV home screen. -->
+    <string name="tv_countries_grid_all_countries_title">All countries</string>
     <string name="notification_subscription_expired_title">Your Proton VPN subscription plan has expired</string>
     <string name="notification_subscription_expired_content">We had to downgrade your plan, but we’re reconnecting you to the fastest server available on that plan.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Your subscription has been downgraded.</string>
