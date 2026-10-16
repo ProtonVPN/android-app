@@ -322,6 +322,12 @@
     <string name="tv_other_servers">다른 서버</string>
     <string name="tv_server_list">서버 목록</string>
     <string name="tv_server_list_action_unavailable">사용할 수 없음</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connected</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connecting</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">회원님의 Proton VPN 구독이 만료되었습니다</string>
     <string name="notification_subscription_expired_content">비록 회원님의 요금제가 다운그레이드 되었지만, 해당 요금제에서 사용 가능한 가장 빠른 서버에 접속하고 있습니다.</string>
     <string name="notification_subscription_expired_no_reconnection_content">회원님의 구독 단계가 하락되었습니다.</string>

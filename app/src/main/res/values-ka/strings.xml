@@ -323,6 +323,12 @@
     <string name="tv_other_servers">სხვა სერვერები</string>
     <string name="tv_server_list">სერვერების სია</string>
     <string name="tv_server_list_action_unavailable">ხელმიუწვდომელია</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connected</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connecting</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">Proton VPN-ის თქვენს გამოწერის გეგმას ვადა გაუვიდა</string>
     <string name="notification_subscription_expired_content">ჩვენ იძულებულები ვიყავით, თქვენი სატარიფო გეგმა ჩამოგვეწია, მაგრამ ჩვენ იმ გეგმის უსწრაფეს სერვერთან მიგაერთებთ.</string>
     <string name="notification_subscription_expired_no_reconnection_content">თქვენი გამოწერის დონე დაწეულია.</string>

@@ -327,6 +327,12 @@
     <string name="tv_other_servers">Ostatní servery</string>
     <string name="tv_server_list">Seznam serverů</string>
     <string name="tv_server_list_action_unavailable">Nedostupné</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Připojeno</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Připojuji</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Údržba</string>
     <string name="notification_subscription_expired_title">Vaše předplatné Proton VPN vypršelo</string>
     <string name="notification_subscription_expired_content">Museli jsme snížit váš tarif, ale přepojujeme vás na nejrychlejší server dostupný v rámci tohoto tarifu.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Vaše předplatné bylo sníženo.</string>
@@ -760,10 +766,10 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="one">then auto renews at %1$s/day</item>
-        <item quantity="few">then auto renews at %1$s every %2$d days</item>
-        <item quantity="many">then auto renews at %1$s every %2$d days</item>
-        <item quantity="other">then auto renews at %1$s every %2$d days</item>
+        <item quantity="one">poté automaticky obnovit za %1$s/den</item>
+        <item quantity="few">poté automaticky obnovit za %1$s každé %2$d dny</item>
+        <item quantity="many">poté automaticky obnovit za %1$s každých %2$d dnů</item>
+        <item quantity="other">poté automaticky obnovit za %1$s každých %2$d dnů</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -771,10 +777,10 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="one">then auto renews at %1$s/week</item>
-        <item quantity="few">then auto renews at %1$s every %2$d weeks</item>
-        <item quantity="many">then auto renews at %1$s every %2$d weeks</item>
-        <item quantity="other">then auto renews at %1$s every %2$d weeks</item>
+        <item quantity="one">poté automaticky obnovit za %1$s/týden</item>
+        <item quantity="few">poté automaticky obnovit za %1$s každé %2$d týdny</item>
+        <item quantity="many">poté automaticky obnovit za %1$s každých %2$d týdnů</item>
+        <item quantity="other">poté automaticky obnovit za %1$s každých %2$d týdnů</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -782,10 +788,10 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="one">then auto renews at %1$s/month</item>
-        <item quantity="few">then auto renews at %1$s every %2$d months</item>
-        <item quantity="many">then auto renews at %1$s every %2$d months</item>
-        <item quantity="other">then auto renews at %1$s every %2$d months</item>
+        <item quantity="one">poté automaticky obnovit za %1$s/měsíc</item>
+        <item quantity="few">poté automaticky obnovit za %1$s každé %2$d měsíce</item>
+        <item quantity="many">poté automaticky obnovit za %1$s každých %2$d měsíců</item>
+        <item quantity="other">poté automaticky obnovit za %1$s každých %2$d měsíců</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -793,8 +799,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="one">then auto renews at %1$s/year</item>
-        <item quantity="few">then auto renews at %1$s every %2$d years</item>
+        <item quantity="one">poté automaticky obnovit za %1$s/rok</item>
+        <item quantity="few">poté automaticky obnovit za %1$s každé %2$d roky</item>
         <item quantity="many">then auto renews at %1$s every %2$d years</item>
         <item quantity="other">then auto renews at %1$s every %2$d years</item>
     </plurals>

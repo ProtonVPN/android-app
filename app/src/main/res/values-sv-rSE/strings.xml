@@ -323,6 +323,12 @@
     <string name="tv_other_servers">Andra servrar</string>
     <string name="tv_server_list">Serverlista</string>
     <string name="tv_server_list_action_unavailable">Inte tillgänglig</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connected</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connecting</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">Din Proton VPN-prenumerationspaket har löpt ut</string>
     <string name="notification_subscription_expired_content">Vi var tvungna att nedgradera ditt paket, men vi återansluter dig till den snabbaste servern som finns tillgänglig på det paketet.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Din prenumeration har nedgraderats.</string>
@@ -645,8 +651,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
-        <item quantity="one">%1$s/week</item>
-        <item quantity="other">%1$s every %2$d weeks</item>
+        <item quantity="one">%1$s/vecka</item>
+        <item quantity="other">%1$s var %2$d:e vecka</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -654,8 +660,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s/month</item>
-        <item quantity="other">%1$s every %2$d months</item>
+        <item quantity="one">%1$s/månad</item>
+        <item quantity="other">%1$s var %2$d:e månad</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -687,8 +693,8 @@
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">for the first month</item>
-        <item quantity="other">for the first %1$d months</item>
+        <item quantity="one">för första månaden</item>
+        <item quantity="other">för första %1$d månaderna</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.

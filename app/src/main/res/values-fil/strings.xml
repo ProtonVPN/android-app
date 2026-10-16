@@ -323,6 +323,12 @@
     <string name="tv_other_servers">Iba pang mga server</string>
     <string name="tv_server_list">Listahan ng server</string>
     <string name="tv_server_list_action_unavailable">Hindi available</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connected</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connecting</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">Nag-expire na ang Proton VPN subscription plan mo</string>
     <string name="notification_subscription_expired_content">Kinailangan naming i-downgrade ang plan mo, ngunit muli ka naming ikinokonekta sa pinakamabilis na server na available sa plan na iyon.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Na-downgrade ang subscription mo.</string>

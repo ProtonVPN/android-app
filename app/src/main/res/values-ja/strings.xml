@@ -321,6 +321,12 @@
     <string name="tv_other_servers">その他のサーバー</string>
     <string name="tv_server_list">サーバーリスト</string>
     <string name="tv_server_list_action_unavailable">使用不可</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connected</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connecting</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">Proton VPN サブスクリプションのプランの有効期限が切れました</string>
     <string name="notification_subscription_expired_content">プランをダウングレードしました、そのためこのプランで利用できる最速のサーバーに接続します。</string>
     <string name="notification_subscription_expired_no_reconnection_content">サブスクリプションはダウングレードされました。</string>

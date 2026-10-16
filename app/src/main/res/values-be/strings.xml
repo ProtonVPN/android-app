@@ -327,6 +327,12 @@
     <string name="tv_other_servers">Іншыя серверы</string>
     <string name="tv_server_list">Спіс сервераў</string>
     <string name="tv_server_list_action_unavailable">Недаступна</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Падключана</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Падключэнне</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Абслугоўванне</string>
     <string name="notification_subscription_expired_title">Ваша падпіска на тарыфны план Proton VPN пратэрмінавана</string>
     <string name="notification_subscription_expired_content">Ваш тарыфны план быў паніжаны. У цяперашні час адбываецца перападключэнне да найхутчэйшага сервера, які даступны на гэтым тарыфным плане.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Ваша падпіска была паніжана.</string>

@@ -321,6 +321,12 @@
     <string name="tv_other_servers">เซิร์ฟเวอร์อื่นๆ</string>
     <string name="tv_server_list">รายชื่อเซิร์ฟเวอร์</string>
     <string name="tv_server_list_action_unavailable">ไม่พร้อมใช้งาน</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connected</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connecting</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">แผนการสมัครสมาชิก Proton VPN ของคุณหมดอายุแล้ว</string>
     <string name="notification_subscription_expired_content">เราจำเป็นต้องดาวน์เกรดแผนของคุณ แต่เรากำลังเชื่อมต่อคุณกับเซิร์ฟเวอร์ที่เร็วที่สุดที่มีอยู่ในแผนนั้นใหม่</string>
     <string name="notification_subscription_expired_no_reconnection_content">การสมัครสมาชิกของคุณถูกดาวน์เกรดแล้ว</string>

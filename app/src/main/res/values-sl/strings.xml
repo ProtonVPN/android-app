@@ -327,6 +327,12 @@
     <string name="tv_other_servers">Drugi strežniki</string>
     <string name="tv_server_list">Seznam strežnikov</string>
     <string name="tv_server_list_action_unavailable">Ni na voljo</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connected</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connecting</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">Vaš naročniški paket Proton VPN je potekel</string>
     <string name="notification_subscription_expired_content">Vaš paket smo morali znižati, vendar vas ponovno povezujemo z najhitrejšim strežnikom, ki je na voljo v tem paketu.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Vaša naročnina je bila znižana.</string>

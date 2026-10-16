@@ -332,6 +332,12 @@
     <string name="tv_other_servers">الخوادم الأخرى</string>
     <string name="tv_server_list">قائمة الخوادم</string>
     <string name="tv_server_list_action_unavailable">غير متاح</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connected</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connecting</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">انتهت صلاحية اشتراكك في Proton VPN</string>
     <string name="notification_subscription_expired_content">تم تغيير باقتك، ونعمل على إعادة توصيلك بأسرع خادم متاح لك الآن.</string>
     <string name="notification_subscription_expired_no_reconnection_content">تم تعديل فئة اشتراكك.</string>

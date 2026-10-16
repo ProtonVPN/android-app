@@ -323,6 +323,12 @@
     <string name="tv_other_servers">Autres serveurs</string>
     <string name="tv_server_list">Liste de serveurs</string>
     <string name="tv_server_list_action_unavailable">Indisponible</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connecté</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connexion en cours</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">Votre abonnement Proton VPN a expiré.</string>
     <string name="notification_subscription_expired_content">Nous avons dû vous attribuer un abonnement avec moins de fonctionalités, mais nous vous reconnectons au serveur le plus rapide qui est disponible avec cet abonnement.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Votre abonnement contient moins de fonctionnalités.</string>

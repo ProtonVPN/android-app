@@ -323,6 +323,12 @@
     <string name="tv_other_servers">Outros servidores</string>
     <string name="tv_server_list">Lista de servidores</string>
     <string name="tv_server_list_action_unavailable">Indisponível</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connected</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connecting</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">Seu plano de assinatura Proton VPN expirou</string>
     <string name="notification_subscription_expired_content">Tivemos que fazer o downgrade do seu plano, mas estamos reconectando você ao servidor mais rápido disponível nesse plano.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Sua assinatura foi rebaixada.</string>
@@ -345,7 +351,7 @@
     <string name="notification_smart_protocol_disabled_title">Smart Protocol está desativado</string>
     <string name="notification_smart_protocol_disabled_content">O Proton VPN detectou que sua rede atual está impedindo a conexão com a VPN. Ativar o Smart Protocol pode ignorar essas limitações.</string>
     <string name="notification_streaming_blocked_title">Streaming não funcionando?</string>
-    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
+    <string name="notification_streaming_blocked_text">Muitos serviços de streaming detectam e bloqueiam conexões de servidores VPN gratuitos. Atualize para o Proton VPN Plus para ignorar esses blocos</string>
     <string name="upsell_advanced_features">Recursos avançados: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Acesse serviços de streaming (Netflix, Disney+, etc) em qualquer lugar do mundo</string>
     <!-- Number of servers available in the service.
@@ -455,7 +461,7 @@
     <string name="upsell_panel_netshield_benefit_load_speed">Carregamento de página mais rápido </string>
     <string name="upsell_panel_onboarding_title">Obtenha mais com o VPN Plus</string>
     <string name="upsell_panel_p2p_title">Downloads em velocidade máxima</string>
-    <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
+    <string name="upsell_panel_p2p_description">Servidores criados para compartilhamento de arquivos, com seu cliente de torrent habitual.</string>
     <string name="upsell_panel_p2p_benefit_p2p">Compartilhamento de arquivos P2P</string>
     <string name="upsell_panel_profiles_title">Streaming, jogos, trabalho: um perfil para cada um</string>
     <string name="upsell_panel_profiles_description">Configure suas conexões do jeito que você quiser e, depois, reconecte-se a qualquer uma delas com um único toque.</string>
@@ -484,7 +490,7 @@
     <string name="upsell_panel_streaming_block_title">Fazer upgrade para contornar bloqueios de VPN</string>
     <string name="upsell_panel_streaming_block_description">Os servidores VPN Plus permitem que você assista aos seus filmes e programas de TV favoritos de todo o mundo.</string>
     <string name="upsell_panel_tor_title">Sites Onion, sem necessidade do Navegador Tor</string>
-    <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
+    <string name="upsell_panel_tor_description">Alcance, sites .onion no navegador que você já usa.</string>
     <string name="upsell_panel_tor_benefit_tor">Tor sobre VPN</string>
     <string name="upsell_card_countries_title">Cobertura global</string>
     <!-- Parameters:

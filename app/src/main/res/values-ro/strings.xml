@@ -325,6 +325,12 @@
     <string name="tv_other_servers">Alte servere</string>
     <string name="tv_server_list">Listă servere</string>
     <string name="tv_server_list_action_unavailable">Indisponibil</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Conectat</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Se conectează</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Mentenanță</string>
     <string name="notification_subscription_expired_title">Abonamentul Proton VPN a expirat</string>
     <string name="notification_subscription_expired_content">A trebuit să vă retrogradăm planul, dar vă reconectăm la cel mai rapid server disponibil în noul plan.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Abonamentul a fost retrogradat.</string>

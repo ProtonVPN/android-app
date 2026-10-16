@@ -323,6 +323,12 @@
     <string name="tv_other_servers">Diğer sunucular</string>
     <string name="tv_server_list">Sunucu listesi</string>
     <string name="tv_server_list_action_unavailable">Kullanılamıyor</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Bağlı</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Bağlanıyor</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Bakım yapılıyor</string>
     <string name="notification_subscription_expired_title">Proton VPN abonelik tarifenizin geçerlilik süresi dolmuş</string>
     <string name="notification_subscription_expired_content">Tarifenizi düşürmek zorunda kaldık. Bağlantınızı bu tarifedeki en hızlı sunucuya geçiriyoruz.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Abonelik tarifeniz düşürüldü.</string>
