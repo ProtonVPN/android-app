@@ -21,7 +21,6 @@
 
 package com.protonvpn.tests.login.mobile
 
-import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.filters.SdkSuppress
@@ -119,16 +118,9 @@ class LoginTestsBlack {
     @Test
     fun loginWithSpecialCharsUser() {
         val specialCharsUser = User(
-            name = "testasSpecChars",
             password = URLEncoder.encode(BuildConfig.SPECIAL_CHAR_PASSWORD, "utf-8")
         )
-        try {
-            quark.userCreate(specialCharsUser)
-        } catch (e: IllegalStateException) {
-            // The test environment returns a non-JSON response when the user already exists.
-            // TODO: remove once the test environment is fixed.
-            Log.e("LoginTests", "Error when decoding Quark command response", e)
-        }
+        quark.userCreate(specialCharsUser)
         LoginRobot.login(
             specialCharsUser.name,
             URLDecoder.decode(specialCharsUser.password, "utf-8"),
