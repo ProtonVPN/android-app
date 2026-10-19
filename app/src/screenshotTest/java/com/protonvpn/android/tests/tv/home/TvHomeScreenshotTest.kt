@@ -82,7 +82,7 @@ private fun TvHomeTest(countries: List<CountryGridUiItem>) {
                         .width(80.dp)
                         .fillMaxHeight()
                 )
-                TvHome(countries = countries, modifier = Modifier.weight(1f))
+                TvHome(countries = countries, onCountryClick = {}, onCountryLongClick = {}, modifier = Modifier.weight(1f))
             }
         }
     }

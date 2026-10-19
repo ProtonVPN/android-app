@@ -41,7 +41,7 @@ import com.protonvpn.android.tv.countries.ui.CountryGridUiItem.Status
 @Composable
 fun TvCountriesGrid_MixedStates_Screenshot() {
     ProtonVpnTvPreview {
-        CountriesGrid(countries = createMixedStateCountries())
+        CountriesGrid(countries = createMixedStateCountries(), onCountryClick = {}, onCountryLongClick = {})
     }
 }
 
@@ -50,7 +50,7 @@ fun TvCountriesGrid_MixedStates_Screenshot() {
 @Composable
 fun TvCountriesGrid_AllUnavailable_Screenshot() {
     ProtonVpnTvPreview {
-        CountriesGrid(countries = createUnavailableCountries())
+        CountriesGrid(countries = createUnavailableCountries(), onCountryClick = {}, onCountryLongClick = {})
     }
 }
 
@@ -59,7 +59,7 @@ fun TvCountriesGrid_AllUnavailable_Screenshot() {
 @Composable
 fun TvCountriesGrid_WithMaintenance_Screenshot() {
     ProtonVpnTvPreview {
-        CountriesGrid(countries = createMaintenanceCountries())
+        CountriesGrid(countries = createMaintenanceCountries(), onCountryClick = {}, onCountryLongClick = {})
     }
 }
 

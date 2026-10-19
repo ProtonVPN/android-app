@@ -40,17 +40,19 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import me.proton.core.compose.theme.ProtonTheme
 
-private const val UNFOCUSED_ROW_ALPHA = 0.5f
-
 @Composable
 internal fun CountriesGrid(
     countries: List<CountryGridUiItem>,
+    onCountryClick: (CountryGridUiItem) -> Unit,
+    onCountryLongClick: (CountryGridUiItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val gridState = rememberLazyGridState()
@@ -87,12 +89,13 @@ internal fun CountriesGrid(
         items(countries, key = { it.countryId.countryCode }) { country ->
             val key = country.countryId.countryCode
             val alpha by animateFloatAsState(
-                if (key in focusedRowKeys) 1f else UNFOCUSED_ROW_ALPHA,
+                targetValue = rowAlpha(key in focusedRowKeys),
                 label = "country row alpha"
             )
             CountryGridTile(
                 item = country,
-                onClick = {},
+                onClick = { onCountryClick(country) },
+                onLongClick = { onCountryLongClick(country) },
                 modifier = Modifier
                     // The focused tile is scaled up and overlaps its neighbors.
                     .zIndex(if (key == focusedKey) 1f else 0f)
@@ -114,14 +117,17 @@ internal fun CountriesGrid(
 
 @Composable
 private fun RowTitle(text: String, isRowFocused: Boolean, modifier: Modifier = Modifier) {
-    val alpha by animateFloatAsState(if (isRowFocused) 1f else UNFOCUSED_ROW_ALPHA, label = "row title alpha")
+    val alpha by animateFloatAsState(rowAlpha(isRowFocused), label = "row title alpha")
     Text(
         text,
         style = ProtonTheme.typography.body1Medium,
         color = ProtonTheme.colors.textNorm,
         modifier = modifier
+            .semantics { heading() }
             .alpha(alpha)
             // Aligns the title with the flags.
             .padding(start = 10.dp, top = 5.dp, bottom = 5.dp)
     )
 }
+
+fun rowAlpha(isFocused: Boolean) = if (isFocused) 1f else 0.5f

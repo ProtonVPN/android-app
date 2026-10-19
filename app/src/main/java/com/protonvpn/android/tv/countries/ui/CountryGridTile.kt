@@ -19,9 +19,10 @@
 
 package com.protonvpn.android.tv.countries.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -77,13 +78,12 @@ import me.proton.core.presentation.R as CoreR
 internal val CountryGridTileWidth = 125.dp
 private val FlagSize = DpSize(105.dp, 70.dp)
 private val FocusBorderWidth = 2.dp
-private const val UNAVAILABLE_FLAG_ALPHA = 0.3f
-private const val MAINTENANCE_FLAG_ALPHA = 0.5f
 
 @Composable
 fun CountryGridTile(
     item: CountryGridUiItem,
     onClick: () -> Unit,
+    onLongClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -92,8 +92,23 @@ fun CountryGridTile(
     CountryGridTileContent(
         item = item,
         focusProgress = focusProgress,
-        modifier = modifier.clickable(interactionSource = interactionSource, indication = null, onClick = onClick),
+        modifier = modifier.combinedClickable(
+            interactionSource = interactionSource,
+            indication = null,
+            onClickLabel = item.clickLabel()?.let { stringResource(it) },
+            onLongClickLabel = stringResource(R.string.accessibility_action_show_connection_options),
+            onLongClick = onLongClick,
+            onClick = onClick,
+        ),
     )
+}
+
+// Matches the click handling in TvHomeViewModel.onCountryClick.
+@StringRes
+private fun CountryGridUiItem.clickLabel(): Int? = when {
+    status == CountryGridUiItem.Status.InMaintenance -> null
+    !available -> R.string.accessibility_action_upgrade
+    else -> R.string.accessibility_action_connect
 }
 
 // All focus effects are applied when drawing so that focus changes never affect the grid layout.
@@ -130,8 +145,8 @@ internal fun CountryGridTileContent(
 @Composable
 private fun CountryTileFlag(item: CountryGridUiItem, scale: Float, focusProgress: Float) {
     val flagAlpha = when {
-        !item.available -> UNAVAILABLE_FLAG_ALPHA
-        item.status == CountryGridUiItem.Status.InMaintenance -> MAINTENANCE_FLAG_ALPHA
+        !item.available -> 0.3f
+        item.status == CountryGridUiItem.Status.InMaintenance -> 0.5f
         else -> 1f
     }
     Box(

@@ -20,8 +20,20 @@
 package com.protonvpn.android.tv.home
 
 import androidx.lifecycle.ViewModel
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiConnect
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.tv.countries.ui.CountriesGridFlow
+import com.protonvpn.android.tv.countries.ui.CountryConnectMenuFlow
+import com.protonvpn.android.tv.countries.ui.CountryConnectMenuOption
+import com.protonvpn.android.tv.countries.ui.CountryConnectMenuUiState
 import com.protonvpn.android.tv.countries.ui.CountryGridUiItem
+import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
+import com.protonvpn.android.vpn.VpnConnect
+import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import java.util.Locale
@@ -30,8 +42,74 @@ import javax.inject.Inject
 @HiltViewModel
 class TvHomeViewModel @Inject constructor(
     private val countriesGridFlow: CountriesGridFlow,
+    private val countryConnectMenuFlow: CountryConnectMenuFlow,
+    private val connect: VpnConnect,
+    private val connectDisconnectHelper: TvUiConnectDisconnectHelper,
 ) : ViewModel() {
 
     fun observeCountries(locale: Locale): Flow<List<CountryGridUiItem>> =
         countriesGridFlow.observeCountries(locale)
+
+    fun observeConnectMenu(countryId: CountryId, locale: Locale): Flow<CountryConnectMenuUiState?> =
+        countryConnectMenuFlow.observe(countryId, locale)
+
+    fun onCountryClick(
+        vpnUiDelegate: VpnUiDelegate,
+        country: CountryGridUiItem,
+        launchUpsell: (CountryId) -> Unit,
+    ) {
+        when {
+            country.status == CountryGridUiItem.Status.InMaintenance -> {
+                // TODO: show the maintenance error dialog.
+            }
+            !country.available -> launchUpsell(country.countryId)
+            else -> {
+                val trigger = ConnectTrigger.CountriesCountry("country grid (TV)")
+                ProtonLogger.log(UiConnect, trigger.description)
+                connect(vpnUiDelegate, ConnectIntent.FastestInCountry(country.countryId, emptySet()), trigger)
+            }
+        }
+    }
+
+    fun onConnectMenuOptionClick(
+        vpnUiDelegate: VpnUiDelegate,
+        countryId: CountryId,
+        option: CountryConnectMenuOption,
+        launchUpsell: (CountryId) -> Unit,
+        closeMenu: () -> Unit,
+    ) {
+        when {
+            option.inMaintenance -> Unit
+            !option.available -> launchUpsell(countryId)
+            option.connected -> {
+                connectDisconnectHelper.disconnect(DisconnectTrigger.Country("country menu (TV)"))
+                closeMenu()
+            }
+            else -> {
+                val connectIntent = option.type.connectIntent(countryId) ?: return
+                val trigger = option.type.connectTrigger()
+                ProtonLogger.log(UiConnect, trigger.description)
+                connect(vpnUiDelegate, connectIntent, trigger)
+                closeMenu()
+            }
+        }
+    }
+
+    private fun CountryConnectMenuOption.Type.connectIntent(countryId: CountryId): ConnectIntent? =
+        when (this) {
+            CountryConnectMenuOption.Type.Fastest -> ConnectIntent.FastestInCountry(countryId, emptySet())
+            // TODO: connect once there is a ConnectIntent for a random server in a country.
+            CountryConnectMenuOption.Type.Random -> null
+            is CountryConnectMenuOption.Type.CityState ->
+                if (cityStateId.isState) ConnectIntent.FastestInState(countryId, cityStateId.name, emptySet())
+                else ConnectIntent.FastestInCity(countryId, cityStateId.name, emptySet())
+        }
+
+    private fun CountryConnectMenuOption.Type.connectTrigger(): ConnectTrigger = when (this) {
+        CountryConnectMenuOption.Type.Fastest -> ConnectTrigger.CountriesCountry("country menu (TV): fastest")
+        CountryConnectMenuOption.Type.Random -> ConnectTrigger.CountriesCountry("country menu (TV): random")
+        is CountryConnectMenuOption.Type.CityState ->
+            if (cityStateId.isState) ConnectTrigger.CountriesState("country menu (TV): state")
+            else ConnectTrigger.CountriesCity("country menu (TV): city")
+    }
 }
