@@ -527,6 +527,11 @@ tasks.withType(Test).configureEach {
     }
 }
 
+// Avoid out-of-memory errors in screenshot tests.
+tasks.withType(Test).matching { it.name.contains("ScreenshotTest") }.configureEach {
+    maxHeapSize = "3g"
+}
+
 class Helpers {
     private File workingDir
     private ProviderFactory providers
