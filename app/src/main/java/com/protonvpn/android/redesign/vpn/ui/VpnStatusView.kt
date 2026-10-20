@@ -21,7 +21,6 @@ package com.protonvpn.android.redesign.vpn.ui
 
 import android.content.Intent
 import android.provider.Settings
-import android.text.BidiFormatter
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.snap
@@ -45,14 +44,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -61,21 +57,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.FirstBaseline
-import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.AnimateTextMasking
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.base.ui.vpnGreen
@@ -90,9 +81,7 @@ import com.protonvpn.android.redesign.base.ui.UpsellBannerContent
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.DnsOverride
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
+import com.protonvpn.android.vpn.ui.vpnLocationText
 import me.proton.core.compose.theme.ProtonColors
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
@@ -412,15 +401,9 @@ private fun LocationTextAnimated(locationText: LocationText) {
         border = TranslucentSurfaceBorder,
         shape = ProtonTheme.shapes.medium,
     ) {
-        val country = BidiFormatter.getInstance().unicodeWrap(locationText.country)
-        AnimateText(
-            targetText = stringResource(
-                R.string.vpn_status_disabled_location,
-                country,
-                locationText.ip
-            ),
-            highlightText = country,
-            targetCharacter = '*',
+        AnimateTextMasking(
+            text = vpnLocationText(locationText.country, locationText.ip),
+            style = ProtonTheme.typography.defaultWeak,
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
         )
     }
@@ -438,78 +421,23 @@ private fun VpnDisabledView(state: VpnStatusViewState.Disabled) {
         border = TranslucentSurfaceBorder,
         shape = ProtonTheme.shapes.medium,
     ) {
-        val (text, highlight) = state.locationText?.let {
-            val country = BidiFormatter.getInstance().unicodeWrap(it.country)
-            stringResource(R.string.vpn_status_disabled_location, country, it.ip) to country
-        } ?: run {
-            stringResource(R.string.stateFragmentUnknownIp).let { it to it }
-        }
-        Text(
-            text = annotatedCountryHighlight(text = text, highlight = highlight),
-            style = ProtonTheme.typography.defaultWeak,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-        )
-    }
-}
-
-
-@Composable
-private fun AnimateText(
-    modifier: Modifier = Modifier,
-    targetText: String,
-    highlightText: String,
-    duration: Int = 50,
-    targetCharacter: Char = '*',
-    preserveCharacters: CharArray = charArrayOf('.', ' ', '-')
-) {
-    val displayText = remember(targetText) { mutableStateOf(targetText) }
-    val fixedWidth = remember(targetText) { mutableStateOf<Int?>(null) }
-
-    LaunchedEffect(targetText) {
-        // The width needs to be fixed before replacing characters changes it.
-        snapshotFlow { fixedWidth.value }.filterNotNull().first()
-        val indicesToReplace = targetText.indices
-            .filter { !preserveCharacters.contains(targetText[it]) }
-            .shuffled()
-
-        indicesToReplace.forEachIndexed { _, replacementIndex ->
-            delay(duration.toLong())
-            displayText.value = displayText.value.replaceRange(
-                replacementIndex,
-                replacementIndex + 1,
-                targetCharacter.toString()
+        val textModifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+        if (state.locationText != null) {
+            Text(
+                text = vpnLocationText(state.locationText.country, state.locationText.ip),
+                style = ProtonTheme.typography.defaultWeak,
+                modifier = textModifier
+            )
+        } else {
+            Text(
+                text = stringResource(R.string.stateFragmentUnknownIp),
+                style = ProtonTheme.typography.defaultWeak.copy(color = ProtonTheme.colors.textNorm),
+                modifier = textModifier
             )
         }
     }
-    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-        Layout(
-            content = {
-                Text(
-                    annotatedCountryHighlight(
-                        text = targetText,
-                        highlight = highlightText,
-                        displayText = displayText.value
-                    ),
-                    style = ProtonTheme.typography.defaultWeak,
-                    modifier = Modifier.onGloballyPositioned {
-                        if (fixedWidth.value == null) {
-                            fixedWidth.value = it.size.width
-                        }
-                    },
-                )
-            },
-            modifier = modifier,
-            measurePolicy = { measurables, constraints ->
-                val placeable = measurables.first().measure(constraints)
-                val width = fixedWidth.value ?: placeable.width
-                val offsetX = (width - placeable.width) / 2
-                layout(width, placeable.height) {
-                    placeable.placeRelative(offsetX, 0)
-                }
-            }
-        )
-    }
 }
+
 
 @Preview
 @Composable
@@ -610,22 +538,5 @@ private fun PreviewHelper(state: VpnStatusViewState, modifier: Modifier = Modifi
             VpnStatusTop(state = state, transitionValue = { 1f })
             VpnStatusBottom(state = state, transitionValue = { 1f }, NetShieldActions({}, {}, {}, {}, {}))
         }
-    }
-}
-
-@Composable
-private fun annotatedCountryHighlight(
-    text: String,
-    highlight: String,
-    displayText: String = text,
-) = buildAnnotatedString {
-    append(displayText)
-    val startIndex = text.indexOf(highlight)
-    if (startIndex >= 0) {
-        addStyle(
-            style = SpanStyle(color = ProtonTheme.colors.textNorm),
-            start = startIndex,
-            end = startIndex + highlight.length
-        )
     }
 }
