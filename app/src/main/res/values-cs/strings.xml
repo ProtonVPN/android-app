@@ -801,8 +801,8 @@
     <plurals name="payment_multi_renewal_rest_yearly">
         <item quantity="one">poté automaticky obnovit za %1$s/rok</item>
         <item quantity="few">poté automaticky obnovit za %1$s každé %2$d roky</item>
-        <item quantity="many">then auto renews at %1$s every %2$d years</item>
-        <item quantity="other">then auto renews at %1$s every %2$d years</item>
+        <item quantity="many">poté automaticky obnovit za %1$s každých %2$d let</item>
+        <item quantity="other">poté automaticky obnovit za %1$s každých %2$d let</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
      (e.g. 2 months) and then the subscription renews at full price.

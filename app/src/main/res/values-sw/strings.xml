@@ -1,0 +1,1810 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_icon_name_classic">Kawaida</string>
+    <string name="app_icon_name_dark">Nyeusi</string>
+    <string name="app_icon_name_retro">Retro</string>
+    <string name="app_icon_name_weather">Hali ya hewa</string>
+    <string name="app_icon_name_notes">Maelezo</string>
+    <string name="app_icon_name_calculator">Kikokotoo</string>
+    <string name="login">Ingia</string>
+    <string name="menuActionSignOut">Ondoka</string>
+    <string name="connectionAllocationHelpTitle">Asante kwa kupandisha daraja</string>
+    <string name="connectionAllocationHelpDescription1">Ili kuanza safari yako katika Proton VPN, tafadhali gawa miunganisho ya VPN kwenye akaunti yako au akaunti nyingine yoyote ndogo.</string>
+    <string name="connectionAllocationHelpDescription2">Hatua hii itachukua dakika chache tu. Baada ya hapo utaweza kuingia na kulinda vifaa vyako vyote.</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Kwa sasa hakuna muunganisho wa VPN uliowashwa kwa akaunti hii. Ili kuanza safari yako na Proton VPN, tafadhali wasiliana na msimamizi wako. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Washa miunganisho ya VPN</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Ingia tena</string>
+    <!-- tag(Redesign_2023) "OK" button on dialogs -->
+    <string name="ok">Sawa</string>
+    <string name="dialogLearnMore">Jifunze zaidi</string>
+    <string name="connected">Imeunganishwa</string>
+    <string name="buttonConnect">Unganisha</string>
+    <string name="loaderConnectingTo">Inaunganisha kwenye %1$s</string>
+    <string name="loaderNotConnected">Haijaunganishwa (Haijalindwa)</string>
+    <string name="loaderConnectedTo">Imeunganishwa kwenye %1$s</string>
+    <string name="loaderDisconnecting">Inatenganisha</string>
+    <string name="loaderReconnecting">Inaunganisha tena</string>
+    <string name="loaderReconnectNoNetwork">Inasubiri mtandao unaofaa</string>
+    <string name="loaderCheckingAvailability">Inakagua upatikanaji wa seva</string>
+    <string name="quickConnect">Unganisha haraka</string>
+    <!-- Displays a percentage value. Please use %% sign for %.
+         Example value: "70%" -->
+    <string name="serverLoad">%1$s%%</string>
+    <string name="cancel">Ghairi</string>
+    <string name="close">Funga</string>
+    <string name="dialogContinue">Endelea</string>
+    <string name="drawerReportProblem">Ripoti tatizo</string>
+    <string name="action_done">Imekamilika</string>
+    <string name="action_share">Shiriki</string>
+    <string name="accountFree">Proton Free</string>
+    <string name="restrictedMaintenanceTitle">Inafanyiwa matengenezo</string>
+    <string name="restrictedMaintenanceDescription">Seva unayojaribu kuunganisha nayo kwa sasa inafanyiwa matengenezo. Tafadhali jaribu seva nyingine.</string>
+    <string name="restricted_location_excluded_dialog_title">Muunganisho umeshindikana</string>
+    <string name="restricted_location_excluded_dialog_description">Hakuna seva zinazopatikana. Chagua eneo mwenyewe au hariri maeneo yako yaliyotengwa.</string>
+    <string name="errorUserDelinquent"><![CDATA[Akaunti yako kwa sasa ina ankara iliyochelewa. Tafadhali lipa ankara zote ambazo hazijalipwa kwenye&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>.]]></string>
+    <string name="errorMaxSessions">Umefikia idadi ya juu ya miunganisho inayoruhusiwa kwa wakati mmoja kwa akaunti yako. Tafadhali pandisha daraja la mpango wako wa Proton VPN ili kupata miunganisho zaidi.</string>
+    <string name="listItemMaintenance">Inafanyiwa matunzo</string>
+    <string name="insufficientPermissionsTitle">Hatua ya mtumiaji inahitajika</string>
+    <string name="insufficientPermissionsDetails">Imeshindwa kuanzisha muunganisho wa VPN kiotomatiki. Tafadhali unganisha kwa mkono mara moja ili kutoa ruhusa.</string>
+    <string name="log_title">Kumbukumbu</string>
+    <string name="disconnect">Tenganisha</string>
+    <string name="state_connecting">Inaunganisha…</string>
+    <string name="state_connected">Imeunganishwa</string>
+    <string name="state_disconnecting">Inatenganisha…</string>
+    <string name="state_error">Hitilafu</string>
+    <string name="error_server_list_load_failed">Tafadhali angalia muunganisho wako kisha ujaribu tena.</string>
+    <string name="error_server_unreachable">Imeshindikana kuunganishwa kwa VPN. Tafadhali angalia muunganisho wako kisha ujaribu tena.</string>
+    <string name="error_auth_failed">Uthibitishaji wa mtumiaji umeshindikana.</string>
+    <string name="error_generic">Hitilafu isiyobainishwa wakati wa kuunganisha.</string>
+    <string name="error_generic_with_reason">Proton VPN haikuweza kuanzisha muunganisho wa VPN. Tafadhali jaribu tena baada ya sekunde chache. Maelezo:<br/><br/> Maelezo: %1$s</string>
+    <string name="reconnect">Unganisha tena</string>
+    <string name="reconnect_now">Unganisha tena sasa</string>
+    <string name="try_reconnecting">Jaribu kuunganisha tena</string>
+    <string name="connect">Unganisha</string>
+    <string name="upgrade">Pandisha daraja</string>
+    <string name="retry">Jaribu tena</string>
+    <string name="report_message">Ripoti ujumbe</string>
+    <string name="report_bug_email_label">Barua pepe yako</string>
+    <string name="report_bug_email_hint">Weka anwani yako ya barua pepe</string>
+    <string name="report_bug_message_label">Ujumbe</string>
+    <string name="report_bug_message_hint">Eleza kasoro na jinsi ulivyoigundua na mahali ilipotokea</string>
+    <string name="send_report">Tuma ripoti</string>
+    <string name="report_sent">Ripoti imetumwa</string>
+    <string name="discardChanges">Tupa mabadiliko yasiyohifadhiwa?</string>
+    <string name="discardChangesButtonDiscard">Tupa mabadiliko</string>
+    <string name="discardChangesButtonKeepEditing">Endelea kuhariri</string>
+    <string name="done">IMEKAMILIKA</string>
+    <string name="add">ONGEZA</string>
+    <string name="copy_to_clipboard">Nakili</string>
+    <string name="copied_to_clipboard">Imenakiliwa kwenye ubao wa kunakili.</string>
+    <string name="got_it">Nimeelewa</string>
+    <string name="exclude_locations">Tenga maeneo</string>
+    <string name="excluded_locations">Maeneo yaliyotengwa</string>
+    <string name="cannot_connect">Haiwezi kuunganisha</string>
+    <string name="skip">Ruka</string>
+    <string name="something_went_wrong">Kuna kitu kimeenda vibaya</string>
+    <string name="try_again">Jaribu tena</string>
+    <string name="delete">Futa</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Hamishia juu</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Hamishia juu</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Hamishia chini</string>
+    <string name="remove">Ondoa</string>
+    <string name="saveButton">Hifadhi</string>
+    <string name="ipWithPlaceholder">IP: %1$s</string>
+    <string name="activityLicensesTitle">Leseni za wahusika wengine</string>
+    <string name="stateFragmentUnknownIp">Haijulikani</string>
+    <string name="noVpnPermissionMainTitle">Kitendo kinahitajika ili kuunganisha kwa VPN</string>
+    <string name="noVpnPermissionMainMessage">Ili kuunganisha kwa Proton VPN, tafadhali fanya yafuatayo:</string>
+    <string name="noVpnPermissionGrantPermissionTitle">Toa kibali cha VPN</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android inahitaji kibali chako ili kuunganisha kwa Proton VPN. Kipate kwa kugusa \"Sawa\" unapopokea dirisha la \"Ombi la muunganisho\" kutoka kwa Android.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Zima VPN ya kudumu kwa programu nyingine za VPN</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android haiwezi kutumia programu nyingi za VPN kwa wakati mmoja. Zima VPN ya kudumu kwa programu yoyote ya VPN isipokuwa Proton VPN.</string>
+    <string name="noVpnPermissionProtonAppLabel">Programu ya Proton VPN</string>
+    <string name="noVpnPermissionOtherAppLabel">Programu nyingine za VPN</string>
+    <string name="noVpnPermissionOpenSettings">Fungua mipangilio ya VPN ya Android</string>
+    <string name="noNotificationPermissionGrantTitle">Usikose habari muhimu…</string>
+    <string name="noNotificationPermissionGrantDescription">Washa arifa ili upate taarifa hali ya muunganisho wako inapobadilika.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Washa arifa</string>
+    <string name="error_prepare_vpn_description"><![CDATA[Tafadhali zima VPN wakati wote kwa programu zote nyingine za VPN katika mipangilio ya mfumo wa VPN ya Android, kwani hilo huizuia Proton VPN kuanzisha muunganisho wa VPN. Tafadhali pia toa kibali cha VPN ikionekana kidirisha kinachoomba kibali cha VPN. Huenda pia ikabidi ufute programu nyingine za VPN ili kuepuka migongano. Baada ya hapo, tafadhali jaribu tena. <a href="%1$s">Pata maelezo zaidi</a>]]></string>
+    <string name="error_prepare_vpn_settings">Nenda kwenye mipangilio ya VPN ya Android</string>
+    <string name="error_prepare_vpn_title">Hitilafu: tatizo la kibali cha VPN</string>
+    <string name="error_server_not_set">Seva haipatikani tena.</string>
+    <string name="bugReportErrorEmptyEmail">Barua pepe haiwezi kuwa tupu.</string>
+    <string name="bugReportErrorInvalidEmail">Anwani ya barua pepe si sahihi.</string>
+    <string name="bugReportLabelVpnLogsTitle">Weka kumbukumbu za hitilafu</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Hii inatuma kumbukumbu za hitilafu za ndani (hatuweki kumbukumbu za shughuli zako) ili kutusaidia kutatua tatizo lako.</string>
+    <string name="profileFastest">Haraka zaidi</string>
+    <string name="profileRandom">Nasibu</string>
+    <string name="loaderErrorNoInternet">Hakuna muunganisho wa intaneti</string>
+    <string name="loaderErrorGeneric">Hitilafu imetokea.</string>
+    <string name="inputIpAddressLabel">Anwani ya IP</string>
+    <string name="inputIpAddressHelp">Weka anwani ya seva ya IPv4 au IPv6</string>
+    <string name="inputIpAddressErrorInvalid">Anwani ya IP si sahihi.</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">MPYA</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BETA</string>
+    <string name="settingsExcludedIPAddressesListHeader">Anwani za IP zilizotengwa (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Anwani za IP zilizojumuishwa (%1$d)</string>
+    <string name="settingsExcludedApps">Programu zilizotengwa</string>
+    <string name="settingsExcludedAppsEmpty">Ongeza programu zitakazotolewa kwenye trafiki ya VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Ongeza programu zitakazojumuishwa kwenye trafiki ya VPN.</string>
+    <string name="settingsExcludedAppsSelectedHeader">Programu zilizotengwa (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Programu zilizojumuishwa (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Programu zote nyingine za kawaida (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Programu zote nyingine za mfumo (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Programu zote nyingine (%1$d)</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">Onyesha programu za mfumo</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Onyesha programu za mfumo</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Programu hizi zimetolewa kwenye muunganisho wako wa VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Ni programu hizi pekee zinazounganisha kupitia VPN.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Ongeza kwenye programu zilizotengwa</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Ondoa kutoka kwenye programu zilizotengwa</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Ongeza kwenye programu zilizojumuishwa</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Ondoa kutoka kwenye programu zilizojumuishwa</string>
+    <string name="accessibility_action_copy_to_clipboard">Nakili kwenye ubao wa kunakili</string>
+    <string name="accessibility_action_item_delete">Futa</string>
+    <string name="accessibility_action_item_move_up">Sogeza juu</string>
+    <string name="accessibility_action_item_move_down">Sogeza chini</string>
+    <string name="tileConnected">Imeunganishwa: %1$s</string>
+    <string name="openUrlError">%1$s hakuweza kufunguliwa. Kivinjari cha wavuti hakikupatikana kwenye kifaa chako.</string>
+    <string name="loaderErrorTimeout">Muda wa muunganisho umeisha. Tafadhali jaribu tena.</string>
+    <string name="troubleshootButton">Tatua matatizo</string>
+    <string name="activityTroubleshootTitle">Utatuzi wa matatizo</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">Masuluhisho yanazowezekana</string>
+    <string name="troubleshootNoInternetDescription">Tafadhali hakikisha muunganisho wako wa intaneti unafanya kazi.</string>
+    <string name="troubleshootNoInternetTitle">Hakuna muunganisho wa intaneti</string>
+    <string name="troubleshootIspProblemTitle">Tatizo la mtoa huduma za intaneti (ISP)</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Jaribu kuunganisha kwa Proton kutoka mtandao mwingine (au tumia <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootAntivirusProblemTitle">Uingiliaji kati wa antivirusi</string>
+    <string name="troubleshootAntivirusProblemDescription">Zima kwa muda au ondoa programu yako ya antivirusi.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Uingiliaji kati wa mbadala/ngome</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Zima proksi au ngome zozote, au wasiliana na msimamizi wa mtandao wako.</string>
+    <string name="troubleshootProtonDownTitle">Proton haifanyi kazi</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Angalia <a href=\"%1$s\">Proton Status</a> kwa hali ya mfumo wetu.]]></string>
+    <string name="troubleshootContactUsSectionTitle">Bado unahitaji msaada? Wasiliana nasi moja kwa moja</string>
+    <string name="troubleshootCustomerSupport">Huduma kwa wateja</string>
+    <string name="settingsAllowAlternativeRoutingTitle">Uelekezaji mbadala</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Ikiwa Proton imezuiwa, idhinisha programu kujaribu njia mbadala za kufikia seva za Proton. <a href="%1$s">Pata maelezo zaidi</a>.]]></string>
+    <string name="troubleshootGovernmentBlockTitle">Uzuiaji wa serikali</string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Nchi yako inaweza kuzuia ufikiaji wa Proton. Jaribu kutumia <a href=\'%1$s\'>Tor</a> kufikia Proton.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Jinsi ya kuwasha kizima cha dharura</string>
+    <string name="settingsKillSwitchEnableStep1">1. Fungua mipangilio ya kifaa chako</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Tafuta Proton VPN kisha gusa %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">mipangilio</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Washa \"<b>VPN wakati wote</b>\" na \"<b>Zuia miunganisho bila VPN</b>\"]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Mipangilio</string>
+    <string name="settingsKillSwitchLearnMoreButton">Kizima cha dharura ni nini?</string>
+    <string name="settingsKillSwitchWarningMain">Kizima cha dharura kikiwashi, hutaweza kuunganisha kwa:</string>
+    <string name="settingsKillSwitchWarningPoint1">Tovuti na programu zilizotolewa kwenye muunganisho wako wa VPN kupitia mgawanyo wa trafiki</string>
+    <string name="settingsKillSwitchWarningPoint2">Vifaa kwenye mtandao wako wa eneo la ndani (LAN)</string>
+    <string name="settingsEnableTelemetryTitle">Shiriki takwimu za matumizi bila kujulikana</string>
+    <string name="settingsEnableTelemetryDescription">Data ya matumizi hutusaidia kuvuka vizuizi vya VPN na kuboresha utendaji wa programu.</string>
+    <string name="settingsSendCrashReportsTitle">Shiriki ripoti za hitilafu za programu bila kujulikana</string>
+    <string name="settingsSendCrashReportsDescription">Ripoti za hitilafu za programu hutusaidia kutatua kasoro, kutambua ngome na kuepuka vizuizi vya VPN.</string>
+    <string name="settingsTelemetryScreenTitle">Takwimu za matumizi</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Takwimu hizi hazina anwani yako ya IP, na haziwezi kutumika kukutambua. Hatutawahi kuzishiriki na upande wa tatu. <a href="%1$s">Pata maelezo zaidi</a>]]></string>
+    <string name="netshield_settings_description_not_html">Jilinde dhidi ya matangazo, programu hasidi na vifuatiliaji kwenye tovuti na programu. %1$s</string>
+    <string name="netshield_settings_description_tv">Inakulinda kutoka kwa matangazo ya mhusika mwingine, vifuatiliaji, na programu hasidi. NetShield haizuii matangazo yaliyojengwa ndani ya huduma za utiririshaji kama YouTube na Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Jinsi NetShield inavyofanya kazi</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield inazuia maombi ya DNS kuelekea vikoa vya mhusika mwingine vinavyojulikana kwa matangazo, vifuatiliaji, na programu hasidi.</item>
+        <item>Hii inamaanisha kuwa hutapokea matangazo kutoka kwa kivinjari chako au programu za bure zinazotumia huduma za matangazo za mhusika mwingine.</item>
+        <item>Hata hivyo, haiwezi kuzuia matangazo kutoka kwa majukwaa ya utiririshaji kama YouTube na Netflix, kwa sababu matangazo yao yanatoka kwenye seva zao wenyewe.</item>
+    </string-array>
+    <string name="settings_icon_change_description">Ficha programu ya Proton VPN kwa aikoni isiyotambulika. Arifa bado zitaonyesha jina na aikoni ya chaguo-msingi ya Proton VPN. %1$s</string>
+    <string name="settings_icon_change_learn_more">Pata maelezo zaidi</string>
+    <string name="learn_more">Pata maelezo zaidi</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Imewashwa</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Imezimwa</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Haipatikani</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Imewashwa</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Imezimwa</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Imewashwa</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Imezimwa</string>
+    <string name="lan_state_on" comment="Describes state, not action">Imewashwa</string>
+    <string name="lan_state_off" comment="Describes state, not action">Imezimwa</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Imewashwa</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Imezimwa</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Imewashwa</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Imezimwa</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Haipatikani</string>
+    <string name="custom_dns_item_removed_snackbar">Kipengee kimeondolewa.</string>
+    <string name="netshield_free_description">Zuia matangazo, vifuatiliaji na programu hasidi kwenye tovuti na programu.</string>
+    <string name="netshield_what_data_means">Maelezo ya takwimu za NetShield</string>
+    <string name="netshield_ads_title">Matangazo</string>
+    <string name="netshield_ads_details">Matangazo na vifuatiliaji vya matangazo visivyoonekana</string>
+    <string name="netshield_trackers_title">Vifuatiliaji</string>
+    <string name="netshield_trackers_details">Vidakuzi na vifuatiliaji vingine vinavyohifadhi na kushiriki habari kuhusu shughuli zako za intaneti</string>
+    <string name="netshield_data_title">Data</string>
+    <string name="netshield_data_details">Kiasi cha data isiyohitajika kutoka kwa matangazo, vifuatiliaji na programu hasidi ambayo NetShield imezuia</string>
+    <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
+        <item quantity="one">Tangazo limezuiwa</item>
+        <item quantity="other">Matangazo yamezuiwa</item>
+    </plurals>
+    <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
+        <item quantity="one">Kifuatiliaji kimesimamishwa</item>
+        <item quantity="other">Vifuatiliaji vimesimamishwa</item>
+    </plurals>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data iliyohifadhiwa</string>
+    <string name="netshield_setting_warning">Tovuti zingine zinaweza zisipakie vizuri wakati matangazo na vifuatiliaji vimezuiwa.</string>
+    <string name="netshield_setting_block_adult_content">Zuia maudhui ya watu wazima</string>
+    <string name="dialogDontShowAgain">Usionyeshe tena</string>
+    <string name="guestHoleNotificationContent">Inajaribu kupita matatizo ya mtandao. Hii itakusaidia kufikia Proton VPN.</string>
+    <string name="errorTunMultiUserPermission">Muunganisho wa VPN haukuweza kuanzishwa kutokana na mgongano kati ya programu mbili-mbili (mfano Dual Messenger) na mgawanyo wa trafiki. Tafadhali zima mojawapo kati ya hizo, kisha uwashe upya kifaa chako.</string>
+    <string name="errorTorrentNotAllowed">P2P hairuhusiwi kwenye seva hii.</string>
+    <string name="error_profile_fallback_unavailable">Muunganisho haukuweza kufanyika. Seva uliyochagua kwa wasifu haipatikani.</string>
+    <string name="profileProtocolNotAvailable">Itifaki ya VPN ya wasifu huu haipatikani kwa sasa. Ili kuunganisha, jaribu kubadilisha itifaki.</string>
+    <string name="stateConnectedTo">Imeunganishwa na %1$s</string>
+    <string name="stateNotConnected">Hujaunganishwa</string>
+    <string name="nameEurope">Ulaya</string>
+    <string name="nameAmerica">Amerika</string>
+    <string name="nameAsia">Asia</string>
+    <string name="nameAfricaAndMiddleEast">Afrika na Mashariki ya Kati</string>
+    <string name="nameOceania">Oceania</string>
+    <string name="tv_row_settings">Mipangilio</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
+    <string name="tv_card_split_tunneling_label">Mgawanyo wa trafiki</string>
+    <string name="tv_card_protocol_label">Itifaki</string>
+    <string name="tv_dialog_delete_server_title">Ufute seva %1$s?</string>
+    <string name="tv_detail_default_connection_checkbox_short">Kipendwa</string>
+    <string name="tv_detail_connect_streaming">Tiririsha na Plus</string>
+    <string name="tv_detail_connect">Unganisha</string>
+    <string name="tv_detail_description_streaming_country">Tiririsha maudhui unayopenda. Fikia programu zaidi kwa mpango wa Proton VPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">Tiririsha maudhui zaidi unayopenda kwa mpango wa Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Nchi hii haipatikani. Pata machaguo zaidi ya utiririshaji kwa mpango wa Proton VPN Plus.</string>
+    <string name="tv_detail_description_plus">Tiririsha video, filamu au michezo unayopenda kwa programu zako.</string>
+    <string name="tv_login_title_welcome">Tiririsha maudhui ya video unayopenda</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Pata akaunti yako ya Proton VPN kwenye <b>%1$s</b>]]></string>
+    <string name="back">Nyuma</string>
+    <string name="tv_vpn_error_dialog_title">Muunganisho wa VPN haukufanikiwa</string>
+    <string name="tv_signout_label">Ondoka</string>
+    <string name="tv_signout_dialog_title">Je, una uhakika unataka kuondoka?</string>
+    <string name="tv_signout_dialog_description_connected">Hii itatenganisha TV yako na seva yoyote ya VPN.</string>
+    <string name="tv_signout_dialog_ok">Ondoka</string>
+    <string name="tv_quick_connect_recommened">Inapendekezwa</string>
+    <string name="tv_quick_connect_favourite">Kipendwa</string>
+    <string name="tv_country_maintenance_dialog_title">Nchi haipatikani</string>
+    <string name="tv_country_maintenance_dialog_description">Tafadhali jaribu tena baadaye au teua nchi nyingine.</string>
+    <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+         Example: 76% server load -->
+    <string name="tv_server_list_load">%1$s%% mzigo wa seva</string>
+    <string name="tv_recently_used_servers">Seva zilizotumika hivi karibuni</string>
+    <string name="tv_available_servers">Seva zinazopatikana</string>
+    <string name="tv_locked_servers">Seva zilizofungwa</string>
+    <string name="tv_other_servers">Seva nyingine</string>
+    <string name="tv_server_list">Orodha ya seva</string>
+    <string name="tv_server_list_action_unavailable">Haipatikani</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connected</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connecting</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="notification_subscription_expired_title">Mpango wako wa usajili wa Proton VPN umeshaisha muda</string>
+    <string name="notification_subscription_expired_content">Tulilazimika kushusha daraja la mpango wako, lakini tunakurejesha kwenye seva yenye kasi zaidi inayopatikana katika mpango huo.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">Usajili wako umeshushwa daraja.</string>
+    <string name="notification_delinquent_title">Akaunti yako ya Proton VPN ina bili zinazosubiri</string>
+    <string name="notification_delinquent_content">Tafadhali pata muda wa kusasisha maelezo yako ya malipi ili usajili wako uendelee kuwa hai.</string>
+    <string name="notification_max_sessions_title">Umefikia idadi ya juu zaidi ya vifaa vyako</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="notification_max_sessions_upsell_content">
+        <item quantity="one">Tafadhali tengaisha kifaa kingine ili uunganishe hiki, au pandisha daraja hadi Plus ili kupata hadi kifaa %1$d kilichounganishwa kwa wakati mmoja.</item>
+        <item quantity="other">Tafadhali tengaisha kifaa kingine ili uunganishe hiki, au pandisha daraja hadi Plus ili kupata hadi vifaa %1$d vinavyounganishwa kwa wakati mmoja.</item>
+    </plurals>
+    <string name="notification_max_sessions_content">Tafadhali tengaisha kifaa kingine ili uweze kuunganisha hiki.</string>
+    <string name="notification_cancel_to_free">Uko kwenye mpango wa Free. Seva na vipengele vya Free vinapatikana.</string>
+    <string name="notification_cancel_to_basic">Uko kwenye mpango wa Basic. Seva na vipengele vya Basic na Free vinapatikana.</string>
+    <string name="notification_cancel_to_delinquent">Utaweza tena kufikia vipengele vya kiwango cha juu baada ya bili zinazosubiri kulipwa.</string>
+    <string name="reconnect_from_server">Kutoka seva: </string>
+    <string name="reconnect_to_server">Hadi seva: </string>
+    <string name="no_thanks">Hapana, asante</string>
+    <string name="enable">Washa</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol imezimwa kwa sasa</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN imegundua kuwa mtandao wako wa sasa unazuia muunganisho wa VPN. Kuwasha Smart Protocol kunaweza kuepuka vikwazo hivi.</string>
+    <string name="notification_streaming_blocked_title">Utiririshaji haufanyi kazi?</string>
+    <string name="notification_streaming_blocked_text">Huduma nyingi za utiririshaji hutambua na kuzuia muunganisho kutoka kwa seva za VPN ya bure. Pandisha daraja kwenda Proton VPN Plus ili kuepuka vizuizi hivi</string>
+    <string name="upsell_advanced_features">Vipengele vya kina: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_streaming_services">Fikia huduma za utiririshaji (Netflix, Disney+, na mengine) popote duniani</string>
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_servers">
+        <item quantity="one">seva %1$d</item>
+        <item quantity="other">seva %1$d</item>
+    </plurals>
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_countries">
+        <item quantity="one">nchi %1$d</item>
+        <item quantity="other">nchi %1$d</item>
+    </plurals>
+    <string name="upsell_upgrade_again">Pandisha daraja tena ili kufurahia vipengele vyote:</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d seva salama</item>
+        <item quantity="other">%d seva salama</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="upgrade_plus_countries">
+        <item quantity="one">%d nchi</item>
+        <item quantity="other">%d nchi</item>
+    </plurals>
+    <string name="upgrade_not_now_button">Sio sasa</string>
+    <!-- Content description for plan selection list.
+         Only used by accessibility services.
+
+         Example:
+         When the plan selection control is focused, and the first plan name is "VPN Plus"
+         TalkBack will read:
+         "VPN Plus, 1 of 2, in list Upgrade options" -->
+    <string name="upgrade_plan_selection_content_description">Machaguo ya kupandisha daraja</string>
+    <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
+         May be used as a table header or like an icon. -->
+    <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">Mpango wa Plus:</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">Mpango wa Free:</string>
+    <string name="upsell_panel_content_description_yes">Ndiyo</string>
+    <string name="upsell_panel_content_description_no">Hapana</string>
+    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_block_ads">Zuia matangazo na vifuatiliaji</string>
+    <string name="upsell_panel_general_benefit_countries">Nchi zilizopo</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_devices">Vifaa vilivyolindwa</string>
+    <string name="upsell_panel_general_benefit_location">Chagua eneo lako</string>
+    <string name="upsell_panel_general_benefit_server">Chagua seva yako</string>
+    <string name="upsell_panel_general_benefit_shows">Tazama vipindi vyako kutoka nchi yoyote</string>
+    <string name="upsell_panel_general_benefit_speed">Kasi ya seva</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Kawaida</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Ya juu zaidi</string>
+    <string name="upsell_panel_adv_customization_title">Rekebisha muunganisho wako</string>
+    <string name="upsell_panel_adv_customization_description">Ruhusu miunganisho ya LAN, weka DNS maalum, na chagua aina yako ya NAT. Udhibiti wa hali ya juu, vyote kwenye Plus.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Fikia kichapishi chako na vifaa vya nyumbani</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Tumia huduma yako mwenyewe ya DNS</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Miunganisho bora kwa michezo ya kuchezea</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">Fungua %1$s ukitumia VPN Plus</string>
+    <string name="upsell_panel_countries_title">Fungua nchi zote ukitumia VPN Plus</string>
+    <string name="upsell_panel_country_benefit_speed">Seva zenye kasi ya juu</string>
+    <string name="upsell_panel_country_benefit_shows">Tazama vipindi vinavyopatikana nje ya nchi tu</string>
+    <string name="upsell_panel_devices_title">Linda kila kifaa unachomiliki</string>
+    <string name="upsell_panel_devices_description">Simu yako, laptop, TV, na kila kitu kingine chako.</string>
+    <string name="upsell_panel_netshield_title">Vinjari bila usumbufu</string>
+    <string name="upsell_panel_netshield_benefit_ads">Matangazo yanazuiwa unapovinjari</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Zuia vifuatiliaji visikufuatilie</string>
+    <string name="upsell_panel_netshield_benefit_malware">Ulinzi dhidi ya programu hasidi na ulaghai mtandaoni</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Kurasa hufunguka kwa kasi zaidi </string>
+    <string name="upsell_panel_onboarding_title">Pata zaidi kwa VPN Plus</string>
+    <string name="upsell_panel_p2p_title">Upakuaji kwa kasi kamili</string>
+    <string name="upsell_panel_p2p_description">Seva zilizoundwa kwa kushiriki faili, na programu yako ya kawaida ya torrent.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">Kushiriki faili kwa P2P</string>
+    <string name="upsell_panel_profiles_title">Utiririshaji, michezo, kazi: wasifu kwa kila moja</string>
+    <string name="upsell_panel_profiles_description">Sanidi miunganisho yako jinsi unavyotaka, kisha unganisha tena na yoyote kwa kugusa mara moja.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Miwasifu iliyohifadhiwa</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Bila kikomo</string>
+    <string name="upsell_panel_secure_core_title">Tabaka mbili za usimbaji fiche kati yako na wavuti</string>
+    <string name="upsell_panel_secure_core_description">Hupitiwa kwa seva ya Proton nchini Uswisi, Iceland au Uswidi kabla ya nchi uliyochagua.</string>
+    <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
+    <string name="upsell_panel_speed_title">Tiririsha, cheza michezo na pakua kwa kasi zaidi</string>
+    <string name="upsell_panel_speed_benefit_servers">Seva zenye kasi ya juu</string>
+    <string name="upsell_panel_speed_benefit_gaming">Muda wa majibu unapocheza michezo</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Polepole</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Haraka</string>
+    <string name="upsell_panel_speed_benefit_video">Video inatiririka bila kusubiri</string>
+    <string name="upsell_panel_speed_benefit_p2p">Upakuaji wa P2P unaungwa mkono</string>
+    <string name="upsell_panel_split_tunneling_title">Chagua programu zipi zinazotumia VPN</string>
+    <string name="upsell_panel_split_tunneling_description">Kivinjari chako kupitia VPN, programu yako ya benki ikipita nje yake. Unachagua, programu moja baada ya nyingine.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Mgawanyo wa trafiki</string>
+    <string name="upsell_panel_streaming_title">Tazama huduma zako unazopenda za utiririshaji</string>
+    <string name="upsell_panel_streaming_benefit_shows">Tazama vipindi kutoka nchi yoyote</string>
+    <!-- The asterisk points to upsell_panel_streaming_footer -->
+    <string name="upsell_panel_streaming_benefit_platforms">Majukwaa makuu yote ya utiririshaji yanaungwa mkono *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Tiririsha kwa HD bila kusubiri</string>
+    <string name="upsell_panel_streaming_benefit_devices">Vifaa vinavyounganishwa kwa wakati mmoja</string>
+    <string name="upsell_panel_streaming_footer">* Usajili wa jukwaa la utiririshaji unahitajika.</string>
+    <string name="upsell_panel_streaming_block_title">Pandisha daraja ili kuzunguka vizuizi vya VPN</string>
+    <string name="upsell_panel_streaming_block_description">Seva za VPN Plus zinakuruhusu kufurahia filamu na vipindi vya TV unavyopenda kutoka dunia kote.</string>
+    <string name="upsell_panel_tor_title">Tovuti za onion, bila haja ya Tor Browser</string>
+    <string name="upsell_panel_tor_description">Fikia tovuti za .onion kwenye kivinjari unachotumia tayari.</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
+    <string name="upsell_card_countries_title">Ufunikaji duniani kote</string>
+    <!-- Parameters:
+        %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">Maeneo ya seva %1$d+ katika %2$s</string>
+    <string name="upsell_card_customization_title">Na vipengele vingine vingi…</string>
+    <string name="upsell_card_customization_description">Fungua vipengele zaidi vya utendaji na faragha</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="one">Linda kifaa %1$d</item>
+        <item quantity="other">Linda vifaa %1$d</item>
+    </plurals>
+    <string name="upsell_card_devices_description">Usalama na faragha kwenye vifaa vyako vyote</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">Zuia matangazo, programu hasidi na vifuatiliaji.</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">Ongeza tabaka lingine la usimbaji fiche kwenye muunganisho wako wa VPN</string>
+    <string name="upsell_card_p2p_title">Usaidizi wa P2P</string>
+    <string name="upsell_card_p2p_description">Pakua faili kupitia BitTorrent na itifaki nyingine za kushiriki faili.</string>
+    <string name="upsell_card_profiles_title">Profaili</string>
+    <string name="upsell_card_profiles_description">Tengeneza muunganisho wa VPN maalum</string>
+    <string name="upsell_card_speed_title">Uvinjari wenye kasi zaidi</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">Vinjari kwa kasi zaidi (hadi %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">Mgawanyo wa trafiki</string>
+    <string name="upsell_card_split_tunneling_description">Vinjari kutoka maeneo mawili kwa wakati mmoja</string>
+    <string name="upsell_card_streaming_title">Utiririshaji</string>
+    <string name="upsell_card_streaming_description">Tazama filamu na vipindi vya TV unavyopenda</string>
+    <string name="upsell_card_tor_title">Tor over VPN</string>
+    <string name="upsell_card_tor_description">Tumia mtandao wa Tor juu ya muunganisho wako wa VPN kwa faragha ya ziada</string>
+    <string name="upsell_tv_all_countries_title">Fikia nchi zote kwa Plus</string>
+    <!-- Format for upselling countries on TV".
+        %1$s - replaced with upgrade_plus_servers_new plurals key (e.g. 1 secure server or 10 secure servers)
+        %2$s - replaced with upgrade_plus_countries plurals key (e.g. 1 country or 10 countries)
+
+        Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
+    -->
+    <string name="upsell_tv_all_countries_description">Fungua %1$s katika %2$s.</string>
+    <string name="upsell_tv_netshield_title">Furahia kuvinjari bila matangazo kwa Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Zuia matangazo, vifuatiliaji, na programu hasidi ukitumia <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_split_tunneling_title">Pata faida za pande zote mbili kwa Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Gawanya trafiki yako katika njia za VPN na zisizo za VPN ukitumia <b>mgawanyo wa trafiki</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Usajili umeisha</string>
+    <string name="upsell_tv_subscription_expired_description">Pandisha daraja ili kupata tena seva na vipengele vya Plus.</string>
+    <string name="upsell_tv_customization_title">Pata usanidi maalum wa VPN wa hali ya juu kwa Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Fungua <b>muunganisho wa LAN</b>, <b>DNS maalum</b>, na vipengele vingine vya hali ya juu vya VPN.]]></string>
+    <string name="upsell_tv_fallback_description">Tembelea tovuti ya Proton VPN ili kupandisha daraja mpango wako.</string>
+    <!-- Format for price per period of time.
+        %1$s - replaced with price and currency (e.g. "$100")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")
+
+        Examples:
+        50 PLN /month
+        $100 /year
+    -->
+    <string name="payment_price_with_period">%1$s /%2$s</string>
+    <string name="payment_price_per_day">siku</string>
+    <string name="payment_price_per_week">wiki</string>
+    <string name="payment_price_per_month">mwezi</string>
+    <string name="payment_price_per_year">mwaka</string>
+    <plurals name="payment_price_cycle_label_day">
+        <item quantity="one">siku %1$d</item>
+        <item quantity="other">siku %1$d</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_week">
+        <item quantity="one">wiki %1$d</item>
+        <item quantity="other">wiki %1$d</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_month">
+        <item quantity="one">mwezi %1$d</item>
+        <item quantity="other">miezi %1$d</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_year">
+        <item quantity="one">mwaka %1$d</item>
+        <item quantity="other">miaka %1$d</item>
+    </plurals>
+    <string name="payment_select_your_plan">Teua mpango wako</string>
+    <!-- Label on a button for purchasing a subscription.
+         Parameter: %1$s - plan name
+         Plan names are not translated.
+
+         Example: "Get VPN Plus", "Get Proton Unlimited". -->
+    <string name="payment_button_get_plan">Pata %1$s</string>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of days -->
+    <plurals name="payment_discount_renewal_price_message_daily">
+        <item quantity="one">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s/siku.</item>
+        <item quantity="other">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s kila siku %2$d.</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_discount_renewal_price_message_weekly">
+        <item quantity="one">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s/wiki.</item>
+        <item quantity="other">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s kila wiki %2$d.</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of months -->
+    <plurals name="payment_discount_renewal_price_message_monthly">
+        <item quantity="one">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s/mwezi.</item>
+        <item quantity="other">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s kila miezi %2$d.</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_discount_renewal_price_message_yearly">
+        <item quantity="one">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s/mwaka.</item>
+        <item quantity="other">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s kila miaka %2$d.</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of days -->
+    <plurals name="payment_renewal_price_message_daily">
+        <item quantity="one">Usajili unajipya kiotomatiki kwa %1$s/siku.</item>
+        <item quantity="other">Usajili unajipya kiotomatiki kwa %1$s kila %2$d siku.</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_renewal_price_message_weekly">
+        <item quantity="one">Usajili unajipya kiotomatiki kwa %1$s/wiki.</item>
+        <item quantity="other">Usajili unajipya kiotomatiki kwa %1$s kila %2$d wiki.</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of months -->
+    <plurals name="payment_renewal_price_message_monthly">
+        <item quantity="one">Usajili unajipya kiotomatiki kwa %1$s/mwezi.</item>
+        <item quantity="other">Usajili unajipya kiotomatiki kwa %1$s kila %2$d miezi.</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_renewal_price_message_yearly">
+        <item quantity="one">Usajili unajipya kiotomatiki kwa %1$s/mwaka.</item>
+        <item quantity="other">Usajili unajipya kiotomatiki kwa %1$s kila %2$d miaka.</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_daily">
+        <item quantity="one">%1$s/siku</item>
+        <item quantity="other">%1$s kila %2$d siku</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_discount_weekly">
+        <item quantity="one">%1$s/wiki</item>
+        <item quantity="other">%1$s kila %2$d wiki</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_discount_monthly">
+        <item quantity="one">%1$s/mwezi</item>
+        <item quantity="other">%1$s kila %2$d miezi</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_yearly">
+        <item quantity="one">%1$s/mwaka</item>
+        <item quantity="other">%1$s kila %2$d miaka</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_for_days">
+        <item quantity="one">kwa siku ya kwanza</item>
+        <item quantity="other">kwa %1$d siku za kwanza</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_discount_for_weeks">
+        <item quantity="one">kwa wiki ya kwanza</item>
+        <item quantity="other">kwa %1$d wiki za kwanza</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_discount_for_months">
+        <item quantity="one">kwa mwezi wa kwanza</item>
+        <item quantity="other">kwa %1$d miezi ya kwanza</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of years -->
+    <plurals name="payment_multi_renewal_discount_for_years">
+        <item quantity="one">kwa mwaka wa kwanza</item>
+        <item quantity="other">kwa %1$d miaka ya kwanza</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_rest_daily">
+        <item quantity="one">kisha inajipya kiotomatiki kwa %1$s/siku</item>
+        <item quantity="other">kisha inajipya kiotomatiki kwa %1$s kila %2$d siku</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_rest_weekly">
+        <item quantity="one">kisha inajipya kiotomatiki kwa %1$s/wiki</item>
+        <item quantity="other">kisha inajipya kiotomatiki kwa %1$s kila %2$d wiki</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_rest_monthly">
+        <item quantity="one">kisha inajipya kiotomatiki kwa %1$s/mwezi</item>
+        <item quantity="other">kisha inajipya kiotomatiki kwa %1$s kila %2$d miezi</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_multi_renewal_rest_yearly">
+        <item quantity="one">kisha inajipya kiotomatiki kwa %1$s/mwaka</item>
+        <item quantity="other">kisha inajipya kiotomatiki kwa %1$s kila %2$d miaka</item>
+    </plurals>
+    <!-- Explains renewal cycle when first there's a discount price for several periods
+     (e.g. 2 months) and then the subscription renews at full price.
+     Periods (days, months etc) are never mixed between the messages, the whole message uses one
+     unit.
+
+     Parameters:
+      %1$s - one of payment_multi_renewal_discount_*
+      %2$s - one of payment_multi_renewal_discount_for_*
+      %3$s - one of payment_multi_renewal_rest_*
+
+     Examples:
+      "$2.99/month for the first 2 months, then auto renews at $3.99/month"
+      "$19.99/year for the first 3 years, then auto renews at $24.99/year"
+      "$3.99 every 2 months for the first 4 months, then auto renews at 5.99 every 2 months"
+    -->
+    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s.</string>
+    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_description">Teknolojia hii huruhusu Proton VPN kutoa kasi ya juu zaidi na usalama katika nchi ambazo ni ngumu kuhudumia.</string>
+    <string name="tor_title">Tor</string>
+    <string name="server_load_title">Mzigo wa seva</string>
+    <string name="activity_information_learn_more">Pata maelezo zaidi</string>
+    <string name="server_load_low">Ndogo</string>
+    <string name="server_load_medium">Wastani</string>
+    <string name="server_load_high">Juu</string>
+    <!-- Override Human verification links from core -->
+    <string name="onboarding_welcome_title">Karibu kwenye Proton VPN</string>
+    <string name="onboarding_welcome_description">Vinjari kwa faragha, fikia maudhui yaliyozuiwa, na furahia uhuru wa kidijitali.</string>
+    <string name="onboarding_welcome_action">Anza</string>
+    <string name="upgrade_success_get_started_button">Anza</string>
+    <string name="dynamic_report_suggestion_didnt_work">Hakufanya kazi?</string>
+    <string name="dynamic_report_contact_us">Wasiliana nasi</string>
+    <string name="dynamic_report_tips_description">Vidokezo hivi vinaweza kukusaidia kutatua tatizo lako kwa haraka zaidi.</string>
+    <string name="dynamic_report_tips_title">Marekebisho ya haraka</string>
+    <string name="dynamic_report_logs_title">Tuma kumbukumbu za hitilafu</string>
+    <string name="dynamic_report_logs_tooltip">Kumbukumbu za hitilafu zinaonyesha kilichokwenda mrama na hatua zipi zilisababisha tatizo. Tutazitumia tu kusaidia wahandisi wetu kurekebisha matatizo.</string>
+    <string name="dynamic_report_error_title">Ripoti yako haikuweza kutumwa.</string>
+    <string name="dynamic_report_completion_error_description_generic">Ripoti yako haikuweza kutumwa. Tafadhali jaribu tena.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">Ripoti yako haikuweza kutumwa. Tafadhali angalia muunganisho wako kisha ujaribu tena.</string>
+    <string name="dynamic_report_completion_error_description_timeout">Ripoti yako haikuweza kutumwa. Muda wa muunganisho umeisha, tafadhali jaribu tena.</string>
+    <string name="dynamic_report_completion_success_title">Asante kwa maoni yako. Tutawasiliana nawe haraka iwezekanavyo.</string>
+    <string name="dynamic_report_success_title">Asante kwa maoni yako</string>
+    <string name="dynamic_report_success_description">Tutawasiliana nawe haraka iwezekanavyo.</string>
+    <string name="dynamic_report_field_mandatory">Sehemu hii ni ya lazima</string>
+    <string name="dynamic_report_logs_description">Kumbukumbu ni aina ya faili inayotuonyesha vitendo ulivyofanya hadi hitilafu ilitokea. Tutazitumia tu kusaidia wahandisi wetu kurekebisha kasoro.</string>
+    <string name="dynamic_report_logs_missing">Kumbukumbu za hitilafu hutusaidia kuchunguza tatizo lako kwa kina. Ukiziondoa, huenda tusiweze kuichunguza kikamilifu.</string>
+    <string name="dynamic_report_step1">Hatua ya 1 kati ya 3</string>
+    <string name="dynamic_report_step2">Hatua ya 2 kati ya 3</string>
+    <string name="dynamic_report_step3">Hatua ya 3 kati ya 3</string>
+    <string name="dynamic_report_your_issue_headline">Ni tatizo gani?</string>
+    <string name="update_screen_title">Sasisha Proton VPN</string>
+    <string name="update_screen_description">Una uwezekano mkubwa wa kupata matatizo kwenye matoleo ya zamani ya Proton VPN.</string>
+    <string name="update_banner_description_settings">Toleo jipya la programu linapatikana.</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN itatenganishwa kwa muda mfupi</string>
+    <string name="update_banner_warning_vpn_connected_message">Programu inahitaji kuanzishwa upya ili kukamilisha sasisho. Utaunganishwa tena kiotomatiki baada ya hapo.</string>
+    <string name="dialog_create_account_title">Fungua akaunti ili uendelee</string>
+    <string name="dialog_create_account_action_create">Fungua akaunti</string>
+    <string name="dialog_create_account_action_signin">Ingia</string>
+    <string name="server_search_menu_title">Tafuta</string>
+    <string name="search_empty_result_subtitle">Tafadhali jaribu neno lingine la utafutaji.</string>
+    <string name="search_empty_result_title">Hakuna matokeo yaliyopatikana</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">Futa</string>
+    <!-- Content description for an icon button that clears text in an input field. -->
+    <string name="clear_text_field_content_description">Futa</string>
+    <string name="free_connections_info_message">Proton Free huunganisha kiotomatiki na seva ya haraka zaidi inayopatikana. Kwa kawaida, hii itakuwa seva iliyo karibu zaidi na eneo lako.</string>
+    <string name="free_connections_info_server_locations">Maeneo ya seva za bure (%1$d)</string>
+    <string name="free_connections_info_banner_text">Fikia nchi zote kwa VPN Plus</string>
+    <string name="free_connection_info_title">Miunganisho ya bure</string>
+    <string name="search_upsell_banner_title">Tiririsha kutoka mahali popote</string>
+    <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
+    <plurals name="search_upsell_banner_message">
+        <item quantity="one">Fungua maudhui yaliyozuiwa kijiografia kutoka nchi %1$d kwa VPN Plus.</item>
+        <item quantity="other">Fungua maudhui yaliyozuiwa kijiografia kutoka nchi %1$d kwa VPN Plus.</item>
+    </plurals>
+    <string name="select_default_connection">Teua muunganisho wako wa chaguo-msingi</string>
+    <string name="settings_default_connection_title">Muunganisho wa chaguo-msingi</string>
+    <string name="fastest_country_description">Seva bora kulingana na eneo lako</string>
+    <string name="settings_connection_preferences_title">Mapendeleo ya muunganisho</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Kipengee kimeondolewa.</string>
+    <string name="settings_excluded_locations_title">Maeneo yaliyotolewa nje</string>
+    <string name="settings_excluded_locations_description">Maeneo yaliyochaguliwa hayatatumiwa kamwe unapounganisha kwenye Fastest.</string>
+    <string name="settings_excluded_locations_unavailable">Hakuna maeneo yanayopatikana</string>
+    <string name="settings_excluded_locations_selection_hint">Teua…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Ondoa kutoka kwenye maeneo yaliyotolewa nje</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Mji</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Nchi</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Jimbo</string>
+    <string name="settings_last_connection_title">Muunganisho wa mwisho</string>
+    <string name="settings_last_connection_description">Muunganisho uliotumika hivi karibuni zaidi</string>
+    <string name="settings_change_icon_title">Aikoni ya programu</string>
+    <string name="settings_change_icon_details">Badilisha jinsi programu ya Proton VPN inavyoonekana kwenye kifaa chako. Kwa nini?</string>
+    <string name="settings_change_icon_confirmation_title">Ubadilishe aikoni ya programu?</string>
+    <string name="settings_change_icon_confirmation_details">Hii itafunga programu ya Proton VPN. Ili kuanzisha upya Proton VPN, gusa tu aikoni yako mpya ya programu.</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
+    <string name="settings_change_icon_header_discreet">Aikoni ya programu ya siri</string>
+    <string name="settings_widget_title">Wijeti</string>
+    <string name="settings_widget_selection_title">Jaribu wijeti ya Proton VPN</string>
+    <string name="settings_widget_selection_description">Ona hali ya muunganisho wako na ufikie miunganisho yako ya VPN unayoipenda kutoka skrini ya nyumbani.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">Ili kuongeza wijeti, bonyeza na ushikilie mahali popote kwenye skrini yako ya nyumbani, kisha teua %1$s kutoka kwenye menyu ya wijeti.</string>
+    <string name="settings_widget_selection_button_title">Ongeza wijeti</string>
+    <string name="setting_widget_try_title">Jaribu wijeti ya Proton VPN</string>
+    <!-- Content description used by accessibility services for a button for dismissing (hiding)
+         a notification banner (usually used for special offers). -->
+    <string name="notification_banner_dismiss_accessibility_label">Ondoa bango la arifa</string>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">%1$s %2$s zimebaki</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="one">sekunde %1$d</item>
+        <item quantity="other">sekunde %1$d</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="one">dakika %1$d</item>
+        <item quantity="other">dakika %1$d</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="one">saa %1$d</item>
+        <item quantity="other">saa %1$d</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="one">Siku %1$d</item>
+        <item quantity="other">Siku %1$d</item>
+    </plurals>
+    <string name="server_change_max_reached">Umepeleka idadi ya mabadiliko ya seva ya bila malipo hadi kikomo kwa sasa.</string>
+    <string name="server_change_upsell">Pata mabadiliko yasiyo na kikomo ukitumia VPN Plus.</string>
+    <string name="server_change_button_title">Badilisha seva</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services.
+
+        %1$s - replaced with "time_left_minutes"
+        %2$s - replaced with "time_left_seconds"
+        Example:
+        Available in 1 minute 23 seconds.
+      -->
+    <string name="server_change_button_time_left_content_description">Inapatikana baada ya %1$s %2$s</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services and only if time left is less than 1 minute.
+
+        %1$s - replaced with "time_left_seconds"
+        Example:
+        Available in 23 seconds.
+      -->
+    <string name="server_change_button_time_left_seconds_content_description">Inapatikana baada ya %1$s</string>
+    <string name="server_change_progress_finished_contend_description">Inapatikana sasa</string>
+    <string name="not_wanted_country_title">Hii si nchi uliyotaka?</string>
+    <string name="not_wanted_country_description">Pandisha daraja kuchagua seva yoyote</string>
+    <string name="whats_new_title">Ni nini kipya</string>
+    <string name="whats_new_profiles_title">Wasifu umerudi</string>
+    <string name="whats_new_profiles_description">Tengeneza na hifadhi miunganisho maalum kwa kutumia eneo, seva na itifaki ulizochagua.</string>
+    <string name="whats_new_widget_title">Tunaanzisha wijeti</string>
+    <string name="whats_new_widget_description">Sasa unaweza kuangalia na kudhibiti VPN yako bila kuondoka kwenye skrini ya nyumbani.</string>
+    <string name="whats_new_add_widget_button">Ongeza wijeti</string>
+    <string name="welcome_plus_title">Karibu kwenye VPN Plus</string>
+    <string name="welcome_plus_description">Furahia vipengele vya ziada vya faragha, utendaji wa kasi ya juu, na urekebishaji wa VPN wa kiwango kikubwa.</string>
+    <string name="welcome_unlimited_title">Karibu kwenye Proton Unlimited</string>
+    <string name="welcome_unlimited_description">Umefungua vipengele vyote vya kiwango cha juu vya Proton VPN, Mail, Kalenda, Hifadhi, Pass, na Pochi.</string>
+    <string name="welcome_generic_title">Hongera</string>
+    <string name="welcome_generic_description">Umepandisha usajili wako daraja. Furahia vipengele vya faragha vya hali ya juu na utendaji wa kiwango kikubwa.</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">kiungo cha nje</string>
+    <string name="no_logs_banner_title">Imethibitishwa: VPN isiyo na kumbukumbu</string>
+    <string name="no_logs_banner_description">Shughuli zako za VPN zinalindwa na sheria za faragha za Uswisi. Hatutawahi kukufuatilia mtandaoni wala kushiriki taarifa zako na upande wa tatu.</string>
+    <!-- tag(Redesign_2023) Bottom bar label for home screen -->
+    <string name="bottom_nav_home">Nyumbani</string>
+    <string name="bottom_nav_gateways">Malango</string>
+    <string name="bottom_nav_profiles">Wasifu</string>
+    <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
+    <string name="bottom_nav_countries">Nchi</string>
+    <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
+    <string name="botton_nav_settings">Mipangilio</string>
+    <!-- tag(Redesign_2023)
+         Text added to button labels that open a UI element (e.g. a panel).
+         Only used by accessibility services.
+         Example:
+         a button with label "connection details" and this action label will be read by a screen
+         reader as:
+         "Connection details, button. Double tap to open"
+    -->
+    <string name="accessibility_action_open">fungua</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that initiate a VPN connection.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland will be read by a screen reader as:
+         "Switzerland. Double tap to connect"
+        -->
+    <string name="accessibility_action_connect">unganisha</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that redirect the user to upgrade their subscription plan.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland that requires upgrading subscription to become
+         available will be read by a screen reader as:
+         "Unavailable, Switzerland. Double tap to upgrade"
+        -->
+    <string name="accessibility_action_upgrade">pandisha daraja</string>
+    <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">tafuta</string>
+    <!--
+     Text added to clickable elements that provide negative feedback when clicking on it.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_feedback_negative">si nzuri</string>
+    <!--
+     Text added to clickable elements that provide positive feedback when clicking on it.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_feedback_positive">nzuri</string>
+    <!--
+     Text added to clickable elements that allows to submit either positive or negative feedback.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_submit_feedback">tuma</string>
+    <!-- Name of action for opening a screen/panel for an item.
+         The action is listed in a menu of additional actions available to accessibility services.
+
+         Example:
+         - item in a list of countries has a custom action to open list of cities in the country
+         - item in a list of cities has a custom action to open list of servers in the city
+         -->
+    <string name="accessibility_menu_action_open">Fungua</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable because servers
+         are in maintenance.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are in maintenance will be read by a
+         screen reader as:
+         "in maintenance, Switzerland"
+     -->
+    <string name="accessibility_item_in_maintenance">katika matengenezo</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are unavailable will be read by a screen
+         reader as:
+         "unavailable, Switzerland"
+     -->
+    <string name="accessibility_item_unavailable">haipatikani</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when there is active connection to it.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland when there is a VPN connection to a server in this country
+         will be read by a screen reader as:
+         "Switzerland, connected"
+     -->
+    <string name="accessibility_item_connected">imeunganishwa</string>
+    <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
+    <string name="server_feature_label_p2p">P2P</string>
+    <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
+    <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_tor">Tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
+    <string name="fastest_country">Nchi ya haraka zaidi</string>
+    <string name="fastest_country_excluding_my_country">Nchi ya haraka zaidi (bila nchi yangu)</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
+    <string name="fastest_free_server">Seva ya bila malipo yenye kasi zaidi</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Iceland
+     -->
+    <string name="connection_info_secure_core_full_iceland">%1$s kupitia Aislandi</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Sweden
+     -->
+    <string name="connection_info_secure_core_full_sweden">%1$s kupitia Uswidi</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_switzerland">%1$s kupitia Uswisi</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - exit country name in nominative case
+         %2$s - entry country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_other">%1$s kupitia %2$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_iceland">kupitia Aislandi</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_sweden">kupitia Uswidi</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_switzerland">kupitia Uswisi</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">kupitia Secure Core</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - entry country name in nominative case
+         Example: via Switzerland
+    -->
+    <string name="connection_info_secure_core_entry_other">kupitia %1$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         three countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+
+     -->
+    <string name="connection_info_auto_selected_free_countries">Iliyochaguliwa kiotomatiki kutoka [flags]</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         several countries. Used instead of connection_info_auto_selected_free_countries when there
+         are more than 3 countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+         $1%d - replaced with number of additional countries (beyond the 3 flags).
+
+         Example, if there are 5 countries to select from the text will be:
+         Auto selected from [flags]+2
+         -->
+    <string name="connection_info_auto_selected_free_countries_more">Iliyochaguliwa kiotomatiki kutoka [flags]+%1$d</string>
+    <!-- tag(Redesign_2023)
+         Accessibility label describing a connection to a free server that is automatically selected
+         from one in several countries. Placed directly below fastest_free_server.
+         This text replaces connection_info_auto_selected_free_servers for screen readers.
+         $1%d - replaced with number of countries.
+         -->
+    <plurals name="connection_info_accessibility_auto_selected_free_countries">
+        <item quantity="one">Iliyochaguliwa kiotomatiki kutoka nchi %1$d</item>
+        <item quantity="other">Iliyochaguliwa kiotomatiki kutoka nchi %1$d</item>
+    </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Iliyochaguliwa kiotomatiki kutoka nchi za bila malipo.</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         are that of the previous connection.
+
+         Example:
+         Last connected to
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         -->
+    <string name="connection_card_label_last_connected">Mara ya mwisho uliunganishwa na</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">Muunganisho wa chaguo-msingi</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Muunganisho bila malipo</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is being established.
+     -->
+    <string name="connection_card_label_connecting">Inaunganisha…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It\'s shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Inabadilisha seva…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is established and the user
+         is safely browsing as if they were in the location indicated in the connection card.
+
+         Example:
+         Browsing safely from
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         Germany
+     -->
+    <string name="connection_card_label_connected">Unatumia intaneti salama kutoka</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with details of the current VPN connection.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "connection details, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_connection_details">maelezo ya muunganisho</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with information about connections in free plan.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "more information about free connections, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_free_connections">maelezo zaidi kuhusu miunganisho bila malipo</string>
+    <string name="connection_card_label_connection_feedback">Muunganisho wako ukoje?</string>
+    <!-- tag(Redesign_2023)
+         Displayed above the list of recently made connections.
+     -->
+    <string name="recents_headline">Hivi karibuni</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">Gundua VPN Plus</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_pin">Bandika</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_unpin">Bandua</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_remove">Ondoa</string>
+    <!-- tag(Redesign_2023)
+         State description of a pinned recent item.
+         Only used by accessibility service.
+    -->
+    <string name="recent_action_accessibility_state_pinned">Imebandikwa</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_country_servers_in_maintenance">Seva zote katika nchi hii zinatunzwa.</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_city_servers_in_maintenance">Seva zote katika mji huu zinatunzwa.</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">Seva zote katika jimbo hili zinatunzwa.</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_in_maintenance">Seva inatunzwa.</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_not_available">Seva haipatikani.</string>
+    <string name="message_server_location_excluded">Eneo la seva limetolewa nje.</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
+    <string name="message_gateway_in_maintenance">Lango linatunzwa.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out">Ondoka</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_title">Mipangilio</string>
+    <string name="gateways_title">Milango</string>
+    <string name="countries_title">Nchi</string>
+    <string name="profiles_title">Wasifu</string>
+    <string name="settings_autoconnect_title">Unganisha kiotomatiki</string>
+    <string name="settings_autoconnect_boot_description">Inakuunganisha kiotomatiki kwenye VPN kwa kutumia quick-connect kila mara kifaa chako kinapowashwa.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_features">Vipengele</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_netshield_title">NetShield</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_split_tunneling_title">Mgawanyo wa trafiki</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_kill_switch_title">Kizima cha dharura</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_connection_category">Muunganisho</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_protocol_title">Itifaki</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_advanced_settings_title">Mipangilio ya hali ya juu</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_general">Jumla</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_account">Akaunti</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_notifications_title">Arifa</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_support">Usaidizi</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_help_center_title">Kituo cha usaidizi</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_report_issue_title">Ripoti tatizo</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_debug_logs_title">Kumbukumbu za kuondoa kasoro</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_improve_proton">Boresha Proton</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_fight_censorship_title">Tusaidie kupambana na udhibiti</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_rate_us_title">Kadiria Proton VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_app_version">Toleo la programu: %1$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_third_party_licenses">Leseni za wahusika wengine</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_title">Ondoka?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_message">Utatenganishwa na VPN.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_dont_ask_again">Usiniulize tena</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_action">Ondoka</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_action_cancel">Ghairi</string>
+    <string name="dialog_action_change_icon">Badilisha ikoni</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">Zote</string>
+    <string name="country_filter_cities">Miji</string>
+    <string name="country_filter_states">Majimbo</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">Nchi zote (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Nchi za Plus (%1$d)</string>
+    <string name="country_filter_countries_list_header">Nchi (%1$d)</string>
+    <string name="country_filter_cities_list_header">Miji (%1$d)</string>
+    <string name="country_filter_states_list_header">Majimbo (%1$d)</string>
+    <string name="country_filter_servers_list_header">Seva</string>
+    <string name="country_filter_secure_core_list_header">Nchi za Secure Core (%1$d)</string>
+    <string name="country_filter_p2p_list_header">Nchi za P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">Miji ya P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">Majimbo ya P2P (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">Seva za P2P</string>
+    <string name="country_filter_tor_list_header">Nchi za Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Seva za Tor</string>
+    <string name="country_filter_info_label">Habari</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">Mzigo: %1$s%%</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is connected and network is protected
+    -->
+    <string name="vpn_status_connected">Umelindwa</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is not connected and network is not protected
+    -->
+    <string name="vpn_status_disabled">Hujalindwa</string>
+    <!-- tag(Redesign_2023)
+         Text is shown while connection is being established
+    -->
+    <string name="vpn_status_connecting">Inalinda utambulisho wako wa kidijitali</string>
+    <!-- tag(Redesign_2023)
+         Displays Country name and IP of user if he is not connected.
+         First parameter is country, second is IP.
+         Ex: Poland · 192.1.1.1.1
+    -->
+    <string name="vpn_status_disabled_location">%1$s · %2$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_subtitle">Maelezo ya muunganisho</string>
+    <string name="connection_details_features_title">Vipengele</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_show_ip">Onyesha IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_back">Nyuma</string>
+    <string name="accessibility_close">Funga</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_my_ip">IP yangu</string>
+    <string name="connection_details_my_ipv4">IPv4 yangu</string>
+    <string name="connection_details_my_ipv6">IPv6 yangu</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_ip">IP ya VPN</string>
+    <string name="connection_details_vpn_ip4_6">IPv4/IPv6 ya VPN</string>
+    <string name="connection_details_vpn_ipv4">IPv4 ya VPN</string>
+    <string name="connection_details_vpn_ipv6">IPv6 ya VPN</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
+    -->
+    <string name="connection_details_connected_for">Imeunganishwa kwa</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server">Seva</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_gateway">Lango</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_country">Nchi</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_city">Mji</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">Jimbo</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Inaelekezwa kupitia</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
+    -->
+    <string name="connection_details_server_load">Mzigo wa seva</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_question">Mzigo wa seva ni nini?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_description">Mzigo wa seva unaonyesha jinsi seva ilivyo karibu na uwezo wake wa juu zaidi. \n\nMzigo mkubwa wa seva unaweza kupunguza kasi ya muunganisho wako.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_title">Ndogo (1 hadi 75%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_description">Kasi ya juu kabisa</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_title">Wastani (76 hadi 90%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_description">Hauna uwezekano mkubwa wa kuathiri kasi ya VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_title">Kubwa (91 hadi 100%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_description">VPN inaweza kuenda polepole zaidi ya kawaida </string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol">Itifaki</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol_description">Itifaki ni mfululizo wa maelekezo ambavyo kifaa chako hufuata ili kuunganisha na kuzungumza na seva.</string>
+    <!-- tag(Redesign_2023)
+         Label in front of upload speed in connection details. It is followed by upload speed number and unit.
+    -->
+    <string name="connection_details_upload">Pakia</string>
+    <!-- tag(Redesign_2023)
+         Label in front of download speed in connection details. It is followed by download speed number and unit.
+    -->
+    <string name="connection_details_download">Pakua</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_section_vpn_speed">Kasi ya VPN</string>
+    <string name="connection_details_section_ip">Anwani ya IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_question">Kasi ya VPN ni ipi?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core inakuunganisha na seva yako ya lengo kupitia seva ya pili ya VPN yenye usalama wa juu kabisa.\n\nKiwango hiki cha juu cha ulinzi kinaweza kusababisha ucheleweshaji mkubwa na kasi pungufu zaidi.</string>
+    <string name="info_secure_core_standard_header">Muunganisho wa VPN wa kawaida</string>
+    <string name="info_secure_core_secure_header">Muunganisho wa VPN wa Secure Core</string>
+    <string name="info_dialog_tor_description">Unganisha kwa seva ya Tor ili kufikia huduma zilizofichwa na tovuti za onion kwa kutumia kivinjari chochote.</string>
+    <string name="info_dialog_button_learn_more_tor">Jinsi ya kufikia mtandao wa Tor</string>
+    <string name="info_dialog_button_learn_more_p2p">Jinsi ya kutumia torrent kwa P2P</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Anwani ya IP ni nini?</string>
+    <string name="info_dialog_button_learn_more_streaming">Unahitaji msaada wa utiririshaji?</string>
+    <string name="info_dialog_streaming_title">Utiririshaji</string>
+    <string name="info_dialog_streaming_description">Seva za utiririshaji zimeundwa ili TV na filamu zirushwe kwa kasi na kwa usalama.</string>
+    <string name="info_dialog_how_to_stream">Jinsi ya kutiririsha:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Nenda kwenye mipangilio ya simu yako na uzime huduma za eneo.</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">Anzisha upya huduma yako ya utiririshaji.</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Unganisha na seva yoyote ya Plus na uanze kutiririsha.</string>
+    <string name="info_dialog_profiles_title">Profaili</string>
+    <string name="info_dialog_ipaddress_title">Anwani ya IP</string>
+    <string name="info_dialog_ipv6_traffic_title">Trafiki ya IPv6</string>
+    <string name="info_dialog_profiles_description">Profaili ni muunganisho maalum wa VPN unaoweza kurekebisha kulingana na mahitaji yako na kuhifadhi ili kufikia kwa haraka.\n\nWeka eneo unalopendelea na uboreshe mipangilio yako kwa usalama, utendaji, michezo au hali nyingine yoyote.</string>
+    <string name="info_dialog_ipaddress_description">IP ya VPN inafunika anwani yako halisi ya IP. Hii huifanya ionekane kama unavivinjari kutoka eneo lako la VPN, hivyo shughuli zako za mtandaoni haziwezi kuhusishwa na kifaa chako.</string>
+    <string name="info_dialog_ipv6_traffic_description">Internet Protocol (IP) hugawa anwani kwa vifaa na kuelekeza trafiki ya intaneti. IPv6 ni toleo jipya zaidi, linalotoa anwani zaidi na muunganisho bora, lakini bado halijatumika kote duniani.</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">Kushiriki faili peer-to-peer kumewashwa kwenye seva hii.</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">Unaweza kuunganisha kwenye tovuti za .onion kwa kutumia kivinjari chako cha kawaida.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">Shughuli zako zimesimbwa fiche nyuma ya seva 2 za VPN zenye usalama wa hali ya juu.</string>
+    <string name="connection_feature_streaming_title">Utiririshaji</string>
+    <string name="connection_feature_streaming_description">Seva hii imeboreshwa kwa ajili ya utiririshaji wa TV na filamu.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <string name="connection_feature_smart_routing_description">Inakuunganisha na nchi yako ya lengo kupitia seva zilizoko kimwili mahali pengine.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Inakuunganisha na nchi unayolenga kupitia seva zilizoko kimwili sehemu nyingine: %1$s.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
+    -->
+    <string name="country_smart_routing_info">Seva zipo kimwili nchini %1$s, ila utaonekana kama unatumia mtandao kutoka %2$s.</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Taarifa</string>
+    <!-- tag(Redesign_2023)
+         Used for button title to learn more about different contexts
+    -->
+    <string name="connection_details_learn_more">Pata maelezo zaidi</string>
+    <!-- tag(Redesign_2023)
+        Used to describe IP which is not known
+    -->
+    <string name="connection_details_unknown_ip">Isiyojulikana</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_description">Grafu hii inaonyesha kasi ya shughuli zako za sasa za kupakia na kupakua. Muunganisho wako wa VPN hauna uwezekano mkubwa wa kupunguza kasi ya shughuli zako za kawaida za mtandaoni.</string>
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
+    <string name="speed_graph_title">Kasi %1$s</string>
+    <string name="bytes_per_second">B/s</string>
+    <string name="kilobytes_per_second">KB/s</string>
+    <string name="megabytes_per_second">MB/s</string>
+    <string name="gigabytes_per_second">GB/s</string>
+    <string name="terabytes_per_second">TB/s</string>
+    <plurals name="full_name_speed_bytes_per_second">
+        <item quantity="one">%1$s baiti kwa sekunde</item>
+        <item quantity="other">%1$s baiti kwa sekunde</item>
+    </plurals>
+    <plurals name="full_name_speed_kilobytes_per_second">
+        <item quantity="one">%1$s kilobaiti kwa sekunde</item>
+        <item quantity="other">%1$s kilobaiti kwa sekunde</item>
+    </plurals>
+    <plurals name="full_name_speed_megabytes_per_second">
+        <item quantity="one">%1$s megabaiti kwa sekunde</item>
+        <item quantity="other">%1$s megabaiti kwa sekunde</item>
+    </plurals>
+    <plurals name="full_name_speed_gigabytes_per_second">
+        <item quantity="one">%1$s gigabaiti kwa sekunde</item>
+        <item quantity="other">%1$s gigabaiti kwa sekunde</item>
+    </plurals>
+    <plurals name="full_name_speed_terabytes_per_second">
+        <item quantity="one">%1$s terabaiti kwa sekunde</item>
+        <item quantity="other">%1$s terabaiti kwa sekunde</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_bytes">
+        <item quantity="one">%1$s baiti</item>
+        <item quantity="other">%1$s baiti</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_kilobytes">
+        <item quantity="one">%1$s kilobaiti</item>
+        <item quantity="other">%1$s kilobaiti</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_megabytes">
+        <item quantity="one">%1$s megabaiti</item>
+        <item quantity="other">%1$s megabaiti</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_gigabytes">
+        <item quantity="one">%1$s gigabaiti</item>
+        <item quantity="other">%1$s gigabaiti</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_terabytes">
+        <item quantity="one">%1$s terabaiti</item>
+        <item quantity="other">%1$s terabaiti</item>
+    </plurals>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
+    <!-- tag(Redesign_2023)
+         Shown at the top status view if app detects that there is no usable network to connect to VPN
+    -->
+    <string name="error_vpn_waiting_for_network">Inasubiri mtandao</string>
+    <!-- tag(Redesign_2023) -->
+    <plurals name="connection_details_days">
+        <item quantity="one">%1$d siku</item>
+        <item quantity="other">%1$d siku</item>
+    </plurals>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_hours_shortened">%1$d saa</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_minutes_shortened">%1$d dak</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_seconds_shortened">%1$d sek</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Muunganisho haukufanikiwa</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Kifaa hiki hakiruhusu miunganisho ya VPN.</string>
+    <string name="create_profile_title">Tengeneza wasifu</string>
+    <!-- Title for the screen where user can edit a profile.
+         %1$s - name of the profile being edited. -->
+    <string name="edit_profile_title">Hariri %1$s</string>
+    <string name="edit_profile_dialog_action">Hariri wasifu</string>
+    <string name="create_profile_name_hint">Jina la wasifu</string>
+    <string name="create_profile_name_error_empty">Weka jina la wasifu</string>
+    <string name="create_profile_name_error_too_long">Jina la wasifu lazima liwe na herufi 30 au chini</string>
+    <string name="create_profile_type_and_location_title">Teua aina ya muunganisho na eneo</string>
+    <string name="create_profile_features_and_settings_title">Vipengele na mipangilio</string>
+    <string name="configure_profile_features_and_settings_title">Sanidi mipangilio ya wasifu</string>
+    <string name="configure_profile_features_and_settings_description">Ukiwa umenganisha, mipangilio ya wasifu itachukua nafasi ya mipangilio yako ya VPN.</string>
+    <!--
+        First input will be for current step, second one will be for total number of steps
+        Example: Step 3 of 7
+     -->
+    <string name="create_profile_steps">Hatua ya %1$d kati ya %2$d</string>
+    <string name="create_profile_button_next">Ifuatayo</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Ongeza kasi ya muunganisho wako hadi 400%% kwa kutumia teknolojia zinazoimarisha utendaji. %1$s</string>
+    <string name="settings_account_settings_title">Mipangilio ya akaunti</string>
+    <string name="settings_account_change_password">Badilisha nenosiri</string>
+    <string name="settings_account_recovery_email">Barua pepe ya urejeshaji</string>
+    <string name="settings_account_recovery_email_not_set">Haijawekwa</string>
+    <string name="settings_account_security_keys">Funguo za usalama</string>
+    <!-- Label of a button that opens user\'s account page -->
+    <string name="settings_account_button_my_account">Akaunti yangu</string>
+    <string name="settings_account_button_delete_account">Futa akaunti</string>
+    <string name="settings_custom_dns_title">DNS maalum</string>
+    <string name="settings_custom_dns_description_tv">Unganisha kwenye VPN kwa kutumia mfumo wa majina ya vikoa (DNS) wenyeji au wa mhusika mwingine.</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Ongeza seva mpya ya DNS</string>
+    <string name="settings_add_dns_new_entry_button">Ongeza</string>
+    <string name="settings_add_dns_description">Weka anwani ya IPv4 au IPv6 ya seva</string>
+    <string name="settings_add_dns_invalid_input">Weka anwani sahihi ya IPv4 au IPv6</string>
+    <string name="settings_add_dns_empty_input">Weka anwani ya IPv4 au IPv6</string>
+    <string name="settings_add_dns_duplicate_input">Seva tayari imeongezwa</string>
+    <string name="settings_advanced_dns_description">Unganisha na VPN kwa kutumia mfumo wa jina la kikoa (DNS) wenyeji au wa mhusika mwingine. Pata maelezo zaidi</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Seva (%1$d)</string>
+    <string name="settings_dns_list_description">Ikiwa seva yako ya DNS maalum haifanyi kazi, DNS ya kawaida ya VPN itatumika.</string>
+    <string name="settings_dns_list_description_multiple">Tutajaribu kuunganisha na seva hizi moja baada ya nyingine. Ikiwa hakuna inayofanya kazi, DNS ya VPN itatumika.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Mabadiliko yatatumika unapounganisha tena.</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield haitapatikana</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield hawezi kuchuja matangazo, vifuatiliaji wala programu hasidi ikiwa DNS maalum inatumika. Pata maelezo zaidi</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield haiwezi kuchuja matangazo, vifuatiliaji na programu hasidi wakati DNS maalum inatumika.</string>
+    <string name="settings_advanced_alternative_routing_title">Uelekezaji mbadala</string>
+    <string name="settings_advanced_alternative_routing_description">Ikiwa huduma za Proton zimezuiwa kutokana na vikwazo vya mtandao, tutajaribu kutumia njia mbadala ya uelekezaji wa mtandao ili kukuunganisha na tovuti zetu.</string>
+    <string name="settings_advanced_allow_lan_title">Miunganisho ya LAN</string>
+    <string name="settings_advanced_allow_lan_description">Hukuruhusu kuunganisha na printa, vipaza sauti na vifaa vingine kwenye mtandao wa ndani wa kifaa chako.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Unganisha na vipaza sauti, kompyuta na vifaa vingine kwenye mtandao wako wa ndani.</string>
+    <string name="settings_advanced_allow_lan_title_tv">Ruhusu miunganisho ya LAN</string>
+    <string name="settings_advanced_nat_type_title">Aina ya NAT</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Teua aina ya tafsiri ya anwani ya mtandao kwa muunganisho wako. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Teua aina ya tafsiri ya anwani ya mtandao kwa muunganisho wako.</string>
+    <string name="settings_advanced_nat_type_strict">Mkali (aina ya 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Aina ya 3</string>
+    <string name="settings_advanced_nat_type_moderate">Wastani (aina ya 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Aina ya 2</string>
+    <string name="settings_advanced_nat_type_strict_description">Huzuia data inayoingia kwenye mtandao wako. Chaguo hili ni salama zaidi, lakini linaweza kufanya muunganisho wa michezo ya peer-to-peer kuwa mgumu zaidi.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Huzuia kwa sehemu data inayoingia kwenye mtandao wako. Chaguo hili ni bora zaidi kwa michezo ya video mtandaoni.</string>
+    <string name="settings_split_tunneling_description">Sanidi muunganisho wako kwa kubaini programu na anwani za IP zipi zinalindwa na VPN. %1$s</string>
+    <string name="settings_protocol_description">Itifaki ya VPN inabainisha jinsi data inavyosogea kati ya seva ya VPN na kifaa chako. %1$s</string>
+    <string name="settings_protocol_description_no_link">Itifaki ya VPN inabainisha jinsi data inavyosogea kati ya seva ya VPN na kifaa chako.</string>
+    <string name="settings_protocol_section_speed">Kasi (UDP)</string>
+    <string name="settings_protocol_section_reliability">Uaminifu (TCP)</string>
+    <string name="settings_protocol_smart_title">Mahiri</string>
+    <string name="settings_protocol_smart_description">Huteua kiotomatiki itifaki bora kwa muunganisho wako.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Huteua kiotomatiki itifaki bora kwa muunganisho wako [kijaribio].</string>
+    <string name="settings_protocol_wireguard_udp_description">Itifaki ya kisasa kwa usalama na utendaji.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Itifaki ya kisasa kwa usalama na utendaji.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Huzidi vizuizi vya VPN kwa kuficha muunganisho wako wa VPN kutoka kwa wakaguzi. Itifaki hii inapinga DPI (ukaguzi wa kina wa pakiti), lakini huenda isikuwa na kasi kama itifaki nyingine. Stealth ni ya Proton VPN pekee.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Inapendekezwa</string>
+    <string name="settings_protocol_badge_experimental">Kijaribio</string>
+    <string name="settings_split_tunneling_mode_title">Hali</string>
+    <string name="settings_split_tunneling_mode_standard">Toa nje</string>
+    <string name="settings_split_tunneling_mode_inverse">Ingiza</string>
+    <string name="settings_split_tunneling_mode_description_standard">Programu na anwani za IP zilizochaguliwa zimetengwa na muunganisho wa VPN.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Ni programu na anwani za IP zilizochaguliwa pekee ndizo zinaunganishwa kupitia VPN, trafiki yote nyingine haijalindwa.</string>
+    <string name="settings_split_tunneling_excluded_apps">Programu zilizotengwa</string>
+    <string name="settings_split_tunneling_excluded_ips">Anwani za IP zilizotengwa</string>
+    <string name="settings_split_tunneling_included_apps">Programu zilizojumuishwa</string>
+    <string name="settings_split_tunneling_included_ips">Anwani za IP zilizojumuishwa</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Hakuna</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s na %3$d zaidi</string>
+    <string name="settings_split_tunneling_already_excluded">Imetengwa tayari</string>
+    <string name="settings_split_tunneling_already_included">Imejumuishwa tayari</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Uondoe anwani ya IP kutoka kwenye orodha?</string>
+    <string name="settings_split_tunneling_ip_removed_message">Anwani ya IP imeondolewa.</string>
+    <string name="settings_theme_title">Mandhari</string>
+    <string name="settings_theme_value_auto">Mandhari ya kifaa</string>
+    <string name="settings_theme_value_light">Mwanga</string>
+    <string name="settings_theme_value_dark">Nyeusi</string>
+    <string name="settings_dialog_reconnect">Mipangilio mipya itatumika utakapounganisha tena.</string>
+    <string name="settings_needs_reconnect_banner">Mipangilio mipya itatumika utakapounganisha tena.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">DNS maalum haipatikani</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Kifaa chako kinatumia DNS ya mhusika mwingine, kinachozuia DNS maalum ya Proton VPN isifanye kazi. Pata maelezo zaidi</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Kifaa chako kinatumia DNS ya mhusika mwingine ambayo inazuia DNS maalum ya Proton VPN kufanya kazi.</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield haipatikani</string>
+    <string name="private_dns_conflict_banner_netshield_description">Kifaa chako kinatumia DNS ya mhusika mwingine, kinachozuia NetShield isifanye kazi. Pata maelezo zaidi</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Mipangilio ya mtandao</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield haipatikani</string>
+    <string name="custom_dns_conflict_banner_netshield_description">DNS maalum imewashwa, hali inayozuia NetShield isifanye kazi. Pata maelezo zaidi</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Zima DNS maalum ili kutumia NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">DNS maalum imewashwa, na hii inazuia NetShield kufanya kazi.</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Zima DNS maalum</string>
+    <string name="info_secure_core_standard_high_privacy">Faragha ya juu</string>
+    <string name="info_secure_core_standard_lower_latency">Ucheleweshaji mdogo</string>
+    <string name="info_secure_core_advanced_privacy">Faragha ya hali ya juu</string>
+    <string name="info_secure_core_higher_latency">Ucheleweshaji mkubwa</string>
+    <string name="info_p2p_what_title">P2P ni nini?</string>
+    <string name="info_p2p_what_description">Teknolojia ya peer-to-peer (P2P) hukuruhusu kuunganisha na kushiriki faili moja kwa moja na vifaa vingine.\n\nSeva zetu za P2P zimeundwa maalum kusaaidia aina hii ya kushiriki faili.</string>
+    <string name="info_p2p_torrenting_title">Torrenting ni nini?</string>
+    <string name="info_p2p_torrenting_description">Kushiriki na kupakua kwa kasi faili kubwa kupitia mtandao wa P2P</string>
+    <string name="info_p2p_why_title">Kwa nini utumie seva ya P2P ukitumia torrent?</string>
+    <string name="info_p2p_why_description_speed">Kasi iliyoongezeka ya kupakia na kupakua</string>
+    <string name="info_p2p_why_description_logs">Hakuna kumbukumbu za shughuli</string>
+    <string name="info_p2p_why_description_hide">Ficha anwani yako ya IP kutoka kwa mtoa huduma wako na wenzako</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing huturuhusu kutoa huduma ya VPN katika nchi zisizofikika kwa urahisi.\n\nUnapounganisha na seva ya Smart Routing, utaonekana kama unatumia intaneti katika nchi uliyolenga, ingawa seva halisi iko mahali pengine.  \n\nSmart Routing kwa kawaida hutumika kupita sheria zinazopinga faragha na aina nyingine za udhibiti.</string>
+    <string name="notifications_channel_connection_status_name">Hali ya muunganisho</string>
+    <string name="notifications_channel_connection_status_description">Inaonyesha seva uliyounganishwa nayo na kasi yako ya VPN.</string>
+    <string name="notifications_channel_connection_errors_name">Hitilafu za muunganisho</string>
+    <string name="notifications_channel_connection_errors_description">Inakujulisha kuhusu matatizo yanayositisha au kusimamisha muunganisho wako wa VPN.</string>
+    <string name="notifications_channel_connection_tips_name">Vidokezo vya muunganisho</string>
+    <string name="notifications_channel_connection_tips_description">Vidokezo vinavyokusaidia kupata zaidi kutoka kwenye Proton VPN.</string>
+    <string name="countries_upsell_banner_description">Fikia nchi zote kwa VPN Plus</string>
+    <string name="secure_core_upsell_banner_description">Ongeza safu nyingine ya usimbaji fiche kwenye muunganisho wako wa VPN</string>
+    <string name="p2p_upsell_banner_description">Pakua faili kupitia BitTorrent na itifaki nyingine za kushiriki faili</string>
+    <string name="tor_upsell_banner_description">Tumia mtandao wa Tor juu ya muunganisho wako wa VPN kwa faragha zaidi.</string>
+    <string name="vpnplus_upsell_banner_description">Pandisha daraja hadi VPN Plus</string>
+    <string name="search_zero_screen_title">Jaribu kutafuta…</string>
+    <string name="search_zero_screen_info_countries_title">Nchi</string>
+    <string name="search_zero_screen_info_cities_title">Miji</string>
+    <string name="search_zero_screen_info_servers_title">Seva</string>
+    <string name="search_zero_screen_info_countries_examples">Uswisi, Marekani, Italia, Kanada…</string>
+    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Hitilafu imetokea wakati wa kuleta bei.</string>
+    <string name="tv_settings_split_tunneling_description">Rekebisha muunganisho wako kwa kuamua ni programu zipi zinalindwa na VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Programu zilizochaguliwa hazitumii muunganisho wa VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Programu zilizochaguliwa pekee ndizo zinazounganishwa kupitia VPN; trafiki yote nyingine haijalindwa.</string>
+    <string name="profile_action_edit">Hariri</string>
+    <string name="profile_action_duplicate">Nakili</string>
+    <string name="profile_action_delete">Futa</string>
+    <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="profile_needs_reconnect">Hii itaanzisha upya muunganisho wako.</string>
+    <string name="profile_overrides_setting">Mipangilio hii imeunganishwa na <b>%1$s</b> na inaweza kudhibitiwa tu ndani ya Wasifu.</string>
+    <string name="initial_profile_name_streaming_us">Utiririshaji nchini Marekani</string>
+    <string name="initial_profile_name_work_school">Kazi/Shule</string>
+    <string name="initial_profile_name_anti_censorship">Kukabiliana na udhibiti</string>
+    <string name="initial_profile_name_gaming">Michezo</string>
+    <string name="initial_profile_name_max_security">Usalama wa hali ya juu</string>
+    <string name="create_profile_pick_country_title">Nchi</string>
+    <string name="create_profile_pick_type_title">Aina</string>
+    <string name="create_profile_type_standard">Kawaida</string>
+    <string name="create_profile_type_secure_core">Secure Core</string>
+    <string name="create_profile_type_p2p">P2P</string>
+    <string name="create_profile_gateway">Lango</string>
+    <string name="create_profile_pick_state_title">Jimbo</string>
+    <string name="create_profile_pick_city_title">Mji</string>
+    <string name="create_profile_pick_server_title">Seva</string>
+    <string name="create_profile_pick_gateway_title">Lango</string>
+    <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_netshield_description">Zuia matangazo, vifuatiliaji na programu hasidi kwenye tovuti na programu.</string>
+    <string name="create_profile_pick_protocol_title">Itifaki</string>
+    <string name="create_profile_pick_nat_title">Aina ya NAT</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (nakala)</string>
+    <string name="create_profile_fastest_city">Haraka zaidi</string>
+    <string name="create_profile_fastest_state">Haraka zaidi</string>
+    <string name="create_profile_fastest_server">Haraka zaidi</string>
+    <string name="create_profile_pick_middle_country_title">Nchi ya kati</string>
+    <string name="profiles_zero_state_title">Tengeneza wasifu wako wa kwanza</string>
+    <string name="profiles_zero_state_description">Wasifu ni muunganisho uliohifadhiwa kwa eneo, seva na itifaki unavyochagua.</string>
+    <string name="profiles_button_create_profile">Tengeneza wasifu</string>
+    <string name="profile_deleted_snackbar_message">Wasifu umefutwa</string>
+    <string name="profile_connected_edit_setting">Mipangilio hii imeunganishwa na wasifu wako unaoendelea. \n\nHariri wasifu wako ili kufanya mabadiliko, au tenganisha ili kuhariri mipangilio yako ya jumla ya VPN.</string>
+    <string name="profile_connected_dialog_title">Dhibiti %1$s katika Wasifu</string>
+    <string name="undo">Tendua</string>
+    <string name="profile_unavailable_dialog_title">Wasifu haupatikani</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
+    <string name="profile_unavailable_dialog_message">Uteuzi wako wa seva kwa %1$s haupatikani. Teua seva nyingine au ujaribu tena baadaye.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Uteuzi wako wa seva kwa <b>%1$s</b> haupatikani. Teua seva nyingine, angalia maeneo uliyoyatenga au ujaribu tena baadaye.]]></string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">Aikoni %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">Rangi %1$d</string>
+    <string name="generic_info_label">Maelezo</string>
+    <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
+         Please don't use & in translation and capitalize key words. -->
+    <string name="create_profile_connect_and_go_label">Unganisha na Nenda</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Mpya</string>
+    <string name="create_profile_auto_open_url_input_label">URL ya tovuti</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Tumia hali ya kuvinjari kwa faragha</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Imezimwa</string>
+    <string name="profile_auto_open_app_failed_to_launch">Unganisha na Nenda: programu haikupatikana</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_website">Fungua tovuti</string>
+    <string name="profile_auto_open_app">Fungua programu</string>
+    <string name="create_profile_auto_open_description">Fungua moja kwa moja tovuti unayoichagua unapounganisha na wasifu huu.</string>
+    <string name="create_profile_auto_open_app_input_hint">Teua programu</string>
+    <string name="create_profile_auto_open_app_input_label">Programu</string>
+    <string name="create_profile_auto_open_app_no_apps">Hakuna programu zilizopatikana.</string>
+    <string name="profile_auto_open_error_invalid_url">Weka URL sahihi</string>
+    <string name="nps_how_likely_question">Ungependa kupendekeza Proton VPN kwa rafiki au mwenzako kwa kiwango gani?</string>
+    <string name="nps_additional_comment_title">Tafadhali tuambie kwa nini ulitoa kadirio hilo</string>
+    <string name="nps_additional_comment_optional">Si ya lazima</string>
+    <string name="nps_rating_low_values_explain">0 ni uwezekano mdogo sana</string>
+    <string name="nps_rating_high_values_explain">10 ni uwezekano mkubwa sana</string>
+    <string name="nps_toast_submit_message">Asante kwa kushiriki. Maoni yako hutusaidia kuboresha Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Jibu lako linapaswa kuwa na herufi 250 au chini yake</string>
+    <string name="nps_button_submit_title">Shiriki bila jina lako</string>
+    <string name="widget_preview_switzerland">Uswisi</string>
+    <string name="widget_preview_spain">Uhispania</string>
+    <string name="widget_preview_germany">Ujerumani</string>
+    <string name="widget_preview_france">Ufaransa</string>
+    <string name="widget_status_unprotected">Haijalindwa</string>
+    <string name="widget_status_error">Hitilafu</string>
+    <string name="widget_status_connecting">Inaunganisha</string>
+    <string name="widget_sign_in">Ingia</string>
+    <string name="widget_toast_added_message">Wijeti imeongezwa kwenye skrini ya nyumbani.</string>
+    <string name="settings_advanced_ipv6_title">Usaidizi wa IPv6</string>
+    <string name="settings_advanced_ipv6_description">Inapeleka trafiki ya IPv6 kupitia VPN. Inaweza kuboresha ulinganifu na mitandao ya IPv6.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Ili kutumia anwani hii, unahitaji kuruhusu miunganisho ya IPv6 kupitia tuneli ya VPN.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Washa IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 imezimwa</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 imewashwa</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Huhakikisha ufikiaji wa tovuti na huduma zinazotumia IPv6 pekee</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Huzuia matatizo kwenye mitandao inayotegemea IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">Huenda isifanye kazi vizuri na mitandao au programu za zamani</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Baadhi ya mitandao hushughulikia trafiki ya IPv6 kwa namna isiyotabirika</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Mapungufu</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Manufaa</string>
+    <string name="settings_lan_allow_direct_connection_title">Ruhusu miunganisho ya moja kwa moja ya vifaa</string>
+    <string name="settings_lan_allow_direct_connection_description">Unganisha kwenye runinga za akili, Android Auto, na vifaa vingine vinavyotengeneza mtandao wao. Kwa usalama wa juu zaidi, washa tu unapounganisha na vifaa hivi.</string>
+    <string name="no_connections_title">Hakuna miunganisho ya VPN inayopatikana</string>
+    <string name="no_connections_description_loading_error">Orodha ya seva haikuweza kupakiwa.</string>
+    <string name="no_connections_description_no_servers">Mwombe msimamizi wako awashe ufikiaji wa VPN kwa akaunti yako.</string>
+    <string name="no_connections_action_refresh">Onyesha upya</string>
+    <string name="no_connections_action_sign_out">Ondoka</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Unahitaji msaada? <a href="">Wasiliana nasi</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Ikiwa msimamizi wako anahitaji msaada wa kuwasha ufikiaji wa VPN, tuma kwake <a href="">maelekezi haya</a>.]]></string>
+    <string name="settings_protocol_proton_protocols">Itifaki za Proton</string>
+    <string name="settings_protocol_proton_protocols_description">Tumia utekelezaji wa WireGuard wa Proton VPN yenyewe. Hii ni kipengele cha majaribio, kwa hivyo huenda ukakumbana na matatizo ya utulivu.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Je, si nchi uliyotaka?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Kama kuna maeneo usiyotaka kuunganishwa nayo kiotomatiki, unaweza kuyatenga kutoka kwenye nchi ya Fastest.</string>
+    <string name="excluded_locations_adoption_title">Epuka maeneo usoyotaka</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Sasa unaweza kutenga nchi na miji kutoka kwenye miunganisho ya <b>Haraka zaidi</b>.]]></string>
+    <string name="session_fork_no_account_title">Ingia kwenye Android TV</string>
+    <string name="session_fork_no_account_message">Kamilisha kuingia kwenye kifaa hiki ili uanze kutumia Proton VPN kwenye TV yako.</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Kwa kutumia programu hii unakubali <a href="">sheria na masharti</a> yetu.]]></string>
+    <string name="session_fork_no_account_signup_button">Fungua akaunti</string>
+    <string name="session_fork_no_account_signin_button">Ingia</string>
+    <string name="session_fork_confirmation_title">Ingia kwenye Android TV?</string>
+    <string name="session_fork_confirmation_message">Hii itaruhusu TV kufikia akaunti yako ya Proton.</string>
+    <string name="session_fork_confirmation_bottom_note">Ingia tu kwenye vifaa vilivyoaminiwa</string>
+    <string name="session_fork_confirmation_too_soon_toast">Tafadhali kagua kabla ya kuendelea</string>
+    <string name="session_fork_success_title">Kuingia kumekamilika</string>
+    <string name="session_fork_success_message">Sasa umeingia kwenye TV yako.</string>
+    <string name="session_fork_error_expired_title">Msimbo umeisha muda</string>
+    <string name="session_fork_error_expired_message">Tengeneza msimbo mpya kwenye TV yako na ujaribu tena.</string>
+    <string name="session_fork_error_generic_title">Hukuweza kuingia</string>
+    <string name="session_fork_error_fatal_message">Angalia mtandao wako na ujaribu tena. Iwapo tatizo litaendelea, wasiliana na timu yetu ya huduma kwa wateja. </string>
+    <string name="session_fork_error_network_message">Angalia mtandao wako na ujaribu tena.</string>
+    <string name="session_fork_error_try_fallback_message">Bofya \‘Una shida kuingia?\’ kwenye TV yako ili kufuata hatua mbadala.</string>
+    <string name="session_fork_error_report_button">Ripoti tatizo</string>
+    <string name="session_fork_qr_code_content_description">Msimbo wa QR</string>
+    <string name="session_fork_qr_code_message">Changanua msimbo wa QR ili kuingia au kufungua akaunti.</string>
+    <string name="session_fork_qr_code_trouble_button">Una shida kuingia?</string>
+    <string name="session_fork_qr_code_error_expired">Kwa sababu za usalama, msimbo wa uthibitisho umeisha muda.</string>
+    <string name="session_fork_qr_code_error_network">Angalia mtandao wako na ujaribu tena.</string>
+    <string name="session_fork_qr_code_error_create_new_button">Tengeneza msimbo mpya</string>
+    <string name="session_fork_user_code_title">Hauwezi kuchanganua msimbo? Ingia kwa mkono</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Nenda: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Ingia au fungua akaunti</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
+    <string name="session_fork_user_code_step3"><![CDATA[Weka msimbo: <b>%1$s</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Bado unahitaji msaada? Tembelea <b>%1$s</b>]]></string>
+</resources>

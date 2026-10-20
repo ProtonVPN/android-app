@@ -322,9 +322,9 @@
     <string name="tv_server_list">伺服器列表</string>
     <string name="tv_server_list_action_unavailable">不可用</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">連線</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">連線中</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
     <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">您的 Proton VPN 授權方案已到期</string>

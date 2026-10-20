@@ -1,0 +1,1761 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_icon_name_classic">Àdábà</string>
+    <string name="app_icon_name_dark">Dúdú</string>
+    <string name="app_icon_name_retro">Àtìjọ́</string>
+    <string name="app_icon_name_weather">Ojú ọjọ́</string>
+    <string name="app_icon_name_notes">Àkọsílẹ̀</string>
+    <string name="app_icon_name_calculator">Kálkúlétà</string>
+    <string name="login">Gbà wọlé</string>
+    <string name="menuActionSignOut">Jáde</string>
+    <string name="connectionAllocationHelpTitle">Ẹ ṣé fún ìṣàgbéga</string>
+    <string name="connectionAllocationHelpDescription1">Láti bẹ̀rẹ̀ ìrìnàjò yín ní Proton VPN, jọ̀wọ́, ẹ fi àwọn àsopọ̀ VPN sí àkántì yín tàbí sí àkántì míràn tí ó wà lábẹ́ rẹ̀.</string>
+    <string name="connectionAllocationHelpDescription2">Igbésẹ̀ yìí yóò gba ìṣẹ́jú díẹ̀ kóṣe. Lẹ́yìn èyí, ẹ lè wọlé kí ẹ sì dáàbò bo gbogbo àwọn irin iṣẹ́ yín.</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">A kò tíì fi ààyè gba àsopọ̀ VPN kankan fún àkántì yín nísinsìnyí. Láti bẹ̀rẹ̀ ìrìnàjò yín pẹ̀lú Proton VPN, jọ̀wọ́, ẹ bá aṣàkóso yín sọ̀rọ̀. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Fi ààyè gba àwọn àsopọ̀ VPN</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Tún wọlé</string>
+    <!-- tag(Redesign_2023) "OK" button on dialogs -->
+    <string name="ok">OK</string>
+    <string name="dialogLearnMore">Mọ̀ síi</string>
+    <string name="connected">Ti so pọ̀</string>
+    <string name="buttonConnect">So ó pọ̀</string>
+    <string name="loaderConnectingTo">Ó ń so pọ̀ mọ́ %1$s</string>
+    <string name="loaderNotConnected">A kò so pọ̀ (Àìàbò)</string>
+    <string name="loaderConnectedTo">Ó ti so pọ̀ mọ́ %1$s</string>
+    <string name="loaderDisconnecting">Ó ń tú ìsopọ̀</string>
+    <string name="loaderReconnecting">Ó ń tún so mọ́</string>
+    <string name="loaderReconnectNoNetwork">Ó ń rétí nẹ́tíwọ́ọ̀kì tí ó leè ṣiṣẹ́</string>
+    <string name="loaderCheckingAvailability">Ó ń ṣàyẹ̀wò bí sáfà wà ní ọ̀fẹ́</string>
+    <string name="quickConnect">So Pọ̀ Kíákíá</string>
+    <!-- Displays a percentage value. Please use %% sign for %.
+         Example value: "70%" -->
+    <string name="serverLoad">%1$s%%</string>
+    <string name="cancel">Fagi lé e</string>
+    <string name="close">Pa á dé</string>
+    <string name="dialogContinue">Tẹ̀ síwájú</string>
+    <string name="drawerReportProblem">Fi ìṣòro rọ̀</string>
+    <string name="action_done">Ti ṣe tán</string>
+    <string name="action_share">Ṣe alábàápín</string>
+    <string name="accountFree">Proton Free</string>
+    <string name="restrictedMaintenanceTitle">Wà ní ìtọ́jú</string>
+    <string name="restrictedMaintenanceDescription">Sáfà tí ẹ ń gbìyànjú láti so pọ̀ mọ́ nísìsẹ́yìí wà ní ìtọ́jú. Jọ̀wọ́, ẹ gbìyànjú sáfà míràn.</string>
+    <string name="restricted_location_excluded_dialog_title">A kò lè so mọ́</string>
+    <string name="restricted_location_excluded_dialog_description">Kò sí sáfà tí ó wà. Ẹ yan ibùdó kan pẹ̀lú ọwọ́ tàbí ẹ ṣe àtúkọ àwọn ibùdó tí ẹ yọ sílẹ̀.</string>
+    <string name="errorUserDelinquent"><![CDATA[Àkántì yín ní ìwé ìsanwó tí ọjọ́ ti lọ lórí rẹ̀ nísìsẹ́yì. Jọ̀wọ́, ẹ sanwó gbogbo ìwé owó tí ẹ kò tíì sanwó ní&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>.]]></string>
+    <string name="errorMaxSessions">Ẹ ti dé iye àsopọ̀ àpapọ̀ tí a fàyè gbà fún àkántì yín. Jọ̀wọ́, ẹ gbé ètò Proton VPN yín ga láti gba àwọn àsopọ̀ díẹ̀ sí i.</string>
+    <string name="listItemMaintenance">Wà ní ìtọ́jú</string>
+    <string name="insufficientPermissionsTitle">Ìṣe tí olùmúlò gbọ́dọ̀ ṣe</string>
+    <string name="insufficientPermissionsDetails">A kò lè dá àsopọ̀ VPN sílẹ̀ fúnra rẹ̀. Jọ̀wọ́, ẹ so pọ̀ fúnra yín lẹ́ẹ̀kan láti fúnni ní àṣẹ.</string>
+    <string name="log_title">Àkọsílẹ̀</string>
+    <string name="disconnect">Tú ìsopọ̀</string>
+    <string name="state_connecting">Ó ń so pọ̀…</string>
+    <string name="state_connected">Ti so pọ̀</string>
+    <string name="state_disconnecting">Ó ń tú ìsopọ̀…</string>
+    <string name="state_error">Àṣìṣe</string>
+    <string name="error_server_list_load_failed">Jọ̀wọ́, ẹ ṣàyẹ̀wò àsopọ̀ yín kí ẹ sì tún gbiyànjú.</string>
+    <string name="error_server_unreachable">A kò lè so pọ̀ mọ́ VPN. Jọ̀wọ́, ẹ ṣàyẹ̀wò àsopọ̀ yín kí ẹ sì tún gbìyànjú.</string>
+    <string name="error_auth_failed">Ìjẹ́rìísí olùmúlò kò jáṣé.</string>
+    <string name="error_generic">Àṣìṣe kan tí a kò pinnu wáyé nígbà ìsomọ́.</string>
+    <string name="error_generic_with_reason">Proton VPN kò leè dá àsopọ̀ VPN sílẹ̀. Jọ̀wọ́, ẹ tún gbiyànjú ní ìṣẹ́jú díẹ̀.<br/><br/> Àwọn àlàyé: %1$s</string>
+    <string name="reconnect">Tun so mọ́</string>
+    <string name="reconnect_now">Tun so mọ́</string>
+    <string name="try_reconnecting">Gbìyànjú láti tun so mọ́</string>
+    <string name="connect">So ó pọ̀</string>
+    <string name="upgrade">Gbé e ga</string>
+    <string name="retry">Gbìyànjú lẹ́ẹ̀kansi</string>
+    <string name="report_message">Jábọ̀ iṣẹ́-rírán náà</string>
+    <string name="report_bug_email_label">Ímeèlì yín</string>
+    <string name="report_bug_email_hint">Ẹ tẹ̀ àdírẹ́sì ímeèlì yín sínú</string>
+    <string name="report_bug_message_label">Iṣẹ́-rírán</string>
+    <string name="report_bug_message_hint">Ẹ ṣe àpèjúwe àṣìṣe ẹ̀rọ náà àti bí àti ibi tí ẹ ti rí i.</string>
+    <string name="send_report">Fi ìjábọ̀ ránṣẹ́</string>
+    <string name="report_sent">A ti fi ìjábọ̀ yín ránṣẹ́</string>
+    <string name="discardChanges">Ṣé ẹ fẹ́ sọ àwọn àyípadà tí a kò ti fipá mọ́ nù?</string>
+    <string name="discardChangesButtonDiscard">Sọ àwọn àyípadà nù</string>
+    <string name="discardChangesButtonKeepEditing">Tẹ̀síwájú ní ṣíṣe àtúkọ</string>
+    <string name="done">TÁN</string>
+    <string name="add">Fi kún</string>
+    <string name="copy_to_clipboard">Ṣàdàkọ</string>
+    <string name="copied_to_clipboard">A ti ṣàdàkọ sí klíípbọọ̀dù.</string>
+    <string name="got_it">Ó yá</string>
+    <string name="exclude_locations">Kọ̀ àwọn ibùdó sílẹ̀</string>
+    <string name="excluded_locations">Àwọn ibùdó tí a kọ̀ sílẹ̀</string>
+    <string name="cannot_connect">A kò lè so pọ̀</string>
+    <string name="skip">Fò</string>
+    <string name="something_went_wrong">Àṣìṣe kan wáyé.</string>
+    <string name="try_again">Gbìyànjú lẹ́ẹ̀kansi</string>
+    <string name="delete">Pa á rẹ́</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">Gbé sí òkè àkójọ</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">Gbé sókè</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">Gbé sílẹ̀</string>
+    <string name="remove">Yọ ọ́ kúrò</string>
+    <string name="saveButton">Fipá mọ́</string>
+    <string name="ipWithPlaceholder">IP: %1$s</string>
+    <string name="activityLicensesTitle">Àwọn ìfúnniláṣẹ́ ẹgbẹ́ kẹta</string>
+    <string name="stateFragmentUnknownIp">Àììmọ̀</string>
+    <string name="noVpnPermissionMainTitle">Ìgbésẹ̀ ni a nílò láti so pọ̀ mọ́ VPN</string>
+    <string name="noVpnPermissionMainMessage">Láti so pọ̀ mọ́ Proton VPN, ẹ jọ̀wọ́ ṣe àwọn nǹkan wọ̀nyí:</string>
+    <string name="noVpnPermissionGrantPermissionTitle">Fúnni ní ìyọ̀ǹdá VPN</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android nílò ìyọ̀ǹdá yín láti so pọ̀ mọ́ Proton VPN. Ẹ fúnni ní i nípa títẹ̀ \"OK\" nígbà tí ẹ bá rí ìfihàn \"Ìbéèrè àsopọ̀\" láti ọwọ́ Android.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Paná VPN ṣíṣí nígbà gbogbo fún áàpù VPN mìíràn</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android kò faramọ́ lílo ọ̀pọ̀lọpọ̀ áàpù VPN pọ̀. Ẹ paná VPN ṣíṣí nígbà gbogbo fún áàpù VPN kankan tí kì í ṣe Proton VPN.</string>
+    <string name="noVpnPermissionProtonAppLabel">Áàpù Proton VPN</string>
+    <string name="noVpnPermissionOtherAppLabel">Àwọn áàpù VPN mìíràn</string>
+    <string name="noVpnPermissionOpenSettings">Ṣí àwọn ààtò VPN Android</string>
+    <string name="noNotificationPermissionGrantTitle">Má jẹ́ kí ìṣòro bá yín ní ìkòkò…</string>
+    <string name="noNotificationPermissionGrantDescription">Ẹ fi ààyè gba ìwífúnni kí ẹ lè gba ìkìlọ̀ nípa àwọn àyípadà ní ipò àsopọ̀ yín.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Fi ààyè gba ìwífúnni</string>
+    <string name="error_prepare_vpn_description"><![CDATA[Ẹ jọ̀wọ́ paná gbogbo ìgbà lórí VPN fún gbogbo àwọn áàpù VPN mìíràn nínú àwọn ààtò VPN ti Android, nítorí pé ó ń dènà Proton VPN lọ́wọ́ láti dá àsopọ̀ VPN sílẹ̀. Ẹ jọ̀wọ́ tún fúnni ní ìyọ̀ǹdá VPN tí àgbékalẹ̀ kan bá ṣẹ̀yọ̀ tí ó ń béèrè ìyọ̀ǹdá VPN. Ó le ye kí a yọ àwọn áàpù VPN mìíràn kúrò náà láti dènà ìṣòro. Lẹ́yìn èyí, ẹ jọ̀wọ́ gbìyànjú lẹ́ẹ̀kansi. <a href="%1$s">Mọ̀ síi</a>]]></string>
+    <string name="error_prepare_vpn_settings">Lọ sí àwọn ààtò VPN Android</string>
+    <string name="error_prepare_vpn_title">Àṣìṣe: ìṣòro ìyọ̀ǹdá VPN</string>
+    <string name="error_server_not_set">A kò rí sáfà náà mọ́.</string>
+    <string name="bugReportErrorEmptyEmail">Ímeèlì kò gbọdọ̀ ṣofo.</string>
+    <string name="bugReportErrorInvalidEmail">Àdírẹ́sì ímeèlì kò tọ́.</string>
+    <string name="bugReportLabelVpnLogsTitle">Fi àwọn àkọsílẹ̀ àṣìṣe kún un</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Èyí fi àwọn àkọsílẹ̀ àṣìṣe ìbílẹ̀ ránṣẹ́ (a kò ṣe àkọsílẹ̀ ìṣe) láti ràn wá lọ́wọ́ láti tún ìṣòro yín ṣe.</string>
+    <string name="profileFastest">Tí ó yára jùlọ</string>
+    <string name="profileRandom">Àìsòrí</string>
+    <string name="loaderErrorNoInternet">Kò sí àsopọ̀ ayélujára.</string>
+    <string name="loaderErrorGeneric">Àṣìṣe kan wáyé.</string>
+    <string name="inputIpAddressLabel">Àdírẹ́sì IP</string>
+    <string name="inputIpAddressHelp">Tẹ̀ àdírẹ́sì IPv4 tàbí IPv6 sáfà náà sínú.</string>
+    <string name="inputIpAddressErrorInvalid">Àdírẹ́sì IP kò tọ́.</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">TUNTUN</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">BẸ́TÀ</string>
+    <string name="settingsExcludedIPAddressesListHeader">Àwọn àdírẹ́sì IP tí a yọ kúrò (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Àwọn àdírẹ́sì IP tí a fi kún (%1$d)</string>
+    <string name="settingsExcludedApps">Àwọn áàpù tí a yọ kúrò</string>
+    <string name="settingsExcludedAppsEmpty">Fi àwọn áàpù tí yóò jáde nínú lílọ bíbọ̀ VPN kún un.</string>
+    <string name="settingsIncludedAppsEmpty">Fi àwọn áàpù tí yóò wà nínú lílọ bíbọ̀ VPN kún un.</string>
+    <string name="settingsExcludedAppsSelectedHeader">Àwọn áàpù tí a yọ kúrò (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Àwọn áàpù tí a fi kún (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Gbogbo àwọn áàpù deède tí ó kù (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Gbogbo àwọn áàpù ẹ̀rọ tí ó kù (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Gbogbo àwọn áàpù tí ó kù (%1$d)</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">Fi àwọn áàpù ẹ̀rọ hàn</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Fi àwọn áàpù ẹ̀rọ hàn</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">A ti yọ àwọn áàpù wọ̀nyí kúrò ní àsopọ̀ VPN yín.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Àwọn áàpù wọ̀nyí nìkan ni ó ń so pọ̀ nípasẹ̀ VPN.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Fi sí àwọn áàpù tí a yọ kúrò</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Yọ ọ́ kúrò nínú àwọn áàpù tí a yọ kúrò</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Fi sí àwọn áàpù tí a fi kún</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Yọ ọ́ kúrò nínú àwọn áàpù tí a fi kún</string>
+    <string name="accessibility_action_copy_to_clipboard">Ṣàdàkọ sí klíípbọọ̀dù</string>
+    <string name="accessibility_action_item_delete">Pa á rẹ́</string>
+    <string name="accessibility_action_item_move_up">Gbé sókè</string>
+    <string name="accessibility_action_item_move_down">Gbé sálẹ̀</string>
+    <string name="tileConnected">Ti so pọ̀: %1$s</string>
+    <string name="openUrlError">A kò lè ṣí %1$s. A kò rí bráósà wẹ́ẹ̀bù ní irin iṣẹ́ yín.</string>
+    <string name="loaderErrorTimeout">Àsopọ̀ náà kọjá àkókò rẹ̀. Jọ̀wọ́, ẹ tún gbìyànjú.</string>
+    <string name="troubleshootButton">Wádìí ìṣòro</string>
+    <string name="activityTroubleshootTitle">Yíyanjú ìṣòro</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">Àwọn ọ̀nà àbáyọ tí ó ṣeé ṣe</string>
+    <string name="troubleshootNoInternetDescription">Jọ̀wọ́, ẹ dájú pé àsopọ̀ ayélujára yín ń ṣiṣẹ́ dáadáa.</string>
+    <string name="troubleshootNoInternetTitle">Kò sí àsopọ̀ ayélujára</string>
+    <string name="troubleshootIspProblemTitle">Ìṣòro olùpèsè iṣẹ́ ìtọ́jú íntánẹ́ẹ̀tì (ISP)</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Ẹ gbìyànjú láti so pọ̀ mọ́ Proton láti nẹ́tíwọ́ọ̀kì mìíràn (tàbí kí ẹ lo <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootAntivirusProblemTitle">Ìdààmú láti ọ̀dọ̀ àntífáìrùsì</string>
+    <string name="troubleshootAntivirusProblemDescription">Paná sọ́fweà àntífáìrùsì yín fún àkókò díẹ̀ tàbí yọ ọ́ kúrò.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Ìdààmú láti ọ̀dọ̀ aṣojú/ààbò orí kọ̀mpútà</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Paná próksì tàbí ààbò orí kọ̀mpútà tí ó bá wà, tàbí kí ẹ kàn sí olùṣàkóso nẹ́tíwọ́ọ̀kì yín.</string>
+    <string name="troubleshootProtonDownTitle">Proton kò ṣiṣẹ́</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Ẹ wo <a href=\"%1$s\">Proton Status</a> láti mọ ìpò àwọn ètò wa.]]></string>
+    <string name="troubleshootContactUsSectionTitle">Ṣé ẹ sì lọ̀ọ́ nílò ìrànlọ́wọ́? Ẹ kàn sí wa tààrà</string>
+    <string name="troubleshootCustomerSupport">Ẹ̀ka àtìlẹ́yìn oníbàárà</string>
+    <string name="settingsAllowAlternativeRoutingTitle">Yíyan ipa ọ̀nà míràn</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Nígbà tí wọ́n bá kọ̀ Proton, ẹ jẹ̀ ká gbiyanju àwọn ipa ọ̀nà mìíràn láti dé àwọn sáfà Proton. <a href="%1$s">Ẹ mọ̀ síi</a>.]]></string>
+    <string name="troubleshootGovernmentBlockTitle">Ìdẹ̀kun láti ọ̀dọ̀ ìjọba</string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ó ṣe é ṣe pé orílẹ̀-èdè yín ń dẹ̀kun ìráàyèsí sí Proton. Ẹ gbiyanju láti lo <a href=\'%1$s\'>Tor</a> láti ní ìráàyèsí sí Proton.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Bí a ṣe lè fi ààyè gba olùdá ààbò bo àdírẹ́sì IP</string>
+    <string name="settingsKillSwitchEnableStep1">1. Ṣí àwọn ààtò irin iṣẹ́ yín</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Wá Proton VPN, ẹ sì fi ọwọ́ tọ́ %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">àwọn ààtò</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Fi ààyè gba \"<b>Gbogbo ìgbà lórí VPN</b>\" àti \"<b>Dẹ́kun àsopọ̀ láìsí VPN</b>\"]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Àwọn ààtò</string>
+    <string name="settingsKillSwitchLearnMoreButton">Kí ni olùdá ààbò bo àdírẹ́sì IP?</string>
+    <string name="settingsKillSwitchWarningMain">Nígbà tí olùdá ààbò bo àdírẹ́sì IP bá ṣí, ẹ kò ní lè so pọ̀ mọ́:</string>
+    <string name="settingsKillSwitchWarningPoint1">Àwọn wẹ́bsáìtì àti áàpù tí wọ́n ti yọ kúrò ní àsopọ̀ VPN yín nípasẹ̀ ìkáàkiri tí a pín</string>
+    <string name="settingsKillSwitchWarningPoint2">Àwọn irin iṣẹ́ ní nẹ́tíwọ́ọ̀kì agbègbè yín (LAN)</string>
+    <string name="settingsEnableTelemetryTitle">Ṣe alábàápín àwọn ìṣirò ìlò láìfi orúkọ hàn</string>
+    <string name="settingsEnableTelemetryDescription">Dátà ìlò ń ràn wá lọ́wọ́ láti bori ìdẹ̀kun VPN àti láti mú iṣẹ́ áàpù dàrá sí.</string>
+    <string name="settingsSendCrashReportsTitle">Ṣe alábàápín àwọn ìjábọ̀ àìṣiṣẹ́ láìfi orúkọ hàn</string>
+    <string name="settingsSendCrashReportsDescription">Ìjábọ̀ àìṣiṣẹ́ ń ràn wá lọ́wọ́ láti tún àṣìṣe ẹ̀rọ ṣe, láti mọ ààbò orí kọ̀mpútà àti láti yẹra fún ìdẹ̀kun VPN.</string>
+    <string name="settingsTelemetryScreenTitle">Ìṣirò ìlò</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Ìṣirò yìí kò ní àdírẹ́sì IP yín, wọ́n kò sì lè fi mọ yín. A kò ní ṣe alábàápín wọn pẹ̀lú àwọn ẹnìkẹ́ta láé. <a href="%1$s">Mọ̀ síi</a>]]></string>
+    <string name="netshield_settings_description_not_html">Ẹ dá ara yín lóbì sí ìpolówó, máálweà àti olùtọpa lórí àwọn wẹ́bsáìtì àti àwọn áàpù. %1$s</string>
+    <string name="netshield_settings_description_tv">Ó dá yín bo lọ́wọ́ àwọn ìpolówó alàgàta, olùtọpa, àti máálweà. NetShield kò dènà àwọn ìpolówó tí wọ́n fi kó mọ́ àwọn iṣẹ́ tí ó ń gbé fídíò sórí afẹ́fẹ́ bíi YouTube àti Netflix.</string>
+    <string name="netshield_settings_more_info_title_tv">Bí NetShield ṣe ń ṣiṣẹ́</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield dẹ́kun àwọn àbéèrè DNS sí àwọn ojú òpó alàgàta tí a mọ̀ fún ìpolówó, olùtọpa, àti máálweà.</item>
+        <item>Èyí túmọ̀ wípé ẹ kò ní gbà ìpolówó láti bráósà yín tàbí àwọn áàpù ọ̀fẹ́ tí wọ́n ń lo àwọn iṣẹ́ ìpolówó alàgàta.</item>
+        <item>Ṣùgbọ́n, kò lè dènà ìpolówó láti àwọn ojú àtẹ tí ń gbé nǹkan sórí afẹ́fẹ́ bíi YouTube àti Netflix, nítorí pé àwọn ìpolówó wọn wá láti ọ̀dọ̀ àwọn sáfà wọn fúnra wọn.</item>
+    </string-array>
+    <string name="settings_icon_change_description">Fipamọ́ áàpù Proton VPN nípa àwòrán àmì tí kò fí ara hàn. Àwọn ìwífúnni yóò ṣì máa fi orúkọ àti àwòrán àmì Proton VPN bí ó ti wà hàn. %1$s</string>
+    <string name="settings_icon_change_learn_more">Mọ̀ síi</string>
+    <string name="learn_more">Mọ̀ síi</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Tan</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Pá</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Kò ṣiṣẹ́</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Tàn</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Pá</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Tan</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Pá</string>
+    <string name="lan_state_on" comment="Describes state, not action">Tan</string>
+    <string name="lan_state_off" comment="Describes state, not action">Pá</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Tan</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Pá</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Tàn</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Pá</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Kò ṣiṣẹ́</string>
+    <string name="custom_dns_item_removed_snackbar">A ti yọ nǹkan náà kúrò.</string>
+    <string name="netshield_free_description">Dẹ́kun ìpolówọ́ ọjà, olùtọpa àti máálweà lórí wẹ́bsáìtì àti áàpù.</string>
+    <string name="netshield_what_data_means">Àlàyé nípa àwọn onka NetShield</string>
+    <string name="netshield_ads_title">Ìpolówó</string>
+    <string name="netshield_ads_details">Àwọn ìpolówó àti àwọn olùtọpa ìpolówó tí a kò rí</string>
+    <string name="netshield_trackers_title">Àwọn olùtọpa</string>
+    <string name="netshield_trackers_details">Àwọn kúúkì àti àwọn olùtọpa mìíràn tí wọ́n ń fipamọ́ àti ṣe alábàápín àmọ̀ nípa ìṣe ayélujára yín</string>
+    <string name="netshield_data_title">Dátà</string>
+    <string name="netshield_data_details">Iye dátà tí kò fẹ́ láti ara ìpolówó, àwọn olùtọpa àti máálweà tí NetShield dì</string>
+    <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
+        <item quantity="other">Ìpolówó tí a dì</item>
+    </plurals>
+    <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
+        <item quantity="other">Àwọn olùtọpa tí a dá wọ́n lọ́wọ́</item>
+    </plurals>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dátà tí a fipamọ́</string>
+    <string name="netshield_setting_warning">Àwọn wẹ́bsáìtì kan lè má ṣí dáadáa nígbà tí a bá dì ìpolówó àti àwọn olùtọpa.</string>
+    <string name="netshield_setting_block_adult_content">Dẹ́kun àkọ̀nalè àgbà</string>
+    <string name="dialogDontShowAgain">Má fi hàn mọ́</string>
+    <string name="guestHoleNotificationContent">A ń gbìyànjú láti kọjá àwọn ìṣòro nẹ́tíwọ́ọ̀kì. Èyí yóò ràn yín lọ́wọ́ láti ní ìráàyèsí sí Proton VPN.</string>
+    <string name="errorTunMultiUserPermission">A kò lè bẹ̀rẹ̀ àsopọ̀ VPN nítorí ìforígbárí láàárín áàpù méjì-méjì (fún àpẹẹrẹ, Dual Messenger) àti ìkáàkiri tí a pín. Jọ̀wọ́, ẹ paná ọ̀kan nínú wọn, kí ẹ sì tún irin iṣẹ́ yín bẹ̀rẹ̀.</string>
+    <string name="errorTorrentNotAllowed">Wọ́n kò gbà P2P lórí sáfà yìí.</string>
+    <string name="error_profile_fallback_unavailable">Àsopọ̀ kò ṣeéṣe. Sáfà tí ẹ yàn fún prófáìlì kò wà.</string>
+    <string name="profileProtocolNotAvailable">Prótòkọ́lù VPN fún prófáìlì yìí kò wà nìísìí. Láti so pọ̀, ẹ gbìyànjú yí prótòkọ́lù padà.</string>
+    <string name="stateConnectedTo">Ó ti so pọ̀ mọ́ %1$s</string>
+    <string name="stateNotConnected">Ẹ kò tíì so pọ̀</string>
+    <string name="nameEurope">Yúróòpù</string>
+    <string name="nameAmerica">Amẹ́ríkà</string>
+    <string name="nameAsia">Ásíà</string>
+    <string name="nameAfricaAndMiddleEast">Áfíríkà àti Àárín Gbùngbùn</string>
+    <string name="nameOceania">Òséáníà</string>
+    <string name="tv_row_settings">Àwọn ààtò</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
+    <string name="tv_card_split_tunneling_label">Ìkáàkiri tí a pín</string>
+    <string name="tv_card_protocol_label">Pròtíkọ́ọ̀lù</string>
+    <string name="tv_dialog_delete_server_title">Ṣé ẹ fẹ́ pa sáfà %1$s rẹ́?</string>
+    <string name="tv_detail_default_connection_checkbox_short">Ayọ̀kẹ́fẹ́</string>
+    <string name="tv_detail_connect_streaming">Gbé fídíò sórí afẹ́fẹ́ pẹ̀lú Plus</string>
+    <string name="tv_detail_connect">So ó pọ̀</string>
+    <string name="tv_detail_description_streaming_country">Ẹ gbé àwọn ohun èlò ayọ̀kẹ́fẹ́ yín sórí afẹ́fẹ́. Ẹ ní ìráàyèsí sí àwọn áàpù mìíràn pẹ̀lú Ètò Proton VPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">Ẹ gbé púpọ̀ sí i nínú àwọn ohun èlò ayọ̀kẹ́fẹ́ yín sórí afẹ́fẹ́ pẹ̀lú Ètò Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Orílẹ̀-èdè yìí kò sí. Ẹ gba àwọn àṣàyàn gbígbé sórí afẹ́fẹ́ mìíràn pẹ̀lú Ètò Proton VPN Plus.</string>
+    <string name="tv_detail_description_plus">Gbé àwọn fídíò, fíìmù tàbí eré ìdárayá yín sórí afẹ́fẹ́ pẹ̀lú àwọn áàpù yín.</string>
+    <string name="tv_login_title_welcome">Gbé àwọn fídíò ayọ̀kẹ́fẹ́ yín sórí afẹ́fẹ́</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Gba àkántì Proton VPN yín ní <b>%1$s</b>]]></string>
+    <string name="back">Padà</string>
+    <string name="tv_vpn_error_dialog_title">Àsopọ̀ VPN kò ṣeéṣe</string>
+    <string name="tv_signout_label">Jáde</string>
+    <string name="tv_signout_dialog_title">Ṣé ẹ dájú pé ẹ fẹ́ jáde?</string>
+    <string name="tv_signout_dialog_description_connected">Èyí yóò tú ìsopọ̀ TV yín kúrò lọ́wọ́ sáfà VPN eyíkéyìí.</string>
+    <string name="tv_signout_dialog_ok">Jáde</string>
+    <string name="tv_quick_connect_recommened">A dámọ̀ràn</string>
+    <string name="tv_quick_connect_favourite">Ayọ̀kẹ́fẹ́</string>
+    <string name="tv_country_maintenance_dialog_title">Orílẹ̀-èdè náà kò wà</string>
+    <string name="tv_country_maintenance_dialog_description">Jọ̀wọ́, ẹ tún gbìyànjú nígbà mìíràn tàbí ẹ yan orílẹ̀-èdè mìíràn.</string>
+    <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+         Example: 76% server load -->
+    <string name="tv_server_list_load">Àpilẹ̀ṣẹ̀ sáfà %1$s%%</string>
+    <string name="tv_recently_used_servers">Àwọn sáfà tí a lo ṣẹ̀ṣẹ́</string>
+    <string name="tv_available_servers">Àwọn sáfà tí ó wà</string>
+    <string name="tv_locked_servers">Àwọn sáfà tí a ti dẹ́kun</string>
+    <string name="tv_other_servers">Àwọn sáfà mìíràn</string>
+    <string name="tv_server_list">Àkójọ sáfà</string>
+    <string name="tv_server_list_action_unavailable">Kò wà</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connected</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connecting</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="notification_subscription_expired_title">Ètò ìforúkọsílẹ̀ Proton VPN yín ti wá sí òpin</string>
+    <string name="notification_subscription_expired_content">A ní láti rẹ̀ ètò yín sílẹ̀, ṣùgbọ́n a ń tún so yín mọ́ sáfà tí ó yára jù tí ó wà ní ètò yẹn.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">A ti rẹ̀ ìforúkọsílẹ̀ yín sílẹ̀.</string>
+    <string name="notification_delinquent_title">Àwọn ìwé-owó tí kò tíì san wà ní àkántì Proton VPN yín</string>
+    <string name="notification_delinquent_content">Jọ̀wọ́, ẹ mú àlàyé ìsanwó yín dé ojú ìwọ̀n kí ìforúkọsílẹ̀ yín lè máa ṣiṣẹ́.</string>
+    <string name="notification_max_sessions_title">Ẹ ti dé èèwọ̀ irin iṣẹ́ yín tí ó ga jùlọ</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="notification_max_sessions_upsell_content">
+        <item quantity="other">Jọ̀wọ́, ẹ tú ìsopọ̀ irin iṣẹ́ mìíràn kí ẹ lè so irin iṣẹ́ yìí pọ̀, tàbí ẹ gbé ètò yín ga sí Plus kí ẹ lè so tó %1$d irin iṣẹ́ pọ̀ ní ìgbà kan náà.</item>
+    </plurals>
+    <string name="notification_max_sessions_content">Jọ̀wọ́, ẹ tú ìsopọ̀ irin iṣẹ́ mìíràn kúrò kí ẹ lè so irin iṣẹ́ yìí mọ́.</string>
+    <string name="notification_cancel_to_free">Ẹ wà ní Free plan. Àwọn sáfà àti àbùdá Free plan ló wà.</string>
+    <string name="notification_cancel_to_basic">Ẹ wà ní Basic plan. Àwọn sáfà àti àbùdá Basic àti Free plan ló wà.</string>
+    <string name="notification_cancel_to_delinquent">Ẹ lè ní ìráàyèsí sí àwọn àfikún àbùdá lẹ́ẹ̀kansi lẹ́yìn tí ẹ bá ti san àwọn ìwé-owó tí ó kù.</string>
+    <string name="reconnect_from_server">Láti sáfà: </string>
+    <string name="reconnect_to_server">Sí sáfà: </string>
+    <string name="no_thanks">Rárá, ẹ ṣeún</string>
+    <string name="enable">Fi ààyè gbà á</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol kò ṣiṣẹ́ ní ìgbà yìí</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN rí i pé nẹ́tíwọ́ọ̀kì tí ẹ ń lò báyìí ń dè àsopọ̀ sí VPN. Bí ẹ bá ṣí Smart Protocol, ó lè fojú kọjá àwọn ìpàdí wọ̀nyí.</string>
+    <string name="notification_streaming_blocked_title">Gbígbé sórí afẹ́fẹ́ kò ṣiṣẹ́?</string>
+    <string name="notification_streaming_blocked_text">Ọ̀pọ̀lọpọ̀ iṣẹ́ tí ó ń gbé nǹkan sórí afẹ́fẹ́ máa ń rí àsopọ̀ láti ọ̀dọ̀ àwọn sáfà VPN ọ̀fẹ́, wọ́n sì ń dẹ́kun rẹ̀. Ẹ gbé e ga sí Proton VPN Plus láti fọ̀ kọjá àwọn ìdẹ́kun wọ̀nyí.</string>
+    <string name="upsell_advanced_features">Àwọn àbùdá gídga: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_streaming_services">Ẹ ní ìráàyèsí sí àwọn iṣẹ́ gbígbé sórí afẹ́fẹ́ (Netflix, Disney+, àti bẹ́ẹ̀ bẹ́ẹ̀ lọ) ní ibikíbi ní ayé</string>
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_servers">
+        <item quantity="other">àwọn sáfà %1$d</item>
+    </plurals>
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_countries">
+        <item quantity="other">àwọn orílẹ̀-èdè %1$d</item>
+    </plurals>
+    <string name="upsell_upgrade_again">Ẹ gbé e ga lẹ́ẹ̀kansi kí ẹ lè gbádùn gbogbo àwọn àbùdá:</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="other">%d àwọn sáfà tí ó ní ààbò</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="upgrade_plus_countries">
+        <item quantity="other">%d àwọn orílẹ̀-èdè</item>
+    </plurals>
+    <string name="upgrade_not_now_button">Ìgbà mìíràn</string>
+    <!-- Content description for plan selection list.
+         Only used by accessibility services.
+
+         Example:
+         When the plan selection control is focused, and the first plan name is "VPN Plus"
+         TalkBack will read:
+         "VPN Plus, 1 of 2, in list Upgrade options" -->
+    <string name="upgrade_plan_selection_content_description">Àwọn àṣàyàn ìgbéga</string>
+    <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
+         May be used as a table header or like an icon. -->
+    <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">Ètò Plus:</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">Ètò Free:</string>
+    <string name="upsell_panel_content_description_yes">Bẹ́ẹ̀ni</string>
+    <string name="upsell_panel_content_description_no">Rárá</string>
+    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_block_ads">Ẹ dènà ìpolówó àti àwọn olùtọpa</string>
+    <string name="upsell_panel_general_benefit_countries">Àwọn orílẹ̀-èdè tí ó wà</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_devices">Àwọn irin iṣẹ́ tí a dáàbò bò</string>
+    <string name="upsell_panel_general_benefit_location">Ẹ yan ibùdó yín</string>
+    <string name="upsell_panel_general_benefit_server">Ẹ yan sáfà yín</string>
+    <string name="upsell_panel_general_benefit_shows">Ẹ wo àwọn eré yín láti orílẹ̀-èdè kọ̀ọ̀kan</string>
+    <string name="upsell_panel_general_benefit_speed">Ìyára sáfà</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Dèédéde</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Tó ga jùlọ</string>
+    <string name="upsell_panel_adv_customization_title">Ẹ ṣàtúnṣe àsopọ̀ yín</string>
+    <string name="upsell_panel_adv_customization_description">Ẹ fi ayè sílẹ̀ fún àwọn àsopọ̀ LAN, ṣètò DNS àkànṣe, kí ẹ sì yan irúfẹ́ NAT yín. Àwọn ìṣàkóso tó ga jù, gbogbo rẹ̀ wà lórí Plus.</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">Ẹ wọlé sí prìntà yín àti àwọn irin iṣẹ́ ilé yín</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">Ẹ lo iṣẹ́ DNS tirẹ̀</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">Àsopọ̀ tó dára jù fún ṣíṣe eré</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">Ẹ ṣí %1$s pẹ̀lú VPN Plus</string>
+    <string name="upsell_panel_countries_title">Ẹ ṣí gbogbo orílẹ̀-èdè pẹ̀lú VPN Plus</string>
+    <string name="upsell_panel_country_benefit_speed">Àwọn sáfà ìyára gíga</string>
+    <string name="upsell_panel_country_benefit_shows">Wo àwọn eré tí a kò rí àyàfi ní òkè-òkun</string>
+    <string name="upsell_panel_devices_title">Ẹ dáàbò bo gbogbo irin iṣẹ́ tí ẹ ní</string>
+    <string name="upsell_panel_devices_description">Fọ́n yín, lápútọ̀pù, TV, àti gbogbo nǹkan tí ó wà láàárín wọn.</string>
+    <string name="upsell_panel_netshield_title">Ẹ kiri ayélujára láìsí ìdíwọ̀</string>
+    <string name="upsell_panel_netshield_benefit_ads">Dídẹ́kun ìpolówó nígbà tí ẹ bá ń kiri ayélujára</string>
+    <string name="upsell_panel_netshield_benefit_trackers">Ẹ dẹ́kun àwọn olùtọpa kí wọ́n má tọ̀ yín lẹ́yìn</string>
+    <string name="upsell_panel_netshield_benefit_malware">Ààbò kọ̀lù máálweà àti fífi ara ẹni pé ẹlòmíràn</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">Àwọn ojú ewé máa ń ṣí kíákíá jù</string>
+    <string name="upsell_panel_onboarding_title">Ẹ gba diẹ̀ sii pẹ̀lú VPN Plus</string>
+    <string name="upsell_panel_p2p_title">Ìgbàwọlé pẹ̀lú ìyára ti kíkún</string>
+    <string name="upsell_panel_p2p_description">Àwọn sáfà tí a kọ fún ṣíṣe alábàápín fáìlì, pẹ̀lú ètò torrent tí ẹ máa ń lò tẹ́lẹ̀.</string>
+    <string name="upsell_panel_p2p_benefit_p2p">Ṣíṣe alábàápín fáìlì P2P</string>
+    <string name="upsell_panel_profiles_title">Gbígbé sórí afẹ́fẹ́, eré ayélujára, iṣẹ́: profilì kan fún kọ̀ọ̀kan</string>
+    <string name="upsell_panel_profiles_description">Ṣètò àwọn àsopọ̀ yín ní ọ̀nà tí ẹ fẹ́, lẹ́yìn náà, ẹ tún so pọ̀ mọ́ èyíkéyìí nínú wọn nípa fífi ọwọ́ tọ́ ọ lẹ́ẹ̀kan ṣoṣo.</string>
+    <string name="upsell_panel_profiles_benefit_profiles">Àwọn profilì tí a ti fipamọ́</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Aláìlópin</string>
+    <string name="upsell_panel_secure_core_title">Ìpele sísọ di àṣírí méjì láàárín yín àti wẹ́ẹ̀bù</string>
+    <string name="upsell_panel_secure_core_description">Ó gbà nípasẹ̀ sáfà Proton kan ní Switzerland, Iceland tàbí Sweden kí ó tó dé orílẹ̀-èdè tí ẹ yan.</string>
+    <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
+    <string name="upsell_panel_speed_title">Gbé e sórí afẹ́fẹ́, ṣeré àti gbà á láti orí ẹ̀rọ kíákíá</string>
+    <string name="upsell_panel_speed_benefit_servers">Àwọn sáfà ìyára gíga</string>
+    <string name="upsell_panel_speed_benefit_gaming">Àkókò ìfèsì nígbà tí ẹ bá ń ṣeré</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">Lọ́rọ́</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Yára</string>
+    <string name="upsell_panel_speed_benefit_video">A ń gbé fídíò sórí afẹ́fẹ́ láìsí ìdúró ìgbàdíẹ̀</string>
+    <string name="upsell_panel_speed_benefit_p2p">Ìgbàwọlé P2P ní àtìlẹ́yìn</string>
+    <string name="upsell_panel_split_tunneling_title">Ẹ yan àwọn áàpù tí ó máa ń lò VPN</string>
+    <string name="upsell_panel_split_tunneling_description">Bráósà yín máa ń kọjá nípasẹ̀ VPN, áàpù ìfowópamọ́ yín sì kọjá ní òde. Ìyànwọ̀n yín ni fún áàpù kọ̀ọ̀kan.</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Ìkáàkiri tí a pín</string>
+    <string name="upsell_panel_streaming_title">Wo àwọn iṣẹ́ gbígbé sórí afẹ́fẹ́ ayànfẹ́ yín</string>
+    <string name="upsell_panel_streaming_benefit_shows">Wo àwọn eré TV láti orílẹ̀-èdè èyíkéyìí.</string>
+    <!-- The asterisk points to upsell_panel_streaming_footer -->
+    <string name="upsell_panel_streaming_benefit_platforms">Gbogbo àwọn ojú àtẹ ńlá tí ń gbé nǹkan sórí afẹ́fẹ́ ni a ṣe àtìlẹ́yìn fún *</string>
+    <string name="upsell_panel_streaming_benefit_hd">Gbé fídíò sórí afẹ́fẹ́ ní HD láìsí ìdúró ìgbàdíẹ̀</string>
+    <string name="upsell_panel_streaming_benefit_devices">Àwọn irin iṣẹ́ tí a lè so pọ̀ ní ìgbà kan</string>
+    <string name="upsell_panel_streaming_footer">* A máa nílò ìforúkọsílẹ̀ fún ojú àtẹ tí ń gbé nǹkan sórí afẹ́fẹ́.</string>
+    <string name="upsell_panel_streaming_block_title">Gbé e ga láti kọjá àwọn ìdènà VPN</string>
+    <string name="upsell_panel_streaming_block_description">Àwọn sáfà VPN Plus jẹ́ kí ẹ gádùn àwọn fíìmù àti àwọn eré TV tí ẹ fẹ́ jùlọ láti orílẹ̀-èdè àgbáyé.</string>
+    <string name="upsell_panel_tor_title">Àwọn ojú-ewé ìráàyèsí mọ níwọ̀nba, a kò nílò Tor Browser</string>
+    <string name="upsell_panel_tor_description">Ẹ wọlé sí àwọn ojú-ewé .onion ní bráósà tí ẹ ti ń lò tẹ́lẹ̀.</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor lórí VPN</string>
+    <string name="upsell_card_countries_title">Àbò kárí ayé</string>
+    <!-- Parameters:
+        %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">Tó %1$d+ ibùdó sáfà ní %2$s</string>
+    <string name="upsell_card_customization_title">Àti àwọn ẹ̀ya mìíràn púpọ̀…</string>
+    <string name="upsell_card_customization_description">Ṣí ọ̀pọ̀lọpọ̀ àwọn àbùdá iṣẹ́ ṣiṣe àti àṣírí sílẹ̀</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="other">Dáàbò bo irin iṣẹ́ %1$d</item>
+    </plurals>
+    <string name="upsell_card_devices_description">Ààbò àti àṣírí lórí gbogbo àwọn irin iṣẹ́ yín</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">Dẹ́kun ìpolówó, máálweà àti àwọn olùtọpa</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">Fi ìpele sísọ di àṣírí mìíràn kun àsopọ̀ VPN yín.</string>
+    <string name="upsell_card_p2p_title">Àtìlẹ́yìn P2P</string>
+    <string name="upsell_card_p2p_description">Gbà àwọn fáìlì wọlé nípasẹ̀ BitTorrent àti àwọn ọ̀nà ṣíṣe alábàápín fáìlì mìíràn</string>
+    <string name="upsell_card_profiles_title">Àwọn profáìlì</string>
+    <string name="upsell_card_profiles_description">Ṣẹ̀dá àwọn àsopọ̀ VPN àkànṣe.</string>
+    <string name="upsell_card_speed_title">Kíkiri ayélujára tó yàrá jù</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">Ẹ kiri ayélujára ní ìyára tó ga jù (títí dé %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">Ìkáàkiri tí a pín</string>
+    <string name="upsell_card_split_tunneling_description">Ẹ kiri ayélujára láti ibùdó méjì ní ìgbà kan náà.</string>
+    <string name="upsell_card_streaming_title">Gbígbé sórí afẹ́fẹ́</string>
+    <string name="upsell_card_streaming_description">Ẹ wò àwọn fíìmù àti eré tẹlifíṣọ̀n tí ẹ fẹ́ràn jù.</string>
+    <string name="upsell_card_tor_title">Tor lórí VPN</string>
+    <string name="upsell_card_tor_description">Lò nẹ́tíwọ́ọ̀kì Tor lórí àsopọ̀ VPN yín fún àṣírí àfikún.</string>
+    <string name="upsell_tv_all_countries_title">Ẹ ní ìráàyèsí sí gbogbo orílẹ̀-èdè pẹ̀lú Plus</string>
+    <!-- Format for upselling countries on TV".
+        %1$s - replaced with upgrade_plus_servers_new plurals key (e.g. 1 secure server or 10 secure servers)
+        %2$s - replaced with upgrade_plus_countries plurals key (e.g. 1 country or 10 countries)
+
+        Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
+    -->
+    <string name="upsell_tv_all_countries_description">Ẹ gbà wọlé sí %1$s ní %2$s.</string>
+    <string name="upsell_tv_netshield_title">Ẹ gbádùn ìṣàwákiri tí kò ní ìpolówó pẹ̀lú Plus</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Ẹ dènà ìpolówó, àwọn olùtọpa àti máálweà pẹ̀lú <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_split_tunneling_title">Ẹ gba ohun tó dára jùlọ láti ẹgbẹ́ méjèèjì pẹ̀lú Plus</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Ẹ pín lílọ bíbọ̀ yín sí ìhun VPN àti ìhun tí kìí ṣe VPN pẹ̀lú <b>ìkáàkiri tí a pín</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Ìforúkọsílẹ̀ tí ó ti wá sí òpin</string>
+    <string name="upsell_tv_subscription_expired_description">Ẹ gbé e ga kí ẹ lè tún ní ìráàyèsí sí àwọn sáfà Plus àti àwọn àbùdá rẹ̀.</string>
+    <string name="upsell_tv_customization_title">Ẹ gba ìṣètò àdáni VPN tó ga jù pẹ̀lú Plus</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Ẹ gbà wọlé sí <b>àwọn àsopọ̀ LAN</b>, <b>DNS àkànṣe</b>, àti àwọn àbùdá VPN tó ga jù mìíràn.]]></string>
+    <string name="upsell_tv_fallback_description">Ẹ lọ sí wẹ́bsáìtì Proton VPN láti gbé ètò yín ga.</string>
+    <!-- Format for price per period of time.
+        %1$s - replaced with price and currency (e.g. "$100")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")
+
+        Examples:
+        50 PLN /month
+        $100 /year
+    -->
+    <string name="payment_price_with_period">%1$s /%2$s</string>
+    <string name="payment_price_per_day">ọjọ́</string>
+    <string name="payment_price_per_week">ọ̀sẹ̀</string>
+    <string name="payment_price_per_month">oṣù</string>
+    <string name="payment_price_per_year">ọdún</string>
+    <plurals name="payment_price_cycle_label_day">
+        <item quantity="other">%1$d ọjọ́</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_week">
+        <item quantity="other">%1$d ọ̀sẹ̀</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_month">
+        <item quantity="other">%1$d oṣù</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_year">
+        <item quantity="other">%1$d ọdún</item>
+    </plurals>
+    <string name="payment_select_your_plan">Ẹ yan ètò yín</string>
+    <!-- Label on a button for purchasing a subscription.
+         Parameter: %1$s - plan name
+         Plan names are not translated.
+
+         Example: "Get VPN Plus", "Get Proton Unlimited". -->
+    <string name="payment_button_get_plan">Ẹ gba %1$s</string>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of days -->
+    <plurals name="payment_discount_renewal_price_message_daily">
+        <item quantity="other">Àkànṣe ìfifúnni. Ó máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọjọ́.</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_discount_renewal_price_message_weekly">
+        <item quantity="other">Àkànṣe ìfifúnni. Ó máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọ̀sẹ̀.</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of months -->
+    <plurals name="payment_discount_renewal_price_message_monthly">
+        <item quantity="other">Àkànṣe ìfifúnni. Ó máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d oṣù.</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_discount_renewal_price_message_yearly">
+        <item quantity="other">Àkànṣe ìfifúnni. Ó máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọdún.</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of days -->
+    <plurals name="payment_renewal_price_message_daily">
+        <item quantity="other">Ìforúkọsílẹ̀ náà máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọjọ́.</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_renewal_price_message_weekly">
+        <item quantity="other">Ìforúkọsílẹ̀ náà máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọ̀sẹ̀.</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of months -->
+    <plurals name="payment_renewal_price_message_monthly">
+        <item quantity="other">Ìforúkọsílẹ̀ náà máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d oṣù.</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_renewal_price_message_yearly">
+        <item quantity="other">Ìforúkọsílẹ̀ náà máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọdún.</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_daily">
+        <item quantity="other">%1$s ní ìgbà gbogbo %2$d ọjọ́</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_discount_weekly">
+        <item quantity="other">%1$s ní ìgbà gbogbo %2$d ọ̀sẹ̀</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_discount_monthly">
+        <item quantity="other">%1$s ní ìgbà gbogbo %2$d oṣù</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_yearly">
+        <item quantity="other">%1$s ní ìgbà gbogbo %2$d ọdún</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_for_days">
+        <item quantity="other">fún %1$d ọjọ́ àkọ́kọ́</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_discount_for_weeks">
+        <item quantity="other">fún %1$d ọ̀sẹ̀ àkọ́kọ́</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_discount_for_months">
+        <item quantity="other">fún %1$d oṣù àkọ́kọ́</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of years -->
+    <plurals name="payment_multi_renewal_discount_for_years">
+        <item quantity="other">fún %1$d ọdún àkọ́kọ́</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_rest_daily">
+        <item quantity="other">lẹ́yìn náà, ó máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọjọ́</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_rest_weekly">
+        <item quantity="other">lẹ́yìn náà, ó máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọ̀sẹ̀</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_rest_monthly">
+        <item quantity="other">lẹ́yìn náà, ó máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d oṣù</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_multi_renewal_rest_yearly">
+        <item quantity="other">lẹ́yìn náà, ó máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọdún</item>
+    </plurals>
+    <!-- Explains renewal cycle when first there's a discount price for several periods
+     (e.g. 2 months) and then the subscription renews at full price.
+     Periods (days, months etc) are never mixed between the messages, the whole message uses one
+     unit.
+
+     Parameters:
+      %1$s - one of payment_multi_renewal_discount_*
+      %2$s - one of payment_multi_renewal_discount_for_*
+      %3$s - one of payment_multi_renewal_rest_*
+
+     Examples:
+      "$2.99/month for the first 2 months, then auto renews at $3.99/month"
+      "$19.99/year for the first 3 years, then auto renews at $24.99/year"
+      "$3.99 every 2 months for the first 4 months, then auto renews at 5.99 every 2 months"
+    -->
+    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s.</string>
+    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_description">Ìmọ̀-ẹ̀rọ yìí jẹ́ kí Proton VPN lè pèsè ìyára tó ga àti ààbò ní àwọn orílẹ̀-èdè tí kò ṣe rọ̀rùn láti fọwọ́ sí.</string>
+    <string name="tor_title">Tor</string>
+    <string name="server_load_title">Ẹrù sáfà</string>
+    <string name="activity_information_learn_more">Mọ̀ síi</string>
+    <string name="server_load_low">Kékeré</string>
+    <string name="server_load_medium">Àárín</string>
+    <string name="server_load_high">Gíga</string>
+    <!-- Override Human verification links from core -->
+    <string name="onboarding_welcome_title">Ẹ kú àbọ̀ sí Proton VPN</string>
+    <string name="onboarding_welcome_description">Ẹ kó ayélujára ní àṣírí, ẹ ní ìráàyèsí sí àwọn ohun tí wọ́n dè àti ẹ gbádùn òmìnira ayédìjítàl.</string>
+    <string name="onboarding_welcome_action">Ẹ bẹ̀rẹ̀</string>
+    <string name="upgrade_success_get_started_button">Ẹ bẹ̀rẹ̀</string>
+    <string name="dynamic_report_suggestion_didnt_work">Kò ṣiṣẹ́ ni?</string>
+    <string name="dynamic_report_contact_us">Ẹ kàn sí wa</string>
+    <string name="dynamic_report_tips_description">Àwọn ìmọ̀ràn yìí lè ràn yín lọ́wọ́ láti yanjú ìṣòro yín kíákíá.</string>
+    <string name="dynamic_report_tips_title">Àwọn àtúnṣe kíákíá</string>
+    <string name="dynamic_report_logs_title">Fi àwọn àkọsílẹ̀ àṣìṣe ránṣẹ́</string>
+    <string name="dynamic_report_logs_tooltip">Àwọn àkọsílẹ̀ àṣìṣe fi hàn wa ohun tí kò tọ́ àti ohun tí ó mú ìṣòro náà wá. A máa lo wọn nìkan láti ran àwọn onímọ̀ ẹ̀rọ wa lọ́wọ́ láti ṣatunṣe àwọn ìṣòro.</string>
+    <string name="dynamic_report_error_title">A kò lè fi ìjábọ̀ yín ránṣẹ́.</string>
+    <string name="dynamic_report_completion_error_description_generic">A kò lè fi ìjábọ̀ yín ránṣẹ́. Jọ̀wọ́, ẹ tún gbìyànjú.</string>
+    <string name="dynamic_report_completion_error_description_no_internet">A kò lè fi ìjábọ̀ yín ránṣẹ́. Jọ̀wọ́, ẹ ṣàyẹ̀wò àsopọ̀ yín kí ẹ sì tún gbìyànjú.</string>
+    <string name="dynamic_report_completion_error_description_timeout">A kò lè fi ìjábọ̀ yín ránṣẹ́. Àkókò àsopọ̀ náà ti tán, jọ̀wọ́ ẹ tún gbìyànjú.</string>
+    <string name="dynamic_report_completion_success_title">Ẹ ṣeun fún ìfèsí yín. A yóò dá yín lẹ́hìn ní kété tí a bá lè.</string>
+    <string name="dynamic_report_success_title">Ẹ ṣeun fún ìfèsí yín</string>
+    <string name="dynamic_report_success_description">A yóò dá yín lẹ́hìn ní kété tí a bá lè.</string>
+    <string name="dynamic_report_field_mandatory">Ààyè yìí dandan ni.</string>
+    <string name="dynamic_report_logs_description">Àkọsílẹ̀ ni irú fáìlì kan tí ó fi àwọn ìṣe tí ẹ ti ṣe tí ó sì ṣàkótán sí àṣìṣe kan hàn fún wa. A máa fi lò nìkan láti ràn àwọn injínìà wa lọ́wọ́ láti ṣàtúnṣe àwọn àṣìṣe ẹ̀rọ.</string>
+    <string name="dynamic_report_logs_missing">Àwọn àkọsílẹ̀ àṣìṣe ń ràn wa lọ́wọ́ láti rí ìdí ìṣòro yín kúrò. Bí ẹ kò bá fi wọn kún ìfiránṣẹ́ náà, ó lè ṣe kí a kò lè ṣe ìwádìí ní kíkún.</string>
+    <string name="dynamic_report_step1">Ìgbésẹ̀ 1 nínú 3</string>
+    <string name="dynamic_report_step2">Ìgbésẹ̀ 2 nínú 3</string>
+    <string name="dynamic_report_step3">Ìgbésẹ̀ 3 nínú 3</string>
+    <string name="dynamic_report_your_issue_headline">Kí ni ìṣòro náà?</string>
+    <string name="update_screen_title">Mú Proton VPN dé ojú ìwọ̀n</string>
+    <string name="update_screen_description">Ìṣòro máa ń wáyé fún yín ju ní àwọn ẹ̀yà àtijọ́ ti Proton VPN.</string>
+    <string name="update_banner_description_settings">Ẹ̀yà tuntun áàpù náà ti wà.</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN yóò tú ìsopọ̀ fún ìgbà díẹ̀</string>
+    <string name="update_banner_warning_vpn_connected_message">Áàpù náà nílò láti tún bẹ̀rẹ̀ kí ó lè parí mímú ara rẹ̀ dé ojú ìwọ̀n. A yóò tún so yín mọ́ láìgbára lẹ́yìn èyí.</string>
+    <string name="dialog_create_account_title">Ẹ ṣẹ̀dá àkántì kí ẹ lè tẹ̀ síwájú</string>
+    <string name="dialog_create_account_action_create">Ṣẹ̀dá àkántì</string>
+    <string name="dialog_create_account_action_signin">Gbà wọlé</string>
+    <string name="server_search_menu_title">Wá a</string>
+    <string name="search_empty_result_subtitle">Jọ̀wọ́, ẹ gbìyànjú ọ̀rọ̀ ìwádìí mìíràn.</string>
+    <string name="search_empty_result_title">A kò rí àbájáde kankan</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">Kó o kúrò</string>
+    <!-- Content description for an icon button that clears text in an input field. -->
+    <string name="clear_text_field_content_description">Kó ọ̀rọ̀ náà kúrò</string>
+    <string name="free_connections_info_message">Proton Free á so yín mọ́ sáfà tí ó yára jù láti ara àwọn sáfà tí ó wà. Àsìkò gbogbo, sáfà tí ó súnmọ́ ibùdó yín jù ni èyí máa ń jẹ́.</string>
+    <string name="free_connections_info_server_locations">Àwọn ibùdó sáfà ọ̀fẹ́ (%1$d)</string>
+    <string name="free_connections_info_banner_text">Ní ìráàyèsí sí gbogbo orílẹ̀-èdè pẹ̀lú VPN Plus</string>
+    <string name="free_connection_info_title">Àwọn àsopọ̀ ọ̀fẹ́</string>
+    <string name="search_upsell_banner_title">Gbé fídíò sórí afẹ́fẹ́ láti ibi tí ó bá wù yín</string>
+    <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
+    <plurals name="search_upsell_banner_message">
+        <item quantity="other">Ṣí àwọn ohun tí ìpo orílẹ̀-èdè dè ní %1$d orílẹ̀-èdè pẹ̀lú VPN Plus</item>
+    </plurals>
+    <string name="select_default_connection">Yàn àsopọ̀ yín bí ó ti wà</string>
+    <string name="settings_default_connection_title">Àsopọ̀ bí ó ti wà</string>
+    <string name="fastest_country_description">Sáfà tí ó dára jù dá lórí ibùdó yín</string>
+    <string name="settings_connection_preferences_title">Àwọn ààyò àsopọ̀</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">A ti yọ nǹkan náà kúrò.</string>
+    <string name="settings_excluded_locations_title">Àwọn ibùdó tí a yọ kúrà</string>
+    <string name="settings_excluded_locations_description">A kò ní lo àwọn ibùdó tí a yàn nígbàkígbà nígbà tí ẹ bá so pọ̀ mọ́ Fastest.</string>
+    <string name="settings_excluded_locations_unavailable">Kò sí ibùdó tí ó wà</string>
+    <string name="settings_excluded_locations_selection_hint">Yan…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">Yọ ọ́ kúrò nínú àwọn ibùdó tí a yọ kúrò</string>
+    <string name="settings_excluded_locations_accessibility_label_city">Ìlú</string>
+    <string name="settings_excluded_locations_accessibility_label_country">Orílẹ̀-èdè</string>
+    <string name="settings_excluded_locations_accessibility_label_state">Ìpínlẹ̀</string>
+    <string name="settings_last_connection_title">Àsopọ̀ ìkẹyìn</string>
+    <string name="settings_last_connection_description">Àsopọ̀ tí ẹ lo ṣẹ̀yìn jùlọ</string>
+    <string name="settings_change_icon_title">Àwòrán áàpù</string>
+    <string name="settings_change_icon_details">Ṣé àtúnṣe bí áàpù Proton VPN ṣe ń hàn lórí irin iṣẹ́ yín. Kí ló dé?</string>
+    <string name="settings_change_icon_confirmation_title">Yí àwòrán áàpù padà?</string>
+    <string name="settings_change_icon_confirmation_details">Èyí yóò pa áàpù Proton VPN dé. Láti tún Proton VPN bẹ̀rẹ̀, ẹ kàn fi ọwọ́ tọ́ àwòrán áàpù tuntun yín.</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
+    <string name="settings_change_icon_header_discreet">Àwòrán áàpù ìfipamọ́</string>
+    <string name="settings_widget_title">Wíjẹ́ẹ̀tì</string>
+    <string name="settings_widget_selection_title">Dán wíjẹ́ẹ̀tì Proton VPN wò</string>
+    <string name="settings_widget_selection_description">Rí ipò àsopọ̀ yín kí ẹ sì ní ìráàyèsí sí àwọn àsopọ̀ VPN tí ẹ fẹ́ jùlọ láti ojú-ìbùdó.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">Láti fi wíjẹ́ẹ̀tì náà kún, ẹ máa tẹ̀ kí ẹ sì fipá mú ibikíbi lórí ojú-ìbùdó yín, lẹ́yìn náà kí ẹ yan %1$s láti inú àkójọ wíjẹ́ẹ̀tì.</string>
+    <string name="settings_widget_selection_button_title">Fi wíjẹ́ẹ̀tì kún</string>
+    <string name="setting_widget_try_title">Dán wíjẹ́ẹ̀tì Proton VPN wò</string>
+    <!-- Content description used by accessibility services for a button for dismissing (hiding)
+         a notification banner (usually used for special offers). -->
+    <string name="notification_banner_dismiss_accessibility_label">Tì bánà kúrò</string>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">%1$s %2$s ṣe kù</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="other">%1$d ìṣẹ́jú àáyà</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="other">%1$d ìṣẹ́jú</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="other">%1$d wákàtí</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="other">%1$d ọjọ́</item>
+    </plurals>
+    <string name="server_change_max_reached">Ẹ ti dé iye àyípadà sáfà Free tí ó pọ̀ jùlọ fún ìgbà yìí.</string>
+    <string name="server_change_upsell">Gba àyípadà tí kò ní èèwọ̀ pẹ̀lú VPN Plus.</string>
+    <string name="server_change_button_title">Yí sáfà padà</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services.
+
+        %1$s - replaced with "time_left_minutes"
+        %2$s - replaced with "time_left_seconds"
+        Example:
+        Available in 1 minute 23 seconds.
+      -->
+    <string name="server_change_button_time_left_content_description">Yóò wà ní ọ̀fẹ́ lẹ́yìn %1$s %2$s</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services and only if time left is less than 1 minute.
+
+        %1$s - replaced with "time_left_seconds"
+        Example:
+        Available in 23 seconds.
+      -->
+    <string name="server_change_button_time_left_seconds_content_description">Yóò wà ní ọ̀fẹ́ lẹ́yìn %1$s</string>
+    <string name="server_change_progress_finished_contend_description">Ó wà ní ọ̀fẹ́</string>
+    <string name="not_wanted_country_title">Kì í ṣe orílẹ̀-èdè tí ẹ fẹ́?</string>
+    <string name="not_wanted_country_description">Gbé e ga láti yan sáfà èyíkéyìí</string>
+    <string name="whats_new_title">Ohun tuntun</string>
+    <string name="whats_new_profiles_title">Àwọn profáìlì ti padà wá</string>
+    <string name="whats_new_profiles_description">Ṣẹ̀dá kí ẹ sì fi àwọn àsopọ̀ àkànṣe pàmọ́ pẹ̀lú ibùdó, sáfà àti ìlànà-ètò tí ẹ yan.</string>
+    <string name="whats_new_widget_title">Ìfihàn àwọn wíjẹ́ẹ̀tì</string>
+    <string name="whats_new_widget_description">Ẹ lè wo VPN yín kí ẹ sì bójú tó o láì fi ojú-ìbùdó sílẹ̀.</string>
+    <string name="whats_new_add_widget_button">Fi wíjẹ́ẹ̀tì kún</string>
+    <string name="welcome_plus_title">Ẹ kú àbọ̀ sí VPN Plus</string>
+    <string name="welcome_plus_description">Ẹ gbádùn àwọn àbùdá àṣírí àfikún, ìṣẹ́ tó yára ju lọ, àti àdáni VPN tí ó ga jù lọ.</string>
+    <string name="welcome_unlimited_title">Ẹ kú àbọ̀ sí Proton Unlimited</string>
+    <string name="welcome_unlimited_description">Ẹ ti ṣí gbogbo àwọn àfikún àbùdá ti Proton VPN, Mail, kàlẹ́ndà, ibi ìpamọ́, Pass, àti wọ́lẹ́ẹ̀tì.</string>
+    <string name="welcome_generic_title">Ẹ kú ìbukun</string>
+    <string name="welcome_generic_description">Ẹ ti gbé ìforúkọsílẹ̀ yín ga. Ẹ gbádùn àwọn àbùdá àṣírí tó ga jùlọ àti ìṣe tí ó ga ju ìpele kan rí.</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">ojú òpó ìta</string>
+    <string name="no_logs_banner_title">VPN tí wọn fìdí rẹ̀ múlẹ̀ pé kò ń kọ àkọsílẹ̀</string>
+    <string name="no_logs_banner_description">Àwọn òfin àṣírí orílẹ̀-èdè Switzerland ń dá iṣẹ́ VPN yín bò. A kò ní tọ yín lẹ́yìn lórí ayélujára rárá, a kò sì ní ṣe alábàápín àlàyé yín pẹ̀lú àwọn ẹnìkẹ́ta.</string>
+    <!-- tag(Redesign_2023) Bottom bar label for home screen -->
+    <string name="bottom_nav_home">Ilé</string>
+    <string name="bottom_nav_gateways">Àwọn ipa ọ̀nà</string>
+    <string name="bottom_nav_profiles">Àwọn profáìlì</string>
+    <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
+    <string name="bottom_nav_countries">Àwọn orílẹ̀-èdè</string>
+    <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
+    <string name="botton_nav_settings">Àwọn ààtò</string>
+    <!-- tag(Redesign_2023)
+         Text added to button labels that open a UI element (e.g. a panel).
+         Only used by accessibility services.
+         Example:
+         a button with label "connection details" and this action label will be read by a screen
+         reader as:
+         "Connection details, button. Double tap to open"
+    -->
+    <string name="accessibility_action_open">ṣí</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that initiate a VPN connection.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland will be read by a screen reader as:
+         "Switzerland. Double tap to connect"
+        -->
+    <string name="accessibility_action_connect">so ó pọ̀</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that redirect the user to upgrade their subscription plan.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland that requires upgrading subscription to become
+         available will be read by a screen reader as:
+         "Unavailable, Switzerland. Double tap to upgrade"
+        -->
+    <string name="accessibility_action_upgrade">gbé e ga</string>
+    <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">wá a</string>
+    <!--
+     Text added to clickable elements that provide negative feedback when clicking on it.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_feedback_negative">kò dára</string>
+    <!--
+     Text added to clickable elements that provide positive feedback when clicking on it.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_feedback_positive">dára</string>
+    <!--
+     Text added to clickable elements that allows to submit either positive or negative feedback.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_submit_feedback">fìdí rẹ̀ múlẹ̀</string>
+    <!-- Name of action for opening a screen/panel for an item.
+         The action is listed in a menu of additional actions available to accessibility services.
+
+         Example:
+         - item in a list of countries has a custom action to open list of cities in the country
+         - item in a list of cities has a custom action to open list of servers in the city
+         -->
+    <string name="accessibility_menu_action_open">Ṣí</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable because servers
+         are in maintenance.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are in maintenance will be read by a
+         screen reader as:
+         "in maintenance, Switzerland"
+     -->
+    <string name="accessibility_item_in_maintenance">wà ní ìtọ́jú</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are unavailable will be read by a screen
+         reader as:
+         "unavailable, Switzerland"
+     -->
+    <string name="accessibility_item_unavailable">kò ṣiṣẹ́</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when there is active connection to it.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland when there is a VPN connection to a server in this country
+         will be read by a screen reader as:
+         "Switzerland, connected"
+     -->
+    <string name="accessibility_item_connected">ti so pọ̀</string>
+    <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
+    <string name="server_feature_label_p2p">P2P</string>
+    <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
+    <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_content_description_p2p">ìpín ẹlẹ́gbẹ́ sí ẹlẹ́gbẹ́</string>
+    <string name="server_feature_content_description_tor">Tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
+    <string name="fastest_country">Orílẹ̀-èdè tó yára jù</string>
+    <string name="fastest_country_excluding_my_country">Orílẹ̀-èdè tó yára jù àyàfi orílẹ̀-èdè mi</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
+    <string name="fastest_free_server">Sáfà ọ̀fẹ́ tó yára jù</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Iceland
+     -->
+    <string name="connection_info_secure_core_full_iceland">%1$s nípasẹ̀ Ìslándì</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Sweden
+     -->
+    <string name="connection_info_secure_core_full_sweden">%1$s nípasẹ̀ Swídìn</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_switzerland">%1$s nípasẹ̀ Switzerland</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - exit country name in nominative case
+         %2$s - entry country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_other">%1$s nípasẹ̀ %2$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_iceland">nípasẹ̀ Ìslándì</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_sweden">nípasẹ̀ Swídìn</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_switzerland">nípasẹ̀ Switzerland</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">nípasẹ̀ Secure Core</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - entry country name in nominative case
+         Example: via Switzerland
+    -->
+    <string name="connection_info_secure_core_entry_other">nípasẹ̀ %1$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         three countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+
+     -->
+    <string name="connection_info_auto_selected_free_countries">A yàn án lára [flags] láìbára</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         several countries. Used instead of connection_info_auto_selected_free_countries when there
+         are more than 3 countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+         $1%d - replaced with number of additional countries (beyond the 3 flags).
+
+         Example, if there are 5 countries to select from the text will be:
+         Auto selected from [flags]+2
+         -->
+    <string name="connection_info_auto_selected_free_countries_more">A yàn án lára [flags]+%1$d láìbára</string>
+    <!-- tag(Redesign_2023)
+         Accessibility label describing a connection to a free server that is automatically selected
+         from one in several countries. Placed directly below fastest_free_server.
+         This text replaces connection_info_auto_selected_free_servers for screen readers.
+         $1%d - replaced with number of countries.
+         -->
+    <plurals name="connection_info_accessibility_auto_selected_free_countries">
+        <item quantity="other">A yàn án lára àwọn orílẹ̀-èdè %1$d láìbára</item>
+    </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">A yàn án lára àwọn orílẹ̀-èdè ọ̀fẹ́ láìbára.</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         are that of the previous connection.
+
+         Example:
+         Last connected to
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         -->
+    <string name="connection_card_label_last_connected">Ìsomọ́ ìgbà ìkẹyìn sí</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">Àsopọ̀ bí ó ti wà</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Àsopọ̀ ọ̀fẹ́</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is being established.
+     -->
+    <string name="connection_card_label_connecting">Ó ń so pọ̀ mọ́…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It\'s shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Ó ń yí sáfà padà…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is established and the user
+         is safely browsing as if they were in the location indicated in the connection card.
+
+         Example:
+         Browsing safely from
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         Germany
+     -->
+    <string name="connection_card_label_connected">Ó ń kiri ayélujára ní ààbò láti</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with details of the current VPN connection.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "connection details, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_connection_details">àwọn àlàyé àsopọ̀</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with information about connections in free plan.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "more information about free connections, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_free_connections">àlàyé síwájú síi nípa àwọn àsopọ̀ ọ̀fẹ́</string>
+    <string name="connection_card_label_connection_feedback">Báwo ni àsopọ̀ yín ṣe?</string>
+    <!-- tag(Redesign_2023)
+         Displayed above the list of recently made connections.
+     -->
+    <string name="recents_headline">Àwọn ìsomọ́ àìpẹ́</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">Ṣàwárí VPN Plus</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_pin">Dẹ́</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_unpin">Gún kúrò</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_remove">Yọ ọ́ kúrò</string>
+    <!-- tag(Redesign_2023)
+         State description of a pinned recent item.
+         Only used by accessibility service.
+    -->
+    <string name="recent_action_accessibility_state_pinned">A ti gùn sílẹ̀</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_country_servers_in_maintenance">Gbogbo àwọn sáfà ní orílẹ̀-èdè yìí wà ní àtúnṣe.</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_city_servers_in_maintenance">Gbogbo àwọn sáfà ní ìlú yìí wà ní àtúnṣe.</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">Gbogbo àwọn sáfà ní ìpínlẹ̀ yìí wà ní àtúnṣe.</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_in_maintenance">Sáfà kan wà ní àtúnṣe.</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_not_available">Sáfà kò sí.</string>
+    <string name="message_server_location_excluded">A ti kọ̀ ibùdó sáfà náà sílẹ̀.</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
+    <string name="message_gateway_in_maintenance">Ipa ọ̀nà wà ní àtúnṣe.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out">Jáde</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_title">Àwọn ààtò</string>
+    <string name="gateways_title">Àwọn ipa ọ̀nà</string>
+    <string name="countries_title">Àwọn orílẹ̀-èdè</string>
+    <string name="profiles_title">Àwọn prófáìlì</string>
+    <string name="settings_autoconnect_title">Ìsomọ́ àfẹ́yìntì</string>
+    <string name="settings_autoconnect_boot_description">Ó ń so ẹ mọ́ VPN nípa ìsomọ́ yíyára lẹ́yìn tí ẹ bá ti ṣí irin iṣẹ́ yín.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_features">Àwọn àbùdá</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_netshield_title">NetShield</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_split_tunneling_title">Ìkáàkiri tí a pín</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_kill_switch_title">Olùdá ààbò bo àdírẹ́sì IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_connection_category">Àsopọ̀</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_protocol_title">Ìlànà</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_advanced_settings_title">Àwọn ààtò ìlọsíwájú</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_general">Gbogboogbo</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_account">Àkántì</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_notifications_title">Àwọn ìwífúnni</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_support">Àtìlẹ́yìn</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_help_center_title">Àárín àtìlẹ́yìn</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_report_issue_title">Fi ìṣòro hàn</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_debug_logs_title">Àkọsílẹ̀ ṣíṣe àtúnṣe</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_improve_proton">Mú Proton dàgbà</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_fight_censorship_title">Ẹ ran wa lọ́wọ́ láti bá ìdẹ́nà àwọ̀n jà</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_rate_us_title">Ẹ fún Proton VPN ní àwòkọ́</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_app_version">Ẹ̀dà áàpù: %1$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_third_party_licenses">Àwọn ìfúnniláṣẹ́ ẹgbẹ́ kẹta</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_title">Ẹ fẹ́ jáde?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_message">Ìsomọ́ yín yóò tú kúrò lọ́wọ́ VPN.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_dont_ask_again">Ẹ má bè mi mọ́</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_action">Jáde</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_action_cancel">Fagi lé e</string>
+    <string name="dialog_action_change_icon">Yí ààmì pádà</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">Gbogbo</string>
+    <string name="country_filter_cities">Àwọn ìlú</string>
+    <string name="country_filter_states">Àwọn ìpínlẹ̀</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">Gbogbo àwọn orílẹ̀-èdè (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Àwọn orílẹ̀-èdè Plus (%1$d)</string>
+    <string name="country_filter_countries_list_header">Àwọn orílẹ̀-èdè (%1$d)</string>
+    <string name="country_filter_cities_list_header">Àwọn ìlú (%1$d)</string>
+    <string name="country_filter_states_list_header">Àwọn ìpínlẹ̀ (%1$d)</string>
+    <string name="country_filter_servers_list_header">Àwọn sáfà</string>
+    <string name="country_filter_secure_core_list_header">Àwọn orílẹ̀-èdè Secure Core (%1$d)</string>
+    <string name="country_filter_p2p_list_header">Àwọn orílẹ̀-èdè P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">Àwọn ìlú P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">Àwọn ìpínlẹ̀ P2P (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">Àwọn sáfà P2P</string>
+    <string name="country_filter_tor_list_header">Àwọn orílẹ̀-èdè Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Àwọn sáfà Tor</string>
+    <string name="country_filter_info_label">Àlàyé</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">Erú: %1$s%%</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is connected and network is protected
+    -->
+    <string name="vpn_status_connected">Wà ní ààbò</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is not connected and network is not protected
+    -->
+    <string name="vpn_status_disabled">Ẹ kò ní ààbò</string>
+    <!-- tag(Redesign_2023)
+         Text is shown while connection is being established
+    -->
+    <string name="vpn_status_connecting">A ń dá ìdánimọ̀ dìjítàl yín bọ́</string>
+    <!-- tag(Redesign_2023)
+         Displays Country name and IP of user if he is not connected.
+         First parameter is country, second is IP.
+         Ex: Poland · 192.1.1.1.1
+    -->
+    <string name="vpn_status_disabled_location">%1$s · %2$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_subtitle">Àwọn àlàyé àsopọ̀</string>
+    <string name="connection_details_features_title">Àwọn àbùdá</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_show_ip">Fi IP hàn</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_back">Padà</string>
+    <string name="accessibility_close">Pa á dé</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_my_ip">IP mi</string>
+    <string name="connection_details_my_ipv4">IPv4 mi</string>
+    <string name="connection_details_my_ipv6">IPv6 mi</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_ip">IP VPN</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
+    -->
+    <string name="connection_details_connected_for">Ìsomọ́ ti wà fún</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server">Sáfà</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_gateway">Ipa ọ̀nà</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_country">Orílẹ̀-èdè</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_city">Ìlú</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">Ìpínlẹ̀</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">Ìfiránṣẹ́ nípasẹ̀</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
+    -->
+    <string name="connection_details_server_load">Ẹrù sáfà</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_question">Kí ni ìtí sáfà?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_description">Ìtí sáfà fi hàn bí sáfà kan ti dé ìwọn agbára rẹ̀ tó pọ̀ jùlọ. \n\nÌtí sáfà tí ó ga lè dín àsopọ̀ yín lọ́ra.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_title">Kéré (1 sí 75%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_description">Ìyára tí ó gájùmọ́</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_title">Àárín (76 sí 90%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_description">Kò wọ́pọ́ kí ó ní ìpa lórí ìyára VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_title">Gíga (91 sí 100%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_description">VPN lè ṣiṣẹ́ ní ìyára tí ó kéré ju ti ìgbàdeédé lọ </string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol">Pròtòkọ̀lù</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol_description">Pròtòkọ̀lù ni àwọn ìlànà tí irin iṣẹ́ yín máa ń tẹ̀lé kí ó lè so pọ̀ mọ́ sáfà kan àti kí ó bá a sọ̀rọ̀.</string>
+    <!-- tag(Redesign_2023)
+         Label in front of upload speed in connection details. It is followed by upload speed number and unit.
+    -->
+    <string name="connection_details_upload">Gbé e sórí ẹ̀rọ</string>
+    <!-- tag(Redesign_2023)
+         Label in front of download speed in connection details. It is followed by download speed number and unit.
+    -->
+    <string name="connection_details_download">Gbà á láti orí ẹ̀rọ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_section_vpn_speed">Ìyára VPN</string>
+    <string name="connection_details_section_ip">Àdírẹ́sì IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_question">Kí ni ìyára VPN?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core máa so yín mọ́ sáfà ìparí yín nípasẹ̀ sáfà VPN ẹlẹ́kejì tí ààbò rẹ̀ ga jùlọ.\n\nÌpìlẹ̀ ààbò tí ó ga púpọ̀ yìí lè fa ìdélẹ̀rìń tí ó pọ̀ àti ìyára tí ó dín kù.</string>
+    <string name="info_secure_core_standard_header">Àsopọ̀ VPN ìgbàdeédé</string>
+    <string name="info_secure_core_secure_header">Àsopọ̀ VPN Secure Core</string>
+    <string name="info_dialog_tor_description">Ẹ so pọ̀ mọ́ sáfà Tor kí ẹ lè ní ìráàyèsí sí àwọn iṣẹ́ tí wọ́n fi pamọ́ àti àwọn ojú-ewé ìráàyèsí mọ níwọ̀nba nípasẹ̀ bráósà èyíkéyìí.</string>
+    <string name="info_dialog_button_learn_more_tor">Bí a ṣe lè ní ìráàyèsí sí nẹ́tíwọ́ọ̀kì Tor</string>
+    <string name="info_dialog_button_learn_more_p2p">Bí a ṣe ń lo torrent pẹ̀lú P2P</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Kí ni àdírẹ́sì IP?</string>
+    <string name="info_dialog_button_learn_more_streaming">Ṣé ẹ nílò ìrànlọ́wọ́ lórí gbígbé sórí afẹ́fẹ́?</string>
+    <string name="info_dialog_streaming_title">Gbígbé sórí afẹ́fẹ́</string>
+    <string name="info_dialog_streaming_description">Àwọn sáfà gbígbé sórí afẹ́fẹ́ ni wọ́n dá fún TV àti fíìmù tí ó máa ń jáde ní ìyára, kí ó sì ní ààbò.</string>
+    <string name="info_dialog_how_to_stream">Bí a ṣe ń gbé e sórí afẹ́fẹ́:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Ẹ wọ àwọn ààtò fọ́n yín kí ẹ sì dẹ́kùn àwọn iṣẹ́ ibùdó.</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">Ẹ tún iṣẹ́ gbígbé fídíò sórí afẹ́fẹ́ yín bẹ̀rẹ̀.</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Ẹ so pọ̀ mọ́ sáfà Plus èyíkéyìí kí ẹ sì bẹ̀rẹ̀ sí ní gbé nǹkan sórí afẹ́fẹ́.</string>
+    <string name="info_dialog_profiles_title">Àwọn pọ́fáìlì</string>
+    <string name="info_dialog_ipaddress_title">Àdírẹ́sì IP</string>
+    <string name="info_dialog_ipv6_traffic_title">Lílọ bíbọ̀ IPv6</string>
+    <string name="info_dialog_profiles_description">Àwọn pọ́fáìlì ni àsopọ̀ VPN àkànṣe tí ẹ lè ṣe àtúnṣe sí àwọn àmúlò yín kí ẹ sì fipá mọ́ fún ìwọlé tí ó yára.\n\nẸ tò ibùdó tí ẹ fẹ́ràn jù, kí ẹ sì pèsè àwọn ààtò yín fún ààbò, iṣẹ́ pípé, eré, tàbí ìpò mìíràn.</string>
+    <string name="info_dialog_ipaddress_description">IP VPN yín bò àdírẹ́sì IP gidi yín mọ́lẹ̀. Èyí ń jẹ́ kí ó dà bí pé ẹ ń kiri ayélujára láti ibùdó VPN yín, nítorí náà kò ní ṣeé ṣe láti so iṣẹ́ yín lórí ayélujára mọ́ irin iṣẹ́ yín.</string>
+    <string name="info_dialog_ipv6_traffic_description">Internet Protocol (IP) ń fi àdírẹ́sì kán fún àwọn irin iṣẹ́, ó sì ń darí lílọ bíbọ̀ ayélujára. IPv6 ni ẹ̀dà tó ṣẹ̀ṣẹ̀ jáde, tí ó ń pèsè àwọn àdírẹ́sì pọ̀ sí i àti ìsomọ́ tó dára jù, ṣùgbọ́n kò tíì gbajúmọ̀ kárí ayé.</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">A ti fi ààyè gba ṣíṣe alábàápín fáìlì Peer-to-peer lórí sáfà yìí.</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">Ẹ lè so pọ̀ mọ́ àwọn ojú-ewé .onion pẹ̀lú bráósà àṣà yín.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">A ti sọ ìṣe yín di àṣírí lẹ́yìn àwọn sáfà VPN tó ní ààbò gíga méjì.</string>
+    <string name="connection_feature_streaming_title">Gbígbé sórí afẹ́fẹ́</string>
+    <string name="connection_feature_streaming_description">Wọ́n ti ṣe àtúnṣe sáfà yìí fún fífi àwọn fíìmù àti ètò TV hàn.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <string name="connection_feature_smart_routing_description">Ó ń so yín mọ́ orílẹ̀-èdè tí ẹ ń lọ sí nípasẹ̀ àwọn sáfà tí wọ́n wà ní odidi ní ààyè mìíràn.</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">Ó ń so yín mọ́ orílẹ̀-èdè tí ẹ fẹ́ dé nípasẹ̀ àwọn sáfà tí wọ́n wà ní odidi ní ààyè mìíràn: %1$s.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
+    -->
+    <string name="country_smart_routing_info">Àwọn sáfà wà ní odidi ní %1$s, ṣùgbọ́n yóò dà bí i tí ẹ bá ń wákiri ayélujára láti %2$s.</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Àlàyé</string>
+    <!-- tag(Redesign_2023)
+         Used for button title to learn more about different contexts
+    -->
+    <string name="connection_details_learn_more">Mọ̀ síi</string>
+    <!-- tag(Redesign_2023)
+        Used to describe IP which is not known
+    -->
+    <string name="connection_details_unknown_ip">Àìní mọ̀</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_description">Àwòrán yìí fi hàn ìyára ti iṣẹ́ gbígbé sórí ẹ̀rọ àti gbígbà láti orí ẹ̀rọ yín lọ́wọ́lọ́wọ́. Kò wọ́pọ̀ kí àsopọ̀ VPN yín dín iṣẹ́ àṣà ayélujára deédé lọ.</string>
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
+    <string name="speed_graph_title">Ìyára %1$s</string>
+    <string name="bytes_per_second">B/s</string>
+    <string name="kilobytes_per_second">KB/s</string>
+    <string name="megabytes_per_second">MB/s</string>
+    <string name="gigabytes_per_second">GB/s</string>
+    <string name="terabytes_per_second">TB/s</string>
+    <plurals name="full_name_speed_bytes_per_second">
+        <item quantity="other">%1$s báìtì ní ìṣẹ́jú kan</item>
+    </plurals>
+    <plurals name="full_name_speed_kilobytes_per_second">
+        <item quantity="other">%1$s kìlóbáìtì ní ìṣẹ́jú kan</item>
+    </plurals>
+    <plurals name="full_name_speed_megabytes_per_second">
+        <item quantity="other">%1$s megabáìtì ní ìṣẹ́jú kan</item>
+    </plurals>
+    <plurals name="full_name_speed_gigabytes_per_second">
+        <item quantity="other">%1$s gigabáìtì ní ìṣẹ́jú kan</item>
+    </plurals>
+    <plurals name="full_name_speed_terabytes_per_second">
+        <item quantity="other">%1$s terabáìtì ní ìṣẹ́jú kan</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_bytes">
+        <item quantity="other">%1$s báìtì</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_kilobytes">
+        <item quantity="other">%1$s kìlóbáìtì</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_megabytes">
+        <item quantity="other">%1$s megabáìtì</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_gigabytes">
+        <item quantity="other">%1$s gigabáìtì</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_terabytes">
+        <item quantity="other">%1$s terabáìtì</item>
+    </plurals>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
+    <!-- tag(Redesign_2023)
+         Shown at the top status view if app detects that there is no usable network to connect to VPN
+    -->
+    <string name="error_vpn_waiting_for_network">Ó ń dùró de nẹ́tíwọ́ọ̀kì.</string>
+    <!-- tag(Redesign_2023) -->
+    <plurals name="connection_details_days">
+        <item quantity="other">%1$d ọjọ́</item>
+    </plurals>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_hours_shortened">%1$d wákàtí</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_minutes_shortened">%1$d ìṣẹ́jú</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_seconds_shortened">%1$d sẹ́kọ́ndì</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Àsopọ̀ kò ṣeéṣe</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Irin iṣẹ́ yìí kò fàyè láti so mọ́ VPN.</string>
+    <string name="create_profile_title">Ṣẹ̀dá pọ́fáìlì</string>
+    <!-- Title for the screen where user can edit a profile.
+         %1$s - name of the profile being edited. -->
+    <string name="edit_profile_title">Ṣe àtúkọ %1$s</string>
+    <string name="edit_profile_dialog_action">Ṣe àtúkọ prófáìlì</string>
+    <string name="create_profile_name_hint">Orúkọ pọ́fáìlì</string>
+    <string name="create_profile_name_error_empty">Tẹ̀ orúkọ pọ́fáìlì sínú</string>
+    <string name="create_profile_name_error_too_long">Orúkọ pọ́fáìlì gbọdọ̀ jẹ́ 30 lẹ́tà tàbí díẹ̀</string>
+    <string name="create_profile_type_and_location_title">Yàn irú àsopọ̀ àti ibùdó</string>
+    <string name="create_profile_features_and_settings_title">Àwọn àbùdá àti àwọn ààtò</string>
+    <string name="configure_profile_features_and_settings_title">Ṣètò àwọn ààtò profáìlì</string>
+    <string name="configure_profile_features_and_settings_description">Nígbà ìsomọ́, àwọn ààtò profáìlì yóò fipà gbájú lé àwọn ààtò VPN yín lórí.</string>
+    <!--
+        First input will be for current step, second one will be for total number of steps
+        Example: Step 3 of 7
+     -->
+    <string name="create_profile_steps">Ìgbésẹ̀ %1$d nínú %2$d</string>
+    <string name="create_profile_button_next">Tẹ̀síwájú</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Mu iyara ìsomọ́ yín pọ̀ títí dé 400%% pẹ̀lú àwọn ìmọ̀-ẹ̀rọ tí ó ń mú iṣẹ́ ṣiṣe ga. %1$s</string>
+    <string name="settings_account_settings_title">Àwọn ààtò àkántì</string>
+    <string name="settings_account_change_password">Yí ọ̀rọ̀ ìgbaniwọlé padà</string>
+    <string name="settings_account_recovery_email">Ímeèlì ìmúbọ̀sípò</string>
+    <string name="settings_account_recovery_email_not_set">Kò tíì ṣètò</string>
+    <string name="settings_account_security_keys">Àwọn kííì ààbò</string>
+    <!-- Label of a button that opens user\'s account page -->
+    <string name="settings_account_button_my_account">Àkántì mi</string>
+    <string name="settings_account_button_delete_account">Pa àkántì yín</string>
+    <string name="settings_custom_dns_title">DNS àkànṣe</string>
+    <string name="settings_custom_dns_description_tv">So VPN mọ́ pẹ̀lú ètò orúkọ ojú òpó (DNS) tí ẹ fúnra yín gbàlejò tàbí ètò DNS alàgàta.</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Fi sáfà DNS titun kún</string>
+    <string name="settings_add_dns_new_entry_button">Fi kún</string>
+    <string name="settings_add_dns_description">Tẹ̀ àdírẹ́sì IPv4 tàbí IPv6 sáfà náà sínú</string>
+    <string name="settings_add_dns_invalid_input">Tẹ̀ àdírẹ́sì IPv4 tàbí IPv6 tó tọ́ sínú</string>
+    <string name="settings_add_dns_empty_input">Tẹ̀ àdírẹ́sì IPv4 tàbí IPv6 sínú</string>
+    <string name="settings_add_dns_duplicate_input">A ti fi sáfà náà kún</string>
+    <string name="settings_advanced_dns_description">So pọ̀ mọ́ VPN pẹ̀lú DNS tí ẹ gbé kalẹ̀ fún ara yín tàbí ti alàgàta. Mọ̀ síi</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Àwọn sáfà (%1$d)</string>
+    <string name="settings_dns_list_description">Bí sáfà DNS àkànṣe yín kò bá ṣiṣẹ́, wọ́n yóò lo DNS VPN ìpìlẹ̀.</string>
+    <string name="settings_dns_list_description_multiple">A yóò gbìyànjú láti so pọ̀ mọ́ àwọn sáfà wọ̀nyí lẹ́yìn ara wọn. Bí ẹnìkan nínú wọn kò bá ṣiṣẹ́, wọ́n yóò lo DNS VPN náà.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">A ó ṣe àmúlò àwọn ìyípadà nígbà tí ẹ bá tún so pọ̀.</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield kò ní ṣiṣẹ́</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield kò lè kọ́ àwọn ìpolówó, àwọn olùtọpa àti máálweà kúrò nígbà tí a bá fi DNS àkànṣe lò. Mọ̀ síi</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">NetShield kò lè ya ìpolówó, olùtọpa àti máálweà kúrà nígbà tí wọ́n bá ń lo DNS àkànṣe.</string>
+    <string name="settings_advanced_alternative_routing_title">Yíyan ipa ọ̀nà míràn</string>
+    <string name="settings_advanced_alternative_routing_description">Tí àwọn ìdè nẹ́tíwọ́ọ̀kì bá bo àwọn iṣẹ́ Proton léèrù, a máa gbiyànjú lílo ìdarí nẹ́tíwọ́ọ̀kì ọ̀nà mìíràn láti so yín mọ́ àwọn ojú-ewé wa.</string>
+    <string name="settings_advanced_allow_lan_title">Àwọn àsopọ̀ LAN</string>
+    <string name="settings_advanced_allow_lan_description">Ó jẹ́ kí ẹ lè so pọ̀ mọ́ àwọn ẹ̀rọ ìtẹ̀wé, àwọn ẹ̀rọ ohùn àti àwọn irin iṣẹ́ mìíràn tí ó wà ní nẹ́tíwọ́ọ̀kì ìbílẹ̀ irin iṣẹ́ yín.</string>
+    <string name="settings_advanced_allow_lan_description_tv">Ẹ so pọ̀ mọ́ àwọn igbóhùnsáfẹ́fẹ́, kọ̀mpútà àti àwọn irin iṣẹ́ mìíràn lórí nẹ́tíwọ́ọ̀kì agbègbè yín.</string>
+    <string name="settings_advanced_allow_lan_title_tv">Gba àwọn àsopọ̀ LAN láàyè</string>
+    <string name="settings_advanced_nat_type_title">Irú NAT</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Yàn irú àtúmọ̀-àdírẹ́sì nẹ́tíwọ́ọ̀kì fún àsopọ̀ yín. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Ẹ yàn irú àtúmọ̀-àdírẹ́sì nẹ́tíwọ́ọ̀kì fún àsopọ̀ yín.</string>
+    <string name="settings_advanced_nat_type_strict">Ìdíwọ̀ (irú 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Irú 3</string>
+    <string name="settings_advanced_nat_type_moderate">Sọmọdọ̀ (irú 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Irú 2</string>
+    <string name="settings_advanced_nat_type_strict_description">Ó díwọ̀ dátà tí ń wọlé sínú nẹ́tíwọ́ọ̀kì yín. Àṣàyàn yìí ní ààbò jù, ṣùgbọ́n ó lè jẹ́ kí àsopọ̀ eré láàrín àwọn ẹ̀rọ ṣòro.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Ìdíwọ̀ kan wà lórí dátà tí ń tẹ̀ wọlé sínú nẹ́tíwọ́ọ̀kì yín. Àṣàyàn yìí dára jù fún eré fídíò lórí ayélujára.</string>
+    <string name="settings_split_tunneling_description">Ṣètò àsopọ̀ yín láti pinnu àwọn áàpù àti àwọn àdírẹ́sì IP wo ni VPN dáàbò bò. %1$s</string>
+    <string name="settings_protocol_description">Ìlànà VPN kan ń pinnu ọ̀nà tí dátà gbà ń rin láàrín sáfà VPN àti irin iṣẹ́ yín. %1$s</string>
+    <string name="settings_protocol_description_no_link">Ìlànà VPN kan ń pinnu ọ̀nà tí dátà gbà ń rin láàrín sáfà VPN àti irin iṣẹ́ yín.</string>
+    <string name="settings_protocol_section_speed">Ìyara (UDP)</string>
+    <string name="settings_protocol_section_reliability">Ìgbẹ́kẹ̀ (TCP)</string>
+    <string name="settings_protocol_smart_title">Ogbọ́n</string>
+    <string name="settings_protocol_smart_description">Ó yan ìlànà tí ó dára jù fún àsopọ̀ yín fúnra rẹ̀.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">Ó yan ìlànà tí ó dára jù fún àsopọ̀ yín fúnra rẹ̀ [ìdánwò].</string>
+    <string name="settings_protocol_wireguard_udp_description">Ìlànà ìgbàlódé tí ó ga jù fún ààbò àti ìṣẹ́ dáradára.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Ìlànà ìgbàlódé tí ó ga jù fún ààbò àti ìṣẹ́ dáradára.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Ó bori ìdèwọ̀ VPN nípa fí àsopọ̀ VPN yín pamọ́ kúrò fún àwọn alátíléyìn ìdèwọ̀. Ìlànà yìí lè dáàbò bò ara rẹ̀ lọ́wọ́ DPI (ìyẹ̀wò àpò dátà tí ó jìn), ṣùgbọ́n ó lè kéré ju àwọn ìlànà mìíràn lọ ní ìyara. Stealth jẹ́ ti Proton VPN nìkan.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">A ṣedúró</string>
+    <string name="settings_protocol_badge_experimental">Ìdánwò</string>
+    <string name="settings_split_tunneling_mode_title">Ipò</string>
+    <string name="settings_split_tunneling_mode_standard">Yọ kúrò</string>
+    <string name="settings_split_tunneling_mode_inverse">Fi mọ́</string>
+    <string name="settings_split_tunneling_mode_description_standard">Àwọn áàpù àti àwọn àdírẹ́sì IP tí a yàn ni a yọ kúrò nínú àsopọ̀ VPN.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Àwọn áàpù àti àwọn àdírẹ́sì IP tí a yàn nìkan ni ó ń so pọ̀ nípasẹ̀ VPN, gbogbo lílọ bíbọ̀ mìíràn kò ní ààbò.</string>
+    <string name="settings_split_tunneling_excluded_apps">Àwọn áàpù tí a kọ́ sílẹ̀</string>
+    <string name="settings_split_tunneling_excluded_ips">Àwọn àdírẹ́sì IP tí a kọ́ sílẹ̀</string>
+    <string name="settings_split_tunneling_included_apps">Àwọn áàpù tí a fi sinú</string>
+    <string name="settings_split_tunneling_included_ips">Àwọn àdírẹ́sì IP tí a fi sinú</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Kò sí</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s àti %3$d mìíràn</string>
+    <string name="settings_split_tunneling_already_excluded">Ó ti wà nínú àkójọ àwọn tí a ti kọ́ sílẹ̀.</string>
+    <string name="settings_split_tunneling_already_included">Ó ti wà nínú àkójọ náà tẹ́lẹ̀.</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Ṣe kí a yọ àdírẹ́sì IP kúrò nínú àkójọ náà?</string>
+    <string name="settings_split_tunneling_ip_removed_message">A yọ àdírẹ́sì IP náà kúrò.</string>
+    <string name="settings_theme_title">Àkòrí</string>
+    <string name="settings_theme_value_auto">Àkòrí irin iṣẹ́</string>
+    <string name="settings_theme_value_light">Ìmọ́lẹ̀</string>
+    <string name="settings_theme_value_dark">Òkunkun</string>
+    <string name="settings_dialog_reconnect">A ó ṣe àmúlò àwọn ààtò tuntun nígbà tí ẹ bá so pọ̀ lẹ́ẹ̀kan sí i.</string>
+    <string name="settings_needs_reconnect_banner">A ó ṣe àmúlò àwọn ààtò tuntun nígbà tí ẹ bá so pọ̀ lẹ́ẹ̀kan sí i.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">DNS àkànṣe kò ṣiṣẹ́</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Irin iṣẹ́ yín ń lò DNS alàgàta tí ó ń dẹ́kun kí DNS àkànṣe Proton VPN ṣiṣẹ́. Mọ̀ síi</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">Irin iṣẹ́ yín ń lò DNS alàgàta èyí tí ó fi DNS àkànṣe ti Proton VPN lẹ́wọ̀.</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield kò ṣiṣẹ́</string>
+    <string name="private_dns_conflict_banner_netshield_description">Irin iṣẹ́ yín ń lò DNS alàgàta tí ó ń dẹ́kun kí NetShield ṣiṣẹ́. Mọ̀ síi</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Àwọn ààtò nẹ́tíwọ́ọ̀kì</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield kò ṣiṣẹ́</string>
+    <string name="custom_dns_conflict_banner_netshield_description">A ti fi ààyè gba DNS àkànṣe, èyí tí ó ń dẹ́kun kí NetShield ṣiṣẹ́. Mọ̀ síi</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">Pa DNS àkànṣe mó kí ẹ lè lo NetShield</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">A ti fi ààyè gba DNS àkànṣe, èyí tí ó dẹ́kun kí NetShield ṣiṣẹ́.</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Pa DNS àkànṣe mó</string>
+    <string name="info_secure_core_standard_high_privacy">Àṣírí gíga</string>
+    <string name="info_secure_core_standard_lower_latency">Láténsí tí ó kéré</string>
+    <string name="info_secure_core_advanced_privacy">Àṣírí ìlọsókè</string>
+    <string name="info_secure_core_higher_latency">Láténsí tí ó ga jù</string>
+    <string name="info_p2p_what_title">Kí ni P2P?</string>
+    <string name="info_p2p_what_description">Ìmọ̀-ẹ̀rọ ẹlẹ́gbẹ́-sí-ẹlẹ́gbẹ́ (P2P) ń jẹ́ kí ẹ lè so pọ̀ mọ́ àwọn irin iṣẹ́ mìíràn nítaàárẹ̀ àti kí ẹ ṣe alábàápín fáìlì pẹ̀lú wọn.\n\nÀwọn sáfà P2P wa ni a ṣe apẹrẹ pàṣepàṣẹ láti ṣe àtìlẹ́yìn fún irú ṣíṣe alábàápín fáìlì yìí.</string>
+    <string name="info_p2p_torrenting_title">Kí ni torrenting jẹ́?</string>
+    <string name="info_p2p_torrenting_description">Ìpín kíákíá àti gbígbà àwọn fáìlì ńlá láti orí ẹ̀rọ nípasẹ̀ nẹ́tíwọ́ọ̀kì P2P kan.</string>
+    <string name="info_p2p_why_title">Kí ló dé tí ẹ fi máa lò sáfà P2P nígbà tí ẹ bá ń ṣe torrenting?</string>
+    <string name="info_p2p_why_description_speed">Ìyára gbígbé sórí ẹ̀rọ àti gbígbà láti orí ẹ̀rọ tí ó pọ̀ síi</string>
+    <string name="info_p2p_why_description_logs">Kò sí àkọsílẹ̀ ìṣe</string>
+    <string name="info_p2p_why_description_hide">Fi àdírẹ́sì IP yín pamọ́ lọ́wọ́ olùpese iṣẹ́ yín àti àwọn ẹlẹ́gbẹ́ yín</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing gba wa láyè láti pèsè àbò VPN ní àwọn orílẹ̀-èdè tí kò dẹ́ẹ̀ rọ̀rún láti dé náà.\n\nNígbà tí ẹ bá so pọ̀ mọ́ sáfà Smart Routing, ó dà bíi ẹ ti ń kiri ayélujára nínú orílẹ̀-èdè tí ẹ kàn sí náà, ṣùgbọ́n sáfà ara rẹ̀ wà ní ibi kan mìíràn.  \n\nÀwọn ènìyàn máa ń lo Smart Routing láti kọ́jà àwọn òfin tí kò fọwọ́ sí àṣírí àti àwọn ọ̀nà mìíràn tí a fi ń dé ènìyàn ní ìfaradàọ̀rọ̀.</string>
+    <string name="notifications_channel_connection_status_name">Ipò àsopọ̀</string>
+    <string name="notifications_channel_connection_status_description">Ó fi sáfà tí ẹ so pọ̀ mọ́ àti iyára VPN yín hàn.</string>
+    <string name="notifications_channel_connection_errors_name">Àwọn àṣìṣe àsopọ̀</string>
+    <string name="notifications_channel_connection_errors_description">Ó ń fi ìkìlọ̀ hàn yín nípa àwọn ìṣòro tí ó lè mú kí àsopọ̀ VPN yín dáwọ́ dúró díẹ̀ tàbí kí ó dúró pátápátá.</string>
+    <string name="notifications_channel_connection_tips_name">Àwọn ìmọ̀ràn àsopọ̀</string>
+    <string name="notifications_channel_connection_tips_description">Àwọn ìmọ̀ràn tí ó ń ran ẹ lọ̀wọ́ láti gba ànfaní jù nínú Proton VPN.</string>
+    <string name="countries_upsell_banner_description">Ní ìráàyèsí sí gbogbo orílẹ̀-èdè pẹ̀lú VPN Plus</string>
+    <string name="secure_core_upsell_banner_description">Fi ipínlẹ̀ sísọ di àṣírí mìíràn kún àsopọ̀ VPN yín</string>
+    <string name="p2p_upsell_banner_description">Gba fáìlì láti orí ẹ̀rọ nípasẹ̀ BitTorrent àti àwọn ìlànà ṣíṣe alábàápín fáìlì mìíràn</string>
+    <string name="tor_upsell_banner_description">Lò nẹ́tíwọ́ọ̀kì Tor lórí àsopọ̀ VPN yín fún àṣírí àfikún.</string>
+    <string name="vpnplus_upsell_banner_description">Gbé e ga sí VPN Plus</string>
+    <string name="search_zero_screen_title">Ẹ gbiyànjú láti wá…</string>
+    <string name="search_zero_screen_info_countries_title">Àwọn orílẹ̀-èdè</string>
+    <string name="search_zero_screen_info_cities_title">Àwọn ìlú</string>
+    <string name="search_zero_screen_info_servers_title">Àwọn sáfà</string>
+    <string name="search_zero_screen_info_countries_examples">Swítṣẹ́landì, Amẹ́ríkà, Ítálì, Kánádà…</string>
+    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Àṣìṣe kan wáyé nígbà tí a ń mú owó wá.</string>
+    <string name="tv_settings_split_tunneling_description">Ṣe ìṣàtúnṣe àsopọ̀ yín nípa pínnu àwọn áàpù tí VPN yóò dáàbò bo.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Àwọn áàpù tí a yàn ni a yọ kúrò nínú àsopọ̀ VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Àwọn áàpù tí a yàn nìkan ni ó máa ń so pọ̀ nípasẹ̀ VPN, gbogbo lílọ bíbọ̀ mìíràn kò ní ààbò.</string>
+    <string name="profile_action_edit">Ṣe àtúkọ rẹ̀</string>
+    <string name="profile_action_duplicate">Ṣàdàkọ</string>
+    <string name="profile_action_delete">Pa á rẹ́</string>
+    <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="profile_needs_reconnect">Èyí yóò tún àsopọ̀ yín bẹ̀rẹ̀.</string>
+    <string name="profile_overrides_setting">Àwọn ààtò wọ̀nyí so pọ̀ mọ́ <b>%1$s</b>, a kò lè bójú tó wọn àyàfi nínú Àwọn prófáìlì nìkan.</string>
+    <string name="initial_profile_name_streaming_us">Gbígbé sórí afẹ́fẹ́ US</string>
+    <string name="initial_profile_name_work_school">Iṣẹ́/Ilé-ẹ̀kọ́</string>
+    <string name="initial_profile_name_anti_censorship">Ìdàbobo ọ̀rọ̀ ọ̀fẹ́</string>
+    <string name="initial_profile_name_gaming">Eré ayélujára</string>
+    <string name="initial_profile_name_max_security">Ààbò pípé</string>
+    <string name="create_profile_pick_country_title">Orílẹ̀-èdè</string>
+    <string name="create_profile_pick_type_title">Irú</string>
+    <string name="create_profile_type_standard">Ìpìlẹ̀</string>
+    <string name="create_profile_type_secure_core">Secure Core</string>
+    <string name="create_profile_type_p2p">P2P</string>
+    <string name="create_profile_gateway">Ipa ọ̀nà</string>
+    <string name="create_profile_pick_state_title">Ìpínlẹ̀</string>
+    <string name="create_profile_pick_city_title">Ìlú</string>
+    <string name="create_profile_pick_server_title">Sáfà</string>
+    <string name="create_profile_pick_gateway_title">Ipa ọ̀nà</string>
+    <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_netshield_description">Dẹ́kun ìpolówọ́ ọjà, olùtọpa àti máálweà lórí wẹ́bsáìtì àti áàpù.</string>
+    <string name="create_profile_pick_protocol_title">Ìlànà ìbánisọ̀rọ̀</string>
+    <string name="create_profile_pick_nat_title">Irú NAT</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (àdàkọ)</string>
+    <string name="create_profile_fastest_city">Tí ó yára jùlọ</string>
+    <string name="create_profile_fastest_state">Tí ó yára jùlọ</string>
+    <string name="create_profile_fastest_server">Tí ó yára jùlọ</string>
+    <string name="create_profile_pick_middle_country_title">Orílẹ̀-èdè àárín</string>
+    <string name="profiles_zero_state_title">Ṣẹ̀dá prófáìlì akọ́kọ́ yín</string>
+    <string name="profiles_zero_state_description">Àwọn prófáìlì ni àwọn àsopọ̀ tí a ti fipamọ́ pẹ̀lú ìyàn yín ní ibùdó, sáfà, àti ìlànà ìbánisọ̀rọ̀.</string>
+    <string name="profiles_button_create_profile">Ṣẹ̀dá prófáìlì</string>
+    <string name="profile_deleted_snackbar_message">A ti pa prófáìlì náà rẹ́.</string>
+    <string name="profile_connected_edit_setting">Ààtò yìí so pọ̀ mọ́ prófáìlì tí ń ṣiṣẹ́ yín. \n\nẸ ṣe àtúkọ prófáìlì yín láti ṣe àtúnṣe, tàbí kí ẹ tú ìsopọ̀ láti ṣe àtúkọ àwọn ààtò VPN àpapọ̀ yín.</string>
+    <string name="profile_connected_dialog_title">Bójú tó %1$s ní Prófáìlì</string>
+    <string name="undo">Yí i padà</string>
+    <string name="profile_unavailable_dialog_title">Prófáìlì kò sí</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
+    <string name="profile_unavailable_dialog_message">Sáfà tí ẹ yàn fún %1$s kò sí. Ẹ yan sáfà mìíràn tàbí ẹ tún gbìyànjú nígbà mìíràn.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Ìyàn sáfà yín fún <b>%1$s</b> kò sí. Ẹ yan sáfà mìíràn, ẹ ṣe àyẹ̀wò àwọn ibùdó tí ẹ kọ̀ sílẹ̀ tàbí ẹ gbiyànjú nígbà mìíràn.]]></string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">Ìwòran ààmì %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">Àwọ̀ %1$d</string>
+    <string name="generic_info_label">Àlàyé</string>
+    <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
+         Please don't use & in translation and capitalize key words. -->
+    <string name="create_profile_connect_and_go_label">So pọ̀ kí a lọ</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Tuntun</string>
+    <string name="create_profile_auto_open_url_input_label">URL wẹ́bsáìtì</string>
+    <string name="create_profile_auto_open_url_private_mode_label">Lo ipò ìlọkiri àṣírí</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Pá</string>
+    <string name="profile_auto_open_app_failed_to_launch">So pọ̀ kí a lọ: a kò rí aplikéṣàn náà.</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_website">Ṣí wẹ́bsáìtì kan</string>
+    <string name="profile_auto_open_app">Ṣí áàpù kan</string>
+    <string name="create_profile_auto_open_description">Ṣí wẹ́bsáìtì tí ẹ yàn fúnra yín láìfọwọ́yí nígbà tí ẹ bá so pọ̀ mọ́ prófáìlì yìí.</string>
+    <string name="create_profile_auto_open_app_input_hint">Yan áàpù kan</string>
+    <string name="create_profile_auto_open_app_input_label">Áàpù</string>
+    <string name="create_profile_auto_open_app_no_apps">A kò rí áàpù kankan.</string>
+    <string name="profile_auto_open_error_invalid_url">Tẹ̀ URL tó tọ̀ sínú</string>
+    <string name="nps_how_likely_question">Báwo ni ó ṣe rọ̀ fún yín láti gba Proton VPN níyì fún ọ̀rẹ́ tàbí alábàṣiṣẹ́pọ̀?</string>
+    <string name="nps_additional_comment_title">Jọ̀wọ́, ẹ jẹ́ ká mọ ìdí tí ẹ fi fún ìdíwọ̀n yẹn.</string>
+    <string name="nps_additional_comment_optional">Àṣàyàn</string>
+    <string name="nps_rating_low_values_explain">0 túmọ̀ wípé kò rọ̀ rárá.</string>
+    <string name="nps_rating_high_values_explain">10 túmọ̀ wípé ó rọ̀ gidigidi.</string>
+    <string name="nps_toast_submit_message">Ẹ ṣé fún pínpín. Ìfèsí yín ràn wá lọ́wọ́ láti mú Proton VPN dára síwájú si.</string>
+    <string name="nps_submit_error_char_limit">Èsì yín gbọdọ̀ jẹ́ 250 àmì-ọ̀rọ̀ tàbí díẹ̀.</string>
+    <string name="nps_button_submit_title">Ṣe alábàápín láìfihàn orúkọ</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_spain">Spéénì</string>
+    <string name="widget_preview_germany">Jẹ́rímánì</string>
+    <string name="widget_preview_france">Fránsì</string>
+    <string name="widget_status_unprotected">Kò ní ààbò</string>
+    <string name="widget_status_error">Àṣìṣe</string>
+    <string name="widget_status_connecting">Ó ń so pọ̀</string>
+    <string name="widget_sign_in">Gbà wọlé</string>
+    <string name="widget_toast_added_message">A ti fi wíjẹ́ẹ̀tì sí ojú-ìbùdó.</string>
+    <string name="settings_advanced_ipv6_title">Àtìlẹ́yìn IPv6</string>
+    <string name="settings_advanced_ipv6_description">Ó máa ń darí lílọ bíbọ̀ IPv6 kọjá VPN. Ó lè mú ìbámu pọ̀ pẹ̀lú àwọn nẹ́tíwọ́ọ̀kì IPv6.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Láti lò àdírẹ́sì yìí, ẹ gbọ́dọ̀ jẹ́ kí àwọn àsopọ̀ IPv6 kọ́já sínú ìsúnà VPN.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Fi ààyè gba IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">A ti paná IPv6</string>
+    <string name="settings_ipv6_enabled_toast">A ti fi ààyè gba IPv6.</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Ó ríi dájú pé ẹ lè ní ìráàyèsí sí àwọn wẹ́bsáìtì àti àwọn iṣẹ́ tí ó ń ṣiṣẹ́ pẹ̀lú IPv6 nìkan</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Ó dẹ́kun ìṣòro ní àwọn nẹ́tíwọ́ọ̀kì tí ó gbára lé IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">Léè má ṣiṣẹ́ dáadáa pẹ̀lú àwọn nẹ́tíwọ́ọ̀kì àti àwọn áàpù tí ó pẹ́ tó</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Àwọn nẹ́tíwọ́ọ̀kì kan ń mú lílọ bíbọ̀ IPv6 kọjá ní ọ̀nà tí a kò lè ṣàpọ̀tẹ́lẹ̀</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Àwọn àìpẹ̀yẹ</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Àwọn ìwúlò</string>
+    <string name="settings_lan_allow_direct_connection_title">Gba àwọn àsopọ̀ irin iṣẹ́ tààrà láàyè</string>
+    <string name="settings_lan_allow_direct_connection_description">Ẹ so pọ̀ mọ́ àwọn TV ọlọ́gbọ́n, Android Auto, àti àwọn irin iṣẹ́ mìíràn tí wọ́n ń ṣẹ̀dá nẹ́tíwọ́ọ̀kì tiwọn. Fún ààbò tó ga jùlọ, ẹ fi ààyè gbà á nìkan nígbà tí ẹ bá ń so pọ̀ mọ́ àwọn irin iṣẹ́ wọ̀nyí.</string>
+    <string name="no_connections_title">Kò sí àsopọ̀ VPN tí ó ṣe é lò</string>
+    <string name="no_connections_description_loading_error">A kò lè gbé àkójọ àwọn sáfà náà wá.</string>
+    <string name="no_connections_description_no_servers">Ẹ béèrè lọ́wọ́ olùṣàkóso yín kí ó fi ààyè gba ìráàyèsí VPN fún àkántì yín.</string>
+    <string name="no_connections_action_refresh">Tún u sọjí</string>
+    <string name="no_connections_action_sign_out">Jáde</string>
+    <string name="no_connections_help_contact_us"><![CDATA[Ṣé ẹ nílò ìrànlọ́wọ́? <a href="">Ẹ kàn sí wa</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[Bí olùṣàkóso yín bá nílò ìrànlọ́wọ́ láti ṣí ìráàyèsí sí VPN, ẹ fi ránṣẹ́ <a href="">àwọn ìlànà wọ̀nyí</a> sí i.]]></string>
+    <string name="settings_protocol_proton_protocols">Àwọn ìlànà Proton</string>
+    <string name="settings_protocol_proton_protocols_description">Lo ìmùṣe WireGuard ti Proton VPN fúnra rẹ̀. Èyí jẹ́ àbùdá ìdánwò, nítorí náà ó lè jẹ́ pé ìṣe rẹ̀ máa bà je ní ìgbà míràn.</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Èyí kì í ṣe orílẹ̀-èdè tí ẹ fẹ́?</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">Tí àwọn ibùdó bá wà tí ẹ kò fẹ́ kí a so yín pọ̀ mọ́ láìfọwọ́yí, ẹ lè yọ wọ́n kúrò nínú orílẹ̀-èdè Fastest.</string>
+    <string name="excluded_locations_adoption_title">Yẹra fún àwọn ibùdó tí ẹ kò fẹ́</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[Ẹ lè kọ̀ orílẹ̀-èdè àti ìlú kúrò nínú àsopọ̀ <b>Tó yára jù</b>.]]></string>
+    <string name="session_fork_no_account_title">Wọlé sí Android TV</string>
+    <string name="session_fork_no_account_message">Parí ìwọlé lórí irin iṣẹ́ yìí láti bẹ̀rẹ̀ síì lo Proton VPN lórí TV yín.</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Nípa lílo áàpù yìí, ẹ ti gbà <a href="">àwọn àdéhùn àti ọ̀rọ̀ àjọsọ</a> wa.]]></string>
+    <string name="session_fork_no_account_signup_button">Ṣẹ̀dá àkántì</string>
+    <string name="session_fork_no_account_signin_button">Gbà wọlé</string>
+    <string name="session_fork_confirmation_title">Wọlé sí Android TV?</string>
+    <string name="session_fork_confirmation_message">Èyí yóò jẹ́ kí TV lè ní ìráàyèsí sí àkántì Proton yín.</string>
+    <string name="session_fork_confirmation_bottom_note">Wọlé lórí àwọn irin iṣẹ́ tí ẹ gbẹ́kẹ̀lé nìkan</string>
+    <string name="session_fork_confirmation_too_soon_toast">Jọ̀wọ́, ẹ ṣàyẹ̀wò kí ẹ tó tẹ̀síwájú.</string>
+    <string name="session_fork_success_title">Ìwọlé ti parí</string>
+    <string name="session_fork_success_message">Ẹ ti wọlé lórí TV yín.</string>
+    <string name="session_fork_error_expired_title">Kóòdù ti wá sí òpin</string>
+    <string name="session_fork_error_expired_message">Ṣẹ̀dá kóòdù tuntun kan lórí TV yín kí ẹ sì tún gbìyànjú.</string>
+    <string name="session_fork_error_generic_title">A kò lè wọlé</string>
+    <string name="session_fork_error_fatal_message">Ẹ ṣàyẹ̀wò nẹ́tíwọ́ọ̀kì yín kí ẹ sì tún gbìyànjú. Bí ìṣòro náà bá ń tẹ̀síwájú, kan sí àwọn olùtìlẹ́yìn oníbàárà wa. </string>
+    <string name="session_fork_error_network_message">Ẹ ṣàyẹ̀wò nẹ́tíwọ́ọ̀kì yín kí ẹ sì tún gbìyànjú.</string>
+    <string name="session_fork_error_try_fallback_message">Ẹ tẹ \‘Ìṣòro ìwọlé?\’ lórí TV yín láti tẹ̀lẹ̀ àwọn ìgbésẹ̀ mìíràn.</string>
+    <string name="session_fork_error_report_button">Ṣàjápọ̀ ìṣòro náà</string>
+    <string name="session_fork_qr_code_content_description">Kóòdù QR</string>
+    <string name="session_fork_qr_code_message">Ṣe àyẹ̀wò kóòdù QR náà láti wọlé tàbí láti ṣẹ̀dá àkántì.</string>
+    <string name="session_fork_qr_code_trouble_button">Ìṣòro ìwọlé?</string>
+    <string name="session_fork_qr_code_error_expired">Fún àwọn ìdí ààbò, kóòdù ìjẹ́rìísí náà ti wá sí òpin.</string>
+    <string name="session_fork_qr_code_error_network">Ẹ ṣàyẹ̀wò nẹ́tíwọ́ọ̀kì yín kí ẹ sì tún gbìyànjú.</string>
+    <string name="session_fork_qr_code_error_create_new_button">Ṣẹ̀dá kóòdù tuntun</string>
+    <string name="session_fork_user_code_title">Ṣíṣe àyẹ̀wò kóòdù náà ṣòro? Wọlé ní ọwọ́</string>
+    <string name="session_fork_user_code_step1"><![CDATA[Lọ sí: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">Wọlé tàbí ṣẹ̀dá àkántì</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
+    <string name="session_fork_user_code_step3"><![CDATA[Tẹ̀ kóòdù náà: <b>%1$s</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[Ṣé ẹ sì lọ̀ọ́ nílò ìrànlọ́wọ́? Ṣàbẹ̀wọ̀ sí <b>%1$s</b>]]></string>
+</resources>

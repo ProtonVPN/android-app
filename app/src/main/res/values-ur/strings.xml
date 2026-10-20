@@ -1,0 +1,1810 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_icon_name_classic">روایتی</string>
+    <string name="app_icon_name_dark">تاریک</string>
+    <string name="app_icon_name_retro">عہد رفتہ</string>
+    <string name="app_icon_name_weather">موسم</string>
+    <string name="app_icon_name_notes">یادداشتیں</string>
+    <string name="app_icon_name_calculator">کیلکولیٹر</string>
+    <string name="login">سائن ان کریں</string>
+    <string name="menuActionSignOut">خروج</string>
+    <string name="connectionAllocationHelpTitle">تجدید کرنے کا شکریہ</string>
+    <string name="connectionAllocationHelpDescription1">Proton VPN میں اپنا سفر شروع کرنے کے لیے براہِ کرم VPN اتصالات اپنے کھاتےیا کسی دوسرے ماتحت کھاتے کو تفویض کریں۔</string>
+    <string name="connectionAllocationHelpDescription2">اس مرحلے میں صرف چند منٹ لگیں گے۔ اس کے بعد آپ داخل ہو کر اپنے تمام آلات کی حفاظت کر سکیں گے۔</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">اس کھاتے کے لیے فی الوقت VPN کی سہولت فعال نہیں ہے۔ Proton VPN کے ساتھ اپنا سفر شروع کرنے کے لیے براہِ کرم اپنے منتظم سے رابطہ کریں۔ </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">VPN فعال کریں</string>
+    <string name="connectionAllocationHelpLoginAgainButton">دوبارہ سائن ان کریں</string>
+    <!-- tag(Redesign_2023) "OK" button on dialogs -->
+    <string name="ok">ٹھیک ہے</string>
+    <string name="dialogLearnMore">مزید جانیں</string>
+    <string name="connected">متصل</string>
+    <string name="buttonConnect">متصل کریں</string>
+    <string name="loaderConnectingTo">%1$s سے جڑ رہا ہے</string>
+    <string name="loaderNotConnected">غیر متصل (غیر محفوظ)</string>
+    <string name="loaderConnectedTo">%1$s سےمتصل شدہ</string>
+    <string name="loaderDisconnecting">منقطع کیا جا رہا ہے</string>
+    <string name="loaderReconnecting">دوبارہ متصل ہو رہا ہے</string>
+    <string name="loaderReconnectNoNetwork">قابلِ استعمال نیٹ ورک کا انتظار</string>
+    <string name="loaderCheckingAvailability">سرور کی دستیابی کی جانچ ہورہی ہے</string>
+    <string name="quickConnect">فوری اتصال</string>
+    <!-- Displays a percentage value. Please use %% sign for %.
+         Example value: "70%" -->
+    <string name="serverLoad">%1$s%%</string>
+    <string name="cancel">منسوخ کریں</string>
+    <string name="close">بند کریں</string>
+    <string name="dialogContinue">جاری رکھیں</string>
+    <string name="drawerReportProblem">مسئلے کی اطلاع دیں</string>
+    <string name="action_done">ہو گیا</string>
+    <string name="action_share">اشتراک کریں</string>
+    <string name="accountFree">Proton مفت</string>
+    <string name="restrictedMaintenanceTitle">زیر مرمت</string>
+    <string name="restrictedMaintenanceDescription">آپ جس سرور سے اتصال کی کوشش کر رہے ہے وہ زیرِ مرمت ہے۔ براہِ کرم کوئی دوسرا سرور آزمائیں۔</string>
+    <string name="restricted_location_excluded_dialog_title">رابطہ قائم نہیں ہو سکا</string>
+    <string name="restricted_location_excluded_dialog_description">کوئی سرور دستیاب نہیں۔ کسی مقام کا دستی انتخاب کریں یا اپنے خارج شدہ مقامات میں ترمیم کریں۔</string>
+    <string name="errorUserDelinquent"><![CDATA[آپ کے اکاؤنٹ پر فی الحال ایک واجب الادا انوائس موجود ہے۔ تمام غیر ادا شدہ انوائسز کی ادائیگی&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> پر کریں۔]]></string>
+    <string name="errorMaxSessions">آپ کے اکاؤنٹ کے لیے اجازت شدہ بیک وقت کنکشنز کی زیادہ سے زیادہ حد پوری ہو گئی ہے۔ مزید کنکشنز حاصل کرنے کے لیے اپنا Proton VPN پلان اپ گریڈ کریں۔</string>
+    <string name="listItemMaintenance">مرمت جاری ہے</string>
+    <string name="insufficientPermissionsTitle">صارف کی کارروائی درکار ہے</string>
+    <string name="insufficientPermissionsDetails">VPN کنکشن خود بخود قائم نہیں کیا جا سکا۔ اجازتیں دینے کے لیے براہِ کرم ایک بار دستی طور پر کنیکٹ کریں۔</string>
+    <string name="log_title">لاگ</string>
+    <string name="disconnect">ڈسکنیکٹ کریں</string>
+    <string name="state_connecting">کنیکٹ کیا جا رہا ہے…</string>
+    <string name="state_connected">کنیکٹ ہو گیا</string>
+    <string name="state_disconnecting">ڈسکنیکٹ کیا جا رہا ہے…</string>
+    <string name="state_error">نقص</string>
+    <string name="error_server_list_load_failed">براہِ کرم اپنی کنکشن چیک کریں اور دوبارہ کوشش کریں۔</string>
+    <string name="error_server_unreachable">VPN سے کنیکٹ نہیں کیا جا سکا۔ براہِ کرم اپنی کنکشن چیک کریں اور دوبارہ کوشش کریں۔</string>
+    <string name="error_auth_failed">صارف کی توثیق نہیں ہو سکی۔</string>
+    <string name="error_generic">کنیکٹ کرتے وقت ایک غیر متعینہ خرابی پیش آئی۔</string>
+    <string name="error_generic_with_reason">Proton VPN کسی VPN کنکشن کو قائم نہیں کر سکا۔ براہِ کرم چند سیکنڈ میں دوبارہ کوشش کریں۔<br/><br/> تفصیلات: %1$s</string>
+    <string name="reconnect">دوبارہ کنیکٹ کریں</string>
+    <string name="reconnect_now">دوبارہ کنیکٹ کریں</string>
+    <string name="try_reconnecting">دوبارہ کنیکٹ کرنے کی کوشش کریں</string>
+    <string name="connect">کنیکٹ کریں</string>
+    <string name="upgrade">اپ گریڈ کریں</string>
+    <string name="retry">دوبارہ کوشش کریں</string>
+    <string name="report_message">پیغام رپورٹ کریں</string>
+    <string name="report_bug_email_label">آپ کا ای میل</string>
+    <string name="report_bug_email_hint">اپنا ای میل پتہ درج کریں</string>
+    <string name="report_bug_message_label">پیغام</string>
+    <string name="report_bug_message_hint">بگ کی وضاحت کریں اور بتائیں کہ آپ نے اسے کہاں اور کیسے پایا</string>
+    <string name="send_report">رپورٹ بھیجیں</string>
+    <string name="report_sent">رپورٹ بھیج دی گئی</string>
+    <string name="discardChanges">محفوظ نہ کی گئی تبدیلیاں ترک کرنی ہیں؟</string>
+    <string name="discardChangesButtonDiscard">تبدیلیاں ترک کریں</string>
+    <string name="discardChangesButtonKeepEditing">ترمیم جاری رکھیں</string>
+    <string name="done">مکمل</string>
+    <string name="add">شامل کریں</string>
+    <string name="copy_to_clipboard">کاپی کریں</string>
+    <string name="copied_to_clipboard">کلپ بورڈ پر کاپی کر لیا گیا۔</string>
+    <string name="got_it">ٹھیک ہے</string>
+    <string name="exclude_locations">مقامات کو مستثنیٰ کریں</string>
+    <string name="excluded_locations">خارج شدہ مقامات</string>
+    <string name="cannot_connect">کنیکٹ نہیں ہو سکتا</string>
+    <string name="skip">چھوڑیں</string>
+    <string name="something_went_wrong">کچھ غلط ہو گیا۔</string>
+    <string name="try_again">دوبارہ کوشش کریں</string>
+    <string name="delete">حذف کریں</string>
+    <string name="menu_option_move_to_top" comment="command used to move an item to the top of the list">سب سے اوپر لے جائیں</string>
+    <string name="menu_option_move_up" comment="command used to move an item one position up in the list">اوپر لے جائیں</string>
+    <string name="menu_option_move_down" comment="command used to move an item one position down in the list">نیچے لے جائیں</string>
+    <string name="remove">ہٹائیں</string>
+    <string name="saveButton">محفوظ کریں</string>
+    <string name="ipWithPlaceholder">IP: %1$s</string>
+    <string name="activityLicensesTitle">تیسرے فریق کے لائسنسز</string>
+    <string name="stateFragmentUnknownIp">نامعلوم</string>
+    <string name="noVpnPermissionMainTitle">VPN سے کنیکٹ ہونے کے لیے اقدام ضروری ہے</string>
+    <string name="noVpnPermissionMainMessage">Proton VPN سے کنیکٹ ہونے کے لیے درج ذیل کام کریں:</string>
+    <string name="noVpnPermissionGrantPermissionTitle">VPN کی اجازت دیں</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Proton VPN سے کنیکٹ ہونے کے لیے Android کو آپ کی اجازت درکار ہے۔ جب Android کی \"Connection request\" ونڈو آئے تو \"OK\" ٹیپ کر کے اجازت دیں۔</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">دوسری VPN ایپس کے لیے ہمیشہ آن غیر فعال کریں</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android کئی VPN ایپس کی سپورٹ نہیں کرتا۔ Proton VPN کے علاوہ کسی بھی VPN ایپ کے لیے ہمیشہ آن غیر فعال کریں۔</string>
+    <string name="noVpnPermissionProtonAppLabel">Proton VPN ایپ</string>
+    <string name="noVpnPermissionOtherAppLabel">دیگر VPN ایپس</string>
+    <string name="noVpnPermissionOpenSettings">Android کی VPN سیٹنگز کھولیں</string>
+    <string name="noNotificationPermissionGrantTitle">غافل نہ رہیں…</string>
+    <string name="noNotificationPermissionGrantDescription">کنکشن کی صورتحال میں تبدیلیوں سے آگاہ ہونے کے لیے اطلاعات فعال کریں۔</string>
+    <string name="noNotificationPermissionGrantNowTitle">اطلاعات فعال کریں</string>
+    <string name="error_prepare_vpn_description"><![CDATA[Android کی VPN سسٹم سیٹنگز میں تمام دوسری VPN ایپس کے لیے ہمیشہ آن VPN غیر فعال کریں، کیونکہ اس سے Proton VPN کے لیے VPN کنکشن قائم کرنا ممکن نہیں رہتا۔ اگر VPN کی اجازت مانگنے والا ڈائیلاگ ظاہر ہو تو VPN کی اجازت بھی دیں۔ تنازعات سے بچنے کے لیے دوسری VPN ایپس کو اَن انسٹال کرنا بھی ضروری ہو سکتا ہے۔ اس کے بعد دوبارہ کوشش کریں۔ <a href="%1$s">مزید جانیں</a>]]></string>
+    <string name="error_prepare_vpn_settings">Android کی VPN سیٹنگز میں جائیں</string>
+    <string name="error_prepare_vpn_title">نقص: VPN کی اجازت کا مسئلہ</string>
+    <string name="error_server_not_set">سرور اب دستیاب نہیں ہے۔</string>
+    <string name="bugReportErrorEmptyEmail">ای میل خالی نہیں ہو سکتا۔</string>
+    <string name="bugReportErrorInvalidEmail">ای میل پتہ غلط ہے۔</string>
+    <string name="bugReportLabelVpnLogsTitle">نقص کے لاگ شامل کریں</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">اس سے مقامی نقص کے لاگ بھیجے جاتے ہیں (ہم سرگرمی کا لاگ نہیں رکھتے) تاکہ ہم آپ کا مسئلہ حل کر سکیں۔</string>
+    <string name="profileFastest">تیز ترین</string>
+    <string name="profileRandom">بے ترتیب</string>
+    <string name="loaderErrorNoInternet">انٹرنیٹ کنکشن نہیں ہے</string>
+    <string name="loaderErrorGeneric">کچھ غلط ہو گیا۔</string>
+    <string name="inputIpAddressLabel">IP پتہ</string>
+    <string name="inputIpAddressHelp">سرور کا IPv4 یا IPv6 پتہ درج کریں</string>
+    <string name="inputIpAddressErrorInvalid">IP پتہ غلط ہے۔</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">نیا</string>
+    <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
+    <string name="settings_beta_label_badge">بیٹا</string>
+    <string name="settingsExcludedIPAddressesListHeader">خارج شدہ IP پتے (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">شامل شدہ IP پتے (%1$d)</string>
+    <string name="settingsExcludedApps">خارج شدہ ایپس</string>
+    <string name="settingsExcludedAppsEmpty">ایسی ایپس شامل کریں جو VPN ٹریفک سے خارج کی جائیں۔</string>
+    <string name="settingsIncludedAppsEmpty">ایسی ایپس شامل کریں جو VPN ٹریفک میں شامل ہوں۔</string>
+    <string name="settingsExcludedAppsSelectedHeader">خارج شدہ ایپس (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">شامل شدہ ایپس (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">تمام دیگر عام ایپس (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">تمام دیگر سسٹم ایپس (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">تمام دیگر ایپس (%1$d)</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">سسٹم ایپس دکھائیں</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">سسٹم ایپس دکھائیں</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">یہ ایپس آپ کے VPN کنکشن سے خارج کی گئی ہیں۔</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">صرف یہی ایپس VPN کے ذریعے کنیکٹ ہوتی ہیں۔</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">خارج شدہ ایپس میں شامل کریں</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">خارج شدہ ایپس سے ہٹائیں</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">شامل شدہ ایپس میں شامل کریں</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">شامل شدہ ایپس سے ہٹائیں</string>
+    <string name="accessibility_action_copy_to_clipboard">کلپ بورڈ پر کاپی کریں</string>
+    <string name="accessibility_action_item_delete">حذف کریں</string>
+    <string name="accessibility_action_item_move_up">اوپر منتقل کریں</string>
+    <string name="accessibility_action_item_move_down">نیچے منتقل کریں</string>
+    <string name="tileConnected">کنیکٹ شدہ: %1$s</string>
+    <string name="openUrlError">%1$s نہیں کھولا جا سکا۔ آپ کی ڈیوائس پر ویب براؤزر نہیں ملا۔</string>
+    <string name="loaderErrorTimeout">کنکشن کا وقت ختم ہو گیا۔ براہِ کرم دوبارہ کوشش کریں۔</string>
+    <string name="troubleshootButton">مسائل کا ازالہ کریں</string>
+    <string name="activityTroubleshootTitle">مسائل حل کریں</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">ممکنہ حل</string>
+    <string name="troubleshootNoInternetDescription">براہِ کرم یقینی بنائیں کہ آپ کا انٹرنیٹ کنکشن کام کر رہا ہے۔</string>
+    <string name="troubleshootNoInternetTitle">انٹرنیٹ کنکشن موجود نہیں</string>
+    <string name="troubleshootIspProblemTitle">انٹرنیٹ سروس فراہم کنندہ (ISP) کا مسئلہ</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Proton سے کسی دوسرے نیٹ ورک سے کنیکٹ ہونے کی کوشش کریں (یا <a href=\'%1$s\'>Tor</a> استعمال کریں)]]></string>
+    <string name="troubleshootAntivirusProblemTitle">اینٹی وائرس کی مداخلت</string>
+    <string name="troubleshootAntivirusProblemDescription">عارضی طور پر اپنا اینٹی وائرس سافٹ ویئر غیر فعال کریں یا ہٹا دیں۔</string>
+    <string name="troubleshootProxyFirewallProblemTitle">پراکسی/فائر وال کی مداخلت</string>
+    <string name="troubleshootProxyFirewallProblemDescription">کسی بھی پراکسی یا فائر وال کو غیر فعال کریں، یا اپنے نیٹ ورک ایڈمنسٹریٹر سے رابطہ کریں۔</string>
+    <string name="troubleshootProtonDownTitle">Proton کام نہیں کر رہا</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[ہمارے سسٹم کی صورتحال دیکھنے کے لیے <a href=\"%1$s\">Proton Status</a> دیکھیں۔]]></string>
+    <string name="troubleshootContactUsSectionTitle">اب بھی مدد درکار ہے؟ براہِ راست ہم سے رابطہ کریں</string>
+    <string name="troubleshootCustomerSupport">کسٹمر سپورٹ</string>
+    <string name="settingsAllowAlternativeRoutingTitle">متبادل روٹنگ</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[اگر Proton بلاک ہو، تو ایپ کو Proton سرورز تک پہنچنے کے لیے متبادل راستے آزمانے کی اجازت دیں۔ <a href="%1$s">مزید جانیں</a>۔]]></string>
+    <string name="troubleshootGovernmentBlockTitle">حکومتی بلاک</string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[ہو سکتا ہے آپ کا ملک Proton تک رسائی بلاک کر رہا ہو۔ Proton تک رسائی کے لیے <a href=\'%1$s\'>Tor</a> استعمال کرنے کی کوشش کریں۔]]></string>
+    <string name="settingsKillSwitchEnableTitle">کِل سوئچ کیسے فعال کریں</string>
+    <string name="settingsKillSwitchEnableStep1">1. اپنی ڈیوائس کی سیٹنگز کھولیں</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Proton VPN تلاش کریں اور %1$s پر ٹیپ کریں</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">سیٹنگز</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. \"<b>ہمیشہ آن VPN</b>\" اور \"<b>VPN کے بغیر کنکشن بلاک کریں</b>\" کو فعال کریں]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">سیٹنگز</string>
+    <string name="settingsKillSwitchLearnMoreButton">کِل سوئچ کیا ہے؟</string>
+    <string name="settingsKillSwitchWarningMain">جب کِل سوئچ آن ہو، تو مندرجہ ذیل سے کنیکٹ نہیں کیا جا سکے گا:</string>
+    <string name="settingsKillSwitchWarningPoint1">اسپلٹ ٹنلنگ کے ذریعے آپ کے VPN کنکشن سے خارج کردہ ویب سائٹس اور ایپس</string>
+    <string name="settingsKillSwitchWarningPoint2">آپ کے لوکل ایریا نیٹ ورک (LAN) پر موجود ڈیوائسز</string>
+    <string name="settingsEnableTelemetryTitle">گمنام استعمال کے اعداد و شمار شیئر کریں</string>
+    <string name="settingsEnableTelemetryDescription">استعمال کا ڈیٹا ہمیں VPN کے بلاکس دور کرنے اور ایپ کی کارکردگی بہتر بنانے میں مدد دیتا ہے۔</string>
+    <string name="settingsSendCrashReportsTitle">گمنام کریش رپورٹس شیئر کریں</string>
+    <string name="settingsSendCrashReportsDescription">کریش رپورٹس ہمیں بگ ٹھیک کرنے، فائر وال کی شناخت کرنے اور VPN کے بلاکس سے بچنے میں مدد دیتی ہیں۔</string>
+    <string name="settingsTelemetryScreenTitle">استعمال کے اعداد و شمار</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[ان اعداد و شمار میں آپ کا IP پتہ شامل نہیں، اور ان سے آپ کی شناخت نہیں کی جا سکتی۔ ہم انہیں کبھی فریقِ ثالث کے ساتھ شیئر نہیں کریں گے۔ <a href="%1$s">مزید جانیں</a>]]></string>
+    <string name="netshield_settings_description_not_html">ویب سائٹس اور ایپس پر اشتہارات، مالویئر اور ٹریکرز سے بچیں۔ %1$s</string>
+    <string name="netshield_settings_description_tv">فریق ثالث کے اشتہارات، ٹریکرز اور مالویئر سے آپ کی حفاظت کرتا ہے۔ NetShield YouTube اور Netflix جیسی اسٹریمنگ سروسز میں شامل اشتہارات کو بلاک نہیں کرتا۔</string>
+    <string name="netshield_settings_more_info_title_tv">NetShield کیسے کام کرتا ہے</string>
+    <string-array name="netshield_settings_more_info_paragraphs_tv">
+        <item>NetShield فریق ثالث کے ان ڈومینز کی جانب DNS درخواستیں بلاک کرتا ہے جو اشتہارات، ٹریکرز اور مالویئر کے لیے مشہور ہیں۔</item>
+        <item>اس کا مطلب ہے کہ آپ کو اپنے براؤزر یا فریق ثالث کی اشتہاری سروسز استعمال کرنے والی فری ایپس سے اشتہارات نہیں ملیں گے۔</item>
+        <item>تاہم، یہ YouTube اور Netflix جیسی اسٹریمنگ پلیٹ فارمز کے اشتہارات بلاک نہیں کر سکتا، کیونکہ ان کے اشتہارات ان کے اپنے سرورز سے آتے ہیں۔</item>
+    </string-array>
+    <string name="settings_icon_change_description">Proton VPN ایپ کو ایک غیر واضح آئیکن کے ذریعے چھپا رکھیں۔ اطلاعات میں پھر بھی ڈیفالٹ Proton VPN نام اور آئیکن ہی دکھایا جائے گا۔ %1$s</string>
+    <string name="settings_icon_change_learn_more">مزید جانیں</string>
+    <string name="learn_more">مزید جانیں</string>
+    <string name="netshield_state_on" comment="Describes state, not action">آن</string>
+    <string name="netshield_state_off" comment="Describes state, not action">آف</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">دستیاب نہیں</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">آن</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">آف</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">آن</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">آف</string>
+    <string name="lan_state_on" comment="Describes state, not action">آن</string>
+    <string name="lan_state_off" comment="Describes state, not action">آف</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">آن</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">آف</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">آن</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">آف</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">دستیاب نہیں</string>
+    <string name="custom_dns_item_removed_snackbar">آئٹم ہٹا دیا گیا۔</string>
+    <string name="netshield_free_description">ویب سائٹس اور ایپس پر اشتہارات، ٹریکرز اور مالویئر کو روکیں۔</string>
+    <string name="netshield_what_data_means">NetShield کے اعداد و شمار کی وضاحت</string>
+    <string name="netshield_ads_title">اشتہارات</string>
+    <string name="netshield_ads_details">اشتہارات اور نادیدہ اشتہاری ٹریکر</string>
+    <string name="netshield_trackers_title">ٹریکرز</string>
+    <string name="netshield_trackers_details">کوکیز اور دیگر ٹریکرز جو آپ کی انٹرنیٹ سرگرمی کے بارے میں معلومات محفوظ کرتے اور شیئر کرتے ہیں</string>
+    <string name="netshield_data_title">ڈیٹا</string>
+    <string name="netshield_data_details">اشتہارات، ٹریکرز اور مالویئر سے آنے والا غیر مطلوبہ ڈیٹا جسے NetShield نے روکا</string>
+    <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
+        <item quantity="one">اشتہار روکا گیا</item>
+        <item quantity="other">اشتہارات روکے گئے</item>
+    </plurals>
+    <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
+        <item quantity="one">ٹریکر روکا گیا</item>
+        <item quantity="other">ٹریکرز روکے گئے</item>
+    </plurals>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">بچایا گیا ڈیٹا</string>
+    <string name="netshield_setting_warning">جب اشتہارات اور ٹریکرز بلاک کیے جاتے ہیں تو بعض ویب سائٹس درست طریقے سے لوڈ نہیں ہو سکتیں۔</string>
+    <string name="netshield_setting_block_adult_content">بالغوں کا مواد بلاک کریں</string>
+    <string name="dialogDontShowAgain">دوبارہ نہ دکھائیں</string>
+    <string name="guestHoleNotificationContent">نیٹ ورک کے مسائل سے نمٹنے کی کوشش کی جا رہی ہے۔ اس سے آپ Proton VPN تک رسائی حاصل کر سکیں گے۔</string>
+    <string name="errorTunMultiUserPermission">ڈوئل ایپ (مثلاً Dual Messenger) اور اسپلٹ ٹنلنگ کے درمیان تصادم کی وجہ سے VPN کنکشن شروع نہیں کیا جا سکا۔ براہِ کرم ان میں سے ایک کو غیر فعال کریں اور اپنی ڈیوائس دوبارہ چالو کریں۔</string>
+    <string name="errorTorrentNotAllowed">اس سرور پر P2P کی اجازت نہیں ہے۔</string>
+    <string name="error_profile_fallback_unavailable">کنکشن قائم نہیں ہو سکا۔ پروفائل کے لیے آپ کا منتخب کردہ سرور دستیاب نہیں ہے۔</string>
+    <string name="profileProtocolNotAvailable">اس پروفائل کا VPN پروٹوکول اس وقت دستیاب نہیں۔ کنیکٹ ہونے کے لیے پروٹوکول تبدیل کرنے کی کوشش کریں۔</string>
+    <string name="stateConnectedTo">%1$s سے کنیکٹ ہو گئے</string>
+    <string name="stateNotConnected">آپ کنیکٹ نہیں ہیں</string>
+    <string name="nameEurope">یورپ</string>
+    <string name="nameAmerica">امریکہ</string>
+    <string name="nameAsia">ایشیا</string>
+    <string name="nameAfricaAndMiddleEast">افریقہ اور مشرق وسطیٰ</string>
+    <string name="nameOceania">اوشیانا</string>
+    <string name="tv_row_settings">سیٹنگز</string>
+    <string name="tv_card_lan_connections_label">LAN</string>
+    <string name="tv_card_split_tunneling_label">اسپلٹ ٹنلنگ</string>
+    <string name="tv_card_protocol_label">پروٹوکول</string>
+    <string name="tv_dialog_delete_server_title">سرور %1$s حذف کریں؟</string>
+    <string name="tv_detail_default_connection_checkbox_short">پسندیدہ</string>
+    <string name="tv_detail_connect_streaming">Plus کے ساتھ اسٹریم کریں</string>
+    <string name="tv_detail_connect">کنیکٹ کریں</string>
+    <string name="tv_detail_description_streaming_country">اپنا پسندیدہ مواد اسٹریم کریں۔ Proton VPN Plus پلان کے ساتھ مزید ایپس تک رسائی حاصل کریں۔</string>
+    <string name="tv_detail_description_no_streaming_country">Proton VPN Plus پلان کے ساتھ اپنا مزید پسندیدہ مواد اسٹریم کریں۔</string>
+    <string name="tv_detail_description_country_not_available">یہ ملک دستیاب نہیں۔ Proton VPN Plus پلان کے ساتھ مزید اسٹریمنگ آپشنز حاصل کریں۔</string>
+    <string name="tv_detail_description_plus">اپنی ایپس کے ذریعے اپنی پسندیدہ ویڈیوز، فلمیں یا کھیل اسٹریم کریں۔</string>
+    <string name="tv_login_title_welcome">اپنا پسندیدہ ویڈیو مواد اسٹریم کریں</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[اپنا Proton VPN اکاؤنٹ <b>%1$s</b> پر حاصل کریں]]></string>
+    <string name="back">واپس</string>
+    <string name="tv_vpn_error_dialog_title">VPN کنکشن قائم نہیں کیا جا سکا</string>
+    <string name="tv_signout_label">سائن آؤٹ کریں</string>
+    <string name="tv_signout_dialog_title">کیا آپ واقعی سائن آؤٹ کرنا چاہتے ہیں؟</string>
+    <string name="tv_signout_dialog_description_connected">اس سے آپ کا TV کسی بھی VPN سرور سے ڈسکنیکٹ ہو جائے گا۔</string>
+    <string name="tv_signout_dialog_ok">سائن آؤٹ کریں</string>
+    <string name="tv_quick_connect_recommened">تجویز کردہ</string>
+    <string name="tv_quick_connect_favourite">پسندیدہ</string>
+    <string name="tv_country_maintenance_dialog_title">ملک دستیاب نہیں ہے</string>
+    <string name="tv_country_maintenance_dialog_description">براہِ کرم بعد میں دوبارہ کوشش کریں یا کوئی اور ملک منتخب کریں۔</string>
+    <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+         Example: 76% server load -->
+    <string name="tv_server_list_load">%1$s%% سرور لوڈ</string>
+    <string name="tv_recently_used_servers">حال ہی میں استعمال شدہ سرورز</string>
+    <string name="tv_available_servers">دستیاب سرورز</string>
+    <string name="tv_locked_servers">لاک شدہ سرورز</string>
+    <string name="tv_other_servers">دیگر سرورز</string>
+    <string name="tv_server_list">سرورز کی فہرست</string>
+    <string name="tv_server_list_action_unavailable">دستیاب نہیں</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
+    <string name="tv_country_tile_connected">Connected</string>
+    <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
+    <string name="tv_country_tile_connecting">Connecting</string>
+    <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
+    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="notification_subscription_expired_title">آپ کے Proton VPN کے سبسکرپشن پلان کی میعاد ختم ہو چکی ہے</string>
+    <string name="notification_subscription_expired_content">ہمیں آپ کا پلان ڈاؤن گریڈ کرنا پڑا، لیکن ہم آپ کو اسی پلان پر دستیاب تیز ترین سرور سے دوبارہ کنیکٹ کر رہے ہیں۔</string>
+    <string name="notification_subscription_expired_no_reconnection_content">آپ کی سبسکرپشن ڈاؤن گریڈ کر دی گئی ہے۔</string>
+    <string name="notification_delinquent_title">آپ کے Proton VPN اکاؤنٹ کی انوائسز زیر التوا ہیں</string>
+    <string name="notification_delinquent_content">براہِ کرم اپنی بلنگ معلومات اپ ڈیٹ کریں تاکہ آپ کی سبسکرپشن فعال رہے۔</string>
+    <string name="notification_max_sessions_title">آپ ڈیوائسز کی زیادہ سے زیادہ حد تک پہنچ چکے ہیں</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="notification_max_sessions_upsell_content">
+        <item quantity="one">اس ڈیوائس کو کنیکٹ کرنے کے لیے براہِ کرم دوسری ڈیوائس ڈسکنیکٹ کریں، یا اپ گریڈ کر کے Plus پر ایک ساتھ %1$d ڈیوائس تک کنیکٹ ہونے کی سہولت حاصل کریں۔</item>
+        <item quantity="other">اس ڈیوائس کو کنیکٹ کرنے کے لیے براہِ کرم دوسری ڈیوائس ڈسکنیکٹ کریں، یا اپ گریڈ کر کے Plus پر ایک ساتھ %1$d ڈیوائسز تک کنیکٹ ہونے کی سہولت حاصل کریں۔</item>
+    </plurals>
+    <string name="notification_max_sessions_content">اس ڈیوائس کو کنیکٹ کرنے کے لیے براہِ کرم دوسری ڈیوائس ڈسکنیکٹ کریں۔</string>
+    <string name="notification_cancel_to_free">آپ Free plan پر ہیں۔ Free سرورز اور خصوصیات دستیاب ہیں۔</string>
+    <string name="notification_cancel_to_basic">آپ Basic plan پر ہیں۔ Basic اور Free سرورز اور خصوصیات دستیاب ہیں۔</string>
+    <string name="notification_cancel_to_delinquent">زیر التوا انوائسز کی ادائیگی کے بعد آپ پریمیم خصوصیات تک دوبارہ رسائی حاصل کر سکیں گے۔</string>
+    <string name="reconnect_from_server">سرور سے: </string>
+    <string name="reconnect_to_server">سرور تک: </string>
+    <string name="no_thanks">نہیں، شکریہ</string>
+    <string name="enable">فعال کریں</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol فی الحال غیر فعال ہے</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN نے پتہ لگایا ہے کہ آپ کا موجودہ نیٹ ورک VPN سے کنکشن روک رہا ہے۔ Smart Protocol فعال کرنے سے یہ پابندیاں دور ہو سکتی ہیں۔</string>
+    <string name="notification_streaming_blocked_title">اسٹریمنگ کام نہیں کر رہی؟</string>
+    <string name="notification_streaming_blocked_text">بہت سی اسٹریمنگ سروسز مفت VPN سرورز کے کنکشنز کا پتہ لگا کر انہیں بلاک کر دیتی ہیں۔ ان بلاکس سے نکلنے کے لیے Proton VPN Plus پر اپ گریڈ کریں</string>
+    <string name="upsell_advanced_features">جدید خصوصیات: NetShield، Secure Core، Tor، P2P</string>
+    <string name="upsell_streaming_services">دنیا میں کہیں بھی اسٹریمنگ سروسز (Netflix، Disney+ وغیرہ) تک رسائی حاصل کریں</string>
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_servers">
+        <item quantity="one">%1$d سرور</item>
+        <item quantity="other">%1$d سرورز</item>
+    </plurals>
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_countries">
+        <item quantity="one">%1$d ملک</item>
+        <item quantity="other">%1$d ممالک</item>
+    </plurals>
+    <string name="upsell_upgrade_again">تمام خصوصیات سے لطف اندوز ہونے کے لیے دوبارہ اپ گریڈ کریں:</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d محفوظ سرور</item>
+        <item quantity="other">%d محفوظ سرورز</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="upgrade_plus_countries">
+        <item quantity="one">%d ملک</item>
+        <item quantity="other">%d ممالک</item>
+    </plurals>
+    <string name="upgrade_not_now_button">ابھی نہیں</string>
+    <!-- Content description for plan selection list.
+         Only used by accessibility services.
+
+         Example:
+         When the plan selection control is focused, and the first plan name is "VPN Plus"
+         TalkBack will read:
+         "VPN Plus, 1 of 2, in list Upgrade options" -->
+    <string name="upgrade_plan_selection_content_description">اپ گریڈ کے اختیارات</string>
+    <!-- Text in a "badge" element that has a rounded border and represents the Plus VPN plan.
+         May be used as a table header or like an icon. -->
+    <string name="badge_plan_plus">Plus</string>
+    <!-- Content description prefix for value in the benefits table row for the free plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus پلان:</string>
+    <!-- Content description prefix for value in the benefits table row for the plus plan.
+         The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
+         e.g.:
+         "Ads blocked while you browse;  No;  Yes"
+
+         For accessibility services a prefix is added before each value, e.g.:
+         "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
+    -->
+    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
+    <string name="upsell_panel_content_description_yes">ہاں</string>
+    <string name="upsell_panel_content_description_no">نہیں</string>
+    <string name="upsell_panel_table_header_plan_free">Free</string>
+    <string name="upsell_panel_general_benefit_block_ads">اشتہارات اور ٹریکرز کو بلاک کریں</string>
+    <string name="upsell_panel_general_benefit_countries">دستیاب ممالک</string>
+    <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
+    <string name="upsell_panel_general_benefit_devices">محفوظ ڈیوائسز</string>
+    <string name="upsell_panel_general_benefit_location">اپنا مقام منتخب کریں</string>
+    <string name="upsell_panel_general_benefit_server">اپنا سرور منتخب کریں</string>
+    <string name="upsell_panel_general_benefit_shows">اپنے شوز کسی بھی ملک سے دیکھیں</string>
+    <string name="upsell_panel_general_benefit_speed">سرور کی رفتار</string>
+    <string name="upsell_panel_general_benefit_speed_standard">معیاری</string>
+    <string name="upsell_panel_general_benefit_speed_highest">سب سے زیادہ</string>
+    <string name="upsell_panel_adv_customization_title">اپنی کنکشن کی باریکی سے ترتیب دیں</string>
+    <string name="upsell_panel_adv_customization_description">LAN کنکشنز کی اجازت دیں، اپنا حسب ضرورت DNS مقرر کریں اور اپنی NAT قسم کا انتخاب کریں۔ جدید کنٹرولز، سب کچھ Plus پر۔</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">اپنے پرنٹر اور گھریلو ڈیوائسز تک رسائی حاصل کریں</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">اپنی پسند کی DNS سروس استعمال کریں</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">گیمنگ کے لیے بہتر کنکشنز</string>
+    <!--
+        %1$s - country name in nominative
+
+        Warning country names are inserted in the nominative case.
+        For inflicted languages translate the following phrase instead:
+        Get VPN Plus to access: %1$s
+        -->
+    <string name="upsell_panel_country_title">VPN Plus کے ساتھ %1$s کھولیں</string>
+    <string name="upsell_panel_countries_title">VPN Plus کے ساتھ تمام ممالک کھولیں </string>
+    <string name="upsell_panel_country_benefit_speed">ہائی اسپیڈ سرورز</string>
+    <string name="upsell_panel_country_benefit_shows">وہ شوز دیکھیں جو صرف بیرونِ ملک دستیاب ہیں</string>
+    <string name="upsell_panel_devices_title">اپنی ہر ڈیوائس کی حفاظت کریں</string>
+    <string name="upsell_panel_devices_description">آپ کا فون، لیپ ٹاپ، TV اور اس کے علاوہ ہر چیز۔</string>
+    <string name="upsell_panel_netshield_title">رکاوٹوں کے بغیر براؤز کریں</string>
+    <string name="upsell_panel_netshield_benefit_ads">براؤز کرتے وقت اشتہارات بلاک ہوتے ہیں</string>
+    <string name="upsell_panel_netshield_benefit_trackers">ٹریکرز کو آپ کا پیچھا کرنے سے روکیں</string>
+    <string name="upsell_panel_netshield_benefit_malware">مالویئر اور فشنگ سے حفاظت</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">صفحات زیادہ تیزی سے لوڈ ہوتے ہیں</string>
+    <string name="upsell_panel_onboarding_title">VPN Plus کے ساتھ مزید حاصل کریں</string>
+    <string name="upsell_panel_p2p_title">پوری رفتار سے ڈاؤن لوڈ</string>
+    <string name="upsell_panel_p2p_description">فائل شیئرنگ کے لیے بنائے گئے سرور، آپ کے عام ٹورنٹ کلائنٹ کے ساتھ۔</string>
+    <string name="upsell_panel_p2p_benefit_p2p">P2P فائل شیئرنگ</string>
+    <string name="upsell_panel_profiles_title">اسٹریمنگ، گیمنگ، کام: ہر ایک کے لیے الگ پروفائل</string>
+    <string name="upsell_panel_profiles_description">اپنی کنکشنز اپنے انداز سے سیٹ اپ کریں، پھر ایک ٹیپ میں کسی بھی کنکشن سے دوبارہ جڑیں۔</string>
+    <string name="upsell_panel_profiles_benefit_profiles">محفوظ کردہ پروفائلز</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">لامحدود</string>
+    <string name="upsell_panel_secure_core_title">آپ اور ویب کے درمیان انکرپشن کی دو تہیں</string>
+    <string name="upsell_panel_secure_core_description">آپ کے منتخب ملک سے پہلے سوئٹزرلینڈ، آئس لینڈ یا سویڈن میں موجود کسی Proton سرور سے گزارا جاتا ہے۔</string>
+    <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
+    <string name="upsell_panel_speed_title">اسٹریم کریں، گیم کھیلیں اور تیزی سے ڈاؤن لوڈ کریں</string>
+    <string name="upsell_panel_speed_benefit_servers">ہائی اسپیڈ سرورز</string>
+    <string name="upsell_panel_speed_benefit_gaming">گیمنگ کے دوران ریسپانس ٹائم</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">سست</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">تیز</string>
+    <string name="upsell_panel_speed_benefit_video">ویڈیو بغیر بفرنگ کے اسٹریم ہوتی ہے</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P ڈاؤن لوڈ کی سپورٹ</string>
+    <string name="upsell_panel_split_tunneling_title">چنیں کہ کون سی ایپس VPN استعمال کریں</string>
+    <string name="upsell_panel_split_tunneling_description">آپ کا براؤزر VPN کے ذریعے، آپ کی بینکنگ ایپ اس کے بغیر۔ انتخاب آپ کا، ایپ بہ ایپ۔</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">اسپلٹ ٹنلنگ</string>
+    <string name="upsell_panel_streaming_title">اپنی پسندیدہ اسٹریمنگ سروسز دیکھیں</string>
+    <string name="upsell_panel_streaming_benefit_shows">کسی بھی ملک میں دکھائے جانے والے شوز دیکھیں</string>
+    <!-- The asterisk points to upsell_panel_streaming_footer -->
+    <string name="upsell_panel_streaming_benefit_platforms">تمام بڑے اسٹریمنگ پلیٹ فارمز سپورٹڈ ہیں *</string>
+    <string name="upsell_panel_streaming_benefit_hd">بغیر بفرنگ کے HD میں اسٹریم کریں</string>
+    <string name="upsell_panel_streaming_benefit_devices">ایک ہی وقت میں کنیکٹ شدہ ڈیوائسز</string>
+    <string name="upsell_panel_streaming_footer">* اسٹریمنگ پلیٹ فارم کی سبسکرپشن درکار ہے۔</string>
+    <string name="upsell_panel_streaming_block_title">VPN بلاکس کو بائی پاس کرنے کے لیے اپ گریڈ کریں</string>
+    <string name="upsell_panel_streaming_block_description">VPN Plus سرورز آپ کو دنیا بھر کی اپنی پسندیدہ فلمیں اور TV شوز لطف اٹھانے کا موقع دیتے ہیں۔</string>
+    <string name="upsell_panel_tor_title">Onion سائٹس، Tor Browser کی ضرورت نہیں</string>
+    <string name="upsell_panel_tor_description">اپنے موجودہ براؤزر میں ہی onion سائٹس تک رسائی حاصل کریں۔</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
+    <string name="upsell_card_countries_title">دنیا بھر میں کوریج</string>
+    <!-- Parameters:
+        %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">%2$s میں %1$d+ سرور مقامات</string>
+    <string name="upsell_card_customization_title">اور دیگر خصوصیات…</string>
+    <string name="upsell_card_customization_description">کارکردگی اور رازداری کی مزید خصوصیات سے فائدہ اٹھائیں</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="one">%1$d ڈیوائس کی حفاظت کریں</item>
+        <item quantity="other">%1$d ڈیوائسوں کی حفاظت کریں</item>
+    </plurals>
+    <string name="upsell_card_devices_description">آپ کی تمام ڈیوائسوں پر سیکیورٹی اور رازداری</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">اشتہارات، مالویئر اور ٹریکر بلاک کریں</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">اپنے VPN کنکشن میں انکرپشن کی ایک اور تہہ شامل کریں</string>
+    <string name="upsell_card_p2p_title">P2P سپورٹ</string>
+    <string name="upsell_card_p2p_description">BitTorrent اور دیگر فائل شیئرنگ پروٹوکول کے ذریعے فائلیں ڈاؤن لوڈ کریں</string>
+    <string name="upsell_card_profiles_title">پروفائلز</string>
+    <string name="upsell_card_profiles_description">حسب ضرورت VPN کنکشن بنائیں</string>
+    <string name="upsell_card_speed_title">تیز براؤزنگ</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">مزید تیز رفتاری سے براؤز کریں (زیادہ سے زیادہ %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">اسپلٹ ٹنلنگ</string>
+    <string name="upsell_card_split_tunneling_description">ایک ہی وقت میں دو مقامات سے براؤز کریں</string>
+    <string name="upsell_card_streaming_title">اسٹریمنگ</string>
+    <string name="upsell_card_streaming_description">اپنی پسندیدہ فلمیں اور TV شوز دیکھیں</string>
+    <string name="upsell_card_tor_title">Tor over VPN</string>
+    <string name="upsell_card_tor_description">اضافی رازداری کے لیے اپنے VPN کنکشن پر Tor نیٹ ورک استعمال کریں۔</string>
+    <string name="upsell_tv_all_countries_title">Plus کے ساتھ تمام ممالک تک رسائی حاصل کریں</string>
+    <!-- Format for upselling countries on TV".
+        %1$s - replaced with upgrade_plus_servers_new plurals key (e.g. 1 secure server or 10 secure servers)
+        %2$s - replaced with upgrade_plus_countries plurals key (e.g. 1 country or 10 countries)
+
+        Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
+    -->
+    <string name="upsell_tv_all_countries_description">%2$s میں %1$s کھولیں۔</string>
+    <string name="upsell_tv_netshield_title">Plus کے ساتھ اشتہارات سے پاک براؤزنگ سے لطف اٹھائیں</string>
+    <string name="upsell_tv_netshield_description"><![CDATA[<b>NetShield</b> کے ساتھ اشتہارات، ٹریکرز اور مالویئر بلاک کریں۔]]></string>
+    <string name="upsell_tv_split_tunneling_title">Plus کے ساتھ دونوں کے بہترین پہلوؤں سے فائدہ اٹھائیں</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[<b>اسپلٹ ٹنلنگ</b> کے ساتھ اپنی ٹریفک کو VPN اور غیر VPN ٹنلز میں تقسیم کریں۔]]></string>
+    <string name="upsell_tv_subscription_expired_title">سبسکرپشن کی میعاد ختم ہوچکی</string>
+    <string name="upsell_tv_subscription_expired_description">Plus سرورز اور خصوصیات تک دوبارہ رسائی حاصل کرنے کے لیے اپ گریڈ کریں۔</string>
+    <string name="upsell_tv_customization_title">Plus کے ساتھ جدید VPN حسبِ ضرورت حاصل کریں</string>
+    <string name="upsell_tv_customization_description"><![CDATA[<b>LAN کنکشنز</b>، <b>حسب ضرورت DNS</b> اور مزید ایڈوانسڈ VPN خصوصیات کھولیں۔]]></string>
+    <string name="upsell_tv_fallback_description">اپنا پلان اپ گریڈ کرنے کے لیے Proton VPN کی ویب سائٹ پر جائیں۔</string>
+    <!-- Format for price per period of time.
+        %1$s - replaced with price and currency (e.g. "$100")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")
+
+        Examples:
+        50 PLN /month
+        $100 /year
+    -->
+    <string name="payment_price_with_period">%1$s /%2$s</string>
+    <string name="payment_price_per_day">دن</string>
+    <string name="payment_price_per_week">ہفتہ</string>
+    <string name="payment_price_per_month">مہینہ</string>
+    <string name="payment_price_per_year">سال</string>
+    <plurals name="payment_price_cycle_label_day">
+        <item quantity="one">%1$d دن</item>
+        <item quantity="other">%1$d دن</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_week">
+        <item quantity="one">%1$d ہفتہ</item>
+        <item quantity="other">%1$d ہفتے</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_month">
+        <item quantity="one">%1$d ماہ</item>
+        <item quantity="other">%1$d ماہ</item>
+    </plurals>
+    <plurals name="payment_price_cycle_label_year">
+        <item quantity="one">%1$d سال</item>
+        <item quantity="other">%1$d سال</item>
+    </plurals>
+    <string name="payment_select_your_plan">اپنا پلان منتخب کریں</string>
+    <!-- Label on a button for purchasing a subscription.
+         Parameter: %1$s - plan name
+         Plan names are not translated.
+
+         Example: "Get VPN Plus", "Get Proton Unlimited". -->
+    <string name="payment_button_get_plan">%1$s حاصل کریں</string>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of days -->
+    <plurals name="payment_discount_renewal_price_message_daily">
+        <item quantity="one">خصوصی پیشکش۔ %1$s فی دن کی شرح سے خودکار تجدید۔</item>
+        <item quantity="other">خصوصی پیشکش۔ ہر %2$d دنوں بعد %1$s کی شرح سے خودکار تجدید۔</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_discount_renewal_price_message_weekly">
+        <item quantity="one">خصوصی پیشکش۔ %1$s فی ہفتہ کی شرح سے خودکار تجدید۔</item>
+        <item quantity="other">خصوصی پیشکش۔ ہر %2$d ہفتوں بعد %1$s کی شرح سے خودکار تجدید۔</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of months -->
+    <plurals name="payment_discount_renewal_price_message_monthly">
+        <item quantity="one">خصوصی پیشکش۔ %1$s فی ماہ کی شرح سے خودکار تجدید۔</item>
+        <item quantity="other">خصوصی پیشکش۔ ہر %2$d مہینوں بعد %1$s کی شرح سے خودکار تجدید۔</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_discount_renewal_price_message_yearly">
+        <item quantity="one">خصوصی پیشکش۔ %1$s فی سال کی شرح سے خودکار تجدید۔</item>
+        <item quantity="other">خصوصی پیشکش۔ ہر %2$d سالوں بعد %1$s کی شرح سے خودکار تجدید۔</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of days -->
+    <plurals name="payment_renewal_price_message_daily">
+        <item quantity="one">سبسکرپشن %1$s فی دن کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
+        <item quantity="other">سبسکرپشن ہر %2$d دنوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_renewal_price_message_weekly">
+        <item quantity="one">سبسکرپشن %1$s فی ہفتہ کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
+        <item quantity="other">سبسکرپشن ہر %2$d ہفتوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
+    </plurals>
+    <!-- Parameters:
+         %1$s - replaced with price (e.g. "CHF 100")
+         %2$d - replaced with number of months -->
+    <plurals name="payment_renewal_price_message_monthly">
+        <item quantity="one">سبسکرپشن %1$s فی ماہ کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
+        <item quantity="other">سبسکرپشن ہر %2$d مہینوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_renewal_price_message_yearly">
+        <item quantity="one">سبسکرپشن %1$s فی سال کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
+        <item quantity="other">سبسکرپشن ہر %2$d سالوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_daily">
+        <item quantity="one">%1$s فی دن</item>
+        <item quantity="other">ہر %2$d دنوں بعد %1$s</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_discount_weekly">
+        <item quantity="one">%1$s فی ہفتہ</item>
+        <item quantity="other">ہر %2$d ہفتوں بعد %1$s</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_discount_monthly">
+        <item quantity="one">%1$s فی ماہ</item>
+        <item quantity="other">ہر %2$d مہینوں بعد %1$s</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_yearly">
+        <item quantity="one">%1$s فی سال</item>
+        <item quantity="other">ہر %2$d سالوں بعد %1$s</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_discount_for_days">
+        <item quantity="one">پہلے دن کے لیے</item>
+        <item quantity="other">پہلے %1$d دنوں کے لیے</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_discount_for_weeks">
+        <item quantity="one">پہلے ہفتے کے لیے</item>
+        <item quantity="other">پہلے %1$d ہفتوں کے لیے</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_discount_for_months">
+        <item quantity="one">پہلے مہینے کے لیے</item>
+        <item quantity="other">پہلے %1$d مہینوں کے لیے</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$d - replaced with number of years -->
+    <plurals name="payment_multi_renewal_discount_for_years">
+        <item quantity="one">پہلے سال کے لیے</item>
+        <item quantity="other">پہلے %1$d سالوں کے لیے</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of days -->
+    <plurals name="payment_multi_renewal_rest_daily">
+        <item quantity="one">پھر %1$s فی دن کی شرح سے خود بخود تجدید ہوتی ہے</item>
+        <item quantity="other">پھر ہر %2$d دنوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of weeks -->
+    <plurals name="payment_multi_renewal_rest_weekly">
+        <item quantity="one">پھر %1$s فی ہفتہ کی شرح سے خود بخود تجدید ہوتی ہے</item>
+        <item quantity="other">پھر ہر %2$d ہفتوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of months -->
+    <plurals name="payment_multi_renewal_rest_monthly">
+        <item quantity="one">پھر %1$s فی ماہ کی شرح سے خود بخود تجدید ہوتی ہے</item>
+        <item quantity="other">پھر ہر %2$d مہینوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے</item>
+    </plurals>
+    <!--
+     See payment_multi_renewal_template for explanation.
+     Parameters:
+     %1$s - replaced with price (e.g. "CHF 100")
+     %2$d - replaced with number of years -->
+    <plurals name="payment_multi_renewal_rest_yearly">
+        <item quantity="one">پھر %1$s فی سال کی شرح سے خود بخود تجدید ہوتی ہے</item>
+        <item quantity="other">پھر ہر %2$d سالوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے</item>
+    </plurals>
+    <!-- Explains renewal cycle when first there's a discount price for several periods
+     (e.g. 2 months) and then the subscription renews at full price.
+     Periods (days, months etc) are never mixed between the messages, the whole message uses one
+     unit.
+
+     Parameters:
+      %1$s - one of payment_multi_renewal_discount_*
+      %2$s - one of payment_multi_renewal_discount_for_*
+      %3$s - one of payment_multi_renewal_rest_*
+
+     Examples:
+      "$2.99/month for the first 2 months, then auto renews at $3.99/month"
+      "$19.99/year for the first 3 years, then auto renews at $24.99/year"
+      "$3.99 every 2 months for the first 4 months, then auto renews at 5.99 every 2 months"
+    -->
+    <string name="payment_multi_renewal_template">%1$s %2$s، %3$s۔</string>
+    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_description">یہ ٹیکنالوجی Proton VPN کو ان ممالک میں بھی زیادہ رفتار اور سیکیورٹی فراہم کرنے کے قابل بناتی ہے جہاں خدمت فراہم کرنا مشکل ہو۔</string>
+    <string name="tor_title">Tor</string>
+    <string name="server_load_title">سرور لوڈ</string>
+    <string name="activity_information_learn_more">مزید جانیں</string>
+    <string name="server_load_low">کم</string>
+    <string name="server_load_medium">درمیانہ</string>
+    <string name="server_load_high">زیادہ</string>
+    <!-- Override Human verification links from core -->
+    <string name="onboarding_welcome_title">Proton VPN میں خوش آمدید</string>
+    <string name="onboarding_welcome_description">نجی طور پر براؤز کریں، مسدود مواد تک رسائی حاصل کریں اور ڈیجیٹل آزادی سے لطف اندوز ہوں۔</string>
+    <string name="onboarding_welcome_action">شروع کریں</string>
+    <string name="upgrade_success_get_started_button">شروع کریں</string>
+    <string name="dynamic_report_suggestion_didnt_work">کام نہیں آیا؟</string>
+    <string name="dynamic_report_contact_us">ہم سے رابطہ کریں</string>
+    <string name="dynamic_report_tips_description">یہ تجاویز آپ کے مسئلے کو جلد حل کرنے میں مدد دے سکتی ہیں۔</string>
+    <string name="dynamic_report_tips_title">فوری حل</string>
+    <string name="dynamic_report_logs_title">نقص کے لاگ بھیجیں</string>
+    <string name="dynamic_report_logs_tooltip">نقص کے لاگ ہمیں بتاتے ہیں کہ کیا خرابی پیش آئی اور کن اقدامات سے مسئلہ پیدا ہوا۔ ہم ان کا استعمال صرف اس لیے کریں گے کہ ہمارے انجینئرز کو مسائل حل کرنے میں مدد ملے۔</string>
+    <string name="dynamic_report_error_title">ہم آپ کی رپورٹ نہیں بھیج سکے۔</string>
+    <string name="dynamic_report_completion_error_description_generic">ہم آپ کی رپورٹ نہیں بھیج سکے۔ دوبارہ کوشش کریں۔</string>
+    <string name="dynamic_report_completion_error_description_no_internet">ہم آپ کی رپورٹ نہیں بھیج سکے۔ اپنی کنکشن چیک کریں اور دوبارہ کوشش کریں۔</string>
+    <string name="dynamic_report_completion_error_description_timeout">ہم آپ کی رپورٹ نہیں بھیج سکے۔ کنکشن کا وقت ختم ہو گیا، براہِ کرم دوبارہ کوشش کریں۔</string>
+    <string name="dynamic_report_completion_success_title">آپ کے فیڈ بیک کا شکریہ۔ ہم جلد از جلد آپ سے رابطہ کریں گے۔</string>
+    <string name="dynamic_report_success_title">آپ کے فیڈ بیک کا شکریہ</string>
+    <string name="dynamic_report_success_description">ہم جلد از جلد آپ سے رابطہ کریں گے۔</string>
+    <string name="dynamic_report_field_mandatory">یہ فیلڈ لازمی ہے</string>
+    <string name="dynamic_report_logs_description">لاگ ایک قسم کی فائل ہے جو ہمیں ان کارروائیوں کے بارے میں بتاتی ہے جو آپ نے کسی نقص تک پہنچنے سے پہلے کیں۔ ہم انہیں صرف اپنے انجینئرز کی بگز ٹھیک کرنے میں مدد کے لیے استعمال کریں گے۔</string>
+    <string name="dynamic_report_logs_missing">نقص کے لاگ ہمیں آپ کے مسئلے کی جڑ تک پہنچنے میں مدد دیتے ہیں۔ اگر آپ انہیں شامل نہیں کریں گے تو ممکن ہے ہم مکمل طور پر تحقیق نہ کر سکیں۔</string>
+    <string name="dynamic_report_step1">مرحلہ 1 از 3</string>
+    <string name="dynamic_report_step2">مرحلہ 2 از 3</string>
+    <string name="dynamic_report_step3">مرحلہ 3 از 3</string>
+    <string name="dynamic_report_your_issue_headline">مسئلہ کیا ہے؟</string>
+    <string name="update_screen_title">Proton VPN اپ ڈیٹ کریں</string>
+    <string name="update_screen_description">Proton VPN کے پرانے ورژنز پر آپ کو مسائل کا زیادہ امکان ہوتا ہے۔</string>
+    <string name="update_banner_description_settings">ایپ کا نیا ورژن دستیاب ہے۔</string>
+    <string name="update_banner_warning_vpn_connected_title">VPN کچھ دیر کے لیے ڈسکنیکٹ ہو جائے گا</string>
+    <string name="update_banner_warning_vpn_connected_message">اپ ڈیٹ مکمل کرنے کے لیے ایپ کو دوبارہ شروع ہونا ضروری ہے۔ اس کے بعد آپ خود بخود دوبارہ کنیکٹ ہو جائیں گے۔</string>
+    <string name="dialog_create_account_title">جاری رکھنے کے لیے اکاؤنٹ بنائیں</string>
+    <string name="dialog_create_account_action_create">اکاؤنٹ بنائیں</string>
+    <string name="dialog_create_account_action_signin">سائن ان کریں</string>
+    <string name="server_search_menu_title">تلاش کریں</string>
+    <string name="search_empty_result_subtitle">براہِ کرم کوئی اور کلیدی لفظ آزمائیں۔</string>
+    <string name="search_empty_result_title">کوئی نتیجہ نہیں ملا</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">صاف کریں</string>
+    <!-- Content description for an icon button that clears text in an input field. -->
+    <string name="clear_text_field_content_description">صاف کریں</string>
+    <string name="free_connections_info_message">Proton Free آپ کو خود بخود دستیاب تیز ترین سرور سے کنیکٹ کر دیتا ہے۔ یہ عموماً آپ کے مقام کے قریب ترین سرور ہوتا ہے۔</string>
+    <string name="free_connections_info_server_locations">مفت سرور کے مقامات (%1$d)</string>
+    <string name="free_connections_info_banner_text">VPN Plus کے ساتھ تمام ممالک تک رسائی حاصل کریں</string>
+    <string name="free_connection_info_title">مفت کنکشنز</string>
+    <string name="search_upsell_banner_title">کہیں سے بھی اسٹریم کریں</string>
+    <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
+    <plurals name="search_upsell_banner_message">
+        <item quantity="one">VPN Plus کے ساتھ %1$d ملک کا جیو بلاک شدہ مواد کھولیں۔</item>
+        <item quantity="other">VPN Plus کے ساتھ %1$d ممالک کا جیو بلاک شدہ مواد کھولیں۔</item>
+    </plurals>
+    <string name="select_default_connection">اپنا ڈیفالٹ کنکشن منتخب کریں</string>
+    <string name="settings_default_connection_title">ڈیفالٹ کنکشن</string>
+    <string name="fastest_country_description">آپ کے مقام کی بنیاد پر بہترین سرور</string>
+    <string name="settings_connection_preferences_title">کنکشن کی ترجیحات</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">آئٹم ہٹا دیا گیا۔</string>
+    <string name="settings_excluded_locations_title">خارج شدہ مقامات</string>
+    <string name="settings_excluded_locations_description">جب آپ Fastest سے کنیکٹ ہوں گے تو منتخب شدہ مقامات کبھی استعمال نہیں ہوں گے۔</string>
+    <string name="settings_excluded_locations_unavailable">کوئی مقام دستیاب نہیں</string>
+    <string name="settings_excluded_locations_selection_hint">منتخب کریں…</string>
+    <string name="settings_excluded_locations_accessibility_label_deletion">خارج شدہ مقامات سے ہٹائیں</string>
+    <string name="settings_excluded_locations_accessibility_label_city">شہر</string>
+    <string name="settings_excluded_locations_accessibility_label_country">ملک</string>
+    <string name="settings_excluded_locations_accessibility_label_state">ریاست</string>
+    <string name="settings_last_connection_title">آخری کنکشن</string>
+    <string name="settings_last_connection_description">آپ کا حال ہی میں استعمال کیا گیا کنکشن</string>
+    <string name="settings_change_icon_title">ایپ آئیکن</string>
+    <string name="settings_change_icon_details">Proton VPN ایپ آپ کی ڈیوائس پر کیسے نظر آئے، اسے اپنی مرضی کے مطابق بنائیں۔ کیوں؟</string>
+    <string name="settings_change_icon_confirmation_title">ایپ آئیکن تبدیل کریں؟</string>
+    <string name="settings_change_icon_confirmation_details">اس سے Proton VPN ایپ بند ہو جائے گی۔ Proton VPN دوبارہ شروع کرنے کے لیے بس اپنا نیا ایپ آئیکن ٹیپ کریں۔</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
+    <string name="settings_change_icon_header_discreet">غیر واضح ایپ آئیکن</string>
+    <string name="settings_widget_title">ویجٹ</string>
+    <string name="settings_widget_selection_title">Proton VPN ویجٹ آزمائیں</string>
+    <string name="settings_widget_selection_description">اپنی کنکشن کی صورتحال دیکھیں اور ہوم اسکرین سے اپنے پسندیدہ VPN کنکشنز تک رسائی حاصل کریں۔</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">ویجٹ شامل کرنے کے لیے اپنی ہوم اسکرین پر کہیں بھی دبائیں اور پکڑے رہیں، پھر ویجٹ مینو سے %1$s منتخب کریں۔</string>
+    <string name="settings_widget_selection_button_title">ویجٹ شامل کریں</string>
+    <string name="setting_widget_try_title">Proton VPN ویجٹ آزمائیں</string>
+    <!-- Content description used by accessibility services for a button for dismissing (hiding)
+         a notification banner (usually used for special offers). -->
+    <string name="notification_banner_dismiss_accessibility_label">بینر برخاست کریں</string>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">%1$s %2$s باقی</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="one">%1$d سیکنڈ</item>
+        <item quantity="other">%1$d سیکنڈ</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="one">%1$d منٹ</item>
+        <item quantity="other">%1$d منٹ</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="one">%1$d گھنٹہ</item>
+        <item quantity="other">%1$d گھنٹے</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="one">%1$d دن</item>
+        <item quantity="other">%1$d دن</item>
+    </plurals>
+    <string name="server_change_max_reached">فی الحال مفت سرور تبدیل کرنے کی زیادہ سے زیادہ حد تک پہنچ گئے ہیں۔</string>
+    <string name="server_change_upsell">VPN Plus کے ساتھ لامحدود تبدیلیاں حاصل کریں۔</string>
+    <string name="server_change_button_title">سرور تبدیل کریں</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services.
+
+        %1$s - replaced with "time_left_minutes"
+        %2$s - replaced with "time_left_seconds"
+        Example:
+        Available in 1 minute 23 seconds.
+      -->
+    <string name="server_change_button_time_left_content_description">%1$s %2$s کے بعد دستیاب</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services and only if time left is less than 1 minute.
+
+        %1$s - replaced with "time_left_seconds"
+        Example:
+        Available in 23 seconds.
+      -->
+    <string name="server_change_button_time_left_seconds_content_description">%1$s کے بعد دستیاب</string>
+    <string name="server_change_progress_finished_contend_description">اب دستیاب</string>
+    <string name="not_wanted_country_title">کیا یہ آپ کا مطلوبہ ملک نہیں؟</string>
+    <string name="not_wanted_country_description">کوئی بھی سرور منتخب کرنے کے لیے اپ گریڈ کریں</string>
+    <string name="whats_new_title">کیا نیا ہے</string>
+    <string name="whats_new_profiles_title">پروفائلز واپس آ گئے ہیں</string>
+    <string name="whats_new_profiles_description">اپنی پسند کے مقام، سرور اور پروٹوکول کے ساتھ حسب ضرورت کنکشنز بنائیں اور محفوظ کریں۔</string>
+    <string name="whats_new_widget_title">ویجٹس کا تعارف</string>
+    <string name="whats_new_widget_description">اب آپ ہوم اسکرین چھوڑے بغیر اپنا VPN دیکھ اور انتظام کر سکتے ہیں۔</string>
+    <string name="whats_new_add_widget_button">ویجٹ شامل کریں</string>
+    <string name="welcome_plus_title">VPN Plus میں خوش آمدید</string>
+    <string name="welcome_plus_description">اضافی رازداری کی خصوصیات، غیر معمولی کارکردگی اور اعلیٰ درجے کی VPN کسٹمائزیشن سے لطف اٹھائیں۔</string>
+    <string name="welcome_unlimited_title">Proton Unlimited میں خوش آمدید</string>
+    <string name="welcome_unlimited_description">آپ نے Proton VPN، Mail، کیلنڈر، ڈرائیو، Pass اور والٹ کی تمام پریمیم خصوصیات کھول لی ہیں۔</string>
+    <string name="welcome_generic_title">مبارک ہو</string>
+    <string name="welcome_generic_description">آپ کی سبسکرپشن اپ گریڈ ہو گئی ہے۔ جدید رازداری کی خصوصیات اور اعلیٰ درجے کی کارکردگی سے لطف اٹھائیں۔</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">بیرونی لنک</string>
+    <string name="no_logs_banner_title">تصدیق شدہ نو لاگ VPN</string>
+    <string name="no_logs_banner_description">آپ کی VPN سرگرمی سوئس رازداری کے قوانین کے تحت محفوظ ہے۔ ہم آپ کو کبھی آن لائن ٹریک نہیں کریں گے اور نہ ہی آپ کی معلومات کسی تیسرے فریق کے ساتھ شیئر کریں گے۔</string>
+    <!-- tag(Redesign_2023) Bottom bar label for home screen -->
+    <string name="bottom_nav_home">ہوم</string>
+    <string name="bottom_nav_gateways">گیٹ وے</string>
+    <string name="bottom_nav_profiles">پروفائلز</string>
+    <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
+    <string name="bottom_nav_countries">ملک</string>
+    <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
+    <string name="botton_nav_settings">سیٹنگز</string>
+    <!-- tag(Redesign_2023)
+         Text added to button labels that open a UI element (e.g. a panel).
+         Only used by accessibility services.
+         Example:
+         a button with label "connection details" and this action label will be read by a screen
+         reader as:
+         "Connection details, button. Double tap to open"
+    -->
+    <string name="accessibility_action_open">کھولیں</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that initiate a VPN connection.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland will be read by a screen reader as:
+         "Switzerland. Double tap to connect"
+        -->
+    <string name="accessibility_action_connect">کنیکٹ کریں</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that redirect the user to upgrade their subscription plan.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland that requires upgrading subscription to become
+         available will be read by a screen reader as:
+         "Unavailable, Switzerland. Double tap to upgrade"
+        -->
+    <string name="accessibility_action_upgrade">اپ گریڈ کریں</string>
+    <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">تلاش کریں</string>
+    <!--
+     Text added to clickable elements that provide negative feedback when clicking on it.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_feedback_negative">اچھا نہیں</string>
+    <!--
+     Text added to clickable elements that provide positive feedback when clicking on it.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_feedback_positive">اچھا</string>
+    <!--
+     Text added to clickable elements that allows to submit either positive or negative feedback.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_submit_feedback">جمع کرائیں</string>
+    <!-- Name of action for opening a screen/panel for an item.
+         The action is listed in a menu of additional actions available to accessibility services.
+
+         Example:
+         - item in a list of countries has a custom action to open list of cities in the country
+         - item in a list of cities has a custom action to open list of servers in the city
+         -->
+    <string name="accessibility_menu_action_open">کھولیں</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable because servers
+         are in maintenance.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are in maintenance will be read by a
+         screen reader as:
+         "in maintenance, Switzerland"
+     -->
+    <string name="accessibility_item_in_maintenance">دیکھ بھال میں</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are unavailable will be read by a screen
+         reader as:
+         "unavailable, Switzerland"
+     -->
+    <string name="accessibility_item_unavailable">دستیاب نہیں</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when there is active connection to it.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland when there is a VPN connection to a server in this country
+         will be read by a screen reader as:
+         "Switzerland, connected"
+     -->
+    <string name="accessibility_item_connected">کنیکٹڈ</string>
+    <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
+    <string name="server_feature_label_p2p">P2P</string>
+    <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
+    <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_content_description_p2p">پیئر ٹو پیئر</string>
+    <string name="server_feature_content_description_tor">Tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
+    <string name="fastest_country">تیز ترین ملک</string>
+    <string name="fastest_country_excluding_my_country">تیز ترین ملک (اپنا ملک چھوڑ کر)</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
+    <string name="fastest_free_server">تیز ترین مفت سرور</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Iceland
+     -->
+    <string name="connection_info_secure_core_full_iceland">آئس لینڈ کے ذریعے %1$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Sweden
+     -->
+    <string name="connection_info_secure_core_full_sweden">سویڈن کے ذریعے %1$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_switzerland">سوئٹزرلینڈ کے ذریعے %1$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - exit country name in nominative case
+         %2$s - entry country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_other">%2$s کے ذریعے %1$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_iceland">آئس لینڈ کے راستے</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_sweden">سویڈن کے راستے</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_switzerland">سوئٹزرلینڈ کے راستے</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">Secure Core کے راستے</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - entry country name in nominative case
+         Example: via Switzerland
+    -->
+    <string name="connection_info_secure_core_entry_other">%1$s کے راستے</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         three countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+
+     -->
+    <string name="connection_info_auto_selected_free_countries">[flags] میں سے خودکار طور پر منتخب شدہ</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         several countries. Used instead of connection_info_auto_selected_free_countries when there
+         are more than 3 countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+         $1%d - replaced with number of additional countries (beyond the 3 flags).
+
+         Example, if there are 5 countries to select from the text will be:
+         Auto selected from [flags]+2
+         -->
+    <string name="connection_info_auto_selected_free_countries_more">[flags]+%1$d میں سے خودکار طور پر منتخب شدہ</string>
+    <!-- tag(Redesign_2023)
+         Accessibility label describing a connection to a free server that is automatically selected
+         from one in several countries. Placed directly below fastest_free_server.
+         This text replaces connection_info_auto_selected_free_servers for screen readers.
+         $1%d - replaced with number of countries.
+         -->
+    <plurals name="connection_info_accessibility_auto_selected_free_countries">
+        <item quantity="one">%1$d ملک میں سے خودکار طور پر منتخب شدہ</item>
+        <item quantity="other">%1$d ممالک میں سے خودکار طور پر منتخب شدہ</item>
+    </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">مفت ممالک میں سے خودکار طور پر منتخب شدہ۔</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         are that of the previous connection.
+
+         Example:
+         Last connected to
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         -->
+    <string name="connection_card_label_last_connected">آخری بار کنیکٹ ہوئے</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">ڈیفالٹ کنکشن</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">مفت کنکشن</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is being established.
+     -->
+    <string name="connection_card_label_connecting">کنیکٹ کیا جا رہا ہے…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It\'s shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">سرور تبدیل کیا جا رہا ہے…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is established and the user
+         is safely browsing as if they were in the location indicated in the connection card.
+
+         Example:
+         Browsing safely from
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         Germany
+     -->
+    <string name="connection_card_label_connected">محفوظ طریقے سے براؤز کر رہے ہیں</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with details of the current VPN connection.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "connection details, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_connection_details">کنکشن کی تفصیلات</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with information about connections in free plan.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "more information about free connections, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_free_connections">مفت کنکشنز کے بارے میں مزید معلومات</string>
+    <string name="connection_card_label_connection_feedback">آپ کا کنکشن کیسا ہے؟</string>
+    <!-- tag(Redesign_2023)
+         Displayed above the list of recently made connections.
+     -->
+    <string name="recents_headline">حالیہ</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">VPN Plus دریافت کریں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_pin">پن کریں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_unpin">ان پن کریں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_remove">ہٹائیں</string>
+    <!-- tag(Redesign_2023)
+         State description of a pinned recent item.
+         Only used by accessibility service.
+    -->
+    <string name="recent_action_accessibility_state_pinned">پن کردہ</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_country_servers_in_maintenance">اس ملک کے تمام سرور دیکھ بھال کے تحت ہیں۔</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_city_servers_in_maintenance">اس شہر کے تمام سرور دیکھ بھال کے تحت ہیں۔</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">اس ریاست کے تمام سرور دیکھ بھال کے تحت ہیں۔</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_in_maintenance">سرور دیکھ بھال کے تحت ہے۔</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_not_available">سرور دستیاب نہیں ہے۔</string>
+    <string name="message_server_location_excluded">سرور کا مقام خارج کر دیا گیا۔</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
+    <string name="message_gateway_in_maintenance">گیٹ وے دیکھ بھال کے تحت ہے۔</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out">سائن آؤٹ کریں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_title">سیٹنگز</string>
+    <string name="gateways_title">گیٹ ویز</string>
+    <string name="countries_title">ممالک</string>
+    <string name="profiles_title">پروفائلز</string>
+    <string name="settings_autoconnect_title">خودکار کنکشن</string>
+    <string name="settings_autoconnect_boot_description">جب آپ کی ڈیوائس شروع ہو جاتی ہے تو آپ کو کوئک کنیکٹ کے ذریعے خود بخود VPN سے کنیکٹ کر دیتا ہے۔</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_features">خصوصیات</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_netshield_title">NetShield</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_split_tunneling_title">اسپلٹ ٹنلنگ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_kill_switch_title">کِل سوئچ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_connection_category">کنکشن</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_protocol_title">پروٹوکول</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_advanced_settings_title">ایڈوانس سیٹنگز</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_general">عام</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_account">اکاؤنٹ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_notifications_title">اطلاعات</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_support">سپورٹ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_help_center_title">سپورٹ سینٹر</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_report_issue_title">مسئلہ رپورٹ کریں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_debug_logs_title">ڈی بگ لاگز</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_improve_proton">Proton کو بہتر بنائیں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_fight_censorship_title">سنسورشپ کے خلاف ہماری مدد کریں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_rate_us_title">Proton VPN کی درجہ بندی کریں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_app_version">ایپ کا ورژن: %1$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_third_party_licenses">تھرڈ پارٹی کے لائسنسز</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_title">سائن آؤٹ کریں؟</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_message">VPN سے کنکشن منقطع کر دیا جائے گا۔</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_dont_ask_again">دوبارہ مجھ سے نہ پوچھیں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_action">سائن آؤٹ کریں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_action_cancel">منسوخ کریں</string>
+    <string name="dialog_action_change_icon">آئیکن تبدیل کریں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">تمام</string>
+    <string name="country_filter_cities">شہر</string>
+    <string name="country_filter_states">ریاستیں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">تمام ممالک (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus ممالک (%1$d)</string>
+    <string name="country_filter_countries_list_header">ممالک (%1$d)</string>
+    <string name="country_filter_cities_list_header">شہر (%1$d)</string>
+    <string name="country_filter_states_list_header">ریاستیں (%1$d)</string>
+    <string name="country_filter_servers_list_header">سرورز</string>
+    <string name="country_filter_secure_core_list_header">Secure Core ممالک (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P ممالک (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P شہر (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P ریاستیں (%1$d)</string>
+    <string name="counrty_filter_p2p_servers_list_header">P2P سرورز</string>
+    <string name="country_filter_tor_list_header">Tor ممالک (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor سرورز</string>
+    <string name="country_filter_info_label">معلومات</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">لوڈ: %1$s%%</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is connected and network is protected
+    -->
+    <string name="vpn_status_connected">محفوظ</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is not connected and network is not protected
+    -->
+    <string name="vpn_status_disabled">آپ غیر محفوظ ہیں</string>
+    <!-- tag(Redesign_2023)
+         Text is shown while connection is being established
+    -->
+    <string name="vpn_status_connecting">آپ کی ڈیجیٹل شناخت محفوظ کی جا رہی ہے</string>
+    <!-- tag(Redesign_2023)
+         Displays Country name and IP of user if he is not connected.
+         First parameter is country, second is IP.
+         Ex: Poland · 192.1.1.1.1
+    -->
+    <string name="vpn_status_disabled_location">%1$s · %2$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_subtitle">کنکشن کی تفصیلات</string>
+    <string name="connection_details_features_title">خصوصیات</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_show_ip">IP دکھائیں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_back">واپس</string>
+    <string name="accessibility_close">بند کریں</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_my_ip">میرا IP</string>
+    <string name="connection_details_my_ipv4">میرا IPv4</string>
+    <string name="connection_details_my_ipv6">میرا IPv6</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
+    -->
+    <string name="connection_details_connected_for">کنیکٹ ہونے کی مدت</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server">سرور</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_gateway">گیٹ وے</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_country">ملک</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_city">شہر</string>
+    <!-- Label for server location "state", as a state of the USA. -->
+    <string name="connection_details_state">ریاست</string>
+    <!-- Label for server smart routing, a country which is routed through. -->
+    <string name="connection_details_smart_routing">روٹنگ کا ذریعہ</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
+    -->
+    <string name="connection_details_server_load">سرور لوڈ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_question">سرور لوڈ کیا ہے؟</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_description">سرور لوڈ دکھاتا ہے کہ سرور اپنی زیادہ سے زیادہ گنجائش سے کتنا قریب ہے۔ \n\nزیادہ سرور لوڈ آپ کے کنکشن کو سست کر سکتا ہے۔</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_title">کم (1 سے 75%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_description">بہت تیز رفتاری</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_title">درمیانہ (76 سے 90%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_description">VPN کی رفتار پر اثر انداز ہونے کا امکان کم ہے</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_title">زیادہ (91 سے 100%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_description">VPN معمول سے سست چل سکتا ہے </string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol">پروٹوکول</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol_description">پروٹوکول ہدایات کا ایک مجموعہ ہے جس پر آپ کی ڈیوائس سرور سے کنیکٹ ہونے اور اس کے ساتھ بات چیت کرنے کے لیے عمل کرتی ہے۔</string>
+    <!-- tag(Redesign_2023)
+         Label in front of upload speed in connection details. It is followed by upload speed number and unit.
+    -->
+    <string name="connection_details_upload">اپ لوڈ</string>
+    <!-- tag(Redesign_2023)
+         Label in front of download speed in connection details. It is followed by download speed number and unit.
+    -->
+    <string name="connection_details_download">ڈاؤن لوڈ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_section_vpn_speed">VPN اسپیڈ</string>
+    <string name="connection_details_section_ip">IP پتہ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_question">VPN اسپیڈ کیا ہے؟</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core ایک دوسرے، انتہائی محفوظ VPN سرور کے ذریعے آپ کو آپ کے منزل کے سرور سے کنیکٹ کرتا ہے۔\n\nتحفظ کے اس بلند تر درجے کے سبب لیٹنسی زیادہ اور اسپیڈ کم ہو سکتی ہے۔</string>
+    <string name="info_secure_core_standard_header">معیاری VPN کنکشن</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN کنکشن</string>
+    <string name="info_dialog_tor_description">کسی بھی براؤزر کے ذریعے چھپی ہوئی سروسز اور onion سائٹس تک رسائی کے لیے Tor سرور سے کنیکٹ کریں۔</string>
+    <string name="info_dialog_button_learn_more_tor">Tor نیٹ ورک تک رسائی کیسے حاصل کریں</string>
+    <string name="info_dialog_button_learn_more_p2p">P2P سے ٹورنٹ کیسے کریں</string>
+    <string name="info_dialog_button_learn_more_ipaddress">IP پتہ کیا ہے؟</string>
+    <string name="info_dialog_button_learn_more_streaming">اسٹریمنگ میں مدد درکار ہے؟</string>
+    <string name="info_dialog_streaming_title">اسٹریمنگ</string>
+    <string name="info_dialog_streaming_description">اسٹریمنگ سرورز تیز اور محفوظ طریقے سے ٹی وی اور فلمیں چلانے کے لیے ڈیزائن کیے گئے ہیں۔</string>
+    <string name="info_dialog_how_to_stream">اسٹریم کیسے کریں:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">اپنے فون کی سیٹنگز میں جائیں اور مقام کی سروسز بند کریں۔</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">اپنی اسٹریمنگ سروس دوبارہ شروع کریں۔</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">کسی بھی Plus سرور سے کنیکٹ کریں اور اسٹریم کرنا شروع کریں۔</string>
+    <string name="info_dialog_profiles_title">پروفائلز</string>
+    <string name="info_dialog_ipaddress_title">IP پتہ</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6 ٹریفک</string>
+    <string name="info_dialog_profiles_description">پروفائلز حسب ضرورت VPN کنکشنز ہیں جنہیں آپ اپنی ضرورت کے مطابق ڈھال کر فوری رسائی کے لیے محفوظ کر سکتے ہیں۔\n\nاپنی پسند کا مقام مقرر کریں اور اپنی سیٹنگز کو سیکیورٹی، کارکردگی، گیمنگ یا کسی اور منظرنامے کے لیے بہتر بنائیں۔</string>
+    <string name="info_dialog_ipaddress_description">آپ کا VPN IP آپ کے حقیقی IP پتے کو ماسک کر دیتا ہے۔ اس سے ایسا معلوم ہوتا ہے جیسے آپ اپنے VPN مقام سے براؤزنگ کر رہے ہیں، لہٰذا آپ کی آن لائن سرگرمی کو آپ کے ڈیوائس سے منسلک نہیں کیا جا سکتا۔</string>
+    <string name="info_dialog_ipv6_traffic_description">انٹرنیٹ پروٹوکول (IP) ڈیوائسز کو پتے تفویض کرتا ہے اور انٹرنیٹ ٹریفک کو روٹنگ فراہم کرتا ہے۔ IPv6 تازہ ترین ورژن ہے جو زیادہ پتے اور بہتر کنکٹیویٹی پیش کرتا ہے، لیکن ابھی یہ ہر جگہ عام نہیں ہوا۔</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">اس سرور پر پیر ٹو پیر فائل شیئرنگ فعال ہے۔</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">آپ اپنے عام براؤزر سے .onion سائٹس سے کنیکٹ کر سکتے ہیں۔</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">آپ کی سرگرمی 2 انتہائی محفوظ VPN سرورز کے پیچھے انکرپٹ کی جاتی ہے۔</string>
+    <string name="connection_feature_streaming_title">اسٹریمنگ</string>
+    <string name="connection_feature_streaming_description">یہ سرور ٹی وی اور فلمیں چلانے کے لیے بہتر بنایا گیا ہے۔</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <string name="connection_feature_smart_routing_description">آپ کو ایسے سرورز کے ذریعے آپ کی منزل کے ملک سے کنیکٹ کرتا ہے جو جسمانی طور پر کہیں اور واقع ہیں۔</string>
+    <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
+    <string name="connection_feature_smart_routing_description_with_countries">آپ کو منزل کے ملک سے ایسے سرورز کے ذریعے کنیکٹ کرتا ہے جو جسمانی طور پر کہیں اور واقع ہیں: %1$s۔</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
+    -->
+    <string name="country_smart_routing_info">سرورز جسمانی طور پر %1$s میں واقع ہیں، لیکن آپ %2$s سے براؤزنگ کرتے نظر آئیں گے۔</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">معلومات</string>
+    <!-- tag(Redesign_2023)
+         Used for button title to learn more about different contexts
+    -->
+    <string name="connection_details_learn_more">مزید جانیں</string>
+    <!-- tag(Redesign_2023)
+        Used to describe IP which is not known
+    -->
+    <string name="connection_details_unknown_ip">نامعلوم</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_description">یہ گراف آپ کی موجودہ اپ لوڈ اور ڈاؤن لوڈ سرگرمی کی اسپیڈ دکھاتا ہے۔ آپ کے VPN کنکشن کا معمول کی آن لائن سرگرمی کو سست کرنا بعید ہے۔</string>
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
+    <string name="speed_graph_title">اسپیڈ %1$s</string>
+    <string name="bytes_per_second">B/s</string>
+    <string name="kilobytes_per_second">KB/s</string>
+    <string name="megabytes_per_second">MB/s</string>
+    <string name="gigabytes_per_second">GB/s</string>
+    <string name="terabytes_per_second">TB/s</string>
+    <plurals name="full_name_speed_bytes_per_second">
+        <item quantity="one">%1$s بائٹ فی سیکنڈ</item>
+        <item quantity="other">%1$s بائٹس فی سیکنڈ</item>
+    </plurals>
+    <plurals name="full_name_speed_kilobytes_per_second">
+        <item quantity="one">%1$s کلو بائٹ فی سیکنڈ</item>
+        <item quantity="other">%1$s کلو بائٹس فی سیکنڈ</item>
+    </plurals>
+    <plurals name="full_name_speed_megabytes_per_second">
+        <item quantity="one">%1$s میگا بائٹ فی سیکنڈ</item>
+        <item quantity="other">%1$s میگا بائٹ فی سیکنڈ</item>
+    </plurals>
+    <plurals name="full_name_speed_gigabytes_per_second">
+        <item quantity="one">%1$s گیگا بائٹ فی سیکنڈ</item>
+        <item quantity="other">%1$s گیگا بائٹ فی سیکنڈ</item>
+    </plurals>
+    <plurals name="full_name_speed_terabytes_per_second">
+        <item quantity="one">%1$s ٹیرا بائٹ فی سیکنڈ</item>
+        <item quantity="other">%1$s ٹیرا بائٹ فی سیکنڈ</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_bytes">
+        <item quantity="one">%1$s بائٹ</item>
+        <item quantity="other">%1$s بائٹ</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_kilobytes">
+        <item quantity="one">%1$s کلو بائٹ</item>
+        <item quantity="other">%1$s کلو بائٹ</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_megabytes">
+        <item quantity="one">%1$s میگا بائٹ</item>
+        <item quantity="other">%1$s میگا بائٹ</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_gigabytes">
+        <item quantity="one">%1$s گیگا بائٹ</item>
+        <item quantity="other">%1$s گیگا بائٹ</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_terabytes">
+        <item quantity="one">%1$s ٹیرا بائٹ</item>
+        <item quantity="other">%1$s ٹیرا بائٹ</item>
+    </plurals>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
+    <!-- tag(Redesign_2023)
+         Shown at the top status view if app detects that there is no usable network to connect to VPN
+    -->
+    <string name="error_vpn_waiting_for_network">نیٹ ورک کا انتظار ہو رہا ہے</string>
+    <!-- tag(Redesign_2023) -->
+    <plurals name="connection_details_days">
+        <item quantity="one">%1$d دن</item>
+        <item quantity="other">%1$d دن</item>
+    </plurals>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_hours_shortened">%1$d گھنٹے</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_minutes_shortened">%1$d منٹ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_seconds_shortened">%1$d سیکنڈ</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">کنکشن قائم نہیں ہو سکی</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">یہ ڈیوائس VPN کنکشنز کی اجازت نہیں دیتا۔</string>
+    <string name="create_profile_title">پروفائل بنائیں</string>
+    <!-- Title for the screen where user can edit a profile.
+         %1$s - name of the profile being edited. -->
+    <string name="edit_profile_title">%1$s ترمیم کریں</string>
+    <string name="edit_profile_dialog_action">پروفائل ترمیم کریں</string>
+    <string name="create_profile_name_hint">پروفائل کا نام</string>
+    <string name="create_profile_name_error_empty">پروفائل کا نام درج کریں</string>
+    <string name="create_profile_name_error_too_long">پروفائل کا نام 30 حروف یا اس سے کم ہونا چاہیے</string>
+    <string name="create_profile_type_and_location_title">کنکشن کی قسم اور مقام منتخب کریں</string>
+    <string name="create_profile_features_and_settings_title">خصوصیات اور سیٹنگز</string>
+    <string name="configure_profile_features_and_settings_title">پروفائل کی سیٹنگز ترتیب دیں</string>
+    <string name="configure_profile_features_and_settings_description">کنیکٹ ہونے پر پروفائل کی سیٹنگز آپ کی VPN سیٹنگز پر حاوی ہو جائیں گی۔</string>
+    <!--
+        First input will be for current step, second one will be for total number of steps
+        Example: Step 3 of 7
+     -->
+    <string name="create_profile_steps">مرحلہ %1$d از %2$d</string>
+    <string name="create_profile_button_next">اگلا</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">کارکردگی بہتر بنانے والی ٹیکنالوجیز کے ذریعے اپنی کنکشن کی رفتار 400%% تک بڑھائیں۔ %1$s</string>
+    <string name="settings_account_settings_title">اکاؤنٹ سیٹنگز</string>
+    <string name="settings_account_change_password">پاس ورڈ تبدیل کریں</string>
+    <string name="settings_account_recovery_email">بازیابی ای میل</string>
+    <string name="settings_account_recovery_email_not_set">سیٹ نہیں ہے</string>
+    <string name="settings_account_security_keys">سیکیورٹی کیز</string>
+    <!-- Label of a button that opens user\'s account page -->
+    <string name="settings_account_button_my_account">میرا اکاؤنٹ</string>
+    <string name="settings_account_button_delete_account">اکاؤنٹ حذف کریں</string>
+    <string name="settings_custom_dns_title">حسب ضرورت DNS</string>
+    <string name="settings_custom_dns_description_tv">سیلف ہوسٹڈ یا فریق ثالث DNS (ڈومین نیم سسٹم) کے ساتھ VPN سے کنیکٹ کریں۔</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">نیا DNS سرور شامل کریں</string>
+    <string name="settings_add_dns_new_entry_button">شامل کریں</string>
+    <string name="settings_add_dns_description">سرور کا IPv4 یا IPv6 پتہ درج کریں</string>
+    <string name="settings_add_dns_invalid_input">درست IPv4 یا IPv6 پتہ درج کریں</string>
+    <string name="settings_add_dns_empty_input">IPv4 یا IPv6 پتہ درج کریں</string>
+    <string name="settings_add_dns_duplicate_input">سرور پہلے سے شامل ہے</string>
+    <string name="settings_advanced_dns_description">خود ہوسٹ کیے گئے یا فریق ثالث کے DNS کے ذریعے VPN سے کنیکٹ کریں۔ مزید جانیں</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">سرورز (%1$d)</string>
+    <string name="settings_dns_list_description">اگر آپ کا حسب ضرورت DNS سرور کام نہ کرے تو معیاری VPN DNS استعمال ہوگا۔</string>
+    <string name="settings_dns_list_description_multiple">ہم ان سرورز سے ترتیب وار کنیکٹ ہونے کی کوشش کریں گے۔ اگر کوئی بھی کام نہ کرے تو VPN DNS استعمال ہوگا۔</string>
+    <string name="settings_changes_apply_on_reconnect_toast">تبدیلیاں دوبارہ کنیکٹ ہونے پر لاگو ہو جائیں گی۔</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield دستیاب نہیں ہوگا</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">حسب ضرورت DNS استعمال کرتے وقت NetShield اشتہارات، ٹریکرز اور مالویئر کو فلٹر نہیں کر سکتا۔ مزید جانیں</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message_tv">حسب ضرورت DNS استعمال کرتے وقت NetShield اشتہارات، ٹریکرز اور مالویئر کو فلٹر نہیں کر سکتا۔</string>
+    <string name="settings_advanced_alternative_routing_title">متبادل روٹنگ</string>
+    <string name="settings_advanced_alternative_routing_description">اگر نیٹ ورک کی پابندیوں کی وجہ سے Proton کی خدمات مسدود ہو جائیں تو ہم آپ کو ہماری سائٹس سے کنیکٹ کرنے کے لیے متبادل نیٹ ورک روٹنگ استعمال کرنے کی کوشش کریں گے۔</string>
+    <string name="settings_advanced_allow_lan_title">LAN کنکشنز</string>
+    <string name="settings_advanced_allow_lan_description">آپ کو اپنی ڈیوائس کے لوکل نیٹ ورک میں موجود پرنٹرز، اسپیکرز اور دیگر ڈیوائسز سے کنیکٹ ہونے کی سہولت دیتا ہے۔</string>
+    <string name="settings_advanced_allow_lan_description_tv">اپنے لوکل نیٹ ورک پر اسپیکرز، کمپیوٹرز اور دیگر ڈیوائسز سے کنیکٹ کریں۔</string>
+    <string name="settings_advanced_allow_lan_title_tv">LAN کنکشنز کی اجازت دیں</string>
+    <string name="settings_advanced_nat_type_title">NAT کی قسم</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">اپنی کنکشن کے لیے نیٹ ورک ایڈریس ٹرانسلیشن (NAT) کی ایک قسم منتخب کریں۔ %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">اپنی کنکشن کے لیے نیٹ ورک پتہ ٹرانسلیشن (NAT) کی ایک قسم منتخب کریں۔</string>
+    <string name="settings_advanced_nat_type_strict">سخت (قسم 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">قسم 3</string>
+    <string name="settings_advanced_nat_type_moderate">متوسط (قسم 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">قسم 2</string>
+    <string name="settings_advanced_nat_type_strict_description">آپ کے نیٹ ورک میں داخل ہونے والے ڈیٹا پر پابندی عائد کرتا ہے۔ یہ آپشن زیادہ محفوظ ہے، لیکن اس سے پیر ٹو پیر گیمنگ کنکشنز مشکل ہو سکتی ہیں۔</string>
+    <string name="settings_advanced_nat_type_moderate_description">آپ کے نیٹ ورک میں داخل ہونے والے ڈیٹا پر کچھ پابندی عائد ہوتی ہے۔ یہ آپشن آن لائن ویڈیو گیمنگ کے لیے بہترین ہے۔</string>
+    <string name="settings_split_tunneling_description">یہ طے کر کے اپنی کنکشن کسٹمائز کریں کہ کون سی ایپس اور IP پتے VPN کی حفاظت میں ہوں۔ %1$s</string>
+    <string name="settings_protocol_description">VPN پروٹوکول طے کرتا ہے کہ VPN سرور اور آپ کی ڈیوائس کے درمیان ڈیٹا کیسے منتقل ہوتا ہے۔ %1$s</string>
+    <string name="settings_protocol_description_no_link">VPN پروٹوکول طے کرتا ہے کہ VPN سرور اور آپ کی ڈیوائس کے درمیان ڈیٹا کیسے منتقل ہوتا ہے۔</string>
+    <string name="settings_protocol_section_speed">اسپیڈ (UDP)</string>
+    <string name="settings_protocol_section_reliability">بھروسہ مندی (TCP)</string>
+    <string name="settings_protocol_smart_title">سمارٹ</string>
+    <string name="settings_protocol_smart_description">آپ کی کنکشن کے لیے بہترین پروٹوکول خود بخود منتخب کرتا ہے۔</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_smart_protun_description">آپ کی کنکشن کے لیے بہترین پروٹوکول خود بخود منتخب کرتا ہے [تجرباتی]۔</string>
+    <string name="settings_protocol_wireguard_udp_description">سیکیورٹی اور کارکردگی کے لیے جدید ترین پروٹوکول ہے۔</string>
+    <string name="settings_protocol_wireguard_tcp_description">سیکیورٹی اور کارکردگی کے لیے جدید ترین پروٹوکول ہے۔</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">سنسرز سے آپ کا VPN کنکشن چھپا کر VPN بلاکس سے نجات حاصل کرتا ہے۔ یہ پروٹوکول DPI (ڈیپ پیکٹ انسپکشن) کے خلاف مزاحم ہے، لیکن اتنا تیز نہیں ہو سکتا جتنا دیگر پروٹوکول۔ Stealth صرف Proton VPN کے لیے دستیاب ہے۔</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">تجویز کردہ</string>
+    <string name="settings_protocol_badge_experimental">تجرباتی</string>
+    <string name="settings_split_tunneling_mode_title">موڈ</string>
+    <string name="settings_split_tunneling_mode_standard">خارج کریں</string>
+    <string name="settings_split_tunneling_mode_inverse">شامل کریں</string>
+    <string name="settings_split_tunneling_mode_description_standard">منتخب کردہ ایپس اور IP پتے VPN کنکشن سے مستثنیٰ ہوتے ہیں۔</string>
+    <string name="settings_split_tunneling_mode_description_inverse">صرف منتخب کردہ ایپس اور IP پتے VPN کے ذریعے کنیکٹ ہوتے ہیں، باقی تمام ٹریفک غیر محفوظ ہوتی ہے۔</string>
+    <string name="settings_split_tunneling_excluded_apps">مستثنیٰ ایپس</string>
+    <string name="settings_split_tunneling_excluded_ips">مستثنیٰ IP پتے</string>
+    <string name="settings_split_tunneling_included_apps">شامل کردہ ایپس</string>
+    <string name="settings_split_tunneling_included_ips">شامل کردہ IP پتے</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">کوئی نہیں</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s، %2$s اور %3$d مزید</string>
+    <string name="settings_split_tunneling_already_excluded">پہلے سے مستثنیٰ</string>
+    <string name="settings_split_tunneling_already_included">پہلے سے شامل</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">کیا آپ IP پتہ کو فہرست سے ہٹانا چاہتے ہیں؟</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP پتہ ہٹا دیا گیا۔</string>
+    <string name="settings_theme_title">تھیم</string>
+    <string name="settings_theme_value_auto">ڈیوائس کی تھیم</string>
+    <string name="settings_theme_value_light">لائٹ</string>
+    <string name="settings_theme_value_dark">ڈارک</string>
+    <string name="settings_dialog_reconnect">نئی سیٹنگز اگلی بار کنیکٹ کرنے پر لاگو ہوں گی۔</string>
+    <string name="settings_needs_reconnect_banner">نئی سیٹنگز اگلی بار کنیکٹ کرنے پر لاگو ہوں گی۔</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">حسب ضرورت DNS دستیاب نہیں ہے</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">آپ کی ڈیوائس فریق ثالث کا DNS استعمال کر رہی ہے جو Proton VPN کے حسب ضرورت DNS کو کام کرنے سے روک رہا ہے۔ مزید جانیں</string>
+    <string name="private_dns_conflict_banner_custom_dns_description_tv">آپ کی ڈیوائس فریق ثالث DNS استعمال کر رہی ہے جس کی وجہ سے Proton VPN کا حسب ضرورت DNS کام نہیں کر رہا۔</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield دستیاب نہیں ہے</string>
+    <string name="private_dns_conflict_banner_netshield_description">آپ کی ڈیوائس فریق ثالث کا DNS استعمال کر رہی ہے جو NetShield کو کام کرنے سے روک رہا ہے۔ مزید جانیں</string>
+    <string name="private_dns_conflict_banner_network_settings_button">نیٹ ورک سیٹنگز</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield دستیاب نہیں ہے</string>
+    <string name="custom_dns_conflict_banner_netshield_description">حسب ضرورت DNS فعال ہے جو NetShield کو کام کرنے سے روک رہا ہے۔ مزید جانیں</string>
+    <string name="custom_dns_conflict_banner_netshield_title_tv">NetShield استعمال کرنے کے لیے حسب ضرورت DNS بند کریں</string>
+    <string name="custom_dns_conflict_banner_netshield_description_tv">حسب ضرورت DNS فعال ہے جس کی وجہ سے NetShield کام نہیں کر رہا۔</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">حسب ضرورت DNS بند کریں</string>
+    <string name="info_secure_core_standard_high_privacy">زیادہ رازداری</string>
+    <string name="info_secure_core_standard_lower_latency">کم لیٹنسی</string>
+    <string name="info_secure_core_advanced_privacy">اعلیٰ درجے کی رازداری</string>
+    <string name="info_secure_core_higher_latency">زیادہ لیٹنسی</string>
+    <string name="info_p2p_what_title">P2P کیا ہے؟</string>
+    <string name="info_p2p_what_description">پیر ٹو پیر (P2P) ٹیکنالوجی آپ کو دیگر ڈیوائسز کے ساتھ براہِ راست کنیکٹ ہونے اور فائلیں شیئر کرنے کی سہولت دیتی ہے۔\n\nہمارے P2P سرورز اس قسم کی فائل شیئرنگ کی سپورٹ کے لیے خاص طور پر ڈیزائن کیے گئے ہیں۔</string>
+    <string name="info_p2p_torrenting_title">ٹورنٹنگ کیا ہے؟</string>
+    <string name="info_p2p_torrenting_description">P2P نیٹ ورک پر بڑی فائلوں کی تیز شیئرنگ اور ڈاؤن لوڈ کا عمل۔</string>
+    <string name="info_p2p_why_title">ٹورنٹنگ کے دوران P2P سرور کیوں استعمال کریں؟</string>
+    <string name="info_p2p_why_description_speed">اپ لوڈ اور ڈاؤن لوڈ کی بڑھی ہوئی اسپیڈ</string>
+    <string name="info_p2p_why_description_logs">کوئی ایکٹیویٹی لاگ نہیں</string>
+    <string name="info_p2p_why_description_hide">اپنا IP پتہ اپنے سروس پرووائیڈر اور پیرز سے چھپائیں</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing ہمیں دور دراز ممالک میں VPN کوریج فراہم کرنے کی سہولت دیتا ہے۔\n\nجب آپ Smart Routing سرور سے کنیکٹ ہوتے ہیں تو آپ اپنے منزل کے ملک میں براؤزنگ کرتے نظر آئیں گے، حالانکہ جسمانی سرور کہیں اور واقع ہے۔  \n\nSmart Routing عام طور پر رازداری مخالف قوانین اور دیگر اقسام کی سنسرشپ سے بچنے کے لیے استعمال کیا جاتا ہے۔</string>
+    <string name="notifications_channel_connection_status_name">کنکشن کی صورتحال</string>
+    <string name="notifications_channel_connection_status_description">دکھاتا ہے کہ آپ کس سرور سے کنیکٹ ہیں اور آپ کی VPN کی رفتار کتنی ہے۔</string>
+    <string name="notifications_channel_connection_errors_name">کنکشن کے نقائص</string>
+    <string name="notifications_channel_connection_errors_description">ان مسائل کی اطلاع دیتا ہے جو آپ کے VPN کنکشن کو عارضی طور پر روکتے ہیں یا بند کر دیتے ہیں۔</string>
+    <string name="notifications_channel_connection_tips_name">کنکشن کی تجاویز</string>
+    <string name="notifications_channel_connection_tips_description">ایسی تجاویز جو آپ کو Proton VPN سے زیادہ سے زیادہ فائدہ اٹھانے میں مدد دیتی ہیں۔</string>
+    <string name="countries_upsell_banner_description">VPN Plus کے ساتھ تمام ممالک تک رسائی حاصل کریں</string>
+    <string name="secure_core_upsell_banner_description">اپنے VPN کنکشن میں انکرپشن کی مزید ایک تہہ شامل کریں</string>
+    <string name="p2p_upsell_banner_description">BitTorrent اور دیگر فائل شیئرنگ پروٹوکولز کے ذریعے فائلیں ڈاؤن لوڈ کریں</string>
+    <string name="tor_upsell_banner_description">اضافی رازداری کے لیے اپنے VPN کنکشن پر Tor نیٹ ورک استعمال کریں۔</string>
+    <string name="vpnplus_upsell_banner_description">VPN Plus پر اپ گریڈ کریں</string>
+    <string name="search_zero_screen_title">تلاش کی کوشش کریں…</string>
+    <string name="search_zero_screen_info_countries_title">ممالک</string>
+    <string name="search_zero_screen_info_cities_title">شہر</string>
+    <string name="search_zero_screen_info_servers_title">سرورز</string>
+    <string name="search_zero_screen_info_countries_examples">سوئٹزر لینڈ، ریاستہائے متحدہ، اٹلی، کینیڈا…</string>
+    <string name="search_zero_screen_info_cities_examples">نیو یارک، لندن، ٹوکیو، سڈنی…</string>
+    <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">قیمتیں حاصل کرتے ہوئے نقص پیش آیا۔</string>
+    <string name="tv_settings_split_tunneling_description">یہ طے کر کے کہ VPN کن ایپس کی حفاظت کرے، اپنے کنکشن کو حسبِ ضرورت بنائیں۔</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">منتخب ایپس VPN کنکشن سے خارج کر دی جاتی ہیں۔</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">صرف منتخب ایپس VPN کے ذریعے کنیکٹ ہوتی ہیں، باقی تمام ٹریفک غیر محفوظ رہتی ہے۔</string>
+    <string name="profile_action_edit">ترمیم کریں</string>
+    <string name="profile_action_duplicate">ڈپلیکیٹ کریں</string>
+    <string name="profile_action_delete">حذف کریں</string>
+    <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="profile_needs_reconnect">اس سے آپ کا کنکشن دوبارہ شروع ہو گا۔</string>
+    <string name="profile_overrides_setting">یہ سیٹنگز <b>%1$s</b> سے منسلک ہیں اور ان کا انتظام صرف پروفائلز میں کیا جا سکتا ہے۔</string>
+    <string name="initial_profile_name_streaming_us">اسٹریمنگ US</string>
+    <string name="initial_profile_name_work_school">دفتر/اسکول</string>
+    <string name="initial_profile_name_anti_censorship">سینسرشپ کے خلاف</string>
+    <string name="initial_profile_name_gaming">گیمنگ</string>
+    <string name="initial_profile_name_max_security">زیادہ سے زیادہ سیکیورٹی</string>
+    <string name="create_profile_pick_country_title">ملک</string>
+    <string name="create_profile_pick_type_title">قسم</string>
+    <string name="create_profile_type_standard">معیاری</string>
+    <string name="create_profile_type_secure_core">Secure Core</string>
+    <string name="create_profile_type_p2p">P2P</string>
+    <string name="create_profile_gateway">گیٹ وے</string>
+    <string name="create_profile_pick_state_title">ریاست</string>
+    <string name="create_profile_pick_city_title">شہر</string>
+    <string name="create_profile_pick_server_title">سرور</string>
+    <string name="create_profile_pick_gateway_title">گیٹ وے</string>
+    <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_netshield_description">ویب سائٹس اور ایپس پر اشتہارات، ٹریکرز اور مالویئر کو روکیں۔</string>
+    <string name="create_profile_pick_protocol_title">پروٹوکول</string>
+    <string name="create_profile_pick_nat_title">NAT کی قسم</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (نقل)</string>
+    <string name="create_profile_fastest_city">سب سے تیز</string>
+    <string name="create_profile_fastest_state">سب سے تیز</string>
+    <string name="create_profile_fastest_server">سب سے تیز</string>
+    <string name="create_profile_pick_middle_country_title">درمیانی ملک</string>
+    <string name="profiles_zero_state_title">اپنی پہلی پروفائل بنائیں</string>
+    <string name="profiles_zero_state_description">پروفائلز ایسے محفوظ شدہ کنکشنز ہوتے ہیں جن میں مقام، سرور اور پروٹوکول آپ کی پسند کے مطابق ہوتے ہیں۔</string>
+    <string name="profiles_button_create_profile">پروفائل بنائیں</string>
+    <string name="profile_deleted_snackbar_message">پروفائل حذف ہو گئی۔</string>
+    <string name="profile_connected_edit_setting">یہ سیٹنگ آپ کی فعال پروفائل سے منسلک ہے۔\n\nتبدیلیاں کرنے کے لیے اپنی پروفائل ترمیم کریں، یا عمومی VPN سیٹنگز میں تبدیلی کے لیے ڈسکنیکٹ کریں۔</string>
+    <string name="profile_connected_dialog_title">%1$s کو پروفائلز میں انتظام کریں</string>
+    <string name="undo">کالعدم کریں</string>
+    <string name="profile_unavailable_dialog_title">پروفائل دستیاب نہیں</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
+    <string name="profile_unavailable_dialog_message">%1$s کے لیے آپ کا منتخب کردہ سرور دستیاب نہیں۔ کوئی اور سرور منتخب کریں یا بعد میں دوبارہ کوشش کریں۔</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[<b>%1$s</b> کے لیے آپ کا منتخب کردہ سرور دستیاب نہیں ہے۔ کوئی دوسرا سرور منتخب کریں، اپنے مستثنیٰ مقامات کا جائزہ لیں یا بعد میں دوبارہ کوشش کریں۔]]></string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">آئیکن %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">رنگ %1$d</string>
+    <string name="generic_info_label">معلومات</string>
+    <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
+         Please don't use & in translation and capitalize key words. -->
+    <string name="create_profile_connect_and_go_label">کنیکٹ اور جائیں</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">نیا</string>
+    <string name="create_profile_auto_open_url_input_label">ویب سائٹ کا URL</string>
+    <string name="create_profile_auto_open_url_private_mode_label">نجی براؤزنگ موڈ استعمال کریں</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">آف</string>
+    <string name="profile_auto_open_app_failed_to_launch">کنیکٹ اور جائیں: ایپلیکیشن نہیں ملی۔</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_website">ویب سائٹ کھولیں</string>
+    <string name="profile_auto_open_app">ایپ کھولیں</string>
+    <string name="create_profile_auto_open_description">جب آپ اس پروفائل سے کنیکٹ ہوں تو آپ کی پسند کی ویب سائٹ خود بخود کھل جائے گی۔</string>
+    <string name="create_profile_auto_open_app_input_hint">ایپ منتخب کریں</string>
+    <string name="create_profile_auto_open_app_input_label">ایپ</string>
+    <string name="create_profile_auto_open_app_no_apps">کوئی ایپ نہیں ملی۔</string>
+    <string name="profile_auto_open_error_invalid_url">درست URL درج کریں</string>
+    <string name="nps_how_likely_question">کسی دوست یا ساتھی کو Proton VPN کی سفارش کرنے کا کیا امکان ہے؟</string>
+    <string name="nps_additional_comment_title">ہمیں بتائیں کہ آپ نے یہ درجہ بندی کیوں دی۔</string>
+    <string name="nps_additional_comment_optional">اختیاری</string>
+    <string name="nps_rating_low_values_explain">0 کا مطلب ہے بالکل ممکن نہیں</string>
+    <string name="nps_rating_high_values_explain">10 کا مطلب ہے بہت ممکن</string>
+    <string name="nps_toast_submit_message">شیئر کرنے کا شکریہ۔ آپ کا فیڈ بیک ہمیں Proton VPN بہتر بنانے میں مدد دیتا ہے۔</string>
+    <string name="nps_submit_error_char_limit">آپ کا جواب 250 حروف سے کم یا اس کے برابر ہونا چاہیے۔</string>
+    <string name="nps_button_submit_title">گمنام طور پر شیئر کریں</string>
+    <string name="widget_preview_switzerland">سوئٹزرلینڈ</string>
+    <string name="widget_preview_spain">اسپین</string>
+    <string name="widget_preview_germany">جرمنی</string>
+    <string name="widget_preview_france">فرانس</string>
+    <string name="widget_status_unprotected">غیر محفوظ</string>
+    <string name="widget_status_error">نقص</string>
+    <string name="widget_status_connecting">کنیکٹ ہو رہا ہے</string>
+    <string name="widget_sign_in">سائن ان کریں</string>
+    <string name="widget_toast_added_message">ویجٹ ہوم اسکرین پر شامل کر دیا گیا ہے۔</string>
+    <string name="settings_advanced_ipv6_title">IPv6 سپورٹ</string>
+    <string name="settings_advanced_ipv6_description">VPN کے ذریعے IPv6 ٹریفک کو ٹنل سے گزارتا ہے۔ اس سے IPv6 نیٹ ورکس کے ساتھ مطابقت بہتر ہو سکتی ہے۔</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">اس پتے کو استعمال کرنے کے لیے آپ کو VPN ٹنل کے ذریعے IPv6 کنکشنز کی اجازت دینی ہوگی۔</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">IPv6 فعال کریں</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 غیر فعال ہے</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 فعال کر دیا گیا ہے۔</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">صرف IPv6 والی ویب سائٹس اور سروسز تک رسائی کو یقینی بناتا ہے</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">IPv6 پر منحصر نیٹ ورکس پر مسائل سے بچاتا ہے۔</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">پرانے نیٹ ورکس یا ایپس کے ساتھ ٹھیک سے کام نہیں کر سکتا۔</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">بعض نیٹ ورکس IPv6 ٹریفک کو غیر متوقع انداز میں ہینڈل کرتے ہیں۔</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">نقصانات</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">فوائد</string>
+    <string name="settings_lan_allow_direct_connection_title">براہِ راست ڈیوائس کنکشنز کی اجازت دیں</string>
+    <string name="settings_lan_allow_direct_connection_description">Smart TVs، Android Auto اور دیگر ڈیوائسز سے کنیکٹ کریں جو اپنا نیٹ ورک خود بناتی ہیں۔ زیادہ سے زیادہ سیکیورٹی کے لیے انہی ڈیوائسز سے کنیکٹ کرتے وقت ہی اسے فعال کریں۔</string>
+    <string name="no_connections_title">کوئی VPN کنکشن دستیاب نہیں</string>
+    <string name="no_connections_description_loading_error">سرورز کی فہرست لوڈ نہیں کی جا سکی۔</string>
+    <string name="no_connections_description_no_servers">اپنے ایڈمنسٹریٹر سے کہیں کہ وہ آپ کے اکاؤنٹ کے لیے VPN رسائی فعال کرے۔</string>
+    <string name="no_connections_action_refresh">ریفریش کریں</string>
+    <string name="no_connections_action_sign_out">سائن آؤٹ کریں</string>
+    <string name="no_connections_help_contact_us"><![CDATA[مدد درکار ہے؟ <a href="">ہم سے رابطہ کریں</a>]]></string>
+    <string name="no_connections_help_follow_instructions"><![CDATA[اگر آپ کے ایڈمنسٹریٹر کو VPN رسائی فعال کرنے میں مدد درکار ہے تو انہیں <a href="">یہ ہدایات</a> بھیجیں۔]]></string>
+    <string name="settings_protocol_proton_protocols">Proton پروٹوکولز</string>
+    <string name="settings_protocol_proton_protocols_description">Proton VPN کا WireGuard کا اپنا نفاذ استعمال کریں۔ یہ ایک تجرباتی خصوصیت ہے، اس لیے آپ کو کچھ عدم استحکام کا سامنا ہو سکتا ہے۔</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">کیا یہ وہ ملک نہیں جس کی آپ کو تلاش ہے؟</string>
+    <string name="connection_preferences_smart_discovery_dialog_message">اگر ایسے مقامات موجود ہیں جن سے آپ خود بخود کنیکٹ نہیں ہونا چاہتے، تو آپ انہیں Fastest ملک سے مستثنیٰ کر سکتے ہیں۔</string>
+    <string name="excluded_locations_adoption_title">غیر مطلوبہ مقامات سے بچیں</string>
+    <string name="excluded_locations_adoption_description"><![CDATA[اب آپ <b>تیز ترین</b> کنکشنز سے ممالک اور شہر کو مستثنیٰ کر سکتے ہیں۔]]></string>
+    <string name="session_fork_no_account_title">Android TV پر سائن ان کریں</string>
+    <string name="session_fork_no_account_message">اپنی TV پر Proton VPN استعمال کرنا شروع کرنے کے لیے اس ڈیوائس پر سائن ان مکمل کریں۔</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[اس ایپ کا استعمال کرتے ہوئے آپ ہماری <a href="">شرائط و ضوابط</a> قبول کرتے ہیں۔]]></string>
+    <string name="session_fork_no_account_signup_button">اکاؤنٹ بنائیں</string>
+    <string name="session_fork_no_account_signin_button">سائن ان کریں</string>
+    <string name="session_fork_confirmation_title">Android TV پر سائن ان کریں؟</string>
+    <string name="session_fork_confirmation_message">اس سے TV کو آپ کے Proton اکاؤنٹ تک رسائی حاصل ہو جائے گی۔</string>
+    <string name="session_fork_confirmation_bottom_note">صرف قابلِ اعتماد ڈیوائسز پر سائن ان کریں</string>
+    <string name="session_fork_confirmation_too_soon_toast">آگے بڑھنے سے پہلے جائزہ لیں۔</string>
+    <string name="session_fork_success_title">سائن ان مکمل</string>
+    <string name="session_fork_success_message">اب آپ کی TV پر سائن ان مکمل ہو گیا ہے۔</string>
+    <string name="session_fork_error_expired_title">کوڈ کی میعاد ختم</string>
+    <string name="session_fork_error_expired_message">اپنی TV پر نیا کوڈ بنائیں اور دوبارہ کوشش کریں۔</string>
+    <string name="session_fork_error_generic_title">سائن ان نہیں ہو سکا</string>
+    <string name="session_fork_error_fatal_message">اپنا نیٹ ورک چیک کریں اور دوبارہ کوشش کریں۔ اگر مسئلہ برقرار رہے تو ہماری کسٹمر سپورٹ ٹیم سے رابطہ کریں۔ </string>
+    <string name="session_fork_error_network_message">اپنا نیٹ ورک چیک کریں اور دوبارہ کوشش کریں۔</string>
+    <string name="session_fork_error_try_fallback_message">متبادل اقدامات پر عمل کرنے کے لیے اپنی TV پر \‘سائن ان میں دشواری؟\’ پر کلک کریں۔</string>
+    <string name="session_fork_error_report_button">مسئلہ رپورٹ کریں</string>
+    <string name="session_fork_qr_code_content_description">QR کوڈ</string>
+    <string name="session_fork_qr_code_message">سائن ان کرنے یا اکاؤنٹ بنانے کے لیے QR کوڈ اسکین کریں۔</string>
+    <string name="session_fork_qr_code_trouble_button">سائن ان میں دشواری؟</string>
+    <string name="session_fork_qr_code_error_expired">سیکیورٹی کے تحفظات کی بنا پر توثیق کوڈ کی میعاد ختم ہو گئی ہے۔</string>
+    <string name="session_fork_qr_code_error_network">اپنا نیٹ ورک چیک کریں اور دوبارہ کوشش کریں۔</string>
+    <string name="session_fork_qr_code_error_create_new_button">نیا کوڈ بنائیں</string>
+    <string name="session_fork_user_code_title">کوڈ اسکین نہیں ہو سکتا؟ دستی طور پر سائن ان کریں</string>
+    <string name="session_fork_user_code_step1"><![CDATA[یہاں جائیں: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">سائن ان کریں یا اکاؤنٹ بنائیں</string>
+    <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
+    <string name="session_fork_user_code_step3"><![CDATA[کوڈ درج کریں: <b>%1$s</b>]]></string>
+    <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
+    <string name="session_fork_user_code_support"><![CDATA[ابھی بھی مدد درکار ہے؟ <b>%1$s</b> ملاحظہ کریں]]></string>
+</resources>

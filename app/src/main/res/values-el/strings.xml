@@ -324,11 +324,11 @@
     <string name="tv_server_list">Λίστα διακομιστών</string>
     <string name="tv_server_list_action_unavailable">Μη διαθέσιμο</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Συνδεδεμένο</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">Γίνεται σύνδεση</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">Συντήρηση</string>
     <string name="notification_subscription_expired_title">Η συνδρομή σας στο πλάνο του Proton VPN έχει λήξει</string>
     <string name="notification_subscription_expired_content">Πρέπει να υποβιβάσουμε το πλάνο σας αλλά σας επανασυνδέουμε στον γρηγορότερο, διαθέσιμο, διακομιστή του τωρινού προγράμματος.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Η συνδρομή σας έχει υποβαθμιστεί.</string>

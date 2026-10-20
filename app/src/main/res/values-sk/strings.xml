@@ -328,11 +328,11 @@
     <string name="tv_server_list">Zoznam serverov</string>
     <string name="tv_server_list_action_unavailable">Nedostupné</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Pripojené</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">Pripájanie</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">Údržba</string>
     <string name="notification_subscription_expired_title">Vaše predplatné Proton VPN vypršalo</string>
     <string name="notification_subscription_expired_content">Váš plán sme museli znížiť, ale znovu vás pripájame k najrýchlejšiemu dostupnému serveru v rámci tohto plánu.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Vaše predplatné bolo znížené.</string>

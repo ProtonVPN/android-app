@@ -1194,7 +1194,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Alle servere i denne byen er under vedlikehold</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">All servere i denne staten er under vedlikehold</string>
+    <string name="message_state_servers_in_maintenance">Alle servere i denne staten er under vedlikehold</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Serveren blir vedlikeholdt</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
