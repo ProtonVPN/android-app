@@ -28,6 +28,7 @@ import com.protonvpn.android.base.ui.ProtonVpnTvPreview
 import com.protonvpn.android.base.ui.nav.rememberVpnNavHostController
 import com.protonvpn.android.tv.main_screen.ui.TvMainScreen
 import com.protonvpn.android.tv.main_screen.ui.nav.TvMainTarget
+import com.protonvpn.android.tv.vpn.ui.VpnStatusTvViewState
 
 @PreviewTest
 @ProtonVpnTvTestPreview
@@ -62,6 +63,7 @@ private fun TvMainScreenTest(
         TvMainScreen(
             navController = rememberVpnNavHostController(),
             drawerState = drawerState,
+            vpnStatus = VpnStatusTvViewState.Unprotected,
             startScreen = target,
         )
     }

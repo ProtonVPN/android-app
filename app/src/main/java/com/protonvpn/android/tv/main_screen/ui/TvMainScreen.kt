@@ -45,6 +45,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Button
 import androidx.tv.material3.DrawerState
 import androidx.tv.material3.DrawerValue
@@ -62,16 +64,22 @@ import com.protonvpn.android.base.ui.theme.backgroundSelected
 import com.protonvpn.android.tv.main_screen.ui.nav.TvMainScreenNav
 import com.protonvpn.android.tv.main_screen.ui.nav.TvMainTarget
 import com.protonvpn.android.tv.vpn.ui.VpnStatusBackgroundTv
+import com.protonvpn.android.tv.vpn.ui.VpnStatusTvViewState
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
 
 @Composable
-fun TvMainScreenRoute(modifier: Modifier = Modifier) {
+fun TvMainScreenRoute(
+    modifier: Modifier = Modifier,
+    viewModel: TvMainScreenViewModel = hiltViewModel(),
+) {
     val navController = rememberVpnNavHostController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val vpnStatus = viewModel.vpnStatus.collectAsStateWithLifecycle().value
     TvMainScreen(
         navController = navController,
         drawerState = drawerState,
+        vpnStatus = vpnStatus,
         modifier = modifier
     )
 }
@@ -82,6 +90,7 @@ private val DrawerHorizontalPadding = 12.dp
 internal fun TvMainScreen(
     navController: VpnNavHostController,
     drawerState: DrawerState,
+    vpnStatus: VpnStatusTvViewState?,
     modifier: Modifier = Modifier,
     startScreen: TvMainTarget = TvMainTarget.Home,
 ) {
@@ -93,7 +102,9 @@ internal fun TvMainScreen(
             NavigationDrawerItemDefaults.CollapsedDrawerItemWidth + DrawerHorizontalPadding * 2
         val contentWidth = maxWidth - collapsedDrawerWidth
 
+        // TODO: display regular background when in settings.
         VpnStatusBackgroundTv(
+            state = vpnStatus,
             modifier = Modifier
                 .fillMaxWidth()
         )
@@ -207,6 +218,7 @@ private fun TvMainScreenPreview() {
         TvMainScreen(
             navController = rememberVpnNavHostController(),
             drawerState = rememberDrawerState(DrawerValue.Closed),
+            vpnStatus = VpnStatusTvViewState.Unprotected,
         )
     }
 }

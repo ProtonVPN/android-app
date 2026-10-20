@@ -20,6 +20,7 @@
 package com.protonvpn.android.tv.home
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.redesign.CountryId
@@ -39,6 +41,8 @@ import com.protonvpn.android.tv.countries.ui.CountryConnectMenuDialog
 import com.protonvpn.android.tv.countries.ui.CountryGridUiItem
 import com.protonvpn.android.tv.upsell.TvUpsellActivity
 import com.protonvpn.android.tv.upsell.TvUpsellContent
+import com.protonvpn.android.tv.vpn.ui.VpnStatusTv
+import com.protonvpn.android.tv.vpn.ui.VpnStatusTvViewState
 import com.protonvpn.android.vpn.ui.LocalVpnUiDelegate
 import kotlinx.coroutines.flow.flowOf
 
@@ -59,6 +63,8 @@ fun TvHomeRoute(
     val menuStateFlow = remember(menuCountryCode, currentLocale) {
         menuCountryCode?.let { viewModel.observeConnectMenu(CountryId(it), currentLocale) } ?: flowOf(null)
     }
+    val vpnStatus = viewModel.vpnStatus.collectAsStateWithLifecycle().value
+
     val menuState = menuStateFlow.collectAsStateWithLifecycle(initialValue = null).value
 
     val launchUpsell = { countryId: CountryId ->
@@ -71,12 +77,15 @@ fun TvHomeRoute(
         )
     }
 
-    TvHome(
-        countries = countries,
-        onCountryClick = { country -> viewModel.onCountryClick(vpnUiDelegate, country, launchUpsell) },
-        onCountryLongClick = { menuCountryCode = it.countryId.countryCode },
-        modifier = modifier
-    )
+    if (vpnStatus != null) {
+        TvHome(
+            vpnStatus = vpnStatus,
+            countries = countries,
+            onCountryClick = { country -> viewModel.onCountryClick(vpnUiDelegate, country, launchUpsell) },
+            onCountryLongClick = { menuCountryCode = it.countryId.countryCode },
+            modifier = modifier
+        )
+    }
 
     if (menuState != null) {
         val closeMenu = { menuCountryCode = null }
@@ -98,6 +107,7 @@ fun TvHomeRoute(
 
 @Composable
 internal fun TvHome(
+    vpnStatus: VpnStatusTvViewState,
     countries: List<CountryGridUiItem>,
     onCountryClick: (CountryGridUiItem) -> Unit,
     onCountryLongClick: (CountryGridUiItem) -> Unit,
@@ -109,5 +119,11 @@ internal fun TvHome(
         onCountryLongClick = onCountryLongClick,
         modifier = modifier
             .fillMaxSize(),
+        header = {
+            VpnStatusTv(
+                vpnStatus,
+                Modifier.padding(vertical = 60.dp),
+            )
+        },
     )
 }

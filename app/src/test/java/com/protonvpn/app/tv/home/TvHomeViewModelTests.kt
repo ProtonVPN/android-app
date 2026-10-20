@@ -37,6 +37,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -73,6 +74,7 @@ class TvHomeViewModelTests {
             countryConnectMenuFlow = mockk(),
             connect = VpnConnect { _, intent, _ -> connectedIntents += intent },
             connectDisconnectHelper = connectDisconnectHelper,
+            vpnStatusTvFlow = mockk { every { observe() } returns flowOf(null) },
         )
     }
 

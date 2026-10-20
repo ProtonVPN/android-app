@@ -39,12 +39,14 @@ import com.protonvpn.android.tv.countries.ui.CountryGridUiItem
 import com.protonvpn.android.tv.countries.ui.CountryGridUiItem.Status
 import com.protonvpn.android.tv.home.TvHome
 import com.protonvpn.android.tv.vpn.ui.VpnStatusBackgroundTv
+import com.protonvpn.android.tv.vpn.ui.VpnStatusTvViewState
 
 @PreviewTest
 @ProtonVpnTvTestPreview
 @Composable
 fun TvHome_PlusUser_Screenshot() {
     TvHomeTest(
+        vpnStatus = VpnStatusTvViewState.Protected,
         countries = createCountries(available = true).mapIndexed { index, country ->
             when (index) {
                 1 -> country.copy(status = Status.Connected)
@@ -59,22 +61,27 @@ fun TvHome_PlusUser_Screenshot() {
 @ProtonVpnTvTestPreview
 @Composable
 fun TvHome_FreeUser_Screenshot() {
-    TvHomeTest(countries = createCountries(available = false))
+    TvHomeTest(vpnStatus = VpnStatusTvViewState.Unprotected, countries = createCountries(available = false))
 }
 
 @PreviewTest
 @ProtonVpnTvTestPreview
 @Composable
 fun TvHome_PartialRow_Screenshot() {
-    TvHomeTest(countries = createCountries(available = true).take(3))
+    TvHomeTest(
+        vpnStatus = VpnStatusTvViewState.Connecting,
+        countries = createCountries(available = true).take(3).mapIndexed { index, country ->
+            if (index == 2) country.copy(status = Status.Connecting) else country
+        }
+    )
 }
 
 @Composable
-private fun TvHomeTest(countries: List<CountryGridUiItem>) {
+private fun TvHomeTest(vpnStatus: VpnStatusTvViewState, countries: List<CountryGridUiItem>) {
     ProtonVpnTvPreview {
         // Same layering as in TvMainScreen: the status background is drawn behind the drawer and the content.
         Box(Modifier.fillMaxSize()) {
-            VpnStatusBackgroundTv(Modifier.fillMaxWidth())
+            VpnStatusBackgroundTv(vpnStatus, Modifier.fillMaxWidth())
             Row(Modifier.fillMaxSize()) {
                 // Placeholder for the collapsed navigation drawer.
                 Box(
@@ -82,7 +89,13 @@ private fun TvHomeTest(countries: List<CountryGridUiItem>) {
                         .width(80.dp)
                         .fillMaxHeight()
                 )
-                TvHome(countries = countries, onCountryClick = {}, onCountryLongClick = {}, modifier = Modifier.weight(1f))
+                TvHome(
+                    vpnStatus = vpnStatus,
+                    countries = countries,
+                    onCountryClick = {},
+                    onCountryLongClick = {},
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }

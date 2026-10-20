@@ -20,6 +20,7 @@
 package com.protonvpn.android.tv.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.redesign.CountryId
@@ -30,12 +31,17 @@ import com.protonvpn.android.tv.countries.ui.CountryConnectMenuOption
 import com.protonvpn.android.tv.countries.ui.CountryConnectMenuUiState
 import com.protonvpn.android.tv.countries.ui.CountryGridUiItem
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
+import com.protonvpn.android.tv.vpn.ui.VpnStatusTvFlow
+import com.protonvpn.android.tv.vpn.ui.VpnStatusTvViewState
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import java.util.Locale
 import javax.inject.Inject
 
@@ -45,7 +51,11 @@ class TvHomeViewModel @Inject constructor(
     private val countryConnectMenuFlow: CountryConnectMenuFlow,
     private val connect: VpnConnect,
     private val connectDisconnectHelper: TvUiConnectDisconnectHelper,
+    vpnStatusTvFlow: VpnStatusTvFlow,
 ) : ViewModel() {
+
+    val vpnStatus: StateFlow<VpnStatusTvViewState?> = vpnStatusTvFlow.observe()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     fun observeCountries(locale: Locale): Flow<List<CountryGridUiItem>> =
         countriesGridFlow.observeCountries(locale)

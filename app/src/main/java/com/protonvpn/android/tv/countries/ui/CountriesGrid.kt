@@ -54,6 +54,7 @@ internal fun CountriesGrid(
     onCountryClick: (CountryGridUiItem) -> Unit,
     onCountryLongClick: (CountryGridUiItem) -> Unit,
     modifier: Modifier = Modifier,
+    header: (@Composable () -> Unit)? = null,
 ) {
     val gridState = rememberLazyGridState()
     var focusedKey by remember { mutableStateOf<Any?>(null) }
@@ -76,6 +77,11 @@ internal fun CountriesGrid(
         contentPadding = PaddingValues(horizontal = 24.dp),
         modifier = modifier,
     ) {
+        if (header != null) {
+            item(key = "header", span = { GridItemSpan(maxLineSpan) }) {
+                header()
+            }
+        }
         val firstCountryKey = countries.firstOrNull()?.countryId?.countryCode
         if (firstCountryKey != null) {
             item(key = "all_countries_title", span = { GridItemSpan(maxLineSpan) }) {

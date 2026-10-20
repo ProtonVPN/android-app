@@ -337,6 +337,12 @@
     <string name="tv_other_servers">Other servers</string>
     <string name="tv_server_list">Server list</string>
     <string name="tv_server_list_action_unavailable">Unavailable</string>
+    <!-- VPN status shown at the top of the TV home screen when the VPN is not connected. -->
+    <string name="tv_vpn_status_unprotected">Unprotected</string>
+    <!-- VPN status shown at the top of the TV home screen while the VPN is connecting. -->
+    <string name="tv_vpn_status_connecting">Connecting</string>
+    <!-- VPN status shown at the top of the TV home screen when the VPN is connected. -->
+    <string name="tv_vpn_status_protected">Protected</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
     <string name="tv_country_tile_connected">Connected</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
