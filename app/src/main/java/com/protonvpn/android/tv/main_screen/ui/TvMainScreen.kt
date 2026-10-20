@@ -114,7 +114,7 @@ internal fun TvMainScreen(
                             selected = isSelected,
                             onClick = { nav.navigate(target) },
                             leadingContent = {
-                                NavDrawerIcon(target, isSelected)
+                                NavDrawerIcon(target)
                             },
                             interactionSource = interactionSource,
                             colors = NavigationDrawerItemDefaults.colors(
@@ -179,11 +179,10 @@ private fun PagePlaceholder(title: String, color: Color, modifier: Modifier = Mo
 @Composable
 private fun NavDrawerIcon(
     target: TvMainTarget,
-    selected: Boolean,
     modifier: Modifier = Modifier
 ) {
     Icon(
-        painter = painterResource(target.drawerIconRes(selected)),
+        painter = painterResource(target.drawerIconRes()),
         contentDescription = null,
         modifier = modifier,
     )
@@ -196,11 +195,9 @@ private fun TvMainTarget.labelRes(): Int = when (this) {
 }
 
 @DrawableRes
-private fun TvMainTarget.drawerIconRes(isSelected: Boolean): Int = when (this) {
-    TvMainTarget.Home if isSelected -> CoreR.drawable.ic_proton_house_filled
-    TvMainTarget.Home -> CoreR.drawable.ic_proton_house
-    TvMainTarget.Settings if isSelected -> CoreR.drawable.ic_proton_cog_wheel_filled
-    TvMainTarget.Settings -> CoreR.drawable.ic_proton_cog_wheel
+private fun TvMainTarget.drawerIconRes(): Int = when (this) {
+    TvMainTarget.Home -> CoreR.drawable.ic_proton_house_filled
+    TvMainTarget.Settings -> CoreR.drawable.ic_proton_cog_wheel_filled
 }
 
 @ProtonVpnTvPreview
