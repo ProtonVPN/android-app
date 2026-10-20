@@ -63,7 +63,10 @@ fun TvHomeRoute(
     val menuStateFlow = remember(menuCountryCode, currentLocale) {
         menuCountryCode?.let { viewModel.observeConnectMenu(CountryId(it), currentLocale) } ?: flowOf(null)
     }
-    val vpnStatus = viewModel.vpnStatus.collectAsStateWithLifecycle().value
+    val vpnStatusFlow = remember(currentLocale) {
+        viewModel.observeVpnStatus(currentLocale)
+    }
+    val vpnStatus = vpnStatusFlow.collectAsStateWithLifecycle(initialValue = null).value
 
     val menuState = menuStateFlow.collectAsStateWithLifecycle(initialValue = null).value
 

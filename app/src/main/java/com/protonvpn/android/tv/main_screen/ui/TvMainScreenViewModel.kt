@@ -34,6 +34,6 @@ class TvMainScreenViewModel @Inject constructor(
     vpnStatusTvFlow: VpnStatusTvFlow,
 ) : ViewModel() {
 
-    val vpnStatus: StateFlow<VpnStatusTvViewState?> = vpnStatusTvFlow.observe()
+    val vpnStatus: StateFlow<VpnStatusTvViewState.Status?> = vpnStatusTvFlow.observeStatus()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 }

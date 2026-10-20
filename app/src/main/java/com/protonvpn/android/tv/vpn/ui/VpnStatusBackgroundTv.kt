@@ -35,13 +35,13 @@ import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun VpnStatusBackgroundTv(
-    state: VpnStatusTvViewState?,
+    state: VpnStatusTvViewState.Status?,
     modifier: Modifier = Modifier,
 ) {
     val targetColor = when (state) {
-        VpnStatusTvViewState.Unprotected -> ProtonTheme.colors.notificationError
-        VpnStatusTvViewState.Connecting -> ProtonTheme.colors.notificationNorm
-        VpnStatusTvViewState.Protected -> ProtonTheme.colors.vpnGreen.copy(alpha = 0.5f) // TODO: add theming, use the new color.
+        VpnStatusTvViewState.Status.Unprotected -> ProtonTheme.colors.notificationError
+        VpnStatusTvViewState.Status.Connecting -> ProtonTheme.colors.notificationNorm
+        VpnStatusTvViewState.Status.Protected -> ProtonTheme.colors.vpnGreen.copy(alpha = 0.5f) // TODO: add theming, use the new color.
         null -> Color.Transparent
     }
     val color by animateColorAsState(targetColor, animationSpec = tween(500), label = "status background color")

@@ -90,7 +90,7 @@ private val DrawerHorizontalPadding = 12.dp
 internal fun TvMainScreen(
     navController: VpnNavHostController,
     drawerState: DrawerState,
-    vpnStatus: VpnStatusTvViewState?,
+    vpnStatus: VpnStatusTvViewState.Status?,
     modifier: Modifier = Modifier,
     startScreen: TvMainTarget = TvMainTarget.Home,
 ) {
@@ -218,7 +218,7 @@ private fun TvMainScreenPreview() {
         TvMainScreen(
             navController = rememberVpnNavHostController(),
             drawerState = rememberDrawerState(DrawerValue.Closed),
-            vpnStatus = VpnStatusTvViewState.Unprotected,
+            vpnStatus = VpnStatusTvViewState.Status.Unprotected,
         )
     }
 }

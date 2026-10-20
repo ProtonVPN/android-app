@@ -63,7 +63,7 @@ private fun TvMainScreenTest(
         TvMainScreen(
             navController = rememberVpnNavHostController(),
             drawerState = drawerState,
-            vpnStatus = VpnStatusTvViewState.Unprotected,
+            vpnStatus = VpnStatusTvViewState.Status.Unprotected,
             startScreen = target,
         )
     }

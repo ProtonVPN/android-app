@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.tests.tv.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -28,7 +27,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.android.tools.screenshot.PreviewTest
 import com.protonvpn.android.R
@@ -46,7 +44,10 @@ import com.protonvpn.android.tv.vpn.ui.VpnStatusTvViewState
 @Composable
 fun TvHome_PlusUser_Screenshot() {
     TvHomeTest(
-        vpnStatus = VpnStatusTvViewState.Protected,
+        vpnStatus = VpnStatusTvViewState(
+            VpnStatusTvViewState.Status.Protected,
+            VpnStatusTvViewState.Location("Australia - Sydney", "154.47.24.201")
+        ),
         countries = createCountries(available = true).mapIndexed { index, country ->
             when (index) {
                 1 -> country.copy(status = Status.Connected)
@@ -61,7 +62,29 @@ fun TvHome_PlusUser_Screenshot() {
 @ProtonVpnTvTestPreview
 @Composable
 fun TvHome_FreeUser_Screenshot() {
-    TvHomeTest(vpnStatus = VpnStatusTvViewState.Unprotected, countries = createCountries(available = false))
+    TvHomeTest(
+        vpnStatus = physicalLocationStatus(VpnStatusTvViewState.Status.Unprotected),
+        countries = createCountries(available = false)
+    )
+}
+
+@PreviewTest
+@ProtonVpnTvTestPreview
+@Composable
+fun TvHome_PlusUserNoLocation_Screenshot() {
+    TvHomeTest(
+        vpnStatus = VpnStatusTvViewState(
+            VpnStatusTvViewState.Status.Protected,
+            VpnStatusTvViewState.Location(null, null)
+        ),
+        countries = createCountries(available = true).mapIndexed { index, country ->
+            when (index) {
+                1 -> country.copy(status = Status.Connected)
+                4 -> country.copy(status = Status.InMaintenance)
+                else -> country
+            }
+        }
+    )
 }
 
 @PreviewTest
@@ -69,19 +92,22 @@ fun TvHome_FreeUser_Screenshot() {
 @Composable
 fun TvHome_PartialRow_Screenshot() {
     TvHomeTest(
-        vpnStatus = VpnStatusTvViewState.Connecting,
+        vpnStatus = physicalLocationStatus(VpnStatusTvViewState.Status.Connecting),
         countries = createCountries(available = true).take(3).mapIndexed { index, country ->
             if (index == 2) country.copy(status = Status.Connecting) else country
         }
     )
 }
 
+private fun physicalLocationStatus(status: VpnStatusTvViewState.Status) =
+    VpnStatusTvViewState(status, VpnStatusTvViewState.Location("Norway", "123.127.237.252"))
+
 @Composable
 private fun TvHomeTest(vpnStatus: VpnStatusTvViewState, countries: List<CountryGridUiItem>) {
     ProtonVpnTvPreview {
         // Same layering as in TvMainScreen: the status background is drawn behind the drawer and the content.
         Box(Modifier.fillMaxSize()) {
-            VpnStatusBackgroundTv(vpnStatus, Modifier.fillMaxWidth())
+            VpnStatusBackgroundTv(vpnStatus.status, Modifier.fillMaxWidth())
             Row(Modifier.fillMaxSize()) {
                 // Placeholder for the collapsed navigation drawer.
                 Box(
