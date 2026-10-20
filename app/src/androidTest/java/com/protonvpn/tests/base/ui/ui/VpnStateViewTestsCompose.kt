@@ -54,6 +54,8 @@ class VpnStatusViewTests : FusionComposeTest() {
         val state = VpnStatusViewState.Connecting(
             LocationText("Country", "192.168.0.1")
         )
+        // Stop the clock, otherwise the location text gets masked before the assertions.
+        composeRule.mainClock.autoAdvance = false
         setContentForState(state)
 
         node.withText("Protecting your digital identity")

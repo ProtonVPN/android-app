@@ -52,6 +52,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -90,6 +91,8 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.DnsOverride
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import me.proton.core.compose.theme.ProtonColors
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
@@ -463,19 +466,19 @@ private fun AnimateText(
     val fixedWidth = remember(targetText) { mutableStateOf<Int?>(null) }
 
     LaunchedEffect(targetText) {
-        fixedWidth.value?.let {
-            val indicesToReplace = targetText.indices
-                .filter { !preserveCharacters.contains(targetText[it]) }
-                .shuffled()
+        // The width needs to be fixed before replacing characters changes it.
+        snapshotFlow { fixedWidth.value }.filterNotNull().first()
+        val indicesToReplace = targetText.indices
+            .filter { !preserveCharacters.contains(targetText[it]) }
+            .shuffled()
 
-            indicesToReplace.forEachIndexed { _, replacementIndex ->
-                delay(duration.toLong())
-                displayText.value = displayText.value.replaceRange(
-                    replacementIndex,
-                    replacementIndex + 1,
-                    targetCharacter.toString()
-                )
-            }
+        indicesToReplace.forEachIndexed { _, replacementIndex ->
+            delay(duration.toLong())
+            displayText.value = displayText.value.replaceRange(
+                replacementIndex,
+                replacementIndex + 1,
+                targetCharacter.toString()
+            )
         }
     }
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
