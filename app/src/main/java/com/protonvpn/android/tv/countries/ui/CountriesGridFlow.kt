@@ -21,6 +21,7 @@ package com.protonvpn.android.tv.countries.ui
 
 import android.content.Context
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.ui.ServerFilterType
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.utils.CountryTools
@@ -55,8 +56,12 @@ class CountriesGridFlow @Inject constructor(
                 adapter.countries(ServerFilterType.All, includeFreeServers = true),
                 vpnStatusProviderUI.uiStatus
             ) { countries, vpnStatus ->
-                val isConnecting = vpnStatus.state == VpnState.Connecting
-                val isConnected = vpnStatus.state == VpnState.Connected
+                val vpnCountry = vpnStatus.server?.exitCountry?.let { CountryId(it) }
+                val vpnCountryStatus = when {
+                    vpnStatus.state == VpnState.Connected -> CountryGridUiItem.Status.Connected
+                    vpnStatus.state.isEstablishingConnection -> CountryGridUiItem.Status.Connecting
+                    else -> null
+                }
 
                 countries.map { country ->
                     val flagResource = CountryTools.getLargeFlagResource(context, country.countryId.countryCode)
@@ -67,10 +72,10 @@ class CountriesGridFlow @Inject constructor(
                         countryId = country.countryId,
                         countryName = countryName,
                         flagResource = flagResource,
-                        status = if (country.inMaintenance) {
-                            CountryGridUiItem.Status.InMaintenance
-                        } else {
-                            CountryGridUiItem.Status.Regular
+                        status = when {
+                            vpnCountryStatus != null && country.countryId == vpnCountry -> vpnCountryStatus
+                            country.inMaintenance -> CountryGridUiItem.Status.InMaintenance
+                            else -> CountryGridUiItem.Status.Regular
                         },
                         available = isAvailable,
                         tier = country.tier,
