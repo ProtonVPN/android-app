@@ -58,6 +58,18 @@ class TvHomeViewModel @Inject constructor(
     fun observeConnectMenu(countryId: CountryId, locale: Locale): Flow<CountryConnectMenuUiState?> =
         countryConnectMenuFlow.observe(countryId, locale)
 
+    fun onVpnStatusActionClick(vpnUiDelegate: VpnUiDelegate, status: VpnStatusTvViewState.Status) {
+        when (status) {
+            VpnStatusTvViewState.Status.Unprotected -> {
+                val trigger = ConnectTrigger.QuickConnect("status (TV)")
+                ProtonLogger.log(UiConnect, trigger.description)
+                connect(vpnUiDelegate, ConnectIntent.Fastest, trigger)
+            }
+            VpnStatusTvViewState.Status.Connecting, VpnStatusTvViewState.Status.Protected ->
+                connectDisconnectHelper.disconnect(DisconnectTrigger.QuickConnect("status (TV)"))
+        }
+    }
+
     fun onCountryClick(
         vpnUiDelegate: VpnUiDelegate,
         country: CountryGridUiItem,

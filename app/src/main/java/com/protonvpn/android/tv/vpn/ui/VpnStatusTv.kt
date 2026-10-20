@@ -19,13 +19,16 @@
 
 package com.protonvpn.android.tv.vpn.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -45,6 +48,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnimateTextMasking
 import com.protonvpn.android.base.ui.ProtonVpnTvPreview
 import com.protonvpn.android.base.ui.vpnGreen
+import com.protonvpn.android.tv.buttons.TvSolidButton
 import com.protonvpn.android.vpn.ui.vpnLocationText
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
@@ -54,20 +58,38 @@ private val StatusIconSize = 28.dp
 @Composable
 fun VpnStatusTv(
     state: VpnStatusTvViewState,
+    onActionClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(18.dp),
-        modifier = modifier
-            .padding(horizontal = 10.dp)
-            .semantics(mergeDescendants = true) { liveRegion = LiveRegionMode.Polite },
+        modifier = modifier.padding(horizontal = 10.dp),
     ) {
-        VpnStatusTitleTv(state.status)
-        LocationChipTv(
-            state.location,
-            isMasking = state.status == VpnStatusTvViewState.Status.Connecting,
+        Column(
+            verticalArrangement = Arrangement.spacedBy(18.dp),
+            modifier = Modifier.semantics(mergeDescendants = true) { liveRegion = LiveRegionMode.Polite },
+        ) {
+            VpnStatusTitleTv(state.status)
+            LocationChipTv(
+                state.location,
+                isMasking = state.status == VpnStatusTvViewState.Status.Connecting,
+            )
+        }
+        // TODO: use the V6 button style once TV theming is done.
+        TvSolidButton(
+            text = stringResource(state.status.actionLabel()),
+            onClick = onActionClick,
+            // TvSolidButton fills the available width, the status button should wrap its text.
+            modifier = Modifier.width(IntrinsicSize.Max),
         )
     }
+}
+
+@StringRes
+private fun VpnStatusTvViewState.Status.actionLabel(): Int = when (this) {
+    VpnStatusTvViewState.Status.Unprotected -> R.string.tv_vpn_status_action_connect_fastest
+    VpnStatusTvViewState.Status.Connecting -> R.string.cancel
+    VpnStatusTvViewState.Status.Protected -> R.string.disconnect
 }
 
 @Composable
@@ -164,19 +186,22 @@ private fun VpnStatusTvPreview() {
                 VpnStatusTvViewState(
                     VpnStatusTvViewState.Status.Unprotected,
                     VpnStatusTvViewState.Location("Norway", "123.127.237.252"),
-                )
+                ),
+                onActionClick = {},
             )
             VpnStatusTv(
                 VpnStatusTvViewState(
                     VpnStatusTvViewState.Status.Unprotected,
                     VpnStatusTvViewState.Location(null, null),
-                )
+                ),
+                onActionClick = {},
             )
             VpnStatusTv(
                 VpnStatusTvViewState(
                     VpnStatusTvViewState.Status.Protected,
                     VpnStatusTvViewState.Location("United States - Dallas", "154.47.24.201"),
-                )
+                ),
+                onActionClick = {},
             )
         }
     }

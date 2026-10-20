@@ -83,6 +83,7 @@ fun TvHomeRoute(
     if (vpnStatus != null) {
         TvHome(
             vpnStatus = vpnStatus,
+            onVpnStatusActionClick = { status -> viewModel.onVpnStatusActionClick(vpnUiDelegate, status) },
             countries = countries,
             onCountryClick = { country -> viewModel.onCountryClick(vpnUiDelegate, country, launchUpsell) },
             onCountryLongClick = { menuCountryCode = it.countryId.countryCode },
@@ -111,6 +112,7 @@ fun TvHomeRoute(
 @Composable
 internal fun TvHome(
     vpnStatus: VpnStatusTvViewState,
+    onVpnStatusActionClick: (VpnStatusTvViewState.Status) -> Unit,
     countries: List<CountryGridUiItem>,
     onCountryClick: (CountryGridUiItem) -> Unit,
     onCountryLongClick: (CountryGridUiItem) -> Unit,
@@ -125,7 +127,8 @@ internal fun TvHome(
         header = {
             VpnStatusTv(
                 vpnStatus,
-                Modifier.padding(vertical = 60.dp),
+                onActionClick = { onVpnStatusActionClick(vpnStatus.status) },
+                modifier = Modifier.padding(vertical = 60.dp),
             )
         },
     )

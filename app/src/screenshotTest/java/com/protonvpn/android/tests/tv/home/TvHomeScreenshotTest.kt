@@ -117,6 +117,7 @@ private fun TvHomeTest(vpnStatus: VpnStatusTvViewState, countries: List<CountryG
                 )
                 TvHome(
                     vpnStatus = vpnStatus,
+                    onVpnStatusActionClick = {},
                     countries = countries,
                     onCountryClick = {},
                     onCountryLongClick = {},

@@ -28,6 +28,7 @@ import com.protonvpn.android.tv.countries.ui.CountryConnectMenuOption.Type
 import com.protonvpn.android.tv.countries.ui.CountryGridUiItem
 import com.protonvpn.android.tv.home.TvHomeViewModel
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
+import com.protonvpn.android.tv.vpn.ui.VpnStatusTvViewState
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.mocks.FakeVpnUiDelegate
 import io.mockk.Runs
@@ -80,6 +81,26 @@ class TvHomeViewModelTests {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+    }
+
+    @Test
+    fun `status action when unprotected connects to the fastest server`() = testScope.runTest {
+        viewModel.onVpnStatusActionClick(FakeVpnUiDelegate(), VpnStatusTvViewState.Status.Unprotected)
+        assertEquals(listOf(ConnectIntent.Fastest), connectedIntents)
+    }
+
+    @Test
+    fun `status action while connecting disconnects`() = testScope.runTest {
+        viewModel.onVpnStatusActionClick(FakeVpnUiDelegate(), VpnStatusTvViewState.Status.Connecting)
+        verify { connectDisconnectHelper.disconnect(any()) }
+        assertEquals(emptyList<AnyConnectIntent>(), connectedIntents)
+    }
+
+    @Test
+    fun `status action when protected disconnects`() = testScope.runTest {
+        viewModel.onVpnStatusActionClick(FakeVpnUiDelegate(), VpnStatusTvViewState.Status.Protected)
+        verify { connectDisconnectHelper.disconnect(any()) }
+        assertEquals(emptyList<AnyConnectIntent>(), connectedIntents)
     }
 
     @Test
