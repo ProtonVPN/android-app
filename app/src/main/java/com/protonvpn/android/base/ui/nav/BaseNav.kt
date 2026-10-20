@@ -23,12 +23,19 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -48,11 +55,14 @@ val NavLog = LogEventType(LogCategory.UI, "NAV", LogLevel.INFO)
  */
 data class SafeNavGraphBuilder<N : BaseNav<N>>(val builder: NavGraphBuilder)
 
+typealias NavEnterTransition = AnimatedContentTransitionScope<NavBackStackEntry>.(Density) -> EnterTransition
+typealias NavExitTransition = AnimatedContentTransitionScope<NavBackStackEntry>.(Density) -> ExitTransition
+
 enum class NavigationTransition(
-    val enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition,
-    val exitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition,
-    val popEnterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition = enterTransition,
-    val popExitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition = exitTransition,
+    val enterTransition: NavEnterTransition,
+    val exitTransition: NavExitTransition,
+    val popEnterTransition: NavEnterTransition = enterTransition,
+    val popExitTransition: NavExitTransition = exitTransition,
 ) {
     // Defaults from NavHost.
     DefaultFade(
@@ -65,8 +75,29 @@ enum class NavigationTransition(
         exitTransition = { slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.Start) },
         popEnterTransition = { slideIntoContainer(towards = AnimatedContentTransitionScope.SlideDirection.End) },
         popExitTransition = { slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.End) },
+    ),
+
+    // Fade through: the exiting content fades out first, then the entering one fades in. Both move up slightly.
+    TvMainContentTransition(
+        enterTransition = { density ->
+            val offsetPx = with(density) { TvMainContentSlideOffset.roundToPx() }
+            fadeIn(tween(FadeThroughEnterMs, delayMillis = FadeThroughExitMs, easing = LinearOutSlowInEasing)) +
+                slideInVertically(
+                    tween(FadeThroughEnterMs, delayMillis = FadeThroughExitMs, easing = LinearOutSlowInEasing)
+                ) { offsetPx }
+        },
+        exitTransition = { density ->
+            val offsetPx = with(density) { TvMainContentSlideOffset.roundToPx() }
+            fadeOut(tween(FadeThroughExitMs, easing = FastOutLinearInEasing)) +
+                slideOutVertically(tween(FadeThroughExitMs, easing = FastOutLinearInEasing)) { -offsetPx }
+        },
     )
 }
+
+// Material fade through durations: total 300ms, the exiting content fades out in the first 90ms.
+private const val FadeThroughExitMs = 90
+private const val FadeThroughEnterMs = 210
+private val TvMainContentSlideOffset = 30.dp
 
 /**
  * Wrapper around [VpnNavHostController] with more high-level interface, logging and navigation
@@ -200,14 +231,15 @@ open class BaseNav<N : BaseNav<N>>(
         transition: NavigationTransition = NavigationTransition.DefaultFade,
         build: SafeNavGraphBuilder<N>.() -> Unit
     ) {
+        val density = LocalDensity.current
         NavHost(
             modifier = modifier,
             navController = controller,
             startDestination = startScreen.route,
-            enterTransition = transition.enterTransition,
-            exitTransition = transition.exitTransition,
-            popEnterTransition = transition.popEnterTransition,
-            popExitTransition = transition.popExitTransition,
+            enterTransition = { transition.enterTransition(this, density) },
+            exitTransition = { transition.exitTransition(this, density) },
+            popEnterTransition = { transition.popEnterTransition(this, density) },
+            popExitTransition = { transition.popExitTransition(this, density) },
         ) {
             SafeNavGraphBuilder<N>(this).build()
         }

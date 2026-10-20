@@ -21,6 +21,9 @@ package com.protonvpn.android.tv.main_screen.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -105,12 +108,17 @@ internal fun TvMainScreen(
             NavigationDrawerItemDefaults.CollapsedDrawerItemWidth + DrawerHorizontalPadding * 2
         val contentWidth = maxWidth - collapsedDrawerWidth
 
-        // TODO: display regular background when in settings.
-        VpnStatusBackgroundTv(
-            state = vpnStatus,
-            modifier = Modifier
-                .fillMaxWidth()
-        )
+        AnimatedVisibility(
+            visible = currentTarget == TvMainTarget.Home,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            VpnStatusBackgroundTv(
+                state = vpnStatus,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
 
         // Focuses the selected drawer item, used by content that needs to move focus to the drawer explicitly.
         val drawerFocusRequester = remember { FocusRequester() }
