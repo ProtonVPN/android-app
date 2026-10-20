@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -48,6 +49,7 @@ import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun TvHomeRoute(
+    drawerFocusRequester: FocusRequester,
     viewModel: TvHomeViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
 ) {
@@ -84,6 +86,7 @@ fun TvHomeRoute(
         TvHome(
             vpnStatus = vpnStatus,
             onVpnStatusActionClick = { status -> viewModel.onVpnStatusActionClick(vpnUiDelegate, status) },
+            drawerFocusRequester = drawerFocusRequester,
             countries = countries,
             onCountryClick = { country -> viewModel.onCountryClick(vpnUiDelegate, country, launchUpsell) },
             onCountryLongClick = { menuCountryCode = it.countryId.countryCode },
@@ -113,6 +116,7 @@ fun TvHomeRoute(
 internal fun TvHome(
     vpnStatus: VpnStatusTvViewState,
     onVpnStatusActionClick: (VpnStatusTvViewState.Status) -> Unit,
+    drawerFocusRequester: FocusRequester,
     countries: List<CountryGridUiItem>,
     onCountryClick: (CountryGridUiItem) -> Unit,
     onCountryLongClick: (CountryGridUiItem) -> Unit,
@@ -128,6 +132,10 @@ internal fun TvHome(
             VpnStatusTv(
                 vpnStatus,
                 onActionClick = { onVpnStatusActionClick(vpnStatus.status) },
+                // The button is aligned with the flags, but the tiles' focus bounds are wider than the flags
+                // and start further left. Without this, moving left from the button would focus the first
+                // tile instead of the drawer.
+                actionStartFocusRequester = drawerFocusRequester,
                 modifier = Modifier.padding(vertical = 60.dp),
             )
         },

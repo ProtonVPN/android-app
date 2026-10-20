@@ -41,6 +41,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -60,6 +62,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnTvPreview
 import com.protonvpn.android.base.ui.nav.VpnNavHostController
 import com.protonvpn.android.base.ui.nav.rememberVpnNavHostController
+import com.protonvpn.android.base.ui.optional
 import com.protonvpn.android.base.ui.theme.backgroundSelected
 import com.protonvpn.android.tv.main_screen.ui.nav.TvMainScreenNav
 import com.protonvpn.android.tv.main_screen.ui.nav.TvMainTarget
@@ -109,6 +112,10 @@ internal fun TvMainScreen(
                 .fillMaxWidth()
         )
 
+        // Focuses the selected drawer item, used by content that needs to move focus to the drawer explicitly.
+        val drawerFocusRequester = remember { FocusRequester() }
+        // The current target is unknown until the nav graph is set up.
+        val selectedTarget = currentTarget ?: startScreen
         NavigationDrawer(
             drawerContent = {
                 Column(
@@ -122,6 +129,10 @@ internal fun TvMainScreen(
                         val isSelected = target == currentTarget
                         val interactionSource = remember { MutableInteractionSource() }
                         NavigationDrawerItem(
+                            modifier = Modifier.optional(
+                                predicate = { target == selectedTarget },
+                                modifier = Modifier.focusRequester(drawerFocusRequester),
+                            ),
                             selected = isSelected,
                             onClick = { nav.navigate(target) },
                             leadingContent = {
@@ -149,7 +160,8 @@ internal fun TvMainScreen(
             modifier = Modifier.fillMaxSize(),
         ) {
             nav.NavHost(
-                Modifier
+                drawerFocusRequester = drawerFocusRequester,
+                modifier = Modifier
                     .fillMaxHeight()
                     // Use fixed width to force the content to slide when the drawer expands.
                     .wrapContentWidth(align = Alignment.Start, unbounded = true)

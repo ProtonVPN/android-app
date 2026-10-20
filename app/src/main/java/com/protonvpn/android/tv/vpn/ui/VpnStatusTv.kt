@@ -34,6 +34,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -60,6 +62,7 @@ fun VpnStatusTv(
     state: VpnStatusTvViewState,
     onActionClick: () -> Unit,
     modifier: Modifier = Modifier,
+    actionStartFocusRequester: FocusRequester = FocusRequester.Default,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(18.dp),
@@ -80,7 +83,9 @@ fun VpnStatusTv(
             text = stringResource(state.status.actionLabel()),
             onClick = onActionClick,
             // TvSolidButton fills the available width, the status button should wrap its text.
-            modifier = Modifier.width(IntrinsicSize.Max),
+            modifier = Modifier
+                .width(IntrinsicSize.Max)
+                .focusProperties { start = actionStartFocusRequester },
         )
     }
 }

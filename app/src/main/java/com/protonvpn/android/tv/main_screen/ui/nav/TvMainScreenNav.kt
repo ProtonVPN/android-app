@@ -22,6 +22,7 @@ package com.protonvpn.android.tv.main_screen.ui.nav
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.protonvpn.android.base.ui.nav.BaseNav
 import com.protonvpn.android.base.ui.nav.ScreenNoArg
@@ -58,9 +59,9 @@ class TvMainScreenNav(
     }
 
     @Composable
-    fun NavHost(modifier: Modifier = Modifier) {
+    fun NavHost(drawerFocusRequester: FocusRequester, modifier: Modifier = Modifier) {
         SafeNavHost(startScreen = startScreen.screen, modifier = modifier) {
-            TvHomeScreen.addToGraph(this) { TvHomeRoute() }
+            TvHomeScreen.addToGraph(this) { TvHomeRoute(drawerFocusRequester = drawerFocusRequester) }
             TvSettingsScreen.addToGraph(this) { TvSettingsPlaceholder() }
         }
     }
