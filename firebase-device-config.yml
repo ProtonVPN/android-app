@@ -15,6 +15,6 @@ smokeTest:
 tvTest:
   timeout: 30m
   device:
-  - model: GoogleTvEmulator
+  - model: AmatiTvEmulator
     orientation: landscape
-    version: 30
+    version: 29
