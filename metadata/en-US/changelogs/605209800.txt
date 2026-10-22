@@ -1,2 +1,2 @@
 What's new
-Squashed an annoying bug
+Squashed an annoying bug.
