@@ -42,6 +42,7 @@ import android.telephony.TelephonyManager
 import android.text.Editable
 import android.text.TextUtils.getChars
 import android.util.TypedValue
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -353,6 +354,10 @@ fun BroadcastReceiver.launchAsyncReceive(scope: CoroutineScope, block: suspend (
             result.finish()
         }
     }
+}
+
+fun Activity.filterTouchesWhenObscured() {
+    findViewById<View>(android.R.id.content).filterTouchesWhenObscured = true
 }
 
 inline fun <reified T> ifOrNull(predicate: Boolean, block: () -> T): T? =

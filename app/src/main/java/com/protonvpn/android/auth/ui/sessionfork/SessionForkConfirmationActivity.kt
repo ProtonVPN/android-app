@@ -48,6 +48,7 @@ import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogLauncherVM
+import com.protonvpn.android.utils.filterTouchesWhenObscured
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -165,6 +166,7 @@ class SessionForkConfirmationActivity : FragmentActivity() {
                 }
             }
         }
+        filterTouchesWhenObscured()
     }
 
     override fun onResume() {
