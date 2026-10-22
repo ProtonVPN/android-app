@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.tv.main_screen.ui.nav
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -32,7 +33,8 @@ import com.protonvpn.android.base.ui.nav.addToGraph
 import com.protonvpn.android.base.ui.nav.baseRoute
 import com.protonvpn.android.base.ui.nav.popToStartNavOptions
 import com.protonvpn.android.tv.home.TvHomeRoute
-import com.protonvpn.android.tv.main_screen.ui.TvSettingsPlaceholder
+import com.protonvpn.android.tv.main_screen.ui.CollapsedDrawerWidth
+import com.protonvpn.android.tv.settings.main.ui.TvSettingsRoute
 
 enum class TvMainTarget(val screen: ScreenNoArg<TvMainScreenNav>) {
     Home(TvHomeScreen),
@@ -67,7 +69,11 @@ class TvMainScreenNav(
             modifier = modifier,
         ) {
             TvHomeScreen.addToGraph(this) { TvHomeRoute(drawerFocusRequester = drawerFocusRequester) }
-            TvSettingsScreen.addToGraph(this) { TvSettingsPlaceholder() }
+            TvSettingsScreen.addToGraph(this) {
+                // Add padding at the end to balance the drawer and center the settings relative
+                // to the whole screen.
+                TvSettingsRoute(Modifier.padding(end = CollapsedDrawerWidth))
+            }
         }
     }
 }

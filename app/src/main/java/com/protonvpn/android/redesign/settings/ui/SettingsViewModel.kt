@@ -139,24 +139,14 @@ class SettingsViewModel @Inject constructor(
             value = isNetShieldEnabled,
             isRestricted = isRestricted,
             titleRes = R.string.netshield_feature_name,
-            settingValueView = when {
-                dnsOverride == DnsOverride.SystemPrivateDns ->
-                    SettingValue.SettingStringRes(R.string.netshield_state_unavailable)
-
-                else -> {
-                    val subtitleRes = when {
-                        dnsOverride != DnsOverride.None -> R.string.netshield_state_unavailable
-                        isNetShieldEnabled -> R.string.netshield_state_on
-                        else -> R.string.netshield_state_off
-                    }
-                    if (profileOverrideInfo != null) {
-                        SettingValue.SettingOverrideValue(
-                            connectIntentPrimaryLabel = profileOverrideInfo.primaryLabel,
-                            subtitleRes = subtitleRes
-                        )
-                    } else {
-                        SettingValue.SettingStringRes(subtitleRes)
-                    }
+            settingValueView = netShieldStateRes(isNetShieldEnabled, dnsOverride).let { subtitleRes ->
+                if (profileOverrideInfo != null && dnsOverride != DnsOverride.SystemPrivateDns) {
+                    SettingValue.SettingOverrideValue(
+                        connectIntentPrimaryLabel = profileOverrideInfo.primaryLabel,
+                        subtitleRes = subtitleRes
+                    )
+                } else {
+                    SettingValue.SettingStringRes(subtitleRes)
                 }
             },
             descriptionRes = R.string.netshield_settings_description_not_html,
@@ -267,20 +257,15 @@ class SettingsViewModel @Inject constructor(
             value = enabled,
             isRestricted = isFreeUser,
             titleRes = R.string.settings_custom_dns_title,
-            settingValueView = when {
-                isPrivateDnsActive ->
-                    SettingValue.SettingStringRes(R.string.custom_dns_state_unavailable)
-
-                overrideProfilePrimaryLabel != null ->
+            settingValueView = customDnsStateRes(enabled, isPrivateDnsActive).let { subtitleRes ->
+                if (overrideProfilePrimaryLabel != null && !isPrivateDnsActive) {
                     SettingValue.SettingOverrideValue(
                         connectIntentPrimaryLabel = overrideProfilePrimaryLabel,
-                        subtitleRes = if (enabled) R.string.custom_dns_state_on else R.string.custom_dns_state_off
+                        subtitleRes = subtitleRes
                     )
-
-                else ->
-                    SettingValue.SettingStringRes(
-                        subtitleRes = if (enabled) R.string.custom_dns_state_on else R.string.custom_dns_state_off
-                    )
+                } else {
+                    SettingValue.SettingStringRes(subtitleRes)
+                }
             },
             descriptionRes = R.string.settings_advanced_dns_description,
             annotationRes = R.string.learn_more

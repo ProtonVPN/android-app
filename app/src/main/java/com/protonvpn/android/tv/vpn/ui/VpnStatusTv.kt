@@ -32,8 +32,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -65,13 +63,9 @@ fun VpnStatusTv(
     state: VpnStatusTvViewState,
     onActionClick: () -> Unit,
     modifier: Modifier = Modifier,
+    actionFocusRequester: FocusRequester = FocusRequester.Default,
     actionStartFocusRequester: FocusRequester = FocusRequester.Default,
 ) {
-    val connectButtonFocusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) {
-        connectButtonFocusRequester.requestFocus()
-    }
-
     Column(
         verticalArrangement = Arrangement.spacedBy(18.dp),
         modifier = modifier.padding(horizontal = 10.dp),
@@ -93,7 +87,7 @@ fun VpnStatusTv(
             // TvSolidButton fills the available width, the status button should wrap its text.
             modifier = Modifier
                 .width(IntrinsicSize.Max)
-                .focusRequester(connectButtonFocusRequester)
+                .focusRequester(actionFocusRequester)
                 .focusProperties { start = actionStartFocusRequester },
         )
     }

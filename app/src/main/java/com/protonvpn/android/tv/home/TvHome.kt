@@ -22,6 +22,7 @@ package com.protonvpn.android.tv.home
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -122,6 +123,9 @@ internal fun TvHome(
     onCountryLongClick: (CountryGridUiItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val vpnStatusActionFocusRequester = remember { FocusRequester() }
+    // Focus the VpnStatusTv action only on launch, returning to Home via drawer should not "steal" focus.
+    var isInitialFocusRequested by rememberSaveable { mutableStateOf(false) }
     CountriesGrid(
         countries = countries,
         onCountryClick = onCountryClick,
@@ -129,9 +133,16 @@ internal fun TvHome(
         modifier = modifier
             .fillMaxSize(),
         header = {
+            LaunchedEffect(Unit) {
+                if (!isInitialFocusRequested) {
+                    isInitialFocusRequested = true
+                    vpnStatusActionFocusRequester.requestFocus()
+                }
+            }
             VpnStatusTv(
                 vpnStatus,
                 onActionClick = { onVpnStatusActionClick(vpnStatus.status) },
+                actionFocusRequester = vpnStatusActionFocusRequester,
                 // The button is aligned with the flags, but the tiles' focus bounds are wider than the flags
                 // and start further left. Without this, moving left from the button would focus the first
                 // tile instead of the drawer.

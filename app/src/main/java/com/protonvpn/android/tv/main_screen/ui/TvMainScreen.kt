@@ -24,35 +24,28 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.material3.Button
 import androidx.tv.material3.DrawerState
 import androidx.tv.material3.DrawerValue
 import androidx.tv.material3.Icon
@@ -91,6 +84,7 @@ fun TvMainScreenRoute(
 }
 
 private val DrawerHorizontalPadding = 12.dp
+internal val CollapsedDrawerWidth = NavigationDrawerItemDefaults.CollapsedDrawerItemWidth + DrawerHorizontalPadding * 2
 
 @Composable
 internal fun TvMainScreen(
@@ -104,9 +98,7 @@ internal fun TvMainScreen(
     val currentTarget = nav.currentTargetAsState()
 
     BoxWithConstraints(modifier) {
-        val collapsedDrawerWidth =
-            NavigationDrawerItemDefaults.CollapsedDrawerItemWidth + DrawerHorizontalPadding * 2
-        val contentWidth = maxWidth - collapsedDrawerWidth
+        val contentWidth = maxWidth - CollapsedDrawerWidth
 
         AnimatedVisibility(
             visible = currentTarget == TvMainTarget.Home,
@@ -179,33 +171,6 @@ internal fun TvMainScreen(
     }
 }
 
-
-@Composable
-fun TvSettingsPlaceholder(modifier: Modifier = Modifier) {
-    PagePlaceholder(stringResource(TvMainTarget.Settings.labelRes()), Color(0xFF4E2B7E), modifier)
-}
-
-@Composable
-private fun PagePlaceholder(title: String, color: Color, modifier: Modifier = Modifier) {
-    Column(
-        modifier
-            .fillMaxSize()
-            .padding(48.dp)
-    ) {
-        Text(title, style = ProtonTheme.typography.hero)
-        Spacer(Modifier.height(24.dp))
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color, RoundedCornerShape(16.dp))
-        ) {
-            Button(onClick = {}) {
-                Text("Placeholder")
-            }
-        }
-    }
-}
 
 @Composable
 private fun NavDrawerIcon(
