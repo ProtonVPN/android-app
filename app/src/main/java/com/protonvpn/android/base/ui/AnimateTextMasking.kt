@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.LayoutDirection
@@ -49,7 +50,7 @@ fun AnimateTextMasking(
     modifier: Modifier = Modifier,
     stepDurationMs: Long = 50,
     maskCharacter: Char = '*',
-    preserveCharacters: CharArray = charArrayOf('.', ' ', '-'),
+    preserveCharacters: CharArray = charArrayOf('.', ' ', '-', '·'),
 ) {
     val displayText = remember(text) { mutableStateOf(text.text) }
     val fixedWidth = remember(text) { mutableStateOf<Int?>(null) }
@@ -58,7 +59,10 @@ fun AnimateTextMasking(
         // The width needs to be fixed before replacing characters changes it.
         snapshotFlow { fixedWidth.value }.filterNotNull().first()
         val indicesToReplace = text.indices
-            .filter { !preserveCharacters.contains(text[it]) }
+            .filter { index ->
+                val char = text[index]
+                !preserveCharacters.contains(char) && char.category != CharCategory.FORMAT
+            }
             .shuffled()
 
         indicesToReplace.forEach { replacementIndex ->
@@ -83,7 +87,7 @@ fun AnimateTextMasking(
                     },
                 )
             },
-            modifier = modifier,
+            modifier = modifier.clearAndSetSemantics {},
             measurePolicy = { measurables, constraints ->
                 val placeable = measurables.first().measure(constraints)
                 val width = fixedWidth.value ?: placeable.width

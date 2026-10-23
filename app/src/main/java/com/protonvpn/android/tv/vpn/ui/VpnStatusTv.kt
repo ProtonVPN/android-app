@@ -158,14 +158,7 @@ private fun LocationChipTv(
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         if (isMasking) {
-            AnimateTextMasking(
-                text,
-                style,
-                // Keep the separator dot visible while the location is masked.
-                preserveCharacters = charArrayOf('.', ' ', '-', '·'),
-                // The masked text is meaningless for screen readers.
-                modifier = Modifier.clearAndSetSemantics {},
-            )
+            AnimateTextMasking(text, style)
         } else {
             Text(text, style = style)
         }
