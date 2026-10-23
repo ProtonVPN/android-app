@@ -112,7 +112,9 @@ class NotificationHelper @Inject constructor(
     data class FullScreenDialog(
         val fullScreenIcon: Int? = null,
         val hasUpsellLayout: Boolean = false,
-        val cancelToastMessage: String? = null
+        val cancelToastMessage: String? = null,
+        // The user has pending invoices, as opposed to a subscription that expired.
+        val isDelinquent: Boolean = false,
     ) : Parcelable
 
     sealed class ActionItem : Parcelable {

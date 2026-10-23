@@ -596,6 +596,7 @@
     <string name="upsell_tv_non_iap_customization_description">Allow LAN connections and set a custom DNS.</string>
     <string name="upsell_tv_non_iap_subscription_expired_description">Your plan has been downgraded to Proton Free, and we’re reconnecting you to the fastest free server.</string>
     <string name="upsell_tv_non_iap_maybe_later">Maybe later</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">You will be able to access premium features again after these are paid. For now, we are reconnecting to the fastest Free plan server available.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

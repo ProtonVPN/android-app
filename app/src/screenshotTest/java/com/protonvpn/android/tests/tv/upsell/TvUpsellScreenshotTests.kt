@@ -87,6 +87,7 @@ class TvUpsellContentProvider : PreviewParameterProvider<TvUpsellContent> {
         TvUpsellContent.NetShield,
         TvUpsellContent.SplitTunneling,
         TvUpsellContent.SubscriptionExpired,
+        TvUpsellContent.PaymentPending,
     )
 }
 

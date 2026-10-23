@@ -61,6 +61,7 @@ sealed interface TvUpsellContent : Parcelable {
     @Parcelize data object NetShield : TvUpsellContent
     @Parcelize data object SplitTunneling : TvUpsellContent
     @Parcelize data object SubscriptionExpired : TvUpsellContent
+    @Parcelize data object PaymentPending : TvUpsellContent
 }
 
 @AndroidEntryPoint

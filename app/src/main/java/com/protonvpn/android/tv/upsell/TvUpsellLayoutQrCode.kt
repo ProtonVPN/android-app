@@ -74,7 +74,24 @@ fun TvUpsellLayoutQrCode(
         TvUpsellContent.LanConnections -> TvUpsellQrCodeCustomization(modifier)
         TvUpsellContent.NetShield -> TvUpsellQrCodeNetShield(modifier)
         TvUpsellContent.SplitTunneling -> TvUpsellQrCodeSplitTunneling(modifier)
-        TvUpsellContent.SubscriptionExpired -> TvUpsellQrCodeSubscriptionExpired(onClose, modifier)
+        TvUpsellContent.SubscriptionExpired -> TvUpsellQrCodeDowngrade(
+            title = stringResource(R.string.upsell_tv_subscription_expired_title),
+            description = stringResource(R.string.upsell_tv_non_iap_subscription_expired_description),
+            qrCaption = stringResource(R.string.upsell_tv_subscription_expired_description),
+            qrCode = R.drawable.tv_upsell_qr_code,
+            qrUrl = Constants.URL_TV_SUBSCRIBE,
+            onClose = onClose,
+            modifier = modifier,
+        )
+        TvUpsellContent.PaymentPending -> TvUpsellQrCodeDowngrade(
+            title = stringResource(R.string.notification_delinquent_title),
+            description = stringResource(R.string.upsell_tv_non_iap_payment_pending_description),
+            qrCaption = stringResource(R.string.notification_delinquent_content),
+            qrCode = R.drawable.tv_upsell_delinquent_qr_code,
+            qrUrl = Constants.URL_TV_DELINQUENT_SUBSCRIBE,
+            onClose = onClose,
+            modifier = modifier,
+        )
     }
 }
 
@@ -201,7 +218,12 @@ private fun TvUpsellQrCodeSplitTunneling(
 }
 
 @Composable
-private fun TvUpsellQrCodeSubscriptionExpired(
+private fun TvUpsellQrCodeDowngrade(
+    title: String,
+    description: String,
+    qrCaption: String,
+    @DrawableRes qrCode: Int,
+    qrUrl: String,
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -210,17 +232,19 @@ private fun TvUpsellQrCodeSubscriptionExpired(
         focusRequester.requestFocus()
     }
     TvUpsellTwoPanelLayout(
-        caption = stringResource(R.string.upsell_tv_subscription_expired_description),
+        caption = qrCaption,
+        qrCode = qrCode,
+        qrUrl = qrUrl,
         modifier = modifier,
     ) {
         Image(painterResource(R.drawable.upsell_tv_subscription_expired), contentDescription = null)
         Text(
-            text = stringResource(R.string.upsell_tv_subscription_expired_title),
+            text = title,
             style = ProtonTheme.typography.hero,
             textAlign = TextAlign.Center,
         )
         Text(
-            text = stringResource(R.string.upsell_tv_non_iap_subscription_expired_description),
+            text = description,
             style = ProtonTheme.typography.body1Regular,
             color = ProtonTheme.colors.textWeak,
             textAlign = TextAlign.Center,
@@ -301,6 +325,8 @@ private fun TvUpsellQrCodeLayout(
 private fun TvUpsellTwoPanelLayout(
     caption: String,
     modifier: Modifier = Modifier,
+    @DrawableRes qrCode: Int = R.drawable.tv_upsell_qr_code,
+    qrUrl: String = Constants.URL_TV_SUBSCRIBE,
     content: @Composable () -> Unit,
 ) {
     Row(
@@ -317,13 +343,15 @@ private fun TvUpsellTwoPanelLayout(
         ) {
             content()
         }
-        QrCodePanel(caption)
+        QrCodePanel(caption, qrCode, qrUrl)
     }
 }
 
 @Composable
 private fun QrCodePanel(
     caption: String,
+    @DrawableRes qrCode: Int,
+    qrUrl: String,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -332,7 +360,7 @@ private fun QrCodePanel(
         verticalArrangement = Arrangement.spacedBy(18.dp),
     ) {
         Image(
-            painter = painterResource(R.drawable.tv_upsell_qr_code),
+            painter = painterResource(qrCode),
             contentDescription = null,
             modifier = Modifier
                 .size(216.dp)
@@ -346,7 +374,7 @@ private fun QrCodePanel(
             textAlign = TextAlign.Center,
         )
         Text(
-            text = Constants.URL_TV_SUBSCRIBE,
+            text = qrUrl,
             style = ProtonTheme.typography.headline,
             textAlign = TextAlign.Center,
         )
@@ -389,3 +417,8 @@ private fun TvUpsellLayoutQrCodeSplitTunnelingPreview() =
 @Composable
 private fun TvUpsellLayoutQrCodeSubscriptionExpiredPreview() =
     TvUpsellLayoutQrCodePreview(TvUpsellContent.SubscriptionExpired)
+
+@ProtonVpnTvPreview
+@Composable
+private fun TvUpsellLayoutQrCodePaymentPendingPreview() =
+    TvUpsellLayoutQrCodePreview(TvUpsellContent.PaymentPending)

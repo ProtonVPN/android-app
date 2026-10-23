@@ -159,7 +159,11 @@ class VpnErrorUIManager @Inject constructor(
             if (informationNotification.fullScreenDialog.hasUpsellLayout && isTv()) {
                 TvUpsellActivity.launch(
                     foregroundActivity,
-                    TvUpsellContent.SubscriptionExpired,
+                    if (informationNotification.fullScreenDialog.isDelinquent) {
+                        TvUpsellContent.PaymentPending
+                    } else {
+                        TvUpsellContent.SubscriptionExpired
+                    },
                     UpgradeSource.DOWNGRADE,
                     UpgradeTrigger.ERROR_DIALOG
                 )
@@ -213,7 +217,11 @@ class VpnErrorUIManager @Inject constructor(
                             title = appContext.getString(R.string.notification_delinquent_title),
                             content = appContext.getString(R.string.notification_delinquent_content),
                             action = createPlanUpgradeAction(UpgradeSource.DOWNGRADE),
-                            fullScreenDialog = FullScreenDialog(hasUpsellLayout = true, cancelToastMessage = getCancelToastMessage(reason))
+                            fullScreenDialog = FullScreenDialog(
+                                hasUpsellLayout = true,
+                                cancelToastMessage = getCancelToastMessage(reason),
+                                isDelinquent = true,
+                            )
                         )
                     }
                     SwitchServerReason.ServerInMaintenance, SwitchServerReason.ServerUnavailable, SwitchServerReason.ServerUnreachable, SwitchServerReason.UnknownAuthFailure, null -> {
