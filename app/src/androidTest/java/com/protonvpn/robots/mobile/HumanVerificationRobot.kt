@@ -24,7 +24,7 @@ package com.protonvpn.robots.mobile
 import android.view.KeyEvent
 import android.webkit.WebView
 import androidx.test.espresso.web.assertion.WebViewAssertions.webContent
-import androidx.test.espresso.web.matcher.DomMatchers.hasElementWithId
+import androidx.test.espresso.web.matcher.DomMatchers.containingTextInBody
 import androidx.test.espresso.web.sugar.Web.onWebView
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
@@ -39,7 +39,7 @@ object HumanVerificationRobot : Robot {
 
     fun verifyViaCaptcha(): HumanVerificationRobot {
         onWebView().withTimeout(30_000L, TimeUnit.MILLISECONDS)
-            .check(webContent(hasElementWithId("ic-arrows-switch")))
+            .check(webContent(containingTextInBody("verify you are human")))
         val resetButton = uiDevice.wait(Until.hasObject(By.text("Reset puzzle piece")), 30_000)
         assertNotNull(resetButton)
         uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB) // Navigate to "Next"
