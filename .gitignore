@@ -11,3 +11,4 @@
 .externalNativeBuild
 pmcrypto/build/
 app/src/androidTest/assets/sensitive/
+__pycache__
