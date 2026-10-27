@@ -143,7 +143,29 @@ class HomeScreenPromoOfferBannerTests {
         )
         homeScreenBannerFlow(isNighMode = true).test {
             assertEquals(uiBanner, awaitItem())
+
+            // Dismiss the banner.
             promoOffersPrefs.addVisitedOffer("id")
+            assertEquals(null, awaitItem())
+        }
+    }
+
+    @Test
+    fun `dismissing a new offer hides it even when the visited offers cache is full`() = runTest {
+        val action = ApiNotificationOfferButton(url = "action url")
+        val banner = mockFullScreenImagePanel("image url", "image_url", "alternative text", button = action)
+        val offer = mockOffer("new-id", type = ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER, panel = banner)
+        activeNotifications.value = listOf(offer)
+
+        // Fill the visited offers cache well beyond any reasonable limit before the new offer is dismissed.
+        repeat(1000) { promoOffersPrefs.addVisitedOffer("filler-offer-$it") }
+
+        val uiBanner = PromoOfferBannerState(
+            "image url", "alternative text", action, isDismissible = false, endTimestamp = null, notificationId = "new-id", reference = null
+        )
+        homeScreenBannerFlow(isNighMode = true).test {
+            assertEquals(uiBanner, awaitItem())
+            promoOffersPrefs.addVisitedOffer("new-id")
             assertEquals(null, awaitItem())
         }
     }

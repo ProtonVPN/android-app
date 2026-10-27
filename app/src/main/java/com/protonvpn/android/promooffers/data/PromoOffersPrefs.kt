@@ -31,6 +31,7 @@ import javax.inject.Inject
 
 private const val PREFS_NAME = "PromoOffersPrefs"
 private const val VISITED_OFFERS_KEY = "visitedOffers"
+private const val VISITED_OFFERS_CACHE_SIZE = 50
 
 @Reusable
 class PromoOffersPrefs @Inject constructor(
@@ -40,12 +41,11 @@ class PromoOffersPrefs @Inject constructor(
 
     var visitedOffers: List<String> by list(emptyList(), VISITED_OFFERS_KEY)
         private set
-    val visitedOffersFlow: Flow<List<String>> =
-        preferences.observe<List<String>>(VISITED_OFFERS_KEY).map { it ?: emptyList() }
+
+    val visitedOffersFlow: Flow<List<String>> = preferences.observe<List<String>>(VISITED_OFFERS_KEY)
+        .map(List<String>?::orEmpty)
 
     fun addVisitedOffer(id: String) {
-        if (!visitedOffers.contains(id)) {
-            visitedOffers = visitedOffers + id
-        }
+        visitedOffers = (visitedOffers + id).takeLast(VISITED_OFFERS_CACHE_SIZE)
     }
 }
